@@ -1,0 +1,6 @@
+interface:
+  display_name: "Debugging Audit for Eclipse SUMO"
+  short_description: "Debug Eclipse SUMO failures with evidence gates."
+  default_prompt: "Use $debugging-audit-for-eclipse-sumo to debug this Eclipse SUMO issue as a closed-loop root-cause investigation."
+policy:
+  allow_implicit_invocation: true

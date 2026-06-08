@@ -1,0 +1,6 @@
+interface:
+  display_name: "Academic Audit for Eclipse SUMO"
+  short_description: "Audit SUMO/TraCI signal-control experiments."
+  default_prompt: "Use $academic-audit-for-eclipse-sumo to audit this SUMO/TraCI traffic signal control experiment before I report results."
+policy:
+  allow_implicit_invocation: true
