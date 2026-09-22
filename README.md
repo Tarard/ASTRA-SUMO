@@ -4,6 +4,8 @@
 
 # ASTRA
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22899011.svg)](https://doi.org/10.5281/zenodo.22899011)
+
 <p align="center">
   <strong>Automated Simulation of TRAnsportation networks for SUMO</strong>
 </p>
@@ -98,4 +100,7 @@ The current Hamburg calibration matches the aggregate detector count exactly, wi
 
 ASTRA-SUMO is licensed under the [MIT License](LICENSE).
 
-Earlier Torii releases are archived on [Zenodo](https://doi.org/10.5281/zenodo.20627976).
+ASTRA 1.3.1 is archived on [Zenodo](https://doi.org/10.5281/zenodo.22899012).
+The [project DOI](https://doi.org/10.5281/zenodo.22899011) covers all ASTRA versions.
+
+Earlier Torii releases remain in their [original Zenodo archive](https://doi.org/10.5281/zenodo.20627975).

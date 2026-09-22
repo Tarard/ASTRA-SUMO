@@ -57,8 +57,10 @@ The upstream project deleted `benchmarks/`. ASTRA removes tests that depend on
 those deleted datasets and removes the corresponding CI freeze steps.
 Self-contained product tests and checks for retained data formats remain.
 
-The README links to the original Torii Zenodo archive as a historical source.
-ASTRA does not yet have a separate published DOI.
+ASTRA 1.3.1 is archived at [10.5281/zenodo.22899012](https://doi.org/10.5281/zenodo.22899012).
+The project DOI, [10.5281/zenodo.22899011](https://doi.org/10.5281/zenodo.22899011), covers all ASTRA versions.
+Zenodo archives future published GitHub releases automatically.
+The original Torii archive remains a separate historical source, linked from the ASTRA record.
 The Git history and MIT attribution are preserved.
 
 ## Visual assets

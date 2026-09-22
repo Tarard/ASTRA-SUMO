@@ -4,6 +4,8 @@
 
 # ASTRA
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22899011.svg)](https://doi.org/10.5281/zenodo.22899011)
+
 <p align="center">
   <strong>Automated Simulation of TRAnsportation networks for SUMO</strong><br>
   面向 SUMO 的交通网络自动化仿真
@@ -98,4 +100,7 @@ ASTRA 在同一工作流中结合官方交通数据、航拍影像和 SUMO 路�
 
 ASTRA-SUMO 使用 [MIT License](../../LICENSE) 许可。
 
-早期 Torii 版本已归档至 [Zenodo](https://doi.org/10.5281/zenodo.20627976)。
+ASTRA 1.3.1 已归档至 [Zenodo](https://doi.org/10.5281/zenodo.22899012)。
+[项目总 DOI](https://doi.org/10.5281/zenodo.22899011) 涵盖 ASTRA 的所有版本。
+
+早期 Torii 版本保留在[原 Zenodo 归档](https://doi.org/10.5281/zenodo.20627975)中。
