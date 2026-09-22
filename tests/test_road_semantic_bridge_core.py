@@ -4,11 +4,11 @@ import hashlib
 from datetime import UTC, datetime
 from pathlib import Path
 
-from torii_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
-from torii_sumo.road_network.adapters.osm import read_osm_road_snapshot
-from torii_sumo.road_network.conflation import generate_official_osm_conflation_candidates
-from torii_sumo.road_network.contracts import RoadObjectRef, RoadPropertyAssignment
-from torii_sumo.road_network.semantic_bridge import build_road_semantic_bridge
+from astra_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
+from astra_sumo.road_network.adapters.osm import read_osm_road_snapshot
+from astra_sumo.road_network.conflation import generate_official_osm_conflation_candidates
+from astra_sumo.road_network.contracts import RoadObjectRef, RoadPropertyAssignment
+from astra_sumo.road_network.semantic_bridge import build_road_semantic_bridge
 
 
 FIXTURES = Path(__file__).parent / "fixtures" / "road_network"
@@ -93,7 +93,7 @@ def _reviewed_assignments(hh_sib_report: dict) -> tuple[RoadPropertyAssignment, 
         )
         for assignment_id, property_name, scheme, value in (
             ("hvs-membership", "hamburg_membership", "de:hamburg:hvs", "hvs"),
-            ("network-role", "network_role", "torii:network-role:v1", "arterial"),
+            ("network-role", "network_role", "astra:network-role:v1", "arterial"),
             ("rin-category", "rin_category", "de:rin:2008", "HS III"),
         )
     )

@@ -2,7 +2,7 @@ from pathlib import Path
 import json
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.reference_hierarchy import audit_reference_hierarchy, build_reference_hierarchy_type_repair_variant
+from astra_sumo.core.reference_hierarchy import audit_reference_hierarchy, build_reference_hierarchy_type_repair_variant
 
 
 def _write_net(path: Path, edge_specs: list[tuple[str, str, str, str, float, str]]) -> None:

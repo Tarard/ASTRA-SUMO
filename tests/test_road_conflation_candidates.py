@@ -4,10 +4,10 @@ import hashlib
 from datetime import UTC, datetime
 from pathlib import Path
 
-from torii_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
-from torii_sumo.road_network.adapters.osm import read_osm_road_snapshot
-from torii_sumo.road_network.adapters.sumo import read_sumo_road_snapshot
-from torii_sumo.road_network.conflation import (
+from astra_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
+from astra_sumo.road_network.adapters.osm import read_osm_road_snapshot
+from astra_sumo.road_network.adapters.sumo import read_sumo_road_snapshot
+from astra_sumo.road_network.conflation import (
     build_osm_subset_derivation_relations,
     build_osm_sumo_lineage_relations,
     generate_official_osm_conflation_candidates,

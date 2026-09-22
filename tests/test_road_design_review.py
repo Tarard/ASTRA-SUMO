@@ -4,12 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.road_network.design_review import build_road_design_review
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.road_network.design_review import build_road_design_review
 
 
 def _request(tmp_path, monkeypatch):
-    from torii_sumo.road_network import design_rules
+    from astra_sumo.road_network import design_rules
     pdf = tmp_path / 'plan.pdf'
     pdf.write_bytes(b'%PDF-1.7\nmanual record test\n')
     plan = tmp_path / 'plan.json'
@@ -57,7 +57,7 @@ def test_review_preserves_unknown_plan_basis_and_both_source_identities(tmp_path
 
 
 def test_shared_pdf_cannot_change_between_two_plan_reads(tmp_path, monkeypatch):
-    from torii_sumo.road_network import design_review
+    from astra_sumo.road_network import design_review
     request, plan, pdf, _ = _request(tmp_path, monkeypatch)
     replacement = b'%PDF-1.7\nchanged between observations\n'
     plan2 = tmp_path / 'plan2.json'

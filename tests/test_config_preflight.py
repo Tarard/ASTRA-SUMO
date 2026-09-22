@@ -1,7 +1,7 @@
 from pathlib import Path
 import shutil
 
-from torii_sumo.evidence.config_preflight import (
+from astra_sumo.evidence.config_preflight import (
     preflight_config,
     preflight_pair,
 )

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.environment import collect_environment_report
+from astra_sumo.core.environment import collect_environment_report
 
 
 def test_collect_environment_report_uses_runner_and_reports_tools(tmp_path: Path) -> None:

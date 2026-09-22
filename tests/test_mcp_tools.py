@@ -2,8 +2,8 @@ import json
 import inspect
 from pathlib import Path
 
-from torii_sumo.tools.evidence_tools import sumo_collect_evidence, sumo_compare_outputs
-from torii_sumo.tools.osm_tools import (
+from astra_sumo.tools.evidence_tools import sumo_collect_evidence, sumo_compare_outputs
+from astra_sumo.tools.osm_tools import (
     sumo_network_connection_mode_audit,
     sumo_network_connection_mode_calibration,
     sumo_network_connection_mode_regression_audit,
@@ -26,7 +26,7 @@ from torii_sumo.tools.osm_tools import (
     sumo_network_tls_warning_parity,
     sumo_network_topology_audit,
 )
-from torii_sumo.tools.run_tools import sumo_run_minimal_smoke
+from astra_sumo.tools.run_tools import sumo_run_minimal_smoke
 
 
 FIXTURES = Path(__file__).parent / "fixtures" / "outputs"
@@ -107,7 +107,7 @@ def test_sumo_run_minimal_smoke_can_be_forced_blocked(tmp_path: Path) -> None:
 
 
 def test_sumo_network_routeability_audit_tool_returns_json_compatible_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "network.net.xml"
     net_file.write_text("<net/>", encoding="utf-8")
@@ -136,7 +136,7 @@ def test_sumo_network_routeability_audit_tool_returns_json_compatible_report(mon
 
 
 def test_sumo_network_topology_audit_tool_returns_json_compatible_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "network.net.xml"
     net_file.write_text("<net/>", encoding="utf-8")
@@ -202,7 +202,7 @@ def test_sumo_network_review_html_tool_returns_review_artifact(tmp_path: Path) -
 
 
 def test_sumo_network_reference_join_audit_tool_returns_json_compatible_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     reference_net_file = tmp_path / "reference.net.xml"
     candidate_net_file = tmp_path / "candidate.net.xml"
@@ -242,7 +242,7 @@ def test_sumo_network_reference_join_audit_tool_returns_json_compatible_report(m
 def test_sumo_network_overlapping_junction_audit_tool_returns_json_compatible_report(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text("<net/>", encoding="utf-8")
@@ -281,7 +281,7 @@ def test_sumo_network_overlapping_junction_audit_tool_returns_json_compatible_re
 def test_sumo_network_reference_hierarchy_audit_tool_returns_json_compatible_report(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     reference_net_file = tmp_path / "reference.net.xml"
     candidate_net_file = tmp_path / "candidate.net.xml"
@@ -322,7 +322,7 @@ def test_sumo_network_reference_hierarchy_audit_tool_returns_json_compatible_rep
 def test_sumo_network_junction_aggregation_variant_tool_returns_json_compatible_report(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "candidate.net.xml"
     topology_report_file = tmp_path / "topology.json"
@@ -377,7 +377,7 @@ def test_sumo_network_junction_aggregation_variant_tool_returns_json_compatible_
 
 
 def test_sumo_network_reference_scope_audit_tool_returns_json_compatible_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     reference_net_file = tmp_path / "reference.net.xml"
     candidate_net_file = tmp_path / "candidate.net.xml"
@@ -413,7 +413,7 @@ def test_sumo_network_reference_scope_audit_tool_returns_json_compatible_report(
 
 
 def test_sumo_network_scope_pruning_variant_tool_returns_json_compatible_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "candidate.net.xml"
     scope_report_file = tmp_path / "scope.json"
@@ -448,7 +448,7 @@ def test_sumo_network_scope_pruning_variant_tool_returns_json_compatible_report(
 
 
 def test_corridor_candidate_gate_tool_accepts_only_persisted_evidence_files(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     materialization_file = tmp_path / "materialization.json"
     review_file = tmp_path / "review.json"
@@ -480,7 +480,7 @@ def test_corridor_candidate_gate_tool_accepts_only_persisted_evidence_files(monk
 def test_sumo_network_corridor_geometry_simplification_tool_returns_json_report(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "candidate.net.xml"
     reference_file = tmp_path / "reference.net.xml"
@@ -514,7 +514,7 @@ def test_sumo_network_corridor_geometry_simplification_tool_returns_json_report(
 
 
 def test_sumo_network_tls_aggregation_variant_tool_returns_json_compatible_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "candidate.net.xml"
     tls_report_file = tmp_path / "tls_audit.json"
@@ -558,7 +558,7 @@ def test_sumo_network_tls_reference_cleanup_tool_returns_json_compatible_report(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text("<net/>", encoding="utf-8")
@@ -588,7 +588,7 @@ def test_sumo_network_standard_nema_phase_binding_tool_returns_json_report(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     captured = {}
 
@@ -627,7 +627,7 @@ def test_sumo_network_connection_mode_audit_tool_returns_json_report(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     captured = {}
 
@@ -661,7 +661,7 @@ def test_sumo_network_connection_mode_regression_tool_returns_json_report(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     captured = {}
 
@@ -707,7 +707,7 @@ def test_connection_mode_calibration_tool_requires_and_forwards_traffic_side(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     captured = {}
 
@@ -741,7 +741,7 @@ def test_exact_semantic_regression_tool_forwards_hash_bound_contract(
     monkeypatch,
     tmp_path: Path,
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     captured = {}
 
@@ -814,7 +814,7 @@ def test_sumo_network_tls_warning_parity_tool_writes_reference_aware_report(tmp_
 def test_sumo_network_teacher_guided_junction_variant_tool_returns_json_compatible_report(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     raw_node_file = tmp_path / "raw.nod.xml"
     raw_edge_file = tmp_path / "raw.edg.xml"
@@ -884,7 +884,7 @@ def test_sumo_network_teacher_guided_junction_variant_tool_returns_json_compatib
 def test_sumo_network_teacher_guided_junction_variant_tool_replays_internal_subgraph_by_default(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     for name in ("raw.nod.xml", "raw.edg.xml", "raw.con.xml", "teacher.net.xml", "candidate.net.xml"):
         (tmp_path / name).write_text("<xml/>", encoding="utf-8")
@@ -912,7 +912,7 @@ def test_sumo_network_teacher_guided_junction_variant_tool_replays_internal_subg
 def test_sumo_network_teacher_guided_repair_queue_tool_returns_json_compatible_report(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     raw_node_file = tmp_path / "raw.nod.xml"
     raw_edge_file = tmp_path / "raw.edg.xml"
@@ -971,7 +971,7 @@ def test_sumo_network_teacher_guided_repair_queue_tool_returns_json_compatible_r
 def test_sumo_network_teacher_guided_repair_queue_tool_replays_internal_subgraph_by_default(
     monkeypatch, tmp_path: Path
 ) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     for name in ("raw.nod.xml", "raw.edg.xml", "raw.con.xml"):
         (tmp_path / name).write_text("<xml/>", encoding="utf-8")

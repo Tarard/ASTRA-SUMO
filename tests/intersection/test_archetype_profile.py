@@ -7,19 +7,19 @@ from typing import Any
 
 import pytest
 
-from torii_sumo.intersection.archetype_profile import (
+from astra_sumo.intersection.archetype_profile import (
     classify_osm_intersection_archetype,
     registered_intersection_type_vocabulary,
 )
-from torii_sumo.intersection.movement_hypotheses import (
+from astra_sumo.intersection.movement_hypotheses import (
     build_vehicle_movement_hypotheses,
 )
-from torii_sumo.intersection.osm_patch import parse_osm_xml
-from torii_sumo.intersection.physical_cell import (
+from astra_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.physical_cell import (
     infer_signal_anchor_physical_cell,
 )
-from torii_sumo.intersection.schema import BBox, OSMNode, OSMPatch, OSMWay
-from torii_sumo.intersection.topology_evidence import build_topology_evidence
+from astra_sumo.intersection.schema import BBox, OSMNode, OSMPatch, OSMWay
+from astra_sumo.intersection.topology_evidence import build_topology_evidence
 
 
 XS1_OSM = Path("examples/03_xs1_four_way_tls/input/xs1-89129156.osm.xml.gz")

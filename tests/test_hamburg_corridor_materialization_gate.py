@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-import torii_sumo.core.hamburg_corridor_workflow as corridor_workflow
-from torii_sumo.core.hamburg_corridor_tls_materializer import (
+import astra_sumo.core.hamburg_corridor_workflow as corridor_workflow
+from astra_sumo.core.hamburg_corridor_tls_materializer import (
     HamburgCorridorTlsMaterializationError,
     _road_sumo_materialization_gate,
     materialize_hamburg_sandtorkai_corridor_tls_candidate,

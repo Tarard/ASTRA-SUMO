@@ -5,14 +5,14 @@ import pytest
 from PIL import Image
 from pyproj import Transformer
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_aerial_road_edges import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_aerial_road_edges import (
     build_hamburg_road_edge_evidence, trace_boundary_offsets,
 )
 
 
 def test_continuous_probe_rejects_an_isolated_stronger_side_edge():
-    from torii_sumo.core.hamburg_aerial_road_edges import _continuous_offsets
+    from astra_sumo.core.hamburg_aerial_road_edges import _continuous_offsets
     scores = np.full((7, 5), 0.05)
     scores[:, 2] = 0.4
     scores[3, 4] = 0.9

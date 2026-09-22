@@ -3,8 +3,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.workflow_catalog import get_workflow_catalog, run_selected_workflow
-from torii_sumo.core.workflow_router import run_auto_workflow
+from astra_sumo.core.workflow_catalog import get_workflow_catalog, run_selected_workflow
+from astra_sumo.core.workflow_router import run_auto_workflow
 
 
 def decision(scenario='environment_preflight', arguments=None):
@@ -24,7 +24,7 @@ def test_catalog_maps_scenarios_to_real_entries_and_separates_guidance():
 
 
 def test_plan_only_and_missing_inputs_do_not_execute(monkeypatch):
-    from torii_sumo.tools import environment_tools
+    from astra_sumo.tools import environment_tools
     calls = []
     monkeypatch.setattr(environment_tools, 'sumo_preflight', lambda: calls.append(True) or {'status':'pass'})
     assert run_selected_workflow(decision())['executed'] is False
@@ -50,8 +50,8 @@ def test_unknown_selection_or_arguments_never_falls_back_to_another_workflow():
 
 
 def test_model_choice_bypasses_keyword_detector_and_preserves_inspect_only(tmp_path, monkeypatch):
-    from torii_sumo.core import workflow_router
-    from torii_sumo.tools import environment_tools
+    from astra_sumo.core import workflow_router
+    from astra_sumo.tools import environment_tools
     calls = []
     def never_detect(text):
         raise AssertionError('The model choice must not be reclassified by keywords')
@@ -75,7 +75,7 @@ def test_comparison_requires_both_sides_even_though_function_arguments_are_optio
 
 
 def test_cli_catalog_and_selected_route_share_the_same_entries(tmp_path, capsys):
-    from torii_sumo import cli
+    from astra_sumo import cli
     assert cli.main(['workflows', '--scenario', 'hamburg_network', '--json']) == 0
     listed = json.loads(capsys.readouterr().out)
     assert [row['scenario_id'] for row in listed['scenarios']] == ['hamburg_network']
@@ -84,7 +84,7 @@ def test_cli_catalog_and_selected_route_share_the_same_entries(tmp_path, capsys)
     assert cli.main(['workflow', 'selected', str(request), '--json']) == 0
     planned = json.loads(capsys.readouterr().out)
     assert planned['executed'] is False
-    assert planned['entrypoint'] == 'torii_sumo.tools.environment_tools:sumo_preflight'
+    assert planned['entrypoint'] == 'astra_sumo.tools.environment_tools:sumo_preflight'
 
 
 def test_missing_source_file_prevents_even_a_valid_registered_call(tmp_path):
@@ -121,7 +121,7 @@ def test_custom_route_sampler_script_must_exist(tmp_path):
 
 
 def test_checked_home_relative_file_is_the_file_passed_to_handler(tmp_path, monkeypatch):
-    from torii_sumo.road_network import design_review
+    from astra_sumo.road_network import design_review
     path = tmp_path/'review.json'
     path.write_text('{}', encoding='utf-8')
     if not path.is_relative_to(Path.home()):

@@ -3,8 +3,8 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
-from torii_sumo.core.digital_twin_mapping import MapLaneBinding
-from torii_sumo.core.hamburg_stopline_binding import estimate_ingress_stopline_bindings
+from astra_sumo.core.digital_twin_mapping import MapLaneBinding
+from astra_sumo.core.hamburg_stopline_binding import estimate_ingress_stopline_bindings
 
 
 def _binding(

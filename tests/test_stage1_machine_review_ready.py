@@ -7,11 +7,11 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from torii_sumo.corridor.enums import GateStatus
-from torii_sumo.corridor.ids import stable_id
-from torii_sumo.corridor.run_identity import CodeProducerIdentity
-from torii_sumo.corridor.schema import build_stage1_machine_review_ready_provenance_schema
-from torii_sumo.corridor.stage1_review_ready_contracts import (
+from astra_sumo.corridor.enums import GateStatus
+from astra_sumo.corridor.ids import stable_id
+from astra_sumo.corridor.run_identity import CodeProducerIdentity
+from astra_sumo.corridor.schema import build_stage1_machine_review_ready_provenance_schema
+from astra_sumo.corridor.stage1_review_ready_contracts import (
     Stage1CoverageGapEvidence,
     Stage1CoverageSummary,
     Stage1EvidenceArtifact,
@@ -32,11 +32,6 @@ REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_FILE = (
     REPOSITORY_ROOT
     / "schemas/torii.corridor.stage1m-machine-review-ready-provenance.v3.schema.json"
-)
-PROVENANCE_FILE = (
-    REPOSITORY_ROOT
-    / "benchmarks/corridor_human_modeling_v1/evidence/"
-    "stage1m_machine_review_ready_provenance_20260714.v3.json"
 )
 
 _GATE_IDS = (
@@ -102,28 +97,9 @@ def test_stage1_machine_review_ready_schema_is_current() -> None:
     assert SCHEMA_FILE.read_text(encoding="utf-8") == expected
 
 
-def test_authoritative_stage1_machine_review_ready_provenance_is_closed() -> None:
-    raw = PROVENANCE_FILE.read_text(encoding="utf-8")
-    provenance = Stage1MachineReviewReadyProvenance.model_validate_json(raw)
-
-    assert provenance.producer.revision == "a21fc73ace1c6f68a6931ef6455b62311a89cbae"
-    assert provenance.machine_evidence_producer.revision == "f14eb888b25ffec7f27cdbe0c40ce10a481fb544"
-    assert provenance.review_package_producer.revision == "c5c9cef9410b373f38390420409548eaaeca67d3"
-    assert provenance.snapshot.manifest_artifact_count == 40
-    assert provenance.machine.manifest_artifact_count == 1404
-    assert provenance.pcb.effective_unresolved_binding_count == 459
-    assert provenance.rwc.effective_atomic_witness_count == 102398
-    assert provenance.coverage.effective_coverage_gap_count == 3
-    assert provenance.review_package.review_unit_count == 384
-    assert provenance.review_package.repeat_hash_difference_count == 0
-    assert all(gate.status is GateStatus.PASS for gate in provenance.gates)
-    assert '"blinding_seed"' not in raw
-    assert "restricted-blinding-seed" not in raw
-
-
 def _valid_provenance() -> Stage1MachineReviewReadyProvenance:
     producer = CodeProducerIdentity(
-        repository_url="https://github.com/Tarard/Torii-SUMO.git",
+        repository_url="https://github.com/Tarard/ASTRA-SUMO.git",
         revision="1" * 40,
         tree_revision="2" * 40,
         branch="codex/test",

@@ -4,9 +4,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.digital_twin import MapConnection, MapLane, SignalStream, parse_mapem
-from torii_sumo.core.hamburg_official import hamburg_sandtorkai_primary_signal_snapshot
-from torii_sumo.core.ocit_c import (
+from astra_sumo.core.digital_twin import MapConnection, MapLane, SignalStream, parse_mapem
+from astra_sumo.core.hamburg_official import hamburg_sandtorkai_primary_signal_snapshot
+from astra_sumo.core.ocit_c import (
     SATURDAY_PLAN_SEMANTICS,
     VEHICLE_TOPOLOGY_GROUP_POLICY,
     build_vehicle_topology_inventory,

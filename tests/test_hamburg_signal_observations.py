@@ -8,9 +8,9 @@ from pathlib import Path
 from threading import Lock
 from typing import Any, Callable, Mapping
 
-from torii_sumo.core.digital_twin import SignalStream
-from torii_sumo.core.digital_twin_workflow import _primary_metadata_circuit_breaker_reason
-from torii_sumo.core.hamburg_official import (
+from astra_sumo.core.digital_twin import SignalStream
+from astra_sumo.core.digital_twin_workflow import _primary_metadata_circuit_breaker_reason
+from astra_sumo.core.hamburg_official import (
     HAMBURG_SIGNAL_SERVICE,
     OFFICIAL_SIGNAL_CATALOG_URL,
     SANDTORKAI_THREE_INTERSECTIONS,

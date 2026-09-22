@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from types import SimpleNamespace
 
-from torii_sumo.core.hamburg_teacher_workflow import (
+from astra_sumo.core.hamburg_teacher_workflow import (
     run_hamburg_teacher_replay_workflow,
 )
 

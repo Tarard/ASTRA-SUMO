@@ -8,8 +8,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_compound_plainxml import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_compound_plainxml import (
     EXPECTED_ABSORBED_EDGE_IDS,
     EXPECTED_CELL_NODES,
     EXPECTED_OSM_TLS_IDS,
@@ -314,7 +314,7 @@ def test_materializer_binds_mapping_or_file_and_absorbs_only_authorized_edges(
         report_input = report
     fake_netconvert = _FakeNetconvert()
     monkeypatch.setattr(
-        "torii_sumo.core.hamburg_compound_plainxml.export_plain_net_for_teacher_guided_repair",
+        "astra_sumo.core.hamburg_compound_plainxml.export_plain_net_for_teacher_guided_repair",
         _fake_plain_export,
     )
 
@@ -365,7 +365,7 @@ def test_materializer_rejects_unaccepted_group_or_control_domain_before_export(
         return {"status": "fail"}
 
     monkeypatch.setattr(
-        "torii_sumo.core.hamburg_compound_plainxml.export_plain_net_for_teacher_guided_repair",
+        "astra_sumo.core.hamburg_compound_plainxml.export_plain_net_for_teacher_guided_repair",
         unexpected_export,
     )
     with pytest.raises(HamburgCompoundGeometryError, match="control_domain"):
@@ -412,7 +412,7 @@ def test_materializer_blocks_netconvert_that_removes_one_extra_plain_edge(
     source = _source_net(tmp_path / "source.net.xml")
     report = _classification()
     monkeypatch.setattr(
-        "torii_sumo.core.hamburg_compound_plainxml.export_plain_net_for_teacher_guided_repair",
+        "astra_sumo.core.hamburg_compound_plainxml.export_plain_net_for_teacher_guided_repair",
         _fake_plain_export,
     )
 

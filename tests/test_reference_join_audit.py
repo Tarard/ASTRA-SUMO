@@ -4,8 +4,8 @@ import sys
 import types
 from pathlib import Path
 
-from torii_sumo.core import reference_join_audit as reference_join_audit_module
-from torii_sumo.core.reference_join_audit import _reference_join_cases, audit_reference_join_patterns
+from astra_sumo.core import reference_join_audit as reference_join_audit_module
+from astra_sumo.core.reference_join_audit import _reference_join_cases, audit_reference_join_patterns
 
 
 def test_tls_controller_alignment_pairs_by_geography_not_id() -> None:
@@ -1054,11 +1054,11 @@ def test_reference_join_audit_structural_only_skips_case_matching(monkeypatch, t
     )
 
     monkeypatch.setattr(
-        "torii_sumo.core.reference_join_audit._reference_join_cases",
+        "astra_sumo.core.reference_join_audit._reference_join_cases",
         lambda *_args, **_kwargs: (_ for _ in ()).throw(AssertionError("case matching should be skipped")),
     )
     monkeypatch.setattr(
-        "torii_sumo.core.reference_join_audit.audit_topology_fragmentation",
+        "astra_sumo.core.reference_join_audit.audit_topology_fragmentation",
         lambda **_kwargs: (_ for _ in ()).throw(AssertionError("topology matching should be skipped")),
     )
 

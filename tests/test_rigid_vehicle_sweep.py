@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from torii_sumo.road_network.rigid_vehicle_sweep import rigid_vehicle_sweep
+from astra_sumo.road_network.rigid_vehicle_sweep import rigid_vehicle_sweep
 
 
 CAR = dict(length_m=4.5, width_m=1.8, wheelbase_m=2.7, front_overhang_m=0.8, rear_overhang_m=1.0)

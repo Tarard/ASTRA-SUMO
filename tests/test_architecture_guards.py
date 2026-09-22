@@ -15,16 +15,16 @@ import ast
 from pathlib import Path
 from typing import Iterable
 
-PACKAGE_ROOT = Path(__file__).resolve().parents[1] / "plugins" / "torii-sumo" / "src" / "torii_sumo"
+PACKAGE_ROOT = Path(__file__).resolve().parents[1] / "plugins" / "astra-sumo" / "src" / "astra_sumo"
 
 DOMAIN_PACKAGES = {"core", "corridor", "evidence", "intersection", "road_network"}
 
 # Known tool-to-tool imports.  These are orchestration shortcuts that should
 # eventually be replaced by shared workflow/services functions, not extended.
 _ALLOWED_TOOL_TO_TOOL_IMPORTS = {
-    ("torii_sumo.tools.digital_twin_tools", "torii_sumo.tools.osm_tools"),
-    ("torii_sumo.tools.road_network_tools", "torii_sumo.tools.intersection_tools"),
-    ("torii_sumo.tools.workflow_tools", "torii_sumo.tools.osm_tools"),
+    ("astra_sumo.tools.digital_twin_tools", "astra_sumo.tools.osm_tools"),
+    ("astra_sumo.tools.road_network_tools", "astra_sumo.tools.intersection_tools"),
+    ("astra_sumo.tools.workflow_tools", "astra_sumo.tools.osm_tools"),
 }
 
 
@@ -32,7 +32,7 @@ def _module_name(path: Path) -> str:
     parts = list(path.relative_to(PACKAGE_ROOT).with_suffix("").parts)
     if parts and parts[-1] == "__init__":
         parts = parts[:-1]
-    return ".".join(["torii_sumo", *parts])
+    return ".".join(["astra_sumo", *parts])
 
 
 def _resolve_import(module: str, node: ast.AST) -> Iterable[str]:
@@ -78,47 +78,47 @@ def _source_imports() -> dict[str, set[str]]:
 
 
 def _torii_targets(targets: set[str]) -> set[str]:
-    return {target for target in targets if target.startswith("torii_sumo")}
+    return {target for target in targets if target.startswith("astra_sumo")}
 
 
 def test_resolve_absolute_from_import_includes_alias_candidates() -> None:
-    node = ast.parse("from torii_sumo import tools, server").body[0]
+    node = ast.parse("from astra_sumo import tools, server").body[0]
 
-    assert set(_resolve_import("torii_sumo.core.example", node)) == {
-        "torii_sumo",
-        "torii_sumo.server",
-        "torii_sumo.tools",
+    assert set(_resolve_import("astra_sumo.core.example", node)) == {
+        "astra_sumo",
+        "astra_sumo.server",
+        "astra_sumo.tools",
     }
 
 
 def test_resolve_parent_relative_from_import_includes_alias_candidates() -> None:
     node = ast.parse("from .. import tools, server").body[0]
 
-    assert set(_resolve_import("torii_sumo.core.example", node)) == {
-        "torii_sumo",
-        "torii_sumo.server",
-        "torii_sumo.tools",
+    assert set(_resolve_import("astra_sumo.core.example", node)) == {
+        "astra_sumo",
+        "astra_sumo.server",
+        "astra_sumo.tools",
     }
 
 
 def test_resolve_sibling_relative_from_import_includes_alias_candidate() -> None:
     node = ast.parse("from . import osm_tools").body[0]
 
-    assert set(_resolve_import("torii_sumo.tools.workflow_tools", node)) == {
-        "torii_sumo.tools",
-        "torii_sumo.tools.osm_tools",
+    assert set(_resolve_import("astra_sumo.tools.workflow_tools", node)) == {
+        "astra_sumo.tools",
+        "astra_sumo.tools.osm_tools",
     }
 
 
 def test_domain_packages_do_not_import_tools_or_server() -> None:
     violations: list[tuple[str, str]] = []
     for module, targets in _source_imports().items():
-        top = module.split(".")[1] if module.startswith("torii_sumo.") else ""
+        top = module.split(".")[1] if module.startswith("astra_sumo.") else ""
         if top not in DOMAIN_PACKAGES:
             continue
         for target in _torii_targets(targets):
             target_top = target.split(".")[1] if target.count(".") >= 1 else ""
-            if target_top == "tools" or target == "torii_sumo.server":
+            if target_top == "tools" or target == "astra_sumo.server":
                 violations.append((module, target))
 
     assert violations == [], f"domain packages must not import tools or server: {violations}"
@@ -127,10 +127,10 @@ def test_domain_packages_do_not_import_tools_or_server() -> None:
 def test_tool_to_tool_imports_are_frozen() -> None:
     violations: list[tuple[str, str]] = []
     for module, targets in _source_imports().items():
-        if not module.startswith("torii_sumo.tools."):
+        if not module.startswith("astra_sumo.tools."):
             continue
         for target in _torii_targets(targets):
-            if target.startswith("torii_sumo.tools.") and target != module:
+            if target.startswith("astra_sumo.tools.") and target != module:
                 violations.append((module, target))
 
     assert sorted(violations) == sorted(_ALLOWED_TOOL_TO_TOOL_IMPORTS), (

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.overlapping_junction_audit import audit_overlapping_junctions
+from astra_sumo.core.overlapping_junction_audit import audit_overlapping_junctions
 
 
 def test_overlapping_junction_audit_flags_close_top_level_junctions(tmp_path: Path) -> None:

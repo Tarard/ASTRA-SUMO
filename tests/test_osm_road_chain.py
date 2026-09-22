@@ -2,8 +2,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.road_network.osm_road_chain import inspect_osm_road_chain
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.road_network.osm_road_chain import inspect_osm_road_chain
 
 
 TAGS = {"highway": "secondary", "name": "Example", "oneway": "yes", "lanes": "2", "maxspeed": "50"}

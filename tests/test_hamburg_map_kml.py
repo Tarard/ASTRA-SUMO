@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.digital_twin import parse_mapem
-from torii_sumo.core.hamburg_map_kml import (
+from astra_sumo.core.digital_twin import parse_mapem
+from astra_sumo.core.hamburg_map_kml import (
     HamburgMapKmlError,
     bind_hamburg_map_kml_to_mapem,
     parse_hamburg_map_kml,

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.corridor_simplification import (
+from astra_sumo.core.corridor_simplification import (
     audit_alias_normalized_connections,
     find_removable_corridor_geometry_nodes,
 )

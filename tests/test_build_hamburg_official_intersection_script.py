@@ -5,7 +5,7 @@ import sys
 from pathlib import Path
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/build_hamburg_official_intersection.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/build_hamburg_official_intersection.py")
 
 
 def _load_script():

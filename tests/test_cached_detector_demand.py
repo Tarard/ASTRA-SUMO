@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.cached_detector_demand import (
+from astra_sumo.core.cached_detector_demand import (
     read_canonical_count_file,
     read_hamburg_count_stream_snapshot,
     read_map_lane_bindings,

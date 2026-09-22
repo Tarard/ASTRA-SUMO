@@ -5,12 +5,12 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.hamburg_corridor_candidate import (
+from astra_sumo.core.hamburg_corridor_candidate import (
     bind_hamburg_corridor_tls_clusters,
     build_hamburg_corridor_candidate_evidence,
     select_hamburg_corridor,
 )
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 def _write(path: Path, payload: dict) -> Path:

@@ -4,7 +4,7 @@ import hashlib
 from datetime import UTC, datetime
 from pathlib import Path
 
-from torii_sumo.road_network.adapters.hamburg_hvs import (
+from astra_sumo.road_network.adapters.hamburg_hvs import (
     HVS_CLASSIFICATION_SCHEME,
     HVS_SOURCE_ID,
     read_hamburg_hvs_snapshot,

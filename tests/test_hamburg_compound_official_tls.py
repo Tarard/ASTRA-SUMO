@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_compound_official_tls import (
+from astra_sumo.core.hamburg_compound_official_tls import (
     COMPOUND_ROUTING_REMOVALS,
     HamburgCompoundOfficialTlsError,
     _append_connection_delete_directives,
@@ -16,15 +16,15 @@ from torii_sumo.core.hamburg_compound_official_tls import (
     _validate_compound_topology,
     _write_compiled_source_owner_patch,
 )
-from torii_sumo.core.hamburg_2394_tls_topology import ROUTING_REMOVALS
-from torii_sumo.core.official_tls_rebuild import (
+from astra_sumo.core.hamburg_2394_tls_topology import ROUTING_REMOVALS
+from astra_sumo.core.official_tls_rebuild import (
     OfficialTlsGroup,
     OfficialTlsPlan,
     PhysicalControlledLink,
 )
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/build_hamburg_compound_official_tls.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/build_hamburg_compound_official_tls.py")
 
 
 def test_compound_routing_prune_reuses_2394_inventory_and_adds_2349() -> None:

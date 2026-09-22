@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 import pytest
 from shapely.geometry import LineString
 
-from torii_sumo.core import hamburg_road_geometry as geometry
+from astra_sumo.core import hamburg_road_geometry as geometry
 
 
 def _network(dx=0, dy=0):

@@ -10,10 +10,10 @@ from pathlib import Path
 import pytest
 from pyproj import Transformer
 
-from torii_sumo.core.digital_twin import MapConnection, MapLane
-from torii_sumo.core.ocit_c import OcitVehicleTopologyInventory, OcitVehicleTopologyMovement
+from astra_sumo.core.digital_twin import MapConnection, MapLane
+from astra_sumo.core.ocit_c import OcitVehicleTopologyInventory, OcitVehicleTopologyMovement
 
-from torii_sumo.core.hamburg_official_intersection_plainxml import (
+from astra_sumo.core.hamburg_official_intersection_plainxml import (
     HamburgOfficialIntersectionPlainXmlError,
     _validate_single_core_layout_profile,
     _build_plan,

@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.directed_corridor_routeability import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.directed_corridor_routeability import (
     audit_directed_corridor_routeability,
     corridor_audit_to_movement_binding,
 )

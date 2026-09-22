@@ -5,9 +5,9 @@ import shutil
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.core.connection_mode_audit import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.connection_mode_audit import (
     _expand_coupled_scopes_by_tls_controller,
     _expand_scope_by_tls_controller,
     audit_network_connection_mode,
@@ -18,12 +18,12 @@ from torii_sumo.core.connection_mode_audit import (
     build_network_connection_mode_audit,
     compare_connection_mode_audits,
 )
-from torii_sumo.core.standard_nema_binding import build_standard_nema_phase_binding
-from torii_sumo.corridor.calibration import (
+from astra_sumo.core.standard_nema_binding import build_standard_nema_phase_binding
+from astra_sumo.corridor.calibration import (
     ConnectionAuditCalibrationPolicy,
     calibrate_connection_mode_audit,
 )
-from torii_sumo.corridor.enums import GateStatus, TrafficSide
+from astra_sumo.corridor.enums import GateStatus, TrafficSide
 
 
 def _write_standard_network(

@@ -5,12 +5,12 @@ import json
 import re
 from pathlib import Path
 
-from torii_sumo.core.detector_demand import (
+from astra_sumo.core.detector_demand import (
     Detector,
     active_detectors,
     build_detector_anchored_routes,
 )
-from torii_sumo.tools.demand_tools import (
+from astra_sumo.tools.demand_tools import (
     sumo_detector_count_audit,
     sumo_detector_count_constraints,
     sumo_detector_route_support,
@@ -289,13 +289,13 @@ def test_count_audit_tool_compares_expected_counts_to_e1_output(tmp_path: Path) 
 
 
 def test_default_count_audit_keeps_missing_intervals_out_of_metrics(tmp_path: Path) -> None:
-    from torii_sumo.mcp_contract_tools import torii_demand_audit
+    from astra_sumo.mcp_contract_tools import astra_demand_audit
 
     expected = tmp_path / "expected.csv"
     detector = tmp_path / "e1.xml"
     expected.write_text("detector_id,begin,end,expected_total\nd,0,900,0\n", encoding="utf-8")
     detector.write_text("<detector/>", encoding="utf-8")
-    result = torii_demand_audit(str(expected), str(detector), str(tmp_path / "audit"))
+    result = astra_demand_audit(str(expected), str(detector), str(tmp_path / "audit"))
     assert result.status == "review_required"
     report = result.payload
     assert report["measurement_attribute"] == "nVehEntered"

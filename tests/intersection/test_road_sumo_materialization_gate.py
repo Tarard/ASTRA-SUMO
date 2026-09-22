@@ -4,7 +4,7 @@ import copy
 
 import pytest
 
-from torii_sumo.intersection.road_sumo_materialization_gate import (
+from astra_sumo.intersection.road_sumo_materialization_gate import (
     ROAD_SUMO_MATERIALIZATION_GATE_SCHEMA,
     gate_road_sumo_connection_intents_for_materialization,
 )

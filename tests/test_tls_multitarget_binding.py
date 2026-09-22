@@ -4,8 +4,8 @@ import csv
 from datetime import datetime, timezone
 from pathlib import Path
 
-from torii_sumo.core.digital_twin import SignalObservation, SignalStream
-from torii_sumo.core.digital_twin_mapping import (
+from astra_sumo.core.digital_twin import SignalObservation, SignalStream
+from astra_sumo.core.digital_twin_mapping import (
     MapLaneBinding,
     TlsBinding,
     bind_signal_streams_to_tls,

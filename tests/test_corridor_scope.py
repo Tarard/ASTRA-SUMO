@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.corridor_scope import (
+from astra_sumo.core.corridor_scope import (
     CorridorScopeError,
     select_compact_corridor_edges,
 )

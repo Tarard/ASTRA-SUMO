@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.road_network.official_lane_transition import (
+from astra_sumo.road_network.official_lane_transition import (
     OFFICIAL_LANE_TRANSITION_GRAPH_SCHEMA,
     OfficialLaneTransitionGraphError,
     OfficialLaneTransitionThresholds,

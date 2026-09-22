@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.junction_teacher_model import (
+from astra_sumo.core.junction_teacher_model import (
     build_teacher_self_replay_corpus_report,
     canonical_teacher_junction_bundle,
     compare_junction_pattern_records,
@@ -702,7 +702,7 @@ def test_extract_junction_pattern_index_parses_net_once(tmp_path: Path, monkeypa
 </net>""",
         encoding="utf-8",
     )
-    from torii_sumo.core import junction_teacher_model
+    from astra_sumo.core import junction_teacher_model
 
     parse_calls = 0
     original_parse = junction_teacher_model.ET.parse
@@ -743,7 +743,7 @@ def test_extract_junction_pattern_index_skips_low_approach_junctions_before_mode
 </net>""",
         encoding="utf-8",
     )
-    from torii_sumo.core import junction_teacher_model
+    from astra_sumo.core import junction_teacher_model
 
     calls: list[str] = []
     original_extract = junction_teacher_model._extract_teacher_junction_model

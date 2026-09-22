@@ -1,4 +1,4 @@
-from torii_sumo.core.claim_tiers import evaluate_claim_tiers
+from astra_sumo.core.claim_tiers import evaluate_claim_tiers
 
 
 def _passing_gates() -> dict[str, str]:

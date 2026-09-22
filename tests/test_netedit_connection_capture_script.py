@@ -7,7 +7,7 @@ from pathlib import Path
 import pytest
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/netedit_connection_capture.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/netedit_connection_capture.py")
 
 
 def _load_script():

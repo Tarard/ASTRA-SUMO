@@ -1,7 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.tls_aggregation import (
+from astra_sumo.core.tls_aggregation import (
     build_tls_aggregation_variant,
     build_tls_low_vehicle_control_variant,
     build_tls_non_controller_junction_demotion_variant,

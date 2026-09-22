@@ -5,11 +5,11 @@ import json
 import shutil
 from pathlib import Path
 
-from torii_sumo.road_network.official_lane_stitch import (
+from astra_sumo.road_network.official_lane_stitch import (
     OfficialLaneAxisStitchThresholds,
     plan_hamburg_official_map_lane_axis_stitch,
 )
-from torii_sumo.road_network.official_splice_plan import (
+from astra_sumo.road_network.official_splice_plan import (
     OFFICIAL_SPLICE_PLAN_SCHEMA,
     OfficialSplicePlanError,
     _merge_through_lane_proof,

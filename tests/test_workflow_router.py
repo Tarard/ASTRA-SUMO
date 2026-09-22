@@ -2,15 +2,15 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.workflow_router import (
+from astra_sumo.core.workflow_router import (
     WORKFLOW_RECIPES,
     detect_workflow,
     infer_place_name,
     infer_seed_osm_node_id,
     run_auto_workflow,
 )
-from torii_sumo.tools.workflow_tools import torii_auto_workflow
-from torii_sumo.core.osm_network import parse_bbox
+from astra_sumo.tools.workflow_tools import astra_auto_workflow
+from astra_sumo.core.osm_network import parse_bbox
 
 
 CLEANUP_FIELDS = {
@@ -42,7 +42,7 @@ def _write_reference_net(path: Path) -> None:
 
 
 def test_infer_place_name_from_one_prompt_osm_request() -> None:
-    request = "Use Torii to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO"
+    request = "Use ASTRA to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO"
 
     assert infer_place_name(request) == "Altstadt, Dresden"
 
@@ -192,7 +192,7 @@ def test_auto_workflow_ask_first_returns_a_plan_before_place_resolution(tmp_path
         }
 
     report = run_auto_workflow(
-        user_request="Use Torii to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO",
+        user_request="Use ASTRA to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO",
         output_dir=tmp_path,
         autonomy_mode="ask-first",
         place_resolver=fake_resolver,
@@ -233,7 +233,7 @@ def test_auto_workflow_safe_autopilot_uses_resolved_bbox_without_confirmation(tm
         }
 
     report = run_auto_workflow(
-        user_request="Use Torii to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO",
+        user_request="Use ASTRA to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO",
         output_dir=tmp_path,
         traffic_layers="passenger",
         place_resolver=fake_resolver,
@@ -264,7 +264,7 @@ def test_auto_workflow_extracts_bbox_from_osm_map_url(tmp_path: Path) -> None:
 
     report = run_auto_workflow(
         user_request=(
-            "Use Torii-SUMO workflow from "
+            "Use ASTRA-SUMO workflow from "
             "https://www.openstreetmap.org/#map=18/48.768610/11.422681 "
             "to generate a SUMO network"
         ),
@@ -294,7 +294,7 @@ def test_auto_workflow_prefers_explicit_bbox_over_prompt_osm_url(tmp_path: Path)
 
     report = run_auto_workflow(
         user_request=(
-            "Use Torii to clean the Ingolstadt city-center network around "
+            "Use ASTRA to clean the Ingolstadt city-center network around "
             "https://www.openstreetmap.org/#map=17/48.765391/11.423800 from OSM"
         ),
         output_dir=tmp_path,
@@ -325,7 +325,7 @@ def test_auto_workflow_passes_local_osm_file_to_cleanup(tmp_path: Path) -> None:
         }
 
     report = run_auto_workflow(
-        user_request="Use Torii to generate a TUM-like SUMO network from this local OSM extract",
+        user_request="Use ASTRA to generate a TUM-like SUMO network from this local OSM extract",
         output_dir=tmp_path,
         bbox="11.413800,48.755391,11.433800,48.775391",
         reference_net_file=reference_net_file,
@@ -555,7 +555,7 @@ def test_auto_workflow_blocks_osm_generation_until_road_level_scope_selected(tmp
         }
 
     report = run_auto_workflow(
-        user_request="Use Torii to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO",
+        user_request="Use ASTRA to download the Altstadt map in Dresden from OSM, clean it up and open it in SUMO",
         output_dir=tmp_path,
         place_resolver=fake_resolver,
     )
@@ -573,7 +573,7 @@ def test_auto_workflow_blocks_reference_match_without_reference_artifact(tmp_pat
         raise AssertionError("cleanup must not run without a reference network or policy report")
 
     report = run_auto_workflow(
-        user_request="Use Torii to build this city-center SUMO network with the same layer policy as a manually cleaned reference network",
+        user_request="Use ASTRA to build this city-center SUMO network with the same layer policy as a manually cleaned reference network",
         output_dir=tmp_path,
         bbox="11.413800,48.755391,11.433800,48.775391",
         cleanup_workflow_func=fake_cleanup,
@@ -601,7 +601,7 @@ def test_auto_workflow_uses_reference_net_file_for_reference_matched_plan(tmp_pa
         }
 
     report = run_auto_workflow(
-        user_request="Use Torii to build this city-center SUMO network with the same layer policy as a manually cleaned reference network",
+        user_request="Use ASTRA to build this city-center SUMO network with the same layer policy as a manually cleaned reference network",
         output_dir=tmp_path,
         bbox="11.413800,48.755391,11.433800,48.775391",
         reference_net_file=reference_net_file,
@@ -662,9 +662,9 @@ def test_torii_auto_workflow_uses_cleanup_tool_wrapper(monkeypatch, tmp_path: Pa
         captured.update(kwargs)
         return {"status": "pass", "claim_status": "diagnostic-demo"}
 
-    monkeypatch.setattr("torii_sumo.tools.workflow_tools.run_auto_workflow", fake_run_auto_workflow)
+    monkeypatch.setattr("astra_sumo.tools.workflow_tools.run_auto_workflow", fake_run_auto_workflow)
 
-    report = torii_auto_workflow(
+    report = astra_auto_workflow(
         user_request="Generate a TUM-like SUMO network from OSM using the reference net",
         output_dir=str(tmp_path),
         bbox="11.413800,48.755391,11.433800,48.775391",

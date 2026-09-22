@@ -1,6 +1,6 @@
 import sys
 
-from torii_sumo.core.command_runner import run_command
+from astra_sumo.core.command_runner import run_command
 
 
 def test_run_command_captures_stdout_and_stderr() -> None:

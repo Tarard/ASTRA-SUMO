@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.reference_scope import (
+from astra_sumo.core.reference_scope import (
     audit_reference_scope,
     build_reference_bbox_variant,
     build_scope_pruning_variant,

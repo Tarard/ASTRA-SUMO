@@ -2,9 +2,9 @@ import json
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_road_use_review import inspect_road_use_sample
+from astra_sumo import cli
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_road_use_review import inspect_road_use_sample
 
 
 def sample():

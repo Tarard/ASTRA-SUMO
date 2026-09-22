@@ -5,13 +5,13 @@ import subprocess
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo import cli
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 def test_context_paths_are_probed_separately_and_bound_to_the_construction_source(tmp_path):
-    from torii_sumo.core.movement_routeability import run_candidate_movement_probes
+    from astra_sumo.core.movement_routeability import run_candidate_movement_probes
 
     nodes, edges, network = tmp_path / 'nodes.xml', tmp_path / 'edges.xml', tmp_path / 'net.xml'
     nodes.write_text('<nodes><node id="w" x="0" y="0"/><node id="j" x="50" y="0"/><node id="n" x="50" y="50"/><node id="e" x="100" y="0"/></nodes>', encoding='utf-8')
@@ -39,7 +39,7 @@ def test_context_paths_are_probed_separately_and_bound_to_the_construction_sourc
 
 
 def test_complete_chain_rejects_a_wrong_internal_lane_even_with_correct_endpoints():
-    module = importlib.import_module("torii_sumo.core.movement_routeability")
+    module = importlib.import_module("astra_sumo.core.movement_routeability")
     movement = {"sumo_connection": ["in", 0, "out", 0]}
     correct = [{"lane": value} for value in ("in_0", ":j_0_0", ":j_1_0", "out_0")]
     wrong = [{"lane": value} for value in ("in_0", ":j_9_0", "out_0")]
@@ -52,7 +52,7 @@ def test_complete_chain_rejects_a_wrong_internal_lane_even_with_correct_endpoint
 
 @pytest.mark.parametrize("fault", [None, "wrong_lane", "wrong_id", "wrong_fcd_id", "early_arrival", "late_arrival", "late_departure", "missing_internal", "wrong_internal", "vaporized", "unclean_completion", "wrong_observed_exit"])
 def test_terminal_arrival_can_prove_only_the_exit_not_missing_internal_lanes(fault):
-    module = importlib.import_module("torii_sumo.core.movement_routeability")
+    module = importlib.import_module("astra_sumo.core.movement_routeability")
     movement = {"sumo_connection": ["in", 0, "out", 0]}
     expected = [":j_0_0", ":j_1_0"]
     states = [{"id": "probe", "lane": lane, "time": time, "last_time": last} for lane, time, last in (

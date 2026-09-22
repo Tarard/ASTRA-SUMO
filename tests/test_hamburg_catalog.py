@@ -8,7 +8,7 @@ from urllib.request import Request
 
 import pytest
 
-from torii_sumo.core.hamburg_official import (
+from astra_sumo.core.hamburg_official import (
     OFFICIAL_SIGNAL_CATALOG_API_URL,
     HamburgCatalogUnavailableError,
     download_hamburg_traffic_light_catalog,

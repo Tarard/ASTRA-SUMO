@@ -2,7 +2,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from torii_sumo.core.map_review import (
+from astra_sumo.core.map_review import (
     build_map_review_decision_binding,
     build_map_review_evidence,
     validate_map_review_decisions,

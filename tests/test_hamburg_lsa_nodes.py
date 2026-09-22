@@ -9,7 +9,7 @@ from urllib.request import Request
 
 import pytest
 
-from torii_sumo.core.hamburg_lsa_nodes import (
+from astra_sumo.core.hamburg_lsa_nodes import (
     AUTONOMOUS_ABSTENTION_ACTION,
     HAMBURG_LSA_NODE_PROPERTY_KEYS,
     GeographicBBox,

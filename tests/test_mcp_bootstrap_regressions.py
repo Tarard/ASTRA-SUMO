@@ -15,9 +15,9 @@ from mcp.client.stdio import stdio_client
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PLUGIN = ROOT / "plugins" / "torii-sumo"
+PLUGIN = ROOT / "plugins" / "astra-sumo"
 BOOTSTRAP = PLUGIN / "scripts" / "bootstrap_mcp.py"
-RUNNER = PLUGIN / "scripts" / "run_torii_sumo.py"
+RUNNER = PLUGIN / "scripts" / "run_astra_sumo.py"
 RUNNER_LOCK = Path(f"{RUNNER}.lock")
 
 
@@ -31,7 +31,7 @@ def _load_bootstrap() -> ModuleType:
 
 def _mcp_server_config(plugin: Path = PLUGIN) -> dict[str, Any]:
     config = json.loads((plugin / ".mcp.json").read_text(encoding="utf-8"))
-    return config["mcpServers"]["torii-sumo"]
+    return config["mcpServers"]["astra-sumo"]
 
 
 def _script_metadata(path: Path) -> dict[str, Any]:
@@ -44,7 +44,7 @@ def _script_metadata(path: Path) -> dict[str, Any]:
 async def _list_tools(plugin: Path) -> list[str]:
     server_config = _mcp_server_config(plugin)
     environment = os.environ.copy()
-    environment.pop("TORII_MCP_PROFILE", None)
+    environment.pop("ASTRA_MCP_PROFILE", None)
     parameters = StdioServerParameters(
         command=server_config["command"],
         args=server_config.get("args", []),
@@ -101,7 +101,7 @@ def test_mcp_config_starts_default_profile_with_exactly_ten_tools() -> None:
 
 
 def test_cached_plugin_copy_starts_without_repository_parents(tmp_path: Path) -> None:
-    cached_plugin = tmp_path / "cache" / "marketplace" / "torii-sumo" / "local"
+    cached_plugin = tmp_path / "cache" / "marketplace" / "astra-sumo" / "local"
     shutil.copytree(PLUGIN, cached_plugin, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
     assert not (cached_plugin / ".." / "..").resolve().joinpath("pyproject.toml").exists()
 

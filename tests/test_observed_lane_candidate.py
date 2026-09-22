@@ -3,8 +3,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.road_network import observed_lane_candidate as candidate_module
-from torii_sumo.road_network.observed_lane_candidate import build_observed_lane_candidate
+from astra_sumo.road_network import observed_lane_candidate as candidate_module
+from astra_sumo.road_network.observed_lane_candidate import build_observed_lane_candidate
 
 
 def _case(tmp_path, neighbor_tls=False, branch=False):

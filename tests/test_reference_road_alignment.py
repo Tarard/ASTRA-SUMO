@@ -1,7 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.reference_road_alignment import audit_reference_road_alignment
+from astra_sumo.core.reference_road_alignment import audit_reference_road_alignment
 
 
 def _write_net(path: Path, *, teacher: bool = False) -> None:

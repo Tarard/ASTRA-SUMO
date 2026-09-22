@@ -6,9 +6,9 @@ from xml.etree import ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.core import hamburg_topology_audit as audit
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core import hamburg_topology_audit as audit
 
 
 def _case(tmp_path, *, outside_bowtie=False):

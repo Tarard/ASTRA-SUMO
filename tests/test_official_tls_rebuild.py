@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.digital_twin import SignalStream
-from torii_sumo.core.digital_twin_mapping import MapLaneBinding
-from torii_sumo.core.official_tls_rebuild import (
+from astra_sumo.core.digital_twin import SignalStream
+from astra_sumo.core.digital_twin_mapping import MapLaneBinding
+from astra_sumo.core.official_tls_rebuild import (
     HAMBURG_SANDTORKAI_CONNECTION_REPAIRS,
     HAMBURG_SANDTORKAI_GROUP_INDEX_BY_NODE,
     HAMBURG_SANDTORKAI_TLS_PRESET_VERSION,

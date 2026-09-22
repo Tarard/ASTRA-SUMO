@@ -1,14 +1,14 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from torii_sumo.intersection.compile_plain import compile_intersection_to_plain
-from torii_sumo.intersection.infer_approaches import infer_approaches
-from torii_sumo.intersection.infer_control import infer_control_model
-from torii_sumo.intersection.infer_core import infer_intersection_core
-from torii_sumo.intersection.infer_movements import infer_movement_matrix
-from torii_sumo.intersection.infer_road_relations import build_road_pair_relation_graph
-from torii_sumo.intersection.osm_patch import parse_osm_xml
-from torii_sumo.intersection.schema import IntersectionIR, Movement, OSMNode, OSMPatch, OSMWay
+from astra_sumo.intersection.compile_plain import compile_intersection_to_plain
+from astra_sumo.intersection.infer_approaches import infer_approaches
+from astra_sumo.intersection.infer_control import infer_control_model
+from astra_sumo.intersection.infer_core import infer_intersection_core
+from astra_sumo.intersection.infer_movements import infer_movement_matrix
+from astra_sumo.intersection.infer_road_relations import build_road_pair_relation_graph
+from astra_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.schema import IntersectionIR, Movement, OSMNode, OSMPatch, OSMWay
 
 
 FIXTURES = Path(__file__).parent / "fixtures"
@@ -261,7 +261,7 @@ def test_compile_intersection_to_plain_places_approach_nodes_at_inferred_endpoin
 def test_compile_intersection_to_plain_disables_auto_turnarounds(monkeypatch, tmp_path: Path) -> None:
     ir = _build_ir(FIXTURES / "x4_signalized.osm.xml")
     captured = {}
-    monkeypatch.setattr("torii_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
 
     def fake_run(command, **_kwargs):
         captured["command"] = command
@@ -273,7 +273,7 @@ def test_compile_intersection_to_plain_disables_auto_turnarounds(monkeypatch, tm
 
         return Result()
 
-    monkeypatch.setattr("torii_sumo.intersection.compile_plain.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.subprocess.run", fake_run)
 
     artifacts = compile_intersection_to_plain(ir, tmp_path, "x4", compile_net=True)
 
@@ -306,7 +306,7 @@ def test_compile_intersection_to_plain_guesses_crossings_for_osm_support_path(mo
         }
     )
     captured = {}
-    monkeypatch.setattr("torii_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
 
     def fake_run(command, **_kwargs):
         captured["command"] = command
@@ -318,7 +318,7 @@ def test_compile_intersection_to_plain_guesses_crossings_for_osm_support_path(mo
 
         return Result()
 
-    monkeypatch.setattr("torii_sumo.intersection.compile_plain.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.subprocess.run", fake_run)
 
     compile_intersection_to_plain(ir, tmp_path, "cluster", compile_net=True)
 
@@ -344,7 +344,7 @@ def test_compile_intersection_to_plain_guesses_crossings_for_fused_multimodal_la
         }
     )
     captured = {}
-    monkeypatch.setattr("torii_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
 
     def fake_run(command, **_kwargs):
         captured["command"] = command
@@ -356,7 +356,7 @@ def test_compile_intersection_to_plain_guesses_crossings_for_fused_multimodal_la
 
         return Result()
 
-    monkeypatch.setattr("torii_sumo.intersection.compile_plain.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.subprocess.run", fake_run)
 
     compile_intersection_to_plain(ir, tmp_path, "x4", compile_net=True)
 

@@ -2,7 +2,7 @@
 
 This folder groups the three signal-control audit examples under one entry point.
 
-Use Torii when a SUMO/TraCI signal-control result is about to be reported, compared, or reused as a baseline. The audit goal is not to make a controller look good; it is to decide whether the experiment evidence supports the claimed result.
+Use ASTRA when a SUMO/TraCI signal-control result is about to be reported, compared, or reused as a baseline. The audit goal is not to make a controller look good; it is to decide whether the experiment evidence supports the claimed result.
 
 ## Cases
 

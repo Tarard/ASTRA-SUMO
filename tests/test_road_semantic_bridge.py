@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from torii_sumo.road_network.contracts import (
+from astra_sumo.road_network.contracts import (
     CanonicalRoadLink,
     ConflationEvidence,
     RoadCorridor,
@@ -206,7 +206,7 @@ def test_reviewed_relation_projects_orthogonal_official_properties_to_both_osm_w
             assignment_id="network-role",
             target_ref=official,
             property_name="network_role",
-            classification_scheme="torii:network-role:v1",
+            classification_scheme="astra:network-role:v1",
             value="arterial",
             direction="both",
             evidence_refs=(official,),
@@ -241,7 +241,7 @@ def test_reviewed_relation_projects_orthogonal_official_properties_to_both_osm_w
         assert {assertion["classification_scheme"] for assertion in item["official_property_assertions"]} == {
             "de:hamburg:hvs",
             "de:rin:2008",
-            "torii:network-role:v1",
+            "astra:network-role:v1",
         }
         assert item["source_relation_ids"] == [relation.relation_id]
     assert projection["automatic_promotion_gate"] == "blocked"

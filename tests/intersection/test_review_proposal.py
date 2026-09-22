@@ -2,23 +2,23 @@ import json
 import re
 from pathlib import Path
 
-from torii_sumo.intersection.candidate_binding import (
+from astra_sumo.intersection.candidate_binding import (
     bind_materialized_candidate_to_dag,
 )
-from torii_sumo.intersection.candidate_dag import (
+from astra_sumo.intersection.candidate_dag import (
     build_candidate_hypothesis_dag,
 )
-from torii_sumo.intersection.osm_patch import parse_osm_xml
-from torii_sumo.intersection.movement_hypotheses import (
+from astra_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.movement_hypotheses import (
     build_vehicle_movement_hypotheses,
 )
-from torii_sumo.intersection.physical_cell import (
+from astra_sumo.intersection.physical_cell import (
     infer_signal_anchor_physical_cell,
 )
-from torii_sumo.intersection.review_proposal import (
+from astra_sumo.intersection.review_proposal import (
     build_intersection_review_proposal,
 )
-from torii_sumo.intersection.schema import OSMRelation
+from astra_sumo.intersection.schema import OSMRelation
 
 
 XS1_OSM = Path("examples/03_xs1_four_way_tls/input/xs1-89129156.osm.xml.gz")

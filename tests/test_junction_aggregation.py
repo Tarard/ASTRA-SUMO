@@ -1,17 +1,17 @@
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from torii_sumo.core.junction_aggregation import (
+from astra_sumo.core.junction_aggregation import (
     _aggregation_candidates,
     audit_join_collapse_residuals,
     audit_junction_aggregation_preservation,
     build_junction_aggregation_variant,
 )
-from torii_sumo.core.junction_join_definition import (
+from astra_sumo.core.junction_join_definition import (
     build_junction_join_definition,
     netconvert_join_patch_args,
 )
-from torii_sumo.core.osm_workflow import _junction_aggregation_summary
+from astra_sumo.core.osm_workflow import _junction_aggregation_summary
 
 
 def _command_path(command: list[str], option: str, cwd: Path) -> Path:

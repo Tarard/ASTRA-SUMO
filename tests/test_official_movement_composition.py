@@ -4,14 +4,14 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.official_movement_composition import compose_official_movements
+from astra_sumo.core.official_movement_composition import compose_official_movements
 
 
 @pytest.mark.parametrize("role", ["ingress", "egress"])
 @pytest.mark.parametrize("fault", [None, "other_owner", "reverse", "permission", "gap", "disconnected"])
 def test_original_map_boundary_can_lie_on_its_native_internal_lane(role, fault):
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings
+    from astra_sumo.core.source_movement_support import _index
 
     root = ET.Element("net")
     for node in ("west", "junction", "east", "other"):
@@ -46,8 +46,8 @@ def test_original_map_boundary_can_lie_on_its_native_internal_lane(role, fault):
 
 @pytest.mark.parametrize("role,point", [("ingress", (5, 0)), ("egress", (25, 0))])
 def test_official_stop_section_may_cut_inside_an_existing_normal_lane(role, point):
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings
+    from astra_sumo.core.source_movement_support import _index
 
     root = ET.Element("net")
     edge = ET.SubElement(root, "edge", id="road", **{"from": "junction" if role == "egress" else "outside", "to": "junction" if role == "ingress" else "outside"})
@@ -59,8 +59,8 @@ def test_official_stop_section_may_cut_inside_an_existing_normal_lane(role, poin
 
 
 def test_native_anchor_candidates_use_the_same_distance_definition():
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings
+    from astra_sumo.core.source_movement_support import _index
 
     root = ET.Element("net")
     for node in ("west", "junction", "east"):
@@ -102,8 +102,8 @@ def _overlapping_serial_fixture():
 
 @pytest.mark.parametrize("role", ["ingress", "egress"])
 def test_source_overlap_can_prove_lane_identity_but_not_native_curve_quality(role):
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings
+    from astra_sumo.core.source_movement_support import _index
 
     root = _overlapping_serial_fixture()
     point, away, members, expected = ((0.3, 0), (-10, 0), {"cut", "right"}, "road#0_0") if role == "ingress" else ((0.1, 0), (10, 0), {"left", "cut"}, "road#1_0")
@@ -118,8 +118,8 @@ def test_source_overlap_can_prove_lane_identity_but_not_native_curve_quality(rol
 
 
 def test_context_retains_the_serial_identity_geometry_defect_record():
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings, _resolve_original_context
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings, _resolve_original_context
+    from astra_sumo.core.source_movement_support import _index
 
     root = _overlapping_serial_fixture()
     for name, start, end, shape in (("lookalike", "left", "cut", "-10,0.05 4,0.05"), ("out", "right", "outside", "10,0 20,0")):
@@ -140,8 +140,8 @@ def test_context_retains_the_serial_identity_geometry_defect_record():
 
 @pytest.mark.parametrize("has_lineage", [True, False])
 def test_source_extension_must_not_copy_a_reverse_internal_cut(has_lineage):
-    from torii_sumo.core.official_movement_composition import _source_boundary_extensions
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _source_boundary_extensions
+    from astra_sumo.core.source_movement_support import _index
 
     source = _overlapping_serial_fixture()
     if not has_lineage:
@@ -162,8 +162,8 @@ def test_source_extension_must_not_copy_a_reverse_internal_cut(has_lineage):
 
 @pytest.mark.parametrize("fault", ["missing_lineage", "other_lineage", "lateral_offset", "outside_interval", "curved_loop", "reverse_external"])
 def test_backward_cut_identity_requires_independent_same_lane_overlap_evidence(fault):
-    from torii_sumo.core.official_movement_composition import _collapse_serial_lane_candidates
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _collapse_serial_lane_candidates
+    from astra_sumo.core.source_movement_support import _index
 
     root = _overlapping_serial_fixture()
     target = root.find("edge[@id='road#1']/lane")
@@ -190,8 +190,8 @@ def test_backward_cut_identity_requires_independent_same_lane_overlap_evidence(f
 
 @pytest.mark.parametrize("role", ["ingress", "egress"])
 def test_serial_lane_candidates_resolve_to_the_actual_external_cut(role):
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings
+    from astra_sumo.core.source_movement_support import _index
 
     root = _serial_candidate_fixture()
     point, away, members, expected = ((0.3, 0), (-10, 0), {"cut", "right"}, "road#0_0") if role == "ingress" else ((-0.1, 0), (10, 0), {"left", "cut"}, "road#1_0")
@@ -205,8 +205,8 @@ def test_serial_lane_candidates_resolve_to_the_actual_external_cut(role):
 
 @pytest.mark.parametrize("fault", ["turn", "fork", "merge", "permission", "lane_change", "direction", "gap", "wrong_owner", "outside_scope", "no_internal_chain"])
 def test_serial_identity_requires_one_to_one_straight_same_mode_internal_chain(fault):
-    from torii_sumo.core.official_movement_composition import _collapse_serial_lane_candidates
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _collapse_serial_lane_candidates
+    from astra_sumo.core.source_movement_support import _index
 
     root = _serial_candidate_fixture()
     connection = root.find("connection[@from='road#0']")
@@ -249,8 +249,8 @@ def test_serial_identity_requires_one_to_one_straight_same_mode_internal_chain(f
 
 
 def test_context_cannot_replace_nearby_ambiguous_lanes_with_a_distant_connected_lane():
-    from torii_sumo.core.official_movement_composition import _original_lane_bindings, _resolve_original_context
-    from torii_sumo.core.source_movement_support import _index
+    from astra_sumo.core.official_movement_composition import _original_lane_bindings, _resolve_original_context
+    from astra_sumo.core.source_movement_support import _index
 
     root = ET.Element("net")
     for edge_id, y in (("near-left", -0.1), ("near-right", 0.1), ("distant", 3.5)):
@@ -377,7 +377,7 @@ def test_constructed_boundary_lane_without_original_alias_keeps_official_authori
 
 
 def test_search_keeps_a_feasible_vehicle_class_alternative():
-    from torii_sumo.core.official_movement_composition import _walks
+    from astra_sumo.core.official_movement_composition import _walks
 
     graph = {
         "a": [{"target": "b", "allowed_vehicle_classes": ["bus"]}, {"target": "c", "allowed_vehicle_classes": ["passenger"]}],
@@ -496,7 +496,7 @@ def test_source_suffix_reaches_boundary_without_inventing_an_official_movement()
 
 
 def test_source_witness_clipping_keeps_later_lanes_after_earlier_near_intersection():
-    from torii_sumo.core.official_movement_composition import _clip_witness_shapes
+    from astra_sumo.core.official_movement_composition import _clip_witness_shapes
 
     pieces = [[(-20, 0), (-10, 0)], [(-10, 0), (5, 0), (10, 10), (0, 1)], [(0, 1), (5, 1)]]
     curve, error, gap = _clip_witness_shapes(pieces, start=(-10, 0), end=(5, 0))
@@ -508,7 +508,7 @@ def test_source_witness_clipping_keeps_later_lanes_after_earlier_near_intersecti
 
 
 def test_source_witness_keeps_explicit_final_endpoint_after_an_earlier_crossing():
-    from torii_sumo.core.official_movement_composition import _clip_witness_shapes
+    from astra_sumo.core.official_movement_composition import _clip_witness_shapes
 
     curve, error, gap = _clip_witness_shapes(
         [[(-10, 0), (5, 0), (10, 10), (5, 0)]], start=(-10, 0), end=(5, 0)

@@ -1,7 +1,7 @@
 {
-  "title": "Torii: Task-Oriented Road Infrastructure Intelligence",
+  "title": "ASTRA: Automated Simulation of TRAnsportation networks for SUMO",
   "upload_type": "software",
-  "description": "An agent plugin for SUMO that bundles a SUMO expert skill with local MCP tools for OSM-to-SUMO network construction, TLS review, routeability checks, evidence bundles, and feedback-driven simulation repair. Torii treats bad metrics, warnings, teleports, disconnected routes, and map disagreements as feedback about the model rather than raw optimization targets.",
+  "description": "An agent plugin for SUMO that bundles a SUMO expert skill with local MCP tools for OSM-to-SUMO network construction, TLS review, routeability checks, evidence bundles, and feedback-driven simulation repair. ASTRA treats bad metrics, warnings, teleports, disconnected routes, and map disagreements as feedback about the model rather than raw optimization targets.",
   "creators": [
     {
       "name": "Tarard"
@@ -26,7 +26,7 @@
   ],
   "related_identifiers": [
     {
-      "identifier": "https://github.com/Tarard/Torii-SUMO",
+      "identifier": "https://github.com/Tarard/ASTRA-SUMO",
       "relation": "isSupplementTo",
       "scheme": "url",
       "resource_type": "software"

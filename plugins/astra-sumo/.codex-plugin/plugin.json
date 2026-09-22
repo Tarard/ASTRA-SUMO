@@ -1,0 +1,34 @@
+{
+  "name": "astra-sumo",
+  "version": "1.3.0",
+  "description": "ASTRA bundles SUMO expertise, OSM cleanup, and public-data corridor digital-twin MCP tools.",
+  "author": {
+    "name": "ASTRA contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "sumo",
+    "traci",
+    "mcp",
+    "traffic-simulation",
+    "digital-twin",
+    "open-data",
+    "codex-skill"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "ASTRA",
+    "shortDescription": "SUMO corridor digital twins.",
+    "longDescription": "Bundles SUMO expertise, bounded local MCP tools, ASTRA OSM cleanup, official public-data ingestion, detector-constrained demand reconstruction, traffic-signal replay, and evidence-aware validation.",
+    "developerName": "ASTRA contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "composerIcon": "./assets/app-logo.png",
+    "logo": "./assets/app-logo.png",
+    "defaultPrompt": "Use ASTRA to understand the SUMO task, run MCP tools only when evidence is needed, and treat bad metrics as model feedback."
+  }
+}

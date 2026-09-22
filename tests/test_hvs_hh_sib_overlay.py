@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from torii_sumo.road_network.hvs_hh_sib_overlay import (
+from astra_sumo.road_network.hvs_hh_sib_overlay import (
     HVS_HH_SIB_OVERLAY_SCHEMA,
     build_hamburg_hvs_hh_sib_corridor_overlay,
     write_hamburg_hvs_hh_sib_corridor_overlay,

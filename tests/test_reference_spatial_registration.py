@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.reference_spatial_registration import (
+from astra_sumo.core.reference_spatial_registration import (
     build_reference_spatial_registration,
 )
 

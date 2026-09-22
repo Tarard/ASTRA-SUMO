@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from torii_sumo.core.junction_strategy_probe import (
+from astra_sumo.core.junction_strategy_probe import (
     convex_hull,
     parse_net,
     probe_junction_strategies,

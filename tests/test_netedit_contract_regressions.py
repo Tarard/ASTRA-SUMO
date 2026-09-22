@@ -3,9 +3,9 @@ from __future__ import annotations
 import anyio
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.server import create_server
-from torii_sumo import mcp_contract_tools as contract
+from astra_sumo import cli
+from astra_sumo.server import create_server
+from astra_sumo import mcp_contract_tools as contract
 
 
 SCREENSHOT_SHA256 = "a" * 64
@@ -27,7 +27,7 @@ def test_netedit_close_finalize_passes_expected_screenshot_sha256(monkeypatch) -
 
     monkeypatch.setattr(contract, "sumo_netedit_session", fake_session)
 
-    result = contract.torii_netedit_close(
+    result = contract.astra_netedit_close(
         "session-1",
         mode="finalize",
         expected_screenshot_sha256=SCREENSHOT_SHA256,
@@ -48,7 +48,7 @@ def test_netedit_close_abort_does_not_require_screenshot_sha256(monkeypatch) -> 
 
     monkeypatch.setattr(contract, "sumo_netedit_session", fake_session)
 
-    result = contract.torii_netedit_close(
+    result = contract.astra_netedit_close(
         "session-2",
         mode="abort",
         reason="review_rejected",
@@ -69,7 +69,7 @@ def test_netedit_close_abort_uses_the_mcp_default_reason(monkeypatch) -> None:
 
     monkeypatch.setattr(contract, "sumo_netedit_session", fake_session)
 
-    contract.torii_netedit_close("session-2", mode="abort")
+    contract.astra_netedit_close("session-2", mode="abort")
 
     assert calls[0]["reason"] == "caller_aborted"
 
@@ -84,7 +84,7 @@ def test_netedit_close_does_not_claim_success_when_finalize_is_blocked(monkeypat
         },
     )
 
-    result = contract.torii_netedit_close(
+    result = contract.astra_netedit_close(
         "session-2",
         mode="finalize",
         expected_screenshot_sha256=SCREENSHOT_SHA256,
@@ -110,7 +110,7 @@ def test_netedit_close_does_not_claim_success_when_finalize_audits_fail(
         },
     )
 
-    result = contract.torii_netedit_close(
+    result = contract.astra_netedit_close(
         "session-2",
         mode="finalize",
         expected_screenshot_sha256=SCREENSHOT_SHA256,
@@ -126,7 +126,7 @@ async def _netedit_tools() -> list[object]:
 
 def test_netedit_observe_annotations_report_its_write_side_effects() -> None:
     tools = anyio.run(_netedit_tools)
-    observe = next(tool for tool in tools if tool.name == "torii.netedit.observe")
+    observe = next(tool for tool in tools if tool.name == "astra.netedit.observe")
 
     assert observe.annotations is not None
     assert observe.annotations.readOnlyHint is False
@@ -142,7 +142,7 @@ def test_cli_cannot_finalize_a_session_from_another_process(monkeypatch, capsys)
         mode: str,
         expected_screenshot_sha256: str | None = None,
         reason: str | None,
-    ) -> contract.ToriiToolResult:
+    ) -> contract.AstraToolResult:
         calls.append(
             {
                 "session_id": session_id,
@@ -151,9 +151,9 @@ def test_cli_cannot_finalize_a_session_from_another_process(monkeypatch, capsys)
                 "reason": reason,
             }
         )
-        return contract.ToriiToolResult(status="pass", summary="NetEdit session closed.")
+        return contract.AstraToolResult(status="pass", summary="NetEdit session closed.")
 
-    monkeypatch.setattr(cli, "torii_netedit_close", fake_close)
+    monkeypatch.setattr(cli, "astra_netedit_close", fake_close)
 
     exit_code = cli.main(
         [
@@ -182,7 +182,7 @@ def test_cli_cannot_abort_a_session_from_another_process(monkeypatch, capsys) ->
         mode: str,
         expected_screenshot_sha256: str | None = None,
         reason: str | None,
-    ) -> contract.ToriiToolResult:
+    ) -> contract.AstraToolResult:
         calls.append(
             {
                 "session_id": session_id,
@@ -191,9 +191,9 @@ def test_cli_cannot_abort_a_session_from_another_process(monkeypatch, capsys) ->
                 "reason": reason,
             }
         )
-        return contract.ToriiToolResult(status="pass", summary="NetEdit session closed.")
+        return contract.AstraToolResult(status="pass", summary="NetEdit session closed.")
 
-    monkeypatch.setattr(cli, "torii_netedit_close", fake_close)
+    monkeypatch.setattr(cli, "astra_netedit_close", fake_close)
 
     exit_code = cli.main(
         [

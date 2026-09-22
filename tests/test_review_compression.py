@@ -2,14 +2,14 @@ from __future__ import annotations
 
 from xml.etree import ElementTree as ET
 
-from torii_sumo.corridor.canonicalizer import canonicalize_raw_network
-from torii_sumo.corridor.conflict_graph import (
+from astra_sumo.corridor.canonicalizer import canonicalize_raw_network
+from astra_sumo.corridor.conflict_graph import (
     audit_independent_movement_safety,
 )
-from torii_sumo.corridor.enums import GateStatus, TrafficSide
-from torii_sumo.corridor.ids import stable_id
-from torii_sumo.corridor.netxml import parse_net_xml
-from torii_sumo.corridor.review_compression import (
+from astra_sumo.corridor.enums import GateStatus, TrafficSide
+from astra_sumo.corridor.ids import stable_id
+from astra_sumo.corridor.netxml import parse_net_xml
+from astra_sumo.corridor.review_compression import (
     build_lossless_review_compression,
 )
 

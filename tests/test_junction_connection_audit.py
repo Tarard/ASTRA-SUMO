@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.junction_connection_audit import (
+from astra_sumo.core.junction_connection_audit import (
     build_connection_signature,
     build_teacher_guided_owner_semantics_probe,
     compare_tls_movement_signatures,

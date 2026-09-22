@@ -1,6 +1,6 @@
 import pytest
 
-from torii_sumo.core.network_source_policy import resolve_network_source_policy
+from astra_sumo.core.network_source_policy import resolve_network_source_policy
 
 
 def test_dated_user_plan_controls_target_and_newer_maps_do_not_replace_it():

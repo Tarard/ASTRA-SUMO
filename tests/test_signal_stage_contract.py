@@ -5,10 +5,10 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.digital_twin import SignalObservation, SignalStream
-from torii_sumo.core.digital_twin_mapping import TlsBinding
-from torii_sumo.core.hamburg_official import sha256_file
-from torii_sumo.core.signal_stage_contract import (
+from astra_sumo.core.digital_twin import SignalObservation, SignalStream
+from astra_sumo.core.digital_twin_mapping import TlsBinding
+from astra_sumo.core.hamburg_official import sha256_file
+from astra_sumo.core.signal_stage_contract import (
     SIGNAL_STAGE_SCHEMA,
     LiveCaptureSpec,
     SignalEvidenceArtifact,

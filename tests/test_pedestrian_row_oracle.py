@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from torii_sumo.core.artifact_io import write_text_atomic
-from torii_sumo.corridor.enums import GateStatus, TrafficSide
-from torii_sumo.corridor.pedestrian_row_oracle import (
+from astra_sumo.core.artifact_io import write_text_atomic
+from astra_sumo.corridor.enums import GateStatus, TrafficSide
+from astra_sumo.corridor.pedestrian_row_oracle import (
     assess_row_static_consistency,
     build_row_geometry_evidence,
     build_row_model_claim_evidence,
@@ -156,7 +156,7 @@ def _install_fake_sumolib(
         )
     )
     monkeypatch.setattr(
-        "torii_sumo.corridor.pedestrian_row_oracle.sumolib.net.readNet",
+        "astra_sumo.corridor.pedestrian_row_oracle.sumolib.net.readNet",
         lambda *_args, **_kwargs: network,
     )
 

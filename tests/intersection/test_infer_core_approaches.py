@@ -1,9 +1,9 @@
 from pathlib import Path
 
-from torii_sumo.intersection.infer_approaches import infer_approaches
-from torii_sumo.intersection.infer_core import infer_intersection_core
-from torii_sumo.intersection.osm_patch import parse_osm_xml
-from torii_sumo.intersection.schema import OSMNode, OSMWay, PatchSeed
+from astra_sumo.intersection.infer_approaches import infer_approaches
+from astra_sumo.intersection.infer_core import infer_intersection_core
+from astra_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.schema import OSMNode, OSMWay, PatchSeed
 
 
 FIXTURES = Path(__file__).parent / "fixtures"

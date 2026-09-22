@@ -3,15 +3,15 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.core.digital_twin import CanonicalCount
-from torii_sumo.core.digital_twin_mapping import DetectorMapping
-from torii_sumo.core.hamburg_aerial_demand import (
+from astra_sumo import cli
+from astra_sumo.core.digital_twin import CanonicalCount
+from astra_sumo.core.digital_twin_mapping import DetectorMapping
+from astra_sumo.core.hamburg_aerial_demand import (
     _build_official_station_edge_flows,
     _diversify_equivalent_routes,
     _scenario_group_policies,
 )
-from torii_sumo.core.hamburg_sensor_twin import build_station_detector_bank
+from astra_sumo.core.hamburg_sensor_twin import build_station_detector_bank
 
 
 def _mapping(stream_id: int, edge: str, lane: str, position: float) -> DetectorMapping:

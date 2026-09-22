@@ -5,7 +5,7 @@ from urllib.request import Request
 
 import pytest
 
-from torii_sumo.core.hamburg_official import (
+from astra_sumo.core.hamburg_official import (
     HamburgCatalogResource,
     HamburgTrafficLightCatalog,
     audit_hamburg_signal_asset_directory_history,

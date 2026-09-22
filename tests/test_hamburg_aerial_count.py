@@ -1,9 +1,9 @@
 import json
 
-from torii_sumo import cli
-from torii_sumo.core.digital_twin import CountStream
-from torii_sumo.core.digital_twin_mapping import DetectorMapping
-from torii_sumo.core.hamburg_aerial_count import (
+from astra_sumo import cli
+from astra_sumo.core.digital_twin import CountStream
+from astra_sumo.core.digital_twin_mapping import DetectorMapping
+from astra_sumo.core.hamburg_aerial_count import (
     enforce_official_station_compositions,
     reconcile_count_binding_groups,
     resolve_station_group_constraint_edges,

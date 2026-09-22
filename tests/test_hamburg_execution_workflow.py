@@ -5,8 +5,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_execution_workflow import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_execution_workflow import (
     HAMBURG_EXECUTION_CONFIG_SCHEMA,
     HAMBURG_EXECUTION_WORKFLOW_SCHEMA,
     HamburgExecutionWorkflowError,

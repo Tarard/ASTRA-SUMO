@@ -1,38 +1,38 @@
-# Torii MCP Tool Catalog
+# ASTRA MCP Tool Catalog
 
-Torii provides a focused default MCP profile and an explicit legacy compatibility profile. Use the default profile for normal work. Use the CLI for long, batch, and specialized workflows.
+ASTRA provides a focused default MCP profile and an explicit legacy compatibility profile. Use the default profile for normal work. Use the CLI for long, batch, and specialized workflows.
 
 ## MCP Profiles
 
-The server supports three profiles selected with `create_server(profile=...)` or `TORII_MCP_PROFILE`:
+The server supports three profiles selected with `create_server(profile=...)` or `ASTRA_MCP_PROFILE`:
 
 - `default` (default): the 10-tool core surface:
-  `torii.preflight`, `torii.config.inspect`, `torii.run.compare`,
-  `torii.place.resolve`, `torii.intersection.classify`, `torii.signal.classify`,
-  `torii.network.audit`, `torii.network.compare`, `torii.demand.audit`,
-  `torii.review.create`.
+  `astra.preflight`, `astra.config.inspect`, `astra.run.compare`,
+  `astra.place.resolve`, `astra.intersection.classify`, `astra.signal.classify`,
+  `astra.network.audit`, `astra.network.compare`, `astra.demand.audit`,
+  `astra.review.create`.
 - `legacy`: all 73 historical tools listed below. Select this profile explicitly for compatibility.
 - `netedit`: the four-tool observation loop:
-  `torii.netedit.open`, `torii.netedit.observe`, `torii.netedit.act`,
-  `torii.netedit.close`.
+  `astra.netedit.open`, `astra.netedit.observe`, `astra.netedit.act`,
+  `astra.netedit.close`.
 
 Default and NetEdit tools use stable names, titles, safety annotations, and a common structured result shape.
 
-`torii.network.audit` accepts `profile=quick` or `profile=standard`. `quick`
+`astra.network.audit` accepts `profile=quick` or `profile=standard`. `quick`
 runs the topology check. `standard` runs topology, Connection Mode, and
 overlapping-junction checks. Neither profile runs SUMO routeability.
 
 Run routeability through the CLI:
 
 ```powershell
-torii network routeability <network.net.xml> <output-dir> --json
+astra network routeability <network.net.xml> <output-dir> --json
 ```
 
 Run an allowlisted long, batch, Hamburg-specific, or candidate-generation
 capability with a JSON request:
 
 ```powershell
-torii workflow <tool> <request.json> --json
+astra workflow <tool> <request.json> --json
 ```
 
 The implementation boundary is consistent across groups:
@@ -43,15 +43,15 @@ server.py profile switch -> mcp_contract_tools.py or legacy_tools.py -> tools/* 
 
 ## Router
 
-- `torii_auto_workflow` - accept a host-model `workflow_selection`, or retain the older request classifier when no selection is supplied.
+- `astra_auto_workflow` - accept a host-model `workflow_selection`, or retain the older request classifier when no selection is supplied.
 
 Read the current scenario directory and selected function arguments with:
 
 ```powershell
-torii workflows --json
-torii workflows --scenario hamburg_network --json
-torii workflow selected selection.json --json
-torii workflow selected selection.json --execute --json
+astra workflows --json
+astra workflows --scenario hamburg_network --json
+astra workflow selected selection.json --json
+astra workflow selected selection.json --execute --json
 ```
 
 The host model selects from the user's meaning and supplied evidence. The
@@ -62,11 +62,11 @@ drawing's meaning, verify nested source evidence, or complete a workflow.
 The catalog distinguishes `workflow`, `check`, `stage`, and `guidance`. As
 checked on 2026-09-09, its 25 entries include 19 callable entries and six guides,
 not 25 complete workflows. The executable mapping and live signatures belong
-to [workflow_catalog.py](../plugins/torii-sumo/src/torii_sumo/core/workflow_catalog.py).
+to [workflow_catalog.py](../plugins/astra-sumo/src/astra_sumo/core/workflow_catalog.py).
 See [scenario selection](workflow-selection.md) for the four-field example and
 result meanings.
 
-`torii_auto_workflow` and `run_auto_workflow` dispatch `workflow_selection`
+`astra_auto_workflow` and `run_auto_workflow` dispatch `workflow_selection`
 before the compatibility detector. `inspect-only` and `ask-first` keep it
 unexecuted. Without a selection, the older regular-expression route remains.
 The selected route calls no new model API and performs no second keyword
@@ -91,9 +91,9 @@ Use these for environment discovery, controlled execution, baseline/variant chec
 
 The four NetEdit MCP operations share one persistent server process. They cannot
 be chained as separate CLI processes. For a command-line capture, use
-`torii netedit review <source.net.xml> <new-output-dir> <source-sha256>` to open,
+`astra netedit review <source.net.xml> <new-output-dir> <source-sha256>` to open,
 observe, and close in one invocation. The installed plugin exposes this command
-through its locked `run_torii_sumo.py --cli` runner.
+through its locked `run_astra_sumo.py --cli` runner.
 
 - `sumo_netedit_session`
 
@@ -101,10 +101,10 @@ This is one grouped session tool, inspired by the recurring scene/document/
 object/viewport/edit lifecycle in [Blender MCP](https://github.com/ahujasid/blender-mcp),
 [FreeCAD MCP](https://github.com/neka-nat/freecad-mcp), and
 [Unity MCP](https://github.com/CoplayDev/unity-mcp). These are design references,
-not Torii runtime dependencies or identical APIs. Torii therefore keeps one
+not ASTRA runtime dependencies or identical APIs. ASTRA therefore keeps one
 grouped tool rather than registering a separate MCP tool for every button. The
 lifecycle maps to NetEdit as `open -> observe -> act -> observe -> finalize/abort`.
-`open` creates one source-hash-bound candidate session per Torii server;
+`open` creates one source-hash-bound candidate session per ASTRA server;
 `observe` returns a local client-coordinate screenshot path/hash plus an explicitly
 on-disk candidate summary; `act` checks the caller's exact last recorded screenshot
 SHA, then captures the live viewport again. Bounded global editor animation is
@@ -115,13 +115,13 @@ declared before the GUI edit, use the frozen selection containing exactly those
 source junctions and be the first edit action. Every semantic shortcut and save
 requires an exact live viewport match immediately before delivery. Unsaved GUI state is visible only in the screenshot, never
 misreported as persisted XML. The source network is immutable and every result
-keeps automatic promotion blocked. Torii deliberately omits arbitrary Python,
+keeps automatic promotion blocked. ASTRA deliberately omits arbitrary Python,
 C#, shell, or caller-exposed raw Win32 execution surfaces. The current local Codex
 integration renders the screenshot artifact with its local image viewer; the tool
 does not yet embed pixels as generic MCP `ImageContent`.
 
-`torii.netedit.observe` writes a screenshot and report. It is therefore marked
-non-read-only and non-idempotent. `torii.netedit.close` accepts
+`astra.netedit.observe` writes a screenshot and report. It is therefore marked
+non-read-only and non-idempotent. `astra.netedit.close` accepts
 `mode=finalize` or `mode=abort`. Finalize requires the latest screenshot
 SHA-256. Abort does not require a screenshot hash and closes without saving.
 
@@ -218,7 +218,7 @@ Road construction and traffic-count calibration have separate entry points.
 Use the CLI-only road construction command for a fresh build:
 
 ```powershell
-torii hamburg build-network <request.json> <new-output-dir> --json
+astra hamburg build-network <request.json> <new-output-dir> --json
 ```
 
 The same `torii.hamburg-topology-workflow-request/v1` request also accepts
@@ -242,7 +242,7 @@ alone does not prove that imagery was inspected. See the
 This is a CLI mode, not an additional MCP tool.
 
 Inspect normalized road-use observations before construction with the CLI-only
-`torii hamburg inspect-road-uses <request.json> <new-output-dir> --json`.
+`astra hamburg inspect-road-uses <request.json> <new-output-dir> --json`.
 This separate command compares local line orientation, extent, road-axis side,
 and reference years. It preserves uncertain ownership and permissions and does
 not modify the network. See the [request format](../examples/05_hamburg_topology/road-use-review.md).
@@ -294,9 +294,9 @@ These shape results retain their separate imagery review.
 The existing commands remain available for individual steps and diagnosis:
 
 ```powershell
-torii hamburg aerial-movements <request.json> <output-dir> --json
-torii hamburg combine-aerial-movements <request.json> <output-dir> --json
-torii hamburg repair-lane-connections <source.net.xml> <output-dir> --json
+astra hamburg aerial-movements <request.json> <output-dir> --json
+astra hamburg combine-aerial-movements <request.json> <output-dir> --json
+astra hamburg repair-lane-connections <source.net.xml> <output-dir> --json
 ```
 
 The aerial-movements command verifies source hashes, traces candidate curves, and
@@ -327,7 +327,7 @@ All affected geometry and preservation checks are recorded separately. Do not
 copy these optional, case-specific groups from an earlier run into a fresh
 request without evidence for the selected physical intersection.
 
-After construction, run `torii network movement-probes <manifest.json>
+After construction, run `astra network movement-probes <manifest.json>
 <output-dir> --json` to test official lane transitions with permitted vehicles.
 The check observes the complete internal lane path. It keeps the number of
 official movement records separate from the number of joined boundary
@@ -373,7 +373,7 @@ checks patch scope and internal paths after netconvert. Other corridor fanouts
 remain review items. See [the topology-only example](../examples/05_hamburg_topology/README.md).
 
 Finish the local workflow with the hash-bound
-`plugins/torii-sumo/scripts/netedit_background_review.py` review. Its Inspect
+`plugins/astra-sumo/scripts/netedit_background_review.py` review. Its Inspect
 capture follows `Connection -> Inspect` so NetEdit computes and then displays
 the final junction surfaces. Blue is the selected junction, red is an
 unselected junction, and black is an external edge or lane. This visual stage
@@ -384,17 +384,17 @@ can use the existing signal, count, and demand commands in a separate output
 directory:
 
 ```powershell
-torii hamburg bind-aerial-signals <request.json> <output-dir> --json
-torii hamburg bind-aerial-counts <request.json> <output-dir> --json
-torii hamburg generate-aerial-demand <request.json> <output-dir> --json
-torii hamburg build-protected-signals <request.json> <output-dir> --json
+astra hamburg bind-aerial-signals <request.json> <output-dir> --json
+astra hamburg bind-aerial-counts <request.json> <output-dir> --json
+astra hamburg generate-aerial-demand <request.json> <output-dir> --json
+astra hamburg build-protected-signals <request.json> <output-dir> --json
 ```
 
 These commands are not stages of `build-network`. Bind all later evidence to
 the exact checked network hash and matching `candidate/manifest.json`.
 They retain their existing request formats and do not accept the handoff file
 directly. A road change requires new road checks and new affected bindings. See the
-[count-calibration reference](../plugins/torii-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md).
+[count-calibration reference](../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md).
 
 The signal-binding command accepts only exact physical movement identities
 and reports frozen MAP/TLD version mismatches. It does not infer timing. The
@@ -464,7 +464,7 @@ discovery, but is not silently substituted for v1.0 historical primary states.
 
 ## Maintenance Contract
 
-The legacy catalog is checked against `plugins/torii-sumo/src/torii_sumo/legacy_tools.py`.
+The legacy catalog is checked against `plugins/astra-sumo/src/astra_sumo/legacy_tools.py`.
 The default and NetEdit profiles are checked through `create_server` contract tests. When registering or removing a tool:
 
 1. place reusable logic below the MCP adapter boundary;

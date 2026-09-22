@@ -1,7 +1,7 @@
 # Am Sandtorkai Digital-Twin Execution Workflow
 
-This is the long-running execution contract for the Torii work on the named
-Am Sandtorkai corridor. It is deliberately a workflow for Codex/Torii, not a
+This is the long-running execution contract for the ASTRA work on the named
+Am Sandtorkai corridor. It is deliberately a workflow for Codex/ASTRA, not a
 promise that one generated network is correct.
 
 ## Frozen scope
@@ -23,7 +23,7 @@ corridor.
 Every change follows the same loop:
 
 1. **Plan**: state the stage, inputs, expected artifacts, and automatic gates.
-2. **Inspect**: search existing Torii modules, tests, cached official artifacts,
+2. **Inspect**: search existing ASTRA modules, tests, cached official artifacts,
    and the relevant SUMO documentation before writing new code.
 3. **Implement minimally**: reuse an existing core function or CLI; add a new
    abstraction only when the existing contract cannot express the stage.
@@ -196,7 +196,7 @@ the same surface, SUMO-load, and structural Connection Mode gates, and adds a
 hash-bound comparison with the official `lsa_knotengrunddaten` identity
 snapshot. The 2403 LSA point projects to `(566119.50, 5933262.50)` in
 EPSG:25832, while the HH-SIB road boundary node
-`hh_sib.n.242500071` is `(566117.41, 5933264.86)`, a 3.152 m offset. Torii
+`hh_sib.n.242500071` is `(566117.41, 5933264.86)`, a 3.152 m offset. ASTRA
 records this as evidence and keeps the road node in place; it does not snap a
 signal point into the road graph or invent 2403 movements. The reusable CLI
 accepts this evidence with `--lsa-identity-manifest`, and the signal-asset
@@ -305,7 +305,7 @@ official node and direction. The W3a execution gate passes for diagnostics,
 while full node coverage keeps automatic promotion blocked.
 
 W4 is implemented in `core/hamburg_named_replay.py` with the reproducible
-entry point `scripts/build_hamburg_named_replay.py`. It reuses Torii's existing
+entry point `scripts/build_hamburg_named_replay.py`. It reuses ASTRA's existing
 count parser, virtual-detector aggregation, edge constraints, route support,
 `routeSampler.py`, and E1/E2 writers. The real run is
 `workflow/w4_named_replay_v5/`: it produces 20 candidate routes, 11 virtual
@@ -317,7 +317,7 @@ replay with artificial vehicle teleportation. SUMO detector output is written
 with an absolute path because relative output paths resolve beside the
 additional file, not beside the process working directory.
 The same stage is exposed as the `sumo_hamburg_sandtorkai_named_replay` MCP
-tool, so the CLI and Torii calls share one materializer and one gate contract.
+tool, so the CLI and ASTRA calls share one materializer and one gate contract.
 After W1 v10, the replay was rerun as `workflow/w4_named_replay_v6/` with the
 new network and W2 v2 binding; its 152-teleport quality gate remains blocked,
 while the 88-bin detector comparison is still produced. A separate
@@ -328,7 +328,7 @@ This is `diagnostic-demo` evidence only. It isolates signal control from most
 base route connectivity, but it is not a zero-teleport proof and does not
 validate official signal timing.
 When an execution-ready signal-observation manifest is supplied, the same W4
-materializer switches to Torii's existing TraCI TLS replay and uses the
+materializer switches to ASTRA's existing TraCI TLS replay and uses the
 official `tls-link-events.csv`; when it is absent or blocked, W4 stays on the
 diagnostic all-red construction path and cannot pass the teleport gate.
 The latest W4 run also proves that a detector geometry fix alone does not make

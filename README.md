@@ -1,19 +1,18 @@
 <p align="center">
-  <img src="docs/assets/banner.png" alt="Torii for SUMO" width="100%">
+  <img src="docs/assets/banner.png" alt="ASTRA for SUMO" width="100%">
 </p>
 
-# Torii
+# ASTRA
 
 <p align="center">
-  <strong>Task-Oriented Road Infrastructure Intelligence for Eclipse SUMO</strong>
-</p>
-
-<p align="center">
-  Torii turns real-world traffic data and natural-language tasks into SUMO simulations.
+  <strong>Automated Simulation of TRAnsportation networks for SUMO</strong>
 </p>
 
 <p align="center">
-  <a href="https://tarard.github.io/Torii-SUMO/">Website</a> ·
+  ASTRA turns real-world traffic data and natural-language tasks into SUMO simulations.
+</p>
+
+<p align="center">
   <a href="docs/codex-plugin-install.md">Installation</a> ·
   <a href="docs/README.md">Documentation</a> ·
   <a href="examples/01_signal_control_audit/task.md">Examples</a> ·
@@ -27,10 +26,10 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/torii-agent-architecture.svg" alt="Torii agent-driven traffic scenario construction workflow" width="100%">
+  <img src="docs/assets/astra-framework.png" alt="ASTRA agent-driven traffic scenario construction workflow" width="100%">
 </p>
 
-## What Torii Does
+## What ASTRA Does
 
 <table>
 <tr>
@@ -52,30 +51,33 @@ Run further SUMO experiments from natural-language instructions.
 ## Quick Start
 
 ```powershell
-codex plugin marketplace add Tarard/Torii-SUMO --ref main
-codex plugin add torii-sumo@torii-sumo
+codex plugin marketplace add Tarard/ASTRA-SUMO --ref main
+codex plugin add astra-sumo@astra-sumo
 ```
 
 Then ask Codex, for example:
 
 ```text
-Use Torii to build a SUMO network from this OSM area.
+Use ASTRA to build a SUMO network from this OSM area.
 Check connectivity, traffic signals, and routeability.
 ```
 
-Torii requires Python 3.11+ and Eclipse SUMO.
+ASTRA requires Python 3.11+ and Eclipse SUMO.
+
+ASTRA continues Torii in this new repository. See the
+[migration guide](docs/astra-migration.md) for installation changes and compatibility.
 
 ## Hamburg Digital Twin
 
-Torii is being used to reconstruct and validate a real traffic corridor in central Hamburg.
+ASTRA is being used to reconstruct and validate a real traffic corridor in central Hamburg.
 
 <p align="center">
-  <img src="docs/assets/hamburg-digital-twin/torii-v1-corridor-aerial-sensors.png" alt="Torii V1 reconstructed Hamburg corridor over aerial imagery, with lane connections and virtual sensors" width="100%">
+  <img src="docs/assets/hamburg-digital-twin/torii-v1-corridor-aerial-sensors.png" alt="ASTRA V1 reconstructed Hamburg corridor over aerial imagery, with lane connections and virtual sensors" width="100%">
 </p>
 
-<p align="center"><sub>Torii V1 corridor over aerial imagery, with lane connections and virtual sensors.</sub></p>
+<p align="center"><sub>ASTRA V1 corridor over aerial imagery, with lane connections and virtual sensors.</sub></p>
 
-Torii combines official traffic data, aerial imagery, and SUMO network reconstruction in one workflow.
+ASTRA combines official traffic data, aerial imagery, and SUMO network reconstruction in one workflow.
 
 <p align="center">
   <img src="docs/assets/hamburg-digital-twin/torii-v1-four-stage-comparison.png" alt="LSA118 reconstruction in four stages: official MAP endpoints and headings, reconstructed curves, and SUMO lane connections before and after cleaning" width="100%">
@@ -94,6 +96,6 @@ The current Hamburg calibration matches the aggregate detector count exactly, wi
 
 ## License
 
-Torii-SUMO is licensed under the [MIT License](LICENSE).
+ASTRA-SUMO is licensed under the [MIT License](LICENSE).
 
-Earlier releases are archived on [Zenodo](https://doi.org/10.5281/zenodo.20627976).
+Earlier Torii releases are archived on [Zenodo](https://doi.org/10.5281/zenodo.20627976).

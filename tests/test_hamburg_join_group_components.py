@@ -4,7 +4,7 @@ from xml.etree import ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_junctions import groups as candidate
+from astra_sumo.core.hamburg_junctions import groups as candidate
 
 
 def _case(monkeypatch, *, has_tls_seed):

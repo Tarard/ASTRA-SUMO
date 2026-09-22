@@ -9,9 +9,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.detector_demand import audit_expected_to_e1_strict, read_csv_rows
-from torii_sumo.core.digital_twin import CanonicalCount
-from torii_sumo.core.digital_twin_mapping import (
+from astra_sumo.core.detector_demand import audit_expected_to_e1_strict, read_csv_rows
+from astra_sumo.core.digital_twin import CanonicalCount
+from astra_sumo.core.digital_twin_mapping import (
     DetectorMapping,
     aggregate_virtual_counts_to_complete_edge_sections,
     build_virtual_sensor_aggregation,

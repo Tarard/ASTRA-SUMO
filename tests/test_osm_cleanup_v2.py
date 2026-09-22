@@ -6,9 +6,9 @@ from pathlib import Path
 import anyio
 import pytest
 
-from torii_sumo.core.osm_workflow import run_osm_cleanup_workflow
-from torii_sumo.server import create_server
-from torii_sumo.tools import osm_tools
+from astra_sumo.core.osm_workflow import run_osm_cleanup_workflow
+from astra_sumo.server import create_server
+from astra_sumo.tools import osm_tools
 
 
 EXPECTED_PARAMETERS = (

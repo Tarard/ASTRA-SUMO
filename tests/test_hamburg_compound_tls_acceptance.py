@@ -5,7 +5,7 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from torii_sumo.core.hamburg_compound_tls_acceptance import (
+from astra_sumo.core.hamburg_compound_tls_acceptance import (
     audit_hamburg_compound_tls_acceptance,
     build_hamburg_compound_movement_smoke_binding,
 )

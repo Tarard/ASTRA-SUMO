@@ -2,7 +2,7 @@ import math
 
 import pytest
 
-from torii_sumo.road_network.sumo_vehicle_paths import extract_sumo_vehicle_paths
+from astra_sumo.road_network.sumo_vehicle_paths import extract_sumo_vehicle_paths
 
 
 NETWORK = '''<net>

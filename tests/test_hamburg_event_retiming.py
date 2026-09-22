@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_event_retiming import (
+from astra_sumo.core.hamburg_event_retiming import (
     compare_passages,
     read_passages,
     retiming_improves,

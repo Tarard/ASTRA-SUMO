@@ -3,7 +3,7 @@ from __future__ import annotations
 import numpy as np
 import pytest
 
-from torii_sumo.core.aerial_curve_trace import trace_probability_curve
+from astra_sumo.core.aerial_curve_trace import trace_probability_curve
 
 
 def test_trace_does_not_bridge_a_wide_unsupported_gap():

@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from torii_sumo.core import junction_rebuild_helpers as helpers_module
+from astra_sumo.core import junction_rebuild_helpers as helpers_module
 
 
 def test_representative_leaf_helpers_keep_behavior() -> None:

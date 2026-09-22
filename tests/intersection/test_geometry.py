@@ -1,4 +1,4 @@
-from torii_sumo.intersection.geometry import (
+from astra_sumo.intersection.geometry import (
     abs_angle_between,
     bearing_between_xy,
     classify_angle_relation,

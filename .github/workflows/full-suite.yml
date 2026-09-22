@@ -47,11 +47,11 @@ jobs:
         run: uv run --no-sync python -c "import os,pathlib,subprocess,importlib.metadata; results=[subprocess.check_output([name,'--version'],text=True) for name in ('sumo','netconvert','netgenerate','duarouter')]; assert all('1.27.1' in result for result in results), results; assert importlib.metadata.version('eclipse-sumo')=='1.27.1'; assert (pathlib.Path(os.environ['SUMO_HOME'])/'bin/netedit.exe').is_file(); print('\n'.join(results))"
 
       - name: Lint package and tests
-        run: uv run --no-sync ruff check plugins/torii-sumo/src tests
+        run: uv run --no-sync ruff check plugins/astra-sumo/src tests
 
       - name: Report complexity debt without blocking yet
         continue-on-error: true
-        run: uv run --no-sync ruff check plugins/torii-sumo/src --select C901,PLR0912,PLR0913,PLR0915 --statistics
+        run: uv run --no-sync ruff check plugins/astra-sumo/src --select C901,PLR0912,PLR0913,PLR0915 --statistics
 
       - name: Run full test suite
         run: uv run --no-sync pytest -q --junitxml=test-results.xml

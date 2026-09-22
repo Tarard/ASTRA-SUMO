@@ -5,8 +5,8 @@ from __future__ import annotations
 import inspect
 from pathlib import Path
 
-from torii_sumo.core import osm_workflow as facade
-from torii_sumo.core import osm_workflow_helpers as helpers_module
+from astra_sumo.core import osm_workflow as facade
+from astra_sumo.core import osm_workflow_helpers as helpers_module
 
 
 def _defined_functions(module: object) -> list[str]:

@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.reference_policy_audit import build_reference_policy_report
+from astra_sumo.core.reference_policy_audit import build_reference_policy_report
 
 
 def test_reference_policy_report_extracts_teacher_rules(tmp_path: Path) -> None:

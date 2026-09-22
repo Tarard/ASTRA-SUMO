@@ -1,5 +1,5 @@
-from torii_sumo.core.network_plan import derive_network_plan
-from torii_sumo.core.road_scope import resolve_highway_classes
+from astra_sumo.core.network_plan import derive_network_plan
+from astra_sumo.core.road_scope import resolve_highway_classes
 
 
 def test_default_motor_network_keeps_side_roads_without_relaxing_permissions():

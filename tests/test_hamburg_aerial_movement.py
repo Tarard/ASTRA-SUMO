@@ -9,10 +9,10 @@ import pytest
 from PIL import Image
 from pyproj import Transformer
 
-from torii_sumo import cli
-from torii_sumo.core import hamburg_aerial_movement as movement
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_aerial_movement import (
+from astra_sumo import cli
+from astra_sumo.core import hamburg_aerial_movement as movement
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_aerial_movement import (
     build_aerial_road_likelihood,
     select_movement_geometry,
 )

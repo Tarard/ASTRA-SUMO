@@ -6,13 +6,13 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.ocit_c_signal_devices import (
+from astra_sumo.core.ocit_c_signal_devices import (
     OcitSafetyClass,
     SignalDeviceProfileInventory,
     build_signal_device_profile_inventory_schema,
     classify_ocit_c_signal_device_inventory,
 )
-from torii_sumo.core.signal_device_profile import (
+from astra_sumo.core.signal_device_profile import (
     DisplayColor,
     DisplaySymbol,
     OutputModality,

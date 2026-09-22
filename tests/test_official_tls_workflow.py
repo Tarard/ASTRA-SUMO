@@ -5,18 +5,18 @@ from dataclasses import replace
 from pathlib import Path
 from types import SimpleNamespace
 
-from torii_sumo.core import official_tls_workflow as workflow
-from torii_sumo.core import digital_twin_workflow
-from torii_sumo.core.digital_twin import MapConnection, MapLane, SignalStream
-from torii_sumo.core.digital_twin_mapping import MapLaneBinding, TlsBinding
-from torii_sumo.core.ocit_c import (
+from astra_sumo.core import official_tls_workflow as workflow
+from astra_sumo.core import digital_twin_workflow
+from astra_sumo.core.digital_twin import MapConnection, MapLane, SignalStream
+from astra_sumo.core.digital_twin_mapping import MapLaneBinding, TlsBinding
+from astra_sumo.core.ocit_c import (
     OcitCConfig,
     OcitMotorSignalGroup,
     OcitVehicleTopologyInventory,
     OcitVehicleTopologyMovement,
     PrimarySignalGroupValidation,
 )
-from torii_sumo.core.hamburg_teacher_cell import HamburgOfficialMovementPath
+from astra_sumo.core.hamburg_teacher_cell import HamburgOfficialMovementPath
 
 
 def test_product_runtime_does_not_expose_legacy_plan_rebuild_entrypoints() -> None:

@@ -2,12 +2,12 @@ import json
 from types import SimpleNamespace
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.hamburg_context_junctions import construction_coverage
+from astra_sumo.core.hamburg_context_junctions import construction_coverage
 
 
 def test_contour_compilation_retains_existing_node_inputs_and_local_scope(tmp_path, monkeypatch):
-    from torii_sumo.core import hamburg_junction_contour
-    from torii_sumo.core.hamburg_junctions import movements
+    from astra_sumo.core import hamburg_junction_contour
+    from astra_sumo.core.hamburg_junctions import movements
 
     files = [tmp_path / name for name in ['source.net.xml', 'connections.xml', 'nodes.xml', 'edges.xml']]
     for path in files:

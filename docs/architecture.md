@@ -1,8 +1,8 @@
-# Torii-SUMO Architecture
+# ASTRA-SUMO Architecture
 
 ## Main Claim
 
-Torii-SUMO turns raw OSM-to-SUMO construction into a bounded,
+ASTRA-SUMO turns raw OSM-to-SUMO construction into a bounded,
 evidence-aware, reference-comparable workflow. It does not certify that an
 imported network is correct, and it does not claim arbitrary-city TUM-level
 cleanup from one prompt.
@@ -10,7 +10,7 @@ cleanup from one prompt.
 The strongest current product claim is:
 
 ```text
-Torii builds auditable SUMO network artifacts from OSM, records construction
+ASTRA builds auditable SUMO network artifacts from OSM, records construction
 and review evidence, compares against a cleaned reference when one is supplied,
 and keeps promotion blocked until the relevant gates pass.
 ```
@@ -60,7 +60,7 @@ the candidate. The JSON evidence, decision, HTML rendering, overlay, and
 candidate are bound by SHA-256 in the manifests.
 
 The reproducible four-scenario acceptance runner is
-`plugins/torii-sumo/scripts/run_corridor_contract_regression.py`.  It rebuilds
+`plugins/astra-sumo/scripts/run_corridor_contract_regression.py`.  It rebuilds
 its source networks from tracked OSM input, the installed SUMO pedestrian
 tutorial, and a sentence-generated five-way scene; it does not depend on old
 ignored `outputs/` artifacts.
@@ -212,8 +212,8 @@ recipe, and keeps autonomy mode and claim boundary visible.
 
 Current anchors:
 
-- `plugins/torii-sumo/src/torii_sumo/core/workflow_router.py`
-- `plugins/torii-sumo/src/torii_sumo/tools/workflow_tools.py`
+- `plugins/astra-sumo/src/astra_sumo/core/workflow_router.py`
+- `plugins/astra-sumo/src/astra_sumo/tools/workflow_tools.py`
 
 The router should not build networks, repair junctions, or decide whether a
 repair is promoted.
@@ -225,9 +225,9 @@ policy, and validation gates.
 
 Current anchors:
 
-- `plugins/torii-sumo/src/torii_sumo/core/network_plan.py`
+- `plugins/astra-sumo/src/astra_sumo/core/network_plan.py`
 - reference policy and hierarchy helpers under
-  `plugins/torii-sumo/src/torii_sumo/core/`
+  `plugins/astra-sumo/src/astra_sumo/core/`
 
 For reference-matched workflows, the planner must keep `vehicle_core` and
 `reference_visual_detail` separate. Passenger routeability claims belong to
@@ -316,7 +316,7 @@ The reviewer renders existing evidence into human-inspectable artifacts:
 
 Current anchor:
 
-- `plugins/torii-sumo/src/torii_sumo/core/workflow_review_html.py`
+- `plugins/astra-sumo/src/astra_sumo/core/workflow_review_html.py`
 
 The reviewer should not make hidden workflow decisions. It should show which
 gate a review item blocks and how a human decision feeds the next stage.
@@ -370,7 +370,7 @@ Benchmark stages:
 
 ```text
 raw netconvert
--> Torii scoped build
+-> ASTRA scoped build
 -> TLS aggregated
 -> junction candidate review
 -> teacher-guided repair
@@ -409,7 +409,7 @@ moved.
 - Do not claim fully automatic perfect network cleanup.
 - Do not add more repair heuristics before benchmark quality deltas can show
   what they improve.
-- Do not compare a Torii connected-core network against a full-detail manual
+- Do not compare a ASTRA connected-core network against a full-detail manual
   reference as if they were the same scope.
 - Do not use NetEdit screenshots, SUMO load, or routeability alone as proof of
   experiment-ready correctness.

@@ -4,18 +4,18 @@
 
 ## Recommended Angle
 
-Present Torii as an agent-driven SUMO workflow for turning real-world traffic data and natural-language tasks into auditable simulation artifacts. The strongest story is not that Torii is another plugin, but that it connects construction, calibration, simulation, and evidence checks in one workflow.
+Present ASTRA as an agent-driven SUMO workflow for turning real-world traffic data and natural-language tasks into auditable simulation artifacts. The strongest story is not that ASTRA is another plugin, but that it connects construction, calibration, simulation, and evidence checks in one workflow.
 
 Suggested title:
 
 ```text
-Torii: Agent-Driven Traffic Scenario Construction and Evidence-Aware SUMO Workflows
+ASTRA: Agent-Driven Traffic Scenario Construction and Evidence-Aware SUMO Workflows
 ```
 
 Suggested abstract framing:
 
 ```text
-Building a useful SUMO scenario requires more than producing a runnable network. Torii combines task routing, SUMO domain skills, local execution tools, and evidence checks to build networks from real-world sources, calibrate them against observations, and run follow-on simulation tasks from natural-language instructions. The system keeps source and candidate artifacts separate, records validation evidence, and limits claims when topology, demand, signal control, or field truth remain uncertain.
+Building a useful SUMO scenario requires more than producing a runnable network. ASTRA combines task routing, SUMO domain skills, local execution tools, and evidence checks to build networks from real-world sources, calibrate them against observations, and run follow-on simulation tasks from natural-language instructions. The system keeps source and candidate artifacts separate, records validation evidence, and limits claims when topology, demand, signal control, or field truth remain uncertain.
 ```
 
 ## Demo Checklist

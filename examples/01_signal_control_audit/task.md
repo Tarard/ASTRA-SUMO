@@ -1,6 +1,6 @@
 # Task: Signal-Control Experiment Audit
 
-Use `$simulation-helper-skill-for-eclipse-sumo` or Torii to audit one of the bundled SUMO/TraCI signal-control cases before reporting a performance claim.
+Use `$simulation-helper-skill-for-eclipse-sumo` or ASTRA to audit one of the bundled SUMO/TraCI signal-control cases before reporting a performance claim.
 
 ## Available Cases
 

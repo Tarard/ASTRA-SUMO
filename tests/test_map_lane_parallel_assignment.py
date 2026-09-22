@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from torii_sumo.core import digital_twin_mapping as mapping
-from torii_sumo.core.digital_twin import MapLane
-from torii_sumo.core.digital_twin_mapping import (
+from astra_sumo.core import digital_twin_mapping as mapping
+from astra_sumo.core.digital_twin import MapLane
+from astra_sumo.core.digital_twin_mapping import (
     NetworkLane,
     bind_map_lanes_to_explicit_network_lanes,
     bind_map_lanes_to_network,

@@ -4,7 +4,7 @@ from pathlib import Path
 
 import numpy as np
 
-from torii_sumo.core.route_sensor_matrix import (
+from astra_sumo.core.route_sensor_matrix import (
     audit_route_sensor_incidence,
     solve_nonnegative_integer_route_flows,
 )

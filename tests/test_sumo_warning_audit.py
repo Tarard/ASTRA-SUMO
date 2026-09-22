@@ -1,4 +1,4 @@
-from torii_sumo.core.sumo_warning_audit import compare_mapped_tls_warnings, parse_sumo_tls_warnings
+from astra_sumo.core.sumo_warning_audit import compare_mapped_tls_warnings, parse_sumo_tls_warnings
 
 
 def test_parse_sumo_tls_warnings_extracts_category_and_tls_id() -> None:

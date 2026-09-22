@@ -7,8 +7,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.core.routeability_audit import (
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.routeability_audit import (
     inspect_routeability_outputs,
     run_routeability_audit,
 )

@@ -4,7 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from torii_sumo.core.reference_teacher_action_projector import (
+from astra_sumo.core.reference_teacher_action_projector import (
     REFERENCE_TEACHER_ACTION_CONTRACTS_V2_SCHEMA,
     project_reference_teacher_actions_v2,
 )

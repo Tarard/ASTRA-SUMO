@@ -8,7 +8,7 @@ import sys
 from pathlib import Path
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/run_ingolstadt_corridor_teacher.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/run_ingolstadt_corridor_teacher.py")
 
 
 def _load_script():

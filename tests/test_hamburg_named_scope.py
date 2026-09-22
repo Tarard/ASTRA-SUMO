@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.hamburg_named_scope import (
+from astra_sumo.core.hamburg_named_scope import (
     HamburgNamedScopeError,
     NAMED_SCOPE_ID,
     freeze_hamburg_named_scope,

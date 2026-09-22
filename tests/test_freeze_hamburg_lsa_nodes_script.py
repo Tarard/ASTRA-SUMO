@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 
-SCRIPT = Path(__file__).parents[1] / "plugins" / "torii-sumo" / "scripts" / "freeze_hamburg_lsa_nodes.py"
+SCRIPT = Path(__file__).parents[1] / "plugins" / "astra-sumo" / "scripts" / "freeze_hamburg_lsa_nodes.py"
 
 
 def _module():  # type: ignore[no-untyped-def]

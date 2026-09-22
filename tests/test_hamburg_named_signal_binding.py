@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.hamburg_named_signal_binding import (
+from astra_sumo.core.hamburg_named_signal_binding import (
     HamburgSignalBindingError,
     _load_compound_tls_manifest,
     materialize_hamburg_named_signal_binding,

@@ -9,12 +9,12 @@ from pathlib import Path
 import pytest
 from pyproj import Transformer
 
-import torii_sumo.road_network.official_lane_stitch as official_lane_stitch
-from torii_sumo.road_network.official_lane_stitch import (
+import astra_sumo.road_network.official_lane_stitch as official_lane_stitch
+from astra_sumo.road_network.official_lane_stitch import (
     OfficialLaneAxisStitchError,
     plan_hamburg_official_map_lane_axis_stitch,
 )
-from torii_sumo.road_network.official_plainxml import OFFICIAL_PLAINXML_SCHEMA
+from astra_sumo.road_network.official_plainxml import OFFICIAL_PLAINXML_SCHEMA
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -63,10 +63,10 @@ def _write_official_inputs(tmp_path: Path, *, duplicate_axis: bool = False) -> d
             )
             params = {
                 "origId": official_link,
-                "torii:source_sha256": "a" * 64,
-                "torii:station_direction": direction,
-                "torii:station_from_m": "0",
-                "torii:station_to_m": "100",
+                "astra:source_sha256": "a" * 64,
+                "astra:station_direction": direction,
+                "astra:station_from_m": "0",
+                "astra:station_to_m": "100",
             }
             for key, value in params.items():
                 ET.SubElement(edge, "param", key=key, value=value)

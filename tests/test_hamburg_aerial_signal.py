@@ -2,10 +2,10 @@ import json
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.core import hamburg_aerial_signal
-from torii_sumo.core.digital_twin import SignalStream
-from torii_sumo.core.hamburg_aerial_signal import (
+from astra_sumo import cli
+from astra_sumo.core import hamburg_aerial_signal
+from astra_sumo.core.digital_twin import SignalStream
+from astra_sumo.core.hamburg_aerial_signal import (
     allocate_stage_green_seconds,
     build_protected_signal_stages,
     match_official_signal_streams,

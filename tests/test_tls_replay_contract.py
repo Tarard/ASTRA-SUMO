@@ -3,7 +3,7 @@ from __future__ import annotations
 import csv
 from pathlib import Path
 
-from torii_sumo.core.tls_replay import (
+from astra_sumo.core.tls_replay import (
     _prepare_detector_additional,
     _read_tls_events,
     _validate_passenger_link_coverage,

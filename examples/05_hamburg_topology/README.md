@@ -1,6 +1,6 @@
 # Hamburg topology-only construction
 
-Use `torii hamburg build-network` for either construction-drawing-led work or
+Use `astra hamburg build-network` for either construction-drawing-led work or
 the existing MAP/aerial corridor mode. Detector counts and historical signal
 states are not required.
 
@@ -30,7 +30,7 @@ see the independent [road-design rule study](design-rule-study.md).
 4. Run the command with a new output directory:
 
 ```powershell
-torii hamburg build-network <request.json> <new-output-dir> --json
+astra hamburg build-network <request.json> <new-output-dir> --json
 ```
 
 The example coordinates describe the named Sandtorkai crops. Use those values
@@ -66,13 +66,13 @@ passed all checks.
 
 The earlier commands remain available when a particular step needs investigation.
 
-1. Build a source network with `torii workflow sumo_osm_build_network <request.json> --json`.
+1. Build a source network with `astra workflow sumo_osm_build_network <request.json> --json`.
 2. Run `sumo_tls_audit` through the same workflow command.
 3. Bind the selected official nodes with `hamburg_corridor_bind_tls_clusters`.
-4. Run `torii hamburg aerial-movements <request.json> <new-plan-dir> --json`.
-5. Run `torii hamburg combine-aerial-movements <request.json> <new-network-dir> --json`.
+4. Run `astra hamburg aerial-movements <request.json> <new-plan-dir> --json`.
+5. Run `astra hamburg combine-aerial-movements <request.json> <new-network-dir> --json`.
 6. Check `official_connection_audit`, internal-path continuity, and the selected corridor's bidirectional paths.
-7. Run `torii network movement-probes <manifest.json> <new-probe-dir> --json`.
+7. Run `astra network movement-probes <manifest.json> <new-probe-dir> --json`.
 
 The cluster-binding request uses the existing function arguments in
 `core/hamburg_corridor_candidate.py`. Its `selection_file` can use this content:
@@ -99,13 +99,13 @@ The combination request uses schema
 artifacts: `source_net`, `cluster_binding`, and `movement_summary`.
 Paths can be relative to the request file. SUMO binaries must be available.
 
-Torii matches official lanes before it assigns movement curves. It gives
+ASTRA matches official lanes before it assigns movement curves. It gives
 explicit lane connections to netconvert, which generates internal paths and
 conflict records. A rejected curve does not remove an otherwise confirmed
 connection. Unmapped side roads remain present for review.
 
 An official stop section need not coincide with an existing OSM road endpoint.
-Torii checks its position on the source lane and connected internal lanes of
+ASTRA checks its position on the source lane and connected internal lanes of
 the same junction. It retains direction and vehicle permissions during this
 match. Joining several source nodes must preserve the complete inlet-to-outlet
 paths, including official movements that describe only part of a joined path.
@@ -155,7 +155,7 @@ image-only reconstruction or a claim of superiority over the official MAP.
 Finish the road checks and freeze the chosen network hash before binding
 counts, fitting demand, or reconstructing signal operation. Those tasks use
 the existing signal/count/demand commands in a separate directory. Follow the
-[count-calibration workflow](../../plugins/torii-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md)
+[count-calibration workflow](../../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md)
 for that work. Road construction never requires a calibration result.
 
 ## Replay the reviewed V1 connection correction
@@ -171,7 +171,7 @@ From the repository directory, after confirming the source network:
 ```powershell
 $patch = (Resolve-Path examples/05_hamburg_topology/lsa535-reviewed.con.xml).Path
 $digest = (Get-FileHash -LiteralPath $patch -Algorithm SHA256).Hash.ToLowerInvariant()
-torii hamburg repair-lane-connections <source.net.xml> <new-output-dir> `
+astra hamburg repair-lane-connections <source.net.xml> <new-output-dir> `
   --connection-patch $patch --patch-sha256 $digest --json
 ```
 

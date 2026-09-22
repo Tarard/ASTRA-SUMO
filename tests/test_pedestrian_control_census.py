@@ -5,13 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.corridor.canonicalizer import (
+from astra_sumo.corridor.canonicalizer import (
     CanonicalEntity,
     CanonicalNetworkSnapshot,
 )
-from torii_sumo.corridor.enums import GateStatus, TrafficSide
-from torii_sumo.corridor.ids import stable_id
-from torii_sumo.corridor.pedestrian_control_census import (
+from astra_sumo.corridor.enums import GateStatus, TrafficSide
+from astra_sumo.corridor.ids import stable_id
+from astra_sumo.corridor.pedestrian_control_census import (
     build_effective_tls_program_inventory,
     classify_controlled_pedestrian_bindings,
 )

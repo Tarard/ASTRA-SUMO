@@ -4,8 +4,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.tools import intersection_tools
-from torii_sumo.tools.intersection_tools import (
+from astra_sumo.tools import intersection_tools
+from astra_sumo.tools.intersection_tools import (
     sumo_intersection_archetype_classify,
     sumo_intersection_clean,
     sumo_intersection_model,

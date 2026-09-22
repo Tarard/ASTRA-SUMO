@@ -9,11 +9,11 @@ import xml.etree.ElementTree as ET
 import pytest
 from pyproj import Transformer
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.movement_routeability import run_candidate_movement_probes
-from torii_sumo.road_network.continuous_lane_probes import run_continuous_lane_probes
-from torii_sumo.road_network.continuous_lanes import reconstruct_continuous_lanes
-from torii_sumo.road_network.engineering_topology import build_engineering_topology
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.movement_routeability import run_candidate_movement_probes
+from astra_sumo.road_network.continuous_lane_probes import run_continuous_lane_probes
+from astra_sumo.road_network.continuous_lanes import reconstruct_continuous_lanes
+from astra_sumo.road_network.engineering_topology import build_engineering_topology
 
 
 pytestmark = pytest.mark.skipif(

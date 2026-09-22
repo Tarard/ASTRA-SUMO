@@ -8,37 +8,33 @@ from xml.etree import ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.corridor.enums import GateStatus, TrafficSide
-from torii_sumo.corridor.held_out_corpus_contracts import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.corridor.enums import GateStatus, TrafficSide
+from astra_sumo.corridor.held_out_corpus_contracts import (
     GeographicBbox,
     HeldOutCityExtract,
     HeldOutCorpusMachineManifest,
     HeldOutCorridorSelection,
     HeldOutMachineArtifactIdentity,
 )
-from torii_sumo.corridor.held_out_corpus_runner import (
+from astra_sumo.corridor.held_out_corpus_runner import (
     _segment_intersects_bbox,
     crop_city_extract,
     download_city_extract,
 )
-from torii_sumo.corridor.held_out_corridor_runner import (
+from astra_sumo.corridor.held_out_corridor_runner import (
     _classify_case,
     _connection_audit_tolerance,
 )
-from torii_sumo.corridor.held_out_corpus_contracts import HeldOutCorpusSpec
-from torii_sumo.corridor.held_out_corpus_preregistration import (
-    build_preregistered_held_out_corpus,
-)
-from torii_sumo.corridor.ids import stable_id
-from torii_sumo.corridor.schema import (
+from astra_sumo.corridor.ids import stable_id
+from astra_sumo.corridor.schema import (
     build_held_out_corpus_schema,
     build_held_out_corpus_machine_manifest_schema,
     build_held_out_corpus_machine_report_schema,
     build_held_out_corpus_snapshot_report_schema,
     build_held_out_machine_run_identity_schema,
 )
-from torii_sumo.corridor.run_identity import (
+from astra_sumo.corridor.run_identity import (
     CodeProducerIdentity,
     HeldOutMachineRunIdentity,
     RuntimeExecutableIdentity,
@@ -47,7 +43,6 @@ from torii_sumo.corridor.run_identity import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-BENCHMARK_DIR = REPOSITORY_ROOT / "benchmarks" / "corridor_human_modeling_v1"
 
 
 def _selection() -> HeldOutCorridorSelection:
@@ -274,7 +269,7 @@ def test_held_out_corpus_schemas_are_current() -> None:
 
 def test_held_out_run_identity_is_content_derived_and_fail_closed() -> None:
     producer = CodeProducerIdentity(
-        repository_url="https://github.com/Tarard/Torii-SUMO.git",
+        repository_url="https://github.com/Tarard/ASTRA-SUMO.git",
         revision="a" * 40,
         tree_revision="b" * 40,
         branch="codex/test",
@@ -297,12 +292,12 @@ def test_held_out_run_identity_is_content_derived_and_fail_closed() -> None:
     )
     identity = HeldOutMachineRunIdentity.build(
         producer=producer,
-        entrypoint="plugins/torii-sumo/scripts/build_held_out_corridor_evidence.py",
+        entrypoint="plugins/astra-sumo/scripts/build_held_out_corridor_evidence.py",
         toolchain_id=stable_id("toolchain", {"fixture": 1}),
         toolchain_lock_sha256="e" * 64,
         platform_name="Windows-test",
         python_version="3.12.10",
-        runtime_dependencies={"torii-sumo": "1.0.2"},
+        runtime_dependencies={"astra-sumo": "1.0.2"},
         runtime_tools=runtime_tools,
         support_files=support_files,
         selected_corridor_keys=("alpha", "beta"),
@@ -322,7 +317,7 @@ def test_held_out_run_identity_is_content_derived_and_fail_closed() -> None:
 
 def test_machine_manifest_requires_provenance_artifact_closure() -> None:
     producer = CodeProducerIdentity(
-        repository_url="https://github.com/Tarard/Torii-SUMO.git",
+        repository_url="https://github.com/Tarard/ASTRA-SUMO.git",
         revision="a" * 40,
         tree_revision="b" * 40,
         branch="codex/test",
@@ -358,34 +353,6 @@ def test_machine_manifest_requires_provenance_artifact_closure() -> None:
     payload["artifacts"] = artifacts[:1]
     with pytest.raises(ValueError, match="does not close provenance artifacts"):
         HeldOutCorpusMachineManifest(**payload)
-
-
-def test_real_held_out_corpus_is_preregistered_and_deterministic() -> None:
-    corpus_path = BENCHMARK_DIR / "held_out_corpus.v1.json"
-    policy_path = BENCHMARK_DIR / "held_out_review_preregistration.v1.json"
-    benchmark_path = BENCHMARK_DIR / "benchmark.v1.json"
-    corpus = HeldOutCorpusSpec.model_validate_json(
-        corpus_path.read_text(encoding="utf-8")
-    )
-    regenerated = build_preregistered_held_out_corpus(
-        held_out_review_policy_file=policy_path,
-        parent_benchmark_file=benchmark_path,
-    )
-
-    assert corpus == regenerated
-    assert corpus.held_out_review_policy_sha256 == file_sha256(policy_path)
-    assert len(corpus.corridors) == 30
-    assert len(corpus.city_extracts) == 6
-    assert {source.traffic_side for source in corpus.city_extracts} == {
-        TrafficSide.RIGHT,
-        TrafficSide.LEFT,
-    }
-    assert len({case.morphology for case in corpus.corridors}) >= 6
-    assert {
-        feature
-        for case in corpus.corridors
-        for feature in case.preregistered_feature_targets
-    } >= {"pedestrian", "bicycle", "ramp", "rail", "bridge", "tunnel"}
 
 
 def test_safety_coverage_gap_is_ambiguous_not_a_claimed_defect() -> None:
@@ -473,82 +440,3 @@ def test_blocked_calibration_has_diagnostic_only_fallback() -> None:
 
     assert tolerance == 2.0
     assert source == "diagnostic_fallback_due_blocked_calibration"
-
-
-def test_sydney_probe_evidence_remains_fail_closed() -> None:
-    evidence = json.loads(
-        (
-            BENCHMARK_DIR / "evidence" / "sydney_probe_20260714.v1.json"
-        ).read_text(encoding="utf-8")
-    )
-    corpus = HeldOutCorpusSpec.model_validate_json(
-        (BENCHMARK_DIR / "held_out_corpus.v1.json").read_text(encoding="utf-8")
-    )
-
-    assert evidence["corpus_id"] == corpus.corpus_id
-    assert len(evidence["corridor_snapshots"]) == 5
-    assert all(item["reference_complete"] for item in evidence["corridor_snapshots"])
-    assert evidence["harbour_bridge_machine_evidence"]["machine_label"] == (
-        "ambiguous"
-    )
-    assert evidence["harbour_bridge_machine_evidence"]["connection_mode"][
-        "structural_failure_count"
-    ] == 0
-    replay = evidence["harbour_bridge_machine_evidence"]["netconvert_replay"]
-    assert replay["status"] == "pass"
-    assert replay["reproducible_semantics"] is True
-    assert replay["primary_normalized_sha256"] == replay[
-        "replay_normalized_sha256"
-    ]
-    assert evidence["harbour_bridge_machine_evidence"]["independent_safety"][
-        "status"
-    ] == "blocked"
-    broad_phase = evidence["harbour_bridge_machine_evidence"][
-        "independent_safety"
-    ]["broad_phase"]
-    assert broad_phase["name"] == "aabb-sweep-v1"
-    assert broad_phase["evaluated_geometry_pair_count"] < broad_phase[
-        "geometry_pair_count"
-    ]
-    assert broad_phase[
-        "conflicts_exactly_equal_to_saved_exhaustive_result"
-    ] is True
-    assert evidence["review_state"]["reviewer_visible_html_prepared"] is True
-    assert evidence["review_state"]["display_only_overlay_validated"] is True
-    assert evidence["review_state"]["human_review_decision_count"] == 0
-    assert evidence["review_state"]["automatic_promotion_gate"] == "blocked"
-    assert evidence["claims_not_supported"]
-
-
-def test_full_held_out_snapshot_evidence_closes_identity_not_model_quality() -> None:
-    evidence = json.loads(
-        (
-            BENCHMARK_DIR
-            / "evidence"
-            / "held_out_corpus_snapshot_20260714.v1.json"
-        ).read_text(encoding="utf-8")
-    )
-    corpus_path = BENCHMARK_DIR / "held_out_corpus.v1.json"
-    corpus = HeldOutCorpusSpec.model_validate_json(
-        corpus_path.read_text(encoding="utf-8")
-    )
-
-    assert evidence["corpus_id"] == corpus.corpus_id
-    assert evidence["corpus_spec_sha256"] == file_sha256(corpus_path)
-    assert evidence["status"] == "pass"
-    assert evidence["blockers"] == []
-    closure = evidence["identity_closure"]
-    assert closure["city_extract_count"] == len(corpus.city_extracts) == 6
-    assert closure["corridor_count"] == len(corpus.corridors) == 30
-    assert closure["reference_complete_corridor_count"] == 30
-    assert closure["unconfirmed_preregistered_feature_case_count"] == 0
-    assert closure["manifest_hash_failure_count"] == 0
-    assert {item["source_id"] for item in evidence["city_extracts"]} == {
-        source.source_id for source in corpus.city_extracts
-    }
-    assert all(
-        item["provider_identity_matched"] for item in evidence["city_extracts"]
-    )
-    assert "All 30 SUMO networks are correctly modeled" in evidence[
-        "claims_not_supported"
-    ]

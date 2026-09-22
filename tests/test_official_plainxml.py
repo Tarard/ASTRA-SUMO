@@ -9,8 +9,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
-from torii_sumo.road_network.official_plainxml import (
+from astra_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
+from astra_sumo.road_network.official_plainxml import (
     OFFICIAL_CORRIDOR_SCOPE_SCHEMA,
     OfficialPlainXmlError,
     materialize_hamburg_hh_sib_plainxml_candidate,
@@ -181,7 +181,7 @@ def test_materializes_official_directed_intervals_without_osm_or_connections(tmp
     assert [int(edge.get("numLanes", "0")) for edge in with_edges] == [2, 3]
     assert [int(edge.get("numLanes", "0")) for edge in against_edges] == [1, 2]
     assert all(edge.find("param[@key='origId']") is not None for edge in edge_rows)
-    assert all(edge.find("param[@key='torii:connection_status']").get("value") == "unresolved_official_map_stage" for edge in edge_rows)
+    assert all(edge.find("param[@key='astra:connection_status']").get("value") == "unresolved_official_map_stage" for edge in edge_rows)
 
     orientation = result["selected_links"][0]["orientation"]
     assert orientation["basis"] == "minimum_gap_across_ordered_official_station_intervals"

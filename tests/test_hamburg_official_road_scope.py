@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from torii_sumo.core.hamburg_official_road_scope import (
+from astra_sumo.core.hamburg_official_road_scope import (
     materialize_hamburg_official_road_feature_scope,
 )
 

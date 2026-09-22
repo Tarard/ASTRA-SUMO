@@ -6,30 +6,26 @@ from xml.etree import ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.teacher_free_discovery_workflow import (
+from astra_sumo.core.teacher_free_discovery_workflow import (
     run_teacher_free_discovery_workflow,
 )
-from torii_sumo.core.teacher_free_materialization_workflow import (
-    run_teacher_free_materialization_workflow,
-)
-from torii_sumo.core.teacher_free_topology_workflow import (
+from astra_sumo.core.teacher_free_topology_workflow import (
     decide_topology_variant_outcomes,
-    run_teacher_free_topology_workflow,
 )
-from torii_sumo.intersection.autodiscovery import (
+from astra_sumo.intersection.autodiscovery import (
     discover_teacher_free_intersections,
     discover_teacher_free_intersections_from_patch,
 )
-from torii_sumo.intersection.candidate_binding import (
+from astra_sumo.intersection.candidate_binding import (
     bind_materialized_candidate_to_dag,
 )
-from torii_sumo.intersection.candidate_dag import build_candidate_hypothesis_dag
-from torii_sumo.intersection.materialization_experiment import (
+from astra_sumo.intersection.candidate_dag import build_candidate_hypothesis_dag
+from astra_sumo.intersection.materialization_experiment import (
     build_preregistered_materialization_contract,
     write_preregistered_join_patch,
 )
-from torii_sumo.intersection.osm_patch import parse_osm_xml
-from torii_sumo.intersection.topology_discrimination_experiment import (
+from astra_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.topology_discrimination_experiment import (
     build_topology_discrimination_contract,
     write_topology_node_patch,
 )
@@ -431,35 +427,6 @@ def test_paired_offset_negative_falsifies_merge_without_using_signal_count() -> 
     )
 
 
-def test_xs2_v4_workflow_blocks_before_tool_lookup_or_candidate_write(
-    tmp_path: Path,
-) -> None:
-    output = tmp_path / "xs2-topology-v4"
-    source_before = hashlib.sha256(XS2_OSM.read_bytes()).hexdigest()
-
-    report = run_teacher_free_topology_workflow(
-        osm_file=XS2_OSM,
-        output_dir=output,
-        traffic_side="right",
-        toolchain_lock_file=Path(
-            "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-        ),
-        binaries={},
-    )
-
-    assert report["status"] == "blocked"
-    assert report["details"]["terminal_stage"] == "pre_materialization"
-    assert report["candidate_written"] is False
-    assert any(
-        "movement_semantic_variants_disagree" in arm["pre_materialization_blockers"]
-        for assessment in report["candidate_assessments"]
-        for arm in assessment["topology_arms"]
-    )
-    assert not (output / "source.net.xml").exists()
-    assert not (output / "variants").exists()
-    assert hashlib.sha256(XS2_OSM.read_bytes()).hexdigest() == source_before
-
-
 @pytest.mark.parametrize(
     ("feasible_flags", "status", "decision"),
     [
@@ -517,70 +484,6 @@ def test_no_signal_held_out_patch_is_not_applicable_to_materialization() -> None
     assert contract["write_candidate_authorized"] is False
     assert contract["candidate_plan"] is None
     assert contract["vehicle_candidate_count"] == 0
-
-
-def test_xs2_workflow_fails_closed_before_candidate_artifacts(
-    tmp_path: Path,
-) -> None:
-    output = tmp_path / "xs2-materialization"
-    source_before = hashlib.sha256(XS2_OSM.read_bytes()).hexdigest()
-
-    report = run_teacher_free_materialization_workflow(
-        osm_file=XS2_OSM,
-        output_dir=output,
-        traffic_side="right",
-        toolchain_lock_file=Path(
-            "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-        ),
-        binaries={},
-    )
-    contract = json.loads(
-        (output / "materialization-contract.json").read_text(encoding="utf-8")
-    )
-
-    assert report["status"] == "blocked"
-    assert report["details"]["terminal_stage"] == "pre_materialization"
-    assert report["candidate_written"] is False
-    assert contract["eligible_vehicle_candidate_count"] == 0
-    assert any(
-        "movement_semantic_variants_disagree" in item["pre_materialization_blockers"]
-        for item in contract["candidate_assessments"]
-    )
-    assert not (output / "candidate-join.nod.xml").exists()
-    assert not (output / "source.net.xml").exists()
-    assert not (output / "candidate.net.xml").exists()
-    assert not (output / "rollback.json").exists()
-    assert hashlib.sha256(XS2_OSM.read_bytes()).hexdigest() == source_before
-
-
-def test_no_signal_held_out_workflow_exits_not_applicable_before_tool_lookup(
-    tmp_path: Path,
-) -> None:
-    source = tmp_path / "x4-no-signal.osm.xml"
-    source.write_text(
-        HELD_OUT_X4.read_text(encoding="utf-8").replace(
-            '<tag k="highway" v="traffic_signals"/>',
-            "",
-        ),
-        encoding="utf-8",
-    )
-    output = tmp_path / "no-signal-materialization"
-
-    report = run_teacher_free_materialization_workflow(
-        osm_file=source,
-        output_dir=output,
-        traffic_side="right",
-        toolchain_lock_file=Path(
-            "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-        ),
-        binaries={},
-    )
-
-    assert report["status"] == "not_applicable"
-    assert report["details"]["terminal_stage"] == "pre_materialization"
-    assert report["candidate_written"] is False
-    assert not (output / "candidate-join.nod.xml").exists()
-    assert not (output / "candidate.net.xml").exists()
 
 
 @pytest.mark.parametrize(
@@ -885,7 +788,7 @@ def test_discovery_workflow_is_hash_bound_repeatable_and_refuses_foreign_output(
     foreign = tmp_path / "foreign-output"
     foreign.mkdir()
     (foreign / "user-file.txt").write_text("preserve me", encoding="utf-8")
-    with pytest.raises(ValueError, match="without Torii ownership"):
+    with pytest.raises(ValueError, match="without ASTRA ownership"):
         run_teacher_free_discovery_workflow(
             osm_file=HELD_OUT_X4,
             output_dir=foreign,

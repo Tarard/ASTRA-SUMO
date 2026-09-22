@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.road_network.official_connection_plainxml import (
+from astra_sumo.road_network.official_connection_plainxml import (
     OFFICIAL_CONNECTION_PLAINXML_SCHEMA,
     OfficialConnectionPlainXmlError,
     materialize_hamburg_official_connection_plainxml,

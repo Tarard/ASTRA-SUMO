@@ -8,8 +8,8 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_count_station_binding import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_count_station_binding import (
     HamburgCountStationBindingError,
     audit_hamburg_station_group_e1_output,
     materialize_hamburg_count_station_bindings,

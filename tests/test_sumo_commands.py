@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.core.sumo_commands import discover_binaries, run_sumo_load_audit
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.sumo_commands import discover_binaries, run_sumo_load_audit
 
 
 def test_discover_binaries_prefers_one_sumo_home_toolchain(monkeypatch, tmp_path: Path) -> None:

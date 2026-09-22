@@ -45,7 +45,7 @@ EXPECTED_TOOL_NAMES = sorted(
         "sumo_intersection_scene_workflow",
         "sumo_intersection_validate",
         "sumo_nema_four_way_reference_workflow",
-        "torii_auto_workflow",
+        "astra_auto_workflow",
         "sumo_osm_resolve_place",
         "sumo_osm_build_network",
         "sumo_tls_audit",
@@ -81,20 +81,20 @@ EXPECTED_TOOL_NAMES = sorted(
 
 
 def test_package_imports() -> None:
-    import torii_sumo
+    import astra_sumo
 
-    assert torii_sumo.__version__ == "1.1.0"
+    assert astra_sumo.__version__ == "1.1.0"
 
 
 def test_server_factory_imports() -> None:
-    from torii_sumo.server import create_server
+    from astra_sumo.server import create_server
 
     server = create_server()
     assert server is not None
 
 
 def test_server_registers_expected_tool_names() -> None:
-    from torii_sumo.server import create_server
+    from astra_sumo.server import create_server
 
     async def _list_tool_names() -> list[str]:
         server = create_server("legacy")
@@ -105,20 +105,20 @@ def test_server_registers_expected_tool_names() -> None:
 
 
 def test_cli_keeps_osm_cleanup_workflow() -> None:
-    from torii_sumo.legacy_tools import WORKFLOW_TOOLS
+    from astra_sumo.legacy_tools import WORKFLOW_TOOLS
 
     assert "sumo_osm_cleanup_workflow" in WORKFLOW_TOOLS
 
 
 def test_server_describes_narrow_scene_and_conditional_auto_routing() -> None:
-    from torii_sumo.server import create_server
+    from astra_sumo.server import create_server
 
     async def _tool_descriptions() -> dict[str, str]:
         tools = await create_server("legacy").list_tools()
         return {tool.name: tool.description or "" for tool in tools}
 
     descriptions = anyio.run(_tool_descriptions)
-    auto = descriptions["torii_auto_workflow"].casefold()
+    auto = descriptions["astra_auto_workflow"].casefold()
     scene = descriptions["sumo_intersection_scene_workflow"].casefold()
 
     assert all(term in auto for term in ("workflow_selection", "catalog", "without keyword", "ask-first"))
@@ -128,7 +128,7 @@ def test_server_describes_narrow_scene_and_conditional_auto_routing() -> None:
 
 
 def test_server_smoke_tool_reports_blocked_without_real_sumo(tmp_path) -> None:
-    from torii_sumo.server import create_server
+    from astra_sumo.server import create_server
 
     async def _call_minimal_smoke() -> dict[str, object]:
         server = create_server("legacy")
@@ -151,7 +151,7 @@ def test_server_smoke_tool_reports_blocked_without_real_sumo(tmp_path) -> None:
 
 
 def test_server_netedit_session_exposes_constrained_operation_schema() -> None:
-    from torii_sumo.server import create_server
+    from astra_sumo.server import create_server
 
     async def _schema() -> dict[str, object]:
         tools = await create_server("legacy").list_tools()

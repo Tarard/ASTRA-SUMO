@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from torii_sumo.intersection.road_detail import (
+from astra_sumo.intersection.road_detail import (
     _road_network_identity,
     classify_intersection_road_detail,
 )
-from torii_sumo.intersection.schema import BBox, OSMNode, OSMPatch, OSMWay
+from astra_sumo.intersection.schema import BBox, OSMNode, OSMPatch, OSMWay
 
 
 def test_unknown_authoritative_fields_do_not_suppress_the_osm_fallback() -> None:

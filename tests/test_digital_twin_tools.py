@@ -4,9 +4,9 @@ import inspect
 import json
 from pathlib import Path
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.tools import digital_twin_tools
-from torii_sumo.tools.digital_twin_tools import _torii_network_gate
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.tools import digital_twin_tools
+from astra_sumo.tools.digital_twin_tools import _torii_network_gate
 
 
 def test_surface_overlap_tool_is_read_only_and_writes_optional_report(tmp_path: Path) -> None:

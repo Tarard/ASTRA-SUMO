@@ -2,8 +2,8 @@ import json
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.road_network.adapters.engineering_plan import read_engineering_plan_observations
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.road_network.adapters.engineering_plan import read_engineering_plan_observations
 
 
 def _request(tmp_path, **source_changes):

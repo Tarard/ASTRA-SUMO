@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.tools.road_network_tools import (
+from astra_sumo.tools.road_network_tools import (
     sumo_intersection_road_sumo_bind,
     sumo_road_semantic_bridge,
 )

@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/netedit_background_review.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/netedit_background_review.py")
 
 
 def _load_script():

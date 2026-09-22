@@ -6,8 +6,8 @@ import sys
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo import mcp_contract_tools as contract
+from astra_sumo import cli
+from astra_sumo import mcp_contract_tools as contract
 
 
 @pytest.mark.parametrize(
@@ -75,15 +75,15 @@ def test_cli_network_routeability_runs_the_long_check(monkeypatch, capsys) -> No
 
 def test_cli_import_does_not_load_the_legacy_bundle() -> None:
     deferred_modules = {
-        "torii_sumo.legacy_tools",
-        "torii_sumo.tools.digital_twin_tools",
-        "torii_sumo.tools.road_network_tools",
-        "torii_sumo.tools.run_tools",
-        "torii_sumo.tools.workflow_tools",
+        "astra_sumo.legacy_tools",
+        "astra_sumo.tools.digital_twin_tools",
+        "astra_sumo.tools.road_network_tools",
+        "astra_sumo.tools.run_tools",
+        "astra_sumo.tools.workflow_tools",
     }
     script = (
         "import sys; "
-        "import torii_sumo.cli; "
+        "import astra_sumo.cli; "
         f"deferred={deferred_modules!r}; "
         "assert deferred.isdisjoint(sys.modules), deferred.intersection(sys.modules)"
     )
@@ -92,7 +92,7 @@ def test_cli_import_does_not_load_the_legacy_bundle() -> None:
 
 
 def test_manifest_workflow_exposes_long_and_specialized_families() -> None:
-    from torii_sumo.legacy_tools import WORKFLOW_TOOLS
+    from astra_sumo.legacy_tools import WORKFLOW_TOOLS
 
     expected = {
         "sumo_run_config",
@@ -109,7 +109,7 @@ def test_manifest_workflow_exposes_long_and_specialized_families() -> None:
 
 
 def test_manifest_workflow_calls_allowlisted_function(monkeypatch, tmp_path, capsys) -> None:
-    from torii_sumo.legacy_tools import WORKFLOW_TOOLS
+    from astra_sumo.legacy_tools import WORKFLOW_TOOLS
 
     request = tmp_path / "request.json"
     request.write_text(
@@ -167,6 +167,6 @@ def test_persistent_session_abort_preserves_the_core_default_reason(monkeypatch)
 
     monkeypatch.setattr(contract, "sumo_netedit_session", fake_session)
 
-    result = contract.torii_netedit_close("session-2", mode="abort")
+    result = contract.astra_netedit_close("session-2", mode="abort")
     assert result.status == "pass"
     assert calls[0]["reason"] == "caller_aborted"

@@ -5,13 +5,13 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core import tls_replay
-from torii_sumo.core.tls_replay import (
+from astra_sumo.core import tls_replay
+from astra_sumo.core.tls_replay import (
     _resolve_comparison_window,
     _select_expected_rows_for_comparison,
     run_tls_detector_replay,
 )
-from torii_sumo.tools import digital_twin_tools
+from astra_sumo.tools import digital_twin_tools
 
 
 def _row(begin: int, end: int, *, detector_id: str = "d0") -> dict[str, str]:

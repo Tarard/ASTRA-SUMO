@@ -2,7 +2,7 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from torii_sumo.core.teacher_corridor import build_teacher_corridor_comparison
+from astra_sumo.core.teacher_corridor import build_teacher_corridor_comparison
 
 
 ROOT = Path(__file__).resolve().parents[1]

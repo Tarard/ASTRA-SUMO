@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from torii_sumo.core.reference_teacher_curriculum import (
+from astra_sumo.core.reference_teacher_curriculum import (
     build_reference_teacher_curriculum,
 )
 

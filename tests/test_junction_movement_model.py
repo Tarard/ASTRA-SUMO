@@ -1,13 +1,13 @@
 from pathlib import Path
 
-from torii_sumo.core.junction_movement_model import (
+from astra_sumo.core.junction_movement_model import (
     audit_movement_graph,
     build_approach_model,
     build_movement_graph,
     classify_turn_direction,
     write_movement_review,
 )
-from torii_sumo.road_semantics import classify_turn_direction as shared_classify_turn_direction
+from astra_sumo.road_semantics import classify_turn_direction as shared_classify_turn_direction
 
 
 def _write_fixture(path: Path) -> None:

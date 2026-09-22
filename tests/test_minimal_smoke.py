@@ -2,8 +2,8 @@ from pathlib import Path
 import sys
 from typing import Any
 
-from torii_sumo.core import sumo_commands
-from torii_sumo.core.sumo_commands import (
+from astra_sumo.core import sumo_commands
+from astra_sumo.core.sumo_commands import (
     build_sumo_config_command,
     run_minimal_smoke,
 )

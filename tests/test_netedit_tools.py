@@ -6,7 +6,7 @@ from pathlib import Path
 import anyio
 import pytest
 
-import torii_sumo.tools.netedit_tools as tools
+import astra_sumo.tools.netedit_tools as tools
 
 
 _REAL_FINALIZE_AUDITS = tools._finalize_audits
@@ -137,7 +137,7 @@ def test_persisted_tllogic_identity_includes_program_id(tmp_path: Path) -> None:
 
 
 def test_fastmcp_schema_constrains_netedit_operation_action_and_object_type() -> None:
-    from torii_sumo.server import create_server
+    from astra_sumo.server import create_server
 
     async def schema() -> dict[str, object]:
         registered = await create_server("legacy").list_tools()

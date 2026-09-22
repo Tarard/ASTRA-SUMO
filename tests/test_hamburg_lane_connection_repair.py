@@ -6,9 +6,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.hamburg_lane_connection_repair import (
+from astra_sumo import cli
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.hamburg_lane_connection_repair import (
     build_hamburg_lane_connection_repair,
     write_hamburg_lane_connection_patch,
     write_repaired_lsa119_tllogic,

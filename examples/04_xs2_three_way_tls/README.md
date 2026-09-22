@@ -9,7 +9,7 @@ The candidate contains two declared PlainXML operations: join the six nodes insi
 From the repository root, with SUMO 1.27.1 available:
 
 ```powershell
-.\.venv\Scripts\python.exe plugins\torii-sumo\scripts\run_xs2_three_way.py
+.\.venv\Scripts\python.exe plugins\astra-sumo\scripts\run_xs2_three_way.py
 ```
 
 The result is written to `outputs/xs2-three-way/`. Open `review.html` for the compact result and load `xs2-candidate.net.xml` with `review.add.xml` in NetEdit for the optional visual check.
@@ -21,7 +21,7 @@ The result is written to `outputs/xs2-three-way/`. Open `review.html` for the co
 The review can be captured without activating NetEdit or sending global keyboard or mouse input:
 
 ```powershell
-.\.venv\Scripts\python.exe plugins\torii-sumo\scripts\netedit_background_review.py `
+.\.venv\Scripts\python.exe plugins\astra-sumo\scripts\netedit_background_review.py `
   --summary outputs\xs2-three-way\summary.json `
   --out-dir outputs\xs2-three-way\netedit-review\final-background `
   --view-center 284.2,280.7 --zoom 500
@@ -39,7 +39,7 @@ The remaining uncertainty is now stated more precisely. Strict OSM `turn:lanes` 
 
 ## Why NEMA abstains here
 
-`tls-topology.json` runs the same evidence contract used by XS-1. Physical-cell, controller ownership, Connection Mode, independent conflict, and seven-turn runtime closure pass. NEMA generation nevertheless abstains because the two movement hypotheses disagree and the nested restrictions are unresolved. No NEMA `.net.xml` is written for XS-2. This is an intentional policy pass—Torii recognizes that a runnable static program is not enough evidence to reassign classic phases safely.
+`tls-topology.json` runs the same evidence contract used by XS-1. Physical-cell, controller ownership, Connection Mode, independent conflict, and seven-turn runtime closure pass. NEMA generation nevertheless abstains because the two movement hypotheses disagree and the nested restrictions are unresolved. No NEMA `.net.xml` is written for XS-2. This is an intentional policy pass—ASTRA recognizes that a runnable static program is not enough evidence to reassign classic phases safely.
 
 ## What must pass
 
@@ -58,7 +58,7 @@ The remaining uncertainty is now stated more precisely. Strict OSM `turn:lanes` 
 
 ## Why the explicit TLS patch exists
 
-The join-only probe was rejected. Netconvert grouped one main-road right turn with the side-road movements under protected green; Torii's independent lane-envelope audit found the potential conflict. XS-2 therefore records an explicit two-stage program with yellow and all-red clearance. This is a reviewed child operation of the same merge hypothesis and is completely removed by rebuilding the source without either patch. It proves executable safety for this candidate, not that OSM evidence has uniquely determined classic NEMA phase ownership.
+The join-only probe was rejected. Netconvert grouped one main-road right turn with the side-road movements under protected green; ASTRA's independent lane-envelope audit found the potential conflict. XS-2 therefore records an explicit two-stage program with yellow and all-red clearance. This is a reviewed child operation of the same merge hypothesis and is completely removed by rebuilding the source without either patch. It proves executable safety for this candidate, not that OSM evidence has uniquely determined classic NEMA phase ownership.
 
 ## Frozen machine-review-ready result
 

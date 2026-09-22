@@ -5,7 +5,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_topology_workflow import build_hamburg_topology_workflow
+from astra_sumo.core.hamburg_topology_workflow import build_hamburg_topology_workflow
 
 
 def identity(path):

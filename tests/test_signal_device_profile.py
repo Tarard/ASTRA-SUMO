@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from torii_sumo.core.signal_device_profile import (
+from astra_sumo.core.signal_device_profile import (
     AssessmentStatus,
     ControlMethod,
     ControlReference,

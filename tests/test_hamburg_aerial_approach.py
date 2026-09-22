@@ -8,9 +8,9 @@ from copy import deepcopy
 import pytest
 from pyproj import Transformer
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core import hamburg_aerial_approach as approach_module
-from torii_sumo.core.hamburg_aerial_approach import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core import hamburg_aerial_approach as approach_module
+from astra_sumo.core.hamburg_aerial_approach import (
     _approach_proposal,
     _boundary_adjustment_scope,
     _preserved_boundary_edge,

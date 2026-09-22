@@ -7,9 +7,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.core.detector_demand import EdgeInfo, source_sink_rows
-from torii_sumo.core.route_sampler import (
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.detector_demand import EdgeInfo, source_sink_rows
+from astra_sumo.core.route_sampler import (
     apply_departure_lane_targets,
     apply_vehicle_speed_factors,
     audit_route_constraint_structure,
