@@ -1,0 +1,6 @@
+interface:
+  display_name: "Torii Report"
+  short_description: "Explain and report completed SUMO traffic experiments."
+  default_prompt: "Use $torii-report to explain or write up these completed SUMO results, verify comparison fairness, and keep the claim inside the evidence boundary."
+policy:
+  allow_implicit_invocation: true

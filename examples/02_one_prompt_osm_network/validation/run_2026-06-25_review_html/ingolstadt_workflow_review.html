@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ingolstadt SUMO Network Review Cockpit</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 24px; color: #1f2933; line-height: 1.45; }
+    h1, h2 { margin-bottom: 8px; }
+    code { background: #eef2f7; padding: 1px 4px; border-radius: 3px; }
+    table { border-collapse: collapse; width: 100%; margin: 8px 0 18px; }
+    th, td { border: 1px solid #cbd5e1; padding: 6px 8px; text-align: left; vertical-align: top; }
+    th { background: #f8fafc; }
+    pre { background: #0f172a; color: #e2e8f0; padding: 12px; overflow: auto; }
+    .status { font-weight: 700; }
+    .dashboard { border-left: 6px solid #b91c1c; background: #fff7ed; padding: 12px 16px; margin: 12px 0 18px; }
+    .gate-counts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+    .gate-counts span { background: #ffffff; border: 1px solid #cbd5e1; padding: 4px 8px; }
+    .visual-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 18px; }
+    .visual-panel { margin: 0; border: 1px solid #cbd5e1; padding: 10px; background: #ffffff; }
+    .visual-panel figcaption { font-weight: 700; margin-bottom: 8px; }
+    .visual-panel img { max-width: 100%; height: auto; display: block; border: 1px solid #e5e7eb; }
+    .cluster-panel figcaption { min-height: 44px; }
+    .junction-review-toolbar { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 10px 0 18px; padding: 10px; border: 1px solid #cbd5e1; background: #f8fafc; }
+    .color-action, .zoom-button { padding: 6px 10px; border: 1px solid #64748b; background: #ffffff; cursor: pointer; }
+    .color-green { border-left: 6px solid #15803d; }
+    .color-amber { border-left: 6px solid #d97706; }
+    .color-red { border-left: 6px solid #b91c1c; }
+    .color-slate { border-left: 6px solid #475569; }
+    .color-dot { display: inline-block; width: 12px; height: 12px; margin-right: 6px; border-radius: 50%; vertical-align: -1px; }
+    .color-dot.color-green { background: #15803d; }
+    .color-dot.color-amber { background: #d97706; }
+    .color-dot.color-red { background: #b91c1c; }
+    .color-dot.color-slate { background: #475569; }
+    .selection-count { font-weight: 700; }
+    .review-check { display: block; margin: 0 0 8px; font-size: 13px; }
+    .zoom-modal { position: fixed; inset: 0; display: grid; place-items: center; background: rgba(15, 23, 42, 0.82); z-index: 10; padding: 24px; }
+    .zoom-modal[hidden] { display: none; }
+    .zoom-modal img { max-width: 96vw; max-height: 92vh; background: #ffffff; border: 2px solid #ffffff; }
+  </style>
+</head>
+<body>
+  <h1>Ingolstadt SUMO Network Review Cockpit</h1>
+  <p class="status">claim_status: <code>construction-invalid</code></p>
+
+  <h2>Gate Dashboard</h2>
+  <section class="dashboard">
+    <strong>Not clean / not experiment-ready</strong>
+    <div class="gate-counts">
+      <span>pass: 8</span>
+      <span>blocked: 5</span>
+      <span>fail: 0</span>
+      <span>skipped: 0</span>
+      <span>other: 0</span>
+    </div>
+  </section>
+
+  <h2>Human Review Required</h2>
+  <ul>
+    <li>Human review is required before this generated SUMO network is treated as a clean or experiment-ready network.</li>
+<li>Keep the current claim boundary at `construction-invalid` until review gates are resolved.</li>
+<li>Review gate `reference_join_aggregation` because it is `blocked`.</li>
+<li>Review gate `sumo_gui` because it is `blocked`.</li>
+<li>Review gate `tls_aggregation` because it is `blocked`.</li>
+<li>Review gate `tls_reality_audit` because it is `blocked`.</li>
+<li>Review gate `topology_audit` because it is `blocked`.</li>
+<li>Inspect dense junction clusters before treating the generated road geometry as clean.</li>
+<li>Review warning: Example artifact generated from committed Ingolstadt networks; source OSM extracts and full logs are rebuild-only.</li>
+<li>Review warning: Dense junction clusters require map/source review before destructive aggregation.</li>
+  </ul>
+
+  <h2>Network Preview</h2>
+  <section class="visual-grid">
+    <figure class="visual-panel"><figcaption>Network Preview</figcaption><img src="visuals/ingolstadt_workflow_review_network_overview.png" alt="Network Preview"></figure>
+<figure class="visual-panel"><figcaption>Problem Map</figcaption><img src="visuals/ingolstadt_workflow_review_problem_overlay.png" alt="Problem Map"></figure>
+<figure class="visual-panel"><figcaption>Reference Comparison</figcaption><img src="visuals/ingolstadt_workflow_review_reference_comparison.png" alt="Reference Comparison"></figure>
+  </section>
+
+  <h2>Problem Map</h2>
+  <p>The problem overlay highlights dense topology clusters and other review locations when coordinates are available.</p>
+
+  <h2>Junction Aggregation Review</h2>
+  <section class="junction-review-toolbar" id="junction-review-toolbar">
+    <button type="button" class="color-action color-amber" data-select-color="amber" onclick="selectColorGroup('amber')">Select amber</button>
+<button type="button" class="color-action" onclick="clearAggregationSelection()">Clear</button>
+    <span class="selection-count" id="aggregation-selection-count">0 selected for aggregation</span>
+  </section>
+
+  <h2>Cluster Zooms</h2>
+  <section class="visual-grid">
+    <figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C001" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C001 needs_map_review low 312"><figcaption><span class="color-dot color-amber"></span>C001 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C001"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_001_C001.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_001_C001.png" alt="Cluster zoom C001" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_001_C001.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7634471,11.4293685,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C002" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C002 needs_map_review low 151"><figcaption><span class="color-dot color-amber"></span>C002 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C002"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_002_C002.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_002_C002.png" alt="Cluster zoom C002" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_002_C002.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7684211,11.4237616,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C003" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C003 needs_map_review low 130"><figcaption><span class="color-dot color-amber"></span>C003 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C003"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_003_C003.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_003_C003.png" alt="Cluster zoom C003" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_003_C003.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7727917,11.4322215,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C004" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C004 needs_map_review low 121"><figcaption><span class="color-dot color-amber"></span>C004 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C004"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_004_C004.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_004_C004.png" alt="Cluster zoom C004" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_004_C004.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7615940,11.4197834,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C005" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C005 needs_map_review low 100"><figcaption><span class="color-dot color-amber"></span>C005 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C005"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_005_C005.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_005_C005.png" alt="Cluster zoom C005" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_005_C005.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7637899,11.4169570,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C006" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C006 needs_map_review low 78"><figcaption><span class="color-dot color-amber"></span>C006 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C006"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_006_C006.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_006_C006.png" alt="Cluster zoom C006" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_006_C006.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7718839,11.4199230,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C007" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C007 needs_map_review low 56"><figcaption><span class="color-dot color-amber"></span>C007 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C007"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_007_C007.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_007_C007.png" alt="Cluster zoom C007" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_007_C007.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7663887,11.4313629,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C008" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C008 needs_map_review low 55"><figcaption><span class="color-dot color-amber"></span>C008 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C008"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_008_C008.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_008_C008.png" alt="Cluster zoom C008" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_008_C008.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7596944,11.4297232,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C009" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C009 needs_map_review low 47"><figcaption><span class="color-dot color-amber"></span>C009 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C009"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_009_C009.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_009_C009.png" alt="Cluster zoom C009" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_009_C009.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7620937,11.4167837,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C010" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C010 needs_map_review low 46"><figcaption><span class="color-dot color-amber"></span>C010 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C010"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_010_C010.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_010_C010.png" alt="Cluster zoom C010" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_010_C010.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7676527,11.4247908,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C011" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C011 needs_map_review low 46"><figcaption><span class="color-dot color-amber"></span>C011 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C011"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_011_C011.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_011_C011.png" alt="Cluster zoom C011" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_011_C011.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7619945,11.4326434,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C012" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C012 needs_map_review low 44"><figcaption><span class="color-dot color-amber"></span>C012 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C012"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_012_C012.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_012_C012.png" alt="Cluster zoom C012" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_012_C012.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7750015,11.4171779,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C013" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C013 needs_map_review low 43"><figcaption><span class="color-dot color-amber"></span>C013 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C013"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_013_C013.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_013_C013.png" alt="Cluster zoom C013" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_013_C013.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7702114,11.4239503,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C014" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C014 needs_map_review low 43"><figcaption><span class="color-dot color-amber"></span>C014 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C014"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_014_C014.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_014_C014.png" alt="Cluster zoom C014" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_014_C014.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7607745,11.4269765,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C015" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C015 needs_map_review low 39"><figcaption><span class="color-dot color-amber"></span>C015 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C015"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_015_C015.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_015_C015.png" alt="Cluster zoom C015" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_015_C015.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7752353,11.4252395,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C016" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C016 needs_map_review low 36"><figcaption><span class="color-dot color-amber"></span>C016 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C016"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_016_C016.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_016_C016.png" alt="Cluster zoom C016" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_016_C016.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7716577,11.4173407,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C017" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C017 needs_map_review low 32"><figcaption><span class="color-dot color-amber"></span>C017 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C017"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_017_C017.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_017_C017.png" alt="Cluster zoom C017" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_017_C017.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7557097,11.4302394,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C018" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C018 needs_map_review low 32"><figcaption><span class="color-dot color-amber"></span>C018 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C018"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_018_C018.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_018_C018.png" alt="Cluster zoom C018" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_018_C018.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7666258,11.4327563,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C019" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C019 needs_map_review low 29"><figcaption><span class="color-dot color-amber"></span>C019 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C019"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_019_C019.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_019_C019.png" alt="Cluster zoom C019" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_019_C019.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7571268,11.4231692,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C020" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C020 needs_map_review low 29"><figcaption><span class="color-dot color-amber"></span>C020 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C020"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_020_C020.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_020_C020.png" alt="Cluster zoom C020" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_020_C020.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7696910,11.4338251,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C021" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C021 needs_map_review low 27"><figcaption><span class="color-dot color-amber"></span>C021 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C021"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_021_C021.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_021_C021.png" alt="Cluster zoom C021" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_021_C021.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7694637,11.4212410,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C022" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C022 needs_map_review low 26"><figcaption><span class="color-dot color-amber"></span>C022 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C022"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_022_C022.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_022_C022.png" alt="Cluster zoom C022" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_022_C022.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7693653,11.4192388,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C023" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C023 needs_map_review low 26"><figcaption><span class="color-dot color-amber"></span>C023 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C023"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_023_C023.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_023_C023.png" alt="Cluster zoom C023" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_023_C023.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7678678,11.4308917,50m">map review</a></div></figure>
+<figure class="visual-panel cluster-panel review-junction color-amber" data-cluster-id="C024" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C024 needs_map_review low 25"><figcaption><span class="color-dot color-amber"></span>C024 | decision=needs_map_review | confidence=low<br><small>needs map review</small></figcaption><label class="review-check" onclick="event.stopPropagation()"><input type="checkbox" data-aggregate-checkbox="C024"> aggregate this junction</label><button type="button" class="zoom-button" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_024_C024.png" onclick="openZoom(this); event.stopPropagation()">Zoom</button><img src="visuals/ingolstadt_workflow_review_cluster_024_C024.png" alt="Cluster zoom C024" data-zoom-src="visuals/ingolstadt_workflow_review_cluster_024_C024.png" onclick="openZoom(this); event.stopPropagation()"><div><a href="https://www.google.com/maps/@48.7666415,11.4206366,50m">map review</a></div></figure>
+  </section>
+
+  <h2>Dense Junction Review Points</h2>
+  <table>
+    <thead><tr><th>cluster</th><th>nodes</th><th>decision</th><th>confidence</th><th>x</th><th>y</th><th>links</th></tr></thead>
+    <tbody>
+      <tr class="review-cluster-row color-amber" data-cluster-id="C001" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C001 needs_map_review low 312"><td>C001</td><td>312</td><td>needs_map_review</td><td>low / needs map review</td><td>2129.66</td><td>1336.15</td><td><label><input type="checkbox" data-aggregate-checkbox="C001"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_001_C001.png">visuals/ingolstadt_workflow_review_cluster_001_C001.png</a> <a href="https://www.google.com/maps/@48.7634471,11.4293685,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C002" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C002 needs_map_review low 151"><td>C002</td><td>151</td><td>needs_map_review</td><td>low / needs map review</td><td>1700.07</td><td>1875.88</td><td><label><input type="checkbox" data-aggregate-checkbox="C002"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_002_C002.png">visuals/ingolstadt_workflow_review_cluster_002_C002.png</a> <a href="https://www.google.com/maps/@48.7684211,11.4237616,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C003" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C003 needs_map_review low 130"><td>C003</td><td>130</td><td>needs_map_review</td><td>low / needs map review</td><td>2306.12</td><td>2381.47</td><td><label><input type="checkbox" data-aggregate-checkbox="C003"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_003_C003.png">visuals/ingolstadt_workflow_review_cluster_003_C003.png</a> <a href="https://www.google.com/maps/@48.7727917,11.4322215,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C004" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C004 needs_map_review low 121"><td>C004</td><td>121</td><td>needs_map_review</td><td>low / needs map review</td><td>1431.89</td><td>1107.76</td><td><label><input type="checkbox" data-aggregate-checkbox="C004"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_004_C004.png">visuals/ingolstadt_workflow_review_cluster_004_C004.png</a> <a href="https://www.google.com/maps/@48.7615940,11.4197834,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C005" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C005 needs_map_review low 100"><td>C005</td><td>100</td><td>needs_map_review</td><td>low / needs map review</td><td>1216.46</td><td>1345.23</td><td><label><input type="checkbox" data-aggregate-checkbox="C005"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_005_C005.png">visuals/ingolstadt_workflow_review_cluster_005_C005.png</a> <a href="https://www.google.com/maps/@48.7637899,11.4169570,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C006" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C006 needs_map_review low 78"><td>C006</td><td>78</td><td>needs_map_review</td><td>low / needs map review</td><td>1405.8</td><td>2251.78</td><td><label><input type="checkbox" data-aggregate-checkbox="C006"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_006_C006.png">visuals/ingolstadt_workflow_review_cluster_006_C006.png</a> <a href="https://www.google.com/maps/@48.7718839,11.4199230,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C007" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C007 needs_map_review low 56"><td>C007</td><td>56</td><td>needs_map_review</td><td>low / needs map review</td><td>2265.77</td><td>1667.78</td><td><label><input type="checkbox" data-aggregate-checkbox="C007"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_007_C007.png">visuals/ingolstadt_workflow_review_cluster_007_C007.png</a> <a href="https://www.google.com/maps/@48.7663887,11.4313629,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C008" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C008 needs_map_review low 55"><td>C008</td><td>55</td><td>needs_map_review</td><td>low / needs map review</td><td>2169.03</td><td>919.88</td><td><label><input type="checkbox" data-aggregate-checkbox="C008"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_008_C008.png">visuals/ingolstadt_workflow_review_cluster_008_C008.png</a> <a href="https://www.google.com/maps/@48.7596944,11.4297232,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C009" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C009 needs_map_review low 47"><td>C009</td><td>47</td><td>needs_map_review</td><td>low / needs map review</td><td>1209.71</td><td>1156.3</td><td><label><input type="checkbox" data-aggregate-checkbox="C009"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_009_C009.png">visuals/ingolstadt_workflow_review_cluster_009_C009.png</a> <a href="https://www.google.com/maps/@48.7620937,11.4167837,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C010" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C010 needs_map_review low 46"><td>C010</td><td>46</td><td>needs_map_review</td><td>low / needs map review</td><td>1778.4</td><td>1792.87</td><td><label><input type="checkbox" data-aggregate-checkbox="C010"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_010_C010.png">visuals/ingolstadt_workflow_review_cluster_010_C010.png</a> <a href="https://www.google.com/maps/@48.7676527,11.4247908,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C011" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C011 needs_map_review low 46"><td>C011</td><td>46</td><td>needs_map_review</td><td>low / needs map review</td><td>2375.46</td><td>1182.38</td><td><label><input type="checkbox" data-aggregate-checkbox="C011"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_011_C011.png">visuals/ingolstadt_workflow_review_cluster_011_C011.png</a> <a href="https://www.google.com/maps/@48.7619945,11.4326434,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C012" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C012 needs_map_review low 44"><td>C012</td><td>44</td><td>needs_map_review</td><td>low / needs map review</td><td>1193.13</td><td>2591.89</td><td><label><input type="checkbox" data-aggregate-checkbox="C012"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_012_C012.png">visuals/ingolstadt_workflow_review_cluster_012_C012.png</a> <a href="https://www.google.com/maps/@48.7750015,11.4171779,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C013" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C013 needs_map_review low 43"><td>C013</td><td>43</td><td>needs_map_review</td><td>low / needs map review</td><td>1707.6</td><td>2075.3</td><td><label><input type="checkbox" data-aggregate-checkbox="C013"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_013_C013.png">visuals/ingolstadt_workflow_review_cluster_013_C013.png</a> <a href="https://www.google.com/maps/@48.7702114,11.4239503,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C014" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C014 needs_map_review low 43"><td>C014</td><td>43</td><td>needs_map_review</td><td>low / needs map review</td><td>1963.36</td><td>1033.5</td><td><label><input type="checkbox" data-aggregate-checkbox="C014"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_014_C014.png">visuals/ingolstadt_workflow_review_cluster_014_C014.png</a> <a href="https://www.google.com/maps/@48.7607745,11.4269765,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C015" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C015 needs_map_review low 39"><td>C015</td><td>39</td><td>needs_map_review</td><td>low / needs map review</td><td>1784.52</td><td>2636.71</td><td><label><input type="checkbox" data-aggregate-checkbox="C015"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_015_C015.png">visuals/ingolstadt_workflow_review_cluster_015_C015.png</a> <a href="https://www.google.com/maps/@48.7752353,11.4252395,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C016" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C016 needs_map_review low 36"><td>C016</td><td>36</td><td>needs_map_review</td><td>low / needs map review</td><td>1216.89</td><td>2220.61</td><td><label><input type="checkbox" data-aggregate-checkbox="C016"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_016_C016.png">visuals/ingolstadt_workflow_review_cluster_016_C016.png</a> <a href="https://www.google.com/maps/@48.7716577,11.4173407,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C017" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C017 needs_map_review low 32"><td>C017</td><td>32</td><td>needs_map_review</td><td>low / needs map review</td><td>2221.1</td><td>478.2</td><td><label><input type="checkbox" data-aggregate-checkbox="C017"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_017_C017.png">visuals/ingolstadt_workflow_review_cluster_017_C017.png</a> <a href="https://www.google.com/maps/@48.7557097,11.4302394,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C018" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C018 needs_map_review low 32"><td>C018</td><td>32</td><td>needs_map_review</td><td>low / needs map review</td><td>2367.3</td><td>1697.4</td><td><label><input type="checkbox" data-aggregate-checkbox="C018"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_018_C018.png">visuals/ingolstadt_workflow_review_cluster_018_C018.png</a> <a href="https://www.google.com/maps/@48.7666258,11.4327563,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C019" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C019 needs_map_review low 29"><td>C019</td><td>29</td><td>needs_map_review</td><td>low / needs map review</td><td>1696.49</td><td>619.15</td><td><label><input type="checkbox" data-aggregate-checkbox="C019"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_019_C019.png">visuals/ingolstadt_workflow_review_cluster_019_C019.png</a> <a href="https://www.google.com/maps/@48.7571268,11.4231692,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C020" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C020 needs_map_review low 29"><td>C020</td><td>29</td><td>needs_map_review</td><td>low / needs map review</td><td>2434.95</td><td>2040.61</td><td><label><input type="checkbox" data-aggregate-checkbox="C020"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_020_C020.png">visuals/ingolstadt_workflow_review_cluster_020_C020.png</a> <a href="https://www.google.com/maps/@48.7696910,11.4338251,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C021" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C021 needs_map_review low 27"><td>C021</td><td>27</td><td>needs_map_review</td><td>low / needs map review</td><td>1511.19</td><td>1985.86</td><td><label><input type="checkbox" data-aggregate-checkbox="C021"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_021_C021.png">visuals/ingolstadt_workflow_review_cluster_021_C021.png</a> <a href="https://www.google.com/maps/@48.7694637,11.4212410,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C022" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C022 needs_map_review low 26"><td>C022</td><td>26</td><td>needs_map_review</td><td>low / needs map review</td><td>1364.43</td><td>1970.24</td><td><label><input type="checkbox" data-aggregate-checkbox="C022"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_022_C022.png">visuals/ingolstadt_workflow_review_cluster_022_C022.png</a> <a href="https://www.google.com/maps/@48.7693653,11.4192388,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C023" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C023 needs_map_review low 26"><td>C023</td><td>26</td><td>needs_map_review</td><td>low / needs map review</td><td>2225.9</td><td>1831.07</td><td><label><input type="checkbox" data-aggregate-checkbox="C023"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_023_C023.png">visuals/ingolstadt_workflow_review_cluster_023_C023.png</a> <a href="https://www.google.com/maps/@48.7678678,11.4308917,50m">map</a></td></tr>
+<tr class="review-cluster-row color-amber" data-cluster-id="C024" data-color-group="amber" data-decision="needs_map_review" data-confidence="low" data-review-text="C024 needs_map_review low 25"><td>C024</td><td>25</td><td>needs_map_review</td><td>low / needs map review</td><td>1476.75</td><td>1670.77</td><td><label><input type="checkbox" data-aggregate-checkbox="C024"> aggregate</label> <a href="visuals/ingolstadt_workflow_review_cluster_024_C024.png">visuals/ingolstadt_workflow_review_cluster_024_C024.png</a> <a href="https://www.google.com/maps/@48.7666415,11.4206366,50m">map</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Review Queue</h2>
+  <table>
+    <thead><tr><th>priority</th><th>#</th><th>action</th></tr></thead>
+    <tbody>
+      <tr><td>P2</td><td>1</td><td>Human review is required before this generated SUMO network is treated as a clean or experiment-ready network.</td></tr>
+<tr><td>P2</td><td>2</td><td>Keep the current claim boundary at `construction-invalid` until review gates are resolved.</td></tr>
+<tr><td>P2</td><td>3</td><td>Review gate `reference_join_aggregation` because it is `blocked`.</td></tr>
+<tr><td>P2</td><td>4</td><td>Review gate `sumo_gui` because it is `blocked`.</td></tr>
+<tr><td>P1</td><td>5</td><td>Review gate `tls_aggregation` because it is `blocked`.</td></tr>
+<tr><td>P1</td><td>6</td><td>Review gate `tls_reality_audit` because it is `blocked`.</td></tr>
+<tr><td>P1</td><td>7</td><td>Review gate `topology_audit` because it is `blocked`.</td></tr>
+<tr><td>P1</td><td>8</td><td>Inspect dense junction clusters before treating the generated road geometry as clean.</td></tr>
+<tr><td>P2</td><td>9</td><td>Review warning: Example artifact generated from committed Ingolstadt networks; source OSM extracts and full logs are rebuild-only.</td></tr>
+<tr><td>P1</td><td>10</td><td>Review warning: Dense junction clusters require map/source review before destructive aggregation.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Gate Status</h2>
+  <table>
+    <thead><tr><th>gate</th><th>status</th></tr></thead>
+    <tbody>
+      <tr><td>area_confirmation</td><td><code>pass</code></td></tr>
+<tr><td>connectivity</td><td><code>pass</code></td></tr>
+<tr><td>netedit</td><td><code>pass</code></td></tr>
+<tr><td>network_build</td><td><code>pass</code></td></tr>
+<tr><td>reference_join_aggregation</td><td><code>blocked</code></td></tr>
+<tr><td>reference_join_audit</td><td><code>pass</code></td></tr>
+<tr><td>reference_visual_detail</td><td><code>pass</code></td></tr>
+<tr><td>road_level_scope</td><td><code>pass</code></td></tr>
+<tr><td>routeability_audit</td><td><code>pass</code></td></tr>
+<tr><td>sumo_gui</td><td><code>blocked</code></td></tr>
+<tr><td>tls_aggregation</td><td><code>blocked</code></td></tr>
+<tr><td>tls_reality_audit</td><td><code>blocked</code></td></tr>
+<tr><td>topology_audit</td><td><code>blocked</code></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Artifacts</h2>
+  <table>
+    <thead><tr><th>artifact</th><th>file</th></tr></thead>
+    <tbody>
+      <tr><td>net_file</td><td><a href="../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml">../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml</a></td></tr>
+<tr><td>reference_net_file</td><td><a href="../../networks/tum_ingolstadt_center_reference.net.xml">../../networks/tum_ingolstadt_center_reference.net.xml</a></td></tr>
+<tr><td>topology_audit_report_file</td><td><a href="topology_audit_report.json">topology_audit_report.json</a></td></tr>
+<tr><td>routeability_audit_report_file</td><td><a href="../run_2026-06-24_5_5/routeability_audit_summary.json">../run_2026-06-24_5_5/routeability_audit_summary.json</a></td></tr>
+<tr><td>workflow_report_file</td><td><a href="ingolstadt_workflow_review_workflow_report.json">ingolstadt_workflow_review_workflow_report.json</a></td></tr>
+<tr><td>review_manifest_file</td><td><a href="ingolstadt_workflow_review_review_manifest.json">ingolstadt_workflow_review_review_manifest.json</a></td></tr>
+<tr><td>network_overview_png</td><td><a href="visuals/ingolstadt_workflow_review_network_overview.png">visuals/ingolstadt_workflow_review_network_overview.png</a></td></tr>
+<tr><td>problem_overlay_png</td><td><a href="visuals/ingolstadt_workflow_review_problem_overlay.png">visuals/ingolstadt_workflow_review_problem_overlay.png</a></td></tr>
+<tr><td>reference_comparison_png</td><td><a href="visuals/ingolstadt_workflow_review_reference_comparison.png">visuals/ingolstadt_workflow_review_reference_comparison.png</a></td></tr>
+<tr><td>cluster_zoom_dir</td><td><a href="visuals">visuals</a></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Warnings</h2>
+  <ul>
+    <li>Example artifact generated from committed Ingolstadt networks; source OSM extracts and full logs are rebuild-only.</li>
+<li>Dense junction clusters require map/source review before destructive aggregation.</li>
+  </ul>
+
+  <h2>Evidence Summary</h2>
+  <table>
+    <thead><tr><th>evidence</th><th>compact status</th></tr></thead>
+    <tbody>
+      <tr><td>topology_audit</td><td>topology_fragmentation_status=needs_review; suspicious_cluster_count=166; junction_aggregation_candidate_count=162</td></tr>
+<tr><td>junction_aggregation</td><td>no compact status supplied</td></tr>
+<tr><td>routeability_audit</td><td>routeability_status=pass; arrived=100; vehicle_count=100; teleports=0; collisions=0</td></tr>
+    </tbody>
+  </table>
+  <div class="zoom-modal" id="zoom-modal" hidden>
+    <img id="zoom-image" alt="Expanded junction review image">
+  </div>
+
+  <script>
+    (function () {
+      const progress = document.getElementById("aggregation-selection-count");
+      const zoomModal = document.getElementById("zoom-modal");
+      const zoomImage = document.getElementById("zoom-image");
+
+      function aggregateCheckboxes() {
+        return Array.from(document.querySelectorAll("[data-aggregate-checkbox]"));
+      }
+
+      function clusterIds() {
+        return aggregateCheckboxes()
+          .map((checkbox) => checkbox.getAttribute("data-aggregate-checkbox"))
+          .filter(Boolean)
+          .filter((value, index, values) => values.indexOf(value) === index);
+      }
+
+      function syncClusterSelection(clusterId, selected) {
+        document.querySelectorAll(`[data-aggregate-checkbox="${clusterId}"]`).forEach((checkbox) => {
+          checkbox.checked = selected;
+        });
+      }
+
+      function updateAggregationCount() {
+        const ids = clusterIds();
+        const selected = ids.filter((id) => {
+          const checkbox = document.querySelector(`[data-aggregate-checkbox="${id}"]`);
+          return checkbox && checkbox.checked;
+        }).length;
+        progress.textContent = ids.length ? `${selected}/${ids.length} selected for aggregation` : "No junctions to review";
+      }
+
+      function toggleClusterSelection(clusterId) {
+        const checkbox = document.querySelector(`[data-aggregate-checkbox="${clusterId}"]`);
+        const nextValue = !(checkbox && checkbox.checked);
+        syncClusterSelection(clusterId, nextValue);
+        updateAggregationCount();
+      }
+
+      function selectColorGroup(colorGroup) {
+        document.querySelectorAll(`[data-color-group="${colorGroup}"]`).forEach((element) => {
+          const clusterId = element.getAttribute("data-cluster-id");
+          if (clusterId) {
+            syncClusterSelection(clusterId, true);
+          }
+        });
+        updateAggregationCount();
+      }
+
+      function clearAggregationSelection() {
+        aggregateCheckboxes().forEach((checkbox) => {
+          checkbox.checked = false;
+        });
+        updateAggregationCount();
+      }
+
+      function openZoom(trigger) {
+        zoomImage.src = trigger.getAttribute("data-zoom-src");
+        zoomModal.hidden = false;
+      }
+
+      function closeZoom() {
+        zoomModal.hidden = true;
+        zoomImage.src = "";
+      }
+
+      aggregateCheckboxes().forEach((checkbox) => {
+        checkbox.addEventListener("change", () => {
+          syncClusterSelection(checkbox.getAttribute("data-aggregate-checkbox"), checkbox.checked);
+          updateAggregationCount();
+        });
+      });
+      document.querySelectorAll(".review-junction").forEach((card) => {
+        card.addEventListener("click", () => toggleClusterSelection(card.getAttribute("data-cluster-id")));
+      });
+      zoomModal.addEventListener("click", closeZoom);
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+          closeZoom();
+        }
+      });
+
+      window.toggleClusterSelection = toggleClusterSelection;
+      window.selectColorGroup = selectColorGroup;
+      window.clearAggregationSelection = clearAggregationSelection;
+      window.openZoom = openZoom;
+      updateAggregationCount();
+    })();
+  </script>
+
+</body>
+</html>

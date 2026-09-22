@@ -1,0 +1,64 @@
+name: Full Python Suite
+
+on:
+  push:
+    branches:
+      - main
+      - "codex/**"
+  pull_request:
+    branches:
+      - main
+      - "codex/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: full-suite-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-test:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    env:
+      PYTHONUTF8: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.11.30"
+          enable-cache: true
+
+      - name: Set up locked Python
+        run: uv python install 3.12.13
+
+      - name: Install package and development dependencies
+        run: uv sync --python 3.12.13 --frozen --extra dev --extra native
+
+      - name: Locate the locked SUMO distribution
+        run: uv run --no-sync python -c "import os,pathlib,sumo; root=pathlib.Path(sumo.__file__).parent; assert (root/'tools').is_dir(); open(os.environ['GITHUB_ENV'],'a',encoding='utf-8').write('SUMO_HOME='+str(root)+'\n')"
+
+      - name: Verify native programs before testing
+        run: uv run --no-sync python -c "import os,pathlib,subprocess,importlib.metadata; results=[subprocess.check_output([name,'--version'],text=True) for name in ('sumo','netconvert','netgenerate','duarouter')]; assert all('1.27.1' in result for result in results), results; assert importlib.metadata.version('eclipse-sumo')=='1.27.1'; assert (pathlib.Path(os.environ['SUMO_HOME'])/'bin/netedit.exe').is_file(); print('\n'.join(results))"
+
+      - name: Lint package and tests
+        run: uv run --no-sync ruff check plugins/torii-sumo/src tests
+
+      - name: Report complexity debt without blocking yet
+        continue-on-error: true
+        run: uv run --no-sync ruff check plugins/torii-sumo/src --select C901,PLR0912,PLR0913,PLR0915 --statistics
+
+      - name: Run full test suite
+        run: uv run --no-sync pytest -q --junitxml=test-results.xml
+
+      - name: Save test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: tests-windows
+          path: test-results.xml

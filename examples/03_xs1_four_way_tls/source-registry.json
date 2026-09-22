@@ -1,0 +1,24 @@
+{
+  "schema": "torii.xs1-source-registry/v1",
+  "frozen_at": "2026-07-14T00:00:00+02:00",
+  "frozen_import": {
+    "path": "input/xs1-89129156.osm.xml.gz",
+    "sha256": "f46505aaaf2ae184420a782fb0e8d0a4f12c9434a788d9da836f3d0ab14325da",
+    "parent_raw_sha256": "9358327166eaf43722895f98a006c8cbe5da49a67ac27ea3e80dca203201293c",
+    "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=11.4185510,48.7676330,11.4240010,48.7712270",
+    "filter": "vehicle-only highway=tertiary XS-1 extract",
+    "expected_source_normalized_net_sha256": "3d1e59628d5c1d30bfb8b57a2b8c4885735a9e25b5b15a22b2476e0ee4d4bc0b",
+    "expected_candidate_normalized_net_sha256": "513d7ae0dc18373dd521a327a6dbec22467b9bbb9b3c5e0c3dfc3296986121c2"
+  },
+  "location": {
+    "name": "Harderstrasse x Dreizehnerstrasse/Auf der Schanz, Ingolstadt",
+    "latitude": 48.76943,
+    "longitude": 11.421276,
+    "osm_node_id": "89129156"
+  },
+  "license": {
+    "data": "OpenStreetMap contributors",
+    "license": "ODbL 1.0",
+    "attribution_url": "https://www.openstreetmap.org/copyright"
+  }
+}

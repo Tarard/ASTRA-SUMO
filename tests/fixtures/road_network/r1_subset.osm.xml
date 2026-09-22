@@ -1,0 +1,20 @@
+<osm version="0.6" generator="Torii subset test fixture">
+  <node id="1" lat="53.540000" lon="9.980000"/>
+  <node id="2" lat="53.540000" lon="9.981000"/>
+  <node id="3" lat="53.540000" lon="9.982000"/>
+  <node id="7" lat="53.540080" lon="9.980000"/>
+  <node id="8" lat="53.540080" lon="9.982000"/>
+  <way id="100">
+    <nd ref="1"/><nd ref="2"/><nd ref="3"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="name" v="Am Sandtorkai"/>
+    <tag k="oneway" v="yes"/>
+    <tag k="lanes" v="2"/>
+    <tag k="maxspeed" v="50"/>
+  </way>
+  <way id="200">
+    <nd ref="7"/><nd ref="8"/>
+    <tag k="highway" v="footway"/>
+    <tag k="name" v="Am Sandtorkai"/>
+  </way>
+</osm>

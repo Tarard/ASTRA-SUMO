@@ -1,0 +1,330 @@
+{
+  "$defs": {
+    "CompositeFaultCaseResult": {
+      "additionalProperties": false,
+      "properties": {
+        "abstention_proven": {
+          "title": "Abstention Proven",
+          "type": "boolean"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "case_id": {
+          "title": "Case Id",
+          "type": "string"
+        },
+        "component_coverage": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Component Coverage",
+          "type": "object"
+        },
+        "component_fault_families": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Component Fault Families",
+          "type": "array"
+        },
+        "component_observation_matches": {
+          "additionalProperties": {
+            "items": {
+              "$ref": "#/$defs/ObservationMatch"
+            },
+            "type": "array"
+          },
+          "title": "Component Observation Matches",
+          "type": "object"
+        },
+        "component_recall": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Component Recall",
+          "type": "number"
+        },
+        "connection_status": {
+          "title": "Connection Status",
+          "type": "string"
+        },
+        "exact_delta_count": {
+          "minimum": 0,
+          "title": "Exact Delta Count",
+          "type": "integer"
+        },
+        "independent_safety_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "interaction_class": {
+          "title": "Interaction Class",
+          "type": "string"
+        },
+        "matched_observation_count": {
+          "minimum": 0,
+          "title": "Matched Observation Count",
+          "type": "integer"
+        },
+        "mutant_net_path": {
+          "title": "Mutant Net Path",
+          "type": "string"
+        },
+        "mutant_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Mutant Sha256",
+          "type": "string"
+        },
+        "mutation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mutation Ids",
+          "type": "array"
+        },
+        "observation_recall": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Observation Recall",
+          "type": "number"
+        },
+        "observed": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "type": "object"
+          },
+          "title": "Observed",
+          "type": "object"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_immutable": {
+          "title": "Source Immutable",
+          "type": "boolean"
+        },
+        "source_net_path": {
+          "title": "Source Net Path",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "total_observation_count": {
+          "minimum": 0,
+          "title": "Total Observation Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "case_id",
+        "interaction_class",
+        "component_fault_families",
+        "mutation_ids",
+        "status",
+        "source_sha256",
+        "mutant_sha256",
+        "source_immutable",
+        "connection_status",
+        "independent_safety_status",
+        "exact_delta_count",
+        "component_observation_matches",
+        "component_coverage",
+        "component_recall",
+        "total_observation_count",
+        "matched_observation_count",
+        "observation_recall",
+        "observed",
+        "abstention_proven",
+        "blockers",
+        "source_net_path",
+        "mutant_net_path"
+      ],
+      "title": "CompositeFaultCaseResult",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "ObservationMatch": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "enum": [
+            "connection-structural",
+            "connection-review",
+            "independent-safety",
+            "independent-review",
+            "exact-delta"
+          ],
+          "title": "Channel",
+          "type": "string"
+        },
+        "expected_minimum_count": {
+          "title": "Expected Minimum Count",
+          "type": "integer"
+        },
+        "matched": {
+          "title": "Matched",
+          "type": "boolean"
+        },
+        "observed_count": {
+          "title": "Observed Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "value",
+        "expected_minimum_count",
+        "observed_count",
+        "matched"
+      ],
+      "title": "ObservationMatch",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.composite-fault-benchmark-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "benchmark_spec_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Benchmark Spec Sha256",
+      "type": "string"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/CompositeFaultCaseResult"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "clean_fixture_statuses": {
+      "additionalProperties": {
+        "$ref": "#/$defs/GateStatus"
+      },
+      "title": "Clean Fixture Statuses",
+      "type": "object"
+    },
+    "component_recall": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Component Recall",
+      "type": "number"
+    },
+    "covered_component_count": {
+      "title": "Covered Component Count",
+      "type": "integer"
+    },
+    "failed_case_count": {
+      "title": "Failed Case Count",
+      "type": "integer"
+    },
+    "interaction_class_case_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "title": "Interaction Class Case Counts",
+      "type": "object"
+    },
+    "matched_observation_count": {
+      "minimum": 0,
+      "title": "Matched Observation Count",
+      "type": "integer"
+    },
+    "observation_recall": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Observation Recall",
+      "type": "number"
+    },
+    "passed_case_count": {
+      "title": "Passed Case Count",
+      "type": "integer"
+    },
+    "schema": {
+      "default": "torii.corridor.composite-fault-benchmark-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "total_case_count": {
+      "title": "Total Case Count",
+      "type": "integer"
+    },
+    "total_component_count": {
+      "title": "Total Component Count",
+      "type": "integer"
+    },
+    "total_observation_count": {
+      "minimum": 0,
+      "title": "Total Observation Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "benchmark_spec_sha256",
+    "status",
+    "total_case_count",
+    "passed_case_count",
+    "failed_case_count",
+    "total_component_count",
+    "covered_component_count",
+    "component_recall",
+    "total_observation_count",
+    "matched_observation_count",
+    "observation_recall",
+    "interaction_class_case_counts",
+    "clean_fixture_statuses",
+    "cases",
+    "blockers"
+  ],
+  "title": "CompositeFaultBenchmarkReport",
+  "type": "object",
+  "x-torii-status": "stage-1-compound-fault-evidence-contract"
+}

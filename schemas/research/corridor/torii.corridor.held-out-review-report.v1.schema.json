@@ -1,0 +1,230 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "HeldOutReviewMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "abstention_rate": {
+          "title": "Abstention Rate",
+          "type": "number"
+        },
+        "adjudicated_case_count": {
+          "title": "Adjudicated Case Count",
+          "type": "integer"
+        },
+        "adjudicated_label_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Adjudicated Label Counts",
+          "type": "object"
+        },
+        "attention_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attention Precision"
+        },
+        "attention_recall": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attention Recall"
+        },
+        "auto_coverage": {
+          "title": "Auto Coverage",
+          "type": "number"
+        },
+        "auto_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auto Precision"
+        },
+        "case_count": {
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "city_group_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "City Group Case Counts",
+          "type": "object"
+        },
+        "cohen_kappa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cohen Kappa"
+        },
+        "completed_review_count": {
+          "title": "Completed Review Count",
+          "type": "integer"
+        },
+        "median_review_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Median Review Seconds"
+        },
+        "mode_feature_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Mode Feature Case Counts",
+          "type": "object"
+        },
+        "morphology_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Morphology Case Counts",
+          "type": "object"
+        },
+        "raw_agreement": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Raw Agreement"
+        },
+        "safety_critical_false_negative_count": {
+          "title": "Safety Critical False Negative Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Traffic Side Case Counts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "case_count",
+        "completed_review_count",
+        "adjudicated_case_count",
+        "raw_agreement",
+        "cohen_kappa",
+        "median_review_seconds",
+        "attention_precision",
+        "attention_recall",
+        "auto_precision",
+        "auto_coverage",
+        "abstention_rate",
+        "safety_critical_false_negative_count",
+        "adjudicated_label_counts",
+        "city_group_case_counts",
+        "morphology_case_counts",
+        "traffic_side_case_counts",
+        "mode_feature_case_counts"
+      ],
+      "title": "HeldOutReviewMetrics",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "blinded_dataset_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Blinded Dataset Sha256",
+      "type": "string"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "evaluation_key_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Evaluation Key Sha256",
+      "type": "string"
+    },
+    "metrics": {
+      "$ref": "#/$defs/HeldOutReviewMetrics"
+    },
+    "policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Policy Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "policy_sha256",
+    "blinded_dataset_sha256",
+    "evaluation_key_sha256",
+    "status",
+    "automatic_promotion_gate",
+    "metrics",
+    "blockers"
+  ],
+  "title": "HeldOutReviewReport",
+  "type": "object",
+  "x-torii-status": "stage-1-held-out-evidence-contract"
+}

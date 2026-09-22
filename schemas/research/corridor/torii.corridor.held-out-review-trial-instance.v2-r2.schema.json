@@ -1,0 +1,130 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-trial-instance.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "base_review_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Base Review Policy Sha256",
+      "type": "string"
+    },
+    "blinding_seed_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Blinding Seed Sha256",
+      "type": "string"
+    },
+    "execution_parent_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Execution Parent Sha256",
+      "type": "string"
+    },
+    "finding_counts_consulted_for_sampling": {
+      "const": false,
+      "default": false,
+      "title": "Finding Counts Consulted For Sampling",
+      "type": "boolean"
+    },
+    "human_decisions_present": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Present",
+      "type": "boolean"
+    },
+    "machine_labels_consulted_for_sampling": {
+      "const": false,
+      "default": false,
+      "title": "Machine Labels Consulted For Sampling",
+      "type": "boolean"
+    },
+    "predecessor_trial_executed": {
+      "const": false,
+      "default": false,
+      "title": "Predecessor Trial Executed",
+      "type": "boolean"
+    },
+    "predecessor_trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Predecessor Trial Id",
+      "type": "string"
+    },
+    "sampling_not_executed_before_freeze": {
+      "const": true,
+      "default": true,
+      "title": "Sampling Not Executed Before Freeze",
+      "type": "boolean"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-trial-instance/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "seed_generated_once_before_sampling": {
+      "const": true,
+      "default": true,
+      "title": "Seed Generated Once Before Sampling",
+      "type": "boolean"
+    },
+    "stage_1_exit_requires_human_validation": {
+      "const": true,
+      "default": true,
+      "title": "Stage 1 Exit Requires Human Validation",
+      "type": "boolean"
+    },
+    "stage_1m_machine_milestone_only": {
+      "const": true,
+      "default": true,
+      "title": "Stage 1M Machine Milestone Only",
+      "type": "boolean"
+    },
+    "study_sampling_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Study Sampling Policy Sha256",
+      "type": "string"
+    },
+    "successor_reason": {
+      "const": "predecessor-seed-preimage-unavailable-and-source-protocol-corrected",
+      "title": "Successor Reason",
+      "type": "string"
+    },
+    "thresholds_inherited_without_change": {
+      "const": true,
+      "default": true,
+      "title": "Thresholds Inherited Without Change",
+      "type": "boolean"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "base_review_policy_sha256",
+    "execution_parent_sha256",
+    "study_sampling_policy_sha256",
+    "blinding_seed_sha256",
+    "predecessor_trial_id",
+    "successor_reason"
+  ],
+  "title": "HeldOutReviewTrialInstanceV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-pre-sampling-trial-commitment"
+}

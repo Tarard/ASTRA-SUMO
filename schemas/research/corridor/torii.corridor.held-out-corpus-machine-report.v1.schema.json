@@ -1,0 +1,277 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "HeldOutCorridorMachineResult": {
+      "additionalProperties": false,
+      "properties": {
+        "applicability_decision": {
+          "enum": [
+            "in-domain",
+            "out-of-domain",
+            "invalid"
+          ],
+          "title": "Applicability Decision",
+          "type": "string"
+        },
+        "artifact_sha256_by_path": {
+          "additionalProperties": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "title": "Artifact Sha256 By Path",
+          "type": "object"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "connection_mode_status": {
+          "title": "Connection Mode Status",
+          "type": "string"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "finding_categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Categories",
+          "type": "array"
+        },
+        "independent_safety_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "machine_label": {
+          "enum": [
+            "defect",
+            "acceptable",
+            "ambiguous"
+          ],
+          "title": "Machine Label",
+          "type": "string"
+        },
+        "net_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Net Sha256"
+        },
+        "netconvert_status": {
+          "title": "Netconvert Status",
+          "type": "string"
+        },
+        "pipeline_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "review_case_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Case Id"
+        },
+        "routeability_status": {
+          "title": "Routeability Status",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.held-out-corridor-machine-result/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selection Id",
+          "type": "string"
+        },
+        "source_osm_immutable": {
+          "title": "Source Osm Immutable",
+          "type": "boolean"
+        },
+        "source_osm_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Osm Sha256",
+          "type": "string"
+        },
+        "sumo_load_status": {
+          "title": "Sumo Load Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "selection_id",
+        "corridor_key",
+        "pipeline_status",
+        "machine_label",
+        "source_osm_sha256",
+        "source_osm_immutable",
+        "netconvert_status",
+        "sumo_load_status",
+        "routeability_status",
+        "connection_mode_status",
+        "independent_safety_status",
+        "applicability_decision",
+        "artifact_sha256_by_path",
+        "finding_categories",
+        "blockers"
+      ],
+      "title": "HeldOutCorridorMachineResult",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-corpus-machine-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "const": "blocked",
+      "default": "blocked",
+      "title": "Automatic Promotion Gate",
+      "type": "string"
+    },
+    "blinded_dataset_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Blinded Dataset Path"
+    },
+    "blinded_dataset_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Blinded Dataset Sha256"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "certification_envelope_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Certification Envelope Sha256",
+      "type": "string"
+    },
+    "corpus_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Corpus Id",
+      "type": "string"
+    },
+    "corpus_spec_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Corpus Spec Sha256",
+      "type": "string"
+    },
+    "evaluation_key_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evaluation Key Path"
+    },
+    "evaluation_key_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Evaluation Key Sha256"
+    },
+    "evidence_build_status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "expected_case_count": {
+      "minimum": 1,
+      "title": "Expected Case Count",
+      "type": "integer"
+    },
+    "processed_case_count": {
+      "minimum": 0,
+      "title": "Processed Case Count",
+      "type": "integer"
+    },
+    "results": {
+      "items": {
+        "$ref": "#/$defs/HeldOutCorridorMachineResult"
+      },
+      "title": "Results",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-corpus-machine-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "snapshot_report_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Snapshot Report Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "corpus_id",
+    "corpus_spec_sha256",
+    "snapshot_report_sha256",
+    "certification_envelope_sha256",
+    "evidence_build_status",
+    "expected_case_count",
+    "processed_case_count",
+    "results",
+    "blockers"
+  ],
+  "title": "HeldOutCorpusMachineReport",
+  "type": "object",
+  "x-torii-status": "stage-1-held-out-corpus-machine-evidence-contract"
+}

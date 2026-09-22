@@ -1,0 +1,142 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "RankedReserveCandidateV2": {
+      "additionalProperties": false,
+      "properties": {
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "rank": {
+          "minimum": 1,
+          "title": "Rank",
+          "type": "integer"
+        },
+        "ranking_digest": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Ranking Digest",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selection Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "rank",
+        "corridor_key",
+        "selection_id",
+        "ranking_digest"
+      ],
+      "title": "RankedReserveCandidateV2",
+      "type": "object"
+    },
+    "ReplacementSlotPlanV2": {
+      "additionalProperties": false,
+      "properties": {
+        "invalid_corridor_key": {
+          "title": "Invalid Corridor Key",
+          "type": "string"
+        },
+        "invalid_selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Invalid Selection Id",
+          "type": "string"
+        },
+        "ordered_candidates": {
+          "items": {
+            "$ref": "#/$defs/RankedReserveCandidateV2"
+          },
+          "title": "Ordered Candidates",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "invalid_corridor_key",
+        "invalid_selection_id",
+        "ordered_candidates"
+      ],
+      "title": "ReplacementSlotPlanV2",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-replacement-plan.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "human_decisions_consulted": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Consulted",
+      "type": "boolean"
+    },
+    "machine_labels_consulted": {
+      "const": false,
+      "default": false,
+      "title": "Machine Labels Consulted",
+      "type": "boolean"
+    },
+    "replacement_plan_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Replacement Plan Id",
+      "type": "string"
+    },
+    "replacement_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replacement Policy Sha256",
+      "type": "string"
+    },
+    "reserve_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Reserve Corpus Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-replacement-plan/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "slots": {
+      "items": {
+        "$ref": "#/$defs/ReplacementSlotPlanV2"
+      },
+      "title": "Slots",
+      "type": "array"
+    }
+  },
+  "required": [
+    "replacement_plan_id",
+    "reserve_corpus_sha256",
+    "replacement_policy_sha256",
+    "slots"
+  ],
+  "title": "HeldOutReplacementPlanV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-deterministic-replacement-plan"
+}

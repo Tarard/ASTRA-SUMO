@@ -1,0 +1,35 @@
+{
+  "title": "Torii: Task-Oriented Road Infrastructure Intelligence",
+  "upload_type": "software",
+  "description": "An agent plugin for SUMO that bundles a SUMO expert skill with local MCP tools for OSM-to-SUMO network construction, TLS review, routeability checks, evidence bundles, and feedback-driven simulation repair. Torii treats bad metrics, warnings, teleports, disconnected routes, and map disagreements as feedback about the model rather than raw optimization targets.",
+  "creators": [
+    {
+      "name": "Tarard"
+    }
+  ],
+  "access_right": "open",
+  "license": "mit",
+  "keywords": [
+    "Eclipse SUMO",
+    "TraCI",
+    "OpenStreetMap",
+    "MCP",
+    "agent plugin",
+    "traffic simulation",
+    "traffic signal control",
+    "transportation",
+    "intelligent transportation systems",
+    "reproducibility",
+    "agent skills",
+    "Codex",
+    "Claude"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "https://github.com/Tarard/Torii-SUMO",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    }
+  ]
+}

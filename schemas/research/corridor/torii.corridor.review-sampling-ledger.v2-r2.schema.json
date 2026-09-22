@@ -1,0 +1,357 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "ReviewSamplingCorridorV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_witness_population_count": {
+          "minimum": 0,
+          "title": "Atomic Witness Population Count",
+          "type": "integer"
+        },
+        "conflict_site_population_count": {
+          "minimum": 0,
+          "title": "Conflict Site Population Count",
+          "type": "integer"
+        },
+        "controlled_binding_hard_count": {
+          "minimum": 0,
+          "title": "Controlled Binding Hard Count",
+          "type": "integer"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "independent_hidden_witness_count": {
+          "minimum": 0,
+          "title": "Independent Hidden Witness Count",
+          "type": "integer"
+        },
+        "negative_pair_population_count": {
+          "minimum": 0,
+          "title": "Negative Pair Population Count",
+          "type": "integer"
+        },
+        "pedestrian_coverage_gap_count": {
+          "minimum": 0,
+          "title": "Pedestrian Coverage Gap Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_conflict_site_count": {
+          "minimum": 0,
+          "title": "Selected Conflict Site Count",
+          "type": "integer"
+        },
+        "selected_controlled_binding_count": {
+          "minimum": 0,
+          "title": "Selected Controlled Binding Count",
+          "type": "integer"
+        },
+        "selected_negative_pair_count": {
+          "minimum": 0,
+          "title": "Selected Negative Pair Count",
+          "type": "integer"
+        },
+        "selected_pedestrian_coverage_gap_count": {
+          "minimum": 0,
+          "title": "Selected Pedestrian Coverage Gap Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "corridor_key",
+        "atomic_witness_population_count",
+        "conflict_site_population_count",
+        "selected_conflict_site_count",
+        "negative_pair_population_count",
+        "selected_negative_pair_count",
+        "controlled_binding_hard_count",
+        "selected_controlled_binding_count",
+        "pedestrian_coverage_gap_count",
+        "selected_pedestrian_coverage_gap_count",
+        "independent_hidden_witness_count"
+      ],
+      "title": "ReviewSamplingCorridorV2R2",
+      "type": "object"
+    },
+    "ReviewSamplingStratumV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "available_sample_count": {
+          "minimum": 1,
+          "title": "Available Sample Count",
+          "type": "integer"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "inclusion_probability": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Inclusion Probability",
+          "type": "number"
+        },
+        "population_count": {
+          "minimum": 1,
+          "title": "Population Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_count": {
+          "minimum": 1,
+          "title": "Selected Count",
+          "type": "integer"
+        },
+        "selection_source": {
+          "enum": [
+            "full-population",
+            "preselected-probability-sample"
+          ],
+          "title": "Selection Source",
+          "type": "string"
+        },
+        "stratum_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Stratum Id",
+          "type": "string"
+        },
+        "stratum_key": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Stratum Key",
+          "type": "array"
+        },
+        "unit_kind": {
+          "enum": [
+            "conflict-site",
+            "negative-pair"
+          ],
+          "title": "Unit Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stratum_id",
+        "corridor_key",
+        "unit_kind",
+        "stratum_key",
+        "selection_source",
+        "population_count",
+        "available_sample_count",
+        "selected_count",
+        "inclusion_probability"
+      ],
+      "title": "ReviewSamplingStratumV2R2",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.review-sampling-ledger.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "atomic_witness_machine_census_complete": {
+      "const": true,
+      "default": true,
+      "title": "Atomic Witness Machine Census Complete",
+      "type": "boolean"
+    },
+    "atomic_witness_population_count": {
+      "minimum": 0,
+      "title": "Atomic Witness Population Count",
+      "type": "integer"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "blinding_seed_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Blinding Seed Sha256",
+      "type": "string"
+    },
+    "conflict_site_population_count": {
+      "minimum": 0,
+      "title": "Conflict Site Population Count",
+      "type": "integer"
+    },
+    "controlled_binding_hard_count": {
+      "minimum": 0,
+      "title": "Controlled Binding Hard Count",
+      "type": "integer"
+    },
+    "corridors": {
+      "items": {
+        "$ref": "#/$defs/ReviewSamplingCorridorV2R2"
+      },
+      "title": "Corridors",
+      "type": "array"
+    },
+    "execution_parent_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Execution Parent Sha256",
+      "type": "string"
+    },
+    "finding_counts_consulted_for_sampling": {
+      "const": false,
+      "default": false,
+      "title": "Finding Counts Consulted For Sampling",
+      "type": "boolean"
+    },
+    "human_decisions_present": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Present",
+      "type": "boolean"
+    },
+    "independent_hidden_witness_count": {
+      "minimum": 0,
+      "title": "Independent Hidden Witness Count",
+      "type": "integer"
+    },
+    "ledger_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Ledger Id",
+      "type": "string"
+    },
+    "machine_labels_consulted_for_sampling": {
+      "const": false,
+      "default": false,
+      "title": "Machine Labels Consulted For Sampling",
+      "type": "boolean"
+    },
+    "negative_pair_population_count": {
+      "minimum": 0,
+      "title": "Negative Pair Population Count",
+      "type": "integer"
+    },
+    "pedestrian_coverage_gap_count": {
+      "minimum": 0,
+      "title": "Pedestrian Coverage Gap Count",
+      "type": "integer"
+    },
+    "producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "schema": {
+      "default": "torii.corridor.review-sampling-ledger/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "selected_conflict_site_count": {
+      "minimum": 0,
+      "title": "Selected Conflict Site Count",
+      "type": "integer"
+    },
+    "selected_negative_pair_count": {
+      "minimum": 0,
+      "title": "Selected Negative Pair Count",
+      "type": "integer"
+    },
+    "strata": {
+      "items": {
+        "$ref": "#/$defs/ReviewSamplingStratumV2R2"
+      },
+      "title": "Strata",
+      "type": "array"
+    },
+    "study_sampling_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Study Sampling Policy Sha256",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    },
+    "unselected_population_retained_and_unresolved": {
+      "const": true,
+      "default": true,
+      "title": "Unselected Population Retained And Unresolved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "ledger_id",
+    "trial_id",
+    "execution_parent_sha256",
+    "study_sampling_policy_sha256",
+    "blinding_seed_sha256",
+    "producer",
+    "corridors",
+    "strata",
+    "atomic_witness_population_count",
+    "conflict_site_population_count",
+    "selected_conflict_site_count",
+    "negative_pair_population_count",
+    "selected_negative_pair_count",
+    "controlled_binding_hard_count",
+    "pedestrian_coverage_gap_count",
+    "independent_hidden_witness_count"
+  ],
+  "title": "ReviewSamplingLedgerV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-restricted-sampling-evidence"
+}

@@ -1,0 +1,237 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "HeldOutReviewV2Metrics": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_coverage": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auto Coverage"
+        },
+        "auto_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auto Precision"
+        },
+        "auto_precision_one_sided_lower_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auto Precision One Sided Lower Bound"
+        },
+        "auto_precision_status": {
+          "enum": [
+            "not-applicable",
+            "prospective"
+          ],
+          "title": "Auto Precision Status",
+          "type": "string"
+        },
+        "cohen_kappa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cohen Kappa"
+        },
+        "completed_cluster_review_count": {
+          "minimum": 0,
+          "title": "Completed Cluster Review Count",
+          "type": "integer"
+        },
+        "hidden_member_disagreement_count": {
+          "minimum": 0,
+          "title": "Hidden Member Disagreement Count",
+          "type": "integer"
+        },
+        "hidden_member_disagreement_upper_bound": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Hidden Member Disagreement Upper Bound"
+        },
+        "median_review_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Median Review Seconds"
+        },
+        "raw_agreement": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Raw Agreement"
+        },
+        "reproducibility_only_case_count": {
+          "minimum": 0,
+          "title": "Reproducibility Only Case Count",
+          "type": "integer"
+        },
+        "safety_critical_false_negative_count": {
+          "minimum": 0,
+          "title": "Safety Critical False Negative Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "valid_corridor_package_count": {
+          "minimum": 0,
+          "title": "Valid Corridor Package Count",
+          "type": "integer"
+        },
+        "weighted_attention_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Weighted Attention Precision"
+        },
+        "weighted_attention_recall": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Weighted Attention Recall"
+        }
+      },
+      "required": [
+        "valid_corridor_package_count",
+        "reproducibility_only_case_count",
+        "completed_cluster_review_count",
+        "raw_agreement",
+        "cohen_kappa",
+        "median_review_seconds",
+        "weighted_attention_precision",
+        "weighted_attention_recall",
+        "safety_critical_false_negative_count",
+        "hidden_member_disagreement_count",
+        "hidden_member_disagreement_upper_bound",
+        "auto_precision_status",
+        "auto_precision",
+        "auto_precision_one_sided_lower_bound",
+        "auto_coverage"
+      ],
+      "title": "HeldOutReviewV2Metrics",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-report.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "metrics": {
+      "$ref": "#/$defs/HeldOutReviewV2Metrics"
+    },
+    "parent_review_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Review Benchmark Sha256",
+      "type": "string"
+    },
+    "policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Policy Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-report/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "stage_1h_human_validation_gate": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "stage_1m_machine_review_ready_gate": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "policy_sha256",
+    "parent_review_benchmark_sha256",
+    "status",
+    "stage_1m_machine_review_ready_gate",
+    "stage_1h_human_validation_gate",
+    "metrics",
+    "blockers"
+  ],
+  "title": "HeldOutReviewV2Report",
+  "type": "object",
+  "x-torii-status": "stage-1h-human-validation-evidence-contract"
+}

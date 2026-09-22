@@ -1,0 +1,206 @@
+name: Corridor Contract Freeze
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  stage-0-contracts:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    env:
+      PYTHONUTF8: "1"
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@c771a70e6277c0a99b617c7a806ffedaca235ff9 # v9.0.0
+        with:
+          version: "0.11.30"
+
+      - name: Set up locked Python
+        run: uv python install 3.12.13
+
+      - name: Install locked contract dependencies
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          uv sync --python 3.12.13 --frozen --extra dev
+          (Join-Path $env:GITHUB_WORKSPACE '.venv/Scripts') | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+
+      - name: Lint the frozen contract layer
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          ruff check `
+            plugins/torii-sumo/src/torii_sumo/corridor `
+            plugins/torii-sumo/scripts/export_composite_benchmark_schema.py `
+            plugins/torii-sumo/scripts/export_corridor_schema.py `
+            plugins/torii-sumo/scripts/export_official_sumo_benchmark_schema.py `
+            plugins/torii-sumo/scripts/export_ood_benchmark_schema.py `
+            plugins/torii-sumo/scripts/export_held_out_review_schema.py `
+            plugins/torii-sumo/scripts/export_held_out_review_v2_schema.py `
+            plugins/torii-sumo/scripts/export_stage1_review_ready_schema.py `
+            plugins/torii-sumo/scripts/build_held_out_corpus.py `
+            plugins/torii-sumo/scripts/build_held_out_corridor_evidence.py `
+            plugins/torii-sumo/scripts/freeze_held_out_corpus.py `
+            plugins/torii-sumo/scripts/freeze_held_out_review_v2.py `
+            plugins/torii-sumo/scripts/freeze_held_out_replacement_execution_v2.py `
+            plugins/torii-sumo/scripts/freeze_held_out_review_trial_v2_r2.py `
+            plugins/torii-sumo/scripts/build_held_out_review_package_v2_r2.py `
+            plugins/torii-sumo/scripts/freeze_stage1_machine_review_ready.py `
+            plugins/torii-sumo/scripts/export_synthetic_benchmark_schema.py `
+            plugins/torii-sumo/scripts/evaluate_held_out_review.py `
+            plugins/torii-sumo/scripts/run_official_sumo_benchmark.py `
+            plugins/torii-sumo/scripts/run_ood_benchmark.py `
+            plugins/torii-sumo/scripts/run_composite_fault_benchmark.py `
+            plugins/torii-sumo/scripts/run_synthetic_fault_benchmark.py `
+            plugins/torii-sumo/scripts/run_pedestrian_row_experiment.py `
+            tests/test_composite_fault_benchmark.py `
+            tests/test_corridor_stage0_contracts.py `
+            tests/test_held_out_review_trial.py `
+            tests/test_held_out_review_v2.py `
+            tests/test_held_out_review_v2_r2.py `
+            tests/test_stage1_machine_review_ready.py `
+            tests/test_held_out_corpus.py `
+            tests/test_pedestrian_control_census.py `
+            tests/test_pedestrian_row_oracle.py `
+            tests/test_pedestrian_row_runtime.py `
+            tests/test_review_compression.py `
+            tests/test_official_sumo_benchmark.py `
+            tests/test_ood_benchmark.py
+
+      - name: Verify schema regeneration is deterministic
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          $generated = '.generated-schemas'
+          $schemaRoot = 'schemas/research/corridor'
+          New-Item -ItemType Directory -Force -Path $generated | Out-Null
+
+          python plugins/torii-sumo/scripts/export_corridor_schema.py `
+            --output "$generated/torii.corridor.research-bundle.v1.schema.json"
+
+          python plugins/torii-sumo/scripts/export_synthetic_benchmark_schema.py `
+            --spec-output "$generated/torii.corridor.synthetic-fault-benchmark.v1.schema.json" `
+            --report-output "$generated/torii.corridor.synthetic-fault-benchmark-report.v1.schema.json"
+
+          python plugins/torii-sumo/scripts/export_composite_benchmark_schema.py `
+            --spec-output "$generated/torii.corridor.composite-fault-benchmark.v1.schema.json" `
+            --report-output "$generated/torii.corridor.composite-fault-benchmark-report.v1.schema.json"
+
+          python plugins/torii-sumo/scripts/export_official_sumo_benchmark_schema.py `
+            --spec-output "$generated/torii.corridor.official-sumo-benchmark.v1.schema.json" `
+            --report-output "$generated/torii.corridor.official-sumo-benchmark-report.v1.schema.json"
+
+          python plugins/torii-sumo/scripts/export_ood_benchmark_schema.py `
+            --envelope-output "$generated/torii.corridor.certification-envelope.v1.schema.json" `
+            --applicability-output "$generated/torii.corridor.certification-applicability-report.v1.schema.json" `
+            --spec-output "$generated/torii.corridor.ood-benchmark.v1.schema.json" `
+            --report-output "$generated/torii.corridor.ood-benchmark-report.v1.schema.json"
+
+          python plugins/torii-sumo/scripts/export_held_out_review_schema.py `
+            --policy-output "$generated/torii.corridor.held-out-review-policy.v1.schema.json" `
+            --bundle-output "$generated/torii.corridor.held-out-review-contract-bundle.v1.schema.json" `
+            --report-output "$generated/torii.corridor.held-out-review-report.v1.schema.json" `
+            --corpus-output "$generated/torii.corridor.held-out-corpus.v1.schema.json" `
+            --corpus-report-output "$generated/torii.corridor.held-out-corpus-snapshot-report.v1.schema.json" `
+            --corpus-machine-report-output "$generated/torii.corridor.held-out-corpus-machine-report.v2.schema.json" `
+            --run-identity-output "$generated/torii.corridor.held-out-machine-run-identity.v1.schema.json" `
+            --corpus-machine-manifest-output "$generated/torii.corridor.held-out-corpus-machine-manifest.v2.schema.json" `
+            --net-replay-report-output "$generated/torii.corridor.net-replay-report.v1.schema.json"
+
+          python plugins/torii-sumo/scripts/export_held_out_review_v2_schema.py `
+            --reserve-output "$generated/torii.corridor.held-out-reserve-corpus.v2.schema.json" `
+            --replacement-policy-output "$generated/torii.corridor.held-out-replacement-policy.v2.schema.json" `
+            --replacement-plan-output "$generated/torii.corridor.held-out-replacement-plan.v2.schema.json" `
+            --source-snapshot-protocol-output "$generated/torii.corridor.held-out-source-snapshot-protocol.v2.schema.json" `
+            --replacement-attempt-ledger-output "$generated/torii.corridor.held-out-replacement-attempt-ledger.v2.schema.json" `
+            --sampling-policy-output "$generated/torii.corridor.review-witness-sampling-policy.v2.schema.json" `
+            --parent-output "$generated/torii.corridor.held-out-review-parent.v2.schema.json" `
+            --policy-output "$generated/torii.corridor.held-out-review-policy.v2.schema.json" `
+            --bundle-output "$generated/torii.corridor.held-out-review-contract-bundle.v2.schema.json" `
+            --report-output "$generated/torii.corridor.held-out-review-report.v2.schema.json" `
+            --study-sampling-policy-r2-output "$generated/torii.corridor.review-study-sampling-policy.v2-r2.schema.json" `
+            --execution-parent-r2-output "$generated/torii.corridor.held-out-review-execution-parent.v2-r2.schema.json" `
+            --trial-instance-r2-output "$generated/torii.corridor.held-out-review-trial-instance.v2-r2.schema.json" `
+            --blinded-dataset-r2-output "$generated/torii.corridor.blinded-attention-dataset.v2-r2.schema.json" `
+            --evaluation-key-r2-output "$generated/torii.corridor.attention-evaluation-key.v2-r2.schema.json" `
+            --sampling-ledger-r2-output "$generated/torii.corridor.review-sampling-ledger.v2-r2.schema.json" `
+            --unit-decision-r2-output "$generated/torii.corridor.review-unit-decision.v2-r2.schema.json" `
+            --unit-adjudication-r2-output "$generated/torii.corridor.review-unit-adjudication.v2-r2.schema.json" `
+            --package-manifest-r2-output "$generated/torii.corridor.held-out-review-package-manifest.v2-r2.schema.json"
+
+          python plugins/torii-sumo/scripts/export_stage1_review_ready_schema.py `
+            --program-inventory-output "$generated/torii.corridor.effective-tls-program-inventory.v1.schema.json" `
+            --binding-census-output "$generated/torii.corridor.controlled-pedestrian-binding-census.v1.schema.json" `
+            --atomic-conflict-ledger-output "$generated/torii.corridor.atomic-conflict-ledger.v1.schema.json" `
+            --review-compression-output "$generated/torii.corridor.lossless-review-compression.v1.schema.json" `
+            --row-experiment-output "$generated/torii.corridor.row-1-experiment-report.v1.schema.json" `
+            --machine-review-ready-provenance-output "$generated/torii.corridor.stage1m-machine-review-ready-provenance.v3.schema.json"
+
+          Get-ChildItem "$generated/*.schema.json" | ForEach-Object {
+            $expected = Join-Path $schemaRoot $_.Name
+            if (-not (Test-Path $expected)) {
+              throw "Missing canonical schema: $expected"
+            }
+            git diff --no-index --exit-code $expected $_.FullName
+          }
+
+          python plugins/torii-sumo/scripts/freeze_held_out_corpus.py `
+            --output generated.held-out-corpus.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/held_out_corpus.v1.json `
+            generated.held-out-corpus.json
+
+          python plugins/torii-sumo/scripts/freeze_held_out_review_v2.py `
+            --reserve-output generated.held-out-reserve-corpus-v2.json `
+            --replacement-policy-output generated.held-out-replacement-policy-v2.json `
+            --sampling-policy-output generated.review-witness-sampling-policy-v2.json `
+            --parent-output generated.held-out-review-parent-v2.json `
+            --review-policy-output generated.held-out-review-policy-v2.json `
+            --replacement-plan-output generated.held-out-replacement-plan-v2.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/held_out_reserve_corpus.v2.json `
+            generated.held-out-reserve-corpus-v2.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/held_out_replacement_policy.v2.json `
+            generated.held-out-replacement-policy-v2.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/review_witness_sampling_policy.v2.json `
+            generated.review-witness-sampling-policy-v2.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/held_out_review_parent.v2.json `
+            generated.held-out-review-parent-v2.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/held_out_review_preregistration.v2.json `
+            generated.held-out-review-policy-v2.json
+          git diff --no-index --exit-code `
+            benchmarks/corridor_human_modeling_v1/held_out_replacement_plan.v2.json `
+            generated.held-out-replacement-plan-v2.json
+
+      - name: Verify benchmark, toolchain, plan, and fail-closed contracts
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          pytest `
+            tests/test_composite_fault_benchmark.py `
+            tests/test_corridor_stage0_contracts.py `
+            tests/test_held_out_review_trial.py `
+            tests/test_held_out_review_v2.py `
+            tests/test_held_out_review_v2_r2.py `
+            tests/test_stage1_machine_review_ready.py `
+            tests/test_held_out_corpus.py `
+            tests/test_pedestrian_control_census.py `
+            tests/test_pedestrian_row_oracle.py `
+            tests/test_pedestrian_row_runtime.py `
+            tests/test_review_compression.py `
+            tests/test_official_sumo_benchmark.py `
+            tests/test_ood_benchmark.py `
+            tests/test_synthetic_fault_benchmark.py `
+            -q

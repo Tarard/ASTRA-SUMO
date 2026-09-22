@@ -1,0 +1,10 @@
+<configuration>
+  <input>
+    <net-file value="grid.net.xml"/>
+    <route-files value="demand.rou.xml"/>
+  </input>
+  <output>
+    <summary-output value="outputs/variant/summary.xml"/>
+    <tripinfo-output value="outputs/variant/tripinfo.xml"/>
+  </output>
+</configuration>

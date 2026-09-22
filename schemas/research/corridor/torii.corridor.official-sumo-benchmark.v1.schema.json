@@ -1,0 +1,241 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "OfficialSumoScenarioCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "expected_abstention": {
+          "const": true,
+          "default": true,
+          "title": "Expected Abstention",
+          "type": "boolean"
+        },
+        "expected_conflict_count": {
+          "minimum": 0,
+          "title": "Expected Conflict Count",
+          "type": "integer"
+        },
+        "expected_connection_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Expected Connection Category Counts",
+          "type": "object"
+        },
+        "expected_connection_status": {
+          "enum": [
+            "pass",
+            "review_required",
+            "fail"
+          ],
+          "title": "Expected Connection Status",
+          "type": "string"
+        },
+        "expected_independent_safety_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "expected_internal_link_mode": {
+          "enum": [
+            "internal-links",
+            "no-internal-links",
+            "mixed",
+            "undetermined"
+          ],
+          "title": "Expected Internal Link Mode",
+          "type": "string"
+        },
+        "expected_movement_count": {
+          "minimum": 0,
+          "title": "Expected Movement Count",
+          "type": "integer"
+        },
+        "expected_safety_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Expected Safety Category Counts",
+          "type": "object"
+        },
+        "netconvert_arguments": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Netconvert Arguments",
+          "type": "array"
+        },
+        "normative_feature": {
+          "title": "Normative Feature",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_file_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source File Ids",
+          "type": "array"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "case_id",
+        "normative_feature",
+        "traffic_side",
+        "source_file_ids",
+        "netconvert_arguments",
+        "expected_internal_link_mode",
+        "expected_connection_status",
+        "expected_connection_category_counts",
+        "expected_independent_safety_status",
+        "expected_safety_category_counts",
+        "expected_movement_count",
+        "expected_conflict_count"
+      ],
+      "title": "OfficialSumoScenarioCase",
+      "type": "object"
+    },
+    "OfficialSumoSourceFile": {
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_id": {
+          "pattern": "^[a-z0-9][a-z0-9-]*$",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "upstream_path": {
+          "title": "Upstream Path",
+          "type": "string"
+        },
+        "upstream_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Upstream Sha256",
+          "type": "string"
+        },
+        "vendored_path": {
+          "title": "Vendored Path",
+          "type": "string"
+        },
+        "vendored_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Vendored Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_id",
+        "vendored_path",
+        "vendored_sha256",
+        "upstream_path",
+        "upstream_sha256"
+      ],
+      "title": "OfficialSumoSourceFile",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.official-sumo-benchmark.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/OfficialSumoScenarioCase"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "license_expression": {
+      "const": "EPL-2.0 OR GPL-2.0-or-later",
+      "title": "License Expression",
+      "type": "string"
+    },
+    "parent_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Benchmark Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.official-sumo-benchmark/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_files": {
+      "items": {
+        "$ref": "#/$defs/OfficialSumoSourceFile"
+      },
+      "title": "Source Files",
+      "type": "array"
+    },
+    "toolchain_lock_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Toolchain Lock Sha256",
+      "type": "string"
+    },
+    "upstream_commit": {
+      "pattern": "^[0-9a-f]{40}$",
+      "title": "Upstream Commit",
+      "type": "string"
+    },
+    "upstream_repository": {
+      "title": "Upstream Repository",
+      "type": "string"
+    },
+    "upstream_tag": {
+      "title": "Upstream Tag",
+      "type": "string"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "parent_benchmark_sha256",
+    "toolchain_lock_sha256",
+    "upstream_repository",
+    "upstream_tag",
+    "upstream_commit",
+    "license_expression",
+    "source_files",
+    "cases"
+  ],
+  "title": "OfficialSumoBenchmarkSpec",
+  "type": "object",
+  "x-torii-status": "stage-1-normative-contract"
+}

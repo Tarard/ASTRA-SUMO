@@ -1,0 +1,230 @@
+{
+  "all_turn_routeability": {
+    "arrived_vehicle_count": 12,
+    "expected_movement_count": 12,
+    "movement_count": 12,
+    "runtime": {
+      "arrived": 12,
+      "collisions": 0,
+      "completion_ratio": 1.0,
+      "inserted": 12,
+      "loaded": 12,
+      "running": 0,
+      "teleports": 0,
+      "trip_count": 12,
+      "waiting": 0
+    },
+    "status": "pass",
+    "turn_counts": {
+      "l": 4,
+      "r": 4,
+      "s": 4
+    }
+  },
+  "automatic_promotion_gate": "blocked",
+  "bbox": {
+    "east": 11.424001,
+    "north": 48.771227,
+    "south": 48.767633,
+    "west": 11.418551
+  },
+  "candidate": {
+    "normalized_sha256": "513d7ae0dc18373dd521a327a6dbec22467b9bbb9b3c5e0c3dfc3296986121c2",
+    "path": "xs1-candidate.net.xml",
+    "sha256": "568cc2003d492e99ab3dc5f8435fefbbf38b02fec218887bc4d5293521e0cda9"
+  },
+  "claim_boundary": "one frozen, vehicle-only, standard four-way OSM intersection; no pedestrian, bicycle, rail, ramp, shared-controller, or city-scale claim",
+  "exact_diff": {
+    "counts_by_scope": {
+      "boundary": 0,
+      "guard": 184,
+      "outside": 0,
+      "target": 415
+    },
+    "outside_scope_added_finding_count": 0,
+    "outside_scope_delta_count": 0,
+    "status": "pass"
+  },
+  "finding_continuity": {
+    "pair_count": 4,
+    "pairs": [
+      {
+        "candidate_finding_id": "finding_3911b2307ec0f05af96244c0",
+        "category": "ambiguous_target_lane_fanout",
+        "normalized_tokens": [
+          "29458097#2|0|815662202",
+          "0,1"
+        ],
+        "source_finding_id": "finding_effc12676b37403be1690d5d",
+        "status": "carried_forward_guard_finding"
+      },
+      {
+        "candidate_finding_id": "finding_e76ad742408e24ae0017627e",
+        "category": "ambiguous_target_lane_fanout",
+        "normalized_tokens": [
+          "-24972185|0|-1084717759#3",
+          "0,1"
+        ],
+        "source_finding_id": "finding_3a71e00484b500561f92679f",
+        "status": "carried_forward_guard_finding"
+      },
+      {
+        "candidate_finding_id": "finding_e92a65574d2e08f512626d93",
+        "category": "ambiguous_target_lane_fanout",
+        "normalized_tokens": [
+          "1227627543|1|993109789#0",
+          "1,2"
+        ],
+        "source_finding_id": "finding_4d2168a84c4d4a219d8e35e5",
+        "status": "carried_forward_guard_finding"
+      },
+      {
+        "candidate_finding_id": "finding_fde9343eecbdafaf30d0211c",
+        "category": "ambiguous_target_lane_fanout",
+        "normalized_tokens": [
+          "389840420|0|1084717760#0",
+          "0,1"
+        ],
+        "source_finding_id": "finding_63afd1def059d022d247c5f9",
+        "status": "carried_forward_guard_finding"
+      }
+    ],
+    "policy": "Only exact category plus normalized witness tokens may establish continuity; this does not waive or resolve the finding.",
+    "schema": "torii.xs1-finding-continuity/v1",
+    "status": "pass",
+    "unpaired_added_finding_ids": []
+  },
+  "gates": {
+    "all_turn_routeability": "pass",
+    "candidate_netconvert": "pass",
+    "finding_continuity": "pass",
+    "frozen_input_identity": "pass",
+    "independent_safety": "pass",
+    "outside_scope_zero_delta": "pass",
+    "semantic_reproduction": "pass",
+    "source_netconvert": "pass",
+    "sumo_load": "pass",
+    "target_connection_mode": "pass",
+    "tls_ownership_rebuild": "pass"
+  },
+  "human_review_status": "pending",
+  "independent_safety": {
+    "finding_count": 0,
+    "permissive_without_yield_count": 0,
+    "potential_signal_conflict_count": 0,
+    "protected_conflict_count": 0,
+    "status": "pass"
+  },
+  "prompt": "Clean the frozen 400 m Ingolstadt OSM extract into one vehicle-only standard four-way traffic-light intersection, verify every lane movement and signal binding, and keep all outside semantics unchanged.",
+  "review_overlay_file": "review.add.xml",
+  "rollback_file": "rollback.public.json",
+  "schema": "torii.xs1-public-summary/v1",
+  "slice_id": "xs1",
+  "source": {
+    "normalized_sha256": "3d1e59628d5c1d30bfb8b57a2b8c4885735a9e25b5b15a22b2476e0ee4d4bc0b",
+    "path": "xs1-source.net.xml",
+    "sha256": "56896df7700277d0245dc8c3ee3c39f36e39cb3e6f5fe18f1103f37950f2abd5"
+  },
+  "spec_id": "xs1-ingolstadt-89129156-v1",
+  "status": "review_ready",
+  "sumo_load": {
+    "status": "pass"
+  },
+  "target_connection": {
+    "direct_movement_count": 12,
+    "incoming_motorized_lane_count": 9,
+    "request_foes_status": "pass",
+    "review_finding_count": 0,
+    "status": "pass",
+    "structural_failure_count": 0,
+    "tls_binding_status": "pass",
+    "verified_internal_path_count": 12
+  },
+  "tls_ownership": {
+    "candidate": {
+      "target_controlled_connection_count": 12,
+      "target_controller_count": 1,
+      "target_controller_ids": [
+        "cluster_321573214_321573215_359022505_4622372941_#7more"
+      ],
+      "target_program_controller_ids": [
+        "cluster_321573214_321573215_359022505_4622372941_#7more"
+      ],
+      "target_signal_group_count": 12,
+      "target_tls_junction_count": 1,
+      "target_tls_junction_ids": [
+        "cluster_321573214_321573215_359022505_4622372941_#7more"
+      ]
+    },
+    "expected_controlled_connection_count": 12,
+    "expected_controller_ids": [
+      "cluster_321573214_321573215_359022505_4622372941_#7more"
+    ],
+    "findings": [],
+    "interpretation": "traffic-light junction/controller counts describe physical TLS ownership; signal-group/linkIndex counts describe controlled lane movements and must not be interpreted as separate physical intersections",
+    "removed_source_controller_ids": [
+      "321573214",
+      "321573215",
+      "359022505",
+      "4622372941",
+      "7622194981",
+      "9197167804",
+      "9602656749",
+      "9602656750",
+      "9602656751",
+      "9602656752"
+    ],
+    "removed_source_tls_junction_ids": [
+      "321573214",
+      "321573215",
+      "359022505",
+      "4622372941",
+      "7622194981",
+      "9197167804",
+      "9602656749",
+      "9602656750",
+      "9602656751",
+      "9602656752"
+    ],
+    "residual_old_controller_ids": [],
+    "residual_source_junction_ids": [],
+    "review_instruction": "Open xs1-candidate.net.xml for the cleaned network. xs1-source.net.xml is the immutable fragmented OSM baseline.",
+    "schema": "torii.xs1-tls-ownership/v1",
+    "source": {
+      "target_controlled_connection_count": 32,
+      "target_controller_count": 10,
+      "target_controller_ids": [
+        "321573214",
+        "321573215",
+        "359022505",
+        "4622372941",
+        "7622194981",
+        "9197167804",
+        "9602656749",
+        "9602656750",
+        "9602656751",
+        "9602656752"
+      ],
+      "target_scope_junction_count": 11,
+      "target_signal_group_count": 32,
+      "target_tls_junction_count": 10,
+      "target_tls_junction_ids": [
+        "321573214",
+        "321573215",
+        "359022505",
+        "4622372941",
+        "7622194981",
+        "9197167804",
+        "9602656749",
+        "9602656750",
+        "9602656751",
+        "9602656752"
+      ]
+    },
+    "status": "pass",
+    "target_candidate_junction_id": "cluster_321573214_321573215_359022505_4622372941_#7more"
+  },
+  "tls_ownership_file": "tls-ownership.public.json",
+  "topology_label": "four-way",
+  "visual_review": null
+}

@@ -1,0 +1,84 @@
+{
+  "candidate": {
+    "target_controlled_connection_count": 12,
+    "target_controller_count": 1,
+    "target_controller_ids": [
+      "cluster_321573214_321573215_359022505_4622372941_#7more"
+    ],
+    "target_program_controller_ids": [
+      "cluster_321573214_321573215_359022505_4622372941_#7more"
+    ],
+    "target_signal_group_count": 12,
+    "target_tls_junction_count": 1,
+    "target_tls_junction_ids": [
+      "cluster_321573214_321573215_359022505_4622372941_#7more"
+    ]
+  },
+  "expected_controlled_connection_count": 12,
+  "expected_controller_ids": [
+    "cluster_321573214_321573215_359022505_4622372941_#7more"
+  ],
+  "findings": [],
+  "interpretation": "traffic-light junction/controller counts describe physical TLS ownership; signal-group/linkIndex counts describe controlled lane movements and must not be interpreted as separate physical intersections",
+  "removed_source_controller_ids": [
+    "321573214",
+    "321573215",
+    "359022505",
+    "4622372941",
+    "7622194981",
+    "9197167804",
+    "9602656749",
+    "9602656750",
+    "9602656751",
+    "9602656752"
+  ],
+  "removed_source_tls_junction_ids": [
+    "321573214",
+    "321573215",
+    "359022505",
+    "4622372941",
+    "7622194981",
+    "9197167804",
+    "9602656749",
+    "9602656750",
+    "9602656751",
+    "9602656752"
+  ],
+  "residual_old_controller_ids": [],
+  "residual_source_junction_ids": [],
+  "review_instruction": "Open xs1-candidate.net.xml for the cleaned network. xs1-source.net.xml is the immutable fragmented OSM baseline.",
+  "schema": "torii.xs1-tls-ownership/v1",
+  "source": {
+    "target_controlled_connection_count": 32,
+    "target_controller_count": 10,
+    "target_controller_ids": [
+      "321573214",
+      "321573215",
+      "359022505",
+      "4622372941",
+      "7622194981",
+      "9197167804",
+      "9602656749",
+      "9602656750",
+      "9602656751",
+      "9602656752"
+    ],
+    "target_scope_junction_count": 11,
+    "target_signal_group_count": 32,
+    "target_tls_junction_count": 10,
+    "target_tls_junction_ids": [
+      "321573214",
+      "321573215",
+      "359022505",
+      "4622372941",
+      "7622194981",
+      "9197167804",
+      "9602656749",
+      "9602656750",
+      "9602656751",
+      "9602656752"
+    ]
+  },
+  "status": "pass",
+  "target_candidate_junction_id": "cluster_321573214_321573215_359022505_4622372941_#7more"
+}

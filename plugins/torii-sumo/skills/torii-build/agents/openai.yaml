@@ -1,0 +1,6 @@
+interface:
+  display_name: "Torii Build"
+  short_description: "Build and review SUMO road networks and traffic infrastructure."
+  default_prompt: "Use $torii-build to construct or review this SUMO network from the available road, map, signal, and source evidence."
+policy:
+  allow_implicit_invocation: true

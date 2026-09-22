@@ -1,0 +1,6 @@
+<net version="1.20">
+  <location netOffset="0,0" convBoundary="0,0,1,1" origBoundary="0,0,1,1" projParameter="+proj=longlat +datum=WGS84 +no_defs"/>
+  <edge id="bad" from="a" to="b" function="normal">
+    <lane id="bad_0" index="0" speed="13.89" length="1" shape="nan,0 1,1"/>
+  </edge>
+</net>

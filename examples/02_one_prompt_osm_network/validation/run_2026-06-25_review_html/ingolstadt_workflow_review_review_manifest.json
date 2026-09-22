@@ -1,0 +1,289 @@
+{
+  "artifacts": {
+    "cluster_zoom_dir": "visuals",
+    "net_file": "../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml",
+    "network_overview_png": "visuals/ingolstadt_workflow_review_network_overview.png",
+    "problem_overlay_png": "visuals/ingolstadt_workflow_review_problem_overlay.png",
+    "reference_comparison_png": "visuals/ingolstadt_workflow_review_reference_comparison.png",
+    "reference_net_file": "../../networks/tum_ingolstadt_center_reference.net.xml",
+    "review_manifest_file": "ingolstadt_workflow_review_review_manifest.json",
+    "routeability_audit_report_file": "../run_2026-06-24_5_5/routeability_audit_summary.json",
+    "topology_audit_report_file": "topology_audit_report.json",
+    "workflow_report_file": "ingolstadt_workflow_review_workflow_report.json"
+  },
+  "claim_status": "construction-invalid",
+  "gate_summary": {
+    "blocked": 5,
+    "fail": 0,
+    "other": 0,
+    "pass": 8,
+    "skipped": 0
+  },
+  "html_file": "ingolstadt_workflow_review.html",
+  "human_review_required_count": 10,
+  "review_queue": [
+    "Human review is required before this generated SUMO network is treated as a clean or experiment-ready network.",
+    "Keep the current claim boundary at `construction-invalid` until review gates are resolved.",
+    "Review gate `reference_join_aggregation` because it is `blocked`.",
+    "Review gate `sumo_gui` because it is `blocked`.",
+    "Review gate `tls_aggregation` because it is `blocked`.",
+    "Review gate `tls_reality_audit` because it is `blocked`.",
+    "Review gate `topology_audit` because it is `blocked`.",
+    "Inspect dense junction clusters before treating the generated road geometry as clean.",
+    "Review warning: Example artifact generated from committed Ingolstadt networks; source OSM extracts and full logs are rebuild-only.",
+    "Review warning: Dense junction clusters require map/source review before destructive aggregation."
+  ],
+  "status": "pass",
+  "visualizations": {
+    "cluster_zoom_pngs": [
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C001",
+        "google_maps_url": "https://www.google.com/maps/@48.7634471,11.4293685,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_001_C001.png",
+        "node_count": 312,
+        "x": 2129.662,
+        "y": 1336.15
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C002",
+        "google_maps_url": "https://www.google.com/maps/@48.7684211,11.4237616,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_002_C002.png",
+        "node_count": 151,
+        "x": 1700.065,
+        "y": 1875.875
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C003",
+        "google_maps_url": "https://www.google.com/maps/@48.7727917,11.4322215,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_003_C003.png",
+        "node_count": 130,
+        "x": 2306.12,
+        "y": 2381.472
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C004",
+        "google_maps_url": "https://www.google.com/maps/@48.7615940,11.4197834,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_004_C004.png",
+        "node_count": 121,
+        "x": 1431.893,
+        "y": 1107.755
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C005",
+        "google_maps_url": "https://www.google.com/maps/@48.7637899,11.4169570,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_005_C005.png",
+        "node_count": 100,
+        "x": 1216.459,
+        "y": 1345.23
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C006",
+        "google_maps_url": "https://www.google.com/maps/@48.7718839,11.4199230,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_006_C006.png",
+        "node_count": 78,
+        "x": 1405.802,
+        "y": 2251.783
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C007",
+        "google_maps_url": "https://www.google.com/maps/@48.7663887,11.4313629,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_007_C007.png",
+        "node_count": 56,
+        "x": 2265.769,
+        "y": 1667.782
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C008",
+        "google_maps_url": "https://www.google.com/maps/@48.7596944,11.4297232,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_008_C008.png",
+        "node_count": 55,
+        "x": 2169.032,
+        "y": 919.877
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C009",
+        "google_maps_url": "https://www.google.com/maps/@48.7620937,11.4167837,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_009_C009.png",
+        "node_count": 47,
+        "x": 1209.708,
+        "y": 1156.297
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C010",
+        "google_maps_url": "https://www.google.com/maps/@48.7676527,11.4247908,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_010_C010.png",
+        "node_count": 46,
+        "x": 1778.404,
+        "y": 1792.871
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C011",
+        "google_maps_url": "https://www.google.com/maps/@48.7619945,11.4326434,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_011_C011.png",
+        "node_count": 46,
+        "x": 2375.459,
+        "y": 1182.382
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C012",
+        "google_maps_url": "https://www.google.com/maps/@48.7750015,11.4171779,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_012_C012.png",
+        "node_count": 44,
+        "x": 1193.13,
+        "y": 2591.893
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C013",
+        "google_maps_url": "https://www.google.com/maps/@48.7702114,11.4239503,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_013_C013.png",
+        "node_count": 43,
+        "x": 1707.6,
+        "y": 2075.303
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C014",
+        "google_maps_url": "https://www.google.com/maps/@48.7607745,11.4269765,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_014_C014.png",
+        "node_count": 43,
+        "x": 1963.361,
+        "y": 1033.497
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C015",
+        "google_maps_url": "https://www.google.com/maps/@48.7752353,11.4252395,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_015_C015.png",
+        "node_count": 39,
+        "x": 1784.524,
+        "y": 2636.711
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C016",
+        "google_maps_url": "https://www.google.com/maps/@48.7716577,11.4173407,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_016_C016.png",
+        "node_count": 36,
+        "x": 1216.89,
+        "y": 2220.61
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C017",
+        "google_maps_url": "https://www.google.com/maps/@48.7557097,11.4302394,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_017_C017.png",
+        "node_count": 32,
+        "x": 2221.098,
+        "y": 478.196
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C018",
+        "google_maps_url": "https://www.google.com/maps/@48.7666258,11.4327563,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_018_C018.png",
+        "node_count": 32,
+        "x": 2367.304,
+        "y": 1697.402
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C019",
+        "google_maps_url": "https://www.google.com/maps/@48.7571268,11.4231692,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_019_C019.png",
+        "node_count": 29,
+        "x": 1696.49,
+        "y": 619.154
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C020",
+        "google_maps_url": "https://www.google.com/maps/@48.7696910,11.4338251,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_020_C020.png",
+        "node_count": 29,
+        "x": 2434.947,
+        "y": 2040.606
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C021",
+        "google_maps_url": "https://www.google.com/maps/@48.7694637,11.4212410,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_021_C021.png",
+        "node_count": 27,
+        "x": 1511.188,
+        "y": 1985.861
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C022",
+        "google_maps_url": "https://www.google.com/maps/@48.7693653,11.4192388,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_022_C022.png",
+        "node_count": 26,
+        "x": 1364.433,
+        "y": 1970.244
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C023",
+        "google_maps_url": "https://www.google.com/maps/@48.7678678,11.4308917,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_023_C023.png",
+        "node_count": 26,
+        "x": 2225.901,
+        "y": 1831.068
+      },
+      {
+        "aggregation_confidence": "low",
+        "aggregation_decision": "needs_map_review",
+        "cluster_id": "C024",
+        "google_maps_url": "https://www.google.com/maps/@48.7666415,11.4206366,50m",
+        "image_file": "visuals/ingolstadt_workflow_review_cluster_024_C024.png",
+        "node_count": 25,
+        "x": 1476.754,
+        "y": 1670.769
+      }
+    ],
+    "network_overview_png": "visuals/ingolstadt_workflow_review_network_overview.png",
+    "problem_overlay_png": "visuals/ingolstadt_workflow_review_problem_overlay.png",
+    "reference_comparison_png": "visuals/ingolstadt_workflow_review_reference_comparison.png"
+  },
+  "warnings": [
+    "Example artifact generated from committed Ingolstadt networks; source OSM extracts and full logs are rebuild-only.",
+    "Dense junction clusters require map/source review before destructive aggregation."
+  ],
+  "workflow_report_file": "ingolstadt_workflow_review_workflow_report.json"
+}

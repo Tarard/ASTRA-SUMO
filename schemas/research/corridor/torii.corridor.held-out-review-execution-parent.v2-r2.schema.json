@@ -1,0 +1,180 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-execution-parent.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "base_review_parent_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Base Review Parent Sha256",
+      "type": "string"
+    },
+    "base_review_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Base Review Policy Sha256",
+      "type": "string"
+    },
+    "effective_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Effective Corpus Sha256",
+      "type": "string"
+    },
+    "human_decisions_present": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Present",
+      "type": "boolean"
+    },
+    "machine_assessments_frozen": {
+      "const": true,
+      "default": true,
+      "title": "Machine Assessments Frozen",
+      "type": "boolean"
+    },
+    "machine_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Machine Manifest Sha256",
+      "type": "string"
+    },
+    "machine_report_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Machine Report Sha256",
+      "type": "string"
+    },
+    "machine_run_identity_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Machine Run Identity Sha256",
+      "type": "string"
+    },
+    "parent_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Parent Id",
+      "type": "string"
+    },
+    "pipeline_pass_count": {
+      "const": 30,
+      "default": 30,
+      "title": "Pipeline Pass Count",
+      "type": "integer"
+    },
+    "producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "replacement_attempt_ledger_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replacement Attempt Ledger Sha256",
+      "type": "string"
+    },
+    "review_ready_is_not_stage1_exit": {
+      "const": true,
+      "default": true,
+      "title": "Review Ready Is Not Stage1 Exit",
+      "type": "boolean"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-execution-parent/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "semantic_replay_pass_count": {
+      "const": 30,
+      "default": 30,
+      "title": "Semantic Replay Pass Count",
+      "type": "integer"
+    },
+    "snapshot_manifest_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Snapshot Manifest Sha256",
+      "type": "string"
+    },
+    "snapshot_report_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Snapshot Report Sha256",
+      "type": "string"
+    },
+    "source_snapshot_protocol_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Snapshot Protocol Sha256",
+      "type": "string"
+    },
+    "valid_corridor_package_count": {
+      "const": 30,
+      "default": 30,
+      "title": "Valid Corridor Package Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "parent_id",
+    "base_review_parent_sha256",
+    "base_review_policy_sha256",
+    "effective_corpus_sha256",
+    "replacement_attempt_ledger_sha256",
+    "source_snapshot_protocol_sha256",
+    "snapshot_report_sha256",
+    "snapshot_manifest_sha256",
+    "machine_run_identity_sha256",
+    "machine_report_sha256",
+    "machine_manifest_sha256",
+    "producer"
+  ],
+  "title": "HeldOutReviewExecutionParentV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-frozen-machine-evidence-parent"
+}

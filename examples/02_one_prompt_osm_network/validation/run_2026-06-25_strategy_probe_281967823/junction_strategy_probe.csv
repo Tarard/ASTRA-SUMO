@@ -1,0 +1,7 @@
+strategy,node_count,incident_edge_count,inside_edge_count,short_incident_edge_count,modal_incident_edge_count,internal_incident_edge_count,area,reference_area,area_ratio,perimeter,centroid_distance_to_reference,vertex_hausdorff_to_reference
+reference_core,6,31,5,26,14,0,383.712,505.899,0.758,71.776,2.4,4.826
+radius_all_top_level,27,75,50,49,44,0,3012.27,505.899,5.954,214.671,13.065,35.712
+short_vehicle_core,10,38,16,29,17,0,393.983,505.899,0.779,72.956,2.307,4.826
+short_all_core,17,48,32,32,27,0,442.851,505.899,0.875,79.273,2.576,4.826
+edge_bounded_short_core,17,48,32,32,27,0,463.64,505.899,0.916,80.913,1.353,5.966
+short_all_core_with_protected_terminals,11,39,21,30,18,0,442.851,505.899,0.875,79.273,2.576,4.826

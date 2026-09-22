@@ -1,0 +1,1115 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "Stage1CoverageGapEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "certification_site_group": {
+          "title": "Certification Site Group",
+          "type": "string"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "coverage_gap_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Coverage Gap Id",
+          "type": "string"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "position_xy": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Position Xy",
+          "type": "array"
+        },
+        "primary_classification": {
+          "const": "safety-coverage-blocker",
+          "title": "Primary Classification",
+          "type": "string"
+        },
+        "rejection_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejection Reasons",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "secondary_classifications": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Secondary Classifications",
+          "type": "array"
+        }
+      },
+      "required": [
+        "corridor_key",
+        "coverage_gap_id",
+        "crossing_signature",
+        "position_xy",
+        "primary_classification",
+        "secondary_classifications",
+        "rejection_reasons",
+        "certification_site_group"
+      ],
+      "title": "Stage1CoverageGapEvidence",
+      "type": "object"
+    },
+    "Stage1CoverageSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "certification_site_group_count": {
+          "const": 2,
+          "default": 2,
+          "title": "Certification Site Group Count",
+          "type": "integer"
+        },
+        "effective_coverage_gap_count": {
+          "const": 3,
+          "default": 3,
+          "title": "Effective Coverage Gap Count",
+          "type": "integer"
+        },
+        "field_structural_defect_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Field Structural Defect Claimed",
+          "type": "boolean"
+        },
+        "gaps": {
+          "items": {
+            "$ref": "#/$defs/Stage1CoverageGapEvidence"
+          },
+          "title": "Gaps",
+          "type": "array"
+        },
+        "paris_coverage_gap_count": {
+          "const": 2,
+          "default": 2,
+          "title": "Paris Coverage Gap Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "gaps"
+      ],
+      "title": "Stage1CoverageSummary",
+      "type": "object"
+    },
+    "Stage1EvidenceArtifact": {
+      "additionalProperties": false,
+      "properties": {
+        "logical_name": {
+          "title": "Logical Name",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "role": {
+          "title": "Role",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "tracked_in_git": {
+          "title": "Tracked In Git",
+          "type": "boolean"
+        },
+        "visibility": {
+          "enum": [
+            "tracked-public",
+            "local-machine-evidence",
+            "reviewer-visible",
+            "restricted-hash-only"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "logical_name",
+        "role",
+        "path",
+        "sha256",
+        "visibility",
+        "tracked_in_git"
+      ],
+      "title": "Stage1EvidenceArtifact",
+      "type": "object"
+    },
+    "Stage1EvidenceDependency": {
+      "additionalProperties": false,
+      "properties": {
+        "child_path": {
+          "title": "Child Path",
+          "type": "string"
+        },
+        "parent_path": {
+          "title": "Parent Path",
+          "type": "string"
+        },
+        "relation": {
+          "title": "Relation",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parent_path",
+        "child_path",
+        "relation"
+      ],
+      "title": "Stage1EvidenceDependency",
+      "type": "object"
+    },
+    "Stage1GateEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "conclusion": {
+          "title": "Conclusion",
+          "type": "string"
+        },
+        "evidence_paths": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Evidence Paths",
+          "type": "array"
+        },
+        "gate_id": {
+          "title": "Gate Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "status": {
+          "const": "pass",
+          "default": "pass",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "gate_id",
+        "evidence_paths",
+        "conclusion"
+      ],
+      "title": "Stage1GateEvidence",
+      "type": "object"
+    },
+    "Stage1MachineSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "automatic_promotion_gate": {
+          "const": "blocked",
+          "default": "blocked",
+          "title": "Automatic Promotion Gate",
+          "type": "string"
+        },
+        "evidence_build_status": {
+          "const": "review",
+          "default": "review",
+          "title": "Evidence Build Status",
+          "type": "string"
+        },
+        "expected_case_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Expected Case Count",
+          "type": "integer"
+        },
+        "machine_label_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Machine Label Counts",
+          "type": "object"
+        },
+        "manifest_artifact_count": {
+          "minimum": 1,
+          "title": "Manifest Artifact Count",
+          "type": "integer"
+        },
+        "manifest_hash_failure_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Manifest Hash Failure Count",
+          "type": "integer"
+        },
+        "manifest_missing_artifact_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Manifest Missing Artifact Count",
+          "type": "integer"
+        },
+        "manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Manifest Sha256",
+          "type": "string"
+        },
+        "pipeline_pass_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Pipeline Pass Count",
+          "type": "integer"
+        },
+        "processed_case_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Processed Case Count",
+          "type": "integer"
+        },
+        "report_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Report Sha256",
+          "type": "string"
+        },
+        "run_identity_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Run Identity Sha256",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "semantic_replay_pass_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Semantic Replay Pass Count",
+          "type": "integer"
+        },
+        "source_osm_immutable_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Source Osm Immutable Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "machine_label_counts",
+        "manifest_artifact_count",
+        "report_sha256",
+        "manifest_sha256",
+        "run_identity_sha256"
+      ],
+      "title": "Stage1MachineSummary",
+      "type": "object"
+    },
+    "Stage1PCBSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "ambiguous_count": {
+          "minimum": 0,
+          "title": "Ambiguous Count",
+          "type": "integer"
+        },
+        "automatic_promotion_gate": {
+          "const": "blocked",
+          "default": "blocked",
+          "title": "Automatic Promotion Gate",
+          "type": "string"
+        },
+        "class_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Class Counts",
+          "type": "object"
+        },
+        "effective_corridor_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Effective Corridor Count",
+          "type": "integer"
+        },
+        "effective_experiment_name": {
+          "const": "PCB-459",
+          "default": "PCB-459",
+          "title": "Effective Experiment Name",
+          "type": "string"
+        },
+        "effective_program_misclassified_as_missing_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Effective Program Misclassified As Missing Count",
+          "type": "integer"
+        },
+        "effective_unresolved_binding_count": {
+          "minimum": 453,
+          "title": "Effective Unresolved Binding Count",
+          "type": "integer"
+        },
+        "exact_review_position_count": {
+          "minimum": 0,
+          "title": "Exact Review Position Count",
+          "type": "integer"
+        },
+        "frozen_experiment_name": {
+          "const": "PCB-453",
+          "default": "PCB-453",
+          "title": "Frozen Experiment Name",
+          "type": "string"
+        },
+        "frozen_retained_corridor_count": {
+          "const": 27,
+          "default": 27,
+          "title": "Frozen Retained Corridor Count",
+          "type": "integer"
+        },
+        "frozen_unresolved_binding_count": {
+          "const": 453,
+          "default": 453,
+          "title": "Frozen Unresolved Binding Count",
+          "type": "integer"
+        },
+        "hard_structural_count": {
+          "minimum": 0,
+          "title": "Hard Structural Count",
+          "type": "integer"
+        },
+        "replacement_contribution_count": {
+          "minimum": 0,
+          "title": "Replacement Contribution Count",
+          "type": "integer"
+        },
+        "runtime_special_misclassified_as_ordinary_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Runtime Special Misclassified As Ordinary Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unique_primary_classification_count": {
+          "minimum": 0,
+          "title": "Unique Primary Classification Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "effective_unresolved_binding_count",
+        "replacement_contribution_count",
+        "class_counts",
+        "hard_structural_count",
+        "ambiguous_count",
+        "exact_review_position_count",
+        "unique_primary_classification_count"
+      ],
+      "title": "Stage1PCBSummary",
+      "type": "object"
+    },
+    "Stage1ROWSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "automatic_promotion_gate": {
+          "const": "blocked",
+          "default": "blocked",
+          "title": "Automatic Promotion Gate",
+          "type": "string"
+        },
+        "case_count": {
+          "const": 15,
+          "default": 15,
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "exact_repeat_match": {
+          "const": true,
+          "default": true,
+          "title": "Exact Repeat Match",
+          "type": "boolean"
+        },
+        "expected_answer_model_claim_read_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Expected Answer Model Claim Read Count",
+          "type": "integer"
+        },
+        "experiment_name": {
+          "const": "ROW-1",
+          "default": "ROW-1",
+          "title": "Experiment Name",
+          "type": "string"
+        },
+        "failed_case_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Failed Case Count",
+          "type": "integer"
+        },
+        "field_truth_claimed": {
+          "const": false,
+          "default": false,
+          "title": "Field Truth Claimed",
+          "type": "boolean"
+        },
+        "independent_repeat_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Independent Repeat Sha256",
+          "type": "string"
+        },
+        "report_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Report Id",
+          "type": "string"
+        },
+        "report_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Report Sha256",
+          "type": "string"
+        },
+        "runtime_probe_count": {
+          "const": 12,
+          "default": 12,
+          "title": "Runtime Probe Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_insufficient_forced_decision_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Source Insufficient Forced Decision Count",
+          "type": "integer"
+        },
+        "status": {
+          "const": "pass",
+          "default": "pass",
+          "title": "Status",
+          "type": "string"
+        },
+        "unsafe_false_pass_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Unsafe False Pass Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "report_id",
+        "report_sha256",
+        "independent_repeat_sha256"
+      ],
+      "title": "Stage1ROWSummary",
+      "type": "object"
+    },
+    "Stage1RWCReplacementContribution": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_witness_count": {
+          "minimum": 0,
+          "title": "Atomic Witness Count",
+          "type": "integer"
+        },
+        "cluster_count": {
+          "minimum": 0,
+          "title": "Cluster Count",
+          "type": "integer"
+        },
+        "confirmed_count": {
+          "minimum": 0,
+          "title": "Confirmed Count",
+          "type": "integer"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "potential_count": {
+          "minimum": 0,
+          "title": "Potential Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "site_review_case_count": {
+          "minimum": 0,
+          "title": "Site Review Case Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "corridor_key",
+        "confirmed_count",
+        "potential_count",
+        "atomic_witness_count",
+        "cluster_count",
+        "site_review_case_count"
+      ],
+      "title": "Stage1RWCReplacementContribution",
+      "type": "object"
+    },
+    "Stage1RWCSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_membership_coverage": {
+          "const": 1.0,
+          "default": 1.0,
+          "title": "Atomic Membership Coverage",
+          "type": "number"
+        },
+        "automatic_promotion_gate": {
+          "const": "blocked",
+          "default": "blocked",
+          "title": "Automatic Promotion Gate",
+          "type": "string"
+        },
+        "duplicate_membership_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Duplicate Membership Count",
+          "type": "integer"
+        },
+        "effective_atomic_witness_count": {
+          "minimum": 0,
+          "title": "Effective Atomic Witness Count",
+          "type": "integer"
+        },
+        "effective_cluster_count": {
+          "minimum": 0,
+          "title": "Effective Cluster Count",
+          "type": "integer"
+        },
+        "effective_confirmed_count": {
+          "minimum": 0,
+          "title": "Effective Confirmed Count",
+          "type": "integer"
+        },
+        "effective_corridor_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Effective Corridor Count",
+          "type": "integer"
+        },
+        "effective_potential_count": {
+          "minimum": 0,
+          "title": "Effective Potential Count",
+          "type": "integer"
+        },
+        "effective_site_review_case_count": {
+          "minimum": 0,
+          "title": "Effective Site Review Case Count",
+          "type": "integer"
+        },
+        "extraneous_membership_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Extraneous Membership Count",
+          "type": "integer"
+        },
+        "frozen_atomic_witness_count": {
+          "const": 88423,
+          "default": 88423,
+          "title": "Frozen Atomic Witness Count",
+          "type": "integer"
+        },
+        "frozen_confirmed_count": {
+          "const": 34493,
+          "default": 34493,
+          "title": "Frozen Confirmed Count",
+          "type": "integer"
+        },
+        "frozen_experiment_name": {
+          "const": "RWC-1",
+          "default": "RWC-1",
+          "title": "Frozen Experiment Name",
+          "type": "string"
+        },
+        "frozen_potential_count": {
+          "const": 53930,
+          "default": 53930,
+          "title": "Frozen Potential Count",
+          "type": "integer"
+        },
+        "frozen_retained_corridor_count": {
+          "const": 27,
+          "default": 27,
+          "title": "Frozen Retained Corridor Count",
+          "type": "integer"
+        },
+        "lost_witness_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Lost Witness Count",
+          "type": "integer"
+        },
+        "mixed_hard_key_violation_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Mixed Hard Key Violation Count",
+          "type": "integer"
+        },
+        "replacement_contributions": {
+          "items": {
+            "$ref": "#/$defs/Stage1RWCReplacementContribution"
+          },
+          "title": "Replacement Contributions",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "effective_confirmed_count",
+        "effective_potential_count",
+        "effective_atomic_witness_count",
+        "effective_cluster_count",
+        "effective_site_review_case_count",
+        "replacement_contributions"
+      ],
+      "title": "Stage1RWCSummary",
+      "type": "object"
+    },
+    "Stage1ReviewPackageSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_witness_population_count": {
+          "minimum": 0,
+          "title": "Atomic Witness Population Count",
+          "type": "integer"
+        },
+        "automatic_promotion_gate": {
+          "const": "blocked",
+          "default": "blocked",
+          "title": "Automatic Promotion Gate",
+          "type": "string"
+        },
+        "controlled_binding_hard_census_count": {
+          "const": 21,
+          "default": 21,
+          "title": "Controlled Binding Hard Census Count",
+          "type": "integer"
+        },
+        "corridor_package_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Corridor Package Count",
+          "type": "integer"
+        },
+        "dataset_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Dataset Sha256",
+          "type": "string"
+        },
+        "human_decisions_present": {
+          "const": false,
+          "default": false,
+          "title": "Human Decisions Present",
+          "type": "boolean"
+        },
+        "independent_hidden_witness_count": {
+          "const": 217,
+          "default": 217,
+          "title": "Independent Hidden Witness Count",
+          "type": "integer"
+        },
+        "independent_repeat_file_count": {
+          "const": 892,
+          "default": 892,
+          "title": "Independent Repeat File Count",
+          "type": "integer"
+        },
+        "manifest_artifact_count": {
+          "const": 891,
+          "default": 891,
+          "title": "Manifest Artifact Count",
+          "type": "integer"
+        },
+        "package_file_count": {
+          "const": 892,
+          "default": 892,
+          "title": "Package File Count",
+          "type": "integer"
+        },
+        "package_manifest_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Package Manifest Sha256",
+          "type": "string"
+        },
+        "pedestrian_coverage_gap_census_count": {
+          "const": 3,
+          "default": 3,
+          "title": "Pedestrian Coverage Gap Census Count",
+          "type": "integer"
+        },
+        "repeat_hash_difference_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Repeat Hash Difference Count",
+          "type": "integer"
+        },
+        "restricted_evaluation_key_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Restricted Evaluation Key Sha256",
+          "type": "string"
+        },
+        "review_unit_count": {
+          "const": 384,
+          "default": 384,
+          "title": "Review Unit Count",
+          "type": "integer"
+        },
+        "reviewer_visible_attention_role_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Reviewer Visible Attention Role Count",
+          "type": "integer"
+        },
+        "reviewer_visible_hidden_role_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Reviewer Visible Hidden Role Count",
+          "type": "integer"
+        },
+        "reviewer_visible_machine_label_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Reviewer Visible Machine Label Count",
+          "type": "integer"
+        },
+        "sampling_ledger_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sampling Ledger Sha256",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_conflict_site_count": {
+          "const": 240,
+          "default": 240,
+          "title": "Selected Conflict Site Count",
+          "type": "integer"
+        },
+        "selected_negative_pair_count": {
+          "const": 120,
+          "default": 120,
+          "title": "Selected Negative Pair Count",
+          "type": "integer"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trial_id",
+        "atomic_witness_population_count",
+        "dataset_sha256",
+        "sampling_ledger_sha256",
+        "restricted_evaluation_key_sha256",
+        "package_manifest_sha256"
+      ],
+      "title": "Stage1ReviewPackageSummary",
+      "type": "object"
+    },
+    "Stage1SnapshotSummary": {
+      "additionalProperties": false,
+      "properties": {
+        "city_extract_count": {
+          "const": 6,
+          "default": 6,
+          "title": "City Extract Count",
+          "type": "integer"
+        },
+        "corridor_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Corridor Count",
+          "type": "integer"
+        },
+        "manifest_artifact_count": {
+          "const": 40,
+          "default": 40,
+          "title": "Manifest Artifact Count",
+          "type": "integer"
+        },
+        "manifest_hash_failure_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Manifest Hash Failure Count",
+          "type": "integer"
+        },
+        "manifest_missing_artifact_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Manifest Missing Artifact Count",
+          "type": "integer"
+        },
+        "reference_complete_corridor_count": {
+          "const": 30,
+          "default": 30,
+          "title": "Reference Complete Corridor Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "status": {
+          "const": "pass",
+          "default": "pass",
+          "title": "Status",
+          "type": "string"
+        },
+        "unconfirmed_feature_count": {
+          "const": 0,
+          "default": 0,
+          "title": "Unconfirmed Feature Count",
+          "type": "integer"
+        }
+      },
+      "title": "Stage1SnapshotSummary",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.stage1m-machine-review-ready-provenance.v3.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/Stage1EvidenceArtifact"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "automatic_promotion_gate": {
+      "const": "blocked",
+      "default": "blocked",
+      "title": "Automatic Promotion Gate",
+      "type": "string"
+    },
+    "claims_not_supported": {
+      "default": [
+        "auto-precision-or-auto-coverage-has-been-measured",
+        "machine-findings-are-human-confirmed-field-defects",
+        "nema-pedestrian-bicycle-rail-or-multimodal-safety-is-certified",
+        "request-foes-internal-geometry-or-tls-is-independently-proven-correct",
+        "stage-1-has-exited",
+        "stage-2-or-later-edit-classes-are-certified",
+        "the-held-out-corpus-proves-cross-city-generalization",
+        "the-row-1-development-oracle-proves-field-right-of-way-truth",
+        "universal-osm-cleaning-to-expert-netedit-quality-is-achieved"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Claims Not Supported",
+      "type": "array"
+    },
+    "coverage": {
+      "$ref": "#/$defs/Stage1CoverageSummary"
+    },
+    "dependencies": {
+      "items": {
+        "$ref": "#/$defs/Stage1EvidenceDependency"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "gates": {
+      "items": {
+        "$ref": "#/$defs/Stage1GateEvidence"
+      },
+      "title": "Gates",
+      "type": "array"
+    },
+    "human_decisions_present": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Present",
+      "type": "boolean"
+    },
+    "machine": {
+      "$ref": "#/$defs/Stage1MachineSummary"
+    },
+    "machine_evidence_producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "pcb": {
+      "$ref": "#/$defs/Stage1PCBSummary"
+    },
+    "producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "provenance_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Provenance Id",
+      "type": "string"
+    },
+    "recorded_at": {
+      "format": "date-time",
+      "title": "Recorded At",
+      "type": "string"
+    },
+    "review_package": {
+      "$ref": "#/$defs/Stage1ReviewPackageSummary"
+    },
+    "review_package_producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "review_ready_is_not_stage1_exit": {
+      "const": true,
+      "default": true,
+      "title": "Review Ready Is Not Stage1 Exit",
+      "type": "boolean"
+    },
+    "row_1": {
+      "$ref": "#/$defs/Stage1ROWSummary"
+    },
+    "rwc": {
+      "$ref": "#/$defs/Stage1RWCSummary"
+    },
+    "schema": {
+      "default": "torii.corridor.stage1m-machine-review-ready-provenance/v3",
+      "title": "Schema",
+      "type": "string"
+    },
+    "snapshot": {
+      "$ref": "#/$defs/Stage1SnapshotSummary"
+    },
+    "stage_1h_human_validation_gate": {
+      "const": "blocked",
+      "default": "blocked",
+      "title": "Stage 1H Human Validation Gate",
+      "type": "string"
+    },
+    "stage_1m_machine_review_ready_gate": {
+      "const": "pass",
+      "default": "pass",
+      "title": "Stage 1M Machine Review Ready Gate",
+      "type": "string"
+    },
+    "status": {
+      "const": "review-ready",
+      "default": "review-ready",
+      "title": "Status",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "provenance_id",
+    "recorded_at",
+    "producer",
+    "machine_evidence_producer",
+    "review_package_producer",
+    "trial_id",
+    "artifacts",
+    "dependencies",
+    "gates",
+    "snapshot",
+    "machine",
+    "pcb",
+    "rwc",
+    "coverage",
+    "row_1",
+    "review_package"
+  ],
+  "title": "Stage1MachineReviewReadyProvenance",
+  "type": "object",
+  "x-torii-status": "stage-1m-machine-review-ready-provenance-contract"
+}

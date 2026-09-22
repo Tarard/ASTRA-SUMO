@@ -1,0 +1,213 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "ReviewPackageArtifactV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "visibility": {
+          "enum": [
+            "reviewer-visible",
+            "restricted"
+          ],
+          "title": "Visibility",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256",
+        "visibility"
+      ],
+      "title": "ReviewPackageArtifactV2R2",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-package-manifest.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/ReviewPackageArtifactV2R2"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "dataset_path": {
+      "title": "Dataset Path",
+      "type": "string"
+    },
+    "dataset_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Dataset Sha256",
+      "type": "string"
+    },
+    "evaluation_key_path": {
+      "title": "Evaluation Key Path",
+      "type": "string"
+    },
+    "evaluation_key_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Evaluation Key Sha256",
+      "type": "string"
+    },
+    "execution_parent_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Execution Parent Sha256",
+      "type": "string"
+    },
+    "finding_counts_consulted_for_sampling": {
+      "const": false,
+      "default": false,
+      "title": "Finding Counts Consulted For Sampling",
+      "type": "boolean"
+    },
+    "human_decisions_present": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Present",
+      "type": "boolean"
+    },
+    "machine_labels_consulted_for_sampling": {
+      "const": false,
+      "default": false,
+      "title": "Machine Labels Consulted For Sampling",
+      "type": "boolean"
+    },
+    "producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "reviewer_visible_attention_role_count": {
+      "const": 0,
+      "default": 0,
+      "title": "Reviewer Visible Attention Role Count",
+      "type": "integer"
+    },
+    "reviewer_visible_hidden_role_count": {
+      "const": 0,
+      "default": 0,
+      "title": "Reviewer Visible Hidden Role Count",
+      "type": "integer"
+    },
+    "reviewer_visible_machine_label_count": {
+      "const": 0,
+      "default": 0,
+      "title": "Reviewer Visible Machine Label Count",
+      "type": "integer"
+    },
+    "sampling_ledger_path": {
+      "title": "Sampling Ledger Path",
+      "type": "string"
+    },
+    "sampling_ledger_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sampling Ledger Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-package-manifest/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "study_sampling_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Study Sampling Policy Sha256",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    },
+    "trial_instance_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Trial Instance Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "trial_instance_sha256",
+    "execution_parent_sha256",
+    "study_sampling_policy_sha256",
+    "producer",
+    "dataset_path",
+    "dataset_sha256",
+    "evaluation_key_path",
+    "evaluation_key_sha256",
+    "sampling_ledger_path",
+    "sampling_ledger_sha256",
+    "artifacts"
+  ],
+  "title": "HeldOutReviewPackageManifestV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-review-package-provenance"
+}

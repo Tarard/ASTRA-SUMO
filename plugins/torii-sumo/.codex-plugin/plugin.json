@@ -1,0 +1,34 @@
+{
+  "name": "torii-sumo",
+  "version": "1.2.0",
+  "description": "Torii bundles SUMO expertise, OSM cleanup, and public-data corridor digital-twin MCP tools.",
+  "author": {
+    "name": "Torii contributors"
+  },
+  "license": "MIT",
+  "keywords": [
+    "sumo",
+    "traci",
+    "mcp",
+    "traffic-simulation",
+    "digital-twin",
+    "open-data",
+    "codex-skill"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Torii",
+    "shortDescription": "SUMO corridor digital twins.",
+    "longDescription": "Bundles SUMO expertise, bounded local MCP tools, Torii OSM cleanup, official public-data ingestion, detector-constrained demand reconstruction, traffic-signal replay, and evidence-aware validation.",
+    "developerName": "Torii contributors",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "composerIcon": "./assets/app-logo.png",
+    "logo": "./assets/app-logo.png",
+    "defaultPrompt": "Use Torii to understand the SUMO task, run MCP tools only when evidence is needed, and treat bad metrics as model feedback."
+  }
+}

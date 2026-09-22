@@ -1,0 +1,146 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.review-study-sampling-policy.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "atomic_witness_machine_census_required": {
+      "const": true,
+      "default": true,
+      "title": "Atomic Witness Machine Census Required",
+      "type": "boolean"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "conflict_site_stratum_fields": {
+      "default": [
+        "certainty-profile",
+        "grade-risk-profile"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Conflict Site Stratum Fields",
+      "type": "array"
+    },
+    "controlled_binding_hard_classes_census": {
+      "default": [
+        "ordinary-program-truly-absent",
+        "program-present-link-invalid"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Controlled Binding Hard Classes Census",
+      "type": "array"
+    },
+    "estimator": {
+      "const": "horvitz-thompson",
+      "default": "horvitz-thompson",
+      "title": "Estimator",
+      "type": "string"
+    },
+    "inclusion_probability_required": {
+      "const": true,
+      "default": true,
+      "title": "Inclusion Probability Required",
+      "type": "boolean"
+    },
+    "negative_sampling_algorithm": {
+      "const": "sha256-round-robin-over-existing-negative-strata",
+      "default": "sha256-round-robin-over-existing-negative-strata",
+      "title": "Negative Sampling Algorithm",
+      "type": "string"
+    },
+    "parent_sampling_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Sampling Policy Sha256",
+      "type": "string"
+    },
+    "pedestrian_coverage_gaps_census": {
+      "const": true,
+      "default": true,
+      "title": "Pedestrian Coverage Gaps Census",
+      "type": "boolean"
+    },
+    "policy_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "rare_hard_ood_machine_census_required": {
+      "const": true,
+      "default": true,
+      "title": "Rare Hard Ood Machine Census Required",
+      "type": "boolean"
+    },
+    "review_unit": {
+      "const": "pedestrian-conflict-site",
+      "default": "pedestrian-conflict-site",
+      "title": "Review Unit",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.review-study-sampling-policy/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "site_sampling_algorithm": {
+      "const": "sha256-stratified-with-minimum-one-per-observed-stratum",
+      "default": "sha256-stratified-with-minimum-one-per-observed-stratum",
+      "title": "Site Sampling Algorithm",
+      "type": "string"
+    },
+    "target_conflict_sites_per_corridor": {
+      "const": 8,
+      "default": 8,
+      "title": "Target Conflict Sites Per Corridor",
+      "type": "integer"
+    },
+    "target_negative_pairs_per_corridor": {
+      "const": 4,
+      "default": 4,
+      "title": "Target Negative Pairs Per Corridor",
+      "type": "integer"
+    },
+    "unknown_control_does_not_force_human_member_census": {
+      "const": true,
+      "default": true,
+      "title": "Unknown Control Does Not Force Human Member Census",
+      "type": "boolean"
+    },
+    "unknown_control_population_must_be_retained": {
+      "const": true,
+      "default": true,
+      "title": "Unknown Control Population Must Be Retained",
+      "type": "boolean"
+    },
+    "unselected_population_remains_unresolved": {
+      "const": true,
+      "default": true,
+      "title": "Unselected Population Remains Unresolved",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "policy_id",
+    "parent_sampling_policy_sha256"
+  ],
+  "title": "ReviewStudySamplingPolicyV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-reviewable-validation-sampling-contract"
+}

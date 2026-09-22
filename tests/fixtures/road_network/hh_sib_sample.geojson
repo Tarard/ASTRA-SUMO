@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "numberMatched": 1,
+  "numberReturned": 1,
+  "timeStamp": "2026-07-19T15:40:31Z",
+  "features": [
+    {
+      "type": "Feature",
+      "id": 1,
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.980000, 53.540025],
+          [9.981000, 53.540025],
+          [9.982000, 53.540025]
+        ]
+      },
+      "properties": {
+        "von_netzknoten": "official-west",
+        "nach_netzknoten": "official-east",
+        "von_station": 0,
+        "bis_station": 132,
+        "klasse": "G",
+        "strassenschluessel": "A326",
+        "wegenummer": "295",
+        "strassenname": "Am Sandtorkai",
+        "landesschluessel": 2,
+        "kreisschluessel": 1,
+        "gemeindeschluessel": 103,
+        "abschnittslaenge": 132,
+        "ast": 0,
+        "fahrstreifenanzahl_in_stationierungsrichtung": 2,
+        "fahrstreifenanzahl_in_beide_richtungen": 0,
+        "fahrstreifenanzahl_gegen_stationierungsrichtung": 2,
+        "bahnigkeit": 2,
+        "geschwindigkeit": "50 km/h",
+        "wegeart": "Stadtstraße (alle Straßen, die nicht BAB oder Bundesstraßen sind, sowie zu einer anderen Wegeart gehören)"
+      }
+    }
+  ]
+}

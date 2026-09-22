@@ -1,0 +1,52 @@
+{
+  "candidate": {
+    "target_controlled_connection_count": 7,
+    "target_controller_count": 1,
+    "target_controller_ids": [
+      "xs2_tls_7009179660"
+    ],
+    "target_program_controller_ids": [
+      "xs2_tls_7009179660"
+    ],
+    "target_signal_group_count": 7,
+    "target_tls_junction_count": 1,
+    "target_tls_junction_ids": [
+      "xs2_t_junction_7009179660"
+    ]
+  },
+  "expected_controlled_connection_count": 7,
+  "expected_controller_ids": [
+    "xs2_tls_7009179660"
+  ],
+  "findings": [],
+  "interpretation": "traffic-light junction/controller counts describe physical TLS ownership; signal-group/linkIndex counts describe controlled lane movements and must not be interpreted as separate physical intersections",
+  "removed_source_controller_ids": [
+    "joinedS_7009179655_7009179660_7009179676"
+  ],
+  "removed_source_tls_junction_ids": [
+    "7009179655",
+    "7009179660",
+    "7009179676"
+  ],
+  "residual_old_controller_ids": [],
+  "residual_source_junction_ids": [],
+  "review_instruction": "Open xs2-candidate.net.xml for the cleaned network. xs2-source.net.xml is the immutable fragmented OSM baseline.",
+  "schema": "torii.isolated-junction-tls-ownership/v1",
+  "source": {
+    "target_controlled_connection_count": 7,
+    "target_controller_count": 1,
+    "target_controller_ids": [
+      "joinedS_7009179655_7009179660_7009179676"
+    ],
+    "target_scope_junction_count": 6,
+    "target_signal_group_count": 7,
+    "target_tls_junction_count": 3,
+    "target_tls_junction_ids": [
+      "7009179655",
+      "7009179660",
+      "7009179676"
+    ]
+  },
+  "status": "pass",
+  "target_candidate_junction_id": "xs2_t_junction_7009179660"
+}

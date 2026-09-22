@@ -1,0 +1,146 @@
+{
+  "$defs": {
+    "GoldObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "enum": [
+            "connection-structural",
+            "connection-review",
+            "independent-safety",
+            "independent-review",
+            "exact-delta"
+          ],
+          "title": "Channel",
+          "type": "string"
+        },
+        "minimum_count": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Minimum Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "value"
+      ],
+      "title": "GoldObservation",
+      "type": "object"
+    },
+    "SyntheticFaultCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "title": "Case Id",
+          "type": "string"
+        },
+        "certification_expectation": {
+          "enum": [
+            "must-detect",
+            "must-abstain"
+          ],
+          "title": "Certification Expectation",
+          "type": "string"
+        },
+        "expected_abstention": {
+          "const": true,
+          "default": true,
+          "title": "Expected Abstention",
+          "type": "boolean"
+        },
+        "expected_observations": {
+          "items": {
+            "$ref": "#/$defs/GoldObservation"
+          },
+          "title": "Expected Observations",
+          "type": "array"
+        },
+        "fault_family": {
+          "title": "Fault Family",
+          "type": "string"
+        },
+        "fixture_id": {
+          "title": "Fixture Id",
+          "type": "string"
+        },
+        "mutation_id": {
+          "title": "Mutation Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "case_id",
+        "fault_family",
+        "fixture_id",
+        "mutation_id",
+        "traffic_side",
+        "certification_expectation",
+        "expected_observations"
+      ],
+      "title": "SyntheticFaultCase",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.synthetic-fault-benchmark.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/SyntheticFaultCase"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "parent_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Benchmark Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.synthetic-fault-benchmark/v1",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "parent_benchmark_sha256",
+    "cases"
+  ],
+  "title": "SyntheticFaultBenchmarkSpec",
+  "type": "object",
+  "x-torii-status": "stage-1-gold-contract"
+}

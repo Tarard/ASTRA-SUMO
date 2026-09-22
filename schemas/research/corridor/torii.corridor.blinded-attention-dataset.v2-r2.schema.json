@@ -1,0 +1,187 @@
+{
+  "$defs": {
+    "BlindedAttentionCaseV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "case_code": {
+          "pattern": "^case-[0-9a-f]{12}$",
+          "title": "Case Code",
+          "type": "string"
+        },
+        "city_group": {
+          "title": "City Group",
+          "type": "string"
+        },
+        "mode_features": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mode Features",
+          "type": "array"
+        },
+        "morphology": {
+          "enum": [
+            "grid",
+            "historic-core",
+            "suburban-arterial",
+            "divided-arterial",
+            "ramp-interchange",
+            "tram-rail",
+            "bridge-tunnel",
+            "multimodal"
+          ],
+          "title": "Morphology",
+          "type": "string"
+        },
+        "review_material_path": {
+          "title": "Review Material Path",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        },
+        "units": {
+          "items": {
+            "$ref": "#/$defs/BlindedReviewUnitV2R2"
+          },
+          "title": "Units",
+          "type": "array"
+        }
+      },
+      "required": [
+        "case_code",
+        "city_group",
+        "morphology",
+        "traffic_side",
+        "mode_features",
+        "review_material_path",
+        "units"
+      ],
+      "title": "BlindedAttentionCaseV2R2",
+      "type": "object"
+    },
+    "BlindedReviewUnitV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_path": {
+          "title": "Evidence Path",
+          "type": "string"
+        },
+        "exact_question": {
+          "title": "Exact Question",
+          "type": "string"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "review_domain": {
+          "enum": [
+            "pedestrian-path-relation",
+            "signal-control-configuration",
+            "pedestrian-facility-coverage"
+          ],
+          "title": "Review Domain",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unit_code": {
+          "pattern": "^unit-[0-9a-f]{12}$",
+          "title": "Unit Code",
+          "type": "string"
+        },
+        "witness_codes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Witness Codes",
+          "type": "array"
+        }
+      },
+      "required": [
+        "unit_code",
+        "review_domain",
+        "witness_codes",
+        "exact_question",
+        "required_observations",
+        "evidence_path"
+      ],
+      "title": "BlindedReviewUnitV2R2",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.blinded-attention-dataset.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/BlindedAttentionCaseV2R2"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "hidden_member_roles_hidden": {
+      "const": true,
+      "default": true,
+      "title": "Hidden Member Roles Hidden",
+      "type": "boolean"
+    },
+    "machine_labels_hidden": {
+      "const": true,
+      "default": true,
+      "title": "Machine Labels Hidden",
+      "type": "boolean"
+    },
+    "peer_decisions_hidden": {
+      "const": true,
+      "default": true,
+      "title": "Peer Decisions Hidden",
+      "type": "boolean"
+    },
+    "schema": {
+      "default": "torii.corridor.blinded-attention-dataset/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "created_at",
+    "cases"
+  ],
+  "title": "BlindedAttentionDatasetV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-reviewer-visible-blinded-dataset"
+}

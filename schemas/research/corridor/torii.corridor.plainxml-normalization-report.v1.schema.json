@@ -1,0 +1,455 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "PlainXmlArtifactIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "output_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Path"
+        },
+        "output_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Output Sha256"
+        },
+        "role": {
+          "enum": [
+            "nodes",
+            "edges",
+            "connections",
+            "tls",
+            "types",
+            "configuration"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_path": {
+          "title": "Source Path",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "source_path",
+        "source_sha256"
+      ],
+      "title": "PlainXmlArtifactIdentity",
+      "type": "object"
+    },
+    "PlainXmlGenerationPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "left_hand": {
+          "title": "Left Hand",
+          "type": "boolean"
+        },
+        "no_turnarounds": {
+          "title": "No Turnarounds",
+          "type": "boolean"
+        },
+        "plain_output_lanes": {
+          "title": "Plain Output Lanes",
+          "type": "boolean"
+        },
+        "roundabout_guessing": {
+          "title": "Roundabout Guessing",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "seed": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Seed"
+        }
+      },
+      "required": [
+        "seed",
+        "no_turnarounds",
+        "roundabout_guessing",
+        "plain_output_lanes",
+        "left_hand"
+      ],
+      "title": "PlainXmlGenerationPolicy",
+      "type": "object"
+    },
+    "PlainXmlNodeTypeChange": {
+      "additionalProperties": false,
+      "properties": {
+        "after": {
+          "title": "After",
+          "type": "string"
+        },
+        "before": {
+          "title": "Before",
+          "type": "string"
+        },
+        "evidence": {
+          "default": "closed_osm_junction_roundabout_component",
+          "title": "Evidence",
+          "type": "string"
+        },
+        "node_id": {
+          "title": "Node Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "before",
+        "after"
+      ],
+      "title": "PlainXmlNodeTypeChange",
+      "type": "object"
+    },
+    "PlainXmlRoundaboutComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "canonical_cycles": {
+          "items": {
+            "$ref": "#/$defs/PlainXmlRoundaboutCycle"
+          },
+          "title": "Canonical Cycles",
+          "type": "array"
+        },
+        "component_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Component Id",
+          "type": "string"
+        },
+        "decomposition_method": {
+          "enum": [
+            "single_directed_cycle",
+            "permission_partitioned_directed_cycles",
+            "unresolved"
+          ],
+          "title": "Decomposition Method",
+          "type": "string"
+        },
+        "directed_simple_cycle": {
+          "title": "Directed Simple Cycle",
+          "type": "boolean"
+        },
+        "edge_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Edge Ids",
+          "type": "array"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "node_types": {
+          "items": {
+            "$ref": "#/$defs/PlainXmlRoundaboutNode"
+          },
+          "title": "Node Types",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "component_id",
+        "edge_ids",
+        "node_ids",
+        "node_types",
+        "directed_simple_cycle",
+        "decomposition_method",
+        "canonical_cycles",
+        "blockers"
+      ],
+      "title": "PlainXmlRoundaboutComponent",
+      "type": "object"
+    },
+    "PlainXmlRoundaboutCycle": {
+      "additionalProperties": false,
+      "properties": {
+        "edge_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Edge Ids",
+          "type": "array"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "permission_partition_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Permission Partition Sha256",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "edge_ids",
+        "node_ids",
+        "permission_partition_sha256"
+      ],
+      "title": "PlainXmlRoundaboutCycle",
+      "type": "object"
+    },
+    "PlainXmlRoundaboutNode": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_type": {
+          "default": "priority",
+          "title": "Canonical Type",
+          "type": "string"
+        },
+        "node_id": {
+          "title": "Node Id",
+          "type": "string"
+        },
+        "observed_type": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Observed Type"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "node_id",
+        "observed_type"
+      ],
+      "title": "PlainXmlRoundaboutNode",
+      "type": "object"
+    },
+    "PlainXmlRoundaboutRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "edge_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Edge Ids",
+          "type": "array"
+        },
+        "node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Node Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "edge_ids",
+        "node_ids"
+      ],
+      "title": "PlainXmlRoundaboutRecord",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.plainxml-normalization-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/PlainXmlArtifactIdentity"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "canonical_roundabout_records": {
+      "items": {
+        "$ref": "#/$defs/PlainXmlRoundaboutRecord"
+      },
+      "title": "Canonical Roundabout Records",
+      "type": "array"
+    },
+    "existing_roundabout_records": {
+      "items": {
+        "$ref": "#/$defs/PlainXmlRoundaboutRecord"
+      },
+      "title": "Existing Roundabout Records",
+      "type": "array"
+    },
+    "generation_policy": {
+      "$ref": "#/$defs/PlainXmlGenerationPolicy"
+    },
+    "node_type_changes": {
+      "items": {
+        "$ref": "#/$defs/PlainXmlNodeTypeChange"
+      },
+      "title": "Node Type Changes",
+      "type": "array"
+    },
+    "output_bundle_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Output Bundle Sha256"
+    },
+    "output_prefix": {
+      "title": "Output Prefix",
+      "type": "string"
+    },
+    "policy_id": {
+      "default": "torii.plainxml.osm-roundabout-normalization/v1",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "rebuild_arguments": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Rebuild Arguments",
+      "type": "array"
+    },
+    "roundabout_components": {
+      "items": {
+        "$ref": "#/$defs/PlainXmlRoundaboutComponent"
+      },
+      "title": "Roundabout Components",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.plainxml-normalization-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_mutated": {
+      "default": false,
+      "title": "Source Mutated",
+      "type": "boolean"
+    },
+    "source_prefix": {
+      "title": "Source Prefix",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "turnaround_connection_signatures": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Turnaround Connection Signatures",
+      "type": "array"
+    }
+  },
+  "required": [
+    "status",
+    "source_prefix",
+    "output_prefix",
+    "generation_policy",
+    "artifacts",
+    "roundabout_components",
+    "existing_roundabout_records",
+    "canonical_roundabout_records",
+    "node_type_changes",
+    "turnaround_connection_signatures",
+    "blockers"
+  ],
+  "title": "PlainXmlNormalizationReport",
+  "type": "object",
+  "x-torii-status": "stage-1-experimental-deterministic-ingest-contract"
+}

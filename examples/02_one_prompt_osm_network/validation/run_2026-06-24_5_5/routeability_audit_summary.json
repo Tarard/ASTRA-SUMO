@@ -1,0 +1,22 @@
+{
+  "status": "pass",
+  "routeability_status": "pass",
+  "vehicle_count": 100,
+  "seed": 42,
+  "initial_end": 300,
+  "max_end": 2400,
+  "final_end": 600,
+  "loaded": 100,
+  "inserted": 100,
+  "arrived": 100,
+  "running": 0,
+  "teleports": 0,
+  "collisions": 0,
+  "completion_ratio": 1.0,
+  "trip_count": 100,
+  "mean_duration": 178.88,
+  "mean_waiting_time": 1.85,
+  "mean_time_loss": 27.45320000000001,
+  "summary_file": "routeability_audit/sumo_osm_cleanup_routeability_audit_end600_summary.xml",
+  "tripinfo_file": "routeability_audit/sumo_osm_cleanup_routeability_audit_end600_tripinfo.xml"
+}

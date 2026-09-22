@@ -1,0 +1,267 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "OODBenchmarkCaseResult": {
+      "additionalProperties": false,
+      "properties": {
+        "applicability_report_path": {
+          "title": "Applicability Report Path",
+          "type": "string"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "case_id": {
+          "title": "Case Id",
+          "type": "string"
+        },
+        "certification_gate": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "connection_status": {
+          "title": "Connection Status",
+          "type": "string"
+        },
+        "decision_matched": {
+          "title": "Decision Matched",
+          "type": "boolean"
+        },
+        "evaluated_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Evaluated Sha256",
+          "type": "string"
+        },
+        "expected_decision": {
+          "enum": [
+            "in-domain",
+            "out-of-domain"
+          ],
+          "title": "Expected Decision",
+          "type": "string"
+        },
+        "expected_independent_safety_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "expected_reason_categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Expected Reason Categories",
+          "type": "array"
+        },
+        "independent_safety_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "mutation_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mutation Ids",
+          "type": "array"
+        },
+        "observed_decision": {
+          "enum": [
+            "in-domain",
+            "out-of-domain",
+            "invalid"
+          ],
+          "title": "Observed Decision",
+          "type": "string"
+        },
+        "observed_reason_categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observed Reason Categories",
+          "type": "array"
+        },
+        "reasons_matched_exactly": {
+          "title": "Reasons Matched Exactly",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_immutable": {
+          "title": "Source Immutable",
+          "type": "boolean"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        }
+      },
+      "required": [
+        "case_id",
+        "status",
+        "expected_decision",
+        "observed_decision",
+        "expected_reason_categories",
+        "observed_reason_categories",
+        "decision_matched",
+        "reasons_matched_exactly",
+        "source_sha256",
+        "evaluated_sha256",
+        "source_immutable",
+        "mutation_ids",
+        "connection_status",
+        "independent_safety_status",
+        "expected_independent_safety_status",
+        "certification_gate",
+        "applicability_report_path",
+        "blockers"
+      ],
+      "title": "OODBenchmarkCaseResult",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.ood-benchmark-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "accepted_in_domain_count": {
+      "minimum": 0,
+      "title": "Accepted In Domain Count",
+      "type": "integer"
+    },
+    "benchmark_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "benchmark_spec_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Benchmark Spec Sha256",
+      "type": "string"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/OODBenchmarkCaseResult"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "certification_envelope_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Certification Envelope Sha256",
+      "type": "string"
+    },
+    "clean_fixture_statuses": {
+      "additionalProperties": {
+        "$ref": "#/$defs/GateStatus"
+      },
+      "title": "Clean Fixture Statuses",
+      "type": "object"
+    },
+    "detected_out_of_domain_count": {
+      "minimum": 0,
+      "title": "Detected Out Of Domain Count",
+      "type": "integer"
+    },
+    "expected_in_domain_count": {
+      "minimum": 0,
+      "title": "Expected In Domain Count",
+      "type": "integer"
+    },
+    "expected_out_of_domain_count": {
+      "minimum": 0,
+      "title": "Expected Out Of Domain Count",
+      "type": "integer"
+    },
+    "failed_case_count": {
+      "minimum": 0,
+      "title": "Failed Case Count",
+      "type": "integer"
+    },
+    "false_ood_case_count": {
+      "minimum": 0,
+      "title": "False Ood Case Count",
+      "type": "integer"
+    },
+    "in_domain_acceptance_rate": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "In Domain Acceptance Rate",
+      "type": "number"
+    },
+    "out_of_domain_recall": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Out Of Domain Recall",
+      "type": "number"
+    },
+    "overconfident_case_count": {
+      "minimum": 0,
+      "title": "Overconfident Case Count",
+      "type": "integer"
+    },
+    "passed_case_count": {
+      "minimum": 0,
+      "title": "Passed Case Count",
+      "type": "integer"
+    },
+    "schema": {
+      "default": "torii.corridor.ood-benchmark-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "total_case_count": {
+      "minimum": 0,
+      "title": "Total Case Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "benchmark_spec_sha256",
+    "certification_envelope_sha256",
+    "status",
+    "total_case_count",
+    "passed_case_count",
+    "failed_case_count",
+    "expected_out_of_domain_count",
+    "detected_out_of_domain_count",
+    "out_of_domain_recall",
+    "expected_in_domain_count",
+    "accepted_in_domain_count",
+    "in_domain_acceptance_rate",
+    "overconfident_case_count",
+    "false_ood_case_count",
+    "clean_fixture_statuses",
+    "cases",
+    "blockers"
+  ],
+  "title": "OODBenchmarkReport",
+  "type": "object",
+  "x-torii-status": "stage-1-ood-evidence-contract"
+}

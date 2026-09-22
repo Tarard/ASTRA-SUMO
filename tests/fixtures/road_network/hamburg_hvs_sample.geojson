@@ -1,0 +1,42 @@
+{
+  "type": "FeatureCollection",
+  "numberMatched": 2,
+  "numberReturned": 2,
+  "timeStamp": "2026-07-19T15:40:31Z",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "hvs-am-sandtorkai-001",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.980000, 53.540025],
+          [9.981000, 53.540025],
+          [9.982000, 53.540025]
+        ]
+      },
+      "properties": {
+        "strassenname": "Am Sandtorkai",
+        "strassenschluessel": "A326",
+        "klasse": "G",
+        "collection_note": "membership is carried by the HVS collection, not by klasse"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "hvs-osakaallee-002",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [9.994000, 53.542000],
+          [9.995000, 53.542400]
+        ]
+      },
+      "properties": {
+        "strassenname": "Osakaallee",
+        "strassenschluessel": "A327",
+        "klasse": "G"
+      }
+    }
+  ]
+}

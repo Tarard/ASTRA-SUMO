@@ -1,0 +1,11 @@
+metric,torii_vehicle_core,torii_reference_visual_detail,tum_reference_bbox_cut,interpretation
+all_non_internal_edges,2493,6126,3577,Vehicle core and visual-detail are separate scopes; visual-detail is the Netedit comparison layer.
+lanes,3045,6695,4955,Torii visual-detail includes lower/detail layers but remains denser than TUM.
+junctions,1220,2997,1752,Torii visual-detail remains over-fragmented around physical intersections.
+raw_traffic_light_junctions,202,217,29,Raw SUMO traffic-light junctions overstate physical signal count.
+tls_aggregation_traffic_light_junctions,34,34,29,TLS aggregation review variant gets close to TUM and leaves a small map-review gap.
+tlLogic_count_after_tls_aggregation,34,34,28,Compare physical TLS representatives and tlLogic after aggregation rather than raw node count.
+reference_visual_detail_only_classes,,cycleway;footway;path;pedestrian;steps;track,,These are kept for visual-detail comparison rather than routeability-core claims.
+routeability_bounded_test,pass 100/100 at end=600,not used for routeability,reference comparator only,Routeability passed on the connected vehicle core but does not certify TLS realism.
+cluster_graph_map_review_requirement,required for dense clusters,required for dense clusters,reference for comparison,Inspect internal/boundary edge graph fields and use Google Maps default-map links before any destructive aggregation; satellite view is optional when ambiguous.
+claim_status,diagnostic-demo,diagnostic-demo,reference-comparator,Scope-matched visual comparison is not an equivalence proof.

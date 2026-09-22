@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "HeldOutMachineArtifactIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "HeldOutMachineArtifactIdentity",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-corpus-machine-manifest.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "artifacts": {
+      "items": {
+        "$ref": "#/$defs/HeldOutMachineArtifactIdentity"
+      },
+      "title": "Artifacts",
+      "type": "array"
+    },
+    "automatic_promotion_gate": {
+      "const": "blocked",
+      "default": "blocked",
+      "title": "Automatic Promotion Gate",
+      "type": "string"
+    },
+    "corpus_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Corpus Id",
+      "type": "string"
+    },
+    "evidence_build_status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "human_review_decisions_present": {
+      "const": false,
+      "default": false,
+      "title": "Human Review Decisions Present",
+      "type": "boolean"
+    },
+    "producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "run_identity_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Run Identity Id",
+      "type": "string"
+    },
+    "run_identity_path": {
+      "title": "Run Identity Path",
+      "type": "string"
+    },
+    "run_identity_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Run Identity Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-corpus-machine-manifest/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "toolchain_lock_path": {
+      "title": "Toolchain Lock Path",
+      "type": "string"
+    },
+    "toolchain_lock_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Toolchain Lock Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "corpus_id",
+    "evidence_build_status",
+    "toolchain_lock_path",
+    "toolchain_lock_sha256",
+    "run_identity_id",
+    "run_identity_path",
+    "run_identity_sha256",
+    "producer",
+    "artifacts"
+  ],
+  "title": "HeldOutCorpusMachineManifest",
+  "type": "object",
+  "x-torii-status": "stage-1-held-out-artifact-closure-contract"
+}

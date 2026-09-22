@@ -1,0 +1,205 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "RuntimeExecutableIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "path",
+        "version",
+        "sha256"
+      ],
+      "title": "RuntimeExecutableIdentity",
+      "type": "object"
+    },
+    "RuntimeSupportFileIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "path",
+        "sha256"
+      ],
+      "title": "RuntimeSupportFileIdentity",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-machine-run-identity.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blinding_seed_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Blinding Seed Sha256",
+      "type": "string"
+    },
+    "entrypoint": {
+      "title": "Entrypoint",
+      "type": "string"
+    },
+    "platform": {
+      "title": "Platform",
+      "type": "string"
+    },
+    "producer": {
+      "$ref": "#/$defs/CodeProducerIdentity"
+    },
+    "python_version": {
+      "title": "Python Version",
+      "type": "string"
+    },
+    "run_identity_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Run Identity Id",
+      "type": "string"
+    },
+    "runtime_dependencies": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "title": "Runtime Dependencies",
+      "type": "object"
+    },
+    "runtime_tools": {
+      "items": {
+        "$ref": "#/$defs/RuntimeExecutableIdentity"
+      },
+      "title": "Runtime Tools",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-machine-run-identity/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "selected_corridor_keys": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Selected Corridor Keys",
+      "type": "array"
+    },
+    "support_files": {
+      "items": {
+        "$ref": "#/$defs/RuntimeSupportFileIdentity"
+      },
+      "title": "Support Files",
+      "type": "array"
+    },
+    "timeout_seconds": {
+      "exclusiveMinimum": 0,
+      "title": "Timeout Seconds",
+      "type": "number"
+    },
+    "toolchain_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Toolchain Id",
+      "type": "string"
+    },
+    "toolchain_lock_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Toolchain Lock Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "run_identity_id",
+    "producer",
+    "entrypoint",
+    "toolchain_id",
+    "toolchain_lock_sha256",
+    "platform",
+    "python_version",
+    "runtime_dependencies",
+    "runtime_tools",
+    "support_files",
+    "selected_corridor_keys",
+    "timeout_seconds",
+    "blinding_seed_sha256"
+  ],
+  "title": "HeldOutMachineRunIdentity",
+  "type": "object",
+  "x-torii-status": "stage-1-held-out-producer-toolchain-identity-contract"
+}

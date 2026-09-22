@@ -1,0 +1,23 @@
+{
+  "schema": "torii.isolated-junction-source-registry/v1",
+  "frozen_at": "2026-07-15T21:15:00+02:00",
+  "frozen_import": {
+    "path": "input/xs2-7009179660.osm.xml",
+    "sha256": "ce37fe77a177206fd126f9fc2283ceeb19933cd63c4b8421090df42544ece08a",
+    "source_url": "https://api.openstreetmap.org/api/0.6/map?bbox=11.42597,48.76031,11.43142,48.76390",
+    "filter": "netconvert 400 m geo-boundary, passenger vClass, isolated edges removed",
+    "expected_source_normalized_net_sha256": "6640f36bc5e44cb555f5738df82cec2a1052d1ecd3f513d341f816e783d716d5",
+    "expected_candidate_normalized_net_sha256": "635264a2733c4933b44257f7a0f2dc235d12b54e30add68aaeb266ad8bb2873b"
+  },
+  "location": {
+    "name": "Schlosslaende x Schutterstrasse, Ingolstadt",
+    "latitude": 48.7621064,
+    "longitude": 11.4286957,
+    "osm_node_id": "7009179660"
+  },
+  "license": {
+    "data": "OpenStreetMap contributors",
+    "license": "ODbL 1.0",
+    "attribution_url": "https://www.openstreetmap.org/copyright"
+  }
+}

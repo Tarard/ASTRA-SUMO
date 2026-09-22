@@ -1,0 +1,181 @@
+{
+  "$defs": {
+    "ReviewUnitMachineAssessmentV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_artifact_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Evidence Artifact Sha256",
+          "type": "string"
+        },
+        "finding_categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Categories",
+          "type": "array"
+        },
+        "inclusion_probability": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Inclusion Probability",
+          "type": "number"
+        },
+        "machine_attention": {
+          "title": "Machine Attention",
+          "type": "boolean"
+        },
+        "membership_root": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Membership Root",
+          "type": "string"
+        },
+        "review_unit_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Unit Id",
+          "type": "string"
+        },
+        "safety_critical": {
+          "title": "Safety Critical",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unit_kind": {
+          "enum": [
+            "conflict-site",
+            "negative-pair",
+            "controlled-binding",
+            "pedestrian-coverage-gap"
+          ],
+          "title": "Unit Kind",
+          "type": "string"
+        }
+      },
+      "required": [
+        "review_unit_id",
+        "unit_kind",
+        "machine_attention",
+        "safety_critical",
+        "inclusion_probability",
+        "membership_root",
+        "evidence_artifact_sha256",
+        "finding_categories"
+      ],
+      "title": "ReviewUnitMachineAssessmentV2R2",
+      "type": "object"
+    },
+    "ReviewUnitUnblindingKeyV2R2": {
+      "additionalProperties": false,
+      "properties": {
+        "case_code": {
+          "pattern": "^case-[0-9a-f]{12}$",
+          "title": "Case Code",
+          "type": "string"
+        },
+        "evidence_id_by_witness_code": {
+          "additionalProperties": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Id By Witness Code",
+          "type": "object"
+        },
+        "hidden_witness_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Hidden Witness Code"
+        },
+        "machine_assessment": {
+          "$ref": "#/$defs/ReviewUnitMachineAssessmentV2R2"
+        },
+        "machine_assessment_artifact_path": {
+          "title": "Machine Assessment Artifact Path",
+          "type": "string"
+        },
+        "machine_assessment_artifact_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Machine Assessment Artifact Sha256",
+          "type": "string"
+        },
+        "review_unit_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Unit Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unit_code": {
+          "pattern": "^unit-[0-9a-f]{12}$",
+          "title": "Unit Code",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_code",
+        "unit_code",
+        "review_unit_id",
+        "evidence_id_by_witness_code",
+        "hidden_witness_code",
+        "machine_assessment",
+        "machine_assessment_artifact_path",
+        "machine_assessment_artifact_sha256"
+      ],
+      "title": "ReviewUnitUnblindingKeyV2R2",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.attention-evaluation-key.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blinded_dataset_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Blinded Dataset Sha256",
+      "type": "string"
+    },
+    "blinding_seed": {
+      "minLength": 32,
+      "title": "Blinding Seed",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.attention-evaluation-key/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    },
+    "units": {
+      "items": {
+        "$ref": "#/$defs/ReviewUnitUnblindingKeyV2R2"
+      },
+      "title": "Units",
+      "type": "array"
+    }
+  },
+  "required": [
+    "trial_id",
+    "blinded_dataset_sha256",
+    "blinding_seed",
+    "units"
+  ],
+  "title": "AttentionEvaluationKeyV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1m-restricted-unblinding-key"
+}

@@ -1,0 +1,42 @@
+{
+  "candidate_operation": {
+    "node_ids": [
+      "89129156",
+      "9197167804",
+      "7622194981",
+      "4622372941",
+      "321573215",
+      "359022505",
+      "321573214",
+      "9602656752",
+      "9602656749",
+      "9602656751",
+      "9602656750"
+    ],
+    "type": "join_physical_tls_cell"
+  },
+  "candidate_operation_count": 1,
+  "candidate_operations": [
+    {
+      "node_ids": [
+        "89129156",
+        "9197167804",
+        "7622194981",
+        "4622372941",
+        "321573215",
+        "359022505",
+        "321573214",
+        "9602656752",
+        "9602656749",
+        "9602656751",
+        "9602656750"
+      ],
+      "type": "join_physical_tls_cell"
+    }
+  ],
+  "candidate_sha256": "568cc2003d492e99ab3dc5f8435fefbbf38b02fec218887bc4d5293521e0cda9",
+  "inverse_operation": "omit all candidate PlainXML patches and rerun source_command",
+  "reproduction_command": ".\\.venv\\Scripts\\python.exe plugins\\torii-sumo\\scripts\\run_xs1_four_way.py",
+  "schema": "torii.xs1-public-rollback/v1",
+  "source_sha256": "56896df7700277d0245dc8c3ee3c39f36e39cb3e6f5fe18f1103f37950f2abd5"
+}

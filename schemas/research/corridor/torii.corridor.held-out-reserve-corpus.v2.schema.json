@@ -1,0 +1,327 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "GeographicBbox": {
+      "additionalProperties": false,
+      "properties": {
+        "east": {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "title": "East",
+          "type": "number"
+        },
+        "north": {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "title": "North",
+          "type": "number"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "south": {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "title": "South",
+          "type": "number"
+        },
+        "west": {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "title": "West",
+          "type": "number"
+        }
+      },
+      "required": [
+        "west",
+        "south",
+        "east",
+        "north"
+      ],
+      "title": "GeographicBbox",
+      "type": "object"
+    },
+    "HeldOutCorridorSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "bbox": {
+          "$ref": "#/$defs/GeographicBbox"
+        },
+        "center_lat": {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "title": "Center Lat",
+          "type": "number"
+        },
+        "center_lon": {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "title": "Center Lon",
+          "type": "number"
+        },
+        "city_source_id": {
+          "title": "City Source Id",
+          "type": "string"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "morphology": {
+          "enum": [
+            "grid",
+            "historic-core",
+            "suburban-arterial",
+            "divided-arterial",
+            "ramp-interchange",
+            "tram-rail",
+            "bridge-tunnel",
+            "multimodal"
+          ],
+          "title": "Morphology",
+          "type": "string"
+        },
+        "preregistered_feature_targets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Preregistered Feature Targets",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selection_basis": {
+          "title": "Selection Basis",
+          "type": "string"
+        },
+        "selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selection Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "selection_id",
+        "corridor_key",
+        "city_source_id",
+        "label",
+        "center_lat",
+        "center_lon",
+        "bbox",
+        "morphology",
+        "preregistered_feature_targets",
+        "selection_basis"
+      ],
+      "title": "HeldOutCorridorSelection",
+      "type": "object"
+    },
+    "ReplacementStratumV2": {
+      "additionalProperties": false,
+      "properties": {
+        "city_source_id": {
+          "title": "City Source Id",
+          "type": "string"
+        },
+        "mode_features": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mode Features",
+          "type": "array"
+        },
+        "morphology": {
+          "enum": [
+            "grid",
+            "historic-core",
+            "suburban-arterial",
+            "divided-arterial",
+            "ramp-interchange",
+            "tram-rail",
+            "bridge-tunnel",
+            "multimodal"
+          ],
+          "title": "Morphology",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "city_source_id",
+        "morphology",
+        "traffic_side",
+        "mode_features"
+      ],
+      "title": "ReplacementStratumV2",
+      "type": "object"
+    },
+    "ReserveCorridorCandidateV2": {
+      "additionalProperties": false,
+      "properties": {
+        "preregistered_before_machine_execution": {
+          "const": true,
+          "default": true,
+          "title": "Preregistered Before Machine Execution",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selection": {
+          "$ref": "#/$defs/HeldOutCorridorSelection"
+        },
+        "selection_uses_machine_output": {
+          "const": false,
+          "default": false,
+          "title": "Selection Uses Machine Output",
+          "type": "boolean"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "selection",
+        "traffic_side"
+      ],
+      "title": "ReserveCorridorCandidateV2",
+      "type": "object"
+    },
+    "ReserveReplacementSlotV2": {
+      "additionalProperties": false,
+      "properties": {
+        "candidates": {
+          "items": {
+            "$ref": "#/$defs/ReserveCorridorCandidateV2"
+          },
+          "title": "Candidates",
+          "type": "array"
+        },
+        "invalid_corridor_key": {
+          "title": "Invalid Corridor Key",
+          "type": "string"
+        },
+        "invalid_reason": {
+          "const": "semantic-replay-invalid",
+          "title": "Invalid Reason",
+          "type": "string"
+        },
+        "invalid_selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Invalid Selection Id",
+          "type": "string"
+        },
+        "required_stratum": {
+          "$ref": "#/$defs/ReplacementStratumV2"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "invalid_corridor_key",
+        "invalid_selection_id",
+        "invalid_reason",
+        "required_stratum",
+        "candidates"
+      ],
+      "title": "ReserveReplacementSlotV2",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-reserve-corpus.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "frozen_before_replacement_execution": {
+      "const": true,
+      "default": true,
+      "title": "Frozen Before Replacement Execution",
+      "type": "boolean"
+    },
+    "parent_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Corpus Sha256",
+      "type": "string"
+    },
+    "provider_attribution": {
+      "const": "© OpenStreetMap contributors",
+      "title": "Provider Attribution",
+      "type": "string"
+    },
+    "reserve_corpus_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Reserve Corpus Id",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-reserve-corpus/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "selection_independent_of_machine_results": {
+      "const": true,
+      "default": true,
+      "title": "Selection Independent Of Machine Results",
+      "type": "boolean"
+    },
+    "slots": {
+      "items": {
+        "$ref": "#/$defs/ReserveReplacementSlotV2"
+      },
+      "title": "Slots",
+      "type": "array"
+    }
+  },
+  "required": [
+    "reserve_corpus_id",
+    "parent_corpus_sha256",
+    "provider_attribution",
+    "slots"
+  ],
+  "title": "HeldOutReserveCorpusV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-frozen-reserve-corpus-contract"
+}

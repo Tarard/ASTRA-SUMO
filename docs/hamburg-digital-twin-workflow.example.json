@@ -1,0 +1,14 @@
+{
+  "schema": "torii.hamburg-digital-twin-workflow-config/v2",
+  "workflow_id": "hamburg_sandtorkai_2349_2394_2403",
+  "output_dir": "../outputs/hamburg-digital-twin-plan",
+  "resume": true,
+  "stages": {
+    "W0": {"manifest": "../artifacts/<run>/w0-scope.manifest.json", "feedback": []},
+    "W1": {"manifest": "../artifacts/<run>/w1-network.manifest.json", "feedback": []},
+    "W3a": {"manifest": "../artifacts/<run>/w3a-counts.manifest.json", "feedback": []},
+    "W2": {"manifest": "../artifacts/<run>/w2-signal.manifest.json", "feedback": []},
+    "W3b": {"manifest": "../artifacts/<run>/w3b-detector-binding.manifest.json", "feedback": []},
+    "W4": {"manifest": "../artifacts/<run>/w4-replay.manifest.json", "feedback": []}
+  }
+}

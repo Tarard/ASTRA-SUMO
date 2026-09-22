@@ -1,0 +1,30 @@
+<osm version="0.6" generator="Torii test fixture">
+  <node id="1" lat="53.5400" lon="9.9800"/>
+  <node id="2" lat="53.5400" lon="9.9810"/>
+  <node id="3" lat="53.5410" lon="9.9800"/>
+  <node id="4" lat="53.5410" lon="9.9810"/>
+  <node id="5" lat="53.5420" lon="9.9800"/>
+  <node id="6" lat="53.5420" lon="9.9810"/>
+  <node id="7" lat="53.5430" lon="9.9800"/>
+  <node id="8" lat="53.5430" lon="9.9810"/>
+  <way id="roundabout-default">
+    <nd ref="1"/><nd ref="2"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="junction" v="roundabout"/>
+  </way>
+  <way id="roundabout-explicit-no">
+    <nd ref="3"/><nd ref="4"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="junction" v="roundabout"/>
+    <tag k="oneway" v="no"/>
+  </way>
+  <way id="motorway-default">
+    <nd ref="5"/><nd ref="6"/>
+    <tag k="highway" v="motorway"/>
+  </way>
+  <way id="motorway-explicit-no">
+    <nd ref="7"/><nd ref="8"/>
+    <tag k="highway" v="motorway"/>
+    <tag k="oneway" v="no"/>
+  </way>
+</osm>

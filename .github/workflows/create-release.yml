@@ -1,0 +1,47 @@
+name: Create GitHub Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  create-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Create release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG_NAME: ${{ github.ref_name }}
+        run: |
+          if gh release view "$TAG_NAME" >/dev/null 2>&1; then
+            echo "Release $TAG_NAME already exists."
+            exit 0
+          fi
+
+          cat > release-notes.md <<'EOF'
+          This release archives Torii, an agent plugin for SUMO that bundles a SUMO expert skill with local MCP tools for OSM-to-SUMO workflows.
+
+          Included:
+          - Codex plugin metadata, icon assets, and local stdio MCP tool configuration.
+          - SUMO/TraCI skill packages for experiment planning, auditing, debugging, and claim-boundary review.
+          - OSM-to-SUMO workflow helpers for place confirmation, network cleanup planning, topology audits, and routeability checks.
+          - Multilingual README pages with the current visual identity.
+          - GitHub Pages site assets, examples, license metadata, and citation metadata.
+
+          Scope:
+          - Current focus: evidence-aware SUMO/TraCI and OSM-to-SUMO network workflows.
+          - Current boundary: Torii provides workflow tools and audits; users remain responsible for map-source licensing and final simulation assumptions.
+
+          This is an independent academic workflow resource and is not affiliated with, endorsed by, sponsored by, or maintained by the Eclipse Foundation, the Eclipse SUMO project, or DLR.
+          EOF
+
+          gh release create "$TAG_NAME" \
+            --title "Torii-SUMO $TAG_NAME" \
+            --notes-file release-notes.md

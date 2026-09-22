@@ -1,0 +1,122 @@
+{
+  "$defs": {
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.certification-envelope.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allow_grade_separation": {
+      "default": false,
+      "title": "Allow Grade Separation",
+      "type": "boolean"
+    },
+    "allow_link_index2": {
+      "default": false,
+      "title": "Allow Link Index2",
+      "type": "boolean"
+    },
+    "allow_pedestrian_facilities": {
+      "default": false,
+      "title": "Allow Pedestrian Facilities",
+      "type": "boolean"
+    },
+    "allow_unsupported_controlled_connections": {
+      "default": false,
+      "title": "Allow Unsupported Controlled Connections",
+      "type": "boolean"
+    },
+    "allowed_arm_counts": {
+      "items": {
+        "type": "integer"
+      },
+      "title": "Allowed Arm Counts",
+      "type": "array"
+    },
+    "allowed_controller_types": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Controller Types",
+      "type": "array"
+    },
+    "allowed_movement_mode_classes": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Movement Mode Classes",
+      "type": "array"
+    },
+    "allowed_traffic_sides": {
+      "items": {
+        "$ref": "#/$defs/TrafficSide"
+      },
+      "title": "Allowed Traffic Sides",
+      "type": "array"
+    },
+    "claim_name": {
+      "title": "Claim Name",
+      "type": "string"
+    },
+    "disallowed_edge_types": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Disallowed Edge Types",
+      "type": "array"
+    },
+    "envelope_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Envelope Id",
+      "type": "string"
+    },
+    "maximum_controller_owner_cells": {
+      "minimum": 1,
+      "title": "Maximum Controller Owner Cells",
+      "type": "integer"
+    },
+    "maximum_movements_per_signal_group": {
+      "minimum": 1,
+      "title": "Maximum Movements Per Signal Group",
+      "type": "integer"
+    },
+    "maximum_programs_per_controller": {
+      "minimum": 1,
+      "title": "Maximum Programs Per Controller",
+      "type": "integer"
+    },
+    "require_internal_geometry": {
+      "default": true,
+      "title": "Require Internal Geometry",
+      "type": "boolean"
+    },
+    "schema": {
+      "default": "torii.corridor.certification-envelope/v1",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "envelope_id",
+    "claim_name",
+    "allowed_traffic_sides",
+    "allowed_arm_counts",
+    "allowed_movement_mode_classes",
+    "allowed_controller_types",
+    "maximum_controller_owner_cells",
+    "maximum_programs_per_controller",
+    "maximum_movements_per_signal_group"
+  ],
+  "title": "CertificationEnvelope",
+  "type": "object",
+  "x-torii-status": "stage-1-selective-domain-contract"
+}

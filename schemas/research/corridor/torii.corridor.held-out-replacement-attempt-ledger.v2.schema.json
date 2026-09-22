@@ -1,0 +1,410 @@
+{
+  "$defs": {
+    "CodeProducerIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "branch": {
+          "title": "Branch",
+          "type": "string"
+        },
+        "repository_url": {
+          "title": "Repository Url",
+          "type": "string"
+        },
+        "revision": {
+          "title": "Revision",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "tree_revision": {
+          "title": "Tree Revision",
+          "type": "string"
+        },
+        "working_tree_clean": {
+          "const": true,
+          "default": true,
+          "title": "Working Tree Clean",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "repository_url",
+        "revision",
+        "tree_revision",
+        "branch"
+      ],
+      "title": "CodeProducerIdentity",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "ReplacementAttemptV2": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_closure_complete": {
+          "title": "Artifact Closure Complete",
+          "type": "boolean"
+        },
+        "artifacts": {
+          "items": {
+            "$ref": "#/$defs/ReplacementEvidenceArtifactV2"
+          },
+          "title": "Artifacts",
+          "type": "array"
+        },
+        "attempt_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Attempt Id",
+          "type": "string"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "failure_reason": {
+          "anyOf": [
+            {
+              "enum": [
+                "source-artifact-unavailable",
+                "bbox-outside-frozen-extract",
+                "source-extraction-failed",
+                "netconvert-build-failed",
+                "semantic-replay-invalid",
+                "artifact-closure-incomplete"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Failure Reason"
+        },
+        "finding_counts_consulted": {
+          "const": false,
+          "default": false,
+          "title": "Finding Counts Consulted",
+          "type": "boolean"
+        },
+        "finding_severity_consulted": {
+          "const": false,
+          "default": false,
+          "title": "Finding Severity Consulted",
+          "type": "boolean"
+        },
+        "human_decisions_consulted": {
+          "const": false,
+          "default": false,
+          "title": "Human Decisions Consulted",
+          "type": "boolean"
+        },
+        "invalid_corridor_key": {
+          "title": "Invalid Corridor Key",
+          "type": "string"
+        },
+        "machine_labels_consulted": {
+          "const": false,
+          "default": false,
+          "title": "Machine Labels Consulted",
+          "type": "boolean"
+        },
+        "producer": {
+          "$ref": "#/$defs/CodeProducerIdentity"
+        },
+        "rank": {
+          "minimum": 1,
+          "title": "Rank",
+          "type": "integer"
+        },
+        "reviewer_visibility_consulted": {
+          "const": false,
+          "default": false,
+          "title": "Reviewer Visibility Consulted",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selection Id",
+          "type": "string"
+        },
+        "semantic_replay_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "snapshot_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "source_snapshot_protocol_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Snapshot Protocol Sha256",
+          "type": "string"
+        },
+        "technical_outcome": {
+          "enum": [
+            "eligible",
+            "failed"
+          ],
+          "title": "Technical Outcome",
+          "type": "string"
+        }
+      },
+      "required": [
+        "attempt_id",
+        "invalid_corridor_key",
+        "rank",
+        "corridor_key",
+        "selection_id",
+        "source_snapshot_protocol_sha256",
+        "producer",
+        "snapshot_status",
+        "semantic_replay_status",
+        "artifact_closure_complete",
+        "technical_outcome",
+        "artifacts"
+      ],
+      "title": "ReplacementAttemptV2",
+      "type": "object"
+    },
+    "ReplacementEvidenceArtifactV2": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "role": {
+          "enum": [
+            "source-snapshot",
+            "run-identity",
+            "machine-report",
+            "net-replay-report",
+            "machine-manifest"
+          ],
+          "title": "Role",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "role",
+        "path",
+        "sha256"
+      ],
+      "title": "ReplacementEvidenceArtifactV2",
+      "type": "object"
+    },
+    "ReplacementSlotAttemptLedgerV2": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "items": {
+            "$ref": "#/$defs/ReplacementAttemptV2"
+          },
+          "title": "Attempts",
+          "type": "array"
+        },
+        "invalid_corridor_key": {
+          "title": "Invalid Corridor Key",
+          "type": "string"
+        },
+        "invalid_selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Invalid Selection Id",
+          "type": "string"
+        },
+        "resolution_status": {
+          "const": "technical-pass",
+          "default": "technical-pass",
+          "title": "Resolution Status",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_corridor_key": {
+          "title": "Selected Corridor Key",
+          "type": "string"
+        },
+        "selected_rank": {
+          "minimum": 1,
+          "title": "Selected Rank",
+          "type": "integer"
+        },
+        "selected_selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selected Selection Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "invalid_corridor_key",
+        "invalid_selection_id",
+        "attempts",
+        "selected_rank",
+        "selected_corridor_key",
+        "selected_selection_id"
+      ],
+      "title": "ReplacementSlotAttemptLedgerV2",
+      "type": "object"
+    },
+    "SupersededReplacementExecutionV2": {
+      "additionalProperties": false,
+      "properties": {
+        "eligible_for_current_selection": {
+          "const": false,
+          "default": false,
+          "title": "Eligible For Current Selection",
+          "type": "boolean"
+        },
+        "machine_report_sha256s": {
+          "items": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "title": "Machine Report Sha256S",
+          "type": "array"
+        },
+        "reason": {
+          "const": "source-snapshot-protocol-superseded",
+          "title": "Reason",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_snapshot_protocol": {
+          "const": "bbox-intersection-without-roundabout-closure",
+          "title": "Source Snapshot Protocol",
+          "type": "string"
+        }
+      },
+      "required": [
+        "source_snapshot_protocol",
+        "reason",
+        "machine_report_sha256s"
+      ],
+      "title": "SupersededReplacementExecutionV2",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-replacement-attempt-ledger.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "base_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Base Corpus Sha256",
+      "type": "string"
+    },
+    "effective_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Effective Corpus Sha256",
+      "type": "string"
+    },
+    "human_decisions_consulted": {
+      "const": false,
+      "default": false,
+      "title": "Human Decisions Consulted",
+      "type": "boolean"
+    },
+    "ledger_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Ledger Id",
+      "type": "string"
+    },
+    "machine_labels_consulted": {
+      "const": false,
+      "default": false,
+      "title": "Machine Labels Consulted",
+      "type": "boolean"
+    },
+    "minimum_complete_replacement_count": {
+      "const": 3,
+      "default": 3,
+      "title": "Minimum Complete Replacement Count",
+      "type": "integer"
+    },
+    "replacement_plan_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replacement Plan Sha256",
+      "type": "string"
+    },
+    "reserve_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Reserve Corpus Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-replacement-attempt-ledger/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "slots": {
+      "items": {
+        "$ref": "#/$defs/ReplacementSlotAttemptLedgerV2"
+      },
+      "title": "Slots",
+      "type": "array"
+    },
+    "source_snapshot_protocol_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Snapshot Protocol Sha256",
+      "type": "string"
+    },
+    "superseded_executions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/SupersededReplacementExecutionV2"
+      },
+      "title": "Superseded Executions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "ledger_id",
+    "base_corpus_sha256",
+    "reserve_corpus_sha256",
+    "replacement_plan_sha256",
+    "source_snapshot_protocol_sha256",
+    "effective_corpus_sha256",
+    "slots"
+  ],
+  "title": "HeldOutReplacementAttemptLedgerV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-deterministic-replacement-evidence"
+}

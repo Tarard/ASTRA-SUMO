@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "CompositeFaultCase": {
+      "additionalProperties": false,
+      "properties": {
+        "case_id": {
+          "title": "Case Id",
+          "type": "string"
+        },
+        "components": {
+          "items": {
+            "$ref": "#/$defs/CompositeFaultComponent"
+          },
+          "title": "Components",
+          "type": "array"
+        },
+        "expected_abstention": {
+          "const": true,
+          "default": true,
+          "title": "Expected Abstention",
+          "type": "boolean"
+        },
+        "fixture_id": {
+          "title": "Fixture Id",
+          "type": "string"
+        },
+        "interaction_class": {
+          "title": "Interaction Class",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "case_id",
+        "fixture_id",
+        "traffic_side",
+        "interaction_class",
+        "components"
+      ],
+      "title": "CompositeFaultCase",
+      "type": "object"
+    },
+    "CompositeFaultComponent": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_observations": {
+          "items": {
+            "$ref": "#/$defs/GoldObservation"
+          },
+          "title": "Expected Observations",
+          "type": "array"
+        },
+        "fault_family": {
+          "title": "Fault Family",
+          "type": "string"
+        },
+        "mutation_id": {
+          "title": "Mutation Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "fault_family",
+        "mutation_id",
+        "expected_observations"
+      ],
+      "title": "CompositeFaultComponent",
+      "type": "object"
+    },
+    "GoldObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "channel": {
+          "enum": [
+            "connection-structural",
+            "connection-review",
+            "independent-safety",
+            "independent-review",
+            "exact-delta"
+          ],
+          "title": "Channel",
+          "type": "string"
+        },
+        "minimum_count": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Minimum Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "value": {
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "channel",
+        "value"
+      ],
+      "title": "GoldObservation",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.composite-fault-benchmark.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/CompositeFaultCase"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "parent_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Benchmark Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.composite-fault-benchmark/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "single_fault_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Single Fault Benchmark Sha256",
+      "type": "string"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "parent_benchmark_sha256",
+    "single_fault_benchmark_sha256",
+    "cases"
+  ],
+  "title": "CompositeFaultBenchmarkSpec",
+  "type": "object",
+  "x-torii-status": "stage-1-compound-fault-contract"
+}

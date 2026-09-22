@@ -1,0 +1,16 @@
+{
+  "claim_status": "construction-invalid",
+  "cluster_zoom_count": 24,
+  "example": "examples/02_one_prompt_osm_network",
+  "generator": "torii_sumo.core.workflow_review_html.build_workflow_review_html",
+  "html_file": "ingolstadt_workflow_review.html",
+  "input_network": "../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml",
+  "network_overview_png": "visuals/ingolstadt_workflow_review_network_overview.png",
+  "problem_overlay_png": "visuals/ingolstadt_workflow_review_problem_overlay.png",
+  "reference_comparison_png": "visuals/ingolstadt_workflow_review_reference_comparison.png",
+  "reference_network": "../../networks/tum_ingolstadt_center_reference.net.xml",
+  "review_manifest_file": "ingolstadt_workflow_review_review_manifest.json",
+  "run_id": "run_2026-06-25_review_html",
+  "topology_suspicious_cluster_count": 166,
+  "workflow_report_file": "ingolstadt_workflow_review_workflow_report.json"
+}

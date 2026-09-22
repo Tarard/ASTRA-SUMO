@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "numberMatched": 2,
+  "numberReturned": 2,
+  "timeStamp": "2026-07-19T15:40:31Z",
+  "features": [
+    {
+      "type": "Feature",
+      "id": "missing-key-41",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[9.980000, 53.540025], [9.981000, 53.540025]]
+      },
+      "properties": {
+        "von_netzknoten": "missing-west",
+        "nach_netzknoten": "missing-east",
+        "von_station": 0,
+        "bis_station": 50,
+        "klasse": "G",
+        "wegenummer": "9001",
+        "strassenname": "Current HH-SIB Shape",
+        "landesschluessel": 2,
+        "kreisschluessel": 1,
+        "gemeindeschluessel": 103,
+        "abschnittslaenge": 100,
+        "ast": 0,
+        "fahrstreifenanzahl_in_stationierungsrichtung": 1,
+        "fahrstreifenanzahl_in_beide_richtungen": 0,
+        "fahrstreifenanzahl_gegen_stationierungsrichtung": 1,
+        "bahnigkeit": 2,
+        "wegeart": "Stadtstraße"
+      }
+    },
+    {
+      "type": "Feature",
+      "id": "missing-key-42",
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [[9.981000, 53.540025], [9.982000, 53.540025]]
+      },
+      "properties": {
+        "von_netzknoten": "missing-west",
+        "nach_netzknoten": "missing-east",
+        "von_station": 50,
+        "bis_station": 100,
+        "klasse": "G",
+        "wegenummer": "9001",
+        "strassenname": "Current HH-SIB Shape",
+        "landesschluessel": 2,
+        "kreisschluessel": 1,
+        "gemeindeschluessel": 103,
+        "abschnittslaenge": 100,
+        "ast": 0,
+        "fahrstreifenanzahl_in_stationierungsrichtung": 1,
+        "fahrstreifenanzahl_in_beide_richtungen": 0,
+        "fahrstreifenanzahl_gegen_stationierungsrichtung": 1,
+        "bahnigkeit": 2,
+        "wegeart": "Stadtstraße"
+      }
+    }
+  ]
+}

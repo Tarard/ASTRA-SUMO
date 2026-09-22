@@ -1,0 +1,125 @@
+{
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.review-unit-decision.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "case_code": {
+      "pattern": "^case-[0-9a-f]{12}$",
+      "title": "Case Code",
+      "type": "string"
+    },
+    "decided_at": {
+      "format": "date-time",
+      "title": "Decided At",
+      "type": "string"
+    },
+    "decision_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Decision Id",
+      "type": "string"
+    },
+    "hidden_member_role_was_hidden": {
+      "const": true,
+      "default": true,
+      "title": "Hidden Member Role Was Hidden",
+      "type": "boolean"
+    },
+    "label": {
+      "enum": [
+        "attention-required",
+        "acceptable",
+        "ambiguous"
+      ],
+      "title": "Label",
+      "type": "string"
+    },
+    "machine_label_was_hidden": {
+      "const": true,
+      "default": true,
+      "title": "Machine Label Was Hidden",
+      "type": "boolean"
+    },
+    "observed_facts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Observed Facts",
+      "type": "array"
+    },
+    "peer_decision_was_hidden": {
+      "const": true,
+      "default": true,
+      "title": "Peer Decision Was Hidden",
+      "type": "boolean"
+    },
+    "rationale": {
+      "title": "Rationale",
+      "type": "string"
+    },
+    "reviewer_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Reviewer Id",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.review-unit-decision/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "started_at": {
+      "format": "date-time",
+      "title": "Started At",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    },
+    "unit_code": {
+      "pattern": "^unit-[0-9a-f]{12}$",
+      "title": "Unit Code",
+      "type": "string"
+    },
+    "within_unit_homogeneity_supported": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Within Unit Homogeneity Supported"
+    },
+    "witness_labels": {
+      "additionalProperties": {
+        "enum": [
+          "attention-required",
+          "acceptable",
+          "ambiguous"
+        ],
+        "type": "string"
+      },
+      "title": "Witness Labels",
+      "type": "object"
+    }
+  },
+  "required": [
+    "decision_id",
+    "trial_id",
+    "case_code",
+    "unit_code",
+    "reviewer_id",
+    "label",
+    "witness_labels",
+    "within_unit_homogeneity_supported",
+    "started_at",
+    "decided_at",
+    "observed_facts",
+    "rationale"
+  ],
+  "title": "ReviewUnitDecisionV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1h-independent-review-decision-contract"
+}

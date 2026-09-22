@@ -1,0 +1,377 @@
+{
+  "$defs": {
+    "GeographicBbox": {
+      "additionalProperties": false,
+      "properties": {
+        "east": {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "title": "East",
+          "type": "number"
+        },
+        "north": {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "title": "North",
+          "type": "number"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "south": {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "title": "South",
+          "type": "number"
+        },
+        "west": {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "title": "West",
+          "type": "number"
+        }
+      },
+      "required": [
+        "west",
+        "south",
+        "east",
+        "north"
+      ],
+      "title": "GeographicBbox",
+      "type": "object"
+    },
+    "HeldOutCityExtract": {
+      "additionalProperties": false,
+      "properties": {
+        "checksum_url": {
+          "title": "Checksum Url",
+          "type": "string"
+        },
+        "city_group": {
+          "title": "City Group",
+          "type": "string"
+        },
+        "expected_content_length_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Expected Content Length Bytes",
+          "type": "integer"
+        },
+        "expected_etag": {
+          "title": "Expected Etag",
+          "type": "string"
+        },
+        "expected_last_modified_http": {
+          "title": "Expected Last Modified Http",
+          "type": "string"
+        },
+        "pbf_url": {
+          "title": "Pbf Url",
+          "type": "string"
+        },
+        "provider": {
+          "const": "BBBike",
+          "default": "BBBike",
+          "title": "Provider",
+          "type": "string"
+        },
+        "provider_md5": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Provider Md5",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "source_id",
+        "city_group",
+        "traffic_side",
+        "pbf_url",
+        "checksum_url",
+        "provider_md5",
+        "expected_content_length_bytes",
+        "expected_last_modified_http",
+        "expected_etag"
+      ],
+      "title": "HeldOutCityExtract",
+      "type": "object"
+    },
+    "HeldOutCorridorSelection": {
+      "additionalProperties": false,
+      "properties": {
+        "bbox": {
+          "$ref": "#/$defs/GeographicBbox"
+        },
+        "center_lat": {
+          "maximum": 90.0,
+          "minimum": -90.0,
+          "title": "Center Lat",
+          "type": "number"
+        },
+        "center_lon": {
+          "maximum": 180.0,
+          "minimum": -180.0,
+          "title": "Center Lon",
+          "type": "number"
+        },
+        "city_source_id": {
+          "title": "City Source Id",
+          "type": "string"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "label": {
+          "title": "Label",
+          "type": "string"
+        },
+        "morphology": {
+          "enum": [
+            "grid",
+            "historic-core",
+            "suburban-arterial",
+            "divided-arterial",
+            "ramp-interchange",
+            "tram-rail",
+            "bridge-tunnel",
+            "multimodal"
+          ],
+          "title": "Morphology",
+          "type": "string"
+        },
+        "preregistered_feature_targets": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Preregistered Feature Targets",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selection_basis": {
+          "title": "Selection Basis",
+          "type": "string"
+        },
+        "selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selection Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "selection_id",
+        "corridor_key",
+        "city_source_id",
+        "label",
+        "center_lat",
+        "center_lon",
+        "bbox",
+        "morphology",
+        "preregistered_feature_targets",
+        "selection_basis"
+      ],
+      "title": "HeldOutCorridorSelection",
+      "type": "object"
+    },
+    "HeldOutNetworkBuildProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_highways": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Highways",
+          "type": "array"
+        },
+        "allowed_railways": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Allowed Railways",
+          "type": "array"
+        },
+        "clip_source_ways_to_bbox": {
+          "const": false,
+          "default": false,
+          "title": "Clip Source Ways To Bbox",
+          "type": "boolean"
+        },
+        "include_railway": {
+          "const": true,
+          "default": true,
+          "title": "Include Railway",
+          "type": "boolean"
+        },
+        "netconvert_profile": {
+          "const": "reference_visual_detail",
+          "default": "reference_visual_detail",
+          "title": "Netconvert Profile",
+          "type": "string"
+        },
+        "routeability_seed": {
+          "title": "Routeability Seed",
+          "type": "integer"
+        },
+        "routeability_vehicle_count": {
+          "minimum": 1,
+          "title": "Routeability Vehicle Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "allowed_highways",
+        "allowed_railways",
+        "routeability_vehicle_count",
+        "routeability_seed"
+      ],
+      "title": "HeldOutNetworkBuildProfile",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-corpus.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "city_extracts": {
+      "items": {
+        "$ref": "#/$defs/HeldOutCityExtract"
+      },
+      "title": "City Extracts",
+      "type": "array"
+    },
+    "corpus_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Corpus Id",
+      "type": "string"
+    },
+    "corridors": {
+      "items": {
+        "$ref": "#/$defs/HeldOutCorridorSelection"
+      },
+      "title": "Corridors",
+      "type": "array"
+    },
+    "held_out_review_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Held Out Review Policy Sha256",
+      "type": "string"
+    },
+    "minimum_case_count": {
+      "minimum": 1,
+      "title": "Minimum Case Count",
+      "type": "integer"
+    },
+    "minimum_cases_per_city_group": {
+      "minimum": 1,
+      "title": "Minimum Cases Per City Group",
+      "type": "integer"
+    },
+    "minimum_city_group_count": {
+      "minimum": 1,
+      "title": "Minimum City Group Count",
+      "type": "integer"
+    },
+    "minimum_morphology_count": {
+      "minimum": 1,
+      "title": "Minimum Morphology Count",
+      "type": "integer"
+    },
+    "network_build_profile": {
+      "$ref": "#/$defs/HeldOutNetworkBuildProfile"
+    },
+    "parent_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Benchmark Sha256",
+      "type": "string"
+    },
+    "provider_attribution": {
+      "const": "© OpenStreetMap contributors",
+      "title": "Provider Attribution",
+      "type": "string"
+    },
+    "provider_license": {
+      "const": "Open Data Commons Open Database License (ODbL)",
+      "title": "Provider License",
+      "type": "string"
+    },
+    "provider_license_url": {
+      "const": "https://opendatacommons.org/licenses/odbl/",
+      "title": "Provider License Url",
+      "type": "string"
+    },
+    "required_mode_features": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Mode Features",
+      "type": "array"
+    },
+    "required_traffic_sides": {
+      "items": {
+        "$ref": "#/$defs/TrafficSide"
+      },
+      "title": "Required Traffic Sides",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-corpus/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "snapshot_selection_cutoff": {
+      "title": "Snapshot Selection Cutoff",
+      "type": "string"
+    }
+  },
+  "required": [
+    "corpus_id",
+    "held_out_review_policy_sha256",
+    "parent_benchmark_sha256",
+    "provider_attribution",
+    "provider_license",
+    "provider_license_url",
+    "snapshot_selection_cutoff",
+    "minimum_case_count",
+    "minimum_city_group_count",
+    "minimum_morphology_count",
+    "minimum_cases_per_city_group",
+    "required_traffic_sides",
+    "required_mode_features",
+    "network_build_profile",
+    "city_extracts",
+    "corridors"
+  ],
+  "title": "HeldOutCorpusSpec",
+  "type": "object",
+  "x-torii-status": "stage-1-held-out-corpus-contract"
+}

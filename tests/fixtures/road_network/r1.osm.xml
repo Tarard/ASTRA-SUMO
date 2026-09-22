@@ -1,0 +1,39 @@
+<osm version="0.6" generator="Torii test fixture">
+  <bounds minlat="53.5398" minlon="9.9798" maxlat="53.5403" maxlon="9.9822"/>
+  <node id="1" lat="53.540000" lon="9.980000"/>
+  <node id="2" lat="53.540000" lon="9.981000"/>
+  <node id="3" lat="53.540000" lon="9.982000"/>
+  <node id="4" lat="53.540050" lon="9.982000"/>
+  <node id="5" lat="53.540050" lon="9.981000"/>
+  <node id="6" lat="53.540050" lon="9.980000"/>
+  <node id="7" lat="53.540080" lon="9.980000"/>
+  <node id="8" lat="53.540080" lon="9.982000"/>
+  <node id="9" lat="53.539800" lon="9.981000"/>
+  <node id="10" lat="53.540300" lon="9.981000"/>
+  <way id="100">
+    <nd ref="1"/><nd ref="2"/><nd ref="3"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="name" v="Am Sandtorkai"/>
+    <tag k="oneway" v="yes"/>
+    <tag k="lanes" v="2"/>
+    <tag k="maxspeed" v="50"/>
+  </way>
+  <way id="101">
+    <nd ref="4"/><nd ref="5"/><nd ref="6"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="name" v="Am Sandtorkai"/>
+    <tag k="oneway" v="yes"/>
+    <tag k="lanes" v="2"/>
+    <tag k="maxspeed" v="50"/>
+  </way>
+  <way id="200">
+    <nd ref="7"/><nd ref="8"/>
+    <tag k="highway" v="footway"/>
+    <tag k="name" v="Am Sandtorkai"/>
+  </way>
+  <way id="300">
+    <nd ref="9"/><nd ref="2"/><nd ref="10"/>
+    <tag k="highway" v="residential"/>
+    <tag k="name" v="Cross Street"/>
+  </way>
+</osm>

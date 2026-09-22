@@ -1,0 +1,45 @@
+{
+  "run_id": "run_2026-06-24_5_5",
+  "example": "examples/02_one_prompt_osm_network",
+  "full_local_output_dir_at_generation_time": "<local Codex output dir>/ingolstadt_55_tls_aggregation_torii",
+  "committed_files": [
+    "artifact_manifest.json",
+    "reference_join_audit_summary.json",
+    "routeability_audit_summary.json",
+    "summary.json",
+    "tls_reference_visual_detail_representatives.csv",
+    "tls_spatial_match_to_tum.json",
+    "tls_vehicle_representatives.csv",
+    "topology_audit_summary.json"
+  ],
+  "omitted_generated_files": [
+    {
+      "kind": "osm_extracts_and_routes",
+      "source_relative_path": "osm/ and routeability_audit/",
+      "reason": "generated from OSM/SUMO workflow and reproducible"
+    },
+    {
+      "kind": "full_logs",
+      "source_relative_path": "logs/",
+      "reason": "large diagnostic logs; summary fields are committed"
+    }
+  ],
+  "reproduce": "Run the prompt in examples/02_one_prompt_osm_network/prompt.md with Torii 1.0.2+ and network_profile='reference_matched'.",
+  "committed_networks": [
+    {
+      "kind": "tum_reference",
+      "path": "../../networks/tum_ingolstadt_center_reference.net.xml",
+      "size_kb": 9167.4
+    },
+    {
+      "kind": "torii_connected_core_tls_aggregated",
+      "path": "../../networks/torii_5_5_connected_core_tls_aggregated.net.xml",
+      "size_kb": 5117.2
+    },
+    {
+      "kind": "torii_reference_visual_detail_tls_aggregated",
+      "path": "../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml",
+      "size_kb": 10013.2
+    }
+  ]
+}

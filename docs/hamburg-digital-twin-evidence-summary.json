@@ -1,0 +1,45 @@
+{
+  "schema": "torii.hamburg-digital-twin-readme-evidence/v1",
+  "scope": {
+    "corridor": "Am Sandtorkai",
+    "official_node_ids": ["2349", "2394", "2403"],
+    "claim_status": "detector-constrained-diagnostic-replay"
+  },
+  "workflow_v2_eligibility": {
+    "status": "blocked",
+    "w1_network_sha256": "559a5752c06175e4c3aceb1b2082e5539c0e7ee6728d2bff9030110080eae0cf",
+    "stale_network_sha256": "aa1676df2182026a87d261e633d2cf8bd100c9b2a8c3ee6ac9d9d3dd22d49a33",
+    "stale_evidence": ["W2", "W3 inverse-problem diagnostic", "W4 pre-v2 dependency provenance"],
+    "next_action": "rebuild W2, W3b, and W4 against W1 so W4 consumes W3a count values, an aggregation-approved detector mapping, and hash-bound signal events; do not edit hashes"
+  },
+  "evidence": {
+    "W1": {
+      "manifest": "artifacts/hamburg_sandtorkai_twin_20260719/official_first_named_corridor_v1/workflow/w1_official_corridor_geometry_v20_lsa_boundary_evidence/hamburg_official_corridor_geometry.manifest.json",
+      "sha256": "e99b12cb123b6bd58fb0dcfa34c27648af2719888721e493b2ce9d81e6d8a1e4"
+    },
+    "W2": {
+      "manifest": "artifacts/hamburg_sandtorkai_twin_20260719/official_first_named_corridor_v1/workflow/w2_official_signal_binding_v5_iteration027_compound/official-primary-signal-binding.manifest.json",
+      "sha256": "86dedaa40e23bd100b11ec95e80a631f4d47278a5f584a9295a520bbd7c63c7a",
+      "available_nodes": ["2349", "2394"],
+      "missing_nodes": ["2403"]
+    },
+    "W3": {
+      "manifest": "artifacts/hamburg_sandtorkai_twin_20260719/official_first_named_corridor_v1/workflow/w3_route_sensor_matrix_solution_prior73_v1/station-matrix-solution.manifest.json",
+      "sha256": "819f10a681ef6653d7b7967ee81a073b693d1f6f45800dfe748c8b23f0bf9212",
+      "matrix_shape": [6, 58],
+      "rank": 6,
+      "nullity": 52,
+      "note": "Exact detector fit is a TLS-all-off inverse-problem diagnostic, not a field-signal replay."
+    },
+    "W4": {
+      "manifest": "artifacts/hamburg_sandtorkai_twin_20260719/official_first_named_corridor_v1/workflow/w4_named_replay_v19b_exact_official_history_window/hamburg_named_replay.manifest.json",
+      "sha256": "74603785e5eb8998862f529bfcfd276333dc832f91ba0106fde7a6f21f7c1bbb",
+      "history_window_seconds": 7200,
+      "candidate_routes": 15,
+      "constraint_match_fraction": 1.0,
+      "teleports": 0,
+      "collisions": 0,
+      "promotion_gate": "blocked"
+    }
+  }
+}

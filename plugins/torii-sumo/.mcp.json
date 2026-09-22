@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "torii-sumo": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--isolated",
+        "--frozen",
+        "--script",
+        "./scripts/run_torii_sumo.py"
+      ]
+    }
+  }
+}

@@ -1,0 +1,120 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-replacement-policy.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "allowed_technical_failure_reasons": {
+      "items": {
+        "enum": [
+          "source-artifact-unavailable",
+          "bbox-outside-frozen-extract",
+          "source-extraction-failed",
+          "netconvert-build-failed",
+          "semantic-replay-invalid",
+          "artifact-closure-incomplete"
+        ],
+        "type": "string"
+      },
+      "title": "Allowed Technical Failure Reasons",
+      "type": "array"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "failed_attempts_are_retained": {
+      "const": true,
+      "default": true,
+      "title": "Failed Attempts Are Retained",
+      "type": "boolean"
+    },
+    "fallback_requires_prior_failure_record": {
+      "const": true,
+      "default": true,
+      "title": "Fallback Requires Prior Failure Record",
+      "type": "boolean"
+    },
+    "minimum_complete_replacement_count": {
+      "const": 3,
+      "default": 3,
+      "title": "Minimum Complete Replacement Count",
+      "type": "integer"
+    },
+    "parent_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Corpus Sha256",
+      "type": "string"
+    },
+    "policy_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "prohibited_selection_signals": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Prohibited Selection Signals",
+      "type": "array"
+    },
+    "public_selection_seed": {
+      "minLength": 32,
+      "title": "Public Selection Seed",
+      "type": "string"
+    },
+    "ranking_algorithm": {
+      "const": "sha256(seed|invalid-corridor-key|selection-id)-ascending",
+      "title": "Ranking Algorithm",
+      "type": "string"
+    },
+    "replay_invalid_excluded_from_quality_denominator": {
+      "const": true,
+      "default": true,
+      "title": "Replay Invalid Excluded From Quality Denominator",
+      "type": "boolean"
+    },
+    "required_match_fields": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Match Fields",
+      "type": "array"
+    },
+    "reserve_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Reserve Corpus Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-replacement-policy/v2",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "policy_id",
+    "parent_corpus_sha256",
+    "reserve_corpus_sha256",
+    "public_selection_seed",
+    "ranking_algorithm",
+    "required_match_fields",
+    "allowed_technical_failure_reasons",
+    "prohibited_selection_signals"
+  ],
+  "title": "HeldOutReplacementPolicyV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-deterministic-replacement-contract"
+}

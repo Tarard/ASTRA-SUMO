@@ -1,0 +1,189 @@
+{
+  "run_id": "run_2026-06-24_5_5",
+  "model": "Codex 5.5 high",
+  "source_output_dir_note": "Key comparison SUMO networks from this 5.5 run are committed under examples/02_one_prompt_osm_network/networks; generated OSM extracts, routes, and full logs remain rebuild-only artifacts.",
+  "workflow_input": {
+    "bbox": "11.413800,48.755391,11.433800,48.775391",
+    "network_profile": "reference_matched",
+    "reference": "TUM-VT/sumo_ingolstadt city-center bbox cut",
+    "map_temporal_scope": "current"
+  },
+  "status": "fail",
+  "claim_status": "construction-invalid",
+  "gate_status": {
+    "area_confirmation": "pass",
+    "road_level_scope": "pass",
+    "network_build": "pass",
+    "tls_reality_audit": "blocked",
+    "connectivity": "pass",
+    "netedit": "pass",
+    "sumo_gui": "blocked",
+    "tls_aggregation": "blocked",
+    "reference_visual_detail": "pass",
+    "reference_join_audit": "pass",
+    "reference_join_aggregation": "blocked",
+    "topology_audit": "blocked",
+    "routeability_audit": "pass"
+  },
+  "counts": {
+    "tum_reference": {
+      "edges": 3577,
+      "lanes": 4955,
+      "junctions": 1752,
+      "traffic_light_junctions": 29,
+      "tlLogic": 28
+    },
+    "torii_raw_vehicle": {
+      "edges": 2541,
+      "lanes": 3093,
+      "junctions": 1249,
+      "traffic_light_junctions": 202,
+      "tlLogic": 146
+    },
+    "torii_tls_aggregated_vehicle": {
+      "edges": 2541,
+      "lanes": 3093,
+      "junctions": 1249,
+      "traffic_light_junctions": 34,
+      "tlLogic": 34
+    },
+    "torii_connected_core": {
+      "edges": 2493,
+      "lanes": 3045,
+      "junctions": 1220,
+      "traffic_light_junctions": 34,
+      "tlLogic": 34
+    },
+    "torii_raw_reference_visual_detail": {
+      "edges": 6126,
+      "lanes": 6695,
+      "junctions": 2997,
+      "traffic_light_junctions": 217,
+      "tlLogic": 82
+    },
+    "torii_tls_aggregated_reference_visual_detail": {
+      "edges": 6126,
+      "lanes": 6695,
+      "junctions": 2997,
+      "traffic_light_junctions": 34,
+      "tlLogic": 34
+    }
+  },
+  "tls_audit": {
+    "vehicle_core_candidate_count": 146,
+    "vehicle_core_cluster_count": 34,
+    "reference_visual_detail_candidate_count": 82,
+    "reference_visual_detail_cluster_count": 34
+  },
+  "tls_aggregation": {
+    "vehicle_core": {
+      "status": "pass",
+      "tls_aggregation_status": "variant_created_for_review",
+      "tls_physical_cluster_count": 34,
+      "tls_representative_count": 34,
+      "tls_aggregated_traffic_light_junction_count": 34,
+      "tls_aggregated_tl_logic_count": 34,
+      "plan_file": "tls_aggregation/sumo_osm_cleanup_tls_aggregation_plan.json",
+      "representatives_file": "tls_aggregation/sumo_osm_cleanup_tls_aggregation_representatives.csv",
+      "variant_file_not_committed": "tls_aggregation/sumo_osm_cleanup_tls_aggregation_tls_aggregated.net.xml",
+      "command_record": "tls_aggregation/sumo_osm_cleanup_tls_aggregation_netconvert.cmd.txt",
+      "warnings": [
+        "TLS aggregation variant requires Google Maps and Netedit review before adoption"
+      ]
+    },
+    "reference_visual_detail": {
+      "status": "pass",
+      "tls_aggregation_status": "variant_created_for_review",
+      "tls_physical_cluster_count": 34,
+      "tls_representative_count": 34,
+      "tls_aggregated_traffic_light_junction_count": 34,
+      "tls_aggregated_tl_logic_count": 34,
+      "plan_file": "reference_visual_detail_tls_aggregation/sumo_osm_cleanup_reference_visual_detail_tls_aggregation_plan.json",
+      "representatives_file": "reference_visual_detail_tls_aggregation/sumo_osm_cleanup_reference_visual_detail_tls_aggregation_representatives.csv",
+      "variant_file_not_committed": "reference_visual_detail_tls_aggregation/sumo_osm_cleanup_reference_visual_detail_tls_aggregation_tls_aggregated.net.xml",
+      "command_record": "reference_visual_detail_tls_aggregation/sumo_osm_cleanup_reference_visual_detail_tls_aggregation_netconvert.cmd.txt",
+      "warnings": [
+        "TLS aggregation variant requires Google Maps and Netedit review before adoption"
+      ]
+    },
+    "interpretation": "The raw SUMO traffic-light junction count is diagnostic noise. The TLS aggregation review variant reduces Torii visual-detail from 217 raw traffic-light junctions / 82 tlLogic definitions to 34 physical TLS representatives, close to TUM's 29 traffic-light junctions / 28 tlLogic definitions."
+  },
+  "routeability_audit": {
+    "status": "pass",
+    "routeability_status": "pass",
+    "vehicle_count": 100,
+    "seed": 42,
+    "initial_end": 300,
+    "max_end": 2400,
+    "final_end": 600,
+    "loaded": 100,
+    "inserted": 100,
+    "arrived": 100,
+    "running": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "completion_ratio": 1.0,
+    "trip_count": 100,
+    "mean_duration": 178.88,
+    "mean_waiting_time": 1.85,
+    "mean_time_loss": 27.45320000000001,
+    "summary_file": "routeability_audit/sumo_osm_cleanup_routeability_audit_end600_summary.xml",
+    "tripinfo_file": "routeability_audit/sumo_osm_cleanup_routeability_audit_end600_tripinfo.xml"
+  },
+  "connectivity": {
+    "raw_connectivity_status": "fail",
+    "connected_core_status": "pass",
+    "connected_core_connectivity_status": "pass",
+    "raw_passenger_component_count": 13,
+    "discarded_passenger_edge_count": 48
+  },
+  "reference_join_audit": {
+    "status": "pass",
+    "reference_case_count": 149,
+    "matched_case_count": 138,
+    "unmatched_case_count": 11,
+    "candidate_net_file_not_committed": "reference_visual_detail_tls_aggregation/sumo_osm_cleanup_reference_visual_detail_tls_aggregation_tls_aggregated.net.xml",
+    "cases_file_source": "reference_join_audit/sumo_osm_cleanup_reference_join_audit_reference_join_cases.csv"
+  },
+  "topology_audit": {
+    "status": "needs_review",
+    "dense_junction_cluster_count": null,
+    "junction_aggregation_candidate_count": 102
+  },
+  "netedit": {
+    "netedit_status": "opened",
+    "reference_visual_detail_netedit_status": "opened",
+    "netedit_network_file_not_committed": "connected_core/sumo_osm_cleanup_connected_core.net.xml",
+    "reference_visual_detail_netedit_network_file_not_committed": "reference_visual_detail_tls_aggregation/sumo_osm_cleanup_reference_visual_detail_tls_aggregation_tls_aggregated.net.xml"
+  },
+  "github_upload_policy": {
+    "committed": [
+      "../../assets/torii_5_5_core_vs_visual_detail.png",
+      "../../assets/tum_vs_torii_5_5_tls_aggregated_detail.png",
+      "../../assets/tum_vs_torii_5_5_tls_aggregated_overview.png",
+      "../../networks/torii_5_5_connected_core_tls_aggregated.net.xml",
+      "../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml",
+      "../../networks/tum_ingolstadt_center_reference.net.xml",
+      "artifact_manifest.json",
+      "reference_join_audit_summary.json",
+      "routeability_audit_summary.json",
+      "summary.json",
+      "tls_reference_visual_detail_representatives.csv",
+      "tls_spatial_match_to_tum.json",
+      "tls_vehicle_representatives.csv",
+      "topology_audit_summary.json"
+    ],
+    "not_committed": [
+      "*.osm.xml.gz",
+      "route files",
+      "full SUMO logs",
+      "raw Overpass queries/logs"
+    ],
+    "reason": "The committed example includes the key comparison networks and screenshots; generated OSM extracts, route files, and full logs are rebuilt by rerunning the prompt/workflow."
+  },
+  "committed_networks": [
+    "../../networks/tum_ingolstadt_center_reference.net.xml",
+    "../../networks/torii_5_5_connected_core_tls_aggregated.net.xml",
+    "../../networks/torii_5_5_reference_visual_detail_tls_aggregated.net.xml"
+  ]
+}

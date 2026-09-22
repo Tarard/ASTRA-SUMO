@@ -1,42 +1,38 @@
 # LinkedIn Post Drafts
 
+> Draft release material. Use the top-level `README.md` for the current product wording.
+
 ## Release Post
 
 ```text
-Many SUMO/TraCI traffic signal control experiments fail silently: the simulation runs, but the comparison is invalid because seeds, routes, TLS phases, detector mappings, output files, or completion rates are inconsistent.
+I have been turning my SUMO workflow into Torii: Task-Oriented Road Infrastructure Intelligence.
 
-I made a lightweight Codex/Claude audit skill and checklist for researchers using Eclipse SUMO for signal-control experiments.
+Torii turns real-world traffic data and natural-language tasks into SUMO simulations.
 
-It helps check:
-- TLS phase and movement-green consistency
-- route/config/additional-file consistency
-- paired baseline comparisons
-- batch-run reproducibility
-- tripinfo/summary/edgeData reporting
-- fixed-time, actuated, max-pressure, data-informed, and MPC-style controllers
+The workflow is organized around three jobs:
+- Build SUMO networks from OpenStreetMap, trajectory data, and road-construction information.
+- Calibrate traffic demand and simulation behavior against measured observations.
+- Run further SUMO experiments from natural-language instructions.
 
-Repository: [GitHub link]
+The important part is the evidence boundary. A network loading in SUMO is not treated as proof that its topology, traffic signals, demand, or field behavior are correct. Torii keeps source and candidate artifacts separate and records the checks used to support each result.
 
-Independent academic resource; not affiliated with or endorsed by the Eclipse SUMO project, the Eclipse Foundation, or DLR.
+A current case is a digital-twin corridor in central Hamburg, where official traffic data and reconstructed SUMO artifacts are combined in one traceable workflow.
+
+Repository: https://github.com/Tarard/Torii-SUMO
+
+Torii is an independent project and is not affiliated with or endorsed by Eclipse SUMO, the Eclipse Foundation, DLR, OpenAI, Anthropic, or OpenStreetMap.
 ```
 
-## Specific Case Post
+## Technical Case Post
 
 ```text
-Common SUMO/TraCI signal-control failure:
+A common traffic-simulation failure is to stop at “the network loads.”
 
-Controller A reports lower average travel time, but the simulation stopped at 3600s and only arrived vehicles were included in tripinfo.
+A runnable SUMO network can still contain wrong lane connections, signal ownership, routeability, demand, or calibration assumptions.
 
-If Controller A leaves more vehicles unfinished than Controller B, arrived-only averages are not a fair superiority claim.
+Torii treats those mismatches as evidence to inspect, not as details to hide. The workflow keeps the original source separate from generated candidates, records validation artifacts, and can stop at review instead of forcing an automatic answer.
 
-At minimum, report:
-- inserted vehicles
-- arrived vehicles
-- unfinished vehicles
-- teleports
-- discarded routes
-- completion rate
-- fixed-horizon metric wording
+That makes the useful output more than a .net.xml file: it is the network plus the evidence needed to understand what is supported and what still needs review.
 
-I collected these checks in a reusable audit skill/checklist for Eclipse SUMO signal-control experiments: [GitHub link]
+Repository: https://github.com/Tarard/Torii-SUMO
 ```

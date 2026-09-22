@@ -1,0 +1,1058 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "ROWExperimentCaseResult": {
+      "additionalProperties": false,
+      "properties": {
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "case_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Case Id",
+          "type": "string"
+        },
+        "case_key": {
+          "title": "Case Key",
+          "type": "string"
+        },
+        "case_kind": {
+          "enum": [
+            "gold",
+            "mutation",
+            "ood"
+          ],
+          "title": "Case Kind",
+          "type": "string"
+        },
+        "case_passed": {
+          "title": "Case Passed",
+          "type": "boolean"
+        },
+        "expected_model_claim_class": {
+          "enum": [
+            "signalized",
+            "priority-unsignalized",
+            "unprioritized-unsignalized",
+            "ambiguous",
+            "unmapped"
+          ],
+          "title": "Expected Model Claim Class",
+          "type": "string"
+        },
+        "expected_simultaneous_behavior": {
+          "anyOf": [
+            {
+              "enum": [
+                "vehicle-yielded",
+                "pedestrian-yielded",
+                "no-interaction",
+                "unsafe-overlap",
+                "unresolved"
+              ],
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Expected Simultaneous Behavior"
+        },
+        "expected_source_class": {
+          "enum": [
+            "signalized",
+            "priority-unsignalized",
+            "unprioritized-unsignalized",
+            "unknown-unsignalized",
+            "shared-space-or-unsupported"
+          ],
+          "title": "Expected Source Class",
+          "type": "string"
+        },
+        "expected_static_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "geometry_evidence": {
+          "$ref": "#/$defs/ROWGeometryEvidence"
+        },
+        "model_claim": {
+          "$ref": "#/$defs/ROWModelClaimEvidence"
+        },
+        "mutation_kind": {
+          "enum": [
+            "none",
+            "request-response-priority-reversed",
+            "source-priority-reversed",
+            "co-self-consistent-model-reversal",
+            "internal-waiting-removed",
+            "signal-state-g-g-reversed",
+            "not-applicable"
+          ],
+          "title": "Mutation Kind",
+          "type": "string"
+        },
+        "runtime_probes": {
+          "items": {
+            "$ref": "#/$defs/ROWRuntimeProbe"
+          },
+          "title": "Runtime Probes",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.row-experiment-case/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_bundle": {
+          "$ref": "#/$defs/SourceROWBundle"
+        },
+        "source_decision": {
+          "$ref": "#/$defs/SourceROWOracleDecision"
+        },
+        "static_assessment": {
+          "$ref": "#/$defs/ROWStaticAssessment"
+        },
+        "vehicle_turn_class": {
+          "enum": [
+            "straight",
+            "left",
+            "right",
+            "not-applicable"
+          ],
+          "title": "Vehicle Turn Class",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "case_key",
+        "case_kind",
+        "mutation_kind",
+        "vehicle_turn_class",
+        "source_bundle",
+        "source_decision",
+        "geometry_evidence",
+        "model_claim",
+        "static_assessment",
+        "runtime_probes",
+        "expected_source_class",
+        "expected_model_claim_class",
+        "expected_static_status",
+        "expected_simultaneous_behavior",
+        "blockers",
+        "case_passed"
+      ],
+      "title": "ROWExperimentCaseResult",
+      "type": "object"
+    },
+    "ROWGeometryEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Candidate Net Sha256",
+          "type": "string"
+        },
+        "centerline_intersects": {
+          "title": "Centerline Intersects",
+          "type": "boolean"
+        },
+        "crossing_angle_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Crossing Angle Deg"
+        },
+        "crossing_edge_id": {
+          "title": "Crossing Edge Id",
+          "type": "string"
+        },
+        "geometry_evidence_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Geometry Evidence Id",
+          "type": "string"
+        },
+        "minimum_centerline_distance_m": {
+          "minimum": 0.0,
+          "title": "Minimum Centerline Distance M",
+          "type": "number"
+        },
+        "request_foes_fields_read": {
+          "default": [],
+          "maxItems": 0,
+          "minItems": 0,
+          "title": "Request Foes Fields Read",
+          "type": "array"
+        },
+        "right_of_way_inference": {
+          "const": "not-inferred",
+          "default": "not-inferred",
+          "title": "Right Of Way Inference",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.row-geometry-evidence/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "vehicle_from_edge_id": {
+          "title": "Vehicle From Edge Id",
+          "type": "string"
+        },
+        "vehicle_to_edge_id": {
+          "title": "Vehicle To Edge Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "geometry_evidence_id",
+        "candidate_net_sha256",
+        "crossing_edge_id",
+        "vehicle_from_edge_id",
+        "vehicle_to_edge_id",
+        "centerline_intersects",
+        "minimum_centerline_distance_m",
+        "crossing_angle_deg"
+      ],
+      "title": "ROWGeometryEvidence",
+      "type": "object"
+    },
+    "ROWModelClaimEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "bit_order": {
+          "const": "rightmost-bit-is-index-zero",
+          "default": "rightmost-bit-is-index-zero",
+          "title": "Bit Order",
+          "type": "string"
+        },
+        "candidate_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Candidate Net Sha256",
+          "type": "string"
+        },
+        "controller_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Controller Ids",
+          "type": "array"
+        },
+        "crossing_edge_id": {
+          "title": "Crossing Edge Id",
+          "type": "string"
+        },
+        "ground_truth_authority": {
+          "const": false,
+          "default": false,
+          "title": "Ground Truth Authority",
+          "type": "boolean"
+        },
+        "inferred_class": {
+          "enum": [
+            "signalized",
+            "priority-unsignalized",
+            "unprioritized-unsignalized",
+            "ambiguous",
+            "unmapped"
+          ],
+          "title": "Inferred Class",
+          "type": "string"
+        },
+        "junction_id": {
+          "title": "Junction Id",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "model_claim_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Model Claim Id",
+          "type": "string"
+        },
+        "relation": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ROWRequestRelation"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "schema": {
+          "default": "torii.corridor.row-model-claim-evidence/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_connection_states": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Connection States",
+          "type": "array"
+        },
+        "vehicle_from_edge_id": {
+          "title": "Vehicle From Edge Id",
+          "type": "string"
+        },
+        "vehicle_to_edge_id": {
+          "title": "Vehicle To Edge Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "model_claim_id",
+        "candidate_net_sha256",
+        "junction_id",
+        "crossing_edge_id",
+        "vehicle_from_edge_id",
+        "vehicle_to_edge_id",
+        "inferred_class",
+        "relation",
+        "controller_ids",
+        "source_connection_states",
+        "limitations"
+      ],
+      "title": "ROWModelClaimEvidence",
+      "type": "object"
+    },
+    "ROWRequestRelation": {
+      "additionalProperties": false,
+      "properties": {
+        "pedestrian_cont": {
+          "title": "Pedestrian Cont",
+          "type": "boolean"
+        },
+        "pedestrian_foe_to_vehicle": {
+          "title": "Pedestrian Foe To Vehicle",
+          "type": "boolean"
+        },
+        "pedestrian_request_index": {
+          "minimum": 0,
+          "title": "Pedestrian Request Index",
+          "type": "integer"
+        },
+        "pedestrian_response_to_vehicle": {
+          "title": "Pedestrian Response To Vehicle",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "vehicle_cont": {
+          "title": "Vehicle Cont",
+          "type": "boolean"
+        },
+        "vehicle_foe_to_pedestrian": {
+          "title": "Vehicle Foe To Pedestrian",
+          "type": "boolean"
+        },
+        "vehicle_request_index": {
+          "minimum": 0,
+          "title": "Vehicle Request Index",
+          "type": "integer"
+        },
+        "vehicle_response_to_pedestrian": {
+          "title": "Vehicle Response To Pedestrian",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "pedestrian_request_index",
+        "vehicle_request_index",
+        "pedestrian_response_to_vehicle",
+        "vehicle_response_to_pedestrian",
+        "pedestrian_foe_to_vehicle",
+        "vehicle_foe_to_pedestrian",
+        "pedestrian_cont",
+        "vehicle_cont"
+      ],
+      "title": "ROWRequestRelation",
+      "type": "object"
+    },
+    "ROWRuntimeProbe": {
+      "additionalProperties": false,
+      "properties": {
+        "arrival_schedule": {
+          "enum": [
+            "pedestrian-first",
+            "vehicle-first",
+            "simultaneous"
+          ],
+          "title": "Arrival Schedule",
+          "type": "string"
+        },
+        "candidate_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Candidate Net Sha256",
+          "type": "string"
+        },
+        "collision_count": {
+          "minimum": 0,
+          "title": "Collision Count",
+          "type": "integer"
+        },
+        "completed": {
+          "title": "Completed",
+          "type": "boolean"
+        },
+        "crossing_edge_id": {
+          "title": "Crossing Edge Id",
+          "type": "string"
+        },
+        "emergency_braking_count": {
+          "minimum": 0,
+          "title": "Emergency Braking Count",
+          "type": "integer"
+        },
+        "observed_behavior": {
+          "enum": [
+            "vehicle-yielded",
+            "pedestrian-yielded",
+            "no-interaction",
+            "unsafe-overlap",
+            "unresolved"
+          ],
+          "title": "Observed Behavior",
+          "type": "string"
+        },
+        "pedestrian_crossing_entry_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Pedestrian Crossing Entry S"
+        },
+        "pedestrian_crossing_exit_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Pedestrian Crossing Exit S"
+        },
+        "pedestrian_depart_s": {
+          "minimum": 0.0,
+          "title": "Pedestrian Depart S",
+          "type": "number"
+        },
+        "pedestrian_stopped_before_crossing_s": {
+          "minimum": 0.0,
+          "title": "Pedestrian Stopped Before Crossing S",
+          "type": "number"
+        },
+        "pedestrian_wait_window_s": {
+          "exclusiveMinimum": 0.0,
+          "title": "Pedestrian Wait Window S",
+          "type": "number"
+        },
+        "proves_real_world_priority": {
+          "const": false,
+          "default": false,
+          "title": "Proves Real World Priority",
+          "type": "boolean"
+        },
+        "random_seed": {
+          "minimum": 0,
+          "title": "Random Seed",
+          "type": "integer"
+        },
+        "route_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Route Sha256",
+          "type": "string"
+        },
+        "runtime_probe_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Runtime Probe Id",
+          "type": "string"
+        },
+        "runtime_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "schema": {
+          "default": "torii.corridor.row-runtime-probe/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "simulation_end_s": {
+          "exclusiveMinimum": 0.0,
+          "title": "Simulation End S",
+          "type": "number"
+        },
+        "simulation_step_s": {
+          "exclusiveMinimum": 0.0,
+          "title": "Simulation Step S",
+          "type": "number"
+        },
+        "stop_speed_threshold_mps": {
+          "minimum": 0.0,
+          "title": "Stop Speed Threshold Mps",
+          "type": "number"
+        },
+        "sumo_binary_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sumo Binary Sha256",
+          "type": "string"
+        },
+        "sumo_version": {
+          "title": "Sumo Version",
+          "type": "string"
+        },
+        "vehicle_depart_s": {
+          "minimum": 0.0,
+          "title": "Vehicle Depart S",
+          "type": "number"
+        },
+        "vehicle_internal_entry_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Vehicle Internal Entry S"
+        },
+        "vehicle_internal_exit_s": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Vehicle Internal Exit S"
+        },
+        "vehicle_internal_lane_id": {
+          "title": "Vehicle Internal Lane Id",
+          "type": "string"
+        },
+        "vehicle_speed_mps": {
+          "exclusiveMinimum": 0.0,
+          "title": "Vehicle Speed Mps",
+          "type": "number"
+        },
+        "vehicle_stopped_before_conflict_s": {
+          "minimum": 0.0,
+          "title": "Vehicle Stopped Before Conflict S",
+          "type": "number"
+        },
+        "yield_stop_threshold_s": {
+          "exclusiveMinimum": 0.0,
+          "title": "Yield Stop Threshold S",
+          "type": "number"
+        }
+      },
+      "required": [
+        "runtime_probe_id",
+        "candidate_net_sha256",
+        "route_sha256",
+        "sumo_binary_sha256",
+        "sumo_version",
+        "crossing_edge_id",
+        "vehicle_internal_lane_id",
+        "arrival_schedule",
+        "pedestrian_depart_s",
+        "vehicle_depart_s",
+        "vehicle_speed_mps",
+        "simulation_step_s",
+        "simulation_end_s",
+        "random_seed",
+        "stop_speed_threshold_mps",
+        "yield_stop_threshold_s",
+        "pedestrian_wait_window_s",
+        "pedestrian_crossing_entry_s",
+        "pedestrian_crossing_exit_s",
+        "vehicle_internal_entry_s",
+        "vehicle_internal_exit_s",
+        "vehicle_stopped_before_conflict_s",
+        "pedestrian_stopped_before_crossing_s",
+        "observed_behavior",
+        "collision_count",
+        "emergency_braking_count",
+        "completed",
+        "runtime_status"
+      ],
+      "title": "ROWRuntimeProbe",
+      "type": "object"
+    },
+    "ROWStaticAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "automatic_promotion_gate": {
+          "$ref": "#/$defs/GateStatus",
+          "default": "blocked"
+        },
+        "contradictions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Contradictions",
+          "type": "array"
+        },
+        "expected_answer_source_bundle_only": {
+          "const": true,
+          "default": true,
+          "title": "Expected Answer Source Bundle Only",
+          "type": "boolean"
+        },
+        "geometry_applicable": {
+          "title": "Geometry Applicable",
+          "type": "boolean"
+        },
+        "geometry_evidence_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Geometry Evidence Id",
+          "type": "string"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "model_claim_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Model Claim Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.row-static-assessment/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_decision_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Source Decision Id",
+          "type": "string"
+        },
+        "source_model_consistent": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Model Consistent"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "source_decision_id",
+        "geometry_evidence_id",
+        "model_claim_id",
+        "status",
+        "source_model_consistent",
+        "geometry_applicable",
+        "contradictions",
+        "limitations"
+      ],
+      "title": "ROWStaticAssessment",
+      "type": "object"
+    },
+    "SourceROWBundle": {
+      "additionalProperties": false,
+      "properties": {
+        "crossing_edge_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Crossing Edge Ids",
+          "type": "array"
+        },
+        "crossing_node_id": {
+          "title": "Crossing Node Id",
+          "type": "string"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "crossing_stage_count": {
+          "minimum": 1,
+          "title": "Crossing Stage Count",
+          "type": "integer"
+        },
+        "explicit_crossing_priority": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Explicit Crossing Priority"
+        },
+        "junction_control_kind": {
+          "enum": [
+            "traffic-light",
+            "unsignalized",
+            "unknown",
+            "shared-space-or-unsupported"
+          ],
+          "title": "Junction Control Kind",
+          "type": "string"
+        },
+        "observations": {
+          "items": {
+            "$ref": "#/$defs/SourceROWObservation"
+          },
+          "title": "Observations",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.source-row-bundle/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_bundle_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Source Bundle Id",
+          "type": "string"
+        },
+        "source_status": {
+          "enum": [
+            "complete",
+            "incomplete",
+            "contradictory",
+            "unsupported"
+          ],
+          "title": "Source Status",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "source_bundle_id",
+        "crossing_signature",
+        "crossing_node_id",
+        "crossing_edge_ids",
+        "traffic_side",
+        "crossing_stage_count",
+        "junction_control_kind",
+        "explicit_crossing_priority",
+        "source_status",
+        "observations"
+      ],
+      "title": "SourceROWBundle",
+      "type": "object"
+    },
+    "SourceROWObservation": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "expected_answer_eligible": {
+          "title": "Expected Answer Eligible",
+          "type": "boolean"
+        },
+        "observed_value": {
+          "title": "Observed Value",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.source-row-observation/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_kind": {
+          "enum": [
+            "plain-crossing-priority",
+            "plain-node-control",
+            "osm-tag",
+            "builder-parameter",
+            "licensed-map-observation"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "subject": {
+          "title": "Subject",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source_kind",
+        "source_sha256",
+        "subject",
+        "observed_value",
+        "expected_answer_eligible"
+      ],
+      "title": "SourceROWObservation",
+      "type": "object"
+    },
+    "SourceROWOracleDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "abstained": {
+          "title": "Abstained",
+          "type": "boolean"
+        },
+        "automatic_promotion_gate": {
+          "$ref": "#/$defs/GateStatus",
+          "default": "blocked"
+        },
+        "crossing_stage_count": {
+          "minimum": 1,
+          "title": "Crossing Stage Count",
+          "type": "integer"
+        },
+        "decision_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Decision Id",
+          "type": "string"
+        },
+        "expected_answer_channels": {
+          "default": [
+            "source-evidence"
+          ],
+          "items": {
+            "const": "source-evidence",
+            "type": "string"
+          },
+          "title": "Expected Answer Channels",
+          "type": "array"
+        },
+        "expected_class": {
+          "enum": [
+            "signalized",
+            "priority-unsignalized",
+            "unprioritized-unsignalized",
+            "unknown-unsignalized",
+            "shared-space-or-unsupported"
+          ],
+          "title": "Expected Class",
+          "type": "string"
+        },
+        "model_claim_fields_read": {
+          "default": [],
+          "maxItems": 0,
+          "minItems": 0,
+          "title": "Model Claim Fields Read",
+          "type": "array"
+        },
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.source-row-oracle-decision/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_bundle_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Source Bundle Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "decision_id",
+        "source_bundle_id",
+        "traffic_side",
+        "crossing_stage_count",
+        "expected_class",
+        "status",
+        "abstained",
+        "reasons"
+      ],
+      "title": "SourceROWOracleDecision",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.row-1-experiment-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/ROWExperimentCaseResult"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "expected_answer_model_claim_read_count": {
+      "minimum": 0,
+      "title": "Expected Answer Model Claim Read Count",
+      "type": "integer"
+    },
+    "failed_case_count": {
+      "minimum": 0,
+      "title": "Failed Case Count",
+      "type": "integer"
+    },
+    "fixture_sha256": {
+      "additionalProperties": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Fixture Sha256",
+      "type": "object"
+    },
+    "gold_case_count": {
+      "minimum": 0,
+      "title": "Gold Case Count",
+      "type": "integer"
+    },
+    "mutation_case_count": {
+      "minimum": 0,
+      "title": "Mutation Case Count",
+      "type": "integer"
+    },
+    "netconvert_binary_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Netconvert Binary Sha256",
+      "type": "string"
+    },
+    "netconvert_version": {
+      "title": "Netconvert Version",
+      "type": "string"
+    },
+    "ood_case_count": {
+      "minimum": 0,
+      "title": "Ood Case Count",
+      "type": "integer"
+    },
+    "report_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "runtime_probe_count": {
+      "minimum": 0,
+      "title": "Runtime Probe Count",
+      "type": "integer"
+    },
+    "schema": {
+      "default": "torii.corridor.row-1-experiment-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_insufficient_forced_decision_count": {
+      "minimum": 0,
+      "title": "Source Insufficient Forced Decision Count",
+      "type": "integer"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "sumo_binary_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sumo Binary Sha256",
+      "type": "string"
+    },
+    "sumo_version": {
+      "title": "Sumo Version",
+      "type": "string"
+    },
+    "unsafe_false_pass_count": {
+      "minimum": 0,
+      "title": "Unsafe False Pass Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "report_id",
+    "fixture_sha256",
+    "netconvert_binary_sha256",
+    "netconvert_version",
+    "sumo_binary_sha256",
+    "sumo_version",
+    "cases",
+    "gold_case_count",
+    "mutation_case_count",
+    "ood_case_count",
+    "runtime_probe_count",
+    "failed_case_count",
+    "unsafe_false_pass_count",
+    "source_insufficient_forced_decision_count",
+    "expected_answer_model_claim_read_count",
+    "status"
+  ],
+  "title": "ROWExperimentReport",
+  "type": "object",
+  "x-torii-status": "stage-1m-row-1-independent-right-of-way-contract"
+}

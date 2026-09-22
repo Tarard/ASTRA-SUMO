@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6">
+  <bounds minlat="48.0000" minlon="11.0000" maxlat="48.0010" maxlon="11.0010"/>
+  <node id="seed" lat="48.00050" lon="11.00050"/>
+  <node id="crossing" lat="48.00055" lon="11.00050">
+    <tag k="highway" v="crossing"/>
+    <tag k="crossing" v="traffic_signals"/>
+  </node>
+  <node id="vehicle_core" lat="48.00055" lon="11.00060"/>
+  <node id="west" lat="48.00055" lon="11.00000"/>
+  <node id="east" lat="48.00055" lon="11.00100"/>
+  <node id="south" lat="48.00010" lon="11.00060"/>
+  <node id="north" lat="48.00090" lon="11.00060"/>
+  <way id="path_a">
+    <nd ref="seed"/>
+    <nd ref="crossing"/>
+    <tag k="highway" v="path"/>
+    <tag k="foot" v="designated"/>
+    <tag k="bicycle" v="designated"/>
+  </way>
+  <way id="road_ew">
+    <nd ref="west"/>
+    <nd ref="crossing"/>
+    <nd ref="vehicle_core"/>
+    <nd ref="east"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="lanes" v="4"/>
+  </way>
+  <way id="road_s">
+    <nd ref="south"/>
+    <nd ref="vehicle_core"/>
+    <tag k="highway" v="tertiary"/>
+    <tag k="lanes" v="2"/>
+  </way>
+  <way id="road_n">
+    <nd ref="north"/>
+    <nd ref="vehicle_core"/>
+    <tag k="highway" v="residential"/>
+    <tag k="lanes" v="1"/>
+  </way>
+</osm>

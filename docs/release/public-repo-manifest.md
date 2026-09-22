@@ -1,48 +1,67 @@
 # Public Repository Manifest
 
-Use this manifest to create a clean GitHub repository named:
+Use this manifest for the public Torii repository hosted at:
 
 ```text
-academic-audit-for-eclipse-sumo
+Tarard/Torii-SUMO
 ```
 
-Do not publish the entire local worktree if it contains unrelated project code, private plans, local PDFs, generated outputs, or unpublished research notes.
+The public project is Torii: Task-Oriented Road Infrastructure Intelligence for Eclipse SUMO.
 
 ## Include
 
 ```text
 README.md
-LICENSE-DOCS
-skills/
-  academic-audit-for-eclipse-sumo/
-  debugging-audit-for-eclipse-sumo/
+docs/readme/README.zh-CN.md
+docs/readme/README.de.md
+docs/architecture.md
+docs/legal/NOTICE.md
+LICENSE
+CITATION.cff
+.zenodo.json
+pyproject.toml
+uv.lock
+AGENTS.md
+.gitattributes
+.gitignore
+.agents/plugins/marketplace.json
+.github/
+plugins/
 docs/
-  common-sumo-signal-control-failures.md
-  release/
-    github-topics.txt
-    mailing-list-announcement.md
-    linkedin-posts.md
-    conference-positioning.md
-    public-repo-manifest.md
 examples/
-  01_fixed_time_audit/
-  02_max_pressure_audit/
-  03_data_informed_signal_control_audit/
+benchmarks/
+schemas/
+tests/
 ```
+
+The repository uses a single MIT License. `LICENSE` is the authoritative project license; `docs/legal/NOTICE.md` records third-party and attribution notices.
 
 ## Exclude
 
 ```text
-docs/superpowers/
-src/
-tests/
-sumo/
+runs/
 outputs/
+sumo/
 *.pdf
 __pycache__/
 *.pyc
+.pytest_cache/
+local datasets
+private experiment logs
+unpublished research notes
+machine-local absolute paths
+untracked local research reports and captured run bundles
 ```
+
+## Public Safety Checks
+
+- No local machine paths.
+- No private project acronyms, collaborator names, unpublished methods, or dataset identifiers.
+- No vendored third-party source from OSMnx, OSMNet, pyrosm, SUMO, osm-to-xodr, SUMO Lights, or Google Maps.
+- No claim that Google Maps is always the correct target; current versus historical map scope must be confirmed by the user.
+- Full OSM cleanup is CLI-only. MCP does not expose it as a tool. Place resolution must produce a bbox before cleanup.
+- Internal agent execution plans do not belong under public `docs/`.
 
 ## GitHub Topics
 
-After creating the GitHub repository, add the topics listed in `docs/release/github-topics.txt` through the repository settings or GitHub CLI.
+After publishing, add the topics listed in `docs/release/github-topics.txt` through repository settings or GitHub CLI.

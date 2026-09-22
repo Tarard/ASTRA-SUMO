@@ -1,0 +1,133 @@
+{
+  "target": "Ingolstadt city-center OSM-to-SUMO cleanup compared with TUM-VT/sumo_ingolstadt",
+  "center": {
+    "lat": 48.765391,
+    "lon": 11.4238,
+    "osm_url": "https://www.openstreetmap.org/#map=17/48.765391/11.423800"
+  },
+  "comparison_bbox": {
+    "min_lon": 11.4138,
+    "min_lat": 48.755391,
+    "max_lon": 11.4338,
+    "max_lat": 48.775391
+  },
+  "tum_reference_structure": {
+    "source": "https://github.com/TUM-VT/sumo_ingolstadt",
+    "network_file": "simulation/Ingolstadt SUMO 365/ingolstadt_net.net.xml",
+    "full_city": {
+      "edges": 27782,
+      "passenger_edges": 20965,
+      "lanes": 39745,
+      "junctions": 12133,
+      "traffic_light_junctions": 126,
+      "joined_junction_endpoint_refs": 7600
+    },
+    "city_center_bbox_cut": {
+      "edges": 3577,
+      "passenger_edges": 2032,
+      "lanes": 4955,
+      "junctions": 1752,
+      "traffic_light_junctions": 29,
+      "joined_junction_endpoint_refs": 1136,
+      "passenger_road_type_counts": {
+        "highway.service": 945,
+        "highway.residential": 429,
+        "highway.tertiary": 256,
+        "highway.unclassified": 162,
+        "highway.secondary": 85,
+        "highway.living_street": 66,
+        "highway.primary": 23,
+        "highway.primary_link": 8,
+        "highway.track": 26,
+        "highway.tertiary_link": 2,
+        "highway.secondary_link": 2,
+        "missing_or_uncommon": 28
+      }
+    }
+  },
+  "torii_osm_reference_matched": {
+    "source": "OpenStreetMap",
+    "network_profile": "reference_matched",
+    "default_routeability_layer": "vehicle_core",
+    "default_netedit_comparison_layer": "reference_visual_detail",
+    "raw_edges": 2541,
+    "raw_passenger_edges": 2541,
+    "raw_lanes": 3093,
+    "raw_junctions": 1249,
+    "raw_traffic_light_junctions": 202,
+    "raw_tlLogic": 146,
+    "tls_aggregation_traffic_light_junctions": 34,
+    "tls_aggregation_tlLogic": 34,
+    "connected_core_edges": 2493,
+    "connected_core_passenger_edges": 2493,
+    "connected_core_lanes": 3045,
+    "connected_core_junctions": 1220,
+    "connected_core_traffic_light_junctions": 34,
+    "connected_core_tlLogic": 34,
+    "reference_visual_detail_edges": 6126,
+    "reference_visual_detail_lanes": 6695,
+    "reference_visual_detail_junctions": 2997,
+    "reference_visual_detail_traffic_light_junctions": 217,
+    "reference_visual_detail_tlLogic": 82,
+    "reference_visual_detail_tls_aggregation_traffic_light_junctions": 34,
+    "reference_visual_detail_tls_aggregation_tlLogic": 34,
+    "reference_visual_detail_only_highway_classes": [
+      "cycleway",
+      "footway",
+      "path",
+      "pedestrian",
+      "steps",
+      "track"
+    ],
+    "joined_junction_endpoint_refs_in_bbox": 0,
+    "passenger_road_type_counts": {
+      "highway.residential": 455,
+      "highway.tertiary": 420,
+      "highway.unclassified": 172,
+      "highway.secondary": 204,
+      "highway.living_street": 82,
+      "highway.primary": 65,
+      "highway.tertiary_link": 17,
+      "highway.secondary_link": 9,
+      "highway.primary_link": 3
+    },
+    "known_scope_gap": "The previous unfair comparison between Torii connected-core and TUM full-detail was corrected by building a separate reference_visual_detail network.",
+    "topology_audit": {
+      "cluster_radius_m": 30,
+      "status": "needs_review",
+      "review_requirement": "local cluster-graph audit and Google Maps default-map review before junction aggregation; satellite view is optional when ambiguous"
+    },
+    "routeability": {
+      "status": "pass",
+      "vehicle_count": 100,
+      "final_end": 600,
+      "arrived": 100,
+      "running": 0,
+      "teleports": 0,
+      "collisions": 0,
+      "claim": "routeability smoke only; TLS reality and topology gates still bound stronger claims"
+    }
+  },
+  "tum_reference_bbox_cut": {
+    "source": "https://github.com/TUM-VT/sumo_ingolstadt",
+    "network_file": "simulation/Ingolstadt SUMO 365/ingolstadt_net.net.xml",
+    "edges_in_bbox": 3577,
+    "passenger_edges_in_bbox": 2032,
+    "lanes_in_bbox": 4955,
+    "junctions_in_bbox": 1752,
+    "traffic_light_junctions_in_bbox": 29,
+    "joined_junction_endpoint_refs_in_bbox": 1136,
+    "topology_audit": {
+      "cluster_radius_m": 30,
+      "status": "needs_review",
+      "suspicious_cluster_count": 132,
+      "max_cluster_node_count": 93
+    },
+    "routeability": {
+      "status": "not_rerun_in_visual_detail_smoke",
+      "claim": "reference comparator only"
+    }
+  },
+  "interpretation": "The reference-matched workflow now builds a separate Torii reference_visual_detail network for full-detail Netedit comparison and a non-destructive TLS aggregation review variant. TLS count drops from raw 217 traffic-light junctions / 82 tlLogic definitions to 34 physical TLS representatives, compared with TUM's 29 traffic-light junctions / 28 tlLogic definitions. The remaining gap is Google Maps review for extra TLS candidates plus reusable physical-intersection aggregation; dense clusters require local cluster-graph audit before any destructive join, with satellite view only as an optional fallback.",
+  "claim_status": "diagnostic-demo"
+}

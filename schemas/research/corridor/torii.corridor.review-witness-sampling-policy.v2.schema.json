@@ -1,0 +1,142 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.review-witness-sampling-policy.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "atomic_membership_coverage_required": {
+      "const": 1.0,
+      "default": 1.0,
+      "title": "Atomic Membership Coverage Required",
+      "type": "number"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "cluster_decision_propagation_requires_purity": {
+      "const": true,
+      "default": true,
+      "title": "Cluster Decision Propagation Requires Purity",
+      "type": "boolean"
+    },
+    "confidence_level": {
+      "const": 0.95,
+      "default": 0.95,
+      "title": "Confidence Level",
+      "type": "number"
+    },
+    "confidence_method": {
+      "const": "wilson-one-sided",
+      "default": "wilson-one-sided",
+      "title": "Confidence Method",
+      "type": "string"
+    },
+    "duplicate_witness_maximum": {
+      "const": 0,
+      "default": 0,
+      "title": "Duplicate Witness Maximum",
+      "type": "integer"
+    },
+    "estimator": {
+      "const": "horvitz-thompson",
+      "default": "horvitz-thompson",
+      "title": "Estimator",
+      "type": "string"
+    },
+    "hard_key_mixing_maximum": {
+      "const": 0,
+      "default": 0,
+      "title": "Hard Key Mixing Maximum",
+      "type": "integer"
+    },
+    "hidden_random_member_required": {
+      "const": true,
+      "default": true,
+      "title": "Hidden Random Member Required",
+      "type": "boolean"
+    },
+    "inclusion_probability_required": {
+      "const": true,
+      "default": true,
+      "title": "Inclusion Probability Required",
+      "type": "boolean"
+    },
+    "lost_witness_maximum": {
+      "const": 0,
+      "default": 0,
+      "title": "Lost Witness Maximum",
+      "type": "integer"
+    },
+    "maximum_hidden_member_disagreement_upper_bound": {
+      "const": 0.05,
+      "default": 0.05,
+      "title": "Maximum Hidden Member Disagreement Upper Bound",
+      "type": "number"
+    },
+    "maximum_safety_critical_hidden_heterogeneity": {
+      "const": 0,
+      "default": 0,
+      "title": "Maximum Safety Critical Hidden Heterogeneity",
+      "type": "integer"
+    },
+    "negative_pair_sampling_required": {
+      "const": true,
+      "default": true,
+      "title": "Negative Pair Sampling Required",
+      "type": "boolean"
+    },
+    "policy_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Policy Id",
+      "type": "string"
+    },
+    "rare_hard_ood_census_required": {
+      "const": true,
+      "default": true,
+      "title": "Rare Hard Ood Census Required",
+      "type": "boolean"
+    },
+    "rwc_policy_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Rwc Policy Id",
+      "type": "string"
+    },
+    "rwc_sampling_seed_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Rwc Sampling Seed Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.review-witness-sampling-policy/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "visible_medoid_and_extrema_required": {
+      "const": true,
+      "default": true,
+      "title": "Visible Medoid And Extrema Required",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "policy_id",
+    "rwc_policy_id",
+    "rwc_sampling_seed_sha256"
+  ],
+  "title": "ReviewWitnessSamplingPolicyV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-lossless-human-sampling-contract"
+}

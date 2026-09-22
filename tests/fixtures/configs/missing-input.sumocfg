@@ -1,0 +1,9 @@
+<configuration>
+  <input>
+    <net-file value="missing.net.xml"/>
+    <route-files value="demand.rou.xml"/>
+  </input>
+  <output>
+    <summary-output value="outputs/missing/summary.xml"/>
+  </output>
+</configuration>

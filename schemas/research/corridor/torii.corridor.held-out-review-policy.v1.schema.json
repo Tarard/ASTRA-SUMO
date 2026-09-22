@@ -1,0 +1,150 @@
+{
+  "$defs": {
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-policy.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adjudicator_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Adjudicator Id",
+      "type": "string"
+    },
+    "maximum_median_review_seconds": {
+      "exclusiveMinimum": 0.0,
+      "title": "Maximum Median Review Seconds",
+      "type": "number"
+    },
+    "maximum_safety_critical_false_negatives": {
+      "const": 0,
+      "default": 0,
+      "title": "Maximum Safety Critical False Negatives",
+      "type": "integer"
+    },
+    "minimum_attention_precision": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Minimum Attention Precision",
+      "type": "number"
+    },
+    "minimum_attention_recall": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Minimum Attention Recall",
+      "type": "number"
+    },
+    "minimum_auto_precision": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Minimum Auto Precision",
+      "type": "number"
+    },
+    "minimum_case_count": {
+      "minimum": 2,
+      "title": "Minimum Case Count",
+      "type": "integer"
+    },
+    "minimum_cases_per_city_group": {
+      "minimum": 1,
+      "title": "Minimum Cases Per City Group",
+      "type": "integer"
+    },
+    "minimum_city_group_count": {
+      "minimum": 2,
+      "title": "Minimum City Group Count",
+      "type": "integer"
+    },
+    "minimum_cohen_kappa": {
+      "maximum": 1.0,
+      "minimum": -1.0,
+      "title": "Minimum Cohen Kappa",
+      "type": "number"
+    },
+    "minimum_morphology_count": {
+      "minimum": 2,
+      "title": "Minimum Morphology Count",
+      "type": "integer"
+    },
+    "minimum_raw_agreement": {
+      "maximum": 1.0,
+      "minimum": 0.0,
+      "title": "Minimum Raw Agreement",
+      "type": "number"
+    },
+    "parent_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Benchmark Sha256",
+      "type": "string"
+    },
+    "required_mode_features": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Required Mode Features",
+      "type": "array"
+    },
+    "required_traffic_sides": {
+      "items": {
+        "$ref": "#/$defs/TrafficSide"
+      },
+      "title": "Required Traffic Sides",
+      "type": "array"
+    },
+    "reviewer_ids": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "type": "string"
+        }
+      ],
+      "title": "Reviewer Ids",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-policy/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "parent_benchmark_sha256",
+    "reviewer_ids",
+    "adjudicator_id",
+    "minimum_case_count",
+    "minimum_city_group_count",
+    "minimum_morphology_count",
+    "minimum_cases_per_city_group",
+    "required_traffic_sides",
+    "required_mode_features",
+    "minimum_raw_agreement",
+    "minimum_cohen_kappa",
+    "minimum_attention_precision",
+    "minimum_attention_recall",
+    "minimum_auto_precision",
+    "maximum_median_review_seconds"
+  ],
+  "title": "HeldOutReviewPolicy",
+  "type": "object",
+  "x-torii-status": "stage-1-preregistered-human-review-contract"
+}

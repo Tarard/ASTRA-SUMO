@@ -1,0 +1,35 @@
+<net version="1.20">
+  <location netOffset="0.00,0.00" convBoundary="9.98,53.54,9.982,53.5403" origBoundary="9.98,53.54,9.982,53.5403" projParameter="+proj=longlat +datum=WGS84 +no_defs"/>
+  <edge id=":j0_0" function="internal">
+    <lane id=":j0_0_0" index="0" speed="13.89" length="5" shape="9.981,53.54 9.9811,53.54"/>
+  </edge>
+  <edge id="100#0" from="a" to="b" priority="11" type="highway.secondary">
+    <lane id="100#0_0" index="0" speed="13.89" length="66" shape="9.980,53.540 9.981,53.540"/>
+    <lane id="100#0_1" index="1" speed="13.89" length="66" shape="9.980,53.54001 9.981,53.54001"/>
+    <param key="name" value="Am Sandtorkai"/>
+    <param key="origId" value="100"/>
+  </edge>
+  <edge id="100#1" from="b" to="c" priority="11" type="highway.secondary">
+    <lane id="100#1_0" index="0" speed="13.89" length="66" shape="9.981,53.540 9.982,53.540"/>
+    <lane id="100#1_1" index="1" speed="13.89" length="66" shape="9.981,53.54001 9.982,53.54001"/>
+    <param key="name" value="Am Sandtorkai"/>
+    <param key="origId" value="100"/>
+  </edge>
+  <edge id="-100#0" from="c" to="a" priority="11" type="highway.secondary">
+    <lane id="-100#0_0" index="0" speed="13.89" length="132" shape="9.982,53.54005 9.980,53.54005">
+      <param key="origID" value="100"/>
+    </lane>
+    <param key="name" value="Am Sandtorkai"/>
+  </edge>
+  <edge id="101#0" from="d" to="e" priority="11" type="highway.secondary">
+    <lane id="101#0_0" index="0" speed="13.89" length="132" shape="9.982,53.54005 9.980,53.54005"/>
+    <param key="name" value="Am Sandtorkai"/>
+  </edge>
+  <edge id="custom-main" from="e" to="f" priority="10" type="highway.residential" function="normal">
+    <lane id="custom-main_0" index="0" speed="8.33" length="30" shape="9.980,53.5402 9.9804,53.5402"/>
+    <param key="name" value="Manual access"/>
+  </edge>
+  <edge id=":j0_walk" from="p1" to="p2" function="walkingarea">
+    <lane id=":j0_walk_0" index="0" speed="1.39" length="10" allow="pedestrian" shape="9.980,53.5401 9.982,53.5401"/>
+  </edge>
+</net>

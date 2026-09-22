@@ -1,0 +1,9 @@
+{
+  "user_request": "Rebuild the Hamburg junction from my reviewed July 2022 construction drawing. Keep that design year.",
+  "scenario_id": "hamburg_network",
+  "reason": "The drawing defines a real road reconstruction. Demand fitting and a synthetic scene were not requested.",
+  "arguments": {
+    "request_file": "C:/REPLACE_WITH_PROJECT/requests/hamburg-2022.json",
+    "output_dir": "C:/REPLACE_WITH_PROJECT/outputs/hamburg-plan-new"
+  }
+}

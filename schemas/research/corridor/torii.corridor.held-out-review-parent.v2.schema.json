@@ -1,0 +1,88 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-parent.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "base_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Base Benchmark Sha256",
+      "type": "string"
+    },
+    "frozen": {
+      "const": true,
+      "default": true,
+      "title": "Frozen",
+      "type": "boolean"
+    },
+    "held_out_corpus_v1_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Held Out Corpus V1 Sha256",
+      "type": "string"
+    },
+    "lossless_compression_schema_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Lossless Compression Schema Sha256",
+      "type": "string"
+    },
+    "parent_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Parent Id",
+      "type": "string"
+    },
+    "replacement_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replacement Policy Sha256",
+      "type": "string"
+    },
+    "reserve_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Reserve Corpus Sha256",
+      "type": "string"
+    },
+    "review_ready_is_not_stage1_exit": {
+      "const": true,
+      "default": true,
+      "title": "Review Ready Is Not Stage1 Exit",
+      "type": "boolean"
+    },
+    "sampling_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sampling Policy Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-parent/v2",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "parent_id",
+    "base_benchmark_sha256",
+    "held_out_corpus_v1_sha256",
+    "reserve_corpus_sha256",
+    "replacement_policy_sha256",
+    "sampling_policy_sha256",
+    "lossless_compression_schema_sha256"
+  ],
+  "title": "HeldOutReviewParentV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-frozen-parent-benchmark-contract"
+}

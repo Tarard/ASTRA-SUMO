@@ -1,0 +1,316 @@
+{
+  "$defs": {
+    "ControlledPedestrianBindingAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "assessment_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Assessment Id",
+          "type": "string"
+        },
+        "binding_entity_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Binding Entity Id",
+          "type": "string"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "hard_structural_error": {
+          "title": "Hard Structural Error",
+          "type": "boolean"
+        },
+        "indexed_states_by_program": {
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*_[0-9a-f]{24}$": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "title": "Indexed States By Program",
+          "type": "object"
+        },
+        "inventory_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Inventory Id",
+          "type": "string"
+        },
+        "link_index2_present": {
+          "title": "Link Index2 Present",
+          "type": "boolean"
+        },
+        "link_indices": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Link Indices",
+          "type": "array"
+        },
+        "movement_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Movement Id",
+          "type": "string"
+        },
+        "owner_junction_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Owner Junction Types",
+          "type": "array"
+        },
+        "owner_physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Owner Physical Cell Ids",
+          "type": "array"
+        },
+        "phase_state_lengths_by_program": {
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*_[0-9a-f]{24}$": {
+              "items": {
+                "type": "integer"
+              },
+              "type": "array"
+            }
+          },
+          "title": "Phase State Lengths By Program",
+          "type": "object"
+        },
+        "primary_class": {
+          "enum": [
+            "ordinary-program-truly-absent",
+            "external-program-present",
+            "runtime-special-controller",
+            "program-present-link-invalid",
+            "shared-controller-scope-incomplete",
+            "stale-or-ambiguous-control-reference",
+            "unsupported-program-form"
+          ],
+          "title": "Primary Class",
+          "type": "string"
+        },
+        "program_evidence_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Program Evidence Ids",
+          "type": "array"
+        },
+        "program_sources": {
+          "items": {
+            "enum": [
+              "embedded-net",
+              "additional-file"
+            ],
+            "type": "string"
+          },
+          "title": "Program Sources",
+          "type": "array"
+        },
+        "raw_connection_xml": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Raw Connection Xml",
+          "type": "array"
+        },
+        "raw_controller_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Raw Controller Ids",
+          "type": "array"
+        },
+        "rejection_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejection Reasons",
+          "type": "array"
+        },
+        "request_foes_rows": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Request Foes Rows",
+          "type": "array"
+        },
+        "review_position_xy": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Review Position Xy"
+        },
+        "schema": {
+          "default": "torii.corridor.controlled-pedestrian-binding-assessment/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "secondary_flags": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Secondary Flags",
+          "type": "array"
+        },
+        "shared_controller_physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Shared Controller Physical Cell Ids",
+          "type": "array"
+        },
+        "shared_index_movement_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Shared Index Movement Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "assessment_id",
+        "inventory_id",
+        "binding_entity_id",
+        "movement_id",
+        "owner_physical_cell_ids",
+        "owner_junction_types",
+        "raw_controller_ids",
+        "link_indices",
+        "link_index2_present",
+        "raw_connection_xml",
+        "program_evidence_ids",
+        "program_sources",
+        "phase_state_lengths_by_program",
+        "indexed_states_by_program",
+        "shared_controller_physical_cell_ids",
+        "shared_index_movement_ids",
+        "request_foes_rows",
+        "crossing_signature",
+        "review_position_xy",
+        "primary_class",
+        "secondary_flags",
+        "hard_structural_error",
+        "rejection_reasons"
+      ],
+      "title": "ControlledPedestrianBindingAssessment",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.controlled-pedestrian-binding-census.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "ambiguous_fraction": {
+      "title": "Ambiguous Fraction",
+      "type": "number"
+    },
+    "assessments": {
+      "items": {
+        "$ref": "#/$defs/ControlledPedestrianBindingAssessment"
+      },
+      "title": "Assessments",
+      "type": "array"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "census_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Census Id",
+      "type": "string"
+    },
+    "class_counts": {
+      "additionalProperties": {
+        "type": "integer"
+      },
+      "propertyNames": {
+        "enum": [
+          "ordinary-program-truly-absent",
+          "external-program-present",
+          "runtime-special-controller",
+          "program-present-link-invalid",
+          "shared-controller-scope-incomplete",
+          "stale-or-ambiguous-control-reference",
+          "unsupported-program-form"
+        ]
+      },
+      "title": "Class Counts",
+      "type": "object"
+    },
+    "classification_signature": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Classification Signature",
+      "type": "string"
+    },
+    "inventory_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Inventory Id",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.controlled-pedestrian-binding-census/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_net_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Net Sha256",
+      "type": "string"
+    },
+    "unresolved_binding_count": {
+      "title": "Unresolved Binding Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "census_id",
+    "inventory_id",
+    "source_net_sha256",
+    "unresolved_binding_count",
+    "class_counts",
+    "ambiguous_fraction",
+    "classification_signature",
+    "assessments"
+  ],
+  "title": "ControlledPedestrianBindingCensus",
+  "type": "object",
+  "x-torii-status": "stage-1m-pcb-453-census-contract"
+}

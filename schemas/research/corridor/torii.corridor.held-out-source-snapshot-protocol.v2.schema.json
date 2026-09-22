@@ -1,0 +1,82 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-source-snapshot-protocol.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "closed_restriction_relations_only": {
+      "const": true,
+      "default": true,
+      "title": "Closed Restriction Relations Only",
+      "type": "boolean"
+    },
+    "disconnected_roundabout_components_excluded": {
+      "const": true,
+      "default": true,
+      "title": "Disconnected Roundabout Components Excluded",
+      "type": "boolean"
+    },
+    "frozen_v1_snapshots_rewritten": {
+      "const": false,
+      "default": false,
+      "title": "Frozen V1 Snapshots Rewritten",
+      "type": "boolean"
+    },
+    "protocol_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Protocol Id",
+      "type": "string"
+    },
+    "reference_complete_writer": {
+      "const": true,
+      "default": true,
+      "title": "Reference Complete Writer",
+      "type": "boolean"
+    },
+    "referenced_node_tags_retained": {
+      "const": true,
+      "default": true,
+      "title": "Referenced Node Tags Retained",
+      "type": "boolean"
+    },
+    "roundabout_component_connectivity": {
+      "const": "shared-osm-node",
+      "default": "shared-osm-node",
+      "title": "Roundabout Component Connectivity",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-source-snapshot-protocol/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "touched_roundabout_component_closure": {
+      "const": true,
+      "default": true,
+      "title": "Touched Roundabout Component Closure",
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "protocol_id"
+  ],
+  "title": "HeldOutSourceSnapshotProtocolV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-source-semantic-closure-contract"
+}

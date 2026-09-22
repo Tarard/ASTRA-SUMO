@@ -1,0 +1,282 @@
+{
+  "$defs": {
+    "AuditAttentionCohortPolicyV2": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_precision_status": {
+          "const": "not-applicable",
+          "default": "not-applicable",
+          "title": "Auto Precision Status",
+          "type": "string"
+        },
+        "cohort": {
+          "const": "audit-attention",
+          "default": "audit-attention",
+          "title": "Cohort",
+          "type": "string"
+        },
+        "finding_cluster_decisions_required": {
+          "const": true,
+          "default": true,
+          "title": "Finding Cluster Decisions Required",
+          "type": "boolean"
+        },
+        "maximum_median_review_seconds": {
+          "const": 300.0,
+          "default": 300.0,
+          "title": "Maximum Median Review Seconds",
+          "type": "number"
+        },
+        "maximum_safety_critical_false_negatives": {
+          "const": 0,
+          "default": 0,
+          "title": "Maximum Safety Critical False Negatives",
+          "type": "integer"
+        },
+        "minimum_cohen_kappa": {
+          "const": 0.6,
+          "default": 0.6,
+          "title": "Minimum Cohen Kappa",
+          "type": "number"
+        },
+        "minimum_raw_agreement": {
+          "const": 0.8,
+          "default": 0.8,
+          "title": "Minimum Raw Agreement",
+          "type": "number"
+        },
+        "minimum_valid_corridor_packages": {
+          "const": 30,
+          "default": 30,
+          "title": "Minimum Valid Corridor Packages",
+          "type": "integer"
+        },
+        "minimum_weighted_attention_precision": {
+          "const": 0.9,
+          "default": 0.9,
+          "title": "Minimum Weighted Attention Precision",
+          "type": "number"
+        },
+        "minimum_weighted_attention_recall": {
+          "const": 0.95,
+          "default": 0.95,
+          "title": "Minimum Weighted Attention Recall",
+          "type": "number"
+        },
+        "negative_units_required_for_recall": {
+          "const": true,
+          "default": true,
+          "title": "Negative Units Required For Recall",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "title": "AuditAttentionCohortPolicyV2",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "ProspectiveSafePassCohortPolicyV2": {
+      "additionalProperties": false,
+      "properties": {
+        "auto_coverage_minimum": {
+          "default": null,
+          "title": "Auto Coverage Minimum",
+          "type": "null"
+        },
+        "cohort": {
+          "const": "prospective-safe-pass",
+          "default": "prospective-safe-pass",
+          "title": "Cohort",
+          "type": "string"
+        },
+        "confidence_level": {
+          "const": 0.95,
+          "default": 0.95,
+          "title": "Confidence Level",
+          "type": "number"
+        },
+        "confidence_method": {
+          "const": "wilson-one-sided",
+          "default": "wilson-one-sided",
+          "title": "Confidence Method",
+          "type": "string"
+        },
+        "current_defect_only_corpus_eligible": {
+          "const": false,
+          "default": false,
+          "title": "Current Defect Only Corpus Eligible",
+          "type": "boolean"
+        },
+        "enrollment": {
+          "const": "all-consecutive-machine-acceptable",
+          "default": "all-consecutive-machine-acceptable",
+          "title": "Enrollment",
+          "type": "string"
+        },
+        "maximum_safety_critical_false_negatives": {
+          "const": 0,
+          "default": 0,
+          "title": "Maximum Safety Critical False Negatives",
+          "type": "integer"
+        },
+        "minimum_auto_precision_one_sided_lower_bound": {
+          "const": 0.99,
+          "default": 0.99,
+          "title": "Minimum Auto Precision One Sided Lower Bound",
+          "type": "number"
+        },
+        "minimum_auto_precision_point_estimate": {
+          "const": 0.99,
+          "default": 0.99,
+          "title": "Minimum Auto Precision Point Estimate",
+          "type": "number"
+        },
+        "minimum_machine_acceptable_count": {
+          "const": 600,
+          "default": 600,
+          "title": "Minimum Machine Acceptable Count",
+          "type": "integer"
+        },
+        "retrospective_enrollment_forbidden": {
+          "const": true,
+          "default": true,
+          "title": "Retrospective Enrollment Forbidden",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "title": "ProspectiveSafePassCohortPolicyV2",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-policy.v2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adjudicator_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Adjudicator Id",
+      "type": "string"
+    },
+    "audit_attention": {
+      "$ref": "#/$defs/AuditAttentionCohortPolicyV2"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "blinding_seed_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Blinding Seed Sha256",
+      "type": "string"
+    },
+    "machine_assessments_are_immutable_after_freeze": {
+      "const": true,
+      "default": true,
+      "title": "Machine Assessments Are Immutable After Freeze",
+      "type": "boolean"
+    },
+    "parent_review_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Review Benchmark Sha256",
+      "type": "string"
+    },
+    "prospective_safe_pass": {
+      "$ref": "#/$defs/ProspectiveSafePassCohortPolicyV2"
+    },
+    "replacement_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replacement Policy Sha256",
+      "type": "string"
+    },
+    "replay_invalid_corridor_keys": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Replay Invalid Corridor Keys",
+      "type": "array"
+    },
+    "reserve_corpus_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Reserve Corpus Sha256",
+      "type": "string"
+    },
+    "reviewer_ids": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "type": "string"
+        }
+      ],
+      "title": "Reviewer Ids",
+      "type": "array"
+    },
+    "sampling_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sampling Policy Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-policy/v2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "stage_1_exit_requires_human_validation": {
+      "const": true,
+      "default": true,
+      "title": "Stage 1 Exit Requires Human Validation",
+      "type": "boolean"
+    },
+    "stage_1m_machine_milestone_only": {
+      "const": true,
+      "default": true,
+      "title": "Stage 1M Machine Milestone Only",
+      "type": "boolean"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    }
+  },
+  "required": [
+    "trial_id",
+    "parent_review_benchmark_sha256",
+    "reserve_corpus_sha256",
+    "replacement_policy_sha256",
+    "sampling_policy_sha256",
+    "blinding_seed_sha256",
+    "reviewer_ids",
+    "adjudicator_id",
+    "replay_invalid_corridor_keys",
+    "audit_attention",
+    "prospective_safe_pass"
+  ],
+  "title": "HeldOutReviewPolicyV2",
+  "type": "object",
+  "x-torii-status": "stage-1m-preregistered-attention-and-safe-pass-contract"
+}

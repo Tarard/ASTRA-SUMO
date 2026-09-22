@@ -1,0 +1,1117 @@
+{
+  "$defs": {
+    "AtomicConflictLedger": {
+      "additionalProperties": false,
+      "properties": {
+        "automatic_promotion_gate": {
+          "$ref": "#/$defs/GateStatus",
+          "default": "blocked"
+        },
+        "candidate_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Candidate Net Sha256",
+          "type": "string"
+        },
+        "confirmed_count": {
+          "minimum": 0,
+          "title": "Confirmed Count",
+          "type": "integer"
+        },
+        "coverage_gate": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "ledger_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Ledger Id",
+          "type": "string"
+        },
+        "potential_count": {
+          "minimum": 0,
+          "title": "Potential Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.atomic-conflict-ledger/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_finding_count": {
+          "minimum": 0,
+          "title": "Source Finding Count",
+          "type": "integer"
+        },
+        "source_osm_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Osm Sha256",
+          "type": "string"
+        },
+        "toolchain_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Toolchain Id",
+          "type": "string"
+        },
+        "witness_count": {
+          "minimum": 0,
+          "title": "Witness Count",
+          "type": "integer"
+        },
+        "witness_set_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Witness Set Signature",
+          "type": "string"
+        },
+        "witnesses": {
+          "items": {
+            "$ref": "#/$defs/AtomicConflictWitness"
+          },
+          "title": "Witnesses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "ledger_id",
+        "source_osm_sha256",
+        "candidate_net_sha256",
+        "toolchain_id",
+        "witness_count",
+        "confirmed_count",
+        "potential_count",
+        "source_finding_count",
+        "witness_set_signature",
+        "witnesses",
+        "coverage_gate"
+      ],
+      "title": "AtomicConflictLedger",
+      "type": "object"
+    },
+    "AtomicConflictWitness": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_witness_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Atomic Witness Id",
+          "type": "string"
+        },
+        "candidate_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Candidate Net Sha256",
+          "type": "string"
+        },
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "potential"
+          ],
+          "title": "Certainty",
+          "type": "string"
+        },
+        "conflict_reason": {
+          "title": "Conflict Reason",
+          "type": "string"
+        },
+        "conflicting_approach_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Conflicting Approach Ids",
+          "type": "array"
+        },
+        "conflicting_lane_roles": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Lane Roles",
+          "type": "array"
+        },
+        "conflicting_mode_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Mode Classes",
+          "type": "array"
+        },
+        "conflicting_movement_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Conflicting Movement Id",
+          "type": "string"
+        },
+        "conflicting_physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Conflicting Physical Cell Ids",
+          "type": "array"
+        },
+        "conflicting_source_lane_role_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Conflicting Source Lane Role Ids",
+          "type": "array"
+        },
+        "conflicting_speed_mps": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Conflicting Speed Mps"
+        },
+        "conflicting_turn_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Turn Classes",
+          "type": "array"
+        },
+        "control_class": {
+          "title": "Control Class",
+          "type": "string"
+        },
+        "crossing_angle_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Crossing Angle Deg"
+        },
+        "crossing_morphology": {
+          "title": "Crossing Morphology",
+          "type": "string"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "envelope_margin_m": {
+          "minimum": 0.0,
+          "title": "Envelope Margin M",
+          "type": "number"
+        },
+        "evidence_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "grade_evidence_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Grade Evidence Signature",
+          "type": "string"
+        },
+        "grade_relation": {
+          "title": "Grade Relation",
+          "type": "string"
+        },
+        "hard_safety_finding": {
+          "title": "Hard Safety Finding",
+          "type": "boolean"
+        },
+        "minimum_centerline_distance_m": {
+          "minimum": 0.0,
+          "title": "Minimum Centerline Distance M",
+          "type": "number"
+        },
+        "pedestrian_movement_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Pedestrian Movement Id",
+          "type": "string"
+        },
+        "pedestrian_physical_cell_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Pedestrian Physical Cell Id",
+          "type": "string"
+        },
+        "request_foes_mapping_status": {
+          "enum": [
+            "mapped",
+            "unmapped",
+            "not-applicable"
+          ],
+          "title": "Request Foes Mapping Status",
+          "type": "string"
+        },
+        "request_foes_relation": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Request Foes Relation",
+          "type": "string"
+        },
+        "right_of_way_evidence_class": {
+          "enum": [
+            "source-priority",
+            "source-unprioritized",
+            "unknown",
+            "unsupported"
+          ],
+          "title": "Right Of Way Evidence Class",
+          "type": "string"
+        },
+        "road_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Road Classes",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.atomic-conflict-witness/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_osm_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Osm Sha256",
+          "type": "string"
+        },
+        "speed_band": {
+          "title": "Speed Band",
+          "type": "string"
+        },
+        "toolchain_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Toolchain Id",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        },
+        "witness_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Witness Signature",
+          "type": "string"
+        }
+      },
+      "required": [
+        "atomic_witness_id",
+        "witness_signature",
+        "pedestrian_movement_id",
+        "conflicting_movement_id",
+        "pedestrian_physical_cell_id",
+        "conflicting_physical_cell_ids",
+        "crossing_signature",
+        "conflict_reason",
+        "certainty",
+        "minimum_centerline_distance_m",
+        "crossing_angle_deg",
+        "envelope_margin_m",
+        "conflicting_approach_ids",
+        "conflicting_source_lane_role_ids",
+        "conflicting_lane_roles",
+        "conflicting_turn_classes",
+        "conflicting_mode_classes",
+        "conflicting_speed_mps",
+        "road_classes",
+        "speed_band",
+        "control_class",
+        "right_of_way_evidence_class",
+        "request_foes_relation",
+        "request_foes_mapping_status",
+        "traffic_side",
+        "crossing_morphology",
+        "grade_relation",
+        "grade_evidence_signature",
+        "hard_safety_finding",
+        "source_osm_sha256",
+        "candidate_net_sha256",
+        "toolchain_id",
+        "evidence_refs"
+      ],
+      "title": "AtomicConflictWitness",
+      "type": "object"
+    },
+    "ConflictClusterKey": {
+      "additionalProperties": false,
+      "properties": {
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "potential"
+          ],
+          "title": "Certainty",
+          "type": "string"
+        },
+        "conflict_reason": {
+          "title": "Conflict Reason",
+          "type": "string"
+        },
+        "conflicting_approach_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Conflicting Approach Ids",
+          "type": "array"
+        },
+        "conflicting_physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Conflicting Physical Cell Ids",
+          "type": "array"
+        },
+        "conflicting_turn_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Turn Classes",
+          "type": "array"
+        },
+        "control_class": {
+          "title": "Control Class",
+          "type": "string"
+        },
+        "crossing_morphology": {
+          "title": "Crossing Morphology",
+          "type": "string"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "grade_evidence_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Grade Evidence Signature",
+          "type": "string"
+        },
+        "grade_relation": {
+          "title": "Grade Relation",
+          "type": "string"
+        },
+        "hard_safety_finding": {
+          "title": "Hard Safety Finding",
+          "type": "boolean"
+        },
+        "pedestrian_physical_cell_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Pedestrian Physical Cell Id",
+          "type": "string"
+        },
+        "request_foes_mapping_status": {
+          "enum": [
+            "mapped",
+            "unmapped",
+            "not-applicable"
+          ],
+          "title": "Request Foes Mapping Status",
+          "type": "string"
+        },
+        "request_foes_relation": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Request Foes Relation",
+          "type": "string"
+        },
+        "right_of_way_evidence_class": {
+          "enum": [
+            "source-priority",
+            "source-unprioritized",
+            "unknown",
+            "unsupported"
+          ],
+          "title": "Right Of Way Evidence Class",
+          "type": "string"
+        },
+        "road_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Road Classes",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "speed_band": {
+          "title": "Speed Band",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "pedestrian_physical_cell_id",
+        "conflicting_physical_cell_ids",
+        "crossing_signature",
+        "conflict_reason",
+        "certainty",
+        "control_class",
+        "right_of_way_evidence_class",
+        "request_foes_relation",
+        "request_foes_mapping_status",
+        "conflicting_approach_ids",
+        "conflicting_turn_classes",
+        "traffic_side",
+        "crossing_morphology",
+        "road_classes",
+        "speed_band",
+        "grade_relation",
+        "grade_evidence_signature",
+        "hard_safety_finding"
+      ],
+      "title": "ConflictClusterKey",
+      "type": "object"
+    },
+    "ConflictPopulationStratum": {
+      "additionalProperties": false,
+      "properties": {
+        "census_required": {
+          "title": "Census Required",
+          "type": "boolean"
+        },
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "potential"
+          ],
+          "title": "Certainty",
+          "type": "string"
+        },
+        "cluster_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Cluster Ids",
+          "type": "array"
+        },
+        "conflict_reason": {
+          "title": "Conflict Reason",
+          "type": "string"
+        },
+        "conflicting_turn_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Turn Classes",
+          "type": "array"
+        },
+        "control_class": {
+          "title": "Control Class",
+          "type": "string"
+        },
+        "corridor_morphology": {
+          "title": "Corridor Morphology",
+          "type": "string"
+        },
+        "crossing_morphology": {
+          "title": "Crossing Morphology",
+          "type": "string"
+        },
+        "inclusion_probability": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Inclusion Probability",
+          "type": "number"
+        },
+        "right_of_way_evidence_class": {
+          "enum": [
+            "source-priority",
+            "source-unprioritized",
+            "unknown",
+            "unsupported"
+          ],
+          "title": "Right Of Way Evidence Class",
+          "type": "string"
+        },
+        "road_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Road Classes",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.conflict-population-stratum/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "site_review_case_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Site Review Case Ids",
+          "type": "array"
+        },
+        "speed_band": {
+          "title": "Speed Band",
+          "type": "string"
+        },
+        "stratum_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Stratum Id",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        },
+        "witness_count": {
+          "minimum": 1,
+          "title": "Witness Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "stratum_id",
+        "control_class",
+        "right_of_way_evidence_class",
+        "conflict_reason",
+        "certainty",
+        "conflicting_turn_classes",
+        "traffic_side",
+        "crossing_morphology",
+        "road_classes",
+        "speed_band",
+        "corridor_morphology",
+        "cluster_ids",
+        "site_review_case_ids",
+        "witness_count",
+        "inclusion_probability",
+        "census_required"
+      ],
+      "title": "ConflictPopulationStratum",
+      "type": "object"
+    },
+    "ConflictReviewCluster": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_witness_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Atomic Witness Ids",
+          "type": "array"
+        },
+        "cluster_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Cluster Id",
+          "type": "string"
+        },
+        "hidden_witness_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Hidden Witness Id",
+          "type": "string"
+        },
+        "hidden_witness_independent": {
+          "title": "Hidden Witness Independent",
+          "type": "boolean"
+        },
+        "inclusion_probability": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Inclusion Probability",
+          "type": "number"
+        },
+        "key": {
+          "$ref": "#/$defs/ConflictClusterKey"
+        },
+        "membership_count": {
+          "minimum": 1,
+          "title": "Membership Count",
+          "type": "integer"
+        },
+        "membership_merkle_root": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Membership Merkle Root",
+          "type": "string"
+        },
+        "propagation_allowed": {
+          "const": false,
+          "default": false,
+          "title": "Propagation Allowed",
+          "type": "boolean"
+        },
+        "representative_roles_by_witness_id": {
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*_[0-9a-f]{24}$": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "title": "Representative Roles By Witness Id",
+          "type": "object"
+        },
+        "schema": {
+          "default": "torii.corridor.conflict-review-cluster/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_for_human_review": {
+          "title": "Selected For Human Review",
+          "type": "boolean"
+        },
+        "visible_representative_witness_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Visible Representative Witness Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "cluster_id",
+        "key",
+        "atomic_witness_ids",
+        "membership_count",
+        "membership_merkle_root",
+        "visible_representative_witness_ids",
+        "representative_roles_by_witness_id",
+        "hidden_witness_id",
+        "hidden_witness_independent",
+        "inclusion_probability",
+        "selected_for_human_review"
+      ],
+      "title": "ConflictReviewCluster",
+      "type": "object"
+    },
+    "ConflictSiteReviewCase": {
+      "additionalProperties": false,
+      "properties": {
+        "atomic_witness_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Atomic Witness Ids",
+          "type": "array"
+        },
+        "cluster_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Cluster Ids",
+          "type": "array"
+        },
+        "control_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Control Classes",
+          "type": "array"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "machine_question": {
+          "title": "Machine Question",
+          "type": "string"
+        },
+        "membership_merkle_root": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Membership Merkle Root",
+          "type": "string"
+        },
+        "pedestrian_physical_cell_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Pedestrian Physical Cell Id",
+          "type": "string"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "right_of_way_evidence_classes": {
+          "items": {
+            "enum": [
+              "source-priority",
+              "source-unprioritized",
+              "unknown",
+              "unsupported"
+            ],
+            "type": "string"
+          },
+          "title": "Right Of Way Evidence Classes",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.conflict-site-review-case/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "site_review_case_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Site Review Case Id",
+          "type": "string"
+        },
+        "vehicle_movement_family_signatures": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Vehicle Movement Family Signatures",
+          "type": "array"
+        },
+        "witness_count": {
+          "minimum": 1,
+          "title": "Witness Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "site_review_case_id",
+        "pedestrian_physical_cell_id",
+        "crossing_signature",
+        "cluster_ids",
+        "atomic_witness_ids",
+        "witness_count",
+        "membership_merkle_root",
+        "vehicle_movement_family_signatures",
+        "control_classes",
+        "right_of_way_evidence_classes",
+        "machine_question",
+        "required_observations"
+      ],
+      "title": "ConflictSiteReviewCase",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "NegativePairSample": {
+      "additionalProperties": false,
+      "properties": {
+        "conflicting_movement_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Conflicting Movement Id",
+          "type": "string"
+        },
+        "conflicting_turn_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Turn Classes",
+          "type": "array"
+        },
+        "control_class": {
+          "title": "Control Class",
+          "type": "string"
+        },
+        "inclusion_probability": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Inclusion Probability",
+          "type": "number"
+        },
+        "machine_finding_absent": {
+          "const": true,
+          "default": true,
+          "title": "Machine Finding Absent",
+          "type": "boolean"
+        },
+        "pedestrian_movement_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Pedestrian Movement Id",
+          "type": "string"
+        },
+        "physical_cell_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Physical Cell Id",
+          "type": "string"
+        },
+        "sample_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "stratum_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Stratum Id",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "sample_id",
+        "stratum_id",
+        "pedestrian_movement_id",
+        "conflicting_movement_id",
+        "physical_cell_id",
+        "control_class",
+        "conflicting_turn_classes",
+        "traffic_side",
+        "inclusion_probability"
+      ],
+      "title": "NegativePairSample",
+      "type": "object"
+    },
+    "NegativePairStratum": {
+      "additionalProperties": false,
+      "properties": {
+        "conflicting_turn_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Conflicting Turn Classes",
+          "type": "array"
+        },
+        "control_class": {
+          "title": "Control Class",
+          "type": "string"
+        },
+        "inclusion_probability": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Inclusion Probability",
+          "type": "number"
+        },
+        "population_count": {
+          "minimum": 1,
+          "title": "Population Count",
+          "type": "integer"
+        },
+        "population_kind": {
+          "const": "same-physical-cell-no-conflict-finding",
+          "title": "Population Kind",
+          "type": "string"
+        },
+        "samples": {
+          "items": {
+            "$ref": "#/$defs/NegativePairSample"
+          },
+          "title": "Samples",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_count": {
+          "minimum": 1,
+          "title": "Selected Count",
+          "type": "integer"
+        },
+        "stratum_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Stratum Id",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "stratum_id",
+        "population_kind",
+        "control_class",
+        "conflicting_turn_classes",
+        "traffic_side",
+        "population_count",
+        "selected_count",
+        "inclusion_probability",
+        "samples"
+      ],
+      "title": "NegativePairStratum",
+      "type": "object"
+    },
+    "ReviewCompressionPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "census_control_classes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Census Control Classes",
+          "type": "array"
+        },
+        "census_grade_relations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Census Grade Relations",
+          "type": "array"
+        },
+        "policy_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "rare_cluster_threshold": {
+          "minimum": 1,
+          "title": "Rare Cluster Threshold",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.review-compression-policy/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "target_clusters_per_stratum": {
+          "minimum": 1,
+          "title": "Target Clusters Per Stratum",
+          "type": "integer"
+        },
+        "target_negative_pairs_per_stratum": {
+          "minimum": 1,
+          "title": "Target Negative Pairs Per Stratum",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "policy_id",
+        "target_clusters_per_stratum",
+        "target_negative_pairs_per_stratum",
+        "rare_cluster_threshold",
+        "census_control_classes",
+        "census_grade_relations"
+      ],
+      "title": "ReviewCompressionPolicy",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.lossless-review-compression.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "atomic_membership_coverage": {
+      "title": "Atomic Membership Coverage",
+      "type": "number"
+    },
+    "automatic_promotion_gate": {
+      "$ref": "#/$defs/GateStatus",
+      "default": "blocked"
+    },
+    "clusters": {
+      "items": {
+        "$ref": "#/$defs/ConflictReviewCluster"
+      },
+      "title": "Clusters",
+      "type": "array"
+    },
+    "duplicate_membership_count": {
+      "minimum": 0,
+      "title": "Duplicate Membership Count",
+      "type": "integer"
+    },
+    "extraneous_membership_count": {
+      "minimum": 0,
+      "title": "Extraneous Membership Count",
+      "type": "integer"
+    },
+    "ledger": {
+      "$ref": "#/$defs/AtomicConflictLedger"
+    },
+    "lost_witness_count": {
+      "minimum": 0,
+      "title": "Lost Witness Count",
+      "type": "integer"
+    },
+    "machine_review_ready_gate": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "mixed_hard_key_violation_count": {
+      "minimum": 0,
+      "title": "Mixed Hard Key Violation Count",
+      "type": "integer"
+    },
+    "negative_pair_strata": {
+      "items": {
+        "$ref": "#/$defs/NegativePairStratum"
+      },
+      "title": "Negative Pair Strata",
+      "type": "array"
+    },
+    "policy": {
+      "$ref": "#/$defs/ReviewCompressionPolicy"
+    },
+    "population_strata": {
+      "items": {
+        "$ref": "#/$defs/ConflictPopulationStratum"
+      },
+      "title": "Population Strata",
+      "type": "array"
+    },
+    "report_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Report Id",
+      "type": "string"
+    },
+    "sampling_seed_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Sampling Seed Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.lossless-review-compression/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "site_review_cases": {
+      "items": {
+        "$ref": "#/$defs/ConflictSiteReviewCase"
+      },
+      "title": "Site Review Cases",
+      "type": "array"
+    }
+  },
+  "required": [
+    "report_id",
+    "ledger",
+    "policy",
+    "sampling_seed_sha256",
+    "clusters",
+    "site_review_cases",
+    "population_strata",
+    "negative_pair_strata",
+    "atomic_membership_coverage",
+    "lost_witness_count",
+    "duplicate_membership_count",
+    "extraneous_membership_count",
+    "mixed_hard_key_violation_count",
+    "machine_review_ready_gate"
+  ],
+  "title": "LosslessReviewCompressionReport",
+  "type": "object",
+  "x-torii-status": "stage-1m-rwc-1-review-compression-contract"
+}

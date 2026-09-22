@@ -1,0 +1,1048 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A SUMO plugin for Codex and Claude that routes one-sentence SUMO/TraCI requests into planning, OSM construction, TLS review, debugging, verification, and reporting workflows.">
+  <title>Torii</title>
+  <link rel="canonical" href="https://tarard.github.io/Torii-SUMO/">
+  <link rel="icon" href="assets/app-logo.png">
+  <link rel="apple-touch-icon" href="assets/app-logo.png">
+  <style>
+    :root {
+      color-scheme: light;
+      --bg: #f5f7fb;
+      --panel: #ffffff;
+      --panel-soft: #f9fbff;
+      --ink: #18202b;
+      --muted: #596573;
+      --line: #d8dee8;
+      --blue: #1466b8;
+      --blue-dark: #0d477f;
+      --green: #1d8e57;
+      --amber: #c98a05;
+      --red: #cf3e35;
+      --shadow: 0 18px 46px rgba(24, 32, 43, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    p,
+    li,
+    h1,
+    h2,
+    h3,
+    code,
+    .brand span,
+    .button,
+    .hero-points span {
+      overflow-wrap: anywhere;
+      word-break: break-word;
+    }
+
+    .shell {
+      width: min(1120px, calc(100vw - 36px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+      max-width: 100vw;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 34px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 760;
+    }
+
+    .mark {
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: var(--panel);
+      box-shadow: 0 8px 22px rgba(24, 32, 43, 0.08);
+      flex: 0 0 auto;
+      overflow: hidden;
+    }
+
+    .mark img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .lang-switch button {
+      min-width: 86px;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--ink);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font: inherit;
+      font-weight: 650;
+      cursor: pointer;
+    }
+
+    .lang-switch button[aria-pressed="true"] {
+      background: var(--blue);
+      color: #fff;
+      border-color: var(--blue);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.25fr) minmax(310px, 0.75fr);
+      gap: 30px;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+
+    .hero > *,
+    .grid > *,
+    .two-col > *,
+    .panel,
+    .visual {
+      min-width: 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      color: var(--blue-dark);
+      background: #e9f2ff;
+      border: 1px solid #cfe3ff;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 760;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+    }
+
+    h1 {
+      font-size: clamp(2.15rem, 5.2vw, 4.85rem);
+      line-height: 0.98;
+      letter-spacing: 0;
+      margin: 0 0 18px;
+      max-width: 820px;
+      overflow-wrap: anywhere;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 1.09rem;
+      max-width: 700px;
+      margin: 0 0 22px;
+    }
+
+    .prompt {
+      display: block;
+      width: min(100%, 760px);
+      border: 1px solid #263043;
+      border-radius: 8px;
+      padding: 13px 14px;
+      background: #151a24;
+      color: #eef5ff;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.92rem;
+      overflow-wrap: anywhere;
+      white-space: normal;
+      max-width: 100%;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 16px;
+    }
+
+    .hero-points span,
+    .signal-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: var(--panel);
+      padding: 6px 10px;
+      color: var(--ink);
+      font-size: 0.88rem;
+      font-weight: 720;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 22px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: 8px;
+      padding: 10px 15px;
+      border: 1px solid var(--blue);
+      background: var(--blue);
+      color: #fff;
+      font-weight: 720;
+    }
+
+    .button.secondary {
+      background: var(--panel);
+      color: var(--blue-dark);
+      border-color: var(--line);
+    }
+
+    .button:hover {
+      text-decoration: none;
+      filter: brightness(0.96);
+    }
+
+    .visual {
+      background:
+        linear-gradient(135deg, rgba(20, 102, 184, 0.08), rgba(29, 142, 87, 0.08)),
+        var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      padding: 34px;
+    }
+
+    .signal-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 280px;
+    }
+
+    .app-logo-art {
+      width: min(260px, 100%);
+      border-radius: 54px;
+      max-width: 100%;
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 22px 34px rgba(24, 32, 43, 0.20));
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin: 28px 0;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 8px 22px rgba(24, 32, 43, 0.06);
+    }
+
+    .panel h2,
+    .panel h3 {
+      margin: 0 0 10px;
+      letter-spacing: 0;
+    }
+
+    .panel h2 {
+      font-size: 1.32rem;
+    }
+
+    .panel h3 {
+      font-size: 1.03rem;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .panel.lead {
+      background:
+        linear-gradient(90deg, rgba(207, 62, 53, 0.09), rgba(201, 138, 5, 0.08), rgba(29, 142, 87, 0.08)),
+        var(--panel);
+    }
+
+    .kicker {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--blue-dark);
+      font-size: 0.82rem;
+      font-weight: 780;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .pain-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      padding: 0;
+      margin: 16px 0 0;
+      list-style: none;
+    }
+
+    .pain-grid li {
+      margin: 0;
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--red);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.74);
+      padding: 11px 12px;
+      font-weight: 700;
+    }
+
+    .route-list,
+    .prompt-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .route-step {
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 12px;
+      align-items: start;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-soft);
+      padding: 12px;
+    }
+
+    .route-step strong {
+      color: var(--blue-dark);
+    }
+
+    .prompt-list code {
+      display: block;
+      border: 1px solid #263043;
+      border-radius: 8px;
+      padding: 12px;
+      background: #151a24;
+      color: #eef5ff;
+      overflow-x: auto;
+      overflow-wrap: anywhere;
+      white-space: normal;
+      max-width: 100%;
+    }
+
+    .scope {
+      border-left: 4px solid var(--blue);
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 16px;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin: 10px 0 0;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 0.95em;
+    }
+
+    pre {
+      margin: 10px 0 0;
+      border: 1px solid #263043;
+      border-radius: 8px;
+      padding: 13px;
+      background: #151a24;
+      color: #eef5ff;
+      overflow-x: auto;
+    }
+
+    .link-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .link-list a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      padding: 8px 11px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-soft);
+      font-weight: 700;
+    }
+
+    .footer {
+      margin-top: 28px;
+      border-top: 1px solid var(--line);
+      padding-top: 18px;
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 840px) {
+      .shell {
+        width: auto;
+        margin-left: 14px;
+        margin-right: 14px;
+        padding-top: 18px;
+      }
+
+      .topbar,
+      .hero,
+      .grid,
+      .pain-grid,
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .route-step {
+        grid-template-columns: 1fr;
+      }
+
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .lang-switch {
+        justify-content: flex-start;
+      }
+
+      .visual {
+        max-width: 440px;
+      }
+
+      .signal-card {
+        min-height: 220px;
+      }
+
+      .app-logo-art {
+        width: min(220px, 100%);
+      }
+    }
+
+    @media (max-width: 420px) {
+      .lang-switch button {
+        min-width: 74px;
+      }
+
+      h1 {
+        font-size: 2rem;
+        line-height: 1.06;
+      }
+
+      .prompt {
+        font-size: 0.82rem;
+      }
+
+      .signal-card {
+        min-height: 190px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand" aria-label="Torii">
+        <div class="mark" aria-hidden="true">
+          <img src="assets/app-logo.png" alt="">
+        </div>
+        <span data-i18n="brandName">Torii</span>
+      </div>
+      <nav class="lang-switch" aria-label="Language">
+        <button type="button" data-lang="en" aria-pressed="true">English</button>
+        <button type="button" data-lang="zh" aria-pressed="false">中文</button>
+        <button type="button" data-lang="de" aria-pressed="false">Deutsch</button>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div>
+        <div class="eyebrow" data-i18n="eyebrow">Task-Oriented Road Infrastructure Intelligence</div>
+        <h1 data-i18n="heroTitle">One prompt, structured SUMO work.</h1>
+        <p class="subtitle" data-i18n="heroSubtitle">Agent plugin for SUMO: one-sentence workflow routing plus local MCP tools for OSM-to-SUMO work.</p>
+        <code class="prompt" data-i18n="promptText">Use Torii to clean the Ingolstadt city-center network from OSM and compare it with TUM-VT/sumo_ingolstadt.</code>
+        <div class="hero-points" aria-label="Core mechanisms">
+          <span data-i18n="heroPointOne">Intent</span>
+          <span data-i18n="heroPointTwo">Observe</span>
+          <span data-i18n="heroPointThree">Build</span>
+          <span data-i18n="heroPointFour">Audit</span>
+          <span data-i18n="heroPointFive">Diagnose</span>
+          <span data-i18n="heroPointSix">Evidence</span>
+        </div>
+        <div class="actions">
+          <a class="button" href="https://github.com/Tarard/Torii-SUMO" data-i18n="repoButton">GitHub Repository</a>
+          <a class="button secondary" href="https://github.com/Tarard/Torii-SUMO#readme" data-i18n="readmeButton" data-i18n-href="readmeHref">Open README</a>
+        </div>
+      </div>
+
+      <aside class="visual" aria-label="Project logo">
+        <div class="signal-card">
+          <img class="app-logo-art" src="assets/app-logo.png" alt="" aria-hidden="true">
+        </div>
+      </aside>
+    </section>
+
+    <section class="grid" aria-label="Project summary">
+      <article class="panel">
+        <h2 data-i18n="whatTitle">The product</h2>
+        <p class="muted" data-i18n="whatText">Torii packages a SUMO expert skill with local MCP tools, so Codex can reason about intent and run bounded checks on real SUMO artifacts.</p>
+      </article>
+      <article class="panel">
+        <h2 data-i18n="whoTitle">What Torii changes</h2>
+        <p class="muted" data-i18n="whoText">It makes the agent ask what result the user needs, observe network and metric feedback, and then choose the smallest defensible next action.</p>
+      </article>
+      <article class="panel">
+        <h2 data-i18n="preventsTitle">Who should use it</h2>
+        <p class="muted" data-i18n="preventsText">Researchers and builders who need OSM-to-SUMO import, TLS review, routeability checks, controller workflow guidance, and evidence-bounded SUMO repair.</p>
+      </article>
+    </section>
+
+    <section class="panel lead">
+      <span class="kicker" data-i18n="painKicker">Built for OSM-to-SUMO feedback loops</span>
+      <h2 data-i18n="painTitle">It treats warnings, bad metrics, disconnected routes, TLS mismatches, and map disagreements as feedback about the model.</h2>
+      <p class="muted" data-i18n="painText">Torii uses a closed loop: user intent, observed SUMO artifacts, feedback diagnosis, smallest model or code change, rerun, and evidence-bounded report.</p>
+      <ul class="pain-grid">
+        <li data-i18n="painOne">OSM extracts need tiling, retry, deduplication, and road-class filtering.</li>
+        <li data-i18n="painTwo">Generated SUMO TLS candidates need physical-intersection review.</li>
+        <li data-i18n="painThree">Reality baselines are region-aware: use Google Maps where appropriate, and Amap/Gaode, Baidu Maps, Tencent Maps, inventories, signal plans, or field photos for mainland China.</li>
+        <li data-i18n="painFour">Routeability probes expose disconnected roads before result claims.</li>
+        <li data-i18n="painFive">Controller work must be planned, tested, and interpreted against completion evidence.</li>
+        <li data-i18n="painSix">Bad metrics are feedback for diagnosis, not the final optimization target.</li>
+      </ul>
+    </section>
+
+    <section class="panel scope">
+      <h2 data-i18n="scopeTitle">Current scope</h2>
+      <p class="muted" data-i18n="scopeText">Current tools cover bounded environment checks, config preflight, smoke runs, evidence bundles, OSM network construction, area confirmation, multi-source TLS review tables, passenger connectivity checks, routeability probes, and Netedit launch evidence.</p>
+      <p class="muted" data-i18n="futureText">Unconfirmed place-name-to-bbox geocoding, full city-scale intelligent cleanup, max-pressure controller generation, and controller-log inspection are roadmap tools, not finished promises.</p>
+    </section>
+
+    <section class="panel">
+      <span class="kicker" data-i18n="mechanismKicker">The core idea</span>
+      <h2 data-i18n="mechanismTitle">It connects reasoning to bounded execution.</h2>
+      <p class="muted" data-i18n="mechanismText">The workflow router classifies the request first. The skill interprets feedback, and the MCP server runs bounded checks that return structured observations.</p>
+      <div class="route-list">
+        <div class="route-step">
+          <strong data-i18n="routeOneTitle">Ongoing project</strong>
+          <span data-i18n="routeOneText">Workflow screen -> target, state, deviation, next-step plan.</span>
+        </div>
+        <div class="route-step">
+          <strong data-i18n="routeTwoTitle">New experiment</strong>
+          <span data-i18n="routeTwoText">Experiment intake -> readiness record -> SUMO Experiment Plan.</span>
+        </div>
+        <div class="route-step">
+          <strong data-i18n="routeThreeTitle">Code change</strong>
+          <span data-i18n="routeThreeText">Develop and verify -> RED/GREEN/REFACTOR record -> completion evidence.</span>
+        </div>
+        <div class="route-step">
+          <strong data-i18n="routeFourTitle">Failed or suspicious run</strong>
+          <span data-i18n="routeFourText">Debugging helper -> symptom evidence -> fix, rerun, or claim demotion.</span>
+        </div>
+        <div class="route-step">
+          <strong data-i18n="routeFiveTitle">Results and claims</strong>
+          <span data-i18n="routeFiveText">Evaluate and report -> outputs, metrics, baselines, validation, claim boundary.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="grid" aria-label="Skills">
+      <article class="panel">
+        <h2>simulation-helper-skill-for-eclipse-sumo</h2>
+        <p class="muted" data-i18n="academicSkillText">Use for OSM modeling, TLS audit, controller workflow planning, metric feedback diagnosis, and evidence-bounded SUMO claims.</p>
+      </article>
+      <article class="panel">
+        <h2>debugging-helper-skill-for-eclipse-sumo</h2>
+        <p class="muted" data-i18n="debugSkillText">Use for closed-loop diagnosis of route, TraCI, TLS, demand, detector, output, seed, completion, and reproducibility failures.</p>
+      </article>
+      <article class="panel">
+        <h2 data-i18n="designTitle">Design approach</h2>
+        <p class="muted" data-i18n="designText">The skills combine official SUMO documentation, SUMO community troubleshooting patterns, public traffic-simulation code lessons, Socratic intake, confirmed experiment planning, TDD for SUMO/TraCI code changes, evidence-before-completion review gates, and privacy-safe field lesson capture.</p>
+      </article>
+    </section>
+
+    <section class="panel">
+      <h2 data-i18n="scenarioTitle">Use scenarios</h2>
+      <p class="muted" data-i18n="scenarioText">Start from the user's situation, then load only the references needed for that path.</p>
+      <ul>
+        <li data-i18n="scenarioOne">Ongoing project: route-project-workflow -> next-step plan.</li>
+        <li data-i18n="scenarioTwo">New experiment: interactive-experiment-intake -> readiness route -> SUMO Experiment Plan.</li>
+        <li data-i18n="scenarioThree">Code change: develop-and-verify-code -> implementation -> completion evidence.</li>
+        <li data-i18n="scenarioFour">Failed run: debugging helper -> closed-loop diagnosis -> fix or demotion.</li>
+        <li data-i18n="scenarioFive">Results or claims: evaluate-and-report-results -> evidence class -> claim boundary.</li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <span class="kicker" data-i18n="promptKicker">Try it immediately</span>
+      <h2 data-i18n="promptTitle">Copy-ready prompts for real projects</h2>
+      <p class="muted" data-i18n="promptIntro">Start with one sentence. Torii should choose the workflow, ask only blocking questions, and report evidence before claims.</p>
+      <div class="prompt-list">
+        <code data-i18n="tryPromptOne">Use Torii to clean the Ingolstadt city-center network from OSM and compare it with TUM-VT/sumo_ingolstadt.</code>
+        <code data-i18n="tryPromptTwo">Audit this TraCI signal controller before I compare it with the fixed-time baseline.</code>
+        <code data-i18n="tryPromptThree">This SUMO run finishes, but tripinfo and summary disagree. Use the debugging helper and tell me whether the run is valid.</code>
+        <code data-i18n="tryPromptFour">Controller A has lower travel time, but some vehicles are unfinished. What can I claim and what must be demoted?</code>
+        <code data-i18n="tryPromptFive">The skill missed a failure mode that I later fixed. Turn my solution path into a privacy-safe field lesson candidate.</code>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 data-i18n="referenceTitle">Reference modules</h2>
+      <p class="muted" data-i18n="referenceText">This SUMO skill is split into focused Markdown modules so the agent can load the right evidence rules only when needed.</p>
+      <div class="two-col">
+        <div>
+          <h3 data-i18n="academicRefsTitle">Torii reasoning references</h3>
+          <ul>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/route-project-workflow.md">route-project-workflow.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/preflight-sumo-environment.md">preflight-sumo-environment.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/interactive-experiment-intake.md">interactive-experiment-intake.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/plan-experiment.md">plan-experiment.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/develop-and-verify-code.md">develop-and-verify-code.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/model-osm-detectors.md">model-osm-detectors.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/learn-sumo-knowledge.md">learn-sumo-knowledge.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/audit-sumo-controllers.md">audit-sumo-controllers.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/compare-corridor-perturbations.md">compare-corridor-perturbations.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/evaluate-and-report-results.md">evaluate-and-report-results.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/capture-field-lesson.md">capture-field-lesson.md</a></li>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/simulation-helper-skill-for-eclipse-sumo/references/release-project.md">release-project.md</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 data-i18n="debugRefsTitle">Debugging audit references</h3>
+          <ul>
+            <li><a href="https://github.com/Tarard/Torii-SUMO/blob/main/skills/debugging-helper-skill-for-eclipse-sumo/references/debug-sumo-traci.md">debug-sumo-traci.md</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="two-col">
+      <article class="panel">
+        <h2 data-i18n="auditTitle">Audit checks</h2>
+        <ul>
+          <li data-i18n="audit1">Network, route, config, detector, and additional-file consistency.</li>
+          <li data-i18n="audit2">TLS phase, movement-green, yellow, all-red, and NEMA evidence checks.</li>
+          <li data-i18n="audit3">Paired controller comparisons across seeds, demand, horizons, and outputs.</li>
+          <li data-i18n="audit4">Completion-aware reporting for stopped, unfinished, teleported, or invalid runs.</li>
+          <li data-i18n="audit5">Metric definitions for travel time, delay, stops, throughput, queue, emissions, and fairness.</li>
+          <li data-i18n="audit6">Claim boundaries for baselines, ablations, sensitivity runs, and debugging fixes.</li>
+          <li data-i18n="audit7">Field lesson capture for user-discovered fixes that should become reusable skill guidance.</li>
+          <li data-i18n="audit8">TDD records for SUMO/TraCI code changes before implementation claims.</li>
+          <li data-i18n="audit9">Fresh verification evidence and review findings before completion claims.</li>
+          <li data-i18n="audit10">Confirmed SUMO Experiment Plan after intake and before execution.</li>
+        </ul>
+      </article>
+      <article class="panel">
+        <h2 data-i18n="examplesTitle">Examples</h2>
+        <p class="muted" data-i18n="examplesText">The repository includes a unified signal-control audit example and an Ingolstadt OSM-to-SUMO network comparison against a manually cleaned TUM reference.</p>
+        <div class="link-list">
+          <a href="https://github.com/Tarard/Torii-SUMO/blob/main/examples/01_signal_control_audit/task.md" data-i18n="exampleOne">01 signal-control audit</a>
+          <a href="https://github.com/Tarard/Torii-SUMO/blob/main/examples/02_one_prompt_osm_network/README.md" data-i18n="exampleTwo">02 Ingolstadt OSM comparison</a>
+          <a href="https://github.com/Tarard/Torii-SUMO/blob/main/docs/common-sumo-signal-control-failures.md" data-i18n="exampleThree">Failure checklist</a>
+        </div>
+      </article>
+    </section>
+
+    <section class="two-col">
+      <article class="panel">
+        <h2 data-i18n="installTitle">Install Torii</h2>
+        <p class="muted" data-i18n="installText">Install the Codex plugin to get both the reasoning skill and local MCP tools.</p>
+        <pre><code>codex plugin marketplace add Tarard/Torii-SUMO --ref main
+codex plugin add torii-sumo@torii-sumo</code></pre>
+      </article>
+      <article class="panel">
+        <h2 data-i18n="limitsTitle">Limitations</h2>
+        <p class="muted" data-i18n="limitsText">This repository provides agent instructions, checklists, and audit procedures. It does not certify that a SUMO experiment is correct, publishable, or officially validated.</p>
+        <p class="muted" data-i18n="trademarkText">Eclipse SUMO is a trademark of the Eclipse Foundation. This project is independent and is not affiliated with, endorsed by, sponsored by, or maintained by the Eclipse Foundation, the Eclipse SUMO project, or DLR.</p>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span data-i18n="footer">Use the audit as review support, not as a replacement for SUMO documentation, controller-specific validation, or independent reproduction.</span>
+    </footer>
+  </main>
+
+  <script>
+    const translations = {
+      en: {
+        pageTitle: "Torii",
+        brandName: "Torii",
+        eyebrow: "Task-Oriented Road Infrastructure Intelligence",
+        heroTitle: "One prompt, structured SUMO work.",
+        heroSubtitle: "Agent plugin for SUMO: one-sentence workflow routing plus local MCP tools for OSM-to-SUMO work.",
+        promptText: "Use Torii to clean the Ingolstadt city-center network from OSM and compare it with TUM-VT/sumo_ingolstadt.",
+        heroPointOne: "Intent",
+        heroPointTwo: "Observe",
+        heroPointThree: "Build",
+        heroPointFour: "Audit",
+        heroPointFive: "Diagnose",
+        heroPointSix: "Evidence",
+        repoButton: "GitHub Repository",
+        readmeButton: "Open README",
+        readmeHref: "https://github.com/Tarard/Torii-SUMO#readme",
+        whatTitle: "The product",
+        whatText: "Torii packages a SUMO expert skill with local MCP tools, so Codex can reason about intent and run bounded checks on real SUMO artifacts.",
+        whoTitle: "What Torii changes",
+        whoText: "It makes the agent ask what result the user needs, observe network and metric feedback, and then choose the smallest defensible next action.",
+        preventsTitle: "Who should use it",
+        preventsText: "Researchers and builders who need OSM-to-SUMO import, TLS review, routeability checks, controller workflow guidance, and evidence-bounded SUMO repair.",
+        painKicker: "Built for OSM-to-SUMO feedback loops",
+        painTitle: "It treats warnings, bad metrics, disconnected routes, TLS mismatches, and map disagreements as feedback about the model.",
+        painText: "Torii uses a closed loop: user intent, observed SUMO artifacts, feedback diagnosis, smallest model or code change, rerun, and evidence-bounded report.",
+        painOne: "OSM extracts need tiling, retry, deduplication, and road-class filtering.",
+        painTwo: "Generated SUMO TLS candidates need physical-intersection review.",
+        painThree: "Reality baselines are region-aware: use Google Maps where appropriate, and Amap/Gaode, Baidu Maps, Tencent Maps, inventories, signal plans, or field photos for mainland China.",
+        painFour: "Routeability probes expose disconnected roads before result claims.",
+        painFive: "Controller work must be planned, tested, and interpreted against completion evidence.",
+        painSix: "Bad metrics are feedback for diagnosis, not the final optimization target.",
+        scopeTitle: "Current scope",
+        scopeText: "Current tools cover bounded environment checks, config preflight, smoke runs, evidence bundles, OSM network construction, area confirmation, multi-source TLS review tables, passenger connectivity checks, connected-core extraction, routeability probes, and Netedit launch evidence.",
+        futureText: "Unconfirmed place-name-to-bbox geocoding, full city-scale intelligent cleanup, max-pressure controller generation, and controller-log inspection are roadmap tools, not finished promises.",
+        mechanismKicker: "The core idea",
+        mechanismTitle: "It connects reasoning to bounded execution.",
+        mechanismText: "The workflow router classifies the request first. The skill interprets feedback, and the MCP server runs bounded checks that return structured observations.",
+        routeOneTitle: "Ongoing project",
+        routeOneText: "Workflow screen -> target, state, deviation, next-step plan.",
+        routeTwoTitle: "New experiment",
+        routeTwoText: "Experiment intake -> readiness record -> SUMO Experiment Plan.",
+        routeThreeTitle: "Code change",
+        routeThreeText: "Develop and verify -> RED/GREEN/REFACTOR record -> completion evidence.",
+        routeFourTitle: "Failed or suspicious run",
+        routeFourText: "Debugging helper -> symptom evidence -> fix, rerun, or claim demotion.",
+        routeFiveTitle: "Results and claims",
+        routeFiveText: "Evaluate and report -> outputs, metrics, baselines, validation, claim boundary.",
+        academicSkillText: "Use for OSM modeling, TLS audit, controller workflow planning, metric feedback diagnosis, and evidence-bounded SUMO claims.",
+        debugSkillText: "Use for closed-loop diagnosis of route, TraCI, TLS, demand, detector, output, seed, completion, and reproducibility failures.",
+        designTitle: "Design approach",
+        designText: "The skills distill official SUMO documentation, SUMO forum and community troubleshooting, public traffic-simulation code patterns, the author's practical experiment experience, Socratic intake, confirmed experiment planning, TDD for SUMO/TraCI code changes, evidence-before-completion review gates, and privacy-safe field lesson capture into an agent audit workflow.",
+        scenarioTitle: "Use scenarios",
+        scenarioText: "Start from the user's situation, then load only the references needed for that path.",
+        scenarioOne: "Ongoing project: route-project-workflow -> next-step plan.",
+        scenarioTwo: "New experiment: interactive-experiment-intake -> readiness route -> SUMO Experiment Plan.",
+        scenarioThree: "Code change: develop-and-verify-code -> implementation -> completion evidence.",
+        scenarioFour: "Failed run: debugging helper -> closed-loop diagnosis -> fix or demotion.",
+        scenarioFive: "Results or claims: evaluate-and-report-results -> evidence class -> claim boundary.",
+        promptKicker: "Try it immediately",
+        promptTitle: "Copy-ready prompts for real projects",
+        promptIntro: "Start with one sentence. Torii should choose the workflow, ask only blocking questions, and report evidence before claims.",
+        tryPromptOne: "Use Torii to clean the Ingolstadt city-center network from OSM and compare it with TUM-VT/sumo_ingolstadt.",
+        tryPromptTwo: "Audit this TraCI signal controller before I compare it with the fixed-time baseline.",
+        tryPromptThree: "This SUMO run finishes, but tripinfo and summary disagree. Use the debugging helper and tell me whether the run is valid.",
+        tryPromptFour: "Controller A has lower travel time, but some vehicles are unfinished. What can I claim and what must be demoted?",
+        tryPromptFive: "The skill missed a failure mode that I later fixed. Turn my solution path into a privacy-safe field lesson candidate.",
+        referenceTitle: "Reference modules",
+        referenceText: "This SUMO skill is split into focused Markdown modules so the agent can load the right evidence rules only when needed.",
+        academicRefsTitle: "Torii reasoning references",
+        debugRefsTitle: "Debugging audit references",
+        auditTitle: "Audit checks",
+        audit1: "Network, route, config, detector, and additional-file consistency.",
+        audit2: "TLS phase, movement-green, yellow, all-red, and NEMA evidence checks.",
+        audit3: "Paired controller comparisons across seeds, demand, horizons, and outputs.",
+        audit4: "Completion-aware reporting for stopped, unfinished, teleported, or invalid runs.",
+        audit5: "Metric definitions for travel time, delay, stops, throughput, queue, emissions, and fairness.",
+        audit6: "Claim boundaries for baselines, ablations, sensitivity runs, and debugging fixes.",
+        audit7: "Field lesson capture for user-discovered fixes that should become reusable skill guidance.",
+        audit8: "TDD records for SUMO/TraCI code changes before implementation claims.",
+        audit9: "Fresh verification evidence and review findings before completion claims.",
+        audit10: "Confirmed SUMO Experiment Plan after intake and before execution.",
+        examplesTitle: "Examples",
+        examplesText: "The repository includes a unified signal-control audit example and an Ingolstadt OSM-to-SUMO network comparison against a manually cleaned TUM reference.",
+        exampleOne: "01 signal-control audit",
+        exampleTwo: "02 Ingolstadt OSM comparison",
+        exampleThree: "Failure checklist",
+        installTitle: "Install Torii",
+        installText: "Install the Codex plugin to get both the reasoning skill and local MCP tools.",
+        limitsTitle: "Limitations",
+        limitsText: "This repository provides agent instructions, checklists, and audit procedures. It does not certify that a SUMO experiment is correct, publishable, or officially validated.",
+        trademarkText: "Eclipse SUMO is a trademark of the Eclipse Foundation. This project is independent and is not affiliated with, endorsed by, sponsored by, or maintained by the Eclipse Foundation, the Eclipse SUMO project, or DLR.",
+        footer: "Use the audit as review support, not as a replacement for SUMO documentation, controller-specific validation, or independent reproduction."
+      },
+      zh: {
+        pageTitle: "Torii",
+        brandName: "Torii",
+        eyebrow: "Task-Oriented Road Infrastructure Intelligence",
+        heroTitle: "一句话启动结构化 SUMO 工作流。",
+        heroSubtitle: "面向 SUMO 的 Agent plugin：用一句话路由工作流，并用本地 MCP 工具处理 OSM-to-SUMO 工作。",
+        promptText: "使用 Torii 从 OSM 清洗 Ingolstadt 市中心路网，并与 TUM-VT/sumo_ingolstadt 手工清洗路网对比。",
+        heroPointOne: "意图",
+        heroPointTwo: "观察",
+        heroPointThree: "构建",
+        heroPointFour: "审计",
+        heroPointFive: "诊断",
+        heroPointSix: "证据",
+        repoButton: "GitHub 仓库",
+        readmeButton: "打开说明文档",
+        readmeHref: "https://github.com/Tarard/Torii-SUMO/blob/main/README.zh-CN.md",
+        whatTitle: "产品定位",
+        whatText: "Torii 把 SUMO expert skill 和本地 MCP tools 打包在一起，让 Codex 能理解用户意图，并对真实 SUMO 文件运行受限检查。",
+        whoTitle: "Torii 改变什么",
+        whoText: "它要求 agent 先理解用户需要的结果，再观察路网、日志和指标反馈，最后选择最小且可解释的下一步。",
+        preventsTitle: "谁应该使用它",
+        preventsText: "适合需要 OSM-to-SUMO 导入、TLS 审查、路线可达性检查、控制器工作流和证据边界修复的 SUMO 用户。",
+        painKicker: "围绕 OSM-to-SUMO 反馈闭环设计",
+        painTitle: "它把 warning、坏指标、断开的路线、TLS 不匹配和地图差异都当作模型反馈。",
+        painText: "Torii 使用闭环：用户意图、SUMO 产物观察、反馈诊断、最小模型或代码修改、重跑，以及有证据边界的报告。",
+        painOne: "OSM 数据需要分块、重试、去重和道路等级筛选。",
+        painTwo: "自动生成的 SUMO TLS 候选点需要物理路口级审查。",
+        painThree: "现实校验基线必须按地区选择：中国大陆优先使用高德、百度地图、腾讯地图、官方清单、信号配时方案或现场照片，并记录坐标系假设。",
+        painFour: "路线可达性 probes 在结果结论前暴露断路问题。",
+        painFive: "控制器修改必须经过计划、测试，并结合完成度证据解释。",
+        painSix: "坏指标是诊断反馈，不是最终优化目标本身。",
+        scopeTitle: "当前范围",
+        scopeText: "当前工具覆盖环境检查、配置预检、冒烟运行、证据包、OSM 构网、区域确认、多源 TLS 复核表、乘用车连通性检查、连通核心路网提取、路线可达性探针和 Netedit 自动打开证据。",
+        futureText: "未经确认的地名自动转 bbox、整城级智能清洗、最大压力控制器生成和 controller-log inspection 是后续工具，不是当前完成承诺。",
+        mechanismKicker: "核心思路",
+        mechanismTitle: "把推理层和受限执行层连接起来。",
+        mechanismText: "Workflow router 先判断请求类型；skill 解释反馈；MCP server 运行受限检查并返回结构化观察。",
+        routeOneTitle: "进行中的项目",
+        routeOneText: "工作流筛查 -> 目标、状态、偏差、下一步计划。",
+        routeTwoTitle: "新实验",
+        routeTwoText: "实验追问 -> 实验准备记录 -> SUMO 实验计划。",
+        routeThreeTitle: "代码修改",
+        routeThreeText: "开发与验证 -> 红灯/绿灯/重构记录 -> 完成证据。",
+        routeFourTitle: "失败或可疑运行",
+        routeFourText: "调试助手 -> 症状证据 -> 修复、重跑或降低结论等级。",
+        routeFiveTitle: "结果与结论",
+        routeFiveText: "评估与报告 -> 输出门槛、指标、基准、验证和结论边界。",
+        academicSkillText: "用于 OSM 建模、TLS 审计、控制器工作流计划、指标反馈诊断和有证据边界的 SUMO 结论。",
+        debugSkillText: "用于闭环诊断路线、TraCI、TLS、需求、检测器、输出、随机种子、完成状态和可复现性问题。",
+        designTitle: "设计来源",
+        designText: "这些技能把 SUMO 官方文档、SUMO 论坛和社区常见排错经验、公开交通仿真代码模式、作者个人实验经验、苏格拉底式追问、已确认的实验计划、面向 SUMO/TraCI 代码修改的测试驱动开发（TDD）、完成前证据审阅门槛，以及隐私安全的现场经验捕获流程整理成智能体可执行的审计流程。",
+        scenarioTitle: "使用场景",
+        scenarioText: "先根据用户所处场景判断路径，再只加载该路径需要的参考模块。",
+        scenarioOne: "进行中项目：route-project-workflow -> 下一步计划。",
+        scenarioTwo: "新实验：interactive-experiment-intake -> 就绪路径 -> SUMO 实验计划。",
+        scenarioThree: "代码修改：develop-and-verify-code -> 实现 -> 完成证据。",
+        scenarioFour: "运行失败：调试助手 -> 闭环诊断 -> 修复或降低结论等级。",
+        scenarioFive: "结果或结论：evaluate-and-report-results -> 证据等级 -> 结论边界。",
+        promptKicker: "马上试用",
+        promptTitle: "可以直接复制到真实项目里的提示词",
+        promptIntro: "从一句话开始。Torii 应该自己选择工作流，只追问阻塞问题，并先报告证据再给结论。",
+        tryPromptOne: "使用 Torii 从 OSM 清洗 Ingolstadt 市中心路网，并与 TUM-VT/sumo_ingolstadt 手工清洗路网对比。",
+        tryPromptTwo: "在我把这个 TraCI 信号控制器和固定配时基准比较之前，请先审计这个控制器。",
+        tryPromptThree: "这个 SUMO 运行能结束，但 tripinfo 和 summary 不一致。请使用调试助手判断这次运行是否有效。",
+        tryPromptFour: "控制器 A 的旅行时间更低，但仍有未完成车辆。我能声称什么？哪些结论必须降级？",
+        tryPromptFive: "这个技能漏掉了一个失败模式，后来我自己找到了解法。请把我的解决路径整理成隐私安全的现场经验候选条目。",
+        referenceTitle: "参考模块",
+        referenceText: "这个 SUMO 技能被拆成聚焦的 Markdown 模块，智能体可以按需要加载对应的证据规则。",
+        academicRefsTitle: "Torii 参考模块",
+        debugRefsTitle: "调试审计参考模块",
+        auditTitle: "审计检查项",
+        audit1: "路网、路线、配置、检测器与附加文件的一致性。",
+        audit2: "TLS 相位、放行关系、黄灯、全红与 NEMA 证据检查。",
+        audit3: "跨随机种子、需求、仿真时段与输出的配对控制器比较。",
+        audit4: "针对已停止、未完成、车辆被传送或无效运行的完成度感知报告。",
+        audit5: "旅行时间、延误、停车次数、吞吐量、排队、排放与公平性的指标定义。",
+        audit6: "基准、消融、敏感性实验与调试修复的结论边界。",
+        audit7: "当用户后来发现有效修复路径时，将其抽象成可复用的技能指南。",
+        audit8: "在声称实现完成前，记录 SUMO/TraCI 代码修改的测试驱动开发（TDD）证据。",
+        audit9: "在声称完成前，提供新的验证证据和审阅发现。",
+        audit10: "在追问之后、执行之前确认 SUMO 实验计划。",
+        examplesTitle: "示例",
+        examplesText: "仓库包含统一的信号控制审计示例，以及 Ingolstadt OSM-to-SUMO 路网与 TUM 手工清洗参考网的对比示例。",
+        exampleOne: "01 信号控制审计",
+        exampleTwo: "02 Ingolstadt OSM 对比",
+        exampleThree: "失败清单",
+        installTitle: "安装 Torii",
+        installText: "安装 Codex plugin 后会同时获得推理 skill 和本地 MCP tools。",
+        limitsTitle: "限制",
+        limitsText: "本仓库提供智能体指令、检查清单和审计流程。它不认证 SUMO 实验一定正确、可发表或已经被官方验证。",
+        trademarkText: "Eclipse SUMO 是 Eclipse Foundation 的商标。本项目是独立资源，不隶属于 Eclipse Foundation、Eclipse SUMO 项目或 DLR，也未得到其认可、赞助或维护。",
+        footer: "请把审计输出当作审阅辅助，而不是 SUMO 文档、控制器专项验证或独立复现实验的替代品。"
+      },
+      de: {
+        pageTitle: "Torii",
+        brandName: "Torii",
+        eyebrow: "Task-Oriented Road Infrastructure Intelligence",
+        heroTitle: "Ein Prompt, strukturierte SUMO-Arbeit.",
+        heroSubtitle: "Agent plugin fuer SUMO: Ein-Satz-Workflow-Routing plus lokale MCP-Werkzeuge fuer OSM-zu-SUMO-Arbeit.",
+        promptText: "Nutze Torii, um das Ingolstadt-Zentrum aus OSM zu bereinigen und mit TUM-VT/sumo_ingolstadt zu vergleichen.",
+        heroPointOne: "Ziel",
+        heroPointTwo: "Beobachten",
+        heroPointThree: "Bauen",
+        heroPointFour: "Pruefen",
+        heroPointFive: "Diagnose",
+        heroPointSix: "Evidenz",
+        repoButton: "GitHub-Repository",
+        readmeButton: "Dokumentation öffnen",
+        readmeHref: "https://github.com/Tarard/Torii-SUMO/blob/main/README.de.md",
+        whatTitle: "Das Produkt",
+        whatText: "Torii buendelt einen SUMO Expert Skill mit lokalen MCP-Werkzeugen, damit Codex Nutzerziele versteht und echte SUMO-Artefakte begrenzt prueft.",
+        whoTitle: "Was Torii aendert",
+        whoText: "Es laesst den Agenten zuerst das Nutzerziel klaeren, dann Netz- und Metrikfeedback beobachten und danach die kleinste begruendbare Aktion waehlen.",
+        preventsTitle: "Wer ihn nutzen sollte",
+        preventsText: "Forschende und Entwickler, die OSM-zu-SUMO-Import, TLS-Pruefung, Erreichbarkeitschecks, Controller-Workflow und evidenzgebundene SUMO-Reparatur brauchen.",
+        painKicker: "Fuer OSM-zu-SUMO-Feedbackschleifen gebaut",
+        painTitle: "Es behandelt Warnungen, schlechte Metriken, getrennte Routen, TLS-Abweichungen und Kartenkonflikte als Modellfeedback.",
+        painText: "Torii arbeitet als Regelkreis: Nutzerziel, beobachtete SUMO-Artefakte, Feedbackdiagnose, kleinste Modell- oder Codeaenderung, erneuter Lauf und evidenzgebundener Bericht.",
+        painOne: "OSM-Exporte brauchen Kachelung, Retry, Deduplizierung und Strassenklassenfilter.",
+        painTwo: "Generierte SUMO-TLS-Kandidaten brauchen Pruefung auf physische Kreuzungen.",
+        painThree: "Realitaetsbaselines sind regional: Google Maps wo passend; fuer Festlandchina Amap/Gaode, Baidu Maps, Tencent Maps, Inventare, Signalplaene oder Feldfotos.",
+        painFour: "Erreichbarkeitsproben zeigen getrennte Strassen vor Ergebnisaussagen.",
+        painFive: "Controller-Arbeit muss geplant, getestet und mit Abschlussnachweisen interpretiert werden.",
+        painSix: "Schlechte Metriken sind Diagnosefeedback, nicht das endgueltige Optimierungsziel.",
+        scopeTitle: "Aktueller Umfang",
+        scopeText: "Aktuelle Werkzeuge decken Umgebungstests, Konfigurationspruefung, Smoke Runs, Evidenzpakete, OSM-Netzaufbau, Gebietsbestaetigung, mehrquellige TLS-Prueftabellen, Pkw-Konnektivitaetspruefung, Connected-Core-Extraktion, Erreichbarkeitsproben und Netedit-Startnachweise ab.",
+        futureText: "Unbestaetigte Ortsname-zu-bbox-Geokodierung, vollstaendige intelligente Stadtbereinigung, Max-Pressure-Controller-Generierung und Controller-Log-Inspection sind Roadmap-Werkzeuge.",
+        mechanismKicker: "Kernidee",
+        mechanismTitle: "Es verbindet Reasoning mit begrenzter Ausfuehrung.",
+        mechanismText: "Der Workflow Router klassifiziert zuerst die Anfrage. Der Skill interpretiert Feedback, und der MCP Server fuehrt begrenzte Checks mit strukturierten Beobachtungen aus.",
+        routeOneTitle: "Laufendes Projekt",
+        routeOneText: "Ablaufprüfung -> Ziel, Zustand, Abweichung, nächster Schritt.",
+        routeTwoTitle: "Neues Experiment",
+        routeTwoText: "Versuchsabfrage -> Bereitschaftsnotiz -> SUMO-Versuchsplan.",
+        routeThreeTitle: "Codeänderung",
+        routeThreeText: "Entwickeln und prüfen -> Rot/Grün/Überarbeitung -> Abschlussevidenz.",
+        routeFourTitle: "Fehlgeschlagener oder fragwürdiger Lauf",
+        routeFourText: "Debugging-Helfer -> Symptombelege -> Fix, erneuter Lauf oder Aussageabstufung.",
+        routeFiveTitle: "Ergebnisse und Aussagen",
+        routeFiveText: "Auswerten und berichten -> Ausgaben, Metriken, Basislinien, Validierung und Aussagegrenze.",
+        academicSkillText: "Fuer OSM-Modellierung, TLS-Pruefung, Controller-Workflowplanung, Metrikfeedback-Diagnose und evidenzgebundene SUMO-Aussagen.",
+        debugSkillText: "Für die Diagnose von Routen-, TraCI-, TLS-, Nachfrage-, Detektor-, Ausgabe-, Zufallsseed-, Abschluss- und Reproduzierbarkeitsproblemen im geschlossenen Regelkreis.",
+        designTitle: "Designansatz",
+        designText: "Die Fähigkeiten verdichten offizielle SUMO-Dokumentation, Fehlersuchmuster aus SUMO-Forum und Community, Muster aus öffentlichem Verkehrssimulationscode, praktische Versuchserfahrung des Autors, sokratische Vorabklärung, bestätigte Versuchsplanung, testgetriebene Entwicklung (TDD) für SUMO/TraCI-Codeänderungen, Prüfungen mit Evidenz vor Abschluss und datenschutzsichere Erfassung von Praxislektionen zu einem ausführbaren Prüfablauf für Agenten.",
+        scenarioTitle: "Nutzungsszenarien",
+        scenarioText: "Ausgangspunkt ist die Situation des Nutzers; danach werden nur die passenden Referenzen geladen.",
+        scenarioOne: "Laufendes Projekt: route-project-workflow -> Plan für den nächsten Schritt.",
+        scenarioTwo: "Neues Experiment: interactive-experiment-intake -> Bereitschaftspfad -> SUMO-Versuchsplan.",
+        scenarioThree: "Codeänderung: develop-and-verify-code -> Umsetzung -> Abschlussevidenz.",
+        scenarioFour: "Fehlgeschlagener Lauf: Debugging-Helfer -> geschlossene Diagnose -> Fix oder Aussageabstufung.",
+        scenarioFive: "Ergebnisse oder Aussagen: evaluate-and-report-results -> Evidenzklasse -> Aussagegrenze.",
+        promptKicker: "Sofort ausprobieren",
+        promptTitle: "Direkt kopierbare Prompts für echte Projekte",
+        promptIntro: "Beginnen Sie mit einem Satz. Torii soll den Workflow waehlen, nur blockierende Fragen stellen und vor Aussagen Evidenz berichten.",
+        tryPromptOne: "Nutze Torii, um das Ingolstadt-Zentrum aus OSM zu bereinigen und mit TUM-VT/sumo_ingolstadt zu vergleichen.",
+        tryPromptTwo: "Prüfe diesen TraCI-Signalcontroller, bevor ich ihn mit der Festzeit-Basislinie vergleiche.",
+        tryPromptThree: "Dieser SUMO-Lauf endet, aber tripinfo und summary widersprechen sich. Nutze den Debugging-Helfer und sage mir, ob der Lauf gültig ist.",
+        tryPromptFour: "Controller A hat eine geringere Reisezeit, aber einige Fahrzeuge sind unvollendet. Was darf ich behaupten und was muss abgestuft werden?",
+        tryPromptFive: "Der Skill hat ein Fehlermuster übersehen, das ich später gelöst habe. Verwandle meinen Lösungsweg in einen datenschutzsicheren Field-Lesson-Kandidaten.",
+        referenceTitle: "Referenzmodule",
+        referenceText: "Diese SUMO-Fähigkeit ist in fokussierte Markdown-Module aufgeteilt, damit der Agent die jeweils passenden Evidenzregeln nur bei Bedarf lädt.",
+        academicRefsTitle: "Torii Reasoning-Referenzen",
+        debugRefsTitle: "Referenzmodule für Fehlersuche",
+        auditTitle: "Prüfpunkte",
+        audit1: "Konsistenz von Netz, Routen, Konfiguration, Detektoren und Zusatzdateien.",
+        audit2: "Prüfungen zu TLS-Phasen, Freigabebeziehungen, Gelbzeiten, Allrotzeiten und NEMA-Evidenz.",
+        audit3: "Gepaarte Steuerungsvergleiche über Zufallsseeds, Nachfrage, Simulationshorizonte und Ausgaben.",
+        audit4: "Berichterstattung unter Berücksichtigung des Abschlussgrades für gestoppte, unvollendete, teleportierte oder ungültige Läufe.",
+        audit5: "Metrikdefinitionen für Reisezeit, Verzögerung, Halte, Durchsatz, Warteschlangen, Emissionen und Fairness.",
+        audit6: "Aussagegrenzen für Basislinien, Ablationen, Sensitivitätsläufe und Fehlerbehebungen.",
+        audit7: "Erfassung von Praxislektionen für nutzergefundene Fixes, die zu wiederverwendbaren Skill-Hinweisen werden sollen.",
+        audit8: "Nachweise testgetriebener Entwicklung (TDD) für SUMO/TraCI-Codeänderungen vor Implementierungsaussagen.",
+        audit9: "Aktuelle Verifikationsnachweise und Review-Befunde vor Abschlussaussagen.",
+        audit10: "Bestätigter SUMO-Versuchsplan nach der Vorabklärung und vor der Ausführung.",
+        examplesTitle: "Beispiele",
+        examplesText: "Das Repository enthaelt ein gebuendeltes Signalsteuerungs-Audit und einen Ingolstadt-OSM-zu-SUMO-Vergleich mit einem manuell bereinigten TUM-Referenznetz.",
+        exampleOne: "01 Signalsteuerungs-Audit",
+        exampleTwo: "02 Ingolstadt OSM-Vergleich",
+        exampleThree: "Fehlerliste",
+        installTitle: "Torii installieren",
+        installText: "Installieren Sie das Codex Plugin, um Reasoning Skill und lokale MCP Tools zusammen zu erhalten.",
+        limitsTitle: "Grenzen",
+        limitsText: "Dieses Repository bietet Agentenanweisungen, Prüflisten und Prüfabläufe. Es zertifiziert nicht, dass ein SUMO-Experiment korrekt, publikationsfähig oder offiziell validiert ist.",
+        trademarkText: "Eclipse SUMO ist eine Marke der Eclipse Foundation. Dieses Projekt ist eine unabhängige Ressource. Es gehört nicht zur Eclipse Foundation, zum Eclipse SUMO-Projekt oder zu DLR und wird von ihnen weder empfohlen, gesponsert noch gepflegt.",
+        footer: "Nutzen Sie die Prüfung als Unterstützung für die Durchsicht, nicht als Ersatz für SUMO-Dokumentation, steuerungsspezifische Validierung oder unabhängige Reproduktion."
+      }
+    };
+
+    const buttons = Array.from(document.querySelectorAll("[data-lang]"));
+    const translated = Array.from(document.querySelectorAll("[data-i18n]"));
+    const translatedLinks = Array.from(document.querySelectorAll("[data-i18n-href]"));
+    const supported = new Set(Object.keys(translations));
+
+    function normalizeLanguage(value) {
+      const base = String(value || "").toLowerCase().slice(0, 2);
+      return supported.has(base) ? base : "en";
+    }
+
+    function selectLanguage(value) {
+      const lang = normalizeLanguage(value);
+      const copy = translations[lang];
+      document.documentElement.lang = lang === "zh" ? "zh-CN" : lang;
+      document.title = copy.pageTitle;
+      translated.forEach((node) => {
+        const key = node.dataset.i18n;
+        if (copy[key]) {
+          node.textContent = copy[key];
+        }
+      });
+      translatedLinks.forEach((node) => {
+        const key = node.dataset.i18nHref;
+        if (copy[key]) {
+          node.setAttribute("href", copy[key]);
+        }
+      });
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", String(button.dataset.lang === lang));
+      });
+      localStorage.setItem("audit-page-language", lang);
+      window.history.replaceState({}, "", `#${lang}`);
+    }
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => selectLanguage(button.dataset.lang));
+    });
+
+    selectLanguage(window.location.hash.slice(1) || localStorage.getItem("audit-page-language") || navigator.language);
+  </script>
+</body>
+</html>

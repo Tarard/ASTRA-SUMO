@@ -1,0 +1,226 @@
+{
+  "$defs": {
+    "CroppedCorridorSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "city_extract_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "City Extract Sha256",
+          "type": "string"
+        },
+        "corridor_key": {
+          "title": "Corridor Key",
+          "type": "string"
+        },
+        "observed_feature_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Observed Feature Counts",
+          "type": "object"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "reference_complete": {
+          "title": "Reference Complete",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_restriction_count": {
+          "minimum": 0,
+          "title": "Selected Restriction Count",
+          "type": "integer"
+        },
+        "selected_way_count": {
+          "minimum": 0,
+          "title": "Selected Way Count",
+          "type": "integer"
+        },
+        "selection_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Selection Id",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "unconfirmed_preregistered_features": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unconfirmed Preregistered Features",
+          "type": "array"
+        }
+      },
+      "required": [
+        "selection_id",
+        "corridor_key",
+        "status",
+        "city_extract_sha256",
+        "path",
+        "sha256",
+        "selected_way_count",
+        "selected_restriction_count",
+        "observed_feature_counts",
+        "unconfirmed_preregistered_features",
+        "reference_complete"
+      ],
+      "title": "CroppedCorridorSnapshot",
+      "type": "object"
+    },
+    "DownloadedCityExtract": {
+      "additionalProperties": false,
+      "properties": {
+        "content_length_bytes": {
+          "exclusiveMinimum": 0,
+          "title": "Content Length Bytes",
+          "type": "integer"
+        },
+        "expected_length_matched": {
+          "title": "Expected Length Matched",
+          "type": "boolean"
+        },
+        "md5": {
+          "pattern": "^[0-9a-f]{32}$",
+          "title": "Md5",
+          "type": "string"
+        },
+        "observed_etag": {
+          "title": "Observed Etag",
+          "type": "string"
+        },
+        "observed_last_modified_http": {
+          "title": "Observed Last Modified Http",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "provider_md5_matched": {
+          "title": "Provider Md5 Matched",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_id": {
+          "title": "Source Id",
+          "type": "string"
+        },
+        "source_reused": {
+          "title": "Source Reused",
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        }
+      },
+      "required": [
+        "source_id",
+        "status",
+        "path",
+        "sha256",
+        "md5",
+        "content_length_bytes",
+        "provider_md5_matched",
+        "expected_length_matched",
+        "source_reused",
+        "observed_last_modified_http",
+        "observed_etag"
+      ],
+      "title": "DownloadedCityExtract",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-corpus-snapshot-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "city_extracts": {
+      "items": {
+        "$ref": "#/$defs/DownloadedCityExtract"
+      },
+      "title": "City Extracts",
+      "type": "array"
+    },
+    "corpus_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Corpus Id",
+      "type": "string"
+    },
+    "corpus_spec_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Corpus Spec Sha256",
+      "type": "string"
+    },
+    "corridors": {
+      "items": {
+        "$ref": "#/$defs/CroppedCorridorSnapshot"
+      },
+      "title": "Corridors",
+      "type": "array"
+    },
+    "held_out_review_policy_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Held Out Review Policy Sha256",
+      "type": "string"
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-corpus-snapshot-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    }
+  },
+  "required": [
+    "corpus_id",
+    "corpus_spec_sha256",
+    "held_out_review_policy_sha256",
+    "status",
+    "city_extracts",
+    "corridors",
+    "blockers"
+  ],
+  "title": "HeldOutCorpusSnapshotReport",
+  "type": "object",
+  "x-torii-status": "stage-1-held-out-corpus-evidence-contract"
+}

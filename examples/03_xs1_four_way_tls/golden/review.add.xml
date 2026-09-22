@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<additional>
+  <poly id="xs1_target_cell" color="0,210,120,120" fill="true" layer="100" shape="201.60,109.55 205.38,100.73 201.89,98.91 199.28,96.82 197.57,94.47 196.75,91.85 196.82,88.96 197.78,85.80 188.95,82.03 187.59,83.81 185.35,84.81 182.25,85.02 178.27,84.45 173.42,83.10 167.69,80.98 164.06,89.86 167.80,91.92 170.42,94.58 171.92,97.84 172.28,101.71 171.53,106.17 169.65,111.23 181.29,116.54 183.52,112.70 186.21,109.93 189.36,108.23 192.98,107.60 197.06,108.04">
+    <param key="review_case_id" value="xs1-ingolstadt-89129156-v1" />
+    <param key="role" value="target" />
+  </poly>
+  <poi id="xs1_guard_1" color="255,180,0,255" layer="101" x="169.81" y="134.00">
+    <param key="role" value="guard" />
+    <param key="junction_id" value="2230504038" />
+  </poi>
+  <poi id="xs1_guard_2" color="255,180,0,255" layer="101" x="266.35" y="130.71">
+    <param key="role" value="guard" />
+    <param key="junction_id" value="289881759" />
+  </poi>
+  <poi id="xs1_guard_3" color="255,180,0,255" layer="101" x="98.17" y="59.46">
+    <param key="role" value="guard" />
+    <param key="junction_id" value="307836297" />
+  </poi>
+  <poi id="xs1_guard_4" color="255,180,0,255" layer="101" x="217.85" y="22.48">
+    <param key="role" value="guard" />
+    <param key="junction_id" value="4326573630" />
+  </poi>
+</additional>

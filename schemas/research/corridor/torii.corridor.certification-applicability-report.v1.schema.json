@@ -1,0 +1,325 @@
+{
+  "$defs": {
+    "ApplicabilityFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "finding_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "subject_id": {
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "witness": {
+          "additionalProperties": true,
+          "title": "Witness",
+          "type": "object"
+        }
+      },
+      "required": [
+        "finding_id",
+        "category",
+        "subject_id",
+        "witness"
+      ],
+      "title": "ApplicabilityFinding",
+      "type": "object"
+    },
+    "CellApplicabilityFeatures": {
+      "additionalProperties": false,
+      "properties": {
+        "crossing_edge_count": {
+          "minimum": 0,
+          "title": "Crossing Edge Count",
+          "type": "integer"
+        },
+        "edge_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Edge Types",
+          "type": "array"
+        },
+        "has_grade_separation": {
+          "title": "Has Grade Separation",
+          "type": "boolean"
+        },
+        "incoming_arm_count": {
+          "minimum": 0,
+          "title": "Incoming Arm Count",
+          "type": "integer"
+        },
+        "internal_path_status_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Internal Path Status Counts",
+          "type": "object"
+        },
+        "link_index2_connection_count": {
+          "minimum": 0,
+          "title": "Link Index2 Connection Count",
+          "type": "integer"
+        },
+        "movement_mode_class_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Movement Mode Class Counts",
+          "type": "object"
+        },
+        "outgoing_arm_count": {
+          "minimum": 0,
+          "title": "Outgoing Arm Count",
+          "type": "integer"
+        },
+        "physical_cell_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Physical Cell Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unsupported_controlled_connection_count": {
+          "minimum": 0,
+          "title": "Unsupported Controlled Connection Count",
+          "type": "integer"
+        },
+        "walkingarea_edge_count": {
+          "minimum": 0,
+          "title": "Walkingarea Edge Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "physical_cell_id",
+        "incoming_arm_count",
+        "outgoing_arm_count",
+        "movement_mode_class_counts",
+        "internal_path_status_counts",
+        "crossing_edge_count",
+        "walkingarea_edge_count",
+        "link_index2_connection_count",
+        "unsupported_controlled_connection_count",
+        "edge_types",
+        "has_grade_separation"
+      ],
+      "title": "CellApplicabilityFeatures",
+      "type": "object"
+    },
+    "ControllerApplicabilityFeatures": {
+      "additionalProperties": false,
+      "properties": {
+        "controller_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Controller Id",
+          "type": "string"
+        },
+        "controller_types": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Controller Types",
+          "type": "array"
+        },
+        "maximum_signal_group_movement_count": {
+          "minimum": 0,
+          "title": "Maximum Signal Group Movement Count",
+          "type": "integer"
+        },
+        "owner_physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Owner Physical Cell Ids",
+          "type": "array"
+        },
+        "program_count": {
+          "minimum": 0,
+          "title": "Program Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "controller_id",
+        "owner_physical_cell_ids",
+        "program_count",
+        "controller_types",
+        "maximum_signal_group_movement_count"
+      ],
+      "title": "ControllerApplicabilityFeatures",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "NetworkApplicabilityFeatures": {
+      "additionalProperties": false,
+      "properties": {
+        "cells": {
+          "items": {
+            "$ref": "#/$defs/CellApplicabilityFeatures"
+          },
+          "title": "Cells",
+          "type": "array"
+        },
+        "controllers": {
+          "items": {
+            "$ref": "#/$defs/ControllerApplicabilityFeatures"
+          },
+          "title": "Controllers",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Sha256"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        },
+        "unresolved_controlled_connection_count": {
+          "minimum": 0,
+          "title": "Unresolved Controlled Connection Count",
+          "type": "integer"
+        },
+        "unresolved_pedestrian_facility_count": {
+          "minimum": 0,
+          "title": "Unresolved Pedestrian Facility Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "source_sha256",
+        "traffic_side",
+        "cells",
+        "controllers",
+        "unresolved_controlled_connection_count",
+        "unresolved_pedestrian_facility_count"
+      ],
+      "title": "NetworkApplicabilityFeatures",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.certification-applicability-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "certification_gate": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "classification_status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "decision": {
+      "enum": [
+        "in-domain",
+        "out-of-domain",
+        "invalid"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "envelope_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Envelope Id",
+      "type": "string"
+    },
+    "features": {
+      "$ref": "#/$defs/NetworkApplicabilityFeatures"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/ApplicabilityFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.certification-applicability-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Source Sha256"
+    }
+  },
+  "required": [
+    "envelope_id",
+    "source_sha256",
+    "classification_status",
+    "decision",
+    "certification_gate",
+    "features",
+    "findings",
+    "blockers"
+  ],
+  "title": "CertificationApplicabilityReport",
+  "type": "object",
+  "x-torii-status": "stage-1-selective-domain-evidence-contract"
+}

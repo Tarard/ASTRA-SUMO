@@ -1,28 +1,36 @@
 # Conference and Demo Positioning
 
+> Draft release material. Use the top-level `README.md` and `ARCHITECTURE.md` as the current product and claim boundary.
+
 ## Recommended Angle
 
-Use "error auditing" and "reproducibility checks" rather than "I made a skill."
+Present Torii as an agent-driven SUMO workflow for turning real-world traffic data and natural-language tasks into auditable simulation artifacts. The strongest story is not that Torii is another plugin, but that it connects construction, calibration, simulation, and evidence checks in one workflow.
 
 Suggested title:
 
 ```text
-Auditing Reproducibility Failures in SUMO/TraCI Traffic Signal Control Experiments
+Torii: Agent-Driven Traffic Scenario Construction and Evidence-Aware SUMO Workflows
 ```
 
 Suggested abstract framing:
 
 ```text
-Traffic signal control experiments in SUMO/TraCI can pass execution checks while still producing invalid comparisons because demand, seeds, TLS semantics, detector mappings, outputs, completion status, or metric definitions differ across controllers. This demo presents a reusable agent skill and checklist that audits fixed-time, actuated, max-pressure, data-informed, and MPC-style signal-control workflows before claims are reported.
+Building a useful SUMO scenario requires more than producing a runnable network. Torii combines task routing, SUMO domain skills, local execution tools, and evidence checks to build networks from real-world sources, calibrate them against observations, and run follow-on simulation tasks from natural-language instructions. The system keeps source and candidate artifacts separate, records validation evidence, and limits claims when topology, demand, signal control, or field truth remain uncertain.
 ```
-
-## SUMO Conference Note
-
-As of 2026-06-08, SUMO Conference 2026 has already taken place in Berlin from 2026-06-01 to 2026-06-04. For the next cycle, watch the official SUMO Conference page and position this as a short paper, poster, or tool demo about reproducibility failures in signal-control experiments.
 
 ## Demo Checklist
 
-- Show one broken fixed-time baseline case.
-- Show one max-pressure detector mapping or seed pairing issue.
-- Show one data-informed controller leakage or missing ablation issue.
-- End with the corrected claim boundary, not a broad performance claim.
+- Show one real-world input being converted into a SUMO network artifact.
+- Show one validation step that catches a problem a successful SUMO load would miss.
+- Show one calibration or comparison against measured traffic data.
+- Show one follow-on simulation task started from a natural-language request.
+- End with the evidence boundary: runnable is not the same as correct.
+
+The Hamburg digital-twin workflow is the preferred current demonstration because it connects reconstruction, official traffic data, validation, and calibration in one traceable case.
+
+## Claim Boundaries
+
+- Do not claim arbitrary real-world networks can be reconstructed automatically to expert quality.
+- Do not treat SUMO load, route completion, or a lower KPI as proof of model correctness.
+- Do not present a map or reference network as ground truth without stating its scope and date.
+- Keep uncertain topology, signal, demand, and calibration decisions reviewable and traceable.

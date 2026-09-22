@@ -1,0 +1,81 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.net-replay-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "primary_net_path": {
+      "title": "Primary Net Path",
+      "type": "string"
+    },
+    "primary_net_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Primary Net Sha256",
+      "type": "string"
+    },
+    "primary_normalized_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Primary Normalized Sha256",
+      "type": "string"
+    },
+    "replay_net_path": {
+      "title": "Replay Net Path",
+      "type": "string"
+    },
+    "replay_net_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replay Net Sha256",
+      "type": "string"
+    },
+    "replay_normalized_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Replay Normalized Sha256",
+      "type": "string"
+    },
+    "reproducible_semantics": {
+      "title": "Reproducible Semantics",
+      "type": "boolean"
+    },
+    "schema": {
+      "default": "torii.corridor.net-replay-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    }
+  },
+  "required": [
+    "status",
+    "primary_net_path",
+    "primary_net_sha256",
+    "primary_normalized_sha256",
+    "replay_net_path",
+    "replay_net_sha256",
+    "replay_normalized_sha256",
+    "reproducible_semantics",
+    "blockers"
+  ],
+  "title": "NetReplayReport",
+  "type": "object",
+  "x-torii-status": "stage-1-reproducibility-evidence-contract"
+}

@@ -1,0 +1,1341 @@
+{
+  "$defs": {
+    "AssessmentStatus": {
+      "enum": [
+        "pass",
+        "review_required"
+      ],
+      "title": "AssessmentStatus",
+      "type": "string"
+    },
+    "AutomaticBindingGate": {
+      "additionalProperties": false,
+      "properties": {
+        "reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Reasons",
+          "type": "array"
+        },
+        "status": {
+          "const": "blocked",
+          "default": "blocked",
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "reasons"
+      ],
+      "title": "AutomaticBindingGate",
+      "type": "object"
+    },
+    "ControlReference": {
+      "additionalProperties": false,
+      "description": "External identity binding only; no algorithm, phase, timing, or live state.",
+      "properties": {
+        "controller_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Controller Id"
+        },
+        "reference_id": {
+          "minLength": 1,
+          "title": "Reference Id",
+          "type": "string"
+        },
+        "signal_group_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal Group Id"
+        },
+        "sumo_link_indices": {
+          "default": [],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Sumo Link Indices",
+          "type": "array"
+        },
+        "sumo_tl_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sumo Tl Id"
+        },
+        "system": {
+          "$ref": "#/$defs/ControlReferenceSystem"
+        }
+      },
+      "required": [
+        "reference_id",
+        "system"
+      ],
+      "title": "ControlReference",
+      "type": "object"
+    },
+    "ControlReferenceSystem": {
+      "enum": [
+        "field_controller",
+        "ocit",
+        "etsi_its",
+        "opendrive",
+        "lanelet2",
+        "sumo",
+        "other"
+      ],
+      "title": "ControlReferenceSystem",
+      "type": "string"
+    },
+    "DisplayBehavior": {
+      "enum": [
+        "steady",
+        "flashing",
+        "steady_or_flashing",
+        "pulsing",
+        "alternating",
+        "variable",
+        "other",
+        "unknown"
+      ],
+      "title": "DisplayBehavior",
+      "type": "string"
+    },
+    "DisplayColor": {
+      "enum": [
+        "red",
+        "amber",
+        "yellow",
+        "green",
+        "white",
+        "blue",
+        "other",
+        "unknown"
+      ],
+      "title": "DisplayColor",
+      "type": "string"
+    },
+    "DisplayDirection": {
+      "enum": [
+        "none",
+        "left",
+        "right",
+        "straight",
+        "u_turn",
+        "down",
+        "horizontal",
+        "vertical",
+        "diagonal_left",
+        "diagonal_right",
+        "bidirectional",
+        "other",
+        "unknown"
+      ],
+      "title": "DisplayDirection",
+      "type": "string"
+    },
+    "DisplayMeaning": {
+      "enum": [
+        "stop",
+        "prepare",
+        "proceed",
+        "proceed_if_clear",
+        "wait",
+        "lane_closed",
+        "lane_open",
+        "direction_clear",
+        "attention",
+        "other",
+        "unknown"
+      ],
+      "title": "DisplayMeaning",
+      "type": "string"
+    },
+    "DisplaySymbol": {
+      "enum": [
+        "circle",
+        "arrow",
+        "pedestrian",
+        "bicycle",
+        "bar",
+        "point",
+        "triangle",
+        "cross",
+        "lane_arrow",
+        "countdown",
+        "letter",
+        "text",
+        "other",
+        "unknown"
+      ],
+      "title": "DisplaySymbol",
+      "type": "string"
+    },
+    "DisplayUnit": {
+      "additionalProperties": false,
+      "description": "One display capability, not an observation that it is currently lit.",
+      "properties": {
+        "behavior": {
+          "$ref": "#/$defs/DisplayBehavior",
+          "default": "steady"
+        },
+        "color": {
+          "$ref": "#/$defs/DisplayColor"
+        },
+        "direction": {
+          "$ref": "#/$defs/DisplayDirection",
+          "default": "none"
+        },
+        "meaning": {
+          "$ref": "#/$defs/DisplayMeaning",
+          "default": "unknown"
+        },
+        "native_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Native Code"
+        },
+        "section_index": {
+          "minimum": 0,
+          "title": "Section Index",
+          "type": "integer"
+        },
+        "symbol": {
+          "$ref": "#/$defs/DisplaySymbol"
+        },
+        "unit_id": {
+          "minLength": 1,
+          "title": "Unit Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "unit_id",
+        "section_index",
+        "color",
+        "symbol"
+      ],
+      "title": "DisplayUnit",
+      "type": "object"
+    },
+    "EvidenceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence_id": {
+          "minLength": 1,
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "input_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Input Sha256"
+        },
+        "observed_at": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed At"
+        },
+        "observed_fact": {
+          "minLength": 1,
+          "title": "Observed Fact",
+          "type": "string"
+        },
+        "relation": {
+          "$ref": "#/$defs/EvidenceRelation",
+          "default": "supports"
+        },
+        "source_kind": {
+          "$ref": "#/$defs/EvidenceSourceKind"
+        },
+        "source_ref": {
+          "minLength": 1,
+          "title": "Source Ref",
+          "type": "string"
+        },
+        "supports_fields": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Supports Fields",
+          "type": "array"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source_kind",
+        "source_ref",
+        "observed_fact",
+        "confidence"
+      ],
+      "title": "EvidenceRecord",
+      "type": "object"
+    },
+    "EvidenceRelation": {
+      "enum": [
+        "supports",
+        "contradicts",
+        "unknown"
+      ],
+      "title": "EvidenceRelation",
+      "type": "string"
+    },
+    "EvidenceSourceKind": {
+      "enum": [
+        "official_standard",
+        "official_inventory",
+        "operator_export",
+        "field_observation",
+        "map_image",
+        "osm",
+        "sumo",
+        "inference",
+        "other",
+        "unknown"
+      ],
+      "title": "EvidenceSourceKind",
+      "type": "string"
+    },
+    "FaceArrangement": {
+      "enum": [
+        "single",
+        "vertical",
+        "horizontal",
+        "cluster",
+        "matrix",
+        "other",
+        "unknown"
+      ],
+      "title": "FaceArrangement",
+      "type": "string"
+    },
+    "FaceLayout": {
+      "additionalProperties": false,
+      "properties": {
+        "arrangement": {
+          "$ref": "#/$defs/FaceArrangement"
+        },
+        "section_count": {
+          "minimum": 1,
+          "title": "Section Count",
+          "type": "integer"
+        },
+        "section_order": {
+          "default": [],
+          "items": {
+            "type": "integer"
+          },
+          "title": "Section Order",
+          "type": "array"
+        },
+        "shared_or_bimodal_sections": {
+          "default": false,
+          "title": "Shared Or Bimodal Sections",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "section_count",
+        "arrangement"
+      ],
+      "title": "FaceLayout",
+      "type": "object"
+    },
+    "Installation": {
+      "additionalProperties": false,
+      "properties": {
+        "longitudinal_placement": {
+          "$ref": "#/$defs/LongitudinalPlacement"
+        },
+        "mounting": {
+          "$ref": "#/$defs/Mounting"
+        },
+        "native_location_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Native Location Code"
+        },
+        "orientation_degrees": {
+          "anyOf": [
+            {
+              "exclusiveMaximum": 360.0,
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Orientation Degrees"
+        },
+        "physical_role": {
+          "$ref": "#/$defs/PhysicalRole"
+        }
+      },
+      "required": [
+        "physical_role",
+        "longitudinal_placement",
+        "mounting"
+      ],
+      "title": "Installation",
+      "type": "object"
+    },
+    "JurisdictionIdentity": {
+      "additionalProperties": false,
+      "description": "Profile capability plus explicit, non-inferred source metadata.\n\n``profile_capability_references`` describes what the Torii vocabulary can\nrepresent.  It is not evidence that a source instance conforms to those\ndocuments.  Any such assertion must be supplied separately in\n``source_claimed_references`` and backed by an :class:`EvidenceRecord`.",
+      "properties": {
+        "country_code": {
+          "default": "DE",
+          "pattern": "^[A-Z]{2}$",
+          "title": "Country Code",
+          "type": "string"
+        },
+        "profile_capability_references": {
+          "default": [
+            "DIN EN 12368",
+            "RiLSA",
+            "StVO § 37"
+          ],
+          "items": {
+            "type": "string"
+          },
+          "title": "Profile Capability References",
+          "type": "array"
+        },
+        "profile_id": {
+          "default": "de_stvo_rilsa",
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "source_claimed_references": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Claimed References",
+          "type": "array"
+        },
+        "source_native_subtype_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Native Subtype Id"
+        },
+        "source_native_type_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Native Type Id"
+        }
+      },
+      "title": "JurisdictionIdentity",
+      "type": "object"
+    },
+    "LongitudinalPlacement": {
+      "enum": [
+        "near_side",
+        "far_side",
+        "at_stop_line",
+        "downstream",
+        "not_applicable",
+        "other",
+        "unknown"
+      ],
+      "title": "LongitudinalPlacement",
+      "type": "string"
+    },
+    "Mounting": {
+      "enum": [
+        "roadside",
+        "median",
+        "mast_arm",
+        "overhead_portal",
+        "suspended",
+        "trackside",
+        "surface",
+        "other",
+        "unknown"
+      ],
+      "title": "Mounting",
+      "type": "string"
+    },
+    "NonVisualOutput": {
+      "additionalProperties": false,
+      "description": "Audible/tactile capability without inventing a visual color.\n\n``source_channel_id`` can preserve a source-native slot name such as the\nHamburg OCIT ``Gruen`` channel even when its actual payload is ``Ton`` or\n``Vibra``.  The channel name therefore never implies ``DisplayColor.GREEN``.",
+      "properties": {
+        "modality": {
+          "$ref": "#/$defs/OutputModality"
+        },
+        "native_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Native Code"
+        },
+        "output_id": {
+          "minLength": 1,
+          "title": "Output Id",
+          "type": "string"
+        },
+        "pattern": {
+          "$ref": "#/$defs/NonVisualPattern"
+        },
+        "served_users": {
+          "items": {
+            "$ref": "#/$defs/ServedUser"
+          },
+          "title": "Served Users",
+          "type": "array"
+        },
+        "source_channel_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Channel Id"
+        }
+      },
+      "required": [
+        "output_id",
+        "modality",
+        "pattern",
+        "served_users"
+      ],
+      "title": "NonVisualOutput",
+      "type": "object"
+    },
+    "NonVisualPattern": {
+      "enum": [
+        "continuous",
+        "pulsed",
+        "ticking",
+        "speech",
+        "vibration",
+        "rotating_cone",
+        "other",
+        "unknown"
+      ],
+      "title": "NonVisualPattern",
+      "type": "string"
+    },
+    "OcitAllowedSignalImage": {
+      "additionalProperties": false,
+      "properties": {
+        "code": {
+          "minLength": 1,
+          "title": "Code",
+          "type": "string"
+        },
+        "is_end_image": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Is End Image"
+        },
+        "safety_class": {
+          "$ref": "#/$defs/OcitSafetyClass"
+        },
+        "source_element": {
+          "minLength": 1,
+          "title": "Source Element",
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "safety_class",
+        "source_element"
+      ],
+      "title": "OcitAllowedSignalImage",
+      "type": "object"
+    },
+    "OcitLampOutputSlot": {
+      "additionalProperties": false,
+      "properties": {
+        "head_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Head Ids",
+          "type": "array"
+        },
+        "slot_id": {
+          "minLength": 1,
+          "title": "Slot Id",
+          "type": "string"
+        },
+        "source_label": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Label"
+        }
+      },
+      "required": [
+        "slot_id",
+        "head_ids"
+      ],
+      "title": "OcitLampOutputSlot",
+      "type": "object"
+    },
+    "OcitLogicalSignalGroup": {
+      "additionalProperties": false,
+      "properties": {
+        "allowed_signal_images": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/OcitAllowedSignalImage"
+          },
+          "title": "Allowed Signal Images",
+          "type": "array"
+        },
+        "group_id": {
+          "minLength": 1,
+          "title": "Group Id",
+          "type": "string"
+        },
+        "head_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Head Ids",
+          "type": "array"
+        },
+        "main_direction": {
+          "anyOf": [
+            {
+              "type": "boolean"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Main Direction"
+        },
+        "ocit_outstation_number": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Ocit Outstation Number"
+        },
+        "output_slots": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/OcitLampOutputSlot"
+          },
+          "title": "Output Slots",
+          "type": "array"
+        },
+        "served_users": {
+          "items": {
+            "$ref": "#/$defs/ServedUser"
+          },
+          "title": "Served Users",
+          "type": "array"
+        },
+        "shutdown_subnode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Shutdown Subnode"
+        },
+        "technical_subnode": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Technical Subnode"
+        },
+        "traffic_class_native": {
+          "minLength": 1,
+          "title": "Traffic Class Native",
+          "type": "string"
+        }
+      },
+      "required": [
+        "group_id",
+        "traffic_class_native",
+        "served_users",
+        "head_ids"
+      ],
+      "title": "OcitLogicalSignalGroup",
+      "type": "object"
+    },
+    "OcitSafetyClass": {
+      "enum": [
+        "release",
+        "stop",
+        "off_dark",
+        "yellow_flash"
+      ],
+      "title": "OcitSafetyClass",
+      "type": "string"
+    },
+    "OcitSignalSourceMetadata": {
+      "additionalProperties": false,
+      "properties": {
+        "adapter_version": {
+          "const": "1.0.0",
+          "default": "1.0.0",
+          "title": "Adapter Version",
+          "type": "string"
+        },
+        "block_assignment_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Block Assignment Version"
+        },
+        "country_code": {
+          "pattern": "^[A-Z]{2}$",
+          "title": "Country Code",
+          "type": "string"
+        },
+        "country_native": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Country Native"
+        },
+        "data_structure_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Data Structure Version"
+        },
+        "document_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Document Version"
+        },
+        "guideline_native": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Guideline Native"
+        },
+        "node_id": {
+          "minLength": 1,
+          "title": "Node Id",
+          "type": "string"
+        },
+        "node_name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Name"
+        },
+        "node_revision": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Node Revision"
+        },
+        "planning_version": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Planning Version"
+        }
+      },
+      "required": [
+        "node_id",
+        "country_code"
+      ],
+      "title": "OcitSignalSourceMetadata",
+      "type": "object"
+    },
+    "OutputModality": {
+      "enum": [
+        "visual",
+        "audible",
+        "tactile",
+        "audible_tactile",
+        "unknown"
+      ],
+      "title": "OutputModality",
+      "type": "string"
+    },
+    "PhysicalRole": {
+      "enum": [
+        "main",
+        "repeated",
+        "overhead",
+        "auxiliary",
+        "primary",
+        "secondary",
+        "duplicate",
+        "repeater",
+        "supplementary",
+        "other",
+        "unknown"
+      ],
+      "title": "PhysicalRole",
+      "type": "string"
+    },
+    "ProfileAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "review_reasons": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Review Reasons",
+          "type": "array"
+        },
+        "status": {
+          "$ref": "#/$defs/AssessmentStatus"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "ProfileAssessment",
+      "type": "object"
+    },
+    "ServedUser": {
+      "enum": [
+        "motor_vehicle",
+        "bicycle",
+        "pedestrian",
+        "accessibility",
+        "tram",
+        "bus",
+        "public_transport",
+        "emergency_vehicle",
+        "equestrian",
+        "lane_user",
+        "other",
+        "unknown"
+      ],
+      "title": "ServedUser",
+      "type": "string"
+    },
+    "SignalDeviceIdentity": {
+      "additionalProperties": false,
+      "description": "Stable physical/display identity, excluding control and runtime state.",
+      "properties": {
+        "display_units": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DisplayUnit"
+          },
+          "title": "Display Units",
+          "type": "array"
+        },
+        "face_layout": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/FaceLayout"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "jurisdiction": {
+          "$ref": "#/$defs/JurisdictionIdentity"
+        },
+        "modalities": {
+          "default": [
+            "visual"
+          ],
+          "items": {
+            "$ref": "#/$defs/OutputModality"
+          },
+          "title": "Modalities",
+          "type": "array"
+        },
+        "non_visual_outputs": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/NonVisualOutput"
+          },
+          "title": "Non Visual Outputs",
+          "type": "array"
+        },
+        "served_users": {
+          "items": {
+            "$ref": "#/$defs/ServedUser"
+          },
+          "title": "Served Users",
+          "type": "array"
+        }
+      },
+      "required": [
+        "served_users"
+      ],
+      "title": "SignalDeviceIdentity",
+      "type": "object"
+    },
+    "SignalDeviceProfile": {
+      "additionalProperties": false,
+      "description": "Canonical profile for one physical signal head/device instance.",
+      "properties": {
+        "assessment": {
+          "$ref": "#/$defs/ProfileAssessment"
+        },
+        "control_references": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ControlReference"
+          },
+          "title": "Control References",
+          "type": "array"
+        },
+        "derived_alias": {
+          "default": "",
+          "description": "Deterministic human-readable alias derived from device identity.",
+          "readOnly": true,
+          "title": "Derived Alias",
+          "type": "string"
+        },
+        "device_id": {
+          "minLength": 1,
+          "title": "Device Id",
+          "type": "string"
+        },
+        "evidence": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/EvidenceRecord"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "identity": {
+          "$ref": "#/$defs/SignalDeviceIdentity"
+        },
+        "installation": {
+          "$ref": "#/$defs/Installation"
+        },
+        "profile_id": {
+          "minLength": 1,
+          "title": "Profile Id",
+          "type": "string"
+        },
+        "schema": {
+          "const": "torii.signal-device-profile/v1",
+          "default": "torii.signal-device-profile/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "target_bindings": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/TargetBinding"
+          },
+          "title": "Target Bindings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "profile_id",
+        "device_id",
+        "identity",
+        "installation",
+        "assessment"
+      ],
+      "title": "SignalDeviceProfile",
+      "type": "object"
+    },
+    "TargetBinding": {
+      "additionalProperties": false,
+      "properties": {
+        "binding_id": {
+          "minLength": 1,
+          "title": "Binding Id",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "directions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/DisplayDirection"
+          },
+          "title": "Directions",
+          "type": "array"
+        },
+        "served_users": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ServedUser"
+          },
+          "title": "Served Users",
+          "type": "array"
+        },
+        "target_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Target Ids",
+          "type": "array"
+        },
+        "target_kind": {
+          "$ref": "#/$defs/TargetKind"
+        }
+      },
+      "required": [
+        "binding_id",
+        "target_kind",
+        "target_ids",
+        "confidence"
+      ],
+      "title": "TargetBinding",
+      "type": "object"
+    },
+    "TargetKind": {
+      "enum": [
+        "approach",
+        "lane",
+        "movement",
+        "crossing",
+        "stop_line",
+        "track",
+        "corridor",
+        "other",
+        "unknown"
+      ],
+      "title": "TargetKind",
+      "type": "string"
+    },
+    "UnassignedSignalGenerator": {
+      "additionalProperties": false,
+      "properties": {
+        "generator_id": {
+          "minLength": 1,
+          "title": "Generator Id",
+          "type": "string"
+        },
+        "mast_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mast Id"
+        },
+        "mounting_native": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Mounting Native"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "signal_group_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Signal Group Id"
+        }
+      },
+      "required": [
+        "generator_id",
+        "reason"
+      ],
+      "title": "UnassignedSignalGenerator",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.signal-device-profile-inventory.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Public, source-hash-bound artifact returned by the OCIT-C classifier.",
+  "properties": {
+    "automatic_binding_gate": {
+      "$ref": "#/$defs/AutomaticBindingGate"
+    },
+    "classification_only": {
+      "const": true,
+      "default": true,
+      "title": "Classification Only",
+      "type": "boolean"
+    },
+    "disposition": {
+      "const": "classified_signal_device_inventory",
+      "default": "classified_signal_device_inventory",
+      "title": "Disposition",
+      "type": "string"
+    },
+    "logical_signal_groups": {
+      "items": {
+        "$ref": "#/$defs/OcitLogicalSignalGroup"
+      },
+      "title": "Logical Signal Groups",
+      "type": "array"
+    },
+    "profile_count": {
+      "default": 0,
+      "minimum": 0,
+      "readOnly": true,
+      "title": "Profile Count",
+      "type": "integer"
+    },
+    "profiles": {
+      "items": {
+        "$ref": "#/$defs/SignalDeviceProfile"
+      },
+      "title": "Profiles",
+      "type": "array"
+    },
+    "schema": {
+      "const": "torii.signal-device-profile-inventory/v1",
+      "default": "torii.signal-device-profile-inventory/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "signal_group_count": {
+      "default": 0,
+      "minimum": 0,
+      "readOnly": true,
+      "title": "Signal Group Count",
+      "type": "integer"
+    },
+    "source_file": {
+      "minLength": 1,
+      "title": "Source File",
+      "type": "string"
+    },
+    "source_format": {
+      "const": "ocit_c",
+      "default": "ocit_c",
+      "title": "Source Format",
+      "type": "string"
+    },
+    "source_metadata": {
+      "$ref": "#/$defs/OcitSignalSourceMetadata"
+    },
+    "source_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Source Sha256",
+      "type": "string"
+    },
+    "status": {
+      "const": "review_required",
+      "default": "review_required",
+      "title": "Status",
+      "type": "string"
+    },
+    "unassigned_signal_generator_count": {
+      "default": 0,
+      "minimum": 0,
+      "readOnly": true,
+      "title": "Unassigned Signal Generator Count",
+      "type": "integer"
+    },
+    "unassigned_signal_generators": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/UnassignedSignalGenerator"
+      },
+      "title": "Unassigned Signal Generators",
+      "type": "array"
+    },
+    "unresolved_dimensions": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Dimensions",
+      "type": "array"
+    }
+  },
+  "required": [
+    "source_file",
+    "source_sha256",
+    "source_metadata",
+    "logical_signal_groups",
+    "profiles",
+    "unresolved_dimensions",
+    "automatic_binding_gate"
+  ],
+  "title": "SignalDeviceProfileInventory",
+  "type": "object",
+  "x-torii-status": "germany-first-read-only-ocit-c-device-inventory"
+}

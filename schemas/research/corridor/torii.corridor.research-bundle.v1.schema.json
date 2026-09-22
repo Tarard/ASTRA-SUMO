@@ -1,0 +1,3010 @@
+{
+  "$defs": {
+    "ArtifactDependency": {
+      "additionalProperties": false,
+      "properties": {
+        "child_artifact_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Child Artifact Id",
+          "type": "string"
+        },
+        "parent_artifact_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Parent Artifact Id",
+          "type": "string"
+        },
+        "relation": {
+          "title": "Relation",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "parent_artifact_id",
+        "child_artifact_id",
+        "relation"
+      ],
+      "title": "ArtifactDependency",
+      "type": "object"
+    },
+    "ArtifactIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Artifact Id",
+          "type": "string"
+        },
+        "artifact_schema": {
+          "title": "Artifact Schema",
+          "type": "string"
+        },
+        "logical_name": {
+          "title": "Logical Name",
+          "type": "string"
+        },
+        "path": {
+          "title": "Path",
+          "type": "string"
+        },
+        "producer": {
+          "title": "Producer",
+          "type": "string"
+        },
+        "role": {
+          "$ref": "#/$defs/ArtifactRole"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "toolchain_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Toolchain Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "artifact_schema",
+        "artifact_id",
+        "logical_name",
+        "role",
+        "path",
+        "sha256",
+        "producer",
+        "toolchain_id"
+      ],
+      "title": "ArtifactIdentity",
+      "type": "object"
+    },
+    "ArtifactManifestV1": {
+      "additionalProperties": false,
+      "properties": {
+        "artifacts": {
+          "items": {
+            "$ref": "#/$defs/ArtifactIdentity"
+          },
+          "title": "Artifacts",
+          "type": "array"
+        },
+        "candidate_artifact_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Candidate Artifact Ids",
+          "type": "array"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "dependencies": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/ArtifactDependency"
+          },
+          "title": "Dependencies",
+          "type": "array"
+        },
+        "gate_trace": {
+          "additionalProperties": {
+            "$ref": "#/$defs/GateStatus"
+          },
+          "title": "Gate Trace",
+          "type": "object"
+        },
+        "manifest_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Manifest Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.artifact-manifest/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_artifact_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Source Artifact Id",
+          "type": "string"
+        },
+        "source_mutated": {
+          "default": false,
+          "title": "Source Mutated",
+          "type": "boolean"
+        },
+        "toolchain_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Toolchain Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "manifest_id",
+        "created_at",
+        "toolchain_id",
+        "source_artifact_id",
+        "artifacts",
+        "gate_trace"
+      ],
+      "title": "ArtifactManifestV1",
+      "type": "object"
+    },
+    "ArtifactRole": {
+      "enum": [
+        "osm-source",
+        "source-net",
+        "teacher-net",
+        "candidate-net",
+        "plan",
+        "report",
+        "review-json",
+        "review-html",
+        "display-only-additional",
+        "manifest",
+        "rollback",
+        "toolchain-lock",
+        "benchmark-spec"
+      ],
+      "title": "ArtifactRole",
+      "type": "string"
+    },
+    "AutomationAction": {
+      "enum": [
+        "auto-repair",
+        "suggest",
+        "review",
+        "block"
+      ],
+      "title": "AutomationAction",
+      "type": "string"
+    },
+    "BoundaryPort": {
+      "additionalProperties": false,
+      "properties": {
+        "bicycle": {
+          "default": false,
+          "title": "Bicycle",
+          "type": "boolean"
+        },
+        "boundary_port_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Boundary Port Id",
+          "type": "string"
+        },
+        "bridge": {
+          "default": false,
+          "title": "Bridge",
+          "type": "boolean"
+        },
+        "center_xy": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Center Xy",
+          "type": "array"
+        },
+        "lane_role_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Lane Role Ids",
+          "type": "array"
+        },
+        "lane_widths_m": {
+          "items": {
+            "type": "number"
+          },
+          "title": "Lane Widths M",
+          "type": "array"
+        },
+        "layer": {
+          "default": 0,
+          "title": "Layer",
+          "type": "integer"
+        },
+        "mode_permissions": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array",
+            "uniqueItems": true
+          },
+          "title": "Mode Permissions",
+          "type": "object"
+        },
+        "normal_xy": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Normal Xy",
+          "type": "array"
+        },
+        "rail": {
+          "default": false,
+          "title": "Rail",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "sidewalk": {
+          "default": false,
+          "title": "Sidewalk",
+          "type": "boolean"
+        },
+        "source_anchor_refs": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Anchor Refs",
+          "type": "array"
+        },
+        "source_geometry_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Geometry Sha256",
+          "type": "string"
+        },
+        "tangent_xy": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Tangent Xy",
+          "type": "array"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        },
+        "tunnel": {
+          "default": false,
+          "title": "Tunnel",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "boundary_port_id",
+        "center_xy",
+        "tangent_xy",
+        "normal_xy",
+        "lane_role_ids",
+        "lane_widths_m",
+        "mode_permissions",
+        "source_anchor_refs",
+        "source_geometry_sha256",
+        "traffic_side"
+      ],
+      "title": "BoundaryPort",
+      "type": "object"
+    },
+    "CandidateGraph": {
+      "additionalProperties": false,
+      "properties": {
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "variants": {
+          "items": {
+            "$ref": "#/$defs/CandidateVariant"
+          },
+          "title": "Variants",
+          "type": "array"
+        }
+      },
+      "required": [
+        "variants"
+      ],
+      "title": "CandidateGraph",
+      "type": "object"
+    },
+    "CandidateStatus": {
+      "enum": [
+        "planned",
+        "materialized",
+        "structurally-verified",
+        "safety-verified",
+        "differentially-verified",
+        "runtime-verified",
+        "review-pending",
+        "auto-certified",
+        "blocked",
+        "accepted",
+        "rejected"
+      ],
+      "title": "CandidateStatus",
+      "type": "string"
+    },
+    "CandidateVariant": {
+      "additionalProperties": false,
+      "properties": {
+        "expected_delta": {
+          "items": {
+            "$ref": "#/$defs/SemanticDelta"
+          },
+          "title": "Expected Delta",
+          "type": "array"
+        },
+        "hypothesis_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "operations": {
+          "items": {
+            "$ref": "#/$defs/PatchOperation"
+          },
+          "title": "Operations",
+          "type": "array"
+        },
+        "parent_variant_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Parent Variant Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/CandidateStatus",
+          "default": "planned"
+        },
+        "variant_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Variant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "variant_id",
+        "hypothesis_id",
+        "scope_id",
+        "operations",
+        "expected_delta"
+      ],
+      "title": "CandidateVariant",
+      "type": "object"
+    },
+    "CanonicalEntity": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_port_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Boundary Port Ids",
+          "type": "array"
+        },
+        "kind": {
+          "title": "Kind",
+          "type": "string"
+        },
+        "owner_physical_cell_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Owner Physical Cell Ids",
+          "type": "array"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "semantic_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Semantic Signature",
+          "type": "string"
+        },
+        "stable_entity_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Stable Entity Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind",
+        "stable_entity_id",
+        "semantic_signature",
+        "payload"
+      ],
+      "title": "CanonicalEntity",
+      "type": "object"
+    },
+    "CanonicalNetworkSnapshot": {
+      "additionalProperties": false,
+      "properties": {
+        "entities": {
+          "items": {
+            "$ref": "#/$defs/CanonicalEntity"
+          },
+          "title": "Entities",
+          "type": "array"
+        },
+        "raw_id_maps": {
+          "additionalProperties": {
+            "additionalProperties": {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            "type": "object"
+          },
+          "title": "Raw Id Maps",
+          "type": "object"
+        },
+        "schema": {
+          "default": "torii.corridor.canonical-network/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Sha256"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "traffic_side",
+        "entities"
+      ],
+      "title": "CanonicalNetworkSnapshot",
+      "type": "object"
+    },
+    "ConnectionAuditCalibration": {
+      "additionalProperties": false,
+      "properties": {
+        "calibration_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Calibration Id",
+          "type": "string"
+        },
+        "coordinate_precision_evidence": {
+          "title": "Coordinate Precision Evidence",
+          "type": "string"
+        },
+        "coordinate_precision_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Coordinate Precision M"
+        },
+        "endpoint_path_count": {
+          "minimum": 0,
+          "title": "Endpoint Path Count",
+          "type": "integer"
+        },
+        "endpoint_sample_count": {
+          "minimum": 0,
+          "title": "Endpoint Sample Count",
+          "type": "integer"
+        },
+        "endpoint_tolerance_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Endpoint Tolerance M"
+        },
+        "findings": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "lane_width_cap_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Lane Width Cap M"
+        },
+        "lane_width_evidence": {
+          "title": "Lane Width Evidence",
+          "type": "string"
+        },
+        "maximum_observed_gap_m": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Observed Gap M"
+        },
+        "median_lane_width_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Median Lane Width M"
+        },
+        "observed_gap_quantile_m": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Observed Gap Quantile M"
+        },
+        "policy": {
+          "$ref": "#/$defs/ConnectionAuditCalibrationPolicy"
+        },
+        "rejected_path_count": {
+          "minimum": 0,
+          "title": "Rejected Path Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.connection-audit-calibration/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "calibration_id",
+        "source_sha256",
+        "traffic_side",
+        "policy",
+        "status",
+        "endpoint_path_count",
+        "endpoint_sample_count",
+        "rejected_path_count",
+        "coordinate_precision_evidence",
+        "lane_width_evidence"
+      ],
+      "title": "ConnectionAuditCalibration",
+      "type": "object"
+    },
+    "ConnectionAuditCalibrationPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "endpoint_gap_quantile": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Endpoint Gap Quantile",
+          "type": "number"
+        },
+        "implicit_sumo_lane_width_m": {
+          "exclusiveMinimum": 0.0,
+          "title": "Implicit Sumo Lane Width M",
+          "type": "number"
+        },
+        "maximum_lane_width_fraction": {
+          "exclusiveMinimum": 0.0,
+          "maximum": 1.0,
+          "title": "Maximum Lane Width Fraction",
+          "type": "number"
+        },
+        "minimum_endpoint_samples": {
+          "minimum": 1,
+          "title": "Minimum Endpoint Samples",
+          "type": "integer"
+        },
+        "normalized_lane_rank_tolerance": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Normalized Lane Rank Tolerance",
+          "type": "number"
+        },
+        "policy_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Policy Id",
+          "type": "string"
+        },
+        "precision_margin_units": {
+          "exclusiveMinimum": 0.0,
+          "title": "Precision Margin Units",
+          "type": "number"
+        },
+        "schema": {
+          "default": "torii.corridor.connection-audit-calibration-policy/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "policy_id",
+        "endpoint_gap_quantile",
+        "precision_margin_units",
+        "maximum_lane_width_fraction",
+        "minimum_endpoint_samples",
+        "implicit_sumo_lane_width_m",
+        "normalized_lane_rank_tolerance"
+      ],
+      "title": "ConnectionAuditCalibrationPolicy",
+      "type": "object"
+    },
+    "DeltaAction": {
+      "enum": [
+        "added",
+        "removed",
+        "modified"
+      ],
+      "title": "DeltaAction",
+      "type": "string"
+    },
+    "EvidenceRecord": {
+      "additionalProperties": false,
+      "properties": {
+        "artifact_refs": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Artifact Refs",
+          "type": "array"
+        },
+        "content_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content Sha256"
+        },
+        "evidence_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Evidence Id",
+          "type": "string"
+        },
+        "license": {
+          "title": "License",
+          "type": "string"
+        },
+        "observed_at": {
+          "format": "date-time",
+          "title": "Observed At",
+          "type": "string"
+        },
+        "observed_fact": {
+          "title": "Observed Fact",
+          "type": "string"
+        },
+        "provider": {
+          "title": "Provider",
+          "type": "string"
+        },
+        "reliability": {
+          "$ref": "#/$defs/EvidenceReliability"
+        },
+        "reproducible": {
+          "title": "Reproducible",
+          "type": "boolean"
+        },
+        "reviewed_at": {
+          "anyOf": [
+            {
+              "format": "date-time",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reviewed At"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_type": {
+          "$ref": "#/$defs/EvidenceSourceType"
+        },
+        "spatial_scope": {
+          "title": "Spatial Scope",
+          "type": "string"
+        }
+      },
+      "required": [
+        "evidence_id",
+        "source_type",
+        "provider",
+        "observed_at",
+        "spatial_scope",
+        "license",
+        "reliability",
+        "observed_fact",
+        "reproducible"
+      ],
+      "title": "EvidenceRecord",
+      "type": "object"
+    },
+    "EvidenceReliability": {
+      "enum": [
+        "primary",
+        "corroborated",
+        "secondary",
+        "unknown"
+      ],
+      "title": "EvidenceReliability",
+      "type": "string"
+    },
+    "EvidenceSourceType": {
+      "enum": [
+        "osm",
+        "teacher",
+        "sumo-tool",
+        "human-map-observation",
+        "benchmark-gold",
+        "runtime"
+      ],
+      "title": "EvidenceSourceType",
+      "type": "string"
+    },
+    "ExactSemanticDiffReport": {
+      "additionalProperties": false,
+      "properties": {
+        "automatic_promotion_gate": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "candidate_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Candidate Sha256"
+        },
+        "counts_by_entity_kind": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Counts By Entity Kind",
+          "type": "object"
+        },
+        "counts_by_scope": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "propertyNames": {
+            "$ref": "#/$defs/ScopeMembership"
+          },
+          "title": "Counts By Scope",
+          "type": "object"
+        },
+        "entity_deltas": {
+          "items": {
+            "$ref": "#/$defs/SemanticDelta"
+          },
+          "title": "Entity Deltas",
+          "type": "array"
+        },
+        "finding_delta": {
+          "$ref": "#/$defs/FindingSetDelta"
+        },
+        "outside_scope_added_finding_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Outside Scope Added Finding Ids",
+          "type": "array"
+        },
+        "outside_scope_delta_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Outside Scope Delta Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.exact-semantic-diff/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Sha256"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        }
+      },
+      "required": [
+        "scope_id",
+        "status",
+        "automatic_promotion_gate",
+        "entity_deltas",
+        "finding_delta",
+        "counts_by_scope",
+        "counts_by_entity_kind",
+        "outside_scope_delta_ids",
+        "outside_scope_added_finding_ids",
+        "blockers"
+      ],
+      "title": "ExactSemanticDiffReport",
+      "type": "object"
+    },
+    "Finding": {
+      "additionalProperties": false,
+      "properties": {
+        "category": {
+          "title": "Category",
+          "type": "string"
+        },
+        "confidence": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Confidence",
+          "type": "number"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "finding_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Finding Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/FindingSeverity"
+        },
+        "subject_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "witness": {
+          "additionalProperties": true,
+          "title": "Witness",
+          "type": "object"
+        },
+        "witness_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Witness Signature",
+          "type": "string"
+        }
+      },
+      "required": [
+        "finding_id",
+        "category",
+        "severity",
+        "subject_id",
+        "witness",
+        "witness_signature",
+        "confidence"
+      ],
+      "title": "Finding",
+      "type": "object"
+    },
+    "FindingSetDelta": {
+      "additionalProperties": false,
+      "properties": {
+        "added": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Finding"
+          },
+          "title": "Added",
+          "type": "array"
+        },
+        "resolved": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/Finding"
+          },
+          "title": "Resolved",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unchanged_finding_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Unchanged Finding Ids",
+          "type": "array"
+        }
+      },
+      "title": "FindingSetDelta",
+      "type": "object"
+    },
+    "FindingSeverity": {
+      "enum": [
+        "diagnostic",
+        "review",
+        "structural",
+        "safety"
+      ],
+      "title": "FindingSeverity",
+      "type": "string"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "Hypothesis": {
+      "additionalProperties": false,
+      "properties": {
+        "alternative_hypothesis_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Alternative Hypothesis Ids",
+          "type": "array"
+        },
+        "assumptions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Assumptions",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "falsifiers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Falsifiers",
+          "type": "array"
+        },
+        "hypothesis_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Hypothesis Id",
+          "type": "string"
+        },
+        "hypothesis_type": {
+          "$ref": "#/$defs/HypothesisType"
+        },
+        "predicted_changes": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Predicted Changes",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Scope Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "hypothesis_id",
+        "hypothesis_type",
+        "scope_id",
+        "assumptions",
+        "predicted_changes",
+        "falsifiers"
+      ],
+      "title": "Hypothesis",
+      "type": "object"
+    },
+    "HypothesisType": {
+      "enum": [
+        "split-shared-controller",
+        "merge-physical-cell",
+        "partial-internal-repair"
+      ],
+      "title": "HypothesisType",
+      "type": "string"
+    },
+    "IndependentSafetyCoverage": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_movement_count": {
+          "title": "Canonical Movement Count",
+          "type": "integer"
+        },
+        "controlled_connection_count": {
+          "title": "Controlled Connection Count",
+          "type": "integer"
+        },
+        "coverage_entity_count": {
+          "title": "Coverage Entity Count",
+          "type": "integer"
+        },
+        "crossing_edge_count": {
+          "title": "Crossing Edge Count",
+          "type": "integer"
+        },
+        "link_index2_connection_count": {
+          "title": "Link Index2 Connection Count",
+          "type": "integer"
+        },
+        "mapped_controlled_movement_count": {
+          "title": "Mapped Controlled Movement Count",
+          "type": "integer"
+        },
+        "modeled_controlled_pedestrian_movement_count": {
+          "title": "Modeled Controlled Pedestrian Movement Count",
+          "type": "integer"
+        },
+        "modeled_crossing_edge_count": {
+          "title": "Modeled Crossing Edge Count",
+          "type": "integer"
+        },
+        "modeled_pedestrian_movement_count": {
+          "title": "Modeled Pedestrian Movement Count",
+          "type": "integer"
+        },
+        "modeled_uncontrolled_pedestrian_movement_count": {
+          "title": "Modeled Uncontrolled Pedestrian Movement Count",
+          "type": "integer"
+        },
+        "modeled_unsignalized_pedestrian_movement_count": {
+          "title": "Modeled Unsignalized Pedestrian Movement Count",
+          "type": "integer"
+        },
+        "movement_mode_class_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Movement Mode Class Counts",
+          "type": "object"
+        },
+        "pedestrian_coverage_gap_count": {
+          "title": "Pedestrian Coverage Gap Count",
+          "type": "integer"
+        },
+        "pedestrian_coverage_gaps": {
+          "items": {
+            "$ref": "#/$defs/PedestrianCoverageGap"
+          },
+          "title": "Pedestrian Coverage Gaps",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "unmodeled_crossing_edge_count": {
+          "title": "Unmodeled Crossing Edge Count",
+          "type": "integer"
+        },
+        "unmodeled_pedestrian_crossings": {
+          "items": {
+            "$ref": "#/$defs/PedestrianCrossingReviewSubject"
+          },
+          "title": "Unmodeled Pedestrian Crossings",
+          "type": "array"
+        },
+        "unmodeled_pedestrian_review_subject_count": {
+          "title": "Unmodeled Pedestrian Review Subject Count",
+          "type": "integer"
+        },
+        "unresolved_owner_record_count": {
+          "title": "Unresolved Owner Record Count",
+          "type": "integer"
+        },
+        "unsupported_controlled_connection_count": {
+          "title": "Unsupported Controlled Connection Count",
+          "type": "integer"
+        },
+        "walkingarea_edge_count": {
+          "title": "Walkingarea Edge Count",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "coverage_entity_count",
+        "canonical_movement_count",
+        "controlled_connection_count",
+        "mapped_controlled_movement_count",
+        "unsupported_controlled_connection_count",
+        "crossing_edge_count",
+        "walkingarea_edge_count",
+        "modeled_pedestrian_movement_count",
+        "modeled_controlled_pedestrian_movement_count",
+        "modeled_uncontrolled_pedestrian_movement_count",
+        "modeled_unsignalized_pedestrian_movement_count",
+        "modeled_crossing_edge_count",
+        "unmodeled_crossing_edge_count",
+        "unmodeled_pedestrian_review_subject_count",
+        "unmodeled_pedestrian_crossings",
+        "pedestrian_coverage_gap_count",
+        "pedestrian_coverage_gaps",
+        "link_index2_connection_count",
+        "unresolved_owner_record_count",
+        "movement_mode_class_counts"
+      ],
+      "title": "IndependentSafetyCoverage",
+      "type": "object"
+    },
+    "IndependentSafetyReport": {
+      "additionalProperties": false,
+      "properties": {
+        "applicability_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "automatic_promotion_gate": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "conflict_graph": {
+          "$ref": "#/$defs/MovementConflictGraph"
+        },
+        "coverage": {
+          "$ref": "#/$defs/IndependentSafetyCoverage"
+        },
+        "findings": {
+          "items": {
+            "$ref": "#/$defs/Finding"
+          },
+          "title": "Findings",
+          "type": "array"
+        },
+        "limitations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Limitations",
+          "type": "array"
+        },
+        "permissive_without_yield_count": {
+          "title": "Permissive Without Yield Count",
+          "type": "integer"
+        },
+        "potential_signal_conflict_count": {
+          "title": "Potential Signal Conflict Count",
+          "type": "integer"
+        },
+        "protected_conflict_count": {
+          "title": "Protected Conflict Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.independent-safety-audit/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "shared_signal_group_conflict_count": {
+          "title": "Shared Signal Group Conflict Count",
+          "type": "integer"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        }
+      },
+      "required": [
+        "status",
+        "automatic_promotion_gate",
+        "applicability_status",
+        "coverage",
+        "conflict_graph",
+        "findings",
+        "protected_conflict_count",
+        "permissive_without_yield_count",
+        "shared_signal_group_conflict_count",
+        "potential_signal_conflict_count",
+        "blockers",
+        "limitations"
+      ],
+      "title": "IndependentSafetyReport",
+      "type": "object"
+    },
+    "InvariantResult": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "hard_gate": {
+          "title": "Hard Gate",
+          "type": "boolean"
+        },
+        "invariant_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Invariant Id",
+          "type": "string"
+        },
+        "rule_id": {
+          "title": "Rule Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "subject_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Subject Id",
+          "type": "string"
+        },
+        "witness": {
+          "additionalProperties": true,
+          "title": "Witness",
+          "type": "object"
+        }
+      },
+      "required": [
+        "invariant_id",
+        "rule_id",
+        "subject_id",
+        "status",
+        "hard_gate",
+        "witness"
+      ],
+      "title": "InvariantResult",
+      "type": "object"
+    },
+    "MovementConflict": {
+      "additionalProperties": false,
+      "properties": {
+        "certainty": {
+          "enum": [
+            "confirmed",
+            "potential"
+          ],
+          "title": "Certainty",
+          "type": "string"
+        },
+        "conflict_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Conflict Id",
+          "type": "string"
+        },
+        "crossing_angle_deg": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Crossing Angle Deg"
+        },
+        "minimum_centerline_distance_m": {
+          "title": "Minimum Centerline Distance M",
+          "type": "number"
+        },
+        "movement_a_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Movement A Id",
+          "type": "string"
+        },
+        "movement_b_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Movement B Id",
+          "type": "string"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "conflict_id",
+        "movement_a_id",
+        "movement_b_id",
+        "reason",
+        "certainty",
+        "minimum_centerline_distance_m"
+      ],
+      "title": "MovementConflict",
+      "type": "object"
+    },
+    "MovementConflictGraph": {
+      "additionalProperties": false,
+      "properties": {
+        "conflicts": {
+          "items": {
+            "$ref": "#/$defs/MovementConflict"
+          },
+          "title": "Conflicts",
+          "type": "array"
+        },
+        "envelope_margin_m": {
+          "default": 0.25,
+          "minimum": 0.0,
+          "title": "Envelope Margin M",
+          "type": "number"
+        },
+        "geometry_missing_movement_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Geometry Missing Movement Ids",
+          "type": "array"
+        },
+        "geometry_unavailable_by_design_movement_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Geometry Unavailable By Design Movement Ids",
+          "type": "array"
+        },
+        "movement_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Movement Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.movement-conflict-graph/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "movement_ids",
+        "conflicts"
+      ],
+      "title": "MovementConflictGraph",
+      "type": "object"
+    },
+    "NetworkQualityVectorV1": {
+      "additionalProperties": false,
+      "properties": {
+        "dimensions": {
+          "items": {
+            "$ref": "#/$defs/QualityDimension"
+          },
+          "title": "Dimensions",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "dimensions"
+      ],
+      "title": "NetworkQualityVectorV1",
+      "type": "object"
+    },
+    "PatchOperation": {
+      "additionalProperties": false,
+      "properties": {
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "forward_patch": {
+          "additionalProperties": true,
+          "title": "Forward Patch",
+          "type": "object"
+        },
+        "inverse_patch": {
+          "additionalProperties": true,
+          "title": "Inverse Patch",
+          "type": "object"
+        },
+        "operation_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Operation Id",
+          "type": "string"
+        },
+        "operation_type": {
+          "title": "Operation Type",
+          "type": "string"
+        },
+        "preconditions": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Preconditions",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "target_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Target Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "operation_id",
+        "operation_type",
+        "target_ids",
+        "preconditions",
+        "forward_patch",
+        "inverse_patch"
+      ],
+      "title": "PatchOperation",
+      "type": "object"
+    },
+    "PedestrianCoverageGap": {
+      "additionalProperties": false,
+      "description": "Stable review entity for one pedestrian facility outside model coverage.",
+      "properties": {
+        "affected_movement_candidate_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Affected Movement Candidate Ids",
+          "type": "array"
+        },
+        "boundary_port_candidate_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Boundary Port Candidate Ids",
+          "type": "array"
+        },
+        "control_kind": {
+          "enum": [
+            "signalized",
+            "priority-unsignalized",
+            "unprioritized-unsignalized",
+            "unknown-unsignalized",
+            "runtime-special",
+            "shared-space-or-unsupported"
+          ],
+          "title": "Control Kind",
+          "type": "string"
+        },
+        "coverage_gap_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Coverage Gap Id",
+          "type": "string"
+        },
+        "crossed_edge_signatures": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Crossed Edge Signatures",
+          "type": "array"
+        },
+        "crossing_shape_xy": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Crossing Shape Xy",
+          "type": "array"
+        },
+        "crossing_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Crossing Signature",
+          "type": "string"
+        },
+        "crossing_width_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Crossing Width M"
+        },
+        "machine_question": {
+          "title": "Machine Question",
+          "type": "string"
+        },
+        "ood_dimensions": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Ood Dimensions",
+          "type": "array"
+        },
+        "owner_candidate_physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Owner Candidate Physical Cell Ids",
+          "type": "array"
+        },
+        "permission_contract": {
+          "additionalProperties": true,
+          "title": "Permission Contract",
+          "type": "object"
+        },
+        "position_xy": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Position Xy"
+        },
+        "primary_classification": {
+          "enum": [
+            "safety-coverage-blocker",
+            "structural-blocker",
+            "review-task",
+            "ood-evidence",
+            "evidence-insufficiency"
+          ],
+          "title": "Primary Classification",
+          "type": "string"
+        },
+        "rejection_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejection Reasons",
+          "type": "array"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "review_subject_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Subject Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.pedestrian-coverage-gap/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "secondary_classifications": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Secondary Classifications",
+          "type": "array"
+        },
+        "source_crossing_edge_signature": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Source Crossing Edge Signature",
+          "type": "string"
+        },
+        "walkingarea_chain_candidate_signatures": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Walkingarea Chain Candidate Signatures",
+          "type": "array"
+        }
+      },
+      "required": [
+        "coverage_gap_id",
+        "review_subject_id",
+        "crossing_signature",
+        "source_crossing_edge_signature",
+        "owner_candidate_physical_cell_ids",
+        "walkingarea_chain_candidate_signatures",
+        "crossed_edge_signatures",
+        "boundary_port_candidate_ids",
+        "affected_movement_candidate_ids",
+        "control_kind",
+        "crossing_shape_xy",
+        "crossing_width_m",
+        "position_xy",
+        "permission_contract",
+        "rejection_reasons",
+        "primary_classification",
+        "secondary_classifications",
+        "ood_dimensions",
+        "machine_question",
+        "required_observations"
+      ],
+      "title": "PedestrianCoverageGap",
+      "type": "object"
+    },
+    "PedestrianCrossingReviewSubject": {
+      "additionalProperties": false,
+      "description": "Stable, raw-ID-free subject for one unmodeled pedestrian crossing.",
+      "properties": {
+        "boundary_port_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Boundary Port Ids",
+          "type": "array"
+        },
+        "control_kind": {
+          "enum": [
+            "signalized",
+            "priority-unsignalized",
+            "unprioritized-unsignalized",
+            "unknown-unsignalized",
+            "runtime-special",
+            "shared-space-or-unsupported"
+          ],
+          "title": "Control Kind",
+          "type": "string"
+        },
+        "crossed_edge_signatures": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Crossed Edge Signatures",
+          "type": "array"
+        },
+        "crossing_shape_xy": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Crossing Shape Xy",
+          "type": "array"
+        },
+        "crossing_width_m": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Crossing Width M"
+        },
+        "destination_endpoint_shape_xy": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Destination Endpoint Shape Xy",
+          "type": "array"
+        },
+        "facility_kind": {
+          "const": "pedestrian-crossing",
+          "title": "Facility Kind",
+          "type": "string"
+        },
+        "machine_question": {
+          "title": "Machine Question",
+          "type": "string"
+        },
+        "permission_contract": {
+          "additionalProperties": true,
+          "title": "Permission Contract",
+          "type": "object"
+        },
+        "physical_cell_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Physical Cell Id"
+        },
+        "position_xy": {
+          "anyOf": [
+            {
+              "maxItems": 2,
+              "minItems": 2,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Position Xy"
+        },
+        "rejection_reasons": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Rejection Reasons",
+          "type": "array"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "review_subject_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Subject Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.pedestrian-crossing-review-subject/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_endpoint_shape_xy": {
+          "items": {
+            "maxItems": 2,
+            "minItems": 2,
+            "prefixItems": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "number"
+              }
+            ],
+            "type": "array"
+          },
+          "title": "Source Endpoint Shape Xy",
+          "type": "array"
+        }
+      },
+      "required": [
+        "review_subject_id",
+        "facility_kind",
+        "control_kind",
+        "crossing_shape_xy",
+        "crossing_width_m",
+        "source_endpoint_shape_xy",
+        "destination_endpoint_shape_xy",
+        "crossed_edge_signatures",
+        "position_xy",
+        "physical_cell_id",
+        "boundary_port_ids",
+        "permission_contract",
+        "rejection_reasons",
+        "machine_question",
+        "required_observations"
+      ],
+      "title": "PedestrianCrossingReviewSubject",
+      "type": "object"
+    },
+    "QualityDimension": {
+      "additionalProperties": false,
+      "properties": {
+        "metrics": {
+          "additionalProperties": true,
+          "title": "Metrics",
+          "type": "object"
+        },
+        "name": {
+          "$ref": "#/$defs/QualityDimensionName"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "witnesses": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Witnesses",
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "status"
+      ],
+      "title": "QualityDimension",
+      "type": "object"
+    },
+    "QualityDimensionName": {
+      "enum": [
+        "topology",
+        "geometry",
+        "lane",
+        "movement",
+        "mode",
+        "rightOfWay",
+        "TLS",
+        "safety",
+        "provenance",
+        "reviewability"
+      ],
+      "title": "QualityDimensionName",
+      "type": "string"
+    },
+    "ReviewCase": {
+      "additionalProperties": false,
+      "properties": {
+        "affected_stable_entity_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Affected Stable Entity Ids",
+          "type": "array"
+        },
+        "candidate_sha256_by_variant": {
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*_[0-9a-f]{24}$": {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            }
+          },
+          "title": "Candidate Sha256 By Variant",
+          "type": "object"
+        },
+        "candidate_variant_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Candidate Variant Ids",
+          "type": "array"
+        },
+        "confidence_components": {
+          "additionalProperties": {
+            "type": "number"
+          },
+          "title": "Confidence Components",
+          "type": "object"
+        },
+        "decision_type": {
+          "title": "Decision Type",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "finding_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Finding Ids",
+          "type": "array"
+        },
+        "machine_question": {
+          "title": "Machine Question",
+          "type": "string"
+        },
+        "machine_recommendation": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Machine Recommendation"
+        },
+        "passed_gates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Passed Gates",
+          "type": "array"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "review_case_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Case Id",
+          "type": "string"
+        },
+        "rollback_artifact_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Rollback Artifact Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        },
+        "status": {
+          "default": "pending",
+          "title": "Status",
+          "type": "string"
+        },
+        "unresolved_gates": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unresolved Gates",
+          "type": "array"
+        }
+      },
+      "required": [
+        "review_case_id",
+        "source_sha256",
+        "candidate_sha256_by_variant",
+        "scope_id",
+        "finding_ids",
+        "affected_stable_entity_ids",
+        "decision_type",
+        "machine_question",
+        "candidate_variant_ids",
+        "confidence_components",
+        "passed_gates",
+        "unresolved_gates",
+        "evidence_refs",
+        "required_observations",
+        "rollback_artifact_id"
+      ],
+      "title": "ReviewCase",
+      "type": "object"
+    },
+    "ReviewDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Candidate Sha256",
+          "type": "string"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        },
+        "decision": {
+          "$ref": "#/$defs/ReviewDecisionStatus"
+        },
+        "evidence_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "finding_decisions": {
+          "patternProperties": {
+            "^[a-z][a-z0-9_]*_[0-9a-f]{24}$": {
+              "$ref": "#/$defs/ReviewDecisionStatus"
+            }
+          },
+          "title": "Finding Decisions",
+          "type": "object"
+        },
+        "observed_facts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observed Facts",
+          "type": "array"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "review_case_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Case Id",
+          "type": "string"
+        },
+        "reviewer": {
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "rollback_artifact_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Rollback Artifact Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_and_toolchain_fresh": {
+          "title": "Source And Toolchain Fresh",
+          "type": "boolean"
+        },
+        "variant_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Variant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "review_case_id",
+        "variant_id",
+        "candidate_sha256",
+        "decision",
+        "reviewer",
+        "decided_at",
+        "finding_decisions",
+        "observed_facts",
+        "rationale",
+        "evidence_refs",
+        "rollback_artifact_id",
+        "source_and_toolchain_fresh"
+      ],
+      "title": "ReviewDecision",
+      "type": "object"
+    },
+    "ReviewDecisionStatus": {
+      "enum": [
+        "accepted",
+        "rejected",
+        "deferred",
+        "invalidated"
+      ],
+      "title": "ReviewDecisionStatus",
+      "type": "string"
+    },
+    "ReviewTask": {
+      "additionalProperties": false,
+      "properties": {
+        "affected_stable_entity_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Affected Stable Entity Ids",
+          "type": "array"
+        },
+        "evidence_refs": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "exact_question": {
+          "title": "Exact Question",
+          "type": "string"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "review_task_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Task Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "variant_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Variant Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "review_task_id",
+        "exact_question",
+        "variant_ids",
+        "required_observations",
+        "evidence_refs",
+        "affected_stable_entity_ids"
+      ],
+      "title": "ReviewTask",
+      "type": "object"
+    },
+    "ScopeMembership": {
+      "enum": [
+        "target",
+        "guard",
+        "boundary",
+        "outside"
+      ],
+      "title": "ScopeMembership",
+      "type": "string"
+    },
+    "ScopeSpec": {
+      "additionalProperties": false,
+      "properties": {
+        "boundary_ports": {
+          "items": {
+            "$ref": "#/$defs/BoundaryPort"
+          },
+          "title": "Boundary Ports",
+          "type": "array"
+        },
+        "closure_rules": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Closure Rules",
+          "type": "array"
+        },
+        "guard_entity_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Guard Entity Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "physical_cell_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Physical Cell Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "scope_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Scope Id",
+          "type": "string"
+        },
+        "target_entity_ids": {
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Target Entity Ids",
+          "type": "array",
+          "uniqueItems": true
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "scope_id",
+        "physical_cell_ids",
+        "target_entity_ids",
+        "closure_rules",
+        "boundary_ports",
+        "traffic_side"
+      ],
+      "title": "ScopeSpec",
+      "type": "object"
+    },
+    "SemanticDelta": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/DeltaAction"
+        },
+        "after_signature": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "After Signature"
+        },
+        "before_signature": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Before Signature"
+        },
+        "delta_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Delta Id",
+          "type": "string"
+        },
+        "derived": {
+          "default": false,
+          "title": "Derived",
+          "type": "boolean"
+        },
+        "entity_kind": {
+          "title": "Entity Kind",
+          "type": "string"
+        },
+        "evidence_refs": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Evidence Refs",
+          "type": "array"
+        },
+        "reason": {
+          "title": "Reason",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "scope_membership": {
+          "$ref": "#/$defs/ScopeMembership"
+        },
+        "stable_entity_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Stable Entity Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "delta_id",
+        "entity_kind",
+        "stable_entity_id",
+        "action",
+        "reason",
+        "scope_membership"
+      ],
+      "title": "SemanticDelta",
+      "type": "object"
+    },
+    "StageOutcome": {
+      "additionalProperties": false,
+      "properties": {
+        "input_artifact_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Input Artifact Ids",
+          "type": "array"
+        },
+        "invariant_results": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/InvariantResult"
+          },
+          "title": "Invariant Results",
+          "type": "array"
+        },
+        "notes": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Notes",
+          "type": "array"
+        },
+        "output_artifact_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Output Artifact Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "stage": {
+          "$ref": "#/$defs/WorkflowStage"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "unresolved_review_task_ids": {
+          "default": [],
+          "items": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Unresolved Review Task Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "stage",
+        "status"
+      ],
+      "title": "StageOutcome",
+      "type": "object"
+    },
+    "ToolIdentity": {
+      "additionalProperties": false,
+      "properties": {
+        "build_features": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Build Features",
+          "type": "array"
+        },
+        "executable": {
+          "title": "Executable",
+          "type": "string"
+        },
+        "executable_sha256": {
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Executable Sha256"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        },
+        "required": {
+          "default": true,
+          "title": "Required",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "version": {
+          "title": "Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "executable",
+        "version"
+      ],
+      "title": "ToolIdentity",
+      "type": "object"
+    },
+    "ToolchainLock": {
+      "additionalProperties": false,
+      "properties": {
+        "command_parameters": {
+          "additionalProperties": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "title": "Command Parameters",
+          "type": "object"
+        },
+        "dependencies": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Dependencies",
+          "type": "object"
+        },
+        "frozen_at": {
+          "format": "date-time",
+          "title": "Frozen At",
+          "type": "string"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string"
+        },
+        "python_version": {
+          "title": "Python Version",
+          "type": "string"
+        },
+        "random_seeds": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Random Seeds",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "toolchain_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Toolchain Id",
+          "type": "string"
+        },
+        "tools": {
+          "items": {
+            "$ref": "#/$defs/ToolIdentity"
+          },
+          "title": "Tools",
+          "type": "array"
+        }
+      },
+      "required": [
+        "toolchain_id",
+        "frozen_at",
+        "platform",
+        "python_version",
+        "dependencies",
+        "tools",
+        "command_parameters",
+        "random_seeds"
+      ],
+      "title": "ToolchainLock",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    },
+    "WorkflowExecution": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "$ref": "#/$defs/AutomationAction",
+          "default": "block"
+        },
+        "current_stage": {
+          "$ref": "#/$defs/WorkflowStage",
+          "default": "INGESTED"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "transitions": {
+          "default": [],
+          "items": {
+            "$ref": "#/$defs/WorkflowTransition"
+          },
+          "title": "Transitions",
+          "type": "array"
+        },
+        "workflow_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Workflow Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "workflow_id"
+      ],
+      "title": "WorkflowExecution",
+      "type": "object"
+    },
+    "WorkflowStage": {
+      "enum": [
+        "INGESTED",
+        "CANONICALIZED",
+        "FINDINGS_READY",
+        "HYPOTHESES_READY",
+        "CANDIDATE_PLANNED",
+        "MATERIALIZED",
+        "STRUCTURALLY_VERIFIED",
+        "SAFETY_VERIFIED",
+        "DIFFERENTIALLY_VERIFIED",
+        "RUNTIME_VERIFIED",
+        "REVIEW_PENDING",
+        "AUTO_CERTIFIED",
+        "BLOCKED",
+        "ACCEPTED",
+        "REJECTED"
+      ],
+      "title": "WorkflowStage",
+      "type": "string"
+    },
+    "WorkflowTransition": {
+      "additionalProperties": false,
+      "properties": {
+        "from_stage": {
+          "$ref": "#/$defs/WorkflowStage"
+        },
+        "outcome": {
+          "$ref": "#/$defs/StageOutcome"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "to_stage": {
+          "$ref": "#/$defs/WorkflowStage"
+        },
+        "transition_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Transition Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "transition_id",
+        "from_stage",
+        "to_stage",
+        "outcome"
+      ],
+      "title": "WorkflowTransition",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.research-bundle.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Aggregate schema root for every frozen stage-0 contract.",
+  "properties": {
+    "artifact_manifest": {
+      "$ref": "#/$defs/ArtifactManifestV1"
+    },
+    "candidates": {
+      "$ref": "#/$defs/CandidateGraph"
+    },
+    "canonical_candidate": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CanonicalNetworkSnapshot"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "canonical_source": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/CanonicalNetworkSnapshot"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "connection_audit_calibration": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ConnectionAuditCalibration"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "evidence": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/EvidenceRecord"
+      },
+      "title": "Evidence",
+      "type": "array"
+    },
+    "exact_semantic_diff": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ExactSemanticDiffReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "findings": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Finding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "hypotheses": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/Hypothesis"
+      },
+      "title": "Hypotheses",
+      "type": "array"
+    },
+    "independent_safety": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/IndependentSafetyReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "invariants": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/InvariantResult"
+      },
+      "title": "Invariants",
+      "type": "array"
+    },
+    "quality": {
+      "$ref": "#/$defs/NetworkQualityVectorV1"
+    },
+    "review_cases": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ReviewCase"
+      },
+      "title": "Review Cases",
+      "type": "array"
+    },
+    "review_decisions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ReviewDecision"
+      },
+      "title": "Review Decisions",
+      "type": "array"
+    },
+    "review_tasks": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/ReviewTask"
+      },
+      "title": "Review Tasks",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.research-bundle/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "scope": {
+      "$ref": "#/$defs/ScopeSpec"
+    },
+    "stage_outcomes": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/StageOutcome"
+      },
+      "title": "Stage Outcomes",
+      "type": "array"
+    },
+    "toolchain": {
+      "$ref": "#/$defs/ToolchainLock"
+    },
+    "workflow": {
+      "$ref": "#/$defs/WorkflowExecution"
+    }
+  },
+  "required": [
+    "toolchain",
+    "scope",
+    "candidates",
+    "quality",
+    "workflow",
+    "artifact_manifest"
+  ],
+  "title": "CorridorResearchBundle",
+  "type": "object",
+  "x-torii-status": "frozen-stage-0-contract"
+}

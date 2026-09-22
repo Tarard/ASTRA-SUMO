@@ -1,0 +1,114 @@
+{
+  "artifacts": [
+    {
+      "path": "xs2-source.net.xml",
+      "sha256": "fd9c66408dbf5c91e66b18f4d57bdfc695e29b023b2f98a8dba965bc0f50f5a0"
+    },
+    {
+      "path": "xs2-candidate.net.xml",
+      "sha256": "29e9a4fce8c1d9bb77272c0bd5d95a13386f45960524e50ef882859b0c2d49ef"
+    },
+    {
+      "path": "review.add.xml",
+      "sha256": "eec2e7a6c5da7f1a8e631223156cca24d99a26bd8d73bd145e14c007cefbba1e"
+    },
+    {
+      "path": "review.html",
+      "sha256": "72c601a6595802860352f97af6386af84d62f67471b6bdb24c6ac7c6bc5b51bc"
+    },
+    {
+      "path": "summary.public.json",
+      "sha256": "c4b9f11ad5d26fb7db955bf2f2956f9c6aa314e3b53379a027d3c6c370924599"
+    },
+    {
+      "path": "tls-ownership.public.json",
+      "sha256": "32b463ad034be52a56a845dbdeece1424e071268de89939ab7c73a372b73af3f"
+    },
+    {
+      "path": "rollback.public.json",
+      "sha256": "6d32704ef0754158254b8db9d63b6c00f0785a6753a5fa9aa2b346f65e0eda36"
+    }
+  ],
+  "automatic_promotion_gate": "blocked",
+  "gates": {
+    "all_turn_routeability": "pass",
+    "candidate_netconvert": "pass",
+    "finding_continuity": "pass",
+    "frozen_input_identity": "pass",
+    "independent_safety": "pass",
+    "outside_scope_zero_delta": "pass",
+    "semantic_reproduction": "pass",
+    "source_netconvert": "pass",
+    "sumo_load": "pass",
+    "target_connection_mode": "pass",
+    "tls_ownership_rebuild": "pass"
+  },
+  "human_validation": false,
+  "inputs": [
+    {
+      "path": "../prompt.txt",
+      "role": "prompt",
+      "sha256": "c607d7a461e6d29f0a84206034badf79c878d402cf5de0342de14506ada2d095"
+    },
+    {
+      "path": "../spec.json",
+      "role": "structured_spec",
+      "sha256": "1f63c359a460c79d6e546256fac2c36fffc1397e9e55c6cded64fe3fb180ecde"
+    },
+    {
+      "path": "../source-registry.json",
+      "role": "source_registry",
+      "sha256": "4f22e50e21dc45491def12f959180fec1507cda923e31cae6a4523c3113229c4"
+    },
+    {
+      "path": "../input/xs2-7009179660.osm.xml",
+      "role": "frozen_osm",
+      "sha256": "ce37fe77a177206fd126f9fc2283ceeb19933cd63c4b8421090df42544ece08a"
+    },
+    {
+      "path": "../input/join.nod.xml",
+      "role": "join_patch",
+      "sha256": "b7851514e5580207afc4ba97ad57aa4991c748c1750dc3714342d4c5f2de4a60"
+    },
+    {
+      "path": "../input/tls.tll.xml",
+      "role": "tls_patch",
+      "sha256": "de3418ee99f1ad34e6e200871272a43d933669ae3a115f89e34a81d48f192eac"
+    },
+    {
+      "path": "../../../benchmarks/corridor_human_modeling_v1/toolchain.lock.json",
+      "role": "toolchain_lock",
+      "sha256": "9fd07c42362f70f129d11fe21b85a4b304f22c493366f6cd125ed30424e49c55"
+    }
+  ],
+  "schema": "torii.isolated-junction-public-manifest/v1",
+  "source_network_mutation": false,
+  "status": "review_ready",
+  "toolchain": {
+    "dependencies": {
+      "pydantic": "2.13.4",
+      "pytest": "9.1.1",
+      "ruff": "0.15.21",
+      "sumolib": "1.27.1",
+      "torii-sumo": "1.0.2"
+    },
+    "python_version": "3.12",
+    "toolchain_id": "toolchain_48d9790480acc11e5c4b6b5d",
+    "tools": [
+      {
+        "build_features": [],
+        "executable": "netconvert",
+        "name": "netconvert",
+        "required": true,
+        "version": "1.27.1"
+      },
+      {
+        "build_features": [],
+        "executable": "sumo",
+        "name": "sumo",
+        "required": true,
+        "version": "1.27.1"
+      }
+    ]
+  }
+}

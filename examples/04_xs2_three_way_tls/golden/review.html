@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Torii XS2 review</title>
+<style>
+body{font:15px/1.5 system-ui,sans-serif;max-width:980px;margin:32px auto;padding:0 20px;color:#17202a}
+h1{margin-bottom:4px} .sub{color:#52606d} .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{border:1px solid #d9e2ec;border-radius:10px;padding:14px;background:#f8fafc} table{border-collapse:collapse;width:100%}
+td,th{border-bottom:1px solid #e4e7eb;padding:8px;text-align:left} .pass{color:#087f5b;font-weight:700}
+.review,.pending{color:#b35c00;font-weight:700} .blocked,.fail{color:#c92a2a;font-weight:700}
+code{overflow-wrap:anywhere} .role-note{border-left:5px solid #087f5b;background:#e6fcf5;padding:12px 14px;margin:18px 0}
+@media(max-width:850px){.cards{grid-template-columns:repeat(2,1fr)}} @media(max-width:700px){.cards{grid-template-columns:1fr}}
+</style></head><body>
+<h1>XS2 — one real three-way TLS intersection</h1>
+<p class="sub">Clean the frozen 400 m Ingolstadt OSM extract into one vehicle-only standard three-way traffic-light intersection, merge only the six-node physical cell, bind a conservative static TLS program, verify every lane movement and signal binding, and keep all outside semantics unchanged.</p>
+<div class="role-note"><b>Open the cleaned candidate:</b> <code>xs2-candidate.net.xml</code>.<br>
+<b>Do not visually grade the immutable source:</b> <code>xs2-source.net.xml</code>; it intentionally preserves the fragmented OSM TLS baseline.</div>
+<div class="cards"><div class="card"><b>Machine state</b><br>review_ready</div>
+<div class="card"><b>Movements</b><br>7 / 7 traced</div>
+<div class="card"><b>TLS ownership</b><br>3 source nodes → 1 candidate node</div>
+<div class="card"><b>Runtime</b><br>7 / 7 arrived</div></div>
+<h2>Hard evidence</h2><table><thead><tr><th>Gate</th><th>Status</th></tr></thead><tbody><tr><td>frozen input identity</td><td class='pass'>pass</td></tr><tr><td>source netconvert</td><td class='pass'>pass</td></tr><tr><td>candidate netconvert</td><td class='pass'>pass</td></tr><tr><td>semantic reproduction</td><td class='pass'>pass</td></tr><tr><td>tls ownership rebuild</td><td class='pass'>pass</td></tr><tr><td>target connection mode</td><td class='pass'>pass</td></tr><tr><td>independent safety</td><td class='pass'>pass</td></tr><tr><td>outside scope zero delta</td><td class='pass'>pass</td></tr><tr><td>finding continuity</td><td class='pass'>pass</td></tr><tr><td>sumo load</td><td class='pass'>pass</td></tr><tr><td>all turn routeability</td><td class='pass'>pass</td></tr></tbody></table>
+<h2>TLS rebuild proof</h2><p>The target changed from <b>3</b> traffic-light junctions and <b>1</b> controllers to <b>1</b> physical TLS junction and <b>1</b> controller. Residual old junction IDs: <b>0</b>; residual old controller IDs: <b>0</b>.</p>
+<p>The candidate has 7 controlled lane movements and 7 linkIndex groups. Those are movement controls inside one controller, not separate physical intersections.</p>
+<h2>Scope</h2><p>Outside-scope deltas: <b>0</b>. Outside-scope new findings: <b>0</b>.</p>
+<p>Independent safety: <b>pass</b>; protected conflicts 0, missing yield relations 0, potential signal conflicts 0.</p>
+<h2>Guard finding continuity</h2><p>3 findings are carried forward by exact category + witness tokens; none are silently resolved. Unpaired additions: 0.</p>
+<h2>Visual review</h2><p>pending NetEdit visual check</p>
+<h2>Claim boundary</h2><p>one frozen, vehicle-only, standard three-way OSM intersection with a canonical simulation TLS program; no field-timing, pedestrian, bicycle, rail, ramp, shared-controller, or city-scale claim</p>
+<p>Automatic promotion remains <b>blocked</b>. Candidate: <code>29e9a4fce8c1d9bb77272c0bd5d95a13386f45960524e50ef882859b0c2d49ef</code></p>
+</body></html>

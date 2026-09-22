@@ -1,0 +1,238 @@
+{
+  "$defs": {
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "OfficialSumoCaseResult": {
+      "additionalProperties": false,
+      "properties": {
+        "abstention_proven": {
+          "title": "Abstention Proven",
+          "type": "boolean"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "case_id": {
+          "title": "Case Id",
+          "type": "string"
+        },
+        "conflict_count": {
+          "title": "Conflict Count",
+          "type": "integer"
+        },
+        "connection_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Connection Category Counts",
+          "type": "object"
+        },
+        "connection_status": {
+          "title": "Connection Status",
+          "type": "string"
+        },
+        "generated_net_path": {
+          "title": "Generated Net Path",
+          "type": "string"
+        },
+        "generated_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Generated Net Sha256",
+          "type": "string"
+        },
+        "independent_safety_status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "internal_link_mode": {
+          "title": "Internal Link Mode",
+          "type": "string"
+        },
+        "movement_count": {
+          "title": "Movement Count",
+          "type": "integer"
+        },
+        "netconvert_status": {
+          "title": "Netconvert Status",
+          "type": "string"
+        },
+        "normalized_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Normalized Net Sha256",
+          "type": "string"
+        },
+        "normative_feature": {
+          "title": "Normative Feature",
+          "type": "string"
+        },
+        "replay_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Replay Net Sha256",
+          "type": "string"
+        },
+        "replay_netconvert_status": {
+          "title": "Replay Netconvert Status",
+          "type": "string"
+        },
+        "replay_normalized_net_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Replay Normalized Net Sha256",
+          "type": "string"
+        },
+        "reproducible_semantics": {
+          "title": "Reproducible Semantics",
+          "type": "boolean"
+        },
+        "safety_category_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Safety Category Counts",
+          "type": "object"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_immutable": {
+          "title": "Source Immutable",
+          "type": "boolean"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "sumo_load_status": {
+          "title": "Sumo Load Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_id",
+        "normative_feature",
+        "status",
+        "source_immutable",
+        "netconvert_status",
+        "replay_netconvert_status",
+        "sumo_load_status",
+        "generated_net_sha256",
+        "replay_net_sha256",
+        "normalized_net_sha256",
+        "replay_normalized_net_sha256",
+        "reproducible_semantics",
+        "internal_link_mode",
+        "connection_status",
+        "connection_category_counts",
+        "independent_safety_status",
+        "safety_category_counts",
+        "movement_count",
+        "conflict_count",
+        "abstention_proven",
+        "blockers",
+        "generated_net_path"
+      ],
+      "title": "OfficialSumoCaseResult",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.official-sumo-benchmark-report.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "benchmark_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Benchmark Id",
+      "type": "string"
+    },
+    "benchmark_spec_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Benchmark Spec Sha256",
+      "type": "string"
+    },
+    "blockers": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Blockers",
+      "type": "array"
+    },
+    "cases": {
+      "items": {
+        "$ref": "#/$defs/OfficialSumoCaseResult"
+      },
+      "title": "Cases",
+      "type": "array"
+    },
+    "failed_case_count": {
+      "title": "Failed Case Count",
+      "type": "integer"
+    },
+    "parent_benchmark_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Parent Benchmark Sha256",
+      "type": "string"
+    },
+    "passed_case_count": {
+      "title": "Passed Case Count",
+      "type": "integer"
+    },
+    "runtime_tools": {
+      "additionalProperties": {
+        "additionalProperties": true,
+        "type": "object"
+      },
+      "title": "Runtime Tools",
+      "type": "object"
+    },
+    "schema": {
+      "default": "torii.corridor.official-sumo-benchmark-report/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_immutable": {
+      "title": "Source Immutable",
+      "type": "boolean"
+    },
+    "status": {
+      "$ref": "#/$defs/GateStatus"
+    },
+    "toolchain_lock_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Toolchain Lock Sha256",
+      "type": "string"
+    },
+    "total_case_count": {
+      "title": "Total Case Count",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "benchmark_id",
+    "benchmark_spec_sha256",
+    "parent_benchmark_sha256",
+    "toolchain_lock_sha256",
+    "status",
+    "total_case_count",
+    "passed_case_count",
+    "failed_case_count",
+    "source_immutable",
+    "runtime_tools",
+    "cases",
+    "blockers"
+  ],
+  "title": "OfficialSumoBenchmarkReport",
+  "type": "object",
+  "x-torii-status": "stage-1-normative-evidence-contract"
+}

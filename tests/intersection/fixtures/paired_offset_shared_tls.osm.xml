@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6">
+  <bounds minlat="48.00010" minlon="11.00000" maxlat="48.00090" maxlon="11.00100"/>
+
+  <node id="100" lat="48.00050" lon="11.00040"/>
+  <node id="200" lat="48.00050" lon="11.00060"/>
+
+  <node id="101" lat="48.00050" lon="11.00030">
+    <tag k="highway" v="traffic_signals"/>
+  </node>
+  <node id="102" lat="48.00060" lon="11.00040">
+    <tag k="highway" v="traffic_signals"/>
+  </node>
+  <node id="201" lat="48.00050" lon="11.00070">
+    <tag k="highway" v="traffic_signals"/>
+  </node>
+  <node id="202" lat="48.00040" lon="11.00060">
+    <tag k="highway" v="traffic_signals"/>
+  </node>
+
+  <node id="1" lat="48.00050" lon="11.00000"/>
+  <node id="2" lat="48.00050" lon="11.00100"/>
+  <node id="3" lat="48.00090" lon="11.00040"/>
+  <node id="4" lat="48.00010" lon="11.00060"/>
+
+  <way id="10">
+    <nd ref="1"/>
+    <nd ref="101"/>
+    <nd ref="100"/>
+    <nd ref="200"/>
+    <nd ref="201"/>
+    <nd ref="2"/>
+    <tag k="highway" v="primary"/>
+    <tag k="lanes" v="2"/>
+    <tag k="name" v="Offset Main"/>
+  </way>
+  <way id="11">
+    <nd ref="3"/>
+    <nd ref="102"/>
+    <nd ref="100"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="lanes" v="2"/>
+    <tag k="name" v="North Arm"/>
+  </way>
+  <way id="12">
+    <nd ref="200"/>
+    <nd ref="202"/>
+    <nd ref="4"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="lanes" v="2"/>
+    <tag k="name" v="South Arm"/>
+  </way>
+</osm>

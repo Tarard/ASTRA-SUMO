@@ -1,0 +1,82 @@
+{
+  "schema": "torii.isolated-junction-spec/v1",
+  "slice_id": "xs2",
+  "spec_id": "xs2-ingolstadt-7009179660-v1",
+  "review_case_id": "XS2-7009179660",
+  "topology_label": "three-way",
+  "prompt": "Clean the frozen 400 m Ingolstadt OSM extract into one vehicle-only standard three-way traffic-light intersection, merge only the six-node physical cell, bind a conservative static TLS program, verify every lane movement and signal binding, and keep all outside semantics unchanged.",
+  "bbox": {
+    "west": 11.42597,
+    "south": 48.76031,
+    "east": 11.43142,
+    "north": 48.7639
+  },
+  "traffic_side": "right",
+  "excluded_features": [
+    "pedestrian",
+    "bicycle",
+    "rail",
+    "ramp",
+    "shared_tls_controller",
+    "complex_channelization"
+  ],
+  "claim_boundary": "one frozen, vehicle-only, standard three-way OSM intersection with a canonical simulation TLS program; no field-timing, pedestrian, bicycle, rail, ramp, shared-controller, or city-scale claim",
+  "source": {
+    "osm_file": "input/xs2-7009179660.osm.xml",
+    "osm_sha256": "ce37fe77a177206fd126f9fc2283ceeb19933cd63c4b8421090df42544ece08a",
+    "tls_join_distance_m": 35,
+    "netconvert_options": {
+      "keep_edges_in_geo_boundary": "11.42597,48.76031,11.43142,48.76390",
+      "keep_edges_by_vclass": "passenger",
+      "remove_edges_isolated": true
+    }
+  },
+  "candidate": {
+    "join_patch_file": "input/join.nod.xml",
+    "join_patch_sha256": "b7851514e5580207afc4ba97ad57aa4991c748c1750dc3714342d4c5f2de4a60",
+    "tls_patch_file": "input/tls.tll.xml",
+    "tls_patch_sha256": "de3418ee99f1ad34e6e200871272a43d933669ae3a115f89e34a81d48f192eac",
+    "target_junction_id": "xs2_t_junction_7009179660",
+    "expected_controller_ids": [
+      "xs2_tls_7009179660"
+    ],
+    "expected_direct_movement_count": 7,
+    "expected_incoming_approach_count": 3,
+    "expected_outgoing_approach_count": 3,
+    "expected_turn_counts": {
+      "l": 2,
+      "r": 2,
+      "s": 3
+    },
+    "tls_semantics": "canonical_simulation_plan_not_field_timing"
+  },
+  "scope": {
+    "target_source_junction_ids": [
+      "7009179655",
+      "7009179660",
+      "7009179663",
+      "7009179673",
+      "7009179676",
+      "7290797775"
+    ],
+    "guard_junction_ids": [
+      "7009179654",
+      "7009179659",
+      "7009179667",
+      "7009179672"
+    ]
+  },
+  "audit": {
+    "endpoint_tolerance_m": 2.0,
+    "normalized_lane_rank_tolerance": 0.5
+  },
+  "runtime": {
+    "departure_interval_s": 8,
+    "end_time_s": 600
+  },
+  "artifacts": {
+    "source_net_file": "xs2-source.net.xml",
+    "candidate_net_file": "xs2-candidate.net.xml"
+  },
+  "reproduction_command": ".\\.venv\\Scripts\\python.exe plugins\\torii-sumo\\scripts\\run_xs2_three_way.py"
+}

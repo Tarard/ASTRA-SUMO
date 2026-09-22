@@ -1,0 +1,118 @@
+{
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.review-unit-adjudication.v2-r2.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adjudication_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Adjudication Id",
+      "type": "string"
+    },
+    "adjudicator_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Adjudicator Id",
+      "type": "string"
+    },
+    "case_code": {
+      "pattern": "^case-[0-9a-f]{12}$",
+      "title": "Case Code",
+      "type": "string"
+    },
+    "decided_at": {
+      "format": "date-time",
+      "title": "Decided At",
+      "type": "string"
+    },
+    "final_label": {
+      "enum": [
+        "attention-required",
+        "acceptable",
+        "ambiguous"
+      ],
+      "title": "Final Label",
+      "type": "string"
+    },
+    "observed_facts": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Observed Facts",
+      "type": "array"
+    },
+    "rationale": {
+      "title": "Rationale",
+      "type": "string"
+    },
+    "reviewer_decision_ids": {
+      "maxItems": 2,
+      "minItems": 2,
+      "prefixItems": [
+        {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "type": "string"
+        },
+        {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "type": "string"
+        }
+      ],
+      "title": "Reviewer Decision Ids",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.review-unit-adjudication/v2-r2",
+      "title": "Schema",
+      "type": "string"
+    },
+    "trial_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Trial Id",
+      "type": "string"
+    },
+    "unit_code": {
+      "pattern": "^unit-[0-9a-f]{12}$",
+      "title": "Unit Code",
+      "type": "string"
+    },
+    "within_unit_homogeneity_supported": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Within Unit Homogeneity Supported"
+    },
+    "witness_labels": {
+      "additionalProperties": {
+        "enum": [
+          "attention-required",
+          "acceptable",
+          "ambiguous"
+        ],
+        "type": "string"
+      },
+      "title": "Witness Labels",
+      "type": "object"
+    }
+  },
+  "required": [
+    "adjudication_id",
+    "trial_id",
+    "case_code",
+    "unit_code",
+    "reviewer_decision_ids",
+    "adjudicator_id",
+    "final_label",
+    "witness_labels",
+    "within_unit_homogeneity_supported",
+    "decided_at",
+    "observed_facts",
+    "rationale"
+  ],
+  "title": "ReviewUnitAdjudicationV2R2",
+  "type": "object",
+  "x-torii-status": "stage-1h-third-reviewer-adjudication-contract"
+}

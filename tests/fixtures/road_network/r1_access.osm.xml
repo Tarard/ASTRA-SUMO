@@ -1,0 +1,24 @@
+<osm version="0.6" generator="Torii test fixture">
+  <node id="1" lat="53.54" lon="9.98"/>
+  <node id="2" lat="53.54" lon="9.981"/>
+  <node id="3" lat="53.541" lon="9.98"/>
+  <node id="4" lat="53.541" lon="9.981"/>
+  <node id="5" lat="53.542" lon="9.98"/>
+  <node id="6" lat="53.542" lon="9.981"/>
+  <node id="7" lat="53.5425" lon="9.9805"/>
+  <way id="private-footway">
+    <nd ref="1"/><nd ref="2"/>
+    <tag k="highway" v="footway"/>
+    <tag k="access" v="private"/>
+  </way>
+  <way id="closed-cycleway">
+    <nd ref="3"/><nd ref="4"/>
+    <tag k="highway" v="cycleway"/>
+    <tag k="access" v="no"/>
+  </way>
+  <way id="pedestrian-area">
+    <nd ref="5"/><nd ref="6"/><nd ref="7"/><nd ref="5"/>
+    <tag k="highway" v="pedestrian"/>
+    <tag k="area" v="yes"/>
+  </way>
+</osm>

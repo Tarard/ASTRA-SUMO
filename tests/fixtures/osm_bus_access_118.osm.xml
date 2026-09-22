@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<osm version="0.6"><node id="1343145931" lat="53.5574264" lon="9.9887124">
+    <tag k="bus" v="yes" />
+    <tag k="name" v="U Stephansplatz" />
+    <tag k="public_transport" v="stop_position" />
+    <tag k="wheelchair" v="yes" />
+  </node>
+  <node id="2160866835" lat="53.5572683" lon="9.9886458" />
+  <node id="5590005696" lat="53.5574086" lon="9.9887049">
+    <tag k="crossing" v="no" />
+    <tag k="highway" v="traffic_signals" />
+    <tag k="traffic_signals:direction" v="backward" />
+  </node>
+  <node id="7709833314" lat="53.5573158" lon="9.9886657">
+    <tag k="crossing" v="no" />
+    <tag k="highway" v="traffic_signals" />
+    <tag k="traffic_signals:direction" v="forward" />
+  </node>
+  <node id="7709833318" lat="53.5570656" lon="9.9884639" />
+  <node id="12459666541" lat="53.5573457" lon="9.9886783">
+    <tag k="button_operated" v="no" />
+    <tag k="check_date:tactile_paving" v="2023-07-14" />
+    <tag k="crossing" v="traffic_signals" />
+    <tag k="highway" v="crossing" />
+    <tag k="tactile_paving" v="no" />
+    <tag k="traffic_signals:sound" v="yes" />
+    <tag k="traffic_signals:vibration" v="yes" />
+  </node>
+  <node id="12459666542" lat="53.5575536" lon="9.9887670" />
+  <way id="219999179">
+    <nd ref="7709833318" />
+    <nd ref="2160866835" />
+    <nd ref="7709833314" />
+    <tag k="bus" v="designated" />
+    <tag k="cycleway:both" v="no" />
+    <tag k="foot" v="no" />
+    <tag k="highway" v="service" />
+    <tag k="lanes" v="2" />
+    <tag k="lit" v="yes" />
+    <tag k="name" v="Dammtorstraße" />
+    <tag k="sidewalk" v="no" />
+    <tag k="smoothness" v="good" />
+    <tag k="surface" v="asphalt" />
+    <tag k="traffic_sign" v="DE:245" />
+    <tag k="vehicle" v="no" />
+  </way>
+  <way id="1217434982">
+    <nd ref="7709833314" />
+    <nd ref="12459666541" />
+    <nd ref="5590005696" />
+    <nd ref="1343145931" />
+    <nd ref="12459666542" />
+    <tag k="bus" v="designated" />
+    <tag k="cycleway:both" v="no" />
+    <tag k="highway" v="service" />
+    <tag k="lanes" v="2" />
+    <tag k="lit" v="yes" />
+    <tag k="name" v="Dammtorstraße" />
+    <tag k="sidewalk" v="both" />
+    <tag k="smoothness" v="good" />
+    <tag k="surface" v="asphalt" />
+    <tag k="traffic_sign" v="DE:245" />
+    <tag k="vehicle" v="no" />
+  </way>
+  </osm>

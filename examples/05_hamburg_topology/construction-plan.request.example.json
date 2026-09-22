@@ -1,0 +1,22 @@
+{
+  "schema": "torii.hamburg-topology-workflow-request/v1",
+  "scenario": {
+    "target_year": 2013
+  },
+  "construction_plan": {
+    "path": "sources/REPLACE_WITH_ACTUAL_2013_DESIGN.pdf",
+    "sha256": "REPLACE_WITH_PLAN_SHA256",
+    "data_year": 2013,
+    "document_kind": "design",
+    "topology": {
+      "path": "sources/REPLACE_WITH_REVIEWED_TOPOLOGY.json",
+      "sha256": "REPLACE_WITH_TOPOLOGY_SHA256"
+    }
+  },
+  "source_osm": {
+    "path": "sources/REPLACE_WITH_ACTUAL_OSM_SNAPSHOT.osm.xml.gz",
+    "sha256": "REPLACE_WITH_OSM_SHA256",
+    "data_year": 2013
+  },
+  "supporting_maps": []
+}

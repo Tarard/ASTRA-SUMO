@@ -1,0 +1,170 @@
+{
+  "$defs": {
+    "EffectiveTLSProgramEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "controller_type": {
+          "title": "Controller Type",
+          "type": "string"
+        },
+        "phase_state_lengths": {
+          "items": {
+            "type": "integer"
+          },
+          "title": "Phase State Lengths",
+          "type": "array"
+        },
+        "phase_states": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Phase States",
+          "type": "array"
+        },
+        "program_evidence_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Program Evidence Id",
+          "type": "string"
+        },
+        "raw_controller_id": {
+          "title": "Raw Controller Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.effective-tls-program-evidence/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_kind": {
+          "enum": [
+            "embedded-net",
+            "additional-file"
+          ],
+          "title": "Source Kind",
+          "type": "string"
+        },
+        "source_path": {
+          "title": "Source Path",
+          "type": "string"
+        },
+        "source_program_id": {
+          "title": "Source Program Id",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "program_evidence_id",
+        "raw_controller_id",
+        "source_kind",
+        "source_path",
+        "source_sha256",
+        "source_program_id",
+        "controller_type",
+        "phase_states",
+        "phase_state_lengths"
+      ],
+      "title": "EffectiveTLSProgramEvidence",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.effective-tls-program-inventory.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "dynamic_program_configuration_detected": {
+      "title": "Dynamic Program Configuration Detected",
+      "type": "boolean"
+    },
+    "effective_additional_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Effective Additional Paths",
+      "type": "array"
+    },
+    "effective_additional_sha256": {
+      "additionalProperties": {
+        "pattern": "^[0-9a-f]{64}$",
+        "type": "string"
+      },
+      "title": "Effective Additional Sha256",
+      "type": "object"
+    },
+    "inventory_id": {
+      "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+      "title": "Inventory Id",
+      "type": "string"
+    },
+    "net_path": {
+      "title": "Net Path",
+      "type": "string"
+    },
+    "net_sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "title": "Net Sha256",
+      "type": "string"
+    },
+    "programs": {
+      "items": {
+        "$ref": "#/$defs/EffectiveTLSProgramEvidence"
+      },
+      "title": "Programs",
+      "type": "array"
+    },
+    "schema": {
+      "default": "torii.corridor.effective-tls-program-inventory/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "sumocfg_path": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Sumocfg Path"
+    },
+    "sumocfg_sha256": {
+      "anyOf": [
+        {
+          "pattern": "^[0-9a-f]{64}$",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Sumocfg Sha256"
+    },
+    "unresolved_additional_paths": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Unresolved Additional Paths",
+      "type": "array"
+    }
+  },
+  "required": [
+    "inventory_id",
+    "net_path",
+    "net_sha256",
+    "sumocfg_path",
+    "sumocfg_sha256",
+    "effective_additional_paths",
+    "effective_additional_sha256",
+    "unresolved_additional_paths",
+    "dynamic_program_configuration_detected",
+    "programs"
+  ],
+  "title": "EffectiveTLSProgramInventory",
+  "type": "object",
+  "x-torii-status": "stage-1m-pcb-effective-program-evidence-contract"
+}

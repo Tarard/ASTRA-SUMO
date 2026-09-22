@@ -1,0 +1,51 @@
+{
+  "schema": "torii.hamburg-topology-workflow-request/v1",
+  "source_osm": {
+    "path": "sources/sandtorkai.osm.xml.gz",
+    "sha256": "REPLACE_WITH_SHA256"
+  },
+  "lsa_identity": {
+    "path": "sources/lsa-knotengrunddaten.geojson",
+    "sha256": "REPLACE_WITH_SHA256"
+  },
+  "osm_build": {
+    "bbox": "9.9780,53.5390,10.0005,53.5475"
+  },
+  "road_names": ["Am Sandtorkai"],
+  "intersections": [
+    {
+      "node_id": "2349",
+      "map_xml": {
+        "path": "sources/MAP_2349.xml",
+        "sha256": "REPLACE_WITH_SHA256"
+      },
+      "map_kml": {
+        "path": "sources/MAP_2349.kml",
+        "sha256": "REPLACE_WITH_SHA256"
+      },
+      "aerial_image": {
+        "path": "sources/lsa-2349-dop2024.png",
+        "sha256": "REPLACE_WITH_SHA256"
+      },
+      "bbox_epsg25832": [565643, 5932851, 565932, 5933213],
+      "aerial_year": 2024
+    },
+    {
+      "node_id": "2394",
+      "map_xml": {
+        "path": "sources/MAP_2394.xml",
+        "sha256": "REPLACE_WITH_SHA256"
+      },
+      "map_kml": {
+        "path": "sources/MAP_2394.kml",
+        "sha256": "REPLACE_WITH_SHA256"
+      },
+      "aerial_image": {
+        "path": "sources/lsa-2394-dop2024.png",
+        "sha256": "REPLACE_WITH_SHA256"
+      },
+      "bbox_epsg25832": [565837, 5932981, 566079, 5933268],
+      "aerial_year": 2024
+    }
+  ]
+}

@@ -1,0 +1,993 @@
+{
+  "$defs": {
+    "BlindReviewDecision": {
+      "additionalProperties": false,
+      "properties": {
+        "case_code": {
+          "pattern": "^case-[0-9a-f]{12}$",
+          "title": "Case Code",
+          "type": "string"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        },
+        "decision_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Decision Id",
+          "type": "string"
+        },
+        "independent_review_attested": {
+          "const": true,
+          "default": true,
+          "title": "Independent Review Attested",
+          "type": "boolean"
+        },
+        "label": {
+          "enum": [
+            "defect",
+            "acceptable",
+            "ambiguous"
+          ],
+          "title": "Label",
+          "type": "string"
+        },
+        "machine_recommendation_was_hidden": {
+          "const": true,
+          "default": true,
+          "title": "Machine Recommendation Was Hidden",
+          "type": "boolean"
+        },
+        "observed_facts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observed Facts",
+          "type": "array"
+        },
+        "peer_decisions_were_hidden": {
+          "const": true,
+          "default": true,
+          "title": "Peer Decisions Were Hidden",
+          "type": "boolean"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reviewer_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Reviewer Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.blind-review-decision/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_variant_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Variant Code"
+        },
+        "started_at": {
+          "format": "date-time",
+          "title": "Started At",
+          "type": "string"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "decision_id",
+        "trial_id",
+        "case_code",
+        "reviewer_id",
+        "label",
+        "started_at",
+        "decided_at",
+        "observed_facts",
+        "rationale"
+      ],
+      "title": "BlindReviewDecision",
+      "type": "object"
+    },
+    "BlindedReviewCase": {
+      "additionalProperties": false,
+      "properties": {
+        "candidate_artifact_path_by_variant_code": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Candidate Artifact Path By Variant Code",
+          "type": "object"
+        },
+        "candidate_sha256_by_variant_code": {
+          "additionalProperties": {
+            "pattern": "^[0-9a-f]{64}$",
+            "type": "string"
+          },
+          "title": "Candidate Sha256 By Variant Code",
+          "type": "object"
+        },
+        "case_code": {
+          "pattern": "^case-[0-9a-f]{12}$",
+          "title": "Case Code",
+          "type": "string"
+        },
+        "exact_question": {
+          "title": "Exact Question",
+          "type": "string"
+        },
+        "map_evidence_urls": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Map Evidence Urls",
+          "type": "array"
+        },
+        "osm_attribution": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Osm Attribution"
+        },
+        "required_observations": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Observations",
+          "type": "array"
+        },
+        "review_config_path_by_variant_code": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Review Config Path By Variant Code",
+          "type": "object"
+        },
+        "review_html_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Html Path"
+        },
+        "review_overlay_path": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Review Overlay Path"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "source_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Source Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "case_code",
+        "source_sha256",
+        "candidate_sha256_by_variant_code",
+        "exact_question",
+        "required_observations"
+      ],
+      "title": "BlindedReviewCase",
+      "type": "object"
+    },
+    "BlindedReviewDataset": {
+      "additionalProperties": false,
+      "properties": {
+        "cases": {
+          "items": {
+            "$ref": "#/$defs/BlindedReviewCase"
+          },
+          "title": "Cases",
+          "type": "array"
+        },
+        "created_at": {
+          "format": "date-time",
+          "title": "Created At",
+          "type": "string"
+        },
+        "machine_recommendation_hidden": {
+          "const": true,
+          "default": true,
+          "title": "Machine Recommendation Hidden",
+          "type": "boolean"
+        },
+        "peer_decisions_hidden": {
+          "const": true,
+          "default": true,
+          "title": "Peer Decisions Hidden",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.blinded-review-dataset/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trial_id",
+        "created_at",
+        "cases"
+      ],
+      "title": "BlindedReviewDataset",
+      "type": "object"
+    },
+    "GateStatus": {
+      "enum": [
+        "not-run",
+        "pass",
+        "review",
+        "fail",
+        "blocked"
+      ],
+      "title": "GateStatus",
+      "type": "string"
+    },
+    "HeldOutAdjudication": {
+      "additionalProperties": false,
+      "properties": {
+        "adjudication_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Adjudication Id",
+          "type": "string"
+        },
+        "adjudicator_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Adjudicator Id",
+          "type": "string"
+        },
+        "case_code": {
+          "pattern": "^case-[0-9a-f]{12}$",
+          "title": "Case Code",
+          "type": "string"
+        },
+        "decided_at": {
+          "format": "date-time",
+          "title": "Decided At",
+          "type": "string"
+        },
+        "final_label": {
+          "enum": [
+            "defect",
+            "acceptable",
+            "ambiguous"
+          ],
+          "title": "Final Label",
+          "type": "string"
+        },
+        "observed_facts": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Observed Facts",
+          "type": "array"
+        },
+        "rationale": {
+          "title": "Rationale",
+          "type": "string"
+        },
+        "reviewer_decision_ids": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            }
+          ],
+          "title": "Reviewer Decision Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.held-out-adjudication/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "selected_variant_code": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Selected Variant Code"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "adjudication_id",
+        "trial_id",
+        "case_code",
+        "reviewer_decision_ids",
+        "adjudicator_id",
+        "final_label",
+        "decided_at",
+        "observed_facts",
+        "rationale"
+      ],
+      "title": "HeldOutAdjudication",
+      "type": "object"
+    },
+    "HeldOutCaseStratum": {
+      "additionalProperties": false,
+      "properties": {
+        "city_group": {
+          "title": "City Group",
+          "type": "string"
+        },
+        "development_set_overlap": {
+          "const": false,
+          "default": false,
+          "title": "Development Set Overlap",
+          "type": "boolean"
+        },
+        "mode_features": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Mode Features",
+          "type": "array"
+        },
+        "morphology": {
+          "enum": [
+            "grid",
+            "historic-core",
+            "suburban-arterial",
+            "divided-arterial",
+            "ramp-interchange",
+            "tram-rail",
+            "bridge-tunnel",
+            "multimodal"
+          ],
+          "title": "Morphology",
+          "type": "string"
+        },
+        "osm_completeness": {
+          "enum": [
+            "high",
+            "medium",
+            "low",
+            "unassessed"
+          ],
+          "title": "Osm Completeness",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side": {
+          "$ref": "#/$defs/TrafficSide"
+        }
+      },
+      "required": [
+        "city_group",
+        "morphology",
+        "traffic_side",
+        "osm_completeness",
+        "mode_features"
+      ],
+      "title": "HeldOutCaseStratum",
+      "type": "object"
+    },
+    "HeldOutEvaluationKey": {
+      "additionalProperties": false,
+      "properties": {
+        "blinded_dataset_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Blinded Dataset Sha256",
+          "type": "string"
+        },
+        "blinding_seed": {
+          "minLength": 32,
+          "title": "Blinding Seed",
+          "type": "string"
+        },
+        "cases": {
+          "items": {
+            "$ref": "#/$defs/UnblindingCaseKey"
+          },
+          "title": "Cases",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.held-out-evaluation-key/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trial_id",
+        "blinded_dataset_sha256",
+        "blinding_seed",
+        "cases"
+      ],
+      "title": "HeldOutEvaluationKey",
+      "type": "object"
+    },
+    "HeldOutReviewMetrics": {
+      "additionalProperties": false,
+      "properties": {
+        "abstention_rate": {
+          "title": "Abstention Rate",
+          "type": "number"
+        },
+        "adjudicated_case_count": {
+          "title": "Adjudicated Case Count",
+          "type": "integer"
+        },
+        "adjudicated_label_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Adjudicated Label Counts",
+          "type": "object"
+        },
+        "attention_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attention Precision"
+        },
+        "attention_recall": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Attention Recall"
+        },
+        "auto_coverage": {
+          "title": "Auto Coverage",
+          "type": "number"
+        },
+        "auto_precision": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Auto Precision"
+        },
+        "case_count": {
+          "title": "Case Count",
+          "type": "integer"
+        },
+        "city_group_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "City Group Case Counts",
+          "type": "object"
+        },
+        "cohen_kappa": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Cohen Kappa"
+        },
+        "completed_review_count": {
+          "title": "Completed Review Count",
+          "type": "integer"
+        },
+        "median_review_seconds": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Median Review Seconds"
+        },
+        "mode_feature_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Mode Feature Case Counts",
+          "type": "object"
+        },
+        "morphology_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Morphology Case Counts",
+          "type": "object"
+        },
+        "raw_agreement": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Raw Agreement"
+        },
+        "safety_critical_false_negative_count": {
+          "title": "Safety Critical False Negative Count",
+          "type": "integer"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "traffic_side_case_counts": {
+          "additionalProperties": {
+            "type": "integer"
+          },
+          "title": "Traffic Side Case Counts",
+          "type": "object"
+        }
+      },
+      "required": [
+        "case_count",
+        "completed_review_count",
+        "adjudicated_case_count",
+        "raw_agreement",
+        "cohen_kappa",
+        "median_review_seconds",
+        "attention_precision",
+        "attention_recall",
+        "auto_precision",
+        "auto_coverage",
+        "abstention_rate",
+        "safety_critical_false_negative_count",
+        "adjudicated_label_counts",
+        "city_group_case_counts",
+        "morphology_case_counts",
+        "traffic_side_case_counts",
+        "mode_feature_case_counts"
+      ],
+      "title": "HeldOutReviewMetrics",
+      "type": "object"
+    },
+    "HeldOutReviewPolicy": {
+      "additionalProperties": false,
+      "properties": {
+        "adjudicator_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Adjudicator Id",
+          "type": "string"
+        },
+        "maximum_median_review_seconds": {
+          "exclusiveMinimum": 0.0,
+          "title": "Maximum Median Review Seconds",
+          "type": "number"
+        },
+        "maximum_safety_critical_false_negatives": {
+          "const": 0,
+          "default": 0,
+          "title": "Maximum Safety Critical False Negatives",
+          "type": "integer"
+        },
+        "minimum_attention_precision": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Minimum Attention Precision",
+          "type": "number"
+        },
+        "minimum_attention_recall": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Minimum Attention Recall",
+          "type": "number"
+        },
+        "minimum_auto_precision": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Minimum Auto Precision",
+          "type": "number"
+        },
+        "minimum_case_count": {
+          "minimum": 2,
+          "title": "Minimum Case Count",
+          "type": "integer"
+        },
+        "minimum_cases_per_city_group": {
+          "minimum": 1,
+          "title": "Minimum Cases Per City Group",
+          "type": "integer"
+        },
+        "minimum_city_group_count": {
+          "minimum": 2,
+          "title": "Minimum City Group Count",
+          "type": "integer"
+        },
+        "minimum_cohen_kappa": {
+          "maximum": 1.0,
+          "minimum": -1.0,
+          "title": "Minimum Cohen Kappa",
+          "type": "number"
+        },
+        "minimum_morphology_count": {
+          "minimum": 2,
+          "title": "Minimum Morphology Count",
+          "type": "integer"
+        },
+        "minimum_raw_agreement": {
+          "maximum": 1.0,
+          "minimum": 0.0,
+          "title": "Minimum Raw Agreement",
+          "type": "number"
+        },
+        "parent_benchmark_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Parent Benchmark Sha256",
+          "type": "string"
+        },
+        "required_mode_features": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Required Mode Features",
+          "type": "array"
+        },
+        "required_traffic_sides": {
+          "items": {
+            "$ref": "#/$defs/TrafficSide"
+          },
+          "title": "Required Traffic Sides",
+          "type": "array"
+        },
+        "reviewer_ids": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            },
+            {
+              "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+              "type": "string"
+            }
+          ],
+          "title": "Reviewer Ids",
+          "type": "array"
+        },
+        "schema": {
+          "default": "torii.corridor.held-out-review-policy/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trial_id",
+        "parent_benchmark_sha256",
+        "reviewer_ids",
+        "adjudicator_id",
+        "minimum_case_count",
+        "minimum_city_group_count",
+        "minimum_morphology_count",
+        "minimum_cases_per_city_group",
+        "required_traffic_sides",
+        "required_mode_features",
+        "minimum_raw_agreement",
+        "minimum_cohen_kappa",
+        "minimum_attention_precision",
+        "minimum_attention_recall",
+        "minimum_auto_precision",
+        "maximum_median_review_seconds"
+      ],
+      "title": "HeldOutReviewPolicy",
+      "type": "object"
+    },
+    "HeldOutReviewReport": {
+      "additionalProperties": false,
+      "properties": {
+        "automatic_promotion_gate": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "blinded_dataset_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Blinded Dataset Sha256",
+          "type": "string"
+        },
+        "blockers": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Blockers",
+          "type": "array"
+        },
+        "evaluation_key_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Evaluation Key Sha256",
+          "type": "string"
+        },
+        "metrics": {
+          "$ref": "#/$defs/HeldOutReviewMetrics"
+        },
+        "policy_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Policy Sha256",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.held-out-review-report/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/GateStatus"
+        },
+        "trial_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Trial Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "trial_id",
+        "policy_sha256",
+        "blinded_dataset_sha256",
+        "evaluation_key_sha256",
+        "status",
+        "automatic_promotion_gate",
+        "metrics",
+        "blockers"
+      ],
+      "title": "HeldOutReviewReport",
+      "type": "object"
+    },
+    "MachineAssessment": {
+      "additionalProperties": false,
+      "properties": {
+        "finding_categories": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Finding Categories",
+          "type": "array"
+        },
+        "machine_label": {
+          "enum": [
+            "defect",
+            "acceptable",
+            "ambiguous"
+          ],
+          "title": "Machine Label",
+          "type": "string"
+        },
+        "machine_report_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Machine Report Sha256",
+          "type": "string"
+        },
+        "safety_critical": {
+          "title": "Safety Critical",
+          "type": "boolean"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        }
+      },
+      "required": [
+        "machine_label",
+        "machine_report_sha256",
+        "finding_categories",
+        "safety_critical"
+      ],
+      "title": "MachineAssessment",
+      "type": "object"
+    },
+    "TrafficSide": {
+      "enum": [
+        "right",
+        "left",
+        "unknown"
+      ],
+      "title": "TrafficSide",
+      "type": "string"
+    },
+    "UnblindingCaseKey": {
+      "additionalProperties": false,
+      "properties": {
+        "case_code": {
+          "pattern": "^case-[0-9a-f]{12}$",
+          "title": "Case Code",
+          "type": "string"
+        },
+        "machine_assessment": {
+          "$ref": "#/$defs/MachineAssessment"
+        },
+        "machine_assessment_artifact_path": {
+          "title": "Machine Assessment Artifact Path",
+          "type": "string"
+        },
+        "machine_assessment_artifact_sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Machine Assessment Artifact Sha256",
+          "type": "string"
+        },
+        "review_case_id": {
+          "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+          "title": "Review Case Id",
+          "type": "string"
+        },
+        "schema": {
+          "default": "torii.corridor.contracts/v1",
+          "title": "Schema",
+          "type": "string"
+        },
+        "stratum": {
+          "$ref": "#/$defs/HeldOutCaseStratum"
+        },
+        "variant_id_by_code": {
+          "additionalProperties": {
+            "pattern": "^[a-z][a-z0-9_]*_[0-9a-f]{24}$",
+            "type": "string"
+          },
+          "title": "Variant Id By Code",
+          "type": "object"
+        }
+      },
+      "required": [
+        "case_code",
+        "review_case_id",
+        "variant_id_by_code",
+        "machine_assessment",
+        "machine_assessment_artifact_path",
+        "machine_assessment_artifact_sha256",
+        "stratum"
+      ],
+      "title": "UnblindingCaseKey",
+      "type": "object"
+    }
+  },
+  "$id": "https://github.com/Tarard/Torii-SUMO/schemas/torii.corridor.held-out-review-contract-bundle.v1.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "adjudications": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/HeldOutAdjudication"
+      },
+      "title": "Adjudications",
+      "type": "array"
+    },
+    "blinded_dataset": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BlindedReviewDataset"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "decisions": {
+      "default": [],
+      "items": {
+        "$ref": "#/$defs/BlindReviewDecision"
+      },
+      "title": "Decisions",
+      "type": "array"
+    },
+    "evaluation_key": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/HeldOutEvaluationKey"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "policy": {
+      "$ref": "#/$defs/HeldOutReviewPolicy"
+    },
+    "report": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/HeldOutReviewReport"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "schema": {
+      "default": "torii.corridor.held-out-review-contract-bundle/v1",
+      "title": "Schema",
+      "type": "string"
+    }
+  },
+  "required": [
+    "policy"
+  ],
+  "title": "HeldOutReviewContractBundle",
+  "type": "object",
+  "x-torii-status": "stage-1-blinded-human-review-contract"
+}
