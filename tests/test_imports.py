@@ -81,9 +81,11 @@ EXPECTED_TOOL_NAMES = sorted(
 
 
 def test_package_imports() -> None:
+    from importlib.metadata import version
+
     import astra_sumo
 
-    assert astra_sumo.__version__ == "1.3.0"
+    assert astra_sumo.__version__ == version("astra-sumo")
 
 
 def test_server_factory_imports() -> None:
