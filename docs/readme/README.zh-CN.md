@@ -5,7 +5,8 @@
 # ASTRA
 
 <p align="center">
-  <strong>面向 Eclipse SUMO 的任务导向道路基础设施智能</strong>
+  <strong>Automated Simulation of TRAnsportation networks for SUMO</strong><br>
+  面向 SUMO 的交通网络自动化仿真
 </p>
 
 <p align="center">
@@ -64,6 +65,8 @@ Check connectivity, traffic signals, and routeability.
 
 ASTRA 需要 Python 3.11+ 和 Eclipse SUMO。
 
+ASTRA 在此新仓库中延续 Torii 项目。安装变化和旧命令兼容说明见[迁移指南](../astra-migration.md)。
+
 ## 汉堡数字孪生
 
 ASTRA 正被用于重建和验证汉堡市中心的一段真实交通走廊。
@@ -95,4 +98,4 @@ ASTRA 在同一工作流中结合官方交通数据、航拍影像和 SUMO 路�
 
 ASTRA-SUMO 使用 [MIT License](../../LICENSE) 许可。
 
-早期版本已归档至 [Zenodo](https://doi.org/10.5281/zenodo.20627976)。
+早期 Torii 版本已归档至 [Zenodo](https://doi.org/10.5281/zenodo.20627976)。

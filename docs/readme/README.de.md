@@ -5,7 +5,8 @@
 # ASTRA
 
 <p align="center">
-  <strong>Automated Simulation of TRAnsportation networks for SUMO für Eclipse SUMO</strong>
+  <strong>Automated Simulation of TRAnsportation networks for SUMO</strong><br>
+  Automatisierte Simulation von Verkehrsnetzen für SUMO
 </p>
 
 <p align="center">
@@ -95,4 +96,4 @@ Die aktuelle Hamburg-Kalibrierung stimmt exakt mit der aggregierten Detektoranza
 
 ASTRA-SUMO steht unter der [MIT-Lizenz](../../LICENSE).
 
-Frühere Releases sind auf [Zenodo](https://doi.org/10.5281/zenodo.20627976) archiviert.
+Frühere Torii-Releases sind auf [Zenodo](https://doi.org/10.5281/zenodo.20627976) archiviert.
