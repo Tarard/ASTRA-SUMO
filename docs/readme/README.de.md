@@ -51,6 +51,12 @@ Führt weitere SUMO-Experimente anhand natürlichsprachlicher Anweisungen aus.
 </tr>
 </table>
 
+## So funktioniert ASTRA in Codex
+
+<p align="center">
+  <img src="../assets/astra-codex-workflow.png" alt="Beispiel einer Interaktion mit ASTRA zum Erstellen und Prüfen einer SUMO-Simulation in Codex" width="100%">
+</p>
+
 ## Schnellstart
 
 ```powershell

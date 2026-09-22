@@ -18,3 +18,8 @@ Local filename: `app-logo.png`
 
 Source: `Astra-Framework.png`, supplied by the project owner on September 22, 2026.
 The original PNG is used in the English, Chinese, and German README files.
+
+## `astra-codex-workflow.png`
+
+Source: interaction illustration supplied by the project owner on September 22, 2026.
+The original PNG appears after the capability summary in all three README files.

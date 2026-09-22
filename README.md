@@ -50,6 +50,12 @@ Run further SUMO experiments from natural-language instructions.
 </tr>
 </table>
 
+## How ASTRA Works in Codex
+
+<p align="center">
+  <img src="docs/assets/astra-codex-workflow.png" alt="Illustrated example of ASTRA building and reviewing a SUMO simulation in Codex" width="100%">
+</p>
+
 ## Quick Start
 
 ```powershell

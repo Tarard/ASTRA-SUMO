@@ -51,6 +51,12 @@
 </tr>
 </table>
 
+## ASTRA 如何在 Codex 中工作
+
+<p align="center">
+  <img src="../assets/astra-codex-workflow.png" alt="ASTRA 在 Codex 中构建与检查 SUMO 仿真的交互示意图" width="100%">
+</p>
+
 ## 快速开始
 
 ```powershell
