@@ -13,8 +13,8 @@ from pathlib import Path
 import pytest
 import sumolib
 
-from torii_sumo.core.osm_network import build_osm_network
-from torii_sumo.core.osm_access import resolve_static_osm_access
+from astra_sumo.core.osm_network import build_osm_network
+from astra_sumo.core.osm_access import resolve_static_osm_access
 
 
 def test_static_restriction_hierarchy_and_unresolved_access_stay_explicit():

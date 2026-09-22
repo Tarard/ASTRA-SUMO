@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "astra-sumo": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--isolated",
+        "--frozen",
+        "--script",
+        "./scripts/run_astra_sumo.py"
+      ]
+    }
+  }
+}

@@ -8,14 +8,14 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.ingolstadt_netedit_ab_evidence import (
+from astra_sumo.core.ingolstadt_netedit_ab_evidence import (
     INGOLSTADT_NETEDIT_AB_EVIDENCE_SCHEMA,
     IngolstadtNeteditABEvidenceError,
     build_ingolstadt_netedit_ab_evidence,
 )
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/build_ingolstadt_netedit_ab_evidence.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/build_ingolstadt_netedit_ab_evidence.py")
 VIEW_MODES = {
     "overview": ("inspect", "none", ""),
     "inspect": ("inspect", "junction", "junction-test"),

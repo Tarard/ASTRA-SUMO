@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.digital_twin import MapConnection, MapLane, SignalStream
-from torii_sumo.core.digital_twin_mapping import MapLaneBinding
-from torii_sumo.core.hamburg_2394_tls_topology import (
+from astra_sumo.core.digital_twin import MapConnection, MapLane, SignalStream
+from astra_sumo.core.digital_twin_mapping import MapLaneBinding
+from astra_sumo.core.hamburg_2394_tls_topology import (
     EXPECTED_CURRENT_MAIN_ROUTING,
     EXPECTED_MAP_LANE_TO_SUMO_LANE,
     EXPECTED_MOVEMENTS,
@@ -19,7 +19,7 @@ from torii_sumo.core.hamburg_2394_tls_topology import (
     build_hamburg_2394_tls_topology_plan,
     compile_hamburg_2394_tls_topology,
 )
-from torii_sumo.core.ocit_c import (
+from astra_sumo.core.ocit_c import (
     OcitCConfig,
     OcitGroupSignal,
     OcitMotorSignalGroup,

@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from datetime import UTC, datetime
 
-from torii_sumo.intersection.road_detail import classify_intersection_road_detail
-from torii_sumo.intersection.schema import BBox, OSMNode, OSMPatch, OSMWay
-from torii_sumo.road_network.contracts import (
+from astra_sumo.intersection.road_detail import classify_intersection_road_detail
+from astra_sumo.intersection.schema import BBox, OSMNode, OSMPatch, OSMWay
+from astra_sumo.road_network.contracts import (
     ConflationEvidence,
     RoadObjectRef,
     RoadPropertyAssignment,
@@ -64,7 +64,7 @@ def test_pass_only_semantic_bridge_projection_is_consumed_by_road_detail() -> No
         )
         for assignment_id, property_name, scheme, value in (
             ("membership", "hamburg_membership", "de:hamburg:hvs", "hvs"),
-            ("network", "network_role", "torii:network-role:v1", "arterial"),
+            ("network", "network_role", "astra:network-role:v1", "arterial"),
             ("rin", "rin_category", "de:rin:2008", "HS III"),
         )
     )

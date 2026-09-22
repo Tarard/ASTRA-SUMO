@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.topology_audit import audit_topology_fragmentation, compare_topology_canonical_cells
+from astra_sumo.core.topology_audit import audit_topology_fragmentation, compare_topology_canonical_cells
 
 
 def _canonical_report(cells: list[dict[str, object]]) -> dict[str, object]:

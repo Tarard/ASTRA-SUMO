@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 from pathlib import Path
 
-from torii_sumo.evidence import bundle as evidence_bundle
-from torii_sumo.evidence.bundle import write_evidence_bundle
+from astra_sumo.evidence import bundle as evidence_bundle
+from astra_sumo.evidence.bundle import write_evidence_bundle
 
 
 def test_write_evidence_bundle_creates_json_and_markdown(tmp_path: Path) -> None:

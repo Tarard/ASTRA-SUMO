@@ -3,13 +3,13 @@ from __future__ import annotations
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from torii_sumo.core.hamburg_2394_tls_materializer import (
+from astra_sumo.core.hamburg_2394_tls_materializer import (
     _audit_materialized_network,
     _patch_connections,
     _patch_nodes,
     _patch_tllogic,
 )
-from torii_sumo.core.hamburg_2394_tls_topology import (
+from astra_sumo.core.hamburg_2394_tls_topology import (
     CONTROLLER_ID,
     PASSIVE_OWNER_IDS,
     ROUTING_REPAIRS,

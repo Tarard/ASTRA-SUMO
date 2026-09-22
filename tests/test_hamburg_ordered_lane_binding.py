@@ -5,8 +5,8 @@ import math
 
 import pytest
 
-from torii_sumo.core.hamburg_aerial_corridor_candidate import _bind_official_lanes
-from torii_sumo.core import hamburg_aerial_corridor_candidate as candidate_module
+from astra_sumo.core.hamburg_aerial_corridor_candidate import _bind_official_lanes
+from astra_sumo.core import hamburg_aerial_corridor_candidate as candidate_module
 
 
 def _case(role="ingress"):

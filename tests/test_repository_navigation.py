@@ -9,14 +9,14 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_hash_bound_repository_text_uses_lf() -> None:
     attributes = (ROOT / ".gitattributes").read_text(encoding="utf-8")
-    benchmark = ROOT / "benchmarks" / "corridor_human_modeling_v1" / "benchmark.v1.json"
+    schema = ROOT / "schemas" / "product" / "torii.signal-device-profile.v1.schema.json"
 
     assert "* text=auto eol=lf" in attributes.splitlines()
-    assert b"\r\n" not in benchmark.read_bytes()
+    assert b"\r\n" not in schema.read_bytes()
 
 
 def _registered_tool_names() -> set[str]:
-    legacy_tools_path = ROOT / "plugins" / "torii-sumo" / "src" / "torii_sumo" / "legacy_tools.py"
+    legacy_tools_path = ROOT / "plugins" / "astra-sumo" / "src" / "astra_sumo" / "legacy_tools.py"
     tree = ast.parse(legacy_tools_path.read_text(encoding="utf-8"))
     names: set[str] = set()
 
@@ -48,7 +48,7 @@ def test_readme_exposes_stable_navigation() -> None:
     assert "docs/repository-guide.md" not in readme
 
     section_order = (
-        "## What Torii Does",
+        "## What ASTRA Does",
         "## Quick Start",
         "## Hamburg Digital Twin",
         "## Documentation",
@@ -119,8 +119,8 @@ def test_agent_instructions_preserve_repository_and_evidence_boundaries() -> Non
         "docs/README.md",
         "docs/architecture.md",
         "docs/mcp-tool-catalog.md",
-        "src/torii_sumo/tools/",
-        "src/torii_sumo/core/",
+        "src/astra_sumo/tools/",
+        "src/astra_sumo/core/",
         "source artifacts immutable",
         "review_required",
         "tests/test_repository_navigation.py",

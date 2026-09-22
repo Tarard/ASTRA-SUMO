@@ -5,10 +5,10 @@ import yaml
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SKILLS = ROOT / "plugins" / "torii-sumo" / "skills"
+SKILLS = ROOT / "plugins" / "astra-sumo" / "skills"
 
 EXPECTED_REFERENCES = {
-    "torii-build": {
+    "astra-build": {
         "composable-intersection-classification.md",
         "composable-signal-device-classification.md",
         "hamburg-five-intersection-aerial-workflow.md",
@@ -19,14 +19,14 @@ EXPECTED_REFERENCES = {
         "osm-way-fragmentation-and-road-axis-reconstruction.md",
         "road-arm-and-connection-classification.md",
     },
-    "torii-calibrate": {
+    "astra-calibrate": {
         "cached-detector-demand.md",
         "detector-constrained-demand-reconstruction.md",
         "hamburg-count-calibration-workflow.md",
         "hamburg-five-intersection-aerial-workflow.md",
         "hamburg-sandtorkai-digital-twin.md",
     },
-    "torii-simulate": {
+    "astra-simulate": {
         "audit-sumo-controllers.md",
         "compare-corridor-perturbations.md",
         "debug-sumo-traci.md",
@@ -40,7 +40,7 @@ EXPECTED_REFERENCES = {
         "route-project-workflow.md",
         "sumolights-controller-patterns.md",
     },
-    "torii-report": {
+    "astra-report": {
         "asd-ste100-skill.md",
         "capture-field-lesson.md",
         "evaluate-and-report-results.md",
@@ -100,7 +100,7 @@ def test_reference_loading_is_optional_guidance() -> None:
 
 
 def test_reporting_reference_preserves_traffic_evidence_contract() -> None:
-    body = (skill_dir("torii-report") / "references" / "traffic-control-reporting.md").read_text(encoding="utf-8")
+    body = (skill_dir("astra-report") / "references" / "traffic-control-reporting.md").read_text(encoding="utf-8")
     for term in (
         "network and demand",
         "Controller Information Contract",
@@ -114,7 +114,7 @@ def test_reporting_reference_preserves_traffic_evidence_contract() -> None:
 
 
 def test_report_bundles_upstream_writing_skill_bodies_and_licenses() -> None:
-    refs = skill_dir("torii-report") / "references"
+    refs = skill_dir("astra-report") / "references"
     ste = (refs / "asd-ste100-skill.md").read_text(encoding="utf-8")
     humanizer = (refs / "humanizer-skill.md").read_text(encoding="utf-8")
     ste_license = (refs / "asd-ste100-LICENSE.txt").read_text(encoding="utf-8")
@@ -130,7 +130,7 @@ def test_report_bundles_upstream_writing_skill_bodies_and_licenses() -> None:
 
 
 def test_debugging_and_experiment_diagnosis_live_in_simulate() -> None:
-    refs = skill_dir("torii-simulate") / "references"
+    refs = skill_dir("astra-simulate") / "references"
     debug = (refs / "debug-sumo-traci.md").read_text(encoding="utf-8")
     diagnosis = (refs / "experiment-problem-solving.md").read_text(encoding="utf-8")
     assert "environment-fault" in debug
@@ -140,7 +140,7 @@ def test_debugging_and_experiment_diagnosis_live_in_simulate() -> None:
 
 
 def test_release_reference_matches_current_bundle_and_license() -> None:
-    body = (skill_dir("torii-report") / "references" / "release-project.md").read_text(encoding="utf-8")
+    body = (skill_dir("astra-report") / "references" / "release-project.md").read_text(encoding="utf-8")
     assert "MIT License" in body
     for name in EXPECTED_REFERENCES:
         assert f"`{name}`" in body

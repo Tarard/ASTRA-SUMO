@@ -1,7 +1,7 @@
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.road_connectivity_teacher_model import (
+from astra_sumo.core.road_connectivity_teacher_model import (
     audit_road_connectivity_parity,
     build_internal_movement_replay_audit,
     build_internal_movement_owner_approach_edge_map,
@@ -1806,7 +1806,7 @@ def test_write_owner_layered_teacher_replay_candidate_promotes_bounded_convergen
     tmp_path: Path,
     monkeypatch,
 ) -> None:
-    from torii_sumo.core import road_connectivity_teacher_model as road_model
+    from astra_sumo.core import road_connectivity_teacher_model as road_model
 
     teacher_net = tmp_path / "teacher.net.xml"
     candidate_net = tmp_path / "candidate.net.xml"
@@ -1880,7 +1880,7 @@ def test_write_owner_layered_teacher_replay_candidate_returns_fail_when_owner_re
     tmp_path: Path,
     monkeypatch,
 ) -> None:
-    from torii_sumo.core import road_connectivity_teacher_model as road_model
+    from astra_sumo.core import road_connectivity_teacher_model as road_model
 
     teacher_net = tmp_path / "teacher.net.xml"
     candidate_net = tmp_path / "candidate.net.xml"
@@ -1932,7 +1932,7 @@ def test_write_internal_movement_owner_teacher_replay_candidate_returns_blocked_
     tmp_path: Path,
     monkeypatch,
 ) -> None:
-    from torii_sumo.core import road_connectivity_teacher_model as road_model
+    from astra_sumo.core import road_connectivity_teacher_model as road_model
 
     teacher_net = tmp_path / "teacher.net.xml"
     candidate_net = tmp_path / "candidate.net.xml"

@@ -1,6 +1,6 @@
 import numpy as np
 
-from torii_sumo.core.hamburg_dynamic_demand import (
+from astra_sumo.core.hamburg_dynamic_demand import (
     build_dynamic_assignment_evidence,
     solve_joint_regularized_profiles,
     solve_regularized_departure_profile,

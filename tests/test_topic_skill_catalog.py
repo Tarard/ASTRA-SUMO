@@ -1,11 +1,11 @@
 from pathlib import Path
 
-from torii_sumo.core.workflow_catalog import get_workflow_catalog
+from astra_sumo.core.workflow_catalog import get_workflow_catalog
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PLUGIN = ROOT / "plugins" / "torii-sumo"
-REFERENCE_BUNDLES = {"torii-build", "torii-calibrate", "torii-simulate", "torii-report"}
+PLUGIN = ROOT / "plugins" / "astra-sumo"
+REFERENCE_BUNDLES = {"astra-build", "astra-calibrate", "astra-simulate", "astra-report"}
 
 
 def test_workflow_catalog_points_to_bundled_reference_bundles() -> None:
@@ -22,7 +22,7 @@ def test_workflow_catalog_points_to_bundled_reference_bundles() -> None:
 
 def test_catalog_suggests_expected_reference_bundle_for_product_stages() -> None:
     rows = {row["scenario_id"]: row for row in get_workflow_catalog()["scenarios"]}
-    assert rows["osm_network"]["reference_bundle"] == "torii-build"
-    assert rows["detector_calibration"]["reference_bundle"] == "torii-calibrate"
-    assert rows["environment_preflight"]["reference_bundle"] == "torii-simulate"
-    assert rows["run_comparison"]["reference_bundle"] == "torii-report"
+    assert rows["osm_network"]["reference_bundle"] == "astra-build"
+    assert rows["detector_calibration"]["reference_bundle"] == "astra-calibrate"
+    assert rows["environment_preflight"]["reference_bundle"] == "astra-simulate"
+    assert rows["run_comparison"]["reference_bundle"] == "astra-report"

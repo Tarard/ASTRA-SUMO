@@ -1,4 +1,4 @@
-# Torii Research Index
+# ASTRA Research Index
 
 This index separates research evidence from current product documentation. The listed files keep their existing paths so old links, experiment records, and reproducibility references do not break.
 
@@ -26,4 +26,4 @@ Frozen benchmark inputs and adjudication artifacts live under [`benchmarks/`](..
 
 ## Interpretation Rule
 
-Research documents are evidence snapshots, protocols, or plans. They may contain dated tool counts, experiment states, or claim boundaries. For current user-facing behavior, use the top-level [`README.md`](../../README.md), [`ARCHITECTURE.md`](../../ARCHITECTURE.md), and [`docs/README.md`](../README.md).
+Research documents are evidence snapshots, protocols, or plans. They may contain dated tool counts, experiment states, or claim boundaries. For current user-facing behavior, use the top-level [`README.md`](../../README.md), [Architecture](../architecture.md), and [`docs/README.md`](../README.md).

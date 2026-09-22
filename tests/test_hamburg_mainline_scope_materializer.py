@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.hamburg_mainline_scope_materializer import (
+from astra_sumo.core.hamburg_mainline_scope_materializer import (
     ENTRY_JOIN_GROUPS,
     HAMBURG_ENTRY_SCOPE_PROFILE,
     HAMBURG_MAINLINE_SCOPE_PROFILE,

@@ -6,13 +6,13 @@ from pathlib import Path
 from unittest.mock import Mock
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core import osm_workflow
-from torii_sumo.core.connectivity import (
+from astra_sumo.core import osm_workflow
+from astra_sumo.core.connectivity import (
     extract_largest_passenger_component_core,
     summarize_passenger_connectivity,
 )
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.core.osm_network import (
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.osm_network import (
     build_osm_network,
     build_overpass_query,
     build_routeability_probe,
@@ -26,16 +26,16 @@ from torii_sumo.core.osm_network import (
     robust_download_osm,
     split_bbox,
 )
-from torii_sumo.core.osm_area import osm_map_url_bbox, resolve_osm_place
-from torii_sumo.core.osm_workflow import run_osm_cleanup_workflow
-from torii_sumo.core.osm_workflow import _road_connectivity_best_variant_file
-from torii_sumo.core.osm_workflow import _road_connectivity_owner_ids
-from torii_sumo.core.osm_workflow import _road_connectivity_replay_batch_report
-from torii_sumo.core.osm_workflow import _road_connectivity_seed_probe_improved
-from torii_sumo.core.osm_workflow import _run_road_connectivity_split_root_alias_repair
-from torii_sumo.core.osm_workflow import _sumo_load_net
-from torii_sumo.core.topology_audit import audit_topology_fragmentation
-from torii_sumo.tools.osm_tools import resolve_highway_classes, sumo_osm_build_network
+from astra_sumo.core.osm_area import osm_map_url_bbox, resolve_osm_place
+from astra_sumo.core.osm_workflow import run_osm_cleanup_workflow
+from astra_sumo.core.osm_workflow import _road_connectivity_best_variant_file
+from astra_sumo.core.osm_workflow import _road_connectivity_owner_ids
+from astra_sumo.core.osm_workflow import _road_connectivity_replay_batch_report
+from astra_sumo.core.osm_workflow import _road_connectivity_seed_probe_improved
+from astra_sumo.core.osm_workflow import _run_road_connectivity_split_root_alias_repair
+from astra_sumo.core.osm_workflow import _sumo_load_net
+from astra_sumo.core.topology_audit import audit_topology_fragmentation
+from astra_sumo.tools.osm_tools import resolve_highway_classes, sumo_osm_build_network
 
 
 def _patch_cleanup_stages(monkeypatch, work_dir: Path, connectivity_report: dict[str, object]) -> dict[str, Mock]:
@@ -546,7 +546,7 @@ def test_resolve_osm_place_parses_first_nominatim_candidate() -> None:
     def fake_fetch_json(*, url: str, headers: dict[str, str], timeout_seconds: float):
         assert "nominatim.openstreetmap.org/search" in url
         assert "Altstadt%2C+Dresden" in url
-        assert headers["User-Agent"].startswith("Torii-SUMO")
+        assert headers["User-Agent"].startswith("ASTRA-SUMO")
         assert timeout_seconds == 30.0
         return [
             {
@@ -875,7 +875,7 @@ def test_topology_audit_passes_sparse_junctions(tmp_path: Path) -> None:
 
 
 def test_sumo_osm_resolve_place_tool_returns_candidate(monkeypatch) -> None:
-    from torii_sumo.tools import osm_tools
+    from astra_sumo.tools import osm_tools
 
     monkeypatch.setattr(
         osm_tools,
@@ -1781,7 +1781,7 @@ def test_build_tls_multisource_review_keeps_human_review_boundary() -> None:
 
 
 def test_net_xy_to_latlon_falls_back_when_sumolib_reports_missing_pyproj() -> None:
-    from torii_sumo.core.osm_network import _net_xy_to_latlon
+    from astra_sumo.core.osm_network import _net_xy_to_latlon
 
     class FakeNet:
         _location = {"projParameter": "+proj=utm +zone=33 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"}
@@ -2063,7 +2063,7 @@ def test_extract_largest_passenger_component_core_falls_back_without_postload(
 
 
 def test_launch_netedit_reports_unavailable_when_binary_missing(tmp_path: Path) -> None:
-    from torii_sumo.core.netedit import launch_netedit
+    from astra_sumo.core.netedit import launch_netedit
 
     net_file = tmp_path / "network.net.xml"
     net_file.write_text("<net/>", encoding="utf-8")
@@ -2081,7 +2081,7 @@ def test_launch_netedit_reports_unavailable_when_binary_missing(tmp_path: Path) 
 
 
 def test_launch_netedit_starts_non_blocking_process(tmp_path: Path) -> None:
-    from torii_sumo.core.netedit import launch_netedit
+    from astra_sumo.core.netedit import launch_netedit
 
     class FakeProcess:
         pid = 12345
@@ -2113,7 +2113,7 @@ def test_launch_netedit_starts_non_blocking_process(tmp_path: Path) -> None:
 
 
 def test_launch_netedit_opens_sumo_config_with_additional_files(tmp_path: Path) -> None:
-    from torii_sumo.core.netedit import launch_netedit
+    from astra_sumo.core.netedit import launch_netedit
 
     class FakeProcess:
         pid = 23456
@@ -2140,7 +2140,7 @@ def test_launch_netedit_opens_sumo_config_with_additional_files(tmp_path: Path) 
 
 
 def test_launch_netedit_accepts_review_selection_view_and_window_options(tmp_path: Path) -> None:
-    from torii_sumo.core.netedit import launch_netedit
+    from astra_sumo.core.netedit import launch_netedit
 
     class FakeProcess:
         pid = 34567
@@ -2190,7 +2190,7 @@ def test_launch_netedit_accepts_review_selection_view_and_window_options(tmp_pat
 
 
 def test_launch_sumo_gui_writes_minimal_config_and_starts_non_blocking_process(tmp_path: Path) -> None:
-    from torii_sumo.core.sumo_gui import launch_sumo_gui
+    from astra_sumo.core.sumo_gui import launch_sumo_gui
 
     class FakeProcess:
         pid = 24680

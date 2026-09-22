@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from torii_sumo.core.artifact_io import write_text_atomic
-from torii_sumo.corridor.enums import GateStatus
-from torii_sumo.corridor.pedestrian_row_runtime import (
+from astra_sumo.core.artifact_io import write_text_atomic
+from astra_sumo.corridor.enums import GateStatus
+from astra_sumo.corridor.pedestrian_row_runtime import (
     build_row_runtime_probe_from_outputs,
 )
 

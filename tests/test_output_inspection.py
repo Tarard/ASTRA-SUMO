@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.evidence.output_inspection import inspect_output_pair, inspect_run_outputs, inspect_summary
+from astra_sumo.evidence.output_inspection import inspect_output_pair, inspect_run_outputs, inspect_summary
 
 
 FIXTURES = Path(__file__).parent / "fixtures" / "outputs"

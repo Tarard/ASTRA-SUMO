@@ -5,19 +5,19 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.digital_twin_mapping import (
+from astra_sumo.core.digital_twin_mapping import (
     LaneConnectionEvidence,
     MapLaneBinding,
     bind_map_lanes_to_network,
     build_local_lane_graph,
 )
-from torii_sumo.core.digital_twin import parse_mapem
-from torii_sumo.core.hamburg_movement_path import (
+from astra_sumo.core.digital_twin import parse_mapem
+from astra_sumo.core.hamburg_movement_path import (
     HAMBURG_SANDTORKAI_CONNECTION_EVIDENCE,
     HamburgMovementPathError,
     derive_hamburg_official_movement_paths,
 )
-from torii_sumo.core.ocit_c import (
+from astra_sumo.core.ocit_c import (
     OcitVehicleTopologyMovement,
     build_vehicle_topology_inventory,
     parse_ocit_c,

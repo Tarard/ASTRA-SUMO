@@ -5,7 +5,7 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-from torii_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
+from astra_sumo.road_network.adapters.hamburg_hh_sib import read_hamburg_hh_sib_snapshot
 
 
 FIXTURE = Path(__file__).parent / "fixtures" / "hamburg_hh_sib_am_sandtorkai_2026-07-19.json"

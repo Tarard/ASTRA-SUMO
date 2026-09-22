@@ -4,8 +4,8 @@ import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.tls_reference_cleanup import build_tls_reference_cleanup_variant
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.tls_reference_cleanup import build_tls_reference_cleanup_variant
 
 
 def _write_network(path: Path, *, include_stale: bool = True, unsafe_stale: bool = False) -> str:

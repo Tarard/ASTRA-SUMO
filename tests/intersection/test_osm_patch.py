@@ -1,7 +1,7 @@
 import gzip
 from pathlib import Path
 
-from torii_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.osm_patch import parse_osm_xml
 
 
 FIXTURES = Path(__file__).parent / "fixtures"

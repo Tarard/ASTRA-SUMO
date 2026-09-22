@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.hamburg_official_corridor_geometry import (
+from astra_sumo.core.hamburg_official_corridor_geometry import (
     HamburgOfficialCorridorGeometryError,
     _build_connections,
     _build_nodes,
@@ -48,7 +48,7 @@ def test_derived_boundary_edges_have_stable_ids_and_lane_shapes() -> None:
         lanes = edge.findall("lane")
         assert len(lanes) == int(edge.attrib["numLanes"])
         assert all(lane.attrib.get("shape", "").count(" ") >= 1 for lane in lanes)
-        assert edge.find("param[@key='torii:automatic_promotion']") is not None
+        assert edge.find("param[@key='astra:automatic_promotion']") is not None
 
 
 def test_local_map_connections_are_rebound_to_derived_edges_and_keep_map_shapes() -> None:

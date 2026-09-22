@@ -5,10 +5,10 @@ from __future__ import annotations
 import inspect
 from pathlib import Path
 
-from torii_sumo.core import network_plan
-from torii_sumo.core import osm_workflow as facade
-from torii_sumo.core import osm_workflow_tail as tail_module
-from torii_sumo.core import road_scope
+from astra_sumo.core import network_plan
+from astra_sumo.core import osm_workflow as facade
+from astra_sumo.core import osm_workflow_tail as tail_module
+from astra_sumo.core import road_scope
 
 
 def _defined_functions(module: object) -> list[str]:

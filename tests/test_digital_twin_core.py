@@ -8,7 +8,7 @@ from urllib.request import Request
 
 import pytest
 
-from torii_sumo.core.digital_twin import (
+from astra_sumo.core.digital_twin import (
     CanonicalCount,
     CountObservation,
     CountStream,
@@ -17,12 +17,12 @@ from torii_sumo.core.digital_twin import (
     parse_phenomenon_interval,
     select_busiest_complete_window,
 )
-from torii_sumo.core.digital_twin_mapping import (
+from astra_sumo.core.digital_twin_mapping import (
     DetectorMapping,
     aggregate_canonical_counts_to_edges,
     write_route_sampler_edge_counts,
 )
-from torii_sumo.core.hamburg_official import (
+from astra_sumo.core.hamburg_official import (
     SensorThingsClient,
     fetch_hamburg_count_streams,
     fetch_hamburg_count_station_streams,

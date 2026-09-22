@@ -3,16 +3,16 @@ requires = ["setuptools>=77.0.3", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "torii-sumo"
-version = "1.2.0"
-description = "Torii agent plugin for evidence-aware Eclipse SUMO, OSM cleanup, and public-data corridor digital twins."
+name = "astra-sumo"
+version = "1.3.0"
+description = "ASTRA agent plugin for evidence-aware Eclipse SUMO, OSM cleanup, and public-data corridor digital twins."
 readme = "README.md"
 requires-python = ">=3.11"
 classifiers = ["Operating System :: Microsoft :: Windows"]
 license = "MIT"
 license-files = ["LICENSE"]
 authors = [
-  { name = "Torii contributors" }
+  { name = "ASTRA contributors" }
 ]
 dependencies = [
   "anyio>=4.0",
@@ -39,16 +39,19 @@ dev = [
 ]
 
 [project.scripts]
-torii = "torii_sumo.cli:main"
-torii-sumo = "torii_sumo.server:main"
-torii-netedit = "torii_sumo.core.netedit:main"
+astra = "astra_sumo.cli:main"
+astra-sumo = "astra_sumo.server:main"
+astra-netedit = "astra_sumo.core.netedit:main"
+torii = "astra_sumo.cli:main"
+torii-sumo = "astra_sumo.server:compat_main"
+torii-netedit = "astra_sumo.core.netedit:main"
 
 [tool.setuptools.packages.find]
-where = ["plugins/torii-sumo/src"]
+where = ["plugins/astra-sumo/src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-pythonpath = ["plugins/torii-sumo/src"]
+pythonpath = ["plugins/astra-sumo/src"]
 
 [tool.ruff]
 target-version = "py311"
@@ -59,21 +62,21 @@ select = ["E4", "E7", "E9", "F"]
 
 [tool.ruff.lint.per-file-ignores]
 "experiments/junction_aggregation_strategy_probe.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_corridor_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_composite_benchmark_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_held_out_review_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_stage1_review_ready_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_official_sumo_benchmark_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_ood_benchmark_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_plainxml_normalization_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/normalize_osm_plainxml.py" = ["E402"]
-"plugins/torii-sumo/scripts/export_synthetic_benchmark_schema.py" = ["E402"]
-"plugins/torii-sumo/scripts/evaluate_held_out_review.py" = ["E402"]
-"plugins/torii-sumo/scripts/build_held_out_corpus.py" = ["E402"]
-"plugins/torii-sumo/scripts/build_held_out_corridor_evidence.py" = ["E402"]
-"plugins/torii-sumo/scripts/freeze_held_out_corpus.py" = ["E402"]
-"plugins/torii-sumo/scripts/run_official_sumo_benchmark.py" = ["E402"]
-"plugins/torii-sumo/scripts/run_ood_benchmark.py" = ["E402"]
-"plugins/torii-sumo/scripts/run_composite_fault_benchmark.py" = ["E402"]
-"plugins/torii-sumo/scripts/run_synthetic_fault_benchmark.py" = ["E402"]
-"plugins/torii-sumo/scripts/run_torii_sumo.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_corridor_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_composite_benchmark_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_held_out_review_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_stage1_review_ready_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_official_sumo_benchmark_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_ood_benchmark_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_plainxml_normalization_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/normalize_osm_plainxml.py" = ["E402"]
+"plugins/astra-sumo/scripts/export_synthetic_benchmark_schema.py" = ["E402"]
+"plugins/astra-sumo/scripts/evaluate_held_out_review.py" = ["E402"]
+"plugins/astra-sumo/scripts/build_held_out_corpus.py" = ["E402"]
+"plugins/astra-sumo/scripts/build_held_out_corridor_evidence.py" = ["E402"]
+"plugins/astra-sumo/scripts/freeze_held_out_corpus.py" = ["E402"]
+"plugins/astra-sumo/scripts/run_official_sumo_benchmark.py" = ["E402"]
+"plugins/astra-sumo/scripts/run_ood_benchmark.py" = ["E402"]
+"plugins/astra-sumo/scripts/run_composite_fault_benchmark.py" = ["E402"]
+"plugins/astra-sumo/scripts/run_synthetic_fault_benchmark.py" = ["E402"]
+"plugins/astra-sumo/scripts/run_astra_sumo.py" = ["E402"]

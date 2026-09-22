@@ -1,4 +1,4 @@
-from torii_sumo.road_network.vehicle_checked_connection import select_vehicle_checked_connection
+from astra_sumo.road_network.vehicle_checked_connection import select_vehicle_checked_connection
 
 
 def test_guide_selection_uses_full_vehicle_and_keeps_failed_space_check_unresolved():

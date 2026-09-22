@@ -1,0 +1,6 @@
+interface:
+  display_name: "ASTRA Simulate"
+  short_description: "Plan, run, debug, and diagnose SUMO experiments."
+  default_prompt: "Use $astra-simulate to plan or diagnose this SUMO/TraCI experiment, select only the needed workflow, and treat failures and bad metrics as feedback."
+policy:
+  allow_implicit_invocation: true

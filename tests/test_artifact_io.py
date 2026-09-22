@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.artifact_io import (
+from astra_sumo.core.artifact_io import (
     copy_file_atomic,
     relative_or_absolute_path,
     write_json_atomic,
@@ -62,7 +62,7 @@ def test_atomic_artifact_operations_use_short_target_independent_temp_names(
         return real_named_temporary_file(*args, **kwargs)
 
     monkeypatch.setattr(
-        "torii_sumo.core.artifact_io.tempfile.NamedTemporaryFile",
+        "astra_sumo.core.artifact_io.tempfile.NamedTemporaryFile",
         capture_prefix,
     )
 
@@ -131,7 +131,7 @@ def test_relative_path_falls_back_to_absolute_across_windows_drives(
         raise ValueError("path is on a different drive")
 
     monkeypatch.setattr(
-        "torii_sumo.core.artifact_io.os.path.relpath",
+        "astra_sumo.core.artifact_io.os.path.relpath",
         cross_drive_failure,
     )
 

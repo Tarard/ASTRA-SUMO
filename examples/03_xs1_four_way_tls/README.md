@@ -1,13 +1,13 @@
 # XS-1: one real four-way TLS intersection
 
-This is Torii's deliberately small vertical slice. It starts from one frozen OpenStreetMap extract (about 400 m), builds a source network, applies exactly one reversible junction-join operation, and audits one standard vehicle-only four-way traffic-light intersection.
+This is ASTRA's deliberately small vertical slice. It starts from one frozen OpenStreetMap extract (about 400 m), builds a source network, applies exactly one reversible junction-join operation, and audits one standard vehicle-only four-way traffic-light intersection.
 
 ## Run
 
 From the repository root, with SUMO 1.27.1 available:
 
 ```powershell
-.\.venv\Scripts\python.exe plugins\torii-sumo\scripts\run_xs1_four_way.py
+.\.venv\Scripts\python.exe plugins\astra-sumo\scripts\run_xs1_four_way.py
 ```
 
 The result is written to `outputs/xs1-four-way/`. Open `review.html` for the compact result and `xs1-candidate.net.xml` with `review.add.xml` in NetEdit for the final visual check.
@@ -21,12 +21,12 @@ The expected machine state is `review_ready`; after the NetEdit check it is `rev
 The primary cleaned network and the secondary NEMA topology candidate can be reviewed without leaving NetEdit in the foreground:
 
 ```powershell
-.\.venv\Scripts\python.exe plugins\torii-sumo\scripts\netedit_background_review.py `
+.\.venv\Scripts\python.exe plugins\astra-sumo\scripts\netedit_background_review.py `
   --summary outputs\xs1-four-way\summary.json `
   --candidate-role primary `
   --out-dir outputs\xs1-four-way\netedit-primary
 
-.\.venv\Scripts\python.exe plugins\torii-sumo\scripts\netedit_background_review.py `
+.\.venv\Scripts\python.exe plugins\astra-sumo\scripts\netedit_background_review.py `
   --summary outputs\xs1-four-way\summary.json `
   --candidate-role nema-topology `
   --out-dir outputs\xs1-four-way\netedit-nema
@@ -42,7 +42,7 @@ Two lane-movement methods are then kept separate: strict OSM `turn:lanes` interp
 
 ## Evidence-gated NEMA topology
 
-`tls-topology.json` is generated only after the physical approaches, all 12 movements, controller ownership, Connection Mode, independent conflict graph, and all-turn runtime evidence agree. It reuses Torii's older strict NEMA builder instead of replacing it.
+`tls-topology.json` is generated only after the physical approaches, all 12 movements, controller ownership, Connection Mode, independent conflict graph, and all-turn runtime evidence agree. It reuses ASTRA's older strict NEMA builder instead of replacing it.
 
 For XS-1, a separate `nema-topology/standard/nema-topology.candidate.net.xml` is created. It maps the 12 movements to eight classic NEMA phases, keeps the primary cleaned candidate immutable, and then passes a second netconvert round-trip, exact semantic diff, Connection Mode audit, independent conflict audit, SUMO load, and 12/12 all-turn smoke. Generic cycle and clearance values are executable placeholders for a canonical simulation plan; they are not a field-timing claim and still require review.
 

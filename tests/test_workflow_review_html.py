@@ -32,7 +32,7 @@ TINY_SUMO_NET = """<?xml version="1.0" encoding="UTF-8"?>
 def test_write_json_preserves_existing_file_when_atomic_replace_fails(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
-    from torii_sumo.core import artifact_io, workflow_review_html
+    from astra_sumo.core import artifact_io, workflow_review_html
 
     destination = tmp_path / "review.json"
     original = '{"status": "old"}'
@@ -51,7 +51,7 @@ def test_write_json_preserves_existing_file_when_atomic_replace_fails(
 
 
 def test_artifact_hashes_cover_files_directories_and_missing_paths(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import _artifact_hashes
+    from astra_sumo.core.workflow_review_html import _artifact_hashes
 
     payload = tmp_path / "payload.txt"
     payload.write_text("stable artifact\n", encoding="utf-8")
@@ -83,7 +83,7 @@ def test_artifact_hashes_cover_files_directories_and_missing_paths(tmp_path: Pat
 
 def test_network_visualization_writes_nonempty_png(tmp_path: Path) -> None:
     from PIL import Image
-    from torii_sumo.core.network_visualization import build_network_review_visuals
+    from astra_sumo.core.network_visualization import build_network_review_visuals
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -116,7 +116,7 @@ def test_network_visualization_writes_nonempty_png(tmp_path: Path) -> None:
 
 
 def test_network_visualization_skips_out_of_bounds_cluster_points(tmp_path: Path) -> None:
-    from torii_sumo.core.network_visualization import build_network_review_visuals
+    from astra_sumo.core.network_visualization import build_network_review_visuals
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -142,7 +142,7 @@ def test_network_visualization_skips_out_of_bounds_cluster_points(tmp_path: Path
 
 
 def test_workflow_review_html_writes_visual_cockpit_and_sidecars(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -301,7 +301,7 @@ def test_workflow_review_html_writes_visual_cockpit_and_sidecars(tmp_path: Path)
     assert report["artifact_hash_gate_status"] == manifest["artifact_hash_gate"]["status"]
 
     assert "Gate Dashboard" in html
-    assert "Torii-SUMO" in html
+    assert "ASTRA-SUMO" in html
     assert "Cleanup Review" in html
     assert 'class="torii-review-app"' in html
     assert ".torii-review-app { display: grid; grid-template-columns: 240px minmax(620px, 1fr) 420px; height: 100vh;" in html
@@ -459,7 +459,7 @@ def test_workflow_review_html_writes_visual_cockpit_and_sidecars(tmp_path: Path)
 
 
 def test_workflow_review_html_marks_blocked_scoped_tls_scope(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -505,7 +505,7 @@ def test_workflow_review_html_marks_blocked_scoped_tls_scope(tmp_path: Path) -> 
 
 
 def test_workflow_review_html_additional_file_marks_tls_hierarchy_and_scope_locations(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -567,7 +567,7 @@ def test_workflow_review_html_additional_file_marks_tls_hierarchy_and_scope_loca
 
 
 def test_workflow_review_html_additional_file_marks_context_join_review_locations(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -596,7 +596,7 @@ def test_workflow_review_html_additional_file_marks_context_join_review_location
 
 
 def test_workflow_review_html_overlays_standard_nema_queue_and_decisions(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -686,7 +686,7 @@ def test_workflow_review_html_overlays_standard_nema_queue_and_decisions(tmp_pat
 
 
 def test_workflow_review_html_overlays_code_connection_mode_findings(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(TINY_SUMO_NET, encoding="utf-8")
@@ -735,7 +735,7 @@ def test_workflow_review_html_overlays_code_connection_mode_findings(tmp_path: P
 
 
 def test_workflow_review_html_additional_file_marks_discarded_components(tmp_path: Path) -> None:
-    from torii_sumo.core.workflow_review_html import build_workflow_review_html
+    from astra_sumo.core.workflow_review_html import build_workflow_review_html
 
     net_file = tmp_path / "core.net.xml"
     net_file.write_text(

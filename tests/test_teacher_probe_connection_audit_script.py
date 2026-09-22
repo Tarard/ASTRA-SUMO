@@ -5,7 +5,7 @@ import subprocess
 import sys
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/teacher_probe_connection_audit.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/teacher_probe_connection_audit.py")
 
 
 def load_script():

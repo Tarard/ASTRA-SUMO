@@ -5,22 +5,22 @@ import json
 import anyio
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.server import create_server
-from torii_sumo import mcp_contract_tools as contracts
+from astra_sumo import cli
+from astra_sumo.server import create_server
+from astra_sumo import mcp_contract_tools as contracts
 
 
 DEFAULT_TOOL_NAMES = [
-    "torii.preflight",
-    "torii.config.inspect",
-    "torii.run.compare",
-    "torii.place.resolve",
-    "torii.intersection.classify",
-    "torii.signal.classify",
-    "torii.network.audit",
-    "torii.network.compare",
-    "torii.demand.audit",
-    "torii.review.create",
+    "astra.preflight",
+    "astra.config.inspect",
+    "astra.run.compare",
+    "astra.place.resolve",
+    "astra.intersection.classify",
+    "astra.signal.classify",
+    "astra.network.audit",
+    "astra.network.compare",
+    "astra.demand.audit",
+    "astra.review.create",
 ]
 
 
@@ -53,7 +53,7 @@ def test_reduced_profiles_describe_every_input(profile: str) -> None:
 
 def test_network_audit_schema_explains_its_bounded_profiles() -> None:
     tools = anyio.run(create_server("default").list_tools)
-    audit = next(tool for tool in tools if tool.name == "torii.network.audit")
+    audit = next(tool for tool in tools if tool.name == "astra.network.audit")
     profile = audit.inputSchema["properties"]["profile"]
 
     assert profile["enum"] == ["quick", "standard"]
@@ -63,7 +63,7 @@ def test_network_audit_schema_explains_its_bounded_profiles() -> None:
 
 def test_intersection_traffic_side_schema_is_bounded() -> None:
     tools = anyio.run(create_server("default").list_tools)
-    classify = next(tool for tool in tools if tool.name == "torii.intersection.classify")
+    classify = next(tool for tool in tools if tool.name == "astra.intersection.classify")
 
     assert classify.inputSchema["properties"]["traffic_side"]["enum"] == [
         "left",
@@ -73,7 +73,7 @@ def test_intersection_traffic_side_schema_is_bounded() -> None:
 
 def test_netedit_close_schema_requires_mode_and_describes_conditional_hash() -> None:
     tools = anyio.run(create_server("netedit").list_tools)
-    close = next(tool for tool in tools if tool.name == "torii.netedit.close")
+    close = next(tool for tool in tools if tool.name == "astra.netedit.close")
     screenshot_hash = close.inputSchema["properties"]["expected_screenshot_sha256"]
 
     assert "mode" in close.inputSchema["required"]
@@ -87,7 +87,7 @@ def test_netedit_close_schema_requires_mode_and_describes_conditional_hash() -> 
 
 def test_network_compare_schema_does_not_advertise_unimplemented_promotion() -> None:
     tools = anyio.run(create_server("default").list_tools)
-    tool = next(tool for tool in tools if tool.name == "torii.network.compare")
+    tool = next(tool for tool in tools if tool.name == "astra.network.compare")
 
     assert "profile" not in tool.inputSchema["properties"]
 
@@ -101,7 +101,7 @@ def test_network_compare_accepts_the_legacy_standard_profile(
         lambda **_: {"status": "pass", "claim_status": "construction-check"},
     )
 
-    result = contracts.torii_network_compare(
+    result = contracts.astra_network_compare(
         "source.net.xml",
         "candidate.net.xml",
         "audit",
@@ -113,7 +113,7 @@ def test_network_compare_accepts_the_legacy_standard_profile(
 
 def test_network_compare_rejects_the_removed_promotion_profile() -> None:
     with pytest.raises(ValueError, match="must be standard"):
-        contracts.torii_network_compare(
+        contracts.astra_network_compare(
             "source.net.xml",
             "candidate.net.xml",
             "audit",
@@ -160,7 +160,7 @@ def test_network_audit_preserves_failed_substep_status(
         raising=False,
     )
 
-    result = contracts.torii_network_audit("network.net.xml", "audit", profile=profile)
+    result = contracts.astra_network_audit("network.net.xml", "audit", profile=profile)
 
     assert result.status == bad_status
 
@@ -184,7 +184,7 @@ def test_network_audit_uses_claim_from_the_highest_severity_step(
         lambda **_: {"status": "pass", "claim_status": "construction-check"},
     )
 
-    result = contracts.torii_network_audit(
+    result = contracts.astra_network_audit(
         "network.net.xml",
         "audit",
         profile="standard",
@@ -214,7 +214,7 @@ def test_network_audit_surfaces_actionable_overlap_groups(
         },
     )
 
-    result = contracts.torii_network_audit(
+    result = contracts.astra_network_audit(
         "network.net.xml",
         "audit",
         profile="standard",
@@ -259,7 +259,7 @@ def test_default_network_audit_does_not_run_routeability(
         raising=False,
     )
 
-    result = contracts.torii_network_audit("network.net.xml", "audit")
+    result = contracts.astra_network_audit("network.net.xml", "audit")
 
     assert result.status == "pass"
 
@@ -274,7 +274,7 @@ def test_network_audit_rejects_removed_profile_before_running_checks(
     )
 
     with pytest.raises(ValueError, match="quick or standard"):
-        contracts.torii_network_audit(
+        contracts.astra_network_audit(
             "network.net.xml",
             "audit",
             profile="promotion",  # type: ignore[arg-type]
@@ -287,8 +287,8 @@ def test_cli_warn_status_returns_one(
 ) -> None:
     monkeypatch.setattr(
         cli,
-        "torii_preflight",
-        lambda: contracts.ToriiToolResult(status="warn", summary="Review the warning."),
+        "astra_preflight",
+        lambda: contracts.AstraToolResult(status="warn", summary="Review the warning."),
     )
 
     exit_code = cli.main(["preflight", "--json"])
@@ -304,8 +304,8 @@ def test_global_json_flag_applies_to_preflight(
 ) -> None:
     monkeypatch.setattr(
         cli,
-        "torii_preflight",
-        lambda: contracts.ToriiToolResult(status="pass", summary="Ready."),
+        "astra_preflight",
+        lambda: contracts.AstraToolResult(status="pass", summary="Ready."),
     )
 
     exit_code = cli.main(["--json", "preflight"])

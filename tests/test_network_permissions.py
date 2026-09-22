@@ -7,9 +7,9 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.network_permissions import apply_service_passenger_permissions
-from torii_sumo.core.osm_access import _permission_set
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.network_permissions import apply_service_passenger_permissions
+from astra_sumo.core.osm_access import _permission_set
 
 
 @pytest.mark.skipif(not shutil.which('sumo') or not shutil.which('netconvert'), reason='Native SUMO is required.')
@@ -59,7 +59,7 @@ def test_default_service_policy_does_not_create_or_modify_a_candidate(tmp_path):
 
 @pytest.mark.parametrize('attributes', [{'allow':'all'}, {'disallow':'all'}, {'allow':'bus bicycle'}, {'disallow':'passenger'}])
 def test_permission_patch_adds_only_passenger(attributes):
-    from torii_sumo.core.network_permissions import _add_passenger_to_lane
+    from astra_sumo.core.network_permissions import _add_passenger_to_lane
     lane=ET.Element('lane',attributes)
     before=_permission_set(lane.attrib)
     changed=_add_passenger_to_lane(lane)

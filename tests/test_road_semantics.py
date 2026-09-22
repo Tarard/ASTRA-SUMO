@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import pytest
 
-from torii_sumo.road_semantics import filtered_osm_modes, is_osm_passenger_way
+from astra_sumo.road_semantics import filtered_osm_modes, is_osm_passenger_way
 
 
 @pytest.mark.parametrize(

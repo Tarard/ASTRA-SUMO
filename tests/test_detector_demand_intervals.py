@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.detector_demand import (
+from astra_sumo.core.detector_demand import (
     Detector,
     aggregate_edge_counts_by_interval,
     audit_expected_to_e1_strict,

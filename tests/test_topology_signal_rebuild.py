@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.topology_signal_rebuild import (
+from astra_sumo.core.topology_signal_rebuild import (
     build_topology_test_signal_plan,
     rebuild_topology_test_signals,
 )

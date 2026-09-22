@@ -7,13 +7,13 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.digital_twin import MapConnection, MapLane, parse_mapem
-from torii_sumo.core.digital_twin_mapping import bind_map_lanes_to_network
-from torii_sumo.core.hamburg_movement_path import (
+from astra_sumo.core.digital_twin import MapConnection, MapLane, parse_mapem
+from astra_sumo.core.digital_twin_mapping import bind_map_lanes_to_network
+from astra_sumo.core.hamburg_movement_path import (
     HAMBURG_SANDTORKAI_CONNECTION_EVIDENCE,
     derive_hamburg_official_movement_paths,
 )
-from torii_sumo.core.hamburg_teacher_cell import (
+from astra_sumo.core.hamburg_teacher_cell import (
     HamburgOfficialMovementPath,
     HamburgTeacherCellContract,
     build_hamburg_teacher_cell_contract,
@@ -22,14 +22,14 @@ from torii_sumo.core.hamburg_teacher_cell import (
     derive_hamburg_candidate_cell_boundary,
     materialize_hamburg_single_teacher_cell,
 )
-from torii_sumo.core.ocit_c import (
+from astra_sumo.core.ocit_c import (
     OcitVehicleTopologyInventory,
     OcitVehicleTopologyMovement,
     VEHICLE_TOPOLOGY_GROUP_POLICY,
     build_vehicle_topology_inventory,
     parse_ocit_c,
 )
-from torii_sumo.intersection.compile_plain import compile_intersection_to_plain
+from astra_sumo.intersection.compile_plain import compile_intersection_to_plain
 
 
 def test_candidate_boundary_uses_sumo_all_permissions(tmp_path: Path) -> None:

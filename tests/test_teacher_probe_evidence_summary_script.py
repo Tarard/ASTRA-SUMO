@@ -3,7 +3,7 @@ import json
 from pathlib import Path
 
 
-SCRIPT = Path("plugins/torii-sumo/scripts/teacher_probe_evidence_summary.py")
+SCRIPT = Path("plugins/astra-sumo/scripts/teacher_probe_evidence_summary.py")
 
 
 def load_script():

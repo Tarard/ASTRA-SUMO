@@ -1,21 +1,21 @@
-# Torii Skill Integration
+# ASTRA Skill Integration
 
-Torii bundles four topic knowledge bundles with one shared CLI/MCP execution layer and a workflow catalog. The agent may use, combine, or skip these resources according to the task. Skills, references, and workflows are supporting resources, not a required state machine.
+ASTRA bundles four topic knowledge bundles with one shared CLI/MCP execution layer and a workflow catalog. The agent may use, combine, or skip these resources according to the task. Skills, references, and workflows are supporting resources, not a required state machine.
 
 ## Skill Map
 
 | Skill | Useful for |
 |---|---|
-| `torii-build` | OSM and drawing-based network construction, roads, lanes, junctions, signal-device structure, map/source review |
-| `torii-calibrate` | detector/count binding, demand reconstruction, fixed-network calibration, digital-twin replay |
-| `torii-simulate` | environment checks, experiment planning, workflow execution, controllers, debugging, code and mechanism diagnosis |
-| `torii-report` | completed-result interpretation, traffic-control reports, claim boundaries, writing support, field lessons, release review |
+| `astra-build` | OSM and drawing-based network construction, roads, lanes, junctions, signal-device structure, map/source review |
+| `astra-calibrate` | detector/count binding, demand reconstruction, fixed-network calibration, digital-twin replay |
+| `astra-simulate` | environment checks, experiment planning, workflow execution, controllers, debugging, code and mechanism diagnosis |
+| `astra-report` | completed-result interpretation, traffic-control reports, claim boundaries, writing support, field lessons, release review |
 
 The old `simulation-helper-skill-for-eclipse-sumo` bundle is retired. Do not create another top-level copy of these skills.
 
 ## Product and Skill Boundaries
 
-The product still uses the three public capability groups **Build**, **Calibrate**, and **Simulate**. `torii-report` is a cross-cutting reasoning and reporting resource for completed outputs from those capabilities. It is not a fourth product capability.
+The product still uses the three public capability groups **Build**, **Calibrate**, and **Simulate**. `astra-report` is a cross-cutting reasoning and reporting resource for completed outputs from those capabilities. It is not a fourth product capability.
 
 The four skills are knowledge bundles rather than mandatory routing states. A task may use one skill, several skills, only a reference, only a workflow, or none of them. The agent decides what is useful from the user's request and available evidence.
 
@@ -25,11 +25,11 @@ Each skill lists related references. These references contain deeper domain know
 
 ## Workflow Catalog
 
-For executable work, Torii provides an optional workflow catalog:
+For executable work, ASTRA provides an optional workflow catalog:
 
 ```powershell
-torii workflows --json
-torii workflows --scenario <ID> --json
+astra workflows --json
+astra workflows --scenario <ID> --json
 ```
 
 Each catalog entry exposes its `reference_bundle` and a plugin-relative reference path. These fields point to related knowledge. They do not require the agent to load that skill or reference before using the workflow.

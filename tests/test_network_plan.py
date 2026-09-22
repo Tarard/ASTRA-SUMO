@@ -2,9 +2,9 @@ import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.network_permissions import apply_service_passenger_permissions
-from torii_sumo.core.network_plan import derive_network_plan
-from torii_sumo.core.osm_workflow import (
+from astra_sumo.core.network_permissions import apply_service_passenger_permissions
+from astra_sumo.core.network_plan import derive_network_plan
+from astra_sumo.core.osm_workflow import (
     _junction_semantic_gate,
     _corridor_geometry_simplification_promotion_decision,
     _low_vehicle_control_candidate_limits,
@@ -29,7 +29,7 @@ from torii_sumo.core.osm_workflow import (
     _tls_connection_repair_promotion_decision,
     export_plain_net_for_teacher_guided_repair,
 )
-from torii_sumo.core.reference_bbox import derive_reference_net_bbox
+from astra_sumo.core.reference_bbox import derive_reference_net_bbox
 
 
 def test_corridor_geometry_simplification_promotes_only_monotonic_candidate() -> None:
@@ -229,7 +229,7 @@ def test_direct_local_teacher_replay_shortens_generated_net_paths_for_windows(tm
         captured["output_file"] = kwargs["output_file"]
         return {"status": "fail"}
 
-    monkeypatch.setattr("torii_sumo.core.osm_workflow.write_teacher_target_internal_replay_net", fake_replay)
+    monkeypatch.setattr("astra_sumo.core.osm_workflow.write_teacher_target_internal_replay_net", fake_replay)
     report = _run_direct_local_teacher_replay(
         queue_report={
             "teacher_net_file": str(teacher_net),
@@ -277,7 +277,7 @@ def test_scoped_teacher_tls_cell_batch_keeps_cells_as_independent_variants(tmp_p
             ],
         }
 
-    monkeypatch.setattr("torii_sumo.core.osm_workflow._run_direct_local_teacher_replay", fake_direct)
+    monkeypatch.setattr("astra_sumo.core.osm_workflow._run_direct_local_teacher_replay", fake_direct)
     report = run_scoped_teacher_tls_cell_batch(
         queue_report={
             "repair_candidates": [

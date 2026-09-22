@@ -4,22 +4,22 @@ import json
 import random
 from xml.etree import ElementTree as ET
 
-from torii_sumo.corridor.canonicalizer import (
+from astra_sumo.corridor.canonicalizer import (
     CanonicalEntity,
     CanonicalNetworkSnapshot,
     canonicalize_raw_network,
 )
-from torii_sumo.corridor.conflict_graph import (
+from astra_sumo.corridor.conflict_graph import (
     audit_independent_movement_safety,
     build_movement_conflict_graph,
 )
-from torii_sumo.corridor.enums import GateStatus, TrafficSide
-from torii_sumo.corridor.ids import stable_id
-from torii_sumo.corridor.netxml import parse_net_xml
-from torii_sumo.corridor.pedestrian_crossings import (
+from astra_sumo.corridor.enums import GateStatus, TrafficSide
+from astra_sumo.corridor.ids import stable_id
+from astra_sumo.corridor.netxml import parse_net_xml
+from astra_sumo.corridor.pedestrian_crossings import (
     infer_pedestrian_facility_owners,
 )
-from torii_sumo.corridor.review import (
+from astra_sumo.corridor.review import (
     PedestrianCrossingReviewSubject,
     build_pedestrian_coverage_gap,
 )

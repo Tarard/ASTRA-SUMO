@@ -4,7 +4,7 @@ from pathlib import Path
 import time
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core.junction_rebuild_candidate import (
+from astra_sumo.core.junction_rebuild_candidate import (
     _approach_endpoint_rebuild_plan,
     _augment_candidate_edge_map_from_tls_approach_pairs,
     _candidate_connection_mode_scope_ids,
@@ -54,9 +54,9 @@ from torii_sumo.core.junction_rebuild_candidate import (
     write_teacher_tllogic_net,
     write_teacher_vehicle_connection_attrs_net,
 )
-from torii_sumo.core.junction_rebuild_helpers import _netedit_review_actions
-from torii_sumo.core.junction_rebuild_tail import _warp_anchor_shape_to_teacher_endpoint
-from torii_sumo.core.reference_join_audit import audit_reference_join_patterns
+from astra_sumo.core.junction_rebuild_helpers import _netedit_review_actions
+from astra_sumo.core.junction_rebuild_tail import _warp_anchor_shape_to_teacher_endpoint
+from astra_sumo.core.reference_join_audit import audit_reference_join_patterns
 
 
 def test_restore_existing_edge_geometry_recomputes_operational_lane_length() -> None:

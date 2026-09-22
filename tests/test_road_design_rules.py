@@ -1,6 +1,6 @@
 import pytest
 
-from torii_sumo.road_network.design_rules import (
+from astra_sumo.road_network.design_rules import (
     check_cycle_lane_width, check_left_turn_lane_width, check_two_lane_carriageway_width,
 )
 

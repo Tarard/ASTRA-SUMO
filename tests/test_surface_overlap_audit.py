@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from torii_sumo.core.surface_overlap_audit import (
+from astra_sumo.core.surface_overlap_audit import (
     audit_sumo_lane_junction_surface_overlaps,
     compare_sumo_surface_overlap_reports,
 )

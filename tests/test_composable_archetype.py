@@ -4,7 +4,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.intersection.composable_archetype import (
+from astra_sumo.intersection.composable_archetype import (
     build_hamburg_2394_archetype_profile,
     build_mapem_archetype_evidence,
     build_ocit_controller_domain_evidence,

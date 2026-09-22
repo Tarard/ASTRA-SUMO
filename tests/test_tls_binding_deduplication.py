@@ -2,8 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from torii_sumo.core.digital_twin import SignalStream
-from torii_sumo.core.digital_twin_mapping import (
+from astra_sumo.core.digital_twin import SignalStream
+from astra_sumo.core.digital_twin_mapping import (
     MapLaneBinding,
     bind_signal_streams_to_tls,
     select_active_signal_streams,

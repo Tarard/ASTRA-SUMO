@@ -1,8 +1,8 @@
-from torii_sumo.core.modal_aggregation_policy import (
+from astra_sumo.core.modal_aggregation_policy import (
     classify_cluster_modal_policy,
     classify_edge_modal_role,
 )
-from torii_sumo.road_semantics import classify_modal_role_from_edge
+from astra_sumo.road_semantics import classify_modal_role_from_edge
 
 
 def test_ordinary_urban_vehicle_edges_are_join_core() -> None:

@@ -6,16 +6,16 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_shared_teacher import (
+from astra_sumo.core.hamburg_shared_teacher import (
     derive_hamburg_directional_components,
     materialize_hamburg_shared_controller_teacher,
     replay_hamburg_shared_teacher,
 )
-from torii_sumo.core.junction_rebuild_candidate import (
+from astra_sumo.core.junction_rebuild_candidate import (
     build_scoped_teacher_tls_cell_replay_plan,
     build_shared_teacher_tls_controller_replay_plan,
 )
-from torii_sumo.intersection.schema import (
+from astra_sumo.intersection.schema import (
     Approach,
     BBox,
     ControlModel,

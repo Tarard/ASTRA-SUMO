@@ -17,7 +17,7 @@ def network(before, width=2, mouths=False):
 
 
 def module():
-    return importlib.import_module("torii_sumo.core.hamburg_junction_contour")
+    return importlib.import_module("astra_sumo.core.hamburg_junction_contour")
 
 
 def test_fused_surface_uses_lane_width_and_keeps_mouths_without_mutating_source():

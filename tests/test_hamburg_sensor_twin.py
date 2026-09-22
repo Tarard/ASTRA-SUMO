@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-from torii_sumo.core.hamburg_sensor_twin import (
+from astra_sumo.core.hamburg_sensor_twin import (
     build_path_time_assignment_evidence,
     build_time_expanded_response,
     solve_bounded_l1_path_time_profiles,

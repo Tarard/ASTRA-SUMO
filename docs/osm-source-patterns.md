@@ -1,6 +1,6 @@
 # OSM Source Patterns
 
-This project treats public OSM repositories as source-pattern evidence for Torii. Do not vendor external source code into the plugin. Borrow architecture, option names, and validation ideas only after checking license, dependencies, and Windows install risk.
+This project treats public OSM repositories as source-pattern evidence for ASTRA. Do not vendor external source code into the plugin. Borrow architecture, option names, and validation ideas only after checking license, dependencies, and Windows install risk.
 
 ## Source Map
 
@@ -16,7 +16,7 @@ original build file and its recorded identity. External and internal vehicle
 permissions, existing connections, external geometry, and signals are checked
 before the candidate is accepted.
 
-| Project | Torii role | Pattern to borrow | Boundary |
+| Project | ASTRA role | Pattern to borrow | Boundary |
 |---|---|---|---|
 | OSMnx | Online Overpass network acquisition | Overpass subdivision, network-type presets, rate-limit pause, cache, retry on API pressure | Keep a lightweight local implementation; do not require heavy geospatial dependencies for the MVP |
 | OSMNet | OSM graph extraction design | Road-class filtering, node/way deduplication, graph-oriented cleanup stages | Architecture reference only; do not vendor source code |
@@ -36,18 +36,18 @@ before the candidate is accepted.
 
 These public scripts are useful workflow evidence, but they are not a substitute for TUM-style teacher replay. They mostly automate source preparation, filtering, and `netconvert` profiles; they do not guarantee TUM-equivalent connection, walkingarea, crossing, internal-edge, TLS phase, or `linkIndex` semantics.
 
-| Source | Useful pattern | Torii implication | Boundary |
+| Source | Useful pattern | ASTRA implication | Boundary |
 |---|---|---|---|
 | SUMO `osmGet.py` / `osmBuild.py` | SUMO-native OSM download, tiling, polygon/background handling, and option-file driven `netconvert` calls | Treat SUMO's own import stack as the first baseline before inventing another downloader/profile layer | Official defaults are generic OSM import behavior, not Ingolstadt teacher parity |
-| sumo-berlin | Geofabrik extract preparation, bbox cropping/filtering, and repeatable scenario build scripting | Add offline-source prep as a stage before the current XML-centric Torii path | Do not feed `.osm.pbf` directly into current `source_osm_path` until a PBF prep/conversion step exists |
+| sumo-berlin | Geofabrik extract preparation, bbox cropping/filtering, and repeatable scenario build scripting | Add offline-source prep as a stage before the current XML-centric ASTRA path | Do not feed `.osm.pbf` directly into current `source_osm_path` until a PBF prep/conversion step exists |
 | MoSTScenario | Scenario workflow with OSM-like inputs, cleaning stages, and manual/recorded overrides | Preserve a logged transformation chain for every source and cleanup action | A city scenario build recipe is not a reusable proof of junction movement correctness |
 | actrys | Shell-level `osmfilter` before `netconvert`, plus explicit import flags for ramps, isolated edges, joined junctions, and guessed TLS | Use these flags as small probe variants for routeability and topology feedback | Do not copy options that remove internal-link semantics, such as `--no-internal-links`, into TUM-style junction repair |
 
-## Immediate Torii Probe
+## Immediate ASTRA Probe
 
 Keep `vehicle_core` and `reference_visual_detail` as separate profiles. For a candidate bbox, compare only one small junction at a time:
 
-1. Build the current Torii OSM net.
+1. Build the current ASTRA OSM net.
 2. Rebuild with one borrowed profile variant.
 3. Compare approach-edge preservation, routeability, TLS/linkIndex delta, crossing/walkingarea delta, and NetEdit connection screenshots.
 4. Promote an option only if it improves the same target junction without deleting teacher-required approaches or internal semantics.

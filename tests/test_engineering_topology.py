@@ -5,9 +5,9 @@ import xml.etree.ElementTree as ET
 import pytest
 from pyproj import Transformer
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.road_network import engineering_topology
-from torii_sumo.road_network.engineering_topology import build_engineering_topology
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.road_network import engineering_topology
+from astra_sumo.road_network.engineering_topology import build_engineering_topology
 
 
 def _case(tmp_path, osm_year=2013):

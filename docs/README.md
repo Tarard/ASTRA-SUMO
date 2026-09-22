@@ -1,12 +1,12 @@
-# Torii Documentation
+# ASTRA Documentation
 
-This is the current documentation index for Torii. Product behavior and claims are defined by the top-level `README.md` and `docs/architecture.md`; research snapshots and historical development records are indexed separately below.
+This is the current documentation index for ASTRA. Product behavior and claims are defined by the top-level `README.md` and `docs/architecture.md`; research snapshots and historical development records are indexed separately below.
 
 ## Start by Goal
 
 | Goal | Start here |
 |---|---|
-| Install Torii | [Codex Plugin Installation](codex-plugin-install.md) |
+| Install ASTRA | [Codex Plugin Installation](codex-plugin-install.md) |
 | Understand the system and claim boundary | [Architecture](architecture.md) |
 | Find an MCP tool | [MCP Tool Catalog](mcp-tool-catalog.md) |
 | Understand how skills are selected and invoked | [Skill Integration](skill-integration.md) |
@@ -21,6 +21,8 @@ This is the current documentation index for Torii. Product behavior and claims a
 
 ## Current Product Documentation
 
+- [ASTRA migration](astra-migration.md) — new names, installation, and compatibility with Torii.
+
 - [Architecture](architecture.md) — system boundary, major layers, and allowed claims.
 - [Codex Plugin Installation](codex-plugin-install.md) — installation and first-run setup.
 - [MCP Tool Catalog](mcp-tool-catalog.md) — registered tool surface grouped by user intent.
@@ -31,7 +33,7 @@ This is the current documentation index for Torii. Product behavior and claims a
 - [Common SUMO Signal-Control Failures](common-sumo-signal-control-failures.md) — recurring controller and evidence failures.
 - [Hamburg corridor workflow](hamburg-sandtorkai-codex-execution-workflow.md) — the plan, run, audit, and revision loop for the current digital-twin case.
 
-Runnable examples live under [`examples/`](../examples/). Frozen evaluation assets and protocols live under [`benchmarks/`](../benchmarks/). Command-line experiment entry points live under [`plugins/torii-sumo/scripts/`](../plugins/torii-sumo/scripts/).
+Runnable examples live under [`examples/`](../examples/). The upstream public snapshot omits the `benchmarks/` datasets required by some historical tests. Command-line experiment entry points live under [`plugins/astra-sumo/scripts/`](../plugins/astra-sumo/scripts/).
 
 ## Research and Evaluation
 

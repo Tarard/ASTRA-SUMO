@@ -6,8 +6,8 @@ from typing import Callable
 
 import pytest
 
-from torii_sumo.core.digital_twin import CountObservation, CountStream, WindowSelection
-from torii_sumo.core.digital_twin_timeline import (
+from astra_sumo.core.digital_twin import CountObservation, CountStream, WindowSelection
+from astra_sumo.core.digital_twin_timeline import (
     aggregate_simulation_counts,
     build_simulation_window,
     rank_complete_simulation_windows,

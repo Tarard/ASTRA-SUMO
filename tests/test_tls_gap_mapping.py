@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.tls_gap_mapping import (
+from astra_sumo.core.tls_gap_mapping import (
     audit_tls_gap_variant_semantics,
     build_tls_gap_destination_mapping,
     build_tls_gap_repair_variant,

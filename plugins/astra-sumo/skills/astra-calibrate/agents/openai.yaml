@@ -1,0 +1,6 @@
+interface:
+  display_name: "ASTRA Calibrate"
+  short_description: "Calibrate SUMO demand and sensor-based digital twins."
+  default_prompt: "Use $astra-calibrate to reconstruct demand, bind observations, calibrate this fixed SUMO network, and state the remaining identifiability limits."
+policy:
+  allow_implicit_invocation: true

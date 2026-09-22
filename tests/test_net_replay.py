@@ -3,10 +3,10 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from torii_sumo.corridor.enums import GateStatus
-from torii_sumo.corridor.net_replay import compare_netconvert_replay
-from torii_sumo.corridor.netxml import normalized_net_sha256
-from torii_sumo.corridor.schema import build_net_replay_report_schema
+from astra_sumo.corridor.enums import GateStatus
+from astra_sumo.corridor.net_replay import compare_netconvert_replay
+from astra_sumo.corridor.netxml import normalized_net_sha256
+from astra_sumo.corridor.schema import build_net_replay_report_schema
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]

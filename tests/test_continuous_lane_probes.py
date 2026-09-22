@@ -3,9 +3,9 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.road_network.engineering_topology import build_engineering_topology
-from torii_sumo.road_network.continuous_lane_probes import run_continuous_lane_probes
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.road_network.engineering_topology import build_engineering_topology
+from astra_sumo.road_network.continuous_lane_probes import run_continuous_lane_probes
 
 
 def _case(tmp_path, kind="constant", *, upstream=False, ambiguous_prefix=False):

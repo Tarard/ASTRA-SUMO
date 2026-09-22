@@ -8,15 +8,14 @@ from pathlib import Path
 import pytest
 from pydantic import ValidationError
 
-from torii_sumo.corridor.candidates import (
+from astra_sumo.corridor.candidates import (
     CandidateGraph,
     CandidateVariant,
     Hypothesis,
     PatchOperation,
     SemanticDelta,
 )
-from torii_sumo.corridor.benchmark import BenchmarkLock, BenchmarkSpecV1
-from torii_sumo.corridor.enums import (
+from astra_sumo.corridor.enums import (
     ArtifactRole,
     AutomationAction,
     DeltaAction,
@@ -28,8 +27,8 @@ from torii_sumo.corridor.enums import (
     TrafficSide,
     WorkflowStage,
 )
-from torii_sumo.corridor.evidence import Finding, InvariantResult
-from torii_sumo.corridor.ids import (
+from astra_sumo.corridor.evidence import Finding, InvariantResult
+from astra_sumo.corridor.ids import (
     canonical_json_bytes,
     make_approach_id,
     make_boundary_port_id,
@@ -38,16 +37,16 @@ from torii_sumo.corridor.ids import (
     make_physical_cell_id,
     stable_id,
 )
-from torii_sumo.corridor.manifest import ArtifactIdentity, ArtifactManifestV1
-from torii_sumo.corridor.scope import BoundaryPort, ScopeSpec
-from torii_sumo.corridor.schema import (
+from astra_sumo.corridor.manifest import ArtifactIdentity, ArtifactManifestV1
+from astra_sumo.corridor.scope import BoundaryPort, ScopeSpec
+from astra_sumo.corridor.schema import (
     build_controlled_pedestrian_binding_census_schema,
     build_corridor_schema,
     build_effective_tls_program_inventory_schema,
     build_row1_experiment_report_schema,
 )
-from torii_sumo.corridor.toolchain import ToolIdentity, ToolchainLock
-from torii_sumo.corridor.workflow import (
+from astra_sumo.corridor.toolchain import ToolIdentity, ToolchainLock
+from astra_sumo.corridor.workflow import (
     NetworkQualityVectorV1,
     QualityDimension,
     StageOutcome,
@@ -364,7 +363,7 @@ def test_artifact_manifest_blocks_source_candidate_identity_collision() -> None:
         role=ArtifactRole.CANDIDATE_NET,
         path="candidate.net.xml",
         sha256=SHA_A,
-        producer="torii",
+        producer="astra",
         toolchain_id=toolchain_id,
     )
 
@@ -390,7 +389,7 @@ def test_artifact_identity_from_file_is_hash_bound_and_stable(tmp_path: Path) ->
         logical_name="candidate_net",
         role=ArtifactRole.CANDIDATE_NET,
         artifact_schema="sumo.net.xml",
-        producer="torii",
+        producer="astra",
         toolchain_id=toolchain_id,
     )
     second = ArtifactIdentity.from_file(
@@ -398,7 +397,7 @@ def test_artifact_identity_from_file_is_hash_bound_and_stable(tmp_path: Path) ->
         logical_name="candidate_net",
         role=ArtifactRole.CANDIDATE_NET,
         artifact_schema="sumo.net.xml",
-        producer="torii",
+        producer="astra",
         toolchain_id=toolchain_id,
     )
 
@@ -414,7 +413,7 @@ def test_artifact_identity_from_file_fails_closed_for_missing_file(tmp_path: Pat
             logical_name="missing_report",
             role=ArtifactRole.REPORT,
             artifact_schema="application/json",
-            producer="torii",
+            producer="astra",
             toolchain_id=stable_id("toolchain", {"version": 1}),
         )
 
@@ -438,7 +437,7 @@ def test_artifact_manifest_rehashes_files_before_use(tmp_path: Path) -> None:
         logical_name="candidate_net",
         role=ArtifactRole.CANDIDATE_NET,
         artifact_schema="sumo.net.xml",
-        producer="torii",
+        producer="astra",
         toolchain_id=toolchain_id,
     )
     manifest = ArtifactManifestV1(
@@ -477,7 +476,7 @@ def test_artifact_manifest_blocks_missing_file_during_rehash(tmp_path: Path) -> 
         logical_name="candidate_net",
         role=ArtifactRole.CANDIDATE_NET,
         artifact_schema="sumo.net.xml",
-        producer="torii",
+        producer="astra",
         toolchain_id=toolchain_id,
     )
     manifest = ArtifactManifestV1(
@@ -523,26 +522,6 @@ def test_finding_requires_stable_witness_identity() -> None:
     )
 
     assert finding.witness["actual_target"] == "lane-role-b"
-
-
-def test_frozen_stage0_benchmark_toolchain_and_plan_hashes_close() -> None:
-    benchmark_path = REPOSITORY_ROOT / "benchmarks/corridor_human_modeling_v1/benchmark.v1.json"
-    toolchain_path = REPOSITORY_ROOT / "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-    lock_path = REPOSITORY_ROOT / "benchmarks/corridor_human_modeling_v1/stage0.lock.json"
-
-    benchmark = BenchmarkSpecV1.model_validate_json(benchmark_path.read_text(encoding="utf-8"))
-    toolchain = ToolchainLock.model_validate_json(toolchain_path.read_text(encoding="utf-8"))
-    lock = BenchmarkLock.model_validate_json(lock_path.read_text(encoding="utf-8"))
-
-    assert benchmark.frozen is True
-    assert toolchain.toolchain_id == "toolchain_48d9790480acc11e5c4b6b5d"
-    for relative_path, expected_sha256 in (
-        (lock.benchmark_path, lock.benchmark_sha256),
-        (lock.toolchain_lock_path, lock.toolchain_lock_sha256),
-        (lock.research_plan_path, lock.research_plan_sha256),
-    ):
-        payload = (REPOSITORY_ROOT / relative_path).read_bytes()
-        assert hashlib.sha256(payload).hexdigest() == expected_sha256
 
 
 def test_exported_contract_schema_is_current() -> None:

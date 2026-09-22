@@ -3,9 +3,9 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from torii_sumo.corridor.enums import GateStatus
-from torii_sumo.corridor.plainxml_normalization import normalize_osm_plainxml_bundle
-from torii_sumo.corridor.schema import build_plainxml_normalization_report_schema
+from astra_sumo.corridor.enums import GateStatus
+from astra_sumo.corridor.plainxml_normalization import normalize_osm_plainxml_bundle
+from astra_sumo.corridor.schema import build_plainxml_normalization_report_schema
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]

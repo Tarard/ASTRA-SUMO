@@ -2,8 +2,8 @@ import hashlib
 
 import pytest
 
-from torii_sumo.road_network.design_rules import RAST
-from torii_sumo.road_network.junction_design_rules import (
+from astra_sumo.road_network.design_rules import RAST
+from astra_sumo.road_network.junction_design_rules import (
     check_plan_marking_for_connection, check_through_lane_continuity,
 )
 
@@ -93,8 +93,8 @@ def test_marking_source_hash_and_page_are_validated(tmp_path):
     with pytest.raises(ValueError, match="SHA-256"):
         check_plan_marking_for_connection(source=source, page=67, marking_id="mark-1")
 def test_current_middle_cycle_planning_rule_does_not_erase_historic_observation():
-    from torii_sumo.road_network.junction_design_rules import check_cycle_lane_position
-    from torii_sumo.road_network.design_rules import RESTRA
+    from astra_sumo.road_network.junction_design_rules import check_cycle_lane_position
+    from astra_sumo.road_network.design_rules import RESTRA
     context = dict(purpose='design_review', jurisdiction='DE-HH', assessment_date='2026-09-08', standard_id=RESTRA)
     assert check_cycle_lane_position(context=context, position='between_motor_lanes')['status'] == 'review_required'
     assert check_cycle_lane_position(context=context, position='right_of_motor_traffic')['status'] == 'pass'

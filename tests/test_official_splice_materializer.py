@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import xml.etree.ElementTree as ET
 
-from torii_sumo.road_network.official_splice_materializer import (
+from astra_sumo.road_network.official_splice_materializer import (
     _axis_node_at_station,
     _build_local_components,
     _derive_merge_through_indices,
@@ -36,9 +36,9 @@ def test_two_direction_events_keep_both_splice_boundaries() -> None:
 def test_event_at_source_endpoint_resolves_to_splice_node() -> None:
     source = ET.fromstring(
         '<edge id="axis" from="old-from" to="old-to">'
-        '<param key="torii:station_direction" value="with_stationing"/>'
-        '<param key="torii:station_from_m" value="0"/>'
-        '<param key="torii:station_to_m" value="10"/>'
+        '<param key="astra:station_direction" value="with_stationing"/>'
+        '<param key="astra:station_from_m" value="0"/>'
+        '<param key="astra:station_to_m" value="10"/>'
         '<lane id="axis_0" shape="0,0 10,0"/>'
         '</edge>'
     )
@@ -57,9 +57,9 @@ def test_event_at_source_endpoint_resolves_to_splice_node() -> None:
 def test_core_polygon_intersection_returns_axis_station_interval() -> None:
     source = ET.fromstring(
         '<edge id="axis" shape="0,0 10,0">'
-        '<param key="torii:station_direction" value="with_stationing"/>'
-        '<param key="torii:station_from_m" value="0"/>'
-        '<param key="torii:station_to_m" value="10"/>'
+        '<param key="astra:station_direction" value="with_stationing"/>'
+        '<param key="astra:station_from_m" value="0"/>'
+        '<param key="astra:station_to_m" value="10"/>'
         '</edge>'
     )
 

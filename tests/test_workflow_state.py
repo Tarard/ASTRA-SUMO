@@ -1,4 +1,4 @@
-from torii_sumo.core.workflow_state import (
+from astra_sumo.core.workflow_state import (
     NetworkQualityVector,
     StageResult,
     build_promotion_trace,

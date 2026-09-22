@@ -4,7 +4,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_2349_channelized_geometry import (
+from astra_sumo.core.hamburg_2349_channelized_geometry import (
     Hamburg2349ChannelizedGeometryError,
     _audit_direct_movements,
     _stage_connections,

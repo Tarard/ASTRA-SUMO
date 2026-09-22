@@ -4,14 +4,14 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.junction_boundary_rebuild import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.junction_boundary_rebuild import (
     _boundary_geometry,
     _source_polygon_preserves_cuts,
     collect_join_boundary_paths,
     restore_joined_boundary_connections,
 )
-from torii_sumo.core.source_movement_support import _index
+from astra_sumo.core.source_movement_support import _index
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")

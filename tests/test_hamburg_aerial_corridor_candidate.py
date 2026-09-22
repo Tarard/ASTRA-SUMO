@@ -9,10 +9,10 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo import cli
-from torii_sumo.core import hamburg_aerial_corridor_candidate as candidate_module
-from torii_sumo.core.hamburg_junctions import movements as movement_module
-from torii_sumo.core.hamburg_aerial_corridor_candidate import (
+from astra_sumo import cli
+from astra_sumo.core import hamburg_aerial_corridor_candidate as candidate_module
+from astra_sumo.core.hamburg_junctions import movements as movement_module
+from astra_sumo.core.hamburg_aerial_corridor_candidate import (
     _bind_official_lanes,
     _load_movement_plans,
     _project_plan_to_network,
@@ -22,7 +22,7 @@ from torii_sumo.core.hamburg_aerial_corridor_candidate import (
     movement_surface_polygon,
     reanchor_movement_shape,
 )
-from torii_sumo.core.connection_mode_audit import audit_network_connection_mode
+from astra_sumo.core.connection_mode_audit import audit_network_connection_mode
 
 
 @pytest.mark.parametrize(
@@ -292,7 +292,7 @@ def test_materialization_rebuilds_connections_and_preserves_unmapped_branch(tmp_
         groups=[{"node_id": "999", "intersection_part": "0", "join_id": "J", "source_node_ids": ["J"]}], skipped_join_ids=set(),
         output_file=tmp_path / "mode-preservation.net.xml", maximum_anchor_projection_error_m=10)
     assert ("in", 0, "out", 1) in {tuple(row) for row in modes_kept["official_connection_audit"]["actual"]}
-    from torii_sumo.core.hamburg_aerial_approach import _preserved_edge
+    from astra_sumo.core.hamburg_aerial_approach import _preserved_edge
     built = ET.parse(output).getroot()
     if fixed_boundary:
         # A compiled custom boundary stays authoritative even when the group's
@@ -373,7 +373,7 @@ def test_junction_contour_mode_is_explicit_and_validated(tmp_path, mode):
 
 
 def test_contour_scope_discovers_unlisted_road_junctions_without_counting_two_way_roads_twice():
-    from torii_sumo.core.hamburg_junctions.movements import _contour_target_ids
+    from astra_sumo.core.hamburg_junctions.movements import _contour_target_ids
 
     root = ET.fromstring('<net><junction id="MAP"/><junction id="unlisted" type="priority"/><junction id="through" type="traffic_light"/></net>')
     for center, peers in [('unlisted', ['west', 'east', 'north']), ('through', ['west', 'east'])]:
@@ -414,7 +414,7 @@ def test_contour_build_keeps_verified_parts_and_rolls_back_failed_parts(tmp_path
             "preservation_pass": not (failure == "coverage" and identifier == "K")},
     )
     module.propose_fused_junction_contour = module.propose_junction_contour
-    monkeypatch.setitem(sys.modules, "torii_sumo.core.hamburg_junction_contour", module)
+    monkeypatch.setitem(sys.modules, "astra_sumo.core.hamburg_junction_contour", module)
     commands = []
 
     def compile_from_original(command, **kwargs):

@@ -6,7 +6,7 @@ from pathlib import Path
 
 from pyproj import Transformer
 
-from torii_sumo.core.hamburg_named_detector_bindings import (
+from astra_sumo.core.hamburg_named_detector_bindings import (
     materialize_hamburg_named_detector_bindings,
 )
 

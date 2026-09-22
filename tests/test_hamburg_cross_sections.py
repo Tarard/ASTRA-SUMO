@@ -8,7 +8,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.road_network.adapters.hamburg_cross_sections import (
+from astra_sumo.road_network.adapters.hamburg_cross_sections import (
     HAMBURG_CROSS_SECTION_CRS,
     read_hamburg_cross_section_snapshot,
 )

@@ -6,9 +6,9 @@ from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
 
-from torii_sumo.core.digital_twin import CountStream
-from torii_sumo.core.digital_twin import CanonicalCount
-from torii_sumo.core.hamburg_named_count_scope import (
+from astra_sumo.core.digital_twin import CountStream
+from astra_sumo.core.digital_twin import CanonicalCount
+from astra_sumo.core.hamburg_named_count_scope import (
     OfficialSignalNodeReference,
     audit_hamburg_count_station_compositions,
     build_hamburg_count_scope_evidence,
@@ -16,7 +16,7 @@ from torii_sumo.core.hamburg_named_count_scope import (
     load_lsa_node_references,
     write_corridor_aggregate_counts,
 )
-from torii_sumo.core.hamburg_official import HAMBURG_COUNT_STATION_LAYER
+from astra_sumo.core.hamburg_official import HAMBURG_COUNT_STATION_LAYER
 
 
 def _stream(stream_id: int, node_id: str, longitude: float, latitude: float, direction: str = "Richtung 1") -> CountStream:

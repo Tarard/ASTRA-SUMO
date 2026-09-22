@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from torii_sumo.core.junction_teacher_model import extract_junction_pattern_exemplar, extract_teacher_junction_model
+from astra_sumo.core.junction_teacher_model import extract_junction_pattern_exemplar, extract_teacher_junction_model
 
 
 REFERENCE_NET = Path("examples/02_one_prompt_osm_network/networks/tum_ingolstadt_center_reference.net.xml")

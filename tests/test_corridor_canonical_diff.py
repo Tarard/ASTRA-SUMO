@@ -1,30 +1,21 @@
 from __future__ import annotations
 
-import json
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
 import pytest
 
-from torii_sumo.corridor.canonicalizer import canonicalize_raw_network
-from torii_sumo.corridor.calibration import (
-    ConnectionAuditCalibration,
-    ConnectionAuditCalibrationPolicy,
-)
-from torii_sumo.corridor.audit_pipeline import (
-    build_exact_semantic_regression_artifacts,
-)
-from torii_sumo.corridor.audit_adapter import (
+from astra_sumo.corridor.canonicalizer import canonicalize_raw_network
+from astra_sumo.corridor.audit_adapter import (
     build_scope_from_junction_ids,
     canonicalize_connection_mode_findings,
     finding_category_counts,
 )
-from torii_sumo.corridor.enums import FindingSeverity, GateStatus, TrafficSide
-from torii_sumo.corridor.exact_diff import build_finding, compare_canonical_snapshots
-from torii_sumo.corridor.ids import stable_id
-from torii_sumo.corridor.netxml import parse_net_xml
-from torii_sumo.corridor.scope import BoundaryPort, ScopeSpec
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.corridor.enums import FindingSeverity, GateStatus, TrafficSide
+from astra_sumo.corridor.exact_diff import build_finding, compare_canonical_snapshots
+from astra_sumo.corridor.ids import stable_id
+from astra_sumo.corridor.netxml import parse_net_xml
+from astra_sumo.corridor.scope import BoundaryPort, ScopeSpec
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
@@ -330,134 +321,3 @@ def test_raw_junction_scope_expands_to_stable_target_entity_closure() -> None:
     report = compare_canonical_snapshots(source, candidate, scope=scope)
     assert report.outside_scope_delta_ids == ()
     assert report.status is GateStatus.PASS
-
-
-def test_stage1_pipeline_emits_hash_closed_read_only_artifacts(tmp_path: Path) -> None:
-    source = tmp_path / "source.net.xml"
-    candidate = tmp_path / "candidate.net.xml"
-    source.write_text(_network_xml(), encoding="utf-8")
-    candidate.write_text(
-        _network_xml(
-            internal_edge_id=":renumbered_42",
-            internal_lane_id=":renumbered_42_0",
-            tls_id="controller-renumbered",
-            reverse_connections=True,
-        ),
-        encoding="utf-8",
-    )
-    source_sha256 = file_sha256(source)
-
-    result = build_exact_semantic_regression_artifacts(
-        source,
-        candidate,
-        output_dir=tmp_path / "audit",
-        toolchain_lock_file=(
-            REPOSITORY_ROOT
-            / "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-        ),
-        traffic_side=TrafficSide.RIGHT,
-        target_source_junction_ids=("j",),
-        target_candidate_junction_ids=("j",),
-        endpoint_tolerance_m=2.0,
-        normalized_lane_rank_tolerance=0.5,
-    )
-
-    assert result["status"] == "pass"
-    assert result["automatic_promotion_gate"] == "pass"
-    assert result["entity_delta_count"] == 0
-    assert result["new_finding_count"] == 0
-    assert result["source_network_mutation"] is False
-    assert file_sha256(source) == source_sha256
-    manifest = json.loads(
-        Path(result["files"]["manifest"]).read_text(encoding="utf-8")
-    )
-    assert manifest["source_mutated"] is False
-    assert manifest["gate_trace"]["exact_semantic_diff"] == "pass"
-    assert result["candidate_safety_finding_count"] == 0
-    assert len(manifest["artifacts"]) == 11
-    assert len(manifest["dependencies"]) == 11
-
-
-def test_stage1_pipeline_rejects_candidate_with_source_content(tmp_path: Path) -> None:
-    source = tmp_path / "source.net.xml"
-    candidate = tmp_path / "candidate.net.xml"
-    payload = _network_xml()
-    source.write_text(payload, encoding="utf-8")
-    candidate.write_text(payload, encoding="utf-8")
-
-    with pytest.raises(ValueError, match="contents must be distinct"):
-        build_exact_semantic_regression_artifacts(
-            source,
-            candidate,
-            output_dir=tmp_path / "audit",
-            toolchain_lock_file=(
-                REPOSITORY_ROOT
-                / "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-            ),
-            traffic_side=TrafficSide.RIGHT,
-            target_source_junction_ids=("j",),
-            target_candidate_junction_ids=("j",),
-            endpoint_tolerance_m=2.0,
-            normalized_lane_rank_tolerance=0.5,
-        )
-
-
-def test_stage1_pipeline_binds_a_passing_source_calibration(tmp_path: Path) -> None:
-    source = tmp_path / "source.net.xml"
-    candidate = tmp_path / "candidate.net.xml"
-    source.write_text(_network_xml(), encoding="utf-8")
-    candidate.write_text(
-        _network_xml(
-            internal_edge_id=":renumbered_42",
-            internal_lane_id=":renumbered_42_0",
-            tls_id="controller-renumbered",
-            reverse_connections=True,
-        ),
-        encoding="utf-8",
-    )
-    policy = ConnectionAuditCalibrationPolicy.build(minimum_endpoint_samples=1)
-    calibration = ConnectionAuditCalibration(
-        calibration_id=stable_id("calibration", {"source": file_sha256(source)}),
-        source_sha256=file_sha256(source),
-        traffic_side=TrafficSide.RIGHT,
-        policy=policy,
-        status=GateStatus.PASS,
-        endpoint_path_count=1,
-        endpoint_sample_count=2,
-        rejected_path_count=0,
-        coordinate_precision_m=0.01,
-        coordinate_precision_evidence="serialized_lane_shape_decimals",
-        median_lane_width_m=3.2,
-        lane_width_evidence="locked_sumo_default_lane_width",
-        observed_gap_quantile_m=0.0,
-        maximum_observed_gap_m=0.0,
-        lane_width_cap_m=0.8,
-        endpoint_tolerance_m=0.02,
-    )
-    calibration_file = tmp_path / "source.calibration.json"
-    calibration_file.write_text(
-        calibration.model_dump_json(by_alias=True),
-        encoding="utf-8",
-    )
-
-    result = build_exact_semantic_regression_artifacts(
-        source,
-        candidate,
-        output_dir=tmp_path / "audit",
-        toolchain_lock_file=(
-            REPOSITORY_ROOT
-            / "benchmarks/corridor_human_modeling_v1/toolchain.lock.json"
-        ),
-        traffic_side=TrafficSide.RIGHT,
-        target_source_junction_ids=("j",),
-        target_candidate_junction_ids=("j",),
-        calibration_file=calibration_file,
-    )
-
-    assert result["status"] == "pass"
-    assert result["tolerance_provenance"] == "hash_bound_calibration"
-    assert result["endpoint_tolerance_m"] == 0.02
-    manifest = json.loads(Path(result["files"]["manifest"]).read_text(encoding="utf-8"))
-    assert manifest["gate_trace"]["connection_audit_calibration"] == "pass"
-    assert len(manifest["artifacts"]) == 12
-    assert len(manifest["dependencies"]) == 13

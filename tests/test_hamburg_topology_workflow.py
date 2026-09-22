@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core import hamburg_topology_workflow as workflow
+from astra_sumo.core import hamburg_topology_workflow as workflow
 
 
 def _write(path: Path, value) -> Path:
@@ -277,7 +277,7 @@ def test_source_change_during_execution_blocks_handoff(tmp_path, monkeypatch):
 
 
 def test_cli_exposes_separate_network_construction(monkeypatch, capsys):
-    from torii_sumo import cli
+    from astra_sumo import cli
 
     received = []
 

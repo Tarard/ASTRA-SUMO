@@ -3,11 +3,11 @@ import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
-from torii_sumo.core.candidate_contracts import (
+from astra_sumo.core.candidate_contracts import (
     build_review_decision_template,
     file_sha256,
 )
-from torii_sumo.core.corridor_edit_ledger import (
+from astra_sumo.core.corridor_edit_ledger import (
     build_corridor_edit_ledger,
     materialize_corridor_edit_variant,
     normalize_edit_operation,

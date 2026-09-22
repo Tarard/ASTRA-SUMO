@@ -7,7 +7,7 @@ from typing import Any
 
 import pytest
 
-from torii_sumo.intersection.scene_workflow import run_intersection_scene_workflow
+from astra_sumo.intersection.scene_workflow import run_intersection_scene_workflow
 
 
 PROMPT = "Build a four-way signalized intersection for passenger cars."

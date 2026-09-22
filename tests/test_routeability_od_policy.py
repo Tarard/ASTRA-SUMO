@@ -6,8 +6,8 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core import routeability_audit as audit
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core import routeability_audit as audit
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 def _network(path, second_length=12):

@@ -1,16 +1,16 @@
 # Select a scenario from the task and sources
 
-The host model reads Torii's catalog, understands the request, and records one
-selection. Torii checks that selection and can call its registered function.
+The host model reads ASTRA's catalog, understands the request, and records one
+selection. ASTRA checks that selection and can call its registered function.
 It does not call a new model API or classify the selected request again with
 keywords.
 
 ```powershell
-torii workflows --json
-torii workflows --scenario hamburg_network --json
+astra workflows --json
+astra workflows --scenario hamburg_network --json
 ```
 
-[workflow_catalog.py](../plugins/torii-sumo/src/torii_sumo/core/workflow_catalog.py)
+[workflow_catalog.py](../plugins/astra-sumo/src/astra_sumo/core/workflow_catalog.py)
 is the only executable mapping. The command reads its current function
 signatures, required arguments, and skill references. Do not maintain a second
 list of callable mappings in prompts or documentation.
@@ -65,8 +65,8 @@ and a new output directory. The example does not supply or verify a 2022 PDF.
 ## Check or execute
 
 ```powershell
-torii workflow selected selection.json --json
-torii workflow selected selection.json --execute --json
+astra workflow selected selection.json --json
+astra workflow selected selection.json --execute --json
 ```
 
 The first command checks argument requirements, types, and declared input-file
@@ -85,7 +85,7 @@ call ran; it does not promote `review_required` or `blocked` to success.
 
 ## Compatibility entry
 
-The legacy `torii_auto_workflow` tool and Python `run_auto_workflow` accept the
+The legacy `astra_auto_workflow` tool and Python `run_auto_workflow` accept the
 same object through `workflow_selection`. It is dispatched before legacy
 detection. `inspect-only` and `ask-first` do not execute it. Its original
 request must match the outer `user_request`, and its function arguments belong
@@ -93,5 +93,5 @@ inside `workflow_selection.arguments`.
 
 Calls without a selection retain the older regular-expression routing for
 compatibility. That route is separate from the host-model selection described
-here. The existing `torii workflow <tool> <request.json> --json` command also
+here. The existing `astra workflow <tool> <request.json> --json` command also
 remains available; `--execute` belongs only to `workflow selected`.

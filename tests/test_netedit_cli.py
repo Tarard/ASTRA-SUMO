@@ -5,8 +5,8 @@ from pathlib import Path
 import pytest
 from PIL import Image
 
-import torii_sumo.core.netedit as netedit
-from torii_sumo.core.netedit import NeteditTargetSession, launch_netedit, main
+import astra_sumo.core.netedit as netedit
+from astra_sumo.core.netedit import NeteditTargetSession, launch_netedit, main
 
 
 class _Process:

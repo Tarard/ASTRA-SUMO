@@ -8,9 +8,9 @@ from unittest.mock import patch
 
 import pytest
 
-from torii_sumo.core.osm_network import build_osm_network
-from torii_sumo.road_network.adapters.osm import read_osm_road_snapshot
-from torii_sumo.road_network.adapters.sumo import read_sumo_road_snapshot
+from astra_sumo.core.osm_network import build_osm_network
+from astra_sumo.road_network.adapters.osm import read_osm_road_snapshot
+from astra_sumo.road_network.adapters.sumo import read_sumo_road_snapshot
 
 
 FIXTURES = Path(__file__).parent / "fixtures" / "road_network"

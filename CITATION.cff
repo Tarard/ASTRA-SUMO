@@ -1,14 +1,14 @@
-cff-version: 1.2.0
-message: "If you use Torii for SUMO/TraCI or OSM-to-SUMO workflows, please cite it using the metadata below."
+cff-version: 1.3.0
+message: "If you use ASTRA for SUMO/TraCI or OSM-to-SUMO workflows, please cite it using the metadata below."
 type: software
-title: "Torii: Task-Oriented Road Infrastructure Intelligence"
+title: "ASTRA: Automated Simulation of TRAnsportation networks for SUMO"
 authors:
   - name: "Tarard"
-version: "v1.2.0"
-date-released: "2026-09-09"
+version: "v1.3.0"
+date-released: "2026-09-22"
 license: "MIT"
-repository-code: "https://github.com/Tarard/Torii-SUMO"
-url: "https://tarard.github.io/Torii-SUMO/"
+repository-code: "https://github.com/Tarard/ASTRA-SUMO"
+url: "https://github.com/Tarard/ASTRA-SUMO"
 abstract: "An agent plugin for SUMO that bundles a SUMO expert skill with local MCP tools for OSM-to-SUMO network construction, TLS review, routeability checks, evidence bundles, and feedback-driven simulation repair."
 keywords:
   - "Eclipse SUMO"

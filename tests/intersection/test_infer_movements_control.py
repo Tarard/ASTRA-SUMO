@@ -1,12 +1,12 @@
 from pathlib import Path
 
-from torii_sumo.intersection.infer_approaches import infer_approaches
-from torii_sumo.intersection.infer_control import infer_control_model
-from torii_sumo.intersection.infer_core import infer_intersection_core
-from torii_sumo.intersection.infer_movements import infer_movement_matrix
-from torii_sumo.intersection.infer_road_relations import build_road_pair_relation_graph
-from torii_sumo.intersection.osm_patch import parse_osm_xml
-from torii_sumo.intersection.schema import (
+from astra_sumo.intersection.infer_approaches import infer_approaches
+from astra_sumo.intersection.infer_control import infer_control_model
+from astra_sumo.intersection.infer_core import infer_intersection_core
+from astra_sumo.intersection.infer_movements import infer_movement_matrix
+from astra_sumo.intersection.infer_road_relations import build_road_pair_relation_graph
+from astra_sumo.intersection.osm_patch import parse_osm_xml
+from astra_sumo.intersection.schema import (
     Approach,
     BBox,
     IntersectionCore,

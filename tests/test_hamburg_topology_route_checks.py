@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 def _network(path, *, blocked=False, missing_start=False, internal_blocked=False, moved_start=False):
@@ -78,7 +78,7 @@ def _add_outer_branch(path, *, connected=False, tied=False, remove_original_exit
 
 @pytest.mark.parametrize("candidate_loses_exit", [False, True])
 def test_source_reachability_excludes_disconnected_outer_branch_without_candidate_reselection(tmp_path, monkeypatch, candidate_loses_exit):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     path = _manifest(tmp_path)
     payload = json.loads(path.read_text(encoding="utf-8"))
     for role, record in (("source", payload["inputs"]["source_net"]), ("candidate", payload["artifacts"]["network"])):
@@ -99,7 +99,7 @@ def test_source_reachability_excludes_disconnected_outer_branch_without_candidat
 
 
 def test_source_selection_finishes_before_candidate_network_is_read(tmp_path, monkeypatch):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     path = _manifest(tmp_path)
     original_network, original_select = module._network, module._source_endpoints
     reads, selections = [], []
@@ -121,7 +121,7 @@ def test_source_selection_finishes_before_candidate_network_is_read(tmp_path, mo
 
 
 def test_equally_outer_reachable_endpoint_pairs_require_review(tmp_path):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     source = tmp_path / "source.net.xml"
     _network(source)
     _add_outer_branch(source, connected=True, tied=True)
@@ -134,7 +134,7 @@ def test_equally_outer_reachable_endpoint_pairs_require_review(tmp_path):
 
 @pytest.mark.parametrize("candidate_options", [{}, {"blocked": True}, {"missing_start": True}, {"internal_blocked": True}, {"moved_start": True}])
 def test_mainline_uses_source_endpoints_on_a_north_south_corridor(tmp_path, monkeypatch, candidate_options):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     path = _manifest(tmp_path, **candidate_options)
     monkeypatch.setattr(module, "_run_probe", lambda *args, **kwargs: {"status": "pass"})
     result = module.run_hamburg_topology_route_checks(path, tmp_path / "checks", road_names=["Main"], ordered_node_ids=["1", "2"])
@@ -150,7 +150,7 @@ def test_mainline_uses_source_endpoints_on_a_north_south_corridor(tmp_path, monk
 
 
 def test_source_runtime_failure_is_retained_without_changing_fixed_endpoints(tmp_path, monkeypatch):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     path = _manifest(tmp_path)
     monkeypatch.setattr(module, "_run_probe", lambda network, *args, **kwargs: {"status": "review_required" if network["path"].name.startswith("source") else "pass"})
     result = module.run_hamburg_topology_route_checks(path, tmp_path / "checks", road_names=["Main"], ordered_node_ids=["1", "2"])
@@ -163,7 +163,7 @@ def test_source_runtime_failure_is_retained_without_changing_fixed_endpoints(tmp
 
 
 def test_hash_mismatch_rejects_before_creating_outputs(tmp_path):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     path = _manifest(tmp_path)
     payload = json.loads(path.read_text(encoding="utf-8"))
     payload["artifacts"]["network"]["sha256"] = "0" * 64
@@ -175,7 +175,7 @@ def test_hash_mismatch_rejects_before_creating_outputs(tmp_path):
 
 @pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
 def test_bus_enters_a_new_pocket_from_upstream_with_native_lane_change(tmp_path):
-    module = importlib.import_module("torii_sumo.core.hamburg_topology_route_checks")
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
     nodes = tmp_path / "nodes.xml"
     nodes.write_text('<nodes><node id="w" x="0" y="0"/><node id="m" x="80" y="0"/>'
                      '<node id="j" x="160" y="0"/><node id="e" x="240" y="0"/></nodes>', encoding="utf-8")

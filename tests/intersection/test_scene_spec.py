@@ -1,6 +1,6 @@
 import pytest
 
-from torii_sumo.intersection.scene_spec import resolve_intersection_scene_prompt
+from astra_sumo.intersection.scene_spec import resolve_intersection_scene_prompt
 
 
 def test_resolve_four_way_signalized_scene() -> None:

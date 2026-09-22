@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import xml.etree.ElementTree as ET
 
-from torii_sumo.core import junction_rebuild_candidate as candidate_module
-from torii_sumo.core import junction_rebuild_tail as tail_module
+from astra_sumo.core import junction_rebuild_candidate as candidate_module
+from astra_sumo.core import junction_rebuild_tail as tail_module
 
 
 def test_original_module_reexports_public_tail_api() -> None:

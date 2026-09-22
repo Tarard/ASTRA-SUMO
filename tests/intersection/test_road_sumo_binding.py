@@ -6,13 +6,13 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.intersection.road_sumo_binding import (
+from astra_sumo.intersection.road_sumo_binding import (
     ROAD_SUMO_BINDING_SCHEMA,
     bind_intersection_road_detail_to_sumo,
 )
-from torii_sumo.road_network.adapters.osm import read_osm_road_snapshot
-from torii_sumo.road_network.adapters.sumo import read_sumo_road_snapshot
-from torii_sumo.road_network.conflation import build_osm_sumo_lineage_relations
+from astra_sumo.road_network.adapters.osm import read_osm_road_snapshot
+from astra_sumo.road_network.adapters.sumo import read_sumo_road_snapshot
+from astra_sumo.road_network.conflation import build_osm_sumo_lineage_relations
 
 
 OSM_SHA = "a" * 64

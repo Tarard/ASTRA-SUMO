@@ -1,4 +1,4 @@
-from torii_sumo.core.junction_footprint import build_lane_buffered_approach_footprint
+from astra_sumo.core.junction_footprint import build_lane_buffered_approach_footprint
 
 
 def test_lane_buffered_footprint_uses_lane_width_not_only_centerline() -> None:

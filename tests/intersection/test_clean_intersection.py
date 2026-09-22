@@ -1,7 +1,7 @@
 import json
 from pathlib import Path
 
-from torii_sumo.intersection.clean import clean_intersection
+from astra_sumo.intersection.clean import clean_intersection
 
 
 FIXTURES = Path(__file__).parent / "fixtures"

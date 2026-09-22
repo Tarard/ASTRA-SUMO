@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.hamburg_corridor_geometry_materializer import (
+from astra_sumo.core.hamburg_corridor_geometry_materializer import (
     FOCUS_JUNCTION_IDS,
     HAMBURG_CORRIDOR_GEOMETRY_PROFILE,
     JOIN_GROUPS,

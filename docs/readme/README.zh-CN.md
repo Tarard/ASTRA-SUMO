@@ -1,19 +1,18 @@
 <p align="center">
-  <img src="../assets/banner.png" alt="Torii for SUMO" width="100%">
+  <img src="../assets/banner.png" alt="ASTRA for SUMO" width="100%">
 </p>
 
-# Torii
+# ASTRA
 
 <p align="center">
   <strong>面向 Eclipse SUMO 的任务导向道路基础设施智能</strong>
 </p>
 
 <p align="center">
-  Torii 将真实交通数据和自然语言任务转换为 SUMO 仿真。
+  ASTRA 将真实交通数据和自然语言任务转换为 SUMO 仿真。
 </p>
 
 <p align="center">
-  <a href="https://tarard.github.io/Torii-SUMO/">网站</a> ·
   <a href="../codex-plugin-install.md">安装</a> ·
   <a href="../README.md">文档</a> ·
   <a href="../../examples/01_signal_control_audit/task.md">示例</a> ·
@@ -27,10 +26,10 @@
 </p>
 
 <p align="center">
-  <img src="../assets/torii-agent-architecture.svg" alt="Torii agent 驱动的交通场景构建工作流" width="100%">
+  <img src="../assets/astra-framework.png" alt="ASTRA agent 驱动的交通场景构建工作流" width="100%">
 </p>
 
-## Torii 能做什么
+## ASTRA 能做什么
 
 <table>
 <tr>
@@ -52,30 +51,30 @@
 ## 快速开始
 
 ```powershell
-codex plugin marketplace add Tarard/Torii-SUMO --ref main
-codex plugin add torii-sumo@torii-sumo
+codex plugin marketplace add Tarard/ASTRA-SUMO --ref main
+codex plugin add astra-sumo@astra-sumo
 ```
 
 然后可以向 Codex 这样提问：
 
 ```text
-Use Torii to build a SUMO network from this OSM area.
+Use ASTRA to build a SUMO network from this OSM area.
 Check connectivity, traffic signals, and routeability.
 ```
 
-Torii 需要 Python 3.11+ 和 Eclipse SUMO。
+ASTRA 需要 Python 3.11+ 和 Eclipse SUMO。
 
 ## 汉堡数字孪生
 
-Torii 正被用于重建和验证汉堡市中心的一段真实交通走廊。
+ASTRA 正被用于重建和验证汉堡市中心的一段真实交通走廊。
 
 <p align="center">
-  <img src="../assets/hamburg-digital-twin/torii-v1-corridor-aerial-sensors.png" alt="Torii V1 在航拍影像上重建的汉堡走廊，包含车道连接和虚拟传感器" width="100%">
+  <img src="../assets/hamburg-digital-twin/torii-v1-corridor-aerial-sensors.png" alt="ASTRA V1 在航拍影像上重建的汉堡走廊，包含车道连接和虚拟传感器" width="100%">
 </p>
 
-<p align="center"><sub>Torii V1 走廊叠加在航拍影像上，包含车道连接和虚拟传感器。</sub></p>
+<p align="center"><sub>ASTRA V1 走廊叠加在航拍影像上，包含车道连接和虚拟传感器。</sub></p>
 
-Torii 在同一工作流中结合官方交通数据、航拍影像和 SUMO 路网重建。
+ASTRA 在同一工作流中结合官方交通数据、航拍影像和 SUMO 路网重建。
 
 <p align="center">
   <img src="../assets/hamburg-digital-twin/torii-v1-four-stage-comparison.png" alt="LSA118 四阶段重建：官方 MAP 端点与朝向、重建曲线，以及清洗前后的 SUMO 车道连接" width="100%">
@@ -94,6 +93,6 @@ Torii 在同一工作流中结合官方交通数据、航拍影像和 SUMO 路�
 
 ## 许可证
 
-Torii-SUMO 使用 [MIT License](../../LICENSE) 许可。
+ASTRA-SUMO 使用 [MIT License](../../LICENSE) 许可。
 
 早期版本已归档至 [Zenodo](https://doi.org/10.5281/zenodo.20627976)。

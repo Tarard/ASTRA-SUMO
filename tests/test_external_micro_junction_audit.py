@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from torii_sumo.core.external_micro_junction_audit import (
+from astra_sumo.core.external_micro_junction_audit import (
     audit_external_micro_junctions,
 )
 

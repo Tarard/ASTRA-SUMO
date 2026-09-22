@@ -6,9 +6,9 @@ import subprocess
 
 import pytest
 
-from torii_sumo.core.source_movement_support import audit_source_movement_support
-from torii_sumo.core import source_movement_support as support
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.source_movement_support import audit_source_movement_support
+from astra_sumo.core import source_movement_support as support
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 def _edge(root, edge_id, source=None, target=None, lanes=1, allow="delivery"):

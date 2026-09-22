@@ -4,9 +4,9 @@ from pathlib import Path
 import pytest
 from pyproj import Transformer
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.road_network.continuous_lanes import reconstruct_continuous_lanes
-from torii_sumo.road_network.engineering_topology import build_engineering_topology
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.road_network.continuous_lanes import reconstruct_continuous_lanes
+from astra_sumo.road_network.engineering_topology import build_engineering_topology
 
 
 def case(tmp_path, speed_change=False):
@@ -80,7 +80,7 @@ def test_lane_order_cannot_cross_and_different_year_osm_cannot_fill_axis(tmp_pat
 
 
 def test_full_hamburg_entry_runs_continuity_before_compilation(tmp_path):
-    from torii_sumo.core.hamburg_topology_workflow import build_hamburg_topology_workflow
+    from astra_sumo.core.hamburg_topology_workflow import build_hamburg_topology_workflow
     path,data,osm=case(tmp_path)
     pdf=tmp_path/'plan.pdf'
     pdf.write_bytes(b'%PDF-1.4\n% synthetic test plan\n')
@@ -199,7 +199,7 @@ def test_documented_widening_has_a_real_transition_surface_before_the_new_lane(t
     assert ET.parse(compiled['artifacts']['nodes']['path']).getroot().find(
         f"node[@id='{report['node_id']}']").get('keepClear')=='false'
     assert all(set(row.get('foes')) <= {'0'} for row in actual_node.findall('request'))
-    from torii_sumo.road_network.continuous_lane_probes import run_continuous_lane_probes
+    from astra_sumo.road_network.continuous_lane_probes import run_continuous_lane_probes
     probes=run_continuous_lane_probes(network_file=compiled['artifacts']['network']['path'],
         continuity_file=result['report_file'],output_dir=tmp_path/'probes')
     assert probes['lane_paths_passed']==3
@@ -216,7 +216,7 @@ def test_empty_replacement_speed_cannot_erase_a_real_speed_change(tmp_path):
 
 
 def test_lane_cuts_use_the_axis_cross_section_at_a_right_angle_bend():
-    from torii_sumo.road_network.continuous_lanes import _slice_offset
+    from astra_sumo.road_network.continuous_lanes import _slice_offset
     for offset in (-1.6,1.6):
         shape=_slice_offset([[0,0],[10,0],[10,100]],offset,15,80)
         assert shape[0]==pytest.approx([10-offset,5])

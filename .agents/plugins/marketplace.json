@@ -1,14 +1,14 @@
 {
-  "name": "torii-sumo",
+  "name": "astra-sumo",
   "interface": {
-    "displayName": "Torii"
+    "displayName": "ASTRA"
   },
   "plugins": [
     {
-      "name": "torii-sumo",
+      "name": "astra-sumo",
       "source": {
         "source": "local",
-        "path": "./plugins/torii-sumo"
+        "path": "./plugins/astra-sumo"
       },
       "policy": {
         "installation": "AVAILABLE",

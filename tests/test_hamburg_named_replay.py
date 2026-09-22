@@ -7,9 +7,9 @@ from types import SimpleNamespace
 
 import pytest
 
-from torii_sumo.core.candidate_contracts import file_sha256
-from torii_sumo.core.digital_twin_mapping import DetectorMapping, write_detector_mapping
-from torii_sumo.core.hamburg_named_replay import (
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.digital_twin_mapping import DetectorMapping, write_detector_mapping
+from astra_sumo.core.hamburg_named_replay import (
     HamburgNamedReplayError,
     _audit_signal_history_scope,
     _load_binding_manifest,
@@ -276,7 +276,7 @@ def test_dynamic_replay_does_not_promote_partial_inner_result(
         encoding="utf-8",
     )
     monkeypatch.setattr(
-        "torii_sumo.core.hamburg_named_replay.run_tls_detector_replay",
+        "astra_sumo.core.hamburg_named_replay.run_tls_detector_replay",
         lambda **_kwargs: {
             "status": "partial",
             "claim_status": "validation-incomplete",

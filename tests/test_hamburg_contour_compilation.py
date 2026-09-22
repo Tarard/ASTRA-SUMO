@@ -3,7 +3,7 @@ from xml.etree import ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_aerial_corridor_candidate import _compare_contour_compilation
+from astra_sumo.core.hamburg_aerial_corridor_candidate import _compare_contour_compilation
 
 
 def _network():

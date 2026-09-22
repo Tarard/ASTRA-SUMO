@@ -1,6 +1,6 @@
 # Notices
 
-Torii-SUMO is licensed under the MIT License. See [`LICENSE`](../../LICENSE).
+ASTRA-SUMO is licensed under the MIT License. See [`LICENSE`](../../LICENSE).
 
 File-level and third-party notices take priority for third-party material.
 
@@ -10,7 +10,7 @@ No source files from `XRDS76354/SUMO-MCP-Server` are copied in the initial MVP p
 
 Some evidence-inspection design patterns are adapted from the local `SUMO-Virtual-Experiment-Sidecar` project owned by the same user.
 
-Torii Report bundles the upstream `SKILL.md` bodies from these MIT-licensed projects:
+ASTRA Report bundles the upstream `SKILL.md` bodies from these MIT-licensed projects:
 
-- `danyuchn/asd-ste100-skill`, copyright (c) 2026 Dustin Yuchen Teng. See [`asd-ste100-LICENSE.txt`](../../plugins/torii-sumo/skills/torii-report/references/asd-ste100-LICENSE.txt).
-- `blader/humanizer`, copyright (c) 2025 Siqi Chen. See [`humanizer-LICENSE.txt`](../../plugins/torii-sumo/skills/torii-report/references/humanizer-LICENSE.txt).
+- `danyuchn/asd-ste100-skill`, copyright (c) 2026 Dustin Yuchen Teng. See [`asd-ste100-LICENSE.txt`](../../plugins/astra-sumo/skills/astra-report/references/asd-ste100-LICENSE.txt).
+- `blader/humanizer`, copyright (c) 2025 Siqi Chen. See [`humanizer-LICENSE.txt`](../../plugins/astra-sumo/skills/astra-report/references/humanizer-LICENSE.txt).

@@ -1,6 +1,6 @@
 import json
 
-from torii_sumo.intersection.schema import (
+from astra_sumo.intersection.schema import (
     Approach,
     BBox,
     CompiledSUMOArtifacts,
@@ -21,7 +21,7 @@ from torii_sumo.intersection.schema import (
     RoadPairRelationGraph,
     TLSPhase,
 )
-from torii_sumo.road_semantics import classify_approach_mode_layer
+from astra_sumo.road_semantics import classify_approach_mode_layer
 
 
 def test_classify_approach_mode_layer_marks_bicycle_as_support_only() -> None:

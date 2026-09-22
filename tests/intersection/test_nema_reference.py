@@ -4,13 +4,13 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.core.command_runner import CommandResult
-from torii_sumo.intersection.nema_reference import (
+from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.intersection.nema_reference import (
     NEMA_PARAMS,
     _audit_nema,
     build_nema_four_way_reference,
 )
-from torii_sumo.tools.intersection_tools import sumo_nema_four_way_reference_workflow
+from astra_sumo.tools.intersection_tools import sumo_nema_four_way_reference_workflow
 
 
 def _fake_netconvert_from_plain(command: list[str]) -> None:
@@ -130,7 +130,7 @@ def test_audit_rejects_compiled_nema_mutations_with_valid_additional_template(tm
 
 
 def test_sumo_nema_four_way_reference_workflow_returns_json_report(monkeypatch, tmp_path: Path) -> None:
-    from torii_sumo.tools import intersection_tools
+    from astra_sumo.tools import intersection_tools
 
     def fake_builder(output_dir: Path, **kwargs):
         assert output_dir == tmp_path

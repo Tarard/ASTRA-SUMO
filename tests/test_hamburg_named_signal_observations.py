@@ -7,13 +7,13 @@ from typing import Any, Mapping
 
 import pytest
 
-from torii_sumo.core.hamburg_named_signal_observations import (
+from astra_sumo.core.hamburg_named_signal_observations import (
     HamburgSignalObservationError,
     census_hamburg_named_signal_stream_coverage,
     materialize_hamburg_named_signal_observations,
     screen_hamburg_named_signal_windows,
 )
-from torii_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 UTC = timezone.utc

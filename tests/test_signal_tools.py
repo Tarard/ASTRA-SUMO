@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from torii_sumo.tools.signal_tools import sumo_signal_device_profile_classify
+from astra_sumo.tools.signal_tools import sumo_signal_device_profile_classify
 
 
 def _write_fixture(path: Path) -> bytes:

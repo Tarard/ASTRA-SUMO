@@ -1,13 +1,13 @@
 import gzip
 from pathlib import Path
 
-from torii_sumo.core.road_corridor import (
+from astra_sumo.core.road_corridor import (
     audit_node_group_corridors,
     corridor_key_from_osm,
     parse_osm_way_context,
     source_node_ids,
 )
-from torii_sumo.core.topology_audit import audit_topology_fragmentation
+from astra_sumo.core.topology_audit import audit_topology_fragmentation
 
 
 def _write_gzip(path: Path, text: str) -> None:

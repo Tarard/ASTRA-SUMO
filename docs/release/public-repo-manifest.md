@@ -1,12 +1,12 @@
 # Public Repository Manifest
 
-Use this manifest for the public Torii repository hosted at:
+Use this manifest for the public ASTRA repository hosted at:
 
 ```text
-Tarard/Torii-SUMO
+Tarard/ASTRA-SUMO
 ```
 
-The public project is Torii: Task-Oriented Road Infrastructure Intelligence for Eclipse SUMO.
+The public project is ASTRA: Automated Simulation of TRAnsportation networks for SUMO.
 
 ## Include
 
@@ -29,7 +29,6 @@ AGENTS.md
 plugins/
 docs/
 examples/
-benchmarks/
 schemas/
 tests/
 ```

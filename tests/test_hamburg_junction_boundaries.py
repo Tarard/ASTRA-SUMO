@@ -7,9 +7,9 @@ import xml.etree.ElementTree as ET
 
 import pytest
 
-from torii_sumo.core.hamburg_aerial_corridor_candidate import _select_join_groups
-from torii_sumo.core import hamburg_aerial_corridor_candidate as candidate_module
-from torii_sumo.core.hamburg_junctions import boundaries as boundary_module, groups as group_module
+from astra_sumo.core.hamburg_aerial_corridor_candidate import _select_join_groups
+from astra_sumo.core import hamburg_aerial_corridor_candidate as candidate_module
+from astra_sumo.core.hamburg_junctions import boundaries as boundary_module, groups as group_module
 
 
 def test_join_does_not_absorb_a_road_beyond_official_lane_boundary(monkeypatch) -> None:
@@ -90,7 +90,7 @@ def test_core_connectivity_uses_actual_lane_geometry_not_edge_reference_axis(mon
 
 
 def test_official_port_width_uses_centimeter_deltas_at_stopline(tmp_path) -> None:
-    from torii_sumo.core.hamburg_aerial_corridor_candidate import _official_boundary_widths
+    from astra_sumo.core.hamburg_aerial_corridor_candidate import _official_boundary_widths
 
     path = tmp_path / "map.xml"
     path.write_text('<MapData><IntersectionGeometry><laneWidth>325</laneWidth><laneSet><GenericLane><laneID>1</laneID><nodeList><nodes><NodeXY><attributes><dWidth>-25</dWidth><localNode><stopLine/></localNode></attributes></NodeXY></nodes></nodeList></GenericLane><GenericLane><laneID>2</laneID><nodeList><nodes><NodeXY/></nodes></nodeList></GenericLane></laneSet></IntersectionGeometry></MapData>', encoding="utf-8")
@@ -194,7 +194,7 @@ def test_rebuilt_boundary_keeps_native_external_port_and_official_external_exits
 
 
 def test_road_port_profiles_keep_endpoint_rays_out_of_interleaved_spikes():
-    from torii_sumo.road_network.official_splice_materializer import _segment_intersection
+    from astra_sumo.road_network.official_splice_materializer import _segment_intersection
     import math
 
     def port(edge, index, center, section, direction, role="ingress"):
@@ -316,7 +316,7 @@ def test_unlocated_driveway_can_move_upstream_without_moving_official_ports():
 
 @pytest.mark.skipif(shutil.which("netconvert") is None, reason="netconvert is not installed")
 def test_custom_boundary_restores_approach_without_removing_edges(tmp_path) -> None:
-    from torii_sumo.core.hamburg_aerial_corridor_candidate import _rebuild_join_boundaries
+    from astra_sumo.core.hamburg_aerial_corridor_candidate import _rebuild_join_boundaries
 
     nodes = tmp_path / "nodes.xml"
     edges = tmp_path / "edges.xml"
