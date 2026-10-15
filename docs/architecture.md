@@ -74,6 +74,12 @@ ignored `outputs/` artifacts.
 
 ## Ingolstadt Teacher-Corridor Slice
 
+The [public reference corpus](public-reference-corpus.md) provides a separate
+daily development path. It freezes TUM Ingolstadt, LuST, MoST, and InTAS model
+targets. A traceable InTAS revision pair supplies model-relative connection
+checks. Missing raw OSM and unresolved correspondence stay explicit. This path
+does not change the frozen human study or certify field accuracy.
+
 The first same-bbox human-modeling experiment is intentionally one physical
 intersection rather than the whole city. Its executable chain is:
 

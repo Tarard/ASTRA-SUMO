@@ -243,6 +243,17 @@ def _build_parser() -> argparse.ArgumentParser:
     verify_edit.add_argument("output_dir")
     verify_edit.add_argument("--netconvert-binary", default="netconvert")
     _add_output_argument(verify_edit)
+    references = network_sub.add_parser("reference-corpus", help="Prepare public network targets for daily development.")
+    references.add_argument("catalog_file")
+    references.add_argument("cache_dir")
+    references.add_argument("output_dir")
+    references.add_argument("--netconvert-binary", default="netconvert")
+    _add_output_argument(references)
+    reference_check = network_sub.add_parser("reference-check", help="Compare node grouping with a published model.")
+    reference_check.add_argument("dataset_file")
+    reference_check.add_argument("request_file")
+    reference_check.add_argument("output_file")
+    _add_output_argument(reference_check)
     routeability = network_sub.add_parser(
         "routeability",
         help="Run the long completion-aware SUMO routeability audit outside MCP.",
@@ -478,6 +489,16 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "network" and args.network_command == "reference-corpus":
+        from .core.public_reference_corpus import build_public_reference_corpus
+
+        return _emit(build_public_reference_corpus(catalog_file=args.catalog_file, cache_dir=args.cache_dir,
+            output_dir=args.output_dir, netconvert_binary=args.netconvert_binary), json_output=json_output)
+    if args.command == "network" and args.network_command == "reference-check":
+        from .core.public_reference_corpus import compare_public_reference
+
+        return _emit(compare_public_reference(dataset_file=args.dataset_file, request_file=args.request_file,
+            output_file=args.output_file), json_output=json_output)
     if args.command == "network" and args.network_command == "verify-edit":
         from .core.network_edit_applicability import verify_network_edit
 

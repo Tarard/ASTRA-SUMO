@@ -25,6 +25,7 @@ This is the current documentation index for ASTRA. Product behavior and claims a
 - [Scoped road-network edits](network-edit-operations.md) — typed edits, source-bound plans, preservation checks and site parameters.
 - [Traffic-effect review](traffic-effect-review.md) — ordered findings, original evidence, local access and lane supply changes.
 - [Local edit applicability](edit-specific-applicability.md) — edit profiles, exact boundary paths, and final candidate checks.
+- [Public network references](public-reference-corpus.md) — frozen public models, development targets, and revision comparisons.
 
 - [ASTRA migration](astra-migration.md) — new names, installation, and compatibility with Torii.
 
