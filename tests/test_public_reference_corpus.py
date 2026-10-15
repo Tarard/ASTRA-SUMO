@@ -73,6 +73,32 @@ def test_catalog_rejects_unsafe_or_aliased_artifact_paths(tmp_path, path):
         corpus._catalog(catalog)
 
 
+def test_prepared_import_preserves_elevation_and_bound_types_without_upstream_output_paths(tmp_path):
+    osm, types, config = (tmp_path / name for name in ("source.osm", "types.xml", "build.netcfg"))
+    config.write_text('''<configuration><input><osm-files value="source.osm"/><type-files value="types.xml"/></input>
+        <processing><osm.elevation value="true"/><junctions.join value="true"/><geometry.remove value="true"/></processing>
+        <output><output-file value="../../outside.net.xml"/></output>
+        <report><log value="../../outside.log"/></report></configuration>''', encoding="utf-8")
+    files = [({"role": role}, path) for role, path in (("source_osm", osm), ("type_map", types), ("build_config", config))]
+    arguments, recorded = corpus._prepared_import_arguments(files, osm)
+    assert recorded == config
+    assert arguments == ["--type-files", str(types), "--osm.elevation=true"]
+    assert not any("outside" in value for value in arguments)
+
+
+@pytest.mark.parametrize("content,reason", [
+    ('<input><osm-files value="other.osm"/></input>', "OSM input"),
+    ('<input><osm-files value="source.osm"/><type-files value="unlisted.xml"/></input>', "type inputs"),
+    ('<input><osm-files value="source.osm"/></input><processing><additional-files value="outside.xml"/></processing>', "Unsupported"),
+    ('<input><osm-files value="source.osm"/></input><unknown value="true"/>', "Unsupported"),
+])
+def test_prepared_import_rejects_unbound_inputs_and_unsupported_settings(tmp_path, content, reason):
+    config = tmp_path / "build.netcfg"
+    config.write_text(f"<configuration>{content}</configuration>", encoding="utf-8")
+    with pytest.raises(ValueError, match=reason):
+        corpus._prepared_import_arguments([({"role": "build_config"}, config)], tmp_path / "source.osm")
+
+
 def test_corrupt_cache_is_preserved_and_wrong_download_never_commits(tmp_path, monkeypatch):
     catalog, cache, document = _fixture(tmp_path)
     dataset = document["datasets"][0]
@@ -149,6 +175,34 @@ def _native_inputs(tmp_path):
                             capture_output=True, text=True, timeout=30)
     assert result.returncode == 0, result.stderr
     return source, reference, executable
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
+def test_native_prepared_import_uses_catalog_elevation_settings(tmp_path):
+    source, reference, executable = _native_inputs(tmp_path)
+    tree = ET.parse(source)
+    for node in tree.getroot().findall("node"):
+        ET.SubElement(node, "tag", k="ele", v="14.5")
+    tree.write(source, encoding="utf-8")
+    result = subprocess.run([executable, "--osm-files", str(source), "--osm.elevation", "true", "--geometry.remove", "false",
+        "--junctions.join", "false", "--offset.disable-normalization", "true", "--output-file", str(reference)],
+        capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    catalog, cache, document = _fixture(tmp_path, reference=reference, source=source)
+    config = cache / "toy/build.netcfg"
+    config.write_text('''<configuration><input><osm-files value="source.osm"/></input>
+        <processing><osm.elevation value="true"/></processing></configuration>''', encoding="utf-8")
+    document["datasets"][0]["files"].append({"role": "build_config", "path": config.name,
+        "sha256": file_sha256(config), "bytes": config.stat().st_size})
+    catalog.write_text(json.dumps(document), encoding="utf-8")
+    report = corpus.build_public_reference_corpus(catalog_file=catalog, cache_dir=cache,
+        output_dir=tmp_path / "out", netconvert_binary=executable)
+    dataset = json.loads(Path(report["datasets"][0]["report"]["path"]).read_text())
+    nodes = ET.parse(dataset["raw_net"]["path"]).getroot().findall("junction")
+    assert nodes and all(float(node.get("z")) == 14.5 for node in nodes)
+    assert dataset["import_configuration"]["applied_arguments"] == ["--osm.elevation=true"]
+    assert dataset["paired_labels"]["count"] > 0
+    assert dataset["paired_labels"]["counts"].get("unknown", 0) == 0
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")

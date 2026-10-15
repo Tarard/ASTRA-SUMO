@@ -47,7 +47,8 @@ def _catalog(path):
                 or not re.fullmatch(r"[a-f0-9]{40}", dataset["commit"])):
             raise ValueError("Public references require a GitHub repository and exact commit")
         roles = Counter(row["role"] for row in dataset["files"])
-        if roles["reference_net"] != 1 or roles["license"] != 1 or roles["source_osm"] > 1 or roles["source_net"] > 1:
+        if (roles["reference_net"] != 1 or roles["license"] != 1 or roles["source_osm"] > 1 or roles["source_net"] > 1
+                or roles["build_config"] > 1 or roles["build_config"] and roles["source_osm"] != 1):
             raise ValueError("Each dataset needs one reference, one license, and at most one OSM input")
         paths = set()
         for row in dataset["files"]:
@@ -63,6 +64,48 @@ def _catalog(path):
                     or type(row["bytes"]) is not int or row["bytes"] <= 0):
                 raise ValueError("Artifacts require a SHA-256 and positive byte size")
     return document
+
+
+def _prepared_import_arguments(files, osm):
+    """Read supported import settings without executing upstream output or report paths."""
+    configuration = next((path for row, path in files if row["role"] == "build_config"), None)
+    if configuration is None:
+        return [], None
+    root = ET.parse(configuration).getroot()
+    inputs = root.find("input")
+    if root.tag != "configuration" or inputs is None or len(root.findall("input")) != 1:
+        raise ValueError("Prepared imports require a netconvert configuration with declared inputs")
+    if any(row.tag not in {"osm-files", "type-files"} or set(row.attrib) != {"value"} for row in inputs):
+        raise ValueError("Prepared configurations support only catalog-bound OSM and type inputs")
+    osm_rows = inputs.findall("osm-files")
+    if len(osm_rows) != 1 or (configuration.parent / osm_rows[0].get("value", "")).resolve() != osm.resolve():
+        raise ValueError("Prepared configuration OSM input differs from the catalog")
+    type_rows = inputs.findall("type-files")
+    if len(type_rows) > 1:
+        raise ValueError("Prepared configurations require one type-file list")
+    type_files = [(configuration.parent / value.strip()).resolve() for value in type_rows[0].get("value", "").split(",")] if type_rows else []
+    declared_types = {path.resolve() for row, path in files if row["role"] == "type_map"}
+    if set(type_files) != declared_types or len(set(type_files)) != len(type_files):
+        raise ValueError("Prepared configuration type inputs differ from the catalog")
+    allowed = {"tls.join", "tls.guess-signals", "tls.default-type", "tls.min-dur", "tls.max-dur", "ramps.guess",
+               "geometry.remove", "roundabouts.guess", "junctions.join", "junctions.limit-turn-speed", "crossings.guess",
+               "walkingareas", "osm.elevation", "no-turnarounds.except-deadend", "no-internal-links", "ignore-errors",
+               "ignore-errors.connections", "show-errors.connections-first-try", "default.crossing-width"}
+    arguments, seen = [], set()
+    if type_files:
+        arguments = ["--type-files", ",".join(map(str, type_files))]
+    for section in root:
+        if section.tag in {"input", "output", "report"}:
+            continue
+        if section.tag not in {"tls_building", "ramp_guessing", "processing", "building_defaults"}:
+            raise ValueError(f"Unsupported prepared import section: {section.tag}")
+        for option in section:
+            if option.tag not in allowed or option.tag in seen or set(option.attrib) != {"value"} or list(option):
+                raise ValueError(f"Unsupported prepared import setting: {option.tag}")
+            seen.add(option.tag)
+            if option.tag not in {"tls.join", "junctions.join", "geometry.remove"}:
+                arguments.append(f"--{option.tag}={option.get('value')}")
+    return arguments, configuration
 
 
 def _cached_artifact(cache, dataset, record):
@@ -310,11 +353,16 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
         comparison_root = None
         if osm is not None:
             raw = folder / "unjoined-import.net.xml"
-            command = [netconvert_binary, "--osm-files", str(osm), "--junctions.join", "false", "--tls.join", "false",
+            settings, configuration = _prepared_import_arguments(files, osm)
+            command = [netconvert_binary, "--osm-files", str(osm), *settings, "--junctions.join", "false", "--tls.join", "false",
                        "--geometry.remove", "false", "--offset.disable-normalization", "true", "--output-file", str(raw)]
             built = run_command(command, cwd=folder, timeout_seconds=240).to_dict()
             write_json_atomic(folder / "import-command.json", {"source_osm": _identity(osm), "result": built}, sort_keys=True)
             row["source_osm"] = _identity(osm)
+            if configuration is not None:
+                row["import_configuration"] = {**_identity(configuration), "applied_arguments": settings,
+                    "overrides": {"junctions.join": False, "tls.join": False, "geometry.remove": False},
+                    "ignored_sections": ["output", "report"], "toolchain_relation": "current_sumo_with_published_import_settings"}
             row["import_status"] = built["status"]
             if built["status"] == "pass" and raw.is_file():
                 row["raw_net"] = _identity(raw)
@@ -343,7 +391,8 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
             counts = _jsonl(label_file, chain(_pair_labels(comparison_root, root, dataset, binding),
                                              _connection_labels(comparison_root, root, dataset, binding)))
             row["paired_labels"] = {**_identity(label_file), "count": counts.get("total", 0), "counts": counts,
-                                    "evidence_scope": row["comparison_source"]["kind"], "field_temporal_match": "unverified"}
+                                    "evidence_scope": row["comparison_source"]["kind"], "field_temporal_match": "unverified",
+                                    "manual_edit_origin": "unestablished"}
         dataset_report = folder / "dataset.json"
         write_json_atomic(dataset_report, row, sort_keys=True)
         manifest_artifacts.extend(_identity(path) for path in sorted(folder.rglob("*")) if path.is_file())
