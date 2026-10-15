@@ -31,7 +31,10 @@ def _coordinate_frame(root: ET.Element) -> tuple:
     location = root.find("location")
     if location is None:
         raise ValueError("source and joined networks require a coordinate frame")
-    return tuple(location.get(key) for key in ("netOffset", "projParameter"))
+    offset = tuple(map(float, location.get("netOffset", "").split(",")))
+    if len(offset) != 2 or not all(math.isfinite(value) for value in offset):
+        raise ValueError("Network offset must contain two finite coordinates.")
+    return offset, location.get("projParameter")
 
 
 def _groups(root: ET.Element, groups: Mapping[str, Sequence[str]]) -> dict[str, set[str]]:
@@ -481,11 +484,10 @@ def restore_joined_boundary_connections(
     tree.write(candidate, encoding="utf-8", xml_declaration=True)
     final = ET.parse(candidate).getroot()
     expected_outside = deepcopy(original)
-    fixed_markers = boundary_geometry["frozen_neighbor_junction_ids"]
+    mutable_nodes = excluded | set(adjacent_geometry_junction_ids)
+    fixed_markers = sorted(set(boundary_geometry["frozen_neighbor_junction_ids"]) & mutable_nodes)
     for root in (expected_outside, final):
-        # Keep the fixed-boundary meaning of the explicit node patch. Dropping
-        # this marker lets a later import move a neighbor's cut on each reload,
-        # even though its restored polygon coordinates have not changed here.
+        # Only declared adjacent nodes may retain authored shape markers.
         for node in root.findall("junction"):
             if node.get("id") in fixed_markers:
                 node.set("customShape", "1")
@@ -494,6 +496,15 @@ def restore_joined_boundary_connections(
                 if lane.get("id") in adjacent_patches:
                     lane.attrib.update(adjacent_patches[lane.get("id")])
     ET.ElementTree(final).write(candidate, encoding="utf-8", xml_declaration=True)
+    from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+
+    mutable_edges = {edge.get("id") for edge in original.findall("edge")
+                     if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes}
+    aliases = {member: owner for owner, members in normalized.items() for member in members if member != owner}
+    scoped_restoration = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+        junction_aliases=aliases, expand_mutable_edge_endpoints=False)
+    final = ET.parse(candidate).getroot()
     signal_report = None
     if signal_policy == "rebuild_diagnostic":
         from .topology_signal_rebuild import rebuild_topology_test_signals
@@ -505,6 +516,10 @@ def restore_joined_boundary_connections(
         candidate = Path(signal_report["candidate_network"]["path"])
         final = ET.parse(candidate).getroot()
     outside_after = _outside_delta(expected_outside, final, excluded, ignored_tls_ids=allowed_tls_changes)
+    from .network_geometry_freeze import compare_frozen_geometry
+
+    geometric_preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
     outside_after["explicit_adjacent_geometry_lane_ids"] = sorted(adjacent_patches)
     outside_after["fixed_shape_marker_junction_ids"] = fixed_markers
     boundary_after = _compare_boundary(final, plan)
@@ -519,6 +534,12 @@ def restore_joined_boundary_connections(
     gates = {"source_immutable": source_hash == file_sha256(source) and joined_hash == file_sha256(joined) and all(file_sha256(path) == digest for path, digest in trip_hashes.items()), "outside_preserved": outside_after["status"] == "pass", "boundary_coverage": not boundary_after["missing"] and not boundary_after["permission_mismatches"] and not boundary_after["unexpected_motorized"], "only_declared_interior_edges_removed": removed == expected_removed, "source_members_collapsed": not remaining_old_nodes, "connection_structure": structural["structural_failure_count"] == 0, "sumo_load": load.returncode == 0}
     report = {"schema": "torii.junction-boundary-rebuild/v1", "status": "pass" if all(gates.values()) else "blocked", "decision": "review_required", "claim_status": "diagnostic-demo", "field_turn_legality": "review_required", "source_network": {"path": str(source), "sha256": source_hash}, "joined_network": {"path": str(joined), "sha256": joined_hash}, "candidate_network": {"path": str(candidate), "sha256": file_sha256(candidate)}, "compiled_network": {"path": str(compiled), "sha256": file_sha256(compiled)}, "plan": plan, "boundary_before": before, "boundary_after": boundary_after, "outside_before_restore": outside_before, "outside_preservation": outside_after, "restoration": restoration, "removed_interior_edges": sorted(removed), "original_demand": demand, "gates": gates, "commands": commands, "non_motorized_connectivity": "not_audited", "claim_boundary": "Preserves source motor-vehicle boundary paths after explicitly selected uncontrolled joins. No physical grouping, field turn permission, historical signals or unchanged-demand completion is inferred.", "sources": ["https://sumo.dlr.de/docs/Networks/PlainXML.html#joining-junctions", "https://sumo.dlr.de/docs/Networks/PlainXML.html#lane-to-lane-connectivity"]}
     report["input_bounds_metadata_changed"] = _signature(original.find("location")) != _signature(native.find("location"))
+    report["fixed_boundary_geometry"] = geometric_preservation
+    report["scoped_geometry_restoration"] = scoped_restoration
+    report["gates"]["scoped_geometry_restoration"] = scoped_restoration["status"] == "pass"
+    report["gates"]["fixed_boundary_geometry"] = geometric_preservation["status"] == "pass"
+    if geometric_preservation["status"] != "pass" or scoped_restoration["status"] != "pass":
+        report["status"] = "blocked"
     report["signal_policy"] = signal_policy
     report["retired_source_tls_ids"] = plan["retired_tls_ids"]
     report["generic_test_signals"] = signal_report

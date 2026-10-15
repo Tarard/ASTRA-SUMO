@@ -147,6 +147,7 @@ def _preserve_mapped_boundary_geometry(
     *,
     target_junction_ids: set[str],
     source_local_junction_ids: set[str],
+    preserve_operational_attributes: bool = True,
 ) -> dict[str, object]:
     """Preserve a mapped candidate boundary while moving its local endpoint.
 
@@ -196,9 +197,9 @@ def _preserve_mapped_boundary_geometry(
             "replayed_remote_junction_id": replayed_remote_id,
         }
 
-    operational_restore = _preserve_boundary_operational_attributes(
-        replayed_edge,
-        geometry_source_edge,
+    operational_restore = (
+        _preserve_boundary_operational_attributes(replayed_edge, geometry_source_edge)
+        if preserve_operational_attributes else {}
     )
     if not _blend_geometry_anchor_at_endpoint(
         replayed_edge,

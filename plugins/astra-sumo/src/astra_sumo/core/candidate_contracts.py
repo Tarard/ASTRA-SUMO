@@ -94,7 +94,26 @@ def validate_materialization_evidence(
         errors.append({"code": "netconvert_returncode_not_zero"})
 
     command = report.get("command")
-    if not isinstance(command, list) or not all(isinstance(token, str) for token in command):
+    method = report.get("materialization_method", "netconvert")
+    if method == "permission_attributes_only":
+        from .osm_access import _patch_lane_permissions
+        try:
+            record = report["semantic_validation"]["direct_permission_edit"]
+            if (not isinstance(record, Mapping) or not isinstance(record.get("lane_id"), str)
+                    or not isinstance(record.get("expected_attributes"), Mapping)
+                    or set(record["expected_attributes"]) - {"allow", "disallow"}
+                    or any(not isinstance(value, str) for value in record["expected_attributes"].values())):
+                raise ValueError("Direct permission evidence contains invalid lane attributes.")
+            raw = source_net_file.read_bytes()
+            expected = _patch_lane_permissions(raw, ET.fromstring(raw), {record["lane_id"]: record["expected_attributes"]})
+            if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
+                    or expected != candidate_net_file.read_bytes()):
+                errors.append({"code": "direct_permission_materialization_not_exact"})
+        except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+            errors.append({"code": "invalid_direct_permission_materialization", "detail": str(error)})
+    elif method != "netconvert":
+        errors.append({"code": "unknown_materialization_method"})
+    elif not isinstance(command, list) or not all(isinstance(token, str) for token in command):
         errors.append({"code": "netconvert_command_required"})
     else:
         if not _command_targets(command, "--sumo-net-file", source_net_file):
@@ -172,6 +191,8 @@ def validate_materialization_evidence(
                 "candidate_review_html_status",
                 "command",
                 "command_result",
+                "materialization_method",
+                "semantic_validation",
             ),
             "materialization",
             errors,

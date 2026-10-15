@@ -19,13 +19,18 @@ from .junction_join_definition import build_junction_join_definition
 from .osm_workflow import export_plain_net_for_teacher_guided_repair
 
 
+from .site_parameters import load_site_parameters
+
+_SITE = load_site_parameters('hamburg_2349_channelized_geometry')
+
+
 SCHEMA = "torii.hamburg-2349-channelized-geometry/v1"
-JOIN_GROUP = ("2761334249", "610506352", "cluster_739654528_759714704")
-JOINED_JUNCTION_ID = "cluster_2761334249_610506352_cluster_739654528_759714704"
-ABSORBED_EDGE_IDS = frozenset({"61649647#1", "61649647#2"})
-INCOMING_EDGE_ID = "61649647#0"
-TARGET_TLS_ID = "HH_2349"
-LEGACY_TLS_ID = "2761334249"
+JOIN_GROUP = _SITE['JOIN_GROUP']
+JOINED_JUNCTION_ID = _SITE['JOINED_JUNCTION_ID']
+ABSORBED_EDGE_IDS = _SITE['ABSORBED_EDGE_IDS']
+INCOMING_EDGE_ID = _SITE['INCOMING_EDGE_ID']
+TARGET_TLS_ID = _SITE['TARGET_TLS_ID']
+LEGACY_TLS_ID = _SITE['LEGACY_TLS_ID']
 
 
 @dataclass(frozen=True)
@@ -41,11 +46,7 @@ class ChannelizedMovement:
         return (INCOMING_EDGE_ID, str(self.through_lane), self.to_edge, str(self.to_lane))
 
 
-MOVEMENTS = (
-    ChannelizedMovement("C5", 0, "59990286", 0, 2),
-    ChannelizedMovement("C6", 0, "61649649#0", 0, 5),
-    ChannelizedMovement("C4", 1, "59990286", 1, 2),
-)
+MOVEMENTS = tuple(ChannelizedMovement(**row) for row in _SITE["MOVEMENTS"])
 
 
 class Hamburg2349ChannelizedGeometryError(ValueError):
@@ -281,7 +282,7 @@ def materialize_hamburg_2349_channelized_geometry(
         "official_logical_cell": str(logical_cell.get("status", "fail")),
     }
     machine_pass = all(value == "pass" for value in gates.values())
-    manifest: dict[str, Any] = {
+    manifest: dict[str, Any] = {"site_parameters": _SITE["_source"],
         "schema": SCHEMA,
         "status": "review_ready" if machine_pass else "blocked",
         "claim_status": "local_channelized_geometry_and_binding_candidate",
@@ -353,8 +354,8 @@ def _validate_source_and_build_shapes(root: ET.Element) -> dict[str, str]:
         if item.attrib.get("id", "") and not item.attrib.get("id", "").startswith(":")
     }
     for edge_id, endpoints in {
-        "61649647#1": (JOIN_GROUP[0], JOIN_GROUP[1]),
-        "61649647#2": (JOIN_GROUP[1], JOIN_GROUP[2]),
+        _SITE['source_binding.003']: (JOIN_GROUP[0], JOIN_GROUP[1]),
+        _SITE['source_binding.004']: (JOIN_GROUP[1], JOIN_GROUP[2]),
     }.items():
         edge = edges.get(edge_id)
         if edge is None or (edge.attrib.get("from"), edge.attrib.get("to")) != endpoints:
@@ -367,13 +368,13 @@ def _validate_source_and_build_shapes(root: ET.Element) -> dict[str, str]:
 
     connections = [item for item in root.findall("connection") if item.attrib.get("from")]
     expected_touching = {
-        (INCOMING_EDGE_ID, "0", "61649647#1", "0"),
-        (INCOMING_EDGE_ID, "1", "61649647#1", "1"),
-        ("61649647#1", "0", "61649647#2", "0"),
-        ("61649647#1", "1", "61649647#2", "1"),
-        ("61649647#2", "0", "59990286", "0"),
-        ("61649647#2", "0", "61649649#0", "0"),
-        ("61649647#2", "1", "59990286", "1"),
+        (INCOMING_EDGE_ID, "0", _SITE['source_binding.003'], "0"),
+        (INCOMING_EDGE_ID, "1", _SITE['source_binding.003'], "1"),
+        (_SITE['source_binding.003'], "0", _SITE['source_binding.004'], "0"),
+        (_SITE['source_binding.003'], "1", _SITE['source_binding.004'], "1"),
+        (_SITE['source_binding.004'], "0", _SITE['source_binding.001'], "0"),
+        (_SITE['source_binding.004'], "0", _SITE['source_binding.002'], "0"),
+        (_SITE['source_binding.004'], "1", _SITE['source_binding.001'], "1"),
     }
     actual_touching = {
         _connection_key(item)
@@ -400,9 +401,9 @@ def _validate_source_and_build_shapes(root: ET.Element) -> dict[str, str]:
     shapes: dict[str, str] = {}
     for movement in MOVEMENTS:
         keys = (
-            (INCOMING_EDGE_ID, str(movement.through_lane), "61649647#1", str(movement.through_lane)),
-            ("61649647#1", str(movement.through_lane), "61649647#2", str(movement.through_lane)),
-            ("61649647#2", str(movement.through_lane), movement.to_edge, str(movement.to_lane)),
+            (INCOMING_EDGE_ID, str(movement.through_lane), _SITE['source_binding.003'], str(movement.through_lane)),
+            (_SITE['source_binding.003'], str(movement.through_lane), _SITE['source_binding.004'], str(movement.through_lane)),
+            (_SITE['source_binding.004'], str(movement.through_lane), movement.to_edge, str(movement.to_lane)),
         )
         chain = [_one_connection(connections, key) for key in keys]
         first = chain[0]
@@ -421,9 +422,9 @@ def _validate_source_and_build_shapes(root: ET.Element) -> dict[str, str]:
         via_ids = [item.attrib.get("via", "") for item in chain]
         pieces = [
             lane_shapes.get(via_ids[0], ""),
-            lane_shapes.get(f"61649647#1_{movement.through_lane}", ""),
+            lane_shapes.get(f"{_SITE['absorbed_lane_prefix_1']}{movement.through_lane}", ""),
             lane_shapes.get(via_ids[1], ""),
-            lane_shapes.get(f"61649647#2_{movement.through_lane}", ""),
+            lane_shapes.get(f"{_SITE['absorbed_lane_prefix_2']}{movement.through_lane}", ""),
             lane_shapes.get(via_ids[2], ""),
         ]
         if not all(via_ids) or not all(pieces):
@@ -693,8 +694,8 @@ def _validate_plain_absorbed_edges(path: Path) -> None:
     root = ET.parse(path).getroot()
     edges = {item.attrib.get("id", ""): item for item in root.findall("edge")}
     expected = {
-        "61649647#1": (JOIN_GROUP[0], JOIN_GROUP[1]),
-        "61649647#2": (JOIN_GROUP[1], JOIN_GROUP[2]),
+        _SITE['source_binding.003']: (JOIN_GROUP[0], JOIN_GROUP[1]),
+        _SITE['source_binding.004']: (JOIN_GROUP[1], JOIN_GROUP[2]),
     }
     for edge_id, endpoints in expected.items():
         item = edges.get(edge_id)
@@ -942,7 +943,7 @@ def _artifact(path: Path) -> dict[str, Any]:
 
 
 def _require_sha256(value: str) -> None:
-    if len(value) != 64 or any(character not in "0123456789abcdefABCDEF" for character in value):
+    if len(value) != 64 or any(character not in _SITE['_require_sha256.005'] for character in value):
         raise Hamburg2349ChannelizedGeometryError("expected_source_sha256 must be 64 hex characters")
 
 
@@ -963,7 +964,7 @@ def _blocked_manifest(
     export: Mapping[str, Any],
     details: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
-    manifest = {
+    manifest = {"site_parameters": _SITE["_source"],
         "schema": SCHEMA,
         "status": "blocked",
         "claim_status": "construction_invalid",

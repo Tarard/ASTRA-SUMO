@@ -513,3 +513,42 @@ def test_existing_terminal_tls_program_and_link_indices_are_explicitly_retained(
     remap = report["approaches"][0]["source_lane_to_downstream_lane"]
     actual = {(c.get("fromLane"), c.get("toLane")): c.get("linkIndex") for c in rebuilt.findall("connection") if c.get("from") == "approach" and c.get("tl") == "J"}
     assert actual == {(str(remap[c.get("fromLane")]), c.get("toLane")): c.get("linkIndex") for c in old.findall("connection") if c.get("from") == "approach" and c.get("tl") == "J"}
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("right_pocket", [False, True])
+def test_added_lane_restores_a_distant_road_after_native_conversion(tmp_path, monkeypatch, right_pocket):
+    source, plans = _source_and_plan(tmp_path, right_pocket=right_pocket)
+    tree = ET.parse(source)
+    root = tree.getroot()
+    remote = ET.Element("edge", id="remote", **{"from": "R", "to": "S", "priority": "1"})
+    ET.SubElement(remote, "lane", id="remote_0", index="0", speed="10", length="4.29", shape="1000,1000 1004.29,1000")
+    root.insert(next(i for i, child in enumerate(root) if child.tag == "junction"), remote)
+    for identity, x, incoming in (("R", "1000", ""), ("S", "1004.29", "remote_0")):
+        node = ET.Element("junction", id=identity, type="dead_end", x=x, y="1000", incLanes=incoming, intLanes="", shape="")
+        root.insert(next((i for i, child in enumerate(root) if child.tag == "connection"), len(root)), node)
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    original_hash = file_sha256(source)
+    native = approach_module.run_command
+    def shifted_conversion(command, **kwargs):
+        result = native(command, **kwargs)
+        if result.returncode == 0:
+            target = command[command.index("--output-file") + 1]
+            changed = ET.parse(target)
+            changed.getroot().find("edge[@id='remote']/lane").set("shape", "980,1000 1004.29,1000")
+            changed.getroot().find("edge[@id='remote']/lane").set("length", "24.29")
+            changed.write(target, encoding="utf-8", xml_declaration=True)
+        return result
+    monkeypatch.setattr(approach_module, "run_command", shifted_conversion)
+    result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "out")
+    assert result["status"] == "pass", result
+    assert result["fixed_boundary_geometry"]["status"] == "pass"
+    assert result["scoped_geometry_restoration"]["boundary_edge_map"]
+    candidate = ET.parse(result["candidate_network"]["path"]).getroot()
+    lane = candidate.find("edge[@id='remote']/lane")
+    assert lane.get("shape") == "1000,1000 1004.29,1000" and lane.get("length") == "4.29"
+    assert len(candidate.find("edge[@id='approach']").findall("lane")) == 3
+    assert file_sha256(source) == original_hash
+    loaded = subprocess.run([shutil.which("sumo"), "-n", result["candidate_network"]["path"], "--end", "1", "--no-step-log"], capture_output=True, text=True, timeout=30)
+    assert loaded.returncode == 0, loaded.stderr

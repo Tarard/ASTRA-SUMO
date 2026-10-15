@@ -269,6 +269,7 @@ def run_hamburg_topology_route_checks(
     candidate_manifest: Path | str, output_dir: Path | str, *, road_names: list[str],
     ordered_node_ids: list[str], sumo_binary: str = "sumo", seed: int = 104,
     end_time_s: int = 600, timeout_seconds: float = 120,
+    context_manifest: Path | str | None = None,
 ) -> dict[str, Any]:
     """Run paired named-mainline checks and native access checks for new pockets."""
     if (not road_names or any(not isinstance(name, str) or not name.strip() for name in road_names)
@@ -301,6 +302,20 @@ def run_hamburg_topology_route_checks(
     for part in manifest["physical_parts"]:
         groups["source"][part["node_id"]].update(part["source_node_ids"])
         groups["candidate"][part["node_id"]].add(part["join_id"])
+    if context_manifest is not None:
+        context_path = Path(context_manifest).resolve(strict=True)
+        hashes[context_path] = file_sha256(context_path)
+        context = json.loads(context_path.read_text(encoding="utf-8"))
+        if (context.get("status") != "pass"
+                or context.get("candidate_network", {}).get("sha256") != hashes[network_paths["source"]]):
+            raise ValueError("context boundary evidence does not match the source network")
+        for row in context.get("context_evidence", []):
+            identifier = str(row["node_id"])
+            owner = f"LSA{identifier}_part0"
+            if not any(group["join_id"] == owner for group in context["plan"]["groups"]):
+                raise ValueError("context road identity does not match its declared group")
+            for role in groups:
+                groups[role][identifier].add(owner)
     networks = {"source": _network(network_paths["source"])}
     named = {"source": _named_edges(networks["source"], set(road_names))}
     selections = []

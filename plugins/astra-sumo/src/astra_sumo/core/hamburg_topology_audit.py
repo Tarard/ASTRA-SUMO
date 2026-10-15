@@ -269,7 +269,22 @@ def _reload(candidate, root, targets, destination, netconvert_binary, timeout_se
             if key not in nodes[0] or key not in nodes[1]
             or any(nodes[0][key].get(field) != nodes[1][key].get(field) for field in fields))
         report["network"] = {"path": str(reloaded), "sha256": file_sha256(reloaded)}
-        report["status"] = "blocked" if report["changed_external_edges"] or report["changed_target_boundaries"] else "pass"
+        report["raw_reload_status"] = "review_required" if report["changed_external_edges"] or report["changed_target_boundaries"] else "pass"
+        from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+        from .network_geometry_freeze import compare_frozen_geometry
+        from .junction_boundary_rebuild import _outside_delta
+        import shutil
+
+        protected = destination / "protected-reloaded.net.xml"
+        shutil.copy2(reloaded, protected)
+        restoration = restore_off_scope_netconvert_artifacts(source_file=candidate, target_file=protected,
+            mutable_junction_ids=set(), mutable_edge_ids=set(), expand_mutable_edge_endpoints=False)
+        geometry = compare_frozen_geometry(source_file=candidate, candidate_file=protected)
+        state = _outside_delta(root, ET.parse(protected).getroot(), set())
+        report["protected_reload"] = {"restoration": restoration, "geometry": geometry, "network_state": state,
+            "network": {"path": str(protected), "sha256": file_sha256(protected)}}
+        report["status"] = "pass" if all(row["status"] == "pass" for row in (restoration, geometry, state)) else "blocked"
+        report["claim_boundary"] = "A no-edit reload requires complete source restoration. Raw reimport remains a proposal, not a lossless serialization."
     except (OSError, ET.ParseError, ValueError) as error:
         report["error"] = str(error)
     return report

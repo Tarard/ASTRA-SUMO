@@ -24,7 +24,7 @@ from .digital_twin_mapping import (
     bind_map_lanes_to_network,
 )
 from .hamburg_map_kml import bind_hamburg_map_kml_to_mapem, parse_hamburg_map_kml
-from .hamburg_movement_path import derive_hamburg_official_movement_paths
+from .hamburg_movement_path import derive_hamburg_official_movement_paths, HAMBURG_MOVEMENT_PATH_PARAMETERS
 from .hamburg_named_scope import (
     HamburgNamedScopeError,
     validate_hamburg_named_scope_manifest,
@@ -60,62 +60,51 @@ from .surface_overlap_audit import (
 )
 
 
-SCHEMA_ID = "torii.hamburg-compound-official-tls/v1"
-OFFICIAL_NODE_IDS = ("2349", "2394")
-CONTROLLER_BY_NODE = {"2349": "HH_2349", "2394": "HH_2394"}
+from .site_parameters import load_site_parameters
 
-JOIN_GROUPS = (
-    ("25737304", "759714733"),
-    ("739654528", "759714704"),
-    ("3847369287", "757036909", "76463166"),
-    ("2761334279", "757036795"),
-)
-CONFLICT_CORE_2349 = (
-    "cluster_25737304_759714733",
-    "cluster_2761334249_610506352_cluster_739654528_759714704",
-)
-CONTROLLER_OWNERS_2349 = (
-    "2761334245",
-    "2761334257",
-    "cluster_2761334249_610506352_cluster_739654528_759714704",
-)
-SIGNAL_OWNERS_2394 = (
-    "759714726",
-    "cluster_2761334279_757036795",
-    "3847369288",
-)
-PASSIVE_OWNERS_2394 = ("cluster_3847369287_757036909_76463166",)
+_SITE = load_site_parameters('hamburg_compound_official_tls')
+
+
+SCHEMA_ID = "torii.hamburg-compound-official-tls/v1"
+OFFICIAL_NODE_IDS = _SITE['OFFICIAL_NODE_IDS']
+CONTROLLER_BY_NODE = _SITE['CONTROLLER_BY_NODE']
+
+JOIN_GROUPS = _SITE['JOIN_GROUPS']
+CONFLICT_CORE_2349 = _SITE['CONFLICT_CORE_2349']
+CONTROLLER_OWNERS_2349 = _SITE['CONTROLLER_OWNERS_2349']
+SIGNAL_OWNERS_2394 = _SITE['SIGNAL_OWNERS_2394']
+PASSIVE_OWNERS_2394 = _SITE['PASSIVE_OWNERS_2394']
 
 # Exactly five missing post-join lane connections.  They are connectivity
 # evidence only and carry no TLS/link-index authority.
 POST_JOIN_CONNECTION_EVIDENCE = (
     LaneConnectionEvidence(
-        "554713078#2_0",
-        "554713075#0_1",
+        _SITE['source_binding.001'],
+        _SITE['source_binding.002'],
         "hamburg-map:2349:7->4",
         "official MAP movement 7->4",
     ),
     LaneConnectionEvidence(
-        "194672083_1",
-        "127716467#0_0",
+        _SITE['source_binding.003'],
+        _SITE['source_binding.004'],
         "hamburg-map:2349:6->11",
         "official MAP movement 6->11",
     ),
     LaneConnectionEvidence(
-        "60578519_1",
-        "193847534#0_0",
+        _SITE['source_binding.005'],
+        _SITE['source_binding.006'],
         "hamburg-map:2394:11->4",
         "official MAP movement 11->4",
     ),
     LaneConnectionEvidence(
-        "60578519_2",
-        "193847534#0_1",
+        _SITE['source_binding.007'],
+        _SITE['source_binding.008'],
         "hamburg-map:2394:12->5",
         "official MAP movement 12->5",
     ),
     LaneConnectionEvidence(
-        "381540198#1_0",
-        "193847534#0_1",
+        _SITE['source_binding.009'],
+        _SITE['source_binding.008'],
         "hamburg-map:2394:6->5",
         "official MAP movement 6->5",
     ),
@@ -128,69 +117,45 @@ POST_JOIN_CONNECTION_EVIDENCE = (
 # SUMO predecessor connection at runtime.
 PLAN_CONNECTION_EVIDENCE = (
     ConnectionRepair(
-        "2349", "554713078#2", 0, "554713075#0", 1,
+        "2349", _SITE['source_binding.010'], 0, _SITE['source_binding.011'], 1,
         reason="official MAP movement 7->4",
     ),
     ConnectionRepair(
-        "2349", "194672083", 1, "127716467#0", 0,
+        "2349", _SITE['source_binding.012'], 1, _SITE['source_binding.013'], 0,
         reason="official MAP movement 6->11",
     ),
     ConnectionRepair(
-        "2349", "61649647#0", 1, "59990286", 1,
+        "2349", _SITE['source_binding.014'], 1, _SITE['source_binding.015'], 1,
         evidence="official_map_stopline",
         reason="official MAP movement 9->4 at the channelized 2349 stop line",
     ),
     ConnectionRepair(
-        "2349", "61649647#0", 0, "59990286", 0,
+        "2349", _SITE['source_binding.014'], 0, _SITE['source_binding.015'], 0,
         evidence="official_map_stopline",
         reason="official MAP movement 10->5 at the channelized 2349 stop line",
     ),
     ConnectionRepair(
-        "2349", "61649647#0", 0, "61649649#0", 0,
+        "2349", _SITE['source_binding.014'], 0, _SITE['source_binding.016'], 0,
         evidence="official_map_stopline",
         reason="official MAP movement 10->8 at the channelized 2349 stop line",
     ),
     ConnectionRepair(
-        "2394", "60578519", 1, "193847534#0", 0,
+        "2394", _SITE['source_binding.017'], 1, _SITE['source_binding.018'], 0,
         reason="official MAP movement 11->4",
     ),
     ConnectionRepair(
-        "2394", "60578519", 2, "193847534#0", 1,
+        "2394", _SITE['source_binding.017'], 2, _SITE['source_binding.018'], 1,
         reason="official MAP movement 12->5",
     ),
     ConnectionRepair(
-        "2394", "381540198#1", 0, "193847534#0", 1,
+        "2394", _SITE['source_binding.019'], 0, _SITE['source_binding.018'], 1,
         reason="official MAP movement 6->5",
     ),
 )
 
-EXPECTED_ESTIMATED_STOPLINE_REPAIR_KEYS = {
-    ("554713076#0", 0, "554713076#1", 0),
-    ("554713076#0", 1, "554713076#1", 1),
-    ("554713078#0", 0, "554713078#1", 0),
-    ("554713078#0", 1, "554713078#1", 1),
-    ("381540198#0", 0, "381540198#1", 0),
-    ("381540198#0", 1, "381540198#1", 1),
-}
+EXPECTED_ESTIMATED_STOPLINE_REPAIR_KEYS = _SITE['EXPECTED_ESTIMATED_STOPLINE_REPAIR_KEYS']
 
-EXPECTED_STOPLINE_LINK_BY_MOVEMENT = {
-    ("2349", "2"): ("554713076#0", 0, "554713076#1", 0),
-    ("2349", "3"): ("554713076#0", 1, "554713076#1", 1),
-    ("2349", "4"): ("61649647#0", 1, "59990286", 1),
-    ("2349", "5"): ("61649647#0", 0, "59990286", 0),
-    ("2349", "6"): ("61649647#0", 0, "61649649#0", 0),
-    ("2349", "7"): ("554713078#0", 0, "554713078#1", 0),
-    ("2349", "8"): ("554713078#0", 0, "554713078#1", 0),
-    ("2349", "9"): ("554713078#0", 1, "554713078#1", 1),
-    ("2394", "1"): ("47854310#2", 0, "60578519", 0),
-    ("2394", "2"): ("47854310#2", 1, "60578519", 1),
-    ("2394", "3"): ("47854310#2", 2, "60578519", 2),
-    ("2394", "5"): ("9702432#0", 0, "9702432#2", 0),
-    ("2394", "6"): ("9702432#0", 1, "9702432#2", 1),
-    ("2394", "7"): ("381540198#0", 0, "381540198#1", 0),
-    ("2394", "8"): ("381540198#0", 0, "381540198#1", 0),
-    ("2394", "9"): ("381540198#0", 1, "381540198#1", 1),
-}
+EXPECTED_STOPLINE_LINK_BY_MOVEMENT = _SITE['EXPECTED_STOPLINE_LINK_BY_MOVEMENT']
 
 # OCIT-C is the complete motor-vehicle movement inventory for these two
 # hash-bound official cells.  Reuse the already audited 2394 removals and add
@@ -199,7 +164,7 @@ EXPECTED_STOPLINE_LINK_BY_MOVEMENT = {
 # movements that the official inventory excludes.
 COMPOUND_ROUTING_REMOVALS = (
     *ROUTING_REMOVALS,
-    PhysicalLink("554713078#2", 1, "554713075#0", 1),
+    PhysicalLink(_SITE['source_binding.010'], 1, _SITE['source_binding.011'], 1),
 )
 
 
@@ -460,7 +425,8 @@ def materialize_hamburg_compound_official_tls_candidate(
         )
 
     manifest_file = destination / "hamburg_compound_official_tls.manifest.json"
-    manifest: dict[str, Any] = {
+    manifest: dict[str, Any] = {"site_parameters": _SITE["_source"],
+        "movement_path_parameters": HAMBURG_MOVEMENT_PATH_PARAMETERS,
         "schema_id": SCHEMA_ID,
         "status": "topology_ready",
         "claim_status": "official-static-topology-candidate",
@@ -533,7 +499,7 @@ def materialize_hamburg_compound_official_tls_candidate(
                     "C4_C5_C6_channelized_core"
                 ),
                 "join_evidence": {
-                    "consumed_connector_edge_ids": ["59626578", "61649650"],
+                    "consumed_connector_edge_ids": [_SITE['source_binding.035'], _SITE['source_binding.036']],
                     "connector_usable_lane_length_m": 0.2,
                     "raw_pair_surface_overlap_area_m2_approx": 15.9,
                 },
@@ -1238,13 +1204,13 @@ def _validate_compound_topology(net_file: Path, join_file: Path) -> dict[str, An
     }
     missing_owners = sorted(expected_owners - set(junctions))
     origin_checks = {
-        "cluster_25737304_759714733": {"25737304", "759714733"},
-        "cluster_739654528_759714704": {"739654528", "759714704"},
-        "cluster_2761334279_757036795": {"2761334279", "757036795"},
-        "cluster_3847369287_757036909_76463166": {
-            "3847369287",
-            "757036909",
-            "76463166",
+        _SITE['source_binding.020']: {_SITE['source_binding.026'], _SITE['source_binding.027']},
+        _SITE['source_binding.021']: {_SITE['source_binding.028'], _SITE['source_binding.029']},
+        _SITE['source_binding.022']: {_SITE['source_binding.030'], _SITE['source_binding.031']},
+        _SITE['source_binding.023']: {
+            _SITE['source_binding.032'],
+            _SITE['source_binding.033'],
+            _SITE['source_binding.034'],
         },
     }
     origin_mismatches = []
@@ -1400,8 +1366,8 @@ def _audit_compound_candidate(
 
     errors: list[str] = []
     expected_owner_by_tls = {
-        "HH_2349": set(CONTROLLER_OWNERS_2349),
-        "HH_2394": set(SIGNAL_OWNERS_2394),
+        _SITE['source_binding.024']: set(CONTROLLER_OWNERS_2349),
+        _SITE['source_binding.025']: set(SIGNAL_OWNERS_2394),
     }
     for tls_id, expected in expected_owner_by_tls.items():
         if owner_by_tls[tls_id] != expected:

@@ -15,10 +15,15 @@ from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_lane_connection_repair import HAMBURG_DIVERGE_LANE_SHAPE
 
-_JUNCTION = "266199070"
-_BRANCH = "234421319"
-_THROUGH = "24483344#0"
-_INGRESS = "37693933#1"
+from .site_parameters import load_site_parameters
+
+_SITE = load_site_parameters('hamburg_road_geometry')
+
+
+_JUNCTION = _SITE['_JUNCTION']
+_BRANCH = _SITE['_BRANCH']
+_THROUGH = _SITE['_THROUGH']
+_INGRESS = _SITE['_INGRESS']
 # Source lane positions relative to the branch's downstream endpoint. These
 # guards bound the existing reviewed correction; they are not a general fit.
 _SOURCE_SHAPES = {
@@ -48,22 +53,22 @@ def _overlap(root, points, opposing_edge=_THROUGH):
 
 def _plan_san_francisco(root):
     """Remove the source dogleg, keeping both end cuts and the remote tangent."""
-    primary, opposing, junction_id = "9702439#0", "307556940#2", "3127482712"
+    primary, opposing, junction_id = _SITE['source_binding.001'], _SITE['source_binding.002'], _SITE['source_binding.003']
     record = {"profile": "hamburg_reviewed_san_francisco_clearance/v1", "junction_id": junction_id,
               "edge_id": primary, "opposing_edge_id": opposing, "status": "not_applicable", "applied": False}
     edges = {e.get("id"): e for e in root.findall("edge")}
-    scope = {primary, opposing, "307556942", "-307556942"}
+    scope = {primary, opposing, _SITE['source_binding.004'], _SITE['source_binding.005']}
     if not scope <= edges.keys():
         return {**record, "reason": "reviewed_road_set_absent"}
     record.update(status="review_required", reason="reviewed_source_geometry_or_lane_connections_changed")
     node = root.find(f"junction[@id='{junction_id}']")
     pairs = {(c.get("from"), c.get("fromLane"), c.get("to"), c.get("toLane"))
-             for c in root.findall("connection") if c.get("from") in {opposing, "307556942"}}
+             for c in root.findall("connection") if c.get("from") in {opposing, _SITE['source_binding.004']}}
     if (node is None or node.get("type") != "priority"
             or {k for k, e in edges.items() if junction_id in (e.get("from"), e.get("to"))} != scope
-            or any(edges[key].get("from") != junction_id for key in (primary, "-307556942"))
-            or any(edges[key].get("to") != junction_id for key in (opposing, "307556942"))
-            or pairs != {(opposing, "0", "-307556942", "0"), ("307556942", "0", primary, "0"), ("307556942", "1", primary, "1")}
+            or any(edges[key].get("from") != junction_id for key in (primary, _SITE['source_binding.005']))
+            or any(edges[key].get("to") != junction_id for key in (opposing, _SITE['source_binding.004']))
+            or pairs != {(opposing, "0", _SITE['source_binding.005'], "0"), (_SITE['source_binding.004'], "0", primary, "0"), (_SITE['source_binding.004'], "1", primary, "1")}
             or len(edges[primary].findall("lane")) != 2 or len(edges[opposing].findall("lane")) != 1):
         return record
     references = {(opposing, 0): ((-14.42, 28.24), (-9.56, 19.21), (0, 0)),
@@ -103,7 +108,7 @@ def plan_hamburg_road_geometry(root):
     """Translate the existing local correction, without changing the source."""
     # ponytail: one reviewed profile per crop; sequence candidates if a crop contains both sites.
     edges = {edge.get("id"): edge for edge in root.findall("edge")}
-    record = {"profile": "hamburg_reviewed_266199070_diverge/v1", "junction_id": _JUNCTION,
+    record = {"profile": _SITE['source_binding.006'], "junction_id": _JUNCTION,
               "edge_id": _BRANCH, "status": "not_applicable", "applied": False}
     if not {_BRANCH, _THROUGH, _INGRESS}.issubset(edges):
         return _plan_san_francisco(root)
@@ -115,7 +120,7 @@ def plan_hamburg_road_geometry(root):
               for c in root.findall("connection") if c.get("from") == _INGRESS}
     incident = {key for key, e in edges.items() if _JUNCTION in (e.get("from"), e.get("to"))}
     if (junction is None or junction.get("type") != "priority" or actual != expected
-            or incident != {_INGRESS, _BRANCH, _THROUGH, "31106387"}
+            or incident != {_INGRESS, _BRANCH, _THROUGH, _SITE['plan_hamburg_road_geometry.007']}
             or edges[_INGRESS].get("to") != _JUNCTION
             or any(edges[k].get("from") != _JUNCTION for k in (_BRANCH, _THROUGH))
             or [len(edges[k].findall("lane")) for k in (_INGRESS, _BRANCH, _THROUGH)] != [3, 1, 2]):
@@ -172,7 +177,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     source_hash = file_sha256(source)
     root = ET.parse(source).getroot()
     plan = plan_hamburg_road_geometry(root)
-    report = {"schema": "torii.hamburg-road-geometry/v1", **plan,
+    report = {"site_parameters": _SITE["_source"], "schema": "torii.hamburg-road-geometry/v1", **plan,
               "source_network": {"path": str(source), "sha256": source_hash}, "candidate_network": None,
               "claim_status": "diagnostic-demo", "claim_boundary":
               "Reuses a source-matched Hamburg road correction. Other roads and changed source geometry require review."}

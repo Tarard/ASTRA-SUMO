@@ -8,17 +8,21 @@ source-identified lanes with an explicit broad ``no`` restriction.
 from __future__ import annotations
 
 import gzip
-import shutil
+import copy
+import hashlib
+import re
 import xml.etree.ElementTree as ET
 from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
+from xml.sax.saxutils import quoteattr
 from sumolib.net.lane import SUMO_VEHICLE_CLASSES, SUMO_VEHICLE_CLASSES_DEPRECATED
 
-from .artifact_io import write_json_atomic
+from .artifact_io import copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .connection_mode_audit import _MOTORIZED_MODES
+from .sumo_commands import run_sumo_load_audit
 
 _MOTOR_MODES = set(_MOTORIZED_MODES) | {"evehicle", "custom1", "custom2"}
 _MODE_KEYS = {
@@ -134,12 +138,63 @@ def _external_lanes(root: ET.Element) -> dict[str, ET.Element]:
     return {lane.attrib["id"]: lane for edge in root.findall("edge") if edge.get("function") != "internal" for lane in edge.findall("lane")}
 
 
+def _patch_lane_permissions(raw: bytes, root: ET.Element, expected: Mapping[str, Mapping[str, str]]) -> bytes:
+    """Change only permission attributes on declared lane opening tags."""
+    tags = list(re.finditer(rb'''<lane(?=\s)(?:[^<>"']|"[^"]*"|'[^']*')*>''', raw))
+    lanes = root.findall("edge/lane")
+    if len(tags) != len(lanes):
+        raise ValueError("Lane opening tags do not match the parsed network.")
+    attributes = re.compile(rb'''\s+([\w:.-]+)\s*=\s*("[^"]*"|'[^']*')''', re.DOTALL)
+    chunks, cursor, changed = [], 0, set()
+    for match, lane in zip(tags, lanes):
+        tag = match.group()
+        parsed = ET.fromstring(tag if tag.endswith(b"/>") else tag[:-1] + b"/>")
+        if parsed.attrib != lane.attrib:
+            raise ValueError("A lane opening tag does not match its parsed attributes.")
+        lane_id = lane.get("id")
+        if lane_id in expected:
+            if lane_id in changed or set(expected[lane_id]) - {"allow", "disallow"}:
+                raise ValueError("Permission patch has duplicate lanes or unsupported attributes.")
+            edits, written = [], set()
+            for attribute in attributes.finditer(tag):
+                if attribute.group(1) in (b"allow", b"disallow"):
+                    key = attribute.group(1).decode("ascii")
+                    if key in expected[lane_id]:
+                        edits.append((attribute.start(2), attribute.end(2), quoteattr(expected[lane_id][key]).encode("utf-8")))
+                        written.add(key)
+                    else:
+                        edits.append((attribute.start(), attribute.end(), b""))
+            for start, end, replacement in reversed(edits):
+                tag = tag[:start] + replacement + tag[end:]
+            closing = b"/>" if tag.endswith(b"/>") else b">"
+            added = b"".join(b" " + key.encode("ascii") + b"=" + quoteattr(value).encode("utf-8")
+                             for key, value in expected[lane_id].items() if key not in written)
+            tag = tag[:-len(closing)] + added + closing
+            changed.add(lane_id)
+        chunks.extend((raw[cursor:match.start()], tag))
+        cursor = match.end()
+    if changed != set(expected):
+        raise ValueError("Permission patch references a missing lane.")
+    chunks.append(raw[cursor:])
+    return b"".join(chunks)
+
+
+def _non_permission_state(root: ET.Element, changed_lanes: set[str]) -> bytes:
+    masked = copy.deepcopy(root)
+    for lane in masked.findall("edge/lane"):
+        if lane.get("id") in changed_lanes:
+            lane.attrib.pop("allow", None)
+            lane.attrib.pop("disallow", None)
+    return ET.tostring(masked, encoding="utf-8")
+
+
 def correct_osm_access_permissions(
     *,
     osm_file: Path,
     net_file: Path,
     output_dir: Path,
     netconvert_binary: str = "netconvert",
+    sumo_binary: str | None = None,
     timeout_seconds: float = 240.0,
     command_runner: Callable[..., Any] = run_command,
 ) -> dict[str, Any]:
@@ -162,8 +217,9 @@ def correct_osm_access_permissions(
     }
     if not ways:
         return report
-    tree = ET.parse(net_file)
-    root = tree.getroot()
+    network_bytes = net_file.read_bytes()
+    network_hash = hashlib.sha256(network_bytes).hexdigest()
+    root = ET.fromstring(network_bytes)
     before = _external_lanes(root)
     patch = ET.Element("edges")
     expected, reviewed, matched_ways = {}, set(), set()
@@ -200,27 +256,53 @@ def correct_osm_access_permissions(
         return report
     output_dir.mkdir(parents=True, exist_ok=True)
     native = output_dir / "native-import.net.xml"
-    shutil.copy2(net_file, native)
     patch_file = output_dir / "static-access.edg.xml"
     candidate = output_dir / "access-corrected.net.xml"
+    if any(path.exists() for path in (native, patch_file, candidate, output_dir / "manifest.json")):
+        raise ValueError("Use a new access-correction directory.")
+    native.write_bytes(network_bytes)
     ET.indent(patch, space="  ")
     ET.ElementTree(patch).write(patch_file, encoding="utf-8", xml_declaration=True)
-    command = [str(netconvert_binary), "--sumo-net-file", str(native.resolve()), "--edge-files", str(patch_file.resolve()), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(candidate.resolve())]
-    result = command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
-    result = result.to_dict() if hasattr(result, "to_dict") else dict(result)
-    report.update({"native_import": {"path": str(native.resolve()), "sha256": file_sha256(native)}, "edge_patch": {"path": str(patch_file.resolve()), "sha256": file_sha256(patch_file)}, "command": command, "result": result})
-    passed = result.get("status") == "pass" and candidate.is_file()
+    sibling = Path(netconvert_binary).with_name("sumo" + Path(netconvert_binary).suffix)
+    validator = sumo_binary or (str(sibling.resolve()) if sibling.is_file() else "sumo")
+    report.update({"native_import": {"path": str(native.resolve()), "sha256": network_hash},
+                   "edge_patch": {"path": str(patch_file.resolve()), "sha256": file_sha256(patch_file)},
+                   "materialization_method": "permission_attributes_only_no_geometry_rebuild",
+                   "netconvert_rebuild_count": 0})
+    source_validation = run_sumo_load_audit(net_file=native, output_dir=output_dir / "source-load-audit",
+        sumo_binary=validator, timeout_seconds=timeout_seconds, command_runner=command_runner)
+    report["source_load_audit"] = source_validation
+    if source_validation["status"] != "pass":
+        report.update(status="blocked", blocked_reason="input_network_failed_sumo_load",
+                      source_immutable=file_sha256(osm_file) == source_hash)
+        report_file = output_dir / "manifest.json"
+        write_json_atomic(report_file, report, sort_keys=True)
+        return {**report, "report_file": str(report_file.resolve())}
+    candidate.write_bytes(_patch_lane_permissions(network_bytes, root, expected))
+    validation = run_sumo_load_audit(net_file=candidate, output_dir=output_dir / "load-audit",
+        sumo_binary=validator,
+        timeout_seconds=timeout_seconds, command_runner=command_runner)
+    command, result = validation.get("command", []), validation.get("command_result", {})
+    report.update({"load_audit": validation, "command": command, "result": result})
+    passed = validation.get("status") == "pass" and candidate.is_file()
     if passed:
-        after = _external_lanes(ET.parse(candidate).getroot())
+        candidate_root = ET.parse(candidate).getroot()
+        after = _external_lanes(candidate_root)
         identity_preserved = set(before) == set(after)
         exact_permissions = identity_preserved and all(_permission_set(_permission_attributes(after[lane])) == _permission_set(attrs) for lane, attrs in expected.items())
         other_permissions = identity_preserved and all(_permission_set(_permission_attributes(before[lane])) == _permission_set(_permission_attributes(after[lane])) for lane in before if lane not in expected)
-        passed = exact_permissions and other_permissions
-        report["checks"] = {"external_lane_identity_preserved": identity_preserved, "source_permissions_applied": exact_permissions, "other_lane_permissions_preserved": other_permissions}
+        unchanged_state = _non_permission_state(root, set(expected)) == _non_permission_state(candidate_root, set(expected))
+        passed = exact_permissions and other_permissions and unchanged_state
+        report["checks"] = {"external_lane_identity_preserved": identity_preserved, "source_permissions_applied": exact_permissions, "other_lane_permissions_preserved": other_permissions,
+                            "non_permission_network_state_preserved": unchanged_state}
+    widening = [{"lane_id": lane_id, "added_vehicle_classes": sorted(added)} for lane_id, attrs in expected.items()
+                if (added := _permission_set(attrs) - _permission_set(_permission_attributes(before[lane_id])))]
+    report["connectivity_review_required"] = bool(widening)
+    report["review"].extend({**row, "reason": "newly_allowed_modes_require_connectivity_review"} for row in widening)
     report["source_immutable"] = file_sha256(osm_file) == source_hash
-    passed = passed and report["source_immutable"]
+    passed = passed and report["source_immutable"] and file_sha256(net_file) == network_hash
     if passed:
-        shutil.copy2(candidate, net_file)
+        copy_file_atomic(candidate, net_file)
         report["corrected_network"] = {"path": str(net_file.resolve()), "sha256": file_sha256(net_file)}
     report["status"] = "review_required" if passed and report["review"] else "pass" if passed else "blocked"
     report_file = output_dir / "manifest.json"

@@ -168,6 +168,7 @@ def build_hamburg_aerial_combined_candidate(
         raise ValueError("netconvert could not build the physical-part candidate")
     boundary_rebuild = _rebuild_join_boundaries(
         joined_auto, joined_net, groups,
+        protected_source=construction_net,
         netconvert_binary=str(request.get("netconvert_binary", "netconvert")),
         timeout_seconds=float(request["timeout_seconds"]),
     )
@@ -198,6 +199,9 @@ def build_hamburg_aerial_combined_candidate(
     source_lane_change_evidence = []
     frozen_probe_trips = None
     frozen_probe_sha256 = None
+    sumo_executable = Path(shutil.which(str(request.get("sumo_binary", "sumo"))) or str(request.get("sumo_binary", "sumo"))).resolve()
+    router_executable = sumo_executable.with_name("duarouter" + sumo_executable.suffix)
+    route_binaries = {"sumo": str(sumo_executable), "duarouter": str(router_executable) if router_executable.is_file() else None}
     for attempt_index in range(3):
         candidate = destination / f"candidate-attempt-{attempt_index}.net.xml"
         materialization = _write_movement_candidate(
@@ -227,7 +231,8 @@ def build_hamburg_aerial_combined_candidate(
             net_file=candidate,
             output_dir=destination / f"test-signals-attempt-{attempt_index}",
             target_junction_ids=sorted(node.get("id") for node in ET.parse(candidate).getroot().findall("junction")
-                                       if node.get("type", "").startswith("traffic_light")),
+                                       if node.get("type", "").startswith("traffic_light")
+                                       and node.get("id") in {str(group["join_id"]) for group in groups}),
             expected_source_sha256=file_sha256(candidate),
         ) if groups else None
         if signal_report is not None:
@@ -247,6 +252,7 @@ def build_hamburg_aerial_combined_candidate(
             od_reference_net_file=source_net,
             frozen_trip_file=frozen_probe_trips,
             expected_frozen_trip_sha256=frozen_probe_sha256,
+            binaries=route_binaries,
         )
         if frozen_probe_trips is None and routeability.get("trip_file"):
             planned_trips = Path(routeability["trip_file"])
@@ -282,6 +288,7 @@ def build_hamburg_aerial_combined_candidate(
         initial_end=int(request["simulation_end"]), max_end=int(request["simulation_max_end"]),
         timeout_seconds=float(request["timeout_seconds"]), frozen_trip_file=frozen_probe_trips,
         expected_frozen_trip_sha256=frozen_probe_sha256,
+        binaries=route_binaries,
     ) if frozen_probe_trips is not None else None
     final_net = destination / "hamburg-five-aerial-combined.net.xml"
     shutil.copy2(selected_candidate, final_net)

@@ -1,0 +1,199 @@
+{
+  "$defs": {
+    "FactSource": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Source Date"
+        },
+        "authority": {
+          "minLength": 1,
+          "title": "Authority",
+          "type": "string"
+        },
+        "license": {
+          "minLength": 1,
+          "title": "License",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "path",
+        "sha256",
+        "source_date",
+        "authority",
+        "license"
+      ],
+      "title": "FactSource",
+      "type": "object"
+    },
+    "NetworkFact": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "lane_centerline",
+            "junction_surface",
+            "lane_count",
+            "lane_permissions",
+            "movement_inventory",
+            "stop_line",
+            "signal_group"
+          ],
+          "title": "Kind",
+          "type": "string"
+        },
+        "selector": {
+          "additionalProperties": true,
+          "title": "Selector",
+          "type": "object"
+        },
+        "expected": {
+          "default": null,
+          "title": "Expected"
+        },
+        "source_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Ids",
+          "type": "array"
+        },
+        "mapping_status": {
+          "default": "confirmed",
+          "enum": [
+            "confirmed",
+            "unresolved"
+          ],
+          "title": "Mapping Status",
+          "type": "string"
+        },
+        "tolerance_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tolerance M"
+        },
+        "sample_spacing_m": {
+          "anyOf": [
+            {
+              "exclusiveMinimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sample Spacing M"
+        },
+        "minimum_iou": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Iou"
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "selector"
+      ],
+      "title": "NetworkFact",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "schema": {
+      "const": "astra.network-facts/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "site_id": {
+      "minLength": 1,
+      "title": "Site Id",
+      "type": "string"
+    },
+    "target_date": {
+      "format": "date",
+      "title": "Target Date",
+      "type": "string"
+    },
+    "coordinate_system": {
+      "additionalProperties": true,
+      "title": "Coordinate System",
+      "type": "object"
+    },
+    "sources": {
+      "items": {
+        "$ref": "#/$defs/FactSource"
+      },
+      "title": "Sources",
+      "type": "array"
+    },
+    "facts": {
+      "items": {
+        "$ref": "#/$defs/NetworkFact"
+      },
+      "minItems": 1,
+      "title": "Facts",
+      "type": "array"
+    }
+  },
+  "required": [
+    "schema",
+    "site_id",
+    "target_date",
+    "coordinate_system",
+    "sources",
+    "facts"
+  ],
+  "title": "NetworkFactTable",
+  "type": "object"
+}

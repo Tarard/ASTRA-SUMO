@@ -44,8 +44,17 @@ def _write_movement_candidate(
     junction_corner_radius_m: float = 8.0,
 ) -> dict[str, Any]:
     """Write whole connection curves to netconvert, never only the first via."""
+    protected_source = joined_net
+    if protected_source.resolve() == output_file.resolve():
+        raise ValueError("The movement candidate must be separate from its protected source.")
+    protected_hash = file_sha256(protected_source)
     root = ET.parse(joined_net).getroot()
     source_root = ET.parse(original_net or joined_net).getroot()
+    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
+    mutable_edges = set(identity_changed_edges) | {
+        edge.get("id") for network in (root,) for edge in network.findall("edge")
+        if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes
+    }
     external = {
         (edge.attrib["id"], index): _parse_shape(lane.get("shape", ""))
         for edge in root.findall("edge")
@@ -285,21 +294,6 @@ def _write_movement_candidate(
         for connection, shape in changes:
             connection.set("shape", _shape(shape))
 
-    from ..junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
-
-    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
-    mutable_edges = set(identity_changed_edges) | {
-        edge.get("id") for network in (source_root, compiled_root) for edge in network.findall("edge")
-        if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes
-    }
-    outside_restoration = restore_off_scope_netconvert_artifacts(
-        source_file=original_net or joined_net, target_file=output_file,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
-    )
-    if outside_restoration["status"] != "pass":
-        raise ValueError("Official movement construction changed roads outside its declared scope: " + str(outside_restoration.get("failures", [])))
-    compiled_root = ET.parse(output_file).getroot()
-
     contours = {"mode": "preserve", "status": "not_applicable", "parts": [],
                 "accepted_junction_ids": [], "rejected_junction_ids": []}
     if junction_contours in ("guarded", "fused"):
@@ -314,6 +308,25 @@ def _write_movement_candidate(
     tree = ET.ElementTree(compiled_root)
     ET.indent(tree, space="    ")
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
+    from ..junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from ..network_geometry_freeze import compare_frozen_geometry
+
+    # Admit the scoped result after the last native compilation, including contours.
+    if file_sha256(protected_source) != protected_hash:
+        raise ValueError("The protected source changed during movement compilation.")
+    outside_restoration = restore_off_scope_netconvert_artifacts(
+        source_file=protected_source, target_file=output_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+        expand_mutable_edge_endpoints=False,
+    )
+    preservation = compare_frozen_geometry(source_file=protected_source, candidate_file=output_file,
+        mutable_junction_ids=frozenset(mutable_nodes), mutable_edge_ids=frozenset(mutable_edges))
+    outside_restoration["independent_geometry_preservation"] = preservation
+    outside_restoration["protected_source_sha256"] = protected_hash
+    if outside_restoration["status"] != "pass" or preservation["status"] != "pass":
+        raise ValueError("Official movement construction did not preserve its declared geometry boundary: " + str(outside_restoration))
+    compiled_root = ET.parse(output_file).getroot()
+    source_support = audit_source_movement_support(source_root, compiled_root, **support_args)
     if composition is not None:
         composition = compose_official_movements(source_root, compiled_root, **composition_args)
         remaining = []

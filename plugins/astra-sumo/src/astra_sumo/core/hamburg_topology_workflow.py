@@ -26,6 +26,8 @@ from .movement_routeability import run_candidate_movement_probes
 from .osm_network import audit_tls, build_osm_network, parse_bbox
 from .road_scope import resolve_highway_classes
 from .network_source_policy import resolve_network_source_policy
+from .network_calibration import evaluate_network_calibration
+from .network_geometry_freeze import compare_frozen_geometry
 
 
 REQUEST_SCHEMA = "torii.hamburg-topology-workflow-request/v1"
@@ -40,7 +42,7 @@ _CONSTRUCTION_KEYS = {*_CONSTRUCTION_DEFAULTS, "maximum_anchor_projection_error_
                       "context_joins", "context_geometry_neighbors", "context_lane_change_policy", "sumo_binary", "netconvert_binary"}
 _REQUEST_KEYS = {"schema", "source_osm", "lsa_identity", "osm_build", "intersections", "road_names",
                  "construction", "aerial_max_error_m", "tls_cluster_radius_m", "max_binding_distance_m",
-                 "construction_plan", "scenario", "supporting_maps", "context_intersections"}
+                 "construction_plan", "scenario", "supporting_maps", "context_intersections", "road_facts", "route_node_order"}
 
 
 def _identity(path: Path | str) -> dict[str, str]:
@@ -50,6 +52,8 @@ def _identity(path: Path | str) -> dict[str, str]:
 
 def _build_construction_plan_workflow(request_path, request, destination):
     """Run the same entry from interpreted user drawings instead of MAP authority."""
+    if request.get("road_facts") is not None:
+        raise ValueError("Use network calibrate after drawing-led construction; road_facts currently applies to MAP/aerial mode.")
     if request.get('schema') != REQUEST_SCHEMA or set(request) - _REQUEST_KEYS:
         raise ValueError(f'Use the supported {REQUEST_SCHEMA} fields.')
     policy = resolve_network_source_policy(request)
@@ -243,6 +247,8 @@ def _read_request(path: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
 
     for role in ("source_osm", "lsa_identity"):
         value[role] = source(value.get(role), role)
+    if value.get("road_facts") is not None:
+        value["road_facts"] = source(value["road_facts"], "road_facts")
     raw = Path(value["source_osm"]["path"])
     try:
         with (gzip.open(raw, "rb") if raw.suffix == ".gz" else raw.open("rb")) as handle:
@@ -321,6 +327,11 @@ def _read_request(path: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
             raise ValueError(f"intersection {node_id} requires an aerial_year")
     if len(set(node_ids)) != len(node_ids):
         raise ValueError("intersection node ids must be distinct and ordered")
+    route_order = value.setdefault("route_node_order", list(node_ids))
+    if (not isinstance(route_order, list) or any(not isinstance(node, str) for node in route_order)
+            or len(route_order) != len(set(route_order)) or not set(node_ids) <= set(route_order)
+            or not set(route_order) <= set(node_ids) | context_ids):
+        raise ValueError("route_node_order must include all MAP nodes and only declared context nodes, without duplicates")
     roads = value.get("road_names")
     if not isinstance(roads, list) or not roads or any(not isinstance(name, str) or not name.strip() for name in roads):
         raise ValueError("road_names must declare the corridor roads for both-direction checks")
@@ -423,7 +434,9 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
         source = stage("source_network", lambda: build_osm_network(
             **build_options, source_osm_path=Path(request["source_osm"]["path"]),
             output_dir=destination / "source", prefix="source", netconvert_binary=netconvert_binary,
-            timeout_seconds=timeout), require_pass=True)
+            timeout_seconds=timeout))
+        if source["status"] not in {"pass", "review_required"}:
+            raise ValueError("source network construction failed; inspect its stage artifact")
         net_file = Path(source["net_file"])
         source_identity = pin("source_network", net_file)
         pin("filtered_osm", source["filtered_osm_file"])
@@ -437,6 +450,7 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             net_file = Path(repaired["path"])
             source_identity = pin("road_geometry_network", net_file, repaired["sha256"])
         context_rebuild = None
+        geometry_baseline = dict(source_identity)
         if request["context_intersections"]:
             context_rebuild = stage("context_intersections", lambda: rebuild_context_intersections(
                 source_net=net_file, request=request, output_dir=destination / "context-intersections",
@@ -499,6 +513,22 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
         network = candidate["artifacts"]["network"]
         pin("candidate_network", network["path"], network["sha256"])
         pin("candidate_manifest", candidate_manifest)
+        preservation_groups = list(candidate.get("physical_parts", []))
+        if context_rebuild is not None:
+            preservation_groups.extend(context_rebuild["plan"]["groups"])
+        mutable_nodes = {str(node) for group in preservation_groups
+                         for node in [group["join_id"], *group["source_node_ids"]]}
+        approach_sections = candidate.get("approach_rebuild", {}).get("approaches", [])
+        mutable_nodes.update(str(row["split_node_id"]) for row in approach_sections if row.get("split_node_id"))
+        preservation_roots = [ET.parse(record["path"]).getroot() for record in (geometry_baseline, network)]
+        mutable_edges = {edge.get("id") for root in preservation_roots for edge in root.findall("edge")
+                         if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes}
+        boundary_map = {row["source_edge_id"]: row["upstream_edge_id"] for row in approach_sections
+                        if row.get("upstream_edge_id")}
+        outside_geometry = stage("outside_geometry", lambda: compare_frozen_geometry(
+            source_file=Path(geometry_baseline["path"]), candidate_file=Path(network["path"]),
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+            boundary_edge_map=boundary_map), require_pass=True)
         quality = stage("construction_audit", lambda: audit_hamburg_topology_candidate(
             candidate_manifest, destination / "construction-audit", netconvert_binary=netconvert_binary, timeout_seconds=timeout))
         movements = stage("movement_probes", lambda: run_candidate_movement_probes(
@@ -507,9 +537,21 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             sumo_binary=sumo_binary, seed=options["seed"], end_time_s=options["simulation_end"], timeout_seconds=timeout))
         routes = stage("corridor_routes", lambda: run_hamburg_topology_route_checks(
             candidate_manifest, destination / "corridor-routes", road_names=request["road_names"],
-            ordered_node_ids=report["ordered_node_ids"], sumo_binary=sumo_binary, seed=options["seed"],
+            ordered_node_ids=request["route_node_order"], sumo_binary=sumo_binary, seed=options["seed"],
+            context_manifest=destination / "context_intersections.json" if context_rebuild is not None else None,
             end_time_s=options["simulation_max_end"], timeout_seconds=timeout))
-        decisions = [candidate["status"], quality["status"], movements["status"], routes["status"], source_policy['status']]
+        decisions = [source["status"], outside_geometry["status"], candidate["status"], quality["status"], movements["status"], routes["status"], source_policy['status']]
+        if request.get("road_facts") is not None:
+            reference_file = destination / "road-reference-scorecard.json"
+            reference = stage("road_reference", lambda: evaluate_network_calibration(
+                net_file=network["path"], facts_file=request["road_facts"]["path"],
+                parent_net_file=net_file, output_file=reference_file), reference_file)
+            report["road_reference"] = {"status": reference["status"], "scorecard": pin("road_reference", reference_file),
+                                        "comparison": reference.get("comparison")}
+            pinned = {record["path"] for record in inputs + report["generated_inputs"]}
+            inputs.extend({"role": "road_reference_input", "path": path, "sha256": digest}
+                          for path, digest in reference.get("inputs", {}).items() if path not in pinned)
+            decisions.append(reference["status"])
         decisions.append(coverage["status"])
         if context_rebuild is not None:
             decisions.append(context_rebuild["field_geometry_review"])
@@ -522,12 +564,15 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             else "pass" if all(value == "pass" for value in decisions) and report["topology_complete"]
             else "review_required")
         report["checks"] = {"official_connectivity": "pass" if report["topology_complete"] else "review_required",
+            "outside_geometry": outside_geometry["status"],
             "road_geometry": road_geometry["status"],
             "construction_coverage": coverage["status"],
             "movement_probes": movements["status"], "corridor_routes": routes["status"],
             "construction_audit": quality["status"]}
         if road_edge_review:
             report["checks"]["road_edge_interpretation"] = "review_required"
+        if "road_reference" in report:
+            report["checks"]["road_reference"] = report["road_reference"]["status"]
     except Exception as error:  # Keep partial construction and the first actionable failure.
         report["status"] = "blocked"
         report["first_failed_stage"] = current_stage

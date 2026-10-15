@@ -67,7 +67,7 @@ def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass")
         request = json.loads(Path(kwargs["request_file"]).read_text(encoding="utf-8"))
         observed["combine"] = request
         assert Path(request["movement_summary"]["path"]).is_relative_to(kwargs["output_dir"].parent)
-        net = _write(kwargs["output_dir"] / "candidate.net.xml", "<net/>")
+        net = _write(kwargs["output_dir"] / "candidate.net.xml", Path(request["source_net"]["path"]).read_text(encoding="utf-8"))
         result = {"status": "pass", "topology_complete": topology_complete,
                   "counts": {"official_vehicle_movements": 2, "materialized_movement_count": 2 * int(topology_complete)},
                   "artifacts": {"network": _artifact(net)}, "inputs": {"source_net": request["source_net"]}}
@@ -130,7 +130,7 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     assert observed["movements"]["intersections"][0]["map_xml"]["sha256"]
     assert observed["combine"]["seed"] == 104
     assert observed["route_checks"]["road_names"] == ["Example road"]
-    assert len(result["stages"]) == 10
+    assert len(result["stages"]) == 11
     assert result["stages"]["road_geometry"]["status"] == "not_applicable"
     assert all(row["status"] in {"pass", "not_applicable"} for row in result["stages"].values())
     assert result["inputs_unchanged"] is True
@@ -176,7 +176,8 @@ def test_reviewed_context_reconstruction_is_used_by_the_normal_workflow(tmp_path
 
     def rebuild(**kwargs):
         network = _write(kwargs['output_dir'] / 'context.net.xml', '<net/>')
-        return {'status': 'pass', 'candidate_network': _artifact(network), 'field_geometry_review': 'review_required'}
+        return {'status': 'pass', 'candidate_network': _artifact(network), 'field_geometry_review': 'review_required',
+                'plan': {'groups': [{'join_id': 'LSA3_part0', 'source_node_ids': ['a', 'b']}]}}
 
     monkeypatch.setattr(workflow, 'rebuild_context_intersections', rebuild, raising=False)
     result = workflow.build_hamburg_topology_workflow(request_file=path, output_dir=tmp_path / 'run')
@@ -256,6 +257,32 @@ def test_failure_records_first_failed_stage_and_does_not_reuse_previous_output(t
     assert "combine" not in observed
     assert result["network_handoff"] is None
     assert "official image" in result["stages"]["movement_geometry"]["error"]
+
+
+def test_supplied_road_facts_compare_same_parent_and_reach_construction_decision(tmp_path, monkeypatch):
+    _fake_stages(monkeypatch)
+    request = _request(tmp_path)
+    value = json.loads(request.read_text(encoding="utf-8"))
+    fact_file = _write(tmp_path / "road-facts.json", {"facts": "independent reference fixture"})
+    value["road_facts"] = _artifact(fact_file)
+    _write(request, value)
+    observed = {}
+
+    def compare(**kwargs):
+        observed.update(kwargs)
+        result = {"status": "review_required", "comparison": {"regressed_facts": ["lane-count"]}}
+        _write(kwargs["output_file"], result)
+        return result
+
+    monkeypatch.setattr(workflow, "evaluate_network_calibration", compare)
+    result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
+    assert result["status"] == "review_required"
+    assert result["checks"]["road_reference"] == "review_required"
+    assert Path(observed["parent_net_file"]).name == "raw.net.xml"
+    assert Path(observed["net_file"]).name == "candidate.net.xml"
+    assert observed["facts_file"] == str(fact_file.resolve())
+    assert result["road_reference"]["comparison"]["regressed_facts"] == ["lane-count"]
+    assert result["calibration"]["status"] == "not_run"
     assert Path(result["report_file"]).is_file()
 
 
@@ -338,3 +365,44 @@ def test_historical_source_period_reaches_movement_selection_without_new_aerial_
     assert result['source_policy']['target_year'] == 2013
     assert observed['movements']['target_year'] == 2013
     assert 'road_prior' not in observed['movements']['intersections'][0]
+
+
+def test_source_review_continues_diagnostic_construction_without_becoming_pass(tmp_path, monkeypatch):
+    request = _request(tmp_path)
+    _fake_stages(monkeypatch)
+    original = workflow.build_osm_network
+    def reviewed(**kwargs):
+        return {**original(**kwargs), "status": "review_required"}
+    monkeypatch.setattr(workflow, "build_osm_network", reviewed)
+    result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
+    assert result["stages"]["network_construction"]["status"] == "pass"
+    assert result["status"] == "review_required"
+    assert result["first_failed_stage"] is None
+
+
+@pytest.mark.parametrize("order", [["1", "1", "2"], ["1", "3"], ["2"], "1,2"])
+def test_route_order_cannot_drop_map_nodes_or_invent_context(tmp_path, order):
+    request = _request(tmp_path)
+    value = json.loads(request.read_text())
+    value["route_node_order"] = order
+    _write(request, value)
+    with pytest.raises(ValueError, match="route_node_order"):
+        workflow._read_request(request)
+
+
+def test_final_outside_geometry_check_blocks_an_unexplained_road_change(tmp_path, monkeypatch):
+    request = _request(tmp_path)
+    _fake_stages(monkeypatch)
+    original = workflow.build_hamburg_aerial_combined_candidate
+    def drifting(**kwargs):
+        result = original(**kwargs)
+        network = Path(result["artifacts"]["network"]["path"])
+        _write(network, '<net><edge id="outside" from="x" to="y"><lane id="outside_0" index="0" length="1" shape="0,0 1,0"/></edge></net>')
+        result["artifacts"]["network"] = _artifact(network)
+        _write(kwargs["output_dir"] / "manifest.json", result)
+        return result
+    monkeypatch.setattr(workflow, "build_hamburg_aerial_combined_candidate", drifting)
+    result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
+    assert result["status"] == "blocked"
+    assert result["first_failed_stage"] == "outside_geometry"
+    assert result["stages"]["outside_geometry"]["status"] == "blocked"

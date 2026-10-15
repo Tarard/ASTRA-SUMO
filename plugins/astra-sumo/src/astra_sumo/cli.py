@@ -226,6 +226,12 @@ def _build_parser() -> argparse.ArgumentParser:
     network_compare.add_argument("output_dir")
     network_compare.add_argument("--prefix", default="network_compare")
     _add_output_argument(network_compare)
+    calibration = network_sub.add_parser("calibrate", help="Measure a network against dated road facts.")
+    calibration.add_argument("net_file")
+    calibration.add_argument("facts_file")
+    calibration.add_argument("output_file")
+    calibration.add_argument("--parent-net-file")
+    _add_output_argument(calibration)
     routeability = network_sub.add_parser(
         "routeability",
         help="Run the long completion-aware SUMO routeability audit outside MCP.",
@@ -459,6 +465,14 @@ def _dispatch(args: argparse.Namespace) -> int:
                 args.output_dir,
                 prefix=args.prefix,
             ),
+            json_output=json_output,
+        )
+    if args.command == "network" and args.network_command == "calibrate":
+        from .core.network_calibration import evaluate_network_calibration
+
+        return _emit(
+            evaluate_network_calibration(net_file=args.net_file, facts_file=args.facts_file,
+                                         output_file=args.output_file, parent_net_file=args.parent_net_file),
             json_output=json_output,
         )
     if args.command == "network" and args.network_command == "movement-probes":

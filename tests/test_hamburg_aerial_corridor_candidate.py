@@ -169,8 +169,9 @@ def test_official_curve_coordinates_are_projected_without_overwriting_aerial_sel
 @pytest.mark.parametrize("selected_y, official_y, expected_source", [
     (6, 1, "official_map_curve"), (6, 7, "netconvert"), (0, 7, "selected_curve"),
 ])
+@pytest.mark.parametrize("contour_mode", ["preserve", "guarded"])
 def test_failed_aerial_fit_tries_official_curve_at_the_same_anchors_and_limit(
-    tmp_path, monkeypatch, selected_y, official_y, expected_source,
+    tmp_path, monkeypatch, selected_y, official_y, expected_source, contour_mode,
 ):
     from types import SimpleNamespace
     source = tmp_path / "source.net.xml"
@@ -192,6 +193,12 @@ def test_failed_aerial_fit_tries_official_curve_at_the_same_anchors_and_limit(
         changed.write(output, encoding="utf-8")
         return SimpleNamespace(returncode=0, stdout="", stderr="")
     monkeypatch.setattr(movement_module, "run_command", compile_copy)
+    def compile_contours(root, **kwargs):
+        remote = root.find("edge[@id='remote-taper']/lane")
+        remote.set("shape", "50,0 104,0")
+        remote.set("length", "54")
+        return root, {"mode": "guarded", "status": "pass"}
+    monkeypatch.setattr(movement_module, "_compile_junction_contours", compile_contours)
     monkeypatch.setattr(movement_module, "audit_source_movement_support", lambda *args, **kwargs: {
         "unresolved": [], "unsupported_redundant_pairs": [], "source_backed_extra": []})
     selected = [(0, selected_y), (10, selected_y)]
@@ -202,7 +209,8 @@ def test_failed_aerial_fit_tries_official_curve_at_the_same_anchors_and_limit(
              {"lane_id": "out", "lane_type": "vehicle", "shape_network": [(10, 0), (30, 0)]}]
     report = _write_movement_candidate(joined_net=source, plans={"1": {"lanes": lanes, "movements": [movement]}},
         groups=[{"node_id": "1", "intersection_part": "0", "join_id": "J", "source_node_ids": ["J"]}],
-        skipped_join_ids=set(), output_file=output, maximum_anchor_projection_error_m=10)
+        skipped_join_ids=set(), output_file=output, maximum_anchor_projection_error_m=10,
+        junction_contours=contour_mode)
     row = report["movements"][0]
     assert row["selected_source"] == "aerial_trace"
     assert row["geometry_source"] == expected_source
@@ -292,22 +300,28 @@ def test_materialization_rebuilds_connections_and_preserves_unmapped_branch(tmp_
         groups=[{"node_id": "999", "intersection_part": "0", "join_id": "J", "source_node_ids": ["J"]}], skipped_join_ids=set(),
         output_file=tmp_path / "mode-preservation.net.xml", maximum_anchor_projection_error_m=10)
     assert ("in", 0, "out", 1) in {tuple(row) for row in modes_kept["official_connection_audit"]["actual"]}
-    from astra_sumo.core.hamburg_aerial_approach import _preserved_edge
+    from astra_sumo.core.junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from astra_sumo.core.network_geometry_freeze import compare_frozen_geometry
     built = ET.parse(output).getroot()
     if fixed_boundary:
         # A compiled custom boundary stays authoritative even when the group's
         # earlier official-boundary preview is absent.
         assert built.find("junction[@id='J']").get("shape") == source_root.find("junction[@id='J']").get("shape")
-    # Native boundaries must also survive reload; a drawing-only replacement
-    # must not overwrite the compiled network's actual lane-cut surface.
-    reloaded = tmp_path / "boundary-reloaded.net.xml"
-    subprocess.run(["netconvert", "-s", str(output), "-o", str(reloaded), "--offset.disable-normalization"], check=True, capture_output=True, timeout=30)
-    later = ET.parse(reloaded).getroot()
-    for field in ("shape", "customShape"):
-        assert built.find("junction[@id='J']").get(field) == later.find("junction[@id='J']").get(field)
+    assert report["official_connection_audit"]["outside_road_restoration"]["independent_geometry_preservation"]["status"] == "pass"
     for edge in built.findall("edge"):
         if edge.get("function") != "internal":
-            assert _preserved_edge(edge, later.find(f"edge[@id='{edge.get('id')}']"))
+            original = source_root.find(f"edge[@id='{edge.get('id')}']")
+            for lane in edge.findall("lane"):
+                assert lane.get("customShape") == original.find(f"lane[@index='{lane.get('index')}']").get("customShape")
+    # A native reimport is a new proposal. Apply the same final admission before accepting it.
+    reloaded = tmp_path / "boundary-reloaded.net.xml"
+    subprocess.run(["netconvert", "-s", str(output), "-o", str(reloaded), "--offset.disable-normalization"], check=True, capture_output=True, timeout=30)
+    scope = {"mutable_junction_ids": {"J"}, "mutable_edge_ids": {"in", "out", "branch"}}
+    admission = restore_off_scope_netconvert_artifacts(source_file=output, target_file=reloaded,
+        **scope, expand_mutable_edge_endpoints=False)
+    assert admission["status"] == "pass"
+    assert compare_frozen_geometry(source_file=output, candidate_file=reloaded, **scope)["status"] == "pass"
+    later = ET.parse(reloaded).getroot()
     assert {candidate_module._connection_key(row) for row in built.findall("connection")} == {
         candidate_module._connection_key(row) for row in later.findall("connection")}
     movements[1]["selected_shape_network"] = [(x, y + 100) for x, y in movements[1]["selected_shape_network"]]

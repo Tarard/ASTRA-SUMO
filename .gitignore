@@ -3,6 +3,7 @@ __pycache__/
 .venv/
 .pytest_cache/
 *.egg-info/
+/build/
 outputs/
 !tests/fixtures/outputs/
 !tests/fixtures/outputs/**

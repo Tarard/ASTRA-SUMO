@@ -417,9 +417,29 @@ def _rebuild_join_boundaries(
     *,
     netconvert_binary: str,
     timeout_seconds: float,
+    protected_source: Path | None = None,
 ) -> dict[str, Any]:
     """Apply external cut-port boundaries without moving internal MAP anchors."""
     source_root = ET.parse(source).getroot()
+    protected_source = protected_source or source
+    protected_root = ET.parse(protected_source).getroot()
+    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group.get("source_node_ids", [])]}
+    mutable_edges = {edge.get("id") for root in (protected_root, source_root) for edge in root.findall("edge")
+                     if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes}
+    aliases = {str(node): str(group["join_id"]) for group in groups for node in group.get("source_node_ids", [])
+               if str(node) != str(group["join_id"]) and protected_root.find(f"junction[@id='{node}']") is not None}
+    from ..junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from ..network_geometry_freeze import compare_frozen_geometry
+
+    def admit(path):
+        restoration = restore_off_scope_netconvert_artifacts(source_file=protected_source, target_file=path,
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+            expand_mutable_edge_endpoints=False, junction_aliases=aliases)
+        comparison = compare_frozen_geometry(source_file=protected_source, candidate_file=path,
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
+        if restoration["status"] != "pass" or comparison["status"] != "pass":
+            raise ValueError("Joined boundary did not preserve its declared outside geometry: " + str(restoration.get("failures", [])) + str(comparison))
+        return {"restoration": restoration, "comparison": comparison}
     nodes = ET.Element("nodes")
     boundaries = []
     for group in groups:
@@ -429,7 +449,8 @@ def _rebuild_join_boundaries(
             ET.SubElement(nodes, "node", id=str(group["join_id"]), shape=_shape(polygon))
     if not len(nodes):
         shutil.copy2(source, output)
-        return {"status": "not_applicable", "reason": "no_resolved_boundary_polygon", "boundaries": boundaries, "network": str(output)}
+        preservation = admit(output)
+        return {"status": "not_applicable", "reason": "no_resolved_boundary_polygon", "boundaries": boundaries, "network": str(output), "geometry_preservation": preservation}
     patch_file = output.with_suffix(".boundaries.nod.xml")
     ET.indent(nodes, space="    ")
     ET.ElementTree(nodes).write(patch_file, encoding="utf-8", xml_declaration=True)
@@ -437,6 +458,7 @@ def _rebuild_join_boundaries(
     result = run_command(command, cwd=output.parent, timeout_seconds=timeout_seconds)
     if result.returncode != 0 or not output.is_file():
         raise ValueError("netconvert could not apply the official junction boundary: " + result.stderr)
+    preservation = admit(output)
     bounded = ET.parse(output).getroot()
     from ..hamburg_aerial_approach import _preserved_edge
 
@@ -448,8 +470,10 @@ def _rebuild_join_boundaries(
         raise ValueError("netconvert could not verify boundary round-trip stability: " + checked.stderr)
     reloaded_edges = {edge.get("id"): edge for edge in ET.parse(roundtrip_file).getroot().findall("edge") if edge.get("function") != "internal"}
     unstable = [edge_id for edge_id, edge in stable_edges.items() if edge_id not in reloaded_edges or not _preserved_edge(edge, reloaded_edges[edge_id])]
-    if unstable or set(stable_edges) != set(reloaded_edges):
-        raise ValueError("boundary lane geometry is not stable under netconvert reload: " + ", ".join(unstable))
+    reload_preservation = admit(roundtrip_file)
     basis = "external_cut_ports_and_unverified_legacy_shapes" if any(row["basis"] == "legacy_explicit_boundary_unverified" for row in boundaries) else "actual_external_cut_ports"
     return {"status": "pass", "basis": basis, "boundaries": boundaries, "node_patch": str(patch_file), "network": str(output), "command": command, "stdout": result.stdout, "stderr": result.stderr,
-            "cut_geometry": {"roundtrip_stable": True, "tolerance_m": 0.1, "command": check_command, "roundtrip_network": str(roundtrip_file)}}
+            "geometry_preservation": preservation,
+            "cut_geometry": {"roundtrip_stable": not unstable and set(stable_edges) == set(reloaded_edges),
+                "native_reload_audit_required": True, "raw_unstable_edge_ids": unstable,
+                "protected_reload": reload_preservation, "tolerance_m": 0.1, "command": check_command, "roundtrip_network": str(roundtrip_file)}}

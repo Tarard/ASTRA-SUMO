@@ -49,6 +49,9 @@ torii-netedit = "astra_sumo.core.netedit:main"
 [tool.setuptools.packages.find]
 where = ["plugins/astra-sumo/src"]
 
+[tool.setuptools.package-data]
+astra_sumo = ["data/sites/*.json"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["plugins/astra-sumo/src"]

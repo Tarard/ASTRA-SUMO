@@ -13,7 +13,7 @@ from urllib import error, parse, request
 import unicodedata
 import xml.etree.ElementTree as ET
 
-from .artifact_io import write_json_atomic
+from .artifact_io import copy_file_atomic, write_json_atomic
 from .command_runner import run_command
 
 
@@ -1050,6 +1050,16 @@ def build_osm_network(
             ),
         )
         from .osm_access import correct_osm_access_permissions
+        from .tls_reference_cleanup import build_tls_reference_cleanup_variant
+
+        tls_cleanup = {"status": "not_run"}
+        if result.get("status") == "pass" and net_file.is_file():
+            tls_cleanup = build_tls_reference_cleanup_variant(
+                net_file, output_dir=logs_dir / f"{prefix}_tls_cleanup")
+            if tls_cleanup["status"] == "pass":
+                access_input = logs_dir / f"{prefix}_access-input.net.xml"
+                copy_file_atomic(Path(tls_cleanup["effective_net_file"]), access_input)
+                net_file = access_input
 
         access_correction = (
             correct_osm_access_permissions(
@@ -1060,7 +1070,7 @@ def build_osm_network(
                 timeout_seconds=timeout_seconds,
                 command_runner=command_runner,
             )
-            if result.get("status") == "pass" and net_file.is_file()
+            if result.get("status") == "pass" and tls_cleanup["status"] == "pass" and net_file.is_file()
             else {"status": "not_run", "changed_lane_count": 0}
         )
     except (OSError, ET.ParseError, error.URLError, error.HTTPError, RuntimeError, ValueError) as exc:
@@ -1069,15 +1079,19 @@ def build_osm_network(
             artifacts={"query_file": str(query_file), "command_record": str(command_record)},
         )
 
-    status = "pass" if result.get("status") == "pass" and net_file.exists() and access_correction["status"] != "blocked" else "fail"
+    status = "pass" if result.get("status") == "pass" and tls_cleanup["status"] == "pass" and net_file.exists() and access_correction["status"] != "blocked" else "fail"
     warnings = list(type_warnings)
+    if status == "pass" and access_correction.get("connectivity_review_required"):
+        status = "review_required"
+        warnings.append("Newly allowed vehicle classes require a separate connectivity review.")
+    claim_status = "diagnostic-demo" if status in {"pass", "review_required"} else "construction-invalid"
     if not net_file.exists():
         warnings.append(f"net file was not created: {net_file}")
     origin_name_output = _origin_name_output_summary(net_file)
     build_manifest = {
         "schema": OSM_BUILD_PROVENANCE_SCHEMA,
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "claim_status": claim_status,
         "build_scope": {
             "bbox": bbox,
             "geo_boundary": parsed_geo_boundary,
@@ -1122,6 +1136,7 @@ def build_osm_network(
             "output_original_names": origin_name_output,
         },
         "osm_access_correction": access_correction,
+        "tls_reference_cleanup": tls_cleanup,
         "artifacts": {
             "command_record": str(command_record.resolve()),
             "netconvert_log": str(netconvert_log.resolve()),
@@ -1147,7 +1162,7 @@ def build_osm_network(
         )
     return {
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "claim_status": claim_status,
         "bbox": bbox,
         "geo_boundary": parsed_geo_boundary,
         "tls_join_distance_m": tls_join_distance_m,
@@ -1176,6 +1191,7 @@ def build_osm_network(
         "netconvert_profile_options": profile_options,
         "netconvert_output_original_names": origin_name_output,
         "osm_access_correction": access_correction,
+        "tls_reference_cleanup": tls_cleanup,
         **(
             {
                 "forced_construction_type_overlay_file": str(

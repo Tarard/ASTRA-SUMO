@@ -210,6 +210,13 @@ def build_hamburg_aerial_approach_candidate(
         paths[name] = destination / f"approach.{name}.xml"
         ET.indent(tree_root)
         ET.ElementTree(tree_root).write(paths[name], encoding="utf-8", xml_declaration=True)
+    mutable_nodes = {str(row[key]) for row in accepted for key in ("original_to", "split_node_id")}
+    mutable_nodes.update(node for row in boundary_scope.values() for node in row["node_ids"])
+    mutable_edges = set(rewritten) | set(expected_upstream) | {
+        key for key, edge in source_edges.items()
+        if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes
+    }
+    boundary_edge_map = {row["source_edge_id"]: row["upstream_edge_id"] for row in accepted if row["upstream_edge_id"]}
     if touched_controller_ids:
         traffic_lights = ET.Element("tlLogics")
         for logic in root.findall("tlLogic"):
@@ -227,6 +234,14 @@ def build_hamburg_aerial_approach_candidate(
     (destination / "netconvert.log").write_text(compiled.stdout + compiled.stderr, encoding="utf-8")
     if compiled.returncode != 0 or not candidate.is_file():
         raise ValueError("netconvert could not compile approach sections: " + compiled.stderr)
+    from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from .network_geometry_freeze import compare_frozen_geometry
+
+    preservation_scope = dict(mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+                              boundary_edge_map=boundary_edge_map)
+    restoration = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate,
+        **preservation_scope, expand_mutable_edge_endpoints=False)
+    preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate, **preservation_scope)
     result_root = ET.parse(candidate).getroot()
     result_edges = {edge.get("id"): edge for edge in result_root.findall("edge") if edge.get("function") != "internal"}
     preserved = set(result_edges) == set(source_edges) | set(expected_upstream)
@@ -260,6 +275,8 @@ def build_hamburg_aerial_approach_candidate(
             after.append(deepcopy(new_lanes[new_index]))
             ordinary_preserved &= _preserved_edge(before, after)
     gates = {"source_immutable": "pass" if _identity(source) == source_identity else "blocked",
+             "scoped_geometry_restoration": "pass" if restoration["status"] == "pass" else "blocked",
+             "fixed_boundary_geometry": preservation["status"],
              "external_connection_set": "pass" if actual_connections == expected_connections else "blocked",
              "outside_geometry_and_attributes": "pass" if preserved else "blocked",
              "controlled_continuations": "pass" if controls_preserved else "blocked",
@@ -269,6 +286,7 @@ def build_hamburg_aerial_approach_candidate(
         "claim_status": "diagnostic-demo", "source_network": source_identity, "candidate_network": _identity(candidate),
         "inputs": inputs, "approaches": [{key: value for key, value in row.items() if not key.startswith("_")} for row in accepted],
         "reviews": reviews, "not_applicable": not_applicable, "gates": gates, "outside_preservation": evidence, "boundary_geometry_adjustments": boundary_adjustments, "affected_tls": affected_tls, "preserved_controller_ids": sorted(touched_controller_ids),
+        "scoped_geometry_restoration": restoration, "fixed_boundary_geometry": preservation,
         "source_priority": {"local_lane_identity_and_geometry": "official_MAP_KML", "vehicle_permissions": "explicit_official_MAP_XML_otherwise_source_lane", "outside_geometry_and_connections": "frozen_source_SUMO_network", "aerial_imagery": "context_only_not_automatically_interpreted"},
         "connection_changes": {"missing": sorted(expected_connections - actual_connections), "extra": sorted(actual_connections - expected_connections)},
         "commands": [compiled.to_dict()], "artifacts": {**{key: _identity(path) for key, path in paths.items()}, "connection_audit": _identity(audit_file)},
