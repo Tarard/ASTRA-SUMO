@@ -126,3 +126,7 @@ not become current field facts merely because they moved to JSON.
 New generic edits take explicit identifiers and parameters from their ledger.
 They do not read these Hamburg defaults. Use the dated road-fact table for
 new source correspondence and measured calibration.
+
+Use [local edit applicability](edit-specific-applicability.md) to check an
+accepted turnaround removal, contour tightening, or reciprocal absorption
+through its own technical domain and the final candidate gates.

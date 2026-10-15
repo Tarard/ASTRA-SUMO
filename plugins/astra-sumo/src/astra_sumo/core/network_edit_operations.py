@@ -58,7 +58,11 @@ def _shape(value):
     polygon = Polygon(value)
     if not polygon.is_valid or polygon.area <= 0:
         raise ValueError("Junction shape must be a valid polygon with positive area.")
-    return " ".join(f"{x},{y}" for x, y in value)
+    serialized = " ".join(f"{x:.12f},{y:.12f}" for x, y in value)
+    written = Polygon([tuple(map(float, point.split(","))) for point in serialized.split()])
+    if not written.is_valid or written.area <= 0:
+        raise ValueError("Junction shape must remain valid at the native coordinate precision.")
+    return serialized
 
 
 def _inventory(root):
@@ -314,6 +318,26 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     geometry = compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
     before, after = ET.parse(source).getroot(), ET.parse(candidate_file).getroot()
+    restored_speeds = []
+    if kind != "set_lane_permissions":
+        source_speeds = {lane.get("id"): lane.get("speed") for edge in before.findall("edge")
+                         if not edge.get("function") for lane in edge.findall("lane")}
+        for edge in after.findall("edge"):
+            if edge.get("function"):
+                continue
+            for lane in edge.findall("lane"):
+                if lane.get("id") in source_speeds and lane.get("speed") != source_speeds[lane.get("id")]:
+                    restored_speeds.append(lane.get("id"))
+                    original = source_speeds[lane.get("id")]
+                    if original is None:
+                        lane.attrib.pop("speed", None)
+                    else:
+                        lane.set("speed", original)
+        if kind == "set_junction_shape":
+            # Native input parsing can quantize coordinates before its high-precision writer runs.
+            after.find(f"junction[@id='{params['node_id']}']").set("shape", _shape(params["shape"]))
+        if restored_speeds or kind == "set_junction_shape":
+            ET.ElementTree(after).write(candidate_file, encoding="utf-8", xml_declaration=True)
     old_edges, _, old_connections = _inventory(before)
     _, nodes, connections = _inventory(after)
     if kind in _CONNECTION_EDITS:
@@ -331,7 +355,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     elif kind == "set_junction_shape":
         # SUMO may normalize the polygon winding and repeated terminal point.
         actual = [tuple(map(float, p.split(","))) for p in nodes[params["node_id"]].get("shape", "").split()]
-        effect = len(actual) >= 3 and Polygon(actual).equals(Polygon(params["shape"]))
+        requested = [tuple(map(float, point.split(","))) for point in _shape(params["shape"]).split()]
+        effect = len(actual) >= 3 and Polygon(actual).equals(Polygon(requested))
     elif kind == "demote_duplicate_tls":
         retained = params["retained_node_id"]
         retained_pairs = [key for key, connection in old_connections.items() if connection.get("tl")
@@ -396,6 +421,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "requested_effect_applied": effect, "geometry_preservation": geometry, "restoration": rebuild,
             "lane_layout_preserved": not changed_lane_layout, "other_lane_permissions_preserved": unchanged_permissions,
             "connection_inventory_preserved": connections_preserved,
+            "restored_external_speed_ids": sorted(restored_speeds),
+            "shape_coordinate_precision": 12 if kind == "set_junction_shape" else None,
+            "declared_junction_shape_restored": kind == "set_junction_shape",
             "other_connection_permissions_preserved": connection_permissions_preserved,
             "new_protected_green_conflicts": green_conflicts, "evidence_unchanged": evidence_unchanged,
             "structural_failure_count": structure["structural_failure_count"], "sumo_load": load,

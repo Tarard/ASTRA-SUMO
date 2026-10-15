@@ -59,6 +59,13 @@ or merged geometry is rendered from the source network, added geometry from
 the candidate. The JSON evidence, decision, HTML rendering, overlay, and
 candidate are bound by SHA-256 in the manifests.
 
+[Local edit applicability](edit-specific-applicability.md) provides technical
+profiles for accepted turnaround removal, contour tightening, and reciprocal
+fragment absorption. These profiles check exact vehicle-class boundary paths
+instead of rejecting the intended decrease in road, node, or connection counts.
+They retain all other candidate gates and required review. They do not change
+the frozen whole-intersection certification envelope or establish field accuracy.
+
 The reproducible four-scenario acceptance runner is
 `plugins/astra-sumo/scripts/run_corridor_contract_regression.py`.  It rebuilds
 its source networks from tracked OSM input, the installed SUMO pedestrian

@@ -1353,6 +1353,7 @@ def run_corridor_candidate_gates(
     routeability_audit_func: Any | None = None,
     topology_audit_func: Any | None = None,
     command_runner: Any = run_command,
+    edit_ledger_file: Path | None = None,
 ) -> dict[str, Any]:
     """Run promotion gates for an already materialized corridor candidate.
 
@@ -1436,6 +1437,34 @@ def run_corridor_candidate_gates(
         "tls_modal_rail_bridge_tunnel": semantic_report,
         "modal_connectivity": modal_report,
     }
+    if edit_ledger_file is not None:
+        from .network_edit_applicability import assess_edit_applicability
+
+        try:
+            edit_path = edit_ledger_file.resolve(strict=True)
+            edit_hash = file_sha256(edit_path)
+            edit_ledger = json.loads(edit_path.read_text(encoding="utf-8"))
+            if (Path(edit_ledger["source_net_file"]).resolve() != source_net_file.resolve()
+                    or not materialization_report or not materialization_report.get("ledger_file")
+                    or Path(materialization_report["ledger_file"]).resolve() != edit_path):
+                raise ValueError("Edit applicability requires the materialized source and ledger")
+            materialized_manifest = json.loads(Path(materialization_report["manifest_file"]).read_text(encoding="utf-8"))
+            ledger_bindings = [row for row in materialized_manifest.get("artifacts", [])
+                               if row.get("kind") == "edit_ledger" and Path(row["path"]).resolve() == edit_path]
+            if len(ledger_bindings) != 1 or ledger_bindings[0].get("sha256") != edit_hash:
+                raise ValueError("Edit ledger differs from the materialized ledger hash")
+            applicability = assess_edit_applicability(edit_ledger, candidate_net_file=candidate_net_file)
+            applicability["ledger"] = {"path": str(edit_path), "sha256": edit_hash}
+            if file_sha256(edit_path) != edit_hash:
+                applicability["status"] = "blocked"
+            preflight_gates["edit_applicability"] = applicability
+            if applicability["status"] == "pass" and materialization_evidence["status"] == "pass":
+                preflight_gates["modal_connectivity"] = {
+                    "status": "pass", "basis": "edit_specific_all_class_boundary_paths",
+                    "boundary_paths": applicability["boundary_paths"], "aggregate_diagnostics": modal_report,
+                }
+        except (OSError, ValueError, TypeError, KeyError, ET.ParseError) as exc:
+            preflight_gates["edit_applicability"] = {"status": "blocked", "error": str(exc)}
     preflight_pass = all(gate.get("status") == "pass" for gate in preflight_gates.values())
 
     sumo_load_gate = _not_run_gate("candidate preflight did not pass")
@@ -1541,6 +1570,17 @@ def run_corridor_candidate_gates(
         "routeability": routeability_gate,
         "topology": topology_gate,
     }
+    if edit_ledger_file is not None:
+        try:
+            bound = gates["edit_applicability"].get("ledger", {})
+            if (file_sha256(edit_ledger_file) != bound.get("sha256")
+                    or file_sha256(source_net_file) != artifact_identity.get("source_sha256")
+                    or file_sha256(candidate_net_file) != artifact_identity.get("candidate_sha256")):
+                gates["edit_applicability"]["status"] = "blocked"
+                gates["edit_applicability"]["input_changed_during_gates"] = True
+        except OSError as exc:
+            gates["edit_applicability"]["status"] = "blocked"
+            gates["edit_applicability"]["error"] = str(exc)
     status = "pass" if all(gate.get("status") == "pass" for gate in gates.values()) else "blocked"
     report = {
         "schema": "torii.corridor_candidate_gates.v2",

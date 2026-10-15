@@ -238,6 +238,11 @@ def _build_parser() -> argparse.ArgumentParser:
     effect_review.add_argument("--parent-net-file")
     effect_review.add_argument("--vehicle-class", default="passenger")
     _add_output_argument(effect_review)
+    verify_edit = network_sub.add_parser("verify-edit", help="Build and check one accepted edit through its local domain.")
+    verify_edit.add_argument("ledger_file")
+    verify_edit.add_argument("output_dir")
+    verify_edit.add_argument("--netconvert-binary", default="netconvert")
+    _add_output_argument(verify_edit)
     routeability = network_sub.add_parser(
         "routeability",
         help="Run the long completion-aware SUMO routeability audit outside MCP.",
@@ -473,6 +478,11 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "network" and args.network_command == "verify-edit":
+        from .core.network_edit_applicability import verify_network_edit
+
+        return _emit(verify_network_edit(ledger_file=args.ledger_file, output_dir=args.output_dir,
+            netconvert_binary=args.netconvert_binary), json_output=json_output)
     if args.command == "network" and args.network_command == "review-effects":
         from .core.traffic_effect_review import build_network_traffic_effect_review
 
