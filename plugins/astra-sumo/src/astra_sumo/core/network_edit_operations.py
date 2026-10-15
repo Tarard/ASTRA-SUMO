@@ -213,11 +213,14 @@ def _remap_lane_count_facts(facts_path, plan, output):
     import json
     table = json.loads(facts_path.read_text(encoding="utf-8"))
     target, mapping = plan["operation"]["params"]["edge_id"], plan["lane_index_mapping"]
+    source = ET.parse(plan["source"]["path"]).getroot()
+    source_lanes = {lane.get("id"): lane.get("index") for edge in source.findall("edge") if edge.get("id") == target
+                    for lane in edge.findall("lane")}
     renamed = {}
     def lane_id(value):
-        if not isinstance(value, str) or not value.startswith(target + "_"):
+        if not isinstance(value, str) or value not in source_lanes:
             return value
-        index = value[len(target) + 1:]
+        index = source_lanes[value]
         result = f"{target}_{mapping[index]}" if index in mapping else f"removed-by-edit:{value}"
         renamed[value] = result
         return result

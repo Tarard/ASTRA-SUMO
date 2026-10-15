@@ -281,6 +281,27 @@ def test_direct_stop_line_keeps_elevation_and_refuses_a_shared_internal_prefix(t
     assert _stop_line_patches(root, params) is None
 
 
+def test_lane_count_fact_mapping_uses_actual_lane_membership_instead_of_an_edge_prefix(tmp_path):
+    import json
+    from astra_sumo.core.network_edit_operations import _remap_lane_count_facts
+    source = tmp_path / "source.xml"
+    source.write_text('''<net><edge id="a"><lane id="a_0" index="0"/><lane id="a_1" index="1"/></edge>
+        <edge id="a_branch"><lane id="a_branch_0" index="0"/></edge></net>''', encoding="utf-8")
+    facts = tmp_path / "facts.json"
+    facts.write_text(json.dumps({"sources": [], "facts": [
+        {"id": "survivor", "kind": "speed", "selector": {"lane_id": "a_1"}, "expected": 10},
+        {"id": "neighbor", "kind": "speed", "selector": {"lane_id": "a_branch_0"}, "expected": 8},
+        {"id": "removed", "kind": "speed", "selector": {"lane_id": "a_0"}, "expected": 10}]}), encoding="utf-8")
+    before = facts.read_bytes()
+    plan = {"source": {"path": str(source)}, "operation": {"params": {"edge_id": "a"}}, "lane_index_mapping": {"1": 0}}
+    output = tmp_path / "candidate-facts.json"
+    record = _remap_lane_count_facts(facts, plan, output)
+    rows = json.loads(output.read_text())["facts"]
+    assert [row["selector"]["lane_id"] for row in rows] == ["a_0", "a_branch_0", "removed-by-edit:a_0"]
+    assert "a_branch_0" not in record["lane_id_mapping"]
+    assert facts.read_bytes() == before
+
+
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 @pytest.mark.parametrize("kind", ["set_edge_shape", "set_lane_count"])
 def test_road_edits_recompute_custom_lane_geometry_and_allow_lane_removal(tmp_path, kind):
