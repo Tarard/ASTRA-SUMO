@@ -23,7 +23,7 @@ def main() -> int:
         output_dir=args.output_dir, target_date=args.target_date, sample_spacing_m=args.sample_spacing_m,
         mode=args.mode, tolerance_m=args.tolerance_m)
     print(json.dumps(summary, indent=2))
-    return 0 if summary["status"] == "pass" else 1
+    return 0 if summary["status"] in {"pass", "measured"} else 1
 
 
 if __name__ == "__main__":

@@ -11,6 +11,7 @@ from shapely.geometry import LineString
 from astra_sumo.core.network_calibration import centerline_overlap_metrics, evaluate_network_calibration
 from astra_sumo.core.network_edit_applicability import verify_network_edit
 from astra_sumo.core.network_edit_operations import driving_integrity
+from astra_sumo.core.candidate_contracts import file_sha256
 from test_network_calibration import _case
 from test_network_edit_operations import _source, _params
 
@@ -22,7 +23,7 @@ def test_explore_measures_uncertain_binding_and_stale_source_without_release_acc
     table["sources"][0]["sha256"] = "0" * 64
     facts.write_text(json.dumps(table), encoding="utf-8")
     report = evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output)
-    assert report["status"] == "pass" and report["mode"] == "explore"
+    assert report["status"] == "measured" and report["mode"] == "explore"
     assert report["promotion_authority"] is False
     assert report["warnings"] == ["Source hash mismatch: survey"]
     row = report["facts"][0]
@@ -50,7 +51,7 @@ def test_explore_records_a_source_hash_when_none_was_supplied(tmp_path):
     table["sources"][0].pop("sha256")
     facts.write_text(json.dumps(table), encoding="utf-8")
     report = evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output)
-    assert report["status"] == "pass" and report["facts"][0]["metrics"]["offset_m"] == 0
+    assert report["status"] == "measured" and report["facts"][0]["metrics"]["offset_m"] == 0
     assert report["sources"][0]["observed_sha256"]
     assert report["warnings"]
     with pytest.raises(ValueError, match="Source hash mismatch"):
@@ -104,7 +105,7 @@ def test_valid_single_road_without_distinct_edge_od_still_allows_daily_speed_edi
     path = tmp_path / "ledger.json"
     path.write_text(json.dumps(ledger), encoding="utf-8")
     report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
-    assert report["status"] == "pass"
+    assert report["status"] == "measured"
     assert "candidate_routeability" not in report
     assert any("Route preservation was not checked" in warning for warning in report["warnings"])
 
@@ -119,7 +120,7 @@ def test_explore_materializes_unapproved_edits_and_tests_original_requests(tmp_p
     path = tmp_path / "ledger.json"
     path.write_text(json.dumps(ledger), encoding="utf-8")
     report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
-    assert report["status"] == "pass", report
+    assert report["status"] == "measured", report
     assert report["mode"] == "explore" and report["release_gates"] == "not_run"
     assert report["construction"]["requested_effect_applied"], report["construction"]
     assert report["candidate_routeability"]["od_policy"]["request_count"] == 100
@@ -136,3 +137,53 @@ def test_calibration_cli_defaults_to_explore(tmp_path, capsys):
         "expected": [10, 0], "mapping_status": "unresolved"}])
     assert main(["network", "calibrate", str(net), str(facts), str(output), "--json"]) == 0
     assert json.loads(capsys.readouterr().out)["facts"][0]["status"] == "measured"
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_daily_width_edit_reports_fact_changes_and_keeps_a_remote_fact_unchanged(tmp_path):
+    source = _source(tmp_path, "set_lane_width")
+    tree = ET.parse(source)
+    root = tree.getroot()
+    edge = ET.Element("edge", id="remote", **{"from": "R", "to": "S", "priority": "1"})
+    ET.SubElement(edge, "lane", id="remote_0", index="0", speed="10", length="50", shape="-500,0 -450,0")
+    root.insert(next(i for i, row in enumerate(root) if row.tag == "junction"), edge)
+    for name, x, incoming in (("R", "-500", ""), ("S", "-450", "remote_0")):
+        node = ET.Element("junction", id=name, type="dead_end", x=x, y="0", incLanes=incoming, intLanes="", shape="")
+        root.insert(next(i for i, row in enumerate(root) if row.tag == "connection"), node)
+    tree.write(source, encoding="utf-8")
+    survey = tmp_path / "survey.txt"
+    survey.write_text("Synthetic width and remote-speed observations.", encoding="utf-8")
+    facts = {"schema": "astra.network-facts/v1", "site_id": "width-test", "target_date": "2026-10-15",
+        "coordinate_system": {"type": "network_xy_m", "location": dict(root.find("location").attrib)},
+        "sources": [{"id": "survey", "path": str(survey), "sha256": file_sha256(survey),
+                     "source_date": None, "authority": "synthetic", "license": "MIT"}],
+        "facts": [{"id": "width-position", "kind": "lane_centerline", "selector": {"lane_id": "middle_0"},
+                   "expected": [[0, -1.7], [20, -1.7]], "sample_spacing_m": 0.25, "source_ids": ["survey"]},
+                  {"id": "remote-speed", "kind": "speed", "selector": {"lane_id": "remote_0"},
+                   "expected": 10, "tolerance_m_s": 0, "source_ids": ["survey"]}]}
+    facts_path = tmp_path / "facts.json"
+    facts_path.write_text(json.dumps(facts), encoding="utf-8")
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "width", "operation": "set_lane_width",
+        "params": {"lane_id": "middle_0", "width_m": 3.4}}]}), encoding="utf-8")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", facts_file=facts_path,
+        netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "measured", report
+    assert report["fact_deltas"][0]["metric_deltas"]["mean_lateral_offset_m"] < 0
+    assert report["outside_fact_changes"] == []
+    assert report["outside_fact_change_count"] == 0
+    assert report["construction"]["geometry_preservation"]["outside_lane_count_moved_over_0_01_m"] == 0
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_an_ineffective_edit_is_not_reported_as_applied(tmp_path, monkeypatch):
+    from astra_sumo.core import network_edit_operations
+    source = _source(tmp_path, "set_speed")
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "speed", "operation": "set_speed",
+        "params": {"lane_id": "middle_0", "speed_m_s": 8}}]}), encoding="utf-8")
+    monkeypatch.setattr(network_edit_operations, "write_direct_lane_edit", lambda source, candidate, operation: candidate.write_bytes(source.read_bytes()))
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "no_effect"
+    assert report["construction"]["requested_effect_applied"] is False
+    assert report["candidate_routeability"]["route_generation"]["status"] == "pass"

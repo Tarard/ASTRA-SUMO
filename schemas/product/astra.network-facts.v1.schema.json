@@ -76,7 +76,8 @@
             "movement_inventory",
             "stop_line",
             "signal_group",
-            "speed"
+            "speed",
+            "lane_width"
           ],
           "title": "Kind",
           "type": "string"
@@ -113,7 +114,8 @@
             "high",
             "medium",
             "low",
-            "none"
+            "none",
+            "conflict"
           ],
           "title": "Mapping Confidence",
           "type": "string"
@@ -122,6 +124,46 @@
           "default": "supplied",
           "title": "Mapping Method",
           "type": "string"
+        },
+        "traffic_mode": {
+          "default": "unspecified",
+          "enum": [
+            "motor",
+            "bicycle",
+            "pedestrian",
+            "unspecified"
+          ],
+          "title": "Traffic Mode",
+          "type": "string"
+        },
+        "reference_direction": {
+          "anyOf": [
+            {
+              "enum": [
+                -1,
+                1
+              ],
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reference Direction"
+        },
+        "alternatives": {
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Alternatives",
+          "type": "array"
+        },
+        "mapping_diagnostics": {
+          "additionalProperties": true,
+          "title": "Mapping Diagnostics",
+          "type": "object"
         },
         "tolerance_m": {
           "anyOf": [
@@ -189,6 +231,32 @@
           ],
           "default": null,
           "title": "Tolerance M S"
+        },
+        "maximum_mean_lateral_offset_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Maximum Mean Lateral Offset M"
+        },
+        "tolerance_longitudinal_m": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tolerance Longitudinal M"
         }
       },
       "required": [

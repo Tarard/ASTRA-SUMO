@@ -457,8 +457,65 @@
                       "num_lanes": {
                         "type": "integer",
                         "minimum": 1
+                      },
+                      "remove_index": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "add_side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "connections": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "from",
+                            "fromLane",
+                            "to",
+                            "toLane"
+                          ],
+                          "properties": {
+                            "from": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "to": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "fromLane": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "toLane": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "allow": {
+                              "type": "string"
+                            },
+                            "disallow": {
+                              "type": "string"
+                            }
+                          }
+                        }
                       }
-                    }
+                    },
+                    "allOf": [
+                      {
+                        "not": {
+                          "required": [
+                            "remove_index",
+                            "add_side"
+                          ]
+                        }
+                      }
+                    ]
                   }
                 }
               },

@@ -72,6 +72,16 @@ def test_unknown_reference_never_counts_as_a_pass(tmp_path):
                                            "mismatched_facts": 0, "matched_fraction": None}
 
 
+@pytest.mark.parametrize("expected,tolerance,status", [(3.25, 0.1, "matched"), (2.0, 0.1, "mismatched")])
+def test_lane_width_uses_the_compiled_default_and_an_explicit_tolerance(tmp_path, expected, tolerance, status):
+    report = _run(_case(tmp_path, [{"kind": "lane_width", "selector": {"lane_id": "in_0"},
+                                  "expected": expected, "tolerance_m": tolerance}]))
+    row = report["facts"][0]
+    assert row["status"] == status
+    assert row["observed"] == 3.2
+    assert row["metrics"]["absolute_width_error_m"] == pytest.approx(abs(3.2 - expected))
+
+
 def test_inventory_penalizes_unsupported_turns_and_missing_movements(tmp_path):
     report = _run(_case(tmp_path, [{"kind": "movement_inventory",
         "selector": {"incoming_lane_ids": ["in_0"]}, "expected": [["in_0", "another_0"]]}]))
@@ -209,5 +219,5 @@ def test_cli_writes_scorecard_and_preserves_inputs(tmp_path, capsys):
                              "expected": 1}])
     before = paths[0].read_bytes(), paths[1].read_bytes()
     assert main(["network", "calibrate", *map(str, paths), "--json"]) == 0
-    assert json.loads(capsys.readouterr().out)["status"] == "pass"
+    assert json.loads(capsys.readouterr().out)["status"] == "measured"
     assert (paths[0].read_bytes(), paths[1].read_bytes()) == before

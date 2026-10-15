@@ -18,7 +18,7 @@ from .source_movement_support import _index, _internal
 AUTOMATIC_EDIT_PROFILES = ("suppress_turnaround", "set_junction_shape", "absorb_reciprocal_fragment")
 
 
-def _boundary_access(root, members):
+def _boundary_access(root, members, *, incoming_lane_ids=None, outgoing_lane_ids=None):
     """Trace every explicit vehicle-class path inside the declared nodes, without lane changes."""
     index = _index(root)
     incoming, outgoing = set(), set()
@@ -35,6 +35,16 @@ def _boundary_access(root, members):
                 incoming.add(lane)
             if edge.get("from") in members:
                 outgoing.add(lane)
+    if incoming_lane_ids is not None:
+        incoming = set(incoming_lane_ids)
+    if outgoing_lane_ids is not None:
+        outgoing = set(outgoing_lane_ids)
+    for selected, endpoint in ((incoming if incoming_lane_ids is not None else (), "to"),
+                               (outgoing if outgoing_lane_ids is not None else (), "from")):
+        for lane in selected:
+            edge = index["edges"][index["lanes"][lane][0]]
+            if edge.get(endpoint) not in members and index["owners"].get(lane) not in members:
+                raise ValueError("Selected movement lanes must enter or leave the declared junction scope.")
     allowed = {lane: _permissions(row[1]) for lane, row in index["lanes"].items()}
     access = {}
     for start in sorted(incoming):
@@ -223,7 +233,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None):
     return {**result, "status": "pass" if all(value == "pass" for value in checks.values()) else "blocked"}
 
 
-def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", mode="explore"):
+def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", mode="explore", facts_file=None):
     """Explore a typed road edit, or apply the existing release checks explicitly."""
     from .corridor_edit_ledger import materialize_corridor_edit_variant, run_corridor_candidate_gates
     from .network_edit_operations import _sumo_binary
@@ -231,7 +241,9 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
 
     if mode == "explore":
         from .network_edit_operations import explore_network_edit
-        return explore_network_edit(ledger_file=ledger_file, output_dir=output_dir, netconvert_binary=netconvert_binary)
+        return explore_network_edit(ledger_file=ledger_file, output_dir=output_dir, netconvert_binary=netconvert_binary, facts_file=facts_file)
+    if facts_file is not None:
+        raise ValueError("Use facts_file during exploration. Release calibration is a separate final check.")
     if mode != "release":
         raise ValueError("Mode must be explore or release.")
 

@@ -122,7 +122,7 @@ def _exit_code(result: AstraToolResult | dict[str, Any]) -> int:
     if not isinstance(status, str) or not status.strip():
         return 3
     status = status.strip().lower()
-    if status in {"pass", "ok", "success", "complete", "ready"}:
+    if status in {"pass", "ok", "success", "complete", "ready", "measured", "no_effect"}:
         return 0
     if status in {"error", "fail", "failed", "invalid", "timeout"} or (
         status.startswith("blocked")
@@ -244,6 +244,7 @@ def _build_parser() -> argparse.ArgumentParser:
     verify_edit.add_argument("output_dir")
     verify_edit.add_argument("--netconvert-binary", default="netconvert")
     verify_edit.add_argument("--mode", choices=("explore", "release"), default="explore")
+    verify_edit.add_argument("--facts-file", help="Measure the source and candidate against the same road facts.")
     _add_output_argument(verify_edit)
     references = network_sub.add_parser("reference-corpus", help="Prepare public network targets for daily development.")
     references.add_argument("catalog_file")
@@ -522,7 +523,7 @@ def _dispatch(args: argparse.Namespace) -> int:
         from .core.network_edit_applicability import verify_network_edit
 
         return _emit(verify_network_edit(ledger_file=args.ledger_file, output_dir=args.output_dir,
-            netconvert_binary=args.netconvert_binary, mode=args.mode), json_output=json_output)
+            netconvert_binary=args.netconvert_binary, mode=args.mode, facts_file=args.facts_file), json_output=json_output)
     if args.command == "network" and args.network_command == "review-effects":
         from .core.traffic_effect_review import build_network_traffic_effect_review
 

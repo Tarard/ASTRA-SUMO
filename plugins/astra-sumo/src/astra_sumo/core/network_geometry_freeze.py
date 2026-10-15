@@ -5,6 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 import math
 import xml.etree.ElementTree as ET
+from shapely.geometry import LineString
 
 from .candidate_contracts import file_sha256
 
@@ -131,6 +132,7 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
     attributes = {name: sum(original[0][lane][index] != candidate[0][lane][index] for lane in shared_lanes)
                   for index, name in enumerate(("shape", "length", "width"))}
     endpoint_offsets, geometric_length_changes = [], []
+    shape_displacements = []
     for lane in shared_lanes:
         before, after = original[0][lane][0], candidate[0][lane][0]
         if len(before) < 2 or len(after) < 2:
@@ -139,11 +141,14 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
         lengths = [sum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
                    for points in (before, after)]
         geometric_length_changes.append(abs(lengths[0] - lengths[1]))
+        shape_displacements.append(LineString(before).hausdorff_distance(LineString(after)))
     return {"status": "pass" if passed else "blocked", "coordinate_frame_preserved": frame_preserved,
             "mutable_junction_ids": sorted(mutable_junction_ids), "mutable_edge_ids": sorted(mutable_edge_ids),
             "ordinary_lane_attribute_changes": attributes,
             "max_lane_endpoint_offset_xy_m": max(endpoint_offsets, default=None),
             "max_geometric_lane_length_change_xy_m": max(geometric_length_changes, default=None),
+            "outside_lane_count_moved_over_0_01_m": sum(value > 0.01 for value in shape_displacements) if frame_preserved else None,
+            "max_outside_lane_shape_displacement_xy_m": max(shape_displacements, default=None) if frame_preserved else None,
             "fixed_boundary_failures": boundary_failures,
             "boundary_edge_map": boundary_edge_map,
             "outside_scope_geometry": differences}

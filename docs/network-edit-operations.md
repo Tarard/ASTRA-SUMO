@@ -1,6 +1,6 @@
 # Scoped road-network edits
 
-The corridor edit ledger supports the existing six road operations and ten
+The corridor edit ledger supports the existing six road operations and fourteen
 scoped operations. `review_marker` records a review location without changing
 the network. A proposed or accepted operation does not establish field accuracy.
 
@@ -60,6 +60,25 @@ The three existing automatic profiles retain their narrower eligibility rules.
 An expanded junction surface can be explored without qualifying as automatic contour tightening.
 Other typed edits use explicit release materialization and the general candidate checks.
 An explore result has no promotion authority.
+Successful exploration returns `measured`. An unapplied requested effect returns `no_effect`.
+Both describe a completed command. Neither status accepts the candidate for publication.
+
+Supply `--facts-file <facts.json>` to measure the source and candidate against one frozen fact table.
+The output includes both scorecards, `fact_deltas`, and `outside_fact_changes`.
+It records numerical differences inside nested coverage metrics too.
+The report retains outside geometry drift before restoration and its residual after restoration.
+Those records include the count of outside lanes displaced by more than 0.01 m and their maximum shape displacement.
+Native command time remains separate from the measurements.
+
+For lane-count edits, `remove_index` removes one selected lane and remaps surviving indices.
+`add_side` adds one lane on the left or right. Existing lanes retain their permissions, widths, and speeds.
+Without these fields, a reduction removes the highest indices and an increase adds lanes on the left.
+The default connection policy preserves existing movements of surviving lanes, with their remapped indices.
+New lanes need an explicit complete `connections` list when they should serve additional movements.
+The tool does not guess these movements. The report lists added and removed ordinary lane connections.
+With `--facts-file`, surviving lanes use the declared index mapping in a separate candidate fact table.
+Reference geometry and expected physical values stay fixed. Removed lanes retain a missing-lane result.
+The report records both table hashes and every changed selector.
 
 The road shape is the SUMO edge reference line, not one individual lane centerline.
 Road-shape and lane-count edits clear custom shapes on the retained target lanes so SUMO can recompute their geometry.

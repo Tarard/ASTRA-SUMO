@@ -60,7 +60,7 @@ Before changing structure or adding a public capability, read:
 
 - Keep source artifacts immutable and write candidates separately.
 - Do not treat SUMO load, route completion, or KPI improvement as proof of topology, demand, control, or field correctness.
-- Use structured decisions: `pass`, `review_required`, `blocked`, or `not_applicable`.
+- Use structured decisions. Explore commands report `measured` or `no_effect`; release checks retain `pass`, `review_required`, `blocked`, and `not_applicable`.
 - Bind promotion-relevant evidence to exact source/candidate hashes and declared edit scope.
 - Preserve rollback and outside-scope regression evidence for materialized candidates.
 - State non-identifiability and claim boundaries in tool output instead of hiding them in documentation alone.

@@ -6,6 +6,7 @@ from copy import deepcopy
 import math
 from pathlib import Path
 import shutil
+import time
 import xml.etree.ElementTree as ET
 
 from shapely.geometry import LineString, Polygon
@@ -35,7 +36,7 @@ _PARAMETERS = {
     "set_lane_permissions": {"lane_id", "allow", "disallow"},
     "set_lane_width": {"lane_id", "width_m"},
     "set_edge_shape": {"edge_id", "shape"},
-    "set_lane_count": {"edge_id", "num_lanes"},
+    "set_lane_count": {"edge_id", "num_lanes", "remove_index", "add_side", "connections"},
     "move_stop_line": {"lane_id", "end_offset_m"},
     "set_speed": {"lane_id", "speed_m_s"},
 }
@@ -95,6 +96,69 @@ def write_direct_lane_edit(source, candidate, operation):
                          {"allow", "disallow"} if operation["operation"] == "set_lane_permissions" else {"speed"}))
 
 
+def _lane_count_layout(params, edge):
+    old_count, new_count = len(edge.findall("lane")), params["num_lanes"]
+    if "remove_index" in params:
+        if new_count != old_count - 1 or params["remove_index"] >= old_count:
+            raise ValueError("remove_index requires removing exactly one existing lane.")
+        survivors = [index for index in range(old_count) if index != params["remove_index"]]
+        return {old: new for new, old in enumerate(survivors)}
+    if "add_side" in params and new_count != old_count + 1:
+        raise ValueError("add_side requires adding exactly one lane.")
+    return {index: index + (1 if params.get("add_side") == "right" else 0)
+            for index in range(min(old_count, new_count))}
+
+
+def _lane_count_connections(params, edges, connections):
+    target = params["edge_id"]
+    mapping = _lane_count_layout(params, edges[target])
+    if "connections" in params:
+        return [{key: str(value) for key, value in row.items()} for row in params["connections"]]
+    result = []
+    for pair, row in connections.items():
+        if target not in (pair[0], pair[2]) or pair[0] not in edges or pair[2] not in edges:
+            continue
+        if any(edge == target and index not in mapping for edge, index in (pair[:2], pair[2:])):
+            continue
+        record = {key: row.get(key) for key in ("from", "fromLane", "to", "toLane", "allow", "disallow") if row.get(key) is not None}
+        for end, lane_key in (("from", "fromLane"), ("to", "toLane")):
+            if record[end] == target:
+                record[lane_key] = str(mapping[int(record[lane_key])])
+        result.append(record)
+    return result
+
+
+def _remap_lane_count_facts(facts_path, plan, output):
+    """Keep physical references fixed when an explicit lane-count edit renumbers their SUMO lanes."""
+    import json
+    table = json.loads(facts_path.read_text(encoding="utf-8"))
+    target, mapping = plan["operation"]["params"]["edge_id"], plan["lane_index_mapping"]
+    renamed = {}
+    def lane_id(value):
+        if not isinstance(value, str) or not value.startswith(target + "_"):
+            return value
+        index = value[len(target) + 1:]
+        result = f"{target}_{mapping[index]}" if index in mapping else f"removed-by-edit:{value}"
+        renamed[value] = result
+        return result
+    for fact in table["facts"]:
+        selector = fact["selector"]
+        if "lane_id" in selector:
+            selector["lane_id"] = lane_id(selector["lane_id"])
+        for key in ("lane_ids", "incoming_lane_ids", "outgoing_lane_ids", "lane_pair"):
+            if isinstance(selector.get(key), list):
+                selector[key] = [lane_id(value) for value in selector[key]]
+        if (fact["kind"] == "movement_inventory" and isinstance(fact.get("expected"), list)
+                and all(isinstance(pair, list) and len(pair) == 2 for pair in fact["expected"])):
+            fact["expected"] = [[lane_id(value) for value in pair] for pair in fact["expected"]]
+    for source in table["sources"]:
+        source["path"] = str((facts_path.parent / source["path"]).resolve())
+    write_json_atomic(output, table, sort_keys=True)
+    return {"source_facts": {"path": str(facts_path), "sha256": file_sha256(facts_path)},
+            "candidate_facts": {"path": str(output), "sha256": file_sha256(output)},
+            "lane_id_mapping": renamed, "basis": "declared_lane_index_mapping_with_unchanged_physical_reference_geometry"}
+
+
 def driving_integrity(root):
     from .source_movement_support import _candidate_modes, _index, _modes
     try:
@@ -151,6 +215,20 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                 _line_shape(params["shape"])
             elif type(params["num_lanes"]) is not int or params["num_lanes"] < 1:
                 raise ValueError("Lane count must be a positive integer.")
+            if kind == "set_lane_count":
+                if "remove_index" in params and (type(params["remove_index"]) is not int or params["remove_index"] < 0 or "add_side" in params):
+                    raise ValueError("Use one nonnegative remove_index or an add_side.")
+                if "add_side" in params and params["add_side"] not in {"left", "right"}:
+                    raise ValueError("add_side must be left or right.")
+                if "connections" in params:
+                    if not isinstance(params["connections"], list):
+                        raise ValueError("Lane-count connections must be a complete list of incident lane pairs.")
+                    pairs = set()
+                    for row in params["connections"]:
+                        pair = _pair(row)
+                        if set(row) - {"from", "fromLane", "to", "toLane", "allow", "disallow"} or pair in pairs:
+                            raise ValueError("Lane-count connections must contain distinct supported lane pairs.")
+                        pairs.add(pair)
         elif kind == "demote_duplicate_tls":
             if params["node_id"] == params["retained_node_id"]:
                 raise ValueError("Duplicate and retained signal nodes must differ.")
@@ -223,6 +301,17 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
         elif kind in {"set_edge_shape", "set_lane_count"}:
             if params["edge_id"] not in edges:
                 raise ValueError("Road is unknown.")
+            if kind == "set_lane_count":
+                _lane_count_layout(params, edges[params["edge_id"]])
+                for row in params.get("connections", []):
+                    pair = _pair(row)
+                    if params["edge_id"] not in (pair[0], pair[2]):
+                        raise ValueError("Declared lane-count connections must touch the target road.")
+                    for edge_id, index in (pair[:2], pair[2:]):
+                        if edge_id not in edges or index >= (params["num_lanes"] if edge_id == params["edge_id"] else len(edges[edge_id].findall("lane"))):
+                            raise ValueError("Lane-count connection addresses an unknown resulting lane.")
+                    if edges[pair[0]].get("to") != edges[pair[2]].get("from"):
+                        raise ValueError("Lane-count connection roads must meet at one junction.")
         elif kind == "demote_duplicate_tls":
             left, right = params["node_id"], params["retained_node_id"]
             left_controllers, right_controllers = _controllers(root, edges, left), _controllers(root, edges, right)
@@ -307,9 +396,26 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         attrs = {"shape": _line_shape(params["shape"])} if kind == "set_edge_shape" else {"numLanes": str(params["num_lanes"])}
         patch = ET.SubElement(patches["edges"], "edge", id=params["edge_id"], **attrs)
         # Existing custom lane shapes otherwise override the new road reference or lane layout.
-        for index, _lane in enumerate(edge.findall("lane")):
-            if kind == "set_edge_shape" or index < params["num_lanes"]:
+        if kind == "set_edge_shape":
+            for index, _lane in enumerate(edge.findall("lane")):
                 ET.SubElement(patch, "lane", index=str(index), shape="")
+        else:
+            mapping = _lane_count_layout(params, edge)
+            new_to_old = {new: old for old, new in mapping.items()}
+            for new in range(params["num_lanes"]):
+                old = new_to_old.get(new, 0 if params.get("add_side") == "right" else len(edge.findall("lane")) - 1)
+                original = edge.findall("lane")[old]
+                permissions = {key: original.get(key) for key in ("allow", "disallow") if original.get(key)} or {"allow": "all"}
+                lane_patch = ET.SubElement(patch, "lane", index=str(new), shape="", **permissions,
+                    width=original.get("width", "3.2"), **{key: original.get(key)
+                    for key in ("speed", "endOffset") if original.get(key) is not None})
+                for parameter in original.findall("param"):
+                    lane_patch.append(deepcopy(parameter))
+            for left, right in sorted({(pair[0], pair[2]) for pair in connections
+                    if params["edge_id"] in (pair[0], pair[2]) and pair[0] in edges and pair[2] in edges}):
+                ET.SubElement(patches["connections"], "delete", **{"from": left, "to": right})
+            for record in _lane_count_connections(params, edges, connections):
+                ET.SubElement(patches["connections"], "connection", **record)
     elif kind == "demote_duplicate_tls":
         mutable.update((params["node_id"], params["retained_node_id"]))
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], type="priority")
@@ -336,6 +442,9 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
     plan = {"operation": operation, "mutable_junction_ids": sorted(mutable), "mutable_edge_ids": sorted(mutable_edges),
             "evidence_sources": evidence_sources,
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
+    if kind == "set_lane_count":
+        plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
+        plan["requested_connections"] = _lane_count_connections(params, edges, connections)
     command = [netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
                "--junctions.internal-link-detail", "25", "--precision", "12", "--output-file", str(candidate_file.resolve())]
     plan["materialization_method"] = ("permission_attributes_only" if kind == "set_lane_permissions"
@@ -365,6 +474,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     copy_file_atomic(candidate_file, proposal)
     operation, mutable_nodes, mutable_edges = plan["operation"], set(plan["mutable_junction_ids"]), set(plan["mutable_edge_ids"])
     kind, params = operation["operation"], operation["params"]
+    before_restore = compare_frozen_geometry(source_file=source, candidate_file=proposal,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
     if kind in {"set_lane_permissions", "set_speed"}:
         rebuild = {"status": "pass", "method": plan["materialization_method"], "netconvert_rebuild_count": 0}
         mutable_nodes, mutable_edges = set(), set()
@@ -389,6 +500,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                          if not edge.get("function") for lane in edge.findall("lane")}
         for edge in after.findall("edge"):
             if edge.get("function"):
+                continue
+            if kind == "set_lane_count" and edge.get("id") == params["edge_id"]:
                 continue
             for lane in edge.findall("lane"):
                 if lane.get("id") in source_speeds and lane.get("speed") != source_speeds[lane.get("id")]:
@@ -463,11 +576,14 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     connections_preserved = kind in _JOIN_EDITS or new_pairs == expected_pairs
     if kind == "set_lane_count":
         target = params["edge_id"]
-        connections_preserved = {pair for pair in old_pairs if target not in (pair[0], pair[2])} == {
-            pair for pair in new_pairs if target not in (pair[0], pair[2])}
+        target_records = {_key(ET.Element("connection", record)): record for record in plan["requested_connections"]}
+        expected_pairs = {pair for pair in old_pairs if target not in (pair[0], pair[2])} | target_records.keys()
+        connections_preserved = new_pairs == expected_pairs
+        effect &= connections_preserved and all(pair in connections and _permission_set(connections[pair].attrib) == _permission_set(record)
+                                               for pair, record in target_records.items())
     connection_permissions_preserved = kind in _JOIN_EDITS or all(
         _permission_set(old_connections[key].attrib) == _permission_set(connections[key].attrib)
-        for key in old_pairs & new_pairs)
+        for key in old_pairs & new_pairs if not (kind == "set_lane_count" and params["edge_id"] in (key[0], key[2])))
     if kind not in _JOIN_EDITS:
         changed_lane_layout = old_lanes.keys() != new_lanes.keys()
         if kind == "set_lane_count":
@@ -476,7 +592,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                 key for key in new_lanes if key.rsplit("_", 1)[0] != target}
         unchanged_permissions = all(_permission_set(lane.attrib) == _permission_set(new_lanes[identifier].attrib)
             for identifier, lane in old_lanes.items() if identifier in new_lanes
-            and not (kind == "set_lane_permissions" and identifier == params["lane_id"]))
+            and not (kind == "set_lane_permissions" and identifier == params["lane_id"])
+            and not (kind == "set_lane_count" and identifier.rsplit("_", 1)[0] == params["edge_id"]))
     green_conflicts = [row for row in structure.get("tls_link_binding_audit", {}).get("protected_green_foe_conflicts", [])
                        if row.get("junction_id") in mutable_nodes]
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])
@@ -505,7 +622,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                   "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
     integrity = driving_integrity(after)
     physical = load["status"] == "pass" and integrity["status"] == "pass"
-    return {"status": "pass" if (physical if mode == "explore" else passed) else "blocked",
+    exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
+    return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,
             "warnings": [] if passed else ["Some release checks failed. Inspect the recorded measurements."],
@@ -514,8 +632,12 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "direct_speed_edit": direct if kind == "set_speed" else {},
             "connectivity_review_required": bool(added_modes), "newly_allowed_vehicle_classes": added_modes,
             "requested_effect_applied": effect, "geometry_preservation": geometry, "restoration": rebuild,
+            "geometry_before_restoration": before_restore,
             "lane_layout_preserved": not changed_lane_layout, "other_lane_permissions_preserved": unchanged_permissions,
             "connection_inventory_preserved": connections_preserved,
+            "lane_index_mapping": plan.get("lane_index_mapping"),
+            "target_connection_changes": {"added": [list(pair) for pair in sorted(new_pairs - old_pairs)],
+                                          "removed": [list(pair) for pair in sorted(old_pairs - new_pairs)]},
             "restored_external_speed_ids": sorted(restored_speeds),
             "shape_coordinate_precision": 12 if kind == "set_junction_shape" else None,
             "declared_junction_shape_restored": kind == "set_junction_shape",
@@ -526,7 +648,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "claim_boundary": "Typed construction and source preservation only. Field legality, historical control and mixed-demand completion require their separate evidence."}
 
 
-def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert"):
+def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", facts_file=None):
     """Build a daily candidate and report release warnings without requiring approval evidence."""
     import json
     from .command_runner import run_command
@@ -535,8 +657,11 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
     ledger_path, destination = Path(ledger_file).resolve(strict=True), Path(output_dir).resolve()
     ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
     source = Path(ledger["source_net_file"]).resolve(strict=True)
+    facts_path = Path(facts_file).resolve(strict=True) if facts_file is not None else None
     if destination.exists() or source.is_relative_to(destination) or ledger_path.is_relative_to(destination):
         raise ValueError("Use a new output directory separate from the source and ledger.")
+    if facts_path is not None and facts_path.is_relative_to(destination):
+        raise ValueError("The output directory must not contain the fact table.")
     operations = ledger.get("operations", [])
     if len(operations) != 1 or operations[0].get("operation") not in SCOPED_EDIT_TYPES:
         raise ValueError("Explore requires one typed road edit.")
@@ -571,7 +696,13 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
     candidate = destination / "candidate.net.xml"
     plan = write_scoped_edit_plan(root=root, operation=operation, source_file=source, candidate_file=candidate,
         output_dir=destination, prefix="explore", netconvert_binary=netconvert_binary, mode="explore")
+    baseline_score = None
+    if facts_path is not None:
+        from .network_calibration import evaluate_network_calibration
+        baseline_score = evaluate_network_calibration(net_file=source, facts_file=facts_path,
+            output_file=destination / "source-scorecard.json", mode="explore")
     command_result = None
+    command_started = time.perf_counter()
     if plan["materialization_method"] in {"permission_attributes_only", "speed_attributes_only"}:
         write_direct_lane_edit(source, candidate, operation)
         command_result = {"returncode": 0, "netconvert_rebuild_count": 0}
@@ -582,6 +713,7 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
               "promotion_authority": False, "release_gates": "not_run", "warnings": warnings,
               "ledger": {"path": str(ledger_path), "sha256": file_sha256(ledger_path)},
               "source": {"path": str(source), "sha256": source_digest}, "command_result": command_result,
+              "command_elapsed_seconds": time.perf_counter() - command_started,
               "candidate_net_file": str(candidate), "plan_file": str(plan["plan_file"])}
     if command_result.get("returncode") == 0 and candidate.is_file():
         checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=destination,
@@ -589,7 +721,7 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
         report["construction"] = checked
         warnings.extend(checked["warnings"])
         report["status"] = checked["status"]
-        if report["status"] == "pass":
+        if report["status"] in {"measured", "no_effect"}:
             sumo = _sumo_binary(netconvert_binary)
             binaries = {"sumo": sumo, "duarouter": str(Path(sumo).with_name("duarouter" + Path(sumo).suffix))}
             # Generate from the source alone so edited endpoints cannot disappear from the requests.
@@ -601,12 +733,40 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
                 routed = run_routeability_audit(net_file=candidate, output_dir=destination / "candidate-routes",
                     binaries=binaries, frozen_trip_file=trip_file, expected_frozen_trip_sha256=file_sha256(trip_file))
                 report["candidate_routeability"] = routed
-                report["status"] = "pass" if routed.get("route_generation", {}).get("status") == "pass" else "blocked"
+                if routed.get("route_generation", {}).get("status") != "pass":
+                    report["status"] = "blocked"
                 if routed["status"] != "pass":
                     warnings.append("The candidate driving run did not complete. Inspect retained runtime results separately from route loss.")
             else:
                 warnings.append("Source route requests could not be validated. Route preservation was not checked.")
         report["candidate_sha256"] = file_sha256(candidate)
+        if baseline_score is not None:
+            from .network_calibration import compare_calibration_scorecards, evaluate_network_calibration
+            candidate_facts = facts_path
+            if operation["operation"] == "set_lane_count":
+                candidate_facts = destination / "candidate-facts.json"
+                report["fact_selector_remap"] = _remap_lane_count_facts(facts_path, plan, candidate_facts)
+            score = evaluate_network_calibration(net_file=candidate, facts_file=candidate_facts,
+                output_file=destination / "candidate-scorecard.json", mode="explore")
+            report["source_scorecard"] = baseline_score["output_file"]
+            report["candidate_scorecard"] = score["output_file"]
+            report["fact_deltas"] = compare_calibration_scorecards(baseline_score, score)["transitions"]
+            lane_edges = {lane.get("id"): edge.get("id") for edge in root.findall("edge") for lane in edge.findall("lane")}
+            scope_edges, scope_nodes = set(plan["mutable_edge_ids"]), set(plan["mutable_junction_ids"])
+            changed_outside = []
+            for before, after in zip(baseline_score["facts"], score["facts"]):
+                selector = before.get("selector", {})
+                selected_lanes = set(selector.get("lane_ids", []) + selector.get("incoming_lane_ids", [])
+                    + selector.get("outgoing_lane_ids", []) + selector.get("lane_pair", []))
+                if selector.get("lane_id"):
+                    selected_lanes.add(selector["lane_id"])
+                touched = (set(selector.get("edge_ids", [])) & scope_edges
+                    or any(lane_edges.get(key) in scope_edges for key in selected_lanes)
+                    or selector.get("junction_id") in scope_nodes or set(selector.get("junction_ids", [])) & scope_nodes)
+                if not touched and any(before.get(key) != after.get(key) for key in ("status", "metrics", "observed")):
+                    changed_outside.append(before["id"])
+            report["outside_fact_changes"] = changed_outside
+            report["outside_fact_change_count"] = len(changed_outside)
     report["source_immutable"] = file_sha256(source) == source_digest
     path = destination / "edit-verification.json"
     write_json_atomic(path, report, sort_keys=True)

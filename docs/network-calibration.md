@@ -17,10 +17,12 @@ Release mode requires matching source hashes, confirmed correspondence, and decl
 The construction workflow requests release mode explicitly when its scorecard contributes to promotion.
 Neither mode grants promotion authority by itself.
 
-In explore mode, `pass` means the measurement completed.
-It does not mean the network matches the field.
+Explore mode returns `measured` when the comparison completes.
+Exit code zero means the command completed, not that the network matches the field.
 Each layer includes `measured_facts` and `provisional_facts` alongside matches, mismatches, and unknown results.
-Facts without acceptance thresholds have status `measured`.
+Facts without acceptance thresholds and with a primary value have status `measured`.
+`measured_facts` excludes centerlines without a lateral value.
+Motor-vehicle summaries separate all measured lanes from high-confidence lanes and list the worst five.
 Tentative matches retain `mapping_status: unresolved` and a confidence label.
 The explore matched fraction uses only facts with an evaluated acceptance rule.
 It is null when no acceptance rule was evaluated.
@@ -69,6 +71,12 @@ Confirmed mappings require independent source review; a nearest-lane guess is
 insufficient.
 Use `mapping_confidence` and `mapping_method` to describe an automatic association.
 High-confidence automatic bindings remain usable for exploration without becoming confirmed field correspondence.
+The Hamburg adapter checks whole-lane error and neighboring lane indices before assigning its calibration confidence.
+`high` requires a mean lateral offset at most half the lane width and an alternative margin of at least 1 m.
+A better neighbor produces `conflict`, with its measured alternative recorded. It does not change the frozen association.
+These are diagnostic modeling choices, not calibrated confidence probabilities.
+Crossings use crossing objects. Cycle lanes use dedicated bicycle lanes with distinct assigned identities.
+Absent nearby compatible objects remain unmodeled, with the nearest candidate distance recorded when available.
 
 | Kind | Selector | Expected value | Measurement |
 |---|---|---|---|
@@ -76,10 +84,11 @@ High-confidence automatic bindings remain usable for exploration without becomin
 | `junction_surface` | `junction_id` | Reference polygon points | Intersection over union and symmetric difference, square metres |
 | `lane_count` | `edge_ids`, `vehicle_class` | Nonnegative integer | Absolute count error |
 | `lane_permissions` | `lane_id` | Allowed SUMO vehicle classes | Exact allowed-class comparison |
-| `movement_inventory` | `incoming_lane_ids` | List of `[from_lane, to_lane]` pairs | Precision, recall, extra movements and missing movements |
-| `stop_line` | `lane_id` | Reference point | Distance from the compiled geometric lane end, metres |
+| `movement_inventory` | `incoming_lane_ids`, optionally a declared junction-path scope | List of `[from_lane, to_lane]` pairs | Precision, recall, extra movements and missing movements |
+| `stop_line` | `lane_id` | Reference point | Signed longitudinal and lateral errors, plus Euclidean distance, metres |
 | `signal_group` | `lane_pair` | `tls_id` and `link_index` | Exact comparison with an evidenced group-to-link binding |
 | `speed` | `lane_id` | Positive speed in metres per second | Absolute speed error in metres per second |
+| `lane_width` | `lane_id` | Positive width in metres | Absolute width error in metres |
 
 Use one approach cross-section for lane counts. Adding consecutive road sections
 would count the same physical lanes twice. An official signal-group identifier
@@ -89,16 +98,23 @@ For geometric facts, use `coordinate_system: {"type": "projected_crs", "crs":
 "EPSG:25832"}` or another projected CRS with metre units. The evaluator removes
 the SUMO network offset before projection. For local test coordinates, use
 `{"type": "network_xy_m", "location": {...}}` with the exact network `location`
-attributes. Missing or inconsistent coordinate declarations stop the comparison.
+frame. The offset must match numerically and the projection must be equivalent.
+Changes in recorded bounds do not change the frame. The report retains the actual location attributes.
+Missing or inconsistent coordinate frames stop the comparison.
 
 Centerline facts require `sample_spacing_m`.
 Equal-length intervals supply midpoint samples for coverage and lateral offset.
 A sample has longitudinal coverage when its perpendicular foot falls on a selected lane segment with compatible local alignment.
 The alignment limit is 45 degrees, independent of the lateral acceptance tolerance.
+Declare `reference_direction` as 1 or -1 for directed lane facts.
+Hamburg ingress geometry uses -1 and egress geometry uses 1.
+Opposite-direction segments do not contribute coverage when this direction is declared.
 Missing tails and gaps reduce coverage. They do not increase the lateral offset.
 No overlap yields zero coverage and null lateral offsets.
 Coverage has finite sampling resolution. It is not an exact continuous overlap measure.
 The result records the method, spacing, covered length, and uncovered length.
+`coverage_within_m` reports coverage inside 1 m and 2 m bands, plus the declared `tolerance_m` band.
+Acceptance uses coverage inside the declared tolerance band.
 The old full-reference distance fields remain diagnostic values for comparison with earlier reports.
 Those distances include missing tails and are not lateral errors.
 One official lane may correspond to several compiled SUMO segments. Declare
@@ -106,7 +122,11 @@ all of them with `lane_ids`. The evaluator keeps their separate geometry and
 does not draw an invented line across a missing segment.
 The Hamburg adapter extends a supplied association along saved directed lane connections when those parts add reference coverage.
 It keeps that association tentative.
-When the original matcher supplies no lane, the adapter records a low-confidence nearest compatible lane guess.
+For vehicle lanes, it saves ordinary lane IDs with `include_internal_paths: true`.
+The evaluator resolves each connecting internal path in the network being measured.
+This avoids reusing internal IDs that a geometry conversion has reassigned.
+Each ordinary-lane pair must have one complete saved path. The report records the resolved IDs.
+Nonmotor assignments require the correct object type and a distance within the recorded 2 m association policy.
 Do not treat these guesses as independent validation of the network.
 
 Set `tolerance_m` explicitly for centerlines and stop lines. Set `minimum_iou`
@@ -115,10 +135,21 @@ measurements. Release mode leaves the fact unresolved. It supplies no field tole
 For centerlines, `minimum_coverage` defaults to full sampled coverage when an acceptance tolerance is supplied.
 Set it explicitly for a different comparison extent.
 For speeds, supply `tolerance_m_s`.
+Lane widths use `tolerance_m`. The Hamburg adapter reuses the construction parser for MAP centimetre widths.
+It applies cumulative `dWidth` changes through an explicit stop-line node.
+Without such a node, width deltas leave the stop-line width unknown.
+These facts describe width at the stop line. They do not establish a constant width over the reference lane.
+Use `maximum_mean_lateral_offset_m` for a mean-offset target.
+For stop lines, `tolerance_longitudinal_m` can test the longitudinal component separately.
+A positive longitudinal error places the SUMO lane end downstream of the reference.
+Increase its absolute `endOffset` to move it upstream.
+A negative error requires extending the lane geometry or changing the junction shape.
 
-The movement inventory covers direct external-lane connections from every
-declared incoming lane. It does not infer reachability across several external
-roads. An empty precision or recall denominator returns null. Stop-line geometry
+The basic movement inventory covers direct external-lane connections from every declared incoming lane.
+Add `junction_ids`, `outgoing_lane_ids`, and `vehicle_class` to compare paths inside an explicit compound-junction scope.
+The scoped comparison follows saved connections and class permissions through internal lanes and roads between the declared junctions.
+It cannot use an outside detour. Hamburg inventories separate motor, bicycle, and pedestrian movements.
+An empty precision or recall denominator returns null. Stop-line geometry
 does not establish vehicle-class stopping offsets or actual stopping behavior.
 Pair presence does not establish mode permissions, complete internal paths or
 protected-green safety. Keep the corresponding independent audits.
@@ -130,6 +161,8 @@ mismatches. Layers with no known reference facts have a null matched fraction.
 In release mode, the fraction measures established matches among known reference facts. A zero
 with unresolved correspondence does not establish poor field accuracy.
 The report binds the network, table and sources to SHA-256 hashes.
+Data validation errors remain attached to individual facts in explore mode.
+Unexpected programming errors propagate, so they cannot silently become unknown facts.
 
 A parent comparison lists each fact's status transition and numeric metric
 change. Review each metric's direction: smaller offsets are better, while higher

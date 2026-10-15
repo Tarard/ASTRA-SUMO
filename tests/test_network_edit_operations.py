@@ -127,6 +127,70 @@ def test_typed_edit_rejects_missing_preconditions(kind):
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("layout", ["remove_right", "add_right", "explicit_connections"])
+def test_lane_count_edit_preserves_survivor_permissions_and_declared_connections(tmp_path, layout):
+    source = _source(tmp_path, "set_lane_count")
+    if layout == "remove_right":
+        edges_file = tmp_path / "source.edg.xml"
+        tree = ET.parse(edges_file)
+        edge = tree.getroot().find("edge[@id='middle']")
+        edge.set("numLanes", "2")
+        ET.SubElement(edge, "lane", index="0", allow="bus")
+        ET.SubElement(edge, "lane", index="1", allow="passenger")
+        tree.write(edges_file, encoding="utf-8")
+        connections_file = tmp_path / "source.con.xml"
+        connections_tree = ET.parse(connections_file)
+        for start, end, a, b in (("in", "middle", "0", "1"), ("middle", "out", "1", "0")):
+            ET.SubElement(connections_tree.getroot(), "connection", **{"from": start, "to": end, "fromLane": a, "toLane": b})
+        connections_tree.write(connections_file, encoding="utf-8")
+        rebuilt = subprocess.run([shutil.which("netconvert"), "-n", str(tmp_path / "source.nod.xml"), "-e", str(edges_file),
+            "-x", str(connections_file), "--offset.disable-normalization", "true", "-o", str(source)], capture_output=True, text=True, timeout=30)
+        assert rebuilt.returncode == 0, rebuilt.stderr
+    params = {"edge_id": "middle", "num_lanes": 1, "remove_index": 0} if layout == "remove_right" else {
+        "edge_id": "middle", "num_lanes": 2, "add_side": "right" if layout == "add_right" else "left"}
+    if layout == "explicit_connections":
+        params["connections"] = [{"from": a, "fromLane": i, "to": b, "toLane": j}
+            for a, i, b, j in (("in", 0, "middle", 0), ("in", 0, "middle", 1), ("middle", 0, "out", 0), ("middle", 1, "out", 0))]
+    digest = file_sha256(source)
+    operation = {"id": "lane-layout", "operation": "set_lane_count", "status": "accepted", "params": params,
+        "rationale": "Native lane identity and connection check.", "evidence": [{"path": str(source), "sha256": digest}],
+        "rollback": {"action": "discard_candidate"}}
+    report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
+        ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass", report
+    actual = ET.parse(report["candidate_net_file"]).getroot()
+    target_pairs = {(row.get("from"), row.get("fromLane"), row.get("to"), row.get("toLane"))
+                    for row in actual.findall("connection") if "middle" in (row.get("from"), row.get("to"))
+                    and not row.get("from", "").startswith(":") and not row.get("to", "").startswith(":")}
+    if layout == "remove_right":
+        assert actual.find("edge[@id='middle']/lane").get("allow") == "passenger"
+        assert target_pairs == {("in", "0", "middle", "0"), ("middle", "0", "out", "0")}
+        import json
+        from astra_sumo.core.network_edit_applicability import verify_network_edit
+        facts = {"schema": "astra.network-facts/v1", "site_id": "lane-remap", "target_date": "2026-10-15",
+            "coordinate_system": {"type": "network_xy_m", "location": dict(ET.parse(source).getroot().find("location").attrib)},
+            "sources": [{"id": "fixture", "path": str(source), "sha256": digest, "source_date": None,
+                         "authority": "synthetic lane-permission fixture", "license": "MIT"}],
+            "facts": [{"id": "surviving-car-lane", "kind": "lane_permissions", "selector": {"lane_id": "middle_1"},
+                       "expected": ["passenger"], "source_ids": ["fixture"]}]}
+        facts_path, ledger_path = tmp_path / "facts.json", tmp_path / "daily-ledger.json"
+        facts_path.write_text(json.dumps(facts), encoding="utf-8")
+        ledger_path.write_text(json.dumps({"source_net_file": str(source), "source_sha256": digest,
+                                          "operations": [operation]}), encoding="utf-8")
+        checked = verify_network_edit(ledger_file=ledger_path, output_dir=tmp_path / "daily", facts_file=facts_path,
+                                      netconvert_binary=shutil.which("netconvert"))
+        assert checked["status"] == "measured", checked
+        assert checked["fact_selector_remap"]["lane_id_mapping"]["middle_1"] == "middle_0"
+        assert checked["fact_deltas"][0]["before"] == checked["fact_deltas"][0]["after"] == "matched"
+    elif layout == "add_right":
+        assert target_pairs == {("in", "0", "middle", "1"), ("middle", "1", "out", "0")}
+    else:
+        assert target_pairs == {(row["from"], str(row["fromLane"]), row["to"], str(row["toLane"])) for row in params["connections"]}
+    assert report["semantic_validation"]["connection_inventory_preserved"]
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 def test_repeated_stop_line_edits_use_absolute_setbacks_and_can_restore_the_lane_end(tmp_path):
     source = _source(tmp_path, "move_stop_line")
     original = ET.parse(source).getroot().find("edge[@id='middle']/lane")

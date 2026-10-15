@@ -14,7 +14,10 @@ from astra_sumo.core.digital_twin_mapping import MapLaneBinding
 
 def _sources(tmp_path, monkeypatch):
     xml, kml = tmp_path / "map.xml", tmp_path / "map.kml"
-    xml.write_text("independent MAP source", encoding="utf-8")
+    xml.write_text('''<MapData><IntersectionGeometry><laneWidth>325</laneWidth><laneSet>
+        <GenericLane><laneID>1</laneID><nodeList><NodeXY><attributes><stopLine/></attributes></NodeXY></nodeList></GenericLane>
+        <GenericLane><laneID>2</laneID><nodeList><NodeXY><attributes><dWidth>-125</dWidth><stopLine/></attributes></NodeXY></nodeList></GenericLane>
+        </laneSet></IntersectionGeometry></MapData>''', encoding="utf-8")
     kml.write_text("independent KML source", encoding="utf-8")
     motor = MapLane("2349", "1", "vehicle", "1", "", 9.99, 53.54, ((0, 0), (10, 0)))
     cycle = MapLane("2349", "2", "bikeLane", "1", "", 9.99, 53.54, ((0, 2), (10, 2)))
@@ -39,6 +42,8 @@ def test_automatic_high_confidence_does_not_confirm_correspondence_or_omit_cycli
     assert all(s["source_date"] is None for s in table["sources"])
     assert all(not Path(s["path"]).is_absolute() for s in table["sources"])
     assert next(f for f in table["facts"] if f["kind"] == "signal_group")["expected"] is None
+    widths = {f["id"]: f["expected"] for f in table["facts"] if f["kind"] == "lane_width"}
+    assert widths == {"2349:lane:1:width_at_stop_line": 3.25, "2349:lane:2:width_at_stop_line": 2.0}
 
 
 def test_reviewed_lane_uses_official_core_endpoint_for_stop_line(tmp_path, monkeypatch):
@@ -58,7 +63,7 @@ def test_movement_sources_follow_explicit_connections_instead_of_approach_roles(
     target = MapLaneBinding("2349", "2", "bikeLane", "egress", "cycle", "cycle_0", 10, 0, 0, "low", "active")
     table = calibration.write_hamburg_network_facts(map_xml_file=xml, map_kml_file=kml,
         output_file=tmp_path / "facts.json", target_date="2026-10-15", lane_bindings=[binding, target], sample_spacing_m=0.5)
-    movement = next(f for f in table["facts"] if f["kind"] == "movement_inventory")
+    movement = next(f for f in table["facts"] if f["id"] == "2349:bicycle:movement_inventory")
     assert movement["selector"] == {"incoming_lane_ids": ["road_0"]}
     assert movement["expected"] == [["road_0", "cycle_0"]]
     assert movement["mapping_confidence"] == "low"
@@ -103,3 +108,16 @@ def test_connected_parts_keep_missing_spans_separate_and_do_not_add_an_unconnect
     metrics = centerline_overlap_metrics(LineString([[0, 0], [20, 0]]),
         [calibration._shape(root.find(f"edge/lane[@id='{key}']")) for key in parts], 0.25)
     assert metrics["reference_coverage"] == pytest.approx(0.9)
+
+
+def test_tiny_seed_can_measure_a_complete_saved_internal_lane_chain():
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring('''<net><location netOffset="0,0" projParameter="EPSG:25832"/>
+      <edge id="a" from="w" to="j"><lane id="a_0" shape="0,0 0.1,0"/></edge>
+      <edge id=":j_0" function="internal"><lane id=":j_0_0" shape="0.1,0 9,0"/></edge>
+      <edge id="b" from="j" to="e"><lane id="b_0" shape="9,0 10,0"/></edge>
+      <junction id="j"/>
+      <connection from="a" fromLane="0" to="b" toLane="0" via=":j_0_0"/>
+      <connection from=":j_0" fromLane="0" to="b" toLane="0"/></net>''')
+    parts = calibration._connected_lane_parts(root, "a_0", [[0, 0], [10, 0]], 0.25, direction=1)
+    assert parts == ["a_0", ":j_0_0", "b_0"]

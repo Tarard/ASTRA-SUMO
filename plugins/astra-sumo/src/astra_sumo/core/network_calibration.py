@@ -7,6 +7,7 @@ from datetime import date
 import hashlib
 import math
 from pathlib import Path
+from statistics import median, quantiles
 from typing import Any, Literal
 import xml.etree.ElementTree as ET
 
@@ -32,18 +33,24 @@ class NetworkFact(BaseModel):
     model_config = ConfigDict(extra="forbid")
     id: str = Field(min_length=1)
     kind: Literal["lane_centerline", "junction_surface", "lane_count", "lane_permissions",
-                  "movement_inventory", "stop_line", "signal_group", "speed"]
+                  "movement_inventory", "stop_line", "signal_group", "speed", "lane_width"]
     selector: dict[str, Any]
     expected: Any = None
     source_ids: list[str] = Field(default_factory=list)
     mapping_status: Literal["confirmed", "unresolved"] = "confirmed"
-    mapping_confidence: Literal["confirmed", "high", "medium", "low", "none"] = "confirmed"
+    mapping_confidence: Literal["confirmed", "high", "medium", "low", "none", "conflict"] = "confirmed"
     mapping_method: str = "supplied"
+    traffic_mode: Literal["motor", "bicycle", "pedestrian", "unspecified"] = "unspecified"
+    reference_direction: Literal[-1, 1] | None = None
+    alternatives: list[dict[str, Any]] = Field(default_factory=list)
+    mapping_diagnostics: dict[str, Any] = Field(default_factory=dict)
     tolerance_m: float | None = Field(default=None, ge=0, strict=True, allow_inf_nan=False)
     sample_spacing_m: float | None = Field(default=None, gt=0, strict=True, allow_inf_nan=False)
     minimum_iou: float | None = Field(default=None, ge=0, le=1, strict=True, allow_inf_nan=False)
     minimum_coverage: float | None = Field(default=None, ge=0, le=1, strict=True, allow_inf_nan=False)
     tolerance_m_s: float | None = Field(default=None, ge=0, strict=True, allow_inf_nan=False)
+    maximum_mean_lateral_offset_m: float | None = Field(default=None, ge=0, strict=True, allow_inf_nan=False)
+    tolerance_longitudinal_m: float | None = Field(default=None, ge=0, strict=True, allow_inf_nan=False)
 
 
 class NetworkFactTable(BaseModel):
@@ -57,7 +64,7 @@ class NetworkFactTable(BaseModel):
 
 
 _LAYERS = {"lane_centerline": "geometry", "junction_surface": "geometry",
-           "lane_count": "lanes", "lane_permissions": "lanes", "speed": "lanes",
+           "lane_count": "lanes", "lane_permissions": "lanes", "speed": "lanes", "lane_width": "lanes",
            "movement_inventory": "movements", "stop_line": "control", "signal_group": "control"}
 
 
@@ -85,6 +92,8 @@ def _points(value: Any, *, minimum: int = 2) -> list[tuple[float, float]]:
             raise ValueError("Coordinates must be two-dimensional pairs.")
         if any(isinstance(v, bool) for v in pair):
             raise ValueError("Coordinates cannot contain boolean values.")
+        if any(not isinstance(v, (int, float, str)) for v in pair):
+            raise ValueError("Coordinates must contain numeric values.")
         point = tuple(float(v) for v in pair)
         if not all(math.isfinite(v) for v in point):
             raise ValueError("Coordinates must be finite.")
@@ -93,15 +102,23 @@ def _points(value: Any, *, minimum: int = 2) -> list[tuple[float, float]]:
 
 
 def _shape(element: ET.Element) -> list[tuple[float, float]]:
-    return _points([[float(v) for v in token.split(",")[:2]] for token in element.get("shape", "").split()])
+    points = _points([[float(v) for v in token.split(",")[:2]] for token in element.get("shape", "").split()], minimum=1)
+    return points if len(points) > 1 else points * 2
 
 
 def _coordinate_transform(root: ET.Element, system: dict[str, Any]):
     location = root.find("location")
     attributes = dict(location.attrib) if location is not None else {}
     if system.get("type") == "network_xy_m":
-        if system.get("location") != attributes:
-            raise ValueError("Network coordinates require an exact location declaration.")
+        declared = system.get("location")
+        if not isinstance(declared, dict):
+            raise ValueError("Network coordinates require an exact location frame declaration.")
+        offsets = [_points([record.get("netOffset", "0,0").split(",")], minimum=1)[0] for record in (declared, attributes)]
+        a, b = declared.get("projParameter", ""), attributes.get("projParameter", "")
+        same_projection = a == b or (a not in {"", "!", "-", "."} and b not in {"", "!", "-", "."}
+                                      and CRS.from_user_input(a).equals(CRS.from_user_input(b)))
+        if offsets[0] != offsets[1] or not same_projection:
+            raise ValueError("Network coordinates require an exact location frame declaration.")
         return lambda points: points
     if system.get("type") != "projected_crs":
         raise ValueError("Use projected_crs or an explicit network_xy_m coordinate system.")
@@ -147,11 +164,28 @@ def _pairs(value: Any) -> set[tuple[str, str]]:
     return pairs
 
 
-def centerline_overlap_metrics(reference, parts, spacing):
+def _saved_lane_path(root, ordinary_lanes):
+    from .source_movement_support import _candidate_modes, _index
+    index = _index(root)
+    paths = {}
+    for _, start, target, connection in index["movements"]:
+        _, path = _candidate_modes(index, start, target, connection)
+        if path:
+            paths.setdefault((start, target), []).append(path)
+    result = [ordinary_lanes[0]]
+    for pair in zip(ordinary_lanes, ordinary_lanes[1:]):
+        candidates = paths.get(pair, [])
+        if len(candidates) != 1:
+            raise ValueError("Centerline correspondence requires one complete saved path between consecutive ordinary lanes.")
+        result.extend(candidates[0][1:])
+    return result
+
+
+def centerline_overlap_metrics(reference, parts, spacing, *, direction=None, coverage_bands_m=(1.0, 2.0)):
     """Sample perpendicular feet on aligned segments, excluding longitudinal tails and gaps."""
     count = max(1, math.ceil(reference.length / spacing))
     segments = [(a, b) for part in parts for a, b in zip(part, part[1:]) if a != b]
-    offsets = []
+    offsets, cosines = [], []
     for i in range(count):
         position = (i + 0.5) * reference.length / count
         point = reference.interpolate(position)
@@ -159,16 +193,24 @@ def centerline_overlap_metrics(reference, parts, spacing):
         left, right = reference.interpolate(position - epsilon), reference.interpolate(position + epsilon)
         tx, ty = right.x - left.x, right.y - left.y
         tangent_length = math.hypot(tx, ty)
-        distances = []
+        distances, aligned = [], []
         for (ax, ay), (bx, by) in segments:
             dx, dy = bx - ax, by - ay
             squared = dx * dx + dy * dy
             # A crossing road cannot supply longitudinal coverage of this lane.
-            if tangent_length == 0 or abs(dx * tx + dy * ty) < math.sqrt(squared) * tangent_length / math.sqrt(2):
+            if tangent_length == 0:
+                continue
+            cosine = (dx * tx + dy * ty) / (math.sqrt(squared) * tangent_length)
+            if abs(cosine) < 1 / math.sqrt(2):
                 continue
             fraction = ((point.x - ax) * dx + (point.y - ay) * dy) / squared
             if 0 <= fraction <= 1:
-                distances.append(math.hypot(point.x - ax - fraction * dx, point.y - ay - fraction * dy))
+                distance = math.hypot(point.x - ax - fraction * dx, point.y - ay - fraction * dy)
+                aligned.append((distance, cosine))
+                if direction is None or cosine * direction >= 1 / math.sqrt(2):
+                    distances.append(distance)
+        if aligned:
+            cosines.append(min(aligned)[1])
         if distances:
             offsets.append(min(distances))
     covered = len(offsets) * reference.length / count
@@ -177,7 +219,11 @@ def centerline_overlap_metrics(reference, parts, spacing):
             "reference_coverage": len(offsets) / count, "covered_reference_length_m": covered,
             "uncovered_reference_length_m": reference.length - covered, "reference_length_m": reference.length,
             "coverage_sample_spacing_m": reference.length / count,
-            "coverage_sample_count": count, "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg"}
+            "coverage_sample_count": count, "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "mean_direction_cosine": sum(cosines) / len(cosines) if cosines else None,
+            "expected_reference_direction": direction,
+            "coverage_within_m": {str(float(band)): sum(value <= band for value in offsets) / count
+                                  for band in sorted(set(coverage_bands_m))}}
 
 
 def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> dict[str, Any]:
@@ -190,30 +236,48 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
                               "mapping_confidence": fact.mapping_confidence if fact.mapping_status == "confirmed"
                               or fact.mapping_confidence != "confirmed" else "low",
                               "mapping_method": fact.mapping_method,
-                              "acceptance": {"tolerance_m": fact.tolerance_m, "minimum_iou": fact.minimum_iou},
+                              "traffic_mode": fact.traffic_mode, "reference_direction": fact.reference_direction,
+                              "alternatives": fact.alternatives, "mapping_diagnostics": fact.mapping_diagnostics,
+                              "acceptance": {"tolerance_m": fact.tolerance_m, "minimum_iou": fact.minimum_iou,
+                                  "minimum_coverage": fact.minimum_coverage,
+                                  "maximum_mean_lateral_offset_m": fact.maximum_mean_lateral_offset_m,
+                                  "tolerance_longitudinal_m": fact.tolerance_longitudinal_m},
                               "expected": expected, "observed": None, "metrics": {}, "status": "unknown"}
     if expected is None:
         return {**result, "reason": "reference_fact_unknown"}
     if not fact.source_ids and mode == "release":
         raise ValueError(f"Known fact {fact.id} requires source evidence.")
     if fact.mapping_status == "unresolved" and not fact.selector:
-        return {**result, "reason": "reference_to_network_mapping_unresolved"}
+        return {**result, "reason": fact.mapping_method if fact.mapping_method.startswith("not_modeled")
+                else "reference_to_network_mapping_unresolved"}
     kind = fact.kind
-    selectors = {"lane_centerline": ({"lane_id"}, {"lane_ids"}), "stop_line": ({"lane_id"},),
-                 "lane_permissions": ({"lane_id"},), "speed": ({"lane_id"},),
+    selectors = {"lane_centerline": ({"lane_id"}, {"lane_ids"}, {"lane_ids", "include_internal_paths"}), "stop_line": ({"lane_id"},),
+                 "lane_permissions": ({"lane_id"},), "speed": ({"lane_id"},), "lane_width": ({"lane_id"},),
                  "lane_count": ({"edge_ids", "vehicle_class"},),
-                 "movement_inventory": ({"incoming_lane_ids"},), "signal_group": ({"lane_pair"},),
+                 "movement_inventory": ({"incoming_lane_ids"}, {"incoming_lane_ids", "outgoing_lane_ids", "junction_ids", "vehicle_class"}),
+                 "signal_group": ({"lane_pair"},),
                  "junction_surface": ({"junction_id"},)}
     if set(selector) not in selectors[kind]:
         raise ValueError(f"Invalid selector fields for {kind}.")
-    if kind in ("lane_centerline", "stop_line", "lane_permissions", "speed"):
+    if kind in ("lane_centerline", "stop_line", "lane_permissions", "speed", "lane_width"):
         selected_ids = (_list(selector["lane_ids"], "Centerline lane IDs")
                         if kind == "lane_centerline" and "lane_ids" in selector else [selector["lane_id"]])
         if any(lane_id not in lanes for lane_id in selected_ids):
             return {**result, "status": "unknown" if fact.mapping_status == "unresolved" else "mismatched",
                     "reason": "network_lane_missing"}
+        if selector.get("include_internal_paths"):
+            if selector["include_internal_paths"] is not True:
+                raise ValueError("include_internal_paths must be a boolean.")
+            selected_ids = _saved_lane_path(root, selected_ids)
+            result["resolved_lane_ids"] = selected_ids
         lane = lanes[selected_ids[0]]
-        if kind == "speed":
+        if kind == "lane_width":
+            if type(expected) not in (int, float) or not math.isfinite(expected) or expected <= 0:
+                raise ValueError("Expected lane width must be finite and positive in metres.")
+            observed = float(lane.get("width", "3.2"))
+            result["metrics"] = {"absolute_width_error_m": abs(observed - expected)}
+            matches = abs(observed - expected) <= fact.tolerance_m if fact.tolerance_m is not None else None
+        elif kind == "speed":
             if type(expected) not in (int, float) or not math.isfinite(expected) or expected <= 0:
                 raise ValueError("Expected speed must be finite and positive in metres per second.")
             observed = float(lane.get("speed"))
@@ -227,14 +291,25 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
                 raise ValueError("Expected permissions contain an unknown vehicle class.")
             observed = sorted(_permissions(lane))
             matches = set(observed) == wanted
+            result["metrics"] = {"permission_difference_count": len(set(observed) ^ wanted)}
         else:
             points = transform(_shape(lane))
             observed = [list(p) for p in points]
             if kind == "stop_line":
                 observed = list(points[-1])
-                distance = Point(points[-1]).distance(Point(_points([expected], minimum=1)[0]))
-                result["metrics"] = {"offset_m": distance}
-                matches = distance <= fact.tolerance_m if fact.tolerance_m is not None else None
+                reference_point = _points([expected], minimum=1)[0]
+                distance = Point(points[-1]).distance(Point(reference_point))
+                last = next((point for point in reversed(points[:-1]) if point != points[-1]), None)
+                if last is None:
+                    raise ValueError("The stop-line lane needs a nonzero terminal segment.")
+                dx, dy = points[-1][0] - last[0], points[-1][1] - last[1]
+                length = math.hypot(dx, dy)
+                rx, ry = points[-1][0] - reference_point[0], points[-1][1] - reference_point[1]
+                longitudinal, lateral = (rx * dx + ry * dy) / length, (-rx * dy + ry * dx) / length
+                result["metrics"] = {"offset_m": distance, "longitudinal_offset_m": longitudinal,
+                                     "lateral_offset_m": lateral}
+                matches = (abs(longitudinal) <= fact.tolerance_longitudinal_m if fact.tolerance_longitudinal_m is not None
+                           else distance <= fact.tolerance_m if fact.tolerance_m is not None else None)
             else:
                 if fact.sample_spacing_m is None:
                     raise ValueError("lane_centerline requires an explicit sample_spacing_m.")
@@ -251,10 +326,15 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
                 mean = (sum(distances) - (distances[0] + distances[-1]) / 2) / count
                 result["metrics"] = {"mean_reference_offset_m": mean, "max_sampled_reference_offset_m": max(distances),
                                      "sample_spacing_m": reference.length / count, "sample_count": count + 1}
-                result["metrics"].update(centerline_overlap_metrics(reference, parts, fact.sample_spacing_m))
+                bands = (1.0, 2.0, fact.tolerance_m) if fact.tolerance_m is not None else (1.0, 2.0)
+                result["metrics"].update(centerline_overlap_metrics(reference, parts, fact.sample_spacing_m,
+                    direction=fact.reference_direction, coverage_bands_m=bands))
                 lateral = result["metrics"]["max_sampled_lateral_offset_m"]
                 matches = (lateral is not None and lateral <= fact.tolerance_m
-                           and result["metrics"]["reference_coverage"] >= (fact.minimum_coverage if fact.minimum_coverage is not None else 1)) \
+                           and result["metrics"]["coverage_within_m"][str(float(fact.tolerance_m))]
+                           >= (fact.minimum_coverage if fact.minimum_coverage is not None else 1)
+                           and (fact.maximum_mean_lateral_offset_m is None
+                                or result["metrics"]["mean_lateral_offset_m"] <= fact.maximum_mean_lateral_offset_m)) \
                     if fact.tolerance_m is not None else None
     elif kind == "lane_count":
         selected = _list(selector["edge_ids"], "Approach edge IDs")
@@ -285,6 +365,18 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
             if any(pair[0] not in incoming for pair in wanted):
                 raise ValueError("Expected movements extend beyond the declared incoming lanes.")
             pairs = {pair for pair in actual if pair[0] in incoming}
+            if "junction_ids" in selector:
+                from .network_edit_applicability import _boundary_access
+                members = set(_list(selector["junction_ids"], "Movement junction IDs"))
+                outgoing = set(_list(selector["outgoing_lane_ids"], "Outgoing lane IDs"))
+                if (incoming | outgoing) - lanes.keys():
+                    return {**result, "status": "mismatched", "reason": "network_lane_missing"}
+                vehicle_class = selector["vehicle_class"]
+                if vehicle_class not in SUMO_VEHICLE_CLASSES:
+                    raise ValueError("Movement paths require a valid vehicle class.")
+                _, _, paths = _boundary_access(root, members, incoming_lane_ids=incoming, outgoing_lane_ids=outgoing)
+                pairs = {pair for pair, modes in paths.items() if vehicle_class in modes}
+                result["comparison_scope"] = "explicit_paths_within_declared_junctions"
             common = len(wanted & pairs)
             observed = [list(pair) for pair in sorted(pairs)]
             result["metrics"] = {"true_positive": common, "false_positive": len(pairs - wanted),
@@ -304,6 +396,7 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
             observed = [{"tls_id": c.get("tl"), "link_index": int(c.get("linkIndex", "-1"))}
                         for c in actual.get(tuple(pair), [])]
             matches = observed == [expected]
+            result["metrics"] = {"binding_match": int(matches)}
     else:
         junction = next((j for j in root.findall("junction") if j.get("id") == selector["junction_id"]), None)
         if junction is None:
@@ -319,6 +412,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
     if fact.mapping_status == "unresolved" and mode == "release":
         return {**result, "observed": observed, "reason": "reference_to_network_mapping_unresolved"}
     if matches is None:
+        if kind == "lane_centerline" and result["metrics"]["mean_lateral_offset_m"] is None:
+            return {**result, "observed": observed, "reason": "no_directed_longitudinal_overlap"}
         if mode == "explore":
             return {**result, "status": "measured", "observed": observed, "reason": "acceptance_threshold_not_declared"}
         return {**result, "observed": observed, "reason": "acceptance_threshold_not_declared"}
@@ -331,7 +426,7 @@ def _score(root: ET.Element, table: NetworkFactTable, mode="release") -> dict[st
     for fact in table.facts:
         try:
             facts.append(_measure(fact, root, transform, mode))
-        except (ValueError, KeyError, TypeError) as error:
+        except ValueError as error:
             if mode == "release":
                 raise
             facts.append({"id": fact.id, "kind": fact.kind, "layer": _LAYERS[fact.kind],
@@ -348,14 +443,50 @@ def _score(root: ET.Element, table: NetworkFactTable, mode="release") -> dict[st
                          "matched_fraction": counts["matched"] / known if known else None}
         if mode == "explore":
             judged = counts["matched"] + counts["mismatched"]
-            layers[layer].update(measured_facts=sum(f["observed"] is not None for f in rows),
-                                 provisional_facts=sum(f["observed"] is not None and f["mapping_status"] == "unresolved" for f in rows),
+            measured = [f for f in rows if (f["metrics"].get("mean_lateral_offset_m") is not None
+                        if f["kind"] == "lane_centerline" else bool(f["metrics"]))]
+            layers[layer].update(measured_facts=len(measured),
+                                 provisional_facts=sum(f["mapping_status"] == "unresolved" for f in measured),
                                  matched_fraction=counts["matched"] / judged if judged else None,
                                  matched_fraction_basis="measured_facts_with_declared_acceptance")
     status = "pass" if all(f["status"] == "matched" for f in facts) else "review_required"
     if not any(f["known"] for f in facts):
         status = "blocked"
-    return {"status": "pass" if mode == "explore" else status, "layers": layers, "facts": facts}
+    motor = [row for row in facts if row["kind"] == "lane_centerline" and row.get("traffic_mode") == "motor"
+             and row["metrics"].get("mean_lateral_offset_m") is not None]
+    def summary(rows):
+        values = [row["metrics"]["mean_lateral_offset_m"] for row in rows]
+        return {"count": len(values), "median_lateral_offset_m": median(values) if values else None,
+                "p90_lateral_offset_m": quantiles(values, n=10, method="inclusive")[8] if len(values) > 1 else values[0] if values else None,
+                "worst_facts": [{"id": row["id"], "mapping_confidence": row["mapping_confidence"],
+                                 "metrics": row["metrics"]} for row in sorted(rows,
+                    key=lambda row: (-row["metrics"]["mean_lateral_offset_m"], row["id"]))[:5]]}
+    return {"status": "measured" if mode == "explore" else status, "layers": layers, "facts": facts,
+            "motor_centerlines": {"all": summary(motor), "high_confidence": summary([row for row in motor
+                if row["mapping_confidence"] in {"high", "confirmed"}])}}
+
+
+def _numeric_deltas(before, after):
+    result = {}
+    for key, value in after.items():
+        previous = before.get(key)
+        if type(value) in (int, float) and type(previous) in (int, float):
+            result[key] = value - previous
+        elif isinstance(value, dict) and isinstance(previous, dict):
+            result[key] = _numeric_deltas(previous, value)
+    return result
+
+
+def compare_calibration_scorecards(before, after):
+    """Compare the same ordered physical facts after an explicit selector remap if needed."""
+    if [row["id"] for row in before["facts"]] != [row["id"] for row in after["facts"]]:
+        raise ValueError("Scorecard comparisons require the same ordered fact identities.")
+    transitions = [{"fact_id": new["id"], "before": old["status"], "after": new["status"],
+                    "metric_deltas": _numeric_deltas(old["metrics"], new["metrics"]),
+                    "before_metrics": old["metrics"], "after_metrics": new["metrics"]}
+                   for old, new in zip(before["facts"], after["facts"])]
+    return {"transitions": transitions, "regressed_facts": [row["fact_id"] for row in transitions
+            if row["before"] == "matched" and row["after"] != "matched"]}
 
 
 def evaluate_network_calibration(*, net_file: str | Path, facts_file: str | Path,
@@ -406,11 +537,13 @@ def evaluate_network_calibration(*, net_file: str | Path, facts_file: str | Path
         paths.add(parent)
     if output in paths or output.exists():
         raise ValueError("Use a new scorecard path separate from every input.")
+    root = _network_root(network_bytes)
+    location = root.find("location")
     report = {"schema": "astra.network-calibration/v1", "site_id": table.site_id,
               "target_date": table.target_date.isoformat(), "coordinate_system": table.coordinate_system,
               "inputs": identities, "sources": sources, "network_file": str(network),
-              **(_score(_network_root(network_bytes), table) if mode == "release"
-                 else _score(_network_root(network_bytes), table, mode)),
+              "network_location": dict(location.attrib) if location is not None else {},
+              **(_score(root, table) if mode == "release" else _score(root, table, mode)),
               "mode": mode, "warnings": warnings, "promotion_authority": False,
               "claim_status": "reference_comparison_only",
               "limitations": ["Facts apply only to the declared site, date and selected objects.",
@@ -424,15 +557,7 @@ def evaluate_network_calibration(*, net_file: str | Path, facts_file: str | Path
         previous = (_score(_network_root(parent_bytes), table) if mode == "release"
                     else _score(_network_root(parent_bytes), table, mode))
         report["parent"] = {"network_file": str(parent), **previous}
-        transitions = []
-        for before, after in zip(previous["facts"], report["facts"]):
-            deltas = {key: value - before["metrics"][key] for key, value in after["metrics"].items()
-                      if type(value) in (int, float) and type(before["metrics"].get(key)) in (int, float)}
-            transitions.append({"fact_id": after["id"], "before": before["status"], "after": after["status"],
-                                "metric_deltas": deltas})
-        report["comparison"] = {"transitions": transitions,
-                                "regressed_facts": [t["fact_id"] for t in transitions
-                                                    if t["before"] == "matched" and t["after"] != "matched"]}
+        report["comparison"] = compare_calibration_scorecards(previous, report)
     if identities != {str(path): _sha(path) for path in paths}:
         if mode == "release":
             raise ValueError("An input changed while the scorecard was computed.")
