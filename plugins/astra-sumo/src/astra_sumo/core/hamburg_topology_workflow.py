@@ -545,7 +545,7 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             reference_file = destination / "road-reference-scorecard.json"
             reference = stage("road_reference", lambda: evaluate_network_calibration(
                 net_file=network["path"], facts_file=request["road_facts"]["path"],
-                parent_net_file=net_file, output_file=reference_file), reference_file)
+                parent_net_file=net_file, output_file=reference_file, mode="release"), reference_file)
             report["road_reference"] = {"status": reference["status"], "scorecard": pin("road_reference", reference_file),
                                         "comparison": reference.get("comparison")}
             pinned = {record["path"] for record in inputs + report["generated_inputs"]}

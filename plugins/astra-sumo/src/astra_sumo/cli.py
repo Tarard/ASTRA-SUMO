@@ -231,6 +231,7 @@ def _build_parser() -> argparse.ArgumentParser:
     calibration.add_argument("facts_file")
     calibration.add_argument("output_file")
     calibration.add_argument("--parent-net-file")
+    calibration.add_argument("--mode", choices=("explore", "release"), default="explore")
     _add_output_argument(calibration)
     effect_review = network_sub.add_parser("review-effects", help="Order traffic findings by model effect and evidence.")
     effect_review.add_argument("net_file")
@@ -238,10 +239,11 @@ def _build_parser() -> argparse.ArgumentParser:
     effect_review.add_argument("--parent-net-file")
     effect_review.add_argument("--vehicle-class", default="passenger")
     _add_output_argument(effect_review)
-    verify_edit = network_sub.add_parser("verify-edit", help="Build and check one accepted edit through its local domain.")
+    verify_edit = network_sub.add_parser("verify-edit", help="Build and check one typed road edit in explore or release mode.")
     verify_edit.add_argument("ledger_file")
     verify_edit.add_argument("output_dir")
     verify_edit.add_argument("--netconvert-binary", default="netconvert")
+    verify_edit.add_argument("--mode", choices=("explore", "release"), default="explore")
     _add_output_argument(verify_edit)
     references = network_sub.add_parser("reference-corpus", help="Prepare public network targets for daily development.")
     references.add_argument("catalog_file")
@@ -520,7 +522,7 @@ def _dispatch(args: argparse.Namespace) -> int:
         from .core.network_edit_applicability import verify_network_edit
 
         return _emit(verify_network_edit(ledger_file=args.ledger_file, output_dir=args.output_dir,
-            netconvert_binary=args.netconvert_binary), json_output=json_output)
+            netconvert_binary=args.netconvert_binary, mode=args.mode), json_output=json_output)
     if args.command == "network" and args.network_command == "review-effects":
         from .core.traffic_effect_review import build_network_traffic_effect_review
 
@@ -531,7 +533,7 @@ def _dispatch(args: argparse.Namespace) -> int:
 
         return _emit(
             evaluate_network_calibration(net_file=args.net_file, facts_file=args.facts_file,
-                                         output_file=args.output_file, parent_net_file=args.parent_net_file),
+                                         output_file=args.output_file, parent_net_file=args.parent_net_file, mode=args.mode),
             json_output=json_output,
         )
     if args.command == "network" and args.network_command == "movement-probes":

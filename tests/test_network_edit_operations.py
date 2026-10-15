@@ -56,6 +56,10 @@ def _params(kind, source):
                               "target": {"from": "middle", "fromLane": 0, "to": "out", "toLane": 0}}]},
         "set_lane_permissions": {"lane_id": "middle_0", "allow": "bus"},
         "set_lane_width": {"lane_id": "middle_0", "width_m": 3.4},
+        "set_edge_shape": {"edge_id": "middle", "shape": [[0, 0], [10, 2], [20, 0]]},
+        "set_lane_count": {"edge_id": "middle", "num_lanes": 2},
+        "move_stop_line": {"lane_id": "middle_0", "end_offset_m": 2},
+        "set_speed": {"lane_id": "middle_0", "speed_m_s": 8},
     }
     if kind == "set_junction_shape":
         node = ET.parse(source).getroot().find("junction[@id='A']")
@@ -92,6 +96,13 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
     assert result["semantic_validation"]["requested_effect_applied"] is True
     assert result["semantic_validation"]["geometry_preservation"]["status"] == "pass"
     assert file_sha256(source) == digest
+    if kind == "set_edge_shape":
+        before = source.read_bytes()
+        old_lane = ET.fromstring(before).find("edge[@id='middle']/lane")
+        new_lane = ET.parse(result["candidate_net_file"]).getroot().find("edge[@id='middle']/lane")
+        old_y = [float(point.split(",")[1]) for point in old_lane.get("shape").split()]
+        new_y = [float(point.split(",")[1]) for point in new_lane.get("shape").split()]
+        assert max(new_y) > max(old_y) + 1
     checked = validate_materialization_evidence(result, source_net_file=source, candidate_net_file=Path(result["candidate_net_file"]))
     assert checked["status"] == "pass", checked
     if kind in {"relocate_tls_control", "demote_duplicate_tls"}:
@@ -113,6 +124,61 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
 @pytest.mark.parametrize("kind", SCOPED_EDIT_TYPES)
 def test_typed_edit_rejects_missing_preconditions(kind):
     assert validate_scoped_operation({"operation": kind, "params": {}})
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_repeated_stop_line_edits_use_absolute_setbacks_and_can_restore_the_lane_end(tmp_path):
+    source = _source(tmp_path, "move_stop_line")
+    original = ET.parse(source).getroot().find("edge[@id='middle']/lane")
+    original_end = tuple(map(float, original.get("shape").split()[-1].split(",")))
+    original_length = float(original.get("length"))
+    for step, offset in enumerate((2, 4, 0)):
+        digest = file_sha256(source)
+        operation = {"id": "offset", "operation": "move_stop_line", "status": "accepted",
+            "params": {"lane_id": "middle_0", "end_offset_m": offset}, "rationale": "Native absolute setback check.",
+            "evidence": [{"path": str(source), "sha256": digest}], "rollback": {"action": "discard_candidate"}}
+        report = materialize_corridor_edit_variant(output_dir=tmp_path / f"step-{step}",
+            ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+            netconvert_binary=shutil.which("netconvert"))
+        assert report["status"] == "pass", report
+        source = Path(report["candidate_net_file"])
+        lane = ET.parse(source).getroot().find("edge[@id='middle']/lane")
+        endpoint = tuple(map(float, lane.get("shape").split()[-1].split(",")))
+        assert original_end[0] - endpoint[0] == pytest.approx(offset)
+        assert endpoint[1] == pytest.approx(original_end[1])
+        assert float(lane.get("length")) == pytest.approx(original_length - offset)
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("kind", ["set_edge_shape", "set_lane_count"])
+def test_road_edits_recompute_custom_lane_geometry_and_allow_lane_removal(tmp_path, kind):
+    source = _source(tmp_path, kind)
+    tree = ET.parse(source)
+    edge = tree.getroot().find("edge[@id='middle']")
+    if kind == "set_lane_count":
+        from copy import deepcopy
+        extra = deepcopy(edge.find("lane"))
+        extra.set("id", "middle_1")
+        extra.set("index", "1")
+        extra.set("shape", "0,1.6 20,1.6")
+        edge.append(extra)
+    edge.find("lane").set("customShape", "true")
+    tree.write(source, encoding="utf-8")
+    params = _params(kind, source)
+    if kind == "set_lane_count":
+        params["num_lanes"] = 1
+    digest = file_sha256(source)
+    operation = {"id": "road-edit", "operation": kind, "status": "accepted", "params": params,
+        "rationale": "Native custom lane geometry check.", "evidence": [{"path": str(source), "sha256": digest}],
+        "rollback": {"action": "discard_candidate"}}
+    report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
+        ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass", report
+    lanes = ET.parse(report["candidate_net_file"]).getroot().find("edge[@id='middle']").findall("lane")
+    assert len(lanes) == 1
+    if kind == "set_edge_shape":
+        assert max(float(point.split(",")[1]) for point in lanes[0].get("shape").split()) > -0.6
 
 
 def test_reciprocal_absorption_requires_a_declared_length_bound():

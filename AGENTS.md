@@ -56,6 +56,8 @@ Before changing structure or adding a public capability, read:
 
 ## Evidence Invariants
 
+- Use `--mode explore` for daily `network calibrate` and `network verify-edit` work. Report measured values with correspondence confidence. Use `--mode release` for final publication or promotion checks. An explore result has no promotion authority.
+
 - Keep source artifacts immutable and write candidates separately.
 - Do not treat SUMO load, route completion, or KPI improvement as proof of topology, demand, control, or field correctness.
 - Use structured decisions: `pass`, `review_required`, `blocked`, or `not_applicable`.

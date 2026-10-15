@@ -53,6 +53,17 @@ def test_reviewed_lane_uses_official_core_endpoint_for_stop_line(tmp_path, monke
     assert stop["tolerance_m"] is None
 
 
+def test_movement_sources_follow_explicit_connections_instead_of_approach_roles(tmp_path, monkeypatch):
+    xml, kml, binding = _sources(tmp_path, monkeypatch)
+    target = MapLaneBinding("2349", "2", "bikeLane", "egress", "cycle", "cycle_0", 10, 0, 0, "low", "active")
+    table = calibration.write_hamburg_network_facts(map_xml_file=xml, map_kml_file=kml,
+        output_file=tmp_path / "facts.json", target_date="2026-10-15", lane_bindings=[binding, target], sample_spacing_m=0.5)
+    movement = next(f for f in table["facts"] if f["kind"] == "movement_inventory")
+    assert movement["selector"] == {"incoming_lane_ids": ["road_0"]}
+    assert movement["expected"] == [["road_0", "cycle_0"]]
+    assert movement["mapping_confidence"] == "low"
+
+
 def test_empty_site_manifest_is_rejected_before_creating_a_run(tmp_path):
     manifest = tmp_path / "manifest.json"
     manifest.write_text(json.dumps({"paths": {}, "downloads": []}), encoding="utf-8")
@@ -76,3 +87,19 @@ def test_manifest_node_cannot_relabel_another_official_maps_contents(tmp_path, m
         calibration.evaluate_hamburg_calibration_snapshot(network=xml, official_sources=manifest,
             output_dir=tmp_path / "run", target_date="2026-10-15", sample_spacing_m=0.5)
     assert not (tmp_path / "run/run.json").exists()
+
+
+def test_connected_parts_keep_missing_spans_separate_and_do_not_add_an_unconnected_parallel_road():
+    import xml.etree.ElementTree as ET
+    root = ET.fromstring('''<net><location netOffset="0,0" projParameter="EPSG:25832"/>
+      <edge id="a"><lane id="a_0" shape="0,0 10,0"/></edge>
+      <edge id="b"><lane id="b_0" shape="12,0 20,0"/></edge>
+      <edge id="c"><lane id="c_0" shape="0,0 25,0"/></edge>
+      <connection from="a" fromLane="0" to="b" toLane="0"/></net>''')
+    parts = calibration._connected_lane_parts(root, "b_0", [[0, 0], [20, 0]], 0.25)
+    assert parts == ["a_0", "b_0"]
+    from astra_sumo.core.network_calibration import centerline_overlap_metrics
+    from shapely.geometry import LineString
+    metrics = centerline_overlap_metrics(LineString([[0, 0], [20, 0]]),
+        [calibration._shape(root.find(f"edge/lane[@id='{key}']")) for key in parts], 0.25)
+    assert metrics["reference_coverage"] == pytest.approx(0.9)

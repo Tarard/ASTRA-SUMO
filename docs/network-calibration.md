@@ -3,8 +3,30 @@
 Compare each road fact with a dated, hash-bound source. Keep geometry, lanes,
 movements and control as separate results. Unknown facts never count as matches.
 
+## Explore daily, release at publication
+
+Daily calibration uses `--mode explore` by default.
+It measures tentative associations and retains their confidence and method.
+It reports stale source hashes as warnings and records the actual source hashes.
+Missing references remain unknown. They do not prevent other facts from being measured.
+A malformed fact receives an unknown result with its reason in explore mode.
+Invalid network identifiers or coordinate declarations still stop a comparison that cannot be interpreted.
+
+Use `--mode release` for the final reference check.
+Release mode requires matching source hashes, confirmed correspondence, and declared acceptance thresholds.
+The construction workflow requests release mode explicitly when its scorecard contributes to promotion.
+Neither mode grants promotion authority by itself.
+
+In explore mode, `pass` means the measurement completed.
+It does not mean the network matches the field.
+Each layer includes `measured_facts` and `provisional_facts` alongside matches, mismatches, and unknown results.
+Facts without acceptance thresholds have status `measured`.
+Tentative matches retain `mapping_status: unresolved` and a confidence label.
+The explore matched fraction uses only facts with an evaluated acceptance rule.
+It is null when no acceptance rule was evaluated.
+
 ```powershell
-astra network calibrate candidate.net.xml facts.json scorecard-v1.json --parent-net-file parent.net.xml --json
+astra network calibrate candidate.net.xml facts.json scorecard-v1.json --parent-net-file parent.net.xml --mode explore --json
 ```
 
 The parent is optional. Both networks use the same fact table, source files and
@@ -33,8 +55,9 @@ The [input schema](../schemas/product/astra.network-facts.v1.schema.json)
 defines the saved format. Kind-specific selector and geometry checks run during
 evaluation.
 
-Each source requires `id`, `path`, `sha256`, `source_date`, `authority` and
-`license`. Resolve source paths relative to the fact table. Set `source_date` to
+Each source requires `id`, `path`, `source_date`, `authority` and `license`.
+Supply `sha256` for release. Explore mode can compute it when absent.
+Resolve source paths relative to the fact table. Set `source_date` to
 null when the publication date is unknown. A download date does not establish
 the field-validity date. Keep that uncertainty in the source record.
 
@@ -44,16 +67,19 @@ Set `expected` to null when the reference fact is unknown. Use
 uncertain. Keep such facts in the denominator of known reference facts.
 Confirmed mappings require independent source review; a nearest-lane guess is
 insufficient.
+Use `mapping_confidence` and `mapping_method` to describe an automatic association.
+High-confidence automatic bindings remain usable for exploration without becoming confirmed field correspondence.
 
 | Kind | Selector | Expected value | Measurement |
 |---|---|---|---|
-| `lane_centerline` | `lane_id` or `lane_ids` | Ordered reference points | Mean and maximum sampled reference-to-lane offset, metres |
+| `lane_centerline` | `lane_id` or `lane_ids` | Ordered reference points | Lateral offset over longitudinal overlap, plus reference coverage |
 | `junction_surface` | `junction_id` | Reference polygon points | Intersection over union and symmetric difference, square metres |
 | `lane_count` | `edge_ids`, `vehicle_class` | Nonnegative integer | Absolute count error |
 | `lane_permissions` | `lane_id` | Allowed SUMO vehicle classes | Exact allowed-class comparison |
 | `movement_inventory` | `incoming_lane_ids` | List of `[from_lane, to_lane]` pairs | Precision, recall, extra movements and missing movements |
 | `stop_line` | `lane_id` | Reference point | Distance from the compiled geometric lane end, metres |
 | `signal_group` | `lane_pair` | `tls_id` and `link_index` | Exact comparison with an evidenced group-to-link binding |
+| `speed` | `lane_id` | Positive speed in metres per second | Absolute speed error in metres per second |
 
 Use one approach cross-section for lane counts. Adding consecutive road sections
 would count the same physical lanes twice. An official signal-group identifier
@@ -65,18 +91,30 @@ the SUMO network offset before projection. For local test coordinates, use
 `{"type": "network_xy_m", "location": {...}}` with the exact network `location`
 attributes. Missing or inconsistent coordinate declarations stop the comparison.
 
-Centerline facts require `sample_spacing_m`. Equal arclength samples include
-both endpoints. The mean uses trapezoidal integration over reference arclength.
-The maximum is sampled, not a continuous Hausdorff bound. Select comparable
-lane extents before evaluation. Geometry outside the selected reference extent
-does not receive a field-accuracy claim.
+Centerline facts require `sample_spacing_m`.
+Equal-length intervals supply midpoint samples for coverage and lateral offset.
+A sample has longitudinal coverage when its perpendicular foot falls on a selected lane segment with compatible local alignment.
+The alignment limit is 45 degrees, independent of the lateral acceptance tolerance.
+Missing tails and gaps reduce coverage. They do not increase the lateral offset.
+No overlap yields zero coverage and null lateral offsets.
+Coverage has finite sampling resolution. It is not an exact continuous overlap measure.
+The result records the method, spacing, covered length, and uncovered length.
+The old full-reference distance fields remain diagnostic values for comparison with earlier reports.
+Those distances include missing tails and are not lateral errors.
 One official lane may correspond to several compiled SUMO segments. Declare
 all of them with `lane_ids`. The evaluator keeps their separate geometry and
 does not draw an invented line across a missing segment.
+The Hamburg adapter extends a supplied association along saved directed lane connections when those parts add reference coverage.
+It keeps that association tentative.
+When the original matcher supplies no lane, the adapter records a low-confidence nearest compatible lane guess.
+Do not treat these guesses as independent validation of the network.
 
 Set `tolerance_m` explicitly for centerlines and stop lines. Set `minimum_iou`
 explicitly for surfaces. Without an acceptance threshold, the evaluator reports
-measurements and leaves the fact unresolved. It supplies no field tolerance.
+measurements. Release mode leaves the fact unresolved. It supplies no field tolerance.
+For centerlines, `minimum_coverage` defaults to full sampled coverage when an acceptance tolerance is supplied.
+Set it explicitly for a different comparison extent.
+For speeds, supply `tolerance_m_s`.
 
 The movement inventory covers direct external-lane connections from every
 declared incoming lane. It does not infer reachability across several external
@@ -89,7 +127,7 @@ protected-green safety. Keep the corresponding independent audits.
 
 Each layer reports matched facts, known reference facts, unknown results and
 mismatches. Layers with no known reference facts have a null matched fraction.
-The fraction measures established matches among known reference facts. A zero
+In release mode, the fraction measures established matches among known reference facts. A zero
 with unresolved correspondence does not establish poor field accuracy.
 The report binds the network, table and sources to SHA-256 hashes.
 
@@ -98,7 +136,7 @@ change. Review each metric's direction: smaller offsets are better, while higher
 precision, recall and intersection over union are better. No weighted total
 allows an improvement to hide a different fact's regression.
 
-`pass` means every supplied fact matched its declared reference and threshold.
+In release mode, `pass` means every supplied fact matched its declared reference and threshold.
 `review_required` preserves unresolved facts and mismatches. An entirely unknown
 reference table returns `blocked`. These results do not establish traffic
 safety, full-site completeness or field correctness.

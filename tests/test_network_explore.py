@@ -1,0 +1,138 @@
+"""Daily measurements must remain usable before release evidence is complete."""
+
+import json
+import shutil
+import subprocess
+import xml.etree.ElementTree as ET
+
+import pytest
+from shapely.geometry import LineString
+
+from astra_sumo.core.network_calibration import centerline_overlap_metrics, evaluate_network_calibration
+from astra_sumo.core.network_edit_applicability import verify_network_edit
+from astra_sumo.core.network_edit_operations import driving_integrity
+from test_network_calibration import _case
+from test_network_edit_operations import _source, _params
+
+
+def test_explore_measures_uncertain_binding_and_stale_source_without_release_acceptance(tmp_path):
+    net, facts, output = _case(tmp_path, [{"kind": "stop_line", "selector": {"lane_id": "in_0"},
+        "expected": [10, 1], "tolerance_m": 2, "mapping_status": "unresolved", "mapping_confidence": "high"}])
+    table = json.loads(facts.read_text(encoding="utf-8"))
+    table["sources"][0]["sha256"] = "0" * 64
+    facts.write_text(json.dumps(table), encoding="utf-8")
+    report = evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output)
+    assert report["status"] == "pass" and report["mode"] == "explore"
+    assert report["promotion_authority"] is False
+    assert report["warnings"] == ["Source hash mismatch: survey"]
+    row = report["facts"][0]
+    assert row["metrics"]["offset_m"] == 1 and row["status"] == "matched"
+    assert row["mapping_confidence"] == "high" and row["mapping_status"] == "unresolved"
+    assert report["layers"]["control"]["measured_facts"] == 1
+    assert report["layers"]["control"]["provisional_facts"] == 1
+    with pytest.raises(ValueError, match="Source hash mismatch"):
+        evaluate_network_calibration(net_file=net, facts_file=facts, output_file=tmp_path / "release.json", mode="release")
+
+
+def test_explore_reports_missing_threshold_and_keeps_other_measurements_after_bad_reference(tmp_path):
+    net, facts, output = _case(tmp_path, [
+        {"kind": "stop_line", "selector": {"lane_id": "in_0"}, "expected": [10, 1]},
+        {"kind": "lane_count", "selector": {"wrong": "in"}, "expected": 1},
+        {"kind": "speed", "selector": {"lane_id": "in_0"}, "expected": 8, "tolerance_m_s": 0.5}])
+    report = evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output)
+    assert [row["status"] for row in report["facts"]] == ["measured", "unknown", "mismatched"]
+    assert report["facts"][2]["metrics"]["absolute_speed_error_m_s"] == 2
+
+
+def test_explore_records_a_source_hash_when_none_was_supplied(tmp_path):
+    net, facts, output = _case(tmp_path, [{"kind": "stop_line", "selector": {"lane_id": "in_0"}, "expected": [10, 0]}])
+    table = json.loads(facts.read_text(encoding="utf-8"))
+    table["sources"][0].pop("sha256")
+    facts.write_text(json.dumps(table), encoding="utf-8")
+    report = evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output)
+    assert report["status"] == "pass" and report["facts"][0]["metrics"]["offset_m"] == 0
+    assert report["sources"][0]["observed_sha256"]
+    assert report["warnings"]
+    with pytest.raises(ValueError, match="Source hash mismatch"):
+        evaluate_network_calibration(net_file=net, facts_file=facts, output_file=tmp_path / "release.json", mode="release")
+
+
+@pytest.mark.parametrize("parts,coverage,offset", [
+    ([[[0, 3], [10, 3]]], 0.5, 3),
+    ([[[0, 0], [8, 0]], [[12, 0], [20, 0]]], 0.8, 0),
+    ([[[0, 0], [10, 0]], [[10, 0], [20, 0]]], 1, 0),
+    ([[[30, 0], [40, 0]]], 0, None),
+    ([[[10, -10], [10, 10]]], 0, None),
+])
+def test_lateral_error_excludes_missing_tails_gaps_and_crossing_segments(parts, coverage, offset):
+    metrics = centerline_overlap_metrics(LineString([[0, 0], [20, 0]]), parts, 0.25)
+    assert metrics["reference_coverage"] == pytest.approx(coverage)
+    assert metrics["covered_reference_length_m"] == pytest.approx(20 * coverage)
+    assert metrics["mean_lateral_offset_m"] == (pytest.approx(offset) if offset is not None else None)
+
+
+def test_missing_internal_path_is_a_physical_failure():
+    root = ET.fromstring('<net><edge id="a"><lane id="a_0"/></edge><edge id="b"><lane id="b_0"/></edge>'
+        '<connection from="a" fromLane="0" to="b" toLane="0" via=":missing_0"/></net>')
+    assert driving_integrity(root)["status"] == "blocked"
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_explore_blocks_a_lost_route_and_preserves_the_original_requests(tmp_path):
+    source = _source(tmp_path, "add_lane_connection")
+    ledger = {"source_net_file": str(source), "operations": [{"id": "remove-only-path", "operation": "delete_lane_connection",
+        "params": {"from": "in", "fromLane": 0, "to": "middle", "toLane": 0}}]}
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps(ledger), encoding="utf-8")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "blocked"
+    assert report["candidate_routeability"]["route_generation"]["status"] == "fail"
+    from pathlib import Path
+    assert Path(report["candidate_routeability"]["trip_file"]).read_bytes() == Path(report["source_routeability"]["trip_file"]).read_bytes()
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_valid_single_road_without_distinct_edge_od_still_allows_daily_speed_edit(tmp_path):
+    source, nodes, edges = tmp_path / "source.net.xml", tmp_path / "nodes.xml", tmp_path / "edges.xml"
+    nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="road" from="a" to="b"/></edges>', encoding="utf-8")
+    result = subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(edges), "-o", str(source)],
+                            capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    ledger = {"source_net_file": str(source), "operations": [{"id": "speed", "operation": "set_speed",
+        "params": {"lane_id": "road_0", "speed_m_s": 8}}]}
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps(ledger), encoding="utf-8")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass"
+    assert "candidate_routeability" not in report
+    assert any("Route preservation was not checked" in warning for warning in report["warnings"])
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("kind", ["set_edge_shape", "set_lane_count", "move_stop_line", "set_speed", "set_junction_shape"])
+def test_explore_materializes_unapproved_edits_and_tests_original_requests(tmp_path, kind):
+    source = _source(tmp_path, kind)
+    original = source.read_bytes()
+    ledger = {"source_net_file": str(source), "source_sha256": "0" * 64,
+              "operations": [{"id": "daily", "operation": kind, "status": "candidate", "params": _params(kind, source)}]}
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps(ledger), encoding="utf-8")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass", report
+    assert report["mode"] == "explore" and report["release_gates"] == "not_run"
+    assert report["construction"]["requested_effect_applied"], report["construction"]
+    assert report["candidate_routeability"]["od_policy"]["request_count"] == 100
+    assert report["source_immutable"] and source.read_bytes() == original
+    assert report["warnings"]
+    if kind == "set_speed":
+        assert report["command_result"]["netconvert_rebuild_count"] == 0
+        assert report["construction"]["direct_speed_edit"]["all_other_bytes_preserved"]
+
+
+def test_calibration_cli_defaults_to_explore(tmp_path, capsys):
+    from astra_sumo.cli import main
+    net, facts, output = _case(tmp_path, [{"kind": "stop_line", "selector": {"lane_id": "in_0"},
+        "expected": [10, 0], "mapping_status": "unresolved"}])
+    assert main(["network", "calibrate", str(net), str(facts), str(output), "--json"]) == 0
+    assert json.loads(capsys.readouterr().out)["facts"][0]["status"] == "measured"

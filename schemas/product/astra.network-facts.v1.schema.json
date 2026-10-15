@@ -14,9 +14,17 @@
           "type": "string"
         },
         "sha256": {
-          "pattern": "^[0-9a-f]{64}$",
-          "title": "Sha256",
-          "type": "string"
+          "anyOf": [
+            {
+              "pattern": "^[0-9a-f]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
         },
         "source_date": {
           "anyOf": [
@@ -44,7 +52,6 @@
       "required": [
         "id",
         "path",
-        "sha256",
         "source_date",
         "authority",
         "license"
@@ -68,7 +75,8 @@
             "lane_permissions",
             "movement_inventory",
             "stop_line",
-            "signal_group"
+            "signal_group",
+            "speed"
           ],
           "title": "Kind",
           "type": "string"
@@ -96,6 +104,23 @@
             "unresolved"
           ],
           "title": "Mapping Status",
+          "type": "string"
+        },
+        "mapping_confidence": {
+          "default": "confirmed",
+          "enum": [
+            "confirmed",
+            "high",
+            "medium",
+            "low",
+            "none"
+          ],
+          "title": "Mapping Confidence",
+          "type": "string"
+        },
+        "mapping_method": {
+          "default": "supplied",
+          "title": "Mapping Method",
           "type": "string"
         },
         "tolerance_m": {
@@ -137,6 +162,33 @@
           ],
           "default": null,
           "title": "Minimum Iou"
+        },
+        "minimum_coverage": {
+          "anyOf": [
+            {
+              "maximum": 1,
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Minimum Coverage"
+        },
+        "tolerance_m_s": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tolerance M S"
         }
       },
       "required": [

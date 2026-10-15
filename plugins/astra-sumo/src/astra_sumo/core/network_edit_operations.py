@@ -8,7 +8,7 @@ from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
 
-from shapely.geometry import Polygon
+from shapely.geometry import LineString, Polygon
 
 from .artifact_io import copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
@@ -22,6 +22,7 @@ SCOPED_EDIT_TYPES = (
     "join_junctions", "absorb_reciprocal_fragment", "suppress_turnaround",
     "set_junction_shape", "add_lane_connection", "delete_lane_connection",
     "relocate_tls_control", "demote_duplicate_tls", "set_lane_permissions", "set_lane_width",
+    "set_edge_shape", "set_lane_count", "move_stop_line", "set_speed",
 )
 _CONNECTION_EDITS = {"add_lane_connection", "delete_lane_connection", "suppress_turnaround"}
 _JOIN_EDITS = {"join_junctions", "absorb_reciprocal_fragment"}
@@ -33,6 +34,10 @@ _PARAMETERS = {
     "relocate_tls_control": {"from_node", "to_node", "tls_id", "link_mapping"},
     "set_lane_permissions": {"lane_id", "allow", "disallow"},
     "set_lane_width": {"lane_id", "width_m"},
+    "set_edge_shape": {"edge_id", "shape"},
+    "set_lane_count": {"edge_id", "num_lanes"},
+    "move_stop_line": {"lane_id", "end_offset_m"},
+    "set_speed": {"lane_id", "speed_m_s"},
 }
 _PARAMETERS["add_lane_connection"] |= {"allow", "disallow"}
 _PARAMETERS["absorb_reciprocal_fragment"] |= {"maximum_length_m"}
@@ -72,6 +77,38 @@ def _inventory(root):
     return edges, nodes, connections
 
 
+def _line_shape(value):
+    from .network_calibration import _points
+    points = _points(value)
+    if LineString(points).length <= 0:
+        raise ValueError("Road shape must have positive length.")
+    return " ".join(f"{x:.12f},{y:.12f}" for x, y in points)
+
+
+def write_direct_lane_edit(source, candidate, operation):
+    from .osm_access import _patch_lane_attributes
+    params = operation["params"]
+    attrs = ({key: params[key] for key in ("allow", "disallow") if key in params}
+             if operation["operation"] == "set_lane_permissions" else {"speed": str(params["speed_m_s"])})
+    raw = source.read_bytes()
+    candidate.write_bytes(_patch_lane_attributes(raw, ET.fromstring(raw), {params["lane_id"]: attrs},
+                         {"allow", "disallow"} if operation["operation"] == "set_lane_permissions" else {"speed"}))
+
+
+def driving_integrity(root):
+    from .source_movement_support import _candidate_modes, _index, _modes
+    try:
+        index = _index(root)
+        broken = []
+        for pair, start, target, connection in index["movements"]:
+            modes = index["lanes"][start][2] & index["lanes"][target][2] & _modes(connection)
+            if modes and not _candidate_modes(index, start, target, connection)[1]:
+                broken.append(list(pair))
+        return {"status": "blocked" if broken else "pass", "broken_internal_paths": broken}
+    except (KeyError, ValueError) as error:
+        return {"status": "blocked", "error": str(error)}
+
+
 def _controllers(root, edges, node_id):
     from .source_movement_support import _index
     index = _index(root)
@@ -107,6 +144,13 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
             if not isinstance(params["node_id"], str):
                 raise ValueError("A junction ID is required.")
             _shape(params["shape"])
+        elif kind in {"set_edge_shape", "set_lane_count"}:
+            if not isinstance(params["edge_id"], str) or not params["edge_id"]:
+                raise ValueError("A road ID is required.")
+            if kind == "set_edge_shape":
+                _line_shape(params["shape"])
+            elif type(params["num_lanes"]) is not int or params["num_lanes"] < 1:
+                raise ValueError("Lane count must be a positive integer.")
         elif kind == "demote_duplicate_tls":
             if params["node_id"] == params["retained_node_id"]:
                 raise ValueError("Duplicate and retained signal nodes must differ.")
@@ -121,13 +165,14 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                     raise ValueError("Each signal link mapping requires only explicit source and target lane pairs.")
                 _pair(row["source"])
                 _pair(row["target"])
-        elif kind in {"set_lane_permissions", "set_lane_width"}:
+        elif kind in {"set_lane_permissions", "set_lane_width", "move_stop_line", "set_speed"}:
             if not isinstance(params["lane_id"], str):
                 raise ValueError("A lane ID is required.")
-            if kind == "set_lane_width":
-                width = params["width_m"]
-                if type(width) not in (int, float) or not math.isfinite(width) or width <= 0:
-                    raise ValueError("Lane width must be finite and positive.")
+            if kind != "set_lane_permissions":
+                field = {"set_lane_width": "width_m", "move_stop_line": "end_offset_m", "set_speed": "speed_m_s"}[kind]
+                value = params[field]
+                if type(value) not in (int, float) or not math.isfinite(value) or value < 0 or (kind != "move_stop_line" and value == 0):
+                    raise ValueError("Lane dimensions and speed must be finite and within their physical range.")
             elif (not (set(params) & {"allow", "disallow"})
                   or any(not isinstance(params[key], str) for key in ("allow", "disallow") if key in params)):
                 raise ValueError("Lane permissions require explicit class strings.")
@@ -175,6 +220,9 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
         elif kind == "set_junction_shape":
             if params["node_id"] not in nodes:
                 raise ValueError("Junction is unknown.")
+        elif kind in {"set_edge_shape", "set_lane_count"}:
+            if params["edge_id"] not in edges:
+                raise ValueError("Road is unknown.")
         elif kind == "demote_duplicate_tls":
             left, right = params["node_id"], params["retained_node_id"]
             left_controllers, right_controllers = _controllers(root, edges, left), _controllers(root, edges, right)
@@ -204,6 +252,10 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
             matches = [(e, lane_item) for e in edges.values() for lane_item in e.findall("lane") if lane_item.get("id") == params["lane_id"]]
             if len(matches) != 1:
                 raise ValueError("Lane must identify one existing external lane.")
+            if kind == "move_stop_line":
+                lane = matches[0][1]
+                if params["end_offset_m"] >= float(lane.get("length")) + float(lane.get("endOffset", "0")):
+                    raise ValueError("Stop-line offset must leave a positive driving length.")
     except (KeyError, TypeError, ValueError, OverflowError) as error:
         errors.append({"operation_id": operation.get("id"), "code": "invalid_scoped_edit", "detail": str(error)})
     return errors
@@ -211,7 +263,7 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
 
 def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Path,
                            candidate_file: Path, output_dir: Path, prefix: str,
-                           netconvert_binary: str) -> dict:
+                           netconvert_binary: str, mode: str = "release") -> dict:
     """Write one typed PlainXML operation and its exact mutable scope."""
     errors = validate_scoped_operation(operation, root)
     if errors:
@@ -228,8 +280,9 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         if path.is_relative_to(output_dir.resolve()):
             raise ValueError("The output directory must not contain edit evidence.")
         if file_sha256(path) != record["sha256"]:
-            raise ValueError("Scoped edit evidence hash does not match.")
-        evidence_sources.append({"path": str(path), "sha256": record["sha256"]})
+            if mode == "release":
+                raise ValueError("Scoped edit evidence hash does not match.")
+        evidence_sources.append({"path": str(path), "sha256": file_sha256(path), "declared_sha256": record["sha256"]})
     kind, params = operation["operation"], operation["params"]
     edges, nodes, connections = _inventory(root)
     patches = {"nodes": ET.Element("nodes"), "edges": ET.Element("edges"),
@@ -248,6 +301,15 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
     elif kind == "set_junction_shape":
         mutable.add(params["node_id"])
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], shape=_shape(params["shape"]))
+    elif kind in {"set_edge_shape", "set_lane_count"}:
+        edge = edges[params["edge_id"]]
+        mutable.update((edge.get("from"), edge.get("to")))
+        attrs = {"shape": _line_shape(params["shape"])} if kind == "set_edge_shape" else {"numLanes": str(params["num_lanes"])}
+        patch = ET.SubElement(patches["edges"], "edge", id=params["edge_id"], **attrs)
+        # Existing custom lane shapes otherwise override the new road reference or lane layout.
+        for index, _lane in enumerate(edge.findall("lane")):
+            if kind == "set_edge_shape" or index < params["num_lanes"]:
+                ET.SubElement(patch, "lane", index=str(index), shape="")
     elif kind == "demote_duplicate_tls":
         mutable.update((params["node_id"], params["retained_node_id"]))
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], type="priority")
@@ -266,7 +328,9 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         edge, lane = next((e, lane_item) for e in edges.values() for lane_item in e.findall("lane") if lane_item.get("id") == params["lane_id"])
         mutable.update((edge.get("from"), edge.get("to")))
         attrs = ({k: params[k] for k in ("allow", "disallow") if k in params} if kind == "set_lane_permissions"
-                 else {"width": str(params["width_m"])})
+                 else {"width": str(params["width_m"])} if kind == "set_lane_width"
+                 else {"endOffset": str(params["end_offset_m"])} if kind == "move_stop_line"
+                 else {"speed": str(params["speed_m_s"])})
         ET.SubElement(ET.SubElement(patches["edges"], "edge", id=edge.get("id")), "lane", index=lane.get("index"), **attrs)
     mutable_edges = {e.get("id") for e in edges.values() if e.get("from") in mutable or e.get("to") in mutable}
     plan = {"operation": operation, "mutable_junction_ids": sorted(mutable), "mutable_edge_ids": sorted(mutable_edges),
@@ -274,7 +338,8 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
     command = [netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
                "--junctions.internal-link-detail", "25", "--precision", "12", "--output-file", str(candidate_file.resolve())]
-    plan["materialization_method"] = "permission_attributes_only" if kind == "set_lane_permissions" else "netconvert"
+    plan["materialization_method"] = ("permission_attributes_only" if kind == "set_lane_permissions"
+                                      else "speed_attributes_only" if kind == "set_speed" else "netconvert")
     for name, flag in (("nodes", "--node-files"), ("edges", "--edge-files"),
                        ("connections", "--connection-files"), ("tllogics", "--tllogic-files")):
         if not len(patches[name]):
@@ -286,22 +351,22 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         ET.ElementTree(patches[name]).write(file, encoding="utf-8", xml_declaration=True)
         plan["patches"][name] = {"path": str(file.resolve()), "sha256": file_sha256(file)}
         command.extend((flag, str(file.resolve())))
-    plan["command"] = [] if kind == "set_lane_permissions" else command
+    plan["command"] = [] if kind in {"set_lane_permissions", "set_speed"} else command
     plan_file = output_dir / f"{prefix}.scoped-plan.json"
     write_json_atomic(plan_file, plan, sort_keys=True)
     return {**plan, "plan_file": plan_file}
 
 
 def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
-                      netconvert_binary: str, timeout_seconds: float, command_runner) -> dict:
+                      netconvert_binary: str, timeout_seconds: float, command_runner, mode: str = "release") -> dict:
     """Restore the declared exterior and verify the requested local effect."""
     source = Path(plan["source"]["path"])
     proposal = output_dir / "native-scoped-proposal.net.xml"
     copy_file_atomic(candidate_file, proposal)
     operation, mutable_nodes, mutable_edges = plan["operation"], set(plan["mutable_junction_ids"]), set(plan["mutable_edge_ids"])
     kind, params = operation["operation"], operation["params"]
-    if kind == "set_lane_permissions":
-        rebuild = {"status": "pass", "method": "permission_attributes_only", "netconvert_rebuild_count": 0}
+    if kind in {"set_lane_permissions", "set_speed"}:
+        rebuild = {"status": "pass", "method": plan["materialization_method"], "netconvert_rebuild_count": 0}
         mutable_nodes, mutable_edges = set(), set()
     elif kind in _JOIN_EDITS:
         from .junction_boundary_rebuild import restore_joined_boundary_connections
@@ -319,7 +384,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
     before, after = ET.parse(source).getroot(), ET.parse(candidate_file).getroot()
     restored_speeds = []
-    if kind != "set_lane_permissions":
+    if kind not in {"set_lane_permissions", "set_speed"}:
         source_speeds = {lane.get("id"): lane.get("speed") for edge in before.findall("edge")
                          if not edge.get("function") for lane in edge.findall("lane")}
         for edge in after.findall("edge"):
@@ -357,6 +422,12 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         actual = [tuple(map(float, p.split(","))) for p in nodes[params["node_id"]].get("shape", "").split()]
         requested = [tuple(map(float, point.split(","))) for point in _shape(params["shape"]).split()]
         effect = len(actual) >= 3 and Polygon(actual).equals(Polygon(requested))
+    elif kind == "set_edge_shape":
+        edge = after.find(f"edge[@id='{params['edge_id']}']")
+        actual = [tuple(map(float, point.split(","))) for point in edge.get("shape", "").split()]
+        effect = len(actual) >= 2 and LineString(actual).hausdorff_distance(LineString(params["shape"])) < 0.02
+    elif kind == "set_lane_count":
+        effect = len(after.find(f"edge[@id='{params['edge_id']}']").findall("lane")) == params["num_lanes"]
     elif kind == "demote_duplicate_tls":
         retained = params["retained_node_id"]
         retained_pairs = [key for key, connection in old_connections.items() if connection.get("tl")
@@ -375,6 +446,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         lane = next(lane_item for e in after.findall("edge") for lane_item in e.findall("lane") if lane_item.get("id") == params["lane_id"])
         from .osm_access import _permission_set
         effect = (float(lane.get("width", "3.2")) == params["width_m"] if kind == "set_lane_width"
+                  else float(lane.get("speed")) == params["speed_m_s"] if kind == "set_speed"
+                  else float(lane.get("endOffset", "0")) == params["end_offset_m"] if kind == "move_stop_line"
                   else _permission_set(lane.attrib) == _permission_set(params))
     structure = audit_network_connection_mode(after, endpoint_tolerance_m=0.1)
     changed_lane_layout = False
@@ -388,11 +461,19 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     if kind in _CONNECTION_EDITS:
         expected_pairs = old_pairs | {_pair(params)} if kind == "add_lane_connection" else old_pairs - {_pair(params)}
     connections_preserved = kind in _JOIN_EDITS or new_pairs == expected_pairs
+    if kind == "set_lane_count":
+        target = params["edge_id"]
+        connections_preserved = {pair for pair in old_pairs if target not in (pair[0], pair[2])} == {
+            pair for pair in new_pairs if target not in (pair[0], pair[2])}
     connection_permissions_preserved = kind in _JOIN_EDITS or all(
         _permission_set(old_connections[key].attrib) == _permission_set(connections[key].attrib)
         for key in old_pairs & new_pairs)
     if kind not in _JOIN_EDITS:
         changed_lane_layout = old_lanes.keys() != new_lanes.keys()
+        if kind == "set_lane_count":
+            target = params["edge_id"]
+            changed_lane_layout = {key for key in old_lanes if key.rsplit("_", 1)[0] != target} != {
+                key for key in new_lanes if key.rsplit("_", 1)[0] != target}
         unchanged_permissions = all(_permission_set(lane.attrib) == _permission_set(new_lanes[identifier].attrib)
             for identifier, lane in old_lanes.items() if identifier in new_lanes
             and not (kind == "set_lane_permissions" and identifier == params["lane_id"]))
@@ -415,8 +496,22 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         direct = {"lane_id": params["lane_id"], "expected_attributes": expected,
                   "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
         added_modes = sorted(_permission_set(expected) - _permission_set(old_lanes[params["lane_id"]].attrib))
-    return {"status": "pass" if passed else "blocked", "source_immutable": file_sha256(source) == plan["source"]["sha256"],
+    if kind == "set_speed":
+        from .osm_access import _patch_lane_attributes
+        attrs = {"speed": str(params["speed_m_s"])}
+        exact = _patch_lane_attributes(source.read_bytes(), before, {params["lane_id"]: attrs}, {"speed"}) == candidate_file.read_bytes()
+        passed &= exact
+        direct = {"lane_id": params["lane_id"], "expected_attributes": attrs,
+                  "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
+    integrity = driving_integrity(after)
+    physical = load["status"] == "pass" and integrity["status"] == "pass"
+    return {"status": "pass" if (physical if mode == "explore" else passed) else "blocked",
+            "mode": mode, "release_checks_passed": passed,
+            "driving_integrity": integrity,
+            "warnings": [] if passed else ["Some release checks failed. Inspect the recorded measurements."],
+            "source_immutable": file_sha256(source) == plan["source"]["sha256"],
             "direct_permission_edit": direct,
+            "direct_speed_edit": direct if kind == "set_speed" else {},
             "connectivity_review_required": bool(added_modes), "newly_allowed_vehicle_classes": added_modes,
             "requested_effect_applied": effect, "geometry_preservation": geometry, "restoration": rebuild,
             "lane_layout_preserved": not changed_lane_layout, "other_lane_permissions_preserved": unchanged_permissions,
@@ -429,6 +524,93 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "structural_failure_count": structure["structural_failure_count"], "sumo_load": load,
             "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal)},
             "claim_boundary": "Typed construction and source preservation only. Field legality, historical control and mixed-demand completion require their separate evidence."}
+
+
+def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert"):
+    """Build a daily candidate and report release warnings without requiring approval evidence."""
+    import json
+    from .command_runner import run_command
+    from .routeability_audit import run_routeability_audit
+
+    ledger_path, destination = Path(ledger_file).resolve(strict=True), Path(output_dir).resolve()
+    ledger = json.loads(ledger_path.read_text(encoding="utf-8"))
+    source = Path(ledger["source_net_file"]).resolve(strict=True)
+    if destination.exists() or source.is_relative_to(destination) or ledger_path.is_relative_to(destination):
+        raise ValueError("Use a new output directory separate from the source and ledger.")
+    operations = ledger.get("operations", [])
+    if len(operations) != 1 or operations[0].get("operation") not in SCOPED_EDIT_TYPES:
+        raise ValueError("Explore requires one typed road edit.")
+    operation = deepcopy(operations[0])
+    root = ET.parse(source).getroot()
+    errors = validate_scoped_operation(operation, root)
+    if errors:
+        raise ValueError(str(errors))
+    warnings = []
+    source_digest = file_sha256(source)
+    if ledger.get("source_sha256") != source_digest:
+        warnings.append("The declared source hash differs or is absent. The measured source hash is recorded.")
+    if operation.get("status") != "accepted":
+        warnings.append("The edit has no release approval.")
+    supplied_evidence = operation.get("evidence", [])
+    operation["evidence"] = []
+    for record in supplied_evidence:
+        if not isinstance(record, dict) or not record.get("path"):
+            warnings.append("An evidence record has no usable path.")
+            continue
+        path = Path(record["path"]).resolve()
+        if path.is_relative_to(destination):
+            raise ValueError("The output directory must not contain edit evidence.")
+        if not path.is_file():
+            warnings.append(f"Evidence unavailable: {path}")
+            continue
+        digest = file_sha256(path)
+        if record.get("sha256") != digest:
+            warnings.append(f"Evidence hash mismatch: {path}")
+        operation["evidence"].append({"path": str(path), "sha256": digest})
+    destination.mkdir(parents=True)
+    candidate = destination / "candidate.net.xml"
+    plan = write_scoped_edit_plan(root=root, operation=operation, source_file=source, candidate_file=candidate,
+        output_dir=destination, prefix="explore", netconvert_binary=netconvert_binary, mode="explore")
+    command_result = None
+    if plan["materialization_method"] in {"permission_attributes_only", "speed_attributes_only"}:
+        write_direct_lane_edit(source, candidate, operation)
+        command_result = {"returncode": 0, "netconvert_rebuild_count": 0}
+    else:
+        result = run_command(plan["command"], cwd=destination, timeout_seconds=240)
+        command_result = result.to_dict()
+    report = {"schema": "astra.network-edit-verification/v1", "mode": "explore", "status": "blocked",
+              "promotion_authority": False, "release_gates": "not_run", "warnings": warnings,
+              "ledger": {"path": str(ledger_path), "sha256": file_sha256(ledger_path)},
+              "source": {"path": str(source), "sha256": source_digest}, "command_result": command_result,
+              "candidate_net_file": str(candidate), "plan_file": str(plan["plan_file"])}
+    if command_result.get("returncode") == 0 and candidate.is_file():
+        checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=destination,
+            netconvert_binary=netconvert_binary, timeout_seconds=240, command_runner=run_command, mode="explore")
+        report["construction"] = checked
+        warnings.extend(checked["warnings"])
+        report["status"] = checked["status"]
+        if report["status"] == "pass":
+            sumo = _sumo_binary(netconvert_binary)
+            binaries = {"sumo": sumo, "duarouter": str(Path(sumo).with_name("duarouter" + Path(sumo).suffix))}
+            # Generate from the source alone so edited endpoints cannot disappear from the requests.
+            baseline = run_routeability_audit(net_file=source, output_dir=destination / "source-routes", binaries=binaries)
+            report["source_routeability"] = baseline
+            if (baseline.get("route_generation", {}).get("status") == "pass"
+                    and Path(baseline.get("trip_file", "")).is_file()):
+                trip_file = Path(baseline["trip_file"])
+                routed = run_routeability_audit(net_file=candidate, output_dir=destination / "candidate-routes",
+                    binaries=binaries, frozen_trip_file=trip_file, expected_frozen_trip_sha256=file_sha256(trip_file))
+                report["candidate_routeability"] = routed
+                report["status"] = "pass" if routed.get("route_generation", {}).get("status") == "pass" else "blocked"
+                if routed["status"] != "pass":
+                    warnings.append("The candidate driving run did not complete. Inspect retained runtime results separately from route loss.")
+            else:
+                warnings.append("Source route requests could not be validated. Route preservation was not checked.")
+        report["candidate_sha256"] = file_sha256(candidate)
+    report["source_immutable"] = file_sha256(source) == source_digest
+    path = destination / "edit-verification.json"
+    write_json_atomic(path, report, sort_keys=True)
+    return {**report, "report_file": str(path)}
 
 
 def _program(logic):

@@ -970,12 +970,10 @@ def materialize_corridor_edit_variant(
         )
 
     try:
-        if scoped_plan is not None and scoped_plan["materialization_method"] == "permission_attributes_only":
-            from .osm_access import _patch_lane_permissions
-            params = scoped_operations[0]["params"]
-            candidate_net_file.write_bytes(_patch_lane_permissions(source_net_file.read_bytes(), source_root,
-                {params["lane_id"]: {key: params[key] for key in ("allow", "disallow") if key in params}}))
-            command_result = {"status": "pass", "returncode": 0, "executor": "permission_attributes_only", "netconvert_rebuild_count": 0}
+        if scoped_plan is not None and scoped_plan["materialization_method"] in {"permission_attributes_only", "speed_attributes_only"}:
+            from .network_edit_operations import write_direct_lane_edit
+            write_direct_lane_edit(source_net_file, candidate_net_file, scoped_operations[0])
+            command_result = {"status": "pass", "returncode": 0, "executor": scoped_plan["materialization_method"], "netconvert_rebuild_count": 0}
         else:
             command_result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
     except (OSError, RuntimeError, TimeoutError, TypeError, ValueError) as exc:
@@ -2593,6 +2591,10 @@ def _operation_review_shapes(
                    if node.get("id") in node_ids and node.get("shape")]
         if records:
             return records
+        if params.get("edge_id"):
+            return [{"edge_id": edge.get("id"), "shape": _edge_shape(edge), "geometry_source": label}
+                    for label, network in (("source_net", source_root), ("candidate_net", candidate_root))
+                    if network is not None for edge in network.findall("edge") if edge.get("id") == params["edge_id"]]
     if operation_type in {"add_edge", "add_sidewalk", "add_ramp"}:
         edge_ids = [str(params.get("id", f"torii-add-{operation.get('id', '')}"))]
         geometry_root = candidate_root
@@ -2646,7 +2648,7 @@ def _operation_location(operation: Mapping[str, Any], root: ET.Element) -> dict[
         if points and all(point for point in points):
             return {key: sum(point[key] for point in points) / len(points) for key in ("x", "y")}
         for edge in root.findall("edge"):
-            if edge.get("id") in (params.get("from"), params.get("to")) or any(lane.get("id") == params.get("lane_id") for lane in edge.findall("lane")):
+            if edge.get("id") in (params.get("from"), params.get("to"), params.get("edge_id")) or any(lane.get("id") == params.get("lane_id") for lane in edge.findall("lane")):
                 return _edge_location(edge)
     from_id = str(params.get("from", "")).strip()
     to_id = str(params.get("to", "")).strip()

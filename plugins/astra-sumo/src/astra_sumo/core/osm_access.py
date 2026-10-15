@@ -140,6 +140,11 @@ def _external_lanes(root: ET.Element) -> dict[str, ET.Element]:
 
 def _patch_lane_permissions(raw: bytes, root: ET.Element, expected: Mapping[str, Mapping[str, str]]) -> bytes:
     """Change only permission attributes on declared lane opening tags."""
+    return _patch_lane_attributes(raw, root, expected, {"allow", "disallow"})
+
+
+def _patch_lane_attributes(raw: bytes, root: ET.Element, expected: Mapping[str, Mapping[str, str]], attributes_to_change) -> bytes:
+    """Change only declared attributes on exact lane opening tags."""
     tags = list(re.finditer(rb'''<lane(?=\s)(?:[^<>"']|"[^"]*"|'[^']*')*>''', raw))
     lanes = root.findall("edge/lane")
     if len(tags) != len(lanes):
@@ -153,11 +158,11 @@ def _patch_lane_permissions(raw: bytes, root: ET.Element, expected: Mapping[str,
             raise ValueError("A lane opening tag does not match its parsed attributes.")
         lane_id = lane.get("id")
         if lane_id in expected:
-            if lane_id in changed or set(expected[lane_id]) - {"allow", "disallow"}:
+            if lane_id in changed or set(expected[lane_id]) - set(attributes_to_change):
                 raise ValueError("Permission patch has duplicate lanes or unsupported attributes.")
             edits, written = [], set()
             for attribute in attributes.finditer(tag):
-                if attribute.group(1) in (b"allow", b"disallow"):
+                if attribute.group(1).decode("ascii") in attributes_to_change:
                     key = attribute.group(1).decode("ascii")
                     if key in expected[lane_id]:
                         edits.append((attribute.start(2), attribute.end(2), quoteattr(expected[lane_id][key]).encode("utf-8")))

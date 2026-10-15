@@ -75,7 +75,7 @@ def test_native_profiles_work_outside_the_four_way_vehicle_only_domain(tmp_path,
     before = file_sha256(Path(ledger["source_net_file"]))
     assert assess_edit_applicability(ledger)["status"] == "pass"
     report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "verification",
-                                 netconvert_binary=shutil.which("netconvert"))
+                                 netconvert_binary=shutil.which("netconvert"), mode="release")
     assert report["status"] == "pass", report
     assert all(value == "pass" for value in report["applicability"]["checks"].values())
     assert report["candidate_gates"]["gates"]["modal_connectivity"]["basis"] == "edit_specific_all_class_boundary_paths"
@@ -95,7 +95,7 @@ def test_hash_unaccepted_and_unsupported_operations_do_not_enter_automatic_work(
     ledger["operations"][0]["status"] = "candidate"
     assert assess_edit_applicability(ledger)["status"] == "review_required"
     path.write_text(json.dumps(ledger), encoding="utf-8")
-    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "verification")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "verification", mode="release")
     assert report["status"] == "review_required"
     assert not (tmp_path / "verification/candidate").exists()
     ledger["operations"][0]["operation"] = "set_lane_width"

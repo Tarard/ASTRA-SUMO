@@ -27,9 +27,59 @@ request described by the input schema.
 | `demote_duplicate_tls` | `node_id`, `retained_node_id` | Existing signal nodes sharing a controller, retained signal node remains controlled |
 | `set_lane_permissions` | `lane_id`, `allow` or `disallow` | Only the declared permission attributes may change. No native geometry conversion |
 | `set_lane_width` | `lane_id`, `width_m` | Finite positive width, unchanged other lane identities and permissions, fixed outside geometry |
+| `set_edge_shape` | `edge_id`, `shape` | At least two finite network XY points with positive line length. SUMO rebuilds lane offsets and local connections |
+| `set_lane_count` | `edge_id`, `num_lanes` | Positive integer. SUMO rebuilds the changed road and its local connections. Record resulting movement changes |
+| `move_stop_line` | `lane_id`, `end_offset_m` | Nonnegative absolute setback from the road end. The remaining driving length must stay positive |
+| `set_speed` | `lane_id`, `speed_m_s` | Positive speed in metres per second. Change only that lane attribute without native conversion |
 
 The existing operations remain `add_edge`, `add_sidewalk`, `add_crossing`,
 `add_ramp`, `delete_edge`, and `merge_edges`.
+
+## Daily exploration and release
+
+Use `astra network verify-edit <ledger.json> <new-output-dir> --mode explore --json` for daily calibration.
+Explore is the default for this command and supports one typed operation per candidate.
+The ledger needs `source_net_file` and one operation with its `id`, `operation`, and `params`.
+Approval, evidence, and declared source hashes are optional during exploration.
+Their absence or mismatch produces warnings. The report records actual file hashes.
+The complete ledger schema below remains the release input contract.
+
+Explore mode creates a separate candidate and retains the native proposal and construction measurements.
+It skips promotion gates and the automatic-profile approval step.
+It checks SUMO load, internal driving paths, and 100 original-network route requests.
+Requests come from the source alone. Changed candidate endpoints cannot remove them from the test.
+Lost routes block the result. Unfinished driving runs remain visible with a warning when routes still exist.
+If no original route requests can be validated, exploration retains a warning and makes no route-preservation claim.
+The sampled passenger requests do not establish all-class or all-pair route preservation.
+Invalid edit parameters and attempts to overwrite inputs still stop construction.
+Other preservation and review findings remain in the report for inspection.
+
+Use `--mode release` when preparing a candidate for publication or promotion.
+This runs the existing approval, materialization, and candidate checks.
+The three existing automatic profiles retain their narrower eligibility rules.
+An expanded junction surface can be explored without qualifying as automatic contour tightening.
+Other typed edits use explicit release materialization and the general candidate checks.
+An explore result has no promotion authority.
+
+The road shape is the SUMO edge reference line, not one individual lane centerline.
+Road-shape and lane-count edits clear custom shapes on the retained target lanes so SUMO can recompute their geometry.
+Use the [SUMO PlainXML definitions](https://sumo.dlr.de/docs/Networks/PlainXML.html) for shape, lane count, and lane speed.
+Stop-line movement uses a geometric lane `endOffset`, as described in
+[SUMO intersections](https://sumo.dlr.de/docs/Simulation/Intersections.html).
+It does not configure a separate vehicle-class `stopOffset`.
+
+For example, a daily speed edit can use:
+
+```json
+{
+  "source_net_file": "C:/project/source.net.xml",
+  "operations": [{
+    "id": "adjust-lane-speed",
+    "operation": "set_speed",
+    "params": {"lane_id": "road_0", "speed_m_s": 8.33}
+  }]
+}
+```
 
 One scoped operation is materialized per variant. Apply a dependent sequence
 through separate source-bound stages and check its complete final network.

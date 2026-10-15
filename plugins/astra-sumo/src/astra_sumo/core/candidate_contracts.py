@@ -95,17 +95,18 @@ def validate_materialization_evidence(
 
     command = report.get("command")
     method = report.get("materialization_method", "netconvert")
-    if method == "permission_attributes_only":
-        from .osm_access import _patch_lane_permissions
+    if method in {"permission_attributes_only", "speed_attributes_only"}:
+        from .osm_access import _patch_lane_attributes
         try:
-            record = report["semantic_validation"]["direct_permission_edit"]
+            record = report["semantic_validation"]["direct_speed_edit" if method == "speed_attributes_only" else "direct_permission_edit"]
+            allowed_attributes = {"speed"} if method == "speed_attributes_only" else {"allow", "disallow"}
             if (not isinstance(record, Mapping) or not isinstance(record.get("lane_id"), str)
                     or not isinstance(record.get("expected_attributes"), Mapping)
-                    or set(record["expected_attributes"]) - {"allow", "disallow"}
+                    or set(record["expected_attributes"]) - allowed_attributes
                     or any(not isinstance(value, str) for value in record["expected_attributes"].values())):
                 raise ValueError("Direct permission evidence contains invalid lane attributes.")
             raw = source_net_file.read_bytes()
-            expected = _patch_lane_permissions(raw, ET.fromstring(raw), {record["lane_id"]: record["expected_attributes"]})
+            expected = _patch_lane_attributes(raw, ET.fromstring(raw), {record["lane_id"]: record["expected_attributes"]}, allowed_attributes)
             if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
                     or expected != candidate_net_file.read_bytes()):
                 errors.append({"code": "direct_permission_materialization_not_exact"})

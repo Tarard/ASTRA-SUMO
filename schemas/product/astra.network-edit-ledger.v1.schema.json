@@ -403,6 +403,114 @@
                     }
                   }
                 }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_edge_shape"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "edge_id",
+                      "shape"
+                    ],
+                    "properties": {
+                      "edge_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shape": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "array",
+                          "minItems": 2,
+                          "maxItems": 2,
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_lane_count"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "edge_id",
+                      "num_lanes"
+                    ],
+                    "properties": {
+                      "edge_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "num_lanes": {
+                        "type": "integer",
+                        "minimum": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "move_stop_line"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "lane_id",
+                      "end_offset_m"
+                    ],
+                    "properties": {
+                      "lane_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "end_offset_m": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_speed"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "lane_id",
+                      "speed_m_s"
+                    ],
+                    "properties": {
+                      "lane_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "speed_m_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  }
+                }
               }
             ]
           }
@@ -504,7 +612,11 @@
             "relocate_tls_control",
             "demote_duplicate_tls",
             "set_lane_permissions",
-            "set_lane_width"
+            "set_lane_width",
+            "set_edge_shape",
+            "set_lane_count",
+            "move_stop_line",
+            "set_speed"
           ]
         },
         "params": {

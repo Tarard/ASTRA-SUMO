@@ -223,11 +223,17 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None):
     return {**result, "status": "pass" if all(value == "pass" for value in checks.values()) else "blocked"}
 
 
-def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert"):
-    """Build and check one supported local edit through the existing candidate gates."""
+def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", mode="explore"):
+    """Explore a typed road edit, or apply the existing release checks explicitly."""
     from .corridor_edit_ledger import materialize_corridor_edit_variant, run_corridor_candidate_gates
     from .network_edit_operations import _sumo_binary
     from .routeability_audit import run_routeability_audit
+
+    if mode == "explore":
+        from .network_edit_operations import explore_network_edit
+        return explore_network_edit(ledger_file=ledger_file, output_dir=output_dir, netconvert_binary=netconvert_binary)
+    if mode != "release":
+        raise ValueError("Mode must be explore or release.")
 
     ledger_path, destination = Path(ledger_file).resolve(strict=True), Path(output_dir).resolve()
     ledger_hash = file_sha256(ledger_path)
@@ -238,7 +244,10 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
     if destination.exists() or any(path.is_relative_to(destination) for path in inputs):
         raise ValueError("Use a new output directory separate from every input")
     hashes = {path: file_sha256(path) for path in inputs}
-    preflight = assess_edit_applicability(ledger)
+    automatic_profile = (len(ledger.get("operations", [])) == 1
+                         and ledger["operations"][0].get("operation") in AUTOMATIC_EDIT_PROFILES)
+    preflight = assess_edit_applicability(ledger) if automatic_profile else {
+        "status": "pass", "reason": "explicit_release_materialization_without_automatic_profile"}
     destination.mkdir(parents=True)
     report = {"schema": "astra.network-edit-verification/v1", "status": preflight["status"],
               "preconditions": preflight, "field_correctness": "not_established", "certification_claim": "not_established",
@@ -249,9 +258,10 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
         report["materialization"] = built
         report["status"] = "blocked"
         if built["status"] == "pass":
-            applicability = assess_edit_applicability(ledger, candidate_net_file=built["candidate_net_file"])
+            applicability = (assess_edit_applicability(ledger, candidate_net_file=built["candidate_net_file"])
+                             if automatic_profile else {"status": "not_applicable"})
             report["applicability"] = applicability
-            if applicability["status"] == "pass":
+            if applicability["status"] in {"pass", "not_applicable"}:
                 sumo_binary = _sumo_binary(netconvert_binary)
 
                 def routeability(**kwargs):
@@ -262,7 +272,7 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
                 gates = run_corridor_candidate_gates(source_net_file=source,
                     candidate_net_file=Path(built["candidate_net_file"]), output_dir=destination / "gates",
                     materialization_report=built, sumo_binary=sumo_binary, routeability_audit_func=routeability,
-                    edit_ledger_file=ledger_path)
+                    edit_ledger_file=ledger_path if automatic_profile else None)
                 report["candidate_gates"] = gates
                 report["status"] = gates["status"]
     report["inputs_unchanged"] = all(file_sha256(path) == digest for path, digest in hashes.items())

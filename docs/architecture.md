@@ -17,6 +17,12 @@ and keeps promotion blocked until the relevant gates pass.
 
 ## Implemented Corridor Contract
 
+Daily road calibration and typed-edit verification default to `explore` mode.
+They retain measurements, tentative correspondence, confidence, and actual file hashes before release evidence is complete.
+Explore candidates remain separate from their sources and have no promotion authority.
+Final publication or promotion uses `release` mode and the contract below.
+See [road calibration](network-calibration.md) and [typed edits](network-edit-operations.md) for the command boundaries.
+
 The first acceptance boundary is corridor-scale human-modeling work, not a
 city-scale automatic-cleanup claim.  An accepted edit is materialized into a
 new candidate network and may be promoted only through this persisted chain:

@@ -39,7 +39,7 @@ def _case(tmp_path: Path, facts: list[dict]) -> tuple[Path, Path, Path]:
 
 
 def _run(paths):
-    return evaluate_network_calibration(net_file=paths[0], facts_file=paths[1], output_file=paths[2])
+    return evaluate_network_calibration(net_file=paths[0], facts_file=paths[1], output_file=paths[2], mode="release")
 
 
 def test_geometry_counts_permissions_control_and_inventory(tmp_path):
