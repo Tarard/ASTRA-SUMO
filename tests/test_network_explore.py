@@ -107,6 +107,7 @@ def test_valid_single_road_without_distinct_edge_od_still_allows_daily_speed_edi
     report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
     assert report["status"] == "measured"
     assert "candidate_routeability" not in report
+    assert any("Source driving checks failed" in warning for warning in report["warnings"])
     assert any("Route preservation was not checked" in warning for warning in report["warnings"])
 
 

@@ -226,8 +226,11 @@ conversion. It then compares external lane geometry, stored lengths, widths,
 junction positions, junction shapes, road endpoints, and the coordinate frame.
 It also checks the fixed lane endpoints on mutable boundary roads.
 A later conversion requires another restoration and comparison.
-Geometry changes still use whole-network native conversion. This method does
-not reduce conversion work to a local subnetwork.
+Road-shape, width, lane-count, and junction changes still use whole-network native conversion.
+Their exterior restoration does not reduce conversion work to a local subnetwork.
+An explicit stop-line adjustment can avoid that conversion when the saved approach and internal paths support a unique prefix transfer.
+Its byte comparison preserves unrelated junction waiting structures and signal definitions.
+Other geometry operations retain native conversion and exterior restoration.
 
 The reproducible comparison entry points are:
 

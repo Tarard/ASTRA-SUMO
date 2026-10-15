@@ -205,12 +205,80 @@ def test_repeated_stop_line_edits_use_absolute_setbacks_and_can_restore_the_lane
             ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
             netconvert_binary=shutil.which("netconvert"))
         assert report["status"] == "pass", report
+        assert report["materialization_method"] == "stop_line_geometry_only"
+        assert report["command_result"]["netconvert_rebuild_count"] == 0
+        assert report["semantic_validation"]["direct_stop_line_edit"]["all_other_bytes_preserved"]
+        assert validate_materialization_evidence(report, source_net_file=source,
+                                                candidate_net_file=Path(report["candidate_net_file"]))["status"] == "pass"
         source = Path(report["candidate_net_file"])
         lane = ET.parse(source).getroot().find("edge[@id='middle']/lane")
         endpoint = tuple(map(float, lane.get("shape").split()[-1].split(",")))
         assert original_end[0] - endpoint[0] == pytest.approx(offset)
         assert endpoint[1] == pytest.approx(original_end[1])
         assert float(lane.get("length")) == pytest.approx(original_length - offset)
+    from astra_sumo.core.osm_access import _patch_lane_attributes
+    source.write_bytes(_patch_lane_attributes(source.read_bytes(), ET.parse(source).getroot(), {"in_0": {"speed": "8"}}, {"speed"}))
+    report["candidate_sha256"] = file_sha256(source)
+    checked = validate_materialization_evidence(report, source_net_file=Path(report["source_net_file"]), candidate_net_file=source)
+    assert checked["status"] == "blocked"
+    assert any(row["code"] == "direct_stop_line_materialization_not_exact" for row in checked["errors"])
+
+
+def test_direct_stop_line_preserves_waiting_structure_and_all_unrelated_bytes(tmp_path):
+    from astra_sumo.core.network_edit_operations import _stop_line_patches, write_direct_lane_edit
+    from shapely.geometry import LineString
+    raw = b'''<net><!-- source waiting points remain authoritative -->
+      <edge id="approach"><lane id="approach_0" index="0" length="10" shape="0,0 10,0"/></edge>
+      <edge id=":j_0" function="internal"><lane id=":j_0_0" length="5" shape="10,0 13,0 15,0"/></edge>
+      <edge id=":j_1" function="internal"><lane id=":j_1_0" length="8" shape="10,0 13,0 13,5"/></edge>
+      <junction id="j" intLanes=":j_0_0 :j_1_0"><request index="0" response="10" foes="10"/></junction>
+      <junction id=":j_wait" type="internal"/>
+      <tlLogic id="j"><phase duration="10" state="Gr"/></tlLogic>
+      <connection from="approach" fromLane="0" to="out" toLane="0" via=":j_0_0" tl="j" linkIndex="0"/>
+      <connection from="approach" fromLane="0" to="left" toLane="0" via=":j_1_0" tl="j" linkIndex="1"/>
+      </net>'''
+    source, candidate, restored = [tmp_path / name for name in ("source.xml", "candidate.xml", "restored.xml")]
+    source.write_bytes(raw)
+    operation = {"operation": "move_stop_line", "params": {"lane_id": "approach_0", "end_offset_m": 2}}
+    write_direct_lane_edit(source, candidate, operation)
+    old, new = ET.fromstring(raw), ET.parse(candidate).getroot()
+    for tag in ("junction", "tlLogic", "connection"):
+        assert [ET.tostring(row) for row in new.findall(tag)] == [ET.tostring(row) for row in old.findall(tag)]
+    for key, expected in (("approach_0", 8), (":j_0_0", 7), (":j_1_0", 10)):
+        lane = new.find(f"edge/lane[@id='{key}']")
+        assert float(lane.get("length")) == expected
+    assert new.find("edge/lane[@id=':j_0_0']").get("shape").startswith("8.000000000000,0.000000000000")
+    operation["params"]["end_offset_m"] = 0
+    write_direct_lane_edit(candidate, restored, operation)
+    final = ET.parse(restored).getroot()
+    def shape(row):
+        return LineString([tuple(map(float, p.split(","))) for p in row.get("shape").split()])
+    for a, b in zip(old.findall("edge/lane"), final.findall("edge/lane")):
+        assert shape(a).equals(shape(b))
+        assert float(a.get("length")) == float(b.get("length"))
+    assert source.read_bytes() == raw
+    # Returning a setback past divergent internal prefixes cannot invent one lane end.
+    old.find("edge/lane[@id='approach_0']").set("endOffset", "4")
+    assert _stop_line_patches(old, {"lane_id": "approach_0", "end_offset_m": 0}) is None
+
+
+def test_direct_stop_line_keeps_elevation_and_refuses_a_shared_internal_prefix(tmp_path):
+    from astra_sumo.core.network_edit_operations import _stop_line_patches, write_direct_lane_edit
+    source, candidate = tmp_path / "source.xml", tmp_path / "candidate.xml"
+    root = ET.fromstring('''<net>
+      <edge id="a"><lane id="a_0" index="0" length="10" shape="0,0,1 10,0,2"/></edge>
+      <edge id=":j_0" function="internal"><lane id=":j_0_0" length="5" shape="10,0,2 15,0,2"/></edge>
+      <edge id="other"><lane id="other_0" index="0" length="10" shape="0,1,1 10,1,2"/></edge>
+      <connection from="a" fromLane="0" to="b" toLane="0" via=":j_0_0"/></net>''')
+    ET.ElementTree(root).write(source, encoding="utf-8")
+    params = {"lane_id": "a_0", "end_offset_m": 2}
+    write_direct_lane_edit(source, candidate, {"operation": "move_stop_line", "params": params})
+    lane = ET.parse(candidate).getroot().find("edge/lane[@id='a_0']")
+    assert tuple(map(float, lane.get("shape").split()[-1].split(","))) == pytest.approx((8, 0, 1.8))
+    ET.SubElement(root, "connection", **{"from": "other", "fromLane": "0", "to": "b", "toLane": "0", "via": ":j_0_0"})
+    assert _stop_line_patches(root, params) is None
+    root.findall("connection")[-1].set("from", ":other_internal")
+    assert _stop_line_patches(root, params) is None
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")

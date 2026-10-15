@@ -29,7 +29,7 @@ request described by the input schema.
 | `set_lane_width` | `lane_id`, `width_m` | Finite positive width, unchanged other lane identities and permissions, fixed outside geometry |
 | `set_edge_shape` | `edge_id`, `shape` | At least two finite network XY points with positive line length. SUMO rebuilds lane offsets and local connections |
 | `set_lane_count` | `edge_id`, `num_lanes` | Positive integer. SUMO rebuilds the changed road and its local connections. Record resulting movement changes |
-| `move_stop_line` | `lane_id`, `end_offset_m` | Nonnegative absolute setback from the road end. The remaining driving length must stay positive |
+| `move_stop_line` | `lane_id`, `end_offset_m` | Nonnegative absolute setback. Transfer the saved lane prefix to its internal paths when correspondence is unique. Otherwise retain native reconstruction |
 | `set_speed` | `lane_id`, `speed_m_s` | Positive speed in metres per second. Change only that lane attribute without native conversion |
 
 The existing operations remain `add_edge`, `add_sidewalk`, `add_crossing`,
@@ -86,6 +86,13 @@ Use the [SUMO PlainXML definitions](https://sumo.dlr.de/docs/Networks/PlainXML.h
 Stop-line movement uses a geometric lane `endOffset`, as described in
 [SUMO intersections](https://sumo.dlr.de/docs/Simulation/Intersections.html).
 It does not configure a separate vehicle-class `stopOffset`.
+When saved geometry supports a unique adjustment, this edit avoids netconvert.
+It shortens the approach and extends the first internal paths by the same distance, or reverses that transfer.
+It preserves all other bytes, including junction waiting structures, request matrices, connections, and signal programs.
+It retains elevation coordinates. Logical driving lengths change by equal and opposite amounts.
+Moving back downstream requires a common saved prefix for every outgoing movement.
+Shared internal paths, missing continuations, or divergent prefixes use native conversion with an explore warning.
+Release evidence independently reconstructs the direct edit from its source before accepting the materialization record.
 
 For example, a daily speed edit can use:
 
