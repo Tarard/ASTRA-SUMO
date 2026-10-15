@@ -187,6 +187,7 @@ Do not supply guessed deletions or apply this example to unrelated edge IDs.
 
 ## Sources and limits
 
+- [Speicherstadt garage scope](speicherstadt-parking-scope.md) records a source-bound interior deletion, retained entrances, and the unresolved batch result.
 - Official MAP/XML/KML: [Hamburg public traffic files](https://daten-hamburg.de/tlf_public/).
 - Official aerial images: [Hamburg DOP WMS](https://geodienste.hamburg.de/wms_dop_zeitreihe_belaubt?SERVICE=WMS&REQUEST=GetCapabilities).
 - Am Sandtorkai source OSM: `benchmarks/hamburg_sandtorkai_w1_v1/hamburg_sandtorkai_source_bbox.osm.xml.gz`.

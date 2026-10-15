@@ -148,3 +148,8 @@ Internal lane curves show saved geometry. They are not a complete connection aud
 Hidden or overlapping curves, elevation, bridge separation, lane permissions, conflicts, and signal logic need their own checks.
 Images cannot replace source interpretation, connection checks, protected-state comparisons, or route evidence.
 The existing candidate gates and frozen research protocols retain their requirements.
+
+The [Speicherstadt garage example](../examples/05_hamburg_topology/speicherstadt-parking-scope.md)
+shows an actual interior deletion after source review.
+It records the real facility, retained entrances, exact removed roads, and the unresolved traffic batch.
+An OSM tag alone does not establish a road's current existence. A roof can also hide a real access road.

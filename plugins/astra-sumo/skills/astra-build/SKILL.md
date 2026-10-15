@@ -15,6 +15,8 @@ Use this skill as a compact knowledge base for building and reviewing the physic
 - OSM is useful for broad road structure and context, but complex junctions, signal ownership, channelization, and dated reconstruction may need stronger sources.
 - SUMO load, successful netconvert, or vehicle passage is useful construction evidence, not proof that the physical road model is correct.
 - Keep original source material available when producing edited or reconstructed candidates so differences remain reviewable.
+- For a suspected false road, trace its exact SUMO objects and compare dated imagery with independent access evidence. Verify building use and entrances where a roof obscures the road. OSM tags also need independent verification.
+- When the evidence supports deletion, materialize a reviewed `delete_edge` candidate and check exterior state and affected access. Record parking-interior exclusions as model-scope decisions. Preserve failed traffic checks with the candidate.
 - For review images, use `astra review render <request.json> <new-output-dir> --json` with a hash-bound north-up aerial image, projected bounds, and fixed views. It draws every lane and junction directly from the network. Use `astra review create` for a schematic view when aerial coordinates are unavailable. Use NetEdit for manual edits or an explicit display inspection. Images do not replace connection, signal, or field checks.
 
 ## Reference Library
