@@ -53,6 +53,11 @@ The remaining 9,410 records retain unresolved correspondence.
 These are model-relative development targets. Their manual-edit origin remains unestablished.
 They do not establish a field defect or the precision of an automatic repair.
 
+The published target matches all 1,559 known records in a self-check.
+The unjoined comparison exposes 58 missing joins, 80 missing connections, and two extra connections relative to that model.
+Both comparison reports retain `review_required` because unresolved records remain.
+These outcomes test the comparison path. They do not establish the reference model's field correctness.
+
 The prepared input includes edited and synthetic sources.
 Its repository revision does not date the original OSM snapshot or the field state.
 Both dates remain unknown. No current OSM substitutes for the missing original snapshot.
