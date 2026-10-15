@@ -1,5 +1,7 @@
 # OSM roundabout grouping reproduction
 
+Reported upstream as [SUMO issue #18375](https://github.com/eclipse-sumo/sumo/issues/18375) on 2026-10-15.
+
 This synthetic input isolates unstable roundabout grouping in native Windows netconvert.
 It contains five nodes and two closed, one-way OSM roundabout ways that share one node.
 It contains no downloaded map data. The repository MIT license applies.

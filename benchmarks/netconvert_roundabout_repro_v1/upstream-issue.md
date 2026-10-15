@@ -1,5 +1,8 @@
 # netconvert: identical OSM input produces different roundabout groups across processes on Windows
 
+Submitted as [eclipse-sumo/sumo#18375](https://github.com/eclipse-sumo/sumo/issues/18375) on 2026-10-15.
+The submitted version links the committed fixture and measured summary. This file also includes the complete input.
+
 ## Summary
 
 Repeated native netconvert processes produce different `<roundabout>` membership for identical OSM bytes and arguments.
