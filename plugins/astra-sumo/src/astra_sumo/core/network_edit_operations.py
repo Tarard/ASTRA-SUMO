@@ -714,11 +714,27 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         direct = {"lane_id": params["lane_id"], "end_offset_m": params["end_offset_m"],
                   "expected_lane_attributes": patches, "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
     integrity = driving_integrity(after)
+    def lane_coordinates(root):
+        return {lane.get("id"): (float(lane.get("length", "0")),
+                tuple(tuple(map(float, point.split(","))) for point in lane.get("shape", "").split()))
+                for edge in root.findall("edge") for lane in edge.findall("lane")}
+    old_coordinates, new_coordinates = lane_coordinates(before), lane_coordinates(after)
+    coordinate_changes = {key for key in old_coordinates.keys() | new_coordinates.keys()
+                          if old_coordinates.get(key) != new_coordinates.get(key)}
+    if not geometry.get("coordinate_frame_preserved", False):
+        coordinate_changes.update(old_coordinates.keys() | new_coordinates.keys())
+    if kind == "set_lane_count" and len(old_edges[params["edge_id"]].findall("lane")) != params["num_lanes"]:
+        coordinate_changes.update(lane.get("id") for root in (before, after) for edge in root.findall("edge")
+                                  if edge.get("id") == params["edge_id"] for lane in edge.findall("lane"))
+    dependent = {"status": "not_checked" if coordinate_changes else "not_applicable",
+                 "affected_lane_ids": sorted(coordinate_changes),
+                 "reason": "This network edit does not check the positions of detectors, stops, parking areas, or other lane references."}
     physical = load["status"] == "pass" and integrity["status"] == "pass"
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,
+            "lane_coordinate_artifacts": dependent,
             "warnings": [] if passed else ["Some release checks failed. Inspect the recorded measurements."],
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],
             "direct_permission_edit": direct if kind == "set_lane_permissions" else {},
@@ -816,6 +832,8 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
             netconvert_binary=netconvert_binary, timeout_seconds=240, command_runner=run_command, mode="explore")
         report["construction"] = checked
         warnings.extend(checked["warnings"])
+        if checked["lane_coordinate_artifacts"]["affected_lane_ids"]:
+            warnings.append("Lane coordinates changed. Recheck detectors, stops, parking placements, and other lane-coordinate artifacts before reuse.")
         report["status"] = checked["status"]
         if report["status"] in {"measured", "no_effect"}:
             sumo = _sumo_binary(netconvert_binary)
@@ -823,7 +841,7 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
             # Generate from the source alone so edited endpoints cannot disappear from the requests.
             baseline = run_routeability_audit(net_file=source, output_dir=destination / "source-routes", binaries=binaries)
             report["source_routeability"] = baseline
-            if baseline["status"] != "pass":
+            if baseline.get("attempts") and baseline["status"] != "pass":
                 warnings.append("Source driving checks failed. Candidate differences do not establish a valid improvement.")
             if (baseline.get("route_generation", {}).get("status") == "pass"
                     and Path(baseline.get("trip_file", "")).is_file()):
@@ -833,7 +851,7 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
                 report["candidate_routeability"] = routed
                 if routed.get("route_generation", {}).get("status") != "pass":
                     report["status"] = "blocked"
-                if routed["status"] != "pass":
+                if routed.get("attempts") and routed["status"] != "pass":
                     warnings.append("Candidate driving checks failed. Inspect collisions, teleports, and completion separately from missing routes.")
             else:
                 warnings.append("Source route requests could not be validated. Route preservation was not checked.")

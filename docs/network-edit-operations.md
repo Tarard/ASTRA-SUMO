@@ -93,6 +93,10 @@ It retains elevation coordinates. Logical driving lengths change by equal and op
 Moving back downstream requires a common saved prefix for every outgoing movement.
 Shared internal paths, missing continuations, or divergent prefixes use native conversion with an explore warning.
 Release evidence independently reconstructs the direct edit from its source before accepting the materialization record.
+The construction report lists changed lane coordinates in `lane_coordinate_artifacts`.
+Existing detector, stop, and parking positions require a separate check before reuse.
+These files are not inputs to this network-only edit. Changed lane bindings receive a `not_checked` result for those files.
+A successful network load therefore does not establish that an old simulation configuration still works.
 
 For example, a daily speed edit can use:
 
