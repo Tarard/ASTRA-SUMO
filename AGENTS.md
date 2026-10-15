@@ -13,9 +13,10 @@ ASTRA's public product is organized around three capability groups:
 
 New public capabilities should fit one of these groups unless the product architecture itself is intentionally changed.
 
-## NetEdit Default
+## Review Images and NetEdit
 
-- Use ASTRA's CLI by default to open NetEdit and capture screenshots. Open networks with `astra-netedit`. Capture screenshots with `plugins/astra-sumo/scripts/netedit_background_review.py`, using the repository's `.venv` Python. Do not default to desktop clicking, typing, or menu navigation. If the CLI cannot perform the task, explain the limitation before using another method.
+- Use `astra review render <request.json> <new-output-dir> --json` for review images when a georeferenced aerial image is available. Use fixed bounds and verify the source, candidate, and aerial hashes. Use `astra review create` for schematic reviews without aerial data.
+- Use NetEdit for manual edits or an explicit request to inspect its display or modes. Open networks with `astra-netedit`. For explicitly requested screenshots, use `plugins/astra-sumo/scripts/netedit_background_review.py` with the repository's `.venv` Python. Do not default to desktop input for review images.
 
 ## Start Here
 

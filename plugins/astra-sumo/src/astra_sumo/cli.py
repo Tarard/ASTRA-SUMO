@@ -287,6 +287,10 @@ def _build_parser() -> argparse.ArgumentParser:
 
     review = subparsers.add_parser("review", help="Create review artifacts.")
     review_sub = review.add_subparsers(dest="review_command", required=True)
+    render = review_sub.add_parser("render", help="Draw fixed network views over a georeferenced aerial image.")
+    render.add_argument("request_file")
+    render.add_argument("output_dir")
+    _add_output_argument(render)
     create = review_sub.add_parser("create", help="Create a network review HTML page.")
     create.add_argument("output_dir")
     create.add_argument("--net-file")
@@ -547,6 +551,11 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "review" and args.review_command == "render":
+        from .core.network_aerial_review import render_network_aerial_review
+
+        return _emit(render_network_aerial_review(request_file=args.request_file, output_dir=args.output_dir),
+                     json_output=json_output)
     if args.command == "review" and args.review_command == "create":
         return _emit(
             astra_review_create(

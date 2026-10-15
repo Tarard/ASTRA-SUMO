@@ -59,6 +59,11 @@ or merged geometry is rendered from the source network, added geometry from
 the candidate. The JSON evidence, decision, HTML rendering, overlay, and
 candidate are bound by SHA-256 in the manifests.
 
+[Network review over aerial imagery](network-aerial-review.md) adds a separate
+CLI path for routine visual review. It draws saved lane and junction geometry
+in fixed aerial coordinates, with input and image hashes. It does not invoke
+NetEdit or netconvert and does not replace map-review decisions or candidate gates.
+
 [Local edit applicability](edit-specific-applicability.md) provides technical
 profiles for accepted turnaround removal, contour tightening, and reciprocal
 fragment absorption. These profiles check exact vehicle-class boundary paths

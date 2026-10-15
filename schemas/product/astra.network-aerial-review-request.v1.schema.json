@@ -1,0 +1,221 @@
+{
+  "$defs": {
+    "_Aerial": {
+      "additionalProperties": false,
+      "properties": {
+        "authority": {
+          "minLength": 1,
+          "title": "Authority",
+          "type": "string"
+        },
+        "bbox": {
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bbox",
+          "type": "array"
+        },
+        "capture_date": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Capture Date"
+        },
+        "capture_year": {
+          "anyOf": [
+            {
+              "maximum": 2200,
+              "minimum": 1900,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Capture Year"
+        },
+        "crs": {
+          "title": "Crs",
+          "type": "string"
+        },
+        "license": {
+          "minLength": 1,
+          "title": "License",
+          "type": "string"
+        },
+        "north_up": {
+          "const": true,
+          "title": "North Up",
+          "type": "boolean"
+        },
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        },
+        "source_url": {
+          "minLength": 1,
+          "title": "Source Url",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bbox",
+        "path",
+        "sha256",
+        "crs",
+        "north_up",
+        "capture_date",
+        "authority",
+        "license",
+        "source_url"
+      ],
+      "title": "_Aerial",
+      "type": "object"
+    },
+    "_Artifact": {
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "sha256": {
+          "pattern": "^[0-9a-f]{64}$",
+          "title": "Sha256",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "sha256"
+      ],
+      "title": "_Artifact",
+      "type": "object"
+    },
+    "_View": {
+      "additionalProperties": false,
+      "properties": {
+        "bbox": {
+          "maxItems": 4,
+          "minItems": 4,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Bbox",
+          "type": "array"
+        },
+        "id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_-]{0,63}$",
+          "title": "Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "bbox",
+        "id"
+      ],
+      "title": "_View",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "aerial": {
+      "$ref": "#/$defs/_Aerial"
+    },
+    "candidate_net": {
+      "$ref": "#/$defs/_Artifact"
+    },
+    "schema": {
+      "const": "astra.network-aerial-review-request/v1",
+      "title": "Schema",
+      "type": "string"
+    },
+    "source_net": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/_Artifact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "target_date": {
+      "anyOf": [
+        {
+          "format": "date",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Target Date"
+    },
+    "views": {
+      "items": {
+        "$ref": "#/$defs/_View"
+      },
+      "maxItems": 24,
+      "minItems": 1,
+      "title": "Views",
+      "type": "array"
+    },
+    "width_px": {
+      "default": 1200,
+      "maximum": 4096,
+      "minimum": 128,
+      "title": "Width Px",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "schema",
+    "candidate_net",
+    "aerial",
+    "target_date",
+    "views"
+  ],
+  "title": "_Request",
+  "type": "object"
+}
