@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<osm version="0.6" generator="ASTRA synthetic reproduction">
+  <node id="1" lon="13" lat="52"/>
+  <node id="2" lon="13.001" lat="52"/>
+  <node id="3" lon="13.0005" lat="52.001"/>
+  <node id="4" lon="12.999" lat="52"/>
+  <node id="5" lon="12.9995" lat="51.999"/>
+  <way id="10">
+    <nd ref="1"/><nd ref="2"/><nd ref="3"/><nd ref="1"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="junction" v="roundabout"/>
+    <tag k="oneway" v="yes"/>
+  </way>
+  <way id="20">
+    <nd ref="1"/><nd ref="4"/><nd ref="5"/><nd ref="1"/>
+    <tag k="highway" v="secondary"/>
+    <tag k="junction" v="roundabout"/>
+    <tag k="oneway" v="yes"/>
+  </way>
+</osm>
