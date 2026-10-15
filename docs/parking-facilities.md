@@ -94,3 +94,53 @@ Keep those approaches distinct when interpreting a traffic experiment.
 The [Speicherstadt case](../examples/05_hamburg_topology/speicherstadt-parking-facility.v2.json)
 selects the detailed network and supersedes the earlier interior-exclusion decision.
 That old candidate and its failed traffic checks remain historical evidence.
+
+## Current solution and remaining work
+
+| Need | Current result | Limit |
+|---|---|---|
+| Recognize a parking building and preserve its access | Implemented through source correspondence and facility annotations | Incomplete or ambiguous sources still require review |
+| Replace dense indoor lines in the aerial overview | Implemented through a building outline, P marker, and directed access arrows | This changes the ASTRA review image only |
+| Simplify the native SUMO-GUI view | Not implemented | The saved network still contains every indoor lane and turn |
+| Simulate parking | Not implemented | Facility annotations do not define parking spaces or vehicle stops |
+
+SUMO load and driving checks establish only that the tested driving case still works.
+They do not establish indoor geometry, legal turns, parking capacity, or parking behavior.
+The Speicherstadt comparison completed all 100 original requests in both networks, with zero collisions or teleports.
+Trip records, route records, and per-step summaries matched, apart from runtime duration.
+The implementation checks passed 135 tests without failures or skips.
+These results cover the detailed, annotated network, not the proposed simplified parking model below.
+
+## Proposed native SUMO parking model
+
+For a street-network study, represent the garage with verified access roads and one or more SUMO parking areas.
+Use this as a separate candidate when detailed indoor circulation is outside the study scope.
+Keep the complete detailed network as the comparison model.
+The current command does not create this candidate.
+
+The proposed model has these requirements:
+
+- Retain the verified street entrances, exits, travel directions, and connections to public roads.
+- Place each `parkingArea` on a suitable service lane with explicit position and capacity.
+- Define parking duration through vehicle stops that refer to the parking area.
+- Use observed parking arrivals and departures when available. Keep assumed demand and duration distributions explicit.
+- Map every trip with an indoor origin or destination to its assigned parking access. Record unmapped trips as unresolved.
+- Preserve entrance storage where queues can extend toward the street. Check behavior when the parking area is full.
+- Keep street lanes, signals, crossings, and unrelated movements unchanged.
+
+SUMO's [parking area documentation](https://sumo.dlr.de/docs/Simulation/ParkingArea.html)
+defines the lane placement, capacity, additional-file input, and vehicle stops.
+Unknown capacity or access correspondence prevents acceptance of an operational parking model.
+Do not infer either from the roof image or the number of building floors.
+
+For native display, add a separate building polygon and parking marker to the simulation view.
+Keep an inspectable view of the access lanes and parking queues.
+SUMO supports [polygon and point overlays](https://sumo.dlr.de/docs/Simulation/Shapes.html).
+An overlay alone does not simplify indoor roads or add parking behavior.
+
+Accept the simplified candidate only after checking all entry and exit movements and every original trip assignment.
+Test parking arrival, the requested stop duration, departure, and a full-capacity case.
+Compare street access, completion, travel times, queues, collisions, and teleports with the detailed model under the same demand.
+Record intentional differences caused by parking and retain failed runs.
+Verify the native SUMO-GUI appearance separately from the ASTRA aerial overview.
+Until those checks pass, the simplified parking candidate remains `review_required`.
