@@ -192,3 +192,25 @@ def test_nonoverlapping_network_is_rejected_before_output(tmp_path: Path) -> Non
     with pytest.raises(ValueError, match="contains no lanes"):
         render_network_aerial_review(request_file=path, output_dir=tmp_path / "result")
     assert not (tmp_path / "result").exists()
+
+
+def test_tagged_passage_is_dashed_and_complete_geometry_is_retained(tmp_path: Path) -> None:
+    path, request = _fixture(tmp_path)
+    network = tmp_path / "input.net.xml"
+    tree = ET.parse(network)
+    ET.SubElement(tree.getroot().find("edge"), "param", key="tunnel", value="building_passage")
+    tree.write(network)
+    for role in ("source_net", "candidate_net"):
+        request[role]["sha256"] = file_sha256(network)
+    path.write_text(json.dumps(request), encoding="utf-8")
+    before = file_sha256(network)
+    report = render_network_aerial_review(request_file=path, output_dir=tmp_path / "result")
+    assert file_sha256(network) == before
+    structures = report["frames"]["candidate_net"]["structure_review"]
+    assert structures["lane_structures"]["road_0"] == "building_passage"
+    with Image.open(tmp_path / "result/junction-candidate_net.png") as overview:
+        assert overview.getpixel((20, 124)) != (0, 230, 255)
+    with Image.open(tmp_path / "result/junction-candidate_net-structures.png") as detail:
+        assert detail.getpixel((20, 124)) == (0, 230, 255)
+    assert "<details>" in (tmp_path / "result/review.html").read_text()
+    assert report["views"][0]["files"]["structure_detail_comparison"] in report["artifacts"]

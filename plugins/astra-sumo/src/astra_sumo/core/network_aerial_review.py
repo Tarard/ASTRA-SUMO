@@ -25,6 +25,7 @@ from shapely.ops import transform as transform_geometry
 from .artifact_io import write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
 from .reference_spatial_registration import read_network_coordinate_frame
+from .network_structure_review import review_network_structures
 
 
 class _Model(BaseModel):
@@ -103,6 +104,7 @@ def _network(path: Path, image_crs: CRS) -> tuple[list[dict], dict]:
     root = ET.parse(path).getroot()
     if root.tag != "net":
         raise ValueError("Use a SUMO network file.")
+    structures = review_network_structures(root)
     frame = read_network_coordinate_frame(path)
     if not all(math.isfinite(value) for value in (frame.net_offset_x, frame.net_offset_y)):
         raise ValueError("The network offset must be finite.")
@@ -134,6 +136,7 @@ def _network(path: Path, image_crs: CRS) -> tuple[list[dict], dict]:
                 line = Point(line.coords[0])
             default_widths += "width" not in lane.attrib
             objects.append({"id": key[1], "kind": category,
+                            "structure": structures["lane_structures"].get(key[1], "unspecified"),
                             "line": projected(line),
                             "surface": projected(line.buffer(width / 2) if line.geom_type == "Point" else
                                                  line.buffer(width / 2, cap_style=2, join_style=2))})
@@ -154,7 +157,8 @@ def _network(path: Path, image_crs: CRS) -> tuple[list[dict], dict]:
         if not polygon.is_valid or polygon.area == 0:
             invalid_surfaces.append(key[1])
             polygon = polygon.boundary
-        objects.append({"id": key[1], "kind": "junction", "surface": projected(polygon)})
+        objects.append({"id": key[1], "kind": "junction", "surface": projected(polygon),
+                        "structure": structures["junction_structures"].get(key[1], "unspecified")})
     if not objects:
         raise ValueError("The network contains no drawable geometry.")
     objects.sort(key=lambda row: (row["kind"], row["id"]))
@@ -163,6 +167,7 @@ def _network(path: Path, image_crs: CRS) -> tuple[list[dict], dict]:
                      "lanes_without_explicit_width": default_widths,
                      "invalid_junction_surfaces_drawn_as_outlines": sorted(invalid_surfaces),
                      "zero_geometric_length_lanes_drawn_as_points": sorted(zero_length_lanes),
+                     "structure_review": structures,
                      "junctions_without_surface": sorted(absent_surfaces)}
 
 
@@ -181,7 +186,8 @@ def _parts(geometry):
             yield from _parts(part)
 
 
-def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: str) -> tuple[Image.Image, dict]:
+def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: str,
+          *, structure_detail: bool = False) -> tuple[Image.Image, dict]:
     width, height = background.size
     extent = box(*bounds)
     image = background.copy().convert("RGB")
@@ -198,6 +204,8 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
         if clipped.is_empty:
             continue
         visible["junctions" if row["kind"] == "junction" else "lanes"].append(row["id"])
+        if row.get("structure", "unspecified") != "unspecified" and not structure_detail:
+            continue
         color = _COLORS[row["kind"]]
         for part in _parts(clipped):
             if part.geom_type == "Polygon":
@@ -219,14 +227,25 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
         if "line" not in row:
             continue
         color = _COLORS[row["kind"]]
+        tagged = row.get("structure", "unspecified") != "unspecified"
+        if tagged and not structure_detail and row["kind"] == "internal":
+            continue
         for part in _parts(row["line"].intersection(extent)):
             if part.geom_type == "Point":
                 x, y = pixels(part.coords)[0]
-                draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(*color, 255))
+                draw.ellipse((x - 2, y - 2, x + 2, y + 2), fill=(100, 100, 100, 230) if tagged and not structure_detail else (*color, 255))
                 continue
             if part.geom_type != "LineString":
                 continue
             points = pixels(part.coords)
+            if tagged and not structure_detail:
+                # Equal map-distance dashes remain stable when a polyline has extra vertices.
+                spacing = max((bounds[2] - bounds[0]) / width * 10, 0.01)
+                for index in range(math.ceil(part.length / spacing)):
+                    segment = shapely.ops.substring(part, index * spacing, min((index + 0.6) * spacing, part.length))
+                    if segment.geom_type == "LineString":
+                        draw.line(pixels(segment.coords), fill=(100, 100, 100, 230), width=2)
+                continue
             draw.line(points, fill=(*color, 255), width=2)
             if part.length > 5:
                 center = part.interpolate(0.55, normalized=True)
@@ -236,12 +255,15 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
                 draw.line([(a[0] - 5 * math.cos(angle - 0.5), a[1] - 5 * math.sin(angle - 0.5)), a,
                            (a[0] - 5 * math.cos(angle + 0.5), a[1] - 5 * math.sin(angle + 0.5))],
                           fill=(*color, 255), width=2)
-    panel = Image.new("RGB", (width, height + 54), "white")
+    panel = Image.new("RGB", (width, height + 70), "white")
     panel.paste(image, (0, 24))
     labels = ImageDraw.Draw(panel)
     font = ImageFont.load_default()
     labels.text((6, 5), title + " | N up | visual review only", fill="black", font=font)
     labels.text((6, height + 29), "Cyan: lanes | Pink: internal lanes | Orange: junctions | Yellow/green: walk",
+                fill="black", font=font)
+    labels.text((6, height + 45), "Full structure detail: saved geometry, field review required" if structure_detail else
+                "Gray dashes: tagged structures / transitions. Full geometry is in the structure detail view.",
                 fill="black", font=font)
     return panel, {key: sorted(value) for key, value in visible.items()}
 
@@ -300,7 +322,7 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
                 (x1 - full_bounds[0]) / (full_bounds[2] - full_bounds[0]) * w,
                 (full_bounds[3] - y0) / (full_bounds[3] - full_bounds[1]) * h)
         background = aerial.transform(size, Image.Transform.EXTENT, crop, resample=Image.Resampling.BICUBIC)
-        panels, coverage = [], {}
+        panels, detail_panels, coverage = [], [], {}
         files = {"aerial": f"{view.id}-aerial.png"}
         background.save(destination / files["aerial"], format="PNG")
         for role, (objects, frame) in networks.items():
@@ -311,12 +333,20 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
             files[role] = f"{view.id}-{role}.png"
             panel.save(destination / files[role], format="PNG")
             panels.append(panel)
+            detail, _ = _draw(background, objects, view.bbox, title, structure_detail=True)
+            files[f"{role}_structure_detail"] = f"{view.id}-{role}-structures.png"
+            detail.save(destination / files[f"{role}_structure_detail"], format="PNG")
+            detail_panels.append(detail)
             coverage[role] = visible
         comparison = Image.new("RGB", (sum(panel.width for panel in panels), panels[0].height), "white")
         for index, panel in enumerate(panels):
             comparison.paste(panel, (index * panel.width, 0))
         files["comparison"] = f"{view.id}-comparison.png"
         comparison.save(destination / files["comparison"], format="PNG")
+        for index, panel in enumerate(detail_panels):
+            comparison.paste(panel, (index * panel.width, 0))
+        files["structure_detail_comparison"] = f"{view.id}-structures-comparison.png"
+        comparison.save(destination / files["structure_detail_comparison"], format="PNG")
         for name in files.values():
             artifacts[name] = {"sha256": file_sha256(destination / name)}
         views.append({"id": view.id, "bbox": view.bbox, "map_size_px": size,
@@ -325,13 +355,25 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
     unchanged = all(file_sha256(Path(item["path"])) == item["sha256"] for item in inputs.values())
     if not unchanged:
         raise ValueError("An input changed during rendering. Discard this review directory.")
+    turn_reviews = "".join(
+        f"<h2>{escape(role.replace('_', ' '))}: structure turnarounds requiring review</h2>"
+        "<p>Road annotations do not establish turning permission or available space.</p>"
+        "<table><tr><th>Junction</th><th>From</th><th>To</th><th>Structure</th></tr>" +
+        "".join(f"<tr><td>{escape(str(turn['junction_id']))}</td><td>{escape(turn['from'])}</td>"
+                f"<td>{escape(turn['to'])}</td><td>{escape(turn['structure'])}</td></tr>"
+                for turn in frame["structure_review"]["turnarounds_requiring_review"]) + "</table>"
+        for role, (_objects, frame) in networks.items()
+    )
     html = ("<!doctype html><meta charset='utf-8'><title>Network aerial review</title>"
             "<h1>Network aerial review</h1><p>Visual review only. Field accuracy and temporal alignment require review.</p>"
             f"<p>{escape(request.aerial.authority)} | {escape(request.aerial.license)} | "
             f"Capture: {escape(str(request.aerial.capture_date or request.aerial.capture_year or 'unknown'))}</p>" +
             "".join(f"<h2>{escape(view['id'])}</h2><a href='{view['files']['aerial']}'>Aerial without overlays</a>"
                     f"<p><img style='max-width:100%' alt='{escape(view['id'])} source and candidate' "
-                    f"src='{view['files']['comparison']}'></p>" for view in views))
+                    f"src='{view['files']['comparison']}'></p>"
+                    f"<details><summary>Tagged structures: full geometry and turn curves</summary>"
+                    f"<img style='max-width:100%' alt='Complete structure geometry' "
+                    f"src='{view['files']['structure_detail_comparison']}'></details>" for view in views) + turn_reviews)
     write_text_atomic(destination / "review.html", html)
     artifacts["review.html"] = {"sha256": file_sha256(destination / "review.html")}
     report = {"schema": "astra.network-aerial-review/v1", "status": "review_required",
@@ -343,8 +385,9 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
                   "same_day" if request.target_date == request.aerial.capture_date else "different_dates",
               "frames": {role: frame for role, (_objects, frame) in networks.items()},
               "views": views, "artifacts": artifacts,
-              "renderer": {"policy": "astra.network-aerial-render/v1", "python": platform.python_version(),
+              "renderer": {"policy": "astra.network-aerial-render/v2", "python": platform.python_version(),
                            "implementation_sha256": file_sha256(Path(__file__)),
+                           "structure_review_sha256": file_sha256(Path(__file__).with_name("network_structure_review.py")),
                            "pillow": PIL.__version__, "pyproj": pyproj.__version__,
                            "proj": pyproj.proj_version_str, "shapely": shapely.__version__},
               "claim_boundary": "Lane ribbons use declared widths or the 3.2 m SUMO default. Internal lanes show geometry, "
