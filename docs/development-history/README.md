@@ -4,6 +4,7 @@ This index contains dated audits, handoff notes, development logs, and supersede
 
 ## Dated Records
 
+- [Hamburg calibration follow-up, 2026-10-16](../../benchmarks/network_calibration_followup_20261016_v1/README.md)
 - [Native roundabout reproducibility report, 2026-10-15](../../benchmarks/netconvert_roundabout_repro_v1/README.md)
 - [Architecture audit, 2026-07-13](../architecture-audit-2026-07-13.md)
 - [Research-plan handoff, 2026-07-14](../research-plan-handoff-2026-07-14.md)
