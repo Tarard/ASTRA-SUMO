@@ -9,6 +9,7 @@ from xml.etree import ElementTree as ET
 
 from .artifact_io import write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
+from .traffic_effect_review import rank_traffic_effects
 
 
 _TURN_RANK = {"r": 0, "s": 1, "l": 2}
@@ -925,7 +926,7 @@ def audit_network_connection_mode(
         if status_counts["review_required"] or tls_audit["status"] == "review_required"
         else "pass"
     )
-    return {
+    report = {
         "schema": "torii.network_connection_mode_audit.v1",
         "status": status,
         "claim_status": "verified" if status == "pass" else "diagnostic-demo",
@@ -981,6 +982,8 @@ def audit_network_connection_mode(
             "map imagery or lane-tag evidence remains required before repairing review findings"
         ],
     }
+    report["traffic_effect_review"] = rank_traffic_effects(report)
+    return report
 
 
 def audit_standard_connection_mode(

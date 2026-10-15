@@ -232,6 +232,12 @@ def _build_parser() -> argparse.ArgumentParser:
     calibration.add_argument("output_file")
     calibration.add_argument("--parent-net-file")
     _add_output_argument(calibration)
+    effect_review = network_sub.add_parser("review-effects", help="Order traffic findings by model effect and evidence.")
+    effect_review.add_argument("net_file")
+    effect_review.add_argument("output_dir")
+    effect_review.add_argument("--parent-net-file")
+    effect_review.add_argument("--vehicle-class", default="passenger")
+    _add_output_argument(effect_review)
     routeability = network_sub.add_parser(
         "routeability",
         help="Run the long completion-aware SUMO routeability audit outside MCP.",
@@ -467,6 +473,11 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "network" and args.network_command == "review-effects":
+        from .core.traffic_effect_review import build_network_traffic_effect_review
+
+        return _emit(build_network_traffic_effect_review(net_file=args.net_file, output_dir=args.output_dir,
+            parent_net_file=args.parent_net_file, vehicle_class=args.vehicle_class), json_output=json_output)
     if args.command == "network" and args.network_command == "calibrate":
         from .core.network_calibration import evaluate_network_calibration
 
