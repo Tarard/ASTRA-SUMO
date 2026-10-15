@@ -150,6 +150,7 @@ Images cannot replace source interpretation, connection checks, protected-state 
 The existing candidate gates and frozen research protocols retain their requirements.
 
 The [Speicherstadt garage example](../examples/05_hamburg_topology/speicherstadt-parking-scope.md)
-shows an actual interior deletion after source review.
-It records the real facility, retained entrances, exact removed roads, and the unresolved traffic batch.
+retains the history of the superseded interior deletion and its unresolved traffic batch.
+The current [parking facility representation](parking-facilities.md) keeps every driving path
+and draws a building outline, P marker, and entry/exit arrows in the overview.
 An OSM tag alone does not establish a road's current existence. A roof can also hide a real access road.

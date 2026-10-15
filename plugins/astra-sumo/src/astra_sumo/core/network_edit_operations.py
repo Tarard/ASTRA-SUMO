@@ -161,7 +161,7 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
             if any(_is_structurally_protected_edge(edge) or any(
                     p.get("key") in {"bridge", "tunnel", "railway"} and p.get("value", "").lower() not in {"", "no", "false", "0"}
                     for p in edge.findall("param")) for edge in internal):
-                raise ValueError("Absorbed rail, bridge, or tunnel roads require a separate protected operation.")
+                raise ValueError("Protected roads, including parking access, require a separate protected operation.")
             if kind == "absorb_reciprocal_fragment":
                 if ({(e.get("from"), e.get("to")) for e in internal}
                         != {(a, b) for a in members for b in members if a != b}

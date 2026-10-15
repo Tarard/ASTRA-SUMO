@@ -16,6 +16,7 @@ New public capabilities should fit one of these groups unless the product archit
 ## Review Images and NetEdit
 
 - Use `astra review render <request.json> <new-output-dir> --json` for review images when a georeferenced aerial image is available. Use fixed bounds and verify the source, candidate, and aerial hashes. Use `astra review create` for schematic reviews without aerial data.
+- When a full OSM snapshot identifies a parking building, use `astra network parking-facilities` to retain its access network and supply its report to the aerial review. Keep detailed driving paths unless a separate reviewed parking operation changes them.
 - Use NetEdit for manual edits or an explicit request to inspect its display or modes. Open networks with `astra-netedit`. For explicitly requested screenshots, use `plugins/astra-sumo/scripts/netedit_background_review.py` with the repository's `.venv` Python. Do not default to desktop input for review images.
 
 ## Start Here

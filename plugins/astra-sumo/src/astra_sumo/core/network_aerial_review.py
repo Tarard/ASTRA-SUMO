@@ -6,6 +6,7 @@ from datetime import date
 import hashlib
 from html import escape
 import io
+import json
 import math
 from pathlib import Path
 import platform
@@ -19,7 +20,7 @@ import pyproj
 from pyproj import CRS, Transformer
 import shapely
 from shapely.affinity import translate
-from shapely.geometry import LineString, Point, Polygon, box
+from shapely.geometry import LineString, Point, Polygon, box, shape as geometry_shape
 from shapely.ops import transform as transform_geometry
 
 from .artifact_io import write_json_atomic, write_text_atomic
@@ -71,6 +72,7 @@ class _Request(_Model):
     schema_id: Literal["astra.network-aerial-review-request/v1"] = Field(alias="schema")
     candidate_net: _Artifact
     source_net: _Artifact | None = None
+    parking_facilities: _Artifact | None = None
     aerial: _Aerial
     target_date: date | None
     views: list[_View] = Field(min_length=1, max_length=24)
@@ -187,16 +189,26 @@ def _parts(geometry):
 
 
 def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: str,
-          *, structure_detail: bool = False) -> tuple[Image.Image, dict]:
+          *, structure_detail: bool = False, facilities: list[dict] | None = None) -> tuple[Image.Image, dict]:
     width, height = background.size
     extent = box(*bounds)
     image = background.copy().convert("RGB")
     draw = ImageDraw.Draw(image, "RGBA")
     visible = {"lanes": [], "junctions": []}
+    hide = {("junction" if name == "interior_junction_ids" else "lane", key)
+            for facility in facilities or [] if facility["connection_trace_complete"] for name in (
+                "interior_lane_ids", "internal_lane_ids", "interior_junction_ids") for key in facility[name]}
 
     def pixels(points):
         return [((x - bounds[0]) / (bounds[2] - bounds[0]) * width - 0.5,
                  (bounds[3] - y) / (bounds[3] - bounds[1]) * height - 0.5) for x, y in points]
+
+    if not structure_detail:
+        for facility in facilities or []:
+            for polygon in _parts(facility["polygon"].intersection(extent)):
+                if polygon.geom_type == "Polygon":
+                    for ring in [polygon.exterior, *polygon.interiors]:
+                        draw.line(pixels(ring.coords), fill=(75, 105, 220, 220), width=3)
 
     # Render surfaces first. Draw every lane centerline above the surfaces.
     for row in sorted(objects, key=lambda row: (row["kind"] != "junction", row["kind"], row["id"])):
@@ -204,6 +216,8 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
         if clipped.is_empty:
             continue
         visible["junctions" if row["kind"] == "junction" else "lanes"].append(row["id"])
+        if ("junction" if row["kind"] == "junction" else "lane", row["id"]) in hide and not structure_detail:
+            continue
         if row.get("structure", "unspecified") != "unspecified" and not structure_detail:
             continue
         color = _COLORS[row["kind"]]
@@ -225,6 +239,8 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
                 draw.line(pixels(part.coords), fill=(*color, 255), width=2)
     for row in objects:
         if "line" not in row:
+            continue
+        if ("lane", row["id"]) in hide and not structure_detail:
             continue
         color = _COLORS[row["kind"]]
         tagged = row.get("structure", "unspecified") != "unspecified"
@@ -255,13 +271,39 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
                 draw.line([(a[0] - 5 * math.cos(angle - 0.5), a[1] - 5 * math.sin(angle - 0.5)), a,
                            (a[0] - 5 * math.cos(angle + 0.5), a[1] - 5 * math.sin(angle + 0.5))],
                           fill=(*color, 255), width=2)
-    panel = Image.new("RGB", (width, height + 70), "white")
+    if not structure_detail:
+        for facility in facilities or []:
+            clipped = facility["polygon"].intersection(extent)
+            if clipped.is_empty:
+                continue
+            center = clipped.representative_point()
+            x, y = pixels([(center.x, center.y)])[0]
+            draw.rounded_rectangle((x - 16, y - 16, x + 16, y + 16), radius=5,
+                                   fill=(35, 80, 185, 255), outline="white", width=2)
+            draw.line([(x - 6, y + 10), (x - 6, y - 10), (x + 1, y - 10)], fill="white", width=3)
+            draw.arc((x - 6, y - 10, x + 9, y + 4), 270, 90, fill="white", width=3)
+            draw.line([(x - 6, y + 4), (x + 1, y + 4)], fill="white", width=3)
+            for portal in facility["projected_portals"]:
+                if not extent.covers(Point(portal["point"])):
+                    continue
+                px, py = pixels([portal["point"]])[0]
+                a, b = pixels(portal["direction"])
+                angle = math.atan2(b[1] - a[1], b[0] - a[0])
+                triangle = [(px + 10 * math.cos(angle), py + 10 * math.sin(angle)),
+                            (px + 8 * math.cos(angle + 2.5), py + 8 * math.sin(angle + 2.5)),
+                            (px + 8 * math.cos(angle - 2.5), py + 8 * math.sin(angle - 2.5))]
+                draw.polygon(triangle, fill=(20, 190, 90, 255) if portal["role"] == "entry" else (255, 150, 20, 255),
+                             outline="white", width=1)
+    panel = Image.new("RGB", (width, height + 86), "white")
     panel.paste(image, (0, 24))
     labels = ImageDraw.Draw(panel)
     font = ImageFont.load_default()
     labels.text((6, 5), title + " | N up | visual review only", fill="black", font=font)
     labels.text((6, height + 29), "Cyan: lanes | Pink: internal lanes | Orange: junctions | Yellow/green: walk",
                 fill="black", font=font)
+    if facilities:
+        labels.text((6, height + 61), "Blue P: parking | Green arrow: entry | Orange arrow: exit | All roads retained",
+                    fill="black", font=font)
     labels.text((6, height + 45), "Full structure detail: saved geometry, field review required" if structure_detail else
                 "Gray dashes: tagged structures / transitions. Full geometry is in the structure detail view.",
                 fill="black", font=font)
@@ -279,7 +321,7 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
     inputs = {"request": {"path": str(request_path), "sha256": hashlib.sha256(request_bytes).hexdigest()}}
     if pyproj.network.is_network_enabled():
         raise ValueError("Disable PROJ network access before rendering frozen inputs.")
-    for role in ("candidate_net", "source_net", "aerial"):
+    for role in ("candidate_net", "source_net", "aerial", "parking_facilities"):
         artifact = getattr(request, role)
         if artifact is None:
             continue
@@ -302,6 +344,35 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
         aerial.info.clear()
     networks = {role: _network(Path(inputs[role]["path"]), crs)
                 for role in ("source_net", "candidate_net") if role in inputs}
+    facilities = []
+    if "parking_facilities" in inputs:
+        parking = json.loads(Path(inputs["parking_facilities"]["path"]).read_bytes())
+        if parking.get("schema") != "astra.parking-facilities/v1":
+            raise ValueError("Use a parking facility report.")
+        identities = {parking[role]["sha256"] for role in ("source", "network")}
+        if any(inputs[role]["sha256"] not in identities for role in networks):
+            raise ValueError("The parking facility report belongs to another network.")
+        transform = Transformer.from_crs(4326, crs, always_xy=True, allow_ballpark=False)
+        def project(x, y, z=None):
+            return transform.transform(x, y, errcheck=True)
+
+        for facility in parking["facilities"]:
+            polygon = transform_geometry(project, geometry_shape(facility["footprint_lon_lat"]))
+            if polygon.geom_type != "Polygon" or not polygon.is_valid or polygon.is_empty or not all(math.isfinite(v) for v in polygon.bounds):
+                raise ValueError("The parking footprint is invalid.")
+            portals = [{**p, "point": project(*p["point_lon_lat"]),
+                        "direction": [project(*point) for point in p["direction_lon_lat"]]} for p in facility["portals"]]
+            if any(p["role"] not in {"entry", "exit"} or not all(math.isfinite(v) for point in
+                [p["point"], *p["direction"]] for v in point) for p in portals):
+                raise ValueError("Parking portal directions must be finite and have a known role.")
+            facilities.append({**facility, "polygon": polygon, "projected_portals": portals})
+        for _objects, frame in networks.values():
+            for turn in frame["structure_review"]["turnarounds_requiring_review"]:
+                match = next((facility for facility in facilities if turn["from"] in facility["interior_edge_ids"]
+                              and turn["to"] in facility["interior_edge_ids"]), None)
+                if match:
+                    turn.update(parking_facility_id=match["id"], review_context="parking_interior_geometry",
+                                automatic_street_repair_candidate=False)
     if any(row["kind"] not in _COLORS for objects, _frame in networks.values() for row in objects):
         raise ValueError("The network contains an unsupported edge function.")
     dimensions = [(request.width_px, round(request.width_px * (view.bbox[3] - view.bbox[1]) /
@@ -327,13 +398,13 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
         background.save(destination / files["aerial"], format="PNG")
         for role, (objects, frame) in networks.items():
             title = "Source network" if role == "source_net" else "Candidate network"
-            panel, visible = _draw(background, objects, view.bbox, title)
+            panel, visible = _draw(background, objects, view.bbox, title, facilities=facilities)
             if not visible["lanes"]:
                 raise ValueError(f"The view {view.id} contains no lanes from {role}.")
             files[role] = f"{view.id}-{role}.png"
             panel.save(destination / files[role], format="PNG")
             panels.append(panel)
-            detail, _ = _draw(background, objects, view.bbox, title, structure_detail=True)
+            detail, _ = _draw(background, objects, view.bbox, title, structure_detail=True, facilities=facilities)
             files[f"{role}_structure_detail"] = f"{view.id}-{role}-structures.png"
             detail.save(destination / files[f"{role}_structure_detail"], format="PNG")
             detail_panels.append(detail)
@@ -364,6 +435,12 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
                 for turn in frame["structure_review"]["turnarounds_requiring_review"]) + "</table>"
         for role, (_objects, frame) in networks.items()
     )
+    parking_html = ("<h2>Parking facilities</h2><ul>" + "".join(
+        f"<li>{escape(facility['name'])}: "
+        f"{sum(portal['role'] == 'entry' for portal in facility['portals'])} entries, "
+        f"{sum(portal['role'] == 'exit' for portal in facility['portals'])} exits. "
+        "Detailed driving paths are retained. Parking operations remain unconfigured.</li>"
+        for facility in facilities) + "</ul>") if facilities else ""
     html = ("<!doctype html><meta charset='utf-8'><title>Network aerial review</title>"
             "<h1>Network aerial review</h1><p>Visual review only. Field accuracy and temporal alignment require review.</p>"
             f"<p>{escape(request.aerial.authority)} | {escape(request.aerial.license)} | "
@@ -373,7 +450,7 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
                     f"src='{view['files']['comparison']}'></p>"
                     f"<details><summary>Tagged structures: full geometry and turn curves</summary>"
                     f"<img style='max-width:100%' alt='Complete structure geometry' "
-                    f"src='{view['files']['structure_detail_comparison']}'></details>" for view in views) + turn_reviews)
+                    f"src='{view['files']['structure_detail_comparison']}'></details>" for view in views) + parking_html + turn_reviews)
     write_text_atomic(destination / "review.html", html)
     artifacts["review.html"] = {"sha256": file_sha256(destination / "review.html")}
     report = {"schema": "astra.network-aerial-review/v1", "status": "review_required",
@@ -385,7 +462,8 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
                   "same_day" if request.target_date == request.aerial.capture_date else "different_dates",
               "frames": {role: frame for role, (_objects, frame) in networks.items()},
               "views": views, "artifacts": artifacts,
-              "renderer": {"policy": "astra.network-aerial-render/v2", "python": platform.python_version(),
+              "parking_facility_ids": [facility["id"] for facility in facilities],
+              "renderer": {"policy": "astra.network-aerial-render/v3", "python": platform.python_version(),
                            "implementation_sha256": file_sha256(Path(__file__)),
                            "structure_review_sha256": file_sha256(Path(__file__).with_name("network_structure_review.py")),
                            "pillow": PIL.__version__, "pyproj": pyproj.__version__,

@@ -16,7 +16,8 @@ Use this skill as a compact knowledge base for building and reviewing the physic
 - SUMO load, successful netconvert, or vehicle passage is useful construction evidence, not proof that the physical road model is correct.
 - Keep original source material available when producing edited or reconstructed candidates so differences remain reviewable.
 - For a suspected false road, trace its exact SUMO objects and compare dated imagery with independent access evidence. Verify building use and entrances where a roof obscures the road. OSM tags also need independent verification.
-- When the evidence supports deletion, materialize a reviewed `delete_edge` candidate and check exterior state and affected access. Record parking-interior exclusions as model-scope decisions. Preserve failed traffic checks with the candidate.
+- For parking buildings or underground parking, use `astra network parking-facilities` with the detailed network, full OSM snapshot, and exact input hashes. Retain access and internal demand endpoints. Give its report to `astra review render` for a building outline, P marker, and entry/exit arrows. Inspect the detail image when needed. Capacity, dwell times, and parking queues need their own inputs.
+- When the evidence supports deletion, materialize a reviewed candidate and check exterior state and affected access. Generic deletion protects parking facilities, covered passages, and their access roads. Preserve failed traffic checks with the candidate.
 - For review images, use `astra review render <request.json> <new-output-dir> --json` with a hash-bound north-up aerial image, projected bounds, and fixed views. It draws every lane and junction directly from the network. Use `astra review create` for a schematic view when aerial coordinates are unavailable. Use NetEdit for manual edits or an explicit display inspection. Images do not replace connection, signal, or field checks.
 
 ## Reference Library

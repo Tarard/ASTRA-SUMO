@@ -64,6 +64,12 @@ CLI path for routine visual review. It draws saved lane and junction geometry
 in fixed aerial coordinates, with input and image hashes. It does not invoke
 NetEdit or netconvert and does not replace map-review decisions or candidate gates.
 
+[Parking facilities](parking-facilities.md) uses OSM building footprints and exact
+road correspondence to preserve parking access as a facility. It adds metadata
+without changing the driving network. Aerial overviews show facility boundaries
+and portals while detail views retain full geometry. Parking operations and
+capacity validation remain separate inputs.
+
 [Local edit applicability](edit-specific-applicability.md) provides technical
 profiles for accepted turnaround removal, contour tightening, and reciprocal
 fragment absorption. These profiles check exact vehicle-class boundary paths

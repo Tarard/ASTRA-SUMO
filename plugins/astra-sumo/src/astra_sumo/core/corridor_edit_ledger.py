@@ -175,6 +175,8 @@ def propose_corridor_edits(
         for candidate in micro_nodes:
             node_id = str(candidate["node_id"])
             incident_ids = [str(edge_id) for edge_id in candidate["incident_edge_ids"]]
+            if any(_is_structurally_protected_edge(edges[edge_id]) for edge_id in incident_ids if edge_id in edges):
+                continue
             location = _junction_location(junctions.get(node_id))
             proof_evidence = {
                 "kind": "corridor_simplification_proof",
@@ -2748,10 +2750,18 @@ def _is_protected_edge(edge: ET.Element, root: ET.Element) -> bool:
 
 
 def _is_structurally_protected_edge(edge: ET.Element) -> bool:
+    metadata = {param.get("key"): param.get("value", "") for param in edge.findall("param")}
+    tags = {**metadata, **edge.attrib}
     return (
         edge.attrib.get("function", "") in _PROTECTED_FUNCTIONS
         or _is_rail_edge(edge)
-        or any(edge.attrib.get(field) in {"true", "yes"} for field in _PROTECTED_EDGE_ATTRS)
+        or any(value.lower() not in {"", "false", "no", "0"} for field in _PROTECTED_EDGE_ATTRS
+               for value in (edge.get(field, ""), metadata.get(field, "")))
+        or tags.get("service") == "parking_aisle"
+        or tags.get("amenity") in {"parking", "parking_entrance"}
+        or bool(tags.get("astra.parking.facility"))
+        or any(param.get("key") == "astra.parking.facility" and param.get("value")
+               for lane in edge.findall("lane") for param in lane.findall("param"))
     )
 
 

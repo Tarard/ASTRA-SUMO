@@ -56,7 +56,7 @@ def review_network_structures(root: ET.Element) -> dict:
         if lane_id:
             continuations[lane_id].append(connection)
     internal_states = defaultdict(set)
-    untraced, turnarounds = [], []
+    untraced, turnarounds, connection_chains = [], [], []
     for connection in connections:
         source, target = connection.get("from"), connection.get("to")
         if source not in ordinary or target not in ordinary:
@@ -68,20 +68,24 @@ def review_network_structures(root: ET.Element) -> dict:
         if source_lane is None or target_lane is None:
             untraced.append({**movement, "reason": "missing_endpoint_lane"})
             continue
-        via, visited = connection.get("via"), set()
+        via, visited, chain, complete = connection.get("via"), set(), [], True
         while via:
             if via in visited or via not in lane_edges or lane_edges[via] in ordinary:
                 untraced.append({**movement, "unresolved_via_lane": via, "reason": "missing_or_cyclic_internal_lane"})
+                complete = False
                 break
             visited.add(via)
+            chain.append(via)
             internal_states[via].add(state)
             options = [c for c in continuations[via]
                        if c.get("to") == target and c.get("toLane") == connection.get("toLane")]
             if len(options) != 1:
                 untraced.append({**movement, "unresolved_via_lane": via,
                                  "reason": "missing_or_ambiguous_internal_continuation"})
+                complete = False
                 break
             via = options[0].get("via")
+        connection_chains.append({**movement, "via_lane_ids": chain, "complete": complete})
         if state != "unspecified" and connection.get("dir") in {"t", "T"}:
             turnarounds.append({**movement, "junction_id": ordinary[source].get("to"),
                                "structure": state, "status": "review_required",
@@ -103,6 +107,7 @@ def review_network_structures(root: ET.Element) -> dict:
         "lane_index_mismatches": sorted(index_mismatches, key=lambda row: row["lane_id"]),
         "lane_structures": dict(sorted(lane_states.items())),
         "junction_structures": dict(sorted(junction_states.items())),
+        "connection_chains": sorted(connection_chains, key=lambda c: (c["from"], c["to"], c["fromLane"], c["toLane"])),
         "turnarounds_requiring_review": sorted(turnarounds, key=lambda c: (c["from"], c["to"], c["fromLane"], c["toLane"])),
         "untraced_connections": sorted(untraced, key=lambda c: (c["from"], c["to"], c["fromLane"], c["toLane"])),
         "claim_boundary": "Structures follow saved annotations and explicit via-lane chains. Unspecified does not prove ground level. "

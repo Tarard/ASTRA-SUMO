@@ -164,6 +164,17 @@
     "candidate_net": {
       "$ref": "#/$defs/_Artifact"
     },
+    "parking_facilities": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/_Artifact"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
     "schema": {
       "const": "astra.network-aerial-review-request/v1",
       "title": "Schema",

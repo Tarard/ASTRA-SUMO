@@ -1,5 +1,10 @@
 # Speicherstadt garage interior: surface model scope
 
+**Superseded on 2026-10-15.** The user withdrew this exclusion and chose a parking facility representation with all driving paths retained.
+Use the [current case](speicherstadt-parking-facility.v2.json) and [parking facility guide](../../docs/parking-facilities.md).
+The old ledger and generated deletion candidate remain historical evidence.
+Current deletion protection rejects these covered parking targets. The reproduction below describes the earlier run.
+
 ## Source decision
 
 The reviewed location is Parkhaus Speicherstadt at Am Sandtorkai 6.

@@ -254,6 +254,13 @@ def _build_parser() -> argparse.ArgumentParser:
     reference_check.add_argument("request_file")
     reference_check.add_argument("output_file")
     _add_output_argument(reference_check)
+    parking = network_sub.add_parser("parking-facilities", help="Recognize parking buildings and preserve their detailed roads.")
+    parking.add_argument("net_file")
+    parking.add_argument("osm_file")
+    parking.add_argument("output_dir")
+    parking.add_argument("--expected-net-sha256", required=True)
+    parking.add_argument("--expected-osm-sha256", required=True)
+    _add_output_argument(parking)
     routeability = network_sub.add_parser(
         "routeability",
         help="Run the long completion-aware SUMO routeability audit outside MCP.",
@@ -503,6 +510,12 @@ def _dispatch(args: argparse.Namespace) -> int:
 
         return _emit(compare_public_reference(dataset_file=args.dataset_file, request_file=args.request_file,
             output_file=args.output_file), json_output=json_output)
+    if args.command == "network" and args.network_command == "parking-facilities":
+        from .core.parking_facilities import build_parking_facility_model
+
+        return _emit(build_parking_facility_model(net_file=args.net_file, osm_file=args.osm_file,
+            output_dir=args.output_dir, expected_net_sha256=args.expected_net_sha256,
+            expected_osm_sha256=args.expected_osm_sha256), json_output=json_output)
     if args.command == "network" and args.network_command == "verify-edit":
         from .core.network_edit_applicability import verify_network_edit
 
