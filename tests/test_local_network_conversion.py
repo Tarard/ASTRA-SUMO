@@ -156,7 +156,8 @@ def test_native_opposite_lane_references_survive_width_and_right_lane_insertion(
     assert root.find("edge/lane[@id='reverse_0']/neigh").get("lane") == f"middle_{index}"
 
 
-def test_legacy_lane_count_patches_keep_inherited_lane_and_connection_permissions(tmp_path):
+@pytest.mark.parametrize("alter_permissions", [False, True])
+def test_legacy_lane_count_checks_inherited_lane_and_connection_permissions(tmp_path, alter_permissions):
     if not shutil.which("netconvert") or not shutil.which("sumo"):
         pytest.skip("SUMO required")
     from astra_sumo.core.osm_access import _permission_set
@@ -175,9 +176,19 @@ def test_legacy_lane_count_patches_keep_inherited_lane_and_connection_permission
         candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
     result = run_command(plan["command"], cwd=output, timeout_seconds=30)
     assert result.returncode == 0, result.stderr
+    if alter_permissions:
+        changed = ET.parse(candidate)
+        lane = changed.getroot().find("edge[@id='middle']/lane")
+        lane.attrib.pop("disallow", None)
+        lane.set("allow", "all")
+        changed.write(candidate, encoding="utf-8", xml_declaration=True)
     checks = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
         netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
-    assert checks["requested_effect_applied"] and checks["release_checks_passed"], checks
+    assert checks["requested_effect_applied"], checks
+    assert checks["release_checks_passed"] is not alter_permissions, checks
+    if alter_permissions:
+        assert not checks["other_lane_permissions_preserved"]
+        return
     actual = ET.parse(candidate).getroot()
     for lane in actual.find("edge[@id='middle']").findall("lane"):
         assert not _permission_set(lane.attrib, network_version=actual.get("version")) & {"rail_urban", "subway", "cable_car"}

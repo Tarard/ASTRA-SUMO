@@ -779,6 +779,13 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             for identifier, lane in old_lanes.items() if identifier in new_lanes
             and not (kind == "set_lane_permissions" and identifier == params["lane_id"])
             and not (kind == "set_lane_count" and identifier.rsplit("_", 1)[0] == params["edge_id"]))
+        if kind == "set_lane_count":
+            original = old_edges[params["edge_id"]].findall("lane")
+            mapping = {new: old for old, new in _lane_count_layout(params, old_edges[params["edge_id"]]).items()}
+            for new, lane in enumerate(after.find(f"edge[@id='{params['edge_id']}']").findall("lane")):
+                old = mapping.get(new, 0 if params.get("add_side") == "right" else len(original) - 1)
+                unchanged_permissions &= (_permission_set(original[old].attrib, network_version=before.get("version", "0.0")) ==
+                                          _permission_set(lane.attrib, network_version=after.get("version", "0.0")))
     green_conflicts = [row for row in structure.get("tls_link_binding_audit", {}).get("protected_green_foe_conflicts", [])
                        if row.get("junction_id") in mutable_nodes]
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])
