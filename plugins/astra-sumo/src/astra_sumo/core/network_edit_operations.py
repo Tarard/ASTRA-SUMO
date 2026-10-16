@@ -578,8 +578,9 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
     if kind == "set_lane_count":
         plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
         plan["requested_connections"] = _lane_count_connections(params, edges, connections)
+    plan["junction_link_detail"] = int(root.get("junctionLinkDetail", "5"))
     command = [netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
-               "--junctions.internal-link-detail", "25", "--precision", "12", "--output-file", str(candidate_file.resolve())]
+               "--junctions.internal-link-detail", str(plan["junction_link_detail"]), "--precision", "12", "--output-file", str(candidate_file.resolve())]
     plan["materialization_method"] = ("permission_attributes_only" if kind == "set_lane_permissions"
                                       else "speed_attributes_only" if kind == "set_speed"
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"
@@ -638,7 +639,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         merged = merge_local_conversion(ET.parse(source).getroot(), ET.parse(raw).getroot(), local_conversion)
         candidate_file.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
         local_conversion.update(native_output={"path": str(raw.resolve()), "sha256": file_sha256(raw)},
-            merged_proposal={"path": str(proposal.resolve()), "sha256": file_sha256(candidate_file)},
+            merged_proposal={"path": str(proposal.resolve()), "sha256": file_sha256(candidate_file), "stage": "before_exterior_restoration"},
             native_rebuild_count=1 + len(path_repair["attempts"]))
     copy_file_atomic(candidate_file, proposal)
     operation, mutable_nodes, mutable_edges = plan["operation"], set(plan["mutable_junction_ids"]), set(plan["mutable_edge_ids"])
@@ -848,7 +849,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "other_connection_permissions_preserved": connection_permissions_preserved,
             "new_protected_green_conflicts": green_conflicts, "evidence_unchanged": evidence_unchanged,
             "structural_failure_count": structure["structural_failure_count"], "sumo_load": load,
-            "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal)},
+            "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"},
             "local_conversion": local_conversion,
             "native_path_repair": path_repair,
             "claim_boundary": "Typed construction and source preservation only. Field legality, historical control and mixed-demand completion require their separate evidence."}

@@ -62,29 +62,84 @@ def _source(tmp_path):
     return source
 
 
-@pytest.fixture
-def local_edit(tmp_path):
+def _native_case(tmp_path, operation=None):
     if not shutil.which("netconvert") or not shutil.which("sumo"):
         pytest.skip("SUMO required")
     source = _source(tmp_path)
     output = tmp_path / "local"
     output.mkdir()
     candidate = output / "candidate.net.xml"
-    operation = {"id": "width", "operation": "set_lane_width", "status": "candidate",
-                 "params": {"lane_id": "middle_0", "width_m": 3.2 + .1}}
+    operation = operation or {"id": "width", "operation": "set_lane_width", "status": "candidate",
+                             "params": {"lane_id": "middle_0", "width_m": 3.2 + .1}}
     plan = write_scoped_edit_plan(root=ET.parse(source).getroot(), operation=operation, source_file=source,
         candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
     result = run_command(plan["command"], cwd=output, timeout_seconds=30)
     assert result.returncode == 0, result.stderr
+    return source, candidate, plan
+
+
+@pytest.fixture
+def local_edit(tmp_path):
+    source, candidate, plan = _native_case(tmp_path)
+    output = candidate.parent
     checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
         netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
     assert checked["status"] == "measured", checked
     return source, candidate, plan, checked
 
 
+def test_local_raw_remote_recut_is_corrected_before_a_candidate_is_accepted(tmp_path):
+    source, candidate, plan = _native_case(tmp_path)
+    tree = ET.parse(candidate)
+    lane = tree.getroot().find("edge[@id='in']/lane")
+    points = lane.get("shape").split()
+    coordinates = list(map(float, points[0].split(",")))
+    coordinates[0] += 25
+    points[0] = ",".join(map(str, coordinates))
+    lane.set("shape", " ".join(points))
+    tree.write(candidate, encoding="utf-8", xml_declaration=True)
+    checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=candidate.parent,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert checked["geometry_preservation"]["status"] == "pass"
+    original = ET.parse(source).getroot().find("edge[@id='in']/lane").get("shape").split()[0]
+    restored = ET.parse(candidate).getroot().find("edge[@id='in']/lane").get("shape").split()[0]
+    raw = ET.parse(checked["local_conversion"]["merged_proposal"]["path"]).getroot().find("edge[@id='in']/lane").get("shape").split()[0]
+    assert restored == original
+    assert raw != original
+
+
+@pytest.mark.parametrize("kind", ["set_lane_width", "set_lane_count"])
+def test_native_opposite_lane_references_survive_width_and_right_lane_insertion(tmp_path, kind):
+    if not shutil.which("netconvert") or not shutil.which("sumo"):
+        pytest.skip("SUMO required")
+    source = _source(tmp_path)
+    tree = ET.parse(source)
+    for name, other in (("middle", "reverse"), ("reverse", "middle")):
+        ET.SubElement(tree.getroot().find(f"edge[@id='{name}']/lane"), "neigh", lane=f"{other}_0")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    output = tmp_path / "opposites"
+    output.mkdir()
+    candidate = output / "candidate.net.xml"
+    params = {"lane_id": "middle_0", "width_m": 3.4} if kind == "set_lane_width" else {
+        "edge_id": "middle", "num_lanes": 2, "add_side": "right"}
+    plan = write_scoped_edit_plan(root=ET.parse(source).getroot(), operation={"id": "opposite", "operation": kind, "params": params},
+        source_file=source, candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
+    result = run_command(plan["command"], cwd=output, timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert checked["status"] == "measured", checked
+    root = ET.parse(candidate).getroot()
+    index = 0 if kind == "set_lane_width" else 1
+    assert root.find(f"edge/lane[@id='middle_{index}']/neigh").get("lane") == "reverse_0"
+    assert root.find("edge/lane[@id='reverse_0']/neigh").get("lane") == f"middle_{index}"
+
+
 def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposal(tmp_path, local_edit):
     source, candidate, plan, checked = local_edit
     local = checked["local_conversion"]
+    assert plan["junction_link_detail"] == 5
+    assert local["merged_proposal"]["stage"] == "before_exterior_restoration"
     assert local["converted_normal_edge_count"] == 8
     assert local["source_normal_edge_count"] == 48
     subset = ET.parse(local["input"]["path"]).getroot()

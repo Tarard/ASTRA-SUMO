@@ -20,11 +20,24 @@ def _gap_movements(root, nodes):
             if any(value.startswith("path_endpoint_gap:") for value in row.get("failures", []))]
 
 
+def _end_direction_change(before, after, *, start, reference_start=None):
+    def direction(points, at_start):
+        segments = list(zip(points, points[1:]))
+        for left, right in segments if at_start else reversed(segments):
+            length = math.dist(left, right)
+            if length > 1e-9:
+                return tuple((b - a) / length for a, b in zip(left, right))
+        return None
+    a, b = direction(before, start if reference_start is None else reference_start), direction(after, start)
+    return math.degrees(math.acos(max(-1.0, min(1.0, sum(x * y for x, y in zip(a, b)))))) if a and b else None
+
+
 def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_runner, timeout_seconds):
     """Reanchor only broken endpoint paths, then let native SUMO recompute their junctions."""
     candidate_file = Path(candidate_file).resolve(strict=True)
     if candidate_file.samefile(Path(plan["source"]["path"])):
         raise ValueError("Custom-path repair must not replace its source.")
+    initial_hash = file_sha256(candidate_file)
     nodes = set(plan["mutable_junction_ids"])
     command = list(plan["command"])
     existing = plan["patches"].get("connections")
@@ -57,7 +70,7 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
             if any(math.dist(left[-1], right[0]) > 0.1 for left, right in zip(pieces[1:-1], pieces[2:-1])):
                 continue
             old = [point for shape in pieces[1:-1] for point in shape]
-            rewritten = reanchor_spatial_shape(old, start=pieces[0][-1], end=pieces[-1][0])
+            rewritten = reanchor_spatial_shape(old, start=pieces[0][-1], end=pieces[-1][0], preserve_end_directions=True)
             shape = " ".join(",".join(f"{value:.12f}" for value in point) for point in rewritten)
             target = next((item for item in patch.findall("connection") if
                 tuple(item.get(name) for name in ("from", "fromLane", "to", "toLane")) == tuple(map(str, key))), None)
@@ -68,8 +81,20 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
                     "changeLeft", "changeRight") if connection.get(name) is not None}
                 target = ET.SubElement(patch, "connection", attrs)
             target.set("shape", shape)
+            length = sum(math.dist(a, b) for a, b in zip(old, old[1:]))
+            displacement = max(math.dist(old[0], rewritten[0]), math.dist(old[-1], rewritten[-1]))
             changes.append({"connection": list(key), "internal_lane_ids": path[1:-1],
-                            "before_shape": old, "after_shape": rewritten})
+                "before_shape": old, "after_shape": rewritten,
+                "maximum_endpoint_correction_m": displacement,
+                "geometric_length_before_m": length,
+                "geometric_length_after_m": sum(math.dist(a, b) for a, b in zip(rewritten, rewritten[1:])),
+                "correction_to_curve_length_ratio": displacement / length if length > 0 else None,
+                "entry_direction_change_deg": _end_direction_change(old, rewritten, start=True),
+                "exit_direction_change_deg": _end_direction_change(old, rewritten, start=False),
+                "entry_alignment_with_road_deg": _end_direction_change(pieces[0], rewritten, start=True, reference_start=False),
+                "exit_alignment_with_road_deg": _end_direction_change(pieces[-1], rewritten, start=False, reference_start=True),
+                "declared_logical_length_m": float(connection.get("length")) if connection.get("length") is not None else None,
+                "logical_length_policy": "preserve_explicit_declaration" if connection.get("length") is not None else "native_geometry_length"})
         if not changes:
             break
         before = Path(output_dir) / f"native-before-path-repair-{iteration}.net.xml"
@@ -90,6 +115,8 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
         succeeded = result.get("status") == "pass" and result.get("returncode") == 0 and created
         attempts.append({"status": "pass" if succeeded else "fail", "output_created": created,
             "command": list(command), "result": result, "changes": changes,
+            "reanchor_method": "smoothstep_with_retained_end_segments",
+            "output_sha256": file_sha256(candidate_file) if succeeded else None,
             "elapsed_seconds": time.perf_counter() - started,
             "before": {"path": str(before.resolve()), "sha256": file_sha256(before)},
             "patch": {"path": str(patch_file.resolve()), "sha256": file_sha256(patch_file)}})
@@ -103,6 +130,39 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
         remaining = None
     if remaining is None:
         remaining = _gap_movements(ET.parse(candidate_file).getroot(), nodes)
-    return {"attempts": attempts, "remaining_endpoint_gap_count": len(remaining),
+    return {"attempts": attempts, "initial_output_sha256": initial_hash, "remaining_endpoint_gap_count": len(remaining),
             "remaining_endpoint_gaps": remaining,
             "claim_boundary": "Custom curves follow the edited road endpoints. Native conversion owns the resulting paths and junction requests. No field-accuracy claim."}
+
+
+def validate_native_path_repair_chain(command, record, final_output):
+    """Check every native repair command and the saved output-hash chain."""
+    if not record.get("attempts"):
+        return
+    def without_connection_file(tokens):
+        result = list(tokens)
+        if result.count("--connection-files") > 1:
+            raise ValueError("A repair command has duplicate connection inputs.")
+        if "--connection-files" in result:
+            index = result.index("--connection-files")
+            del result[index:index + 2]
+        return result
+    expected = without_connection_file(command)
+    previous = record["initial_output_sha256"]
+    for attempt in record["attempts"]:
+        if attempt["status"] != "pass" or attempt["result"].get("status") != "pass" or attempt["result"].get("returncode") != 0:
+            raise ValueError("The native repair chain contains a failed command.")
+        before, patch = Path(attempt["before"]["path"]), Path(attempt["patch"]["path"])
+        if file_sha256(before) != attempt["before"]["sha256"] or attempt["before"]["sha256"] != previous:
+            raise ValueError("The native repair input does not match the previous output.")
+        if file_sha256(patch) != attempt["patch"]["sha256"]:
+            raise ValueError("The native repair patch changed.")
+        current = attempt["command"]
+        if "--connection-files" not in current or current.index("--connection-files") + 1 >= len(current):
+            raise ValueError("The native repair command has no connection-patch path.")
+        if without_connection_file(current) != expected or Path(current[current.index("--connection-files") + 1]).resolve() != patch.resolve():
+            raise ValueError("The native repair command differs beyond its recorded connection patch.")
+        previous = attempt["output_sha256"]
+    final_path = Path(final_output["path"])
+    if file_sha256(final_path) != final_output["sha256"] or final_output["sha256"] != previous:
+        raise ValueError("The final native output does not match the repair chain.")

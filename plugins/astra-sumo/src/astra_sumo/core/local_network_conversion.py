@@ -5,32 +5,28 @@ from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from .candidate_contracts import file_sha256
+from .internal_ownership import resolve_internal_ownership
 
 
 def _index(root):
     edges = {row.get("id"): row for row in root.findall("edge")}
     if len(edges) != len(root.findall("edge")) or any(not identity for identity in edges):
         raise ValueError("Local conversion requires unique nonempty edge IDs.")
-    return {"edges": edges}
+    return {"edges": edges, "ownership": resolve_internal_ownership(root)}
 
 
-def _owner(element, index, node_ids):
+def _owner(element, index):
     if element.tag == "connection":
         edge = index["edges"].get(element.get("from"))
         if edge is None:
             return None
-        if not edge.get("id", "").startswith(":"):
+        if edge.get("id") not in index["ownership"]["edge"]:
             return edge.get("to")
         element = edge
     identity = element.get("id", "")
-    if not identity.startswith(":"):
+    if identity not in index["ownership"].get(element.tag, {}):
         return identity if element.tag == "junction" else None
-    candidate = identity[1:]
-    while "_" in candidate:
-        candidate = candidate.rsplit("_", 1)[0]
-        if candidate in node_ids:
-            return candidate
-    return None
+    return index["ownership"][element.tag].get(identity)
 
 
 def local_conversion_input(root, mutable_nodes, mutable_edges):
@@ -38,11 +34,10 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
     index = _index(root)
-    nodes = {row.get("id") for row in root.findall("junction") if not row.get("id", "").startswith(":")}
     controllers = {}
     for connection in root.findall("connection"):
         if connection.get("tl"):
-            controllers.setdefault(connection.get("tl"), set()).add(_owner(connection, index, nodes))
+            controllers.setdefault(connection.get("tl"), set()).add(_owner(connection, index))
     shared = sorted(key for key, owners in controllers.items() if owners & mutable_nodes and owners - mutable_nodes)
     if shared:
         return None, {"status": "full_network", "reason": "controller_spans_edit_boundary", "controller_ids": shared}
@@ -60,8 +55,7 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
     if unpaired:
         return None, {"status": "full_network", "reason": "bidirectional_pair_exceeds_context", "edge_ids": unpaired}
     context = {index["edges"][key].get(end) for key in selected for end in ("from", "to")}
-    internal = {key for key, edge in index["edges"].items() if key.startswith(":")
-                and _owner(edge, index, nodes) in mutable_nodes}
+    internal = {key for key, owner in index["ownership"]["edge"].items() if owner in mutable_nodes}
     kept = selected | internal
     lanes = {lane.get("id") for key in kept for lane in index["edges"][key].findall("lane")}
     connections = []
@@ -79,7 +73,7 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
             result.append(deepcopy(child))
         elif child.tag == "edge" and child.get("id") in kept:
             result.append(deepcopy(child))
-        elif child.tag == "junction" and (child.get("id") in context or _owner(child, index, nodes) in mutable_nodes):
+        elif child.tag == "junction" and (child.get("id") in context or _owner(child, index) in mutable_nodes):
             row = deepcopy(child)
             for name in ("incLanes", "intLanes"):
                 if name in row.attrib:
@@ -112,14 +106,12 @@ def merge_local_conversion(source_root, native_root, record):
     if frames[0] is None or frames[0] != frames[1]:
         raise ValueError("Local conversion changed the declared coordinate frame.")
     controllers = set(record["controller_ids"])
-    nodes = {row.get("id") for root in (source_root, native_root) for row in root.findall("junction")
-             if not row.get("id", "").startswith(":")}
 
     def belongs(child, index):
         if child.tag == "edge":
-            return child.get("id") in mutable_edges or _owner(child, index, nodes) in mutable_nodes
+            return child.get("id") in mutable_edges or _owner(child, index) in mutable_nodes
         if child.tag in {"junction", "connection"}:
-            return _owner(child, index, nodes) in mutable_nodes
+            return _owner(child, index) in mutable_nodes
         return child.tag == "tlLogic" and child.get("id") in controllers
 
     result = deepcopy(source_root)

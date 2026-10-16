@@ -187,6 +187,10 @@ The candidate copies the exterior from the immutable source and uses native elem
 The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
 Reports retain the local input, raw native output, and merged proposal with their hashes.
 Release validation independently reconstructs the source-derived input and the merge.
+The merged proposal is explicitly marked `before_exterior_restoration`.
+It is an intermediate artifact. Remote road ends can still differ until the shared restoration finishes.
+Internal ownership uses junction lane references and connected movement paths in separate edge, lane, and junction namespaces.
+Legacy ID fallback requires one possible parent. Ambiguous names remain unresolved.
 
 `local_conversion.status` reports `local` or `full_network`.
 Joins, controller reconstruction, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
@@ -221,10 +225,17 @@ remain separate checks.
 A road edit can move lane endpoints while native import retains an accepted custom internal curve.
 The checker uses the existing 0.1 m endpoint tolerance to locate broken paths in the edited junctions.
 It blends their endpoint corrections through the saved spatial curve, including elevation.
+The repair keeps the input curve's first and last segment directions and uses smooth weights between them.
+Sparse curves receive extra samples while retaining their original vertices.
+Reports give endpoint corrections, direction changes, and correction-to-length ratios.
+This does not guarantee alignment with an arbitrarily rotated road or certify curvature and driving performance.
 Native conversion then recomputes the paths and junction requests from the original input plus the revised connection shapes.
 Accepted width-transition offsets retain their existing treatment.
+Conversion uses the source's `junctionLinkDetail`, or SUMO's default value of 5 when it is absent.
+An explicitly declared connection length remains a model parameter. The report separates it from geometric length.
 
 The process allows three repair attempts. Every attempt retains its previous proposal, connection patch, command result, and elapsed time.
+Each attempt records its output hash. Release validation checks the command and output chain through the final native file.
 An unsuccessful command restores the previous proposal for diagnosis. It cannot reuse a stale output as a successful repair.
 Remaining endpoint gaps prevent physical acceptance in explore mode. They do not require human approval to retry a new candidate.
 `native_rebuild_count` includes these extra calls for local conversion.

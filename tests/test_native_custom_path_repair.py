@@ -1,4 +1,5 @@
 from pathlib import Path
+from copy import deepcopy
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
@@ -8,7 +9,7 @@ import pytest
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import CommandResult, run_command
 from astra_sumo.core.junction_rebuild.geometry import reanchor_spatial_shape
-from astra_sumo.core.junction_rebuild.native_path_repair import rebuild_custom_path_endpoints
+from astra_sumo.core.junction_rebuild.native_path_repair import rebuild_custom_path_endpoints, validate_native_path_repair_chain
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 
 
@@ -17,7 +18,18 @@ def test_spatial_reanchor_keeps_curvature_and_mixed_zero_elevation():
         (0, 2, 0), (3, 3, 4), (6, 2, 8)]
 
 
-def _case(tmp_path, elevation):
+@pytest.mark.parametrize("points", [[(0, 0), (10, 0)], [(0, 0), (5, 3), (10, 0)], [(0, 0), (1, 2), (4, 4), (8, 5)]])
+def test_direction_retention_uses_actual_polyline_end_segments(points):
+    result = reanchor_spatial_shape(points, start=(0, 1), end=(10, 2), preserve_end_directions=True)
+    def unit(a, b):
+        vector = [y - x for x, y in zip(a, b)]
+        length = sum(value * value for value in vector) ** .5
+        return [value / length for value in vector]
+    assert unit(result[0], result[1]) == pytest.approx(unit(points[0], points[1]), abs=1e-12)
+    assert unit(result[-2], result[-1]) == pytest.approx(unit(points[-2], points[-1]), abs=1e-12)
+
+
+def _case(tmp_path, elevation, logical_length=None):
     if not shutil.which("netconvert") or not shutil.which("sumo"):
         pytest.skip("SUMO required")
     nodes, edges, base, source, patch = [tmp_path / name for name in ("nodes.xml", "edges.xml", "base.net.xml", "source.net.xml", "custom.con.xml")]
@@ -29,7 +41,8 @@ def _case(tmp_path, elevation):
         <lane index="1" allow="passenger" width="3.2"/></edge><edge id="north" from="n" to="j"/>
         <edge id="south" from="j" to="n"/></edges>''', encoding="utf-8")
     executable = shutil.which("netconvert")
-    result = subprocess.run([executable, "-n", str(nodes), "-e", str(edges), "--offset.disable-normalization", "true", "-o", str(base)],
+    result = subprocess.run([executable, "-n", str(nodes), "-e", str(edges), "--junctions.internal-link-detail", "7",
+                            "--offset.disable-normalization", "true", "-o", str(base)],
                             capture_output=True, text=True, timeout=30)
     assert result.returncode == 0, result.stderr
     root = ET.parse(base).getroot()
@@ -40,7 +53,8 @@ def _case(tmp_path, elevation):
     a, b = point("in", -1), point("out", 0)
     curve = [a, tuple((a[i] + b[i]) / 2 + (0.5 if i == 1 else 0) for i in range(3)), b]
     text = " ".join(",".join(map(str, value)) for value in curve)
-    patch.write_text(f'<connections><connection from="in" fromLane="1" to="out" toLane="1" shape="{text}"/></connections>', encoding="utf-8")
+    length = f' length="{logical_length}"' if logical_length is not None else ""
+    patch.write_text(f'<connections><connection from="in" fromLane="1" to="out" toLane="1" shape="{text}"{length}/></connections>', encoding="utf-8")
     result = subprocess.run([executable, "--sumo-net-file", str(base), "--connection-files", str(patch),
         "--offset.disable-normalization", "true", "-o", str(source)], capture_output=True, text=True, timeout=30)
     assert result.returncode == 0, result.stderr
@@ -80,10 +94,30 @@ def test_native_rebuild_repairs_a_custom_curve_endpoint_gap(tmp_path, elevation)
     assert file_sha256(source) == digest
     changed = repair["attempts"][0]["changes"][0]
     assert len(changed["before_shape"]) >= 3
-    assert len(changed["after_shape"]) == len(changed["before_shape"])
+    assert len(changed["after_shape"]) >= len(changed["before_shape"])
+    assert changed["entry_direction_change_deg"] < 1e-4
+    assert changed["exit_direction_change_deg"] < 1e-4
+    assert plan["junction_link_detail"] == 7
+    validate_native_path_repair_chain(plan["command"], repair, result["local_conversion"]["native_output"])
+    forged = deepcopy(repair)
+    forged["attempts"][0]["output_sha256"] = "0" * 64
+    with pytest.raises(ValueError):
+        validate_native_path_repair_chain(plan["command"], forged, result["local_conversion"]["native_output"])
     if elevation:
         assert max(point[2] for point in changed["after_shape"]) > 5
     assert Path(repair["attempts"][0]["before"]["path"]).is_file()
+
+
+def test_explicit_connection_logical_length_survives_geometry_reanchoring(tmp_path):
+    source, candidate, output, plan = _case(tmp_path, 0, logical_length=500)
+    result = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert result["status"] == "measured", result
+    connection = ET.parse(candidate).getroot().find("connection[@from='in'][@fromLane='1'][@to='out'][@toLane='1']")
+    assert float(connection.get("length")) == 500
+    changes = result["native_path_repair"]["attempts"][0]["changes"]
+    assert changes[0]["declared_logical_length_m"] == 500
+    assert changes[0]["logical_length_policy"] == "preserve_explicit_declaration"
 
 
 def test_failed_native_path_rebuild_retains_the_original_bad_proposal_and_source(tmp_path):
