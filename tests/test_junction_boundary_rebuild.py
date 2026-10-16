@@ -1,4 +1,5 @@
 import shutil
+from pathlib import Path
 import subprocess
 import xml.etree.ElementTree as ET
 
@@ -147,7 +148,13 @@ def test_clipped_lane_reference_never_keeps_old_points_beyond_its_endpoints(tmp_
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
-def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(tmp_path):
+@pytest.mark.parametrize("contours", ["preserve", "fused"])
+def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(tmp_path, contours, monkeypatch):
+    if contours == "fused":
+        def same_outline(network, identifier, **kwargs):
+            shape = [tuple(map(float, point.split(","))) for point in network.find(f"junction[@id='{identifier}']").get("shape").split()]
+            return {"status": "pass", "changed": True, "proposed_shape": shape, "native_boundary_refit": True}
+        monkeypatch.setattr("astra_sumo.core.hamburg_junction_contour.propose_fused_junction_contour", same_outline)
     nodes, edges = tmp_path / "nodes.xml", tmp_path / "edges.xml"
     nodes.write_text('<nodes><node id="f" x="-160" y="0"/><node id="w" x="-100" y="0" type="traffic_light"/><node id="a" x="0" y="0"/><node id="b" x="20" y="0"/><node id="e" x="120" y="0"/><node id="p" x="400" y="0"/><node id="r" x="500" y="0" type="traffic_light"><param key="source-note" value="keep"/></node><node id="q" x="600" y="0"/></nodes>', encoding="utf-8")
     edges.write_text('<edges><edge id="upstream" from="f" to="w" allow="passenger bus"/><edge id="in" from="w" to="a" allow="passenger bus"/><edge id="middle" from="a" to="b" allow="passenger bus"/><edge id="out" from="b" to="e" allow="passenger bus"/><edge id="remote-in" from="p" to="r"/><edge id="remote-out" from="r" to="q"/></edges>', encoding="utf-8")
@@ -177,6 +184,7 @@ def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(t
         output_dir=tmp_path / "restored", expected_source_sha256=identities[0],
         expected_joined_sha256=identities[1], original_trip_files=[trips],
         adjacent_geometry_junction_ids=["w"],
+        junction_contours=contours,
     )
     assert result["status"] == "pass"
     assert result["decision"] == "review_required"
@@ -190,6 +198,18 @@ def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(t
     assert result["original_demand"][0]["affected_od"][0]["depart"] == "3"
     assert result["original_demand"][0]["same_demand_runnable"] is False
     assert identities == [file_sha256(path) for path in (source, joined, trips)]
+    from astra_sumo.core.local_network_conversion import validate_join_boundary_conversion
+    local = result["local_conversion"]
+    native_output = Path(local["native_output"]["path"])
+    command = result["commands"][0]["command"]
+    assert Path(command[command.index("--output-file") + 1]) == native_output
+    assert file_sha256(native_output) == local["native_output"]["sha256"]
+    assert validate_join_boundary_conversion(result, source).is_file()
+    if contours != "preserve":
+        assert result["junction_contours"]["accepted_junction_ids"] == ["joined"]
+        baseline = Path(result["junction_contours"]["baseline_network"]["path"])
+        assert ET.canonicalize(baseline.read_text(), strip_text=True) == ET.canonicalize(
+            Path(local["merged_proposal"]["path"]).read_text(), strip_text=True)
     candidate = ET.parse(result["candidate_network"]["path"]).getroot()
     assert candidate.find("edge[@id='remote-in']/lane").get("speed") == ET.parse(source).getroot().find("edge[@id='remote-in']/lane").get("speed")
     source_root = ET.parse(source).getroot()

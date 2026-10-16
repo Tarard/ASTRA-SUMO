@@ -163,7 +163,7 @@ def merge_local_conversion(source_root, native_root, record):
 
 
 def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, output_dir, prefix,
-                                 timeout_seconds, join_groups=None):
+                                 timeout_seconds, join_groups=None, merge_source_file=None):
     """Run one native conversion and retain its local input and full merged proposal."""
     from .command_runner import run_command
     command = list(command)
@@ -172,30 +172,43 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     if output == source or output.exists():
         raise ValueError("Use a new conversion output separate from its source.")
     root = ET.parse(source).getroot()
+    occupied = {row.get("id") for row in root.findall("junction") + root.findall("tlLogic")}
+    occupied.update(row.get("tl") for row in root.findall("connection") if row.get("tl"))
+    if set(join_groups or {}) & occupied:
+        raise ValueError("Use new joined junction and controller IDs.")
+    merge_source = Path(merge_source_file).resolve(strict=True) if merge_source_file is not None else source
+    merge_root = root if merge_source == source else ET.parse(merge_source).getroot()
     subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups)
     record["source"] = {"path": str(source), "sha256": file_sha256(source)}
+    record["merge_source"] = {"path": str(merge_source), "sha256": file_sha256(merge_source)}
     if subset is not None:
         input_file = Path(output_dir) / f"{prefix}.local-input.net.xml"
         with input_file.open("xb") as stream:
             stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
         record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
         command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
+    suffix = "native-local-output" if subset is not None else "native-output"
+    raw = Path(output_dir) / f"{prefix}.{suffix}.net.xml"
+    if raw.exists() or raw.resolve() == output:
+        raise ValueError("Use a new conversion output separate from its native snapshot.")
+    command[command.index("--output-file") + 1] = str(raw.resolve())
     result = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
-    if result.returncode == 0 and output.is_file():
-        suffix = "native-local-output" if subset is not None else "native-output"
-        raw = Path(output_dir) / f"{prefix}.{suffix}.net.xml"
-        with raw.open("xb") as stream:
-            stream.write(output.read_bytes())
-        record["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw)}
+    if raw.is_file():
+        record["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw),
+                                   "status": "complete" if result.returncode == 0 else "incomplete"}
+    if result.returncode == 0 and raw.is_file():
         if subset is not None:
-            merged = merge_local_conversion(root, ET.parse(raw).getroot(), record)
+            merged = merge_local_conversion(merge_root, ET.parse(raw).getroot(), record)
             content = ET.tostring(merged, encoding="utf-8", xml_declaration=True)
             proposal = Path(output_dir) / f"{prefix}.merged-proposal.net.xml"
             with proposal.open("xb") as stream:
                 stream.write(content)
             output.write_bytes(content)
             record["merged_proposal"] = {"path": str(proposal.resolve()), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"}
+        else:
+            output.write_bytes(raw.read_bytes())
     record["source_unchanged"] = file_sha256(source) == record["source"]["sha256"]
+    record["merge_source_unchanged"] = file_sha256(merge_source) == record["merge_source"]["sha256"]
     return result, record
 
 
@@ -258,4 +271,7 @@ def validate_join_boundary_conversion(report, source_file):
         raise ValueError("Join-boundary native command has no unique input path.")
     if Path(command[command.index("--sumo-net-file") + 1]).resolve() != input_file.resolve():
         raise ValueError("Join-boundary native command uses another input.")
+    if (command.count("--output-file") != 1 or command.index("--output-file") + 1 >= len(command)
+            or Path(command[command.index("--output-file") + 1]).resolve() != Path(record["native_output"]["path"]).resolve()):
+        raise ValueError("Join-boundary native command does not name its retained native output.")
     return input_file

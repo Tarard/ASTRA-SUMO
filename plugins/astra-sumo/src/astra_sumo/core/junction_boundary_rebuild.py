@@ -467,19 +467,15 @@ def restore_joined_boundary_connections(
     ET.ElementTree(patch).write(patch_file, encoding="utf-8", xml_declaration=True)
     geometry_paths, boundary_geometry = _boundary_geometry(original, source_index, plan, destination)
     compiled = destination / "compiled.net.xml"
-    from .local_network_conversion import local_conversion_input, merge_local_conversion
+    from .local_network_conversion import run_scoped_native_conversion
     local_nodes = excluded | set(adjacent_geometry_junction_ids)
     local_edges = {key for key, edge in joined_index["edges"].items() if not _internal(edge)
                    and any(edge.get(end) in local_nodes for end in ("from", "to"))}
-    subset, local_conversion = local_conversion_input(native, local_nodes, local_edges)
-    conversion_source = joined
-    if subset is not None:
-        conversion_source = destination / "boundary.local-input.net.xml"
-        conversion_source.write_bytes(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
-        local_conversion.update(input={"path": str(conversion_source), "sha256": file_sha256(conversion_source)},
-                                source={"path": str(joined), "sha256": joined_hash})
     commands = []
-    result = run_command([netconvert_binary, "--sumo-net-file", str(conversion_source), "--node-files", str(geometry_paths["nodes"]), "--edge-files", str(geometry_paths["edges"]), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", native.get("junctionLinkDetail", "5"), "--output-file", str(compiled)], cwd=destination, timeout_seconds=timeout_seconds)
+    result, local_conversion = run_scoped_native_conversion(
+        command=[netconvert_binary, "--sumo-net-file", str(joined), "--node-files", str(geometry_paths["nodes"]), "--edge-files", str(geometry_paths["edges"]), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", native.get("junctionLinkDetail", "5"), "--output-file", str(compiled)],
+        mutable_nodes=local_nodes, mutable_edges=local_edges, output_dir=destination,
+        prefix="boundary", timeout_seconds=timeout_seconds)
     commands.append(result.to_dict())
     if result.returncode != 0 or not compiled.is_file():
         write_json_atomic(destination / "failed-command.json", commands[-1])
@@ -488,17 +484,12 @@ def restore_joined_boundary_connections(
     if junction_contours != "preserve":
         from .hamburg_junctions.movements import _compile_junction_contours
 
+        contour_command = list(commands[-1]["command"])
+        contour_command[contour_command.index("--sumo-net-file") + 1] = str(joined)
         _, contour_report = _compile_junction_contours(ET.parse(compiled).getroot(),
-            command=commands[-1]["command"], groups=plan["groups"], output_file=compiled,
+            command=contour_command, groups=plan["groups"], output_file=compiled,
             timeout_seconds=timeout_seconds, mode=junction_contours, corner_radius_m=junction_corner_radius_m,
             include_context=False)
-    if subset is not None:
-        raw = destination / "boundary.native-local-output.net.xml"
-        shutil.copy2(compiled, raw)
-        merged = merge_local_conversion(native, ET.parse(raw).getroot(), local_conversion)
-        compiled.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
-        local_conversion.update(native_output={"path": str(raw), "sha256": file_sha256(raw)},
-            merged_proposal={"path": str(compiled), "sha256": file_sha256(compiled), "stage": "before_exterior_restoration"})
     candidate = destination / "boundary-restored.net.xml"
     shutil.copy2(compiled, candidate)
     raw_root = ET.parse(compiled).getroot()
