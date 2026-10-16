@@ -29,6 +29,17 @@ def _request_observation(trip, depart, horizon, execution_status):
     return {"status": "unfinished_at_horizon", "right_censored": True, "time_since_requested_departure_s": horizon - depart}
 
 
+def _driving_observation(case, identity, depart, horizon):
+    observation = _request_observation(case["trips"].get(identity), depart, horizon, case["execution_status"])
+    events = [row for row in case["diagnostics"].get("collisions", {}).get("records", [])
+              if identity in (row.get("collider"), row.get("victim"))]
+    observation.update(collision_events=events, collision_affected=bool(events),
+                       teleported_after_collision=any(row.get("collider") == identity for row in events))
+    if observation["status"] == "arrived" and events:
+        observation["status"] = "arrived_with_recorded_collision"
+    return observation
+
+
 def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, output_dir,
                           sumo_binary="sumo", timeout_seconds=240):
     """Keep every requested vehicle, including failed runs and missing arrivals."""
@@ -138,10 +149,16 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
                 except (KeyError, TypeError, ValueError):
                     delta = None
                 depart = expected[identity][2]
+                source_observation = _driving_observation(source, identity, depart, horizon_s)
+                candidate_observation = _driving_observation(candidate, identity, depart, horizon_s)
+                collision_affected = source_observation["collision_affected"] or candidate_observation["collision_affected"]
                 rows.append({"vehicle_id": identity, "requested_departure_s": depart,
-                             "source": a, "candidate": b, "duration_delta_s": delta,
-                             "source_observation": _request_observation(a, depart, horizon_s, source["execution_status"]),
-                             "candidate_observation": _request_observation(b, depart, horizon_s, candidate["execution_status"])})
+                             "source": a, "candidate": b,
+                             "recorded_duration_delta_s": delta,
+                             "duration_delta_s": None if collision_affected else delta,
+                             "duration_comparison_status": "collision_affected" if collision_affected else
+                                "incomplete_or_invalid_trip_pair" if delta is None else "recorded_arrivals",
+                             "source_observation": source_observation, "candidate_observation": candidate_observation})
             pairs.append({"seed": seed, "candidate": name, "valid": valid, "trips": rows})
     changes = _hash_changes(identities)
     execution_failures = sum(case["execution_status"] == "failed" for cases in results.values() for case in cases.values())

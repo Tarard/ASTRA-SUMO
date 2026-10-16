@@ -30,11 +30,16 @@ def test_failed_run_and_missing_arrivals_keep_the_original_cohort(tmp_path, monk
         if kwargs["net_file"].name == "candidate.net.xml" and kwargs["seed"] == 17:
             return {"inspection": {"status": "fail", "summary": {}}, "command": {"returncode": 1}}
         rows = ET.Element("tripinfos")
-        ET.SubElement(rows, "tripinfo", id="car-A", duration="11")
+        ET.SubElement(rows, "tripinfo", id="car-A", duration="11", arrival="11")
         if kwargs["net_file"].name == "source.net.xml":
-            ET.SubElement(rows, "tripinfo", id="car-B", duration="12")
+            ET.SubElement(rows, "tripinfo", id="car-B", duration="12", arrival="13")
         ET.ElementTree(rows).write(kwargs["output_dir"] / "driving_end60_tripinfo.xml")
-        return {"inspection": {"status": "pass", "summary": {"arrived": len(rows)}}, "command": {"status": "pass", "returncode": 0}}
+        result = {"inspection": {"status": "pass", "summary": {"arrived": len(rows)}}, "command": {"status": "pass", "returncode": 0}}
+        if kwargs["net_file"].name == "candidate.net.xml":
+            collisions = kwargs["output_dir"] / "collisions.xml"
+            collisions.write_text('<collisions><collision collider="car-A" victim="car-B"/></collisions>', encoding="utf-8")
+            result["diagnostic_outputs"] = {"collisions": str(collisions)}
+        return result
 
     monkeypatch.setattr(module, "_run_attempt", attempt)
     report = module.compare_driving_cohort(**request)
@@ -48,6 +53,11 @@ def test_failed_run_and_missing_arrivals_keep_the_original_cohort(tmp_path, monk
     assert report["performance_mean"] is None
     assert report["pairs"][0]["trips"][0]["candidate"] is None
     assert report["pairs"][1]["trips"][1]["candidate"] is None
+    affected = report["pairs"][1]["trips"][0]
+    assert affected["duration_delta_s"] is None
+    assert affected["recorded_duration_delta_s"] == 0
+    assert affected["duration_comparison_status"] == "collision_affected"
+    assert affected["candidate_observation"]["status"] == "arrived_with_recorded_collision"
     assert all([row["vehicle_id"] for row in pair["trips"]] == ["car-A", "car-B"] for pair in report["pairs"])
     assert (request["output_dir"] / "candidate-17/result.json").is_file()
     assert json.loads((request["output_dir"] / "plan.json").read_text())["vehicle_ids"] == ["car-A", "car-B"]
@@ -91,6 +101,20 @@ def test_invalid_requests_do_not_create_an_output(tmp_path, changes):
 def test_request_time_keeps_censored_and_unobserved_vehicles_separate(trip, depart, horizon, execution, status, censored, time):
     assert module._request_observation(trip, depart, horizon, execution) == {
         "status": status, "right_censored": censored, "time_since_requested_departure_s": time}
+
+
+def test_collision_participants_do_not_become_ordinary_arrivals():
+    event = {"time": "5", "type": "junction", "lane": ":j_0_0", "collider": "a", "victim": "b"}
+    case = {"execution_status": "completed", "trips": {key: {"arrival": "20"} for key in ("a", "b", "c")},
+            "diagnostics": {"collisions": {"records": [event]}}}
+    collider = module._driving_observation(case, "a", 0, 30)
+    victim = module._driving_observation(case, "b", 0, 30)
+    ordinary = module._driving_observation(case, "c", 0, 30)
+    assert collider["status"] == victim["status"] == "arrived_with_recorded_collision"
+    assert collider["teleported_after_collision"] is True
+    assert victim["teleported_after_collision"] is False
+    assert ordinary["status"] == "arrived" and ordinary["collision_affected"] is False
+    assert collider["collision_events"] == [event]
 
 
 @pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")

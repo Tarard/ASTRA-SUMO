@@ -261,6 +261,9 @@ Each original request has an observation status. Arrivals retain their exact tim
 Unfinished requests retain the observed time until the horizon and `right_censored=true`.
 This time includes insertion waiting. It is a lower bound on the complete request time, not a completed travel duration.
 Future requests and failed executions remain separate. Duration deltas apply only to vehicles with two recorded arrivals.
+Collision participants have a separate arrival status. With this runner's explicit teleport action, the collider also has a teleport marker.
+Affected pairs retain their raw recorded duration difference, but `duration_delta_s` stays null.
+This prevents a teleport-shortened trip from appearing as an ordinary duration comparison.
 The [Hamburg construction comparison](../benchmarks/network_construction_20261016_v1/README.md) retains measured geometry changes and invalid driving pairs.
 
 ## Site parameters
