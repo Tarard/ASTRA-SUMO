@@ -71,8 +71,7 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
     def shape(element):
         return tuple(tuple(float(v) for v in token.split(",")) for token in element.get("shape", "").split())
 
-    def inventory(path):
-        root = ET.parse(path).getroot()
+    def inventory(root):
         lanes = {lane.get("id"): (shape(lane), float(lane.get("length", "nan")), float(lane.get("width", "3.2")))
                  for edge in root.findall("edge") if not edge.get("function") and edge.get("id") not in mutable_edge_ids
                  for lane in edge.findall("lane")}
@@ -84,7 +83,8 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
         frame = (location.get("projParameter"), tuple(float(v) for v in location.get("netOffset", "0,0").split(","))) if location is not None else None
         return lanes, junctions, edges, frame
 
-    original, candidate = inventory(source_file), inventory(candidate_file)
+    source_root, candidate_root = ET.parse(source_file).getroot(), ET.parse(candidate_file).getroot()
+    original, candidate = inventory(source_root), inventory(candidate_root)
     differences = {}
     for name, before, after in zip(("lanes", "junctions", "edges"), original[:3], candidate[:3]):
         differences[name] = {"missing": sorted(before.keys() - after.keys()),
@@ -93,7 +93,6 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
     frame_preserved = original[3] == candidate[3]
     boundary_failures = []
     boundary_edge_map = dict(boundary_edge_map or {})
-    source_root, candidate_root = ET.parse(source_file).getroot(), ET.parse(candidate_file).getroot()
     source_edge_ids = {edge.get("id") for edge in source_root.findall("edge") if not edge.get("function")}
     candidate_edges = {e.get("id"): e for e in candidate_root.findall("edge") if not e.get("function")}
     if (len(set(boundary_edge_map.values())) != len(boundary_edge_map)
