@@ -441,7 +441,8 @@ def test_contour_build_keeps_verified_parts_and_rolls_back_failed_parts(tmp_path
 
     def compile_from_original(command, **kwargs):
         commands.append(command)
-        assert command[command.index("--sumo-net-file") + 1] == str(source)
+        native_input = Path(command[command.index("--sumo-net-file") + 1])
+        assert native_input != source and native_input.read_bytes() == source.read_bytes()
         assert command[command.index("--connection-files") + 1] == str(patch)
         root = ET.parse(source).getroot()
         nodes = ET.parse(command[command.index("--node-files") + 1]).getroot()

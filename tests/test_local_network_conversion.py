@@ -461,8 +461,9 @@ def test_source_drift_returns_measurements_and_retains_a_warning_record(tmp_path
     original = b'<net><location netOffset="0,0" projParameter="!"/></net>'
     source.write_bytes(original)
     def convert(command, **kwargs):
-        Path(command[command.index("--output-file") + 1]).write_bytes(original)
         source.write_bytes(original.replace(b"<net>", b'<net changed="true">'))
+        frozen = Path(command[command.index("--sumo-net-file") + 1]).read_bytes()
+        Path(command[command.index("--output-file") + 1]).write_bytes(frozen)
         return CommandResult(command=command, cwd=str(kwargs["cwd"]), status="pass", returncode=0)
     monkeypatch.setattr("astra_sumo.core.command_runner.run_command", convert)
     result, record = run_scoped_native_conversion(command=["netconvert", "--sumo-net-file", str(source),
@@ -470,6 +471,8 @@ def test_source_drift_returns_measurements_and_retains_a_warning_record(tmp_path
         prefix="source-drift", timeout_seconds=1)
     assert result.returncode == 0 and not record["source_unchanged"] and not record["merge_source_unchanged"]
     assert output.read_bytes() == original
+    assert Path(record["input"]["path"]).read_bytes() == original
+    assert record["input"]["sha256"] == record["source"]["sha256"]
     warning = json.loads((tmp_path / "source-drift.conversion-record.json").read_text())
     assert warning["status"] == "source_changed" and warning["exception"] is None
 
@@ -503,6 +506,8 @@ def test_shared_full_conversion_retains_its_native_snapshot(tmp_path, monkeypatc
         output_dir=tmp_path, prefix="full", timeout_seconds=30)
     assert result.returncode == 0, result.stderr
     native = record["native_output"]
+    assert Path(record["input"]["path"]) != source
+    assert Path(record["input"]["path"]).read_bytes() == source.read_bytes()
     assert Path(native["path"]) != output and "merged_proposal" not in record
     output.write_text("later restoration", encoding="utf-8")
     assert file_sha256(Path(native["path"])) == native["sha256"]

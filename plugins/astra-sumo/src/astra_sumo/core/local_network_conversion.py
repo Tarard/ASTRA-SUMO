@@ -1,6 +1,7 @@
 """Extract a native conversion input and merge its declared repair into a source."""
 
 from copy import deepcopy
+from hashlib import sha256
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -184,28 +185,29 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     output = Path(command[command.index("--output-file") + 1]).resolve()
     if output == source or output.exists():
         raise ValueError("Use a new conversion output separate from its source.")
-    root = ET.parse(source).getroot()
+    source_bytes = source.read_bytes()
+    root = ET.fromstring(source_bytes)
     occupied = {row.get("id") for row in root.findall("junction") + root.findall("tlLogic")}
     occupied.update(row.get("tl") for row in root.findall("connection") if row.get("tl"))
     if set(join_groups or {}) & occupied:
         raise ValueError("Use new joined junction and controller IDs.")
     merge_source = Path(merge_source_file).resolve(strict=True) if merge_source_file is not None else source
-    merge_root = root if merge_source == source else ET.parse(merge_source).getroot()
+    merge_bytes = source_bytes if merge_source == source else merge_source.read_bytes()
+    merge_root = root if merge_source == source else ET.fromstring(merge_bytes)
     subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups,
                                             edge_endpoints=edge_endpoints)
-    record["source"] = {"path": str(source), "sha256": file_sha256(source)}
-    record["merge_source"] = {"path": str(merge_source), "sha256": file_sha256(merge_source)}
-    if subset is not None:
-        input_file = Path(output_dir) / f"{prefix}.local-input.net.xml"
-        with input_file.open("xb") as stream:
-            stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
-        record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
-        command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
+    record["source"] = {"path": str(source), "sha256": sha256(source_bytes).hexdigest()}
+    record["merge_source"] = {"path": str(merge_source), "sha256": sha256(merge_bytes).hexdigest()}
+    input_file = Path(output_dir) / f"{prefix}.{'local' if subset is not None else 'full'}-input.net.xml"
     suffix = "native-local-output" if subset is not None else "native-output"
     raw = Path(output_dir) / f"{prefix}.{suffix}.net.xml"
     failure_file = Path(output_dir) / f"{prefix}.conversion-record.json"
-    if raw.exists() or failure_file.exists() or raw.resolve() == output:
+    if input_file.exists() or raw.exists() or failure_file.exists() or raw.resolve() == output:
         raise ValueError("Use a new conversion output separate from its native snapshot.")
+    with input_file.open("xb") as stream:
+        stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True) if subset is not None else source_bytes)
+    record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
+    command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
     command[command.index("--output-file") + 1] = str(raw.resolve())
     result, exception = None, None
     try:
