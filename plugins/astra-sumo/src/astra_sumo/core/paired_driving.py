@@ -4,6 +4,7 @@ from collections import Counter
 import math
 from pathlib import Path
 import re
+import shutil
 import xml.etree.ElementTree as ET
 
 from .artifact_io import write_json_atomic
@@ -31,11 +32,15 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
     if not expected:
         raise ValueError("The route file must contain explicit routed vehicles.")
     identities = {path: file_sha256(path) for path in [routes, *networks.values()]}
+    executable = shutil.which(str(sumo_binary))
+    if executable:
+        sumo_binary = str(Path(executable).resolve())
     output = Path(output_dir).resolve()
     output.mkdir(parents=True, exist_ok=False)
     plan = {"schema": "astra.paired-driving/v1", "reference": reference, "seeds": list(seeds),
             "horizon_s": horizon_s, "time_to_teleport_s": horizon_s, "timeout_seconds": timeout_seconds,
             "sumo_binary": str(sumo_binary), "cohort": {"path": str(routes), "sha256": identities[routes]},
+            "sumo_binary_sha256": file_sha256(Path(executable)) if executable else None,
             "vehicle_ids": sorted(expected),
             "networks": {name: {"path": str(path), "sha256": identities[path]} for name, path in networks.items()},
             "implementation": {"paired_driving_sha256": file_sha256(Path(__file__)),
