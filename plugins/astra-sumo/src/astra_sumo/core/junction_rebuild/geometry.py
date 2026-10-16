@@ -380,7 +380,13 @@ def _set_edge_lengths_from_shapes(edge: ET.Element) -> None:
     if any(length is None for length in lengths):
         return
     if edge.get("function", "normal") == "normal":
-        lengths = [sum(lengths) / len(lengths)] * len(lanes)
+        try:
+            common = float(edge.get("length")) if edge.get("length") is not None else sum(lengths) / len(lengths)
+        except ValueError:
+            return
+        if not math.isfinite(common) or common <= 0:
+            return
+        lengths = [common] * len(lanes)
     for lane, length in zip(lanes, lengths):
         lane.set("length", f"{max(0.1, length):.2f}")
 

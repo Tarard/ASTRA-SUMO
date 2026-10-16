@@ -1,7 +1,11 @@
 import xml.etree.ElementTree as ET
+import shutil
+import subprocess
+
+import pytest
 
 from astra_sumo.core.junction_rebuild.boundary_restore import _restore_existing_edge_geometry
-from astra_sumo.core.junction_rebuild.geometry import _blend_geometry_anchor_at_endpoint, _polyline_length
+from astra_sumo.core.junction_rebuild.geometry import _blend_geometry_anchor_at_endpoint, _polyline_length, _set_edge_lengths_from_shapes
 from astra_sumo.core.official_movement_composition import _original_lane_bindings
 from astra_sumo.core.source_movement_support import _index
 from astra_sumo.core.hamburg_junctions.boundaries import _resolved_boundary_polygon
@@ -14,6 +18,19 @@ def test_restored_normal_lanes_share_the_mean_spatial_length():
     _restore_existing_edge_geometry(target, source, ET.Element("net"))
     assert [lane.get("length") for lane in target.findall("lane")] == ["7.50", "7.50"]
     assert _polyline_length("0,0 3,0,4") == 5
+
+
+@pytest.mark.skipif(shutil.which("netconvert") is None, reason="SUMO required")
+def test_native_explicit_edge_length_survives_geometry_length_refresh(tmp_path):
+    nodes, edges, network = [tmp_path / name for name in ("nodes.xml", "edges.xml", "network.net.xml")]
+    nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="road" from="a" to="b" numLanes="2" length="500"/></edges>', encoding="utf-8")
+    result = subprocess.run(["netconvert", "-n", str(nodes), "-e", str(edges), "-o", str(network)], capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    edge = ET.parse(network).getroot().find("edge[@id='road']")
+    assert float(edge.get("length")) == 500
+    _set_edge_lengths_from_shapes(edge)
+    assert [float(lane.get("length")) for lane in edge.findall("lane")] == [500, 500]
 
 
 def test_endpoint_blending_recomputes_one_normal_edge_length():
