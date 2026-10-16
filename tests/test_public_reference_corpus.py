@@ -3,6 +3,7 @@ from __future__ import annotations
 from io import BytesIO
 import json
 from pathlib import Path
+from types import SimpleNamespace
 import shutil
 import subprocess
 from xml.etree import ElementTree as ET
@@ -71,6 +72,89 @@ def test_catalog_rejects_unsafe_or_aliased_artifact_paths(tmp_path, path):
     catalog.write_text(json.dumps(document), encoding="utf-8")
     with pytest.raises(ValueError, match="relative paths"):
         corpus._catalog(catalog)
+
+
+def test_prepared_import_preserves_elevation_and_bound_types_without_upstream_output_paths(tmp_path):
+    osm, types, config = (tmp_path / name for name in ("source.osm", "types.xml", "build.netcfg"))
+    config.write_text('''<configuration><input><osm-files value="source.osm"/><type-files value="types.xml"/></input>
+        <processing><osm.elevation value="true"/><junctions.join value="true"/><geometry.remove value="true"/></processing>
+        <output><output-file value="../../outside.net.xml"/></output>
+        <report><log value="../../outside.log"/></report></configuration>''', encoding="utf-8")
+    files = [({"role": role}, path) for role, path in (("source_osm", osm), ("type_map", types), ("build_config", config))]
+    arguments, recorded = corpus._prepared_import_arguments(files, osm)
+    assert recorded == config
+    assert arguments == ["--type-files", str(types), "--osm.elevation=true"]
+    assert not any("outside" in value for value in arguments)
+    full, _ = corpus._prepared_import_arguments(files, osm, unjoined=False)
+    assert full == [*arguments, "--junctions.join=true", "--geometry.remove=true"]
+
+
+@pytest.mark.parametrize("content,reason", [
+    ('<input><osm-files value="other.osm"/></input>', "OSM input"),
+    ('<input><osm-files value="source.osm"/><type-files value="unlisted.xml"/></input>', "type inputs"),
+    ('<input><osm-files value="source.osm"/></input><processing><additional-files value="outside.xml"/></processing>', "Unsupported"),
+    ('<input><osm-files value="source.osm"/></input><unknown value="true"/>', "Unsupported"),
+])
+def test_prepared_import_rejects_unbound_inputs_and_unsupported_settings(tmp_path, content, reason):
+    config = tmp_path / "build.netcfg"
+    config.write_text(f"<configuration>{content}</configuration>", encoding="utf-8")
+    with pytest.raises(ValueError, match=reason):
+        corpus._prepared_import_arguments([({"role": "build_config"}, config)], tmp_path / "source.osm")
+
+
+def test_prepared_import_uses_option_semantics_across_configuration_sections(tmp_path):
+    config = tmp_path / "build.netcfg"
+    config.write_text('''<configuration><input><osm-files value="source.osm"/></input>
+        <junctions><crossings.guess value="true"/></junctions><formats><precision value="8"/></formats>
+        <report><ignore-errors value="false"/><log value="../../ignored.log"/></report></configuration>''', encoding="utf-8")
+    arguments, _ = corpus._prepared_import_arguments([({"role": "build_config"}, config)], tmp_path / "source.osm")
+    assert arguments == ["--crossings.guess=true", "--precision=8", "--ignore-errors=false"]
+    config.write_text('''<configuration><input><osm-files value="source.osm"/></input>
+        <output><unknown-content-option value="true"/></output></configuration>''', encoding="utf-8")
+    with pytest.raises(ValueError, match="Unsupported prepared import setting"):
+        corpus._prepared_import_arguments([({"role": "build_config"}, config)], tmp_path / "source.osm")
+
+
+@pytest.mark.parametrize("joined", [True, False, None])
+def test_generator_control_attributes_exact_labels_without_manual_inference(tmp_path, monkeypatch, joined):
+    source = ET.fromstring('''<net><location projParameter="!" netOffset="0,0"/>
+        <junction id="1" x="0" y="0"/><junction id="2" x="1" y="0"/>
+        <edge id="a" from="1" to="2"/></net>''')
+    reference = ET.fromstring('''<net><location projParameter="!" netOffset="0,0"/>
+        <junction id="cluster_1_2" x="0.5" y="0"/></net>''')
+    osm, config = tmp_path / "source.osm", tmp_path / "build.netcfg"
+    osm.write_text("<osm/>", encoding="utf-8")
+    config.write_text('''<configuration><input><osm-files value="source.osm"/></input>
+        <processing><junctions.join value="true"/></processing></configuration>''', encoding="utf-8")
+    labels = list(corpus._pair_labels(source, reference, {"id": "toy", "family_id": "toy"}, "binding"))
+    labels.append({**labels[0], "case_id": "unknown", "expected_join": None})
+    label_file = tmp_path / "labels.jsonl"
+    label_file.write_text("\n".join(json.dumps(row) for row in labels), encoding="utf-8")
+    before = file_sha256(label_file)
+
+    def run(command, **kwargs):
+        assert "--junctions.join=true" in command
+        assert "--offset.disable-normalization" not in command
+        if joined is not None:
+            ET.ElementTree(reference if joined else source).write(command[-1])
+        return SimpleNamespace(to_dict=lambda: {"status": "fail" if joined is None else "pass", "returncode": 1 if joined is None else 0})
+
+    monkeypatch.setattr(corpus, "run_command", run)
+    monkeypatch.setattr(corpus, "run_sumo_load_audit", _fake_load)
+    control = corpus._generator_control(files=[({"role": "build_config"}, config)], osm=osm, source=source,
+        label_file=label_file, folder=tmp_path, netconvert_binary="netconvert", sumo_binary="sumo")
+    assert control["human_cleaning_evaluation"] is False
+    assert file_sha256(label_file) == before
+    if joined is None:
+        assert control["status"] == "failed"
+        assert "label_provenance" not in control
+    else:
+        outcome = "recipe_reproduced" if joined else "unexplained_difference"
+        assert control["counts"] == {outcome: 1, "unknown_reference": 1}
+        assert control["baseline_difference_counts"] == {outcome: 1}
+        rows = [json.loads(line) for line in Path(control["label_provenance"]["path"]).read_text().splitlines()]
+        assert rows[0]["case_id"] == labels[0]["case_id"]
+        assert rows[0]["unjoined_prediction"] is False
 
 
 def test_corrupt_cache_is_preserved_and_wrong_download_never_commits(tmp_path, monkeypatch):
@@ -149,6 +233,41 @@ def _native_inputs(tmp_path):
                             capture_output=True, text=True, timeout=30)
     assert result.returncode == 0, result.stderr
     return source, reference, executable
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
+def test_native_prepared_import_uses_catalog_elevation_settings(tmp_path):
+    source, reference, executable = _native_inputs(tmp_path)
+    tree = ET.parse(source)
+    for node in tree.getroot().findall("node"):
+        ET.SubElement(node, "tag", k="ele", v="14.5")
+    tree.write(source, encoding="utf-8")
+    result = subprocess.run([executable, "--osm-files", str(source), "--osm.elevation", "true", "--geometry.remove", "false",
+        "--junctions.join", "false", "--offset.disable-normalization", "true", "--output-file", str(reference)],
+        capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    catalog, cache, document = _fixture(tmp_path, reference=reference, source=source)
+    config = cache / "toy/build.netcfg"
+    config.write_text('''<configuration><input><osm-files value="source.osm"/></input>
+        <processing><osm.elevation value="true"/></processing></configuration>''', encoding="utf-8")
+    document["datasets"][0]["files"].append({"role": "build_config", "path": config.name,
+        "sha256": file_sha256(config), "bytes": config.stat().st_size})
+    catalog.write_text(json.dumps(document), encoding="utf-8")
+    report = corpus.build_public_reference_corpus(catalog_file=catalog, cache_dir=cache,
+        output_dir=tmp_path / "out", netconvert_binary=executable)
+    dataset = json.loads(Path(report["datasets"][0]["report"]["path"]).read_text())
+    nodes = ET.parse(dataset["raw_net"]["path"]).getroot().findall("junction")
+    assert nodes and all(float(node.get("z")) == 14.5 for node in nodes)
+    assert dataset["import_configuration"]["applied_arguments"] == ["--osm.elevation=true"]
+    assert dataset["paired_labels"]["count"] > 0
+    assert dataset["paired_labels"]["counts"].get("unknown", 0) == 0
+    assert dataset["paired_labels"]["label_usage"] == "generator_recipe_regression"
+    assert dataset["paired_labels"]["human_cleaning_evaluation"] is False
+    control = dataset["paired_labels"]["generator_control"]
+    assert control["status"] == "measured"
+    assert Path(control["network"]["path"]).is_file()
+    assert sum(control["counts"].values()) == dataset["paired_labels"]["count"]
+    assert control["human_cleaning_evaluation"] is False
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")

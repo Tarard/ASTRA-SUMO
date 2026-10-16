@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
@@ -112,6 +113,30 @@ def validate_materialization_evidence(
                 errors.append({"code": "direct_permission_materialization_not_exact"})
         except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
             errors.append({"code": "invalid_direct_permission_materialization", "detail": str(error)})
+    elif method == "stop_line_edge_mean_3d":
+        from .network_edit_operations import _stop_line_patches
+        from .osm_access import _patch_lane_attributes
+        try:
+            record = report["semantic_validation"]["direct_stop_line_edit"]
+            offset = record["end_offset_m"]
+            if type(offset) not in (int, float) or not math.isfinite(offset) or offset < 0:
+                raise ValueError("Stop-line offset must be finite and nonnegative.")
+            raw = source_net_file.read_bytes()
+            patches = _stop_line_patches(ET.fromstring(raw), {"lane_id": record["lane_id"], "end_offset_m": offset})
+            if patches is None:
+                raise ValueError("Saved geometry cannot support the declared direct stop-line edit.")
+            expected = _patch_lane_attributes(raw, ET.fromstring(raw), patches, {"shape", "length", "endOffset"})
+            source_lengths = {lane.get("id"): float(lane.get("length")) for lane in ET.fromstring(raw).findall("edge/lane")}
+            lengths = {key: {"before_m": source_lengths[key], "after_m": float(attrs["length"])} for key, attrs in patches.items()}
+            if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
+                    or patches != record["expected_lane_attributes"] or expected != candidate_net_file.read_bytes()
+                    or record.get("length_convention") != "sumo_edge_mean_of_saved_logical_lengths"
+                    or record.get("distance_metric") != "xyz_polyline_metres" or record.get("logical_lengths") != lengths):
+                errors.append({"code": "direct_stop_line_materialization_not_exact"})
+        except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+            errors.append({"code": "invalid_direct_stop_line_materialization", "detail": str(error)})
+    elif method == "stop_line_geometry_only":
+        errors.append({"code": "legacy_stop_line_length_convention_requires_rebuild"})
     elif method != "netconvert":
         errors.append({"code": "unknown_materialization_method"})
     elif not isinstance(command, list) or not all(isinstance(token, str) for token in command):

@@ -122,6 +122,9 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
     assert result["status"] == "pass"
     assert result["purpose"] == "network_construction"
+    length_record = result["lane_length_measurements"]
+    assert length_record["status"] == "measured"
+    assert Path(length_record["artifact"]["path"]).is_file()
     assert observed["combine"]["junction_contours"] == "fused"
     assert observed["combine"]["junction_corner_radius_m"] == 8.0
     assert result["calibration"]["status"] == "not_run"

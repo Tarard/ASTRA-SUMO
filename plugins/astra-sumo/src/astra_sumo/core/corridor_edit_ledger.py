@@ -970,7 +970,7 @@ def materialize_corridor_edit_variant(
         )
 
     try:
-        if scoped_plan is not None and scoped_plan["materialization_method"] in {"permission_attributes_only", "speed_attributes_only"}:
+        if scoped_plan is not None and scoped_plan["materialization_method"] in {"permission_attributes_only", "speed_attributes_only", "stop_line_edge_mean_3d"}:
             from .network_edit_operations import write_direct_lane_edit
             write_direct_lane_edit(source_net_file, candidate_net_file, scoped_operations[0])
             command_result = {"status": "pass", "returncode": 0, "executor": scoped_plan["materialization_method"], "netconvert_rebuild_count": 0}

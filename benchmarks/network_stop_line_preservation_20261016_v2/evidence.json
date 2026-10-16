@@ -1,0 +1,194 @@
+{
+  "schema": "astra.stop-line-preservation-evidence/v2",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "implementation_commit": "5d633492c1d90f2648dcef8d53b95b2267778a22",
+  "source": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-rebuild/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a"
+  },
+  "candidate": {
+    "path": "outputs/calibration_driving_20261016_v1/edge-mean-stop-line-v2/candidate.net.xml",
+    "sha256": "b5b2a49fd4f5d957fa81fe96b8e6da79c2fadbfae5bbbcda60205ec75913fe32"
+  },
+  "trial": {
+    "path": "outputs/calibration_driving_20261016_v1/edge-mean-stop-line-v2/edit-verification.json",
+    "sha256": "c40d9925c04d5b904eefd8b03d48e5da3ecc6c32fbd0b0c4137934636fcb75cf"
+  },
+  "ensemble": {
+    "path": "outputs/calibration_driving_20261016_v1/paired-edge-mean-v1/comparison.json",
+    "sha256": "5b72e4460e185ad421d58141590bd64f8ef5452e85503584104fb56a469738bf"
+  },
+  "runner": {
+    "path": "outputs/calibration_driving_20261016_v1/compare_stop_line_edge_mean.py",
+    "sha256": "d3bb1fdd69e2b822eb28a23be4a000e608bb1707faaf04390cbe4b6e7eba42d5"
+  },
+  "convention": "sumo_edge_mean_of_saved_logical_lengths",
+  "distance_metric": "xyz_polyline_metres",
+  "logical_lengths": {
+    "554713076#0_0": {
+      "after_m": 28.9775,
+      "before_m": 28.89
+    },
+    "554713076#0_1": {
+      "after_m": 28.9775,
+      "before_m": 28.88
+    },
+    "554713076#0_2": {
+      "after_m": 28.9775,
+      "before_m": 33.8
+    },
+    "554713076#0_3": {
+      "after_m": 28.9775,
+      "before_m": 29.07
+    },
+    ":LSA2349_part0_0_0": {
+      "after_m": 59.685,
+      "before_m": 57.32
+    },
+    ":LSA2349_part0_0_1": {
+      "after_m": 59.685,
+      "before_m": 57.32
+    }
+  },
+  "stop_line": {
+    "after": "measured",
+    "after_metrics": {
+      "lateral_offset_m": -2.8166979276694613,
+      "longitudinal_offset_m": 0.0048413429648675645,
+      "offset_m": 2.816702088318738
+    },
+    "before": "measured",
+    "before_metrics": {
+      "lateral_offset_m": -2.816697926684487,
+      "longitudinal_offset_m": 4.734841343064008,
+      "offset_m": 5.5093111869068405
+    },
+    "fact_id": "2349:lane:2:stop_line",
+    "metric_deltas": {
+      "lateral_offset_m": -9.849743243250941e-10,
+      "longitudinal_offset_m": -4.73000000009914,
+      "offset_m": -2.6926090985881026
+    }
+  },
+  "source_baseline": {
+    "diagnostic_status": "fail",
+    "reason": "collision-failure",
+    "scope": "synthetic_passenger_driving_diagnostic",
+    "status": "dirty"
+  },
+  "outside_fact_changes": [],
+  "lane_coordinate_artifacts": {
+    "affected_lane_ids": [
+      "554713076#0_0",
+      "554713076#0_1",
+      "554713076#0_2",
+      "554713076#0_3",
+      ":LSA2349_part0_0_0",
+      ":LSA2349_part0_0_1"
+    ],
+    "reason": "This network edit does not check the positions of detectors, stops, parking areas, or other lane references.",
+    "status": "not_checked"
+  },
+  "all_other_bytes_preserved": true,
+  "netconvert_rebuild_count": 0,
+  "seeds": [
+    17,
+    42,
+    104
+  ],
+  "horizon_s": 2400,
+  "per_seed": {
+    "17": {
+      "source": {
+        "arrived": 63,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 36,
+        "waiting": 1
+      },
+      "native_stop_line": {
+        "arrived": 62,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 37,
+        "waiting": 1
+      },
+      "edge_mean_stop_line": {
+        "arrived": 63,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 36,
+        "waiting": 1
+      }
+    },
+    "42": {
+      "source": {
+        "arrived": 100,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 0,
+        "waiting": 0
+      },
+      "native_stop_line": {
+        "arrived": 62,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 37,
+        "waiting": 1
+      },
+      "edge_mean_stop_line": {
+        "arrived": 100,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 0,
+        "waiting": 0
+      }
+    },
+    "104": {
+      "source": {
+        "arrived": 61,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 38,
+        "waiting": 1
+      },
+      "native_stop_line": {
+        "arrived": 60,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 40,
+        "waiting": 0
+      },
+      "edge_mean_stop_line": {
+        "arrived": 61,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 38,
+        "waiting": 1
+      }
+    }
+  },
+  "pair_validity_counts": {
+    "invalid": 6
+  },
+  "performance_mean": null,
+  "tests": {
+    "path": {
+      "path": "outputs/calibration_driving_20261016_v1/edge-mean-final-focused-v1.xml",
+      "sha256": "817ebc796cd3478c056301339086bf234beefe26a1774120152515776d148420"
+    },
+    "passed": 140
+  },
+  "parent_length_variation": {
+    "artifact": {
+      "path": "outputs/calibration_driving_20261016_v1/source-logical-length-variation.json",
+      "sha256": "5b26ce1fb0fd5199a49026055eed2455c21b55de2604805402ae0ce0c53a2bed"
+    },
+    "normal_edge_count": 18,
+    "internal_edge_count": 20,
+    "note": "Turning internal edges may legitimately have unequal lengths. Normal-edge variation needs a separate builder investigation."
+  },
+  "claim_boundary": "One typed geometric correction with an explicit logical-length convention. Six invalid driving pairs remain diagnostic only."
+}

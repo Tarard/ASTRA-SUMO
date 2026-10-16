@@ -326,7 +326,24 @@ def _resolved_boundary_polygon(root, group):
                     envelope_width = max(width, row["width_m"])
                     center = row["junction_endpoint_network"]
                     section = [tuple(center[i] + (point[i] - center[i]) * envelope_width / row["width_m"] for i in (0, 1)) for point in row["shape"]]
-                    ports.append({**row, **native, "width_m": envelope_width, "shape": section})
+                    # A source lane can be laterally displaced from MAP B.
+                    # Its full strip must still enter the same road mouth.
+                    normal = (section[1][1] - section[0][1], section[0][0] - section[1][0])
+                    direction = native["native_lane_direction"]
+                    denominator = sum(direction[i] * normal[i] for i in (0, 1))
+                    extra = {}
+                    if abs(denominator) > 1e-9:
+                        endpoint = native["native_cut_endpoint"]
+                        fraction = sum((center[i] - endpoint[i]) * normal[i] for i in (0, 1)) / denominator
+                        projected = tuple(endpoint[i] + fraction * direction[i] for i in (0, 1))
+                        if math.dist(projected, center) <= classification.get("maximum_lane_projection_error_m", 10.0):
+                            tangent = tuple((section[1][i] - section[0][i]) / math.dist(*section) for i in (0, 1))
+                            offset = sum((projected[i] - center[i]) * tangent[i] for i in (0, 1))
+                            half_width = width * math.hypot(*direction) * math.hypot(*normal) / (2 * abs(denominator))
+                            limits = (min(-envelope_width / 2, offset - half_width), max(envelope_width / 2, offset + half_width))
+                            section = [tuple(center[i] + distance * tangent[i] for i in (0, 1)) for distance in limits]
+                            extra = {"native_center_at_official_section": projected, "source_lateral_offset_m": offset}
+                    ports.append({**row, **native, **extra, "width_m": envelope_width, "shape": section})
             else:
                 safe = _safe_native_cut_port(root, edge, lane, role,
                                              maximum_movement_m=classification.get("maximum_lane_projection_error_m", 10.0))
@@ -384,10 +401,10 @@ def _portal_boundary_polygon(ports, native_boundary):
         else:
             ordered = sorted(rows, key=lambda row: lateral(row["junction_endpoint_network"]))
         points = []
-        for row in ordered:
-            for point in sorted([*row["shape"], row["junction_endpoint_network"]], key=lateral):
-                if not points or math.dist(point, points[-1]) > 0.1:
-                    points.append(tuple(point))
+        # Overlapping source and MAP envelopes share one ordered road profile.
+        for point in sorted([point for row in ordered for point in [*row["shape"], row["junction_endpoint_network"]]], key=lateral):
+            if not points or math.dist(point, points[-1]) > 0.1:
+                points.append(tuple(point))
         midpoint = tuple(sum(row["junction_endpoint_network"][i] for row in rows) / len(rows) for i in (0, 1))
         if native_closed:
             position = _project_point_onto_polyline(midpoint, native_closed)[0]

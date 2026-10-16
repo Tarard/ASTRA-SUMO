@@ -361,13 +361,45 @@ def _expand_junction_shape_to_approach_endpoints(
 
 
 def _polyline_length(shape: str) -> float | None:
-    points = _shape_points(shape)
-    if len(points) < 2:
+    try:
+        points = [tuple(map(float, token.split(","))) for token in _split(shape)]
+    except ValueError:
         return None
-    return sum(
-        math.hypot(right[0] - left[0], right[1] - left[1])
-        for left, right in zip(points, points[1:])
-    )
+    if len(points) < 2 or any(len(point) not in (2, 3) or not all(map(math.isfinite, point)) for point in points):
+        return None
+    points = [(*point, 0.0) if len(point) == 2 else point for point in points]
+    return sum(math.dist(left, right) for left, right in zip(points, points[1:]))
+
+
+def _set_edge_lengths_from_shapes(edge: ET.Element) -> None:
+    """Refresh geometry lengths while keeping one common length on normal roads."""
+    if edge.get("bidi"):
+        return  # Coupled lengths require both edges. Retain native values here.
+    lanes = edge.findall("lane")
+    if not lanes or any("length" not in lane.attrib for lane in lanes):
+        return
+    lengths = [_polyline_length(lane.get("shape", "")) for lane in lanes]
+    if any(length is None for length in lengths):
+        return
+    if edge.get("function", "normal") == "normal":
+        try:
+            if edge.get("length") is not None:
+                loaded = float(edge.get("length"))
+                if not math.isfinite(loaded) or loaded <= 0:
+                    return
+                offsets = [float(lane.get("endOffset", "0")) for lane in lanes]
+                if any(not math.isfinite(offset) or offset < 0 for offset in offsets):
+                    return
+                common = max(0.1, loaded - sum(offsets) / len(offsets))
+            else:
+                common = sum(lengths) / len(lengths)
+        except ValueError:
+            return
+        if not math.isfinite(common) or common <= 0:
+            return
+        lengths = [common] * len(lanes)
+    for lane, length in zip(lanes, lengths):
+        lane.set("length", f"{max(0.1, length):.2f}")
 
 
 def _clone_transformed_boundary_junction(
@@ -442,19 +474,9 @@ def _blend_geometry_anchor_at_endpoint(
         )
         if shape:
             lane.set("shape", shape)
-            # ``lane.length`` in a SUMO ``.net.xml`` is operational geometry,
-            # not a teacher semantic.  The replayed lane was cloned before its
-            # centre-line was warped and may therefore still carry the
-            # teacher's (often much longer) declared length.  NetEdit renders
-            # the new shape while SUMO positions vehicles using ``length``;
-            # keeping the stale value makes the two views disagree.  Plain XML
-            # conversion normally recomputes this field.  For the native net
-            # replay path, recompute it whenever the cloned lane declared one.
-            if "length" in lane.attrib:
-                rendered_length = _polyline_length(shape)
-                if rendered_length is not None:
-                    lane.set("length", f"{rendered_length:.2f}")
             blended = True
+    if blended:
+        _set_edge_lengths_from_shapes(edge)
     return blended
 
 

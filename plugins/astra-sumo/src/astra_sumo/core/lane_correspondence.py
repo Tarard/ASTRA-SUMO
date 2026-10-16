@@ -4,7 +4,7 @@ from collections import Counter
 import math
 
 from scipy.optimize import linear_sum_assignment
-from shapely.geometry import LineString, Point
+from shapely.geometry import LineString
 
 from .network_calibration import _permissions, centerline_overlap_metrics
 
@@ -22,21 +22,25 @@ def assign_nonmotor_lanes(lanes, network_lanes, reserved):
             continue
         costs = []
         for key, row in official:
-            distances = [sum(Point(point).distance(candidate[2]) for point in row["points"]) / len(row["points"])
-                         for _, candidate in available]
+            metrics = [centerline_overlap_metrics(LineString(row["points"]), [list(candidate[2].coords)], 0.5,
+                       direction=row.get("direction")) for _, candidate in available]
+            distances = [item["mean_lateral_offset_m"] for item in metrics]
+            eligible = [distance is not None and distance <= 2.0 and item["reference_coverage"] > 0
+                        for distance, item in zip(distances, metrics)]
+            # Compare offset over overlap. Prefer greater coverage at equal offset.
+            ranked = [distance + 2.0 * (1 - item["reference_coverage"]) if valid else 1e9
+                      for distance, item, valid in zip(distances, metrics, eligible)]
             diagnostics[key] = {"candidate_class": "crossing" if mode == "pedestrian" else "dedicated_bicycle",
-                                "nearest_candidate_distance_m": min(distances, default=None),
-                                "maximum_association_distance_m": 2.0, "assignment": "one_to_one"}
-            if row.get("direction") is not None:
-                for j, (_, candidate) in enumerate(available):
-                    metrics = centerline_overlap_metrics(LineString(row["points"]), [list(candidate[2].coords)], 0.5,
-                        direction=row["direction"])
-                    if metrics["reference_coverage"] == 0:
-                        distances[j] = 1e9
-            costs.append(distances + [2.000001] * len(official))
+                                "nearest_candidate_distance_m": min((value for value in distances if value is not None), default=None),
+                                "maximum_association_distance_m": 2.0, "assignment": "one_to_one",
+                                "distance_method": "mean_perpendicular_offset_over_directed_overlap",
+                                "cost_rule": "lateral_m_plus_2m_times_uncovered_fraction",
+                                "candidate_reference_coverages": {name: item["reference_coverage"]
+                                    for (name, _), item, valid in zip(available, metrics, eligible) if valid}}
+            costs.append(ranked + [4.000001] * len(official))
         rows, columns = linear_sum_assignment(costs)
         for i, j in zip(rows, columns):
-            if j < len(available) and costs[i][j] <= 2.0:
+            if j < len(available) and costs[i][j] < 4.000001:
                 assignments[official[i][0]] = available[j][0]
     return assignments, diagnostics
 

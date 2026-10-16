@@ -29,7 +29,7 @@ request described by the input schema.
 | `set_lane_width` | `lane_id`, `width_m` | Finite positive width, unchanged other lane identities and permissions, fixed outside geometry |
 | `set_edge_shape` | `edge_id`, `shape` | At least two finite network XY points with positive line length. SUMO rebuilds lane offsets and local connections |
 | `set_lane_count` | `edge_id`, `num_lanes` | Positive integer. SUMO rebuilds the changed road and its local connections. Record resulting movement changes |
-| `move_stop_line` | `lane_id`, `end_offset_m` | Nonnegative absolute setback from the road end. The remaining driving length must stay positive |
+| `move_stop_line` | `lane_id`, `end_offset_m` | Nonnegative absolute setback. Transfer the saved lane prefix to its internal paths when correspondence is unique. Otherwise retain native reconstruction |
 | `set_speed` | `lane_id`, `speed_m_s` | Positive speed in metres per second. Change only that lane attribute without native conversion |
 
 The existing operations remain `add_edge`, `add_sidewalk`, `add_crossing`,
@@ -50,6 +50,8 @@ It checks SUMO load, internal driving paths, and 100 original-network route requ
 Requests come from the source alone. Changed candidate endpoints cannot remove them from the test.
 Lost routes block the result. Unfinished driving runs remain visible with a warning when routes still exist.
 If no original route requests can be validated, exploration retains a warning and makes no route-preservation claim.
+`source_baseline` separates checked `clean` or `dirty` diagnostics from `not_run` cases.
+These labels describe the synthetic passenger probe, not field quality.
 The sampled passenger requests do not establish all-class or all-pair route preservation.
 Invalid edit parameters and attempts to overwrite inputs still stop construction.
 Other preservation and review findings remain in the report for inspection.
@@ -86,6 +88,24 @@ Use the [SUMO PlainXML definitions](https://sumo.dlr.de/docs/Networks/PlainXML.h
 Stop-line movement uses a geometric lane `endOffset`, as described in
 [SUMO intersections](https://sumo.dlr.de/docs/Simulation/Intersections.html).
 It does not configure a separate vehicle-class `stopOffset`.
+When saved geometry supports a unique adjustment, this edit avoids netconvert.
+It shortens the approach shape and extends its first internal paths by the same spatial distance, or reverses that transfer.
+Distance includes elevation, including shapes with omitted zero-Z vertices.
+It preserves junction waiting structures, request matrices, connections, and signal programs.
+Affected normal roads and straight internal edges use SUMO's common logical length for all their lanes.
+The tool averages the transferred saved logical lengths across each affected edge, with SUMO's 0.1 m minimum.
+Sibling lanes can therefore change logical length while their shapes remain fixed.
+The report records the convention and each affected lane's before and after logical length.
+This follows the [SUMO lane-length convention](https://sumo.dlr.de/docs/Networks/SUMO_Road_Networks.html#lanes).
+Moving back downstream requires a common saved prefix for every outgoing movement.
+Shared paths, missing continuations, divergent prefixes, custom lengths, bidirectional coupling, and multi-lane turning paths use native conversion with an explore warning.
+Multi-lane turns can have separate logical lengths in native SUMO. The direct method does not guess their grouping convention.
+Release evidence independently reconstructs the direct edit from its source before accepting the materialization record.
+The method is `stop_line_edge_mean_3d`. Earlier per-lane `stop_line_geometry_only` records remain diagnostic history and require rebuilding for release.
+The construction report lists changed lane coordinates in `lane_coordinate_artifacts`.
+Existing detector, stop, and parking positions require a separate check before reuse.
+These files are not inputs to this network-only edit. Changed lane bindings receive a `not_checked` result for those files.
+A successful network load therefore does not establish that an old simulation configuration still works.
 
 For example, a daily speed edit can use:
 
@@ -177,6 +197,75 @@ source-snapshot rollback. The review overlay has no runtime effect. Signal
 and protected-semantic changes still need the existing exact candidate-bound
 review evidence before promotion. Route completion and fact-table acceptance
 remain separate checks.
+
+## Lane-length measurements
+
+Hamburg construction now records source and candidate lane-length measures.
+It also writes `construction-stage-lane-lengths.json` for every retained `.net.xml` construction output.
+The measures do not add a release condition.
+
+Use the [same audit](../plugins/astra-sumo/scripts/audit_network_lengths.py) on other explicit network files:
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/audit_network_lengths.py outputs/new-length-report.json source.net.xml candidate.net.xml
+```
+
+The report retains ordinary-lane differences, custom lengths, end offsets, and measured spatial lengths.
+It reports varying internal paths separately. Those paths can have legitimate length differences.
+For a custom ordinary road, the expected logical length subtracts the average end offset from the declared road length.
+This follows [SUMO 1.27.1's native calculation](https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/netbuild/NBEdge.cpp).
+Native regression cases check this combination at several offsets.
+Bidirectional roads require both partners. Geometry restoration retains native logical lengths for those roads.
+The audit records their measurements without inferring an independent custom-length expectation.
+Measured geometry means are not mandatory logical lengths or evidence of field accuracy.
+The [dated stage-length follow-up](../benchmarks/network_construction_20261016_v1/length-and-correspondence-20261016-v1.md) records the real rebuild and remaining limits.
+
+## Paired driving diagnosis
+
+Use the repository-owned [comparison runner](../plugins/astra-sumo/scripts/compare_driving_cohort.py)
+to run one fixed route cohort across a source and its candidates.
+The [shared implementation](../plugins/astra-sumo/src/astra_sumo/core/paired_driving.py)
+retains every vehicle ID, departure, and route. It does not sample replacement requests.
+
+Save a request with this form. Input paths are relative to the request file.
+
+```json
+{
+  "reference": "source",
+  "networks": {"source": "source.net.xml", "candidate": "candidate.net.xml"},
+  "routes": "approved.rou.xml",
+  "seeds": [17, 42, 104],
+  "horizon_s": 2400
+}
+```
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/compare_driving_cohort.py request.json outputs/new-comparison --sumo-binary .venv/Lib/site-packages/sumo/bin/sumo.exe
+```
+
+The output directory must be new. Each run retains its native outputs and inspection result.
+`comparison.json` retains missing arrivals, failed runs, per-vehicle durations, and input hashes.
+The driving horizon also sets the teleport delay, matching the existing diagnostic convention.
+The runner uses explicit routed vehicles with numeric departure times. It does not load additional operating files.
+Failed or changed-input pairs remain diagnostic records. They provide no performance average.
+Command failures have a separate count and return script exit code 2. Their diagnostic records remain available.
+A successful synthetic driving comparison does not establish field accuracy.
+
+The runner also saves [native collision records](https://sumo.dlr.de/docs/Simulation/Output/Collisions.html)
+with their time, location, type, and vehicles.
+It saves [vehicle positions](https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html) during the last simulated step.
+With a one-second step, this record has time `horizon_s - 1`. It is not an exact-time snapshot at the horizon.
+Vehicles waiting for insertion have no recorded road position.
+The plan states the step length and collision settings. A collision record requires diagnosis before any field-risk interpretation.
+
+Each original request has an observation status. Arrivals retain their exact time since scheduled departure.
+Unfinished requests retain the observed time until the horizon and `right_censored=true`.
+This time includes insertion waiting. It is a lower bound on the complete request time, not a completed travel duration.
+Future requests and failed executions remain separate. Duration deltas apply only to vehicles with two recorded arrivals.
+Collision participants have a separate arrival status. With this runner's explicit teleport action, the collider also has a teleport marker.
+Affected pairs retain their raw recorded duration difference, but `duration_delta_s` stays null.
+This prevents a teleport-shortened trip from appearing as an ordinary duration comparison.
+The [Hamburg construction comparison](../benchmarks/network_construction_20261016_v1/README.md) retains measured geometry changes and invalid driving pairs.
 
 ## Site parameters
 

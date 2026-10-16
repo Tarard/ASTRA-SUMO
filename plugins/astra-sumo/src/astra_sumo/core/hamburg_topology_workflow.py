@@ -21,6 +21,7 @@ from .hamburg_aerial_movement import build_hamburg_aerial_corridor_plan
 from .hamburg_aerial_road_edges import build_hamburg_road_edge_evidence
 from .hamburg_corridor_candidate import bind_hamburg_corridor_tls_clusters
 from .hamburg_topology_audit import audit_hamburg_topology_candidate
+from .network_length_audit import audit_network_lengths
 from .hamburg_topology_route_checks import run_hamburg_topology_route_checks
 from .movement_routeability import run_candidate_movement_probes
 from .osm_network import audit_tls, build_osm_network, parse_bbox
@@ -540,6 +541,9 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             ordered_node_ids=request["route_node_order"], sumo_binary=sumo_binary, seed=options["seed"],
             context_manifest=destination / "context_intersections.json" if context_rebuild is not None else None,
             end_time_s=options["simulation_max_end"], timeout_seconds=timeout))
+        length_report = audit_network_lengths(net_files=sorted(destination.rglob("*.net.xml")),
+            output_file=destination / "construction-stage-lane-lengths.json")
+        report["lane_length_measurements"] = {"status": "measured", "artifact": _identity(length_report["report_file"])}
         decisions = [source["status"], outside_geometry["status"], candidate["status"], quality["status"], movements["status"], routes["status"], source_policy['status']]
         if request.get("road_facts") is not None:
             reference_file = destination / "road-reference-scorecard.json"

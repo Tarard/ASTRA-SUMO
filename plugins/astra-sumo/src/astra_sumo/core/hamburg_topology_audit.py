@@ -18,6 +18,7 @@ from .connection_mode_audit import (
     lane_supports_motorized,
 )
 from .junction_boundary_rebuild import _signature
+from .network_length_audit import measure_lane_lengths
 from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
 
 
@@ -376,6 +377,7 @@ def audit_hamburg_topology_candidate(
               "structural": structural, "official_connectivity": connectivity, "geometry_review": geometry,
               "connection_review": connection_review, "connection_comparison": comparison,
               "outside_scope_preservation": outside, "reload_stability": reload,
+              "lane_length_measurements": {"source": measure_lane_lengths(before), "candidate": measure_lane_lengths(root)},
               "claim_boundary": "Construction and geometry decisions remain separate. A passed connection check "
                                 "does not clear review items. No detector counts, routes for calibration, or "
                                 "historical signal observations are loaded by this audit."}

@@ -77,6 +77,13 @@ A better neighbor produces `conflict`, with its measured alternative recorded. I
 These are diagnostic modeling choices, not calibrated confidence probabilities.
 Crossings use crossing objects. Cycle lanes use dedicated bicycle lanes with distinct assigned identities.
 Absent nearby compatible objects remain unmodeled, with the nearest candidate distance recorded when available.
+Nonmotor association measures perpendicular offset over compatible longitudinal overlap.
+Missing tails reduce coverage instead of increasing lateral distance.
+Candidates within the existing 2 m lateral limit use cost `lateral_m + 2 * (1 - reference_coverage)`.
+This favors greater coverage at equal offset and preserves the one-to-one assignment.
+The report records this rule and each eligible candidate's coverage.
+These associations remain low-confidence guesses. A short overlap does not establish whole-lane correspondence.
+The [dated Hamburg follow-up](../benchmarks/network_construction_20261016_v1/length-and-correspondence-20261016-v1.md) records three recovered bicycle measurements and the remaining unknowns.
 
 | Kind | Selector | Expected value | Measurement |
 |---|---|---|---|
@@ -226,8 +233,11 @@ conversion. It then compares external lane geometry, stored lengths, widths,
 junction positions, junction shapes, road endpoints, and the coordinate frame.
 It also checks the fixed lane endpoints on mutable boundary roads.
 A later conversion requires another restoration and comparison.
-Geometry changes still use whole-network native conversion. This method does
-not reduce conversion work to a local subnetwork.
+Road-shape, width, lane-count, and junction changes still use whole-network native conversion.
+Their exterior restoration does not reduce conversion work to a local subnetwork.
+An explicit stop-line adjustment can avoid that conversion when the saved approach and internal paths support a unique prefix transfer.
+Its byte comparison preserves unrelated junction waiting structures and signal definitions.
+Other geometry operations retain native conversion and exterior restoration.
 
 The reproducible comparison entry points are:
 

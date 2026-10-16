@@ -19,6 +19,22 @@ The command prefers netconvert beside the current Python executable. Otherwise
 it uses PATH. Supply `--netconvert-binary` to select an explicit executable.
 SUMO comes from the same directory. Reports record executable paths and hashes.
 
+The [historical MoST supplement](../benchmarks/public_network_development_v2/README.md)
+adds a recovered same-revision prepared input and its published import settings.
+Use its separate catalog to retain the original four-model experiment unchanged.
+Catalog-bound configurations preserve supported import options, including elevation and type maps.
+The builder overrides joining and geometry removal for its unjoined comparison.
+Upstream output and report paths are ignored. Actual arguments and overrides remain in the result.
+The importer uses the current binary, so its differences are not automatically human edits.
+For catalog-bound configurations, a second import retains the published joining and geometry settings.
+`generator-control.json` records this command, its network hash, and its load check.
+`generator-control-labels.jsonl` compares the same original case IDs with this control.
+It separates recipe agreement, unexplained differences, unresolved control correspondence, and unknown reference records.
+It also counts differences present in the unjoined baseline. Unknown records remain in the table.
+This control uses the published configuration with current SUMO defaults. It does not reconstruct the historical executable or all historical defaults.
+Recipe agreement provides reproducibility evidence. Unexplained differences do not become human edits or field defects.
+The [dated MoST control](../benchmarks/public_network_development_v2/recipe-control-20261016-v1.md) records the real-data result and remaining unknowns.
+
 The [catalog](../benchmarks/public_network_development_v1/catalog.json) freezes
 four public models from three cities:
 

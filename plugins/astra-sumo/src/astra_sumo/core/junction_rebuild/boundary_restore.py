@@ -9,7 +9,7 @@ from .geometry import (
     _edge_geometry_matches_current_junctions,
     _join_shape_text,
     _joined_lane_length,
-    _polyline_length,
+    _set_edge_lengths_from_shapes,
     _primary_edge_shape,
 )
 from .network import _connection_lane_indices_valid, _lanes_by_index, _net_lane_counts, _split
@@ -134,11 +134,7 @@ def _restore_existing_edge_geometry(
             # evidence than geometry translated from an unrelated teacher
             # endpoint, and preserves the legacy marker-file behaviour.
             lane.set("shape", source_edge_shape)
-        restored_shape = lane.attrib.get("shape", "")
-        if restored_shape and "length" in lane.attrib:
-            rendered_length = _polyline_length(restored_shape)
-            if rendered_length is not None:
-                lane.set("length", f"{rendered_length:.2f}")
+    _set_edge_lengths_from_shapes(edge)
 
 
 def _preserve_mapped_boundary_geometry(
