@@ -181,6 +181,19 @@ direction alone does not establish a field prohibition.
 
 ## Preservation and review
 
+Individual road-geometry and connection edits now supply a local network to netconvert.
+The input includes every incident road of the edited junctions. It closes any affected roundabout ring.
+The candidate copies the exterior from the immutable source and uses native elements inside the declared edit.
+The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
+Reports retain the local input, raw native output, and merged proposal with their hashes.
+Release validation independently reconstructs the source-derived input and the merge.
+
+`local_conversion.status` reports `local` or `full_network`.
+Joins, controller reconstruction, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
+The report states that reason. Their local conversion remains open work.
+XML inspection, exterior copying, and whole-candidate checks still read the full source.
+The native rebuild uses the selected road context. This does not promise constant total runtime for large networks.
+
 Native conversion produces a proposal. The shared preservation code restores
 the declared exterior and checks fixed boundary endpoints. Lane or road
 identity changes outside the operation stop acceptance. Permission-only edits
@@ -197,6 +210,21 @@ source-snapshot rollback. The review overlay has no runtime effect. Signal
 and protected-semantic changes still need the existing exact candidate-bound
 review evidence before promotion. Route completion and fact-table acceptance
 remain separate checks.
+
+### Custom movement endpoints
+
+A road edit can move lane endpoints while native import retains an accepted custom internal curve.
+The checker uses the existing 0.1 m endpoint tolerance to locate broken paths in the edited junctions.
+It blends their endpoint corrections through the saved spatial curve, including elevation.
+Native conversion then recomputes the paths and junction requests from the original input plus the revised connection shapes.
+Accepted width-transition offsets retain their existing treatment.
+
+The process allows three repair attempts. Every attempt retains its previous proposal, connection patch, command result, and elapsed time.
+An unsuccessful command restores the previous proposal for diagnosis. It cannot reuse a stale output as a successful repair.
+Remaining endpoint gaps prevent physical acceptance in explore mode. They do not require human approval to retry a new candidate.
+`native_rebuild_count` includes these extra calls for local conversion.
+Explore output also records their time. Join reconstruction time remains unreported by that native-time total.
+These checks establish construction continuity, not field accuracy or traffic performance.
 
 ## Lane-length measurements
 

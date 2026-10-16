@@ -17,6 +17,30 @@ from .network import (
 )
 
 
+def reanchor_spatial_shape(shape, *, start, end):
+    """Blend endpoint corrections through a spatial curve, including elevation."""
+    values = [tuple(map(float, point)) for point in shape]
+    start, end = tuple(map(float, start)), tuple(map(float, end))
+    if len(values) < 2 or any(len(point) not in (2, 3) or not all(map(math.isfinite, point))
+                              for point in [*values, start, end]):
+        raise ValueError("A curve requires two finite spatial points and finite endpoints.")
+    dimensions = max(map(len, [*values, start, end]))
+    values = [point + (0.0,) * (dimensions - len(point)) for point in values]
+    start, end = start + (0.0,) * (dimensions - len(start)), end + (0.0,) * (dimensions - len(end))
+    cumulative = [0.0]
+    for left, right in zip(values, values[1:]):
+        cumulative.append(cumulative[-1] + math.dist(left, right))
+    corrections = [tuple(target[i] - old[i] for i in range(dimensions))
+                   for target, old in ((start, values[0]), (end, values[-1]))]
+    result = []
+    for point, station in zip(values, cumulative):
+        ratio = station / cumulative[-1] if cumulative[-1] > 0 else 0.0
+        result.append(tuple(point[i] + corrections[0][i] * (1 - ratio) + corrections[1][i] * ratio
+                            for i in range(dimensions)))
+    result[0], result[-1] = start, end
+    return result
+
+
 def _clone_transformed_net_element(
     element: ET.Element,
     dx: float,

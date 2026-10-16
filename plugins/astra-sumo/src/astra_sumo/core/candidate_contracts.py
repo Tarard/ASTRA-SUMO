@@ -142,7 +142,16 @@ def validate_materialization_evidence(
     elif not isinstance(command, list) or not all(isinstance(token, str) for token in command):
         errors.append({"code": "netconvert_command_required"})
     else:
-        if not _command_targets(command, "--sumo-net-file", source_net_file):
+        command_source = source_net_file
+        semantic = report.get("semantic_validation")
+        local = semantic.get("local_conversion") if isinstance(semantic, Mapping) else None
+        if isinstance(local, Mapping) and local.get("status") == "local":
+            from .local_network_conversion import validate_local_conversion
+            try:
+                command_source = validate_local_conversion(local, source_net_file)
+            except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+                errors.append({"code": "invalid_local_netconvert_materialization", "detail": str(error)})
+        if not _command_targets(command, "--sumo-net-file", command_source):
             errors.append({"code": "netconvert_command_source_mismatch"})
         if not _command_targets(command, "--output-file", candidate_net_file):
             errors.append({"code": "netconvert_command_candidate_mismatch"})
