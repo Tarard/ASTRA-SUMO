@@ -33,6 +33,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
     """Keep complete edit junctions and the roads needed to position their ends."""
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
+    if not mutable_edges:
+        return None, {"status": "full_network", "reason": "no_incident_ordinary_roads"}
     index = _index(root)
     aliases = {node: joined for joined, nodes in (join_groups or {}).items() for node in nodes}
     absorbed = {key for key, edge in index["edges"].items() if key not in index["ownership"]["edge"]
@@ -158,6 +160,37 @@ def merge_local_conversion(source_root, native_root, record):
         a, b = [list(map(float, value.split(","))) for value in boxes]
         result.find("location").set("convBoundary", ",".join(map(str, [min(a[0], b[0]), min(a[1], b[1]), max(a[2], b[2]), max(a[3], b[3])])))
     return result
+
+
+def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, output_dir, prefix,
+                                 timeout_seconds, join_groups=None):
+    """Run one native conversion and retain its local input and full merged proposal."""
+    from .command_runner import run_command
+    command = list(command)
+    source = Path(command[command.index("--sumo-net-file") + 1]).resolve(strict=True)
+    output = Path(command[command.index("--output-file") + 1]).resolve()
+    if output == source or output.exists():
+        raise ValueError("Use a new conversion output separate from its source.")
+    root = ET.parse(source).getroot()
+    subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups)
+    record["source"] = {"path": str(source), "sha256": file_sha256(source)}
+    if subset is not None:
+        input_file = Path(output_dir) / f"{prefix}.local-input.net.xml"
+        with input_file.open("xb") as stream:
+            stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
+        record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
+        command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
+    result = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
+    if result.returncode == 0 and output.is_file() and subset is not None:
+        raw = Path(output_dir) / f"{prefix}.native-local-output.net.xml"
+        with raw.open("xb") as stream:
+            stream.write(output.read_bytes())
+        merged = merge_local_conversion(root, ET.parse(raw).getroot(), record)
+        output.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
+        record.update(native_output={"path": str(raw.resolve()), "sha256": file_sha256(raw)},
+                      merged_proposal={"path": str(output), "sha256": file_sha256(output), "stage": "before_exterior_restoration"})
+    record["source_unchanged"] = file_sha256(source) == record["source"]["sha256"]
+    return result, record
 
 
 def validate_local_conversion(record, source_file):

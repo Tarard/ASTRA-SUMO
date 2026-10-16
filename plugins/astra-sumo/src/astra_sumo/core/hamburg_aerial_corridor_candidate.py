@@ -139,11 +139,19 @@ def build_hamburg_aerial_combined_candidate(
     joined_auto = destination / "joined-auto.net.xml"
     joined_net = destination / "joined-base.net.xml"
     joined_output = destination / "joined-output.nod.xml"
-    netconvert = run_command(
+    construction_root = ET.parse(construction_net).getroot()
+    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
+    mutable_edges = {edge.get("id") for edge in construction_root.findall("edge")
+                     if not edge.get("id", "").startswith(":")
+                     and any(edge.get(end) in mutable_nodes for end in ("from", "to"))}
+    join_groups = {str(group["join_id"]): group["source_node_ids"] for group in groups if len(group["source_node_ids"]) > 1}
+    from .local_network_conversion import run_scoped_native_conversion
+    netconvert, join_conversion = run_scoped_native_conversion(
+        command=
         [
             str(request.get("netconvert_binary", "netconvert")),
             "--junctions.internal-link-detail",
-            "25",
+            construction_root.get("junctionLinkDetail", "5"),
             "--sumo-net-file",
             str(construction_net),
             "--node-files",
@@ -157,7 +165,8 @@ def build_hamburg_aerial_combined_candidate(
             "--offset.disable-normalization",
             "true",
         ],
-        cwd=destination,
+        mutable_nodes=mutable_nodes, mutable_edges=mutable_edges, join_groups=join_groups or None,
+        output_dir=destination, prefix="physical-parts",
         timeout_seconds=float(request["timeout_seconds"]),
     )
     (destination / "netconvert.log").write_text(
@@ -397,6 +406,7 @@ def build_hamburg_aerial_combined_candidate(
         "runtime_fallback_join_ids": sorted(skipped_join_ids),
         "attempts": attempts,
         "netconvert": {
+            "local_conversion": join_conversion,
             "returncode": netconvert.returncode,
             "warning_count": sum(
                 line.startswith("Warning:")

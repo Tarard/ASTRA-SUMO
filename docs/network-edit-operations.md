@@ -200,7 +200,10 @@ Their records declare absorbed roads and source-to-joined node identities. They 
 For typed joins, release validation reconstructs both local inputs and their retained exteriors.
 Controller relocation or demotion, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
 A prohibition that refers to an absorbed road also retains full conversion. The report states the reason.
-Other stages of the complete construction workflow still need separate conversion-scope work.
+Official-part joining and its first boundary reconstruction now use the same local conversion function.
+Their reports retain actual native commands, local inputs, native outputs, and complete merged proposals.
+The boundary reimport audit still converts the complete candidate to check stability and reports that scope explicitly.
+Movement compilation and approach reconstruction still need separate conversion-scope work.
 
 Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
 The same failure occurs with a full-source control. Native join requests therefore require an unused target ID.

@@ -41,6 +41,13 @@ def test_missing_frame_retains_the_full_native_path():
     assert record == {"status": "full_network", "reason": "coordinate_frame_not_declared"}
 
 
+def test_empty_local_context_keeps_the_full_native_input():
+    root = ET.fromstring('<net><location netOffset="0,0" projParameter="!"/><junction id="isolated"/></net>')
+    subset, record = local_conversion_input(root, {"isolated"}, set())
+    assert subset is None
+    assert record == {"status": "full_network", "reason": "no_incident_ordinary_roads"}
+
+
 def test_prohibition_inputs_keep_complete_references_and_fall_back_for_unresolved_references():
     root = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
       <edge id="in" from="W" to="A"/><edge id="out" from="A" to="E"/>
@@ -305,6 +312,57 @@ def test_native_join_preconditions_reject_existing_node_or_controller_names(tmp_
     operation = {"id": "join", "operation": "join_junctions", "params": {
         "node_ids": ["A", "B"], "join_id": target, "signal_policy": "rebuild_diagnostic"}}
     assert validate_scoped_operation(operation, root)
+
+
+def test_shared_conversion_runs_multiple_join_groups_and_retains_the_remote_program(tmp_path):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source = _source(tmp_path)
+    before = file_sha256(source)
+    nodes = tmp_path / "joins.xml"
+    nodes.write_text('<nodes><join id="J_AB" nodes="A B" type="priority" reset="false"/>'
+                     '<join id="J_remote" nodes="R5 R6" type="priority" reset="false"/></nodes>', encoding="utf-8")
+    groups = {"J_AB": ["A", "B"], "J_remote": ["R5", "R6"]}
+    mutable_nodes = {"A", "B", "J_AB", "R5", "R6", "J_remote"}
+    root = ET.parse(source).getroot()
+    mutable_edges = {row.get("id") for row in root.findall("edge")
+                     if any(row.get(end) in mutable_nodes for end in ("from", "to"))}
+    output = tmp_path / "joined.net.xml"
+    result, record = run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+        "--node-files", str(nodes), "--offset.disable-normalization", "true", "--output-file", str(output)],
+        mutable_nodes=mutable_nodes, mutable_edges=mutable_edges, join_groups=groups,
+        output_dir=tmp_path, prefix="multiple", timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    assert record["status"] == "local" and record["source_unchanged"]
+    assert record["converted_normal_edge_count"] == 14
+    candidate = ET.parse(output).getroot()
+    assert sum(not row.get("id", "").startswith(":") for row in candidate.findall("edge")) == 44
+    assert candidate.find("junction[@id='J_AB']") is not None
+    assert candidate.find("junction[@id='J_remote']") is not None
+    assert ET.canonicalize(ET.tostring(root.find("tlLogic[@id='R10']"), encoding="unicode"), strip_text=True) == ET.canonicalize(
+        ET.tostring(candidate.find("tlLogic[@id='R10']"), encoding="unicode"), strip_text=True)
+    assert file_sha256(source) == before
+
+
+def test_shared_conversion_failure_keeps_partial_output_and_protects_existing_files(tmp_path, monkeypatch):
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    from astra_sumo.core.command_runner import CommandResult
+    source, output = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
+    source.write_text('<net><location netOffset="0,0" projParameter="!"/></net>', encoding="utf-8")
+    original = source.read_bytes()
+    def fail(command, **kwargs):
+        output.write_text("partial native output", encoding="utf-8")
+        return CommandResult(command=command, cwd=str(kwargs["cwd"]), status="fail", returncode=1)
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", fail)
+    args = dict(command=["netconvert", "--sumo-net-file", str(source), "--output-file", str(output)],
+                mutable_nodes=set(), mutable_edges=set(), output_dir=tmp_path, prefix="failed", timeout_seconds=1)
+    result, record = run_scoped_native_conversion(**args)
+    assert result.returncode == 1 and "merged_proposal" not in record
+    assert output.read_text() == "partial native output"
+    assert source.read_bytes() == original
+    with pytest.raises(ValueError, match="new conversion output"):
+        run_scoped_native_conversion(**args)
 
 
 def test_new_connection_keeps_modern_permissions_in_a_legacy_format_candidate(tmp_path):

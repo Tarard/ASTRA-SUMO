@@ -331,6 +331,8 @@ def test_custom_boundary_restores_approach_without_removing_edges(tmp_path) -> N
     report = _rebuild_join_boundaries(source, target, groups, netconvert_binary="netconvert", timeout_seconds=60)
     after = ET.parse(target).getroot()
     assert report["status"] == "pass"
+    assert report["local_conversion"]["status"] == "local"
+    assert report["cut_geometry"]["conversion_scope"] == "full_network_reimport_audit"
     assert float(before.find("edge[@id='in']/lane").get("length")) < 2
     assert float(after.find("edge[@id='in']/lane").get("length")) > 30
     assert {edge.get("id") for edge in before.findall("edge") if edge.get("function") != "internal"} == {edge.get("id") for edge in after.findall("edge") if edge.get("function") != "internal"}
