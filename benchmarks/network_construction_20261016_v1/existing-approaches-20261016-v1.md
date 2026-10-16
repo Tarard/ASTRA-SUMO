@@ -43,6 +43,16 @@ The figures retain source attribution and label the geometry as references rathe
 Aerial acquisition date within 2026 and MAP field-validity dates remain unknown.
 No road or facility was removed because it was hidden or unclear in the image.
 
+- [2349, approach 2: aerial, MAP, and source comparison](figures/lsa-2349-approach-2.png).
+- [2394, approach 3: aerial, MAP, and source comparison](figures/lsa-2394-approach-3.png).
+
+Imagery attribution: Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung.
+MAP attribution: Freie und Hansestadt Hamburg, Landesbetrieb Straßen, Brücken und Gewässer.
+Both use [Datenlizenz Deutschland Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0).
+The figures add reference and model geometry marks. The machine record retains the exact WMS request URL, bounds, year, and source hash.
+The source-model overlay includes © OpenStreetMap contributors, under [ODbL 1.0](https://opendatacommons.org/licenses/odbl/1-0/).
+Keep these notices and source records with exported figures.
+
 ## Complete rebuild and checks
 
 The complete Hamburg rebuild has four existing-approach outcomes and two remaining location findings.

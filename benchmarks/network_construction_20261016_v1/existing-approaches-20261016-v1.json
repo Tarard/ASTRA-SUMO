@@ -645,5 +645,30 @@
   "portable_test": {
     "path": "tests/test_hamburg_existing_approach_reference.py",
     "sha256": "6311051a356d2ddfe29aec9e4b6f80e577871d4464533d6366ccc661868b744a"
+  },
+  "published_reference_figures": [
+    {
+      "path": "benchmarks/network_construction_20261016_v1/figures/lsa-2349-approach-2.png",
+      "sha256": "fde7ce48753febd5fd17539f3f024b352d965e5c2915b2bfe9293142eeaad06e"
+    },
+    {
+      "path": "benchmarks/network_construction_20261016_v1/figures/lsa-2394-approach-3.png",
+      "sha256": "33391005cd05fc66161890791f98368249c99907d926e2c4cbc80e0ce966fdea"
+    }
+  ],
+  "aerial_source": {
+    "sha256": "c13966c1b00726906857cb13995044df9ec9b4298efbbbe531651f90e06cc4e2",
+    "crs": "EPSG:25832",
+    "bbox": [
+      565600.0,
+      5932900.0,
+      566160.0,
+      5933330.0
+    ],
+    "capture_date": null,
+    "capture_year": 2026,
+    "authority": "Hamburg LGV",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "source_url": "https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=dop_zeitreihe_unbelaubt&STYLES=&FORMAT=image%2Fpng&CRS=EPSG%3A25832&BBOX=565600%2C5932900%2C566160%2C5933330&WIDTH=1600&HEIGHT=1229&TIME=2026"
   }
 }
