@@ -1061,6 +1061,12 @@ def materialize_corridor_edit_variant(
                 for name in ("native_output", "merged_proposal"):
                     extra_artifacts.append((Path(scoped_validation["local_conversion"][name]["path"]), f"local_conversion_{name}"))
             if scoped_validation is not None:
+                links = scoped_validation["loaded_link_preservation"]
+                extra_artifacts.append((Path(links["report_file"]), "loaded_link_preservation"))
+                for name in ("request", "observations"):
+                    if links[name] is not None:
+                        extra_artifacts.append((Path(links[name]["path"]), f"loaded_link_{name}"))
+                extra_artifacts.extend((Path(row["path"]), "loaded_link_input") for row in links["frozen_inputs"])
                 for attempt in scoped_validation.get("native_path_repair", {}).get("attempts", []):
                     for name in ("before", "patch", "failed_output"):
                         if name in attempt:

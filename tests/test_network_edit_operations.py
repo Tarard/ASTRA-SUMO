@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 import shutil
 import subprocess
@@ -95,6 +96,11 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
     assert result["status"] == "pass", result
     assert result["semantic_validation"]["requested_effect_applied"] is True
     assert result["semantic_validation"]["geometry_preservation"]["status"] == "pass"
+    loaded = result["semantic_validation"]["loaded_link_preservation"]
+    assert loaded["status"] == "pass", loaded
+    assert loaded["inputs"]["candidate"]["sha256"] == file_sha256(Path(result["candidate_net_file"]))
+    artifacts = json.loads(Path(result["manifest_file"]).read_text())["artifacts"]
+    assert {"loaded_link_preservation", "loaded_link_request", "loaded_link_observations"} <= {row["kind"] for row in artifacts}
     assert file_sha256(source) == digest
     if kind == "set_edge_shape":
         before = source.read_bytes()
