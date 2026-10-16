@@ -33,7 +33,16 @@ def test_retained_end_directions_do_not_hide_a_new_interior_bend():
     before = [(0, 0), (10, 0)]
     after = reanchor_spatial_shape(before, start=(0, 3), end=(10, 0), preserve_end_directions=True)
     assert _maximum_vertex_turn(before) == 0
-    assert _maximum_vertex_turn(after) > 20
+    assert 0 < _maximum_vertex_turn(after) < 10
+    assert len(after) >= 21
+
+
+def test_spatial_reanchor_keeps_samples_through_a_long_sloped_segment():
+    points = [(0, 0, 0), (3, 4, 12)]
+    result = reanchor_spatial_shape(points, start=points[0], end=points[-1], preserve_end_directions=True)
+    assert len(result) >= 27
+    assert result[0] == points[0] and result[-1] == points[-1]
+    assert max(sum((b - a) ** 2 for a, b in zip(left, right)) ** .5 for left, right in zip(result, result[1:])) <= .5 + 1e-12
 
 
 def _case(tmp_path, elevation, logical_length=None):

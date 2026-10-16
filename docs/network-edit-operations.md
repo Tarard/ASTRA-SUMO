@@ -230,7 +230,9 @@ A road edit can move lane endpoints while native import retains an accepted cust
 The checker uses the existing 0.1 m endpoint tolerance to locate broken paths in the edited junctions.
 It blends their endpoint corrections through the saved spatial curve, including elevation.
 The repair keeps the input curve's first and last segment directions and uses smooth weights between them.
-Sparse curves receive extra samples while retaining their original vertices.
+Before blending, spatial samples lie at most 0.5 m apart and retain the original vertices.
+Very short curves receive further samples so their end segments remain separate.
+The correction can change the final sample spacing.
 Reports give endpoint corrections, direction changes, and correction-to-length ratios.
 They also report the largest interior vertex turn before and after repair. Retained end directions can still leave a sharper interior bend.
 This does not guarantee alignment with an arbitrarily rotated road or certify curvature and driving performance.
