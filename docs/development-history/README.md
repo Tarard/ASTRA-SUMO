@@ -4,7 +4,8 @@ This index contains dated audits, handoff notes, development logs, and supersede
 
 ## Dated Records
 
-- [Stop-line geometry and junction preservation, 2026-10-16](../../benchmarks/network_stop_line_preservation_20261016_v1/README.md)
+- [Stop-line transfer with SUMO logical lengths, 2026-10-16](../../benchmarks/network_stop_line_preservation_20261016_v2/README.md)
+- [First stop-line preservation experiment, 2026-10-16](../../benchmarks/network_stop_line_preservation_20261016_v1/README.md)
 - [Hamburg calibration follow-up, 2026-10-16](../../benchmarks/network_calibration_followup_20261016_v1/README.md)
 - [Native roundabout reproducibility report, 2026-10-15](../../benchmarks/netconvert_roundabout_repro_v1/README.md)
 - [Architecture audit, 2026-07-13](../architecture-audit-2026-07-13.md)
