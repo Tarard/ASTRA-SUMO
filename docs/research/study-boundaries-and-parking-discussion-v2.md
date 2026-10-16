@@ -50,6 +50,8 @@ Keep those bases distinct. Missing observations must not become zero flow.
 Observed crossings can constrain admitted flow without identifying demand held upstream.
 
 The amount of surrounding road context is another declared input.
+Record entry-lane and entry-speed settings, maximum departure delay, initial vehicles, and warm-up rules.
+Those settings can change admitted flow and insertion backlog.
 Distance, travel time, and successive road connections are alternatives for describing it.
 Keep relevant downstream storage and alternative routes when the study question depends on them.
 An unrestricted exit can remove downstream queue effects.
@@ -71,10 +73,12 @@ A new comparison needs correspondence between the original trip and each retaine
 One trip can enter repeatedly. Visits need separate identities and a link to the original trip.
 Never-entering and unobserved visits remain explicit outcomes.
 
-The current routeability writer requests edge exit times, but does not explicitly request unfinished vehicle-route output.
-A jammed parent can therefore leave incomplete boundary timing evidence.
+Earlier diagnostic runs requested edge exit times without unfinished vehicle-route output.
+Commit `362a534` now retains unfinished routes in new diagnostic runs. Historical files remain unchanged.
+A jammed parent can still leave boundary crossings unobserved, even when its unfinished routes are saved.
 Audit the actual crossing coverage before cutting routes. Missing crossings cannot silently disappear from the denominator.
 Parent-derived timings remain simulated inputs, including the parent's delays and errors.
+Keep each derived replay linked to its own parent seed and observations.
 Observed boundary counts support a different conditional replay.
 
 ## Accounting and comparison
