@@ -66,7 +66,7 @@ def _catalog(path):
     return document
 
 
-def _prepared_import_arguments(files, osm):
+def _prepared_import_arguments(files, osm, *, unjoined=True):
     """Read supported import settings without executing upstream output or report paths."""
     configuration = next((path for row, path in files if row["role"] == "build_config"), None)
     if configuration is None:
@@ -107,7 +107,7 @@ def _prepared_import_arguments(files, osm):
             seen.add(option.tag)
             if option.tag in ignored_output_options:
                 continue
-            if option.tag not in {"tls.join", "junctions.join", "geometry.remove"}:
+            if not unjoined or option.tag not in {"tls.join", "junctions.join", "geometry.remove"}:
                 arguments.append(f"--{option.tag}={option.get('value')}")
     return arguments, configuration
 
@@ -295,6 +295,61 @@ def _jsonl(path, rows):
     return dict(counts)
 
 
+def _candidate_predictions(source, candidate, cases):
+    mapping = _registered_nodes(source, candidate)
+    source_edges, source_lanes, _ = _connections(source)
+    edges, lanes, connections = _connections(candidate)
+    registered = {key for key in source_edges.keys() & edges.keys() if all(
+        mapping.get(source_edges[key].get(end)) == edges[key].get(end) for end in ("from", "to"))}
+    for case in cases:
+        if case["kind"] == "junction_membership":
+            parents = [mapping.get(node) for node in case["source_node_ids"]]
+            prediction = parents[0] == parents[1] if all(parents) else None
+        else:
+            pair = tuple(case["connection"])
+            prediction = pair in connections if all(edge in registered and (edge, lane) in lanes and
+                lanes[(edge, lane)] == source_lanes.get((edge, lane)) for edge, lane in (pair[:2], pair[2:])) else None
+        yield case, prediction
+
+
+def _generator_control(*, files, osm, source, label_file, folder, netconvert_binary, sumo_binary):
+    settings, configuration = _prepared_import_arguments(files, osm, unjoined=False)
+    output = folder / "published-settings-control.net.xml"
+    command = [netconvert_binary, "--osm-files", str(osm), *settings, "--output-file", str(output)]
+    built = run_command(command, cwd=folder, timeout_seconds=240).to_dict()
+    report = {"status": "failed", "configuration": _identity(configuration), "applied_arguments": settings,
+              "command": command, "result": built, "human_cleaning_evaluation": False,
+              "method": "current_sumo_with_published_configuration",
+              "claim_boundary": "Recipe agreement is model reproducibility. Remaining differences have no manual or field attribution."}
+    if built["status"] == "pass" and output.is_file():
+        control = ET.parse(output).getroot()
+        cases = [json.loads(line) for line in label_file.read_text(encoding="utf-8").splitlines()]
+        baseline = {case["case_id"]: value for case, value in _candidate_predictions(source, source, cases)}
+        rows, counts, changed_counts = [], Counter(), Counter()
+        for case, prediction in _candidate_predictions(source, control, cases):
+            expected = case["expected_join"] if case["kind"] == "junction_membership" else case["expected_present"]
+            outcome = ("unknown_reference" if expected is None else "unresolved_control" if prediction is None else
+                       "recipe_reproduced" if expected == prediction else "unexplained_difference")
+            before = baseline[case["case_id"]]
+            changed = before != expected if before is not None and expected is not None else None
+            rows.append({"case_id": case["case_id"], "kind": case["kind"], "expected": expected,
+                         "unjoined_prediction": before, "control_prediction": prediction,
+                         "baseline_difference": changed, "outcome": outcome})
+            counts[outcome] += 1
+            if changed:
+                changed_counts[outcome] += 1
+        provenance = folder / "generator-control-labels.jsonl"
+        with provenance.open("x", encoding="utf-8", newline="\n") as stream:
+            for row in rows:
+                stream.write(json.dumps(row, sort_keys=True) + "\n")
+        load = run_sumo_load_audit(net_file=output, output_dir=folder / "generator-control-load", sumo_binary=sumo_binary)
+        report.update(status="measured", network=_identity(output), label_provenance=_identity(provenance),
+                      sumo_load=load, counts=dict(counts), baseline_difference_counts=dict(changed_counts))
+    report_file = folder / "generator-control.json"
+    write_json_atomic(report_file, report, sort_keys=True)
+    return {**report, "report": _identity(report_file)}
+
+
 def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netconvert_binary="netconvert"):
     """Freeze model targets and prepared-source comparisons for ordinary development."""
     catalog_path, cache, destination = Path(catalog_file).resolve(strict=True), Path(cache_dir).resolve(), Path(output_dir).resolve()
@@ -324,6 +379,7 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
         for name, path in (("netconvert", Path(shutil.which(netconvert_binary) or netconvert_binary).resolve()),
                            ("sumo", Path(sumo_binary).resolve()), ("python", Path(sys.executable).resolve()))}
     report["toolchain"]["python"]["version"] = sys.version
+    report["implementation"] = _identity(Path(__file__).resolve())
     for name in ("netconvert", "sumo"):
         program = report["toolchain"][name]
         if program["sha256"] is not None:
@@ -401,7 +457,8 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
                                     "manual_edit_origin": "unestablished"}
             if row.get("import_configuration") and row["comparison_source"]["kind"] == "prepared_osm_import":
                 row["paired_labels"].update(label_usage="generator_recipe_regression", human_cleaning_evaluation=False,
-                    generator_control={"status": "not_run", "reason": "Full-recipe control is required before attributing differences to manual cleaning."})
+                    generator_control=_generator_control(files=files, osm=osm, source=comparison_root,
+                        label_file=label_file, folder=folder, netconvert_binary=netconvert_binary, sumo_binary=sumo_binary))
         dataset_report = folder / "dataset.json"
         write_json_atomic(dataset_report, row, sort_keys=True)
         manifest_artifacts.extend(_identity(path) for path in sorted(folder.rglob("*")) if path.is_file())
@@ -449,26 +506,19 @@ def compare_public_reference(*, dataset_file, request_file, output_file):
     candidate_root = ET.parse(candidate).getroot()
     source_root = ET.parse(dataset["comparison_source"]["path"]).getroot()
     reference_root = ET.parse(dataset["reference_net"]["path"]).getroot()
-    mapping = _registered_nodes(source_root, candidate_root)
-    source_edges, source_lanes, _ = _connections(source_root)
-    edges, lanes, connections = _connections(candidate_root)
+    source_edges, _, _ = _connections(source_root)
+    edges, _, connections = _connections(candidate_root)
     reference_edges, _, reference_connections = _connections(reference_root)
-    registered_edges = {key for key in source_edges.keys() & edges.keys() if all(
-        mapping.get(source_edges[key].get(end)) == edges[key].get(end) for end in ("from", "to"))}
     counts, change_counts, cases = defaultdict(Counter), defaultdict(Counter), []
     labelled_connections = set()
-    for text in label_path.read_text(encoding="utf-8").splitlines():
-        case = json.loads(text)
+    label_cases = [json.loads(text) for text in label_path.read_text(encoding="utf-8").splitlines()]
+    for case, predicted in _candidate_predictions(source_root, candidate_root, label_cases):
         if case["kind"] == "junction_membership":
             expected = case["expected_join"]
-            parents = [mapping.get(node) for node in case["source_node_ids"]]
-            predicted = parents[0] == parents[1] if all(parents) else None
         else:
             expected = case["expected_present"]
             pair = tuple(case["connection"])
             labelled_connections.add(pair)
-            predicted = pair in connections if all(edge in registered_edges and (edge, lane) in lanes and
-                lanes[(edge, lane)] == source_lanes.get((edge, lane)) for edge, lane in (pair[:2], pair[2:])) else None
         known = expected is not None
         if not known:
             outcome = "unknown_reference"

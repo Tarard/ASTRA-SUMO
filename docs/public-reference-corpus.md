@@ -26,6 +26,13 @@ Catalog-bound configurations preserve supported import options, including elevat
 The builder overrides joining and geometry removal for its unjoined comparison.
 Upstream output and report paths are ignored. Actual arguments and overrides remain in the result.
 The importer uses the current binary, so its differences are not automatically human edits.
+For catalog-bound configurations, a second import retains the published joining and geometry settings.
+`generator-control.json` records this command, its network hash, and its load check.
+`generator-control-labels.jsonl` compares the same original case IDs with this control.
+It separates recipe agreement, unexplained differences, unresolved control correspondence, and unknown reference records.
+It also counts differences present in the unjoined baseline. Unknown records remain in the table.
+This control uses the published configuration with current SUMO defaults. It does not reconstruct the historical executable or all historical defaults.
+Recipe agreement provides reproducibility evidence. Unexplained differences do not become human edits or field defects.
 
 The [catalog](../benchmarks/public_network_development_v1/catalog.json) freezes
 four public models from three cities:
