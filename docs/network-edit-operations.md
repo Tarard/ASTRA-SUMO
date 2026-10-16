@@ -213,10 +213,15 @@ Existing preservation checks then restore the complete exterior, including remap
 Explicit road lengths are divided by the source spatial split fraction. Source end offsets remain on the downstream section.
 The report records actual compiled lane lengths. A lane-count change can change SUMO's mean end offset and logical lane length.
 Legacy permission declarations retain their effective classes when copied into plain-XML patches.
+Before adding a lane, approach construction checks whether saved source connections already represent the documented transition.
+Stable lane sections can cross unrelated side entries. Normal adjacent-lane access stays separate from a driving or capacity claim.
+Fragmented references use distinct connected lane paths and retain sampled coverage and offset measurements.
+Existing transitions outside the MAP merge footprint remain review findings with signed node-center offsets.
 
 If native conversion fails or the merge raises, the shared converter writes `{prefix}.conversion-record.json` before returning or raising.
 The file retains the command, errors, scope, input hashes, and any native output. It also records source drift as a warning.
 Failure evidence therefore survives callers that raise, even when netconvert writes no network file.
+Shared full-network fallbacks also receive a separate hashed input snapshot. Source drift cannot change the bytes passed to the native command.
 
 Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
 The same failure occurs with a full-source control. Native join requests therefore require an unused target ID.
