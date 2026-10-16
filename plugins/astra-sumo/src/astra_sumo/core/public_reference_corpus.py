@@ -90,19 +90,23 @@ def _prepared_import_arguments(files, osm):
     allowed = {"tls.join", "tls.guess-signals", "tls.default-type", "tls.min-dur", "tls.max-dur", "ramps.guess",
                "geometry.remove", "roundabouts.guess", "junctions.join", "junctions.limit-turn-speed", "crossings.guess",
                "walkingareas", "osm.elevation", "no-turnarounds.except-deadend", "no-internal-links", "ignore-errors",
-               "ignore-errors.connections", "show-errors.connections-first-try", "default.crossing-width"}
+               "ignore-errors.connections", "show-errors.connections-first-try", "default.crossing-width",
+               "precision", "proj.utm", "junctions.join-turns"}
+    ignored_output_options = {"output-file", "output-prefix", "log", "error-log", "message-log", "verbose"}
     arguments, seen = [], set()
     if type_files:
         arguments = ["--type-files", ",".join(map(str, type_files))]
     for section in root:
-        if section.tag in {"input", "output", "report"}:
+        if section.tag == "input":
             continue
-        if section.tag not in {"tls_building", "ramp_guessing", "processing", "building_defaults"}:
+        if section.attrib:
             raise ValueError(f"Unsupported prepared import section: {section.tag}")
         for option in section:
-            if option.tag not in allowed or option.tag in seen or set(option.attrib) != {"value"} or list(option):
+            if option.tag not in allowed | ignored_output_options or option.tag in seen or set(option.attrib) != {"value"} or list(option):
                 raise ValueError(f"Unsupported prepared import setting: {option.tag}")
             seen.add(option.tag)
+            if option.tag in ignored_output_options:
+                continue
             if option.tag not in {"tls.join", "junctions.join", "geometry.remove"}:
                 arguments.append(f"--{option.tag}={option.get('value')}")
     return arguments, configuration
@@ -362,7 +366,9 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
             if configuration is not None:
                 row["import_configuration"] = {**_identity(configuration), "applied_arguments": settings,
                     "overrides": {"junctions.join": False, "tls.join": False, "geometry.remove": False},
-                    "ignored_sections": ["output", "report"], "toolchain_relation": "current_sumo_with_published_import_settings"}
+                    "ignored_sections": [],
+                    "ignored_output_options": ["output-file", "output-prefix", "log", "error-log", "message-log", "verbose"],
+                    "toolchain_relation": "current_sumo_with_published_import_settings"}
             row["import_status"] = built["status"]
             if built["status"] == "pass" and raw.is_file():
                 row["raw_net"] = _identity(raw)
@@ -393,6 +399,9 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
             row["paired_labels"] = {**_identity(label_file), "count": counts.get("total", 0), "counts": counts,
                                     "evidence_scope": row["comparison_source"]["kind"], "field_temporal_match": "unverified",
                                     "manual_edit_origin": "unestablished"}
+            if row.get("import_configuration") and row["comparison_source"]["kind"] == "prepared_osm_import":
+                row["paired_labels"].update(label_usage="generator_recipe_regression", human_cleaning_evaluation=False,
+                    generator_control={"status": "not_run", "reason": "Full-recipe control is required before attributing differences to manual cleaning."})
         dataset_report = folder / "dataset.json"
         write_json_atomic(dataset_report, row, sort_keys=True)
         manifest_artifacts.extend(_identity(path) for path in sorted(folder.rglob("*")) if path.is_file())

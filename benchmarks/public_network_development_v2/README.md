@@ -53,6 +53,15 @@ The remaining 9,410 records retain unresolved correspondence.
 These are model-relative development targets. Their manual-edit origin remains unestablished.
 They do not establish a field defect or the precision of an automatic repair.
 
+The pinned [build script](https://github.com/lcodeca/MoSTScenario/blob/d00e82945f5c6322a98ad2df4a8d5f48274fca53/tools/static/scenario.generator.sh)
+invokes netconvert with the published configuration.
+The target header records netconvert `v1_2_0+1020` and matching effective joining settings.
+This comparison therefore belongs to recipe and version regression work.
+Edits already present in the prepared OSM input are shared by both sides of this comparison.
+The comparison does not isolate those human input edits.
+Current reports mark `human_cleaning_evaluation: false` and the full-recipe control `not_run`.
+That control and per-target attribution remain required before interpreting differences as cleaning evidence.
+
 The published target matches all 1,559 known records in a self-check.
 The unjoined comparison exposes 58 missing joins, 80 missing connections, and two extra connections relative to that model.
 Both comparison reports retain `review_required` because unresolved records remain.
