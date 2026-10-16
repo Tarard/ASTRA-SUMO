@@ -29,13 +29,19 @@ def _owner(element, index):
     return index["ownership"][element.tag].get(identity)
 
 
-def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None):
+def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None):
     """Keep complete edit junctions and the roads needed to position their ends."""
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
     if not mutable_edges:
         return None, {"status": "full_network", "reason": "no_incident_ordinary_roads"}
     index = _index(root)
+    edge_endpoints = edge_endpoints or {}
+    if (set(edge_endpoints) - mutable_edges or any(not key or key.startswith(":")
+            or set(ends) != {"from", "to"} or any(not isinstance(value, str) or not value for value in ends.values())
+            for key, ends in edge_endpoints.items())):
+        raise ValueError("Declare complete endpoints for each changed ordinary road within the conversion scope.")
+    created = set(edge_endpoints) - index["edges"].keys()
     aliases = {node: joined for joined, nodes in (join_groups or {}).items() for node in nodes}
     absorbed = {key for key, edge in index["edges"].items() if key not in index["ownership"]["edge"]
                 and edge.get("from") in aliases and aliases.get(edge.get("from")) == aliases.get(edge.get("to"))}
@@ -47,7 +53,7 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
                     if (owners & mutable_nodes or key in (join_groups or {})) and owners - mutable_nodes)
     if shared:
         return None, {"status": "full_network", "reason": "controller_spans_edit_boundary", "controller_ids": shared}
-    selected = set(mutable_edges)
+    selected = set(mutable_edges) - created
     changed = True
     while changed:
         before = set(selected)
@@ -79,6 +85,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
             return None, {"status": "full_network", "reason": "unresolved_prohibition_references"}
         if any(edge in absorbed for path in paths for edge in path):
             return None, {"status": "full_network", "reason": "prohibition_references_absorbed_road"}
+        if any(edge in edge_endpoints for path in paths for edge in path):
+            return None, {"status": "full_network", "reason": "prohibition_references_rewritten_road"}
         if all(edge in kept for path in paths for edge in path):
             prohibitions.append(deepcopy(row))
     used_tls = {row.get("tl") for row in connections if row.get("tl")}
@@ -109,6 +117,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
                     "converted_normal_edge_count": len(selected)}
     if join_groups:
         record.update(junction_aliases=aliases, absorbed_edge_ids=sorted(absorbed))
+    if edge_endpoints:
+        record["edge_endpoints"] = deepcopy(edge_endpoints)
     return result, record
 
 
@@ -118,13 +128,16 @@ def merge_local_conversion(source_root, native_root, record):
     mutable_nodes, mutable_edges = set(record["mutable_junction_ids"]), set(record["mutable_edge_ids"])
     before, after = _index(source_root), _index(native_root)
     actual = {key for key in after["edges"] if not key.startswith(":")}
-    if actual != set(record["context_edge_ids"]) - set(record.get("absorbed_edge_ids", [])):
+    endpoints = record.get("edge_endpoints", {})
+    created = set(endpoints) - before["edges"].keys()
+    if actual != (set(record["context_edge_ids"]) - set(record.get("absorbed_edge_ids", []))) | created:
         raise ValueError("Local conversion changed the retained ordinary-road inventory.")
     aliases = record.get("junction_aliases", {})
     for key in actual:
         for end in ("from", "to"):
-            original = before["edges"][key].get(end)
-            if after["edges"][key].get(end) != aliases.get(original, original):
+            original = before["edges"][key].get(end) if key in before["edges"] else None
+            expected = endpoints[key][end] if key in endpoints else aliases.get(original, original)
+            if after["edges"][key].get(end) != expected:
                 raise ValueError("Local conversion changed an undeclared ordinary-road endpoint.")
     locations = [root.find("location") for root in (source_root, native_root)]
     frames = [(tuple(map(float, row.get("netOffset", "0,0").split(","))), row.get("projParameter"))
@@ -163,7 +176,7 @@ def merge_local_conversion(source_root, native_root, record):
 
 
 def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, output_dir, prefix,
-                                 timeout_seconds, join_groups=None, merge_source_file=None):
+                                 timeout_seconds, join_groups=None, merge_source_file=None, edge_endpoints=None):
     """Run one native conversion and retain its local input and full merged proposal."""
     from .command_runner import run_command
     command = list(command)
@@ -178,7 +191,8 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
         raise ValueError("Use new joined junction and controller IDs.")
     merge_source = Path(merge_source_file).resolve(strict=True) if merge_source_file is not None else source
     merge_root = root if merge_source == source else ET.parse(merge_source).getroot()
-    subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups)
+    subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups,
+                                            edge_endpoints=edge_endpoints)
     record["source"] = {"path": str(source), "sha256": file_sha256(source)}
     record["merge_source"] = {"path": str(merge_source), "sha256": file_sha256(merge_source)}
     if subset is not None:

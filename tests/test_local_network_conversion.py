@@ -41,6 +41,36 @@ def test_missing_frame_retains_the_full_native_path():
     assert record == {"status": "full_network", "reason": "coordinate_frame_not_declared"}
 
 
+@pytest.mark.parametrize("fault", [None, "missing_created", "extra_road", "wrong_endpoint"])
+def test_split_merge_requires_the_declared_road_inventory_and_endpoints(fault):
+    from astra_sumo.core.local_network_conversion import merge_local_conversion
+    source = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="road" from="A" to="B"><lane id="road_0"/></edge>
+      <junction id="A"/><junction id="B"/></net>''')
+    endpoints = {"road": {"from": "N", "to": "B"}, "upstream": {"from": "A", "to": "N"}}
+    subset, record = local_conversion_input(source, {"A", "B", "N"}, {"road", "upstream"}, edge_endpoints=endpoints)
+    assert record["converted_normal_edge_count"] == 1
+    assert subset.find("edge[@id='upstream']") is None
+    native = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="road" from="N" to="B"><lane id="road_0"/></edge>
+      <edge id="upstream" from="A" to="N"><lane id="upstream_0"/></edge>
+      <junction id="A"/><junction id="B"/><junction id="N"/></net>''')
+    if fault == "missing_created":
+        native.remove(native.find("edge[@id='upstream']"))
+    elif fault == "extra_road":
+        ET.SubElement(native, "edge", id="unplanned", attrib={"from": "A", "to": "B"})
+    elif fault == "wrong_endpoint":
+        native.find("edge[@id='road']").set("from", "A")
+    if fault:
+        with pytest.raises(ValueError, match="inventory|endpoint"):
+            merge_local_conversion(source, native, record)
+    else:
+        result = merge_local_conversion(source, native, record)
+        assert result.find("edge[@id='road']").get("from") == "N"
+        assert result.find("edge[@id='upstream']").get("to") == "N"
+        assert result.find("junction[@id='N']") is not None
+
+
 def test_empty_local_context_keeps_the_full_native_input():
     root = ET.fromstring('<net><location netOffset="0,0" projParameter="!"/><junction id="isolated"/></net>')
     subset, record = local_conversion_input(root, {"isolated"}, set())
