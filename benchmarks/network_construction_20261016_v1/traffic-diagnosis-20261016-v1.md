@@ -55,4 +55,4 @@ MAP 渐变段起点与 SUMO 车道数变化节点采用不同几何口径。
 - 统计配置：`outputs/existing_approach_20261016_v1/reporting/sumo_research_manifest.json`。
 - 规范化计数与有效性：`outputs/existing_approach_20261016_v1/reporting/sumo_evidence/report_bundle.json`。
 
-本次没有重跑交通实验，也没有产生新的全行程时间统计或交通改善结论。
+本节没有重跑固定车流实验，也没有产生新的全行程时间统计或交通改善结论。

@@ -39,6 +39,7 @@ Existing lateral discrepancies and uncertain field dates remain calibration work
 
 The MAP pocket lane initially overlaps its continuing lane, then separates through a taper.
 A source lane-count node can sit within that taper. Point coincidence is therefore not a sufficient edit criterion.
+The [interpretation follow-up](taper-interpretation-20261016-v1.json) records the revised wording and production taper measurements.
 An independent check of the committed references confirms this issue for 2349, approach 2.
 At a diagnostic 3 m centerline-separation threshold, the remaining reference length is about 49.52 m.
 The source ordinary pocket lane has a 51.05 m logical length. The +16.529 m node offset does not establish a 16.529 m storage error.
