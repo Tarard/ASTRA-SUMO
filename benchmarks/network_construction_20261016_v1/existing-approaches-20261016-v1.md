@@ -26,6 +26,7 @@ References without a merge require distinct saved paths, complete sampled direct
 
 Positive offset means that the source node center lies downstream of the MAP point.
 These values compare a model node center with a MAP mark. They do not measure a surveyed taper start.
+They are observations for geometry review, rather than instructions to move either node.
 The new review records retain both lane counts, saved access paths, and longitudinal and lateral offsets.
 They replace the two misleading lane-count-mismatch explanations.
 
@@ -33,6 +34,21 @@ The three transition matches establish source-model structure within the junctio
 They do not establish full reference coverage, actual lane geometry, historical validity, or driving capacity.
 The four resolved construction findings are not a precision estimate for the separate network-wide audit.
 Existing lateral discrepancies and uncertain field dates remain calibration work.
+
+### Taper interpretation follow-up
+
+The MAP pocket lane initially overlaps its continuing lane, then separates through a taper.
+A source lane-count node can sit within that taper. Point coincidence is therefore not a sufficient edit criterion.
+The [interpretation follow-up](taper-interpretation-20261016-v1.json) records the revised wording and production taper measurements.
+An independent check of the committed references confirms this issue for 2349, approach 2.
+At a diagnostic 3 m centerline-separation threshold, the remaining reference length is about 49.52 m.
+The source ordinary pocket lane has a 51.05 m logical length. The +16.529 m node offset does not establish a 16.529 m storage error.
+
+For 2394, approach 3, the same reference measure is about 75.53 m.
+The two source ordinary pocket sections have logical lengths totaling 81.97 m.
+These quantities use different end and connection conventions. They are not a surveyed storage difference or vehicle-capacity estimate.
+Both location observations remain separate from any decision to edit geometry.
+The [fixed-cohort follow-up](traffic-diagnosis-20261016-v1.md) checks the recorded traffic failures next.
 
 ## Fixed aerial comparison
 

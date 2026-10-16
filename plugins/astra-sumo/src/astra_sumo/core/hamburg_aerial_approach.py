@@ -621,8 +621,26 @@ def _existing_merge_evidence(root, members, junction_id, event, max_error, margi
         if widening:
             indices = [i for i, lane in enumerate(target.findall("lane")) if lane_supports_motorized(lane)]
             delta = (float(node.get("x")) - event[0], float(node.get("y")) - event[1])
+            taper = None
+            if not truncated:
+                from shapely.geometry import LineString
+                pocket = LineString(pockets[0]["shape"])
+                carrier = LineString(carriers[0]["shape"])
+                levels = {}
+                for separation in (0.5, 3.0):
+                    reached = next((s for s in (i * 0.1 for i in range(math.ceil(pocket.length / 0.1) + 1))
+                        if s <= pocket.length and carrier.distance(pocket.interpolate(s)) >= separation), None)
+                    levels[str(separation)] = pocket.length - reached if reached is not None else None
+                pocket_ordinal = ordered.index(pockets[0])
+                source_lanes = [[lane for lane in index["edges"][key].findall("lane") if lane_supports_motorized(lane)][pocket_ordinal]
+                                for key in chain]
+                taper = {"reference_pocket_geometry_length_m": pocket.length,
+                    "reference_length_after_centerline_separation_m": levels, "sample_spacing_m": 0.1,
+                    "source_ordinary_pocket_logical_length_m": sum(float(lane.get("length")) for lane in source_lanes),
+                    "source_ordinary_pocket_geometry_length_m": sum(LineString(_parse(lane.get("shape", ""))).length for lane in source_lanes),
+                    "basis": "Diagnostic separation thresholds, not regulatory lane widths. Source lengths exclude internal connectors. Endpoints and measurement conventions differ; these are not a surveyed storage error or an edit criterion."}
             return {"status": "not_applicable" if inside else "review_required",
-                "reason": "documented_fanout_already_represented_at_source_junction" if inside else "existing_lane_transition_displaced_from_MAP_merge",
+                "reason": "documented_fanout_already_represented_at_source_junction" if inside else "existing_transition_geometry_observation",
                 "source_edge_id": target.get("id"), "official_lane_indices": {row["lane_id"]: i for row, i in zip(ordered, indices)},
                 "source_transition_junction_id": node.get("id"), "source_before_edge_id": previous,
                 "source_after_edge_ids": chain, "source_motor_lane_count_before": len(before), "source_motor_lane_count_after": len(lanes),
@@ -630,8 +648,9 @@ def _existing_merge_evidence(root, members, junction_id, event, max_error, margi
                 "source_transition_lane_paths": paths, "official_merge_inside_source_junction": inside,
                 "merge_to_source_node_longitudinal_m": delta[0] * axis[0] + delta[1] * axis[1],
                 "merge_to_source_node_lateral_m": -delta[0] * axis[1] + delta[1] * axis[0],
+                "reference_taper_comparison": taper,
                 "maximum_stop_endpoint_distance_m": max(endpoint_errors),
-                "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."}
+                "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. Node offsets compare different reference definitions and do not authorize geometry edits. Taper, storage, field validity and driving outcomes need their own evidence. This is not a run, capacity or full-reference coverage proof."}
         if inside or previous in chain:
             return None
         chain.insert(0, previous)
