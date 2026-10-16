@@ -5,7 +5,8 @@ The draft PR adds no operating capability or public command.
 
 The proposal follows an independent Claude review and a discussion with Codex.
 Claude inspected the development branch without changing it.
-Its cloud environment had no SUMO installation. Native results below come from the local project environment.
+The first cloud review had no SUMO installation. Later independent reviews used SUMO 1.27.1.
+The linked repository records identify the local native runs and their inputs.
 
 ## Purpose
 
@@ -66,12 +67,23 @@ The first facility use case does not require a generic plugin hierarchy or anoth
 
 ## First implementation choices
 
-Run three development tracks in parallel: paired driving comparison, native parking operations, and held-out validation.
-The smallest first merge can wrap existing frozen-request replay in a paired comparison report.
-Scoped edit verification and Hamburg corridor checks already need this comparison.
-This addition needs no new field data or general facility framework.
+Three development tracks remain useful: driving diagnosis, native parking operations, and held-out validation.
+The [fixed-cohort comparison](../../plugins/astra-sumo/src/astra_sumo/core/paired_driving.py) now has a reusable implementation and CLI script.
+It retains every request, censored unfinished observations, collisions, and last-step vehicle positions.
+Collision-affected arrivals keep their incident markers and raw times.
+The [dated Hamburg follow-up](../../benchmarks/network_construction_20261016_v1/length-and-correspondence-20261016-v1.md)
+records the remaining driving failures and three tentative bicycle associations.
+
+Construction now records lane-length measures at every retained network stage.
+The [MoST configuration control](../../benchmarks/public_network_development_v2/recipe-control-20261016-v1.md)
+reproduces most known baseline differences without attributing them to human cleaning.
+These implemented pieces support the proposed cycle. They do not establish a calibrated traffic twin.
 
 The first new facility behavior can then use the same cohort and result records.
+Each facility test should declare its own demand, operating files, and lane-position checks.
+The current network-only comparison does not load those operating files.
+An isolated native facility test can start while Hamburg driving diagnosis continues.
+The Hamburg failures remain attached to corridor claims.
 Held-out work can start with a read-only scan for eligible independent observation windows.
 It need not wait for parking recognition or occupancy inference.
 
