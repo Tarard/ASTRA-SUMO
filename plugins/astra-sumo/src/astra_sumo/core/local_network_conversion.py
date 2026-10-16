@@ -66,6 +66,13 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
         if row.get("via") not in lanes:
             row.attrib.pop("via", None)
         connections.append(row)
+    prohibitions = []
+    for row in root.findall("prohibition"):
+        paths = [row.get(name, "").split("->") for name in ("prohibitor", "prohibited")]
+        if any(len(path) != 2 or any(edge not in index["edges"] for edge in path) for path in paths):
+            return None, {"status": "full_network", "reason": "unresolved_prohibition_references"}
+        if all(edge in kept for path in paths for edge in path):
+            prohibitions.append(deepcopy(row))
     used_tls = {row.get("tl") for row in connections if row.get("tl")}
     result = ET.Element("net", dict(root.attrib))
     for child in root:
@@ -84,6 +91,7 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
                 row.set("customShape", "true")
             result.append(row)
     result.extend(connections)
+    result.extend(prohibitions)
     result.extend(deepcopy(row) for row in root.findall("roundabout") if set(row.get("edges", "").split()) <= selected)
     return result, {"status": "local", "mutable_junction_ids": sorted(mutable_nodes),
                     "mutable_edge_ids": sorted(mutable_edges), "context_edge_ids": sorted(selected),

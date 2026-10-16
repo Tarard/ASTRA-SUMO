@@ -183,6 +183,8 @@ direction alone does not establish a field prohibition.
 
 Individual road-geometry and connection edits now supply a local network to netconvert.
 The input includes every incident road of the edited junctions. It closes any affected roundabout ring.
+It keeps explicit [right-of-way prohibitions](https://sumo.dlr.de/docs/Networks/PlainXML.html#right-of-way) whose movement references lie within that input.
+Unresolved prohibition references retain full conversion and report the reason.
 The candidate copies the exterior from the immutable source and uses native elements inside the declared edit.
 The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
 Reports retain the local input, raw native output, and merged proposal with their hashes.

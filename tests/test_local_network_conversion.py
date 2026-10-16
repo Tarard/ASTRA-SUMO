@@ -40,6 +40,23 @@ def test_missing_frame_retains_the_full_native_path():
     assert record == {"status": "full_network", "reason": "coordinate_frame_not_declared"}
 
 
+def test_prohibition_inputs_keep_complete_references_and_fall_back_for_unresolved_references():
+    root = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="in" from="W" to="A"/><edge id="out" from="A" to="E"/>
+      <edge id="other" from="N" to="A"/><edge id="far_in" from="X" to="R"/>
+      <edge id="far_out" from="R" to="Y"/>
+      <junction id="W"/><junction id="A"/><junction id="E"/><junction id="N"/>
+      <junction id="X"/><junction id="R"/><junction id="Y"/>
+      <prohibition prohibitor="other->out" prohibited="in->out"/>
+      <prohibition prohibitor="far_in->far_out" prohibited="far_in->far_out"/></net>''')
+    subset, _ = local_conversion_input(root, {"A"}, {"in", "out", "other"})
+    assert [row.get("prohibitor") for row in subset.findall("prohibition")] == ["other->out"]
+    root.find("prohibition").set("prohibitor", "missing->out")
+    subset, record = local_conversion_input(root, {"A"}, {"in", "out", "other"})
+    assert subset is None
+    assert record["reason"] == "unresolved_prohibition_references"
+
+
 def _source(tmp_path):
     nodes, edges, source = [tmp_path / name for name in ("nodes.xml", "edges.xml", "source.net.xml")]
     node_root, edge_root = ET.Element("nodes"), ET.Element("edges")
@@ -62,10 +79,14 @@ def _source(tmp_path):
     return source
 
 
-def _native_case(tmp_path, operation=None):
+def _native_case(tmp_path, operation=None, *, prohibition=False):
     if not shutil.which("netconvert") or not shutil.which("sumo"):
         pytest.skip("SUMO required")
     source = _source(tmp_path)
+    if prohibition:
+        tree = ET.parse(source)
+        ET.SubElement(tree.getroot(), "prohibition", prohibitor="north->middle", prohibited="in->middle")
+        tree.write(source, encoding="utf-8", xml_declaration=True)
     output = tmp_path / "local"
     output.mkdir()
     candidate = output / "candidate.net.xml"
@@ -79,8 +100,8 @@ def _native_case(tmp_path, operation=None):
 
 
 @pytest.fixture
-def local_edit(tmp_path):
-    source, candidate, plan = _native_case(tmp_path)
+def local_edit(tmp_path, request):
+    source, candidate, plan = _native_case(tmp_path, prohibition=getattr(request, "param", False))
     output = candidate.parent
     checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
         netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
@@ -135,6 +156,7 @@ def test_native_opposite_lane_references_survive_width_and_right_lane_insertion(
     assert root.find("edge/lane[@id='reverse_0']/neigh").get("lane") == f"middle_{index}"
 
 
+@pytest.mark.parametrize("local_edit", [False, True], indirect=True)
 def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposal(tmp_path, local_edit):
     source, candidate, plan, checked = local_edit
     local = checked["local_conversion"]
@@ -143,6 +165,7 @@ def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposa
     assert local["converted_normal_edge_count"] == 8
     assert local["source_normal_edge_count"] == 48
     subset = ET.parse(local["input"]["path"]).getroot()
+    assert len(subset.findall("prohibition")) == len(ET.parse(source).getroot().findall("prohibition"))
     assert subset.find("tlLogic[@id='R10']") is None
     assert checked["geometry_preservation"]["status"] == "pass"
     assert validate_local_conversion(local, source) == Path(local["input"]["path"])
