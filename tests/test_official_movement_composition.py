@@ -8,7 +8,7 @@ from astra_sumo.core.official_movement_composition import compose_official_movem
 
 
 @pytest.mark.parametrize("role", ["ingress", "egress"])
-@pytest.mark.parametrize("fault", [None, "other_owner", "reverse", "permission", "gap", "disconnected"])
+@pytest.mark.parametrize("fault", [None, "renamed", "other_owner", "reverse", "permission", "gap", "disconnected"])
 def test_original_map_boundary_can_lie_on_its_native_internal_lane(role, fault):
     from astra_sumo.core.official_movement_composition import _original_lane_bindings
     from astra_sumo.core.source_movement_support import _index
@@ -19,10 +19,13 @@ def test_original_map_boundary_can_lie_on_its_native_internal_lane(role, fault):
     for edge_id, start, end, shape in (("in", "west", "junction", "-20,0 0,0"), ("out", "junction", "east", "24,0 44,0")):
         edge = ET.SubElement(root, "edge", id=edge_id, **{"from": start, "to": end})
         ET.SubElement(edge, "lane", id=f"{edge_id}_0", index="0", shape=shape)
-    owner = "other" if fault == "other_owner" else "junction"
+    owner = "other" if fault in {"renamed", "other_owner"} else "junction"
     edge_id = f":{owner}_0"
     internal = ET.SubElement(root, "edge", id=edge_id, function="internal")
     lane = ET.SubElement(internal, "lane", id=f"{edge_id}_0", index="0", shape="0,0 24,0")
+    if fault == "other_owner":
+        # Names do not establish ownership. This reference contradicts the connected junction.
+        root.find("junction[@id='other']").set("intLanes", f"{edge_id}_0")
     if fault == "reverse":
         lane.set("shape", "24,0 0,0")
     elif fault == "permission":
@@ -37,9 +40,9 @@ def test_original_map_boundary_can_lie_on_its_native_internal_lane(role, fault):
                 "shape_network": [point, (-20, 0) if role == "ingress" else (44, 0)],
                 "junction_endpoint_network": point, "allowed_vehicle_classes": ["passenger"]}
     bindings, reviews = _original_lane_bindings(_index(root), {"official": official}, {"junction"}, 10, .5)
-    expected = {"official": "in_0" if role == "ingress" else "out_0"} if fault is None else {}
+    expected = {"official": "in_0" if role == "ingress" else "out_0"} if fault in {None, "renamed"} else {}
     assert bindings == expected
-    if fault is None:
+    if fault in {None, "renamed"}:
         assert reviews[0]["reason"] == "official_boundary_on_source_internal_lane"
         assert reviews[0]["source_internal_lane_id"] == f"{edge_id}_0"
 
@@ -232,7 +235,7 @@ def test_serial_identity_requires_one_to_one_straight_same_mode_internal_chain(f
     elif fault == "gap":
         internal.set("shape", "0.15,0 0.2,0")
     elif fault == "wrong_owner":
-        ET.SubElement(root, "junction", id="wrong")
+        ET.SubElement(root, "junction", id="wrong", intLanes=":wrong_0_0")
         root.find("edge[@id=':cut_0']").set("id", ":wrong_0")
         internal.set("id", ":wrong_0_0")
         connection.set("via", ":wrong_0_0")
@@ -640,7 +643,7 @@ def test_source_b_carrier_does_not_override_path_permission_or_geometry(fault):
         edge[0].set("id", ":other_0_0")
         original.find("connection[@from='middle']").set("via", ":other_0_0")
         original.find("connection[@from=':b_0']").set("from", ":other_0")
-        ET.SubElement(original, "junction", id="other")
+        ET.SubElement(original, "junction", id="other", intLanes=":other_0_0")
     elif fault == "disconnected":
         original.remove(original.find("connection[@from='middle']"))
     elif fault == "wrong_mode":
