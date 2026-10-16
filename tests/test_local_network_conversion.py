@@ -477,6 +477,17 @@ def test_source_drift_returns_measurements_and_retains_a_warning_record(tmp_path
     assert warning["status"] == "source_changed" and warning["exception"] is None
 
 
+def test_full_input_snapshot_cannot_also_be_the_requested_output(tmp_path, monkeypatch):
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source, output = tmp_path / "source.net.xml", tmp_path / "guard.full-input.net.xml"
+    source.write_text("<net/>", encoding="utf-8")
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", lambda *args, **kwargs: pytest.fail("The native input must stay separate."))
+    with pytest.raises(ValueError, match="new conversion output"):
+        run_scoped_native_conversion(command=["netconvert", "--sumo-net-file", str(source), "--output-file", str(output)],
+            mutable_nodes=set(), mutable_edges=set(), output_dir=tmp_path, prefix="guard", timeout_seconds=1)
+    assert not output.exists() and source.read_text() == "<net/>"
+
+
 @pytest.mark.parametrize("element", ["junction", "tlLogic", "connection"])
 def test_shared_join_rejects_occupied_target_ids_before_conversion(tmp_path, monkeypatch, element):
     from astra_sumo.core.local_network_conversion import run_scoped_native_conversion

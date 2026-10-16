@@ -202,7 +202,7 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     suffix = "native-local-output" if subset is not None else "native-output"
     raw = Path(output_dir) / f"{prefix}.{suffix}.net.xml"
     failure_file = Path(output_dir) / f"{prefix}.conversion-record.json"
-    if input_file.exists() or raw.exists() or failure_file.exists() or raw.resolve() == output:
+    if input_file.exists() or raw.exists() or failure_file.exists() or input_file.resolve() == output or raw.resolve() == output:
         raise ValueError("Use a new conversion output separate from its native snapshot.")
     with input_file.open("xb") as stream:
         stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True) if subset is not None else source_bytes)
