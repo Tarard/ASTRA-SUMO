@@ -33,7 +33,8 @@ def test_permission_sets_match_native_lane_loading_including_legacy_versions(tmp
     network = tmp_path / "source.net.xml"
     ET.ElementTree(ordered).write(network, encoding="utf-8", xml_declaration=True)
     label = f"permissions-{tmp_path.name}"
-    traci.start([shutil.which("sumo"), "-n", str(network), "--end", "1", "--no-step-log", "true"], label=label)
+    # Small fixtures must fail quickly if the native server cannot start.
+    traci.start([shutil.which("sumo"), "-n", str(network), "--end", "1", "--no-step-log", "true"], label=label, numRetries=3)
     connection = traci.getConnection(label)
     try:
         universe = set(connection.lane.getDisallowed("control_0")) | {"bus"}
@@ -51,7 +52,7 @@ def test_permission_sets_match_native_lane_loading_including_legacy_versions(tmp
         translated = tmp_path / f"translated-{target_version}.net.xml"
         ET.ElementTree(ordered).write(translated, encoding="utf-8", xml_declaration=True)
         translated_label = f"{label}-{target_version}"
-        traci.start([shutil.which("sumo"), "-n", str(translated), "--end", "1", "--no-step-log", "true"], label=translated_label)
+        traci.start([shutil.which("sumo"), "-n", str(translated), "--end", "1", "--no-step-log", "true"], label=translated_label, numRetries=3)
         connection = traci.getConnection(translated_label)
         try:
             actual = universe - set(connection.lane.getDisallowed("road_0"))
@@ -94,7 +95,7 @@ def test_replayed_permissions_use_the_receiver_format_without_replacing_its_head
     assert ET.parse(target).getroot().get("version") == "1.20"
     assert source.read_bytes() == original
     label = f"replayed-version-{tmp_path.name}"
-    traci.start([shutil.which("sumo"), "-n", str(target), "--end", "1", "--no-step-log", "true"], label=label)
+    traci.start([shutil.which("sumo"), "-n", str(target), "--end", "1", "--no-step-log", "true"], label=label, numRetries=3)
     connection = traci.getConnection(label)
     try:
         denied = set(connection.lane.getDisallowed(lane_id))

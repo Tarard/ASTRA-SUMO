@@ -335,7 +335,7 @@ def test_new_connection_keeps_modern_permissions_in_a_legacy_format_candidate(tm
     assert root.get("version") == "1.3"
     via = root.find("connection[@from='in'][@to='west']").get("via")
     label = f"new-legacy-turn-{tmp_path.name}"
-    traci.start([shutil.which("sumo"), "-n", str(candidate), "--end", "1", "--no-step-log", "true"], label=label)
+    traci.start([shutil.which("sumo"), "-n", str(candidate), "--end", "1", "--no-step-log", "true"], label=label, numRetries=3)
     connection = traci.getConnection(label)
     try:
         denied = set(connection.lane.getDisallowed(via))
