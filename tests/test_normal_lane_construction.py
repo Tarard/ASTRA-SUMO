@@ -53,6 +53,9 @@ def test_parallel_official_lanes_use_distinct_source_lanes_despite_a_common_late
     bindings, reviews = _original_lane_bindings(_index(root), lanes, {"j"}, 10, .5)
     assert bindings == {"2": "road_0", "3": "road_1"}
     assert all(row["binding_method"] == "equal_lane_count_and_consistent_common_section_order" for row in reviews)
+    first = next(row for row in reviews if row["lane_id"] == "2")
+    assert first["binding_before_ordered_fit"] == "road_1"
+    assert {source_id for _, source_id in first["candidates"]} == {"road_0", "road_1"}
 
 
 def test_turning_internal_lengths_are_not_averaged_by_normal_road_restoration():

@@ -182,7 +182,7 @@ def _original_lane_bindings(index, lanes, members, maximum_error, margin):
     from .hamburg_junctions.lanes import _lane_overlap_error, _ordered_approach_lane_bindings
 
     bindings, reviews = {}, []
-    lane_options, candidate_proofs = {}, {}
+    lane_options, candidate_proofs, original_choices = {}, {}, {}
     for lane_id, lane in lanes.items():
         role = lane.get("direction_role")
         shape = _traffic_shape(lane)
@@ -232,8 +232,9 @@ def _original_lane_bindings(index, lanes, members, maximum_error, margin):
             choices.append((lateral_error + anchor_error, source_id))
             lateral_errors[source_id] = lateral_error
         choices, serial_proofs = _collapse_serial_lane_candidates(index, choices, members, role)
-        lane_options[lane_id] = [(lateral_errors[source_id], (index["lanes"][source_id][0], int(index["lanes"][source_id][1].get("index", "0"))))
-                                 for _, source_id in choices]
+        original_choices[lane_id] = choices
+        lane_options[lane_id] = sorted((lateral_errors[source_id], (index["lanes"][source_id][0], int(index["lanes"][source_id][1].get("index", "0"))))
+                                      for _, source_id in choices)
         candidate_proofs[lane_id] = {source_id: {**anchor_proofs.get(source_id, {}), **serial_proofs.get(source_id, {})}
                                     for _, source_id in choices}
         if choices and (len(choices) == 1 or choices[1][0] - choices[0][0] >= margin):
@@ -258,9 +259,12 @@ def _original_lane_bindings(index, lanes, members, maximum_error, margin):
         for group in ordered:
             for lane_id, key in group["bindings"].items():
                 source_id = index["keys"][key]
+                previous = bindings.get(lane_id)
+                previous_review = next((row for row in reviews if row["lane_id"] == lane_id), None)
                 bindings[lane_id] = source_id
                 reviews = [row for row in reviews if row["lane_id"] != lane_id]
-                reviews.append({"lane_id": lane_id, "resolved_lane_id": source_id, "candidates": [],
+                reviews.append({"lane_id": lane_id, "resolved_lane_id": source_id, "candidates": original_choices[lane_id],
+                    "binding_before_ordered_fit": previous, "review_before_ordered_fit": previous_review,
                     "reason": "ordered_same_approach_lane_fit", **candidate_proofs[lane_id].get(source_id, {}),
                     "binding_method": group["basis"], "approach": group["approach"]})
     return bindings, reviews
