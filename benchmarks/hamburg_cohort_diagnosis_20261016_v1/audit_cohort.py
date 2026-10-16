@@ -26,6 +26,9 @@ def audit_cohort():
     def elements(root):
         return Counter(ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True) for row in root if row.tag != "location")
     assert elements(model) == elements(current)
+    changed_order = [tag for tag in ("edge", "junction", "tlLogic", "connection", "type")
+        if [ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True) for row in model.findall(tag)]
+        != [ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True) for row in current.findall(tag)]]
     cohort = ET.fromstring(read(manifest["cohort"]))
     assert not cohort.findall("vType") and all(row.get("type") is None for row in cohort.findall("vehicle"))
     expected = {row.get("id") for row in cohort.findall("vehicle")}
@@ -47,6 +50,8 @@ def audit_cohort():
         return None
 
     result = {"kind": "frozen_cohort_lane_front_audit", "promotion_authority": False,
+        "model_comparison": {"non_location_element_multisets_equal": True,
+            "element_order_changed_tags": changed_order, "runtime_equivalence_established": False},
         "information": "All-vehicle simulator truth for offline diagnosis.",
         "front_definition": "Most advanced vehicle per lane, speed <= 0.1 m/s and contiguous waiting >= 60 s.",
         "limits": "Immediate saved connections only. This does not exclude strategic lane changes for later turns or identify causal blocking vehicles. Junction foes are not treated as blocking dependencies.", "cases": {}}

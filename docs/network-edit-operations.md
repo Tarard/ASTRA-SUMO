@@ -186,6 +186,11 @@ The input includes every incident road of the edited junctions. It closes any af
 It keeps explicit [right-of-way prohibitions](https://sumo.dlr.de/docs/Networks/PlainXML.html#right-of-way) whose movement references lie within that input.
 Unresolved prohibition references retain full conversion and report the reason.
 The candidate copies the exterior from the immutable source and uses native elements inside the declared edit.
+Existing roads, junctions, and signal programs retain their source order when their identities survive.
+Modified-junction connections retain native order because it defines the replacement conflict table's movement indices.
+New elements follow their category's retained elements.
+SUMO can produce different seeded trajectories after road reordering, despite equal road attributes and saved connections.
+The [real-cohort control](../benchmarks/network_construction_20261016_v1/serialization-order-20261016-v1.md) records this difference.
 The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
 Reports retain the local input, raw native output, and merged proposal with their hashes.
 Release validation independently reconstructs the source-derived input and the merge.

@@ -5,6 +5,11 @@ The [manifest](fixture.json) records input hashes, SUMO version, departure times
 It includes the recorded model, current model, three snapshots per seed, completed-trip records, summaries, and collisions.
 Gzip preserves each original file's bytes.
 
+The observations below belong to `recorded_model` (`4ad06c`), not `current_model` (`f09c24`).
+The models have equal non-location element multisets but different road, junction, and signal-program order.
+A later native replay found different trajectories. Static equality does not establish runtime equivalence.
+See the [serialization control](../network_construction_20261016_v1/serialization-order-20261016-v1.md).
+
 The requests use the default passenger type and scheduled departures from 0 to 99 s, across the whole study network.
 The recorded model has 21 actuated and three static signal programs. Their correspondence with actual control remains unverified.
 The observations are simulator truth for offline diagnosis. They are not a physical sensor model or information supplied by a new controller.

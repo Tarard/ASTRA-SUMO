@@ -1,0 +1,418 @@
+{
+  "kind": "native_serialization_order_control",
+  "date": "2026-10-16",
+  "promotion_authority": false,
+  "merge_repair_commit": "a2786ba",
+  "native_version": "1.27.1",
+  "neutral_controls": {
+    "recorded-fcd": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/command-controls-v1/recorded-fcd/source.net.xml",
+        "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+      },
+      "arrived": 64,
+      "on_road": 35,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/command-controls-v1/report.json",
+        "sha256": "b002f66755ec39f1293a810dc8e89a47cc25d2b982d9f5cf4270983e0e2d46cd"
+      },
+      "different_final_vehicle_records": 0,
+      "different_completed_trip_records": 0
+    },
+    "current-fcd": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/command-controls-v1/current-fcd/source.net.xml",
+        "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+      },
+      "arrived": 60,
+      "on_road": 39,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/command-controls-v1/report.json",
+        "sha256": "b002f66755ec39f1293a810dc8e89a47cc25d2b982d9f5cf4270983e0e2d46cd"
+      },
+      "different_final_vehicle_records": 26,
+      "different_completed_trip_records": 64
+    },
+    "current-no-fcd": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/command-controls-v1/current-no-fcd/source.net.xml",
+        "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+      },
+      "arrived": 60,
+      "on_road": 39,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/command-controls-v1/report.json",
+        "sha256": "b002f66755ec39f1293a810dc8e89a47cc25d2b982d9f5cf4270983e0e2d46cd"
+      },
+      "different_completed_trip_records": 64
+    },
+    "edge-order": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/edge-order/source.net.xml",
+        "sha256": "7a6c0823d6bc2eb30190c822c4996ecba438bb7b650ea6092e23d8067044efaf"
+      },
+      "arrived": 64,
+      "on_road": 35,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/report.json",
+        "sha256": "714999c96335263ed72b9e218b7c984c606494423c95ae4dd6ae296d55af95af"
+      },
+      "different_final_vehicle_records": 0,
+      "different_completed_trip_records": 0
+    },
+    "controller-order": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/controller-order/source.net.xml",
+        "sha256": "a65596f6153635a1ce559ac7c07a88b6fe8d71cb5dd430e8d1a6daeaf3c22715"
+      },
+      "arrived": 60,
+      "on_road": 39,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/report.json",
+        "sha256": "714999c96335263ed72b9e218b7c984c606494423c95ae4dd6ae296d55af95af"
+      },
+      "different_final_vehicle_records": 26,
+      "different_completed_trip_records": 64
+    },
+    "junction-order": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/junction-order/source.net.xml",
+        "sha256": "1aca95775e929741cd27aa1ed3eb5ea67dd41b73de6801c3feb1da904d37f10c"
+      },
+      "arrived": 60,
+      "on_road": 39,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/report.json",
+        "sha256": "714999c96335263ed72b9e218b7c984c606494423c95ae4dd6ae296d55af95af"
+      },
+      "different_final_vehicle_records": 26,
+      "different_completed_trip_records": 64
+    },
+    "all-order": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/all-order/source.net.xml",
+        "sha256": "3d85e0a529d9faabf7c57a4bbec18ce08e93d1ed26a4347b5925440dacc2221c"
+      },
+      "arrived": 64,
+      "on_road": 35,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/report.json",
+        "sha256": "714999c96335263ed72b9e218b7c984c606494423c95ae4dd6ae296d55af95af"
+      },
+      "different_final_vehicle_records": 0,
+      "different_completed_trip_records": 0
+    },
+    "header-only": {
+      "network": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/header-only/source.net.xml",
+        "sha256": "6de5dce077e74149144c2c3dce82aac29bb6bd00c9b3da58c6d5370ea4ae1651"
+      },
+      "arrived": 60,
+      "on_road": 39,
+      "pending": 1,
+      "collisions": 1,
+      "raw_report": {
+        "path": "outputs/interaction_diagnosis_20261016_v1/serialization-controls-v1/report.json",
+        "sha256": "714999c96335263ed72b9e218b7c984c606494423c95ae4dd6ae296d55af95af"
+      },
+      "different_final_vehicle_records": 26,
+      "different_completed_trip_records": 64
+    }
+  },
+  "passive_observer": {
+    "report": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/recorded-baseline-17-v2/report.json",
+      "sha256": "e83aead02ae644d8adb0704cf0f9ae94682921558f2069be9dc0e46416f95ce0"
+    },
+    "status": "matched"
+  },
+  "failed_first_repair": {
+    "construction": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/hamburg-order-fixed-v1/workflow.manifest.json",
+      "sha256": "84f99444363367e9ae060f3e05b1a9c8dbd1e251e46ccaa0b2aba393f2cf7179"
+    },
+    "comparison": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/paired-order-v1/comparison.json",
+      "sha256": "a15162aa1bca6329a30d2b864f474473d887318d008d1d5dd43e37ece061f639"
+    },
+    "native_crashes": 3,
+    "native_exit_code": 3221225477
+  },
+  "corrected_reconstruction": {
+    "workflow": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/hamburg-order-fixed-v2/workflow.manifest.json",
+      "sha256": "1047b326361223dfc14f8773b1634553c71c0533acbc1c38b26e768fb71542ab"
+    },
+    "status": "review_required",
+    "topology_complete": true,
+    "stages": {
+      "source_network": "pass",
+      "road_geometry": "not_applicable",
+      "context_intersections": "pass",
+      "construction_coverage": "review_required",
+      "physical_areas": "pass",
+      "intersection_binding": "pass",
+      "movement_geometry": "pass",
+      "network_construction": "pass",
+      "outside_geometry": "pass",
+      "construction_audit": "review_required",
+      "movement_probes": "pass",
+      "corridor_routes": "pass"
+    },
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "candidate": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/hamburg-order-fixed-v2/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+    },
+    "non_location_element_multisets_equal_to_f09": true,
+    "native_conflict_info_warnings": 0,
+    "native_unsafe_green_warnings": 0
+  },
+  "fixed_cohort_replay": {
+    "request": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/paired-order-request-v2.json",
+      "sha256": "c72fd86536df7d9eb1cbfa34caadfae0d09a5cbdcc4c19d23e73abb7d6d4c6f4"
+    },
+    "report": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/paired-order-v2/comparison.json",
+      "sha256": "66d0fde6d40f2e569c96a4e9bb6cc2b4a12252b69199f821f1b193111e9fa9c4"
+    },
+    "execution_failure_count": 0,
+    "pair_validity_counts": {
+      "invalid": 6
+    },
+    "runs": {
+      "17": {
+        "recorded": {
+          "execution_status": "completed",
+          "arrived": 64,
+          "running": 35,
+          "waiting": 1,
+          "collisions": 1,
+          "teleports": 1
+        },
+        "reordered": {
+          "execution_status": "completed",
+          "arrived": 60,
+          "running": 39,
+          "waiting": 1,
+          "collisions": 1,
+          "teleports": 1
+        },
+        "fixed": {
+          "execution_status": "completed",
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        }
+      },
+      "42": {
+        "recorded": {
+          "execution_status": "completed",
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 1,
+          "teleports": 1
+        },
+        "reordered": {
+          "execution_status": "completed",
+          "arrived": 62,
+          "running": 37,
+          "waiting": 1,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "fixed": {
+          "execution_status": "completed",
+          "arrived": 69,
+          "running": 30,
+          "waiting": 1,
+          "collisions": 0,
+          "teleports": 0
+        }
+      },
+      "104": {
+        "recorded": {
+          "execution_status": "completed",
+          "arrived": 60,
+          "running": 39,
+          "waiting": 1,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "reordered": {
+          "execution_status": "completed",
+          "arrived": 66,
+          "running": 34,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "fixed": {
+          "execution_status": "completed",
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        }
+      }
+    }
+  },
+  "departure_sensitivity": {
+    "kind": "declared_departure_driver_sensitivity",
+    "field_demand_validity": "unknown",
+    "source_routes": {
+      "path": "outputs\\claude_followup_20261015_v1\\stop-line-pilot-v1\\source-routes\\routeability_audit.rou.xml",
+      "sha256": "c28f3392fa13f7e7e60d42d0849a684105deaa47f9c744f506036dd6c6b96492"
+    },
+    "parameters": {
+      "vehicle_type": {
+        "sigma": 0,
+        "speedDev": 0
+      },
+      "departure_rule": "source departure * window_s / 100",
+      "seed": 17,
+      "horizon_s": 2400
+    },
+    "cases": {
+      "100": {
+        "recorded": {
+          "execution": "completed",
+          "summary": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\interaction_diagnosis_20261016_v1\\departure-sensitivity-v1\\window-100\\recorded-17\\driving_end2400_summary.xml",
+            "exists": true,
+            "valid_xml": true,
+            "last_time": 2399.0,
+            "loaded": 100,
+            "inserted": 99,
+            "arrived": 63,
+            "running": 36,
+            "waiting": 1,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0,
+            "completion_ratio": 0.63,
+            "warnings": [
+              "36 vehicles still running at final summary step",
+              "1 vehicles waiting for insertion at final summary step"
+            ]
+          }
+        },
+        "reordered": {
+          "execution": "completed",
+          "summary": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\interaction_diagnosis_20261016_v1\\departure-sensitivity-v1\\window-100\\reordered-17\\driving_end2400_summary.xml",
+            "exists": true,
+            "valid_xml": true,
+            "last_time": 2399.0,
+            "loaded": 100,
+            "inserted": 99,
+            "arrived": 63,
+            "running": 36,
+            "waiting": 1,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0,
+            "completion_ratio": 0.63,
+            "warnings": [
+              "36 vehicles still running at final summary step",
+              "1 vehicles waiting for insertion at final summary step"
+            ]
+          }
+        }
+      },
+      "150": {
+        "recorded": {
+          "execution": "completed",
+          "summary": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\interaction_diagnosis_20261016_v1\\departure-sensitivity-v1\\window-150\\recorded-17\\driving_end2400_summary.xml",
+            "exists": true,
+            "valid_xml": true,
+            "last_time": 2399.0,
+            "loaded": 100,
+            "inserted": 100,
+            "arrived": 100,
+            "running": 0,
+            "waiting": 0,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0,
+            "completion_ratio": 1.0,
+            "warnings": []
+          }
+        },
+        "reordered": {
+          "execution": "completed",
+          "summary": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\interaction_diagnosis_20261016_v1\\departure-sensitivity-v1\\window-150\\reordered-17\\driving_end2400_summary.xml",
+            "exists": true,
+            "valid_xml": true,
+            "last_time": 2399.0,
+            "loaded": 100,
+            "inserted": 100,
+            "arrived": 100,
+            "running": 0,
+            "waiting": 0,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0,
+            "completion_ratio": 1.0,
+            "warnings": []
+          }
+        }
+      }
+    },
+    "source_unchanged": true
+  },
+  "limits": [
+    "Synthetic fixed routes and driver controls. Field demand remains unknown.",
+    "Order preservation is a no-op regression property, not runtime equivalence after real edits.",
+    "Same element multisets do not imply same random-number use or trajectories.",
+    "No traffic-improvement claim from these order-sensitive single-seed outcomes."
+  ],
+  "independent_output_reader": {
+    "implementation": "E:/Code/SUMO-Research-Tools/sumo_evidence.py",
+    "version": "0.1.0",
+    "bundle": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/reporting/sumo_evidence/report_bundle.json",
+      "sha256": "b7af85a06b951b902f8fdec4ec4b8f2fb170bc4d766c6c0bd3affaf89f35ab08"
+    },
+    "status": "warning",
+    "counts": {
+      "runs": 13,
+      "technically_invalid_runs": 0,
+      "complete_trip_evidence_runs": 5,
+      "partial_trip_evidence_runs": 8,
+      "trip_rows": 1007,
+      "summary_rows": 31200,
+      "metric_rows": 364
+    }
+  }
+}

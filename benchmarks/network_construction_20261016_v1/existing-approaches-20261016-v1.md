@@ -75,7 +75,9 @@ The complete Hamburg rebuild has four existing-approach outcomes and two remaini
 It makes no approach edit and retains all 16 official vehicle movements.
 Its final network remains byte-identical to `f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a`.
 All frozen inputs and generated inputs remain unchanged. The overall construction decision remains `review_required`.
-The earlier collisions and unfinished trips therefore remain relevant. No additional cohort run was needed for an unchanged network.
+The earlier collisions and unfinished trips remain relevant to their recorded model.
+The earlier inference that static element equality made another cohort run unnecessary was incorrect.
+The [serialization control](serialization-order-20261016-v1.md) records the different trajectories caused by road ordering.
 
 Native controls cover fragmented references, explicit fanouts, ordinary lane-change access, a blocked pocket, and a shifted reference merge.
 A side-entry control failed before the continuation correction. The affected run then passes 118 checks.

@@ -41,6 +41,43 @@ def test_missing_frame_retains_the_full_native_path():
     assert record == {"status": "full_network", "reason": "coordinate_frame_not_declared"}
 
 
+@pytest.mark.parametrize("duplicate_tag", [None, "junction", "tlLogic", "connection"])
+def test_replacements_keep_road_order_and_native_request_order(duplicate_tag):
+    from astra_sumo.core.local_network_conversion import merge_local_conversion
+    source = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="a" from="A" to="B"/><edge id="middle" from="B" to="C"/>
+      <edge id="z" from="X" to="Y"/>
+      <tlLogic id="B" programID="0"/><tlLogic id="B" programID="1"/>
+      <tlLogic id="Y" programID="0"/>
+      <junction id="A"/><junction id="B"/><junction id="C"/><junction id="X"/><junction id="Y"/>
+      <connection from="a" to="middle" fromLane="0" toLane="0" tl="B"/>
+      <connection from="a" to="middle" fromLane="1" toLane="0" tl="B"/>
+      <connection from="z" to="z" fromLane="0" toLane="0" tl="Y"/></net>''')
+    endpoints = {"new": {"from": "B", "to": "C"}}
+    subset, record = local_conversion_input(source, {"B"}, {"a", "middle", "new"}, edge_endpoints=endpoints)
+    native = deepcopy(subset)
+    native[:] = list(reversed(native[:]))
+    native.find("edge[@id='a']").set("priority", "7")
+    native.find("tlLogic[@programID='1']").set("offset", "13")
+    ET.SubElement(native, "edge", id="new", attrib={"from": "B", "to": "C"})
+    ET.SubElement(native, "connection", attrib={"from": "a", "to": "new", "fromLane": "0", "toLane": "0"})
+    if duplicate_tag:
+        row = native.find("junction[@id='B']") if duplicate_tag == "junction" else native.find(duplicate_tag)
+        native.append(deepcopy(row))
+        with pytest.raises(ValueError, match="unique .* identities"):
+            merge_local_conversion(source, native, record)
+        return
+    merged = merge_local_conversion(source, native, record)
+    assert [row.get("id") for row in merged.findall("edge")] == ["a", "middle", "z", "new"]
+    assert [row.get("id") for row in merged.findall("junction")] == ["A", "B", "C", "X", "Y"]
+    assert [(row.get("id"), row.get("programID")) for row in merged.findall("tlLogic")] == [("B", "0"), ("B", "1"), ("Y", "0")]
+    assert [(row.get("to"), row.get("fromLane")) for row in merged.findall("connection")] == [
+        ("z", "0"), ("middle", "1"), ("middle", "0"), ("new", "0")]
+    assert merged.find("edge[@id='a']").get("priority") == "7"
+    assert merged.find("tlLogic[@programID='1']").get("offset") == "13"
+    assert source.find("edge[@id='a']").get("priority") is None
+
+
 @pytest.mark.parametrize("fault", [None, "missing_created", "extra_road", "wrong_endpoint"])
 def test_split_merge_requires_the_declared_road_inventory_and_endpoints(fault):
     from astra_sumo.core.local_network_conversion import merge_local_conversion
