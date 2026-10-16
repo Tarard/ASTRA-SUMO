@@ -170,6 +170,9 @@ def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposa
     assert checked["geometry_preservation"]["status"] == "pass"
     assert validate_local_conversion(local, source) == Path(local["input"]["path"])
     before, after = ET.parse(source).getroot(), ET.parse(candidate).getroot()
+    if before.find("prohibition") is not None:
+        assert [row.attrib for row in before.find("junction[@id='A']").findall("request")] != [
+            row.attrib for row in after.find("junction[@id='A']").findall("request")]
     for name in ("far1", "far10", "back20"):
         assert ET.tostring(before.find(f"edge[@id='{name}']")) == ET.tostring(after.find(f"edge[@id='{name}']"))
     assert ET.canonicalize(ET.tostring(before.find("tlLogic[@id='R10']"), encoding="unicode"), strip_text=True) == (

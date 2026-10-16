@@ -32,6 +32,11 @@ def _end_direction_change(before, after, *, start, reference_start=None):
     return math.degrees(math.acos(max(-1.0, min(1.0, sum(x * y for x, y in zip(a, b)))))) if a and b else None
 
 
+def _maximum_vertex_turn(points):
+    angles = [_end_direction_change([a, b], [b, c], start=True) for a, b, c in zip(points, points[1:], points[2:])]
+    return max((angle for angle in angles if angle is not None), default=0.0)
+
+
 def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_runner, timeout_seconds):
     """Reanchor only broken endpoint paths, then let native SUMO recompute their junctions."""
     candidate_file = Path(candidate_file).resolve(strict=True)
@@ -91,6 +96,8 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
                 "correction_to_curve_length_ratio": displacement / length if length > 0 else None,
                 "entry_direction_change_deg": _end_direction_change(old, rewritten, start=True),
                 "exit_direction_change_deg": _end_direction_change(old, rewritten, start=False),
+                "maximum_vertex_turn_before_deg": _maximum_vertex_turn(old),
+                "maximum_vertex_turn_after_deg": _maximum_vertex_turn(rewritten),
                 "entry_alignment_with_road_deg": _end_direction_change(pieces[0], rewritten, start=True, reference_start=False),
                 "exit_alignment_with_road_deg": _end_direction_change(pieces[-1], rewritten, start=False, reference_start=True),
                 "declared_logical_length_m": float(connection.get("length")) if connection.get("length") is not None else None,

@@ -9,7 +9,7 @@ import pytest
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import CommandResult, run_command
 from astra_sumo.core.junction_rebuild.geometry import reanchor_spatial_shape
-from astra_sumo.core.junction_rebuild.native_path_repair import rebuild_custom_path_endpoints, validate_native_path_repair_chain
+from astra_sumo.core.junction_rebuild.native_path_repair import _maximum_vertex_turn, rebuild_custom_path_endpoints, validate_native_path_repair_chain
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 
 
@@ -27,6 +27,13 @@ def test_direction_retention_uses_actual_polyline_end_segments(points):
         return [value / length for value in vector]
     assert unit(result[0], result[1]) == pytest.approx(unit(points[0], points[1]), abs=1e-12)
     assert unit(result[-2], result[-1]) == pytest.approx(unit(points[-2], points[-1]), abs=1e-12)
+
+
+def test_retained_end_directions_do_not_hide_a_new_interior_bend():
+    before = [(0, 0), (10, 0)]
+    after = reanchor_spatial_shape(before, start=(0, 3), end=(10, 0), preserve_end_directions=True)
+    assert _maximum_vertex_turn(before) == 0
+    assert _maximum_vertex_turn(after) > 20
 
 
 def _case(tmp_path, elevation, logical_length=None):

@@ -230,6 +230,7 @@ It blends their endpoint corrections through the saved spatial curve, including 
 The repair keeps the input curve's first and last segment directions and uses smooth weights between them.
 Sparse curves receive extra samples while retaining their original vertices.
 Reports give endpoint corrections, direction changes, and correction-to-length ratios.
+They also report the largest interior vertex turn before and after repair. Retained end directions can still leave a sharper interior bend.
 This does not guarantee alignment with an arbitrarily rotated road or certify curvature and driving performance.
 Native conversion then recomputes the paths and junction requests from the original input plus the revised connection shapes.
 Accepted width-transition offsets retain their existing treatment.

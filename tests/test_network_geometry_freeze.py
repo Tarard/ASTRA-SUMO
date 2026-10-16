@@ -57,7 +57,24 @@ def test_xy_metrics_accept_mixed_zero_z_vertices_without_hiding_elevation_change
     result = compare_frozen_geometry(source_file=source, candidate_file=candidate)
     assert result["status"] == ("blocked" if changed_z else "pass")
     assert result["max_outside_lane_shape_displacement_xy_m"] == 0
+    assert result["shape_displacement_metric"] == "xy_hausdorff"
+    assert result["outside_lane_count_with_shape_changes"] == int(changed_z)
+    expected_length_change = 2 * (34 ** .5 - 29 ** .5) if changed_z else 0
+    assert result["max_geometric_lane_length_change_xyz_m"] == pytest.approx(expected_length_change)
     assert result["outside_scope_geometry"]["lanes"]["changed"] == (["outside_0"] if changed_z else [])
+
+
+def test_vertical_translation_has_a_spatial_endpoint_measure(tmp_path):
+    source = _network(tmp_path)
+    tree = ET.parse(source)
+    tree.getroot().find("edge/lane").set("shape", "0,0,2.5 10,0,2.5")
+    candidate = tmp_path / "candidate.net.xml"
+    tree.write(candidate, encoding="utf-8")
+    result = compare_frozen_geometry(source_file=source, candidate_file=candidate)
+    assert result["status"] == "blocked"
+    assert result["max_lane_endpoint_offset_xy_m"] == 0
+    assert result["max_lane_endpoint_offset_xyz_m"] == 2.5
+    assert result["outside_lane_count_with_shape_changes"] == 1
 
 
 def test_declared_shape_change_keeps_outside_comparison_exact(tmp_path):
