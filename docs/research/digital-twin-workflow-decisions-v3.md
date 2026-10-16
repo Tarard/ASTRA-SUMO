@@ -35,6 +35,7 @@ The [frozen check and raw response](../../benchmarks/parking_source_feasibility_
 Source attribution: Freie und Hansestadt Hamburg, Behörde für Verkehr und Mobilitätswende. License: Datenlizenz Deutschland Namensnennung 2.0.
 
 The response contains 127 feature members, although its envelope reports `numberReturned=0`.
+Only 45 members contain availability fields. The [offline audit](../../benchmarks/parking_source_feasibility_20261016_v1/README.md#offline-audit) retains missing fields, nonpositive totals, status differences, and timestamp hypotheses.
 Speicherstadt reports 553 total spaces and 452 free spaces, with `received` equal to `16.10.2026, 10:24`.
 The catalog states five-minute updates. The [API description](https://api.hamburg.de/datasets/v1/parkhaeuser) states ten-minute updates.
 Preserve those inconsistencies. The response timestamp is UTC. The facility timestamp has no stated zone in this response.
@@ -55,6 +56,8 @@ Check actual member counts, value ranges, timestamp reversals, repeated records,
 Keep source inconsistencies as findings so exploration still returns the available measurements.
 Future collection should retain HTTP dates and modification headers. This first check did not save those headers.
 The meaning of `received`, its time zone, and treatment of reserved spaces remain unknown.
+Most receipt fields fit UTC+02 without future times. This is a consistency hypothesis, not a verified timestamp definition.
+Speicherstadt reports 1.95 m clearance and no entrance field. That does not bind a SUMO portal or enforce vehicle-height access.
 
 Use separate descriptions for assumed scenarios, observation-initialized runs, occupancy fits, and checks on independent periods.
 Initialize parking stock from availability only after the definitions of total and free spaces support that conversion.
