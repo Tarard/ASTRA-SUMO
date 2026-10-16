@@ -193,6 +193,11 @@ Joins, controller reconstruction, shared controllers across the edit boundary, a
 The report states that reason. Their local conversion remains open work.
 XML inspection, exterior copying, and whole-candidate checks still read the full source.
 The native rebuild uses the selected road context. This does not promise constant total runtime for large networks.
+Lane-permission comparisons use the network's declared format version.
+They follow [SUMO 1.27.1's legacy class rules](https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/utils/common/SUMOVehicleClass.cpp),
+including inherited restrictions on subway and cable-car classes in older networks.
+Explicit class aliases retain their native meaning. These comparisons do not rewrite the source permissions.
+Width and native stop-offset checks compare at the command's 12-decimal output precision.
 
 Native conversion produces a proposal. The shared preservation code restores
 the declared exterior and checks fixed boundary endpoints. Lane or road

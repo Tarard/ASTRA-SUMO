@@ -44,6 +44,22 @@ def test_comparison_catches_native_reclipping_despite_custom_shape_markers(tmp_p
     assert report["outside_scope_geometry"]["lanes"]["changed"] == ["outside_0"]
 
 
+@pytest.mark.parametrize("changed_z", [False, True])
+def test_xy_metrics_accept_mixed_zero_z_vertices_without_hiding_elevation_changes(tmp_path, changed_z):
+    source = _network(tmp_path)
+    tree = ET.parse(source)
+    tree.getroot().find("edge/lane").set("shape", "0,0 5,0,2 10,0")
+    tree.write(source, encoding="utf-8")
+    candidate = tmp_path / "candidate.net.xml"
+    if changed_z:
+        tree.getroot().find("edge/lane").set("shape", "0,0 5,0,3 10,0")
+    tree.write(candidate, encoding="utf-8")
+    result = compare_frozen_geometry(source_file=source, candidate_file=candidate)
+    assert result["status"] == ("blocked" if changed_z else "pass")
+    assert result["max_outside_lane_shape_displacement_xy_m"] == 0
+    assert result["outside_scope_geometry"]["lanes"]["changed"] == (["outside_0"] if changed_z else [])
+
+
 def test_declared_shape_change_keeps_outside_comparison_exact(tmp_path):
     source = _network(tmp_path)
     output = tmp_path / "candidate.net.xml"

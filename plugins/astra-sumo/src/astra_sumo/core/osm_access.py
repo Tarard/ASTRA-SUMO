@@ -16,7 +16,7 @@ from collections.abc import Callable, Mapping
 from pathlib import Path
 from typing import Any
 from xml.sax.saxutils import quoteattr
-from sumolib.net.lane import SUMO_VEHICLE_CLASSES, SUMO_VEHICLE_CLASSES_DEPRECATED
+from sumolib.net.lane import SUMO_VEHICLE_CLASSES
 
 from .artifact_io import copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
@@ -125,13 +125,24 @@ def _permission_attributes(lane: ET.Element) -> dict[str, str]:
     return {key: lane.attrib[key] for key in ("allow", "disallow") if key in lane.attrib}
 
 
-def _permission_set(attributes: Mapping[str, str]) -> set[str]:
-    universe = SUMO_VEHICLE_CLASSES - SUMO_VEHICLE_CLASSES_DEPRECATED
-    allowed = set(attributes.get("allow", "").split())
-    denied = set(attributes.get("disallow", "").split())
+def _permission_set(attributes: Mapping[str, str], *, network_version: str | None = None) -> set[str]:
+    aliases = {"public_emergency": "emergency", "public_authority": "authority", "public_army": "army",
+               "public_transport": "bus", "transport": "truck", "lightrail": "tram", "cityrail": "rail_urban", "rail_slow": "rail"}
+    # Native 1.27 retains rail_fast as a distinct permission, despite its deprecated name.
+    universe = SUMO_VEHICLE_CLASSES - aliases.keys()
+    allowed = {aliases.get(value, value) for value in attributes.get("allow", "").split()}
+    denied = {aliases.get(value, value) for value in attributes.get("disallow", "").split()}
+    if allowed:
+        return universe if "all" in allowed else allowed
     if "all" in denied:
         return set()
-    return (allowed if allowed and "all" not in allowed else universe) - denied
+    if denied and network_version is not None:
+        version = tuple(int(value) for value in network_version.split(".")[:2])
+        if version < (1, 3):
+            denied.add("rail_fast")
+        if version < (1, 20) and "rail_urban" in denied:
+            denied.update(("subway", "cable_car"))
+    return universe - denied
 
 
 def _external_lanes(root: ET.Element) -> dict[str, ET.Element]:
@@ -225,6 +236,7 @@ def correct_osm_access_permissions(
     network_bytes = net_file.read_bytes()
     network_hash = hashlib.sha256(network_bytes).hexdigest()
     root = ET.fromstring(network_bytes)
+    network_version = root.get("version", "0.0")
     before = _external_lanes(root)
     patch = ET.Element("edges")
     expected, reviewed, matched_ways = {}, set(), set()
@@ -247,7 +259,8 @@ def correct_osm_access_permissions(
                 report["review"].append({"way_id": way_id, "findings": resolved["review"]})
                 reviewed.add(way_id)
             attrs = resolved["attributes"]
-            if _permission_set(attrs) == _permission_set(_permission_attributes(lane)):
+            if _permission_set(attrs, network_version=network_version) == _permission_set(
+                    _permission_attributes(lane), network_version=network_version):
                 continue
             if edge_patch is None:
                 edge_patch = ET.SubElement(patch, "edge", id=edge.attrib["id"])
@@ -294,14 +307,17 @@ def correct_osm_access_permissions(
         candidate_root = ET.parse(candidate).getroot()
         after = _external_lanes(candidate_root)
         identity_preserved = set(before) == set(after)
-        exact_permissions = identity_preserved and all(_permission_set(_permission_attributes(after[lane])) == _permission_set(attrs) for lane, attrs in expected.items())
-        other_permissions = identity_preserved and all(_permission_set(_permission_attributes(before[lane])) == _permission_set(_permission_attributes(after[lane])) for lane in before if lane not in expected)
+        exact_permissions = identity_preserved and all(_permission_set(_permission_attributes(after[lane]), network_version=network_version) ==
+            _permission_set(attrs, network_version=network_version) for lane, attrs in expected.items())
+        other_permissions = identity_preserved and all(_permission_set(_permission_attributes(before[lane]), network_version=network_version) ==
+            _permission_set(_permission_attributes(after[lane]), network_version=network_version) for lane in before if lane not in expected)
         unchanged_state = _non_permission_state(root, set(expected)) == _non_permission_state(candidate_root, set(expected))
         passed = exact_permissions and other_permissions and unchanged_state
         report["checks"] = {"external_lane_identity_preserved": identity_preserved, "source_permissions_applied": exact_permissions, "other_lane_permissions_preserved": other_permissions,
                             "non_permission_network_state_preserved": unchanged_state}
     widening = [{"lane_id": lane_id, "added_vehicle_classes": sorted(added)} for lane_id, attrs in expected.items()
-                if (added := _permission_set(attrs) - _permission_set(_permission_attributes(before[lane_id])))]
+                if (added := _permission_set(attrs, network_version=network_version) -
+                    _permission_set(_permission_attributes(before[lane_id]), network_version=network_version))]
     report["connectivity_review_required"] = bool(widening)
     report["review"].extend({**row, "reason": "newly_allowed_modes_require_connectivity_review"} for row in widening)
     report["source_immutable"] = file_sha256(osm_file) == source_hash

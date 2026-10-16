@@ -137,11 +137,17 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
         before, after = original[0][lane][0], candidate[0][lane][0]
         if len(before) < 2 or len(after) < 2:
             continue
+        if before == after:
+            endpoint_offsets.extend((0.0, 0.0))
+            geometric_length_changes.append(0.0)
+            shape_displacements.append(0.0)
+            continue
         endpoint_offsets.extend(math.hypot(before[i][0] - after[i][0], before[i][1] - after[i][1]) for i in (0, -1))
         lengths = [sum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
                    for points in (before, after)]
         geometric_length_changes.append(abs(lengths[0] - lengths[1]))
-        shape_displacements.append(LineString(before).hausdorff_distance(LineString(after)))
+        shape_displacements.append(LineString([point[:2] for point in before]).hausdorff_distance(
+            LineString([point[:2] for point in after])))
     return {"status": "pass" if passed else "blocked", "coordinate_frame_preserved": frame_preserved,
             "mutable_junction_ids": sorted(mutable_junction_ids), "mutable_edge_ids": sorted(mutable_edge_ids),
             "ordinary_lane_attribute_changes": attributes,

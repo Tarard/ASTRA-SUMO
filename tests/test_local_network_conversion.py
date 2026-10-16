@@ -71,7 +71,7 @@ def local_edit(tmp_path):
     output.mkdir()
     candidate = output / "candidate.net.xml"
     operation = {"id": "width", "operation": "set_lane_width", "status": "candidate",
-                 "params": {"lane_id": "middle_0", "width_m": 3.6}}
+                 "params": {"lane_id": "middle_0", "width_m": 3.2 + .1}}
     plan = write_scoped_edit_plan(root=ET.parse(source).getroot(), operation=operation, source_file=source,
         candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
     result = run_command(plan["command"], cwd=output, timeout_seconds=30)

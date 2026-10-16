@@ -728,10 +728,11 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     else:
         lane = next(lane_item for e in after.findall("edge") for lane_item in e.findall("lane") if lane_item.get("id") == params["lane_id"])
         from .osm_access import _permission_set
-        effect = (float(lane.get("width", "3.2")) == params["width_m"] if kind == "set_lane_width"
+        effect = (round(float(lane.get("width", "3.2")), 12) == round(params["width_m"], 12) if kind == "set_lane_width"
                   else float(lane.get("speed")) == params["speed_m_s"] if kind == "set_speed"
-                  else float(lane.get("endOffset", "0")) == params["end_offset_m"] if kind == "move_stop_line"
-                  else _permission_set(lane.attrib) == _permission_set(params))
+                  else round(float(lane.get("endOffset", "0")), 12) == round(params["end_offset_m"], 12) if kind == "move_stop_line"
+                  else _permission_set(lane.attrib, network_version=after.get("version", "0.0")) ==
+                       _permission_set(params, network_version=after.get("version", "0.0")))
     structure = audit_network_connection_mode(after, endpoint_tolerance_m=0.1)
     changed_lane_layout = False
     unchanged_permissions = True
@@ -760,7 +761,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             target = params["edge_id"]
             changed_lane_layout = {key for key in old_lanes if key.rsplit("_", 1)[0] != target} != {
                 key for key in new_lanes if key.rsplit("_", 1)[0] != target}
-        unchanged_permissions = all(_permission_set(lane.attrib) == _permission_set(new_lanes[identifier].attrib)
+        unchanged_permissions = all(_permission_set(lane.attrib, network_version=before.get("version", "0.0")) ==
+                                    _permission_set(new_lanes[identifier].attrib, network_version=after.get("version", "0.0"))
             for identifier, lane in old_lanes.items() if identifier in new_lanes
             and not (kind == "set_lane_permissions" and identifier == params["lane_id"])
             and not (kind == "set_lane_count" and identifier.rsplit("_", 1)[0] == params["edge_id"]))
@@ -782,7 +784,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         passed &= exact
         direct = {"lane_id": params["lane_id"], "expected_attributes": expected,
                   "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
-        added_modes = sorted(_permission_set(expected) - _permission_set(old_lanes[params["lane_id"]].attrib))
+        added_modes = sorted(_permission_set(expected, network_version=after.get("version", "0.0")) -
+                             _permission_set(old_lanes[params["lane_id"]].attrib, network_version=before.get("version", "0.0")))
     if kind == "set_speed":
         from .osm_access import _patch_lane_attributes
         attrs = {"speed": str(params["speed_m_s"])}
