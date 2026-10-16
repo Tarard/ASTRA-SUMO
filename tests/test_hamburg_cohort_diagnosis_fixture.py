@@ -8,6 +8,7 @@ import shutil
 import xml.etree.ElementTree as ET
 
 import pytest
+import traci
 
 
 def test_recorded_cohort_accounting_and_immediate_lane_access():
@@ -67,3 +68,49 @@ def test_noop_local_merge_preserves_real_cohort_trajectories(tmp_path):
     assert a["trips"] == b["trips"]
     assert a["diagnostics"]["last_step_positions"]["vehicles"] == b["diagnostics"]["last_step_positions"]["vehicles"]
     assert a["diagnostics"]["collisions"]["records"] == b["diagnostics"]["collisions"]["records"]
+
+
+def test_local_merge_keeps_loaded_native_conflicts_after_connection_permutation(tmp_path):
+    from astra_sumo.core.local_network_conversion import _index, _owner, local_conversion_input, merge_local_conversion
+    binary = shutil.which("sumo")
+    if not binary:
+        pytest.skip("SUMO required")
+    folder = Path(__file__).resolve().parents[1] / "benchmarks/hamburg_cohort_diagnosis_20261016_v1"
+    manifest = json.loads((folder / "fixture.json").read_text(encoding="utf-8"))
+    raw = gzip.decompress((folder / manifest["recorded_model"]["path"]).read_bytes())
+    assert hashlib.sha256(raw).hexdigest() == manifest["recorded_model"]["uncompressed_sha256"]
+    source = ET.fromstring(raw)
+    index, nodes = _index(source), {"LSA2349_part0"}
+    edges = {row.get("id") for row in source.findall("edge") if any(row.get(end) in nodes for end in ("from", "to"))}
+    native, record = local_conversion_input(source, nodes, edges)
+    source_nodes = {row.get("id"): row for row in source.findall("junction")}
+    native[:] = [deepcopy(source_nodes[row.get("id")]) if row.tag == "junction" else row for row in native]
+    affected = [row for row in native.findall("connection") if _owner(row, index) in nodes]
+    replacements = iter(reversed(affected))
+    native[:] = [next(replacements) if row.tag == "connection" and _owner(row, index) in nodes else row for row in native]
+    # Keep a complete native-reference control. This permutation deliberately changes conflict semantics without changing any attributes.
+    reference = deepcopy(source)
+    replacements = iter([deepcopy(row) for row in native.findall("connection") if _owner(row, index) in nodes])
+    reference[:] = [next(replacements) if row.tag == "connection" and _owner(row, index) in nodes else row for row in reference]
+    merged = merge_local_conversion(source, native, record)
+    incoming = source.find("junction[@id='LSA2349_part0']").get("incLanes").split()
+    internal = source.find("junction[@id='LSA2349_part0']").get("intLanes").split()
+
+    def loaded_conflicts(name, root):
+        path = tmp_path / f"{name}.net.xml"
+        ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
+        label = f"conflicts-{name}-{tmp_path.name}"
+        traci.start([binary, "-n", str(path), "--no-step-log", "true"], label=label, numRetries=3)
+        connection = traci.getConnection(label)
+        try:
+            return {
+                "approaches": {lane: sorted((link[0], tuple(sorted(connection.lane.getFoes(lane, link[0]))))
+                    for link in connection.lane.getLinks(lane)) for lane in incoming},
+                "internal": {lane: sorted(connection.lane.getInternalFoes(lane)) for lane in internal},
+            }
+        finally:
+            connection.close()
+
+    expected = loaded_conflicts("native-reference", reference)
+    assert expected != loaded_conflicts("source", source)
+    assert loaded_conflicts("merged", merged) == expected
