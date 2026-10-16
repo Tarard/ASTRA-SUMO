@@ -203,26 +203,40 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
         command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
     suffix = "native-local-output" if subset is not None else "native-output"
     raw = Path(output_dir) / f"{prefix}.{suffix}.net.xml"
-    if raw.exists() or raw.resolve() == output:
+    failure_file = Path(output_dir) / f"{prefix}.conversion-record.json"
+    if raw.exists() or failure_file.exists() or raw.resolve() == output:
         raise ValueError("Use a new conversion output separate from its native snapshot.")
     command[command.index("--output-file") + 1] = str(raw.resolve())
-    result = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
-    if raw.is_file():
-        record["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw),
-                                   "status": "complete" if result.returncode == 0 else "incomplete"}
-    if result.returncode == 0 and raw.is_file():
-        if subset is not None:
-            merged = merge_local_conversion(merge_root, ET.parse(raw).getroot(), record)
-            content = ET.tostring(merged, encoding="utf-8", xml_declaration=True)
-            proposal = Path(output_dir) / f"{prefix}.merged-proposal.net.xml"
-            with proposal.open("xb") as stream:
-                stream.write(content)
-            output.write_bytes(content)
-            record["merged_proposal"] = {"path": str(proposal.resolve()), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"}
-        else:
-            output.write_bytes(raw.read_bytes())
-    record["source_unchanged"] = file_sha256(source) == record["source"]["sha256"]
-    record["merge_source_unchanged"] = file_sha256(merge_source) == record["merge_source"]["sha256"]
+    result, exception = None, None
+    try:
+        result = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
+        if raw.is_file():
+            record["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw),
+                                       "status": "complete" if result.returncode == 0 else "incomplete"}
+        if result.returncode == 0 and raw.is_file():
+            if subset is not None:
+                merged = merge_local_conversion(merge_root, ET.parse(raw).getroot(), record)
+                content = ET.tostring(merged, encoding="utf-8", xml_declaration=True)
+                proposal = Path(output_dir) / f"{prefix}.merged-proposal.net.xml"
+                with proposal.open("xb") as stream:
+                    stream.write(content)
+                output.write_bytes(content)
+                record["merged_proposal"] = {"path": str(proposal.resolve()), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"}
+            else:
+                output.write_bytes(raw.read_bytes())
+    except Exception as error:
+        exception = {"type": type(error).__name__, "message": str(error)}
+        raise
+    finally:
+        record["source_unchanged"] = file_sha256(source) == record["source"]["sha256"]
+        record["merge_source_unchanged"] = file_sha256(merge_source) == record["merge_source"]["sha256"]
+        failed = exception is not None or result is None or result.returncode != 0 or not output.is_file()
+        if failed or not record["source_unchanged"] or not record["merge_source_unchanged"]:
+            from .artifact_io import write_json_atomic
+            execution = {key: getattr(result, key, None) for key in ("command", "returncode", "stdout", "stderr", "error", "status")}
+            execution.update(command=command, cwd=str(output_dir))
+            write_json_atomic(failure_file, {"status": "failed" if failed else "source_changed",
+                "command": execution, "local_conversion": record, "exception": exception})
     return result, record
 
 

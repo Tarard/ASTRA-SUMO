@@ -403,6 +403,9 @@ def test_shared_conversion_failure_keeps_partial_output_and_protects_existing_fi
     assert not output.exists()
     assert Path(record["native_output"]["path"]).read_text() == "partial native output"
     assert record["native_output"]["status"] == "incomplete"
+    failure = json.loads((tmp_path / "failed.conversion-record.json").read_text())
+    assert failure["command"]["returncode"] == 1
+    assert failure["local_conversion"]["native_output"] == record["native_output"]
     assert source.read_bytes() == original
     with pytest.raises(ValueError, match="new conversion output"):
         run_scoped_native_conversion(**args)
@@ -424,6 +427,51 @@ def test_failed_local_merge_keeps_native_output_separate_from_candidate(tmp_path
             output_dir=tmp_path, prefix="merge-failure", timeout_seconds=30)
     assert not output.exists()
     assert ET.parse(tmp_path / "merge-failure.native-local-output.net.xml").getroot().tag == "net"
+    failure = json.loads((tmp_path / "merge-failure.conversion-record.json").read_text())
+    assert failure["exception"] == {"type": "ValueError", "message": "test merge failure"}
+    assert failure["local_conversion"]["source_unchanged"]
+    assert Path(failure["local_conversion"]["native_output"]["path"]).is_file()
+
+
+def test_native_error_without_output_still_has_a_durable_conversion_record(tmp_path):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source = _source(tmp_path)
+    patch = tmp_path / "invalid.con.xml"
+    patch.write_text('<connections><connection from="in" to="middle" fromLane="999" toLane="0"/></connections>', encoding="utf-8")
+    output = tmp_path / "candidate.net.xml"
+    result, record = run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+        "--connection-files", str(patch), "--output-file", str(output)], mutable_nodes={"A", "B"},
+        mutable_edges={"in", "middle", "out", "reverse", "east", "west", "north", "south"},
+        output_dir=tmp_path, prefix="native-error", timeout_seconds=30)
+    assert result.returncode != 0 and result.stderr
+    assert not output.exists() and "native_output" not in record
+    failure = json.loads((tmp_path / "native-error.conversion-record.json").read_text())
+    assert failure["status"] == "failed"
+    assert failure["command"]["stderr"] == result.stderr
+    assert failure["local_conversion"]["input"] == record["input"]
+    assert failure["local_conversion"]["source_unchanged"]
+
+
+def test_source_drift_returns_measurements_and_retains_a_warning_record(tmp_path, monkeypatch):
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    from astra_sumo.core.command_runner import CommandResult
+    source, output = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
+    original = b'<net><location netOffset="0,0" projParameter="!"/></net>'
+    source.write_bytes(original)
+    def convert(command, **kwargs):
+        Path(command[command.index("--output-file") + 1]).write_bytes(original)
+        source.write_bytes(original.replace(b"<net>", b'<net changed="true">'))
+        return CommandResult(command=command, cwd=str(kwargs["cwd"]), status="pass", returncode=0)
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", convert)
+    result, record = run_scoped_native_conversion(command=["netconvert", "--sumo-net-file", str(source),
+        "--output-file", str(output)], mutable_nodes=set(), mutable_edges=set(), output_dir=tmp_path,
+        prefix="source-drift", timeout_seconds=1)
+    assert result.returncode == 0 and not record["source_unchanged"] and not record["merge_source_unchanged"]
+    assert output.read_bytes() == original
+    warning = json.loads((tmp_path / "source-drift.conversion-record.json").read_text())
+    assert warning["status"] == "source_changed" and warning["exception"] is None
 
 
 @pytest.mark.parametrize("element", ["junction", "tlLogic", "connection"])
