@@ -83,6 +83,7 @@ Candidates within the existing 2 m lateral limit use cost `lateral_m + 2 * (1 - 
 This favors greater coverage at equal offset and preserves the one-to-one assignment.
 The report records this rule and each eligible candidate's coverage.
 These associations remain low-confidence guesses. A short overlap does not establish whole-lane correspondence.
+The [dated Hamburg follow-up](../benchmarks/network_construction_20261016_v1/length-and-correspondence-20261016-v1.md) records three recovered bicycle measurements and the remaining unknowns.
 
 | Kind | Selector | Expected value | Measurement |
 |---|---|---|---|

@@ -218,6 +218,7 @@ Native regression cases check this combination at several offsets.
 Bidirectional roads require both partners. Geometry restoration retains native logical lengths for those roads.
 The audit records their measurements without inferring an independent custom-length expectation.
 Measured geometry means are not mandatory logical lengths or evidence of field accuracy.
+The [dated stage-length follow-up](../benchmarks/network_construction_20261016_v1/length-and-correspondence-20261016-v1.md) records the real rebuild and remaining limits.
 
 ## Paired driving diagnosis
 
