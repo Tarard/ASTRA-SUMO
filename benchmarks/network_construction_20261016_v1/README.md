@@ -6,6 +6,7 @@ Later custom-length and binding-provenance corrections have separate regression 
 
 The [local conversion follow-up](local-conversion-20261016-v1.md) records Hamburg and MoST controls, nominal-width calibration, and invalid fixed-cohort driving pairs.
 The [spatial curve follow-up](local-conversion-20261016-v2.md) retains the subsequent repair, permission, and real-network checks.
+The [unfinished-route follow-up](unfinished-routes-20261016-v1.md) preserves route observations for vehicles still on the road.
 
 ## Construction findings and repair
 
