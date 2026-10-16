@@ -1,5 +1,7 @@
 import json
 from pathlib import Path
+import shutil
+import subprocess
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -77,3 +79,42 @@ def test_invalid_requests_do_not_create_an_output(tmp_path, changes):
     with pytest.raises(ValueError):
         module.compare_driving_cohort(**request)
     assert not request["output_dir"].exists()
+
+
+@pytest.mark.parametrize("trip,depart,horizon,execution,status,censored,time", [
+    ({"arrival": "12"}, 2, 20, "completed", "arrived", False, 10),
+    (None, 2, 20, "completed", "unfinished_at_horizon", True, 18),
+    (None, 20, 20, "completed", "not_requested_before_horizon", False, None),
+    (None, 2, 20, "failed", "unobserved_execution_failed", None, None),
+    ({"arrival": "nan"}, 2, 20, "completed", "invalid_trip_record", None, None),
+])
+def test_request_time_keeps_censored_and_unobserved_vehicles_separate(trip, depart, horizon, execution, status, censored, time):
+    assert module._request_observation(trip, depart, horizon, execution) == {
+        "status": status, "right_censored": censored, "time_since_requested_departure_s": time}
+
+
+@pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
+def test_native_runner_keeps_arrivals_unfinished_positions_and_future_requests(tmp_path):
+    nodes, edges, network = [tmp_path / name for name in ("nodes.xml", "edges.xml", "network.net.xml")]
+    nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="50" y="0"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="road" from="a" to="b"/></edges>', encoding="utf-8")
+    result = subprocess.run(["netconvert", "-n", str(nodes), "-e", str(edges), "-o", str(network)], capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    routes = tmp_path / "routes.xml"
+    routes.write_text('''<routes><vehicle id="arrived" depart="0"><route edges="road"/></vehicle>
+        <vehicle id="pending" depart="9"><route edges="road"/></vehicle>
+        <vehicle id="future" depart="100"><route edges="road"/></vehicle></routes>''', encoding="utf-8")
+    report = module.compare_driving_cohort(networks={"source": network, "candidate": network}, reference="source",
+        routes=routes, seeds=[17], horizon_s=10, output_dir=tmp_path / "comparison")
+    assert report["execution_failure_count"] == 0
+    rows = {row["vehicle_id"]: row for row in report["pairs"][0]["trips"]}
+    assert rows["arrived"]["source_observation"]["status"] == "arrived"
+    assert rows["pending"]["source_observation"]["right_censored"] is True
+    assert rows["pending"]["source_observation"]["time_since_requested_departure_s"] == 1
+    assert rows["future"]["source_observation"]["status"] == "not_requested_before_horizon"
+    for case in report["runs"]["17"].values():
+        assert case["diagnostics"]["collisions"]["sha256"]
+        positions = case["diagnostics"]["last_step_positions"]
+        assert positions["sha256"]
+        assert positions["recorded_time_s"] == 9
+        assert {row["id"] for row in positions["vehicles"]} == {"pending"}

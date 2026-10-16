@@ -229,6 +229,18 @@ Failed or changed-input pairs remain diagnostic records. They provide no perform
 Command failures have a separate count and return script exit code 2. Their diagnostic records remain available.
 A successful synthetic driving comparison does not establish field accuracy.
 
+The runner also saves [native collision records](https://sumo.dlr.de/docs/Simulation/Output/Collisions.html)
+with their time, location, type, and vehicles.
+It saves [vehicle positions](https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html) during the last simulated step.
+With a one-second step, this record has time `horizon_s - 1`. It is not an exact-time snapshot at the horizon.
+Vehicles waiting for insertion have no recorded road position.
+The plan states the step length and collision settings. A collision record requires diagnosis before any field-risk interpretation.
+
+Each original request has an observation status. Arrivals retain their exact time since scheduled departure.
+Unfinished requests retain the observed time until the horizon and `right_censored=true`.
+This time includes insertion waiting. It is a lower bound on the complete request time, not a completed travel duration.
+Future requests and failed executions remain separate. Duration deltas apply only to vehicles with two recorded arrivals.
+
 ## Site parameters
 
 Nine legacy adapters now read their identifiers, correspondence tables,

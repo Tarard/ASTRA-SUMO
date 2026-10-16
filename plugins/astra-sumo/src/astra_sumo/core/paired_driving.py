@@ -13,6 +13,22 @@ from .command_runner import run_command
 from .routeability_audit import _hash_changes, _request_records, _run_attempt
 
 
+def _request_observation(trip, depart, horizon, execution_status):
+    if execution_status != "completed":
+        return {"status": "unobserved_execution_failed", "right_censored": None, "time_since_requested_departure_s": None}
+    if trip is not None:
+        try:
+            arrival = float(trip["arrival"])
+            if not math.isfinite(arrival) or arrival < depart or arrival > horizon:
+                raise ValueError("invalid arrival")
+        except (KeyError, TypeError, ValueError):
+            return {"status": "invalid_trip_record", "right_censored": None, "time_since_requested_departure_s": None}
+        return {"status": "arrived", "right_censored": False, "time_since_requested_departure_s": arrival - depart}
+    if depart >= horizon:
+        return {"status": "not_requested_before_horizon", "right_censored": False, "time_since_requested_departure_s": None}
+    return {"status": "unfinished_at_horizon", "right_censored": True, "time_since_requested_departure_s": horizon - depart}
+
+
 def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, output_dir,
                           sumo_binary="sumo", timeout_seconds=240):
     """Keep every requested vehicle, including failed runs and missing arrivals."""
@@ -39,6 +55,8 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
     output.mkdir(parents=True, exist_ok=False)
     plan = {"schema": "astra.paired-driving/v1", "reference": reference, "seeds": list(seeds),
             "horizon_s": horizon_s, "time_to_teleport_s": horizon_s, "timeout_seconds": timeout_seconds,
+            "simulation_settings": {"step_length_s": 1, "collision_check_junctions": True, "collision_action": "teleport"},
+            "position_output_begin_s": horizon_s - 1,
             "sumo_binary": str(sumo_binary), "cohort": {"path": str(routes), "sha256": identities[routes]},
             "sumo_binary_sha256": file_sha256(Path(executable)) if executable else None,
             "vehicle_ids": sorted(expected),
@@ -55,7 +73,8 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
             folder.mkdir()
             result = _run_attempt(sumo_binary=str(sumo_binary), net_file=network, route_file=routes,
                 output_dir=folder, prefix="driving", end=horizon_s, time_to_teleport=horizon_s,
-                seed=seed, vehicle_count=len(expected), timeout_seconds=timeout_seconds, command_runner=run_command)
+                seed=seed, vehicle_count=len(expected), timeout_seconds=timeout_seconds, command_runner=run_command,
+                diagnostic_outputs=True)
             result_path = folder / "result.json"
             write_json_atomic(result_path, result)
             trips, issues = {}, []
@@ -88,6 +107,21 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
                            "execution_status": execution_status,
                            "summary": inspection.get("summary", {}), "trips": trips, "tripinfo_issues": issues,
                            "tripinfo_sha256": file_sha256(trip_file) if trip_file.is_file() else None}
+            diagnostics = {}
+            for kind, value in result.get("diagnostic_outputs", {}).items():
+                path = Path(value)
+                diagnostics[kind] = {"path": str(path), "sha256": file_sha256(path) if path.is_file() else None}
+                try:
+                    root = ET.parse(path).getroot()
+                    if kind == "collisions":
+                        diagnostics[kind]["records"] = [dict(row.attrib) for row in root.findall("collision")]
+                    elif kind == "last_step_positions":
+                        steps = root.findall("timestep")
+                        diagnostics[kind]["recorded_time_s"] = float(steps[-1].get("time")) if steps else None
+                        diagnostics[kind]["vehicles"] = [dict(row.attrib) for row in steps[-1].findall("vehicle")] if steps else []
+                except (OSError, ET.ParseError, TypeError, ValueError) as error:
+                    diagnostics[kind]["error"] = str(error)
+            cases[name]["diagnostics"] = diagnostics
         results[str(seed)] = cases
         source = cases[reference]
         for name, candidate in cases.items():
@@ -103,7 +137,11 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
                         delta = None
                 except (KeyError, TypeError, ValueError):
                     delta = None
-                rows.append({"vehicle_id": identity, "source": a, "candidate": b, "duration_delta_s": delta})
+                depart = expected[identity][2]
+                rows.append({"vehicle_id": identity, "requested_departure_s": depart,
+                             "source": a, "candidate": b, "duration_delta_s": delta,
+                             "source_observation": _request_observation(a, depart, horizon_s, source["execution_status"]),
+                             "candidate_observation": _request_observation(b, depart, horizon_s, candidate["execution_status"])})
             pairs.append({"seed": seed, "candidate": name, "valid": valid, "trips": rows})
     changes = _hash_changes(identities)
     execution_failures = sum(case["execution_status"] == "failed" for cases in results.values() for case in cases.values())

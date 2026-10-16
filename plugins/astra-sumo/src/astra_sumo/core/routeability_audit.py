@@ -532,16 +532,21 @@ def _run_attempt(
     vehicle_count: int,
     timeout_seconds: float,
     command_runner: CommandRunner,
+    diagnostic_outputs: bool = False,
 ) -> dict[str, Any]:
     summary_file = output_dir / f"{prefix}_end{end}_summary.xml"
     tripinfo_file = output_dir / f"{prefix}_end{end}_tripinfo.xml"
     vehicle_route_file = output_dir / f"{prefix}_end{end}_vehroute.xml"
     config_file = output_dir / f"{prefix}_end{end}.sumocfg"
     outputs = (summary_file, tripinfo_file, vehicle_route_file, config_file)
+    collision_file = output_dir / f"{prefix}_end{end}_collisions.xml"
+    position_file = output_dir / f"{prefix}_end{end}_last-step-positions.xml"
+    if diagnostic_outputs:
+        outputs = (*outputs, collision_file, position_file)
     if any(path.resolve() == source.resolve() or path.exists() and path.samefile(source) for path in outputs for source in (net_file, route_file)):
         return _failed_attempt(end=end, config_file=config_file, summary_file=summary_file, tripinfo_file=tripinfo_file,
             status="output-input-overlap", warnings=["simulation output paths overlap a protected network or approved route"])
-    cleanup_errors = _remove_stale_outputs(summary_file, tripinfo_file, vehicle_route_file)
+    cleanup_errors = _remove_stale_outputs(*(path for path in outputs if path != config_file))
     if cleanup_errors:
         return _failed_attempt(
             end=end,
@@ -582,6 +587,11 @@ def _run_attempt(
         "--time-to-teleport",
         str(time_to_teleport),
     ]
+    if diagnostic_outputs:
+        command.extend(["--step-length", "1", "--collision.action", "teleport",
+                        "--collision-output", collision_file.name,
+                        "--fcd-output", position_file.name, "--fcd-output.attributes", "id,lane,pos,speed",
+                        "--device.fcd.begin", str(end - 1), "--device.fcd.period", "1"])
     try:
         command_result = _result_to_dict(
             command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
@@ -620,6 +630,7 @@ def _run_attempt(
         "tripinfo_file": str(tripinfo_file),
         "vehicle_route_file": str(vehicle_route_file),
         "vehicle_routes": vehicle_routes,
+        "diagnostic_outputs": {"collisions": str(collision_file), "last_step_positions": str(position_file)} if diagnostic_outputs else {},
         "command": command_result,
         "inspection": inspection,
     }
