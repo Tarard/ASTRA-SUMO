@@ -28,6 +28,12 @@ def reanchor_spatial_shape(shape, *, start, end, preserve_end_directions=False):
     values = [point + (0.0,) * (dimensions - len(point)) for point in values]
     start, end = start + (0.0,) * (dimensions - len(start)), end + (0.0,) * (dimensions - len(end))
     if preserve_end_directions:
+        sampled = [values[0]]
+        for left, right in zip(values, values[1:]):
+            parts = max(1, math.ceil(math.dist(left, right) / 0.5))
+            sampled.extend(tuple(a + (b - a) * step / parts for a, b in zip(left, right))
+                           for step in range(1, parts + 1))
+        values = sampled
         # Extra samples retain sparse source vertices while leaving an end segment on each side.
         for _ in range(2):
             stations = [0.0]
