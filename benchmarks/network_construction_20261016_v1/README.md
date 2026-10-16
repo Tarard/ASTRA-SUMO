@@ -8,6 +8,7 @@ The [local conversion follow-up](local-conversion-20261016-v1.md) records Hambur
 The [spatial curve follow-up](local-conversion-20261016-v2.md) retains the subsequent repair, permission, and real-network checks.
 The [unfinished-route follow-up](unfinished-routes-20261016-v1.md) preserves route observations for vehicles still on the road.
 The [local join follow-up](local-joins-20261016-v1.md) records reduced join scopes, the corrected MoST format control, and complete Hamburg reconstruction.
+The [official-part follow-up](official-local-20261016-v1.md) records local official joining and boundary reconstruction with immutable snapshots.
 
 ## Construction findings and repair
 
