@@ -81,8 +81,11 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
             if missing:
                 issues.append("Missing arrival records: " + ", ".join(missing))
             inspection = result["inspection"]
+            command = result.get("command", {})
+            execution_status = "completed" if command.get("status") == "pass" and command.get("returncode") == 0 else "failed"
             cases[name] = {"result": {"path": str(result_path), "sha256": file_sha256(result_path)},
-                           "valid": inspection["status"] == "pass" and not issues,
+                           "valid": execution_status == "completed" and inspection["status"] == "pass" and not issues,
+                           "execution_status": execution_status,
                            "summary": inspection.get("summary", {}), "trips": trips, "tripinfo_issues": issues,
                            "tripinfo_sha256": file_sha256(trip_file) if trip_file.is_file() else None}
         results[str(seed)] = cases
@@ -103,10 +106,12 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
                 rows.append({"vehicle_id": identity, "source": a, "candidate": b, "duration_delta_s": delta})
             pairs.append({"seed": seed, "candidate": name, "valid": valid, "trips": rows})
     changes = _hash_changes(identities)
+    execution_failures = sum(case["execution_status"] == "failed" for cases in results.values() for case in cases.values())
     for pair in pairs:
         pair["valid"] = pair["valid"] and not changes
         pair["comparison_status"] = "valid_pair" if pair["valid"] else "diagnostic_invalid_pair"
-    report = {"plan": plan, "runs": results, "pairs": pairs, "input_changes": changes,
+    report = {"status": "execution_failed" if execution_failures else "measured", "execution_failure_count": execution_failures,
+              "plan": plan, "runs": results, "pairs": pairs, "input_changes": changes,
               "pair_validity_counts": dict(Counter("valid" if pair["valid"] else "invalid" for pair in pairs)),
               "performance_mean": None,
               "claim_boundary": "All original requests remain in every pair. Invalid pairs provide no performance average."}

@@ -18,9 +18,11 @@ def main():
     request["routes"] = base / request["routes"]
     request["networks"] = {name: base / path for name, path in request["networks"].items()}
     report = compare_driving_cohort(**request, output_dir=args.output_dir, sumo_binary=args.sumo_binary)
-    print(json.dumps({"pair_validity_counts": report["pair_validity_counts"],
+    print(json.dumps({"status": report["status"], "execution_failure_count": report["execution_failure_count"],
+                      "pair_validity_counts": report["pair_validity_counts"],
                       "comparison": str(args.output_dir / "comparison.json")}, indent=2))
+    return 2 if report["execution_failure_count"] else 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

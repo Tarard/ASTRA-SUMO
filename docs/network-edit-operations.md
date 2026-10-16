@@ -226,6 +226,7 @@ The output directory must be new. Each run retains its native outputs and inspec
 The driving horizon also sets the teleport delay, matching the existing diagnostic convention.
 The runner uses explicit routed vehicles with numeric departure times. It does not load additional operating files.
 Failed or changed-input pairs remain diagnostic records. They provide no performance average.
+Command failures have a separate count and return script exit code 2. Their diagnostic records remain available.
 A successful synthetic driving comparison does not establish field accuracy.
 
 ## Site parameters

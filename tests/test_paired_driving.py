@@ -32,7 +32,7 @@ def test_failed_run_and_missing_arrivals_keep_the_original_cohort(tmp_path, monk
         if kwargs["net_file"].name == "source.net.xml":
             ET.SubElement(rows, "tripinfo", id="car-B", duration="12")
         ET.ElementTree(rows).write(kwargs["output_dir"] / "driving_end60_tripinfo.xml")
-        return {"inspection": {"status": "pass", "summary": {"arrived": len(rows)}}}
+        return {"inspection": {"status": "pass", "summary": {"arrived": len(rows)}}, "command": {"status": "pass", "returncode": 0}}
 
     monkeypatch.setattr(module, "_run_attempt", attempt)
     report = module.compare_driving_cohort(**request)
@@ -40,6 +40,9 @@ def test_failed_run_and_missing_arrivals_keep_the_original_cohort(tmp_path, monk
     assert all(call["route_file"] == request["routes"] for call in calls)
     assert all(call["vehicle_count"] == 2 for call in calls)
     assert report["pair_validity_counts"] == {"invalid": 2}
+    assert report["execution_failure_count"] == 1
+    assert report["status"] == "execution_failed"
+    assert report["runs"]["42"]["candidate"]["execution_status"] == "completed"
     assert report["performance_mean"] is None
     assert report["pairs"][0]["trips"][0]["candidate"] is None
     assert report["pairs"][1]["trips"][1]["candidate"] is None
@@ -57,7 +60,7 @@ def test_input_changes_invalidate_pairs_without_hiding_measured_trips(tmp_path, 
         for identity in ("car-A", "car-B"):
             ET.SubElement(rows, "tripinfo", id=identity, duration="10" if kwargs["net_file"].name.startswith("source") else "15")
         ET.ElementTree(rows).write(kwargs["output_dir"] / "driving_end60_tripinfo.xml")
-        return {"inspection": {"status": "pass", "summary": {"arrived": 2}}}
+        return {"inspection": {"status": "pass", "summary": {"arrived": 2}}, "command": {"status": "pass", "returncode": 0}}
 
     monkeypatch.setattr(module, "_run_attempt", attempt)
     report = module.compare_driving_cohort(**request)
