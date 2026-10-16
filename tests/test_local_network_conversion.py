@@ -41,6 +41,36 @@ def test_missing_frame_retains_the_full_native_path():
     assert record == {"status": "full_network", "reason": "coordinate_frame_not_declared"}
 
 
+@pytest.mark.parametrize("fault", [None, "missing_created", "extra_road", "wrong_endpoint"])
+def test_split_merge_requires_the_declared_road_inventory_and_endpoints(fault):
+    from astra_sumo.core.local_network_conversion import merge_local_conversion
+    source = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="road" from="A" to="B"><lane id="road_0"/></edge>
+      <junction id="A"/><junction id="B"/></net>''')
+    endpoints = {"road": {"from": "N", "to": "B"}, "upstream": {"from": "A", "to": "N"}}
+    subset, record = local_conversion_input(source, {"A", "B", "N"}, {"road", "upstream"}, edge_endpoints=endpoints)
+    assert record["converted_normal_edge_count"] == 1
+    assert subset.find("edge[@id='upstream']") is None
+    native = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="road" from="N" to="B"><lane id="road_0"/></edge>
+      <edge id="upstream" from="A" to="N"><lane id="upstream_0"/></edge>
+      <junction id="A"/><junction id="B"/><junction id="N"/></net>''')
+    if fault == "missing_created":
+        native.remove(native.find("edge[@id='upstream']"))
+    elif fault == "extra_road":
+        ET.SubElement(native, "edge", id="unplanned", attrib={"from": "A", "to": "B"})
+    elif fault == "wrong_endpoint":
+        native.find("edge[@id='road']").set("from", "A")
+    if fault:
+        with pytest.raises(ValueError, match="inventory|endpoint"):
+            merge_local_conversion(source, native, record)
+    else:
+        result = merge_local_conversion(source, native, record)
+        assert result.find("edge[@id='road']").get("from") == "N"
+        assert result.find("edge[@id='upstream']").get("to") == "N"
+        assert result.find("junction[@id='N']") is not None
+
+
 def test_empty_local_context_keeps_the_full_native_input():
     root = ET.fromstring('<net><location netOffset="0,0" projParameter="!"/><junction id="isolated"/></net>')
     subset, record = local_conversion_input(root, {"isolated"}, set())
@@ -373,6 +403,9 @@ def test_shared_conversion_failure_keeps_partial_output_and_protects_existing_fi
     assert not output.exists()
     assert Path(record["native_output"]["path"]).read_text() == "partial native output"
     assert record["native_output"]["status"] == "incomplete"
+    failure = json.loads((tmp_path / "failed.conversion-record.json").read_text())
+    assert failure["command"]["returncode"] == 1
+    assert failure["local_conversion"]["native_output"] == record["native_output"]
     assert source.read_bytes() == original
     with pytest.raises(ValueError, match="new conversion output"):
         run_scoped_native_conversion(**args)
@@ -394,6 +427,51 @@ def test_failed_local_merge_keeps_native_output_separate_from_candidate(tmp_path
             output_dir=tmp_path, prefix="merge-failure", timeout_seconds=30)
     assert not output.exists()
     assert ET.parse(tmp_path / "merge-failure.native-local-output.net.xml").getroot().tag == "net"
+    failure = json.loads((tmp_path / "merge-failure.conversion-record.json").read_text())
+    assert failure["exception"] == {"type": "ValueError", "message": "test merge failure"}
+    assert failure["local_conversion"]["source_unchanged"]
+    assert Path(failure["local_conversion"]["native_output"]["path"]).is_file()
+
+
+def test_native_error_without_output_still_has_a_durable_conversion_record(tmp_path):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source = _source(tmp_path)
+    patch = tmp_path / "invalid.con.xml"
+    patch.write_text('<connections><connection from="in" to="middle" fromLane="999" toLane="0"/></connections>', encoding="utf-8")
+    output = tmp_path / "candidate.net.xml"
+    result, record = run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+        "--connection-files", str(patch), "--output-file", str(output)], mutable_nodes={"A", "B"},
+        mutable_edges={"in", "middle", "out", "reverse", "east", "west", "north", "south"},
+        output_dir=tmp_path, prefix="native-error", timeout_seconds=30)
+    assert result.returncode != 0 and result.stderr
+    assert not output.exists() and "native_output" not in record
+    failure = json.loads((tmp_path / "native-error.conversion-record.json").read_text())
+    assert failure["status"] == "failed"
+    assert failure["command"]["stderr"] == result.stderr
+    assert failure["local_conversion"]["input"] == record["input"]
+    assert failure["local_conversion"]["source_unchanged"]
+
+
+def test_source_drift_returns_measurements_and_retains_a_warning_record(tmp_path, monkeypatch):
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    from astra_sumo.core.command_runner import CommandResult
+    source, output = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
+    original = b'<net><location netOffset="0,0" projParameter="!"/></net>'
+    source.write_bytes(original)
+    def convert(command, **kwargs):
+        Path(command[command.index("--output-file") + 1]).write_bytes(original)
+        source.write_bytes(original.replace(b"<net>", b'<net changed="true">'))
+        return CommandResult(command=command, cwd=str(kwargs["cwd"]), status="pass", returncode=0)
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", convert)
+    result, record = run_scoped_native_conversion(command=["netconvert", "--sumo-net-file", str(source),
+        "--output-file", str(output)], mutable_nodes=set(), mutable_edges=set(), output_dir=tmp_path,
+        prefix="source-drift", timeout_seconds=1)
+    assert result.returncode == 0 and not record["source_unchanged"] and not record["merge_source_unchanged"]
+    assert output.read_bytes() == original
+    warning = json.loads((tmp_path / "source-drift.conversion-record.json").read_text())
+    assert warning["status"] == "source_changed" and warning["exception"] is None
 
 
 @pytest.mark.parametrize("element", ["junction", "tlLogic", "connection"])

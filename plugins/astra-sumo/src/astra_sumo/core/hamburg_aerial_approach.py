@@ -15,7 +15,6 @@ from typing import Any
 from pyproj import Transformer
 
 from .candidate_contracts import file_sha256
-from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode, lane_supports_motorized
 from .digital_twin import parse_mapem
 from .hamburg_map_kml import parse_hamburg_map_kml
@@ -119,6 +118,13 @@ def build_hamburg_aerial_approach_candidate(
         split_id = row["original_from"] if reuse else f"torii-merge-{row['node_id']}-{row['intersection_part']}-{row['approach']}{event_suffix}"
         if not reuse and (upstream_id in source_edges or root.find(f"junction[@id='{split_id}']") is not None):
             raise ValueError("approach split identity already exists")
+        if original.get("length") is not None:
+            loaded = float(original.get("length"))
+            if not math.isfinite(loaded) or loaded <= 0:
+                raise ValueError("The declared road length must be finite and positive.")
+            prefix_length = None if reuse else loaded * row["upstream_interval_m"][1] / row["source_interval_m"][1]
+            row["explicit_length_allocation_m"] = {"source": loaded, "upstream": prefix_length,
+                "downstream": loaded - (prefix_length or 0), "basis": "source_spatial_split_fraction"}
         row.update({"upstream_edge_id": upstream_id, "downstream_edge_id": edge_id, "split_node_id": split_id})
         x, y = row["split_xy"]
         if not reuse:
@@ -128,11 +134,18 @@ def build_hamburg_aerial_approach_candidate(
             upstream.set("to", split_id)
             upstream.set("numLanes", str(len(row["through_lane_ids"])))
             upstream.set("shape", _shape(row["_upstream_edge_shape"]))
+            upstream.attrib.pop("endOffset", None)
+            if original.get("length") is not None:
+                upstream.set("length", str(row["explicit_length_allocation_m"]["upstream"]))
             for index, lane in enumerate(upstream.findall("lane")):
+                lane.attrib.pop("endOffset", None)
                 _set_lane_shape(lane, index, row["_upstream_lane_shapes"][index])
+            row["stop_offset_policy"] = "source_end_offsets_retained_on_downstream_section_only"
             expected_upstream[upstream_id] = deepcopy(upstream)
             edge_patch.append(upstream)
         downstream = deepcopy(original)
+        if original.get("length") is not None:
+            downstream.set("length", str(row["explicit_length_allocation_m"]["downstream"]))
         downstream.set("from", split_id)
         downstream.set("numLanes", str(len(row["_ordered_lanes"])))
         downstream.set("shape", _shape([_mean([item["shape"][0] for item in row["_ordered_lanes"]]), _mean([item["shape"][-1] for item in row["_ordered_lanes"]])]))
@@ -206,7 +219,9 @@ def build_hamburg_aerial_approach_candidate(
     # before adding remapped pairs so a later deletion cannot erase a new pair.
     connection_patch[:] = sorted(connection_patch, key=lambda row: row.tag != "delete")
     paths = {}
+    from .osm_access import _translate_permission_declarations
     for name, tree_root in (("nodes", node_patch), ("edges", edge_patch), ("connections", connection_patch)):
+        _translate_permission_declarations(tree_root, source_version=root.get("version", "0.0"))
         paths[name] = destination / f"approach.{name}.xml"
         ET.indent(tree_root)
         ET.ElementTree(tree_root).write(paths[name], encoding="utf-8", xml_declaration=True)
@@ -229,8 +244,17 @@ def build_hamburg_aerial_approach_candidate(
         ET.indent(traffic_lights)
         ET.ElementTree(traffic_lights).write(paths["traffic_lights"], encoding="utf-8", xml_declaration=True)
     candidate = destination / "approach-candidate.net.xml"
-    command = [netconvert_binary, "--sumo-net-file", str(source), "--node-files", str(paths["nodes"]), "--edge-files", str(paths["edges"]), "--connection-files", str(paths["connections"]), *(["--tllogic-files", str(paths["traffic_lights"])] if touched_controller_ids else []), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(candidate)]
-    compiled = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
+    command = [netconvert_binary, "--sumo-net-file", str(source), "--node-files", str(paths["nodes"]), "--edge-files", str(paths["edges"]), "--connection-files", str(paths["connections"]), *(["--tllogic-files", str(paths["traffic_lights"])] if touched_controller_ids else []), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(candidate)]
+    from .local_network_conversion import run_scoped_native_conversion
+    conversion_nodes = mutable_nodes | {row["original_from"] for row in accepted}
+    conversion_edges = set(mutable_edges) | {key for key, edge in source_edges.items()
+        if any(edge.get(end) in conversion_nodes for end in ("from", "to"))}
+    changed_endpoints = {edge.get("id"): {end: edge.get(end) for end in ("from", "to")}
+        for edge in edge_patch if edge.get("id") in expected_upstream
+        or any(edge.get(end) != source_edges[edge.get("id")].get(end) for end in ("from", "to"))}
+    compiled, local_conversion = run_scoped_native_conversion(command=command,
+        mutable_nodes=conversion_nodes, mutable_edges=conversion_edges, edge_endpoints=changed_endpoints,
+        output_dir=destination, prefix="approach", timeout_seconds=timeout_seconds)
     (destination / "netconvert.log").write_text(compiled.stdout + compiled.stderr, encoding="utf-8")
     if compiled.returncode != 0 or not candidate.is_file():
         raise ValueError("netconvert could not compile approach sections: " + compiled.stderr)
@@ -243,14 +267,15 @@ def build_hamburg_aerial_approach_candidate(
         **preservation_scope, expand_mutable_edge_endpoints=False)
     preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate, **preservation_scope)
     result_root = ET.parse(candidate).getroot()
+    permission_versions = dict(source_version=root.get("version", "0.0"), candidate_version=result_root.get("version", "0.0"))
     result_edges = {edge.get("id"): edge for edge in result_root.findall("edge") if edge.get("function") != "internal"}
     preserved = set(result_edges) == set(source_edges) | set(expected_upstream)
     evidence = []
     boundary_adjustments = []
     for edge_id, expected in {**{key: edge for key, edge in source_edges.items() if key not in rewritten}, **expected_upstream}.items():
         actual = result_edges.get(edge_id)
-        okay = actual is not None and _preserved_edge(expected, actual)
-        bounded = not okay and actual is not None and edge_id in boundary_scope and _preserved_boundary_edge(expected, actual, boundary_scope[edge_id]["polygons"])
+        okay = actual is not None and _preserved_edge(expected, actual, **permission_versions)
+        bounded = not okay and actual is not None and edge_id in boundary_scope and _preserved_boundary_edge(expected, actual, boundary_scope[edge_id]["polygons"], **permission_versions)
         evidence.append({"edge_id": edge_id, "preserved": okay, "within_declared_boundary_adjustment": bounded})
         if bounded:
             boundary_adjustments.append({"edge_id": edge_id, **boundary_scope[edge_id],
@@ -273,7 +298,7 @@ def build_hamburg_aerial_approach_candidate(
             before, after = ET.Element("edge"), ET.Element("edge")
             before.append(deepcopy(old_lanes[old_index]))
             after.append(deepcopy(new_lanes[new_index]))
-            ordinary_preserved &= _preserved_edge(before, after)
+            ordinary_preserved &= _preserved_edge(before, after, **permission_versions)
     gates = {"source_immutable": "pass" if _identity(source) == source_identity else "blocked",
              "scoped_geometry_restoration": "pass" if restoration["status"] == "pass" else "blocked",
              "fixed_boundary_geometry": preservation["status"],
@@ -289,7 +314,10 @@ def build_hamburg_aerial_approach_candidate(
         "scoped_geometry_restoration": restoration, "fixed_boundary_geometry": preservation,
         "source_priority": {"local_lane_identity_and_geometry": "official_MAP_KML", "vehicle_permissions": "explicit_official_MAP_XML_otherwise_source_lane", "outside_geometry_and_connections": "frozen_source_SUMO_network", "aerial_imagery": "context_only_not_automatically_interpreted"},
         "connection_changes": {"missing": sorted(expected_connections - actual_connections), "extra": sorted(actual_connections - expected_connections)},
-        "commands": [compiled.to_dict()], "artifacts": {**{key: _identity(path) for key, path in paths.items()}, "connection_audit": _identity(audit_file)},
+        "logical_lane_lengths_m": {edge_id: [float(lane.get("length")) for lane in result_edges[edge_id].findall("lane")]
+            for edge_id in sorted(set(rewritten) | set(expected_upstream))},
+        "commands": [compiled.to_dict()], "local_conversion": local_conversion,
+        "artifacts": {**{key: _identity(path) for key, path in paths.items()}, "connection_audit": _identity(audit_file)},
         "claim_boundary": "Only documented ingress lane additions are rebuilt. The original edge ID now denotes its shorter downstream section. Routes, detectors and signal bindings require remapping before traffic experiments. Official junction movements remain a separate construction step."})
 
 
@@ -600,14 +628,17 @@ def _source_chain_to_merge(root, target, event, max_error, *, margin=0.5):
         chain.insert(0, previous)
 
 
-def _preserved_edge(expected, actual):
+def _preserved_edge(expected, actual, *, source_version=None, candidate_version=None):
+    from .osm_access import _permission_set
     if any(expected.get(key) != actual.get(key) for key in ("from", "to", "priority", "type", "spreadType")):
         return False
     left, right = expected.findall("lane"), actual.findall("lane")
     if len(left) != len(right):
         return False
     for first, second in zip(left, right):
-        if any(first.get(key) != second.get(key) for key in _LANE_ATTRIBUTES):
+        if any(first.get(key) != second.get(key) for key in _LANE_ATTRIBUTES if key not in {"allow", "disallow"}):
+            return False
+        if _permission_set(first.attrib, network_version=source_version) != _permission_set(second.attrib, network_version=candidate_version):
             return False
         a, b = _parse(first.get("shape", "")), _parse(second.get("shape", ""))
         if not a or not b or max(_project_polyline(point, b)["distance_m"] for point in a) > 0.1 or max(_project_polyline(point, a)["distance_m"] for point in b) > 0.1:
@@ -654,7 +685,7 @@ def _line_inside_polygons(shape, polygons):
     return True
 
 
-def _preserved_boundary_edge(expected, actual, polygons):
+def _preserved_boundary_edge(expected, actual, polygons, *, source_version=None, candidate_version=None):
     old_lanes, new_lanes = expected.findall("lane"), actual.findall("lane")
     if len(old_lanes) != len(new_lanes) or not all(_line_inside_polygons(_parse(lane.get("shape", "")), [polygon]) for lane in old_lanes for polygon in polygons):
         return False
@@ -663,7 +694,7 @@ def _preserved_boundary_edge(expected, actual, polygons):
     comparable = deepcopy(actual)
     for old, new in zip(old_lanes, comparable.findall("lane")):
         new.set("shape", old.get("shape", ""))
-    return _preserved_edge(expected, comparable)
+    return _preserved_edge(expected, comparable, source_version=source_version, candidate_version=candidate_version)
 
 
 def _set_lane_shape(lane, index, shape):
