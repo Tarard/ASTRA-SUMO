@@ -58,8 +58,8 @@ def _index(root: ET.Element) -> dict[str, Any]:
         incoming[via or target].add(source)
         if not _internal(edges[pair[0]]):
             movements.append((pair, source, target, connection))
-    owners = resolve_internal_ownership(root)["lane"]
-    return {"edges": edges, "lanes": lanes, "keys": keys, "counts": counts, "outgoing": outgoing, "incoming": incoming, "movements": movements, "owners": owners}
+    ownership = resolve_internal_ownership(root)
+    return {"edges": edges, "lanes": lanes, "keys": keys, "counts": counts, "outgoing": outgoing, "incoming": incoming, "movements": movements, "owners": ownership["lane"], "ownership": ownership}
 
 
 def _internal(edge: ET.Element) -> bool:

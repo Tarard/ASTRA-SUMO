@@ -29,16 +29,20 @@ def _owner(element, index):
     return index["ownership"][element.tag].get(identity)
 
 
-def local_conversion_input(root, mutable_nodes, mutable_edges):
+def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None):
     """Keep complete edit junctions and the roads needed to position their ends."""
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
     index = _index(root)
+    aliases = {node: joined for joined, nodes in (join_groups or {}).items() for node in nodes}
+    absorbed = {key for key, edge in index["edges"].items() if key not in index["ownership"]["edge"]
+                and edge.get("from") in aliases and aliases.get(edge.get("from")) == aliases.get(edge.get("to"))}
     controllers = {}
     for connection in root.findall("connection"):
         if connection.get("tl"):
             controllers.setdefault(connection.get("tl"), set()).add(_owner(connection, index))
-    shared = sorted(key for key, owners in controllers.items() if owners & mutable_nodes and owners - mutable_nodes)
+    shared = sorted(key for key, owners in controllers.items()
+                    if (owners & mutable_nodes or key in (join_groups or {})) and owners - mutable_nodes)
     if shared:
         return None, {"status": "full_network", "reason": "controller_spans_edit_boundary", "controller_ids": shared}
     selected = set(mutable_edges)
@@ -71,6 +75,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
         paths = [row.get(name, "").split("->") for name in ("prohibitor", "prohibited")]
         if any(len(path) != 2 or any(edge not in index["edges"] for edge in path) for path in paths):
             return None, {"status": "full_network", "reason": "unresolved_prohibition_references"}
+        if any(edge in absorbed for path in paths for edge in path):
+            return None, {"status": "full_network", "reason": "prohibition_references_absorbed_road"}
         if all(edge in kept for path in paths for edge in path):
             prohibitions.append(deepcopy(row))
     used_tls = {row.get("tl") for row in connections if row.get("tl")}
@@ -93,12 +99,15 @@ def local_conversion_input(root, mutable_nodes, mutable_edges):
     result.extend(connections)
     result.extend(prohibitions)
     result.extend(deepcopy(row) for row in root.findall("roundabout") if set(row.get("edges", "").split()) <= selected)
-    return result, {"status": "local", "mutable_junction_ids": sorted(mutable_nodes),
+    record = {"status": "local", "mutable_junction_ids": sorted(mutable_nodes),
                     "mutable_edge_ids": sorted(mutable_edges), "context_edge_ids": sorted(selected),
                     "context_junction_ids": sorted(context), "controller_ids": sorted(
-                        key for key, owners in controllers.items() if owners & mutable_nodes),
+                        {key for key, owners in controllers.items() if owners & mutable_nodes} | set(join_groups or {})),
                     "source_normal_edge_count": sum(not key.startswith(":") for key in index["edges"]),
                     "converted_normal_edge_count": len(selected)}
+    if join_groups:
+        record.update(junction_aliases=aliases, absorbed_edge_ids=sorted(absorbed))
+    return result, record
 
 
 def merge_local_conversion(source_root, native_root, record):
@@ -106,8 +115,14 @@ def merge_local_conversion(source_root, native_root, record):
     mutable_nodes, mutable_edges = set(record["mutable_junction_ids"]), set(record["mutable_edge_ids"])
     before, after = _index(source_root), _index(native_root)
     actual = {key for key in after["edges"] if not key.startswith(":")}
-    if actual != set(record["context_edge_ids"]):
+    if actual != set(record["context_edge_ids"]) - set(record.get("absorbed_edge_ids", [])):
         raise ValueError("Local conversion changed the retained ordinary-road inventory.")
+    aliases = record.get("junction_aliases", {})
+    for key in actual:
+        for end in ("from", "to"):
+            original = before["edges"][key].get(end)
+            if after["edges"][key].get(end) != aliases.get(original, original):
+                raise ValueError("Local conversion changed an undeclared ordinary-road endpoint.")
     locations = [root.find("location") for root in (source_root, native_root)]
     frames = [(tuple(map(float, row.get("netOffset", "0,0").split(","))), row.get("projParameter"))
               if row is not None else None for row in locations]
@@ -120,6 +135,8 @@ def merge_local_conversion(source_root, native_root, record):
             return child.get("id") in mutable_edges or _owner(child, index) in mutable_nodes
         if child.tag in {"junction", "connection"}:
             return _owner(child, index) in mutable_nodes
+        if child.tag == "roundabout":
+            return bool(set(child.get("edges", "").split()) & mutable_edges)
         return child.tag == "tlLogic" and child.get("id") in controllers
 
     result = deepcopy(source_root)
@@ -127,7 +144,7 @@ def merge_local_conversion(source_root, native_root, record):
         if belongs(child, before):
             result.remove(child)
     ranks = {name: rank for rank, name in enumerate(("location", "type", "edge", "tlLogic", "junction", "connection", "prohibition", "roundabout"))}
-    for name in ("edge", "tlLogic", "junction", "connection"):
+    for name in ("edge", "tlLogic", "junction", "connection", "roundabout"):
         additions = [deepcopy(child) for child in native_root if child.tag == name and belongs(child, after)]
         at = next((i for i, child in enumerate(result) if ranks.get(child.tag, 8) > ranks[name]), len(result))
         for offset, child in enumerate(additions):
@@ -147,7 +164,13 @@ def validate_local_conversion(record, source_file):
     if validate_scoped_operation(operation, source_root):
         raise ValueError("Local conversion has an invalid scoped operation.")
     nodes, edges = scoped_operation_scope(source_root, operation)
-    subset, expected = local_conversion_input(source_root, nodes, edges)
+    params = operation["params"]
+    groups = {params["join_id"]: params["node_ids"]} if operation["operation"] in {"join_junctions", "absorb_reciprocal_fragment"} else None
+    subset, expected = local_conversion_input(source_root, nodes, edges, join_groups=groups)
+    return _validate_local_artifacts(record, source_root, subset, expected)
+
+
+def _validate_local_artifacts(record, source_root, subset, expected):
     if subset is None or any(record.get(key) != value for key, value in expected.items()):
         raise ValueError("Local conversion scope differs from the source operation.")
     input_file = Path(record["input"]["path"])
@@ -161,4 +184,35 @@ def validate_local_conversion(record, source_file):
     root = merge_local_conversion(source_root, ET.parse(raw).getroot(), expected)
     if merged.read_bytes() != ET.tostring(root, encoding="utf-8", xml_declaration=True):
         raise ValueError("The merged proposal differs from its source and native result.")
+    return input_file
+
+
+def validate_join_boundary_conversion(report, source_file):
+    """Reconstruct the post-join conversion input and its retained exterior."""
+    from .junction_boundary_rebuild import _groups, _diagnostic_signal_view
+    source = Path(source_file).resolve(strict=True)
+    original = report["source_network"]
+    joined = report["joined_network"]
+    record = report["local_conversion"]
+    if not Path(original["path"]).samefile(source) or file_sha256(source) != original["sha256"]:
+        raise ValueError("Join-boundary conversion does not match its original source.")
+    joined_path = Path(joined["path"])
+    if file_sha256(joined_path) != joined["sha256"] or joined != record["source"]:
+        raise ValueError("The saved joined input changed.")
+    groups = {row["join_id"]: row["source_node_ids"] for row in report["plan"]["groups"]}
+    original_root = ET.parse(source).getroot()
+    if report["signal_policy"] == "rebuild_diagnostic":
+        original_root, _ = _diagnostic_signal_view(original_root, groups)
+    groups = _groups(original_root, groups)
+    nodes = set(groups) | set().union(*groups.values()) | set(report["adjacent_geometry"]["requested_junction_ids"])
+    root = ET.parse(joined_path).getroot()
+    edges = {row.get("id") for row in root.findall("edge") if not row.get("id", "").startswith(":")
+             and any(row.get(end) in nodes for end in ("from", "to"))}
+    subset, expected = local_conversion_input(root, nodes, edges)
+    input_file = _validate_local_artifacts(record, root, subset, expected)
+    command = report["commands"][0]["command"]
+    if command.count("--sumo-net-file") != 1 or command.index("--sumo-net-file") + 1 >= len(command):
+        raise ValueError("Join-boundary native command has no unique input path.")
+    if Path(command[command.index("--sumo-net-file") + 1]).resolve() != input_file.resolve():
+        raise ValueError("Join-boundary native command uses another input.")
     return input_file

@@ -148,10 +148,9 @@ def _outside_delta(source: ET.Element, candidate: ET.Element, excluded: set[str]
                     result["internal_edges"][key] = _signature(edge)
             elif edge.get("from") not in excluded and edge.get("to") not in excluded:
                 result["external_edges"][key] = _signature(edge)
-        prefixes = sorted(index["owners"].values(), key=lambda value: len(value or ""), reverse=True)
         for row in root.findall("junction"):
             key = row.get("id", "")
-            owner = next((value for value in prefixes if value and key.startswith(f":{value}_")), key)
+            owner = index["ownership"]["junction"].get(key, key)
             if owner not in excluded:
                 result["junctions"][key] = _signature(row)
         for row in root.findall("connection"):
@@ -441,8 +440,19 @@ def restore_joined_boundary_connections(
     ET.ElementTree(patch).write(patch_file, encoding="utf-8", xml_declaration=True)
     geometry_paths, boundary_geometry = _boundary_geometry(original, source_index, plan, destination)
     compiled = destination / "compiled.net.xml"
+    from .local_network_conversion import local_conversion_input, merge_local_conversion
+    local_nodes = excluded | set(adjacent_geometry_junction_ids)
+    local_edges = {key for key, edge in joined_index["edges"].items() if not _internal(edge)
+                   and any(edge.get(end) in local_nodes for end in ("from", "to"))}
+    subset, local_conversion = local_conversion_input(native, local_nodes, local_edges)
+    conversion_source = joined
+    if subset is not None:
+        conversion_source = destination / "boundary.local-input.net.xml"
+        conversion_source.write_bytes(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
+        local_conversion.update(input={"path": str(conversion_source), "sha256": file_sha256(conversion_source)},
+                                source={"path": str(joined), "sha256": joined_hash})
     commands = []
-    result = run_command([netconvert_binary, "--sumo-net-file", str(joined), "--node-files", str(geometry_paths["nodes"]), "--edge-files", str(geometry_paths["edges"]), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(compiled)], cwd=destination, timeout_seconds=timeout_seconds)
+    result = run_command([netconvert_binary, "--sumo-net-file", str(conversion_source), "--node-files", str(geometry_paths["nodes"]), "--edge-files", str(geometry_paths["edges"]), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", native.get("junctionLinkDetail", "5"), "--output-file", str(compiled)], cwd=destination, timeout_seconds=timeout_seconds)
     commands.append(result.to_dict())
     if result.returncode != 0 or not compiled.is_file():
         write_json_atomic(destination / "failed-command.json", commands[-1])
@@ -455,6 +465,13 @@ def restore_joined_boundary_connections(
             command=commands[-1]["command"], groups=plan["groups"], output_file=compiled,
             timeout_seconds=timeout_seconds, mode=junction_contours, corner_radius_m=junction_corner_radius_m,
             include_context=False)
+    if subset is not None:
+        raw = destination / "boundary.native-local-output.net.xml"
+        shutil.copy2(compiled, raw)
+        merged = merge_local_conversion(native, ET.parse(raw).getroot(), local_conversion)
+        compiled.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
+        local_conversion.update(native_output={"path": str(raw), "sha256": file_sha256(raw)},
+            merged_proposal={"path": str(compiled), "sha256": file_sha256(compiled), "stage": "before_exterior_restoration"})
     candidate = destination / "boundary-restored.net.xml"
     shutil.copy2(compiled, candidate)
     raw_root = ET.parse(compiled).getroot()
@@ -536,6 +553,7 @@ def restore_joined_boundary_connections(
     report["input_bounds_metadata_changed"] = _signature(original.find("location")) != _signature(native.find("location"))
     report["fixed_boundary_geometry"] = geometric_preservation
     report["scoped_geometry_restoration"] = scoped_restoration
+    report["local_conversion"] = local_conversion
     report["gates"]["scoped_geometry_restoration"] = scoped_restoration["status"] == "pass"
     report["gates"]["fixed_boundary_geometry"] = geometric_preservation["status"] == "pass"
     if geometric_preservation["status"] != "pass" or scoped_restoration["status"] != "pass":

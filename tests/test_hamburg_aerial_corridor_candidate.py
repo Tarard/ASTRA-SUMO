@@ -137,6 +137,8 @@ def test_context_preparation_keeps_source_and_restores_boundary_paths(tmp_path):
     assert result["status"] == "pass"
     assert result["boundary_after"]["expected_count"] == 1
     assert result["boundary_after"]["missing"] == []
+    assert result["join_local_conversion"]["status"] == "local"
+    assert result["local_conversion"]["status"] == "local"
     assert source.read_bytes() == before
     options["official_groups"] = [{"source_node_ids": ["a"]}]
     with pytest.raises(ValueError, match="overlap official"):

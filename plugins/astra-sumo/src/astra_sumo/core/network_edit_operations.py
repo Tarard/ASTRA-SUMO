@@ -596,11 +596,12 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"
                                       and _stop_line_patches(root, params) is not None else "netconvert")
     if plan["materialization_method"] == "netconvert":
-        if kind in _JOIN_EDITS | {"demote_duplicate_tls", "relocate_tls_control"}:
-            plan["local_conversion"] = {"status": "full_network", "reason": "join_or_controller_reconstruction"}
+        if kind in {"demote_duplicate_tls", "relocate_tls_control"}:
+            plan["local_conversion"] = {"status": "full_network", "reason": "controller_reconstruction"}
         else:
             from .local_network_conversion import local_conversion_input
-            subset, local = local_conversion_input(root, mutable, mutable_edges)
+            groups = {params["join_id"]: params["node_ids"]} if kind in _JOIN_EDITS else None
+            subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
             plan["local_conversion"] = local
             if subset is not None:
                 local_file = output_dir / f"{prefix}.local-input.net.xml"
@@ -662,9 +663,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             mutable_nodes, mutable_edges = set(), set()
     elif kind in _JOIN_EDITS:
         from .junction_boundary_rebuild import restore_joined_boundary_connections
-        rebuild = restore_joined_boundary_connections(source_net=source, joined_net=candidate_file,
+        rebuild = restore_joined_boundary_connections(source_net=source, joined_net=proposal,
             groups={params["join_id"]: params["node_ids"]}, output_dir=output_dir / "scoped-join",
-            expected_source_sha256=plan["source"]["sha256"], expected_joined_sha256=file_sha256(candidate_file),
+            expected_source_sha256=plan["source"]["sha256"], expected_joined_sha256=file_sha256(proposal),
             signal_policy=params.get("signal_policy", "preserve"),
             interior_lane_change_policy=params.get("interior_lane_change_policy", "fixed_paths"),
             netconvert_binary=netconvert_binary, sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds)

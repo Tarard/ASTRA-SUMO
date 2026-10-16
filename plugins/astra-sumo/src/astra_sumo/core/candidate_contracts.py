@@ -152,6 +152,14 @@ def validate_materialization_evidence(
             except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
                 errors.append({"code": "invalid_local_netconvert_materialization", "detail": str(error)})
         repairs = semantic.get("native_path_repair") if isinstance(semantic, Mapping) else None
+        joined = semantic.get("restoration") if isinstance(semantic, Mapping) else None
+        joined_local = joined.get("local_conversion") if isinstance(joined, Mapping) else None
+        if isinstance(joined_local, Mapping) and joined_local.get("status") == "local":
+            from .local_network_conversion import validate_join_boundary_conversion
+            try:
+                validate_join_boundary_conversion(joined, source_net_file)
+            except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+                errors.append({"code": "invalid_join_boundary_local_conversion", "detail": str(error)})
         if isinstance(repairs, Mapping) and repairs.get("attempts"):
             from .junction_rebuild.native_path_repair import validate_native_path_repair_chain
             try:

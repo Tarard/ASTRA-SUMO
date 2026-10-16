@@ -195,8 +195,15 @@ Internal ownership uses junction lane references and connected movement paths in
 Legacy ID fallback requires one possible parent. Ambiguous names remain unresolved.
 
 `local_conversion.status` reports `local` or `full_network`.
-Joins, controller reconstruction, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
-The report states that reason. Their local conversion remains open work.
+Typed joins and context joins now use local inputs for the initial join and the boundary-path restoration.
+Their records declare absorbed roads and source-to-joined node identities. They retain both native outputs and the joined restoration input.
+For typed joins, release validation reconstructs both local inputs and their retained exteriors.
+Controller relocation or demotion, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
+A prohibition that refers to an absorbed road also retains full conversion. The report states the reason.
+Other stages of the complete construction workflow still need separate conversion-scope work.
+
+Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
+The same failure occurs with a full-source control. Such a native failure is retained and provides no candidate acceptance.
 XML inspection, exterior copying, and whole-candidate checks still read the full source.
 The native rebuild uses the selected road context. This does not promise constant total runtime for large networks.
 Lane-permission comparisons use the network's declared format version.
