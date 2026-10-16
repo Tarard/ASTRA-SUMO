@@ -122,7 +122,7 @@ def _exit_code(result: AstraToolResult | dict[str, Any]) -> int:
     if not isinstance(status, str) or not status.strip():
         return 3
     status = status.strip().lower()
-    if status in {"pass", "ok", "success", "complete", "ready"}:
+    if status in {"pass", "ok", "success", "complete", "ready", "measured", "no_effect"}:
         return 0
     if status in {"error", "fail", "failed", "invalid", "timeout"} or (
         status.startswith("blocked")
@@ -226,6 +226,44 @@ def _build_parser() -> argparse.ArgumentParser:
     network_compare.add_argument("output_dir")
     network_compare.add_argument("--prefix", default="network_compare")
     _add_output_argument(network_compare)
+    calibration = network_sub.add_parser("calibrate", help="Measure a network against dated road facts.")
+    calibration.add_argument("net_file")
+    calibration.add_argument("facts_file")
+    calibration.add_argument("output_file")
+    calibration.add_argument("--parent-net-file")
+    calibration.add_argument("--mode", choices=("explore", "release"), default="explore")
+    _add_output_argument(calibration)
+    effect_review = network_sub.add_parser("review-effects", help="Order traffic findings by model effect and evidence.")
+    effect_review.add_argument("net_file")
+    effect_review.add_argument("output_dir")
+    effect_review.add_argument("--parent-net-file")
+    effect_review.add_argument("--vehicle-class", default="passenger")
+    _add_output_argument(effect_review)
+    verify_edit = network_sub.add_parser("verify-edit", help="Build and check one typed road edit in explore or release mode.")
+    verify_edit.add_argument("ledger_file")
+    verify_edit.add_argument("output_dir")
+    verify_edit.add_argument("--netconvert-binary", default="netconvert")
+    verify_edit.add_argument("--mode", choices=("explore", "release"), default="explore")
+    verify_edit.add_argument("--facts-file", help="Measure the source and candidate against the same road facts.")
+    _add_output_argument(verify_edit)
+    references = network_sub.add_parser("reference-corpus", help="Prepare public network targets for daily development.")
+    references.add_argument("catalog_file")
+    references.add_argument("cache_dir")
+    references.add_argument("output_dir")
+    references.add_argument("--netconvert-binary", default="netconvert")
+    _add_output_argument(references)
+    reference_check = network_sub.add_parser("reference-check", help="Compare node grouping with a published model.")
+    reference_check.add_argument("dataset_file")
+    reference_check.add_argument("request_file")
+    reference_check.add_argument("output_file")
+    _add_output_argument(reference_check)
+    parking = network_sub.add_parser("parking-facilities", help="Recognize parking buildings and preserve their detailed roads.")
+    parking.add_argument("net_file")
+    parking.add_argument("osm_file")
+    parking.add_argument("output_dir")
+    parking.add_argument("--expected-net-sha256", required=True)
+    parking.add_argument("--expected-osm-sha256", required=True)
+    _add_output_argument(parking)
     routeability = network_sub.add_parser(
         "routeability",
         help="Run the long completion-aware SUMO routeability audit outside MCP.",
@@ -259,6 +297,10 @@ def _build_parser() -> argparse.ArgumentParser:
 
     review = subparsers.add_parser("review", help="Create review artifacts.")
     review_sub = review.add_subparsers(dest="review_command", required=True)
+    render = review_sub.add_parser("render", help="Draw fixed network views over a georeferenced aerial image.")
+    render.add_argument("request_file")
+    render.add_argument("output_dir")
+    _add_output_argument(render)
     create = review_sub.add_parser("create", help="Create a network review HTML page.")
     create.add_argument("output_dir")
     create.add_argument("--net-file")
@@ -461,6 +503,40 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "network" and args.network_command == "reference-corpus":
+        from .core.public_reference_corpus import build_public_reference_corpus
+
+        return _emit(build_public_reference_corpus(catalog_file=args.catalog_file, cache_dir=args.cache_dir,
+            output_dir=args.output_dir, netconvert_binary=args.netconvert_binary), json_output=json_output)
+    if args.command == "network" and args.network_command == "reference-check":
+        from .core.public_reference_corpus import compare_public_reference
+
+        return _emit(compare_public_reference(dataset_file=args.dataset_file, request_file=args.request_file,
+            output_file=args.output_file), json_output=json_output)
+    if args.command == "network" and args.network_command == "parking-facilities":
+        from .core.parking_facilities import build_parking_facility_model
+
+        return _emit(build_parking_facility_model(net_file=args.net_file, osm_file=args.osm_file,
+            output_dir=args.output_dir, expected_net_sha256=args.expected_net_sha256,
+            expected_osm_sha256=args.expected_osm_sha256), json_output=json_output)
+    if args.command == "network" and args.network_command == "verify-edit":
+        from .core.network_edit_applicability import verify_network_edit
+
+        return _emit(verify_network_edit(ledger_file=args.ledger_file, output_dir=args.output_dir,
+            netconvert_binary=args.netconvert_binary, mode=args.mode, facts_file=args.facts_file), json_output=json_output)
+    if args.command == "network" and args.network_command == "review-effects":
+        from .core.traffic_effect_review import build_network_traffic_effect_review
+
+        return _emit(build_network_traffic_effect_review(net_file=args.net_file, output_dir=args.output_dir,
+            parent_net_file=args.parent_net_file, vehicle_class=args.vehicle_class), json_output=json_output)
+    if args.command == "network" and args.network_command == "calibrate":
+        from .core.network_calibration import evaluate_network_calibration
+
+        return _emit(
+            evaluate_network_calibration(net_file=args.net_file, facts_file=args.facts_file,
+                                         output_file=args.output_file, parent_net_file=args.parent_net_file, mode=args.mode),
+            json_output=json_output,
+        )
     if args.command == "network" and args.network_command == "movement-probes":
         return _emit(
             run_candidate_movement_probes(candidate_manifest=args.candidate_manifest, output_dir=args.output_dir,
@@ -491,6 +567,11 @@ def _dispatch(args: argparse.Namespace) -> int:
             ),
             json_output=json_output,
         )
+    if args.command == "review" and args.review_command == "render":
+        from .core.network_aerial_review import render_network_aerial_review
+
+        return _emit(render_network_aerial_review(request_file=args.request_file, output_dir=args.output_dir),
+                     json_output=json_output)
     if args.command == "review" and args.review_command == "create":
         return _emit(
             astra_review_create(

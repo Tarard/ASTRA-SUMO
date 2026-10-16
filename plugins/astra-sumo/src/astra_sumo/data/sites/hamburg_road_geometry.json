@@ -1,0 +1,19 @@
+{
+  "schema": "astra.site-parameters/v1",
+  "profile_id": "hamburg_road_geometry",
+  "field_acceptance": "legacy_snapshot_only_requires_source_match",
+  "source_module_sha256_before_extraction": "b09d3cc92b8fd1dfdf26c1b4fdff3a7b4f472ad3792236bb4edd4de3ce32dda4",
+  "parameters": {
+    "_JUNCTION": "266199070",
+    "_BRANCH": "234421319",
+    "_THROUGH": "24483344#0",
+    "_INGRESS": "37693933#1",
+    "source_binding.001": "9702439#0",
+    "source_binding.002": "307556940#2",
+    "source_binding.003": "3127482712",
+    "source_binding.004": "307556942",
+    "source_binding.005": "-307556942",
+    "source_binding.006": "hamburg_reviewed_266199070_diverge/v1",
+    "plan_hamburg_road_geometry.007": "31106387"
+  }
+}

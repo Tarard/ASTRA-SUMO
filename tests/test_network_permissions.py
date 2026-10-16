@@ -57,6 +57,28 @@ def test_default_service_policy_does_not_create_or_modify_a_candidate(tmp_path):
     assert not (tmp_path/'unused').exists()
 
 
+@pytest.mark.skipif(not shutil.which('sumo') or not shutil.which('netconvert'), reason='Native SUMO is required.')
+@pytest.mark.parametrize('version,denied', [('1.3', 'rail_urban'), ('1.2', 'coach')])
+def test_service_candidate_preserves_legacy_connection_permissions(tmp_path, version, denied):
+    nodes, edges, connections, source = (tmp_path / name for name in ('nodes.xml', 'edges.xml', 'connections.xml', 'source.net.xml'))
+    nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/>'
+                     '<node id="c" x="200" y="0"/></nodes>', encoding='utf-8')
+    edges.write_text('<edges><edge id="a" from="a" to="b" type="highway.service" disallow="passenger"/>'
+                     '<edge id="b" from="b" to="c" type="highway.service" disallow="passenger"/></edges>', encoding='utf-8')
+    connections.write_text(f'<connections><connection from="a" to="b" fromLane="0" toLane="0" disallow="{denied}"/></connections>', encoding='utf-8')
+    built = subprocess.run(['netconvert', '-n', str(nodes), '-e', str(edges), '-x', str(connections), '-o', str(source)], capture_output=True, text=True)
+    assert built.returncode == 0, built.stderr
+    tree = ET.parse(source)
+    tree.getroot().set('version', version)
+    tree.write(source, encoding='utf-8', xml_declaration=True)
+    original = source.read_bytes()
+    result = apply_service_passenger_permissions(source, policy='allow_vehicle_service', output_dir=tmp_path / 'permissions')
+    assert result['status'] == 'pass', result
+    assert result['checks']['internal_permissions']
+    assert result['checks']['connection_permissions_preserved']
+    assert source.read_bytes() == original
+
+
 @pytest.mark.parametrize('attributes', [{'allow':'all'}, {'disallow':'all'}, {'allow':'bus bicycle'}, {'disallow':'passenger'}])
 def test_permission_patch_adds_only_passenger(attributes):
     from astra_sumo.core.network_permissions import _add_passenger_to_lane

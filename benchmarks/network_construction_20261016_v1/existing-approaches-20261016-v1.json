@@ -1,0 +1,674 @@
+{
+  "kind": "existing_approach_source_evidence",
+  "date": "2026-10-16",
+  "construction_code_commit": "338b769",
+  "input_alias_guard_commit": "64442b6",
+  "promotion_authority": false,
+  "request": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+    "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+  },
+  "workflow": {
+    "path": "outputs/existing_approach_20261016_v1/hamburg-rebuild-v1/workflow.manifest.json",
+    "sha256": "a86b7205bdfdd8edf0e89ade05a666ad02f86019de48143c9095418beac61988"
+  },
+  "candidate_manifest": {
+    "path": "outputs/existing_approach_20261016_v1/hamburg-rebuild-v1/candidate/manifest.json",
+    "sha256": "c1b2376a977e7d67edb1fec680de7693b2b691e7247683670fd1329102090f97"
+  },
+  "candidate": {
+    "path": "outputs/existing_approach_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+  },
+  "previous_candidate": {
+    "path": "outputs/local_approach_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+  },
+  "candidate_bytes_equal": true,
+  "workflow_status": "review_required",
+  "topology_complete": true,
+  "counts": {
+    "official_vehicle_movements": 16,
+    "physical_part_count": 2,
+    "joined_part_count": 2,
+    "materialized_movement_count": 16,
+    "unmaterialized_official_movement_count": 0,
+    "runtime_fallback_part_count": 0,
+    "source_surface_finding_count": 51,
+    "candidate_surface_finding_count": 45
+  },
+  "source_inputs_unchanged": true,
+  "generated_inputs_unchanged": true,
+  "approach_findings_before": 6,
+  "approach_findings_after": 2,
+  "approaches_materialized": 0,
+  "existing_cases": [
+    {
+      "node_id": "2349",
+      "intersection_part": "0",
+      "approach": "1",
+      "role": "ingress",
+      "status": "not_applicable",
+      "reason": "documented_fanout_already_represented_at_source_junction",
+      "source_edge_id": "554713076#0",
+      "official_lane_indices": {
+        "2": 2,
+        "3": 3
+      },
+      "source_transition_junction_id": "5353176677",
+      "source_before_edge_id": "554713077",
+      "source_after_edge_ids": [
+        "60578487#0",
+        "60578487#1",
+        "60578487#2",
+        "60578487#3",
+        "554713076#0"
+      ],
+      "source_motor_lane_count_before": 1,
+      "source_motor_lane_count_after": 2,
+      "reference_motor_lane_count_before": null,
+      "reference_begins_at_merge": true,
+      "source_transition_lane_paths": [
+        {
+          "from_lane": "554713077_2",
+          "to_lane": "60578487#0_2",
+          "lane_ids": [
+            "554713077_2",
+            ":5353176677_0_1",
+            "60578487#0_2"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        },
+        {
+          "from_lane": "554713077_2",
+          "to_lane": "60578487#0_3",
+          "lane_ids": [
+            "554713077_2",
+            ":5353176677_0_2",
+            "60578487#0_3"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        }
+      ],
+      "official_merge_inside_source_junction": true,
+      "merge_to_source_node_longitudinal_m": 3.626005639832925,
+      "merge_to_source_node_lateral_m": -0.5367600676123891,
+      "maximum_stop_endpoint_distance_m": 3.0306115931695117,
+      "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."
+    },
+    {
+      "node_id": "2349",
+      "intersection_part": "0",
+      "approach": "3",
+      "role": "ingress",
+      "status": "not_applicable",
+      "reason": "no_documented_addition_with_matching_source_lanes",
+      "source_edge_id": "61649647#0",
+      "official_lane_indices": {
+        "10": 0,
+        "9": 1
+      },
+      "official_merge_count": 0,
+      "official_start_section_spread_m": 0.06401642045722156,
+      "maximum_lane_match_error_m": 0.44687760030162776,
+      "source_lane_paths": {
+        "10": [
+          "1167614257#1_0",
+          ":10858813600_0_0",
+          "61649647#0_0"
+        ],
+        "9": [
+          "1167614257#1_1",
+          ":10858813600_0_1",
+          "61649647#0_1"
+        ]
+      },
+      "lane_correspondence_metrics": {
+        "10": {
+          "mean_lateral_offset_m": 0.3903198155611004,
+          "max_sampled_lateral_offset_m": 0.4112505388233874,
+          "reference_coverage": 1.0,
+          "covered_reference_length_m": 130.82278164516592,
+          "uncovered_reference_length_m": 0.0,
+          "reference_length_m": 130.82278164516592,
+          "coverage_sample_spacing_m": 0.4993235940655188,
+          "coverage_sample_count": 262,
+          "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+          "mean_direction_cosine": 0.9999997690163389,
+          "expected_reference_direction": 1,
+          "coverage_within_m": {
+            "1.0": 1.0,
+            "2.0": 1.0
+          }
+        },
+        "9": {
+          "mean_lateral_offset_m": 0.2800578254074113,
+          "max_sampled_lateral_offset_m": 0.44687760030162776,
+          "reference_coverage": 1.0,
+          "covered_reference_length_m": 130.8051900949553,
+          "uncovered_reference_length_m": 0.0,
+          "reference_length_m": 130.8051900949553,
+          "coverage_sample_spacing_m": 0.4992564507441042,
+          "coverage_sample_count": 262,
+          "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+          "mean_direction_cosine": 0.9999959749628385,
+          "expected_reference_direction": 1,
+          "coverage_within_m": {
+            "1.0": 1.0,
+            "2.0": 1.0
+          }
+        }
+      },
+      "distance_method": "sampled_perpendicular_offset_and_full_directed_coverage_on_saved_disjoint_lane_paths",
+      "claim_boundary": "The documented lanes share one upstream section and match distinct saved source lane paths, including source road fragments. No lane addition is inferred. This does not certify source geometry or rule out an undocumented lane."
+    },
+    {
+      "node_id": "2394",
+      "intersection_part": "0",
+      "approach": "2",
+      "role": "ingress",
+      "status": "not_applicable",
+      "reason": "documented_fanout_already_represented_at_source_junction",
+      "source_edge_id": "9702432#0",
+      "official_lane_indices": {
+        "2": 2,
+        "3": 3
+      },
+      "source_transition_junction_id": "86812401",
+      "source_before_edge_id": "395272650#1",
+      "source_after_edge_ids": [
+        "9702432#0"
+      ],
+      "source_motor_lane_count_before": 1,
+      "source_motor_lane_count_after": 2,
+      "reference_motor_lane_count_before": null,
+      "reference_begins_at_merge": true,
+      "source_transition_lane_paths": [
+        {
+          "from_lane": "395272650#1_2",
+          "to_lane": "9702432#0_2",
+          "lane_ids": [
+            "395272650#1_2",
+            ":86812401_3_0",
+            "9702432#0_2"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        },
+        {
+          "from_lane": "395272650#1_2",
+          "to_lane": "9702432#0_3",
+          "lane_ids": [
+            "395272650#1_2",
+            ":86812401_3_1",
+            "9702432#0_3"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        }
+      ],
+      "official_merge_inside_source_junction": true,
+      "merge_to_source_node_longitudinal_m": 6.160221438065242,
+      "merge_to_source_node_lateral_m": 0.7046584173059292,
+      "maximum_stop_endpoint_distance_m": 1.8422011367646296,
+      "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."
+    },
+    {
+      "node_id": "2394",
+      "intersection_part": "0",
+      "approach": "4",
+      "role": "ingress",
+      "status": "not_applicable",
+      "reason": "documented_fanout_already_represented_at_source_junction",
+      "source_edge_id": "47854310#2",
+      "official_lane_indices": {
+        "10": 0,
+        "11": 1,
+        "12": 2
+      },
+      "source_transition_junction_id": "5353176676",
+      "source_before_edge_id": "554713075#1",
+      "source_after_edge_ids": [
+        "47854310#0",
+        "47854310#1",
+        "47854310#2"
+      ],
+      "source_motor_lane_count_before": 2,
+      "source_motor_lane_count_after": 3,
+      "reference_motor_lane_count_before": null,
+      "reference_begins_at_merge": true,
+      "source_transition_lane_paths": [
+        {
+          "from_lane": "554713075#1_0",
+          "to_lane": "47854310#0_0",
+          "lane_ids": [
+            "554713075#1_0",
+            ":5353176676_0_0",
+            "47854310#0_0"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        },
+        {
+          "from_lane": "554713075#1_1",
+          "to_lane": "47854310#0_1",
+          "lane_ids": [
+            "554713075#1_1",
+            ":5353176676_0_1",
+            "47854310#0_1"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        },
+        {
+          "from_lane": "554713075#1_1",
+          "to_lane": "47854310#0_2",
+          "lane_ids": [
+            "554713075#1_1",
+            ":5353176676_0_2",
+            "47854310#0_2"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        }
+      ],
+      "official_merge_inside_source_junction": true,
+      "merge_to_source_node_longitudinal_m": -1.119755520701912,
+      "merge_to_source_node_lateral_m": 0.8342465612383787,
+      "maximum_stop_endpoint_distance_m": 0.5136918411851958,
+      "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."
+    }
+  ],
+  "remaining_cases": [
+    {
+      "node_id": "2349",
+      "intersection_part": "0",
+      "approach": "2",
+      "role": "ingress",
+      "status": "review_required",
+      "reason": "existing_lane_transition_displaced_from_MAP_merge",
+      "source_edge_id": "554713078#0",
+      "official_lane_indices": {
+        "7": 0,
+        "6": 1
+      },
+      "source_transition_junction_id": "1466952704",
+      "source_before_edge_id": "127716468#2",
+      "source_after_edge_ids": [
+        "554713078#0"
+      ],
+      "source_motor_lane_count_before": 1,
+      "source_motor_lane_count_after": 2,
+      "reference_motor_lane_count_before": 1,
+      "reference_begins_at_merge": false,
+      "source_transition_lane_paths": [
+        {
+          "from_lane": "127716468#2_0",
+          "to_lane": "554713078#0_0",
+          "lane_ids": [
+            "127716468#2_0",
+            ":1466952704_0_0",
+            "554713078#0_0"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        },
+        {
+          "from_lane": "127716468#2_0",
+          "to_lane": "554713078#0_1",
+          "lane_ids": [
+            "127716468#2_0",
+            ":1466952704_0_1",
+            "554713078#0_1"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        }
+      ],
+      "official_merge_inside_source_junction": false,
+      "merge_to_source_node_longitudinal_m": 16.529138040344,
+      "merge_to_source_node_lateral_m": -0.36486038425239853,
+      "maximum_stop_endpoint_distance_m": 4.199842033353641,
+      "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."
+    },
+    {
+      "node_id": "2394",
+      "intersection_part": "0",
+      "approach": "3",
+      "role": "ingress",
+      "status": "review_required",
+      "reason": "existing_lane_transition_displaced_from_MAP_merge",
+      "source_edge_id": "381540198#0",
+      "official_lane_indices": {
+        "6": 0,
+        "7": 1
+      },
+      "source_transition_junction_id": "5353176675",
+      "source_before_edge_id": "554713074",
+      "source_after_edge_ids": [
+        "554713073",
+        "381540198#0"
+      ],
+      "source_motor_lane_count_before": 1,
+      "source_motor_lane_count_after": 2,
+      "reference_motor_lane_count_before": 1,
+      "reference_begins_at_merge": false,
+      "source_transition_lane_paths": [
+        {
+          "from_lane": "554713074_0",
+          "to_lane": "554713073_0",
+          "lane_ids": [
+            "554713074_0",
+            ":5353176675_0_0",
+            "554713073_0"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        },
+        {
+          "from_lane": "554713074_0",
+          "to_lane": "554713073_1",
+          "lane_ids": [
+            "554713074_0",
+            ":5353176675_0_1",
+            "554713073_1"
+          ],
+          "vehicle_classes": [
+            "army",
+            "authority",
+            "bus",
+            "coach",
+            "delivery",
+            "emergency",
+            "hov",
+            "moped",
+            "motorcycle",
+            "passenger",
+            "private",
+            "taxi",
+            "trailer",
+            "truck",
+            "vip"
+          ],
+          "lane_changes": []
+        }
+      ],
+      "official_merge_inside_source_junction": false,
+      "merge_to_source_node_longitudinal_m": -5.263756960578088,
+      "merge_to_source_node_lateral_m": 1.0572737307676832,
+      "maximum_stop_endpoint_distance_m": 2.3235178527145397,
+      "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."
+    }
+  ],
+  "aerial_review": {
+    "path": "outputs/local_approach_20261016_v1/aerial-review-v1/report.json",
+    "sha256": "de14403ba083f6a4ddb403dac79031ba65edcaf65179c1bd0119a20ebac7d597"
+  },
+  "reference_figure_runner": {
+    "path": "outputs/existing_approach_20261016_v1/plot_reference_approaches.py",
+    "sha256": "bec6946724a369ffd6b0151cfcf0f03504de9658d92641513257d0c0dfbcef27"
+  },
+  "reference_figures": [
+    {
+      "path": "outputs/existing_approach_20261016_v1/lsa-2349-approach-2-reference-comparison.png",
+      "sha256": "fde7ce48753febd5fd17539f3f024b352d965e5c2915b2bfe9293142eeaad06e"
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/lsa-2394-approach-3-reference-comparison.png",
+      "sha256": "33391005cd05fc66161890791f98368249c99907d926e2c4cbc80e0ce966fdea"
+    }
+  ],
+  "tests": [
+    {
+      "path": "outputs/existing_approach_20261016_v1/before.xml",
+      "sha256": "76ed1405cdaec438a4c698037d813960287fcb29a82a0beadef72f1bb6527a04",
+      "tests": 6,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/v5.xml",
+      "sha256": "8986f6379a78caca90a2ed4fbc3e94e6775e82448b720ad828b46e6eac9ef151",
+      "tests": 118,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/v7.xml",
+      "sha256": "27c7ee6ac5cb1f819b99586777a5af9112280abc1d40794c22607e19d2bd4720",
+      "tests": 107,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/side-before.xml",
+      "sha256": "2686ee0ff0292a24737b4ef4bd817d1b378fa28c07aa2ae0c2c844522e34b320",
+      "tests": 1,
+      "failures": 1,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/full-freeze-before.xml",
+      "sha256": "0dcc9f99bb38197305bf48dae56966fce3fd9d0521bf97a94dfb503dc67d6ca3",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/full-freeze-v2.xml",
+      "sha256": "1a475aad7b2b44e37d3b665eac5706e9f1eca19534fe0c25051b7a1b796b1a86",
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    {
+      "path": "outputs/existing_approach_20261016_v1/portable-v2.xml",
+      "sha256": "3a7e274f53c059623b505dd41f1f1392e4923ea5f086a5bbb95cb90f76e64b0f",
+      "tests": 8,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  ],
+  "portable_fixture": {
+    "path": "benchmarks/hamburg_approach_reference_20261016_v1/fixture.json",
+    "sha256": "52f06259b7b630fd37e46a4e792bc3d76c26c50a61b9c8f66516adab874ab2db"
+  },
+  "portable_test": {
+    "path": "tests/test_hamburg_existing_approach_reference.py",
+    "sha256": "6311051a356d2ddfe29aec9e4b6f80e577871d4464533d6366ccc661868b744a"
+  },
+  "published_reference_figures": [
+    {
+      "path": "benchmarks/network_construction_20261016_v1/figures/lsa-2349-approach-2.png",
+      "sha256": "fde7ce48753febd5fd17539f3f024b352d965e5c2915b2bfe9293142eeaad06e"
+    },
+    {
+      "path": "benchmarks/network_construction_20261016_v1/figures/lsa-2394-approach-3.png",
+      "sha256": "33391005cd05fc66161890791f98368249c99907d926e2c4cbc80e0ce966fdea"
+    }
+  ],
+  "aerial_source": {
+    "sha256": "c13966c1b00726906857cb13995044df9ec9b4298efbbbe531651f90e06cc4e2",
+    "crs": "EPSG:25832",
+    "bbox": [
+      565600.0,
+      5932900.0,
+      566160.0,
+      5933330.0
+    ],
+    "capture_date": null,
+    "capture_year": 2026,
+    "authority": "Hamburg LGV",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "source_url": "https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=dop_zeitreihe_unbelaubt&STYLES=&FORMAT=image%2Fpng&CRS=EPSG%3A25832&BBOX=565600%2C5932900%2C566160%2C5933330&WIDTH=1600&HEIGHT=1229&TIME=2026"
+  }
+}

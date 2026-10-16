@@ -22,6 +22,7 @@ from .digital_twin_mapping import (
     write_tls_bindings,
 )
 from .hamburg_movement_path import (
+    HAMBURG_MOVEMENT_PATH_PARAMETERS,
     HAMBURG_SANDTORKAI_CONNECTION_EVIDENCE,
     derive_hamburg_official_movement_paths,
 )
@@ -112,6 +113,7 @@ def rebuild_hamburg_sandtorkai_official_tls(
     output_dir.mkdir(parents=True, exist_ok=True)
     manifest_file = output_dir / "hamburg_official_tls_rebuild.manifest.json"
     report: dict[str, Any] = {
+        "site_parameters": HAMBURG_MOVEMENT_PATH_PARAMETERS,
         "schema_id": HAMBURG_OFFICIAL_TLS_WORKFLOW_SCHEMA_ID,
         "status": "fail",
         "claim_status": "construction-invalid",

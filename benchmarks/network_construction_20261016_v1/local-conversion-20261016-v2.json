@@ -1,0 +1,235 @@
+{
+  "schema": "astra.local-conversion-curve-followup/v2",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "construction_commit": "2251796",
+  "prior_record": "local-conversion-20261016-v1.json",
+  "hamburg_width": {
+    "source": {
+      "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+    },
+    "request": {
+      "path": "outputs/local_conversion_20261016_v1/width-explore-request-v2.json",
+      "sha256": "35ec1b301fcfb1637d50450af4fc9ed90325daa653f25fc8d9367d41a58eb07b"
+    },
+    "facts": {
+      "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2349-facts.json",
+      "sha256": "f051a2356943199f70317e916dcbe21a56868f558e1387068f1cb3e99d511473"
+    },
+    "result": {
+      "path": "outputs/local_conversion_20261016_v1/width-explore-v5/edit-verification.json",
+      "sha256": "6438aaf176a7cd16b0b6ae56eaaad7973fe2da2fb474e33a173eb3c80457f669"
+    },
+    "candidate": {
+      "path": "outputs/local_conversion_20261016_v1/width-explore-v5/candidate.net.xml",
+      "sha256": "4e72b2b70509faaabae4a60fba9e64e0dd7d2c49ca4390ef20caeecb5b62177d"
+    },
+    "status": "measured",
+    "outside_fact_changes": 0,
+    "width_fact": {
+      "after": "measured",
+      "after_metrics": {
+        "absolute_width_error_m": 0.0
+      },
+      "before": "measured",
+      "before_metrics": {
+        "absolute_width_error_m": 2.0
+      },
+      "fact_id": "2349:lane:1:width_at_stop_line",
+      "metric_deltas": {
+        "absolute_width_error_m": -2.0
+      }
+    },
+    "structural_failures": 0,
+    "remaining_endpoint_gaps": 0,
+    "repair_patch_metrics": [
+      {
+        "connection": [
+          "554713076#0",
+          2,
+          "127716467#1",
+          1
+        ],
+        "correction_to_curve_length_ratio": 0.016473574561069772,
+        "declared_logical_length_m": null,
+        "entry_alignment_with_road_deg": 0.908449887171454,
+        "entry_direction_change_deg": 0.0,
+        "exit_alignment_with_road_deg": 4.4066247850850555,
+        "exit_direction_change_deg": 1.2074182697257333e-06,
+        "geometric_length_after_m": 60.561782729241266,
+        "geometric_length_before_m": 60.55437622814865,
+        "internal_lane_ids": [
+          ":LSA2349_part0_0_1"
+        ],
+        "logical_length_policy": "native_geometry_length",
+        "maximum_endpoint_correction_m": 0.9975470317934777,
+        "maximum_vertex_turn_after_deg": 3.3574169227860673,
+        "maximum_vertex_turn_before_deg": 3.3429725636583654,
+        "source_point_count": 88,
+        "proposed_point_count": 174
+      },
+      {
+        "connection": [
+          "554713076#0",
+          3,
+          "61649649#1",
+          0
+        ],
+        "correction_to_curve_length_ratio": 0.020834500260020466,
+        "declared_logical_length_m": null,
+        "entry_alignment_with_road_deg": 9.4992614038311,
+        "entry_direction_change_deg": 0.0,
+        "exit_alignment_with_road_deg": 52.26787119022013,
+        "exit_direction_change_deg": 1.2074182697257333e-06,
+        "geometric_length_after_m": 47.706717070327656,
+        "geometric_length_before_m": 48.14978530706742,
+        "internal_lane_ids": [
+          ":LSA2349_part0_2_0"
+        ],
+        "logical_length_policy": "native_geometry_length",
+        "maximum_endpoint_correction_m": 1.0031767145000257,
+        "maximum_vertex_turn_after_deg": 23.448729419510034,
+        "maximum_vertex_turn_before_deg": 23.72039557023452,
+        "source_point_count": 68,
+        "proposed_point_count": 133
+      }
+    ]
+  },
+  "most": {
+    "source": {
+      "path": "outputs/public_network_cache_v2/MoST_2019_paired/scenario/in/most.net.xml",
+      "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+    },
+    "candidate": {
+      "path": "outputs/local_conversion_20261016_v1/most-width-routable-v4/candidate.net.xml",
+      "sha256": "9eb9846c274a63ac43aae203347c914d737bdcb6d4f49d07020078cc15c9f4f4"
+    },
+    "result": {
+      "path": "outputs/local_conversion_20261016_v1/most-width-routable-v4/report.json",
+      "sha256": "124315d29028bdbee136285232d07f8726b898e1490ba3fa3788e479d5d888c6"
+    },
+    "source_normal_roads": 4404,
+    "converted_normal_roads": 9,
+    "technical_checks_passed": true,
+    "candidate_matches_prior_routable_v2": true
+  },
+  "fixed_cohort": {
+    "request": {
+      "path": "outputs/local_conversion_20261016_v1/reference-width-paired-request-v3.json",
+      "sha256": "16fb85386edebfbcc723d8c19e01e459677f3a051e2a758f4bd6beba46f9cbaf"
+    },
+    "comparison": {
+      "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v3/comparison.json",
+      "sha256": "c913b4bed5c296f9cbfaaec87e6dc4160001abc8716826136c016ed13a657066"
+    },
+    "routes": {
+      "path": "outputs/claude_followup_20261015_v1/stop-line-pilot-v1/source-routes/routeability_audit.rou.xml",
+      "sha256": "c28f3392fa13f7e7e60d42d0849a684105deaa47f9c744f506036dd6c6b96492"
+    },
+    "vehicle_count": 100,
+    "seeds": [
+      17,
+      42,
+      104
+    ],
+    "horizon_s": 2400,
+    "pair_validity_counts": {
+      "invalid": 3
+    },
+    "performance_mean": null,
+    "runs": {
+      "17": {
+        "parent": {
+          "valid": false,
+          "summary": {
+            "arrived": 64,
+            "running": 35,
+            "waiting": 1,
+            "collisions": 1,
+            "teleports": 1
+          }
+        },
+        "reference_width": {
+          "valid": false,
+          "summary": {
+            "arrived": 61,
+            "running": 38,
+            "waiting": 1,
+            "collisions": 1,
+            "teleports": 1
+          }
+        }
+      },
+      "42": {
+        "parent": {
+          "valid": false,
+          "summary": {
+            "arrived": 100,
+            "running": 0,
+            "waiting": 0,
+            "collisions": 1,
+            "teleports": 1
+          }
+        },
+        "reference_width": {
+          "valid": false,
+          "summary": {
+            "arrived": 57,
+            "running": 42,
+            "waiting": 1,
+            "collisions": 1,
+            "teleports": 1
+          }
+        }
+      },
+      "104": {
+        "parent": {
+          "valid": false,
+          "summary": {
+            "arrived": 60,
+            "running": 39,
+            "waiting": 1,
+            "collisions": 0,
+            "teleports": 0
+          }
+        },
+        "reference_width": {
+          "valid": true,
+          "summary": {
+            "arrived": 100,
+            "running": 0,
+            "waiting": 0,
+            "collisions": 0,
+            "teleports": 0
+          }
+        }
+      }
+    }
+  },
+  "focused_checks": [
+    {
+      "path": "outputs/local_conversion_20261016_v1/dense-curves-v1.xml",
+      "sha256": "f20fc0f49d9d0ae04649f319917c50c05ed41528e85f13b17376782cc982cd45"
+    },
+    {
+      "path": "outputs/local_conversion_20261016_v1/carrier-ownership-v2.xml",
+      "sha256": "d103cba1227e3a36d3fb21ee2391a938ac2b7bc0362d130c06fbe58bcc0c5475"
+    },
+    {
+      "path": "outputs/local_conversion_20261016_v1/inherited-permissions-after-v1.xml",
+      "sha256": "76103066b4129caf05b421741c72a80947bbc194ed003191c7ad8eda866f89a9"
+    },
+    {
+      "path": "outputs/local_conversion_20261016_v1/geometry-read-once-v1.xml",
+      "sha256": "d4c36078873113a675952a56b97abcea3cd0cf08d648a931b5464eb17238719d"
+    }
+  ],
+  "limits": [
+    "The MAP width is a nominal default. Correspondence and field date remain tentative.",
+    "Repair metrics describe the proposed spatial curve. They do not certify curvature or field geometry.",
+    "The same arrival counts do not establish identical trajectories or traffic improvement.",
+    "The MoST candidate matches the prior bytes. No total-workflow speedup is claimed."
+  ]
+}

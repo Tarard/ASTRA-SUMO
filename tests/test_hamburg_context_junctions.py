@@ -18,9 +18,9 @@ def test_contour_compilation_retains_existing_node_inputs_and_local_scope(tmp_pa
 
     def compile_candidate(command, **kwargs):
         commands.append(command)
-        return SimpleNamespace(returncode=1, stdout='', stderr='Compilation is not part of this command-shape test.')
+        return SimpleNamespace(command=list(command), returncode=1, stdout='', stderr='Compilation is not part of this command-shape test.')
 
-    monkeypatch.setattr(movements, 'run_command', compile_candidate)
+    monkeypatch.setattr('astra_sumo.core.command_runner.run_command', compile_candidate)
     monkeypatch.setattr(hamburg_junction_contour, 'propose_fused_junction_contour', lambda *args, **kwargs: {
         'status': 'pass', 'changed': True, 'proposed_shape': [(0, 0), (2, 0), (1, 1)]})
     root = ET.fromstring('<net><junction id="j"/><junction id="outside" type="priority"/></net>')

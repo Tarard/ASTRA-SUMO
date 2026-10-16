@@ -1,0 +1,163 @@
+{
+  "schema": "astra.official-local-conversion-evidence/v1",
+  "date": "2026-10-16",
+  "commit": "8e70263",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "native_version": "1.27.1",
+  "request": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+    "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+  },
+  "workflow": {
+    "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/workflow.manifest.json",
+    "sha256": "734180cb573277ef12053a40f7c45cf51d84e275a837da440468089d14398c6b"
+  },
+  "candidate_manifest": {
+    "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/manifest.json",
+    "sha256": "3024acb70168df5e4683fc554690b61b3cdce3ddbce7bc3c7fd05df6f6a79d2b"
+  },
+  "workflow_status": "review_required",
+  "topology_complete": true,
+  "counts": {
+    "official_vehicle_movements": 16,
+    "physical_part_count": 2,
+    "joined_part_count": 2,
+    "materialized_movement_count": 16,
+    "unmaterialized_official_movement_count": 0,
+    "runtime_fallback_part_count": 0,
+    "source_surface_finding_count": 51,
+    "candidate_surface_finding_count": 45
+  },
+  "native_scopes": [
+    {
+      "stage": "official_join",
+      "source": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/context-intersections/boundary-restoration/diagnostic-signals/topology-test-signals.net.xml",
+        "sha256": "d2534b15e96ef694087c3f2b0887424bc96008285eeba93418ff587641f27446"
+      },
+      "input": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/physical-parts.local-input.net.xml",
+        "sha256": "585585db696398a8426f2838fe81a191a81cd80da85c7ab89f345e4bba908484"
+      },
+      "native_output": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/physical-parts.native-local-output.net.xml",
+        "sha256": "95858df63d402234abd6319c3bf12ce263ef4d8667b7800177051f9ad9ef0335"
+      },
+      "merged_proposal": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/physical-parts.merged-proposal.net.xml",
+        "sha256": "a5ef3a1b70f0ba9034cc65ffb56ef32a8ba7160a798ff3373e938b797c774cc0"
+      },
+      "source_normal_roads": 219,
+      "converted_normal_roads": 35,
+      "semantic_input_reconstruction": true,
+      "semantic_merge_reconstruction": true
+    },
+    {
+      "stage": "boundary_reconstruction",
+      "source": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/joined-auto.net.xml",
+        "sha256": "a5ef3a1b70f0ba9034cc65ffb56ef32a8ba7160a798ff3373e938b797c774cc0"
+      },
+      "input": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/joined-base.net-boundary.local-input.net.xml",
+        "sha256": "2ab8af6b4ed14366eebd51d33eae5f69644ef439587875076510a7efa35cff0e"
+      },
+      "native_output": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/joined-base.net-boundary.native-local-output.net.xml",
+        "sha256": "9cc9911822d08a7103a6ca4176c253fdab14ae681f87711ab4991332a713e9e9"
+      },
+      "merged_proposal": {
+        "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/joined-base.net-boundary.merged-proposal.net.xml",
+        "sha256": "5b0aeadf8572198a07ba54d292d23cdeda3fead47c6e8ac220fe26d17d2b3e0c"
+      },
+      "source_normal_roads": 196,
+      "converted_normal_roads": 12,
+      "semantic_input_reconstruction": true,
+      "semantic_merge_reconstruction": true
+    }
+  ],
+  "roundtrip_audit": {
+    "scope": "full_network_reimport_audit",
+    "roundtrip_stable": false,
+    "raw_unstable_edge_ids": [
+      ":248753450_w0",
+      ":277631598_c0",
+      ":277631598_w0",
+      ":277631598_w1",
+      ":77846400_c0",
+      ":77846400_w0",
+      ":77846400_w1",
+      ":LSA2403_part0_w0",
+      ":LSA2403_part0_w2",
+      "-25478265",
+      "-554713073",
+      "25478265",
+      "554713072",
+      "554713073",
+      "-152813965#2",
+      "111747607#0",
+      "152813965#2",
+      "25444569#0",
+      "554706401#0",
+      "554713069",
+      "-381540198#0",
+      "193847534#1",
+      "381540198#0",
+      "554713075#1",
+      "9702432#0"
+    ],
+    "geometry_preservation_status": "pass"
+  },
+  "current_network": {
+    "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+  },
+  "previous_network": {
+    "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+  },
+  "same_final_network_bytes": true,
+  "stages": {
+    "source_network": "pass",
+    "road_geometry": "not_applicable",
+    "context_intersections": "pass",
+    "construction_coverage": "review_required",
+    "physical_areas": "pass",
+    "intersection_binding": "pass",
+    "movement_geometry": "pass",
+    "network_construction": "pass",
+    "outside_geometry": "pass",
+    "construction_audit": "review_required",
+    "movement_probes": "pass",
+    "corridor_routes": "pass"
+  },
+  "focused_checks": [
+    {
+      "path": "outputs/official_local_20261016_v1/first-v1.xml",
+      "sha256": "f3a30f8f875be26c4d839795b754d3f4a083670a8468f038d68a5c2182a3c91e"
+    },
+    {
+      "path": "outputs/official_local_20261016_v1/final-v1.xml",
+      "sha256": "7b995ccae5533e3d88c2d1b612ffb788e6782441b5b63098c4c3a6e22e47964a"
+    },
+    {
+      "path": "outputs/official_local_20261016_v1/empty-v1.xml",
+      "sha256": "0789ea383d421ae0196e617652c2838a7e44cd3899bdd3daaf33beaf2bee0f81"
+    },
+    {
+      "path": "outputs/official_local_20261016_v1/artifacts-v1.xml",
+      "sha256": "ef5aa6a04403d8ba979f2e5189db227fdec50ebfddcde0157f681fabbce2addc"
+    },
+    {
+      "path": "outputs/official_local_20261016_v1/snapshots-v1.xml",
+      "sha256": "5fa704ced4b48d49c59724e7621fbcf683f2da3eed3cdd521d2a14e788c3ed12"
+    }
+  ],
+  "limits": [
+    "Complete-network reimport remains an explicit stability audit.",
+    "Movement compilation, approach reconstruction and other documented cases retain their current conversion scopes.",
+    "The byte-identical network retains the prior mixed-demand failures. No new traffic improvement is claimed.",
+    "Semantic reconstruction normalizes XML prefix and whitespace differences. Artifact hashes retain exact bytes."
+  ]
+}

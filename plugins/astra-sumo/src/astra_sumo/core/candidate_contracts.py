@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
@@ -94,10 +95,79 @@ def validate_materialization_evidence(
         errors.append({"code": "netconvert_returncode_not_zero"})
 
     command = report.get("command")
-    if not isinstance(command, list) or not all(isinstance(token, str) for token in command):
+    method = report.get("materialization_method", "netconvert")
+    if method in {"permission_attributes_only", "speed_attributes_only"}:
+        from .osm_access import _patch_lane_attributes
+        try:
+            record = report["semantic_validation"]["direct_speed_edit" if method == "speed_attributes_only" else "direct_permission_edit"]
+            allowed_attributes = {"speed"} if method == "speed_attributes_only" else {"allow", "disallow"}
+            if (not isinstance(record, Mapping) or not isinstance(record.get("lane_id"), str)
+                    or not isinstance(record.get("expected_attributes"), Mapping)
+                    or set(record["expected_attributes"]) - allowed_attributes
+                    or any(not isinstance(value, str) for value in record["expected_attributes"].values())):
+                raise ValueError("Direct permission evidence contains invalid lane attributes.")
+            raw = source_net_file.read_bytes()
+            expected = _patch_lane_attributes(raw, ET.fromstring(raw), {record["lane_id"]: record["expected_attributes"]}, allowed_attributes)
+            if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
+                    or expected != candidate_net_file.read_bytes()):
+                errors.append({"code": "direct_permission_materialization_not_exact"})
+        except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+            errors.append({"code": "invalid_direct_permission_materialization", "detail": str(error)})
+    elif method == "stop_line_edge_mean_3d":
+        from .network_edit_operations import _stop_line_patches
+        from .osm_access import _patch_lane_attributes
+        try:
+            record = report["semantic_validation"]["direct_stop_line_edit"]
+            offset = record["end_offset_m"]
+            if type(offset) not in (int, float) or not math.isfinite(offset) or offset < 0:
+                raise ValueError("Stop-line offset must be finite and nonnegative.")
+            raw = source_net_file.read_bytes()
+            patches = _stop_line_patches(ET.fromstring(raw), {"lane_id": record["lane_id"], "end_offset_m": offset})
+            if patches is None:
+                raise ValueError("Saved geometry cannot support the declared direct stop-line edit.")
+            expected = _patch_lane_attributes(raw, ET.fromstring(raw), patches, {"shape", "length", "endOffset"})
+            source_lengths = {lane.get("id"): float(lane.get("length")) for lane in ET.fromstring(raw).findall("edge/lane")}
+            lengths = {key: {"before_m": source_lengths[key], "after_m": float(attrs["length"])} for key, attrs in patches.items()}
+            if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
+                    or patches != record["expected_lane_attributes"] or expected != candidate_net_file.read_bytes()
+                    or record.get("length_convention") != "sumo_edge_mean_of_saved_logical_lengths"
+                    or record.get("distance_metric") != "xyz_polyline_metres" or record.get("logical_lengths") != lengths):
+                errors.append({"code": "direct_stop_line_materialization_not_exact"})
+        except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+            errors.append({"code": "invalid_direct_stop_line_materialization", "detail": str(error)})
+    elif method == "stop_line_geometry_only":
+        errors.append({"code": "legacy_stop_line_length_convention_requires_rebuild"})
+    elif method != "netconvert":
+        errors.append({"code": "unknown_materialization_method"})
+    elif not isinstance(command, list) or not all(isinstance(token, str) for token in command):
         errors.append({"code": "netconvert_command_required"})
     else:
-        if not _command_targets(command, "--sumo-net-file", source_net_file):
+        command_source = source_net_file
+        semantic = report.get("semantic_validation")
+        local = semantic.get("local_conversion") if isinstance(semantic, Mapping) else None
+        if isinstance(local, Mapping) and local.get("status") == "local":
+            from .local_network_conversion import validate_local_conversion
+            try:
+                command_source = validate_local_conversion(local, source_net_file)
+            except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+                errors.append({"code": "invalid_local_netconvert_materialization", "detail": str(error)})
+        repairs = semantic.get("native_path_repair") if isinstance(semantic, Mapping) else None
+        joined = semantic.get("restoration") if isinstance(semantic, Mapping) else None
+        joined_local = joined.get("local_conversion") if isinstance(joined, Mapping) else None
+        if isinstance(joined_local, Mapping) and joined_local.get("status") == "local":
+            from .local_network_conversion import validate_join_boundary_conversion
+            try:
+                validate_join_boundary_conversion(joined, source_net_file)
+            except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+                errors.append({"code": "invalid_join_boundary_local_conversion", "detail": str(error)})
+        if isinstance(repairs, Mapping) and repairs.get("attempts"):
+            from .junction_rebuild.native_path_repair import validate_native_path_repair_chain
+            try:
+                final_native = local["native_output"] if isinstance(local, Mapping) and local.get("status") == "local" else semantic["native_proposal"]
+                validate_native_path_repair_chain(command, repairs, final_native)
+            except (KeyError, TypeError, ValueError, OSError) as error:
+                errors.append({"code": "invalid_native_path_repair_chain", "detail": str(error)})
+        if not _command_targets(command, "--sumo-net-file", command_source):
             errors.append({"code": "netconvert_command_source_mismatch"})
         if not _command_targets(command, "--output-file", candidate_net_file):
             errors.append({"code": "netconvert_command_candidate_mismatch"})
@@ -172,6 +242,8 @@ def validate_materialization_evidence(
                 "candidate_review_html_status",
                 "command",
                 "command_result",
+                "materialization_method",
+                "semantic_validation",
             ),
             "materialization",
             errors,

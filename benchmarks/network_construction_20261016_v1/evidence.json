@@ -1,0 +1,403 @@
+{
+  "schema": "astra.network-construction-evidence/v1",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "construction_commit": "c3f3773",
+  "driving_commit": "69915c3473f619c6d6c6c186aef7c34f1f9401e0",
+  "source": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-rebuild/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a"
+  },
+  "rebuilt": {
+    "path": "outputs/construction_trace_20261016_v1/hamburg-rebuild-v3/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+  },
+  "failed_intermediate_candidate": {
+    "path": "outputs/construction_trace_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "24a7d0384c17725d9f22727f30d09aacf6de5c2abfc96d549739998d31f243b0"
+  },
+  "original_stage_trace": {
+    "path": "outputs/construction_trace_20261016_v1/stages.json",
+    "sha256": "8321a81eae965073246b9dbe51cf874bd2f78159ca3026a37bff2be13561ab11"
+  },
+  "request": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+    "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+  },
+  "frozen_facts": {
+    "path": "outputs/claude_followup_20261015_v1/frozen-two-site-facts-v1.json",
+    "sha256": "dbb7ab2783c22f5b38c70ec717a42d717866a544f163d212c50af0c099cd31c9"
+  },
+  "workflow": {
+    "path": "outputs/construction_trace_20261016_v1/hamburg-rebuild-v3/workflow.manifest.json",
+    "sha256": "9bdb0be52a3c474215f12963600614c717bc6d9717d3649cc4f8ceae5814adb0"
+  },
+  "scorecard": {
+    "path": "outputs/construction_trace_20261016_v1/rebuilt-scorecard-v3.json",
+    "sha256": "18561e393c8227e274eb2483803fbfa068b5b5025522bba4ce679fcecb69010b"
+  },
+  "paired_driving": {
+    "path": "outputs/construction_trace_20261016_v1/paired-rebuild-diagnostics-v2/comparison.json",
+    "sha256": "9c7125775b2dee8d8919200cbbee1d6616a37cfbeba6cacc49b61f848feb5798"
+  },
+  "driving_request": {
+    "path": "outputs/construction_trace_20261016_v1/paired-driving-request-v1.json",
+    "sha256": "5ae2006586e9748b2cc88395da8e03a1d75c03a6a04feca5dd18b2a59affbbe6"
+  },
+  "normal_roads_with_unequal_logical_lengths": {
+    "before": [
+      "-152813965#2",
+      "111747607#0",
+      "127716467#1",
+      "152813965#2",
+      "193847534#1",
+      "25444569#0",
+      "381540198#0",
+      "395272650#1",
+      "47854310#2",
+      "554706401#0",
+      "554713069",
+      "554713075#1",
+      "554713076#0",
+      "554713077",
+      "554713078#0",
+      "61649647#0",
+      "83075275#0",
+      "9702432#0"
+    ],
+    "after": []
+  },
+  "stop_lines": {
+    "2349:lane:2:stop_line": {
+      "lateral_offset_m": -2.815162852144739,
+      "longitudinal_offset_m": 0.06082943465072515,
+      "offset_m": 2.815819970135809
+    },
+    "2349:lane:3:stop_line": {
+      "lateral_offset_m": -3.0293429023240783,
+      "longitudinal_offset_m": -0.08768237916920839,
+      "offset_m": 3.0306115916557244
+    }
+  },
+  "construction_counts": {
+    "official_vehicle_movements": 16,
+    "physical_part_count": 2,
+    "joined_part_count": 2,
+    "materialized_movement_count": 16,
+    "unmaterialized_official_movement_count": 0,
+    "runtime_fallback_part_count": 0,
+    "source_surface_finding_count": 51,
+    "candidate_surface_finding_count": 45
+  },
+  "construction_checks": {
+    "official_connectivity": "pass",
+    "outside_geometry": "pass",
+    "road_geometry": "not_applicable",
+    "construction_coverage": "review_required",
+    "movement_probes": "pass",
+    "corridor_routes": "pass",
+    "construction_audit": "review_required"
+  },
+  "driving": {
+    "17": {
+      "source": {
+        "valid": false,
+        "summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\construction_trace_20261016_v1\\paired-rebuild-diagnostics-v2\\source-17\\driving_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 63,
+          "running": 36,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.63,
+          "warnings": [
+            "36 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        },
+        "collisions": [],
+        "last_position_time_s": 2399.0,
+        "last_position_count": 36,
+        "stationary_lane_counts": {
+          "395272650#1_2": 4,
+          "-25478265_1": 2,
+          "83075275#0_2": 8,
+          "25400473#0_1": 1,
+          "-25400472_1": 2,
+          ":277631598_0_0": 1,
+          "197365079_1": 7,
+          "554706401#0_3": 3,
+          "-25400603_1": 4,
+          "1191390091_1": 1,
+          "-25400473#1_1": 1,
+          "25400473#1_1": 2
+        }
+      },
+      "rebuilt": {
+        "valid": false,
+        "summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\construction_trace_20261016_v1\\paired-rebuild-diagnostics-v2\\rebuilt-17\\driving_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 64,
+          "running": 35,
+          "waiting": 1,
+          "teleports": 1,
+          "collisions": 1,
+          "discarded": 0,
+          "completion_ratio": 0.64,
+          "warnings": [
+            "35 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step",
+            "1 teleports reported at final summary step",
+            "1 collisions reported at final summary step"
+          ]
+        },
+        "collisions": [
+          {
+            "time": "97.00",
+            "type": "junction",
+            "lane": ":77777614_2_0",
+            "pos": "4.19",
+            "collider": "77",
+            "victim": "72",
+            "colliderType": "DEFAULT_VEHTYPE",
+            "victimType": "DEFAULT_VEHTYPE",
+            "colliderSpeed": "3.24",
+            "victimSpeed": "5.58",
+            "colliderFront": "189.43,313.17",
+            "colliderBack": "190.42,316.48",
+            "victimFront": "194.21,312.85",
+            "victimBack": "189.24,312.27"
+          }
+        ],
+        "last_position_time_s": 2399.0,
+        "last_position_count": 35,
+        "stationary_lane_counts": {
+          "395272650#1_2": 4,
+          "-25478265_1": 2,
+          "83075275#0_2": 9,
+          "-25400603_1": 4,
+          "-25400472_1": 2,
+          "25400473#0_1": 1,
+          ":456844581_2_0": 1,
+          "197365079_1": 7,
+          ":277631598_0_0": 1,
+          "-25400473#1_1": 1,
+          "25400473#1_1": 2,
+          "554706401#0_3": 1
+        }
+      }
+    },
+    "42": {
+      "source": {
+        "valid": false,
+        "summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\construction_trace_20261016_v1\\paired-rebuild-diagnostics-v2\\source-42\\driving_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 1,
+          "collisions": 1,
+          "discarded": 0,
+          "completion_ratio": 1.0,
+          "warnings": [
+            "1 teleports reported at final summary step",
+            "1 collisions reported at final summary step"
+          ]
+        },
+        "collisions": [
+          {
+            "time": "132.00",
+            "type": "junction",
+            "lane": ":77777614_2_0",
+            "pos": "4.46",
+            "collider": "90",
+            "victim": "95",
+            "colliderType": "DEFAULT_VEHTYPE",
+            "victimType": "DEFAULT_VEHTYPE",
+            "colliderSpeed": "3.74",
+            "victimSpeed": "4.20",
+            "colliderFront": "189.68,313.06",
+            "colliderBack": "190.16,316.38",
+            "victimFront": "193.24,312.74",
+            "victimBack": "188.27,312.16"
+          }
+        ],
+        "last_position_time_s": 2399.0,
+        "last_position_count": 0,
+        "stationary_lane_counts": {}
+      },
+      "rebuilt": {
+        "valid": false,
+        "summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\construction_trace_20261016_v1\\paired-rebuild-diagnostics-v2\\rebuilt-42\\driving_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 1,
+          "collisions": 1,
+          "discarded": 0,
+          "completion_ratio": 1.0,
+          "warnings": [
+            "1 teleports reported at final summary step",
+            "1 collisions reported at final summary step"
+          ]
+        },
+        "collisions": [
+          {
+            "time": "132.00",
+            "type": "junction",
+            "lane": ":77777614_2_0",
+            "pos": "5.61",
+            "collider": "90",
+            "victim": "95",
+            "colliderType": "DEFAULT_VEHTYPE",
+            "victimType": "DEFAULT_VEHTYPE",
+            "colliderSpeed": "3.83",
+            "victimSpeed": "5.24",
+            "colliderFront": "190.74,313.17",
+            "colliderBack": "189.15,315.83",
+            "victimFront": "193.55,312.78",
+            "victimBack": "188.59,312.20"
+          }
+        ],
+        "last_position_time_s": 2399.0,
+        "last_position_count": 0,
+        "stationary_lane_counts": {}
+      }
+    },
+    "104": {
+      "source": {
+        "valid": false,
+        "summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\construction_trace_20261016_v1\\paired-rebuild-diagnostics-v2\\source-104\\driving_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 61,
+          "running": 38,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.61,
+          "warnings": [
+            "38 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        },
+        "collisions": [],
+        "last_position_time_s": 2399.0,
+        "last_position_count": 38,
+        "stationary_lane_counts": {
+          "-25400603_1": 4,
+          "83075275#0_2": 10,
+          "-25478265_1": 2,
+          "25400473#0_1": 1,
+          "25400473#1_1": 2,
+          ":277631598_0_0": 1,
+          "-25400472_1": 2,
+          "395272650#1_2": 4,
+          "197365079_1": 5,
+          "554706401#0_3": 4,
+          "9780340_1": 1,
+          "-152813965#2_2": 1,
+          ":77777617_2_0": 1
+        }
+      },
+      "rebuilt": {
+        "valid": false,
+        "summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\construction_trace_20261016_v1\\paired-rebuild-diagnostics-v2\\rebuilt-104\\driving_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 60,
+          "running": 39,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.6,
+          "warnings": [
+            "39 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        },
+        "collisions": [],
+        "last_position_time_s": 2399.0,
+        "last_position_count": 39,
+        "stationary_lane_counts": {
+          "-25400603_1": 4,
+          "83075275#0_2": 11,
+          "-25478265_1": 2,
+          "25400473#0_1": 1,
+          "25400473#1_1": 2,
+          ":277631598_0_0": 1,
+          "-25400472_1": 2,
+          "395272650#1_2": 4,
+          "197365079_1": 5,
+          "554713072_2": 1,
+          "554706401#0_3": 4,
+          "9780340_1": 1,
+          ":77777617_2_0": 1
+        }
+      }
+    }
+  },
+  "pair_validity_counts": {
+    "invalid": 3
+  },
+  "execution_failure_count": 0,
+  "performance_mean": null,
+  "tests": [
+    {
+      "path": "outputs/construction_trace_20261016_v1/construction-final-v2.xml",
+      "sha256": "b5a8659fa890ccaac6c9e120fb4de5ac72ea00ee32bba41aabde7fe168e3f9f7"
+    },
+    {
+      "path": "outputs/construction_trace_20261016_v1/native-diagnostics-v2.xml",
+      "sha256": "7aa1e11967c4ba83f68bb5007f10ca0297d947072c6a0935f2537a7a5ede8317"
+    },
+    {
+      "path": "outputs/construction_trace_20261016_v1/recipe-control-v2.xml",
+      "sha256": "5517477fff819e8b8a7abd79cda47766cabebeb008010b114cecf3fced6e5804"
+    },
+    {
+      "path": "outputs/construction_trace_20261016_v1/runner-classification-v1.xml",
+      "sha256": "40a662f06a75f9c00fd3a4b51e76f70bf5168a6789ba5ba6d43a83b2a176e965"
+    }
+  ],
+  "limits": [
+    "The two-site official lane correspondence is still tentative.",
+    "Longitudinal improvement does not remove the approximately 2.82 m lateral discrepancy.",
+    "All three mixed-driving pairs remain invalid. Collision records are simulated junction events, not field risk evidence.",
+    "Only three seeds were run. No failure-frequency estimate is made.",
+    "Construction used c3f3773. Later custom-length and provenance fixes have separate regression tests."
+  ]
+}

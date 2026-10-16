@@ -13,9 +13,11 @@ ASTRA's public product is organized around three capability groups:
 
 New public capabilities should fit one of these groups unless the product architecture itself is intentionally changed.
 
-## NetEdit Default
+## Review Images and NetEdit
 
-- Use ASTRA's CLI by default to open NetEdit and capture screenshots. Open networks with `astra-netedit`. Capture screenshots with `plugins/astra-sumo/scripts/netedit_background_review.py`, using the repository's `.venv` Python. Do not default to desktop clicking, typing, or menu navigation. If the CLI cannot perform the task, explain the limitation before using another method.
+- Use `astra review render <request.json> <new-output-dir> --json` for review images when a georeferenced aerial image is available. Use fixed bounds and verify the source, candidate, and aerial hashes. Use `astra review create` for schematic reviews without aerial data.
+- When a full OSM snapshot identifies a parking building, use `astra network parking-facilities` to retain its access network and supply its report to the aerial review. Keep detailed driving paths unless a separate reviewed parking operation changes them.
+- Use NetEdit for manual edits or an explicit request to inspect its display or modes. Open networks with `astra-netedit`. For explicitly requested screenshots, use `plugins/astra-sumo/scripts/netedit_background_review.py` with the repository's `.venv` Python. Do not default to desktop input for review images.
 
 ## Start Here
 
@@ -54,9 +56,11 @@ Before changing structure or adding a public capability, read:
 
 ## Evidence Invariants
 
+- Use `--mode explore` for daily `network calibrate` and `network verify-edit` work. Report measured values with correspondence confidence. Use `--mode release` for final publication or promotion checks. An explore result has no promotion authority.
+
 - Keep source artifacts immutable and write candidates separately.
 - Do not treat SUMO load, route completion, or KPI improvement as proof of topology, demand, control, or field correctness.
-- Use structured decisions: `pass`, `review_required`, `blocked`, or `not_applicable`.
+- Use structured decisions. Explore commands report `measured` or `no_effect`; release checks retain `pass`, `review_required`, `blocked`, and `not_applicable`.
 - Bind promotion-relevant evidence to exact source/candidate hashes and declared edit scope.
 - Preserve rollback and outside-scope regression evidence for materialized candidates.
 - State non-identifiability and claim boundaries in tool output instead of hiding them in documentation alone.

@@ -1,0 +1,87 @@
+{
+  "schema": "astra.public-network-catalog/v1",
+  "purpose": "historical_prepared_input_supplement",
+  "automatic_promotion_gate": "blocked",
+  "field_defect_labels": false,
+  "datasets": [
+    {
+      "id": "MoST_2019_paired",
+      "city": "Monaco",
+      "family_id": "monaco",
+      "repository": "https://github.com/lcodeca/MoSTScenario",
+      "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+      "license": "GPLv3",
+      "split": "development_only",
+      "source_relation": "upstream_prepared_build_input",
+      "osm_snapshot_date": null,
+      "field_validity_date": null,
+      "source_revision_note": "The July 2019 network revision retains its prepared OSM input and import recipe under tools/static/.",
+      "limitations": [
+        "Prepared OSM-like input combines edited and synthetic sources. It is not an original dated OSM snapshot.",
+        "The Git revision dates repository publication, not the original survey or field state.",
+        "Regeneration uses current SUMO with published import settings, not the historical SUMO binary.",
+        "Model differences do not establish manual-edit origin or field defect labels.",
+        "This is a supplement to the earlier MoST record, not an independent city holdout."
+      ],
+      "files": [
+        {
+          "role": "license",
+          "path": "LICENSE.md",
+          "sha256": "c53a65c2fd561c87eaabf1072ef5dcab8653042bc15308465f52413585eb6271",
+          "bytes": 35146
+        },
+        {
+          "role": "reference_net",
+          "path": "scenario/in/most.net.xml",
+          "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0",
+          "bytes": 13898821
+        },
+        {
+          "role": "build_config",
+          "path": "tools/static/most.netcfg",
+          "sha256": "1b19eec7364cce002d734bdc178f9982f2b49e57986b1eb2b519d72df04f735c",
+          "bytes": 2793
+        },
+        {
+          "role": "source_osm",
+          "path": "tools/static/most.raw.osm",
+          "sha256": "dda3afd8f29aee97090088e78d485365ac1ad054c743991090bd5407cedd0073",
+          "bytes": 31860863
+        },
+        {
+          "role": "type_map",
+          "path": "tools/static/typemap/osmBidiRailNetconvert.typ.xml",
+          "sha256": "203ebd625ea5ea7f38f28eeb37745d3b6bc1076c4e55a09d4b4ad4b683ea67f1",
+          "bytes": 396
+        },
+        {
+          "role": "type_map",
+          "path": "tools/static/typemap/osmNetconvert.typ.xml",
+          "sha256": "1b64c8fe28e436ac44d73c1a52bf13b05e8c31f448de8e9a78492509cba7b6b0",
+          "bytes": 6971
+        },
+        {
+          "role": "type_map",
+          "path": "tools/static/typemap/osmNetconvertBicycle.typ.xml",
+          "sha256": "2f97d51856b204737cb122b4f6234e5049d354ecb9e2282ee43e9e051a43bbc7",
+          "bytes": 449
+        },
+        {
+          "role": "type_map",
+          "path": "tools/static/typemap/osmNetconvertPedestrians.typ.xml",
+          "sha256": "dd6f2a07af324807bc13e21255ce3e1fe3f9f50e2eca57a1a3faa93164a81ff5",
+          "bytes": 2145
+        },
+        {
+          "role": "type_map",
+          "path": "tools/static/typemap/osmNetconvertUrbanDe.typ.xml",
+          "sha256": "988354e9faad24fc58b6715d3bfd2e209619523d4cafe5679e7dc70221760049",
+          "bytes": 681
+        }
+      ]
+    }
+  ],
+  "sources": [
+    "https://github.com/lcodeca/MoSTScenario/tree/d00e82945f5c6322a98ad2df4a8d5f48274fca53"
+  ]
+}

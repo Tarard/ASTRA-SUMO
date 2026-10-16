@@ -5,6 +5,7 @@ import hashlib
 import math
 import shutil
 import subprocess
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
 import pytest
@@ -137,6 +138,8 @@ def test_context_preparation_keeps_source_and_restores_boundary_paths(tmp_path):
     assert result["status"] == "pass"
     assert result["boundary_after"]["expected_count"] == 1
     assert result["boundary_after"]["missing"] == []
+    assert result["join_local_conversion"]["status"] == "local"
+    assert result["local_conversion"]["status"] == "local"
     assert source.read_bytes() == before
     options["official_groups"] = [{"source_node_ids": ["a"]}]
     with pytest.raises(ValueError, match="overlap official"):
@@ -169,8 +172,9 @@ def test_official_curve_coordinates_are_projected_without_overwriting_aerial_sel
 @pytest.mark.parametrize("selected_y, official_y, expected_source", [
     (6, 1, "official_map_curve"), (6, 7, "netconvert"), (0, 7, "selected_curve"),
 ])
+@pytest.mark.parametrize("contour_mode", ["preserve", "guarded"])
 def test_failed_aerial_fit_tries_official_curve_at_the_same_anchors_and_limit(
-    tmp_path, monkeypatch, selected_y, official_y, expected_source,
+    tmp_path, monkeypatch, selected_y, official_y, expected_source, contour_mode,
 ):
     from types import SimpleNamespace
     source = tmp_path / "source.net.xml"
@@ -184,14 +188,21 @@ def test_failed_aerial_fit_tries_official_curve_at_the_same_anchors_and_limit(
     before = source.read_bytes()
     output = tmp_path / "candidate.net.xml"
     def compile_copy(command, **kwargs):
-        shutil.copy2(source, output)
-        changed = ET.parse(output)
+        native_output = Path(command[command.index("--output-file") + 1])
+        shutil.copy2(source, native_output)
+        changed = ET.parse(native_output)
         remote = changed.getroot().find("edge[@id='remote-taper']/lane")
         remote.set("shape", "76,0 104,0")
         remote.set("length", "28")
-        changed.write(output, encoding="utf-8")
-        return SimpleNamespace(returncode=0, stdout="", stderr="")
-    monkeypatch.setattr(movement_module, "run_command", compile_copy)
+        changed.write(native_output, encoding="utf-8")
+        return SimpleNamespace(command=list(command), returncode=0, stdout="", stderr="")
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", compile_copy)
+    def compile_contours(root, **kwargs):
+        remote = root.find("edge[@id='remote-taper']/lane")
+        remote.set("shape", "50,0 104,0")
+        remote.set("length", "54")
+        return root, {"mode": "guarded", "status": "pass"}
+    monkeypatch.setattr(movement_module, "_compile_junction_contours", compile_contours)
     monkeypatch.setattr(movement_module, "audit_source_movement_support", lambda *args, **kwargs: {
         "unresolved": [], "unsupported_redundant_pairs": [], "source_backed_extra": []})
     selected = [(0, selected_y), (10, selected_y)]
@@ -202,7 +213,8 @@ def test_failed_aerial_fit_tries_official_curve_at_the_same_anchors_and_limit(
              {"lane_id": "out", "lane_type": "vehicle", "shape_network": [(10, 0), (30, 0)]}]
     report = _write_movement_candidate(joined_net=source, plans={"1": {"lanes": lanes, "movements": [movement]}},
         groups=[{"node_id": "1", "intersection_part": "0", "join_id": "J", "source_node_ids": ["J"]}],
-        skipped_join_ids=set(), output_file=output, maximum_anchor_projection_error_m=10)
+        skipped_join_ids=set(), output_file=output, maximum_anchor_projection_error_m=10,
+        junction_contours=contour_mode)
     row = report["movements"][0]
     assert row["selected_source"] == "aerial_trace"
     assert row["geometry_source"] == expected_source
@@ -235,8 +247,8 @@ def test_materialization_rebuilds_connections_and_preserves_unmapped_branch(tmp_
     edges = tmp_path / "edges.xml"
     connections = tmp_path / "connections.xml"
     fixed_shape = ' shape="-10,-10 10,-10 10,10 -10,10"' if fixed_boundary else ""
-    nodes.write_text(f'<nodes><node id="w" x="-80" y="0"/><node id="J" x="0" y="0" type="priority"{fixed_shape}/><node id="e" x="80" y="0"/><node id="n" x="0" y="80"/></nodes>', encoding="utf-8")
-    edges.write_text('<edges><edge id="in" from="w" to="J" numLanes="2"/><edge id="out" from="J" to="e" numLanes="2"/><edge id="branch" from="J" to="n" numLanes="1"/></edges>', encoding="utf-8")
+    nodes.write_text(f'<nodes><node id="w" x="-80" y="0"/><node id="J" x="0" y="0" type="priority"{fixed_shape}/><node id="e" x="80" y="0"/><node id="n" x="0" y="80"/><node id="R0" x="300" y="200"/><node id="R1" x="400" y="200"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="in" from="w" to="J" numLanes="2"/><edge id="out" from="J" to="e" numLanes="2"/><edge id="branch" from="J" to="n" numLanes="1"/><edge id="remote" from="R0" to="R1"/></edges>', encoding="utf-8")
     connections.write_text('<connections><connection from="in" to="out" fromLane="0" toLane="0"/><connection from="in" to="out" fromLane="0" toLane="1"/><connection from="in" to="out" fromLane="1" toLane="0"/><connection from="in" to="branch" fromLane="0" toLane="0"/></connections>', encoding="utf-8")
     source = tmp_path / "source.net.xml"
     result = subprocess.run(["netconvert", "-n", str(nodes), "-e", str(edges), "-x", str(connections), "-o", str(source), "--offset.disable-normalization"], capture_output=True, text=True)
@@ -249,6 +261,10 @@ def test_materialization_rebuilds_connections_and_preserves_unmapped_branch(tmp_
     movements = [{"movement_id": str(index), "intersection_part": "0", "ingress_lane_id": f"in{index}", "egress_lane_id": f"out{index}", "selected_source": "aerial_trace", "selected_shape_network": [lanes[("in", index)][-1], lanes[("out", index)][0]]} for index in (0, 1)]
     output = tmp_path / "candidate.net.xml"
     report = _write_movement_candidate(joined_net=source, plans={"999": {"lanes": official_lanes, "movements": movements}}, groups=[{"node_id": "999", "intersection_part": "0", "join_id": "J", "source_node_ids": ["J"]}], skipped_join_ids=set(), output_file=output, maximum_anchor_projection_error_m=10)
+    for row in report["netconvert_passes"]:
+        assert row["local_conversion"]["converted_normal_edge_count"] == 3
+        assert row["local_conversion"]["source_normal_edge_count"] == 4
+        assert hashlib.sha256(Path(row["patch"]["path"]).read_bytes()).hexdigest() == row["patch"]["sha256"]
     actual = {tuple(row) for row in report["official_connection_audit"]["actual"]}
     assert ("in", 0, "out", 1) not in actual
     assert {("in", 0, "out", 0), ("in", 1, "out", 1), ("in", 0, "branch", 0)} <= actual
@@ -292,22 +308,28 @@ def test_materialization_rebuilds_connections_and_preserves_unmapped_branch(tmp_
         groups=[{"node_id": "999", "intersection_part": "0", "join_id": "J", "source_node_ids": ["J"]}], skipped_join_ids=set(),
         output_file=tmp_path / "mode-preservation.net.xml", maximum_anchor_projection_error_m=10)
     assert ("in", 0, "out", 1) in {tuple(row) for row in modes_kept["official_connection_audit"]["actual"]}
-    from astra_sumo.core.hamburg_aerial_approach import _preserved_edge
+    from astra_sumo.core.junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from astra_sumo.core.network_geometry_freeze import compare_frozen_geometry
     built = ET.parse(output).getroot()
     if fixed_boundary:
         # A compiled custom boundary stays authoritative even when the group's
         # earlier official-boundary preview is absent.
         assert built.find("junction[@id='J']").get("shape") == source_root.find("junction[@id='J']").get("shape")
-    # Native boundaries must also survive reload; a drawing-only replacement
-    # must not overwrite the compiled network's actual lane-cut surface.
-    reloaded = tmp_path / "boundary-reloaded.net.xml"
-    subprocess.run(["netconvert", "-s", str(output), "-o", str(reloaded), "--offset.disable-normalization"], check=True, capture_output=True, timeout=30)
-    later = ET.parse(reloaded).getroot()
-    for field in ("shape", "customShape"):
-        assert built.find("junction[@id='J']").get(field) == later.find("junction[@id='J']").get(field)
+    assert report["official_connection_audit"]["outside_road_restoration"]["independent_geometry_preservation"]["status"] == "pass"
     for edge in built.findall("edge"):
         if edge.get("function") != "internal":
-            assert _preserved_edge(edge, later.find(f"edge[@id='{edge.get('id')}']"))
+            original = source_root.find(f"edge[@id='{edge.get('id')}']")
+            for lane in edge.findall("lane"):
+                assert lane.get("customShape") == original.find(f"lane[@index='{lane.get('index')}']").get("customShape")
+    # A native reimport is a new proposal. Apply the same final admission before accepting it.
+    reloaded = tmp_path / "boundary-reloaded.net.xml"
+    subprocess.run(["netconvert", "-s", str(output), "-o", str(reloaded), "--offset.disable-normalization"], check=True, capture_output=True, timeout=30)
+    scope = {"mutable_junction_ids": {"J"}, "mutable_edge_ids": {"in", "out", "branch"}}
+    admission = restore_off_scope_netconvert_artifacts(source_file=output, target_file=reloaded,
+        **scope, expand_mutable_edge_endpoints=False)
+    assert admission["status"] == "pass"
+    assert compare_frozen_geometry(source_file=output, candidate_file=reloaded, **scope)["status"] == "pass"
+    later = ET.parse(reloaded).getroot()
     assert {candidate_module._connection_key(row) for row in built.findall("connection")} == {
         candidate_module._connection_key(row) for row in later.findall("connection")}
     movements[1]["selected_shape_network"] = [(x, y + 100) for x, y in movements[1]["selected_shape_network"]]
@@ -419,7 +441,8 @@ def test_contour_build_keeps_verified_parts_and_rolls_back_failed_parts(tmp_path
 
     def compile_from_original(command, **kwargs):
         commands.append(command)
-        assert command[command.index("--sumo-net-file") + 1] == str(source)
+        native_input = Path(command[command.index("--sumo-net-file") + 1])
+        assert native_input != source and native_input.read_bytes() == source.read_bytes()
         assert command[command.index("--connection-files") + 1] == str(patch)
         root = ET.parse(source).getroot()
         nodes = ET.parse(command[command.index("--node-files") + 1]).getroot()
@@ -434,9 +457,9 @@ def test_contour_build_keeps_verified_parts_and_rolls_back_failed_parts(tmp_path
         if native_refit:
             root.find("tlLogic/phase").set("duration", "5")
         ET.ElementTree(root).write(command[command.index("--output-file") + 1], encoding="utf-8")
-        return SimpleNamespace(returncode=0, stdout="", stderr="")
+        return SimpleNamespace(command=list(command), returncode=0, stdout="", stderr="")
 
-    monkeypatch.setattr(movement_module, "run_command", compile_from_original)
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", compile_from_original)
     root, report = candidate_module._compile_junction_contours(
         ET.parse(output).getroot(), groups=[{"join_id": "J"}, {"join_id": "K"}], output_file=output,
         command=["netconvert", "--sumo-net-file", str(source), "--connection-files", str(patch),

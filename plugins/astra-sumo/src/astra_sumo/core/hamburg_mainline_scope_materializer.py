@@ -29,98 +29,48 @@ from .sumo_commands import run_sumo_load_audit
 from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
 
 
+from .site_parameters import load_site_parameters
+
+_SITE = load_site_parameters('hamburg_mainline_scope_materializer')
+
+
 HAMBURG_MAINLINE_SCOPE_SCHEMA = "torii.hamburg-sandtorkai-mainline-scope/v1"
 HAMBURG_MAINLINE_SCOPE_PROFILE = "hamburg_sandtorkai_mainline_scope_v1"
 HAMBURG_ENTRY_SCOPE_PROFILE = "hamburg_sandtorkai_entry_scope_v1"
 
 # This is the geometry-safe/TLS candidate used as the frozen source for the
 # current Hamburg package.  Callers still have to pass the hash explicitly.
-HAMBURG_V10_SOURCE_SHA256 = "99a056171be0f9327e3ddd204adb27758d6a01ae363b1cef8f93cd330aace4c8"
+HAMBURG_V10_SOURCE_SHA256 = _SITE['HAMBURG_V10_SOURCE_SHA256']
 
-MAINLINE_ROUTE_EDGE_IDS: tuple[str, ...] = (
-    "554713077",
-    "60578487#1",
-    "60578487#2",
-    "60578487#3",
-    "554713076#0",
-    "554713076#1",
-    "554713076#2",
-    "194672083",
-    "127716467#0",
-    "127716467#1",
-    "957130878#0",
-    "957130878#1",
-    "957130878#2",
-    "554713081#0",
-    "554713081#1",
-    "957130880",
-    "554713080",
-    "30390248#0",
-    "30390248#1",
-    "30390248#2",
-    "30390248#3",
-    "30390248#4",
-    "554713082#0",
-    "554713082#1",
-    "554713082#2",
-    "554713083#0",
-    "554713083#1",
-    "4313743#0",
-    "4313743#1",
-    "562205886",
-    "19199901",
-    "30598403",
-    "297888720",
-    "19199492",
-    "1231234769#0",
-    "1231234769#1",
-)
+MAINLINE_ROUTE_EDGE_IDS: tuple[str, ...] = _SITE['MAINLINE_ROUTE_EDGE_IDS']
 
 # These are deliberately short boundary/approach edges, not the full branch
 # network.  22649708#0 is the 7 m controlled exit at 0228; retaining it keeps
 # HH_0228's final MAP link while the longer upper-left branch is removed.
-BOUNDARY_EDGE_IDS: tuple[str, ...] = ("60578519", "22649708#0")
-SHORT_APPROACH_NAMES: tuple[str, ...] = ("Am Kaiserkai", "Am Sandtorpark")
+BOUNDARY_EDGE_IDS: tuple[str, ...] = _SITE['BOUNDARY_EDGE_IDS']
+SHORT_APPROACH_NAMES: tuple[str, ...] = _SITE['SHORT_APPROACH_NAMES']
 # The entry-scope profile keeps the west/east side roads needed to inject
 # vehicles into the corridor while still excluding the oversized Baumwall
 # branch.  These names are derived from the current OSM/Geoportal cross-check;
 # signal binding remains an independent official MAP/OCIT stage.
-ENTRY_APPROACH_NAMES: tuple[str, ...] = (
-    "Am Sandtorpark",
-    "Großer Grasbrook",
-    "Singapurstraße",
-)
-MAINLINE_NAMES: tuple[str, ...] = ("Am Sandtorkai",)
-EXCLUDED_BRANCH_NAMES: tuple[str, ...] = ("Baumwall",)
-EXCLUDED_BRANCH_EDGE_IDS: tuple[str, ...] = (
-    "22649708#1",
-    "74547371#0",
-    "74547371#1",
-    "234561088#0",
-    "234561088#1",
-)
-JOIN_GROUPS: tuple[tuple[str, ...], ...] = (("5353176677", "748827192"),)
+ENTRY_APPROACH_NAMES: tuple[str, ...] = _SITE['ENTRY_APPROACH_NAMES']
+MAINLINE_NAMES: tuple[str, ...] = _SITE['MAINLINE_NAMES']
+EXCLUDED_BRANCH_NAMES: tuple[str, ...] = _SITE['EXCLUDED_BRANCH_NAMES']
+EXCLUDED_BRANCH_EDGE_IDS: tuple[str, ...] = _SITE['EXCLUDED_BRANCH_EDGE_IDS']
+JOIN_GROUPS: tuple[tuple[str, ...], ...] = _SITE['JOIN_GROUPS']
 # Großer Grasbrook crosses the two separated Am Sandtorkai carriageways.  The
 # source OSM graph expands each carriageway into two nearby junction nodes;
 # joining each opposing pair keeps two physical conflict cores and removes the
 # rendered polygon overlap.  Joining all four would erase the divided-road
 # structure, so it is intentionally not used.
-ENTRY_JOIN_GROUPS: tuple[tuple[str, ...], ...] = (
-    ("5353176677", "748827192"),
-    ("25737304", "759714733"),
-    ("739654528", "759714704"),
-)
+ENTRY_JOIN_GROUPS: tuple[tuple[str, ...], ...] = _SITE['ENTRY_JOIN_GROUPS']
 # The 0.2 m edge between the joined 2394 micro-junctions is intentionally
 # consumed by the join.  It must not be treated as a missing retained road.
-JOIN_CONSUMED_EDGE_IDS: tuple[str, ...] = ("60578487#0",)
+JOIN_CONSUMED_EDGE_IDS: tuple[str, ...] = _SITE['JOIN_CONSUMED_EDGE_IDS']
 # The two Großer Grasbrook connectors that terminate at the joined opposing
 # carriageway pairs are also consumed by netconvert's explicit join.
-ENTRY_JOIN_CONSUMED_EDGE_IDS: tuple[str, ...] = (
-    "60578487#0",
-    "59626578",
-    "61649650",
-)
-CONTROLLER_IDS: tuple[str, ...] = ("HH_0228", "HH_2421", "HH_2394")
+ENTRY_JOIN_CONSUMED_EDGE_IDS: tuple[str, ...] = _SITE['ENTRY_JOIN_CONSUMED_EDGE_IDS']
+CONTROLLER_IDS: tuple[str, ...] = _SITE['CONTROLLER_IDS']
 
 
 class HamburgMainlineScopeError(ValueError):
@@ -318,7 +268,7 @@ def materialize_hamburg_sandtorkai_mainline_scope_candidate(
     candidate_contract_file = (
         destination / "hamburg_sandtorkai_mainline_scope.candidate_manifest.json"
     )
-    candidate_contract = {
+    candidate_contract = {"site_parameters": _SITE["_source"],
         # This compatibility contract lets the already audited MAP/signal/
         # demand stages consume a post-TLS scope candidate without pretending
         # that the TLS materializer itself was rerun.
@@ -345,7 +295,7 @@ def materialize_hamburg_sandtorkai_mainline_scope_candidate(
         },
     }
     write_json_atomic(candidate_contract_file, candidate_contract, sort_keys=True)
-    manifest: dict[str, object] = {
+    manifest: dict[str, object] = {"site_parameters": _SITE["_source"],
         "schema_id": HAMBURG_MAINLINE_SCOPE_SCHEMA,
         "status": status,
         "claim_status": "mainline-corridor-review-candidate" if status == "review_ready" else "construction-invalid",
@@ -368,7 +318,7 @@ def materialize_hamburg_sandtorkai_mainline_scope_candidate(
             "excluded_branch_edge_ids": list(EXCLUDED_BRANCH_EDGE_IDS),
             "join_groups": [list(group) for group in JOIN_GROUPS],
             "retained_join_groups": [list(group) for group in selected_join_groups],
-            "boundary_stub_reason": "retain the official HH_0228 MAP link at the corridor cut boundary",
+            "boundary_stub_reason": _SITE['source_binding.001'],
         },
         "selection": {
             "selected_edge_count": len(selected),

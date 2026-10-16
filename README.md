@@ -93,7 +93,7 @@ ASTRA combines official traffic data, aerial imagery, and SUMO network reconstru
 
 <p align="center"><sub>LSA118 reconstruction: official MAP endpoints and headings, reconstructed curves, and lane connections before and after cleaning.</sub></p>
 
-The current Hamburg calibration matches the aggregate detector count exactly, with **0.15 vehicles MAE per 15-minute bin**.
+The current Hamburg calibration-window fit matches the aggregate detector count exactly, with **0.15 vehicles MAE per 15-minute bin**. This is an in-sample result. It does not measure held-out prediction accuracy.
 
 ## Documentation
 

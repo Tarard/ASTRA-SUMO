@@ -1,0 +1,229 @@
+{
+  "schema": "astra.site-parameters/v1",
+  "profile_id": "hamburg_lane_connection_repair",
+  "field_acceptance": "legacy_snapshot_only_requires_source_match",
+  "source_module_sha256_before_extraction": "f211f599620bb2ec8a8c1a0f255b1b2ececb4fe2e407bb91c9e84917268fc38c",
+  "parameters": {
+    "LSA119_ONE_TO_ONE_LINKS": {
+      "$tuple": [
+        {
+          "$tuple": [
+            "43866090#0",
+            "0",
+            "486864294",
+            "0"
+          ]
+        },
+        {
+          "$tuple": [
+            "43866090#0",
+            "1",
+            "486864294",
+            "1"
+          ]
+        },
+        {
+          "$tuple": [
+            "603103445#0",
+            "0",
+            "141050975",
+            "0"
+          ]
+        },
+        {
+          "$tuple": [
+            "186713422#0",
+            "1",
+            "363112756#1",
+            "0"
+          ]
+        },
+        {
+          "$tuple": [
+            "186713422#0",
+            "2",
+            "363112756#1",
+            "1"
+          ]
+        },
+        {
+          "$tuple": [
+            "186713422#0",
+            "3",
+            "363112756#1",
+            "2"
+          ]
+        },
+        {
+          "$tuple": [
+            "1227325137",
+            "0",
+            "486864294",
+            "0"
+          ]
+        },
+        {
+          "$tuple": [
+            "1227325137",
+            "1",
+            "486864294",
+            "1"
+          ]
+        },
+        {
+          "$tuple": [
+            "24483344#0",
+            "0",
+            "141050975",
+            "2"
+          ]
+        },
+        {
+          "$tuple": [
+            "24483344#0",
+            "1",
+            "141050975",
+            "3"
+          ]
+        },
+        {
+          "$tuple": [
+            "1068722010",
+            "0",
+            "363112756#1",
+            "0"
+          ]
+        }
+      ]
+    },
+    "LSA119_DELETED_FANOUTS": {
+      "$tuple": [
+        {
+          "$tuple": [
+            "603103445#0",
+            "0",
+            "141050975",
+            "1"
+          ]
+        },
+        {
+          "$tuple": [
+            "603103445#0",
+            "0",
+            "141050975",
+            "2"
+          ]
+        },
+        {
+          "$tuple": [
+            "603103445#0",
+            "0",
+            "141050975",
+            "3"
+          ]
+        },
+        {
+          "$tuple": [
+            "603103445#0",
+            "0",
+            "141050975",
+            "4"
+          ]
+        },
+        {
+          "$tuple": [
+            "24483344#0",
+            "0",
+            "141050975",
+            "0"
+          ]
+        },
+        {
+          "$tuple": [
+            "24483344#0",
+            "0",
+            "141050975",
+            "1"
+          ]
+        },
+        {
+          "$tuple": [
+            "24483344#0",
+            "1",
+            "141050975",
+            "2"
+          ]
+        },
+        {
+          "$tuple": [
+            "24483344#0",
+            "1",
+            "141050975",
+            "4"
+          ]
+        },
+        {
+          "$tuple": [
+            "1068722010",
+            "0",
+            "363112756#1",
+            "1"
+          ]
+        },
+        {
+          "$tuple": [
+            "1068722010",
+            "0",
+            "363112756#1",
+            "2"
+          ]
+        }
+      ]
+    },
+    "source_binding.001": "LSA119_part0",
+    "source_binding.002": "tlLogic[@id='LSA119_part0']",
+    "source_binding.003": "This candidate repairs only the reviewed LSA119 lane links and the reviewed 266199070 diverge. Other corridor fanouts remain review items. Demand must be recalibrated on this candidate.",
+    "write_hamburg_lane_connection_patch.004": "24483344#0",
+    "write_hamburg_lane_connection_patch.005": "141050975",
+    "source_binding.006": "234421319",
+    "write_repaired_lsa119_tllogic.007": "traffic-light file has no LSA119_part0 program",
+    "write_repaired_lsa119_tllogic.008": "LSA119_part0 source state must contain 20 links",
+    "HAMBURG_DIVERGE_LANE_SHAPE": {
+      "$tuple": [
+        {
+          "$tuple": [
+            609.03,
+            607.1
+          ]
+        },
+        {
+          "$tuple": [
+            632.4,
+            601.61
+          ]
+        },
+        {
+          "$tuple": [
+            714.8,
+            583.52
+          ]
+        }
+      ]
+    },
+    "LSA119_OLD_STATE_INDICES": {
+      "$tuple": [
+        0,
+        1,
+        2,
+        7,
+        8,
+        9,
+        10,
+        11,
+        14,
+        15,
+        17
+      ]
+    }
+  }
+}

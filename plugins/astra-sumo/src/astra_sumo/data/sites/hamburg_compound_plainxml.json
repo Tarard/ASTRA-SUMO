@@ -1,0 +1,88 @@
+{
+  "schema": "astra.site-parameters/v1",
+  "profile_id": "hamburg_compound_plainxml",
+  "field_acceptance": "legacy_snapshot_only_requires_source_match",
+  "source_module_sha256_before_extraction": "6f5d8a0a4340da722f96695a271c1ba86b0a3c13f729cf18ca626e6ac76a161e",
+  "parameters": {
+    "EXPECTED_CELL_NODES": {
+      "$frozenset": [
+        "2761334279",
+        "3847369285",
+        "3847369287",
+        "3847369288",
+        "757036795",
+        "757036909",
+        "759714726",
+        "76463166"
+      ]
+    },
+    "EXPECTED_JOIN_GROUPS": {
+      "$frozenset": [
+        {
+          "$frozenset": [
+            "2761334279",
+            "757036795"
+          ]
+        },
+        {
+          "$frozenset": [
+            "3847369287",
+            "757036909",
+            "76463166"
+          ]
+        }
+      ]
+    },
+    "EXPECTED_OWNER_COMPONENTS": {
+      "$frozenset": [
+        {
+          "$frozenset": [
+            "2761334279",
+            "757036795"
+          ]
+        },
+        {
+          "$frozenset": [
+            "3847369285"
+          ]
+        },
+        {
+          "$frozenset": [
+            "3847369288"
+          ]
+        },
+        {
+          "$frozenset": [
+            "3847369287",
+            "757036909",
+            "76463166"
+          ]
+        },
+        {
+          "$frozenset": [
+            "759714726"
+          ]
+        }
+      ]
+    },
+    "EXPECTED_ABSORBED_EDGE_IDS": {
+      "$frozenset": [
+        "-381540198#2",
+        "-9702435",
+        "381540198#2",
+        "9702432#1",
+        "9702435"
+      ]
+    },
+    "EXPECTED_OSM_TLS_IDS": {
+      "$frozenset": [
+        "2761334279",
+        "3847369285",
+        "3847369287",
+        "3847369288",
+        "757036795",
+        "759714726"
+      ]
+    }
+  }
+}

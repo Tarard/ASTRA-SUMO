@@ -1,0 +1,316 @@
+{
+  "date": "2026-10-15",
+  "input": {
+    "file": "input.osm.xml",
+    "sha256": "07c8ab6e163eb9dd2fa7c79b1adc880b13a00291abf97a1fc7d60a5deb81b704"
+  },
+  "experiments": [
+    {
+      "report": "outputs/claude_step7_native127_20261015_v1/report.json",
+      "report_sha256": "5d7b3d276373030a9fa0bc062a179c363a0d6d60dfb3cababaf470dd30f69356",
+      "source_sha256": "07c8ab6e163eb9dd2fa7c79b1adc880b13a00291abf97a1fc7d60a5deb81b704",
+      "binary_sha256": "b85bbcecd3c60799c3a0eb7f1077f9608b0187da29babc3a20f326f97d23942f",
+      "version": "Eclipse SUMO netconvert 1.27.1\n Build features: Windows-10.0.26100 AMD64 MSVC 19.51.36247.0 Release FMI Proj GUI FMT Intl SWIG Parquet Eigen GDAL FFmpeg OSG GL2PS JuPedSim\n Copyright (C) 2001-2026 German Aerospace Center (DLR) and others; https://sumo.dlr.de\n\nEclipse SUMO netconvert 1.27.1 is part of SUMO.\nThis program and the accompanying materials\nare made available under the terms of the Eclipse Public License v2.0\nwhich accompanies this distribution, and is available at\nhttp://www.eclipse.org/legal/epl-v20.html\nThis program may also be made available under the following Secondary\nLicenses when the conditions for such availability set forth in the Eclipse\nPublic License 2.0 are satisfied: GNU General Public License, version 2\nor later which is available at\nhttps://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html\nSPDX-License-Identifier: EPL-2.0 OR GPL-2.0-or-later\n",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "status": "reproduced",
+      "run_count": 64,
+      "failed_processes": 0,
+      "inputs_unchanged": true,
+      "other_element_variants": 1,
+      "roundabout_variants": [
+        {
+          "sha256": "5e32ba3f737284b48b4421e1142d0c79b794d046d565740bd01658a219633df3",
+          "count": 17,
+          "representative_run": 1,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1",
+                "20#0",
+                "20#1"
+              ],
+              "nodes": [
+                "1",
+                "1",
+                "3",
+                "5"
+              ]
+            }
+          ],
+          "network_sha256": "2aafcfe426bc38195fab35962eb86813c2adc32b5ba2ec640be106f1845063bb"
+        },
+        {
+          "sha256": "a92919bb3eba25904d33b4b383d55f1110cb709719f079c31855b38bae0bbb04",
+          "count": 12,
+          "representative_run": 2,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1"
+              ],
+              "nodes": [
+                "1",
+                "3"
+              ]
+            },
+            {
+              "edges": [
+                "20#0"
+              ],
+              "nodes": [
+                "5"
+              ]
+            },
+            {
+              "edges": [
+                "20#1"
+              ],
+              "nodes": [
+                "1"
+              ]
+            }
+          ],
+          "network_sha256": "331f80b2a5b1a1987562ab0a84f1b01dd9a7b6156b3e38e87dd4027e467d2b83"
+        },
+        {
+          "sha256": "bffa452883f8b8ff0c83f2872ad93333ee7867707f2f29c93d3a1e1248a23908",
+          "count": 20,
+          "representative_run": 12,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1"
+              ],
+              "nodes": [
+                "1",
+                "3"
+              ]
+            },
+            {
+              "edges": [
+                "20#0",
+                "20#1"
+              ],
+              "nodes": [
+                "1",
+                "5"
+              ]
+            }
+          ],
+          "network_sha256": "dcc5a21d7ef063feccf744b995ee422aeb44037ca4c9e0f83987a28ccab86501"
+        },
+        {
+          "sha256": "d84827c93fc6f232a97b582d8c539cd920318a1f1898a0bc70c793d0423db68e",
+          "count": 15,
+          "representative_run": 0,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1",
+                "20#1"
+              ],
+              "nodes": [
+                "1",
+                "1",
+                "3"
+              ]
+            },
+            {
+              "edges": [
+                "20#0"
+              ],
+              "nodes": [
+                "5"
+              ]
+            }
+          ],
+          "network_sha256": "4b9b420a32077c7812b62ca6d49fcbcaf7c29c362c9eacb51cff516aae64517f"
+        }
+      ]
+    },
+    {
+      "report": "outputs/claude_step7_native128_20261015_v1/report.json",
+      "report_sha256": "19e317c63e071b57a1d860bb4b96f4ad8f41ea23ce65709799c2f0d25a5eddd5",
+      "source_sha256": "07c8ab6e163eb9dd2fa7c79b1adc880b13a00291abf97a1fc7d60a5deb81b704",
+      "binary_sha256": "5b48c72620a1e3afbde1a1805af971d37c41d59386f56ad06679383cb59be3f5",
+      "version": "Eclipse SUMO netconvert 1.28.0\n Build features: Windows-10.0.26100 AMD64 MSVC 19.51.36260.0 Release FMI Proj GUI FMT Intl SWIG Parquet Eigen GDAL FFmpeg OSG GL2PS JuPedSim\n Copyright (C) 2001-2026 German Aerospace Center (DLR) and others; https://sumo.dlr.de\n\nEclipse SUMO netconvert 1.28.0 is part of SUMO.\nThis program and the accompanying materials\nare made available under the terms of the Eclipse Public License v2.0\nwhich accompanies this distribution, and is available at\nhttp://www.eclipse.org/legal/epl-v20.html\nThis program may also be made available under the following Secondary\nLicenses when the conditions for such availability set forth in the Eclipse\nPublic License 2.0 are satisfied: GNU General Public License, version 2\nor later which is available at\nhttps://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html\nSPDX-License-Identifier: EPL-2.0 OR GPL-2.0-or-later\n",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "status": "reproduced",
+      "run_count": 64,
+      "failed_processes": 0,
+      "inputs_unchanged": true,
+      "other_element_variants": 1,
+      "roundabout_variants": [
+        {
+          "sha256": "5e32ba3f737284b48b4421e1142d0c79b794d046d565740bd01658a219633df3",
+          "count": 14,
+          "representative_run": 0,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1",
+                "20#0",
+                "20#1"
+              ],
+              "nodes": [
+                "1",
+                "1",
+                "3",
+                "5"
+              ]
+            }
+          ],
+          "network_sha256": "516f4121170935c86725a41144126b7c276cc1f6eca5d5b438c34a3b6091329c"
+        },
+        {
+          "sha256": "a92919bb3eba25904d33b4b383d55f1110cb709719f079c31855b38bae0bbb04",
+          "count": 10,
+          "representative_run": 5,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1"
+              ],
+              "nodes": [
+                "1",
+                "3"
+              ]
+            },
+            {
+              "edges": [
+                "20#0"
+              ],
+              "nodes": [
+                "5"
+              ]
+            },
+            {
+              "edges": [
+                "20#1"
+              ],
+              "nodes": [
+                "1"
+              ]
+            }
+          ],
+          "network_sha256": "f42f7a5d5284768484c4927829edf0e6b68c2a1a68540b1c39e8611e179bbec8"
+        },
+        {
+          "sha256": "bffa452883f8b8ff0c83f2872ad93333ee7867707f2f29c93d3a1e1248a23908",
+          "count": 23,
+          "representative_run": 2,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1"
+              ],
+              "nodes": [
+                "1",
+                "3"
+              ]
+            },
+            {
+              "edges": [
+                "20#0",
+                "20#1"
+              ],
+              "nodes": [
+                "1",
+                "5"
+              ]
+            }
+          ],
+          "network_sha256": "1791267c1377ca7062be6ab34855a87730ba8a57d856901e1d4f051775d6a57f"
+        },
+        {
+          "sha256": "d84827c93fc6f232a97b582d8c539cd920318a1f1898a0bc70c793d0423db68e",
+          "count": 17,
+          "representative_run": 3,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1",
+                "20#1"
+              ],
+              "nodes": [
+                "1",
+                "1",
+                "3"
+              ]
+            },
+            {
+              "edges": [
+                "20#0"
+              ],
+              "nodes": [
+                "5"
+              ]
+            }
+          ],
+          "network_sha256": "535828544fd383839493f61fea9a7c2c00e20e6a74377c1109713795bfb344b2"
+        }
+      ]
+    },
+    {
+      "report": "outputs/claude_step7_control127_20261015_v1/report.json",
+      "report_sha256": "57d6e3a7068c68b3b654899b1d555a4c599e464707c822a93065b85149b1eb6b",
+      "source_sha256": "411efa51dc13e8f08e5316627dfe9dc778196fecec6b4cfcb09ecf062be7528a",
+      "binary_sha256": "b85bbcecd3c60799c3a0eb7f1077f9608b0187da29babc3a20f326f97d23942f",
+      "version": "Eclipse SUMO netconvert 1.27.1\n Build features: Windows-10.0.26100 AMD64 MSVC 19.51.36247.0 Release FMI Proj GUI FMT Intl SWIG Parquet Eigen GDAL FFmpeg OSG GL2PS JuPedSim\n Copyright (C) 2001-2026 German Aerospace Center (DLR) and others; https://sumo.dlr.de\n\nEclipse SUMO netconvert 1.27.1 is part of SUMO.\nThis program and the accompanying materials\nare made available under the terms of the Eclipse Public License v2.0\nwhich accompanies this distribution, and is available at\nhttp://www.eclipse.org/legal/epl-v20.html\nThis program may also be made available under the following Secondary\nLicenses when the conditions for such availability set forth in the Eclipse\nPublic License 2.0 are satisfied: GNU General Public License, version 2\nor later which is available at\nhttps://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html\nSPDX-License-Identifier: EPL-2.0 OR GPL-2.0-or-later\n",
+      "platform": "Windows-11-10.0.26300-SP0",
+      "status": "not_observed",
+      "run_count": 64,
+      "failed_processes": 0,
+      "inputs_unchanged": true,
+      "other_element_variants": 1,
+      "roundabout_variants": [
+        {
+          "sha256": "f2156ec3e486056df3b28a15405b9daf54b5f450a5e0dab31d3d10c00a6bfaf1",
+          "count": 64,
+          "representative_run": 0,
+          "roundabout_records": [
+            {
+              "edges": [
+                "10#0",
+                "10#1"
+              ],
+              "nodes": [
+                "1",
+                "3"
+              ]
+            }
+          ],
+          "network_sha256": "6b76d73a20a7028609b83b8c4af3ff5305328d1ce0be6728eeee19b103d92259"
+        }
+      ]
+    }
+  ],
+  "load_checks": {
+    "count": 8,
+    "failures": 0,
+    "scope": "one representative per roundabout variant per converter version, end=0"
+  },
+  "upstream_inspection": {
+    "main_commit": "430625897227e3317e34c7d2e731dbe5419f6843",
+    "source_sha256": "2502c493c87245ce2ff5d796c3de2bd95c3461bedf8f5417471ed2f7e727b973",
+    "function": "NBEdgeCont::extractRoundabouts",
+    "latest_tag": "v1_28_0",
+    "binary_main_tested": false,
+    "duplicate_queries": [
+      "repo:eclipse-sumo/sumo roundabout reproducibility",
+      "repo:eclipse-sumo/sumo extractRoundabouts",
+      "repo:eclipse-sumo/sumo roundabout nondeterministic",
+      "repo:eclipse-sumo/sumo roundabout deterministic",
+      "repo:eclipse-sumo/sumo roundabout \"non-deterministic\""
+    ],
+    "duplicate_results": 0
+  }
+}

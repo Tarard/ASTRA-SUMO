@@ -15,7 +15,6 @@ from typing import Any
 from pyproj import Transformer
 
 from .candidate_contracts import file_sha256
-from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode, lane_supports_motorized
 from .digital_twin import parse_mapem
 from .hamburg_map_kml import parse_hamburg_map_kml
@@ -84,6 +83,8 @@ def build_hamburg_aerial_approach_candidate(
                     proposal, reason = None, str(error)
                 if proposal is None:
                     reviews.append({**identity, "reason": reason})
+                elif proposal.get("status") == "review_required":
+                    reviews.append({**identity, **proposal})
                 elif proposal.get("status") == "not_applicable":
                     not_applicable.append({**identity, **proposal})
                 else:
@@ -119,6 +120,13 @@ def build_hamburg_aerial_approach_candidate(
         split_id = row["original_from"] if reuse else f"torii-merge-{row['node_id']}-{row['intersection_part']}-{row['approach']}{event_suffix}"
         if not reuse and (upstream_id in source_edges or root.find(f"junction[@id='{split_id}']") is not None):
             raise ValueError("approach split identity already exists")
+        if original.get("length") is not None:
+            loaded = float(original.get("length"))
+            if not math.isfinite(loaded) or loaded <= 0:
+                raise ValueError("The declared road length must be finite and positive.")
+            prefix_length = None if reuse else loaded * row["upstream_interval_m"][1] / row["source_interval_m"][1]
+            row["explicit_length_allocation_m"] = {"source": loaded, "upstream": prefix_length,
+                "downstream": loaded - (prefix_length or 0), "basis": "source_spatial_split_fraction"}
         row.update({"upstream_edge_id": upstream_id, "downstream_edge_id": edge_id, "split_node_id": split_id})
         x, y = row["split_xy"]
         if not reuse:
@@ -128,11 +136,18 @@ def build_hamburg_aerial_approach_candidate(
             upstream.set("to", split_id)
             upstream.set("numLanes", str(len(row["through_lane_ids"])))
             upstream.set("shape", _shape(row["_upstream_edge_shape"]))
+            upstream.attrib.pop("endOffset", None)
+            if original.get("length") is not None:
+                upstream.set("length", str(row["explicit_length_allocation_m"]["upstream"]))
             for index, lane in enumerate(upstream.findall("lane")):
+                lane.attrib.pop("endOffset", None)
                 _set_lane_shape(lane, index, row["_upstream_lane_shapes"][index])
+            row["stop_offset_policy"] = "source_end_offsets_retained_on_downstream_section_only"
             expected_upstream[upstream_id] = deepcopy(upstream)
             edge_patch.append(upstream)
         downstream = deepcopy(original)
+        if original.get("length") is not None:
+            downstream.set("length", str(row["explicit_length_allocation_m"]["downstream"]))
         downstream.set("from", split_id)
         downstream.set("numLanes", str(len(row["_ordered_lanes"])))
         downstream.set("shape", _shape([_mean([item["shape"][0] for item in row["_ordered_lanes"]]), _mean([item["shape"][-1] for item in row["_ordered_lanes"]])]))
@@ -206,10 +221,19 @@ def build_hamburg_aerial_approach_candidate(
     # before adding remapped pairs so a later deletion cannot erase a new pair.
     connection_patch[:] = sorted(connection_patch, key=lambda row: row.tag != "delete")
     paths = {}
+    from .osm_access import _translate_permission_declarations
     for name, tree_root in (("nodes", node_patch), ("edges", edge_patch), ("connections", connection_patch)):
+        _translate_permission_declarations(tree_root, source_version=root.get("version", "0.0"))
         paths[name] = destination / f"approach.{name}.xml"
         ET.indent(tree_root)
         ET.ElementTree(tree_root).write(paths[name], encoding="utf-8", xml_declaration=True)
+    mutable_nodes = {str(row[key]) for row in accepted for key in ("original_to", "split_node_id")}
+    mutable_nodes.update(node for row in boundary_scope.values() for node in row["node_ids"])
+    mutable_edges = set(rewritten) | set(expected_upstream) | {
+        key for key, edge in source_edges.items()
+        if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes
+    }
+    boundary_edge_map = {row["source_edge_id"]: row["upstream_edge_id"] for row in accepted if row["upstream_edge_id"]}
     if touched_controller_ids:
         traffic_lights = ET.Element("tlLogics")
         for logic in root.findall("tlLogic"):
@@ -222,20 +246,38 @@ def build_hamburg_aerial_approach_candidate(
         ET.indent(traffic_lights)
         ET.ElementTree(traffic_lights).write(paths["traffic_lights"], encoding="utf-8", xml_declaration=True)
     candidate = destination / "approach-candidate.net.xml"
-    command = [netconvert_binary, "--sumo-net-file", str(source), "--node-files", str(paths["nodes"]), "--edge-files", str(paths["edges"]), "--connection-files", str(paths["connections"]), *(["--tllogic-files", str(paths["traffic_lights"])] if touched_controller_ids else []), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(candidate)]
-    compiled = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
+    command = [netconvert_binary, "--sumo-net-file", str(source), "--node-files", str(paths["nodes"]), "--edge-files", str(paths["edges"]), "--connection-files", str(paths["connections"]), *(["--tllogic-files", str(paths["traffic_lights"])] if touched_controller_ids else []), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(candidate)]
+    from .local_network_conversion import run_scoped_native_conversion
+    conversion_nodes = mutable_nodes | {row["original_from"] for row in accepted}
+    conversion_edges = set(mutable_edges) | {key for key, edge in source_edges.items()
+        if any(edge.get(end) in conversion_nodes for end in ("from", "to"))}
+    changed_endpoints = {edge.get("id"): {end: edge.get(end) for end in ("from", "to")}
+        for edge in edge_patch if edge.get("id") in expected_upstream
+        or any(edge.get(end) != source_edges[edge.get("id")].get(end) for end in ("from", "to"))}
+    compiled, local_conversion = run_scoped_native_conversion(command=command,
+        mutable_nodes=conversion_nodes, mutable_edges=conversion_edges, edge_endpoints=changed_endpoints,
+        output_dir=destination, prefix="approach", timeout_seconds=timeout_seconds)
     (destination / "netconvert.log").write_text(compiled.stdout + compiled.stderr, encoding="utf-8")
     if compiled.returncode != 0 or not candidate.is_file():
         raise ValueError("netconvert could not compile approach sections: " + compiled.stderr)
+    from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from .network_geometry_freeze import compare_frozen_geometry
+
+    preservation_scope = dict(mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+                              boundary_edge_map=boundary_edge_map)
+    restoration = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate,
+        **preservation_scope, expand_mutable_edge_endpoints=False)
+    preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate, **preservation_scope)
     result_root = ET.parse(candidate).getroot()
+    permission_versions = dict(source_version=root.get("version", "0.0"), candidate_version=result_root.get("version", "0.0"))
     result_edges = {edge.get("id"): edge for edge in result_root.findall("edge") if edge.get("function") != "internal"}
     preserved = set(result_edges) == set(source_edges) | set(expected_upstream)
     evidence = []
     boundary_adjustments = []
     for edge_id, expected in {**{key: edge for key, edge in source_edges.items() if key not in rewritten}, **expected_upstream}.items():
         actual = result_edges.get(edge_id)
-        okay = actual is not None and _preserved_edge(expected, actual)
-        bounded = not okay and actual is not None and edge_id in boundary_scope and _preserved_boundary_edge(expected, actual, boundary_scope[edge_id]["polygons"])
+        okay = actual is not None and _preserved_edge(expected, actual, **permission_versions)
+        bounded = not okay and actual is not None and edge_id in boundary_scope and _preserved_boundary_edge(expected, actual, boundary_scope[edge_id]["polygons"], **permission_versions)
         evidence.append({"edge_id": edge_id, "preserved": okay, "within_declared_boundary_adjustment": bounded})
         if bounded:
             boundary_adjustments.append({"edge_id": edge_id, **boundary_scope[edge_id],
@@ -258,8 +300,10 @@ def build_hamburg_aerial_approach_candidate(
             before, after = ET.Element("edge"), ET.Element("edge")
             before.append(deepcopy(old_lanes[old_index]))
             after.append(deepcopy(new_lanes[new_index]))
-            ordinary_preserved &= _preserved_edge(before, after)
+            ordinary_preserved &= _preserved_edge(before, after, **permission_versions)
     gates = {"source_immutable": "pass" if _identity(source) == source_identity else "blocked",
+             "scoped_geometry_restoration": "pass" if restoration["status"] == "pass" else "blocked",
+             "fixed_boundary_geometry": preservation["status"],
              "external_connection_set": "pass" if actual_connections == expected_connections else "blocked",
              "outside_geometry_and_attributes": "pass" if preserved else "blocked",
              "controlled_continuations": "pass" if controls_preserved else "blocked",
@@ -269,9 +313,13 @@ def build_hamburg_aerial_approach_candidate(
         "claim_status": "diagnostic-demo", "source_network": source_identity, "candidate_network": _identity(candidate),
         "inputs": inputs, "approaches": [{key: value for key, value in row.items() if not key.startswith("_")} for row in accepted],
         "reviews": reviews, "not_applicable": not_applicable, "gates": gates, "outside_preservation": evidence, "boundary_geometry_adjustments": boundary_adjustments, "affected_tls": affected_tls, "preserved_controller_ids": sorted(touched_controller_ids),
+        "scoped_geometry_restoration": restoration, "fixed_boundary_geometry": preservation,
         "source_priority": {"local_lane_identity_and_geometry": "official_MAP_KML", "vehicle_permissions": "explicit_official_MAP_XML_otherwise_source_lane", "outside_geometry_and_connections": "frozen_source_SUMO_network", "aerial_imagery": "context_only_not_automatically_interpreted"},
         "connection_changes": {"missing": sorted(expected_connections - actual_connections), "extra": sorted(actual_connections - expected_connections)},
-        "commands": [compiled.to_dict()], "artifacts": {**{key: _identity(path) for key, path in paths.items()}, "connection_audit": _identity(audit_file)},
+        "logical_lane_lengths_m": {edge_id: [float(lane.get("length")) for lane in result_edges[edge_id].findall("lane")]
+            for edge_id in sorted(set(rewritten) | set(expected_upstream))},
+        "commands": [compiled.to_dict()], "local_conversion": local_conversion,
+        "artifacts": {**{key: _identity(path) for key, path in paths.items()}, "connection_audit": _identity(audit_file)},
         "claim_boundary": "Only documented ingress lane additions are rebuilt. The original edge ID now denotes its shorter downstream section. Routes, detectors and signal bindings require remapping before traffic experiments. Official junction movements remain a separate construction step."})
 
 
@@ -361,6 +409,10 @@ def _approach_proposal(root, members, junction_id, max_error, margin):
             return unchanged, unchanged["reason"]
     if not junction_id or (len(merge_points) != 1 and not bounded_restricted):
         return None, "no_unique_official_merge_event"
+    if merge_points:
+        existing = _existing_merge_evidence(root, members, junction_id, merge_points[0], max_error, margin)
+        if existing is not None:
+            return existing, existing["reason"]
     event = next(row["endpoint_a"] for row in members if row not in restricted) if bounded_restricted else merge_points[0]
     pockets = restricted if bounded_restricted else [row for row in members if math.dist(row["endpoint_a"], event) <= 1 and row["merge_points"]]
     carriers = [row for row in members if row not in pockets and (bounded_restricted or any(math.dist(point, event) <= 0.05 for point in row["merge_points"]))]
@@ -465,8 +517,151 @@ def _approach_proposal(root, members, junction_id, max_error, margin):
     return (sections[0] if len(sections) == 1 else {"_chain_sections": sections}), "official_merge_split"
 
 
+def _existing_merge_evidence(root, members, junction_id, event, max_error, margin):
+    """Measure an existing widening against the documented merge."""
+    from .source_movement_support import _candidate_modes, _index, _interior_lane_change
+    if len(members) < 2 or any(row.get("allowed_vehicle_classes") is not None or row.get("revocable") for row in members):
+        return None
+    start, end = _mean([row["endpoint_a"] for row in members]), _mean([row["endpoint_b"] for row in members])
+    distance = math.dist(start, end)
+    if distance <= 1:
+        return None
+    axis = ((end[0] - start[0]) / distance, (end[1] - start[1]) / distance)
+    station = sum(event[i] * axis[i] for i in (0, 1))
+    spans = [[sum(point[i] * axis[i] for i in (0, 1)) for point in row["shape"]] for row in members]
+    if any(not min(span) - 1 <= station <= max(span) + 1 for span in spans):
+        return None
+    truncated = all(abs(sum((row["endpoint_a"][i] - event[i]) * axis[i] for i in (0, 1))) <= 1 for row in members)
+    expected_before = None
+    if not truncated:
+        pockets = [row for row in members if row["merge_points"] and math.dist(row["endpoint_a"], event) <= 1]
+        carriers = [row for row in members if row not in pockets and any(math.dist(point, event) <= 0.05 for point in row["merge_points"])]
+        if len(pockets) != 1 or len(carriers) != 1:
+            return None
+        projection = _project_polyline(event, carriers[0]["shape"])
+        if projection["distance_m"] > 1 or not 0 < projection["fraction"] < 1:
+            return None
+        expected_before = len(members) - 1
+    ordered = _sort_right_to_left(members)
+    options = _source_arm_options(root, ordered, junction_id, max_error)
+    if not options or len(options) > 1 and options[1][0] - options[0][0] < margin:
+        return None
+    _, target, shapes = options[0]
+    if len(shapes) != len(ordered):
+        return None
+    endpoint_errors = [math.dist(row["endpoint_b"], shape[-1]) for row, shape in zip(ordered, shapes)]
+    if max(endpoint_errors) > max_error:
+        return None
+    index = _index(root)
+    current, chain = target, [target.get("id")]
+    while True:
+        node = root.find(f"junction[@id='{current.get('from')}']")
+        if node is None:
+            return None
+        lanes = [lane.get("id") for lane in current.findall("lane") if lane_supports_motorized(lane)]
+        incoming = defaultdict(list)
+        for key, a, b, connection in index["movements"]:
+            if key[2] != current.get("id") or b not in lanes:
+                continue
+            previous = index["edges"][key[0]]
+            if previous.get("function", "normal") != "normal" or previous.get("to") != node.get("id"):
+                continue
+            shape = _reference_shape(previous)
+            dx, dy = shape[-1][0] - shape[-2][0], shape[-1][1] - shape[-2][1]
+            length = math.hypot(dx, dy)
+            if not length or (dx * axis[0] + dy * axis[1]) / length < math.cos(math.pi / 4):
+                continue
+            modes, path = _candidate_modes(index, a, b, connection)
+            if modes and path:
+                incoming[key[0]].append({"from_lane": a, "to_lane": b, "lane_ids": path,
+                    "vehicle_classes": sorted(modes), "lane_changes": []})
+        inside = _point_in_polygon(event, _parse(node.get("shape", "")))
+        choices = []
+        for key, rows in incoming.items():
+            before = [lane.get("id") for lane in index["edges"][key].findall("lane") if lane_supports_motorized(lane)]
+            if len(before) < len(lanes):
+                # A downstream detour must not justify access to a pocket.
+                all_lanes = [lane.get("id") for lane in current.findall("lane")]
+                missing = set(lanes) - {row["to_lane"] for row in rows}
+                for row in list(rows):
+                    first = all_lanes.index(row["to_lane"])
+                    for target_lane in sorted(missing):
+                        last = all_lanes.index(target_lane)
+                        step = 1 if last > first else -1
+                        sequence = [all_lanes[i] for i in range(first, last + step, step)]
+                        for mode in row["vehicle_classes"]:
+                            events = [_interior_lane_change(index, a, b, {current.get("from"), current.get("to")}, mode)
+                                      for a, b in zip(sequence, sequence[1:])]
+                            if all(events):
+                                rows.append({"from_lane": row["from_lane"], "to_lane": target_lane,
+                                    "lane_ids": row["lane_ids"] + sequence[1:], "vehicle_classes": [mode], "lane_changes": events})
+                                break
+            pairs = {(row["from_lane"], row["to_lane"]) for row in rows}
+            if {b for _, b in pairs} != set(lanes):
+                continue
+            widening = 0 < len(before) < len(lanes) and (expected_before is None or len(before) == expected_before)
+            continuation = len(before) == len(lanes) and pairs == set(zip(before, lanes))
+            if widening or continuation:
+                choices.append((key, before, rows, widening))
+        if not inside:
+            continuations = [row for row in choices if not row[3]]
+            if continuations:
+                choices = continuations
+        if not choices:
+            return None
+        if len(choices) > 1:
+            return {"status": "review_required", "reason": "source_merge_predecessor_ambiguous",
+                "source_edge_id": target.get("id"), "source_transition_junction_id": node.get("id"),
+                "source_after_edge_ids": chain, "source_motor_lane_count_after": len(lanes),
+                "official_merge_inside_source_junction": inside,
+                "source_predecessor_candidates": [{"edge_id": key, "motor_lane_count": len(before), "lane_count_increases": widening}
+                    for key, before, _, widening in choices],
+                "claim_boundary": "Several aligned source roads can supply this approach. The before-count and merge ownership remain unresolved. No lane addition is authorized by this match."}
+        previous, before, paths, widening = choices[0]
+        if widening:
+            indices = [i for i, lane in enumerate(target.findall("lane")) if lane_supports_motorized(lane)]
+            delta = (float(node.get("x")) - event[0], float(node.get("y")) - event[1])
+            taper = None
+            if not truncated:
+                from shapely.geometry import LineString
+                pocket = LineString(pockets[0]["shape"])
+                carrier = LineString(carriers[0]["shape"])
+                levels = {}
+                for separation in (0.5, 3.0):
+                    reached = next((s for s in (i * 0.1 for i in range(math.ceil(pocket.length / 0.1) + 1))
+                        if s <= pocket.length and carrier.distance(pocket.interpolate(s)) >= separation), None)
+                    levels[str(separation)] = pocket.length - reached if reached is not None else None
+                pocket_ordinal = ordered.index(pockets[0])
+                source_lanes = [[lane for lane in index["edges"][key].findall("lane") if lane_supports_motorized(lane)][pocket_ordinal]
+                                for key in chain]
+                taper = {"reference_pocket_geometry_length_m": pocket.length,
+                    "reference_length_after_centerline_separation_m": levels, "sample_spacing_m": 0.1,
+                    "source_ordinary_pocket_logical_length_m": sum(float(lane.get("length")) for lane in source_lanes),
+                    "source_ordinary_pocket_geometry_length_m": sum(LineString(_parse(lane.get("shape", ""))).length for lane in source_lanes),
+                    "basis": "Diagnostic separation thresholds, not regulatory lane widths. Source lengths exclude internal connectors. Endpoints and measurement conventions differ; these are not a surveyed storage error or an edit criterion."}
+            return {"status": "not_applicable" if inside else "review_required",
+                "reason": "documented_fanout_already_represented_at_source_junction" if inside else "existing_transition_geometry_observation",
+                "source_edge_id": target.get("id"), "official_lane_indices": {row["lane_id"]: i for row, i in zip(ordered, indices)},
+                "source_transition_junction_id": node.get("id"), "source_before_edge_id": previous,
+                "source_after_edge_ids": chain, "source_motor_lane_count_before": len(before), "source_motor_lane_count_after": len(lanes),
+                "reference_motor_lane_count_before": expected_before, "reference_begins_at_merge": truncated,
+                "source_transition_lane_paths": paths, "official_merge_inside_source_junction": inside,
+                "merge_to_source_node_longitudinal_m": delta[0] * axis[0] + delta[1] * axis[1],
+                "merge_to_source_node_lateral_m": -delta[0] * axis[1] + delta[1] * axis[0],
+                "reference_taper_comparison": taper,
+                "maximum_stop_endpoint_distance_m": max(endpoint_errors),
+                "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. Node offsets compare different reference definitions and do not authorize geometry edits. Taper, storage, field validity and driving outcomes need their own evidence. This is not a run, capacity or full-reference coverage proof."}
+        if inside or previous in chain:
+            return None
+        chain.insert(0, previous)
+        current = index["edges"][previous]
+
+
 def _no_lane_addition_evidence(root, members, junction_id, max_error, margin):
     """A missing Merge alone does not establish that an approach needs no addition."""
+    from shapely.geometry import LineString
+    from .hamburg_network_calibration import _connected_lane_parts
+    from .network_calibration import _coordinate_transform, _shape as lane_shape, centerline_overlap_metrics
     if not members or any(row["merge_points"] or row.get("allowed_vehicle_classes") is not None or row.get("revocable") for row in members):
         return None
     start, end = members[0]["endpoint_a"], members[0]["endpoint_b"]
@@ -482,19 +677,33 @@ def _no_lane_addition_evidence(root, members, junction_id, max_error, margin):
     if not options or len(options) > 1 and options[1][0] - options[0][0] < margin:
         return None
     _, edge, shapes = options[0]
-    if len(shapes) != len(ordered) or len(edge.findall("lane")) != len(shapes):
+    motor_lanes = [(index, lane) for index, lane in enumerate(edge.findall("lane")) if lane_supports_motorized(lane)]
+    if len(shapes) != len(ordered) or root.find("location") is None:
         return None
-    errors = []
+    transform = _coordinate_transform(root, {"type": "projected_crs", "crs": "EPSG:25832"})
+    source_shapes = {lane.get("id"): transform(lane_shape(lane)) for item in root.findall("edge") for lane in item.findall("lane")}
+    errors, selected, metrics, used = [], {}, {}, set()
     for index, official in enumerate(ordered):
-        fits = [max(_project_polyline(point, shape)["distance_m"] for point in official["shape"]) for shape in shapes]
-        if fits[index] > max_error or any(value - fits[index] < margin for other, value in enumerate(fits) if other != index):
+        reference = transform(official["shape"])
+        paths = [_connected_lane_parts(root, lane.get("id"), reference, 0.5, direction=1) for _, lane in motor_lanes]
+        fits = [centerline_overlap_metrics(LineString(reference), [source_shapes[key] for key in path], 0.5, direction=1)
+                for path in paths]
+        eligible = [fit["reference_coverage"] == 1 and fit["max_sampled_lateral_offset_m"] <= max_error for fit in fits]
+        if not eligible[index] or any(eligible[other] and fit["mean_lateral_offset_m"] - fits[index]["mean_lateral_offset_m"] < margin
+                                     for other, fit in enumerate(fits) if other != index):
             return None
-        errors.append(fits[index])
+        if used.intersection(paths[index]):
+            return None
+        used.update(paths[index])
+        selected[official["lane_id"]] = paths[index]
+        metrics[official["lane_id"]] = fits[index]
+        errors.append(fits[index]["max_sampled_lateral_offset_m"])
     return {"status": "not_applicable", "reason": "no_documented_addition_with_matching_source_lanes",
-            "source_edge_id": edge.get("id"), "official_lane_indices": {row["lane_id"]: index for index, row in enumerate(ordered)},
+            "source_edge_id": edge.get("id"), "official_lane_indices": {row["lane_id"]: motor_lanes[index][0] for index, row in enumerate(ordered)},
             "official_merge_count": 0, "official_start_section_spread_m": max(starts) - min(starts),
-            "maximum_lane_match_error_m": max(errors),
-            "claim_boundary": "The documented lanes share one upstream section and match existing source lanes. No lane addition is inferred. This does not certify source geometry or rule out an undocumented lane."}
+            "maximum_lane_match_error_m": max(errors), "source_lane_paths": selected, "lane_correspondence_metrics": metrics,
+            "distance_method": "sampled_perpendicular_offset_and_full_directed_coverage_on_saved_disjoint_lane_paths",
+            "claim_boundary": "The documented lanes share one upstream section and match distinct saved source lane paths, including source road fragments. No lane addition is inferred. This does not certify source geometry or rule out an undocumented lane."}
 
 
 def _reference_shape(edge):
@@ -582,14 +791,17 @@ def _source_chain_to_merge(root, target, event, max_error, *, margin=0.5):
         chain.insert(0, previous)
 
 
-def _preserved_edge(expected, actual):
+def _preserved_edge(expected, actual, *, source_version=None, candidate_version=None):
+    from .osm_access import _permission_set
     if any(expected.get(key) != actual.get(key) for key in ("from", "to", "priority", "type", "spreadType")):
         return False
     left, right = expected.findall("lane"), actual.findall("lane")
     if len(left) != len(right):
         return False
     for first, second in zip(left, right):
-        if any(first.get(key) != second.get(key) for key in _LANE_ATTRIBUTES):
+        if any(first.get(key) != second.get(key) for key in _LANE_ATTRIBUTES if key not in {"allow", "disallow"}):
+            return False
+        if _permission_set(first.attrib, network_version=source_version) != _permission_set(second.attrib, network_version=candidate_version):
             return False
         a, b = _parse(first.get("shape", "")), _parse(second.get("shape", ""))
         if not a or not b or max(_project_polyline(point, b)["distance_m"] for point in a) > 0.1 or max(_project_polyline(point, a)["distance_m"] for point in b) > 0.1:
@@ -636,7 +848,7 @@ def _line_inside_polygons(shape, polygons):
     return True
 
 
-def _preserved_boundary_edge(expected, actual, polygons):
+def _preserved_boundary_edge(expected, actual, polygons, *, source_version=None, candidate_version=None):
     old_lanes, new_lanes = expected.findall("lane"), actual.findall("lane")
     if len(old_lanes) != len(new_lanes) or not all(_line_inside_polygons(_parse(lane.get("shape", "")), [polygon]) for lane in old_lanes for polygon in polygons):
         return False
@@ -645,7 +857,7 @@ def _preserved_boundary_edge(expected, actual, polygons):
     comparable = deepcopy(actual)
     for old, new in zip(old_lanes, comparable.findall("lane")):
         new.set("shape", old.get("shape", ""))
-    return _preserved_edge(expected, comparable)
+    return _preserved_edge(expected, comparable, source_version=source_version, candidate_version=candidate_version)
 
 
 def _set_lane_shape(lane, index, shape):

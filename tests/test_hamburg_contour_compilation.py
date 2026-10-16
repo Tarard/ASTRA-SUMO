@@ -44,6 +44,21 @@ def test_only_target_boundary_shape_and_marker_are_allowed():
     assert result["target_shape_changes"][0]["junction_id"] == "j"
 
 
+def test_equivalent_legacy_permission_declarations_do_not_reject_a_contour():
+    before = _network()
+    before.set("version", "1.3")
+    lane = before.find("edge[@id='in']/lane")
+    lane.attrib.pop("allow")
+    lane.set("disallow", "rail_urban")
+    after = deepcopy(before)
+    after.find("edge[@id='in']/lane").set("disallow", "rail_urban subway cable_car")
+    snapshots = ET.tostring(before), ET.tostring(after)
+    result = _compare_contour_compilation(before, after, ["j"])
+    assert result["status"] == "pass", result
+    assert any(row["kind"] == "equivalent_permission_declarations" for row in result["changes"])
+    assert snapshots == (ET.tostring(before), ET.tostring(after))
+
+
 @pytest.mark.parametrize("xpath, attribute, value", [
     ("edge[@id='in']/lane", "shape", "10,0 0,0"),
     ("edge[@id='in']/lane", "shape", "0,1 10,1"),

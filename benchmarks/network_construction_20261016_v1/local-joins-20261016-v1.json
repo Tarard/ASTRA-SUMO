@@ -1,0 +1,672 @@
+{
+  "schema": "astra.local-join-evidence/v1",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "implementation": {
+    "initial_local_join_commit": "caf2ddd",
+    "control_validation_commit": "de53ba8",
+    "format_fix_commit": "721a5eb"
+  },
+  "native_version": "1.27.1",
+  "most": {
+    "source": {
+      "path": "outputs/public_network_cache_v2/MoST_2019_paired/scenario/in/most.net.xml",
+      "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+    },
+    "selection": {
+      "edge_id": "-152135#0",
+      "operation": {
+        "id": "public-city-join-stress",
+        "operation": "join_junctions",
+        "status": "candidate",
+        "params": {
+          "node_ids": [
+            "133988",
+            "141653"
+          ],
+          "join_id": "astra_diagnostic_join"
+        },
+        "rationale": "First lexically ordered passenger road from 1 to 30 m with eligible uncontrolled endpoints and a valid typed join. Technical perturbation, no field grouping claim."
+      }
+    },
+    "prior_result": {
+      "path": "outputs/local_join_20261016_v1/most-join-v1/report.json",
+      "sha256": "56e29b8fd4e68e8d4322c06ed6f2042249f1e2b6d7ee4167eecf357ea8ce99f5"
+    },
+    "prior_control_verdict": "invalid_for_semantic_preservation_despite_reported_technical_pass",
+    "prior_comparison": {
+      "only_first_by_tag": {
+        "type": 30
+      },
+      "only_second_by_tag": {},
+      "ordered_records_equal": false,
+      "header_differences": {
+        "avoidOverlap": [
+          null,
+          "0"
+        ],
+        "junctionLinkDetail": [
+          null,
+          "5"
+        ],
+        "version": [
+          "1.3",
+          "1.20"
+        ]
+      },
+      "locations": [
+        {
+          "netOffset": "-368142.40,-4841896.61",
+          "convBoundary": "0.0,0.0,9975.22,6362.01",
+          "origBoundary": "7.362913,43.718985,7.485778,43.776857",
+          "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+        },
+        {
+          "netOffset": "-368142.40,-4841896.61",
+          "convBoundary": "0.00,0.00,9975.22,6362.01",
+          "origBoundary": "7.362913,43.718985,7.485778,43.776857",
+          "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+        }
+      ],
+      "effective_lane_permissions": {
+        "changed_count": 12676,
+        "examples": [
+          "-152132_1",
+          "-152134_1",
+          "-152135#1_1",
+          "-152139_0",
+          "-152139_1",
+          "-152146_1",
+          "-152147_1",
+          "-152148_1"
+        ],
+        "missing_in_first": [],
+        "missing_in_second": []
+      }
+    },
+    "current_result": {
+      "path": "outputs/local_join_20261016_v1/most-join-v2/report.json",
+      "sha256": "96713cb0c6c3823974e7bfaa035784bf9e8490e4250d0709562354ad3473ee71"
+    },
+    "current_comparison": {
+      "only_first_by_tag": {},
+      "only_second_by_tag": {},
+      "ordered_records_equal": false,
+      "header_differences": {},
+      "locations": [
+        {
+          "netOffset": "-368142.40,-4841896.61",
+          "convBoundary": "0.0,0.0,9975.22,6362.01",
+          "origBoundary": "7.362913,43.718985,7.485778,43.776857",
+          "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+        },
+        {
+          "netOffset": "-368142.40,-4841896.61",
+          "convBoundary": "0.00,0.00,9975.22,6362.01",
+          "origBoundary": "7.362913,43.718985,7.485778,43.776857",
+          "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+        }
+      ],
+      "effective_lane_permissions": {
+        "changed_count": 0,
+        "examples": [],
+        "missing_in_first": [],
+        "missing_in_second": []
+      }
+    },
+    "cases": {
+      "local": {
+        "candidate": {
+          "path": "outputs/local_join_20261016_v1/most-join-v2/local/candidate.net.xml",
+          "sha256": "22eb05f7d4c0d41a3d66a87e6df7646910bdabe42514a19d3924df90415484f3"
+        },
+        "raw_result": {
+          "path": "outputs/local_join_20261016_v1/most-join-v2/local/result.json",
+          "sha256": "410a96a3bec4777600f3abe5a5b22ffab15d94d61042d902fbcd077ad397832b"
+        },
+        "reported_technical_checks_passed": true,
+        "initial_conversion": {
+          "status": "local",
+          "source_normal_edge_count": 4404,
+          "converted_normal_edge_count": 9
+        },
+        "boundary_conversion": {
+          "status": "local",
+          "source_normal_edge_count": 4402,
+          "converted_normal_edge_count": 7
+        },
+        "retained_lane_permissions_vs_source": {
+          "changed_count": 0,
+          "examples": [],
+          "missing_in_first": [
+            ":astra_diagnostic_join_0_0",
+            ":astra_diagnostic_join_1_0",
+            ":astra_diagnostic_join_2_0",
+            ":astra_diagnostic_join_3_0",
+            ":astra_diagnostic_join_4_0",
+            ":astra_diagnostic_join_w0_0",
+            ":astra_diagnostic_join_w1_0",
+            ":astra_diagnostic_join_w2_0"
+          ],
+          "missing_in_second": [
+            "-152135#0_0",
+            "-152135#0_1",
+            "152135#0_0",
+            "152135#0_1",
+            ":133988_0_0",
+            ":133988_1_0",
+            ":133988_c0_0",
+            ":133988_w0_0",
+            ":133988_w1_0",
+            ":141653_0_0",
+            ":141653_1_0",
+            ":141653_2_0",
+            ":141653_3_0",
+            ":141653_4_0",
+            ":141653_5_0",
+            ":141653_c0_0",
+            ":141653_c1_0",
+            ":141653_c2_0",
+            ":141653_w0_0",
+            ":141653_w1_0",
+            ":141653_w2_0"
+          ]
+        },
+        "source_net_metadata": {
+          "changed": false,
+          "source_format_version": "1.3",
+          "incoming_format_version": "1.3",
+          "header_restored": false,
+          "translated_permission_declarations": [],
+          "restored_type_ids": []
+        },
+        "initial_native_s": 0.28835660000913776,
+        "check_elapsed_s": 111.01426950001041
+      },
+      "full": {
+        "candidate": {
+          "path": "outputs/local_join_20261016_v1/most-join-v2/full/candidate.net.xml",
+          "sha256": "ad2b8903e24043f4270683dd71a29335ef1b4d8a01cb6047e7a6c580c4ec7bdf"
+        },
+        "raw_result": {
+          "path": "outputs/local_join_20261016_v1/most-join-v2/full/result.json",
+          "sha256": "ebc51fbd82534fcf9f3bfb65b023c84d9ce5cf095ab4ff6293d2c66594bded0f"
+        },
+        "reported_technical_checks_passed": true,
+        "initial_conversion": {
+          "status": "full_network",
+          "source_normal_edge_count": null,
+          "converted_normal_edge_count": null
+        },
+        "boundary_conversion": {
+          "status": "full_network",
+          "source_normal_edge_count": null,
+          "converted_normal_edge_count": null
+        },
+        "retained_lane_permissions_vs_source": {
+          "changed_count": 0,
+          "examples": [],
+          "missing_in_first": [
+            ":astra_diagnostic_join_0_0",
+            ":astra_diagnostic_join_1_0",
+            ":astra_diagnostic_join_2_0",
+            ":astra_diagnostic_join_3_0",
+            ":astra_diagnostic_join_4_0",
+            ":astra_diagnostic_join_w0_0",
+            ":astra_diagnostic_join_w1_0",
+            ":astra_diagnostic_join_w2_0"
+          ],
+          "missing_in_second": [
+            "-152135#0_0",
+            "-152135#0_1",
+            "152135#0_0",
+            "152135#0_1",
+            ":133988_0_0",
+            ":133988_1_0",
+            ":133988_c0_0",
+            ":133988_w0_0",
+            ":133988_w1_0",
+            ":141653_0_0",
+            ":141653_1_0",
+            ":141653_2_0",
+            ":141653_3_0",
+            ":141653_4_0",
+            ":141653_5_0",
+            ":141653_c0_0",
+            ":141653_c1_0",
+            ":141653_c2_0",
+            ":141653_w0_0",
+            ":141653_w1_0",
+            ":141653_w2_0"
+          ]
+        },
+        "source_net_metadata": {
+          "changed": true,
+          "source_format_version": "1.3",
+          "incoming_format_version": "1.20",
+          "header_restored": true,
+          "translated_permission_declarations": [],
+          "restored_type_ids": [
+            "cycleway.lane",
+            "cycleway.opposite_lane",
+            "cycleway.opposite_track",
+            "cycleway.track",
+            "highway.bridleway",
+            "highway.bus_guideway",
+            "highway.cycleway",
+            "highway.footway",
+            "highway.ford",
+            "highway.living_street",
+            "highway.motorway_link",
+            "highway.path",
+            "highway.primary_link",
+            "highway.raceway",
+            "highway.secondary_link",
+            "highway.services",
+            "highway.stairs",
+            "highway.step",
+            "highway.tertiary_link",
+            "highway.track",
+            "highway.trunk",
+            "highway.trunk_bridge",
+            "highway.trunk_link",
+            "highway.trunk_tunnel",
+            "highway.unclassified",
+            "highway.unsurfaced",
+            "railway.light_rail",
+            "railway.preserved",
+            "railway.subway",
+            "railway.tram"
+          ]
+        },
+        "initial_native_s": 6.739402200008044,
+        "check_elapsed_s": 101.3003144999966
+      }
+    }
+  },
+  "hamburg": {
+    "request": {
+      "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+      "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+    },
+    "workflow": {
+      "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/workflow.manifest.json",
+      "sha256": "68c84fe6ea0cf634565e37df781bcdbf5c787912fce7902bf6929ee7d4f15ba2"
+    },
+    "status": "review_required",
+    "topology_complete": true,
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "stages": {
+      "source_network": "pass",
+      "road_geometry": "not_applicable",
+      "context_intersections": "pass",
+      "construction_coverage": "review_required",
+      "physical_areas": "pass",
+      "intersection_binding": "pass",
+      "movement_geometry": "pass",
+      "network_construction": "pass",
+      "outside_geometry": "pass",
+      "construction_audit": "review_required",
+      "movement_probes": "pass",
+      "corridor_routes": "pass"
+    },
+    "context_result": {
+      "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context_intersections.json",
+      "sha256": "73649efea6271caa7bc12d207d99cb091b9e846a78ff2a872301cf7837a5487d"
+    },
+    "context_native_scopes": {
+      "join_local_conversion": {
+        "status": "local",
+        "source_normal_edge_count": 238,
+        "converted_normal_edge_count": 27
+      },
+      "local_conversion": {
+        "status": "local",
+        "source_normal_edge_count": 219,
+        "converted_normal_edge_count": 8
+      }
+    },
+    "diagnostic_signal_control": {
+      "status": "pass",
+      "required_movement_count": 35,
+      "controlled_movement_count": 35,
+      "failures": [],
+      "scope": "source-supported motor movements under the explicit diagnostic signal rebuild policy"
+    },
+    "prior_network": {
+      "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+    },
+    "current_network": {
+      "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+    },
+    "comparison_to_prior": {
+      "only_first_by_tag": {},
+      "only_second_by_tag": {},
+      "ordered_records_equal": true,
+      "header_differences": {
+        "avoidOverlap": [
+          "0",
+          null
+        ]
+      },
+      "locations": [
+        {
+          "netOffset": "-565590.45,-5932946.96",
+          "convBoundary": "0.00,0.00,810.07,481.77",
+          "origBoundary": "9.989870,53.541242,10.002115,53.545580",
+          "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+        },
+        {
+          "netOffset": "-565590.45,-5932946.96",
+          "convBoundary": "0.00,0.00,810.07,481.77",
+          "origBoundary": "9.989870,53.541242,10.002115,53.545580",
+          "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+        }
+      ],
+      "effective_lane_permissions": {
+        "changed_count": 0,
+        "examples": [],
+        "missing_in_first": [],
+        "missing_in_second": []
+      }
+    },
+    "stage_lengths": [
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/candidate-attempt-0.net.xml",
+          "sha256": "8a86222d9be4c47da2a50b070f4c0a6178c120dc18868dfd93f3ef02641dc868"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+          "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/joined-auto.net.xml",
+          "sha256": "b70eeda1ce5bdcf02931991d5703023aa60938f669eb8a4754eb51d5da31078c"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/joined-base.net.roundtrip.net.xml",
+          "sha256": "72f184d57bead96c8e6e0fa0b8c3aa67a4f93c94a8e7dd16f1126956d4fcacf6"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/joined-base.net.xml",
+          "sha256": "54ff4eee38e9ad2cc5a77fd3d8b22945f2212f2ee0d28f5700771f8cfd3d6be1"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/candidate/test-signals-attempt-0/topology-test-signals.net.xml",
+          "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/construction-audit/protected-reloaded.net.xml",
+          "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/construction-audit/reloaded.net.xml",
+          "sha256": "884f07f8bbe6a588a419130c2832ed44748b7d478a63b4852d6e70286ed3d827"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/boundary-restoration/boundary-restored.net.xml",
+          "sha256": "1924b48e98f65d2b6406e6d7e3ef02ae26a086644beefed058779358a270bd0f"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/boundary-restoration/boundary.local-input.net.xml",
+          "sha256": "42cdc8b997bfe4b6c2178fd85b91de8cbd03271c219687453f0e7beae6767c6b"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/boundary-restoration/boundary.native-local-output.net.xml",
+          "sha256": "ece2e2b70162db84af83d2d7d620a0a2074a31036d625e13f66eb0265ff08885"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/boundary-restoration/compiled.net.xml",
+          "sha256": "fbcd29076bac4662d521d18bd0a121e8604e890a5da749ab01315e2b5baaf8ba"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/boundary-restoration/diagnostic-signals/topology-test-signals.net.xml",
+          "sha256": "d2534b15e96ef694087c3f2b0887424bc96008285eeba93418ff587641f27446"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/context.local-input.net.xml",
+          "sha256": "775c421c682aeea67225b658285063226ec04c84071cb8febb86438d19b325a7"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/context.native-local-output.net.xml",
+          "sha256": "4e62e57db17a9c3f3aded0ca808de331a736461a17b5ff434d7ecbb4e808d0c1"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/context-intersections/joined.net.xml",
+          "sha256": "67de8a22ca34e8c50307fd19e1c688530c78a7ec65bd4e468fff3c5963e4bab9"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/source/logs/source_access-input.net.xml",
+          "sha256": "e058b8b7cc117e059b9a3d4782bc3d39d43d679faff8535ce34bb89938f9c53d"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/source/logs/source_tls_cleanup/tls_reference_cleanup.net.xml",
+          "sha256": "e058b8b7cc117e059b9a3d4782bc3d39d43d679faff8535ce34bb89938f9c53d"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      },
+      {
+        "network": {
+          "path": "outputs/local_join_20261016_v1/hamburg-rebuild-v2/source/sumo/source.net.xml",
+          "sha256": "149118ebb310a869ef33d4440a745a9d7e9a7f21b468bf1cd2eaeba98298d6d3"
+        },
+        "unequal_normal_edge_count": 0,
+        "invalid_length_lane_count": 0
+      }
+    ],
+    "paired_request": {
+      "path": "outputs/local_join_20261016_v1/hamburg-paired-request-v1.json",
+      "sha256": "daba42573b8e7e5a3fd490df1eade8c8f568189beb2f9e587b57e3a6c7e7a92c"
+    },
+    "paired_comparison": {
+      "path": "outputs/local_join_20261016_v1/hamburg-paired-v1/comparison.json",
+      "sha256": "9b6293a5d7da13b1d6db5f5a6e17eb82e6c8db3c27d854243ee2d6b8fd3c977d"
+    },
+    "cohort": {
+      "path": "outputs/claude_followup_20261015_v1/stop-line-pilot-v1/source-routes/routeability_audit.rou.xml",
+      "sha256": "c28f3392fa13f7e7e60d42d0849a684105deaa47f9c744f506036dd6c6b96492"
+    },
+    "vehicle_count": 100,
+    "seeds": [
+      17,
+      42,
+      104
+    ],
+    "horizon_s": 2400,
+    "pair_validity_counts": {
+      "invalid": 3
+    },
+    "terminal_counts": {
+      "17": {
+        "prior": {
+          "arrived": 64,
+          "running": 35,
+          "waiting": 1,
+          "collisions": 1,
+          "teleports": 1
+        },
+        "local_joins": {
+          "arrived": 64,
+          "running": 35,
+          "waiting": 1,
+          "collisions": 1,
+          "teleports": 1
+        }
+      },
+      "42": {
+        "prior": {
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 1,
+          "teleports": 1
+        },
+        "local_joins": {
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 1,
+          "teleports": 1
+        }
+      },
+      "104": {
+        "prior": {
+          "arrived": 60,
+          "running": 39,
+          "waiting": 1,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "local_joins": {
+          "arrived": 60,
+          "running": 39,
+          "waiting": 1,
+          "collisions": 0,
+          "teleports": 0
+        }
+      }
+    },
+    "same_last_step_positions_per_pair": true
+  },
+  "native_id_failure_control": {
+    "path": "outputs/local_join_20261016_v1/retained-id-full-control.log",
+    "sha256": "1f82a548a96879f51980874457eb142860e20c92e28416625af4aaa80cd81417"
+  },
+  "focused_checks": [
+    {
+      "path": "outputs/local_join_20261016_v1/joined-proof-v2.xml",
+      "sha256": "f99f9dcdc86f8bb1f5efe33905375368511d947e1f22d1a734502f203e01f7a4"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/callers-v1.xml",
+      "sha256": "f7e71ab8341f3e284caafc6403ce7383d5e7cddeab72806d33cdfc1c0601c237"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/navigation-v1.xml",
+      "sha256": "17c999e8f030be27183a7c20bb8aa2452be6ae9194886fd3f74788c7af4f5fbb"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/control-v1.xml",
+      "sha256": "d61771496723bd35b5a7ccfa71b9fd0b3cfb45dd4e9cfc16487175d71420e6cb"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/format-v1.xml",
+      "sha256": "3d9855d22f436f63db22945c2457ffe5b38659e0e017443bd2e805eb936bdb59"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/version-callers-v1.xml",
+      "sha256": "bfd0c8e6ea2ed60db806440572b36604ff61fcafd6d7a1142459e6d39846ea6f"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/modern-graft-v1.xml",
+      "sha256": "d79fe7ef33b511610e48e2bf0b908895212e84728e6acd375bc8915837b0a1b0"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/receiver-v1.xml",
+      "sha256": "b99ba5c82888b35687c055b80885f0e83ad4cddb5172fc98e42eae5eeb976dae"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/shared-restoration-v1.xml",
+      "sha256": "669b0475a8d2915f7ca60084da665aae3dd7d4cd6800b40096dfb3eee226e74e"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/format-final-v1.xml",
+      "sha256": "898fab942e733de6afb56690a40c1e66936ed36d5823b1aa76239258528a2e1b"
+    },
+    {
+      "path": "outputs/local_join_20261016_v1/startup-retries-v1.xml",
+      "sha256": "14d70d8ed2a1a08ad144d4dc75002f4ecf29b948ef62b66a3c740dfda8eb2fed"
+    }
+  ],
+  "limits": [
+    "No field grouping, field access, historical timing or traffic improvement is established.",
+    "The MoST trials are one fixed technical perturbation. They do not estimate a false-alarm rate.",
+    "Canonical record equality does not establish arbitrary-demand trajectory equivalence.",
+    "Full-model checks remain expensive. Recorded timings are not an isolated total-workflow benchmark.",
+    "Official-part joining and other construction stages still include whole-network conversions.",
+    "The long native test passed after 3270 seconds in one fixture. Its cause remains unresolved; test connection retries are now limited.",
+    "The prior failed and development results remain available under the output root."
+  ]
+}

@@ -69,26 +69,8 @@ def reanchor_movement_shape(
     end: Point,
 ) -> list[Point]:
     """Move both endpoints and blend their corrections through the curve."""
-    values = [(float(x), float(y)) for x, y in shape]
-    if len(values) < 2:
-        raise ValueError("shape must contain at least two points")
-    start_delta = (start[0] - values[0][0], start[1] - values[0][1])
-    end_delta = (end[0] - values[-1][0], end[1] - values[-1][1])
-    cumulative = [0.0]
-    for left, right in zip(values, values[1:]):
-        cumulative.append(cumulative[-1] + math.dist(left, right))
-    total = cumulative[-1]
-    result = []
-    for point, station in zip(values, cumulative):
-        ratio = station / total if total > 0 else 0.0
-        result.append(
-            (
-                point[0] + start_delta[0] * (1 - ratio) + end_delta[0] * ratio,
-                point[1] + start_delta[1] * (1 - ratio) + end_delta[1] * ratio,
-            )
-        )
-    result[0], result[-1] = start, end
-    return result
+    from ..junction_rebuild.geometry import reanchor_spatial_shape
+    return reanchor_spatial_shape(shape, start=start, end=end)
 
 
 def fit_movement_shape_to_anchors(
