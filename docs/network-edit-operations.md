@@ -198,6 +198,36 @@ and protected-semantic changes still need the existing exact candidate-bound
 review evidence before promotion. Route completion and fact-table acceptance
 remain separate checks.
 
+## Paired driving diagnosis
+
+Use the repository-owned [comparison runner](../plugins/astra-sumo/scripts/compare_driving_cohort.py)
+to run one fixed route cohort across a source and its candidates.
+The [shared implementation](../plugins/astra-sumo/src/astra_sumo/core/paired_driving.py)
+retains every vehicle ID, departure, and route. It does not sample replacement requests.
+
+Save a request with this form. Input paths are relative to the request file.
+
+```json
+{
+  "reference": "source",
+  "networks": {"source": "source.net.xml", "candidate": "candidate.net.xml"},
+  "routes": "approved.rou.xml",
+  "seeds": [17, 42, 104],
+  "horizon_s": 2400
+}
+```
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/compare_driving_cohort.py request.json outputs/new-comparison --sumo-binary .venv/Lib/site-packages/sumo/bin/sumo.exe
+```
+
+The output directory must be new. Each run retains its native outputs and inspection result.
+`comparison.json` retains missing arrivals, failed runs, per-vehicle durations, and input hashes.
+The driving horizon also sets the teleport delay, matching the existing diagnostic convention.
+The runner uses explicit routed vehicles with numeric departure times. It does not load additional operating files.
+Failed or changed-input pairs remain diagnostic records. They provide no performance average.
+A successful synthetic driving comparison does not establish field accuracy.
+
 ## Site parameters
 
 Nine legacy adapters now read their identifiers, correspondence tables,
