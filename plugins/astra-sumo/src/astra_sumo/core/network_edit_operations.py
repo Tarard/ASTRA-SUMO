@@ -225,7 +225,13 @@ def _lane_count_layout(params, edge):
             for index in range(min(old_count, new_count))}
 
 
-def _lane_count_connections(params, edges, connections):
+def _patch_permissions(attributes, network_version):
+    from .osm_access import _permission_set
+    allowed = _permission_set(attributes, network_version=network_version)
+    return {"allow": " ".join(sorted(allowed))} if allowed else {"disallow": "all"}
+
+
+def _lane_count_connections(params, edges, connections, *, network_version=None):
     target = params["edge_id"]
     mapping = _lane_count_layout(params, edges[target])
     if "connections" in params:
@@ -237,6 +243,10 @@ def _lane_count_connections(params, edges, connections):
         if any(edge == target and index not in mapping for edge, index in (pair[:2], pair[2:])):
             continue
         record = {key: row.get(key) for key in ("from", "fromLane", "to", "toLane", "allow", "disallow") if row.get(key) is not None}
+        if record.keys() & {"allow", "disallow"}:
+            permissions = _patch_permissions(record, network_version)
+            record = {key: value for key, value in record.items() if key not in {"allow", "disallow"}}
+            record.update(permissions)
         for end, lane_key in (("from", "fromLane"), ("to", "toLane")):
             if record[end] == target:
                 record[lane_key] = str(mapping[int(record[lane_key])])
@@ -469,6 +479,26 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
     return errors
 
 
+def scoped_operation_scope(root, operation):
+    edges, _, _ = _inventory(root)
+    kind, params = operation["operation"], operation["params"]
+    if kind in _CONNECTION_EDITS:
+        nodes = {edges[params["from"]].get("to")}
+    elif kind in _JOIN_EDITS:
+        nodes = set(params["node_ids"]) | {params["join_id"]}
+    elif kind == "set_junction_shape":
+        nodes = {params["node_id"]}
+    elif kind == "demote_duplicate_tls":
+        nodes = {params["node_id"], params["retained_node_id"]}
+    elif kind == "relocate_tls_control":
+        nodes = {params["from_node"], params["to_node"]}
+    else:
+        edge = edges[params["edge_id"]] if kind in {"set_edge_shape", "set_lane_count"} else next(
+            edge for edge in edges.values() if any(lane.get("id") == params["lane_id"] for lane in edge.findall("lane")))
+        nodes = {edge.get("from"), edge.get("to")}
+    return nodes, {key for key, edge in edges.items() if edge.get("from") in nodes or edge.get("to") in nodes}
+
+
 def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Path,
                            candidate_file: Path, output_dir: Path, prefix: str,
                            netconvert_binary: str, mode: str = "release") -> dict:
@@ -478,6 +508,8 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         raise ValueError(str(errors))
     if source_file.resolve().is_relative_to(output_dir.resolve()):
         raise ValueError("The output directory must not contain the source file.")
+    if candidate_file.resolve() == source_file.resolve() or candidate_file.exists() and candidate_file.samefile(source_file):
+        raise ValueError("The candidate must not replace its source.")
     evidence_sources = []
     for record in operation.get("evidence", []):
         if not isinstance(record, dict) or not record.get("path") or not record.get("sha256"):
@@ -485,6 +517,8 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         if not Path(record["path"]).is_absolute():
             raise ValueError("Scoped edit evidence requires an absolute path.")
         path = Path(record["path"]).resolve(strict=True)
+        if candidate_file.resolve() == path or candidate_file.exists() and candidate_file.samefile(path):
+            raise ValueError("The candidate must not replace edit evidence.")
         if path.is_relative_to(output_dir.resolve()):
             raise ValueError("The output directory must not contain edit evidence.")
         if file_sha256(path) != record["sha256"]:
@@ -495,23 +529,17 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
     edges, nodes, connections = _inventory(root)
     patches = {"nodes": ET.Element("nodes"), "edges": ET.Element("edges"),
                "connections": ET.Element("connections"), "tllogics": ET.Element("tlLogics")}
-    mutable = set()
+    mutable, mutable_edges = scoped_operation_scope(root, operation)
     if kind in _CONNECTION_EDITS:
-        pair = _pair(params)
         attrs = {k: str(params[k]) for k in ("from", "fromLane", "to", "toLane", "allow", "disallow") if k in params}
         ET.SubElement(patches["connections"], "connection" if kind == "add_lane_connection" else "delete", attrs)
-        mutable.add(edges[pair[0]].get("to"))
     elif kind in _JOIN_EDITS:
-        mutable.update(params["node_ids"])
-        mutable.add(params["join_id"])
         ET.SubElement(patches["nodes"], "join", id=params["join_id"], nodes=" ".join(params["node_ids"]),
             reset="false", type="traffic_light" if params.get("signal_policy") == "rebuild_diagnostic" else "priority")
     elif kind == "set_junction_shape":
-        mutable.add(params["node_id"])
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], shape=_shape(params["shape"]))
     elif kind in {"set_edge_shape", "set_lane_count"}:
         edge = edges[params["edge_id"]]
-        mutable.update((edge.get("from"), edge.get("to")))
         attrs = {"shape": _line_shape(params["shape"])} if kind == "set_edge_shape" else {"numLanes": str(params["num_lanes"])}
         patch = ET.SubElement(patches["edges"], "edge", id=params["edge_id"], **attrs)
         # Existing custom lane shapes otherwise override the new road reference or lane layout.
@@ -524,7 +552,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for new in range(params["num_lanes"]):
                 old = new_to_old.get(new, 0 if params.get("add_side") == "right" else len(edge.findall("lane")) - 1)
                 original = edge.findall("lane")[old]
-                permissions = {key: original.get(key) for key in ("allow", "disallow") if original.get(key)} or {"allow": "all"}
+                permissions = _patch_permissions(original.attrib, root.get("version", "0.0"))
                 lane_patch = ET.SubElement(patch, "lane", index=str(new), shape="", **permissions,
                     width=original.get("width", "3.2"), **{key: original.get(key)
                     for key in ("speed", "endOffset") if original.get(key) is not None})
@@ -533,13 +561,11 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for left, right in sorted({(pair[0], pair[2]) for pair in connections
                     if params["edge_id"] in (pair[0], pair[2]) and pair[0] in edges and pair[2] in edges}):
                 ET.SubElement(patches["connections"], "delete", **{"from": left, "to": right})
-            for record in _lane_count_connections(params, edges, connections):
+            for record in _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0")):
                 ET.SubElement(patches["connections"], "connection", **record)
     elif kind == "demote_duplicate_tls":
-        mutable.update((params["node_id"], params["retained_node_id"]))
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], type="priority")
     elif kind == "relocate_tls_control":
-        mutable.update((params["from_node"], params["to_node"]))
         ET.SubElement(patches["nodes"], "node", id=params["from_node"], type="priority")
         ET.SubElement(patches["nodes"], "node", id=params["to_node"], type="traffic_light", tl=params["tls_id"])
         for logic in root.findall("tlLogic"):
@@ -551,25 +577,40 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             ET.SubElement(patches["tllogics"], "connection", **attrs, tl=params["tls_id"], linkIndex=old.get("linkIndex"))
     else:
         edge, lane = next((e, lane_item) for e in edges.values() for lane_item in e.findall("lane") if lane_item.get("id") == params["lane_id"])
-        mutable.update((edge.get("from"), edge.get("to")))
         attrs = ({k: params[k] for k in ("allow", "disallow") if k in params} if kind == "set_lane_permissions"
                  else {"width": str(params["width_m"])} if kind == "set_lane_width"
                  else {"endOffset": str(params["end_offset_m"])} if kind == "move_stop_line"
                  else {"speed": str(params["speed_m_s"])})
         ET.SubElement(ET.SubElement(patches["edges"], "edge", id=edge.get("id")), "lane", index=lane.get("index"), **attrs)
-    mutable_edges = {e.get("id") for e in edges.values() if e.get("from") in mutable or e.get("to") in mutable}
     plan = {"operation": operation, "mutable_junction_ids": sorted(mutable), "mutable_edge_ids": sorted(mutable_edges),
             "evidence_sources": evidence_sources,
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
     if kind == "set_lane_count":
         plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
-        plan["requested_connections"] = _lane_count_connections(params, edges, connections)
+        plan["requested_connections"] = _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0"))
+    plan["junction_link_detail"] = int(root.get("junctionLinkDetail", "5"))
     command = [netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
-               "--junctions.internal-link-detail", "25", "--precision", "12", "--output-file", str(candidate_file.resolve())]
+               "--junctions.internal-link-detail", str(plan["junction_link_detail"]), "--precision", "12", "--output-file", str(candidate_file.resolve())]
     plan["materialization_method"] = ("permission_attributes_only" if kind == "set_lane_permissions"
                                       else "speed_attributes_only" if kind == "set_speed"
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"
                                       and _stop_line_patches(root, params) is not None else "netconvert")
+    if plan["materialization_method"] == "netconvert":
+        if kind in _JOIN_EDITS | {"demote_duplicate_tls", "relocate_tls_control"}:
+            plan["local_conversion"] = {"status": "full_network", "reason": "join_or_controller_reconstruction"}
+        else:
+            from .local_network_conversion import local_conversion_input
+            subset, local = local_conversion_input(root, mutable, mutable_edges)
+            plan["local_conversion"] = local
+            if subset is not None:
+                local_file = output_dir / f"{prefix}.local-input.net.xml"
+                if local_file.resolve() == candidate_file.resolve():
+                    raise ValueError("The local conversion input must differ from its output.")
+                with local_file.open("xb") as stream:
+                    stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
+                local.update(input={"path": str(local_file.resolve()), "sha256": file_sha256(local_file)},
+                             operation=operation)
+                command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
     for name, flag in (("nodes", "--node-files"), ("edges", "--edge-files"),
                        ("connections", "--connection-files"), ("tllogics", "--tllogic-files")):
         if not len(patches[name]):
@@ -592,6 +633,24 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     """Restore the declared exterior and verify the requested local effect."""
     source = Path(plan["source"]["path"])
     proposal = output_dir / "native-scoped-proposal.net.xml"
+    path_repair = {"attempts": [], "remaining_endpoint_gap_count": 0}
+    if plan["materialization_method"] == "netconvert" and plan["operation"]["operation"] in {
+            "set_lane_width", "set_edge_shape", "set_lane_count", "move_stop_line", "set_junction_shape"}:
+        from .junction_rebuild.native_path_repair import rebuild_custom_path_endpoints
+        path_repair = rebuild_custom_path_endpoints(plan=plan, candidate_file=candidate_file,
+            output_dir=output_dir, command_runner=command_runner, timeout_seconds=timeout_seconds)
+    local_conversion = deepcopy(plan.get("local_conversion", {}))
+    if local_conversion.get("status") == "local":
+        from .local_network_conversion import merge_local_conversion
+        raw = output_dir / "native-local-output.net.xml"
+        if raw.exists():
+            raise ValueError("Use a new local conversion output directory.")
+        copy_file_atomic(candidate_file, raw)
+        merged = merge_local_conversion(ET.parse(source).getroot(), ET.parse(raw).getroot(), local_conversion)
+        candidate_file.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
+        local_conversion.update(native_output={"path": str(raw.resolve()), "sha256": file_sha256(raw)},
+            merged_proposal={"path": str(proposal.resolve()), "sha256": file_sha256(candidate_file), "stage": "before_exterior_restoration"},
+            native_rebuild_count=1 + len(path_repair["attempts"]))
     copy_file_atomic(candidate_file, proposal)
     operation, mutable_nodes, mutable_edges = plan["operation"], set(plan["mutable_junction_ids"]), set(plan["mutable_edge_ids"])
     kind, params = operation["operation"], operation["params"]
@@ -646,7 +705,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         ordinary = {key for key in connections if key[0] in old_edges and key[2] in old_edges}
         effect = ordinary == {key for key in expected if key[0] in old_edges and key[2] in old_edges}
         from .osm_access import _permission_set
-        effect &= all(_permission_set(old_connections[key].attrib) == _permission_set(connections[key].attrib)
+        effect &= all(_permission_set(old_connections[key].attrib, network_version=before.get("version", "0.0")) ==
+                      _permission_set(connections[key].attrib, network_version=after.get("version", "0.0"))
                       for key in ordinary & old_connections.keys() if key != pair)
         if kind == "add_lane_connection" and set(params) & {"allow", "disallow"}:
             effect &= _permission_set(connections[pair].attrib) == _permission_set(params)
@@ -680,10 +740,11 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     else:
         lane = next(lane_item for e in after.findall("edge") for lane_item in e.findall("lane") if lane_item.get("id") == params["lane_id"])
         from .osm_access import _permission_set
-        effect = (float(lane.get("width", "3.2")) == params["width_m"] if kind == "set_lane_width"
+        effect = (round(float(lane.get("width", "3.2")), 12) == round(params["width_m"], 12) if kind == "set_lane_width"
                   else float(lane.get("speed")) == params["speed_m_s"] if kind == "set_speed"
-                  else float(lane.get("endOffset", "0")) == params["end_offset_m"] if kind == "move_stop_line"
-                  else _permission_set(lane.attrib) == _permission_set(params))
+                  else round(float(lane.get("endOffset", "0")), 12) == round(params["end_offset_m"], 12) if kind == "move_stop_line"
+                  else _permission_set(lane.attrib, network_version=after.get("version", "0.0")) ==
+                       _permission_set(params, network_version=after.get("version", "0.0")))
     structure = audit_network_connection_mode(after, endpoint_tolerance_m=0.1)
     changed_lane_layout = False
     unchanged_permissions = True
@@ -704,7 +765,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         effect &= connections_preserved and all(pair in connections and _permission_set(connections[pair].attrib) == _permission_set(record)
                                                for pair, record in target_records.items())
     connection_permissions_preserved = kind in _JOIN_EDITS or all(
-        _permission_set(old_connections[key].attrib) == _permission_set(connections[key].attrib)
+        _permission_set(old_connections[key].attrib, network_version=before.get("version", "0.0")) ==
+        _permission_set(connections[key].attrib, network_version=after.get("version", "0.0"))
         for key in old_pairs & new_pairs if not (kind == "set_lane_count" and params["edge_id"] in (key[0], key[2])))
     if kind not in _JOIN_EDITS:
         changed_lane_layout = old_lanes.keys() != new_lanes.keys()
@@ -712,7 +774,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             target = params["edge_id"]
             changed_lane_layout = {key for key in old_lanes if key.rsplit("_", 1)[0] != target} != {
                 key for key in new_lanes if key.rsplit("_", 1)[0] != target}
-        unchanged_permissions = all(_permission_set(lane.attrib) == _permission_set(new_lanes[identifier].attrib)
+        unchanged_permissions = all(_permission_set(lane.attrib, network_version=before.get("version", "0.0")) ==
+                                    _permission_set(new_lanes[identifier].attrib, network_version=after.get("version", "0.0"))
             for identifier, lane in old_lanes.items() if identifier in new_lanes
             and not (kind == "set_lane_permissions" and identifier == params["lane_id"])
             and not (kind == "set_lane_count" and identifier.rsplit("_", 1)[0] == params["edge_id"]))
@@ -734,7 +797,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         passed &= exact
         direct = {"lane_id": params["lane_id"], "expected_attributes": expected,
                   "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
-        added_modes = sorted(_permission_set(expected) - _permission_set(old_lanes[params["lane_id"]].attrib))
+        added_modes = sorted(_permission_set(expected, network_version=after.get("version", "0.0")) -
+                             _permission_set(old_lanes[params["lane_id"]].attrib, network_version=before.get("version", "0.0")))
     if kind == "set_speed":
         from .osm_access import _patch_lane_attributes
         attrs = {"speed": str(params["speed_m_s"])}
@@ -772,7 +836,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     dependent = {"status": "not_checked" if coordinate_changes else "not_applicable",
                  "affected_lane_ids": sorted(coordinate_changes),
                  "reason": "This network edit does not check the positions of detectors, stops, parking areas, or other lane references."}
-    physical = load["status"] == "pass" and integrity["status"] == "pass"
+    physical = load["status"] == "pass" and integrity["status"] == "pass" and path_repair["remaining_endpoint_gap_count"] == 0
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
@@ -797,7 +861,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "other_connection_permissions_preserved": connection_permissions_preserved,
             "new_protected_green_conflicts": green_conflicts, "evidence_unchanged": evidence_unchanged,
             "structural_failure_count": structure["structural_failure_count"], "sumo_load": load,
-            "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal)},
+            "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"},
+            "local_conversion": local_conversion,
+            "native_path_repair": path_repair,
             "claim_boundary": "Typed construction and source preservation only. Field legality, historical control and mixed-demand completion require their separate evidence."}
 
 
@@ -875,6 +941,9 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
         checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=destination,
             netconvert_binary=netconvert_binary, timeout_seconds=240, command_runner=run_command, mode="explore")
         report["construction"] = checked
+        report["native_conversion_elapsed_seconds"] = (0 if plan["materialization_method"] != "netconvert" else
+            None if operation["operation"] in _JOIN_EDITS else report["command_elapsed_seconds"] + sum(
+                attempt["elapsed_seconds"] for attempt in checked["native_path_repair"]["attempts"]))
         warnings.extend(checked["warnings"])
         if checked["lane_coordinate_artifacts"]["affected_lane_ids"]:
             warnings.append("Lane coordinates changed. Recheck detectors, stops, parking placements, and other lane-coordinate artifacts before reuse.")

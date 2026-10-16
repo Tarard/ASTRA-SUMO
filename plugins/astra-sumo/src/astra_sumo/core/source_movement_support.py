@@ -15,16 +15,14 @@ from .artifact_io import write_json_atomic, write_text_atomic
 from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .connection_mode_audit import _MOTORIZED_MODES
+from .internal_ownership import resolve_internal_ownership
 
 Pair = tuple[str, int, str, int]
 
 
 def _modes(element: ET.Element) -> set[str]:
-    allowed = set(element.get("allow", "").split())
-    denied = set(element.get("disallow", "").split())
-    if "all" in denied:
-        return set()
-    return (set(_MOTORIZED_MODES) if not allowed or "all" in allowed else allowed & _MOTORIZED_MODES) - denied
+    from .osm_access import _permission_set
+    return _permission_set(element.attrib) & _MOTORIZED_MODES
 
 
 def _index(root: ET.Element) -> dict[str, Any]:
@@ -60,15 +58,12 @@ def _index(root: ET.Element) -> dict[str, Any]:
         incoming[via or target].add(source)
         if not _internal(edges[pair[0]]):
             movements.append((pair, source, target, connection))
-    nodes = {node.get("id", "") for node in root.findall("junction") if not node.get("id", "").startswith(":")}
-    nodes.update(edge.get(key, "") for edge in edges.values() for key in ("from", "to"))
-    node_order = sorted(nodes - {""}, key=lambda node: (-len(node), node))
-    owners = {lane_id: next((node for node in node_order if lane_id.startswith(f":{node}_")), None) for lane_id, (edge_id, _, _) in lanes.items() if _internal(edges[edge_id])}
+    owners = resolve_internal_ownership(root)["lane"]
     return {"edges": edges, "lanes": lanes, "keys": keys, "counts": counts, "outgoing": outgoing, "incoming": incoming, "movements": movements, "owners": owners}
 
 
 def _internal(edge: ET.Element) -> bool:
-    return edge.get("function") == "internal" or edge.attrib["id"].startswith(":")
+    return edge.get("function") in {"internal", "crossing", "walkingarea"} or edge.attrib["id"].startswith(":")
 
 
 def _pair(value: Sequence[Any]) -> Pair:

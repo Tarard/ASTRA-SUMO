@@ -17,6 +17,49 @@ from .network import (
 )
 
 
+def reanchor_spatial_shape(shape, *, start, end, preserve_end_directions=False):
+    """Blend endpoint corrections through a spatial curve, including elevation."""
+    values = [tuple(map(float, point)) for point in shape]
+    start, end = tuple(map(float, start)), tuple(map(float, end))
+    if len(values) < 2 or any(len(point) not in (2, 3) or not all(map(math.isfinite, point))
+                              for point in [*values, start, end]):
+        raise ValueError("A curve requires two finite spatial points and finite endpoints.")
+    dimensions = max(map(len, [*values, start, end]))
+    values = [point + (0.0,) * (dimensions - len(point)) for point in values]
+    start, end = start + (0.0,) * (dimensions - len(start)), end + (0.0,) * (dimensions - len(end))
+    if preserve_end_directions:
+        # Extra samples retain sparse source vertices while leaving an end segment on each side.
+        for _ in range(2):
+            stations = [0.0]
+            for left, right in zip(values, values[1:]):
+                stations.append(stations[-1] + math.dist(left, right))
+            total = stations[-1]
+            if total == 0 or next(value for value in stations if value > 0) < next(value for value in reversed(stations) if value < total):
+                break
+            sampled = [values[0]]
+            for left, right in zip(values, values[1:]):
+                sampled.extend((tuple((a + b) / 2 for a, b in zip(left, right)), right))
+            values = sampled
+    cumulative = [0.0]
+    for left, right in zip(values, values[1:]):
+        cumulative.append(cumulative[-1] + math.dist(left, right))
+    corrections = [tuple(target[i] - old[i] for i in range(dimensions))
+                   for target, old in ((start, values[0]), (end, values[-1]))]
+    result = []
+    lower, upper = 0.0, cumulative[-1]
+    if preserve_end_directions and upper > 0:
+        lower = next(value for value in cumulative if value > 0)
+        upper = next(value for value in reversed(cumulative) if value < cumulative[-1])
+    for point, station in zip(values, cumulative):
+        ratio = (max(0.0, min(1.0, (station - lower) / (upper - lower))) if upper > lower else 0.0)
+        if preserve_end_directions:
+            ratio = ratio * ratio * (3 - 2 * ratio)
+        result.append(tuple(point[i] + corrections[0][i] * (1 - ratio) + corrections[1][i] * ratio
+                            for i in range(dimensions)))
+    result[0], result[-1] = start, end
+    return result
+
+
 def _clone_transformed_net_element(
     element: ET.Element,
     dx: float,

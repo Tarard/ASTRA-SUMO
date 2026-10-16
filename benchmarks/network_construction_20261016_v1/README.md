@@ -4,6 +4,8 @@
 The construction uses commit `c3f3773`. The reusable driving runner uses `69915c3`.
 Later custom-length and binding-provenance corrections have separate regression tests.
 
+The [local conversion follow-up](local-conversion-20261016-v1.md) records Hamburg and MoST controls, nominal-width calibration, and invalid fixed-cohort driving pairs.
+
 ## Construction findings and repair
 
 The retained stages identify three interacting causes:

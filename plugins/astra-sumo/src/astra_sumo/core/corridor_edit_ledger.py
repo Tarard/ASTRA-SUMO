@@ -816,6 +816,8 @@ def materialize_corridor_edit_variant(
                     "error": str(error), "source_net_file": str(source_net_file.resolve())})
         plan_file, command = scoped_plan["plan_file"], scoped_plan["command"]
         additional_plan_files = [(Path(item["path"]), "scoped_plain_input") for item in scoped_plan["patches"].values()]
+        if scoped_plan.get("local_conversion", {}).get("status") == "local":
+            additional_plan_files.append((Path(scoped_plan["local_conversion"]["input"]["path"]), "local_conversion_input"))
         plan_description = "source_bound_scoped_plain_xml"
     elif operation_family == "merge_edges":
         keep_ids = sorted(set(edges) - set(target_ids))
@@ -1055,6 +1057,14 @@ def materialize_corridor_edit_variant(
             scoped_validation = check_scoped_edit(plan=scoped_plan, candidate_file=candidate_net_file,
                 output_dir=output_dir, netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds,
                 command_runner=command_runner) if scoped_plan is not None else None
+            if scoped_validation is not None and scoped_validation.get("local_conversion", {}).get("status") == "local":
+                for name in ("native_output", "merged_proposal"):
+                    extra_artifacts.append((Path(scoped_validation["local_conversion"][name]["path"]), f"local_conversion_{name}"))
+            if scoped_validation is not None:
+                for attempt in scoped_validation.get("native_path_repair", {}).get("attempts", []):
+                    for name in ("before", "patch", "failed_output"):
+                        if name in attempt:
+                            extra_artifacts.append((Path(attempt[name]["path"]), f"path_repair_{name}"))
             candidate_root = ET.parse(candidate_net_file).getroot()
             semantic_validation = scoped_validation or {"status": "pass", "candidate_xml_status": "pass"}
             if scoped_validation is not None and scoped_validation.get("connectivity_review_required"):

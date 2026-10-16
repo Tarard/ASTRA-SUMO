@@ -5,6 +5,7 @@ from __future__ import annotations
 import copy
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from ..internal_ownership import resolve_internal_ownership
 from .artifacts import _failure
 from .boundary_restore import _preserve_mapped_boundary_geometry, _restore_existing_edge_geometry
 from .network import (
@@ -56,35 +57,16 @@ def _restore_non_target_internal_artifacts(
         for junction in root.findall("junction")
         if junction.attrib.get("id") and not junction.attrib["id"].startswith(":")
     }
-    junction_prefixes = [(f":{junction_id}_", junction_id) for junction_id in sorted(junction_ids, key=len, reverse=True)]
-    owner_cache: dict[str, str] = {}
+    source_owners = resolve_internal_ownership(source_root, extra_junction_ids=junction_ids)
+    target_owners = resolve_internal_ownership(target_root, extra_junction_ids=junction_ids)
 
-    def owner(value: str) -> str:
-        if value in owner_cache:
-            return owner_cache[value]
-        candidates = (value, _via_lane_edge_id(value))
-        if not any(edge_id.startswith(":") for edge_id in candidates):
-            owner_cache[value] = ""
-            return ""
-        internal_owner = next(
-            (
-                junction_id
-                for edge_id in candidates
-                for prefix, junction_id in junction_prefixes
-                if edge_id.startswith(prefix)
-            ),
-            "",
-        )
-        owner_cache[value] = internal_owner
-        return internal_owner
-
-    def is_restored_owner(value: str) -> bool:
-        internal_owner = owner(value)
+    def is_restored_owner(value, kind, owners):
+        internal_owner = owners[kind].get(value)
         return bool(internal_owner and internal_owner not in exclude_junction_ids)
 
-    def connection_restored(connection: ET.Element) -> bool:
+    def connection_restored(connection, owners):
         return any(
-            is_restored_owner(connection.attrib.get(attr, ""))
+            is_restored_owner(connection.attrib.get(attr, ""), "lane" if attr == "via" else "edge", owners)
             for attr in ("from", "to", "via")
         )
 
@@ -95,7 +77,7 @@ def _restore_non_target_internal_artifacts(
     }
 
     def has_valid_normal_endpoints(edge: ET.Element) -> bool:
-        internal_owner = owner(edge.attrib.get("id", ""))
+        internal_owner = source_owners["edge"].get(edge.attrib.get("id", ""))
         if internal_owner and internal_owner not in target_normal_junction_ids:
             return False
         return all(
@@ -106,7 +88,7 @@ def _restore_non_target_internal_artifacts(
     skipped_internal_edges_missing_junctions = []
     source_internal_edges = []
     for edge in source_root.findall("edge"):
-        if not is_restored_owner(edge.attrib.get("id", "")):
+        if not is_restored_owner(edge.attrib.get("id", ""), "edge", source_owners):
             continue
         if not has_valid_normal_endpoints(edge):
             skipped_internal_edges_missing_junctions.append(
@@ -117,7 +99,7 @@ def _restore_non_target_internal_artifacts(
     target_internal_edge_index = None
     removed_internal_edges = 0
     for child in list(target_root):
-        if child.tag == "edge" and is_restored_owner(child.attrib.get("id", "")):
+        if child.tag == "edge" and is_restored_owner(child.attrib.get("id", ""), "edge", target_owners):
             if target_internal_edge_index is None:
                 target_internal_edge_index = list(target_root).index(child)
             target_root.remove(child)
@@ -128,12 +110,13 @@ def _restore_non_target_internal_artifacts(
         target_root.insert(target_internal_edge_index + offset, copy.deepcopy(edge))
 
     source_internal_junctions = [
-        junction for junction in source_root.findall("junction") if is_restored_owner(junction.attrib.get("id", ""))
+        junction for junction in source_root.findall("junction")
+        if is_restored_owner(junction.attrib.get("id", ""), "junction", source_owners)
     ]
     target_internal_junction_index = None
     removed_internal_junctions = 0
     for child in list(target_root):
-        if child.tag == "junction" and is_restored_owner(child.attrib.get("id", "")):
+        if child.tag == "junction" and is_restored_owner(child.attrib.get("id", ""), "junction", target_owners):
             if target_internal_junction_index is None:
                 target_internal_junction_index = list(target_root).index(child)
             target_root.remove(child)
@@ -149,7 +132,7 @@ def _restore_non_target_internal_artifacts(
     removed_connections = 0
     retained_children = []
     for child in list(target_root):
-        if child.tag == "connection" and connection_restored(child):
+        if child.tag == "connection" and connection_restored(child, target_owners):
             removed_connections += 1
             continue
         retained_children.append(child)
@@ -168,7 +151,7 @@ def _restore_non_target_internal_artifacts(
     skipped_invalid_lane_connections = []
     skipped_missing_via_lane_connections = []
     for connection in source_root.findall("connection"):
-        if not connection_restored(connection):
+        if not connection_restored(connection, source_owners):
             continue
         from_edge = connection.attrib.get("from", "")
         to_edge = connection.attrib.get("to", "")

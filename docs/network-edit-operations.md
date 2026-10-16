@@ -181,6 +181,32 @@ direction alone does not establish a field prohibition.
 
 ## Preservation and review
 
+Individual road-geometry and connection edits now supply a local network to netconvert.
+The input includes every incident road of the edited junctions. It closes any affected roundabout ring.
+It keeps explicit [right-of-way prohibitions](https://sumo.dlr.de/docs/Networks/PlainXML.html#right-of-way) whose movement references lie within that input.
+Unresolved prohibition references retain full conversion and report the reason.
+The candidate copies the exterior from the immutable source and uses native elements inside the declared edit.
+The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
+Reports retain the local input, raw native output, and merged proposal with their hashes.
+Release validation independently reconstructs the source-derived input and the merge.
+The merged proposal is explicitly marked `before_exterior_restoration`.
+It is an intermediate artifact. Remote road ends can still differ until the shared restoration finishes.
+Internal ownership uses junction lane references and connected movement paths in separate edge, lane, and junction namespaces.
+Legacy ID fallback requires one possible parent. Ambiguous names remain unresolved.
+
+`local_conversion.status` reports `local` or `full_network`.
+Joins, controller reconstruction, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
+The report states that reason. Their local conversion remains open work.
+XML inspection, exterior copying, and whole-candidate checks still read the full source.
+The native rebuild uses the selected road context. This does not promise constant total runtime for large networks.
+Lane-permission comparisons use the network's declared format version.
+They follow [SUMO 1.27.1's legacy class rules](https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/utils/common/SUMOVehicleClass.cpp),
+including inherited restrictions on subway and cable-car classes in older networks.
+Explicit class aliases retain their native meaning. These comparisons do not rewrite the source permissions.
+Width and native stop-offset checks compare at the command's 12-decimal output precision.
+Inherited lane-count patch permissions use explicit classes, so a new plain-XML patch keeps the source network's legacy meaning.
+Lane and connection preservation checks both apply the corresponding network-format version.
+
 Native conversion produces a proposal. The shared preservation code restores
 the declared exterior and checks fixed boundary endpoints. Lane or road
 identity changes outside the operation stop acceptance. Permission-only edits
@@ -197,6 +223,29 @@ source-snapshot rollback. The review overlay has no runtime effect. Signal
 and protected-semantic changes still need the existing exact candidate-bound
 review evidence before promotion. Route completion and fact-table acceptance
 remain separate checks.
+
+### Custom movement endpoints
+
+A road edit can move lane endpoints while native import retains an accepted custom internal curve.
+The checker uses the existing 0.1 m endpoint tolerance to locate broken paths in the edited junctions.
+It blends their endpoint corrections through the saved spatial curve, including elevation.
+The repair keeps the input curve's first and last segment directions and uses smooth weights between them.
+Sparse curves receive extra samples while retaining their original vertices.
+Reports give endpoint corrections, direction changes, and correction-to-length ratios.
+They also report the largest interior vertex turn before and after repair. Retained end directions can still leave a sharper interior bend.
+This does not guarantee alignment with an arbitrarily rotated road or certify curvature and driving performance.
+Native conversion then recomputes the paths and junction requests from the original input plus the revised connection shapes.
+Accepted width-transition offsets retain their existing treatment.
+Conversion uses the source's `junctionLinkDetail`, or SUMO's default value of 5 when it is absent.
+An explicitly declared connection length remains a model parameter. The report separates it from geometric length.
+
+The process allows three repair attempts. Every attempt retains its previous proposal, connection patch, command result, and elapsed time.
+Each attempt records its output hash. Release validation checks the command and output chain through the final native file.
+An unsuccessful command restores the previous proposal for diagnosis. It cannot reuse a stale output as a successful repair.
+Remaining endpoint gaps prevent physical acceptance in explore mode. They do not require human approval to retry a new candidate.
+`native_rebuild_count` includes these extra calls for local conversion.
+Explore output also records their time. Join reconstruction time remains unreported by that native-time total.
+These checks establish construction continuity, not field accuracy or traffic performance.
 
 ## Lane-length measurements
 

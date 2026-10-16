@@ -132,21 +132,38 @@ def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,
     attributes = {name: sum(original[0][lane][index] != candidate[0][lane][index] for lane in shared_lanes)
                   for index, name in enumerate(("shape", "length", "width"))}
     endpoint_offsets, geometric_length_changes = [], []
+    endpoint_offsets_xyz, geometric_length_changes_xyz = [], []
     shape_displacements = []
     for lane in shared_lanes:
         before, after = original[0][lane][0], candidate[0][lane][0]
         if len(before) < 2 or len(after) < 2:
             continue
+        if before == after:
+            endpoint_offsets.extend((0.0, 0.0))
+            endpoint_offsets_xyz.extend((0.0, 0.0))
+            geometric_length_changes.append(0.0)
+            geometric_length_changes_xyz.append(0.0)
+            shape_displacements.append(0.0)
+            continue
         endpoint_offsets.extend(math.hypot(before[i][0] - after[i][0], before[i][1] - after[i][1]) for i in (0, -1))
         lengths = [sum(math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in zip(points, points[1:]))
                    for points in (before, after)]
         geometric_length_changes.append(abs(lengths[0] - lengths[1]))
-        shape_displacements.append(LineString(before).hausdorff_distance(LineString(after)))
+        spatial = [[point + (0.0,) * (3 - len(point)) for point in points] for points in (before, after)]
+        endpoint_offsets_xyz.extend(math.dist(spatial[0][i], spatial[1][i]) for i in (0, -1))
+        lengths_xyz = [sum(math.dist(a, b) for a, b in zip(points, points[1:])) for points in spatial]
+        geometric_length_changes_xyz.append(abs(lengths_xyz[0] - lengths_xyz[1]))
+        shape_displacements.append(LineString([point[:2] for point in before]).hausdorff_distance(
+            LineString([point[:2] for point in after])))
     return {"status": "pass" if passed else "blocked", "coordinate_frame_preserved": frame_preserved,
             "mutable_junction_ids": sorted(mutable_junction_ids), "mutable_edge_ids": sorted(mutable_edge_ids),
             "ordinary_lane_attribute_changes": attributes,
             "max_lane_endpoint_offset_xy_m": max(endpoint_offsets, default=None),
             "max_geometric_lane_length_change_xy_m": max(geometric_length_changes, default=None),
+            "max_lane_endpoint_offset_xyz_m": max(endpoint_offsets_xyz, default=None),
+            "max_geometric_lane_length_change_xyz_m": max(geometric_length_changes_xyz, default=None),
+            "outside_lane_count_with_shape_changes": attributes["shape"],
+            "shape_displacement_metric": "xy_hausdorff",
             "outside_lane_count_moved_over_0_01_m": sum(value > 0.01 for value in shape_displacements) if frame_preserved else None,
             "max_outside_lane_shape_displacement_xy_m": max(shape_displacements, default=None) if frame_preserved else None,
             "fixed_boundary_failures": boundary_failures,
