@@ -16,6 +16,8 @@ def test_recorded_cohort_accounting_and_immediate_lane_access():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     report = module.audit_cohort()
+    assert report["model_comparison"] == {"non_location_element_multisets_equal": True,
+        "element_order_changed_tags": ["edge", "junction", "tlLogic"], "runtime_equivalence_established": False}
     expected = {"17": (64, 35, ["66"], 12), "42": (100, 0, [], 0), "104": (60, 39, ["66"], 13)}
     for seed, (arrived, active, pending, fronts) in expected.items():
         case = report["cases"][seed]
@@ -50,9 +52,11 @@ def test_noop_local_merge_preserves_real_cohort_trajectories(tmp_path):
     assert record["status"] == "local"
     source_nodes = {row.get("id"): row for row in root.findall("junction")}
     native[:] = [deepcopy(source_nodes[row.get("id")]) if row.tag == "junction" else row for row in native]
-    native[:] = list(reversed(native[:]))
+    for tag in ("edge", "junction", "tlLogic"):
+        reversed_rows = iter(reversed(native.findall(tag)))
+        native[:] = [next(reversed_rows) if row.tag == tag else row for row in native]
     merged = merge_local_conversion(root, native, record)
-    for tag in ("edge", "junction", "tlLogic", "connection"):
+    for tag in ("edge", "junction", "tlLogic"):
         assert [ET.tostring(row) for row in root.findall(tag)] == [ET.tostring(row) for row in merged.findall(tag)]
     candidate = tmp_path / "candidate.net.xml"
     ET.ElementTree(merged).write(candidate, encoding="utf-8", xml_declaration=True)

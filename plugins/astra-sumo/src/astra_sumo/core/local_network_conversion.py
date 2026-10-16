@@ -168,7 +168,10 @@ def merge_local_conversion(source_root, native_root, record):
     result = deepcopy(source_root)
     ranks = {name: rank for rank, name in enumerate(("location", "type", "edge", "tlLogic", "junction", "connection", "prohibition", "roundabout"))}
     for name in ("edge", "tlLogic", "junction", "connection", "roundabout"):
-        additions = {identity(child): deepcopy(child) for child in native_root if child.tag == name and belongs(child, after)}
+        native_rows = [child for child in native_root if child.tag == name and belongs(child, after)]
+        additions = {identity(child): deepcopy(child) for child in native_rows}
+        if len(additions) != len(native_rows):
+            raise ValueError(f"Local conversion requires unique {name} identities.")
         for child in additions.values():
             _translate_permission_declarations(child, source_version=native_root.get("version", "0.0"),
                                                target_version=source_root.get("version", "0.0"))
@@ -176,7 +179,8 @@ def merge_local_conversion(source_root, native_root, record):
         retained = []
         for child in result:
             if child.tag == name and belongs(child, before):
-                replacement = additions.pop(identity(child), None)
+                # Native connection order defines the request indices in the replacement junction's conflict table.
+                replacement = additions.pop(identity(child), None) if name != "connection" else None
                 if replacement is not None:
                     retained.append(replacement)
             else:
