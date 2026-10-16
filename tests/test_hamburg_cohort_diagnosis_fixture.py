@@ -114,3 +114,14 @@ def test_local_merge_keeps_loaded_native_conflicts_after_connection_permutation(
     expected = loaded_conflicts("native-reference", reference)
     assert expected != loaded_conflicts("source", source)
     assert loaded_conflicts("merged", merged) == expected
+    from astra_sumo.core.network_link_semantics import compare_loaded_link_semantics
+    options = {"source_net_file": tmp_path / "source.net.xml", "native_net_file": tmp_path / "native-reference.net.xml",
+        "mutable_junction_ids": nodes, "sumo_binary": binary}
+    measured = compare_loaded_link_semantics(**options, candidate_net_file=tmp_path / "merged.net.xml",
+        output_dir=tmp_path / "measurement")
+    assert measured["status"] == "pass", measured
+    assert measured["compared_junction_counts"] == {"source": 127, "native": 1}
+    wrong = compare_loaded_link_semantics(**options, candidate_net_file=tmp_path / "source.net.xml",
+        output_dir=tmp_path / "wrong-movement-order")
+    assert wrong["status"] == "fail"
+    assert [(row["junction_id"], row["reference"]) for row in wrong["differences"]] == [("LSA2349_part0", "native")]

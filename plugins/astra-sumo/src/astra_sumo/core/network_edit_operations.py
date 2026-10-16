@@ -798,9 +798,21 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])
     load = run_sumo_load_audit(net_file=candidate_file, output_dir=output_dir / "scoped-load",
         sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds, command_runner=command_runner)
+    from .network_link_semantics import compare_loaded_link_semantics
+    native_reference = source
+    if kind in _JOIN_EDITS:
+        native_reference = Path(rebuild.get("local_conversion", {}).get("native_output", rebuild["compiled_network"])["path"])
+    elif local_conversion.get("status") == "local":
+        native_reference = Path(local_conversion["native_output"]["path"])
+    elif plan["materialization_method"] == "netconvert":
+        native_reference = proposal
+    link_preservation = compare_loaded_link_semantics(source_net_file=source, native_net_file=native_reference,
+        candidate_net_file=candidate_file, mutable_junction_ids=mutable_nodes, output_dir=output_dir / "loaded-links",
+        sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds, command_runner=command_runner)
     passed = (rebuild["status"] == geometry["status"] == load["status"] == "pass" and effect
               and structure["structural_failure_count"] == 0 and not changed_lane_layout and unchanged_permissions
               and connections_preserved and connection_permissions_preserved
+              and link_preservation["status"] == "pass"
               and not green_conflicts and evidence_unchanged and file_sha256(source) == plan["source"]["sha256"])
     direct = {}
     added_modes = []
@@ -852,11 +864,14 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                  "reason": "This network edit does not check the positions of detectors, stops, parking areas, or other lane references."}
     physical = load["status"] == "pass" and integrity["status"] == "pass" and path_repair["remaining_endpoint_gap_count"] == 0
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
+    warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
+    if link_preservation["status"] != "pass":
+        warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,
             "lane_coordinate_artifacts": dependent,
-            "warnings": [] if passed else ["Some release checks failed. Inspect the recorded measurements."],
+            "warnings": warnings,
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],
             "direct_permission_edit": direct if kind == "set_lane_permissions" else {},
             "direct_speed_edit": direct if kind == "set_speed" else {},
@@ -878,6 +893,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"},
             "local_conversion": local_conversion,
             "native_path_repair": path_repair,
+            "loaded_link_preservation": link_preservation,
             "claim_boundary": "Typed construction and source preservation only. Field legality, historical control and mixed-demand completion require their separate evidence."}
 
 

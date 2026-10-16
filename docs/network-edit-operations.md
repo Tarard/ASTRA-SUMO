@@ -191,6 +191,17 @@ Modified-junction connections retain native order because it defines the replace
 New elements follow their category's retained elements.
 SUMO can produce different seeded trajectories after road reordering, despite equal road attributes and saved connections.
 The [real-cohort control](../benchmarks/network_construction_20261016_v1/serialization-order-20261016-v1.md) records this difference.
+Typed edits also measure loaded link relations after restoration.
+The worker reads successor and via lanes, turn directions, yielding incoming lanes, and conflicting internal lanes through TraCI.
+Edited junctions are compared with their last native conversion. All other junctions are compared with the source.
+For a joined junction, the reference comes from boundary reconstruction rather than the initial join.
+Direct attribute edits use the source as their reference.
+Measurements run without vehicles or simulation steps. They do not verify signal timing, geometry, demand, or field legality.
+The report retains network hashes, observations, errors, and the worker command under a process timeout.
+The worker loads frozen network copies and checks its loaded junction and lane inventories against the explicit XML.
+Input drift and damaged observation files remain recorded. They cannot produce a passing preservation result.
+An unavailable observation never counts as preserved. Explore mode retains the measurements and release warnings.
+Release mode requires this comparison to pass. Runtime driving checks remain separate.
 The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
 Reports retain the local input, raw native output, and merged proposal with their hashes.
 Release validation independently reconstructs the source-derived input and the merge.

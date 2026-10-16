@@ -198,6 +198,28 @@ def test_an_ineffective_edit_is_not_reported_as_applied(tmp_path, monkeypatch):
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_daily_edit_retains_measurements_when_link_observation_is_unavailable(tmp_path, monkeypatch):
+    from astra_sumo.core import network_link_semantics
+    source = _source(tmp_path, "set_speed")
+    ledger = tmp_path / "ledger.json"
+    ledger.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "speed", "operation": "set_speed",
+        "params": {"lane_id": "middle_0", "speed_m_s": 8}}]}), encoding="utf-8")
+    original = network_link_semantics.compare_loaded_link_semantics
+
+    def unavailable(**kwargs):
+        kwargs["sumo_binary"] = str(tmp_path / "missing-observer-sumo")
+        return original(**kwargs)
+
+    monkeypatch.setattr(network_link_semantics, "compare_loaded_link_semantics", unavailable)
+    report = verify_network_edit(ledger_file=ledger, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "measured"
+    assert report["construction"]["loaded_link_preservation"]["status"] == "unavailable"
+    assert not report["construction"]["release_checks_passed"]
+    assert any("Loaded link comparison: unavailable" in warning for warning in report["warnings"])
+    assert report["construction"]["direct_speed_edit"]["all_other_bytes_preserved"]
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 def test_an_unchanged_stop_line_is_no_effect_and_preserves_the_source_bytes(tmp_path):
     source = _source(tmp_path, "move_stop_line")
     path = tmp_path / "ledger.json"
