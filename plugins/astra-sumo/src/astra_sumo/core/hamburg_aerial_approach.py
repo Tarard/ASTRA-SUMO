@@ -603,6 +603,10 @@ def _existing_merge_evidence(root, members, junction_id, event, max_error, margi
             continuation = len(before) == len(lanes) and pairs == set(zip(before, lanes))
             if widening or continuation:
                 choices.append((key, before, rows, widening))
+        if not inside:
+            continuations = [row for row in choices if not row[3]]
+            if continuations:
+                choices = continuations
         if not choices:
             return None
         if len(choices) > 1:

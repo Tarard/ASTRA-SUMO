@@ -345,13 +345,14 @@ def test_existing_source_fanout_is_recognized_without_another_lane_addition(tmp_
     event = existing["approaches"][0]
     if case == "fragmented":
         nodes, edges, connections = [tmp_path / name for name in ("part.nod.xml", "part.edg.xml", "part.con.xml")]
-        nodes.write_text('<nodes><node id="part" x="-20" y="0"/></nodes>', encoding="utf-8")
-        edges.write_text('<edges><edge id="fragment" from="' + event['split_node_id'] + '" to="part" numLanes="2" spreadType="center" speed="11" allow="passenger bus"/><edge id="approach" from="part"/></edges>', encoding="utf-8")
+        nodes.write_text('<nodes><node id="part" x="-20" y="0" shape="-24,-4 -16,-4 -16,4 -24,4"/><node id="side" x="-50" y="12"/></nodes>', encoding="utf-8")
+        edges.write_text('<edges><edge id="fragment" from="' + event['split_node_id'] + '" to="part" numLanes="2" spreadType="center" speed="11" allow="passenger bus"/><edge id="approach" from="part"/><edge id="side-entry" from="side" to="part" numLanes="1" allow="passenger bus"/></edges>', encoding="utf-8")
         patch = ET.Element("connections")
         for i in (0, 1):
             ET.SubElement(patch, "delete", attrib={"from": event["upstream_edge_id"], "to": "approach", "fromLane": "0", "toLane": str(i)})
             ET.SubElement(patch, "connection", attrib={"from": event["upstream_edge_id"], "to": "fragment", "fromLane": "0", "toLane": str(i)})
             ET.SubElement(patch, "connection", attrib={"from": "fragment", "to": "approach", "fromLane": str(i), "toLane": str(i)})
+        ET.SubElement(patch, "connection", attrib={"from": "side-entry", "to": "approach", "fromLane": "0", "toLane": "0"})
         ET.ElementTree(patch).write(connections)
         candidate = tmp_path / "fragmented-existing.net.xml"
         compiled = subprocess.run([shutil.which("netconvert"), "-s", str(source), "-n", str(nodes), "-e", str(edges),
