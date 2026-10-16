@@ -3,9 +3,6 @@
 Status: open design proposal, 2026-10-16. This PR adds no operating capability.
 The [v1 proposal](digital-twin-workflow-proposal-v1.md) and [v2 discussion](study-boundaries-and-parking-discussion-v2.md) remain as history.
 
-Claude reviewed code through `0f15977` and both documents without changing the repository.
-It recommended explicit defaults, an observation-window scan, and a small reusable study declaration.
-Codex checked its parking-data claim against the official source and found a relevant Hamburg feed.
 The defaults below remain open to review. Each row states what evidence would change it.
 
 ## Proposed decisions
@@ -16,7 +13,8 @@ The owner column names the capability responsible for implementation, not an ass
 |---|---|---|---|
 | First parking site | Keep Speicherstadt. Check its observed facility record and portal correspondence first. | Build + Calibrate | Missing or inconsistent observations, or a different physical facility. |
 | First observation work | Read existing observation windows and report gaps, overlaps, dates, and missing signal history. | Calibrate | Another documented source supplies an eligible independent period. |
-| Scenario claims | Report results conditional on explicit assumptions. Use “scenario model” until an observation-refresh cycle works. | Simulate | Repeated dated updates and independent validation support a stronger claim. |
+| Observation collection | Search for existing dated archives first. This PR configures no recurring collection. One snapshot cannot support occupancy comparisons. | Calibrate | A documented archive, or a declared collection location, cadence, and source terms. |
+| Scenario claims | Separate assumed scenarios, observation-initialized runs, fits, and independent-period checks. A refresh alone does not upgrade evidence. | Simulate | Matched independent observations support a claim about a specific measured quantity. |
 | Parking detail | Keep mapped driving paths. Add native parking operations through separate operating files. | Build | A paired test shows that an abstraction preserves the required portal queues and demand accounting. |
 | Unknown operating inputs | Permit declared capacity, initial occupancy, dwell, and flow assumptions in exploration. Keep their origin explicit. | Build + Calibrate | Dated observations replace those assumptions. Building size alone does not. |
 | Reusable study record | Propose one JSON record for place, question, period, modes, crossings, sources, operating files, seeds, and hashes. | All three | Two working studies show that the same record cannot represent their requirements. |
@@ -33,7 +31,7 @@ Daily exploration still returns measurements. These defaults add no prerequisite
 
 The [Hamburg official catalog](https://suche.transparenz.hamburg.de/dataset/parkhaeuser-hamburg17) describes partial, unchecked parking availability.
 Its [WFS data service](https://geodienste.hamburg.de/wfs_parkhaeuser?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&typename=de.hh.up%3Aparkhaeuser) returned Speicherstadt at Am Sandtorkai 6.
-The [frozen check](../../benchmarks/parking_source_feasibility_20261016_v1/speicherstadt-source-check.json) records the response hash and one facility observation.
+The [frozen check and raw response](../../benchmarks/parking_source_feasibility_20261016_v1/README.md) provide the response hash and one facility observation.
 Source attribution: Freie und Hansestadt Hamburg, Behörde für Verkehr und Mobilitätswende. License: Datenlizenz Deutschland Namensnennung 2.0.
 
 The response contains 127 feature members, although its envelope reports `numberReturned=0`.
@@ -51,7 +49,7 @@ Münster's [official resource](https://opendata.stadt-muenster.de/dataset/parkle
 Its live response and historical coverage have not been checked in this work.
 The earlier claim that Hamburg has no relevant public availability source is withdrawn.
 
-Claude revised its recommendation after this check. It now places a read-only observation audit before a data-informed parking comparison.
+A read-only observation audit precedes a data-informed parking comparison.
 The proposed study record should list observation hashes, periods, measured cadence, coverage, and the claim supported by each source.
 Check actual member counts, value ranges, timestamp reversals, repeated records, missing periods, and changes in reported capacity.
 Keep source inconsistencies as findings so exploration still returns the available measurements.
@@ -67,11 +65,12 @@ No recurring collection is configured by this proposal.
 
 1. Check observation eligibility and facility correspondence. Report usable periods and unresolved cases.
 2. Represent one native parking scenario with explicit operating inputs and the existing detailed network.
-3. Measure parking stock, admissions, departures, dwell, insertion waiting, and queue spillback at the public-road portal.
+3. Check prescribed inputs against execution. Report simulated admissions, parking stock, departures, insertion waiting, and portal queues as conditional outputs.
 4. Compare the same requests and seeds. Preserve collisions, unfinished requests, and invalid comparisons.
 5. Refresh from another dated observation and report affected bindings and stale results.
 
 For a signal change, report corridor queues and variation across seeds.
+Directly prescribed dwell times support input-conformance checks. They are not independent observations of parking behavior.
 For a garage entrance change, report whether its queue reaches the public road and for how long.
 For a loading zone, report the time and lane length unavailable to moving traffic.
 Select study-specific numerical criteria before interpreting those results as successful interventions.

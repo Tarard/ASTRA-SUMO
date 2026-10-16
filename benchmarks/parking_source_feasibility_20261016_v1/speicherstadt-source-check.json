@@ -13,13 +13,17 @@
     "raw_sha256": "586e1dbe44a3a0cec11b59d4c3c51d01754b7ee44ac5385821b22e9d58cd6bc8",
     "bytes": 183785,
     "actual_feature_members": 127,
-    "declared_number_returned": "0"
+    "declared_number_returned": "0",
+    "raw_path": "benchmarks/parking_source_feasibility_20261016_v1/hamburg-parking.gml"
   },
   "facility": {
     "source_id": "DE.HH.UP_PARKHAEUSER_10039",
     "name": "Speicherstadt",
     "address": "Am Sandtorkai 6",
-    "point_epsg25832": [565888.774, 5933197.991],
+    "point_epsg25832": [
+      565888.774,
+      5933197.991
+    ],
     "portal_correspondence": "unverified",
     "reported_total_spaces": 553,
     "reported_free_spaces": 452,

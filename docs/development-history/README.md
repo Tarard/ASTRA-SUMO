@@ -15,6 +15,8 @@ This index contains dated audits, handoff notes, development logs, and supersede
 
 ## Superseded Guidance
 
+- [First traffic-workflow proposal](../research/digital-twin-workflow-proposal-v1.md) — retained discussion before the current proposed defaults.
+- [Study-boundary discussion v2](../research/study-boundaries-and-parking-discussion-v2.md) — retained research basis and alternatives before the current proposed defaults.
 - [Archived Repository Guide](../repository-guide.md)
 
 The repository guide is kept at its historical path so old links continue to resolve. Current directory ownership and contribution rules live in [`AGENTS.md`](../../AGENTS.md). Current system boundaries live in [Architecture](../architecture.md).

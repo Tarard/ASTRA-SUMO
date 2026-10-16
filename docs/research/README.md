@@ -5,8 +5,6 @@ This index separates research evidence from current product documentation. The l
 ## Manuscript and Research Direction
 
 - [Proposed workflow defaults v3](digital-twin-workflow-decisions-v3.md) — current open choices and verified Hamburg parking-source availability.
-- [Traffic workflows for real places](digital-twin-workflow-proposal-v1.md) — earlier parking, reuse, observation, and update proposal.
-- [Study boundaries and parking discussion v2](study-boundaries-and-parking-discussion-v2.md) — boundary assumptions, conditional replay, and parking portals.
 - [Research Paper Blueprint](../research-paper-blueprint.md)
 - [Corridor human-modeling research plan](../torii-corridor-human-modeling-research-plan.md)
 - [Corridor human-modeling implementation status](../torii-corridor-human-modeling-implementation-status.md)
