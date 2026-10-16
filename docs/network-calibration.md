@@ -77,6 +77,12 @@ A better neighbor produces `conflict`, with its measured alternative recorded. I
 These are diagnostic modeling choices, not calibrated confidence probabilities.
 Crossings use crossing objects. Cycle lanes use dedicated bicycle lanes with distinct assigned identities.
 Absent nearby compatible objects remain unmodeled, with the nearest candidate distance recorded when available.
+Nonmotor association measures perpendicular offset over compatible longitudinal overlap.
+Missing tails reduce coverage instead of increasing lateral distance.
+Candidates within the existing 2 m lateral limit use cost `lateral_m + 2 * (1 - reference_coverage)`.
+This favors greater coverage at equal offset and preserves the one-to-one assignment.
+The report records this rule and each eligible candidate's coverage.
+These associations remain low-confidence guesses. A short overlap does not establish whole-lane correspondence.
 
 | Kind | Selector | Expected value | Measurement |
 |---|---|---|---|

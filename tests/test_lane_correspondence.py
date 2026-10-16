@@ -72,6 +72,27 @@ def test_nonmotor_assignment_uses_distinct_crossings_and_excludes_sidewalks_and_
     assert diagnostics["p1"]["candidate_class"] == "crossing"
 
 
+def test_partial_cycle_segment_does_not_turn_missing_length_into_lateral_error():
+    official = {"bike": {"mode": "bicycle", "points": [[0, 0], [100, 0]], "direction": 1}}
+    lanes = {"part_0": _lane("part_0", [[0, 1], [10, 1]], allow="bicycle")}
+    assigned, diagnostics = assign_nonmotor_lanes(official, lanes, {})
+    assert assigned == {"bike": "part_0"}
+    assert diagnostics["bike"]["nearest_candidate_distance_m"] == 1
+    assert diagnostics["bike"]["candidate_reference_coverages"]["part_0"] == pytest.approx(.1)
+
+
+def test_nonmotor_fit_prefers_coverage_and_excludes_opposite_or_crossing_directions():
+    official = {"bike": {"mode": "bicycle", "points": [[0, 0], [100, 0]], "direction": 1}}
+    lanes = {"short_0": _lane("short_0", [[0, 1], [2, 1]], allow="bicycle"),
+             "full_0": _lane("full_0", [[0, 1], [100, 1]], allow="bicycle"),
+             "reverse_0": _lane("reverse_0", [[100, 0], [0, 0]], allow="bicycle"),
+             "cross_0": _lane("cross_0", [[50, -50], [50, 50]], allow="bicycle")}
+    assigned, _ = assign_nonmotor_lanes(official, lanes, {})
+    assert assigned == {"bike": "full_0"}
+    assigned, _ = assign_nonmotor_lanes(official, {key: value for key, value in lanes.items() if key in {"reverse_0", "cross_0"}}, {})
+    assert assigned == {}
+
+
 def test_better_neighbor_is_a_conflict_without_silent_rebinding():
     network = {"road_1": _lane("road_1", [[0, 0.3], [10, 0.3]]),
                "road_2": _lane("road_2", [[0, 3], [10, 3]])}
