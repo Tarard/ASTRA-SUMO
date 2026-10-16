@@ -233,8 +233,10 @@ conversion. It then compares external lane geometry, stored lengths, widths,
 junction positions, junction shapes, road endpoints, and the coordinate frame.
 It also checks the fixed lane endpoints on mutable boundary roads.
 A later conversion requires another restoration and comparison.
-Road-shape, width, lane-count, and junction changes still use whole-network native conversion.
-Their exterior restoration does not reduce conversion work to a local subnetwork.
+Supported road-shape, width, lane-count, junction-shape, and connection edits now use a local native input.
+They still restore remote road ends and verify the complete candidate.
+Joins, controller reconstruction, shared controls across the edit boundary, and incomplete bidirectional context retain full conversion.
+See [typed edit preservation](network-edit-operations.md#preservation-and-review) for retained inputs and current limits.
 An explicit stop-line adjustment can avoid that conversion when the saved approach and internal paths support a unique prefix transfer.
 Its byte comparison preserves unrelated junction waiting structures and signal definitions.
 Other geometry operations retain native conversion and exterior restoration.

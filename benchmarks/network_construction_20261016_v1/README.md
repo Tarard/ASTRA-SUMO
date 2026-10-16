@@ -5,6 +5,7 @@ The construction uses commit `c3f3773`. The reusable driving runner uses `69915c
 Later custom-length and binding-provenance corrections have separate regression tests.
 
 The [local conversion follow-up](local-conversion-20261016-v1.md) records Hamburg and MoST controls, nominal-width calibration, and invalid fixed-cohort driving pairs.
+The [spatial curve follow-up](local-conversion-20261016-v2.md) retains the subsequent repair, permission, and real-network checks.
 
 ## Construction findings and repair
 
