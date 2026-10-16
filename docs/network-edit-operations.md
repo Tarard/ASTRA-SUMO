@@ -203,7 +203,11 @@ A prohibition that refers to an absorbed road also retains full conversion. The 
 Official-part joining and its first boundary reconstruction now use the same local conversion function.
 Their reports retain actual native commands, local inputs, native outputs, and complete merged proposals.
 The boundary reimport audit still converts the complete candidate to check stability and reports that scope explicitly.
-Movement compilation and approach reconstruction still need separate conversion-scope work.
+Each official movement compilation pass now uses a local native input and a separate immutable connection patch.
+The report keeps every pass's native output and merged proposal before the final restoration.
+Contour trials use the same conversion function with a saved baseline for the unchanged exterior.
+Their original target inventory and acceptance checks remain in place, including expanded context targets.
+Approach reconstruction still needs separate conversion-scope work.
 
 Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
 The same failure occurs with a full-source control. Native join requests therefore require an unused target ID.

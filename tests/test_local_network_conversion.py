@@ -389,6 +389,61 @@ def test_shared_full_conversion_retains_its_native_snapshot(tmp_path, monkeypatc
     assert file_sha256(Path(native["path"])) == native["sha256"]
 
 
+def test_conversion_can_keep_the_saved_baseline_exterior(tmp_path):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source = _source(tmp_path)
+    tree = ET.parse(source)
+    tree.getroot().find("edge[@id='far10']/lane").set("speed", "4.2")
+    baseline = tmp_path / "baseline.net.xml"
+    tree.write(baseline, encoding="utf-8", xml_declaration=True)
+    root = ET.parse(source).getroot()
+    nodes = {"A", "B"}
+    edges = {row.get("id") for row in root.findall("edge") if any(row.get(end) in nodes for end in ("from", "to"))}
+    output = tmp_path / "kept.net.xml"
+    result, record = run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+        "--offset.disable-normalization", "true", "--output-file", str(output)], mutable_nodes=nodes, mutable_edges=edges,
+        output_dir=tmp_path, prefix="baseline", timeout_seconds=30, merge_source_file=baseline)
+    assert result.returncode == 0, result.stderr
+    assert ET.parse(output).getroot().find("edge[@id='far10']/lane").get("speed") == "4.2"
+    assert record["merge_source_unchanged"] and record["source_unchanged"]
+    assert record["merge_source"]["sha256"] == file_sha256(baseline)
+
+
+@pytest.mark.parametrize("mode", ["guarded", "fused"])
+@pytest.mark.parametrize("include_context", [False, True])
+def test_native_contour_selection_matches_a_full_input_control(tmp_path, monkeypatch, mode, include_context):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from unittest.mock import patch
+    from astra_sumo.core.hamburg_junctions.movements import _compile_junction_contours
+    source = _source(tmp_path)
+    root = ET.parse(source).getroot()
+    def proposal(network, identifier, **kwargs):
+        shape = [tuple(map(float, point.split(","))) for point in network.find(f"junction[@id='{identifier}']").get("shape").split()]
+        return {"status": "pass", "changed": True, "proposed_shape": shape, "native_boundary_refit": mode == "fused"}
+    monkeypatch.setattr("astra_sumo.core.hamburg_junction_contour.propose_junction_contour", proposal)
+    monkeypatch.setattr("astra_sumo.core.hamburg_junction_contour.propose_fused_junction_contour", proposal)
+    def compile_case(name):
+        folder = tmp_path / name
+        folder.mkdir()
+        output = folder / "candidate.net.xml"
+        return _compile_junction_contours(deepcopy(root), command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+            "--offset.disable-normalization", "true", "--output-file", str(output)], groups=[{"join_id": "A"}],
+            output_file=output, timeout_seconds=30, mode=mode, include_context=include_context)
+    _, local = compile_case("local")
+    with patch("astra_sumo.core.local_network_conversion.local_conversion_input",
+               return_value=(None, {"status": "full_network", "reason": "explicit_full_control"})):
+        _, full = compile_case("full")
+    assert local["parts"][0]["local_conversion"]["status"] == "local"
+    assert local["parts"][0]["local_conversion"]["converted_normal_edge_count"] < 48
+    assert local["accepted_junction_ids"] == full["accepted_junction_ids"]
+    assert local["rejected_junction_ids"] == full["rejected_junction_ids"]
+    if mode == "fused":
+        assert full["accepted_junction_ids"] == full["target_junction_ids"]
+
+
 def test_new_connection_keeps_modern_permissions_in_a_legacy_format_candidate(tmp_path):
     if not shutil.which("netconvert") or not shutil.which("sumo"):
         pytest.skip("SUMO required")
