@@ -137,6 +137,12 @@ def test_native_runner_keeps_arrivals_unfinished_positions_and_future_requests(t
     assert rows["pending"]["source_observation"]["time_since_requested_departure_s"] == 1
     assert rows["future"]["source_observation"]["status"] == "not_requested_before_horizon"
     for case in report["runs"]["17"].values():
+        vehicle_routes = case["diagnostics"]["vehicle_routes"]
+        assert vehicle_routes["sha256"]
+        native = {row.get("id"): row for row in ET.parse(vehicle_routes["path"]).getroot().findall("vehicle")}
+        assert "pending" in native
+        assert float(native["pending"].get("arrival", "-1")) < 0
+        assert float(native["arrived"].get("arrival")) > 0
         assert case["diagnostics"]["collisions"]["sha256"]
         positions = case["diagnostics"]["last_step_positions"]
         assert positions["sha256"]
