@@ -291,6 +291,11 @@ def test_join_uses_local_inputs_for_both_native_conversions(tmp_path, signal_pol
     forged["local_conversion"]["input"] = {"path": str(fake), "sha256": file_sha256(fake)}
     with pytest.raises(ValueError, match="source-derived subset"):
         validate_join_boundary_conversion(forged, source)
+    forged = deepcopy(checked["restoration"])
+    command = forged["commands"][0]["command"]
+    command[command.index("--output-file") + 1] = str(candidate)
+    with pytest.raises(ValueError, match="retained native output"):
+        validate_join_boundary_conversion(forged, source)
     before, after = ET.parse(source).getroot(), ET.parse(candidate).getroot()
     assert after.find(f"junction[@id='{join_id}']") is not None
     assert all(after.find(f"junction[@id='{identity}']") is None for identity in {"A", "B"} - {join_id})
@@ -358,17 +363,53 @@ def test_shared_conversion_failure_keeps_partial_output_and_protects_existing_fi
     source.write_text('<net><location netOffset="0,0" projParameter="!"/></net>', encoding="utf-8")
     original = source.read_bytes()
     def fail(command, **kwargs):
-        output.write_text("partial native output", encoding="utf-8")
+        Path(command[command.index("--output-file") + 1]).write_text("partial native output", encoding="utf-8")
         return CommandResult(command=command, cwd=str(kwargs["cwd"]), status="fail", returncode=1)
     monkeypatch.setattr("astra_sumo.core.command_runner.run_command", fail)
     args = dict(command=["netconvert", "--sumo-net-file", str(source), "--output-file", str(output)],
                 mutable_nodes=set(), mutable_edges=set(), output_dir=tmp_path, prefix="failed", timeout_seconds=1)
     result, record = run_scoped_native_conversion(**args)
     assert result.returncode == 1 and "merged_proposal" not in record
-    assert output.read_text() == "partial native output"
+    assert not output.exists()
+    assert Path(record["native_output"]["path"]).read_text() == "partial native output"
+    assert record["native_output"]["status"] == "incomplete"
     assert source.read_bytes() == original
     with pytest.raises(ValueError, match="new conversion output"):
         run_scoped_native_conversion(**args)
+
+
+def test_failed_local_merge_keeps_native_output_separate_from_candidate(tmp_path, monkeypatch):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source = _source(tmp_path)
+    def reject(*args):
+        raise ValueError("test merge failure")
+    monkeypatch.setattr("astra_sumo.core.local_network_conversion.merge_local_conversion", reject)
+    output = tmp_path / "candidate.net.xml"
+    with pytest.raises(ValueError, match="test merge failure"):
+        run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+            "--output-file", str(output)], mutable_nodes={"A", "B"},
+            mutable_edges={"in", "middle", "out", "reverse", "east", "west", "north", "south"},
+            output_dir=tmp_path, prefix="merge-failure", timeout_seconds=30)
+    assert not output.exists()
+    assert ET.parse(tmp_path / "merge-failure.native-local-output.net.xml").getroot().tag == "net"
+
+
+@pytest.mark.parametrize("element", ["junction", "tlLogic", "connection"])
+def test_shared_join_rejects_occupied_target_ids_before_conversion(tmp_path, monkeypatch, element):
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    root = ET.Element("net")
+    ET.SubElement(root, element, **({"tl": "LSA2349_part0"} if element == "connection" else {"id": "LSA2349_part0"}))
+    source = tmp_path / "source.net.xml"
+    ET.ElementTree(root).write(source)
+    def unexpected(*args, **kwargs):
+        raise AssertionError("Native conversion must not run with occupied join IDs.")
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", unexpected)
+    with pytest.raises(ValueError, match="new joined junction and controller IDs"):
+        run_scoped_native_conversion(command=["netconvert", "--sumo-net-file", str(source), "--output-file", str(tmp_path / "candidate.net.xml")],
+            mutable_nodes=set(), mutable_edges=set(), join_groups={"LSA2349_part0": ["A", "B"]},
+            output_dir=tmp_path, prefix="test", timeout_seconds=1)
 
 
 def test_shared_full_conversion_retains_its_native_snapshot(tmp_path, monkeypatch):
