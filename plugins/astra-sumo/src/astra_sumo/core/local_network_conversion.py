@@ -181,14 +181,20 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
         record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
         command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
     result = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
-    if result.returncode == 0 and output.is_file() and subset is not None:
-        raw = Path(output_dir) / f"{prefix}.native-local-output.net.xml"
+    if result.returncode == 0 and output.is_file():
+        suffix = "native-local-output" if subset is not None else "native-output"
+        raw = Path(output_dir) / f"{prefix}.{suffix}.net.xml"
         with raw.open("xb") as stream:
             stream.write(output.read_bytes())
-        merged = merge_local_conversion(root, ET.parse(raw).getroot(), record)
-        output.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
-        record.update(native_output={"path": str(raw.resolve()), "sha256": file_sha256(raw)},
-                      merged_proposal={"path": str(output), "sha256": file_sha256(output), "stage": "before_exterior_restoration"})
+        record["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw)}
+        if subset is not None:
+            merged = merge_local_conversion(root, ET.parse(raw).getroot(), record)
+            content = ET.tostring(merged, encoding="utf-8", xml_declaration=True)
+            proposal = Path(output_dir) / f"{prefix}.merged-proposal.net.xml"
+            with proposal.open("xb") as stream:
+                stream.write(content)
+            output.write_bytes(content)
+            record["merged_proposal"] = {"path": str(proposal.resolve()), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"}
     record["source_unchanged"] = file_sha256(source) == record["source"]["sha256"]
     return result, record
 

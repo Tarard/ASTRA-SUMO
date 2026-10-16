@@ -344,6 +344,12 @@ def test_shared_conversion_runs_multiple_join_groups_and_retains_the_remote_prog
         ET.tostring(candidate.find("tlLogic[@id='R10']"), encoding="unicode"), strip_text=True)
     assert file_sha256(source) == before
 
+    proposal = Path(record["merged_proposal"]["path"])
+    assert proposal != output
+    digest = file_sha256(proposal)
+    output.write_text("later restoration", encoding="utf-8")
+    assert file_sha256(proposal) == digest == record["merged_proposal"]["sha256"]
+
 
 def test_shared_conversion_failure_keeps_partial_output_and_protects_existing_files(tmp_path, monkeypatch):
     from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
@@ -363,6 +369,24 @@ def test_shared_conversion_failure_keeps_partial_output_and_protects_existing_fi
     assert source.read_bytes() == original
     with pytest.raises(ValueError, match="new conversion output"):
         run_scoped_native_conversion(**args)
+
+
+def test_shared_full_conversion_retains_its_native_snapshot(tmp_path, monkeypatch):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.local_network_conversion import run_scoped_native_conversion
+    source = _source(tmp_path)
+    output = tmp_path / "full.net.xml"
+    monkeypatch.setattr("astra_sumo.core.local_network_conversion.local_conversion_input",
+                        lambda *args, **kwargs: (None, {"status": "full_network", "reason": "test_control"}))
+    result, record = run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+        "--output-file", str(output)], mutable_nodes=set(), mutable_edges=set(),
+        output_dir=tmp_path, prefix="full", timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    native = record["native_output"]
+    assert Path(native["path"]) != output and "merged_proposal" not in record
+    output.write_text("later restoration", encoding="utf-8")
+    assert file_sha256(Path(native["path"])) == native["sha256"]
 
 
 def test_new_connection_keeps_modern_permissions_in_a_legacy_format_candidate(tmp_path):

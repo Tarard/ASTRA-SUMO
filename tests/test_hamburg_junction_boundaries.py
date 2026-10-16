@@ -332,6 +332,9 @@ def test_custom_boundary_restores_approach_without_removing_edges(tmp_path) -> N
     after = ET.parse(target).getroot()
     assert report["status"] == "pass"
     assert report["local_conversion"]["status"] == "local"
+    proposal = report["local_conversion"]["merged_proposal"]
+    with open(proposal["path"], "rb") as stream:
+        assert hashlib.sha256(stream.read()).hexdigest() == proposal["sha256"]
     assert report["cut_geometry"]["conversion_scope"] == "full_network_reimport_audit"
     assert float(before.find("edge[@id='in']/lane").get("length")) < 2
     assert float(after.find("edge[@id='in']/lane").get("length")) > 30
