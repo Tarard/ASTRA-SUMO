@@ -789,6 +789,10 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                 old = mapping.get(new, 0 if params.get("add_side") == "right" else len(original) - 1)
                 unchanged_permissions &= (_permission_set(original[old].attrib, network_version=before.get("version", "0.0")) ==
                                           _permission_set(lane.attrib, network_version=after.get("version", "0.0")))
+    else:
+        unchanged_permissions = all(_permission_set(old_lanes[identity].attrib, network_version=before.get("version", "0.0")) ==
+                                    _permission_set(new_lanes[identity].attrib, network_version=after.get("version", "0.0"))
+                                    for identity in old_lanes.keys() & new_lanes.keys())
     green_conflicts = [row for row in structure.get("tls_link_binding_audit", {}).get("protected_green_foe_conflicts", [])
                        if row.get("junction_id") in mutable_nodes]
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])

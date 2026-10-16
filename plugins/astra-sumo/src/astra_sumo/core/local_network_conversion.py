@@ -112,6 +112,7 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
 
 def merge_local_conversion(source_root, native_root, record):
     """Copy the exterior from the source and use native elements only inside the edit."""
+    from .osm_access import _translate_permission_declarations
     mutable_nodes, mutable_edges = set(record["mutable_junction_ids"]), set(record["mutable_edge_ids"])
     before, after = _index(source_root), _index(native_root)
     actual = {key for key in after["edges"] if not key.startswith(":")}
@@ -146,6 +147,9 @@ def merge_local_conversion(source_root, native_root, record):
     ranks = {name: rank for rank, name in enumerate(("location", "type", "edge", "tlLogic", "junction", "connection", "prohibition", "roundabout"))}
     for name in ("edge", "tlLogic", "junction", "connection", "roundabout"):
         additions = [deepcopy(child) for child in native_root if child.tag == name and belongs(child, after)]
+        for child in additions:
+            _translate_permission_declarations(child, source_version=native_root.get("version", "0.0"),
+                                               target_version=source_root.get("version", "0.0"))
         at = next((i for i, child in enumerate(result) if ranks.get(child.tag, 8) > ranks[name]), len(result))
         for offset, child in enumerate(additions):
             result.insert(at + offset, child)

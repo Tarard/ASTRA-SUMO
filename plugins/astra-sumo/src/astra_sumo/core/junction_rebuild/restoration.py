@@ -19,6 +19,31 @@ from .network import (
 from .tls import _copy_referenced_tllogics
 
 
+def _restore_source_net_metadata(source_root, target_root):
+    """Restore the source format without changing native permission meanings."""
+    from ..osm_access import _translate_permission_declarations
+    before, after = target_root.get("version", "0.0"), source_root.get("version", "0.0")
+    translated = _translate_permission_declarations(target_root, source_version=before, target_version=after)
+    header_changed = target_root.attrib != source_root.attrib
+    target_root.attrib.clear()
+    target_root.attrib.update(source_root.attrib)
+    source_types = {row.get("id"): row for row in source_root.findall("type")}
+    target_types = {row.get("id"): row for row in target_root.findall("type")}
+    signatures = [{identity: ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True)
+                   for identity, row in table.items()} for table in (source_types, target_types)]
+    restored_types = [identity for identity in source_types
+                      if signatures[0][identity] != signatures[1].get(identity)]
+    if restored_types:
+        types = [copy.deepcopy(row) for row in source_types.values()] + [row for identity, row in target_types.items() if identity not in source_types]
+        target_root[:] = [row for row in target_root if row.tag != "type"]
+        at = next((i for i, row in enumerate(target_root) if row.tag != "location"), len(target_root))
+        for offset, row in enumerate(types):
+            target_root.insert(at + offset, row)
+    return {"changed": header_changed or bool(translated) or bool(restored_types),
+            "source_format_version": after, "incoming_format_version": before, "header_restored": header_changed,
+            "translated_permission_declarations": translated, "restored_type_ids": restored_types}
+
+
 def _restore_non_target_internal_artifacts(
     *,
     source_file: Path,
@@ -51,6 +76,7 @@ def _restore_non_target_internal_artifacts(
                     junction.set(key, " ".join(lane_map.get(lane, lane) for lane in junction.get(key).split()))
     target_tree = ET.parse(target_file)
     target_root = target_tree.getroot()
+    metadata = _restore_source_net_metadata(source_root, target_root)
     junction_ids = {
         junction.attrib["id"]
         for root in (source_root, target_root)
@@ -278,7 +304,8 @@ def _restore_non_target_internal_artifacts(
         restored_normal_junction_attr_count += 1
 
     if (
-        removed_internal_edges
+        metadata["changed"]
+        or removed_internal_edges
         or removed_internal_junctions
         or removed_connections
         or restored_normal_junction_attr_count
@@ -299,6 +326,7 @@ def _restore_non_target_internal_artifacts(
         "skipped_non_target_internal_edge_missing_junction_count": len(skipped_internal_edges_missing_junctions),
         "skipped_non_target_internal_edge_missing_junctions": skipped_internal_edges_missing_junctions,
         "removed_non_target_internal_junction_count": removed_internal_junctions,
+        "source_net_metadata": metadata,
         "restored_non_target_internal_junction_count": len(source_internal_junctions),
         "removed_non_target_internal_connection_count": removed_connections,
         "restored_non_target_internal_connection_count": len(source_connections),
@@ -328,6 +356,13 @@ def _restore_replayed_geometry_attrs(*, source_file: Path, target_file: Path, ju
     source_root = ET.parse(source_file).getroot()
     target_tree = ET.parse(target_file)
     target_root = target_tree.getroot()
+    from ..osm_access import _translate_permission_declarations
+
+    def receiver_copy(element):
+        clone = copy.deepcopy(element)
+        _translate_permission_declarations(clone, source_version=source_root.get("version", "0.0"),
+                                           target_version=target_root.get("version", "0.0"))
+        return clone
     source_internal_edges = [
         edge
         for edge in source_root.findall("edge")
@@ -342,7 +377,7 @@ def _restore_replayed_geometry_attrs(*, source_file: Path, target_file: Path, ju
     if internal_edge_insert_index is None:
         internal_edge_insert_index = _first_junction_index(target_root)
     for offset, edge in enumerate(source_internal_edges):
-        target_root.insert(internal_edge_insert_index + offset, copy.deepcopy(edge))
+        target_root.insert(internal_edge_insert_index + offset, receiver_copy(edge))
 
     source_internal_junctions = [
         junction
@@ -371,7 +406,7 @@ def _restore_replayed_geometry_attrs(*, source_file: Path, target_file: Path, ju
     restored_connection_count = 0
     for connection in source_root.findall("connection"):
         if _touches_target_internal_subgraph(connection, internal_prefix, junction_id):
-            target_root.append(copy.deepcopy(connection))
+            target_root.append(receiver_copy(connection))
             restored_connection_count += 1
 
     restored_edge_ids = {
@@ -484,7 +519,8 @@ def restore_off_scope_netconvert_artifacts(
         return _failure(f"target net file does not exist: {target_file}")
 
     source_root = ET.parse(source_file).getroot()
-    target_root = ET.parse(target_file).getroot()
+    target_tree = ET.parse(target_file)
+    target_root = target_tree.getroot()
     source_edges = {
         edge.attrib["id"]: edge
         for edge in source_root.findall("edge")
@@ -557,6 +593,9 @@ def restore_off_scope_netconvert_artifacts(
                     if value
                 )
 
+    metadata = _restore_source_net_metadata(source_root, target_root)
+    if metadata["changed"]:
+        target_tree.write(target_file, encoding="utf-8", xml_declaration=True)
     internal_report = _restore_non_target_internal_artifacts(
         source_file=source_file,
         target_file=target_file,
@@ -772,6 +811,7 @@ def restore_off_scope_netconvert_artifacts(
         "source_file": str(source_file),
         "target_file": str(target_file),
         "mutable_junction_ids": sorted(effective_mutable_junction_ids),
+        "source_net_metadata": metadata,
         "mutable_edge_ids": sorted(effective_mutable_edge_ids),
         "junction_aliases": dict(sorted(normalized_junction_aliases.items())),
         "declared_absorbed_edge_ids": (

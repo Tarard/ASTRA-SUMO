@@ -216,6 +216,11 @@ Explicit class aliases retain their native meaning. These comparisons do not rew
 Width and native stop-offset checks compare at the command's 12-decimal output precision.
 Inherited lane-count patch permissions use explicit classes, so a new plain-XML patch keeps the source network's legacy meaning.
 Lane and connection preservation checks both apply the corresponding network-format version.
+Native conversion can emit a newer file format. Copying older permission text into that format can change effective classes.
+Restoration now retains the source header and type definitions. Generated permission declarations keep their native meaning in that source format.
+Inherited boundary patches retain source classes in current plain XML. Teacher copies instead follow the receiving network's format.
+Join checks also compare effective permissions on every surviving external lane.
+These checks preserve the model meaning of permissions. They do not establish field access rules.
 
 Native conversion produces a proposal. The shared preservation code restores
 the declared exterior and checks fixed boundary endpoints. Lane or road

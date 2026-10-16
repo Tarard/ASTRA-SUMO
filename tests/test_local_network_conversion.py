@@ -7,6 +7,7 @@ import subprocess
 import xml.etree.ElementTree as ET
 
 import pytest
+import traci
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import run_command
@@ -304,6 +305,43 @@ def test_native_join_preconditions_reject_existing_node_or_controller_names(tmp_
     operation = {"id": "join", "operation": "join_junctions", "params": {
         "node_ids": ["A", "B"], "join_id": target, "signal_policy": "rebuild_diagnostic"}}
     assert validate_scoped_operation(operation, root)
+
+
+def test_new_connection_keeps_modern_permissions_in_a_legacy_format_candidate(tmp_path):
+    if not shutil.which("netconvert") or not shutil.which("sumo"):
+        pytest.skip("SUMO required")
+    initial = _source(tmp_path)
+    patch_file, source = tmp_path / "remove.con.xml", tmp_path / "without-turn.net.xml"
+    patch_file.write_text('<connections><delete from="in" to="west" fromLane="0" toLane="0"/></connections>', encoding="utf-8")
+    converted = run_command([shutil.which("netconvert"), "-s", str(initial), "-x", str(patch_file), "-o", str(source)],
+                            cwd=tmp_path, timeout_seconds=30)
+    assert converted.returncode == 0, converted.stderr
+    tree = ET.parse(source)
+    tree.getroot().set("version", "1.3")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    output = tmp_path / "add"
+    output.mkdir()
+    candidate = output / "candidate.net.xml"
+    operation = {"id": "new-turn", "operation": "add_lane_connection", "params": {
+        "from": "in", "fromLane": 0, "to": "west", "toLane": 0, "disallow": "rail_urban"}}
+    plan = write_scoped_edit_plan(root=tree.getroot(), operation=operation, source_file=source,
+        candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
+    result = run_command(plan["command"], cwd=output, timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    checks = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert checks["release_checks_passed"], checks
+    root = ET.parse(candidate).getroot()
+    assert root.get("version") == "1.3"
+    via = root.find("connection[@from='in'][@to='west']").get("via")
+    label = f"new-legacy-turn-{tmp_path.name}"
+    traci.start([shutil.which("sumo"), "-n", str(candidate), "--end", "1", "--no-step-log", "true"], label=label)
+    connection = traci.getConnection(label)
+    try:
+        denied = set(connection.lane.getDisallowed(via))
+    finally:
+        connection.close()
+    assert "rail_urban" in denied and not denied & {"subway", "cable_car"}
 
 
 @pytest.mark.parametrize("artifact", ["input", "merged_proposal"])

@@ -254,6 +254,7 @@ def _source_polygon_preserves_cuts(node, edges):
 
 def _boundary_geometry(source_root, source_index, plan, destination):
     from .hamburg_official_intersection_plainxml import _angular_endpoint_polygon
+    from .osm_access import _translate_permission_declarations
 
     nodes, patches, records = ET.Element("nodes"), {}, []
     members = {node for group in plan["groups"] for node in group["source_node_ids"]}
@@ -282,6 +283,7 @@ def _boundary_geometry(source_root, source_index, plan, destination):
                 for ordinal, patched_lane in enumerate(edge.findall("lane")):
                     patched_lane.attrib.pop("id", None)
                     patched_lane.set("index", str(ordinal))
+                    _translate_permission_declarations(patched_lane, source_version=source_root.get("version", "0.0"))
                 lane_shapes = [[tuple(map(float, token.split(",")[:2])) for token in lane.get("shape", "").split()] for lane in original.findall("lane")]
                 if any(len(shape) < 2 for shape in lane_shapes):
                     raise ValueError("source boundary lanes require explicit geometry")
@@ -505,9 +507,10 @@ def restore_joined_boundary_connections(
     # Reuse the existing coherent restoration of non-target internal lanes,
     # requests, connections and controller programs. Do not restore only a
     # polygon or silently accept netconvert's unrelated round-trip changes.
-    from .junction_rebuild.restoration import _restore_non_target_internal_artifacts
+    from .junction_rebuild.restoration import _restore_non_target_internal_artifacts, _restore_source_net_metadata
     tree = ET.parse(candidate)
     root = tree.getroot()
+    source_metadata = _restore_source_net_metadata(original, root)
     for position, edge in enumerate(list(root)):
         if edge.tag == "edge" and not _internal(edge) and edge.get("from") not in excluded and edge.get("to") not in excluded:
             original_edge = source_index["edges"].get(edge.get("id"))
@@ -582,6 +585,7 @@ def restore_joined_boundary_connections(
     report["scoped_geometry_restoration"] = scoped_restoration
     report["local_conversion"] = local_conversion
     report["diagnostic_signal_control"] = signal_coverage
+    report["source_net_metadata"] = source_metadata
     report["gates"]["scoped_geometry_restoration"] = scoped_restoration["status"] == "pass"
     report["gates"]["fixed_boundary_geometry"] = geometric_preservation["status"] == "pass"
     if geometric_preservation["status"] != "pass" or scoped_restoration["status"] != "pass":

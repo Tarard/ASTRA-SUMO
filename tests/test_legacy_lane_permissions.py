@@ -1,10 +1,11 @@
 import shutil
+import subprocess
 import xml.etree.ElementTree as ET
 
 import pytest
 import traci
 
-from astra_sumo.core.osm_access import _permission_set
+from astra_sumo.core.osm_access import _permission_set, _permission_attributes_for_version
 from astra_sumo.core.network_permissions import _add_passenger_to_lane
 
 
@@ -40,6 +41,23 @@ def test_permission_sets_match_native_lane_loading_including_legacy_versions(tmp
     finally:
         connection.close()
     assert _permission_set(attributes, network_version=version) == native
+    for target_version in ("1.2", "1.3", "1.20"):
+        ordered.set("version", target_version)
+        lane = ordered.find("edge[@id='road']/lane")
+        lane.attrib.pop("allow", None)
+        lane.attrib.pop("disallow", None)
+        lane.attrib.update(_permission_attributes_for_version(attributes,
+            source_version=version, target_version=target_version))
+        translated = tmp_path / f"translated-{target_version}.net.xml"
+        ET.ElementTree(ordered).write(translated, encoding="utf-8", xml_declaration=True)
+        translated_label = f"{label}-{target_version}"
+        traci.start([shutil.which("sumo"), "-n", str(translated), "--end", "1", "--no-step-log", "true"], label=translated_label)
+        connection = traci.getConnection(translated_label)
+        try:
+            actual = universe - set(connection.lane.getDisallowed("road_0"))
+        finally:
+            connection.close()
+        assert actual == native
 
 
 def test_service_passenger_addition_keeps_the_other_legacy_restrictions():
@@ -48,3 +66,38 @@ def test_service_passenger_addition_keeps_the_other_legacy_restrictions():
     modes = set(lane.get("allow").split())
     assert "passenger" in modes
     assert not modes & {"rail_urban", "subway", "cable_car"}
+
+
+@pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
+def test_replayed_permissions_use_the_receiver_format_without_replacing_its_header(tmp_path):
+    from astra_sumo.core.junction_rebuild.restoration import _restore_replayed_geometry_attrs
+    nodes, edges, source, target = [tmp_path / name for name in ("nodes.xml", "edges.xml", "source.net.xml", "target.net.xml")]
+    nodes.write_text('<nodes><node id="w" x="0" y="0"/><node id="j" x="50" y="0"/>'
+                     '<node id="e" x="100" y="0"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="in" from="w" to="j"/><edge id="out" from="j" to="e"/></edges>', encoding="utf-8")
+    result = subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(edges), "-o", str(source)],
+                            capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    tree = ET.parse(source)
+    root = tree.getroot()
+    root.set("version", "1.3")
+    lane = root.find("edge[@function='internal']/lane")
+    assert lane is not None
+    lane.set("disallow", "rail_urban")
+    lane_id = lane.get("id")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    original = source.read_bytes()
+    root.set("version", "1.20")
+    tree.write(target, encoding="utf-8", xml_declaration=True)
+    restored = _restore_replayed_geometry_attrs(source_file=source, target_file=target, junction_id="j")
+    assert restored["status"] == "pass", restored
+    assert ET.parse(target).getroot().get("version") == "1.20"
+    assert source.read_bytes() == original
+    label = f"replayed-version-{tmp_path.name}"
+    traci.start([shutil.which("sumo"), "-n", str(target), "--end", "1", "--no-step-log", "true"], label=label)
+    connection = traci.getConnection(label)
+    try:
+        denied = set(connection.lane.getDisallowed(lane_id))
+    finally:
+        connection.close()
+    assert {"rail_urban", "subway", "cable_car"} <= denied

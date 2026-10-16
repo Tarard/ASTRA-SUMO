@@ -77,6 +77,34 @@ def test_vertical_translation_has_a_spatial_endpoint_measure(tmp_path):
     assert result["outside_lane_count_with_shape_changes"] == 1
 
 
+def test_restoration_keeps_legacy_exterior_and_new_native_permission_meanings(tmp_path):
+    from astra_sumo.core.junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from astra_sumo.core.osm_access import _permission_set
+    source = _network(tmp_path)
+    tree = ET.parse(source)
+    root = tree.getroot()
+    root.set("version", "1.3")
+    root.find("edge/lane").set("disallow", "rail_urban")
+    tree.write(source, encoding="utf-8")
+    root.set("version", "1.20")
+    root.find("edge/lane").set("disallow", "rail_urban subway cable_car")
+    root.remove(root.find("type"))
+    native = ET.SubElement(root, "edge", id=":b_0", function="internal")
+    lane = ET.SubElement(native, "lane", id=":b_0_0", index="0", disallow="rail_urban", length="1", shape="9,0 10,0")
+    expected_native = _permission_set(lane.attrib, network_version="1.20")
+    candidate = tmp_path / "candidate.net.xml"
+    tree.write(candidate, encoding="utf-8")
+    result = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate,
+        mutable_edge_ids={"inside"}, mutable_junction_ids={"b", "c"}, expand_mutable_edge_endpoints=False)
+    assert result["status"] == "pass", result
+    restored = ET.parse(candidate).getroot()
+    assert restored.get("version") == "1.3"
+    assert result["source_net_metadata"]["header_restored"]
+    assert restored.find("type[@id='road']") is not None
+    assert not _permission_set(restored.find("edge/lane").attrib, network_version="1.3") & {"subway", "cable_car"}
+    assert _permission_set(restored.find("edge[@id=':b_0']/lane").attrib, network_version="1.3") == expected_native
+
+
 def test_declared_shape_change_keeps_outside_comparison_exact(tmp_path):
     source = _network(tmp_path)
     output = tmp_path / "candidate.net.xml"
