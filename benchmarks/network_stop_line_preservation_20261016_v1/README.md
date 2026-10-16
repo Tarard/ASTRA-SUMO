@@ -1,5 +1,10 @@
 # Stop-line geometry and junction preservation
 
+Historical record: this first direct experiment used per-lane logical lengths.
+Independent review found that convention inconsistent with native edge averages.
+Current construction uses the revised `stop_line_edge_mean_3d` method.
+The original inputs, failures, and measurements below remain unchanged as diagnostic evidence.
+
 This record compares two implementations of the same 4.73 m stop-line setback.
 It retains the earlier failed trial and adds a direct geometric transfer.
 [`evidence.json`](evidence.json) records source, candidate, fact-table, route, and result hashes.

@@ -107,6 +107,7 @@ def test_valid_single_road_without_distinct_edge_od_still_allows_daily_speed_edi
     report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
     assert report["status"] == "measured"
     assert "candidate_routeability" not in report
+    assert report["source_baseline"]["status"] == "not_run"
     assert not any("Source driving checks failed" in warning for warning in report["warnings"])
     assert any("Route preservation was not checked" in warning for warning in report["warnings"])
 
@@ -194,3 +195,16 @@ def test_an_ineffective_edit_is_not_reported_as_applied(tmp_path, monkeypatch):
     assert report["status"] == "no_effect"
     assert report["construction"]["requested_effect_applied"] is False
     assert report["candidate_routeability"]["route_generation"]["status"] == "pass"
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_an_unchanged_stop_line_is_no_effect_and_preserves_the_source_bytes(tmp_path):
+    source = _source(tmp_path, "move_stop_line")
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "same-stop-line", "operation": "move_stop_line",
+        "params": {"lane_id": "middle_0", "end_offset_m": 0}}]}), encoding="utf-8")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "daily", netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "no_effect"
+    assert report["construction"]["requested_effect_applied"] is False
+    assert report["source"]["sha256"] == report["candidate_sha256"]
+    assert report["command_result"]["netconvert_rebuild_count"] == 0

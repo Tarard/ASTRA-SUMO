@@ -50,6 +50,8 @@ It checks SUMO load, internal driving paths, and 100 original-network route requ
 Requests come from the source alone. Changed candidate endpoints cannot remove them from the test.
 Lost routes block the result. Unfinished driving runs remain visible with a warning when routes still exist.
 If no original route requests can be validated, exploration retains a warning and makes no route-preservation claim.
+`source_baseline` separates checked `clean` or `dirty` diagnostics from `not_run` cases.
+These labels describe the synthetic passenger probe, not field quality.
 The sampled passenger requests do not establish all-class or all-pair route preservation.
 Invalid edit parameters and attempts to overwrite inputs still stop construction.
 Other preservation and review findings remain in the report for inspection.
@@ -87,12 +89,19 @@ Stop-line movement uses a geometric lane `endOffset`, as described in
 [SUMO intersections](https://sumo.dlr.de/docs/Simulation/Intersections.html).
 It does not configure a separate vehicle-class `stopOffset`.
 When saved geometry supports a unique adjustment, this edit avoids netconvert.
-It shortens the approach and extends the first internal paths by the same distance, or reverses that transfer.
-It preserves all other bytes, including junction waiting structures, request matrices, connections, and signal programs.
-It retains elevation coordinates. Logical driving lengths change by equal and opposite amounts.
+It shortens the approach shape and extends its first internal paths by the same spatial distance, or reverses that transfer.
+Distance includes elevation, including shapes with omitted zero-Z vertices.
+It preserves junction waiting structures, request matrices, connections, and signal programs.
+Affected normal roads and straight internal edges use SUMO's common logical length for all their lanes.
+The tool averages the transferred saved logical lengths across each affected edge, with SUMO's 0.1 m minimum.
+Sibling lanes can therefore change logical length while their shapes remain fixed.
+The report records the convention and each affected lane's before and after logical length.
+This follows the [SUMO lane-length convention](https://sumo.dlr.de/docs/Networks/SUMO_Road_Networks.html#lanes).
 Moving back downstream requires a common saved prefix for every outgoing movement.
-Shared internal paths, missing continuations, or divergent prefixes use native conversion with an explore warning.
+Shared paths, missing continuations, divergent prefixes, custom lengths, bidirectional coupling, and multi-lane turning paths use native conversion with an explore warning.
+Multi-lane turns can have separate logical lengths in native SUMO. The direct method does not guess their grouping convention.
 Release evidence independently reconstructs the direct edit from its source before accepting the materialization record.
+The method is `stop_line_edge_mean_3d`. Earlier per-lane `stop_line_geometry_only` records remain diagnostic history and require rebuilding for release.
 The construction report lists changed lane coordinates in `lane_coordinate_artifacts`.
 Existing detector, stop, and parking positions require a separate check before reuse.
 These files are not inputs to this network-only edit. Changed lane bindings receive a `not_checked` result for those files.

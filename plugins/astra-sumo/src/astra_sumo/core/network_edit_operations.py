@@ -9,8 +9,7 @@ import shutil
 import time
 import xml.etree.ElementTree as ET
 
-from shapely.geometry import LineString, Point, Polygon
-from shapely.ops import substring
+from shapely.geometry import LineString, Polygon
 
 from .artifact_io import copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
@@ -127,45 +126,61 @@ def _stop_line_patches(root, params):
     def line(lane):
         points = [tuple(map(float, point.split(","))) for point in lane.get("shape", "").split()]
         length = float(lane.get("length", "nan"))
-        if (len(points) < 2 or len({len(point) for point in points}) != 1
+        if (len(points) < 2
                 or any(len(point) not in (2, 3) or not all(math.isfinite(value) for value in point) for point in points)
                 or not math.isfinite(length) or length <= 0):
             raise ValueError("Saved stop-line paths require finite geometry and positive driving lengths.")
-        return LineString(points)
+        # SUMO omits zero elevations on individual vertices of a 3D shape.
+        return LineString([(*point, 0.0) if len(point) == 2 else point for point in points])
+
+    def spatial_length(shape):
+        return sum(math.dist(a, b) for a, b in zip(shape.coords, list(shape.coords)[1:]))
+
+    def split(shape, offset):
+        points, seen = list(shape.coords), 0.0
+        for i, (a, b) in enumerate(zip(points, points[1:])):
+            segment = math.dist(a, b)
+            if seen + segment + 1e-8 >= offset:
+                ratio = min(1.0, max(0.0, (offset - seen) / segment)) if segment else 0.0
+                point = tuple(x + ratio * (y - x) for x, y in zip(a, b))
+                return LineString([*points[:i + 1], point]), LineString([point, *points[i + 1:]])
+            seen += segment
+        raise ValueError("The requested stop-line cut exceeds its saved path.")
 
     approach = line(target)
     paths = {key: line(lanes[key]) for key in internal_ids}
-    if any(Point(approach.coords[-1]).distance(Point(path.coords[0])) > 0.1
-           or len(approach.coords[-1]) != len(path.coords[0])
-           or len(path.coords[0]) == 3 and abs(approach.coords[-1][2] - path.coords[0][2]) > 0.1
+    if any(math.dist(approach.coords[-1], path.coords[0]) > 0.1
            for path in paths.values()):
         return None
     if delta > 0:
-        if delta >= min(approach.length, float(target.get("length"))):
+        if delta >= spatial_length(approach):
             return None
-        prefix = substring(approach, approach.length - delta, approach.length)
-        shortened = substring(approach, 0, approach.length - delta)
+        shortened, prefix = split(approach, spatial_length(approach) - delta)
         shapes = {key: [*prefix.coords, *list(path.coords)[1:]] if prefix.coords[-1] == path.coords[0]
                   else [*prefix.coords, *path.coords] for key, path in paths.items()}
     else:
         amount = -delta
-        if any(amount > path.length + 1e-8 or amount >= float(lanes[key].get("length")) for key, path in paths.items()):
+        if any(amount > spatial_length(path) + 1e-8 for path in paths.values()):
             return None
-        prefixes = [substring(paths[key], 0, amount) for key in sorted(paths)]
+        pieces = {key: split(path, amount) for key, path in paths.items()}
+        prefixes = [pieces[key][0] for key in sorted(pieces)]
         prefix = prefixes[0]
         # Extending across a movement-dependent curve has no unique physical lane end.
-        if any(prefix.hausdorff_distance(other) > 1e-8 or Point(prefix.coords[-1]).distance(Point(other.coords[-1])) > 1e-8
-               or len(prefix.coords[-1]) == 3 and abs(prefix.coords[-1][2] - other.coords[-1][2]) > 1e-8
+        if any(len(prefix.coords) != len(other.coords)
+               or any(math.dist(a, b) > 1e-8 for a, b in zip(prefix.coords, other.coords))
                for other in prefixes[1:]):
             return None
         points = [*approach.coords, *list(prefix.coords)[1:]] if approach.coords[-1] == prefix.coords[0] else [*approach.coords, *prefix.coords]
         shortened = LineString(points)
-        shapes = {key: list(substring(path, amount, path.length).coords) for key, path in paths.items()}
+        shapes = {key: list(pieces[key][1].coords) for key in paths}
 
     def attributes(lane, points, length):
         points = list(points)
         if len(points) == 1:
             points *= 2
+        if (not any(len(point.split(",")) == 3 for point in lane.get("shape", "").split())
+                and all(point[2] == 0 for point in points)):
+            points = [point[:2] for point in points]
         return {**({"endOffset": lane.get("endOffset")} if lane.get("endOffset") is not None else {}),
                 "shape": " ".join(",".join(f"{value:.12f}" for value in point) for point in points),
                 "length": f"{length:.12f}"}
@@ -173,6 +188,27 @@ def _stop_line_patches(root, params):
     patches = {key: attributes(lanes[key], points, float(lanes[key].get("length")) + delta) for key, points in shapes.items()}
     patches[params["lane_id"]] = {**attributes(target, shortened.coords, float(target.get("length")) - delta),
                                   "endOffset": str(params["end_offset_m"])}
+    affected = [edge for edge in root.findall("edge") if any(lane.get("id") in patches for lane in edge.findall("lane"))]
+    affected_lanes = {lane.get("id") for edge in affected for lane in edge.findall("lane")}
+    if (any(edge.get("length") is not None or edge.get("bidi") for edge in affected)
+            or any(row.get("via") in affected_lanes and row.get("length") is not None for row in root.findall("connection"))):
+        return None
+    # Normal roads and straight internal groups share a logical length in native SUMO.
+    for edge in affected:
+        members = edge.findall("lane")
+        if edge.get("function") == "internal" and len(members) > 1:
+            member_ids = {lane.get("id") for lane in members}
+            directions = {row.get("dir") for row in root.findall("connection") if row.get("via") in member_ids}
+            # Turning lanes may use separate lengths unless junctions.join-turns is enabled.
+            if not directions or not directions <= {"s", "t", "T"}:
+                return None
+        if any(not math.isfinite(float(lane.get("length", "nan"))) or float(lane.get("length", "0")) <= 0 for lane in members):
+            raise ValueError("Saved edge members require finite positive logical lengths.")
+        mean = max(0.1, sum(float(patches.get(lane.get("id"), {}).get("length", lane.get("length"))) for lane in members) / len(members))
+        for lane in members:
+            key = lane.get("id")
+            attrs = patches.setdefault(key, {name: lane.get(name) for name in ("shape", "length", "endOffset") if lane.get(name) is not None})
+            attrs["length"] = f"{mean:.12f}"
     return patches
 
 
@@ -532,7 +568,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                "--junctions.internal-link-detail", "25", "--precision", "12", "--output-file", str(candidate_file.resolve())]
     plan["materialization_method"] = ("permission_attributes_only" if kind == "set_lane_permissions"
                                       else "speed_attributes_only" if kind == "set_speed"
-                                      else "stop_line_geometry_only" if kind == "move_stop_line"
+                                      else "stop_line_edge_mean_3d" if kind == "move_stop_line"
                                       and _stop_line_patches(root, params) is not None else "netconvert")
     for name, flag in (("nodes", "--node-files"), ("edges", "--edge-files"),
                        ("connections", "--connection-files"), ("tllogics", "--tllogic-files")):
@@ -706,13 +742,20 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         passed &= exact
         direct = {"lane_id": params["lane_id"], "expected_attributes": attrs,
                   "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
-    if plan["materialization_method"] == "stop_line_geometry_only":
+    if plan["materialization_method"] == "stop_line_edge_mean_3d":
         from .osm_access import _patch_lane_attributes
         patches = _stop_line_patches(before, params)
         exact = _patch_lane_attributes(source.read_bytes(), before, patches, {"shape", "length", "endOffset"}) == candidate_file.read_bytes()
         passed &= exact
+        if source.read_bytes() == candidate_file.read_bytes():
+            effect = False
+            passed = False
+        source_lengths = {lane.get("id"): float(lane.get("length")) for edge in before.findall("edge") for lane in edge.findall("lane")}
         direct = {"lane_id": params["lane_id"], "end_offset_m": params["end_offset_m"],
-                  "expected_lane_attributes": patches, "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0}
+                  "expected_lane_attributes": patches, "all_other_bytes_preserved": exact, "netconvert_rebuild_count": 0,
+                  "length_convention": "sumo_edge_mean_of_saved_logical_lengths", "distance_metric": "xyz_polyline_metres",
+                  "logical_lengths": {key: {"before_m": source_lengths[key], "after_m": float(attrs["length"])}
+                                      for key, attrs in patches.items()}}
     integrity = driving_integrity(after)
     def lane_coordinates(root):
         return {lane.get("id"): (float(lane.get("length", "0")),
@@ -739,7 +782,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],
             "direct_permission_edit": direct if kind == "set_lane_permissions" else {},
             "direct_speed_edit": direct if kind == "set_speed" else {},
-            "direct_stop_line_edit": direct if plan["materialization_method"] == "stop_line_geometry_only" else {},
+            "direct_stop_line_edit": direct if plan["materialization_method"] == "stop_line_edge_mean_3d" else {},
             "connectivity_review_required": bool(added_modes), "newly_allowed_vehicle_classes": added_modes,
             "requested_effect_applied": effect, "geometry_preservation": geometry, "restoration": rebuild,
             "geometry_before_restoration": before_restore,
@@ -827,6 +870,7 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
               "source": {"path": str(source), "sha256": source_digest}, "command_result": command_result,
               "command_elapsed_seconds": time.perf_counter() - command_started,
               "candidate_net_file": str(candidate), "plan_file": str(plan["plan_file"])}
+    report["source_baseline"] = {"status": "not_run", "scope": "synthetic_passenger_driving_diagnostic"}
     if command_result.get("returncode") == 0 and candidate.is_file():
         checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=destination,
             netconvert_binary=netconvert_binary, timeout_seconds=240, command_runner=run_command, mode="explore")
@@ -841,6 +885,9 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
             # Generate from the source alone so edited endpoints cannot disappear from the requests.
             baseline = run_routeability_audit(net_file=source, output_dir=destination / "source-routes", binaries=binaries)
             report["source_routeability"] = baseline
+            report["source_baseline"].update(status=("clean" if baseline["status"] == "pass" else "dirty")
+                if baseline.get("attempts") else "not_run", diagnostic_status=baseline["status"],
+                reason=baseline.get("routeability_status"), report_file=baseline.get("report_file"))
             if baseline.get("attempts") and baseline["status"] != "pass":
                 warnings.append("Source driving checks failed. Candidate differences do not establish a valid improvement.")
             if (baseline.get("route_generation", {}).get("status") == "pass"

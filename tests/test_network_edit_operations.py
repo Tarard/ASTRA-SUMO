@@ -205,11 +205,14 @@ def test_repeated_stop_line_edits_use_absolute_setbacks_and_can_restore_the_lane
             ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
             netconvert_binary=shutil.which("netconvert"))
         assert report["status"] == "pass", report
-        assert report["materialization_method"] == "stop_line_geometry_only"
+        assert report["materialization_method"] == "stop_line_edge_mean_3d"
         assert report["command_result"]["netconvert_rebuild_count"] == 0
         assert report["semantic_validation"]["direct_stop_line_edit"]["all_other_bytes_preserved"]
         assert validate_materialization_evidence(report, source_net_file=source,
                                                 candidate_net_file=Path(report["candidate_net_file"]))["status"] == "pass"
+        legacy = validate_materialization_evidence({**report, "materialization_method": "stop_line_geometry_only"},
+            source_net_file=source, candidate_net_file=Path(report["candidate_net_file"]))
+        assert any(row["code"] == "legacy_stop_line_length_convention_requires_rebuild" for row in legacy["errors"])
         source = Path(report["candidate_net_file"])
         lane = ET.parse(source).getroot().find("edge[@id='middle']/lane")
         endpoint = tuple(map(float, lane.get("shape").split()[-1].split(",")))
@@ -217,6 +220,11 @@ def test_repeated_stop_line_edits_use_absolute_setbacks_and_can_restore_the_lane
         assert endpoint[1] == pytest.approx(original_end[1])
         assert float(lane.get("length")) == pytest.approx(original_length - offset)
     from astra_sumo.core.osm_access import _patch_lane_attributes
+    from copy import deepcopy
+    forged = deepcopy(report)
+    forged["semantic_validation"]["direct_stop_line_edit"]["length_convention"] = "per_lane"
+    checked = validate_materialization_evidence(forged, source_net_file=Path(report["source_net_file"]), candidate_net_file=source)
+    assert any(row["code"] == "direct_stop_line_materialization_not_exact" for row in checked["errors"])
     source.write_bytes(_patch_lane_attributes(source.read_bytes(), ET.parse(source).getroot(), {"in_0": {"speed": "8"}}, {"speed"}))
     report["candidate_sha256"] = file_sha256(source)
     checked = validate_materialization_evidence(report, source_net_file=Path(report["source_net_file"]), candidate_net_file=source)
@@ -266,7 +274,7 @@ def test_direct_stop_line_keeps_elevation_and_refuses_a_shared_internal_prefix(t
     from astra_sumo.core.network_edit_operations import _stop_line_patches, write_direct_lane_edit
     source, candidate = tmp_path / "source.xml", tmp_path / "candidate.xml"
     root = ET.fromstring('''<net>
-      <edge id="a"><lane id="a_0" index="0" length="10" shape="0,0,1 10,0,2"/></edge>
+      <edge id="a"><lane id="a_0" index="0" length="10.049875621121" shape="0,0,1 10,0,2"/></edge>
       <edge id=":j_0" function="internal"><lane id=":j_0_0" length="5" shape="10,0,2 15,0,2"/></edge>
       <edge id="other"><lane id="other_0" index="0" length="10" shape="0,1,1 10,1,2"/></edge>
       <connection from="a" fromLane="0" to="b" toLane="0" via=":j_0_0"/></net>''')
@@ -274,7 +282,9 @@ def test_direct_stop_line_keeps_elevation_and_refuses_a_shared_internal_prefix(t
     params = {"lane_id": "a_0", "end_offset_m": 2}
     write_direct_lane_edit(source, candidate, {"operation": "move_stop_line", "params": params})
     lane = ET.parse(candidate).getroot().find("edge/lane[@id='a_0']")
-    assert tuple(map(float, lane.get("shape").split()[-1].split(","))) == pytest.approx((8, 0, 1.8))
+    import math
+    assert tuple(map(float, lane.get("shape").split()[-1].split(","))) == pytest.approx(
+        (10 - 20 / math.sqrt(101), 0, 2 - 2 / math.sqrt(101)))
     ET.SubElement(root, "connection", **{"from": "other", "fromLane": "0", "to": "b", "toLane": "0", "via": ":j_0_0"})
     assert _stop_line_patches(root, params) is None
     root.findall("connection")[-1].set("from", ":other_internal")
@@ -300,6 +310,68 @@ def test_lane_count_fact_mapping_uses_actual_lane_membership_instead_of_an_edge_
     assert [row["selector"]["lane_id"] for row in rows] == ["a_0", "a_branch_0", "removed-by-edit:a_0"]
     assert "a_branch_0" not in record["lane_id_mapping"]
     assert facts.read_bytes() == before
+
+
+def test_direct_stop_line_does_not_guess_the_length_policy_for_multilane_turns():
+    from astra_sumo.core.network_edit_operations import _stop_line_patches
+    root = ET.fromstring('''<net>
+      <edge id="a"><lane id="a_0" index="0" length="10" shape="0,0 10,0"/>
+        <lane id="a_1" index="1" length="10" shape="0,3 10,3"/></edge>
+      <edge id=":j_0" function="internal"><lane id=":j_0_0" index="0" length="5" shape="10,0 13,0 13,2"/>
+        <lane id=":j_0_1" index="1" length="8" shape="10,3 13,3 13,8"/></edge>
+      <connection from="a" fromLane="0" to="left" toLane="0" via=":j_0_0" dir="l"/>
+      <connection from="a" fromLane="1" to="left" toLane="1" via=":j_0_1" dir="l"/></net>''')
+    assert _stop_line_patches(root, {"lane_id": "a_0", "end_offset_m": 2}) is None
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("junction_z", [0, 20])
+def test_direct_stop_line_matches_native_edge_means_and_survives_native_reconversion(tmp_path, junction_z):
+    from astra_sumo.core.network_edit_operations import _stop_line_patches, write_direct_lane_edit
+    nodes, edges = tmp_path / "nodes.xml", tmp_path / "edges.xml"
+    nodes.write_text(f'''<nodes><node id="j" x="0" y="0" z="{junction_z}" type="traffic_light"/>
+        <node id="w" x="-200" y="0" z="0"/><node id="e" x="200" y="0" z="0"/>
+        <node id="n" x="0" y="200" z="0"/><node id="s" x="0" y="-200" z="0"/></nodes>''', encoding="utf-8")
+    edges.write_text('<edges>' + ''.join(f'<edge id="{name}" from="{a}" to="{b}" numLanes="2"/>' for name, a, b in (
+        ("WC", "w", "j"), ("CE", "j", "e"), ("EC", "e", "j"), ("CW", "j", "w"),
+        ("NC", "n", "j"), ("CS", "j", "s"), ("SC", "s", "j"), ("CN", "j", "n"))) + '</edges>', encoding="utf-8")
+    source, direct, native, reloaded = (tmp_path / name for name in ("source.net.xml", "direct.net.xml", "native.net.xml", "reloaded.net.xml"))
+    executable = shutil.which("netconvert")
+    built = subprocess.run([executable, "-n", str(nodes), "-e", str(edges), "--offset.disable-normalization", "true",
+                            "--precision", "12", "-o", str(source)], capture_output=True, text=True, timeout=30)
+    assert built.returncode == 0, built.stderr
+    source_root = ET.parse(source).getroot()
+    params = {"lane_id": "WC_1", "end_offset_m": 5}
+    patches = _stop_line_patches(source_root, params)
+    assert patches is not None
+    write_direct_lane_edit(source, direct, {"operation": "move_stop_line", "params": params})
+    offset_file = tmp_path / "offset.xml"
+    offset_file.write_text('<edges><edge id="WC"><lane index="1" endOffset="5"/></edge></edges>', encoding="utf-8")
+    unrelated = tmp_path / "unrelated.xml"
+    unrelated.write_text('<edges><edge id="CS" speed="10"/></edges>', encoding="utf-8")
+    for parent, patch, output in ((source, offset_file, native), (direct, unrelated, reloaded)):
+        converted = subprocess.run([executable, "-s", str(parent), "-e", str(patch), "--offset.disable-normalization", "true",
+                                    "--precision", "12", "-o", str(output)], capture_output=True, text=True, timeout=30)
+        assert converted.returncode == 0, converted.stderr
+    roots = [ET.parse(path).getroot() for path in (direct, native, reloaded)]
+    expected = float(source_root.find("edge[@id='WC']/lane").get("length")) - 2.5
+    for root in roots:
+        assert [float(lane.get("length")) for lane in root.find("edge[@id='WC']").findall("lane")] == pytest.approx([expected, expected])
+    for root in roots[1:]:
+        a = roots[0].find("edge/lane[@id='WC_1']").get("shape").split()[-1]
+        b = root.find("edge/lane[@id='WC_1']").get("shape").split()[-1]
+        assert tuple(map(float, a.split(","))) == pytest.approx(tuple(map(float, b.split(","))), abs=1e-7)
+    if junction_z == 0:
+        def via(root):
+            return next(row.get("via") for row in root.findall("connection")
+                        if (row.get("from"), row.get("fromLane"), row.get("to"), row.get("toLane")) == ("WC", "1", "CE", "1"))
+        lengths = [float(root.find(f"edge/lane[@id='{via(root)}']").get("length")) for root in roots]
+        assert lengths == pytest.approx([lengths[0]] * 3)
+    for edge in roots[0].findall("edge"):
+        if any(lane.get("id") in patches for lane in edge.findall("lane")):
+            assert len({float(lane.get("length")) for lane in edge.findall("lane")}) == 1
+    for tag in ("junction", "connection", "tlLogic"):
+        assert [ET.tostring(row) for row in roots[0].findall(tag)] == [ET.tostring(row) for row in source_root.findall(tag)]
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
