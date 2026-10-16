@@ -7,10 +7,11 @@ import subprocess
 import xml.etree.ElementTree as ET
 
 import pytest
+import traci
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import run_command
-from astra_sumo.core.local_network_conversion import local_conversion_input, validate_local_conversion
+from astra_sumo.core.local_network_conversion import local_conversion_input, validate_local_conversion, validate_join_boundary_conversion
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 
 
@@ -57,11 +58,29 @@ def test_prohibition_inputs_keep_complete_references_and_fall_back_for_unresolve
     assert record["reason"] == "unresolved_prohibition_references"
 
 
-def _source(tmp_path):
+def test_join_replaces_affected_roundabout_membership_and_keeps_absorbed_prohibitions_on_full_conversion():
+    from astra_sumo.core.local_network_conversion import merge_local_conversion
+    root = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="a" from="A" to="B"/><edge id="b" from="B" to="C"/><edge id="c" from="C" to="A"/>
+      <junction id="A"/><junction id="B"/><junction id="C"/>
+      <roundabout nodes="A B C" edges="a b c"/></net>''')
+    _, record = local_conversion_input(root, {"A", "B", "J"}, {"a", "b", "c"}, join_groups={"J": ["A", "B"]})
+    native = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+      <edge id="b" from="J" to="C"/><edge id="c" from="C" to="J"/>
+      <junction id="J"/><junction id="C"/><roundabout nodes="J C" edges="b c"/></net>''')
+    merged = merge_local_conversion(root, native, record)
+    assert merged.find("roundabout").get("edges") == "b c"
+    assert merged.find("roundabout").get("nodes") == "J C"
+    ET.SubElement(root, "prohibition", prohibitor="a->b", prohibited="c->a")
+    subset, record = local_conversion_input(root, {"A", "B", "J"}, {"a", "b", "c"}, join_groups={"J": ["A", "B"]})
+    assert subset is None and record["reason"] == "prohibition_references_absorbed_road"
+
+
+def _source(tmp_path, *, signalized=False):
     nodes, edges, source = [tmp_path / name for name in ("nodes.xml", "edges.xml", "source.net.xml")]
     node_root, edge_root = ET.Element("nodes"), ET.Element("edges")
     for name, x, y in (("W", -100, 0), ("A", 0, 0), ("B", 50, 0), ("E", 150, 0), ("N", 0, 100), ("S", 50, -100)):
-        ET.SubElement(node_root, "node", id=name, x=str(x), y=str(y))
+        ET.SubElement(node_root, "node", id=name, x=str(x), y=str(y), **({"type": "traffic_light"} if signalized and name == "A" else {}))
     for name, start, end in (("in", "W", "A"), ("middle", "A", "B"), ("out", "B", "E"), ("east", "E", "B"),
                              ("reverse", "B", "A"), ("west", "A", "W"), ("north", "N", "A"), ("south", "B", "S")):
         ET.SubElement(edge_root, "edge", id=name, **{"from": start, "to": end})
@@ -82,7 +101,7 @@ def _source(tmp_path):
 def _native_case(tmp_path, operation=None, *, prohibition=False):
     if not shutil.which("netconvert") or not shutil.which("sumo"):
         pytest.skip("SUMO required")
-    source = _source(tmp_path)
+    source = _source(tmp_path, signalized=(operation or {}).get("params", {}).get("signal_policy") == "rebuild_diagnostic")
     if prohibition:
         tree = ET.parse(source)
         ET.SubElement(tree.getroot(), "prohibition", prohibitor="north->middle", prohibited="in->middle")
@@ -234,6 +253,95 @@ def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposa
         return Counter(ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True)
                        for row in ET.parse(path).getroot() if row.tag != "location")
     assert elements(candidate) == elements(full_candidate)
+
+
+@pytest.mark.parametrize("signal_policy", ["preserve", "rebuild_diagnostic"])
+def test_join_uses_local_inputs_for_both_native_conversions(tmp_path, signal_policy):
+    join_id = "joined"
+    operation = {"id": "join", "operation": "join_junctions", "params": {
+        "node_ids": ["A", "B"], "join_id": join_id, "signal_policy": signal_policy}}
+    source, candidate, plan = _native_case(tmp_path, operation)
+    assert plan["local_conversion"]["junction_aliases"] == {"A": join_id, "B": join_id}
+    assert plan["local_conversion"]["absorbed_edge_ids"] == ["middle", "reverse"]
+    checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=candidate.parent,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert checked["release_checks_passed"], checked
+    assert checked["local_conversion"]["converted_normal_edge_count"] == 8
+    assert checked["local_conversion"]["source_normal_edge_count"] == 48
+    second = checked["restoration"]["local_conversion"]
+    assert second["status"] == "local"
+    assert second["source_normal_edge_count"] == 46
+    assert second["converted_normal_edge_count"] == 6
+    assert validate_local_conversion(checked["local_conversion"], source).is_file()
+    joined = checked["restoration"]["joined_network"]
+    assert file_sha256(Path(joined["path"])) == joined["sha256"]
+    assert validate_join_boundary_conversion(checked["restoration"], source) == Path(second["input"]["path"])
+    forged = deepcopy(checked["restoration"])
+    fake = tmp_path / "forged-boundary-input.net.xml"
+    tree = ET.parse(second["input"]["path"])
+    tree.getroot().find("edge/lane").set("speed", "999")
+    tree.write(fake, encoding="utf-8", xml_declaration=True)
+    forged["local_conversion"]["input"] = {"path": str(fake), "sha256": file_sha256(fake)}
+    with pytest.raises(ValueError, match="source-derived subset"):
+        validate_join_boundary_conversion(forged, source)
+    before, after = ET.parse(source).getroot(), ET.parse(candidate).getroot()
+    assert after.find(f"junction[@id='{join_id}']") is not None
+    assert all(after.find(f"junction[@id='{identity}']") is None for identity in {"A", "B"} - {join_id})
+    for identity in ("far1", "far10", "back20"):
+        assert ET.tostring(before.find(f"edge[@id='{identity}']")) == ET.tostring(after.find(f"edge[@id='{identity}']"))
+
+
+@pytest.mark.parametrize("target", ["A", "legacy_control"])
+def test_native_join_preconditions_reject_existing_node_or_controller_names(tmp_path, target):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.network_edit_operations import validate_scoped_operation
+    source = _source(tmp_path, signalized=True)
+    root = ET.parse(source).getroot()
+    root.find("tlLogic[@id='A']").set("id", "legacy_control")
+    for connection in root.findall("connection"):
+        if connection.get("tl") == "A":
+            connection.set("tl", "legacy_control")
+    operation = {"id": "join", "operation": "join_junctions", "params": {
+        "node_ids": ["A", "B"], "join_id": target, "signal_policy": "rebuild_diagnostic"}}
+    assert validate_scoped_operation(operation, root)
+
+
+def test_new_connection_keeps_modern_permissions_in_a_legacy_format_candidate(tmp_path):
+    if not shutil.which("netconvert") or not shutil.which("sumo"):
+        pytest.skip("SUMO required")
+    initial = _source(tmp_path)
+    patch_file, source = tmp_path / "remove.con.xml", tmp_path / "without-turn.net.xml"
+    patch_file.write_text('<connections><delete from="in" to="west" fromLane="0" toLane="0"/></connections>', encoding="utf-8")
+    converted = run_command([shutil.which("netconvert"), "-s", str(initial), "-x", str(patch_file), "-o", str(source)],
+                            cwd=tmp_path, timeout_seconds=30)
+    assert converted.returncode == 0, converted.stderr
+    tree = ET.parse(source)
+    tree.getroot().set("version", "1.3")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    output = tmp_path / "add"
+    output.mkdir()
+    candidate = output / "candidate.net.xml"
+    operation = {"id": "new-turn", "operation": "add_lane_connection", "params": {
+        "from": "in", "fromLane": 0, "to": "west", "toLane": 0, "disallow": "rail_urban"}}
+    plan = write_scoped_edit_plan(root=tree.getroot(), operation=operation, source_file=source,
+        candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
+    result = run_command(plan["command"], cwd=output, timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    checks = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert checks["release_checks_passed"], checks
+    root = ET.parse(candidate).getroot()
+    assert root.get("version") == "1.3"
+    via = root.find("connection[@from='in'][@to='west']").get("via")
+    label = f"new-legacy-turn-{tmp_path.name}"
+    traci.start([shutil.which("sumo"), "-n", str(candidate), "--end", "1", "--no-step-log", "true"], label=label, numRetries=3)
+    connection = traci.getConnection(label)
+    try:
+        denied = set(connection.lane.getDisallowed(via))
+    finally:
+        connection.close()
+    assert "rail_urban" in denied and not denied & {"subway", "cable_car"}
 
 
 @pytest.mark.parametrize("artifact", ["input", "merged_proposal"])

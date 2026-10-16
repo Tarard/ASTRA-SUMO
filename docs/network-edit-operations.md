@@ -195,8 +195,18 @@ Internal ownership uses junction lane references and connected movement paths in
 Legacy ID fallback requires one possible parent. Ambiguous names remain unresolved.
 
 `local_conversion.status` reports `local` or `full_network`.
-Joins, controller reconstruction, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
-The report states that reason. Their local conversion remains open work.
+Typed joins and context joins now use local inputs for the initial join and the boundary-path restoration.
+Their records declare absorbed roads and source-to-joined node identities. They retain both native outputs and the joined restoration input.
+For typed joins, release validation reconstructs both local inputs and their retained exteriors.
+Controller relocation or demotion, shared controllers across the edit boundary, and incomplete bidirectional context retain full conversion.
+A prohibition that refers to an absorbed road also retains full conversion. The report states the reason.
+Other stages of the complete construction workflow still need separate conversion-scope work.
+
+Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
+The same failure occurs with a full-source control. Native join requests therefore require an unused target ID.
+Diagnostic signal joins also require an unused controller ID. Reusing a source controller can silently remove control in native SUMO.
+The diagnostic result counts required motor movements with valid controller and program bindings.
+This check applies to the requested signal rebuild, without assuming that every signalized junction in an arbitrary source has full control.
 XML inspection, exterior copying, and whole-candidate checks still read the full source.
 The native rebuild uses the selected road context. This does not promise constant total runtime for large networks.
 Lane-permission comparisons use the network's declared format version.
@@ -206,6 +216,11 @@ Explicit class aliases retain their native meaning. These comparisons do not rew
 Width and native stop-offset checks compare at the command's 12-decimal output precision.
 Inherited lane-count patch permissions use explicit classes, so a new plain-XML patch keeps the source network's legacy meaning.
 Lane and connection preservation checks both apply the corresponding network-format version.
+Native conversion can emit a newer file format. Copying older permission text into that format can change effective classes.
+Restoration now retains the source header and type definitions. Generated permission declarations keep their native meaning in that source format.
+Inherited boundary patches retain source classes in current plain XML. Teacher copies instead follow the receiving network's format.
+Join checks also compare effective permissions on every surviving external lane.
+These checks preserve the model meaning of permissions. They do not establish field access rules.
 
 Native conversion produces a proposal. The shared preservation code restores
 the declared exterior and checks fixed boundary endpoints. Lane or road

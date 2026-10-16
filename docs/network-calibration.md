@@ -235,7 +235,9 @@ It also checks the fixed lane endpoints on mutable boundary roads.
 A later conversion requires another restoration and comparison.
 Supported road-shape, width, lane-count, junction-shape, and connection edits now use a local native input.
 They still restore remote road ends and verify the complete candidate.
-Joins, controller reconstruction, shared controls across the edit boundary, and incomplete bidirectional context retain full conversion.
+Typed and context joins also use local inputs for joining and boundary-path restoration.
+Controller reconstruction, shared controls across the edit boundary, and incomplete bidirectional context retain full conversion.
+Other full-construction stages retain their existing conversion paths.
 See [typed edit preservation](network-edit-operations.md#preservation-and-review) for retained inputs and current limits.
 An explicit stop-line adjustment can avoid that conversion when the saved approach and internal paths support a unique prefix transfer.
 Its byte comparison preserves unrelated junction waiting structures and signal definitions.

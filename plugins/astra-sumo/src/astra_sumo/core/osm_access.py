@@ -145,6 +145,35 @@ def _permission_set(attributes: Mapping[str, str], *, network_version: str | Non
     return universe - denied
 
 
+def _permission_attributes_for_version(attributes, *, source_version, target_version=None):
+    """Keep effective classes when a declaration moves between network formats."""
+    original = {key: attributes[key] for key in ("allow", "disallow") if key in attributes}
+    allowed = _permission_set(original, network_version=source_version)
+    if allowed == _permission_set(original, network_version=target_version):
+        return original
+    denied = _permission_set({}) - allowed
+    result = {"disallow": " ".join(sorted(denied))} if denied else {}
+    if _permission_set(result, network_version=target_version) != allowed:
+        result = {"allow": " ".join(sorted(allowed))} if allowed else {"disallow": "all"}
+    return result
+
+
+def _translate_permission_declarations(element, *, source_version, target_version=None):
+    if source_version == target_version:
+        return []
+    changed = []
+    for row in element.iter():
+        if row.tag not in {"lane", "connection"}:
+            continue
+        permissions = _permission_attributes_for_version(row.attrib, source_version=source_version, target_version=target_version)
+        if permissions != _permission_attributes(row):
+            row.attrib.pop("allow", None)
+            row.attrib.pop("disallow", None)
+            row.attrib.update(permissions)
+            changed.append(row.get("id") or [row.get(key) for key in ("from", "fromLane", "to", "toLane")])
+    return changed
+
+
 def _external_lanes(root: ET.Element) -> dict[str, ET.Element]:
     return {lane.attrib["id"]: lane for edge in root.findall("edge") if edge.get("function") != "internal" for lane in edge.findall("lane")}
 

@@ -6,12 +6,29 @@ import pytest
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.junction_boundary_rebuild import (
+    _diagnostic_signal_control,
     _boundary_geometry,
     _source_polygon_preserves_cuts,
     collect_join_boundary_paths,
     restore_joined_boundary_connections,
 )
 from astra_sumo.core.source_movement_support import _index
+
+
+@pytest.mark.parametrize("fault", [None, "uncontrolled", "program_missing", "index_unbound"])
+def test_diagnostic_join_checks_the_requested_vehicle_control(fault):
+    root = ET.fromstring('''<net><tlLogic id="control"><phase state="G"/></tlLogic>
+      <connection from="in" to="out" fromLane="0" toLane="0" tl="control" linkIndex="0"/></net>''')
+    connection = root.find("connection")
+    if fault == "uncontrolled":
+        connection.attrib.pop("tl")
+    elif fault == "program_missing":
+        root.remove(root.find("tlLogic"))
+    elif fault == "index_unbound":
+        connection.set("linkIndex", "1")
+    result = _diagnostic_signal_control(root, {"movements": [{"join_id": "joined", "connection": ["in", 0, "out", 0]}]})
+    assert result["status"] == ("pass" if fault is None else "blocked")
+    assert result["controlled_movement_count"] == int(fault is None)
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")

@@ -404,8 +404,10 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                 raise ValueError("The source does not identify this connection as a turnaround.")
         elif kind in _JOIN_EDITS:
             members = set(params["node_ids"])
-            if not members <= nodes.keys() or params["join_id"] in nodes and params["join_id"] not in members:
-                raise ValueError("Join nodes are unknown or the target ID belongs to another node.")
+            controller_ids = {row.get("id") for row in root.findall("tlLogic")} | {row.get("tl") for row in root.findall("connection") if row.get("tl")}
+            if (not members <= nodes.keys() or params["join_id"] in nodes
+                    or params.get("signal_policy") == "rebuild_diagnostic" and params["join_id"] in controller_ids):
+                raise ValueError("Join members must exist. Use a new target node ID and, for a signal rebuild, a new controller ID.")
             if any(nodes[n].get("type", "").startswith("rail_") for n in members):
                 raise ValueError("Rail-control joins need a separate rail-specific operation.")
             from .corridor_edit_ledger import _is_structurally_protected_edge
@@ -596,11 +598,12 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"
                                       and _stop_line_patches(root, params) is not None else "netconvert")
     if plan["materialization_method"] == "netconvert":
-        if kind in _JOIN_EDITS | {"demote_duplicate_tls", "relocate_tls_control"}:
-            plan["local_conversion"] = {"status": "full_network", "reason": "join_or_controller_reconstruction"}
+        if kind in {"demote_duplicate_tls", "relocate_tls_control"}:
+            plan["local_conversion"] = {"status": "full_network", "reason": "controller_reconstruction"}
         else:
             from .local_network_conversion import local_conversion_input
-            subset, local = local_conversion_input(root, mutable, mutable_edges)
+            groups = {params["join_id"]: params["node_ids"]} if kind in _JOIN_EDITS else None
+            subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
             plan["local_conversion"] = local
             if subset is not None:
                 local_file = output_dir / f"{prefix}.local-input.net.xml"
@@ -662,9 +665,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             mutable_nodes, mutable_edges = set(), set()
     elif kind in _JOIN_EDITS:
         from .junction_boundary_rebuild import restore_joined_boundary_connections
-        rebuild = restore_joined_boundary_connections(source_net=source, joined_net=candidate_file,
+        rebuild = restore_joined_boundary_connections(source_net=source, joined_net=proposal,
             groups={params["join_id"]: params["node_ids"]}, output_dir=output_dir / "scoped-join",
-            expected_source_sha256=plan["source"]["sha256"], expected_joined_sha256=file_sha256(candidate_file),
+            expected_source_sha256=plan["source"]["sha256"], expected_joined_sha256=file_sha256(proposal),
             signal_policy=params.get("signal_policy", "preserve"),
             interior_lane_change_policy=params.get("interior_lane_change_policy", "fixed_paths"),
             netconvert_binary=netconvert_binary, sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds)
@@ -786,6 +789,10 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                 old = mapping.get(new, 0 if params.get("add_side") == "right" else len(original) - 1)
                 unchanged_permissions &= (_permission_set(original[old].attrib, network_version=before.get("version", "0.0")) ==
                                           _permission_set(lane.attrib, network_version=after.get("version", "0.0")))
+    else:
+        unchanged_permissions = all(_permission_set(old_lanes[identity].attrib, network_version=before.get("version", "0.0")) ==
+                                    _permission_set(new_lanes[identity].attrib, network_version=after.get("version", "0.0"))
+                                    for identity in old_lanes.keys() & new_lanes.keys())
     green_conflicts = [row for row in structure.get("tls_link_binding_audit", {}).get("protected_green_foe_conflicts", [])
                        if row.get("junction_id") in mutable_nodes]
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])

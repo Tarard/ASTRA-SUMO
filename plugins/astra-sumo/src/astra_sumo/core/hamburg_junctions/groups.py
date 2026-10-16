@@ -303,8 +303,9 @@ def _prepare_context_joins(*, source_net, context_groups, official_groups, outpu
         raise ValueError("unsupported context signal_policy")
     if not members <= set(nodes) or any(nodes[node].get("type") not in allowed_types for node in members):
         raise ValueError("context_joins requires existing junctions without signals or rail control")
-    if any(join_id in nodes and join_id not in group for join_id, group in context_groups.items()):
-        raise ValueError("context_joins target id collides with a retained junction")
+    controller_ids = {row.get("id") for row in root.findall("tlLogic")} | {row.get("tl") for row in root.findall("connection") if row.get("tl")}
+    if any(join_id in nodes or signal_policy == "rebuild_diagnostic" and join_id in controller_ids for join_id in context_groups):
+        raise ValueError("context_joins needs new target node IDs and new diagnostic controller IDs")
     edge_targets = {edge.get("id"): edge.get("to") for edge in root.findall("edge")}
     if signal_policy == "preserve" and any(connection.get("tl") and edge_targets.get(connection.get("from")) in members for connection in root.findall("connection")):
         raise ValueError("context_joins cannot contain a controlled connection")
@@ -312,10 +313,27 @@ def _prepare_context_joins(*, source_net, context_groups, official_groups, outpu
     joins = output_dir / "context-joins.nod.xml"
     _write_join_file(joins, [{"join_id": key, "source_node_ids": values} for key, values in context_groups.items()], traffic_light=signal_policy == "rebuild_diagnostic")
     joined = output_dir / "joined.net.xml"
-    command = run_command([netconvert_binary, "--sumo-net-file", str(source_net), "--node-files", str(joins), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--seed", str(seed), "--output-file", str(joined)], cwd=output_dir, timeout_seconds=timeout_seconds)
+    from ..local_network_conversion import local_conversion_input, merge_local_conversion
+    mutable_nodes = members | set(context_groups)
+    mutable_edges = {edge.get("id") for edge in root.findall("edge") if not edge.get("id", "").startswith(":")
+                     and any(edge.get(end) in mutable_nodes for end in ("from", "to"))}
+    subset, local_conversion = local_conversion_input(root, mutable_nodes, mutable_edges, join_groups=context_groups)
+    conversion_source = Path(source_net)
+    if subset is not None:
+        conversion_source = output_dir / "context.local-input.net.xml"
+        conversion_source.write_bytes(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
+        local_conversion["input"] = {"path": str(conversion_source), "sha256": file_sha256(conversion_source)}
+    command = run_command([netconvert_binary, "--sumo-net-file", str(conversion_source), "--node-files", str(joins), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--seed", str(seed), "--output-file", str(joined)], cwd=output_dir, timeout_seconds=timeout_seconds)
     (output_dir / "netconvert.log").write_text(command.stdout + command.stderr, encoding="utf-8")
     if command.returncode != 0 or not joined.is_file():
         raise ValueError("netconvert could not build the declared context joins")
+    if subset is not None:
+        raw = output_dir / "context.native-local-output.net.xml"
+        raw.write_bytes(joined.read_bytes())
+        merged = merge_local_conversion(root, ET.parse(raw).getroot(), local_conversion)
+        joined.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
+        local_conversion.update(native_output={"path": str(raw), "sha256": file_sha256(raw)},
+            merged_proposal={"path": str(joined), "sha256": file_sha256(joined), "stage": "before_exterior_restoration"})
     report = restore_joined_boundary_connections(
         source_net=source_net, joined_net=joined, groups=context_groups,
         output_dir=output_dir / "boundary-restoration", expected_source_sha256=file_sha256(source_net),
@@ -326,7 +344,8 @@ def _prepare_context_joins(*, source_net, context_groups, official_groups, outpu
         interior_lane_change_policy=interior_lane_change_policy)
     if report["status"] != "pass":
         raise ValueError("context joins did not preserve boundary paths or outside junctions")
-    return {**report, "groups": context_groups, "join_command": command.to_dict(), "join_file": {"path": str(joins), "sha256": file_sha256(joins)}}
+    return {**report, "groups": context_groups, "join_command": command.to_dict(), "join_local_conversion": local_conversion,
+            "join_file": {"path": str(joins), "sha256": file_sha256(joins)}}
 
 
 def _write_join_file(path: Path, groups: Sequence[Mapping[str, Any]], *, traffic_light: bool = True) -> None:
