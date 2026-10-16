@@ -1,1 +1,3 @@
 * text=auto eol=lf
+# Keep the publisher's original bytes, including trailing spaces.
+benchmarks/parking_source_feasibility_20261016_v1/*.gml -text -whitespace

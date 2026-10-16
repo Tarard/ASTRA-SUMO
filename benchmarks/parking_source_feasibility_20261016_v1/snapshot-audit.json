@@ -1,0 +1,104 @@
+{
+  "kind": "frozen_parking_snapshot_audit",
+  "promotion_authority": false,
+  "raw_sha256": "586e1dbe44a3a0cec11b59d4c3c51d01754b7ee44ac5385821b22e9d58cd6bc8",
+  "actual_feature_members": 127,
+  "records_with_availability_fields": 45,
+  "records_without_availability_fields": 82,
+  "stock_derivation_findings": [
+    {
+      "name": "Parkhaus Stadthöfe (Bleichenhof)",
+      "reported_total": 0,
+      "reported_free": 0,
+      "stock_derivation": "unavailable",
+      "reason": "total_unknown_or_nonpositive"
+    },
+    {
+      "name": "Madison",
+      "reported_total": 0,
+      "reported_free": 25,
+      "stock_derivation": "unavailable",
+      "reason": "total_unknown_or_nonpositive"
+    },
+    {
+      "name": "Rödingsmarkt",
+      "reported_total": 0,
+      "reported_free": 700,
+      "stock_derivation": "unavailable",
+      "reason": "total_unknown_or_nonpositive"
+    },
+    {
+      "name": "Marktkauf-Center Harburg",
+      "reported_total": 0,
+      "reported_free": 420,
+      "stock_derivation": "unavailable",
+      "reason": "total_unknown_or_nonpositive"
+    }
+  ],
+  "textually_different_status_fields": [
+    {
+      "name": "Parkhaus Stadthöfe (Bleichenhof)",
+      "status": "geschlossen",
+      "situation": "besetzt"
+    },
+    {
+      "name": "Europa-Passage",
+      "status": "Störung",
+      "situation": "belegt"
+    },
+    {
+      "name": "Madison",
+      "status": "frei",
+      "situation": "besetzt"
+    },
+    {
+      "name": "Rödingsmarkt",
+      "status": "frei",
+      "situation": "besetzt"
+    },
+    {
+      "name": "Marktkauf-Center Harburg",
+      "status": "frei",
+      "situation": "besetzt"
+    }
+  ],
+  "incomplete_status_fields": [
+    {
+      "name": "Marktkauf-Center Bergedorf",
+      "status": "Störung",
+      "situation": null
+    }
+  ],
+  "different_static_and_dynamic_totals": [],
+  "receipt_time_hypotheses": {
+    "UTC+00": {
+      "future_receipt_count": 44,
+      "age_range_seconds": [
+        -7186.0,
+        48028814.0
+      ],
+      "receipts_older_than_one_day": [
+        {
+          "name": "Kunsthalle",
+          "age_seconds": 48028814.0
+        }
+      ]
+    },
+    "UTC+02": {
+      "future_receipt_count": 0,
+      "age_range_seconds": [
+        14.0,
+        48036014.0
+      ],
+      "receipts_older_than_one_day": [
+        {
+          "name": "Kunsthalle",
+          "age_seconds": 48036014.0
+        }
+      ]
+    }
+  },
+  "time_zone": "not_declared_by_source",
+  "receipt_timestamp_meaning": "unknown",
+  "claim_boundary": "Field presence, numeric consistency and timestamp hypotheses only. Closed or fault states do not by themselves invalidate a reported count. No occupancy series, stock meaning, source measurement time or field accuracy is established."
+}

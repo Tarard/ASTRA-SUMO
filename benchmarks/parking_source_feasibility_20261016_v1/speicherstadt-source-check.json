@@ -1,0 +1,47 @@
+{
+  "kind": "parking_source_feasibility_snapshot",
+  "date": "2026-10-16",
+  "promotion_authority": false,
+  "source": {
+    "url": "https://geodienste.hamburg.de/wfs_parkhaeuser?REQUEST=GetFeature&SERVICE=WFS&VERSION=2.0.0&typename=de.hh.up%3Aparkhaeuser",
+    "catalog": "https://suche.transparenz.hamburg.de/dataset/parkhaeuser-hamburg17",
+    "attribution": "Freie und Hansestadt Hamburg, Behörde für Verkehr und Mobilitätswende",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "retrieved_utc": "2026-10-16T08:25:15.784010+00:00",
+    "response_timestamp_utc": "2026-10-16T08:25:14Z",
+    "raw_sha256": "586e1dbe44a3a0cec11b59d4c3c51d01754b7ee44ac5385821b22e9d58cd6bc8",
+    "bytes": 183785,
+    "actual_feature_members": 127,
+    "declared_number_returned": "0",
+    "raw_path": "benchmarks/parking_source_feasibility_20261016_v1/hamburg-parking.gml",
+    "records_with_availability_fields": 45,
+    "records_without_availability_fields": 82
+  },
+  "facility": {
+    "source_id": "DE.HH.UP_PARKHAEUSER_10039",
+    "name": "Speicherstadt",
+    "address": "Am Sandtorkai 6",
+    "point_epsg25832": [
+      565888.774,
+      5933197.991
+    ],
+    "portal_correspondence": "unverified",
+    "reported_total_spaces": 553,
+    "reported_free_spaces": 452,
+    "reported_utilization_percent": 18,
+    "received_verbatim": "16.10.2026, 10:24",
+    "received_time_zone": "not_stated_in_response",
+    "received_timestamp_meaning": "unknown_measurement_or_ingest_time",
+    "reserved_space_semantics": "unknown",
+    "operator_observation_validation": "unchecked",
+    "historical_series": "not_acquired",
+    "reported_clearance_height_m": 1.95,
+    "entrance_field": "not_present"
+  },
+  "limits": [
+    "The catalog describes partial and unchecked availability data.",
+    "The catalog and API description state different update intervals: five and ten minutes.",
+    "One snapshot does not identify entry flows, exit flows, or dwell times.",
+    "This record does not validate field capacity or bind SUMO lanes."
+  ]
+}
