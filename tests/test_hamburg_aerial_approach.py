@@ -387,7 +387,7 @@ def test_existing_source_fanout_is_recognized_without_another_lane_addition(tmp_
     if case in {"shifted", "broken"}:
         assert result["status"] == "review_required" and not result["not_applicable"]
         if case == "shifted":
-            assert result["reviews"][0]["reason"] == "existing_lane_transition_displaced_from_MAP_merge"
+            assert result["reviews"][0]["reason"] == "existing_transition_geometry_observation"
             assert abs(result["reviews"][0]["merge_to_source_node_longitudinal_m"] - 20) < 0.01
     else:
         assert result["status"] == "not_applicable", result

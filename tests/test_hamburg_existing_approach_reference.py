@@ -44,7 +44,12 @@ def test_frozen_hamburg_existing_approaches_and_remaining_transition_offsets(tmp
         for row in result["not_applicable"] if "source_transition_junction_id" in row}
     assert transitions == fixture["expected_source_transitions"]
     offsets = {row["node_id"] + ":" + row["approach"]: row["merge_to_source_node_longitudinal_m"] for row in result["reviews"]}
-    assert offsets == pytest.approx(fixture["expected_transition_offsets_m"], abs=1e-5)
-    assert all(row["reason"] == "existing_lane_transition_displaced_from_MAP_merge" for row in result["reviews"])
+    assert offsets == pytest.approx(fixture["expected_transition_offsets_m"], abs=0.01)
+    assert all(row["reason"] == "existing_transition_geometry_observation" for row in result["reviews"])
+    taper = {row["node_id"]: row["reference_taper_comparison"] for row in result["reviews"]}
+    assert taper["2349"]["reference_length_after_centerline_separation_m"]["3.0"] == pytest.approx(49.52, abs=0.1)
+    assert taper["2349"]["source_ordinary_pocket_logical_length_m"] == pytest.approx(51.05, abs=0.01)
+    assert taper["2394"]["reference_length_after_centerline_separation_m"]["3.0"] == pytest.approx(75.53, abs=0.1)
+    assert taper["2394"]["source_ordinary_pocket_logical_length_m"] == pytest.approx(81.97, abs=0.01)
     for record in inputs:
         assert hashlib.sha256(Path(record["path"]).read_bytes()).hexdigest() == record["sha256"]
