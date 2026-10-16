@@ -21,11 +21,8 @@ Pair = tuple[str, int, str, int]
 
 
 def _modes(element: ET.Element) -> set[str]:
-    allowed = set(element.get("allow", "").split())
-    denied = set(element.get("disallow", "").split())
-    if "all" in denied:
-        return set()
-    return (set(_MOTORIZED_MODES) if not allowed or "all" in allowed else allowed & _MOTORIZED_MODES) - denied
+    from .osm_access import _permission_set
+    return _permission_set(element.attrib) & _MOTORIZED_MODES
 
 
 def _index(root: ET.Element) -> dict[str, Any]:

@@ -156,6 +156,35 @@ def test_native_opposite_lane_references_survive_width_and_right_lane_insertion(
     assert root.find("edge/lane[@id='reverse_0']/neigh").get("lane") == f"middle_{index}"
 
 
+def test_legacy_lane_count_patches_keep_inherited_lane_and_connection_permissions(tmp_path):
+    if not shutil.which("netconvert") or not shutil.which("sumo"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.osm_access import _permission_set
+    source = _source(tmp_path)
+    tree = ET.parse(source)
+    root = tree.getroot()
+    root.set("version", "1.3")
+    root.find("edge[@id='middle']/lane").set("disallow", "rail_urban")
+    root.find("connection[@from='in'][@to='middle']").set("disallow", "rail_urban")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    output = tmp_path / "legacy-count"
+    output.mkdir()
+    candidate = output / "candidate.net.xml"
+    plan = write_scoped_edit_plan(root=root, operation={"id": "count", "operation": "set_lane_count",
+        "params": {"edge_id": "middle", "num_lanes": 2, "add_side": "right"}}, source_file=source,
+        candidate_file=candidate, output_dir=output, prefix="test", netconvert_binary=shutil.which("netconvert"), mode="explore")
+    result = run_command(plan["command"], cwd=output, timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    checks = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
+        netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
+    assert checks["requested_effect_applied"] and checks["release_checks_passed"], checks
+    actual = ET.parse(candidate).getroot()
+    for lane in actual.find("edge[@id='middle']").findall("lane"):
+        assert not _permission_set(lane.attrib, network_version=actual.get("version")) & {"rail_urban", "subway", "cable_car"}
+    connection = actual.find("connection[@from='in'][@to='middle']")
+    assert not _permission_set(connection.attrib, network_version=actual.get("version")) & {"rail_urban", "subway", "cable_car"}
+
+
 @pytest.mark.parametrize("local_edit", [False, True], indirect=True)
 def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposal(tmp_path, local_edit):
     source, candidate, plan, checked = local_edit

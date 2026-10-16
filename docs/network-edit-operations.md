@@ -204,6 +204,8 @@ They follow [SUMO 1.27.1's legacy class rules](https://github.com/eclipse-sumo/s
 including inherited restrictions on subway and cable-car classes in older networks.
 Explicit class aliases retain their native meaning. These comparisons do not rewrite the source permissions.
 Width and native stop-offset checks compare at the command's 12-decimal output precision.
+Inherited lane-count patch permissions use explicit classes, so a new plain-XML patch keeps the source network's legacy meaning.
+Lane and connection preservation checks both apply the corresponding network-format version.
 
 Native conversion produces a proposal. The shared preservation code restores
 the declared exterior and checks fixed boundary endpoints. Lane or road

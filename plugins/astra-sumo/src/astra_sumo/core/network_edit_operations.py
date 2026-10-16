@@ -225,7 +225,13 @@ def _lane_count_layout(params, edge):
             for index in range(min(old_count, new_count))}
 
 
-def _lane_count_connections(params, edges, connections):
+def _patch_permissions(attributes, network_version):
+    from .osm_access import _permission_set
+    allowed = _permission_set(attributes, network_version=network_version)
+    return {"allow": " ".join(sorted(allowed))} if allowed else {"disallow": "all"}
+
+
+def _lane_count_connections(params, edges, connections, *, network_version=None):
     target = params["edge_id"]
     mapping = _lane_count_layout(params, edges[target])
     if "connections" in params:
@@ -237,6 +243,10 @@ def _lane_count_connections(params, edges, connections):
         if any(edge == target and index not in mapping for edge, index in (pair[:2], pair[2:])):
             continue
         record = {key: row.get(key) for key in ("from", "fromLane", "to", "toLane", "allow", "disallow") if row.get(key) is not None}
+        if record.keys() & {"allow", "disallow"}:
+            permissions = _patch_permissions(record, network_version)
+            record = {key: value for key, value in record.items() if key not in {"allow", "disallow"}}
+            record.update(permissions)
         for end, lane_key in (("from", "fromLane"), ("to", "toLane")):
             if record[end] == target:
                 record[lane_key] = str(mapping[int(record[lane_key])])
@@ -542,7 +552,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for new in range(params["num_lanes"]):
                 old = new_to_old.get(new, 0 if params.get("add_side") == "right" else len(edge.findall("lane")) - 1)
                 original = edge.findall("lane")[old]
-                permissions = {key: original.get(key) for key in ("allow", "disallow") if original.get(key)} or {"allow": "all"}
+                permissions = _patch_permissions(original.attrib, root.get("version", "0.0"))
                 lane_patch = ET.SubElement(patch, "lane", index=str(new), shape="", **permissions,
                     width=original.get("width", "3.2"), **{key: original.get(key)
                     for key in ("speed", "endOffset") if original.get(key) is not None})
@@ -551,7 +561,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for left, right in sorted({(pair[0], pair[2]) for pair in connections
                     if params["edge_id"] in (pair[0], pair[2]) and pair[0] in edges and pair[2] in edges}):
                 ET.SubElement(patches["connections"], "delete", **{"from": left, "to": right})
-            for record in _lane_count_connections(params, edges, connections):
+            for record in _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0")):
                 ET.SubElement(patches["connections"], "connection", **record)
     elif kind == "demote_duplicate_tls":
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], type="priority")
@@ -577,7 +587,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
     if kind == "set_lane_count":
         plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
-        plan["requested_connections"] = _lane_count_connections(params, edges, connections)
+        plan["requested_connections"] = _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0"))
     plan["junction_link_detail"] = int(root.get("junctionLinkDetail", "5"))
     command = [netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
                "--junctions.internal-link-detail", str(plan["junction_link_detail"]), "--precision", "12", "--output-file", str(candidate_file.resolve())]
@@ -695,7 +705,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         ordinary = {key for key in connections if key[0] in old_edges and key[2] in old_edges}
         effect = ordinary == {key for key in expected if key[0] in old_edges and key[2] in old_edges}
         from .osm_access import _permission_set
-        effect &= all(_permission_set(old_connections[key].attrib) == _permission_set(connections[key].attrib)
+        effect &= all(_permission_set(old_connections[key].attrib, network_version=before.get("version", "0.0")) ==
+                      _permission_set(connections[key].attrib, network_version=after.get("version", "0.0"))
                       for key in ordinary & old_connections.keys() if key != pair)
         if kind == "add_lane_connection" and set(params) & {"allow", "disallow"}:
             effect &= _permission_set(connections[pair].attrib) == _permission_set(params)
@@ -754,7 +765,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         effect &= connections_preserved and all(pair in connections and _permission_set(connections[pair].attrib) == _permission_set(record)
                                                for pair, record in target_records.items())
     connection_permissions_preserved = kind in _JOIN_EDITS or all(
-        _permission_set(old_connections[key].attrib) == _permission_set(connections[key].attrib)
+        _permission_set(old_connections[key].attrib, network_version=before.get("version", "0.0")) ==
+        _permission_set(connections[key].attrib, network_version=after.get("version", "0.0"))
         for key in old_pairs & new_pairs if not (kind == "set_lane_count" and params["edge_id"] in (key[0], key[2])))
     if kind not in _JOIN_EDITS:
         changed_lane_layout = old_lanes.keys() != new_lanes.keys()

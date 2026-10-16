@@ -100,18 +100,19 @@ def apply_service_passenger_permissions(
         def path_modes(index, row, version):
             _, first, last, connection = row
             _, chain = _candidate_modes(index, first, last, connection)
-            modes = _permission_set(connection.attrib)
+            modes = _permission_set(connection.attrib, network_version=version)
             for lane_id in chain:
                 modes &= _permission_set(index["lanes"][lane_id][1].attrib, network_version=version)
             for lane_id in chain[1:-1]:
-                modes &= _permission_set(index["outgoing"][lane_id][0][1].attrib)
+                modes &= _permission_set(index["outgoing"][lane_id][0][1].attrib, network_version=version)
             return modes if chain else set(), chain
         paths = []
         for pair, row in new_pairs.items():
             _, first, last, connection = row
             modes, chain = path_modes(candidate_index, row, actual.get("version", "0.0"))
             required = ("passenger" in expected.get(first, set()) & expected.get(last, set())
-                        and "passenger" in _permission_set(connection.attrib) and (first in changed or last in changed))
+                        and "passenger" in _permission_set(connection.attrib, network_version=actual.get("version", "0.0"))
+                        and (first in changed or last in changed))
             prior_modes = path_modes(original_index, old_pairs[pair], source_version)[0] if pair in old_pairs else set()
             expected_modes = prior_modes | ({"passenger"} if required else set())
             paths.append(dict(connection=list(pair), passenger_required=required,
@@ -130,7 +131,8 @@ def apply_service_passenger_permissions(
             external_geometry_preserved=set(before) == set(after) and all(same_lane_geometry(before[k], after[k]) for k in before),
             connections_preserved=set(old_pairs) == set(new_pairs), internal_permissions=all(row["passed"] for row in paths),
             connection_permissions_preserved=set(old_pairs) == set(new_pairs) and all(
-                _permission_set(old_pairs[pair][3].attrib) == _permission_set(new_pairs[pair][3].attrib) for pair in old_pairs),
+                _permission_set(old_pairs[pair][3].attrib, network_version=source_version) ==
+                _permission_set(new_pairs[pair][3].attrib, network_version=actual.get("version", "0.0")) for pair in old_pairs),
             signal_programs_preserved=signals(root) == signals(actual))
         loaded = run_command([str(sumo_binary), "--net-file", str(candidate), "--begin", "0", "--end", "1", "--no-step-log", "true"],
                              cwd=destination, timeout_seconds=timeout_seconds)
