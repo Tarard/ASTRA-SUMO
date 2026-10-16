@@ -12,6 +12,7 @@ The [official-part follow-up](official-local-20261016-v1.md) records local offic
 The [movement follow-up](movement-local-20261016-v1.md) records scoped movement passes, contour controls, effective-permission comparison, and corrected native-output records.
 The [approach follow-up](approach-local-20261016-v1.md) records local road splits, logical-length allocation, durable failures, and unresolved real Hamburg approaches.
 The [existing-approach comparison](existing-approaches-20261016-v1.md) resolves four construction findings and measures the two remaining merge-location differences.
+The [fixed-cohort diagnosis](traffic-diagnosis-20261016-v1.md) distinguishes taper observations from edit decisions and checks immediate route access for recorded lane-front candidates.
 
 ## Construction findings and repair
 

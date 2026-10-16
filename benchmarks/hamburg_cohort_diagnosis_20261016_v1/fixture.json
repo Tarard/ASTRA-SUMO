@@ -1,0 +1,193 @@
+{
+  "kind": "frozen_synthetic_cohort_diagnosis",
+  "date": "2026-10-16",
+  "promotion_authority": false,
+  "native_version": "1.27.1",
+  "recorded_model": {
+    "path": "recorded.net.xml.gz",
+    "sha256": "41d8ed182c2ece06218428fe9374e42da9db10e1ef69b39c036e926ae3d86ed6",
+    "uncompressed_sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093",
+    "uncompressed_bytes": 820399
+  },
+  "current_model": {
+    "path": "current.net.xml.gz",
+    "sha256": "725a04fe1fac37c5f8608b7d699d9877c47c172333ef472e5c37d3c4e0e9dafb",
+    "uncompressed_sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a",
+    "uncompressed_bytes": 820380
+  },
+  "cohort": {
+    "path": "cohort.rou.xml.gz",
+    "sha256": "ec096663a5b830dd30e793bf892b5af5d3bf75797e2ff40d27e94b50743492ae",
+    "uncompressed_sha256": "c28f3392fa13f7e7e60d42d0849a684105deaa47f9c744f506036dd6c6b96492",
+    "uncompressed_bytes": 22857
+  },
+  "cohort_kind": "synthetic_fixed_routed_requests",
+  "requested_count": 100,
+  "departures_s": [
+    0.0,
+    99.0
+  ],
+  "vehicle_class": "passenger",
+  "signal_types": {
+    "actuated": 21,
+    "static": 3
+  },
+  "simulation_parameters": {
+    "begin_s": 0,
+    "end_s": 2400,
+    "step_length_s": 1,
+    "time_to_teleport_s": 2400,
+    "collision_check_junctions": true,
+    "collision_action": "teleport"
+  },
+  "observation": "TraCI all-vehicle simulator truth, offline only. No control action was changed by the replay observer.",
+  "cases": {
+    "17": {
+      "seed": 17,
+      "snapshots": {
+        "1800": {
+          "path": "17.state-1800.json.gz",
+          "sha256": "faa5d089592a3a3dcaacbeaee338ac1edced4040add0dab011a83fdbac86f9ec",
+          "uncompressed_sha256": "25039ab0033a4994b479e3c499a27c6880f955b772d11d65896a97733c72336d",
+          "uncompressed_bytes": 123463
+        },
+        "2100": {
+          "path": "17.state-2100.json.gz",
+          "sha256": "77ab196caded4f7dbffd56e6dde2431f28a5c7cae0001b596604836efc6f4179",
+          "uncompressed_sha256": "581e2a80c166e7757b8fbdbbb2396dc392174af505621ad18f79bdf80cec0680",
+          "uncompressed_bytes": 124208
+        },
+        "2400": {
+          "path": "17.state-2400.json.gz",
+          "sha256": "9fd318314016be434c5d00596da0b150108a44bdcc8b0c62f7cb7e22c34412cb",
+          "uncompressed_sha256": "293485f2456e6ea8dbae9dc4a9aaa2b09125cb1806b3e120cf6c59c1dd911e65",
+          "uncompressed_bytes": 122678
+        }
+      },
+      "tripinfo": {
+        "path": "17.tripinfo.xml.gz",
+        "sha256": "77510d5da73724ed0940445ce9aa2232e334e28eed2efe44a8d0d057d22c7a9d",
+        "uncompressed_sha256": "8f9042c8035d5b19457f8830eac4e131efe7a2beaedde0c904a2f219d2c57f7d",
+        "uncompressed_bytes": 29520
+      },
+      "collisions": {
+        "path": "17.collisions.xml.gz",
+        "sha256": "bae1df0553fa4d44b88cc348685e3e108fc399c776243527934bb2ee928fcbe2",
+        "uncompressed_sha256": "8b13de70c881fd98c71a60dda7d6b56dd6234a48948389ec79f61ee9fd684155",
+        "uncompressed_bytes": 2761
+      },
+      "replay_matches_recorded": true,
+      "arrived_count": 64,
+      "on_road_count": 35,
+      "pending_ids": [
+        "66"
+      ],
+      "collision_count": 1,
+      "summary": {
+        "path": "17.summary.xml.gz",
+        "sha256": "ce4596976562988654d2276a27fa6f45822413b56a4cd2e7895aa006a9d48138",
+        "uncompressed_sha256": "33a6bbe8f85f878025764a05eb82e2c05ae8b5b95e541dfea6adb882d6237964",
+        "uncompressed_bytes": 658254
+      },
+      "teleport_count": 1
+    },
+    "42": {
+      "seed": 42,
+      "snapshots": {
+        "1800": {
+          "path": "42.state-1800.json.gz",
+          "sha256": "a78969fdd2902846db5ef54f4576efe1f4206c462a6ccf2605de77d69a764806",
+          "uncompressed_sha256": "51a56e96d79844253146b01add8ce84e1fd798ca7d4c560368ea195ddd7c663e",
+          "uncompressed_bytes": 88
+        },
+        "2100": {
+          "path": "42.state-2100.json.gz",
+          "sha256": "d7d97975893b49293065251ac4140fafa24e20830b07e0ca774082a46ad2c28a",
+          "uncompressed_sha256": "c8c62959c47d89b79a99c17b001ebf86fb661757f5e722f68352b4afee78e01a",
+          "uncompressed_bytes": 88
+        },
+        "2400": {
+          "path": "42.state-2400.json.gz",
+          "sha256": "cc59e2216bc2a020852bc59a00fbdebce7fd8de020620fe16e7c98c08e67da5d",
+          "uncompressed_sha256": "61a0f378a58388af4a01e08937069caa0efd2877fdd12b6c53b58cb20a638290",
+          "uncompressed_bytes": 88
+        }
+      },
+      "tripinfo": {
+        "path": "42.tripinfo.xml.gz",
+        "sha256": "4dc836854ff086632b53914a37fbdbd6250d467c4eab517c97cc478a1cd658bd",
+        "uncompressed_sha256": "4ae9d53f3282a37f320021b9268ecb84fd02e8f191f819e53406203f5f107f3b",
+        "uncompressed_bytes": 44870
+      },
+      "collisions": {
+        "path": "42.collisions.xml.gz",
+        "sha256": "5426b66969461f8b74cc55d9b53e2a7420bfb5ce37c36c0c5ebf70d5937399d0",
+        "uncompressed_sha256": "9a3b4e715dd296e34bfa5750abab907fcfc1a07c4cb937cb97daeea43e4e9165",
+        "uncompressed_bytes": 2762
+      },
+      "replay_matches_recorded": true,
+      "arrived_count": 100,
+      "on_road_count": 0,
+      "pending_ids": [],
+      "collision_count": 1,
+      "summary": {
+        "path": "42.summary.xml.gz",
+        "sha256": "a49e317631da3a4d94b1dbc89727a3cfb308ffb28edf11c7a45376da60fa6c54",
+        "uncompressed_sha256": "5f5025e044758a18414c4b9c77720f55157e2eb335f615da9e59c91377352a7a",
+        "uncompressed_bytes": 662073
+      },
+      "teleport_count": 1
+    },
+    "104": {
+      "seed": 104,
+      "snapshots": {
+        "1800": {
+          "path": "104.state-1800.json.gz",
+          "sha256": "30176aa2f9e0e62209f08641f22e19afc177a159de4c2d50b314c8d88ee671ed",
+          "uncompressed_sha256": "7c3fd95449bbb244b11729b7864b6492cb3e8347b1c645e8fe17668a3ebdb80c",
+          "uncompressed_bytes": 138475
+        },
+        "2100": {
+          "path": "104.state-2100.json.gz",
+          "sha256": "20592385a95248a5cd7563080b4dcae3fc792e1d2ca508216340e88a91c9e9cf",
+          "uncompressed_sha256": "8695c296ab6dd0156f8b9d164f76acedd8bf416155f66e09406d92a6ca7e468a",
+          "uncompressed_bytes": 135952
+        },
+        "2400": {
+          "path": "104.state-2400.json.gz",
+          "sha256": "882c1e14d2435f056e2ab4de899762375fa5a3218f40ebbc02d405823a933fa6",
+          "uncompressed_sha256": "cebdb121b0bf5e5072f4c343a6b18fe053f1a20a18bd4a60477860b328fc3967",
+          "uncompressed_bytes": 137413
+        }
+      },
+      "tripinfo": {
+        "path": "104.tripinfo.xml.gz",
+        "sha256": "a117b01c2f77f719208087500eaf40e4b6d5a737d08e4ce629c18e38e051adf5",
+        "uncompressed_sha256": "7cdb2dd7a277d306ec3abc94a792cd1d282d03d784ccc94250a781fd516fac9d",
+        "uncompressed_bytes": 27804
+      },
+      "collisions": {
+        "path": "104.collisions.xml.gz",
+        "sha256": "c327a0eeae2f64e2cb1e236e90f38df9d115b3ec2dbe8eaf0a1ac064bd5f959b",
+        "uncompressed_sha256": "c02dc99f6c9d2e438c89ef0932fae34bd18f96bba7053bd9942f116b78fe7918",
+        "uncompressed_bytes": 2449
+      },
+      "replay_matches_recorded": true,
+      "arrived_count": 60,
+      "on_road_count": 39,
+      "pending_ids": [
+        "66"
+      ],
+      "collision_count": 0,
+      "summary": {
+        "path": "104.summary.xml.gz",
+        "sha256": "bbcc0afe6f0a020db5cbd719c32c8dae79a68939c9d3c0fc535bad77bb22f2dd",
+        "uncompressed_sha256": "d542815b97fe6a84f1779aa40ac4751ae9949f15b61f9b563321534035c5c073",
+        "uncompressed_bytes": 656350
+      },
+      "teleport_count": 0
+    }
+  },
+  "source_notices": "README.md",
+  "claim_boundary": "Recorded unsuccessful synthetic-demand cases. No field demand, controller accuracy, traffic improvement or universal blocking mechanism is established."
+}
