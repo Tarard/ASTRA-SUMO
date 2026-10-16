@@ -4,6 +4,7 @@ import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from copy import deepcopy
+from pathlib import Path
 
 import pytest
 from pyproj import Transformer
@@ -257,7 +258,7 @@ def test_closer_road_with_wrong_count_is_not_replaced_by_parallel_match():
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
-@pytest.mark.parametrize("fault", [None, "short_lane", "source_count", "permissions"])
+@pytest.mark.parametrize("fault", [None, "short_lane", "source_count", "permissions", "fragmented", "fragmented_broken_path"])
 def test_no_addition_requires_matching_full_length_official_lanes(tmp_path, monkeypatch, fault):
     source, plans = _source_and_plan(tmp_path)
     plan = plans["7"]
@@ -288,12 +289,25 @@ def test_no_addition_requires_matching_full_length_official_lanes(tmp_path, monk
         tree.write(source, encoding="utf-8")
     elif fault == "permissions":
         plan["lanes"][0]["permission_status"] = "review_required"
+    elif fault in {"fragmented", "fragmented_broken_path"}:
+        split_nodes, split_edges = tmp_path / "split.nod.xml", tmp_path / "split.edg.xml"
+        split_nodes.write_text('<nodes><node id="part" x="-50" y="0"/></nodes>', encoding="utf-8")
+        split_edges.write_text('<edges><edge id="prefix" from="s" to="part" numLanes="2" spreadType="center" speed="11" allow="passenger bus"/><edge id="approach" from="part"/></edges>', encoding="utf-8")
+        split_source = tmp_path / "fragmented.net.xml"
+        compiled = subprocess.run([shutil.which("netconvert"), "-s", str(source), "-n", str(split_nodes), "-e", str(split_edges),
+            "--offset.disable-normalization", "true", "-o", str(split_source)], capture_output=True, text=True, timeout=30)
+        assert compiled.returncode == 0, compiled.stderr
+        source = split_source
+        if fault == "fragmented_broken_path":
+            tree = ET.parse(source)
+            tree.getroot().remove(tree.find("connection[@from='prefix'][@to='approach'][@fromLane='1']"))
+            tree.write(source, encoding="utf-8", xml_declaration=True)
     old_hash = file_sha256(source)
     monkeypatch.setattr("astra_sumo.core.command_runner.run_command", lambda *args, **kwargs: pytest.fail("No lane addition should compile a network"))
     result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans, junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "out")
     assert result["candidate_network"] is None
     assert file_sha256(source) == old_hash
-    if fault:
+    if fault not in {None, "fragmented"}:
         assert result["status"] == "review_required"
         assert result["reviews"]
         assert result["not_applicable"] == []
@@ -304,6 +318,11 @@ def test_no_addition_requires_matching_full_length_official_lanes(tmp_path, monk
         assert unchanged["reason"] == "no_documented_addition_with_matching_source_lanes"
         assert unchanged["source_edge_id"] == "approach"
         assert unchanged["official_lane_indices"] == {"1": 0, "2": 1}
+        if fault == "fragmented":
+            root = ET.parse(source).getroot()
+            for index in (0, 1):
+                via = root.find(f"connection[@from='prefix'][@to='approach'][@fromLane='{index}']").get("via")
+                assert unchanged["source_lane_paths"][str(index + 1)] == [f"prefix_{index}", via, f"approach_{index}"]
 
 
 def test_empty_official_scope_is_not_evidence_that_no_addition_is_needed(tmp_path):
@@ -313,6 +332,70 @@ def test_empty_official_scope_is_not_evidence_that_no_addition_is_needed(tmp_pat
     assert result["status"] == "review_required"
     assert result["not_applicable"] == []
     assert result["candidate_network"] is None
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
+@pytest.mark.parametrize("case", ["already_present", "full_reference", "fragmented", "shifted", "broken"])
+def test_existing_source_fanout_is_recognized_without_another_lane_addition(tmp_path, monkeypatch, case):
+    source, plans = _source_and_plan(tmp_path, through_count=1)
+    existing = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "existing")
+    assert existing["status"] == "pass", existing
+    source = Path(existing["candidate_network"]["path"])
+    event = existing["approaches"][0]
+    if case == "fragmented":
+        nodes, edges, connections = [tmp_path / name for name in ("part.nod.xml", "part.edg.xml", "part.con.xml")]
+        nodes.write_text('<nodes><node id="part" x="-20" y="0" shape="-24,-4 -16,-4 -16,4 -24,4"/><node id="side" x="-50" y="12"/></nodes>', encoding="utf-8")
+        edges.write_text('<edges><edge id="fragment" from="' + event['split_node_id'] + '" to="part" numLanes="2" spreadType="center" speed="11" allow="passenger bus"/><edge id="approach" from="part"/><edge id="side-entry" from="side" to="part" numLanes="1" allow="passenger bus"/></edges>', encoding="utf-8")
+        patch = ET.Element("connections")
+        for i in (0, 1):
+            ET.SubElement(patch, "delete", attrib={"from": event["upstream_edge_id"], "to": "approach", "fromLane": "0", "toLane": str(i)})
+            ET.SubElement(patch, "connection", attrib={"from": event["upstream_edge_id"], "to": "fragment", "fromLane": "0", "toLane": str(i)})
+            ET.SubElement(patch, "connection", attrib={"from": "fragment", "to": "approach", "fromLane": str(i), "toLane": str(i)})
+        ET.SubElement(patch, "connection", attrib={"from": "side-entry", "to": "approach", "fromLane": "0", "toLane": "0"})
+        ET.ElementTree(patch).write(connections)
+        candidate = tmp_path / "fragmented-existing.net.xml"
+        compiled = subprocess.run([shutil.which("netconvert"), "-s", str(source), "-n", str(nodes), "-e", str(edges),
+            "-x", str(connections), "--offset.disable-normalization", "true", "-o", str(candidate)], capture_output=True, text=True, timeout=30)
+        assert compiled.returncode == 0, compiled.stderr
+        source = candidate
+    elif case == "broken":
+        tree = ET.parse(source)
+        tree.find("edge[@id='approach']/lane[@index='0']").set("changeLeft", "bicycle")
+        source = tmp_path / "broken-existing.net.xml"
+        tree.write(source, encoding="utf-8", xml_declaration=True)
+    plans = deepcopy(plans)
+    kml = ET.parse(plans["7"]["inputs"]["map_kml"]["path"])
+    inverse = Transformer.from_crs("EPSG:25832", "EPSG:4326", always_xy=True)
+    lon, lat = inverse.transform(-60 if case == "shifted" else -40, 0)
+    coordinate = f"{lon:.12f},{lat:.12f},0"
+    for identifier in ("1", "2"):
+        if case == "full_reference" and identifier == "1":
+            continue
+        points = kml.find(f".//Placemark[name='Lane {identifier}']/LineString/coordinates")
+        points.text = " ".join([coordinate, *points.text.split()[1:]])
+        kml.find(f".//Placemark[name='Lane {identifier} A']/Point/coordinates").text = coordinate
+        kml.find(f".//Placemark[name='Lane {identifier} Merge']/Point/coordinates").text = coordinate
+    reference = tmp_path / "truncated-reference.kml"
+    kml.write(reference, encoding="utf-8")
+    plans["7"]["inputs"]["map_kml"] = {"path": str(reference), "sha256": file_sha256(reference)}
+    digest = file_sha256(source)
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", lambda *args, **kwargs: pytest.fail("An existing fanout needs no native rebuild."))
+    result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "checked")
+    assert result["candidate_network"] is None and file_sha256(source) == digest
+    if case in {"shifted", "broken"}:
+        assert result["status"] == "review_required" and not result["not_applicable"]
+        if case == "shifted":
+            assert result["reviews"][0]["reason"] == "existing_lane_transition_displaced_from_MAP_merge"
+            assert abs(result["reviews"][0]["merge_to_source_node_longitudinal_m"] - 20) < 0.01
+    else:
+        assert result["status"] == "not_applicable", result
+        measured = result["not_applicable"][0]
+        assert measured["reason"] == "documented_fanout_already_represented_at_source_junction"
+        assert measured["source_motor_lane_count_before"] == 1 and measured["source_motor_lane_count_after"] == 2
+        assert measured["reference_begins_at_merge"] == (case != "full_reference")
+        assert measured["source_after_edge_ids"] == (["fragment", "approach"] if case == "fragmented" else ["approach"])
 
 
 @pytest.mark.parametrize("fault", [None, "permissions", "grade", "ambiguous", "missing_control"])

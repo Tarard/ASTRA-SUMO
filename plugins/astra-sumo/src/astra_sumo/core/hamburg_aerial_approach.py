@@ -83,6 +83,8 @@ def build_hamburg_aerial_approach_candidate(
                     proposal, reason = None, str(error)
                 if proposal is None:
                     reviews.append({**identity, "reason": reason})
+                elif proposal.get("status") == "review_required":
+                    reviews.append({**identity, **proposal})
                 elif proposal.get("status") == "not_applicable":
                     not_applicable.append({**identity, **proposal})
                 else:
@@ -407,6 +409,10 @@ def _approach_proposal(root, members, junction_id, max_error, margin):
             return unchanged, unchanged["reason"]
     if not junction_id or (len(merge_points) != 1 and not bounded_restricted):
         return None, "no_unique_official_merge_event"
+    if merge_points:
+        existing = _existing_merge_evidence(root, members, junction_id, merge_points[0], max_error, margin)
+        if existing is not None:
+            return existing, existing["reason"]
     event = next(row["endpoint_a"] for row in members if row not in restricted) if bounded_restricted else merge_points[0]
     pockets = restricted if bounded_restricted else [row for row in members if math.dist(row["endpoint_a"], event) <= 1 and row["merge_points"]]
     carriers = [row for row in members if row not in pockets and (bounded_restricted or any(math.dist(point, event) <= 0.05 for point in row["merge_points"]))]
@@ -511,8 +517,132 @@ def _approach_proposal(root, members, junction_id, max_error, margin):
     return (sections[0] if len(sections) == 1 else {"_chain_sections": sections}), "official_merge_split"
 
 
+def _existing_merge_evidence(root, members, junction_id, event, max_error, margin):
+    """Measure an existing widening against the documented merge."""
+    from .source_movement_support import _candidate_modes, _index, _interior_lane_change
+    if len(members) < 2 or any(row.get("allowed_vehicle_classes") is not None or row.get("revocable") for row in members):
+        return None
+    start, end = _mean([row["endpoint_a"] for row in members]), _mean([row["endpoint_b"] for row in members])
+    distance = math.dist(start, end)
+    if distance <= 1:
+        return None
+    axis = ((end[0] - start[0]) / distance, (end[1] - start[1]) / distance)
+    station = sum(event[i] * axis[i] for i in (0, 1))
+    spans = [[sum(point[i] * axis[i] for i in (0, 1)) for point in row["shape"]] for row in members]
+    if any(not min(span) - 1 <= station <= max(span) + 1 for span in spans):
+        return None
+    truncated = all(abs(sum((row["endpoint_a"][i] - event[i]) * axis[i] for i in (0, 1))) <= 1 for row in members)
+    expected_before = None
+    if not truncated:
+        pockets = [row for row in members if row["merge_points"] and math.dist(row["endpoint_a"], event) <= 1]
+        carriers = [row for row in members if row not in pockets and any(math.dist(point, event) <= 0.05 for point in row["merge_points"])]
+        if len(pockets) != 1 or len(carriers) != 1:
+            return None
+        projection = _project_polyline(event, carriers[0]["shape"])
+        if projection["distance_m"] > 1 or not 0 < projection["fraction"] < 1:
+            return None
+        expected_before = len(members) - 1
+    ordered = _sort_right_to_left(members)
+    options = _source_arm_options(root, ordered, junction_id, max_error)
+    if not options or len(options) > 1 and options[1][0] - options[0][0] < margin:
+        return None
+    _, target, shapes = options[0]
+    if len(shapes) != len(ordered):
+        return None
+    endpoint_errors = [math.dist(row["endpoint_b"], shape[-1]) for row, shape in zip(ordered, shapes)]
+    if max(endpoint_errors) > max_error:
+        return None
+    index = _index(root)
+    current, chain = target, [target.get("id")]
+    while True:
+        node = root.find(f"junction[@id='{current.get('from')}']")
+        if node is None:
+            return None
+        lanes = [lane.get("id") for lane in current.findall("lane") if lane_supports_motorized(lane)]
+        incoming = defaultdict(list)
+        for key, a, b, connection in index["movements"]:
+            if key[2] != current.get("id") or b not in lanes:
+                continue
+            previous = index["edges"][key[0]]
+            if previous.get("function", "normal") != "normal" or previous.get("to") != node.get("id"):
+                continue
+            shape = _reference_shape(previous)
+            dx, dy = shape[-1][0] - shape[-2][0], shape[-1][1] - shape[-2][1]
+            length = math.hypot(dx, dy)
+            if not length or (dx * axis[0] + dy * axis[1]) / length < math.cos(math.pi / 4):
+                continue
+            modes, path = _candidate_modes(index, a, b, connection)
+            if modes and path:
+                incoming[key[0]].append({"from_lane": a, "to_lane": b, "lane_ids": path,
+                    "vehicle_classes": sorted(modes), "lane_changes": []})
+        inside = _point_in_polygon(event, _parse(node.get("shape", "")))
+        choices = []
+        for key, rows in incoming.items():
+            before = [lane.get("id") for lane in index["edges"][key].findall("lane") if lane_supports_motorized(lane)]
+            if len(before) < len(lanes):
+                # A downstream detour must not justify access to a pocket.
+                all_lanes = [lane.get("id") for lane in current.findall("lane")]
+                missing = set(lanes) - {row["to_lane"] for row in rows}
+                for row in list(rows):
+                    first = all_lanes.index(row["to_lane"])
+                    for target_lane in sorted(missing):
+                        last = all_lanes.index(target_lane)
+                        step = 1 if last > first else -1
+                        sequence = [all_lanes[i] for i in range(first, last + step, step)]
+                        for mode in row["vehicle_classes"]:
+                            events = [_interior_lane_change(index, a, b, {current.get("from"), current.get("to")}, mode)
+                                      for a, b in zip(sequence, sequence[1:])]
+                            if all(events):
+                                rows.append({"from_lane": row["from_lane"], "to_lane": target_lane,
+                                    "lane_ids": row["lane_ids"] + sequence[1:], "vehicle_classes": [mode], "lane_changes": events})
+                                break
+            pairs = {(row["from_lane"], row["to_lane"]) for row in rows}
+            if {b for _, b in pairs} != set(lanes):
+                continue
+            widening = 0 < len(before) < len(lanes) and (expected_before is None or len(before) == expected_before)
+            continuation = len(before) == len(lanes) and pairs == set(zip(before, lanes))
+            if widening or continuation:
+                choices.append((key, before, rows, widening))
+        if not inside:
+            continuations = [row for row in choices if not row[3]]
+            if continuations:
+                choices = continuations
+        if not choices:
+            return None
+        if len(choices) > 1:
+            return {"status": "review_required", "reason": "source_merge_predecessor_ambiguous",
+                "source_edge_id": target.get("id"), "source_transition_junction_id": node.get("id"),
+                "source_after_edge_ids": chain, "source_motor_lane_count_after": len(lanes),
+                "official_merge_inside_source_junction": inside,
+                "source_predecessor_candidates": [{"edge_id": key, "motor_lane_count": len(before), "lane_count_increases": widening}
+                    for key, before, _, widening in choices],
+                "claim_boundary": "Several aligned source roads can supply this approach. The before-count and merge ownership remain unresolved. No lane addition is authorized by this match."}
+        previous, before, paths, widening = choices[0]
+        if widening:
+            indices = [i for i, lane in enumerate(target.findall("lane")) if lane_supports_motorized(lane)]
+            delta = (float(node.get("x")) - event[0], float(node.get("y")) - event[1])
+            return {"status": "not_applicable" if inside else "review_required",
+                "reason": "documented_fanout_already_represented_at_source_junction" if inside else "existing_lane_transition_displaced_from_MAP_merge",
+                "source_edge_id": target.get("id"), "official_lane_indices": {row["lane_id"]: i for row, i in zip(ordered, indices)},
+                "source_transition_junction_id": node.get("id"), "source_before_edge_id": previous,
+                "source_after_edge_ids": chain, "source_motor_lane_count_before": len(before), "source_motor_lane_count_after": len(lanes),
+                "reference_motor_lane_count_before": expected_before, "reference_begins_at_merge": truncated,
+                "source_transition_lane_paths": paths, "official_merge_inside_source_junction": inside,
+                "merge_to_source_node_longitudinal_m": delta[0] * axis[0] + delta[1] * axis[1],
+                "merge_to_source_node_lateral_m": -delta[0] * axis[1] + delta[1] * axis[0],
+                "maximum_stop_endpoint_distance_m": max(endpoint_errors),
+                "claim_boundary": "The source has the documented lane-count change with saved paths or permitted ordinary-lane changes. A displaced transition requires calibration. Offsets compare the source node center, not a surveyed widening. This is not a run, capacity or full-reference coverage proof. Lane geometry, field permissions and historical validity require separate evidence."}
+        if inside or previous in chain:
+            return None
+        chain.insert(0, previous)
+        current = index["edges"][previous]
+
+
 def _no_lane_addition_evidence(root, members, junction_id, max_error, margin):
     """A missing Merge alone does not establish that an approach needs no addition."""
+    from shapely.geometry import LineString
+    from .hamburg_network_calibration import _connected_lane_parts
+    from .network_calibration import _coordinate_transform, _shape as lane_shape, centerline_overlap_metrics
     if not members or any(row["merge_points"] or row.get("allowed_vehicle_classes") is not None or row.get("revocable") for row in members):
         return None
     start, end = members[0]["endpoint_a"], members[0]["endpoint_b"]
@@ -528,19 +658,33 @@ def _no_lane_addition_evidence(root, members, junction_id, max_error, margin):
     if not options or len(options) > 1 and options[1][0] - options[0][0] < margin:
         return None
     _, edge, shapes = options[0]
-    if len(shapes) != len(ordered) or len(edge.findall("lane")) != len(shapes):
+    motor_lanes = [(index, lane) for index, lane in enumerate(edge.findall("lane")) if lane_supports_motorized(lane)]
+    if len(shapes) != len(ordered) or root.find("location") is None:
         return None
-    errors = []
+    transform = _coordinate_transform(root, {"type": "projected_crs", "crs": "EPSG:25832"})
+    source_shapes = {lane.get("id"): transform(lane_shape(lane)) for item in root.findall("edge") for lane in item.findall("lane")}
+    errors, selected, metrics, used = [], {}, {}, set()
     for index, official in enumerate(ordered):
-        fits = [max(_project_polyline(point, shape)["distance_m"] for point in official["shape"]) for shape in shapes]
-        if fits[index] > max_error or any(value - fits[index] < margin for other, value in enumerate(fits) if other != index):
+        reference = transform(official["shape"])
+        paths = [_connected_lane_parts(root, lane.get("id"), reference, 0.5, direction=1) for _, lane in motor_lanes]
+        fits = [centerline_overlap_metrics(LineString(reference), [source_shapes[key] for key in path], 0.5, direction=1)
+                for path in paths]
+        eligible = [fit["reference_coverage"] == 1 and fit["max_sampled_lateral_offset_m"] <= max_error for fit in fits]
+        if not eligible[index] or any(eligible[other] and fit["mean_lateral_offset_m"] - fits[index]["mean_lateral_offset_m"] < margin
+                                     for other, fit in enumerate(fits) if other != index):
             return None
-        errors.append(fits[index])
+        if used.intersection(paths[index]):
+            return None
+        used.update(paths[index])
+        selected[official["lane_id"]] = paths[index]
+        metrics[official["lane_id"]] = fits[index]
+        errors.append(fits[index]["max_sampled_lateral_offset_m"])
     return {"status": "not_applicable", "reason": "no_documented_addition_with_matching_source_lanes",
-            "source_edge_id": edge.get("id"), "official_lane_indices": {row["lane_id"]: index for index, row in enumerate(ordered)},
+            "source_edge_id": edge.get("id"), "official_lane_indices": {row["lane_id"]: motor_lanes[index][0] for index, row in enumerate(ordered)},
             "official_merge_count": 0, "official_start_section_spread_m": max(starts) - min(starts),
-            "maximum_lane_match_error_m": max(errors),
-            "claim_boundary": "The documented lanes share one upstream section and match existing source lanes. No lane addition is inferred. This does not certify source geometry or rule out an undocumented lane."}
+            "maximum_lane_match_error_m": max(errors), "source_lane_paths": selected, "lane_correspondence_metrics": metrics,
+            "distance_method": "sampled_perpendicular_offset_and_full_directed_coverage_on_saved_disjoint_lane_paths",
+            "claim_boundary": "The documented lanes share one upstream section and match distinct saved source lane paths, including source road fragments. No lane addition is inferred. This does not certify source geometry or rule out an undocumented lane."}
 
 
 def _reference_shape(edge):
