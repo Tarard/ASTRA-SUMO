@@ -137,7 +137,7 @@ def _ordered_approach_lane_bindings(
     for approach, lane_ids in approaches.items():
         if len(lane_ids) < 2 or any(lane_id not in options for lane_id in lane_ids):
             continue
-        if all(lane_id in occupied for lane_id in lane_ids):
+        if all(lane_id in occupied for lane_id in lane_ids) and len({occupied[lane_id] for lane_id in lane_ids}) == len(lane_ids):
             continue
         # Select the road arm before checking its lane count. A closer road
         # with a different count cannot be replaced by a more distant match.

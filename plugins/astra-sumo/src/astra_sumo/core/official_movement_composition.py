@@ -179,9 +179,10 @@ def _collapse_serial_lane_candidates(index, choices, members, role):
 
 
 def _original_lane_bindings(index, lanes, members, maximum_error, margin):
-    from .hamburg_junctions.lanes import _lane_overlap_error
+    from .hamburg_junctions.lanes import _lane_overlap_error, _ordered_approach_lane_bindings
 
     bindings, reviews = {}, []
+    lane_options, candidate_proofs = {}, {}
     for lane_id, lane in lanes.items():
         role = lane.get("direction_role")
         shape = _traffic_shape(lane)
@@ -192,6 +193,7 @@ def _original_lane_bindings(index, lanes, members, maximum_error, margin):
         dx, dy = b[0] - a[0], b[1] - a[1]
         choices = []
         anchor_proofs = {}
+        lateral_errors = {}
         for source_id, (edge_id, source_lane, modes) in index["lanes"].items():
             edge = index["edges"][edge_id]
             if _internal(edge) or not modes.intersection(_allowed(lane)) or edge.get("to" if role == "ingress" else "from") not in members:
@@ -228,7 +230,12 @@ def _original_lane_bindings(index, lanes, members, maximum_error, margin):
             if proof is not None:
                 anchor_proofs[source_id] = {**proof, "source_endpoint_distance_m": endpoint_error, "boundary_projection_error_m": anchor_error}
             choices.append((lateral_error + anchor_error, source_id))
+            lateral_errors[source_id] = lateral_error
         choices, serial_proofs = _collapse_serial_lane_candidates(index, choices, members, role)
+        lane_options[lane_id] = [(lateral_errors[source_id], (index["lanes"][source_id][0], int(index["lanes"][source_id][1].get("index", "0"))))
+                                 for _, source_id in choices]
+        candidate_proofs[lane_id] = {source_id: {**anchor_proofs.get(source_id, {}), **serial_proofs.get(source_id, {})}
+                                    for _, source_id in choices}
         if choices and (len(choices) == 1 or choices[1][0] - choices[0][0] >= margin):
             bindings[lane_id] = choices[0][1]
             if choices[0][1] in serial_proofs:
@@ -239,6 +246,23 @@ def _original_lane_bindings(index, lanes, members, maximum_error, margin):
             reviews.append({"lane_id": lane_id, "reason": "original_lane_binding_unresolved", "candidates": choices})
             if serial_proofs:
                 reviews[-1]["candidate_identity_proofs"] = serial_proofs
+    candidates = {(edge_id, int(source_lane.get("index", "0"))): shape
+                  for _, (edge_id, source_lane, modes) in index["lanes"].items()
+                  if not _internal(index["edges"][edge_id]) and modes.intersection(_MOTORIZED_MODES)
+                  and len(shape := _shape(source_lane.get("shape", ""))) >= 2}
+    for role in ("ingress", "egress"):
+        options = {key: value for key, value in lane_options.items() if lanes[key].get("direction_role") == role}
+        existing = {key: (index["lanes"][value][0], int(index["lanes"][value][1].get("index", "0"))) for key, value in bindings.items()}
+        ordered = _ordered_approach_lane_bindings(lanes, options, candidates, existing,
+            role=role, max_error_m=maximum_error, margin_m=margin)
+        for group in ordered:
+            for lane_id, key in group["bindings"].items():
+                source_id = index["keys"][key]
+                bindings[lane_id] = source_id
+                reviews = [row for row in reviews if row["lane_id"] != lane_id]
+                reviews.append({"lane_id": lane_id, "resolved_lane_id": source_id, "candidates": [],
+                    "reason": "ordered_same_approach_lane_fit", **candidate_proofs[lane_id].get(source_id, {}),
+                    "binding_method": group["basis"], "approach": group["approach"]})
     return bindings, reviews
 
 
