@@ -1,0 +1,76 @@
+{
+  "schema": "astra.generator-control-evidence/v1",
+  "date": "2026-10-16",
+  "implementation_commit": "1229f218716ef1c0c46e5e40ef1b5ecf0ffc4e88",
+  "dataset": {
+    "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/MoST_2019_paired/dataset.json",
+    "sha256": "5819b49390a050b29b529edac1cc36ca736a882f064eab8de7f9e5dd3d655039"
+  },
+  "catalog": {
+    "path": "benchmarks/public_network_development_v2/catalog.json",
+    "sha256": "06a8bae89c97a66e240f32296773f8c5573a81cbe10fccf46c48b771f5d90ec0"
+  },
+  "corpus": {
+    "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/corpus.json",
+    "sha256": "3863760afd250a250c3c21769f3e751dbe7894bc39b8e1e610c7e138e7501d86"
+  },
+  "control": {
+    "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/MoST_2019_paired/generator-control.json",
+    "sha256": "5cb346c380d29d0bccfd611f1e3353e5ad05b0646de0a7de0c2566674bf5df78"
+  },
+  "label_provenance": {
+    "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/MoST_2019_paired/generator-control-labels.jsonl",
+    "sha256": "be249ec1bb220c3e1a6e42f43f5b927936729edbf813c6b4736aabaec11de702"
+  },
+  "labels": {
+    "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/MoST_2019_paired/model-labels.jsonl",
+    "sha256": "87933bb63fe996b3d4e9c5a573e4f1cc2be35d35db8e2cc1b9a25ea75118396f"
+  },
+  "control_network": {
+    "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/MoST_2019_paired/published-settings-control.net.xml",
+    "sha256": "1970325b95383e8c7fa915cfd48866b317e339d6e82876a9c36eeb28863046b2"
+  },
+  "source_input": {
+    "path": "outputs/public_network_cache_v2/MoST_2019_paired/tools/static/most.raw.osm",
+    "sha256": "dda3afd8f29aee97090088e78d485365ac1ad054c743991090bd5407cedd0073"
+  },
+  "reference_network": {
+    "path": "outputs/public_network_cache_v2/MoST_2019_paired/scenario/in/most.net.xml",
+    "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+  },
+  "label_counts": {
+    "connection_added": 80,
+    "connection_removed": 2,
+    "connection_retained": 820,
+    "connection_unknown": 7273,
+    "joined": 58,
+    "separate": 599,
+    "total": 10969,
+    "unknown": 2137
+  },
+  "control_counts": {
+    "recipe_reproduced": 1512,
+    "unexplained_difference": 6,
+    "unknown_reference": 9410,
+    "unresolved_control": 41
+  },
+  "baseline_difference_counts": {
+    "recipe_reproduced": 122,
+    "unexplained_difference": 4,
+    "unresolved_control": 14
+  },
+  "control_load": "pass",
+  "human_cleaning_evaluation": false,
+  "field_validity_date": null,
+  "automatic_promotion_authority": false,
+  "tests": {
+    "path": "outputs/construction_trace_20261016_v1/recipe-control-v2.xml",
+    "sha256": "5517477fff819e8b8a7abd79cda47766cabebeb008010b114cecf3fced6e5804"
+  },
+  "limitations": [
+    "Current SUMO 1.27.1 replays supported published configuration settings. Historical defaults and executable are not reconstructed.",
+    "Exact registration retains 9410 unknown reference cases and 41 unresolved control cases.",
+    "No remaining difference receives manual or field attribution.",
+    "The earlier frozen catalog and run remain unchanged."
+  ]
+}

@@ -33,6 +33,7 @@ It separates recipe agreement, unexplained differences, unresolved control corre
 It also counts differences present in the unjoined baseline. Unknown records remain in the table.
 This control uses the published configuration with current SUMO defaults. It does not reconstruct the historical executable or all historical defaults.
 Recipe agreement provides reproducibility evidence. Unexplained differences do not become human edits or field defects.
+The [dated MoST control](../benchmarks/public_network_development_v2/recipe-control-20261016-v1.md) records the real-data result and remaining unknowns.
 
 The [catalog](../benchmarks/public_network_development_v1/catalog.json) freezes
 four public models from three cities:
