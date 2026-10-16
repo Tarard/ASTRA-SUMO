@@ -10,6 +10,7 @@ The [unfinished-route follow-up](unfinished-routes-20261016-v1.md) preserves rou
 The [local join follow-up](local-joins-20261016-v1.md) records reduced join scopes, the corrected MoST format control, and complete Hamburg reconstruction.
 The [official-part follow-up](official-local-20261016-v1.md) records local official joining and boundary reconstruction with immutable snapshots.
 The [movement follow-up](movement-local-20261016-v1.md) records scoped movement passes, contour controls, effective-permission comparison, and corrected native-output records.
+The [approach follow-up](approach-local-20261016-v1.md) records local road splits, logical-length allocation, durable failures, and unresolved real Hamburg approaches.
 
 ## Construction findings and repair
 

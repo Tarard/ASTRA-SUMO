@@ -207,11 +207,20 @@ Each official movement compilation pass now uses a local native input and a sepa
 The report keeps every pass's native output and merged proposal before the final restoration.
 Contour trials use the same conversion function with a saved baseline for the unchanged exterior.
 Their original target inventory and acceptance checks remain in place, including expanded context targets.
-Approach reconstruction still needs separate conversion-scope work.
+Approach reconstruction now uses local inputs for supported lane additions and source-road splits.
+Its records declare each added road and every changed endpoint. The merge rejects undeclared roads or endpoint changes.
+Existing preservation checks then restore the complete exterior, including remapped upstream boundary paths.
+Explicit road lengths are divided by the source spatial split fraction. Source end offsets remain on the downstream section.
+The report records actual compiled lane lengths. A lane-count change can change SUMO's mean end offset and logical lane length.
+Legacy permission declarations retain their effective classes when copied into plain-XML patches.
+
+If native conversion fails or the merge raises, the shared converter writes `{prefix}.conversion-record.json` before returning or raising.
+The file retains the command, errors, scope, input hashes, and any native output. It also records source drift as a warning.
+Failure evidence therefore survives callers that raise, even when netconvert writes no network file.
 
 Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
 The same failure occurs with a full-source control. Native join requests therefore require an unused target ID.
-Diagnostic signal joins also require an unused controller ID. Reusing a source controller can silently remove control in native SUMO.
+Shared native joins also require an unused controller ID. Both names are checked before the command runs.
 The diagnostic result counts required motor movements with valid controller and program bindings.
 This check applies to the requested signal rebuild, without assuming that every signalized junction in an arbitrary source has full control.
 XML inspection, exterior copying, and whole-candidate checks still read the full source.
