@@ -156,18 +156,34 @@ def merge_local_conversion(source_root, native_root, record):
             return bool(set(child.get("edges", "").split()) & mutable_edges)
         return child.tag == "tlLogic" and child.get("id") in controllers
 
+    def identity(child):
+        if child.tag == "connection":
+            return tuple(child.get(key) for key in ("from", "fromLane", "to", "toLane"))
+        if child.tag == "tlLogic":
+            return child.get("id"), child.get("programID")
+        if child.tag == "roundabout":
+            return tuple(sorted(child.get("edges", "").split()))
+        return child.get("id")
+
     result = deepcopy(source_root)
-    for child in list(result):
-        if belongs(child, before):
-            result.remove(child)
     ranks = {name: rank for rank, name in enumerate(("location", "type", "edge", "tlLogic", "junction", "connection", "prohibition", "roundabout"))}
     for name in ("edge", "tlLogic", "junction", "connection", "roundabout"):
-        additions = [deepcopy(child) for child in native_root if child.tag == name and belongs(child, after)]
-        for child in additions:
+        additions = {identity(child): deepcopy(child) for child in native_root if child.tag == name and belongs(child, after)}
+        for child in additions.values():
             _translate_permission_declarations(child, source_version=native_root.get("version", "0.0"),
                                                target_version=source_root.get("version", "0.0"))
+        # SUMO load order affects seeded trajectories, even when all road attributes are identical.
+        retained = []
+        for child in result:
+            if child.tag == name and belongs(child, before):
+                replacement = additions.pop(identity(child), None)
+                if replacement is not None:
+                    retained.append(replacement)
+            else:
+                retained.append(child)
+        result[:] = retained
         at = next((i for i, child in enumerate(result) if ranks.get(child.tag, 8) > ranks[name]), len(result))
-        for offset, child in enumerate(additions):
+        for offset, child in enumerate(additions.values()):
             result.insert(at + offset, child)
     boxes = [row.get("convBoundary") for row in locations]
     if all(boxes):
