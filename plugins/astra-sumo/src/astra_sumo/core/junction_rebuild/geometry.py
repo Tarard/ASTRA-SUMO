@@ -373,6 +373,8 @@ def _polyline_length(shape: str) -> float | None:
 
 def _set_edge_lengths_from_shapes(edge: ET.Element) -> None:
     """Refresh geometry lengths while keeping one common length on normal roads."""
+    if edge.get("bidi"):
+        return  # Coupled lengths require both edges. Retain native values here.
     lanes = edge.findall("lane")
     if not lanes or any("length" not in lane.attrib for lane in lanes):
         return
@@ -381,7 +383,16 @@ def _set_edge_lengths_from_shapes(edge: ET.Element) -> None:
         return
     if edge.get("function", "normal") == "normal":
         try:
-            common = float(edge.get("length")) if edge.get("length") is not None else sum(lengths) / len(lengths)
+            if edge.get("length") is not None:
+                loaded = float(edge.get("length"))
+                if not math.isfinite(loaded) or loaded <= 0:
+                    return
+                offsets = [float(lane.get("endOffset", "0")) for lane in lanes]
+                if any(not math.isfinite(offset) or offset < 0 for offset in offsets):
+                    return
+                common = max(0.1, loaded - sum(offsets) / len(offsets))
+            else:
+                common = sum(lengths) / len(lengths)
         except ValueError:
             return
         if not math.isfinite(common) or common <= 0:

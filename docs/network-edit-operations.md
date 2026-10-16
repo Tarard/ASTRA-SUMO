@@ -198,6 +198,27 @@ and protected-semantic changes still need the existing exact candidate-bound
 review evidence before promotion. Route completion and fact-table acceptance
 remain separate checks.
 
+## Lane-length measurements
+
+Hamburg construction now records source and candidate lane-length measures.
+It also writes `construction-stage-lane-lengths.json` for every retained `.net.xml` construction output.
+The measures do not add a release condition.
+
+Use the [same audit](../plugins/astra-sumo/scripts/audit_network_lengths.py) on other explicit network files:
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/audit_network_lengths.py outputs/new-length-report.json source.net.xml candidate.net.xml
+```
+
+The report retains ordinary-lane differences, custom lengths, end offsets, and measured spatial lengths.
+It reports varying internal paths separately. Those paths can have legitimate length differences.
+For a custom ordinary road, the expected logical length subtracts the average end offset from the declared road length.
+This follows [SUMO 1.27.1's native calculation](https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/netbuild/NBEdge.cpp).
+Native regression cases check this combination at several offsets.
+Bidirectional roads require both partners. Geometry restoration retains native logical lengths for those roads.
+The audit records their measurements without inferring an independent custom-length expectation.
+Measured geometry means are not mandatory logical lengths or evidence of field accuracy.
+
 ## Paired driving diagnosis
 
 Use the repository-owned [comparison runner](../plugins/astra-sumo/scripts/compare_driving_cohort.py)

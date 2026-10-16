@@ -21,16 +21,25 @@ def test_restored_normal_lanes_share_the_mean_spatial_length():
 
 
 @pytest.mark.skipif(shutil.which("netconvert") is None, reason="SUMO required")
-def test_native_explicit_edge_length_survives_geometry_length_refresh(tmp_path):
+@pytest.mark.parametrize("offset", [0, 5, 10])
+def test_native_explicit_edge_length_survives_geometry_length_refresh(tmp_path, offset):
     nodes, edges, network = [tmp_path / name for name in ("nodes.xml", "edges.xml", "network.net.xml")]
     nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/></nodes>', encoding="utf-8")
-    edges.write_text('<edges><edge id="road" from="a" to="b" numLanes="2" length="500"/></edges>', encoding="utf-8")
+    edges.write_text(f'<edges><edge id="road" from="a" to="b" numLanes="2" length="500"><lane index="0" endOffset="{offset}"/></edge></edges>', encoding="utf-8")
     result = subprocess.run(["netconvert", "-n", str(nodes), "-e", str(edges), "-o", str(network)], capture_output=True, text=True, timeout=30)
     assert result.returncode == 0, result.stderr
     edge = ET.parse(network).getroot().find("edge[@id='road']")
     assert float(edge.get("length")) == 500
+    native = [float(lane.get("length")) for lane in edge.findall("lane")]
     _set_edge_lengths_from_shapes(edge)
-    assert [float(lane.get("length")) for lane in edge.findall("lane")] == [500, 500]
+    assert [float(lane.get("length")) for lane in edge.findall("lane")] == native == [500 - offset / 2] * 2
+
+
+def test_geometry_refresh_keeps_native_coupled_bidirectional_lengths():
+    edge = ET.fromstring('''<edge id="a" bidi="b"><lane length="90" shape="0,0 10,0"/>
+        <lane length="90" shape="0,3 12,3"/></edge>''')
+    _set_edge_lengths_from_shapes(edge)
+    assert [lane.get("length") for lane in edge.findall("lane")] == ["90", "90"]
 
 
 def test_endpoint_blending_recomputes_one_normal_edge_length():
