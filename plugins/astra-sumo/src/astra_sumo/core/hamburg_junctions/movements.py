@@ -611,6 +611,7 @@ def _contour_curve_difference(before_shape, after_shape):
 def _compare_contour_compilation(before_root, after_root, target_junction_ids):
     """Allow reviewed target outlines, preserving all other construction data."""
     from ..junction_boundary_rebuild import _signature
+    from ..osm_access import _permission_set, _permission_attributes
 
     targets = set(target_junction_ids)
     changes, target_shapes = [], []
@@ -638,6 +639,21 @@ def _compare_contour_compilation(before_root, after_root, target_junction_ids):
             continue
         for original, current in zip(before[key], after[key]):
             left, right = deepcopy(original), deepcopy(current)
+            permission_rows = [[row for row in element.iter() if row.tag in {"lane", "connection"}]
+                               for element in (left, right)]
+            original_declarations = [[_permission_attributes(row) for row in rows] for rows in permission_rows]
+            effective = [[_permission_set(row.attrib, network_version=network.get("version", "0.0")) for row in rows]
+                         for rows, network in zip(permission_rows, (before_root, after_root))]
+            for index, (a, b) in enumerate(zip(*original_declarations)):
+                if a != b and effective[0][index] == effective[1][index]:
+                    changes.append({"status": "pass", "kind": "equivalent_permission_declarations", "key": list(key),
+                                    "id": permission_rows[0][index].get("id"), "before": a, "after": b,
+                                    "effective_vehicle_classes": sorted(effective[0][index])})
+            for rows, classes in zip(permission_rows, effective):
+                for row, allowed in zip(rows, classes):
+                    row.attrib.pop("allow", None)
+                    row.attrib.pop("disallow", None)
+                    row.set("allow", " ".join(sorted(allowed)))
             if original.tag == "junction" and original.get("id") in targets:
                 fields = ("shape", "customShape")
                 if any(left.get(field) != right.get(field) for field in fields):
@@ -678,5 +694,5 @@ def _compare_contour_compilation(before_root, after_root, target_junction_ids):
             "geometry_tolerance_m": 0.1, "changes": changes, "target_shape_changes": target_shapes,
             "claim_boundary": "Only selected junction shape/customShape may change freely. Directed curves may be "
                               "resampled within existing 0.1 m geometry precision. All other attributes and child "
-                              "records, including permissions, speeds, connection indices, conflicts and signal "
+                              "records, including effective permissions, speeds, connection indices, conflicts and signal "
                               "programs, must match. Outline validity and coverage require their separate check."}
