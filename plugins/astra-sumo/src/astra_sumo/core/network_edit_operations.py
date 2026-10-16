@@ -404,8 +404,10 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                 raise ValueError("The source does not identify this connection as a turnaround.")
         elif kind in _JOIN_EDITS:
             members = set(params["node_ids"])
-            if not members <= nodes.keys() or params["join_id"] in nodes and params["join_id"] not in members:
-                raise ValueError("Join nodes are unknown or the target ID belongs to another node.")
+            controller_ids = {row.get("id") for row in root.findall("tlLogic")} | {row.get("tl") for row in root.findall("connection") if row.get("tl")}
+            if (not members <= nodes.keys() or params["join_id"] in nodes
+                    or params.get("signal_policy") == "rebuild_diagnostic" and params["join_id"] in controller_ids):
+                raise ValueError("Join members must exist. Use a new target node ID and, for a signal rebuild, a new controller ID.")
             if any(nodes[n].get("type", "").startswith("rail_") for n in members):
                 raise ValueError("Rail-control joins need a separate rail-specific operation.")
             from .corridor_edit_ledger import _is_structurally_protected_edge

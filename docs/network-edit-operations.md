@@ -203,7 +203,10 @@ A prohibition that refers to an absorbed road also retains full conversion. The 
 Other stages of the complete construction workflow still need separate conversion-scope work.
 
 Native SUMO 1.27.1 rejects some joins whose target ID is one of the source member IDs.
-The same failure occurs with a full-source control. Such a native failure is retained and provides no candidate acceptance.
+The same failure occurs with a full-source control. Native join requests therefore require an unused target ID.
+Diagnostic signal joins also require an unused controller ID. Reusing a source controller can silently remove control in native SUMO.
+The diagnostic result counts required motor movements with valid controller and program bindings.
+This check applies to the requested signal rebuild, without assuming that every signalized junction in an arbitrary source has full control.
 XML inspection, exterior copying, and whole-candidate checks still read the full source.
 The native rebuild uses the selected road context. This does not promise constant total runtime for large networks.
 Lane-permission comparisons use the network's declared format version.

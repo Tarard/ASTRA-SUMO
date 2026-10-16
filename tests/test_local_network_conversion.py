@@ -255,16 +255,11 @@ def test_native_local_conversion_keeps_remote_roads_and_matches_the_full_proposa
 
 
 @pytest.mark.parametrize("signal_policy", ["preserve", "rebuild_diagnostic"])
-@pytest.mark.parametrize("join_id", ["joined", "A"])
-def test_join_uses_local_inputs_for_both_native_conversions(tmp_path, signal_policy, join_id):
+def test_join_uses_local_inputs_for_both_native_conversions(tmp_path, signal_policy):
+    join_id = "joined"
     operation = {"id": "join", "operation": "join_junctions", "params": {
         "node_ids": ["A", "B"], "join_id": join_id, "signal_policy": signal_policy}}
-    try:
-        source, candidate, plan = _native_case(tmp_path, operation)
-    except AssertionError as error:
-        if join_id == "A" and "Could not insert node though checked this before" in str(error):
-            pytest.xfail("Native SUMO also rejects this retained member ID with a full-source conversion.")
-        raise
+    source, candidate, plan = _native_case(tmp_path, operation)
     assert plan["local_conversion"]["junction_aliases"] == {"A": join_id, "B": join_id}
     assert plan["local_conversion"]["absorbed_edge_ids"] == ["middle", "reverse"]
     checked = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=candidate.parent,
@@ -293,6 +288,22 @@ def test_join_uses_local_inputs_for_both_native_conversions(tmp_path, signal_pol
     assert all(after.find(f"junction[@id='{identity}']") is None for identity in {"A", "B"} - {join_id})
     for identity in ("far1", "far10", "back20"):
         assert ET.tostring(before.find(f"edge[@id='{identity}']")) == ET.tostring(after.find(f"edge[@id='{identity}']"))
+
+
+@pytest.mark.parametrize("target", ["A", "legacy_control"])
+def test_native_join_preconditions_reject_existing_node_or_controller_names(tmp_path, target):
+    if not shutil.which("netconvert"):
+        pytest.skip("SUMO required")
+    from astra_sumo.core.network_edit_operations import validate_scoped_operation
+    source = _source(tmp_path, signalized=True)
+    root = ET.parse(source).getroot()
+    root.find("tlLogic[@id='A']").set("id", "legacy_control")
+    for connection in root.findall("connection"):
+        if connection.get("tl") == "A":
+            connection.set("tl", "legacy_control")
+    operation = {"id": "join", "operation": "join_junctions", "params": {
+        "node_ids": ["A", "B"], "join_id": target, "signal_policy": "rebuild_diagnostic"}}
+    assert validate_scoped_operation(operation, root)
 
 
 @pytest.mark.parametrize("artifact", ["input", "merged_proposal"])

@@ -187,6 +187,31 @@ def _compare_boundary(root: ET.Element, plan: Mapping[str, Any]) -> dict[str, An
     return {"expected_count": len(expected), "actual_count": sum(bool(modes) for modes in actual.values()), "missing": [list(pair) for pair in sorted(expected.keys() - actual.keys())], "unexpected_motorized": extra, "permission_mismatches": permission}
 
 
+def _diagnostic_signal_control(root, plan):
+    """Check control of the source-supported movements requested for a diagnostic join."""
+    connections = {tuple(row.get(key) for key in ("from", "fromLane", "to", "toLane")): row
+                   for row in root.findall("connection")}
+    programs = {}
+    for logic in root.findall("tlLogic"):
+        programs.setdefault(logic.get("id"), []).extend(logic.findall("phase"))
+    failures = []
+    for movement in plan["movements"]:
+        pair = tuple(map(str, movement["connection"]))
+        connection = connections.get(pair)
+        controller = connection.get("tl") if connection is not None else None
+        phases = programs.get(controller, [])
+        try:
+            index = int(connection.get("linkIndex", "-1")) if connection is not None else -1
+        except ValueError:
+            index = -1
+        if not controller or not phases or index < 0 or any(index >= len(phase.get("state", "")) for phase in phases):
+            failures.append({"join_id": movement["join_id"], "connection": movement["connection"],
+                             "controller_id": controller, "reason": "requested_vehicle_control_missing_or_unbound"})
+    return {"status": "blocked" if failures else "pass", "required_movement_count": len(plan["movements"]),
+            "controlled_movement_count": len(plan["movements"]) - len(failures), "failures": failures,
+            "scope": "source-supported motor movements under the explicit diagnostic signal rebuild policy"}
+
+
 def _demand_impact(path: Path, missing_edges: set[str]) -> dict[str, Any]:
     root = ET.parse(path).getroot()
     routes = {row.get("id"): row.get("edges", "").split() for row in root.findall("route") if row.get("id")}
@@ -548,12 +573,15 @@ def restore_joined_boundary_connections(
     expected_removed = {key for group in plan["groups"] for key in group["interior_edge_ids"]}
     demand = [_demand_impact(path, removed) for path in trip_paths]
     remaining_old_nodes = (set().union(*normalized.values()) - normalized.keys()) & {node.get("id") for node in final.findall("junction")}
+    signal_coverage = _diagnostic_signal_control(final, plan) if signal_policy == "rebuild_diagnostic" else {"status": "not_applicable"}
     gates = {"source_immutable": source_hash == file_sha256(source) and joined_hash == file_sha256(joined) and all(file_sha256(path) == digest for path, digest in trip_hashes.items()), "outside_preserved": outside_after["status"] == "pass", "boundary_coverage": not boundary_after["missing"] and not boundary_after["permission_mismatches"] and not boundary_after["unexpected_motorized"], "only_declared_interior_edges_removed": removed == expected_removed, "source_members_collapsed": not remaining_old_nodes, "connection_structure": structural["structural_failure_count"] == 0, "sumo_load": load.returncode == 0}
+    gates["diagnostic_signal_control"] = signal_coverage["status"] in {"pass", "not_applicable"}
     report = {"schema": "torii.junction-boundary-rebuild/v1", "status": "pass" if all(gates.values()) else "blocked", "decision": "review_required", "claim_status": "diagnostic-demo", "field_turn_legality": "review_required", "source_network": {"path": str(source), "sha256": source_hash}, "joined_network": {"path": str(joined), "sha256": joined_hash}, "candidate_network": {"path": str(candidate), "sha256": file_sha256(candidate)}, "compiled_network": {"path": str(compiled), "sha256": file_sha256(compiled)}, "plan": plan, "boundary_before": before, "boundary_after": boundary_after, "outside_before_restore": outside_before, "outside_preservation": outside_after, "restoration": restoration, "removed_interior_edges": sorted(removed), "original_demand": demand, "gates": gates, "commands": commands, "non_motorized_connectivity": "not_audited", "claim_boundary": "Preserves source motor-vehicle boundary paths after explicitly selected uncontrolled joins. No physical grouping, field turn permission, historical signals or unchanged-demand completion is inferred.", "sources": ["https://sumo.dlr.de/docs/Networks/PlainXML.html#joining-junctions", "https://sumo.dlr.de/docs/Networks/PlainXML.html#lane-to-lane-connectivity"]}
     report["input_bounds_metadata_changed"] = _signature(original.find("location")) != _signature(native.find("location"))
     report["fixed_boundary_geometry"] = geometric_preservation
     report["scoped_geometry_restoration"] = scoped_restoration
     report["local_conversion"] = local_conversion
+    report["diagnostic_signal_control"] = signal_coverage
     report["gates"]["scoped_geometry_restoration"] = scoped_restoration["status"] == "pass"
     report["gates"]["fixed_boundary_geometry"] = geometric_preservation["status"] == "pass"
     if geometric_preservation["status"] != "pass" or scoped_restoration["status"] != "pass":

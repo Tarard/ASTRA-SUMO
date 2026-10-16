@@ -303,8 +303,9 @@ def _prepare_context_joins(*, source_net, context_groups, official_groups, outpu
         raise ValueError("unsupported context signal_policy")
     if not members <= set(nodes) or any(nodes[node].get("type") not in allowed_types for node in members):
         raise ValueError("context_joins requires existing junctions without signals or rail control")
-    if any(join_id in nodes and join_id not in group for join_id, group in context_groups.items()):
-        raise ValueError("context_joins target id collides with a retained junction")
+    controller_ids = {row.get("id") for row in root.findall("tlLogic")} | {row.get("tl") for row in root.findall("connection") if row.get("tl")}
+    if any(join_id in nodes or signal_policy == "rebuild_diagnostic" and join_id in controller_ids for join_id in context_groups):
+        raise ValueError("context_joins needs new target node IDs and new diagnostic controller IDs")
     edge_targets = {edge.get("id"): edge.get("to") for edge in root.findall("edge")}
     if signal_policy == "preserve" and any(connection.get("tl") and edge_targets.get(connection.get("from")) in members for connection in root.findall("connection")):
         raise ValueError("context_joins cannot contain a controlled connection")
