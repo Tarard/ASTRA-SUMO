@@ -307,6 +307,9 @@ with their time, location, type, and vehicles.
 It saves [vehicle positions](https://sumo.dlr.de/docs/Simulation/Output/FCDOutput.html) during the last simulated step.
 With a one-second step, this record has time `horizon_s - 1`. It is not an exact-time snapshot at the horizon.
 Vehicles waiting for insertion have no recorded road position.
+New diagnostic runs retain native vehicle-route output for unfinished vehicles as well as edge exit times.
+The plan records this output policy and the result binds that file by hash.
+An unfinished route does not prove that its remaining edges were crossed. Missing exit times remain unobserved.
 The plan states the step length and collision settings. A collision record requires diagnosis before any field-risk interpretation.
 
 Each original request has an observation status. Arrivals retain their exact time since scheduled departure.

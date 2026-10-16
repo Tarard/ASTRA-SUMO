@@ -68,6 +68,7 @@ def compare_driving_cohort(*, networks, reference, routes, seeds, horizon_s, out
             "horizon_s": horizon_s, "time_to_teleport_s": horizon_s, "timeout_seconds": timeout_seconds,
             "simulation_settings": {"step_length_s": 1, "collision_check_junctions": True, "collision_action": "teleport"},
             "position_output_begin_s": horizon_s - 1,
+            "vehicle_route_output": {"edge_exit_times": True, "unfinished_routes": True},
             "sumo_binary": str(sumo_binary), "cohort": {"path": str(routes), "sha256": identities[routes]},
             "sumo_binary_sha256": file_sha256(Path(executable)) if executable else None,
             "vehicle_ids": sorted(expected),

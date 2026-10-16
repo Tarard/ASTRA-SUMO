@@ -589,6 +589,7 @@ def _run_attempt(
     ]
     if diagnostic_outputs:
         command.extend(["--step-length", "1", "--collision.action", "teleport",
+                        "--vehroute-output.write-unfinished", "true",
                         "--collision-output", collision_file.name,
                         "--fcd-output", position_file.name, "--fcd-output.attributes", "id,lane,pos,speed",
                         "--device.fcd.begin", str(end - 1), "--device.fcd.period", "1"])
@@ -630,7 +631,8 @@ def _run_attempt(
         "tripinfo_file": str(tripinfo_file),
         "vehicle_route_file": str(vehicle_route_file),
         "vehicle_routes": vehicle_routes,
-        "diagnostic_outputs": {"collisions": str(collision_file), "last_step_positions": str(position_file)} if diagnostic_outputs else {},
+        "diagnostic_outputs": {"collisions": str(collision_file), "last_step_positions": str(position_file),
+                               "vehicle_routes": str(vehicle_route_file)} if diagnostic_outputs else {},
         "command": command_result,
         "inspection": inspection,
     }
