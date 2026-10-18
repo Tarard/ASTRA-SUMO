@@ -248,6 +248,11 @@ def _geometry_review(manifest, root, surface, targets, declared_edges, source, s
                               "target overlap findings and unresolved approaches require review, not automatic joining."}
 
 
+def _boundary_signature(node):
+    fields = ("shape", "customShape", "x", "y", "z")
+    return _signature(ET.Element("junction", {field: node.get(field) for field in fields if node.get(field) is not None}))
+
+
 def _reload(candidate, root, targets, destination, netconvert_binary, timeout_seconds):
     from .local_network_conversion import with_geometry_precision
     reloaded = destination / "reloaded.net.xml"
@@ -266,10 +271,9 @@ def _reload(candidate, root, targets, destination, netconvert_binary, timeout_se
                                                  if key not in before_edges or key not in after_edges
                                                  or _signature(before_edges[key]) != _signature(after_edges[key]))
         nodes = [{row.get("id"): row for row in tree.findall("junction")} for tree in (root, after)]
-        fields = ("shape", "customShape", "x", "y", "z")
         report["changed_target_boundaries"] = sorted(key for key in targets
             if key not in nodes[0] or key not in nodes[1]
-            or any(nodes[0][key].get(field) != nodes[1][key].get(field) for field in fields))
+            or _boundary_signature(nodes[0][key]) != _boundary_signature(nodes[1][key]))
         report["network"] = {"path": str(reloaded), "sha256": file_sha256(reloaded)}
         report["raw_reload_status"] = "review_required" if report["changed_external_edges"] or report["changed_target_boundaries"] else "pass"
         from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts

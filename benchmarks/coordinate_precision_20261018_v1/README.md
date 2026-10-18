@@ -82,6 +82,18 @@ The native round-trip regression uses a consistent precision and compares all ph
 The local full suite passes 3,364 checks and skips 24. The retained CI failure log and skip reasons are in the evidence record.
 This verification applies to the recorded implementation and experiments. Unmigrated legacy re-imports, source uncertainty and field validation remain open.
 
+## Boundary-audit follow-up
+
+The reload audit now uses the same exact numeric comparison for target `shape`, `x`, `y` and `z` fields.
+The regression distinguishes formatting-only changes from real coordinate, contour or custom-shape changes.
+Thirty focused audit and navigation checks pass after this correction.
+
+An audit of the current precision-6 Hamburg candidate keeps zero changed target boundaries before and after this correction.
+Its raw reimport still changes 196 external road records, and the protected reload passes.
+Those recorded native changes are not erased by the formatting correction.
+Later native passes can round a restored 12-place contour to six places. Such numeric changes remain visible in the raw proposal.
+The no-edit protected reload restores the source. Raw native output is not treated as a lossless serializer or a semantic hash.
+
 ## Reproduce
 
 Use the repository environment and put its SUMO binaries on `PATH`.

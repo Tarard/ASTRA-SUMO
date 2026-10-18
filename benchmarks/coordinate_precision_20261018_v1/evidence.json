@@ -459,5 +459,45 @@
       "Public-source recipe controls retain their declared/default settings. No earlier dataset or driving result is reinterpreted.",
       "Independent dated field labels, field accuracy and traffic performance remain unverified."
     ]
+  },
+  "boundary_audit_format_follow_up": {
+    "implementation": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_topology_audit.py",
+      "sha256": "bd11965485d207d9d25948be27da2e4d58a2332f90131146425489e17e008088"
+    },
+    "verification": {
+      "path": "outputs/coordinate_geometry_20261018_v1/audit-format-v26.log",
+      "sha256": "3a1bb128d4c49154e376289fe75464933344bd8159ff8acd2a1568d26509b671",
+      "passed": 30,
+      "includes_navigation": true,
+      "overlaps_full_suite": true
+    },
+    "real_network_audits": {
+      "before": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/hamburg-rebuild-v23/construction-audit/report.json",
+          "sha256": "9528d0a6d9e025138fe5e88a20062bfacea3d5d005d0ad9f61bdade486806d86"
+        },
+        "status": "review_required",
+        "inputs_unchanged": true,
+        "reload_status": "pass",
+        "raw_reload_status": "review_required",
+        "changed_target_boundaries": [],
+        "changed_external_edge_count": 196
+      },
+      "after": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/hamburg-audit-v27/report.json",
+          "sha256": "ecec53adf44b234dff518636d731216e2396adce9efe845dce1433a3bbc6e4a6"
+        },
+        "status": "review_required",
+        "inputs_unchanged": true,
+        "reload_status": "pass",
+        "raw_reload_status": "review_required",
+        "changed_target_boundaries": [],
+        "changed_external_edge_count": 196
+      }
+    },
+    "scope": "Exact numeric canonicalization for shape, x, y and z. Actual numeric or custom-shape changes remain reported. Protected reload restores the source; raw reimport is not a lossless serializer."
   }
 }

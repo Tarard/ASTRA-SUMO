@@ -11,6 +11,19 @@ from astra_sumo.core.command_runner import CommandResult
 from astra_sumo.core import hamburg_topology_audit as audit
 
 
+@pytest.mark.parametrize("change", [None, "coordinate", "shape", "custom"])
+def test_reload_boundary_comparison_distinguishes_formatting_from_real_changes(change):
+    before = ET.fromstring('<junction id="j" x="226.66" y="0" z="0" customShape="true" shape="0,0 4,0 4,4"/>')
+    after = ET.fromstring('<junction id="j" x="226.660000" y="0.000000" z="0.000000" customShape="true" shape="0.000000,0.000000 4.000000,0.000000 4.000000,4.000000"/>')
+    if change == "coordinate":
+        after.set("x", "226.660001")
+    elif change == "shape":
+        after.set("shape", "0,0 4.000001,0 4,4")
+    elif change == "custom":
+        after.set("customShape", "false")
+    assert (audit._boundary_signature(before) == audit._boundary_signature(after)) is (change is None)
+
+
 def _case(tmp_path, *, outside_bowtie=False):
     body = '''<net><location netOffset="0,0" projParameter="!"/>
     <edge id="in" from="a" to="j"><lane id="in_0" index="0" length="10" shape="0,0 10,0"/></edge>
