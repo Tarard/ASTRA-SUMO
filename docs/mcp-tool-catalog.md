@@ -258,8 +258,10 @@ SHA-256 hashes. Paths may be relative to the request file. An arbitrary
 screenshot without known geographic bounds is not a georeferenced input.
 
 Set `osm_build.output_precision` explicitly in new requests. The current example
-uses 6. A v1 request without this field retains the original precision 2 recipe.
-The workflow records the resolved setting and the source network hash.
+uses 6. The source import of a v1 request without this field retains precision 2.
+The workflow records the resolved setting, whether it was declared, and the
+source network hash. It records the native edit default separately. These
+settings do not pin the software version or every downstream construction step.
 
 An intersection may also supply `road_reference.topology` and
 `road_reference.cross_sections` as hash-bound Hamburg GeoJSON files. The

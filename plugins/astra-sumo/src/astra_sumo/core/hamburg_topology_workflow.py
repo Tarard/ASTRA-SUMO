@@ -30,6 +30,7 @@ from .road_scope import resolve_highway_classes
 from .network_source_policy import resolve_network_source_policy
 from .network_calibration import evaluate_network_calibration
 from .network_geometry_freeze import compare_frozen_geometry
+from .local_network_conversion import DEFAULT_GEOMETRY_PRECISION
 
 
 REQUEST_SCHEMA = "torii.hamburg-topology-workflow-request/v1"
@@ -388,6 +389,7 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
         "ordered_node_ids": [row["node_id"] for row in request["intersections"]],
         "road_names": request["road_names"], "parameters": request["construction"],
         "osm_build": dict(request["osm_build"]),
+        "native_edit_precision_default": DEFAULT_GEOMETRY_PRECISION,
         "stages": {}, "generated_inputs": [], "topology_complete": False, "network_handoff": None,
         "calibration": {"status": "not_run", "required_for_network_construction": False,
                         "next_workflow": "separate signal/count binding and demand calibration on a frozen accepted network"},
@@ -446,7 +448,8 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             raise ValueError("source network construction failed; inspect its stage artifact")
         net_file = Path(source["net_file"])
         source_identity = pin("source_network", net_file)
-        report["source_import"] = {**source_identity, "netconvert_precision": source.get("netconvert_precision")}
+        report["source_import"] = {**source_identity, "netconvert_precision": source.get("netconvert_precision"),
+            "precision_basis": "declared" if "output_precision" in supplied["osm_build"] else "legacy_v1_default"}
         pin("filtered_osm", source["filtered_osm_file"])
         road_geometry = stage("road_geometry", lambda: build_hamburg_road_geometry_candidate(
             source_net=net_file, output_dir=destination / "road-geometry",

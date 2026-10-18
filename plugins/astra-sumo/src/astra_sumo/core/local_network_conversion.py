@@ -9,12 +9,15 @@ from .candidate_contracts import file_sha256
 from .internal_ownership import resolve_internal_ownership
 
 
+DEFAULT_GEOMETRY_PRECISION = 6
+
+
 def with_geometry_precision(command):
     """Keep declared input detail unless the caller specifies native precision."""
     command = list(command)
     if not any(value == "--precision" or value.startswith("--precision=") for value in command):
         index = command.index("--output-file") if "--output-file" in command else 1
-        command[index:index] = ["--precision", "6"]
+        command[index:index] = ["--precision", str(DEFAULT_GEOMETRY_PRECISION)]
     return command
 
 

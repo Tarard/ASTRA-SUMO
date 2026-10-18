@@ -141,6 +141,8 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     assert observed["source"]["output_precision"] == 2
     assert result["osm_build"]["output_precision"] == 2
     assert result["source_import"]["netconvert_precision"] == 2
+    assert result["source_import"]["precision_basis"] == "legacy_v1_default"
+    assert result["native_edit_precision_default"] == 6
     assert result["calibration"]["status"] == "not_run"
     assert result["calibration"]["required_for_network_construction"] is False
     assert result["network_handoff"]["construction_decision"] == "pass"
@@ -161,16 +163,19 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     assert Path(result["report_file"]).read_bytes() == before
 
 
-def test_explicit_import_precision_is_pinned_to_the_source_identity(tmp_path, monkeypatch):
+@pytest.mark.parametrize("precision", [2, 6])
+def test_explicit_import_precision_is_pinned_to_the_source_identity(tmp_path, monkeypatch, precision):
     request = _request(tmp_path)
     payload = json.loads(request.read_text(encoding="utf-8"))
-    payload["osm_build"]["output_precision"] = 6
+    payload["osm_build"]["output_precision"] = precision
     request.write_text(json.dumps(payload), encoding="utf-8")
     before = request.read_bytes()
     observed = _fake_stages(monkeypatch)
     result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
-    assert observed["source"]["output_precision"] == result["osm_build"]["output_precision"] == 6
-    assert result["source_import"]["netconvert_precision"] == 6
+    assert observed["source"]["output_precision"] == result["osm_build"]["output_precision"] == precision
+    assert result["source_import"]["netconvert_precision"] == precision
+    assert result["source_import"]["precision_basis"] == "declared"
+    assert result["native_edit_precision_default"] == 6
     source = next(row for row in result["generated_inputs"] if row["role"] == "source_network")
     assert result["source_import"]["sha256"] == source["sha256"]
     assert request.read_bytes() == before
