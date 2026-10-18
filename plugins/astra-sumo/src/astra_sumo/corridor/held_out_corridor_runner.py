@@ -378,6 +378,7 @@ def _build_case_evidence(
         "include_railway": profile.include_railway,
         "allowed_railways": set(profile.allowed_railways),
         "netconvert_profile": profile.netconvert_profile,
+        "output_precision": 2,  # Preserve the frozen benchmark's original native setting.
         "netconvert_binary": str(netconvert_binary),
         "clip_source_ways_to_bbox": profile.clip_source_ways_to_bbox,
         "sumo_home": sumo_root,

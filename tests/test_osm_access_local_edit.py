@@ -129,3 +129,36 @@ def test_import_preserves_tls_cleanup_artifacts_before_permission_edits(tmp_path
     assert file_sha256(Path(cleanup["source_net_file"])) == cleanup["source_sha256"]
     assert file_sha256(Path(cleanup["candidate_net_file"])) == cleanup["candidate_sha256"]
     assert Path(result["net_file"]) != Path(cleanup["candidate_net_file"])
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="Native netconvert is required.")
+@pytest.mark.parametrize("precision,expected", [(None, 6), (2, 2), (6, 6)])
+def test_product_import_keeps_precision_in_native_geometry_and_recipe(tmp_path, precision, expected):
+    from astra_sumo.core.candidate_contracts import file_sha256
+    from astra_sumo.core.osm_network import build_osm_network
+
+    source = Path(__file__).parent / "fixtures/osm_bus_access_118.osm.xml"
+    before = file_sha256(source)
+    result = build_osm_network(bbox="9.985,53.554,9.993,53.560", output_dir=tmp_path / "build",
+        source_osm_path=source, allowed_highways={"service"}, clip_source_ways_to_bbox=False,
+        netconvert_binary=shutil.which("netconvert"), output_precision=precision)
+    assert result["status"] == "pass", result
+    manifest = json.loads(Path(result["build_manifest_file"]).read_text(encoding="utf-8"))
+    command = manifest["netconvert"]["command"]
+    assert command[command.index("--precision") + 1] == str(expected)
+    assert manifest["netconvert"]["precision"] == result["netconvert_precision"] == expected
+    assert "--precision " + str(expected) in Path(result["command_record"]).read_text(encoding="utf-8")
+    coordinates = [float(value) for edge in ET.parse(result["net_file"]).getroot().findall("edge")
+        if not edge.get("function") for lane in edge.findall("lane")
+        for point in lane.get("shape").split() for value in point.split(",")]
+    assert any(abs(value - round(value, 2)) > 1e-7 for value in coordinates) is (expected == 6)
+    assert file_sha256(source) == before
+
+
+@pytest.mark.parametrize("precision", [True, -1, 2.5, "6"])
+def test_invalid_import_precision_returns_an_input_error_before_writing(tmp_path, precision):
+    from astra_sumo.core.osm_network import build_osm_network
+    destination = tmp_path / "build"
+    report = build_osm_network(bbox="9.985,53.554,9.993,53.560", output_dir=destination, output_precision=precision)
+    assert report["status"] == "fail" and "output_precision" in report["error"]
+    assert not destination.exists()

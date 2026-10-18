@@ -1412,6 +1412,8 @@ def test_build_osm_network_from_existing_osm_runs_netconvert_and_records_artifac
             "netconvert",
             "--osm-files",
             "osm/demo_filtered.osm.xml.gz",
+            "--precision",
+            "6",
             "--output-file",
             "sumo/demo.net.xml",
             "--proj.utm",

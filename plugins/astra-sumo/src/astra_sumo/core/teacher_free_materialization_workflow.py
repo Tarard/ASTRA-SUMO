@@ -138,6 +138,7 @@ def run_teacher_free_materialization_workflow(
     common_options = [
         "--osm-files",
         relative_osm,
+        "--precision", "2",  # Preserve the preregistered construction recipe.
         "--proj.utm",
         "--no-turnarounds",
         "--osm.all-attributes",

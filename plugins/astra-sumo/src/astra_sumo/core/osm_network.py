@@ -791,6 +791,7 @@ def build_osm_network(
     command_runner: Callable[..., Any] = run_command,
     download_func: Callable[..., bytes] = download_osm,
     netconvert_profile: str | None = "vehicle_core",
+    output_precision: int | None = None,
     allowed_way_ids: set[str] | None = None,
     forced_way_ids: set[str] | None = None,
     include_railway: bool = False,
@@ -806,6 +807,9 @@ def build_osm_network(
     it does not geometrically clip them at the rectangle boundary.
     """
     try:
+        if output_precision is not None and (isinstance(output_precision, bool)
+                or not isinstance(output_precision, int) or output_precision < 0):
+            raise ValueError("output_precision must be a non-negative integer.")
         parsed_bbox = parse_bbox(bbox)
         parsed_geo_boundary = parse_geo_boundary(geo_boundary)
         if not math.isfinite(tls_join_distance_m) or tls_join_distance_m < 0:
@@ -952,7 +956,9 @@ def build_osm_network(
                 type_options,
                 construction_type_options,
             )
-        command = [
+        from .local_network_conversion import with_geometry_precision
+
+        command = with_geometry_precision([
             netconvert_binary,
             "--osm-files",
             _relative_to_root(filtered_osm, root),
@@ -970,13 +976,15 @@ def build_osm_network(
             f"{tls_join_distance_m:g}",
             *type_options,
             *profile_options,
+            *([] if output_precision is None else ["--precision", str(output_precision)]),
             *(
                 ["--keep-edges.in-geo-boundary", parsed_geo_boundary]
                 if parsed_geo_boundary is not None
                 else []
             ),
             "--verbose",
-        ]
+        ])
+        effective_precision = int(command[command.index("--precision") + 1])
         _write_text(
             command_record,
             "\n".join(
@@ -1129,6 +1137,7 @@ def build_osm_network(
         },
         "netconvert": {
             "command": command,
+            "precision": effective_precision,
             "result": result,
             "profile": normalized_profile,
             "profile_options": profile_options,
@@ -1188,6 +1197,7 @@ def build_osm_network(
         "filter_stats": filter_stats,
         "overpass": overpass_report,
         "netconvert_profile": normalized_profile,
+        "netconvert_precision": effective_precision,
         "netconvert_profile_options": profile_options,
         "netconvert_output_original_names": origin_name_output,
         "osm_access_correction": access_correction,
