@@ -414,11 +414,19 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
         if osm is not None:
             raw = folder / "unjoined-import.net.xml"
             settings, configuration = _prepared_import_arguments(files, osm)
+            location = root.find("location")
+            offset = location.get("netOffset", "0,0") if location is not None else "0,0"
+            # Global-coordinate rounding can break exact registration with a normalized reference.
+            disable_normalization = not any(Decimal(value) for value in offset.split(","))
             command = [netconvert_binary, "--osm-files", str(osm), *settings, "--junctions.join", "false", "--tls.join", "false",
-                       "--geometry.remove", "false", "--offset.disable-normalization", "true", "--output-file", str(raw)]
+                       "--geometry.remove", "false", "--offset.disable-normalization", str(disable_normalization).lower(),
+                       "--output-file", str(raw)]
             built = run_command(command, cwd=folder, timeout_seconds=240).to_dict()
             write_json_atomic(folder / "import-command.json", {"source_osm": _identity(osm), "result": built}, sort_keys=True)
             row["source_osm"] = _identity(osm)
+            row["import_coordinate_frame"] = {"reference_net_offset": offset,
+                "normalization_mode": "disabled" if disable_normalization else "native",
+                "basis": "reference_declared_offset", "registration": "unchanged_exact_coordinates_and_source_ids"}
             if configuration is not None:
                 row["import_configuration"] = {**_identity(configuration), "applied_arguments": settings,
                     "overrides": {"junctions.join": False, "tls.join": False, "geometry.remove": False},

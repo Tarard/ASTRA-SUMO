@@ -212,7 +212,7 @@ def test_offline_corpus_retains_unpaired_reference_targets_and_inputs(tmp_path, 
         corpus.build_public_reference_corpus(catalog_file=catalog, cache_dir=cache, output_dir=tmp_path / "out")
 
 
-def _native_inputs(tmp_path):
+def _native_inputs(tmp_path, *, normalized=False):
     source = tmp_path / "original.osm"
     source.write_text('''<osm version="0.6"><bounds minlat="48.75" minlon="11.40" maxlat="48.76" maxlon="11.42"/>
     <node id="1" lat="48.755" lon="11.401"/><node id="2" lat="48.755" lon="11.410"/>
@@ -225,7 +225,8 @@ def _native_inputs(tmp_path):
     if not Path(executable).is_file():
         executable = shutil.which("netconvert")
     result = subprocess.run([executable, "--osm-files", str(source), "--geometry.remove", "false",
-                             "--junctions.join", "false", "--offset.disable-normalization", "true", "--output-file", str(raw)], capture_output=True, text=True, timeout=30)
+                             "--junctions.join", "false", "--offset.disable-normalization", str(not normalized).lower(),
+                             "--output-file", str(raw)], capture_output=True, text=True, timeout=30)
     assert result.returncode == 0, result.stderr
     joins = tmp_path / "join.nod.xml"
     joins.write_text('<nodes><join id="cluster_2_3" nodes="2 3" reset="false" type="priority"/></nodes>', encoding="utf-8")
@@ -271,14 +272,16 @@ def test_native_prepared_import_uses_catalog_elevation_settings(tmp_path):
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
-def test_native_prepared_source_pairs_self_check_and_unjoined_baseline(tmp_path):
-    source, reference, executable = _native_inputs(tmp_path)
+@pytest.mark.parametrize("normalized", [False, True])
+def test_native_prepared_source_pairs_self_check_and_unjoined_baseline(tmp_path, normalized):
+    source, reference, executable = _native_inputs(tmp_path, normalized=normalized)
     catalog, cache, _ = _fixture(tmp_path, reference=reference, source=source)
     report = corpus.build_public_reference_corpus(catalog_file=catalog, cache_dir=cache,
         output_dir=tmp_path / "out", netconvert_binary=executable)
     dataset_path = Path(report["datasets"][0]["report"]["path"])
     dataset = json.loads(dataset_path.read_text())
     assert dataset["reference_load"]["status"] == "pass"
+    assert dataset["import_coordinate_frame"]["normalization_mode"] == ("native" if normalized else "disabled")
     assert dataset["paired_labels"]["counts"]["joined"] == 1
     assert dataset["paired_labels"]["counts"]["separate"] == 2
     request_path = tmp_path / "request.json"

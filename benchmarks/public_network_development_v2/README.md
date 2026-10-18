@@ -34,7 +34,7 @@ Unsupported settings require an explicit implementation change.
 Regeneration uses SUMO 1.27.1. It does not reproduce the original historical binary.
 The configuration, actual arguments, overrides, binaries, and source hashes remain in the result.
 
-## Measured result
+## Original measured result
 
 The retained local run is `outputs/calibration_driving_20261016_v1/most-corpus-v2/`.
 The published network loads. The prepared import succeeds.
@@ -59,8 +59,9 @@ The target header records netconvert `v1_2_0+1020` and matching effective joinin
 This comparison therefore belongs to recipe and version regression work.
 Edits already present in the prepared OSM input are shared by both sides of this comparison.
 The comparison does not isolate those human input edits.
-Current reports mark `human_cleaning_evaluation: false` and the full-recipe control `not_run`.
-That control and per-target attribution remain required before interpreting differences as cleaning evidence.
+The original frozen report marks `human_cleaning_evaluation: false` and the full-recipe control `not_run`.
+The [later published-configuration control](recipe-control-20261016-v1.md) records that experiment and per-target attribution.
+Its unexplained differences remain model differences, without cleaning or field attribution.
 
 The published target matches all 1,559 known records in a self-check.
 The unjoined comparison exposes 58 missing joins, 80 missing connections, and two extra connections relative to that model.
@@ -70,3 +71,11 @@ These outcomes test the comparison path. They do not establish the reference mod
 The prepared input includes edited and synthetic sources.
 Its repository revision does not date the original OSM snapshot or the field state.
 Both dates remain unknown. No current OSM substitutes for the missing original snapshot.
+
+## Coordinate-frame repeat
+
+The [2026-10-18 repeat](coordinate-frame-20261018-v1.md) corrects the unjoined import's normalization convention.
+It retains 9,005 known model-relative records and 1,963 unknowns under the unchanged exact registration rules.
+The previous input, label table, and results remain intact.
+The repeat also records lost correspondence, one changed generated connection, and changed lane lengths.
+It provides no field-defect labels or automatic-cleaning precision estimate.

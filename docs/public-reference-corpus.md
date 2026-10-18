@@ -35,6 +35,12 @@ This control uses the published configuration with current SUMO defaults. It doe
 Recipe agreement provides reproducibility evidence. Unexplained differences do not become human edits or field defects.
 The [dated MoST control](../benchmarks/public_network_development_v2/recipe-control-20261016-v1.md) records the real-data result and remaining unknowns.
 
+The unjoined import now follows the reference network's coordinate-normalization convention.
+A zero declared offset keeps global coordinates. A nonzero offset enables native normalization.
+`import_coordinate_frame` records that choice and the reference offset. Exact registration rules remain unchanged.
+Native normalization can also change generated geometry or connections. Each new import remains a separate baseline.
+The [coordinate-frame repeat](../benchmarks/public_network_development_v2/coordinate-frame-20261018-v1.md) retains improved correspondence and the observed conversion changes.
+
 The [catalog](../benchmarks/public_network_development_v1/catalog.json) freezes
 four public models from three cities:
 

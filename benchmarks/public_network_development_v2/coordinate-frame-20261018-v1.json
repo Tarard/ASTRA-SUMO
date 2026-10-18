@@ -1,0 +1,286 @@
+{
+  "schema": "astra.public-reference-coordinate-frame-evidence/v1",
+  "date": "2026-10-18",
+  "implementation": {
+    "path": "plugins/astra-sumo/src/astra_sumo/core/public_reference_corpus.py",
+    "sha256": "55bc9ec04fd9f9fee58779bef0e1ae93fa47c24ef5487e185e75efb25559c726"
+  },
+  "catalog": {
+    "path": "benchmarks/public_network_development_v2/catalog.json",
+    "sha256": "06a8bae89c97a66e240f32296773f8c5573a81cbe10fccf46c48b771f5d90ec0"
+  },
+  "datasets": [
+    {
+      "path": "outputs/construction_trace_20261016_v1/most-recipe-control-v1/MoST_2019_paired/dataset.json",
+      "sha256": "5819b49390a050b29b529edac1cc36ca736a882f064eab8de7f9e5dd3d655039"
+    },
+    {
+      "path": "outputs/source_pairing_20261018_v1/most-normalized-v1/MoST_2019_paired/dataset.json",
+      "sha256": "cf17d62b0eae5da4da95930ed3bf9f67bf401e4462411f9b9a8dbeb71c6c7d29"
+    }
+  ],
+  "coordinate_normalization": {
+    "basis": "reference_declared_offset",
+    "normalization_mode": "native",
+    "reference_net_offset": "-368142.40,-4841896.61",
+    "registration": "unchanged_exact_coordinates_and_source_ids"
+  },
+  "registered_node_counts": [
+    1019,
+    2054
+  ],
+  "label_counts": [
+    {
+      "connection_added": 80,
+      "connection_removed": 2,
+      "connection_retained": 820,
+      "connection_unknown": 7273,
+      "joined": 58,
+      "separate": 599,
+      "total": 10969,
+      "unknown": 2137
+    },
+    {
+      "connection_added": 291,
+      "connection_removed": 10,
+      "connection_retained": 6171,
+      "connection_unknown": 1702,
+      "joined": 58,
+      "separate": 2475,
+      "total": 10968,
+      "unknown": 261
+    }
+  ],
+  "label_transitions": {
+    "newly_registered": 7456,
+    "unchanged": 3502,
+    "registration_lost": 10,
+    "removed_record": 1
+  },
+  "nonmonotone_records": [
+    {
+      "kind": "junction_membership",
+      "selector": [
+        "132840",
+        "152279-AddedOffRampNode"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": false,
+      "after_expected": null
+    },
+    {
+      "kind": "junction_membership",
+      "selector": [
+        "137326",
+        "152279-AddedOffRampNode"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": false,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279",
+        "0",
+        "152279-AddedOffRampEdge",
+        "0"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279",
+        "0",
+        "152279-AddedOffRampEdge",
+        "1"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279",
+        "1",
+        "152279-AddedOffRampEdge",
+        "2"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279",
+        "2",
+        "152279-AddedOffRampEdge",
+        "3"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279-AddedOffRampEdge",
+        "0",
+        "152524#0",
+        "0"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279-AddedOffRampEdge",
+        "1",
+        "152524#0",
+        "1"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279-AddedOffRampEdge",
+        "2",
+        "152524#0",
+        "2"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152279-AddedOffRampEdge",
+        "3",
+        "152524#0",
+        "3"
+      ],
+      "outcome": "registration_lost",
+      "before_expected": true,
+      "after_expected": null
+    },
+    {
+      "kind": "lane_connection",
+      "selector": [
+        "152526",
+        "2",
+        "152527",
+        "2"
+      ],
+      "outcome": "removed_record",
+      "before_expected": null,
+      "after_expected": null
+    }
+  ],
+  "source_conversion_delta": {
+    "ordinary_edge_ids_equal": true,
+    "lane_ids_equal": true,
+    "connections_removed": [
+      [
+        "152526",
+        "2",
+        "152527",
+        "2"
+      ]
+    ],
+    "connections_added": [],
+    "logical_lane_length_change_count": 5410,
+    "largest_absolute_logical_length_change_m": 21.700000000000017
+  },
+  "generator_control": {
+    "report": {
+      "path": "outputs/source_pairing_20261018_v1/most-normalized-v1/MoST_2019_paired/generator-control.json",
+      "sha256": "9cb9613022f2710b864f999b142197399f72cf0e479b8b06aeb9b8c1769d201e"
+    },
+    "counts": {
+      "recipe_reproduced": 8897,
+      "unexplained_difference": 69,
+      "unknown_reference": 1963,
+      "unresolved_control": 39
+    },
+    "baseline_difference_counts": {
+      "recipe_reproduced": 295,
+      "unexplained_difference": 64
+    },
+    "sumo_load": "pass"
+  },
+  "comparisons": {
+    "self": {
+      "report": {
+        "path": "outputs/source_pairing_20261018_v1/self-comparison-v1.json",
+        "sha256": "434d5518b915330add589c59031b74e78a6b2afcf4beb8ca9b674a05715b7e7e"
+      },
+      "status": "review_required",
+      "counts": {
+        "junction_membership": {
+          "true_negative": 2475,
+          "unknown_reference": 261,
+          "true_positive": 58
+        },
+        "lane_connection": {
+          "unknown_reference": 1702,
+          "true_positive": 6462,
+          "true_negative": 10
+        }
+      },
+      "known_reference_case_count": 9005,
+      "scored_case_count": 9005,
+      "field_precision": null
+    },
+    "baseline": {
+      "report": {
+        "path": "outputs/source_pairing_20261018_v1/baseline-comparison-v1.json",
+        "sha256": "63990af11707e67018efac6a14480bc00bd9e54a830efba5c8152d18abc467ad"
+      },
+      "status": "review_required",
+      "counts": {
+        "junction_membership": {
+          "true_negative": 2475,
+          "unknown_reference": 261,
+          "false_negative": 58
+        },
+        "lane_connection": {
+          "unknown_reference": 1702,
+          "true_positive": 6171,
+          "false_negative": 291,
+          "false_positive": 10
+        }
+      },
+      "known_reference_case_count": 9005,
+      "scored_case_count": 9005,
+      "field_precision": null
+    }
+  },
+  "field_precision": null,
+  "human_cleaning_evaluation": false,
+  "limits": [
+    "Exact registration rules are unchanged. No proximity tolerance was introduced.",
+    "The native unjoined import changes one connection and some lane lengths under normalization. It is a new generated baseline, not a pure serialization rewrite.",
+    "Ten previously registered records become unknown and one previously unknown connection record leaves the generated universe. Earlier records remain unchanged.",
+    "Prepared input dates and manual-edit origin remain unestablished. No field accuracy or automatic-cleaning precision follows."
+  ],
+  "verification": {
+    "path": "outputs/source_pairing_20261018_v1/registration-v1.log",
+    "sha256": "f1cf309a836eab80f46eee997951a40d9e6778393e4ea86dcea28aad3e8b2784",
+    "passed": 26
+  },
+  "raw_analysis": {
+    "path": "outputs/source_pairing_20261018_v1/analyze-normalization-v1.py",
+    "sha256": "dac070b7255998d9efc4580cfb631cc76b76fc4caecdcecabec3bfefc07ab957"
+  }
+}
