@@ -148,5 +148,58 @@
     "The native outputs remain model references, not field ground truth.",
     "Construction coverage and the broader construction audit still require review.",
     "No driving-performance improvement is claimed. The candidate bytes and its prior driving limitations are unchanged."
-  ]
+  ],
+  "priority_and_status_follow_up": {
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+        "sha256": "1ec529f5bbe2e273baa5adddae8161635e4ae25240cbc07762850aa7455d86e8"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py",
+        "sha256": "065072f56b754ee20b7f2fa73fa3ab259d7dce4e5f34803cb0bc0ed7fe3cd985"
+      }
+    ],
+    "global_report": {
+      "path": "outputs/runtime_workflow_20261018_v1/priority-final-v8/link-preservation.json",
+      "sha256": "31d7d6d7bd0c1ac66f45bb093a3f6c3af49a44931d08945e1485f341198ca3f9"
+    },
+    "global_counts": {
+      "native": 3,
+      "source": 125
+    },
+    "global_difference_count": 0,
+    "most_report": {
+      "path": "outputs/runtime_workflow_20261018_v1/most-priority-v9/link-preservation.json",
+      "sha256": "8648e313649b76acee60f71bd138670fc7aebf5209cb5dff49b9e41782098358"
+    },
+    "most_counts": {
+      "native": 2,
+      "source": 2002
+    },
+    "most_difference_count": 0,
+    "candidate_unavailable_status": "review_required",
+    "priority_scope": "Links without a signal assignment. Controlled colors remain phase dependent.",
+    "signal_program_scope": "Only the active program loaded from the network. Other programs, switching plans, runtime additional files and historical timing are not verified.",
+    "verification_runs": [
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/priority-v7.log",
+          "sha256": "980ceb81c96d7ca55f99d1ee4db85d42728e567cb2081648de846103fc2fe2f0"
+        },
+        "passed": 104
+      },
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/priority-edits-v9.log",
+          "sha256": "3bac1cb61685bfb46c6562919ab71a581d0de588887c1ff9fe4328bfd750d888"
+        },
+        "passed": 25
+      }
+    ],
+    "mutation_tests": [
+      "test_signal_index_swap_is_detected_without_changing_saved_movement_paths",
+      "test_vehicle_stop_state_change_is_detected_without_changing_conflicts"
+    ]
+  }
 }

@@ -642,6 +642,12 @@ def _area(points: list[tuple[float, float]]) -> float:
     ) / 2
 
 
+@pytest.mark.parametrize("technical,links,expected", [(True, "pass", "pass"), (True, "fail", "blocked"),
+    (True, "unavailable", "review_required"), (False, "pass", "blocked"), (False, "unavailable", "blocked")])
+def test_candidate_status_keeps_observation_gaps_separate_from_known_failures(technical, links, expected):
+    assert candidate_module._construction_status(technical, links) == expected
+
+
 def test_final_link_measurement_uses_each_junctions_last_adopted_native_output(tmp_path, monkeypatch):
     from astra_sumo.core import network_link_semantics
     seen = {}
