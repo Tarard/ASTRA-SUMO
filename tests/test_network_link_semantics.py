@@ -192,6 +192,7 @@ def test_worker_retains_a_failed_load_log_without_claiming_no_warnings(tmp_path,
     network_link_semantics._main()
     observed = json.loads(output.read_text())
     assert observed["snapshots"] == {} and "load failed" in observed["errors"]["source"]
+    assert "Error: invalid network" in observed["errors"]["source"]
     log = observed["load_logs"]["source"]
     assert log["warnings"] == ["Warning: before failure"]
     assert log["errors"] == ["Error: invalid network"]

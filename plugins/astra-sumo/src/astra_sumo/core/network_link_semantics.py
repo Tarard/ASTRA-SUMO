@@ -273,6 +273,8 @@ def _main():
             report["load_logs"][name] = {"path": str(log), "sha256": file_sha256(log),
                 "warnings": [line for line in lines if line.startswith("Warning:")],
                 "errors": [line for line in lines if line.startswith("Error:")]}
+            if name in report["errors"] and report["load_logs"][name]["errors"]:
+                report["errors"][name] += " " + report["load_logs"][name]["errors"][0]
         write_json_atomic(args.observations, report)
 
 

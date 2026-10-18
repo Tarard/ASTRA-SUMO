@@ -210,6 +210,7 @@ The worker also saves each network's complete load warning and error log, with i
 `load_warning_comparison` reports exact warning-line counts inherited from the source, added by the candidate, or absent from it.
 Repeated lines retain their counts. Failed loads retain their logs and have no complete warning comparison.
 Each log record lists native `Error:` lines as well as warnings, so a failed load retains SUMO's actual diagnosis.
+The observation-error summary also retains the first native error line alongside the worker exception.
 Native subnetworks retain separate logs because their warning totals are not comparable with a complete network.
 Identifier changes can change warning text. These differences are diagnostic measurements, not an additional acceptance condition.
 This observation uses no vehicles or simulation steps. It does not collect driving warnings or prove that a warning disappeared for the correct reason.
