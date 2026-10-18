@@ -107,6 +107,7 @@ def test_local_approach_matches_complete_source_conversion(tmp_path, monkeypatch
             junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / name)
     local = build("local")
     assert local["status"] == "pass", local
+    assert local["inherited_speed_roundoff_restoration"]["after_sha256"] == local["candidate_network"]["sha256"]
     record = local["local_conversion"]
     assert record["status"] == "local"
     assert record["source_normal_edge_count"] == 15
@@ -743,3 +744,11 @@ def test_added_lane_restores_a_distant_road_after_native_conversion(tmp_path, mo
     assert file_sha256(source) == original_hash
     loaded = subprocess.run([shutil.which("sumo"), "-n", result["candidate_network"]["path"], "--end", "1", "--no-step-log"], capture_output=True, text=True, timeout=30)
     assert loaded.returncode == 0, loaded.stderr
+@pytest.mark.parametrize("actual,restored", [("13.890000000130", True), ("13.891", False), ("13.890", True)])
+def test_declared_speed_roundoff_is_restored_without_relaxing_preservation(actual, restored):
+    from astra_sumo.core.hamburg_aerial_approach import _restore_speed_roundoff
+    expected = ET.fromstring('<edge id="road"><lane index="0" speed="13.89"/></edge>')
+    candidate = ET.fromstring(f'<edge id="road"><lane id="road_0" index="0" speed="{actual}"/></edge>')
+    records = _restore_speed_roundoff({"road": expected}, {"road": candidate})
+    assert bool(records) is restored
+    assert candidate.find("lane").get("speed") == ("13.89" if restored else actual)

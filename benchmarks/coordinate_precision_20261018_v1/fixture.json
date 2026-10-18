@@ -1,0 +1,64 @@
+{
+  "schema": "astra.coordinate-precision-fixture/v1",
+  "native_version": "1.27.1",
+  "family_id": "monaco",
+  "split": "development_only",
+  "source_revision": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+  "source_repository": "https://github.com/lcodeca/MoSTScenario",
+  "source_file": "tools/static/most.raw.osm",
+  "original_source_sha256": "dda3afd8f29aee97090088e78d485365ac1ad054c743991090bd5407cedd0073",
+  "license": "Upstream GPLv3; retained in UPSTREAM_LICENSE.md",
+  "files": {
+    "source.osm.xml": {
+      "sha256": "83368f77c6f3bca280ab50574664ecf0f9c34470b908d03d44dd9ef227d72111",
+      "bytes": 9309
+    },
+    "effective.typ.xml": {
+      "sha256": "50a261e963d13f1011876a307e01c806894ba409f0cc2cf7f15afc9835d1f60e",
+      "bytes": 371
+    },
+    "UPSTREAM_LICENSE.md": {
+      "sha256": "c53a65c2fd561c87eaabf1072ef5dcab8653042bc15308465f52413585eb6271",
+      "bytes": 35146
+    }
+  },
+  "retained_way_ids": [
+    "152526",
+    "152527",
+    "152559"
+  ],
+  "retained_node_count": 40,
+  "target_junction_id": "134549",
+  "target_edge_id": "152527",
+  "target_connection": [
+    "152526",
+    "2",
+    "152527",
+    "2"
+  ],
+  "native_options": [
+    "--tls.guess-signals=true",
+    "--tls.default-type=actuated",
+    "--tls.min-dur=5",
+    "--tls.max-dur=30",
+    "--ramps.guess=true",
+    "--roundabouts.guess=true",
+    "--junctions.limit-turn-speed=1",
+    "--crossings.guess=true",
+    "--walkingareas=false",
+    "--osm.elevation=true",
+    "--no-turnarounds.except-deadend=true",
+    "--no-internal-links=false",
+    "--ignore-errors=false",
+    "--ignore-errors.connections=false",
+    "--show-errors.connections-first-try=true",
+    "--default.crossing-width=2.0",
+    "--junctions.join",
+    "false",
+    "--tls.join",
+    "false",
+    "--geometry.remove",
+    "false"
+  ],
+  "claim_boundary": "Small derived model case. It is not an independent city, field label, or original dated OSM snapshot. High precision in this case does not establish general numerical stability."
+}

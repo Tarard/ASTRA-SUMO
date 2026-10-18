@@ -267,10 +267,17 @@ def build_hamburg_aerial_approach_candidate(
                               boundary_edge_map=boundary_edge_map)
     restoration = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate,
         **preservation_scope, expand_mutable_edge_endpoints=False)
-    preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate, **preservation_scope)
     result_root = ET.parse(candidate).getroot()
     permission_versions = dict(source_version=root.get("version", "0.0"), candidate_version=result_root.get("version", "0.0"))
     result_edges = {edge.get("id"): edge for edge in result_root.findall("edge") if edge.get("function") != "internal"}
+    speed_before = file_sha256(candidate)
+    speed_roundoff = _restore_speed_roundoff(
+        {**{key: edge for key, edge in source_edges.items() if key not in rewritten},
+         **{edge.get("id"): edge for edge in edge_patch}}, result_edges)
+    if speed_roundoff:
+        ET.ElementTree(result_root).write(candidate, encoding="utf-8", xml_declaration=True)
+    speed_after = file_sha256(candidate)
+    preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate, **preservation_scope)
     preserved = set(result_edges) == set(source_edges) | set(expected_upstream)
     evidence = []
     boundary_adjustments = []
@@ -313,6 +320,7 @@ def build_hamburg_aerial_approach_candidate(
         "claim_status": "diagnostic-demo", "source_network": source_identity, "candidate_network": _identity(candidate),
         "inputs": inputs, "approaches": [{key: value for key, value in row.items() if not key.startswith("_")} for row in accepted],
         "reviews": reviews, "not_applicable": not_applicable, "gates": gates, "outside_preservation": evidence, "boundary_geometry_adjustments": boundary_adjustments, "affected_tls": affected_tls, "preserved_controller_ids": sorted(touched_controller_ids),
+        "inherited_speed_roundoff_restoration": {"before_sha256": speed_before, "after_sha256": speed_after, "lanes": speed_roundoff},
         "scoped_geometry_restoration": restoration, "fixed_boundary_geometry": preservation,
         "source_priority": {"local_lane_identity_and_geometry": "official_MAP_KML", "vehicle_permissions": "explicit_official_MAP_XML_otherwise_source_lane", "outside_geometry_and_connections": "frozen_source_SUMO_network", "aerial_imagery": "context_only_not_automatically_interpreted"},
         "connection_changes": {"missing": sorted(expected_connections - actual_connections), "extra": sorted(actual_connections - expected_connections)},
@@ -789,6 +797,24 @@ def _source_chain_to_merge(root, target, event, max_error, *, margin=0.5):
         if not previous_owns_merge and _project_polyline(event, old_shape)["distance_m"] >= projection["distance_m"]:
             return None, "upstream_chain_does_not_approach_official_merge"
         chain.insert(0, previous)
+
+
+def _restore_speed_roundoff(expected_edges, actual_edges):
+    """Retain declared inherited speeds after native numeric parsing and writing."""
+    restored = []
+    for identity, expected in expected_edges.items():
+        actual = actual_edges.get(identity)
+        if actual is None:
+            continue
+        declared = {lane.get("index", str(index)): lane.get("speed") for index, lane in enumerate(expected.findall("lane"))}
+        for index, lane in enumerate(actual.findall("lane")):
+            wanted, value = declared.get(lane.get("index", str(index))), lane.get("speed")
+            if wanted is not None and value is not None and wanted != value:
+                before, target = float(value), float(wanted)
+                if math.isfinite(before) and math.isfinite(target) and math.isclose(before, target, rel_tol=0, abs_tol=1e-9):
+                    lane.set("speed", wanted)
+                    restored.append({"lane_id": lane.get("id"), "before_m_s": before, "after_m_s": target})
+    return restored
 
 
 def _preserved_edge(expected, actual, *, source_version=None, candidate_version=None):

@@ -696,7 +696,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                     else:
                         lane.set("speed", original)
         if kind == "set_junction_shape":
-            # Native input parsing can quantize coordinates before its high-precision writer runs.
+            # Native conversion can quantize coordinates before computing junction geometry.
             after.find(f"junction[@id='{params['node_id']}']").set("shape", _shape(params["shape"]))
         if restored_speeds or kind == "set_junction_shape":
             ET.ElementTree(after).write(candidate_file, encoding="utf-8", xml_declaration=True)

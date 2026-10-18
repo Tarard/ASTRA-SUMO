@@ -473,7 +473,7 @@ def _rebuild_join_boundaries(
     ET.ElementTree(nodes).write(patch_file, encoding="utf-8", xml_declaration=True)
     command = [str(netconvert_binary), "--sumo-net-file", str(source), "--node-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(output)]
     command[command.index("--junctions.internal-link-detail") + 1] = source_root.get("junctionLinkDetail", "5")
-    from ..local_network_conversion import run_scoped_native_conversion
+    from ..local_network_conversion import run_scoped_native_conversion, with_geometry_precision
     conversion_edges = {edge.get("id") for edge in source_root.findall("edge")
                         if not edge.get("id", "").startswith(":")
                         and any(edge.get(end) in mutable_nodes for end in ("from", "to"))}
@@ -489,7 +489,7 @@ def _rebuild_join_boundaries(
 
     stable_edges = {edge.get("id"): edge for edge in bounded.findall("edge") if edge.get("function") != "internal"}
     roundtrip_file = output.with_suffix(".roundtrip.net.xml")
-    check_command = [str(netconvert_binary), "--sumo-net-file", str(output), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(roundtrip_file)]
+    check_command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(output), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(roundtrip_file)])
     check_command[check_command.index("--junctions.internal-link-detail") + 1] = bounded.get("junctionLinkDetail", "5")
     checked = run_command(check_command, cwd=output.parent, timeout_seconds=timeout_seconds)
     if checked.returncode != 0 or not roundtrip_file.is_file():

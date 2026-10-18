@@ -314,7 +314,9 @@ def test_materialization_rebuilds_connections_and_preserves_unmapped_branch(tmp_
     if fixed_boundary:
         # A compiled custom boundary stays authoritative even when the group's
         # earlier official-boundary preview is absent.
-        assert built.find("junction[@id='J']").get("shape") == source_root.find("junction[@id='J']").get("shape")
+        def coordinates(node):
+            return [tuple(map(float, point.split(","))) for point in node.get("shape").split()]
+        assert coordinates(built.find("junction[@id='J']")) == coordinates(source_root.find("junction[@id='J']"))
     assert report["official_connection_audit"]["outside_road_restoration"]["independent_geometry_preservation"]["status"] == "pass"
     for edge in built.findall("edge"):
         if edge.get("function") != "internal":

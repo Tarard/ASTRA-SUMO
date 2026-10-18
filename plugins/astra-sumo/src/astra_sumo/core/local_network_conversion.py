@@ -9,6 +9,15 @@ from .candidate_contracts import file_sha256
 from .internal_ownership import resolve_internal_ownership
 
 
+def with_geometry_precision(command):
+    """Keep declared input detail unless the caller specifies native precision."""
+    command = list(command)
+    if not any(value == "--precision" or value.startswith("--precision=") for value in command):
+        index = command.index("--output-file")
+        command[index:index] = ["--precision", "12"]
+    return command
+
+
 def _index(root):
     edges = {row.get("id"): row for row in root.findall("edge")}
     if len(edges) != len(root.findall("edge")) or any(not identity for identity in edges):
@@ -200,7 +209,7 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
                                  timeout_seconds, join_groups=None, merge_source_file=None, edge_endpoints=None):
     """Run one native conversion and retain its local input and full merged proposal."""
     from .command_runner import run_command
-    command = list(command)
+    command = with_geometry_precision(command)
     source = Path(command[command.index("--sumo-net-file") + 1]).resolve(strict=True)
     output = Path(command[command.index("--output-file") + 1]).resolve()
     if output == source or output.exists():

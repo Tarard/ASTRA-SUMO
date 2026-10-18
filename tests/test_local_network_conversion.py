@@ -15,6 +15,41 @@ from astra_sumo.core.local_network_conversion import local_conversion_input, val
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 
 
+@pytest.mark.parametrize("precision", [[], ["--precision", "2"], ["--precision=8"]])
+def test_shared_geometry_precision_keeps_explicit_recipe_values_and_caller_command(precision):
+    from astra_sumo.core.local_network_conversion import with_geometry_precision
+    command = ["netconvert", "--sumo-net-file", "source.net.xml", *precision, "--output-file", "candidate.net.xml"]
+    before = list(command)
+    actual = with_geometry_precision(command)
+    assert command == before and actual[-2:] == ["--output-file", "candidate.net.xml"]
+    assert actual == (command if precision else [*command[:-2], "--precision", "12", *command[-2:]])
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
+@pytest.mark.parametrize("full_input", [False, True])
+def test_native_geometry_conversion_retains_subcentimetre_contour_points(tmp_path, monkeypatch, full_input):
+    from astra_sumo.core import local_network_conversion as local
+    source = _source(tmp_path)
+    patch = tmp_path / "precise.nod.xml"
+    shape = "-3.003,-3.003 3.003,-3.003 3.003,3.003 -3.003,3.003"
+    patch.write_text(f'<nodes><node id="A" shape="{shape}"/></nodes>', encoding="utf-8")
+    if full_input:
+        monkeypatch.setattr(local, "local_conversion_input", lambda *args, **kwargs: (None, {"status": "full_network"}))
+    output = tmp_path / "precise.net.xml"
+    root = ET.parse(source).getroot()
+    edges = {edge.get("id") for edge in root.findall("edge") if edge.get("from") == "A" or edge.get("to") == "A"}
+    before = file_sha256(source)
+    result, record = local.run_scoped_native_conversion(command=[shutil.which("netconvert"), "--sumo-net-file", str(source),
+        "--node-files", str(patch), "--offset.disable-normalization", "true", "--output-file", str(output)],
+        mutable_nodes={"A"}, mutable_edges=edges, output_dir=tmp_path, prefix="precision", timeout_seconds=30)
+    assert result.returncode == 0, result.stderr
+    assert result.command[result.command.index("--precision") + 1] == "12"
+    actual = ET.parse(record["native_output"]["path"]).getroot().find("junction[@id='A']").get("shape")
+    points = [[float(value) for value in point.split(",")[:2]] for point in actual.split()]
+    assert len(points) == 4 and all(abs(abs(value) - 3.003) < 1e-6 for point in points for value in point)
+    assert file_sha256(source) == before
+
+
 def test_local_context_closes_roundabouts_and_retains_source_immutability():
     root = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
       <edge id="a" from="A" to="B"><lane id="a_0"/></edge>
