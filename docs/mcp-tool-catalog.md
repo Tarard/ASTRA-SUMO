@@ -141,7 +141,9 @@ profile. Resolve a place to a bbox before the call. Its JSON request has seven
 fields: `output_dir`, `bbox`, `profile`, `source_osm_path`, `traffic_layers`,
 `reference_net_file`, and `timeout_seconds`. The `reference_matched` profile is
 audit-only and does not repair the network. `sumo_osm_build_network` remains a
-low-level importer and is not a complete cleanup workflow.
+low-level importer and is not a complete cleanup workflow. New product imports
+use construction precision 6 and record the effective setting. Precision affects
+native geometry computation as well as coordinate output.
 
 ## Structural, Reference, and Regression Audits
 
@@ -254,6 +256,10 @@ and `road_names`. Each intersection supplies official MAP XML, matching KML,
 an aerial image, its `bbox_epsg25832`, and `aerial_year`. Source files require
 SHA-256 hashes. Paths may be relative to the request file. An arbitrary
 screenshot without known geographic bounds is not a georeferenced input.
+
+Set `osm_build.output_precision` explicitly in new requests. The current example
+uses 6. A v1 request without this field retains the original precision 2 recipe.
+The workflow records the resolved setting and the source network hash.
 
 An intersection may also supply `road_reference.topology` and
 `road_reference.cross_sections` as hash-bound Hamburg GeoJSON files. The

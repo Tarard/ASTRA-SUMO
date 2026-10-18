@@ -40,6 +40,7 @@ def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass",
     def build(**kwargs):
         observed["source"] = kwargs
         return {"status": "pass", "net_file": str(_write(kwargs["output_dir"] / "raw.net.xml", "<net/>")),
+                "netconvert_precision": kwargs["output_precision"],
                 "filtered_osm_file": str(_write(kwargs["output_dir"] / "raw.osm.xml", "<osm/>"))}
 
     def tls(**kwargs):
@@ -137,6 +138,9 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     assert Path(length_record["artifact"]["path"]).is_file()
     assert observed["combine"]["junction_contours"] == "fused"
     assert observed["combine"]["junction_corner_radius_m"] == 8.0
+    assert observed["source"]["output_precision"] == 2
+    assert result["osm_build"]["output_precision"] == 2
+    assert result["source_import"]["netconvert_precision"] == 2
     assert result["calibration"]["status"] == "not_run"
     assert result["calibration"]["required_for_network_construction"] is False
     assert result["network_handoff"]["construction_decision"] == "pass"
@@ -155,6 +159,33 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     with pytest.raises(ValueError, match="already exist"):
         workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
     assert Path(result["report_file"]).read_bytes() == before
+
+
+def test_explicit_import_precision_is_pinned_to_the_source_identity(tmp_path, monkeypatch):
+    request = _request(tmp_path)
+    payload = json.loads(request.read_text(encoding="utf-8"))
+    payload["osm_build"]["output_precision"] = 6
+    request.write_text(json.dumps(payload), encoding="utf-8")
+    before = request.read_bytes()
+    observed = _fake_stages(monkeypatch)
+    result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
+    assert observed["source"]["output_precision"] == result["osm_build"]["output_precision"] == 6
+    assert result["source_import"]["netconvert_precision"] == 6
+    source = next(row for row in result["generated_inputs"] if row["role"] == "source_network")
+    assert result["source_import"]["sha256"] == source["sha256"]
+    assert request.read_bytes() == before
+
+
+@pytest.mark.parametrize("precision", [None, True, -1, "6"])
+def test_invalid_request_precision_stops_before_creating_output(tmp_path, precision):
+    request = _request(tmp_path)
+    payload = json.loads(request.read_text(encoding="utf-8"))
+    payload["osm_build"]["output_precision"] = precision
+    request.write_text(json.dumps(payload), encoding="utf-8")
+    destination = tmp_path / "run"
+    with pytest.raises(ValueError, match="output_precision"):
+        workflow.build_hamburg_topology_workflow(request_file=request, output_dir=destination)
+    assert not destination.exists()
 
 
 def test_missing_runtime_observations_keep_other_rebuild_measurements(tmp_path, monkeypatch):

@@ -29,9 +29,13 @@ def main() -> int:
     parser.add_argument("--bbox", required=True)
     parser.add_argument("--target-date", required=True)
     parser.add_argument("--sample-spacing-m", required=True, type=float)
+    parser.add_argument("--output-precision", type=int, default=2,
+                        help="Native construction precision. The original baseline recipe uses 2.")
     parser.add_argument("--source-osm", type=Path, help="Reuse exact frozen OSM bytes instead of a live download.")
     parser.add_argument("--netconvert-binary", default=str(Path(sys.executable).parent / "netconvert.exe"))
     args = parser.parse_args()
+    if args.output_precision < 0:
+        parser.error("--output-precision must be a non-negative integer.")
     parse_bbox(args.bbox)
     date.fromisoformat(args.target_date)
     if not math.isfinite(args.sample_spacing_m) or args.sample_spacing_m <= 0:
@@ -66,11 +70,13 @@ def main() -> int:
         "license": "ODbL-1.0", "attribution": "OpenStreetMap contributors"})
     request = {"bbox": args.bbox, "target_date": args.target_date,
                "sample_spacing_m": args.sample_spacing_m, "netconvert_profile": "reference_visual_detail",
+               "output_precision": args.output_precision,
                "highway_classes": "full_vehicle", "source_osm": str(osm), "netconvert_binary": args.netconvert_binary}
     write_json_atomic(destination / "request.json", request)
     result = build_osm_network(bbox=args.bbox, source_osm_path=osm, output_dir=destination / "raw",
         prefix="sandtorkai", allowed_highways=resolve_highway_classes("full_vehicle"),
-        netconvert_profile="reference_visual_detail", netconvert_binary=args.netconvert_binary)
+        netconvert_profile="reference_visual_detail", output_precision=args.output_precision,
+        netconvert_binary=args.netconvert_binary)
     write_json_atomic(destination / "raw-build-result.json", result)
     evaluation = None
     network = Path(result["net_file"]) if result.get("net_file") else None

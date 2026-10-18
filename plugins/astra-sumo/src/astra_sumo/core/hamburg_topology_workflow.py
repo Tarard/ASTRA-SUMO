@@ -35,7 +35,7 @@ from .network_geometry_freeze import compare_frozen_geometry
 REQUEST_SCHEMA = "torii.hamburg-topology-workflow-request/v1"
 REPORT_SCHEMA = "torii.hamburg-topology-workflow/v1"
 _BUILD_KEYS = {"bbox", "geo_boundary", "tls_join_distance_m", "highway_classes", "historical_date",
-               "clip_source_ways_to_bbox", "netconvert_profile", "traffic_side"}
+               "clip_source_ways_to_bbox", "netconvert_profile", "traffic_side", "output_precision"}
 _CONSTRUCTION_DEFAULTS = {"seed": 104, "vehicle_count": 100, "simulation_end": 600,
                         "simulation_max_end": 2400, "timeout_seconds": 240.0, "junction_contours": "fused",
                         "junction_corner_radius_m": 8.0}
@@ -261,6 +261,10 @@ def _read_request(path: Path) -> tuple[dict[str, Any], list[dict[str, str]]]:
     build = value.get("osm_build")
     if not isinstance(build, dict) or set(build) - _BUILD_KEYS:
         raise ValueError("osm_build contains unsupported options")
+    # A v1 request without a precision keeps its original native recipe.
+    build.setdefault("output_precision", 2)
+    if type(build["output_precision"]) is not int or build["output_precision"] < 0:
+        raise ValueError("osm_build.output_precision must be a non-negative integer.")
     parse_bbox(build.get("bbox", ""))
     resolve_highway_classes(build.get("highway_classes"), default_to_recommended=True)
     intersections = value.get("intersections")
@@ -383,6 +387,7 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
         "started_utc": datetime.now(timezone.utc).isoformat(), "inputs": inputs,
         "ordered_node_ids": [row["node_id"] for row in request["intersections"]],
         "road_names": request["road_names"], "parameters": request["construction"],
+        "osm_build": dict(request["osm_build"]),
         "stages": {}, "generated_inputs": [], "topology_complete": False, "network_handoff": None,
         "calibration": {"status": "not_run", "required_for_network_construction": False,
                         "next_workflow": "separate signal/count binding and demand calibration on a frozen accepted network"},
@@ -441,6 +446,7 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             raise ValueError("source network construction failed; inspect its stage artifact")
         net_file = Path(source["net_file"])
         source_identity = pin("source_network", net_file)
+        report["source_import"] = {**source_identity, "netconvert_precision": source.get("netconvert_precision")}
         pin("filtered_osm", source["filtered_osm_file"])
         road_geometry = stage("road_geometry", lambda: build_hamburg_road_geometry_candidate(
             source_net=net_file, output_dir=destination / "road-geometry",
