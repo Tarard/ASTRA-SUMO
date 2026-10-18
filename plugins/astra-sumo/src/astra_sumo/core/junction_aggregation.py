@@ -11,6 +11,7 @@ from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .junction_join_definition import build_junction_join_definition
 from .modal_aggregation_policy import classify_edge_modal_role
+from .local_network_conversion import with_geometry_precision
 
 SHORT_MODAL_SUPPORT_EDGE_MAX_LENGTH_M = 10.0
 
@@ -273,7 +274,7 @@ def build_junction_aggregation_variant(
             "warnings": [],
         }
 
-    command = [
+    command = with_geometry_precision([
         "netconvert",
         "--sumo-net-file",
         str(net_file),
@@ -291,7 +292,7 @@ def build_junction_aggregation_variant(
         _command_path(joined_junctions_file, output_dir),
         "--output-file",
         _command_path(variant_file, output_dir),
-    ]
+    ])
     command_record.write_text(" ".join(command) + "\n", encoding="utf-8")
     try:
         result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))

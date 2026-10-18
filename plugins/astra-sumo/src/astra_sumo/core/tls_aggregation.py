@@ -10,6 +10,7 @@ import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
+from .local_network_conversion import with_geometry_precision
 
 
 TlsPhysicalConnectionKey = tuple[str, str, str, str, str]
@@ -336,7 +337,7 @@ def build_tls_aggregation_variant(
             "tls_aggregation_variant_file": "",
         }
 
-    command = [
+    command = with_geometry_precision([
         "netconvert",
         "--sumo-net-file",
         str(net_file),
@@ -351,7 +352,7 @@ def build_tls_aggregation_variant(
         "actuated",
         "--output-file",
         _command_path(variant_file, output_dir),
-    ]
+    ])
     if tls_guess_signals_dist_m is not None:
         command[command.index("--output-file") : command.index("--output-file")] = [
             "--tls.guess-signals",

@@ -25,6 +25,18 @@ def test_shared_geometry_precision_keeps_explicit_recipe_values_and_caller_comma
     assert actual == (command if precision else [*command[:-2], "--precision", "6", *command[-2:]])
 
 
+@pytest.mark.parametrize("output", [["--plain-output-prefix", "export"], ["-o", "candidate.net.xml"], []])
+@pytest.mark.parametrize("precision", [[], ["--precision", "2"], ["--precision=8"]])
+def test_shared_geometry_precision_supports_exports_short_options_and_partial_commands(output, precision):
+    from astra_sumo.core.local_network_conversion import with_geometry_precision
+    command = ["netconvert", "-s", "source.net.xml", *precision, *output]
+    before = list(command)
+    actual = with_geometry_precision(command)
+    assert command == before
+    assert actual == (command if precision else [command[0], "--precision", "6", *command[1:]])
+    assert with_geometry_precision(actual) == actual
+
+
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
 @pytest.mark.parametrize("full_input", [False, True])
 def test_native_geometry_conversion_retains_subcentimetre_contour_points(tmp_path, monkeypatch, full_input):

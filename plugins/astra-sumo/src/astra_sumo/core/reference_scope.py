@@ -10,6 +10,7 @@ from typing import Any, Callable, Mapping
 import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
+from .local_network_conversion import with_geometry_precision
 
 
 DETAIL_EDGE_TYPES = {
@@ -79,7 +80,7 @@ def build_reference_bbox_variant(
     variant_file = _short_output_path(output_dir, prefix, "_scoped.net.xml")
     command_record = _short_output_path(output_dir, prefix, "_netconvert.cmd.txt")
     boundary_text = ",".join(f"{value:.3f}" for value in boundary)
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         str(reference_net_file),
@@ -88,7 +89,7 @@ def build_reference_bbox_variant(
         "--keep-edges.postload",
         "--output-file",
         str(variant_file),
-    ]
+    ])
     command_record.write_text(" ".join(command) + "\n", encoding="utf-8")
     try:
         result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
@@ -286,7 +287,7 @@ def build_scope_pruning_variant(
             "warnings": [],
         }
 
-    command = [
+    command = with_geometry_precision([
         "netconvert",
         "--sumo-net-file",
         str(net_file),
@@ -294,7 +295,7 @@ def build_scope_pruning_variant(
         str(remove_edges_file),
         "--output-file",
         str(variant_file),
-    ]
+    ])
     command_record.write_text(" ".join(command) + "\n", encoding="utf-8")
     try:
         result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))

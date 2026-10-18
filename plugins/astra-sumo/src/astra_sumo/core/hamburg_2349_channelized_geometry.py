@@ -20,6 +20,7 @@ from .osm_workflow import export_plain_net_for_teacher_guided_repair
 
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_2349_channelized_geometry')
 
@@ -132,14 +133,14 @@ def materialize_hamburg_2349_channelized_geometry(
     )
     _validate_join_definition(join_definition)
 
-    join_command = [
+    join_command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file", str(source),
         "--node-files", str(join_definition["nodes_patch_file"]),
         "--offset.disable-normalization", "true",
         "--junctions.join-output", str(joined_junctions),
         "--output-file", str(joined_net),
-    ]
+    ])
     write_text_atomic(join_command_file, " ".join(join_command) + "\n")
     join_netconvert = _result_dict(
         command_runner(join_command, cwd=destination, timeout_seconds=timeout_seconds)

@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any, Callable
 
 from .command_runner import run_command
+from .local_network_conversion import with_geometry_precision
 
 
 def build_tls_gap_destination_mapping(
@@ -285,7 +286,7 @@ def build_tls_gap_repair_variant(
     ET.indent(patch_root, space="    ")
     ET.ElementTree(patch_root).write(patch_file, encoding="utf-8", xml_declaration=True)
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         str(candidate_net_file),
@@ -293,7 +294,7 @@ def build_tls_gap_repair_variant(
         str(patch_file),
         "--output-file",
         str(variant_file),
-    ]
+    ])
     raw_result = command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
     if hasattr(raw_result, "to_dict"):
         netconvert_report = raw_result.to_dict()

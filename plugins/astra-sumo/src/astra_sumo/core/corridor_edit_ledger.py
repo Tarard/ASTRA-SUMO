@@ -24,6 +24,7 @@ from .map_review import build_map_review_evidence, validate_map_review_evidence
 from .network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation, write_scoped_edit_plan, check_scoped_edit
 from .network_geometry_freeze import compare_frozen_geometry
 from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+from .local_network_conversion import with_geometry_precision
 
 
 EDIT_OPERATION_TYPES = (
@@ -841,7 +842,7 @@ def materialize_corridor_edit_variant(
             )
         plan_file = output_dir / f"{prefix}.keep-edges.txt"
         write_text_atomic(plan_file, "\n".join(keep_ids) + "\n")
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file.resolve()),
@@ -852,12 +853,12 @@ def materialize_corridor_edit_variant(
             "--output.removed-nodes",
             "--output-file",
             str(candidate_net_file.resolve()),
-        ]
+        ])
         plan_description = "keep_edges"
     elif operation_family == "delete_edge":
         plan_file = output_dir / f"{prefix}.remove-edges.txt"
         write_text_atomic(plan_file, "\n".join(target_ids) + "\n")
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file.resolve()),
@@ -865,7 +866,7 @@ def materialize_corridor_edit_variant(
             str(plan_file.resolve()),
             "--output-file",
             str(candidate_net_file.resolve()),
-        ]
+        ])
         plan_description = "remove_edges"
     else:
         additive_plan = _write_additive_plain_files(
@@ -918,11 +919,11 @@ def materialize_corridor_edit_variant(
             )
         plan_file = plan_files[0][0]
         additional_plan_files = plan_files[1:]
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file.resolve()),
-        ]
+        ])
         if isinstance(additive_plan.get("edge_file"), Path):
             command.extend(["--edge-files", str(additive_plan["edge_file"].resolve())])
         if isinstance(additive_plan.get("connection_file"), Path):

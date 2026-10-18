@@ -50,6 +50,7 @@ from .road_connectivity_teacher_model import (
 )
 from .sumo_commands import run_sumo_load_audit
 from .tls_aggregation import demote_tls_ids
+from .local_network_conversion import with_geometry_precision
 
 
 HAMBURG_OFFICIAL_TLS_WORKFLOW_SCHEMA_ID = "torii.hamburg-official-tls-workflow.v1"
@@ -622,7 +623,7 @@ def audit_sumo_rendered_edge_overlaps(
 
     destination.mkdir(parents=True, exist_ok=True)
     source_sha256 = sha256_file(source)
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         str(source),
@@ -632,7 +633,7 @@ def audit_sumo_rendered_edge_overlaps(
         str(overlap_threshold_m),
         "--no-warnings",
         "false",
-    ]
+    ])
     try:
         command_result = command_runner(
             command,

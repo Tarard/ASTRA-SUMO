@@ -61,6 +61,7 @@ from .surface_overlap_audit import (
 
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_compound_official_tls')
 
@@ -563,7 +564,7 @@ def _build_compiled_source_patch_variant(
     destination.mkdir(parents=True)
     source_hash_before = file_sha256(source_net_file)
     base_prefix = destination / "source_plain"
-    export_command = [
+    export_command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         str(source_net_file),
@@ -571,7 +572,7 @@ def _build_compiled_source_patch_variant(
         str(base_prefix),
         "--plain-output.lanes",
         "true",
-    ]
+    ])
     export_result = _result_dict(
         command_runner(
             export_command,
@@ -629,7 +630,7 @@ def _build_compiled_source_patch_variant(
     )
     rebuilt = destination / "official_tls_compound.net.xml"
     error_log = destination / "netconvert.log"
-    rebuild_command = [
+    rebuild_command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         str(source_net_file),
@@ -646,7 +647,7 @@ def _build_compiled_source_patch_variant(
         str(rebuilt),
         "--error-log",
         str(error_log),
-    ]
+    ])
     rebuild_result = _result_dict(
         command_runner(
             rebuild_command,

@@ -34,6 +34,7 @@ from .surface_overlap_audit import (
 
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_corridor_geometry_materializer')
 
@@ -98,7 +99,7 @@ def materialize_hamburg_sandtorkai_geometry_safe_candidate(
     _write_profile_patch(patch_file)
     output_net = destination / "hamburg_sandtorkai_geometry_safe.net.xml"
     joined_file = destination / "hamburg_sandtorkai_geometry_safe.joined_junctions.xml"
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         str(source),
@@ -110,7 +111,7 @@ def materialize_hamburg_sandtorkai_geometry_safe_candidate(
         str(output_net),
         "--geometry.check-overlap",
         "0",
-    ]
+    ])
     result = command_runner(command, cwd=destination, timeout_seconds=timeout_seconds)
     command_report = _result_dict(result)
     if command_report.get("status") != "pass" or command_report.get("returncode") != 0:

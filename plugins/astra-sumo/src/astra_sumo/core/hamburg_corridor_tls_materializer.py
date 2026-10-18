@@ -31,6 +31,7 @@ from .surface_overlap_audit import (
     audit_sumo_lane_junction_surface_overlaps,
     compare_sumo_surface_overlap_reports,
 )
+from .local_network_conversion import with_geometry_precision
 
 
 CORRIDOR_TLS_MATERIALIZER_SCHEMA = "torii.hamburg-sandtorkai-corridor-tls-materializer/v1"
@@ -115,13 +116,13 @@ def materialize_hamburg_sandtorkai_corridor_tls_candidate(
     source_plain = destination / "source_plain"
     source_plain.mkdir(parents=True, exist_ok=True)
     export_prefix = source_plain / "source"
-    export_command = [
+    export_command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         str(source),
         "--plain-output-prefix",
         str(export_prefix),
-    ]
+    ])
     export_result = command_runner(export_command, cwd=source_plain, timeout_seconds=timeout_seconds)
     export_report = _result_dict(export_result)
     if export_report.get("status") != "pass" or export_report.get("returncode") != 0:

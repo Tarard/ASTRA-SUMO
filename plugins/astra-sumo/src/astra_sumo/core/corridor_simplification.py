@@ -8,6 +8,7 @@ from typing import Any, Callable
 import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
+from .local_network_conversion import with_geometry_precision
 
 
 PRESERVED_JUNCTION_ATTRS = ("type", "rightOfWay", "fringe")
@@ -194,7 +195,7 @@ def build_corridor_geometry_simplification_variant(
             "warnings": [],
         }
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         str(net_file.resolve()),
@@ -205,7 +206,7 @@ def build_corridor_geometry_simplification_variant(
         "--output.removed-nodes",
         "--output-file",
         str(variant_file),
-    ]
+    ])
     command_file.write_text(" ".join(command) + "\n", encoding="utf-8")
     try:
         result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))

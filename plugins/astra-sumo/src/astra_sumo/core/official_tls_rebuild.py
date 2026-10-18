@@ -13,6 +13,7 @@ from typing import Any, Callable, Mapping, Sequence
 from .command_runner import run_command
 from .digital_twin import SignalStream
 from .digital_twin_mapping import MapLaneBinding
+from .local_network_conversion import with_geometry_precision
 
 
 OFFICIAL_TLS_REBUILD_SCHEMA_ID = "torii.official-tls-rebuild.v1"
@@ -887,7 +888,7 @@ def build_official_tls_rebuild_variant(
         _validate_plan(plan)
         source_signature = edge_lane_signature(source_net_file)
         base_prefix = output_dir / "osm_base"
-        export_command = [
+        export_command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file),
@@ -895,7 +896,7 @@ def build_official_tls_rebuild_variant(
             str(base_prefix),
             "--plain-output.lanes",
             "true",
-        ]
+        ])
         export_result = _result_to_dict(
             command_runner(export_command, cwd=output_dir, timeout_seconds=timeout_seconds)
         )

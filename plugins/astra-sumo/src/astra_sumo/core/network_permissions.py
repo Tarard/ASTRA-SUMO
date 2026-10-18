@@ -7,6 +7,7 @@ import xml.etree.ElementTree as ET
 
 from .artifact_io import write_json_atomic
 from .command_runner import run_command
+from .local_network_conversion import with_geometry_precision
 
 
 SERVICE_PASSENGER_POLICIES = ("sumo_default", "allow_vehicle_service", "reference_match")
@@ -86,8 +87,8 @@ def apply_service_passenger_permissions(
     patch_file, candidate = destination / "permissions.edg.xml", destination / "permissions.net.xml"
     ET.indent(patch, space="  ")
     ET.ElementTree(patch).write(patch_file, encoding="utf-8", xml_declaration=True)
-    command = [str(netconvert_binary), "--sumo-net-file", str(source), "--edge-files", str(patch_file),
-               "--offset.disable-normalization", "true", "--output-file", str(candidate)]
+    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(source), "--edge-files", str(patch_file),
+               "--offset.disable-normalization", "true", "--output-file", str(candidate)])
     converted = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
     report.update(netconvert_result=converted.to_dict(), patch=dict(path=str(patch_file), sha256=file_sha256(patch_file)),
                   checks={}, status="blocked", service_passenger_permission_status="failed")

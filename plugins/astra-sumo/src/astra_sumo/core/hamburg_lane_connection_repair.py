@@ -15,6 +15,7 @@ from .command_runner import run_command
 from .connection_mode_audit import build_network_connection_mode_audit
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_lane_connection_repair')
 
@@ -68,13 +69,13 @@ def build_hamburg_lane_connection_repair(
     plain_prefix = destination / "source"
     export = _command_result(
         command_runner(
-            [
+            with_geometry_precision([
                 str(netconvert_binary),
                 "--sumo-net-file",
                 str(source),
                 "--plain-output-prefix",
                 str(plain_prefix),
-            ],
+            ]),
             cwd=destination,
             timeout_seconds=timeout_seconds,
         )
@@ -97,7 +98,7 @@ def build_hamburg_lane_connection_repair(
     candidate = destination / "hamburg-lane-connection-repaired.net.xml"
     compile_result = _command_result(
         command_runner(
-            [
+            with_geometry_precision([
                 str(netconvert_binary),
                 "--sumo-net-file",
                 str(source),
@@ -115,7 +116,7 @@ def build_hamburg_lane_connection_repair(
                 "100",
                 "--output-file",
                 str(candidate),
-            ],
+            ]),
             cwd=destination,
             timeout_seconds=timeout_seconds,
         )

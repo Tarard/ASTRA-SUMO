@@ -13,7 +13,7 @@ def with_geometry_precision(command):
     """Keep declared input detail unless the caller specifies native precision."""
     command = list(command)
     if not any(value == "--precision" or value.startswith("--precision=") for value in command):
-        index = command.index("--output-file")
+        index = command.index("--output-file") if "--output-file" in command else 1
         command[index:index] = ["--precision", "6"]
     return command
 

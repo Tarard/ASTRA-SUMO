@@ -16,6 +16,7 @@ from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_lane_connection_repair import HAMBURG_DIVERGE_LANE_SHAPE
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_road_geometry')
 
@@ -203,9 +204,9 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     ET.ElementTree(nodes).write(node_file, encoding="utf-8", xml_declaration=True)
     ET.ElementTree(patch).write(edge_file, encoding="utf-8", xml_declaration=True)
     compiled = destination / "native.net.xml"
-    command = [str(netconvert_binary), "--sumo-net-file", str(source), "--node-files", str(node_file),
+    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(source), "--node-files", str(node_file),
                "--edge-files", str(edge_file), "--offset.disable-normalization", "true",
-               "--junctions.internal-link-detail", "25", "--output-file", str(compiled)]
+               "--junctions.internal-link-detail", "25", "--output-file", str(compiled)])
     result = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
     (destination / "netconvert.log").write_text(result.stdout + result.stderr, encoding="utf-8")
     if result.returncode != 0 or not compiled.is_file():
@@ -265,9 +266,9 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     ET.indent(candidate)
     ET.ElementTree(candidate).write(target, encoding="utf-8", xml_declaration=True)
     reloaded_file = destination / "reload.net.xml"
-    reload_command = [str(netconvert_binary), "--sumo-net-file", str(target),
+    reload_command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(target),
                       "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25",
-                      "--output-file", str(reloaded_file)]
+                      "--output-file", str(reloaded_file)])
     reloaded = run_command(reload_command, cwd=destination, timeout_seconds=timeout_seconds)
     (destination / "reload.log").write_text(reloaded.stdout + reloaded.stderr, encoding="utf-8")
     stable = reloaded.returncode == 0 and reloaded_file.is_file()

@@ -51,6 +51,7 @@ from .osm_workflow_helpers import (
     _synthesize_missing_plain_edge_types,
     _teacher_owner_ids,
 )
+from .local_network_conversion import with_geometry_precision
 
 PARTIAL_MAIN_COMPONENT_RATIO = 0.98
 
@@ -567,13 +568,13 @@ def _normalize_sumo_net(
     command_runner: Callable[..., Any],
 ) -> dict[str, Any]:
     output_file.parent.mkdir(parents=True, exist_ok=True)
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         _command_path_for_cwd(net_file, output_dir),
         "--output-file",
         _command_path_for_cwd(output_file, output_dir),
-    ]
+    ])
     report = _command_result_report(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
     report["source_net_file"] = str(net_file)
     report["output_file"] = str(output_file)
@@ -832,13 +833,13 @@ def export_plain_net_for_teacher_guided_repair(
             "claim_status": "construction-invalid",
             "error": f"{type(exc).__name__}: {exc}",
         }
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         _command_path_for_cwd(source_copy, output_dir),
         "--plain-output-prefix",
         str(plain_prefix),
-    ]
+    ])
     result = command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
     if hasattr(result, "to_dict"):
         netconvert_report = result.to_dict()
@@ -1085,13 +1086,13 @@ def _sumo_load_net(
             return report
         netconvert_binary = Path(resolved_netconvert)
     normalized_net_file = output_dir / "sumo_load_candidate_normalized.net.xml"
-    netconvert_command = [
+    netconvert_command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         _command_path_for_cwd(load_net_file, output_dir),
         "--output-file",
         _command_path_for_cwd(normalized_net_file, output_dir),
-    ]
+    ])
     netconvert_report = _command_result_report(
         command_runner(netconvert_command, cwd=output_dir, timeout_seconds=timeout_seconds)
     )

@@ -30,6 +30,7 @@ from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
 
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_mainline_scope_materializer')
 
@@ -177,7 +178,7 @@ def materialize_hamburg_sandtorkai_mainline_scope_candidate(
     output_net = destination / "hamburg_sandtorkai_mainline_scope.net.xml"
     joined_file = destination / "hamburg_sandtorkai_mainline_scope.joined_junctions.xml"
 
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         str(source),
@@ -192,7 +193,7 @@ def materialize_hamburg_sandtorkai_mainline_scope_candidate(
         "0",
         "--output-file",
         str(output_net),
-    ]
+    ])
     attempts: list[list[str]] = [command]
     result = _result_dict(command_runner(command, cwd=destination, timeout_seconds=timeout_seconds))
     fallback_used = False
