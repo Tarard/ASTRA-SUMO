@@ -1,7 +1,7 @@
 """Measure loaded successors and conflict relations without driving vehicles."""
 
 import argparse
-from collections import defaultdict
+from collections import Counter, defaultdict
 from collections.abc import Mapping
 from hashlib import sha256
 import json
@@ -26,7 +26,8 @@ def _capture(network, binary, label):
         if owner is None:
             raise ValueError(f"Internal lane ownership is unresolved: {lane}")
         internal[owner].append(lane)
-    command = [binary, "-n", str(network), "--no-step-log", "true", "--duration-log.disable", "true"]
+    command = [binary, "-n", str(network), "--no-step-log", "true", "--duration-log.disable", "true",
+               "--error-log", str(network.with_suffix(".load.log")), "--aggregate-warnings", "-1"]
     traci.start(command, label=label, numRetries=3)
     connection = traci.getConnection(label)
     try:
@@ -136,6 +137,22 @@ def _compare(snapshots, mutable_junction_ids, references=None, lane_mapping=None
         "compared_junction_counts": counts, "unresolved_references": unresolved, "differences": differences}
 
 
+def _compare_load_warnings(observed):
+    logs = observed.get("load_logs", {})
+    missing = [name for name in ("source", "candidate")
+               if name not in logs or name not in observed.get("snapshots", {})]
+    result = {"status": "unavailable" if missing else "measured", "missing_observations": missing,
+              "by_input": logs,
+              "claim_boundary": "Exact warning lines from network loading only. Changed identifiers can change warning text. Native subnetwork warnings are retained separately. A new warning is not proof of an invalid edit."}
+    if not missing:
+        source = Counter(logs["source"]["warnings"])
+        candidate = Counter(logs["candidate"]["warnings"])
+        for name, values in (("inherited", source & candidate), ("source_only", source - candidate),
+                             ("candidate_only", candidate - source)):
+            result[name] = {"count": values.total(), "lines": dict(sorted(values.items()))}
+    return result
+
+
 def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate_net_file,
                                   mutable_junction_ids, output_dir, sumo_binary="sumo",
                                   timeout_seconds=120, command_runner=run_command, boundary_edge_map=None):
@@ -173,6 +190,10 @@ def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate
             raise ValueError("The observation record has an invalid structure.")
         if not isinstance(observed.get("frozen_inputs", []), list):
             raise ValueError("The frozen input inventory has an invalid structure.")
+        logs = observed.get("load_logs", {})
+        if not isinstance(logs, dict) or any(not isinstance(row, dict) or not isinstance(row.get("warnings"), list)
+                or any(not isinstance(line, str) for line in row["warnings"]) for row in logs.values()):
+            raise ValueError("The load warning inventory has an invalid structure.")
     except (OSError, ValueError) as error:
         observed = {"errors": {"worker_output": f"{type(error).__name__}: {error}"}}
     lane_mapping, mapping_errors = {}, []
@@ -202,6 +223,7 @@ def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate
         "boundary_edge_map": boundary_edge_map or {}, "boundary_lane_mapping": lane_mapping,
         "boundary_mapping_errors": mapping_errors,
         "command": result.to_dict(), "observation_errors": observed.get("errors", {}),
+        "load_warning_comparison": _compare_load_warnings(observed),
         "frozen_inputs": observed.get("frozen_inputs", []),
         "request": {"path": str(request_file), "sha256": file_sha256(request_file)},
         "observations": {"path": str(observations), "sha256": file_sha256(observations)} if observations.is_file() else None,
@@ -217,8 +239,9 @@ def _main():
     parser.add_argument("observations", type=Path)
     args = parser.parse_args()
     request = json.loads(args.request.read_text(encoding="utf-8"))
-    report, cache = {"snapshots": {}, "errors": {}, "frozen_inputs": []}, {}
+    report, cache = {"snapshots": {}, "errors": {}, "frozen_inputs": [], "load_logs": {}}, {}
     for name, record in request["inputs"].items():
+        frozen = None
         try:
             path = Path(record["path"])
             raw = path.read_bytes()
@@ -233,11 +256,16 @@ def _main():
                 write_json_atomic(args.observations, report)
                 cache[key] = {**_capture(frozen, request["sumo_binary"], name),
                     "input": report["frozen_inputs"][-1]}
+            frozen = Path(cache[key]["input"]["path"])
             if file_sha256(path) != record["sha256"]:
                 raise ValueError("The network changed during observation.")
             report["snapshots"][name] = cache[key]
         except Exception as error:
             report["errors"][name] = f"{type(error).__name__}: {error}"
+        if frozen is not None and (log := frozen.with_suffix(".load.log")).is_file():
+            report["load_logs"][name] = {"path": str(log), "sha256": file_sha256(log),
+                "warnings": [line.strip() for line in log.read_text(encoding="utf-8").splitlines()
+                             if line.strip().startswith("Warning:")]}
         write_json_atomic(args.observations, report)
 
 

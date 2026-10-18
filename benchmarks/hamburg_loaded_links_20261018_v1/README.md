@@ -43,6 +43,14 @@ The priority-aware comparison also retains zero differences across Hamburg's 128
 Unavailable observations produce a review decision on the candidate itself. Other construction measurements are retained.
 Only the active signal program is observed. This does not validate switching plans, runtime additional files, or historical control.
 
+The load-warning follow-up retains complete native warning and error logs with hashes.
+It compares source and candidate warning-line counts without mixing in the partial native networks.
+The current Hamburg and MoST repeats have zero load warnings and zero loaded-link differences.
+The warning regression adds an unused signal-state character while preserving loaded links.
+The added warning is measured separately. It does not create another acceptance condition.
+Failed loads retain their raw logs. An incomplete observation cannot claim that no warnings occurred.
+The [verification record](evidence.json) retains the implementation hashes and raw report identities.
+
 ## Reproduce
 
 Use the repository environment and place its SUMO binaries on `PATH`.

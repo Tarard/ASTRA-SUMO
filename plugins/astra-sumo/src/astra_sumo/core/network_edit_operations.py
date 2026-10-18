@@ -867,6 +867,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
     if link_preservation["status"] != "pass":
         warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
+    new_warnings = link_preservation.get("load_warning_comparison", {}).get("candidate_only", {}).get("count", 0)
+    if new_warnings:
+        warnings.append(f"Network loading added {new_warnings} warning lines. Inspect load_warning_comparison for the exact text.")
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,

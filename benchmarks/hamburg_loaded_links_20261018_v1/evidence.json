@@ -201,5 +201,90 @@
       "test_signal_index_swap_is_detected_without_changing_saved_movement_paths",
       "test_vehicle_stop_state_change_is_detected_without_changing_conflicts"
     ]
+  },
+  "load_warning_follow_up": {
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+        "sha256": "e468597107905a5406c3feb01f52fc967d691bf5da36df624412b1a887803e8b"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+        "sha256": "89f0ed98d7f0e5e57bbfcd32e4412c0f6bad4c4415bc31ebbdc1b5365a635d82"
+      }
+    ],
+    "observations": {
+      "hamburg": {
+        "status": "pass",
+        "counts": {
+          "native": 3,
+          "source": 125
+        },
+        "differences": 0,
+        "warning_status": "measured",
+        "warning_counts": {
+          "inherited": 0,
+          "source_only": 0,
+          "candidate_only": 0
+        },
+        "by_input": {
+          "source": 0,
+          "candidate": 0,
+          "native-0": 0,
+          "native-1": 0
+        },
+        "report": {
+          "path": "outputs\\runtime_workflow_20261018_v1\\load-warnings-v11-hamburg\\link-preservation.json",
+          "sha256": "d50aa4d09e7509238afcb76293f16ce1451cd656040583c7ef165bc427473785"
+        },
+        "new_warning_lines": {}
+      },
+      "most": {
+        "status": "pass",
+        "counts": {
+          "native": 2,
+          "source": 2002
+        },
+        "differences": 0,
+        "warning_status": "measured",
+        "warning_counts": {
+          "inherited": 0,
+          "source_only": 0,
+          "candidate_only": 0
+        },
+        "by_input": {
+          "source": 0,
+          "candidate": 0,
+          "native-0": 0
+        },
+        "report": {
+          "path": "outputs\\runtime_workflow_20261018_v1\\load-warnings-v11-most\\link-preservation.json",
+          "sha256": "3fdda2e9af8570de1a65667db598d27bf10e3bd3ec660de16f578c7ff22dcdaf"
+        },
+        "new_warning_lines": {}
+      }
+    },
+    "verification_runs": [
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-warnings-v10.log",
+          "sha256": "a44fe320b475dd07f8b5b96242a935804601d2d2c7baab7da5e33665a509f803"
+        },
+        "passed": 39
+      },
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-warnings-v12.log",
+          "sha256": "c5d47a7b723ef21b448c0059fdef21f8ab49255f5b058269caa25d7500186fa4"
+        },
+        "passed": 213
+      }
+    ],
+    "scope": "Complete native network-load logs and exact source/candidate warning-line counts. Partial native networks are retained separately. No vehicles or simulation steps. Warning differences are diagnostic and do not add an acceptance condition.",
+    "limits": [
+      "Warning text can change after identifier changes.",
+      "Driving warnings and field validity are not measured.",
+      "The retained candidate network is unchanged."
+    ]
   }
 }

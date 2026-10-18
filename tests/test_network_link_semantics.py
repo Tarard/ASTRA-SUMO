@@ -6,7 +6,27 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from astra_sumo.core.command_runner import CommandResult
-from astra_sumo.core.network_link_semantics import _boundary_lane_mapping, _compare, compare_loaded_link_semantics
+from astra_sumo.core.network_link_semantics import (
+    _boundary_lane_mapping, _compare, _compare_load_warnings, compare_loaded_link_semantics,
+)
+
+
+def test_load_warning_counts_retain_duplicates_and_separate_native_subnetworks():
+    observed = {"snapshots": {"source": {}, "candidate": {}}, "load_logs": {
+        "source": {"warnings": ["Warning: old", "Warning: shared", "Warning: shared"]},
+        "candidate": {"warnings": ["Warning: new", "Warning: shared"]},
+        "native-0": {"warnings": ["Warning: partial network"]}}}
+    result = _compare_load_warnings(observed)
+    assert result["status"] == "measured"
+    assert result["inherited"] == {"count": 1, "lines": {"Warning: shared": 1}}
+    assert result["source_only"] == {"count": 2, "lines": {"Warning: old": 1, "Warning: shared": 1}}
+    assert result["candidate_only"] == {"count": 1, "lines": {"Warning: new": 1}}
+    assert result["by_input"]["native-0"]["warnings"] == ["Warning: partial network"]
+    del observed["snapshots"]["candidate"]
+    incomplete = _compare_load_warnings(observed)
+    assert incomplete["status"] == "unavailable" and incomplete["missing_observations"] == ["candidate"]
+    assert "candidate_only" not in incomplete
+    assert _compare_load_warnings({})["status"] == "unavailable"
 
 
 def test_each_junction_uses_its_declared_reference():
@@ -66,7 +86,7 @@ def test_boundary_renaming_uses_explicit_lane_indices_and_checks_all_lane_refere
     assert _boundary_lane_mapping(source, candidate, {"road": "upstream"})[1]
 
 
-@pytest.mark.parametrize("fault", ["timeout", "malformed", "invalid_structure", "source_drift", "source_removed", "frozen_drift"])
+@pytest.mark.parametrize("fault", ["timeout", "malformed", "invalid_structure", "invalid_logs", "source_drift", "source_removed", "frozen_drift"])
 def test_incomplete_observation_never_reports_preservation(tmp_path, fault):
     source = tmp_path / "source.net.xml"
     source.write_text("<net/>", encoding="utf-8")
@@ -79,6 +99,8 @@ def test_incomplete_observation_never_reports_preservation(tmp_path, fault):
             output.write_text("{" if fault == "malformed" else "[]", encoding="utf-8")
         else:
             observation = {"snapshots": {name: {"junctions": {}} for name in ("source", "native", "candidate")}}
+            if fault == "invalid_logs":
+                observation["load_logs"] = {"source": {"warnings": [None]}}
             if fault == "frozen_drift":
                 frozen = tmp_path / "damaged-input.net.xml"
                 frozen.write_text('<net changed="true"/>', encoding="utf-8")
@@ -150,3 +172,26 @@ def test_worker_loads_frozen_bytes_and_retains_original_drift(tmp_path, monkeypa
     frozen = observed["frozen_inputs"][0]
     assert Path(frozen["path"]).read_bytes() == raw
     assert frozen["sha256"] == sha256(raw).hexdigest()
+
+
+def test_worker_retains_a_failed_load_log_without_claiming_no_warnings(tmp_path, monkeypatch):
+    from astra_sumo.core import network_link_semantics
+    source, request, output = [tmp_path / name for name in ("source.net.xml", "request.json", "observations.json")]
+    source.write_bytes(b"<net/>")
+    request.write_text(json.dumps({"inputs": {"source": {"path": str(source), "sha256": sha256(b"<net/>").hexdigest()}},
+        "sumo_binary": "unused"}), encoding="utf-8")
+
+    def capture(network, binary, label):
+        network.with_suffix(".load.log").write_text("Warning: before failure\nError: invalid network\n", encoding="utf-8")
+        raise ValueError("load failed")
+
+    monkeypatch.setattr(network_link_semantics, "_capture", capture)
+    monkeypatch.setattr("sys.argv", ["network_link_semantics", str(request), str(output)])
+    network_link_semantics._main()
+    observed = json.loads(output.read_text())
+    assert observed["snapshots"] == {} and "load failed" in observed["errors"]["source"]
+    log = observed["load_logs"]["source"]
+    assert log["warnings"] == ["Warning: before failure"]
+    assert sha256(Path(log["path"]).read_bytes()).hexdigest() == log["sha256"]
+    assert "Error: invalid network" in Path(log["path"]).read_text()
+    assert _compare_load_warnings(observed)["status"] == "unavailable"

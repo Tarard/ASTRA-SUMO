@@ -206,6 +206,13 @@ Input drift and damaged observation files remain recorded. They cannot produce a
 An unavailable observation never counts as preserved. Explore mode retains the measurements and release warnings.
 Release mode requires this comparison to pass. Runtime driving checks remain separate.
 
+The worker also saves each network's complete load warning and error log, with its hash.
+`load_warning_comparison` reports exact warning-line counts inherited from the source, added by the candidate, or absent from it.
+Repeated lines retain their counts. Failed loads retain their logs and have no complete warning comparison.
+Native subnetworks retain separate logs because their warning totals are not comparable with a complete network.
+Identifier changes can change warning text. These differences are diagnostic measurements, not an additional acceptance condition.
+This observation uses no vehicles or simulation steps. It does not collect driving warnings or prove that a warning disappeared for the correct reason.
+
 Complete Hamburg construction records the same comparison on its final network.
 Each edited junction uses the last native output actually adopted for that junction.
 Approach splits retain their own reference where a later movement pass does not edit that junction.
