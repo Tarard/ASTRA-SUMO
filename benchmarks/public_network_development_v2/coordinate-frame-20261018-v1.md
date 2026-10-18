@@ -81,3 +81,21 @@ The historical executable, original OSM date, and field-validity date remain une
 
 Use the existing corpus command with this catalog, intact cache, and a new output directory to reproduce the run.
 This improves available development correspondence. Field precision, audit false-alarm rates, and human-cleaning accuracy remain unknown.
+
+## Frame-reporting follow-up
+
+The importer now records its actual offset and projection alongside the reference values.
+Separate equality fields expose a manual-offset mismatch without hiding it among unknown labels.
+Missing metadata stays unknown. A different saved offset can still describe compatible world coordinates after translation.
+These fields do not add an acceptance condition.
+The new native regression deliberately changes a reference offset and retains both the diagnostic difference and the unknown records.
+
+A fresh MoST repeat retains all 9,005 known records and 1,963 unknowns.
+Its actual offset and projection match the reference. The evidence record binds this run to the updated implementation.
+All 49 corpus, observation-error, and navigation checks pass.
+
+An independent exact-recipe replay also reproduces the 5,410 changed lane lengths and the omitted vehicle connection.
+Decimal comparisons of the saved lengths find 123 differences above 0.1 m and 32 above 1 m.
+These are diagnostic bins. They do not define an acceptable length error or a noise threshold for other networks.
+The native output depends on the coordinate convention. The internal cause and per-target sensitivity remain unresolved.
+Incomplete coordinate correspondence and a changed generated connection are different observations. Neither supplies a field-defect label.

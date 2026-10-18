@@ -282,5 +282,59 @@
   "raw_analysis": {
     "path": "outputs/source_pairing_20261018_v1/analyze-normalization-v1.py",
     "sha256": "dac070b7255998d9efc4580cfb631cc76b76fc4caecdcecabec3bfefc07ab957"
+  },
+  "frame_reporting_follow_up": {
+    "implementation": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/public_reference_corpus.py",
+      "sha256": "7eadf0b25ba92e64cb6a1736257919d86cffc1984d68ad1b9d864a46b448d705"
+    },
+    "dataset": {
+      "path": "outputs/source_pairing_20261018_v1/most-frames-v2/MoST_2019_paired/dataset.json",
+      "sha256": "23af7bf434282ff2b1a6910f7514b435cb6f9613ad5453f25cb2cbd30036eb21"
+    },
+    "import_coordinate_frame": {
+      "actual_net_offset": "-368142.40,-4841896.61",
+      "actual_projection": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+      "basis": "reference_declared_offset",
+      "normalization_mode": "native",
+      "offset_matches_reference": true,
+      "projection_matches_reference": true,
+      "reference_net_offset": "-368142.40,-4841896.61",
+      "reference_projection": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+      "registration": "unchanged_exact_coordinates_and_source_ids"
+    },
+    "label_counts": {
+      "connection_added": 291,
+      "connection_removed": 10,
+      "connection_retained": 6171,
+      "connection_unknown": 1702,
+      "joined": 58,
+      "separate": 2475,
+      "total": 10968,
+      "unknown": 261
+    },
+    "verification": {
+      "path": "outputs/source_pairing_20261018_v1/final-v4.log",
+      "sha256": "d8112dd2005bc1e27070028b0405bca434c6368e65706e87459f4d3ca64b7ef0",
+      "passed": 49
+    },
+    "independent_replay": {
+      "reviewed_revision": "1120240",
+      "recipe_inputs": "All source, configuration and five type-map hashes match the catalog.",
+      "changed_ordinary_lane_lengths": 5410,
+      "maximum_absolute_length_change_m": "21.70",
+      "ordinary_vehicle_connection_removed": [
+        "152526",
+        "2",
+        "152527",
+        "2"
+      ]
+    },
+    "exact_decimal_length_bins": {
+      "over_0_1_m": 123,
+      "over_1_m": 32,
+      "acceptance_threshold": false
+    },
+    "remaining": "Native coordinate-convention sensitivity and per-target sensitivity attribution remain unresolved. No field-label or driving-equivalence claim."
   }
 }

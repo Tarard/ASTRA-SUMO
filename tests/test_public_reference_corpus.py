@@ -282,6 +282,8 @@ def test_native_prepared_source_pairs_self_check_and_unjoined_baseline(tmp_path,
     dataset = json.loads(dataset_path.read_text())
     assert dataset["reference_load"]["status"] == "pass"
     assert dataset["import_coordinate_frame"]["normalization_mode"] == ("native" if normalized else "disabled")
+    assert dataset["import_coordinate_frame"]["offset_matches_reference"] is True
+    assert dataset["import_coordinate_frame"]["projection_matches_reference"] is True
     assert dataset["paired_labels"]["counts"]["joined"] == 1
     assert dataset["paired_labels"]["counts"]["separate"] == 2
     request_path = tmp_path / "request.json"
@@ -310,6 +312,24 @@ def test_equal_ids_with_changed_coordinates_do_not_create_false_labels():
         <junction id="1" x="0" y="0"/><junction id="2" x="1" y="0"/></net>''')
     label = list(corpus._pair_labels(source, reference, {"id": "test", "family_id": "test"}, "binding"))[0]
     assert label["expected_join"] is None
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
+def test_manual_reference_offset_reports_a_difference_and_keeps_unknown_records(tmp_path):
+    source, reference, executable = _native_inputs(tmp_path)
+    tree = ET.parse(reference)
+    tree.getroot().find("location").set("netOffset", "123,456")
+    tree.write(reference, encoding="utf-8")
+    catalog, cache, _ = _fixture(tmp_path, reference=reference, source=source)
+    report = corpus.build_public_reference_corpus(catalog_file=catalog, cache_dir=cache,
+        output_dir=tmp_path / "run", netconvert_binary=executable)
+    dataset = json.loads(Path(report["datasets"][0]["report"]["path"]).read_text())
+    frame = dataset["import_coordinate_frame"]
+    assert frame["offset_matches_reference"] is False
+    assert frame["projection_matches_reference"] is True
+    assert frame["actual_net_offset"] != frame["reference_net_offset"]
+    assert dataset["paired_labels"]["counts"]["unknown"] > 0
+    assert dataset["reference_net"]["sha256"] == file_sha256(reference)
 
 
 def test_connection_change_labels_require_registered_approaches_and_lane_ids():

@@ -424,9 +424,10 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
             built = run_command(command, cwd=folder, timeout_seconds=240).to_dict()
             write_json_atomic(folder / "import-command.json", {"source_osm": _identity(osm), "result": built}, sort_keys=True)
             row["source_osm"] = _identity(osm)
-            row["import_coordinate_frame"] = {"reference_net_offset": offset,
+            row["import_coordinate_frame"] = {"reference_net_offset": location.get("netOffset") if location is not None else None,
                 "normalization_mode": "disabled" if disable_normalization else "native",
-                "basis": "reference_declared_offset", "registration": "unchanged_exact_coordinates_and_source_ids"}
+                "basis": "reference_declared_offset" if location is not None and location.get("netOffset") else "missing_offset_keep_global",
+                "registration": "unchanged_exact_coordinates_and_source_ids"}
             if configuration is not None:
                 row["import_configuration"] = {**_identity(configuration), "applied_arguments": settings,
                     "overrides": {"junctions.join": False, "tls.join": False, "geometry.remove": False},
@@ -435,13 +436,25 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
                     "toolchain_relation": "current_sumo_with_published_import_settings"}
             row["import_status"] = built["status"]
             if built["status"] == "pass" and raw.is_file():
+                comparison_root = ET.parse(raw).getroot()
+                actual_location = comparison_root.find("location")
+                actual_offset = actual_location.get("netOffset") if actual_location is not None else None
+                actual_projection = actual_location.get("projParameter") if actual_location is not None else None
+                reference_projection = location.get("projParameter") if location is not None else None
+                reference_offset = location.get("netOffset") if location is not None else None
+                row["import_coordinate_frame"].update(actual_net_offset=actual_offset,
+                    actual_projection=actual_projection, reference_projection=reference_projection,
+                    offset_matches_reference=([Decimal(value) for value in actual_offset.split(",")] ==
+                        [Decimal(value) for value in reference_offset.split(",")]) if actual_offset and reference_offset else None,
+                    projection_matches_reference=(actual_projection == reference_projection)
+                        if actual_projection is not None and reference_projection is not None else None)
                 row["raw_net"] = _identity(raw)
                 if dataset["source_relation"] == "upstream_prepared_build_input":
                     alignment = audit_reference_road_alignment(net, raw, source_osm_file=osm, output_dir=folder / "alignment")
                     row["alignment"] = alignment
-                    comparison_root = ET.parse(raw).getroot()
                     row["comparison_source"] = {**_identity(raw), "kind": "prepared_osm_import"}
                 else:
+                    comparison_root = None
                     row["pairing_reason"] = "prepared_source_relation_unverified_no_labels_inferred"
             else:
                 row["status"] = "review_required"

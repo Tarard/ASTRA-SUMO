@@ -38,6 +38,9 @@ The [dated MoST control](../benchmarks/public_network_development_v2/recipe-cont
 The unjoined import now follows the reference network's coordinate-normalization convention.
 A zero declared offset keeps global coordinates. A nonzero offset enables native normalization.
 `import_coordinate_frame` records that choice and the reference offset. Exact registration rules remain unchanged.
+It also records the actual import offset and projection, with separate equality results against the reference.
+Missing metadata remains unknown. A missing reference offset keeps the global-coordinate default.
+Different saved offsets do not by themselves prove incompatible world coordinates. These fields do not add an acceptance condition.
 Native normalization can also change generated geometry or connections. Each new import remains a separate baseline.
 The [coordinate-frame repeat](../benchmarks/public_network_development_v2/coordinate-frame-20261018-v1.md) retains improved correspondence and the observed conversion changes.
 
