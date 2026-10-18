@@ -249,9 +249,10 @@ def _geometry_review(manifest, root, surface, targets, declared_edges, source, s
 
 
 def _reload(candidate, root, targets, destination, netconvert_binary, timeout_seconds):
+    from .local_network_conversion import with_geometry_precision
     reloaded = destination / "reloaded.net.xml"
-    command = [netconvert_binary, "--sumo-net-file", str(candidate), "--output-file", str(reloaded),
-               "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25"]
+    command = with_geometry_precision([netconvert_binary, "--sumo-net-file", str(candidate), "--output-file", str(reloaded),
+               "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25"])
     result = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
     report = {"status": "blocked", "command": result.to_dict(), "changed_external_edges": [],
               "changed_target_boundaries": [], "network": None}

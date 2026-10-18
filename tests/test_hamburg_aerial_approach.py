@@ -744,6 +744,16 @@ def test_added_lane_restores_a_distant_road_after_native_conversion(tmp_path, mo
     assert file_sha256(source) == original_hash
     loaded = subprocess.run([shutil.which("sumo"), "-n", result["candidate_network"]["path"], "--end", "1", "--no-step-log"], capture_output=True, text=True, timeout=30)
     assert loaded.returncode == 0, loaded.stderr
+@pytest.mark.parametrize("field,value,valid", [("speed", "13.890000", True), ("width", "3.200000", True),
+    ("speed", "13.891", False), ("width", "3.201", False)])
+def test_edge_preservation_distinguishes_numeric_formatting_from_changed_operating_values(field, value, valid):
+    from astra_sumo.core.hamburg_aerial_approach import _preserved_edge
+    expected = ET.fromstring('<edge id="road" from="A" to="B"><lane id="road_0" index="0" speed="13.89" width="3.20" shape="0,0 10,0"/></edge>')
+    actual = deepcopy(expected)
+    actual.find("lane").set(field, value)
+    assert _preserved_edge(expected, actual) is valid
+
+
 @pytest.mark.parametrize("actual,restored", [("13.890000000130", True), ("13.891", False), ("13.890", True)])
 def test_declared_speed_roundoff_is_restored_without_relaxing_preservation(actual, restored):
     from astra_sumo.core.hamburg_aerial_approach import _restore_speed_roundoff

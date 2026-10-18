@@ -813,7 +813,8 @@ def _restore_speed_roundoff(expected_edges, actual_edges):
                 before, target = float(value), float(wanted)
                 if math.isfinite(before) and math.isfinite(target) and math.isclose(before, target, rel_tol=0, abs_tol=1e-9):
                     lane.set("speed", wanted)
-                    restored.append({"lane_id": lane.get("id"), "before_m_s": before, "after_m_s": target})
+                    restored.append({"lane_id": lane.get("id"), "before_text": value, "after_text": wanted,
+                                     "before_m_s": before, "after_m_s": target})
     return restored
 
 
@@ -825,7 +826,16 @@ def _preserved_edge(expected, actual, *, source_version=None, candidate_version=
     if len(left) != len(right):
         return False
     for first, second in zip(left, right):
-        if any(first.get(key) != second.get(key) for key in _LANE_ATTRIBUTES if key not in {"allow", "disallow"}):
+        for key in _LANE_ATTRIBUTES:
+            if key in {"allow", "disallow"} or first.get(key) == second.get(key):
+                continue
+            if key in {"speed", "width"} and first.get(key) is not None and second.get(key) is not None:
+                try:
+                    values = float(first.get(key)), float(second.get(key))
+                    if all(math.isfinite(value) for value in values) and math.isclose(*values, rel_tol=0, abs_tol=1e-9):
+                        continue
+                except ValueError:
+                    pass
             return False
         if _permission_set(first.attrib, network_version=source_version) != _permission_set(second.attrib, network_version=candidate_version):
             return False

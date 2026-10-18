@@ -591,8 +591,9 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
         plan["requested_connections"] = _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0"))
     plan["junction_link_detail"] = int(root.get("junctionLinkDetail", "5"))
-    command = [netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
-               "--junctions.internal-link-detail", str(plan["junction_link_detail"]), "--precision", "12", "--output-file", str(candidate_file.resolve())]
+    from .local_network_conversion import with_geometry_precision
+    command = with_geometry_precision([netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
+               "--junctions.internal-link-detail", str(plan["junction_link_detail"]), "--output-file", str(candidate_file.resolve())])
     plan["materialization_method"] = ("permission_attributes_only" if kind == "set_lane_permissions"
                                       else "speed_attributes_only" if kind == "set_speed"
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"

@@ -22,7 +22,7 @@ def test_shared_geometry_precision_keeps_explicit_recipe_values_and_caller_comma
     before = list(command)
     actual = with_geometry_precision(command)
     assert command == before and actual[-2:] == ["--output-file", "candidate.net.xml"]
-    assert actual == (command if precision else [*command[:-2], "--precision", "12", *command[-2:]])
+    assert actual == (command if precision else [*command[:-2], "--precision", "6", *command[-2:]])
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
@@ -43,7 +43,7 @@ def test_native_geometry_conversion_retains_subcentimetre_contour_points(tmp_pat
         "--node-files", str(patch), "--offset.disable-normalization", "true", "--output-file", str(output)],
         mutable_nodes={"A"}, mutable_edges=edges, output_dir=tmp_path, prefix="precision", timeout_seconds=30)
     assert result.returncode == 0, result.stderr
-    assert result.command[result.command.index("--precision") + 1] == "12"
+    assert result.command[result.command.index("--precision") + 1] == "6"
     actual = ET.parse(record["native_output"]["path"]).getroot().find("junction[@id='A']").get("shape")
     points = [[float(value) for value in point.split(",")[:2]] for point in actual.split()]
     assert len(points) == 4 and all(abs(abs(value) - 3.003) < 1e-6 for point in points for value in point)

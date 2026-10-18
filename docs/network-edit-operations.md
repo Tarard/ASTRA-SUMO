@@ -192,10 +192,11 @@ New elements follow their category's retained elements.
 SUMO can produce different seeded trajectories after road reordering, despite equal road attributes and saved connections.
 The [real-cohort control](../benchmarks/network_construction_20261016_v1/serialization-order-20261016-v1.md) records this difference.
 Typed edits also measure loaded link relations after restoration.
-Provided-network native conversions use coordinate precision 12 unless a caller explicitly supplies a precision.
-Boundary round-trip checks use the same default. The existing typed geometry edits already use this precision.
+Shared scoped native conversions use coordinate precision 6 unless a caller explicitly supplies a precision.
+Boundary round-trip checks and typed geometry commands use the same default.
 SUMO rounds input geometry before constructing lane and junction geometry, so this choice affects the candidate.
 It does not imply matching physical accuracy. The [precision fixture](../benchmarks/coordinate_precision_20261018_v1/README.md) records the controls and limits.
+Other legacy re-import entry points retain their independent settings until migrated and verified.
 The worker reads successor and via lanes, turn directions, SUMO controller and link-index assignments, yielding incoming lanes, and conflicting internal lanes through TraCI.
 It also reads priority and state for links without signal assignments.
 Controlled link colors depend on the active phase and are not compared as road-priority rules.

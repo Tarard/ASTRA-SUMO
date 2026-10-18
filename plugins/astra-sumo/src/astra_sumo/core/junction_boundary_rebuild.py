@@ -11,6 +11,7 @@ import shutil
 import xml.etree.ElementTree as ET
 from collections.abc import Mapping, Sequence
 from copy import deepcopy
+from decimal import Decimal, InvalidOperation
 from pathlib import Path
 from typing import Any
 
@@ -24,7 +25,19 @@ from .source_movement_support import _candidate_modes, _index, _internal, _sourc
 
 
 def _signature(element: ET.Element) -> tuple:
-    return (element.tag, tuple(sorted(element.attrib.items())), (element.text or "").strip(), tuple(_signature(child) for child in element))
+    def number(value):
+        try:
+            parsed = Decimal(value)
+            return ("0" if parsed == 0 else str(parsed.normalize())) if parsed.is_finite() else value
+        except InvalidOperation:
+            return value
+    attributes = dict(element.attrib)
+    for key, value in attributes.items():
+        if key in {"x", "y", "z", "speed", "width", "length", "endOffset", "radius", "duration", "offset", "friction", "contPos", "visibility", "foeVisibility"}:
+            attributes[key] = number(value)
+        elif key in {"shape", "netOffset", "convBoundary", "origBoundary"}:
+            attributes[key] = " ".join(",".join(number(value) for value in point.split(",")) for point in value.split())
+    return (element.tag, tuple(sorted(attributes.items())), (element.text or "").strip(), tuple(_signature(child) for child in element))
 
 
 def _coordinate_frame(root: ET.Element) -> tuple:
@@ -364,7 +377,13 @@ def _adjacent_geometry(original, native, plan, node_ids):
         shapes = []
         for lane_id in old_path[1:-1]:
             old_lane, new_lane = before["lanes"][lane_id][1], after["lanes"][lane_id][1]
-            if {key: value for key, value in old_lane.attrib.items() if key not in {"shape", "length"}} != {key: value for key, value in new_lane.attrib.items() if key not in {"shape", "length"}}:
+            attributes = [{key: value for key, value in lane.attrib.items() if key not in {"shape", "length"}}
+                          for lane in (old_lane, new_lane)]
+            for key in ("speed", "width"):
+                if key in attributes[0] and key in attributes[1] and math.isclose(
+                        float(attributes[0][key]), float(attributes[1][key]), rel_tol=0, abs_tol=1e-9):
+                    attributes[1][key] = attributes[0][key]
+            if attributes[0] != attributes[1]:
                 raise ValueError("adjacent lane attributes other than geometry changed")
             old_points = [tuple(map(float, point.split(",")[:2])) for point in old_lane.get("shape", "").split()]
             new_points = [tuple(map(float, point.split(",")[:2])) for point in new_lane.get("shape", "").split()]

@@ -14,7 +14,7 @@ def with_geometry_precision(command):
     command = list(command)
     if not any(value == "--precision" or value.startswith("--precision=") for value in command):
         index = command.index("--output-file")
-        command[index:index] = ["--precision", "12"]
+        command[index:index] = ["--precision", "6"]
     return command
 
 

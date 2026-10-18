@@ -16,6 +16,47 @@ from astra_sumo.core.junction_boundary_rebuild import (
 from astra_sumo.core.source_movement_support import _index
 
 
+@pytest.mark.parametrize("change", [None, "identity", "speed", "geometry"])
+def test_network_signature_ignores_numeric_formatting_but_keeps_actual_changes(change):
+    from astra_sumo.core.junction_boundary_rebuild import _signature
+    original = ET.fromstring('<lane id="001" speed="13.89" width="3.20" length="4.0" shape="-0.0,0 4.00,0.00"/>')
+    native = ET.fromstring('<lane id="001" speed="13.890000" width="3.200000" length="4.000000" shape="0.000000,0.000000 4.000000,0.000000"/>')
+    if change == "identity":
+        native.set("id", "1")
+    elif change == "speed":
+        native.set("speed", "13.891")
+    elif change == "geometry":
+        native.set("shape", "0,0 4.000001,0")
+    assert (_signature(original) == _signature(native)) is (change is None)
+
+
+@pytest.mark.parametrize("attributes,valid", [({"speed": "13.890000", "width": "3.200000"}, True),
+    ({"speed": "13.891"}, False), ({"width": "3.201"}, False), ({"type": "unplanned"}, False)])
+def test_adjacent_geometry_compares_numeric_lane_attributes_without_relaxing_other_state(attributes, valid):
+    from copy import deepcopy
+    from astra_sumo.core.junction_boundary_rebuild import _adjacent_geometry
+    source = ET.fromstring('''<net><junction id="p"/><junction id="edit"/><junction id="e"/>
+      <junction id="w" incLanes="approach_0" intLanes=":w_0_0"><request index="0" response="0" foes="0"/></junction>
+      <edge id=":w_0" function="internal"><lane id=":w_0_0" index="0" speed="13.89" width="3.20" length="4" shape="-2,0 2,0" allow="passenger bus"/></edge>
+      <edge id="approach" from="p" to="w"><lane id="approach_0" index="0" shape="-10,0 -2,0" allow="passenger bus"/></edge>
+      <edge id="boundary" from="w" to="edit"><lane id="boundary_0" index="0" shape="2,0 10,0" allow="passenger bus"/></edge>
+      <edge id="out" from="edit" to="e"><lane id="out_0" index="0" shape="10,0 20,0" allow="passenger bus"/></edge>
+      <connection from="approach" to="boundary" fromLane="0" toLane="0" via=":w_0_0"/>
+      <connection from=":w_0" to="boundary" fromLane="0" toLane="0"/></net>''')
+    native = deepcopy(source)
+    lane = native.find("edge[@id=':w_0']/lane")
+    lane.attrib.update(attributes)
+    before = ET.tostring(native)
+    plan = {"groups": [{"source_node_ids": ["edit"], "incoming_edge_ids": ["boundary"], "outgoing_edge_ids": ["out"]}]}
+    if valid:
+        patches, _ = _adjacent_geometry(source, native, plan, ["w"])
+        assert patches[":w_0_0"] == {"shape": "-2,0 2,0", "length": "4"}
+    else:
+        with pytest.raises(ValueError, match="attributes"):
+            _adjacent_geometry(source, native, plan, ["w"])
+    assert ET.tostring(native) == before
+
+
 @pytest.mark.parametrize("fault", [None, "uncontrolled", "program_missing", "index_unbound"])
 def test_diagnostic_join_checks_the_requested_vehicle_control(fault):
     root = ET.fromstring('''<net><tlLogic id="control"><phase state="G"/></tlLogic>

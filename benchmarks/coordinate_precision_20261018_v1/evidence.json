@@ -254,5 +254,210 @@
     "passed": 8,
     "includes_repository_navigation": true,
     "text_storage": "LF, matching repository attributes"
+  },
+  "precision6_and_comparison_follow_up": {
+    "code_identity": {
+      "base_commit": "1404ce0933e3e6d222afe677bca91ca91e869553",
+      "implementation_files": {
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\local_network_conversion.py": "bd7dae65a789f5233f729fb3c17ab096f421113e5c50ed3aa839091d430c5dd0",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_approach.py": "a593686c0e2d2e33963a4d6b401551b6ecf81df66e1cf2771577a8f2bb480027",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_operations.py": "8bf204579f16432ab6e75601a0f528461c96914f75cb96e75b6acb2fd0bb05d4",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_junctions\\boundaries.py": "7b5b710a557842c62fd5eb3841a63f9f9e11995ba51c219a21034358149afba7",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_topology_audit.py": "fe49ae3e40af25d6700a2567966e6afd74b40daf1b84fcaf29236925ff8acc2a",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_boundary_rebuild.py": "ae7317d2842b568e128c335a6241ef2d14e1f94a10df3ed5002ab51667552479"
+      },
+      "request": {
+        "path": "outputs\\claude_followup_20261015_v1\\hamburg-request.json",
+        "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+      }
+    },
+    "policy": {
+      "default_native_precision": 6,
+      "explicit_caller_values_preserved": true,
+      "coverage": [
+        "shared scoped conversion",
+        "typed geometry commands",
+        "boundary round-trip verification",
+        "topology reload audit"
+      ],
+      "legacy_migration_complete": false
+    },
+    "full_most_precision6_control": {
+      "diagnostic_only": true,
+      "adopted_as_public_corpus_baseline": false,
+      "maximum_absolute_logical_length_difference_m": 1.699999999971169e-05,
+      "logical_length_differences_over_0_01_m": 0,
+      "global_only_connections": [],
+      "normalized_only_connections": [],
+      "target_152527_lengths": [
+        {
+          "152527_0": "203.303548",
+          "152527_1": "203.303548",
+          "152527_2": "203.303548"
+        },
+        {
+          "152527_0": "203.303548",
+          "152527_1": "203.303548",
+          "152527_2": "203.303548"
+        }
+      ]
+    },
+    "full_most_runner": {
+      "path": "outputs/coordinate_geometry_20261018_v1/full-precision6-probes-v17.py",
+      "sha256": "0ad28a12db5d8babb53121c6aeb0365a26317276531d7c444daffcd6a438de34"
+    },
+    "minimal_fixture_precision6_control": [
+      {
+        "precision": 6,
+        "normalization_disabled": true,
+        "length": "200.246618",
+        "shape_points": 22,
+        "connection_present": false
+      },
+      {
+        "precision": 6,
+        "normalization_disabled": false,
+        "length": "200.246618",
+        "shape_points": 22,
+        "connection_present": false
+      }
+    ],
+    "hamburg_rebuild": {
+      "status": "review_required",
+      "topology_complete": true,
+      "first_failed_stage": null,
+      "first_incomplete_stage": "construction_coverage",
+      "checks": {
+        "official_connectivity": "pass",
+        "outside_geometry": "pass",
+        "road_geometry": "not_applicable",
+        "construction_coverage": "review_required",
+        "movement_probes": "pass",
+        "corridor_routes": "pass",
+        "construction_audit": "review_required"
+      },
+      "inputs_unchanged": true,
+      "generated_inputs_unchanged": true,
+      "candidate_unchanged": true,
+      "counts": {
+        "official_vehicle_movements": 16,
+        "physical_part_count": 2,
+        "joined_part_count": 2,
+        "materialized_movement_count": 16,
+        "unmaterialized_official_movement_count": 0,
+        "runtime_fallback_part_count": 0,
+        "source_surface_finding_count": 51,
+        "candidate_surface_finding_count": 45
+      },
+      "network_handoff": {
+        "network": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\coordinate_geometry_20261018_v1\\hamburg-rebuild-v23\\candidate\\hamburg-five-aerial-combined.net.xml",
+          "sha256": "0af85c0e49ca36e8f346b1f8891bcee19ec6b130a6352aa60143b1b65e9c887b"
+        },
+        "construction_decision": "review_required",
+        "construction_manifest": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\coordinate_geometry_20261018_v1\\hamburg-rebuild-v23\\workflow.manifest.json"
+      },
+      "loaded_links": {
+        "status": "pass",
+        "compared_junction_counts": {
+          "native": 3,
+          "source": 125
+        },
+        "differences": []
+      },
+      "elapsed_seconds": 275.5600588999805
+    },
+    "hamburg_runner": {
+      "path": "outputs/coordinate_geometry_20261018_v1/rebuild-hamburg-v23.py",
+      "sha256": "9effeb9c6cf1250eca6dce3b19d83295533638882da22801e79daa9f62c2c98c"
+    },
+    "calibration": {
+      "2349": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/2349-precision6-scorecard-v25.json",
+          "sha256": "9164afdd2ff26ae4d9cf37f838bc9f10046377d6bc81ac323e2bc1c191d45233"
+        },
+        "status": "measured",
+        "motor_centerlines": {
+          "all": {
+            "count": 10,
+            "median_lateral_offset_m": 0.5556721436433661,
+            "p90_lateral_offset_m": 2.5850146378867445
+          },
+          "high_confidence": {
+            "count": 7,
+            "median_lateral_offset_m": 0.3903198169375618,
+            "p90_lateral_offset_m": 0.7203413247889812
+          }
+        },
+        "regressed_acceptance_facts": [],
+        "provenance": "same frozen provisional facts for parent and candidate"
+      },
+      "2394": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/2394-precision6-scorecard-v25.json",
+          "sha256": "8a5bb7bdfba78af271d670804141d96ec7a89ef2c1c6024df5b42598cc7e74cc"
+        },
+        "status": "measured",
+        "motor_centerlines": {
+          "all": {
+            "count": 11,
+            "median_lateral_offset_m": 0.8095666704731477,
+            "p90_lateral_offset_m": 1.6357650335412415
+          },
+          "high_confidence": {
+            "count": 8,
+            "median_lateral_offset_m": 0.5799249177536887,
+            "p90_lateral_offset_m": 1.130140233322372
+          }
+        },
+        "regressed_acceptance_facts": [],
+        "provenance": "same frozen provisional facts for parent and candidate"
+      }
+    },
+    "calibration_runner": {
+      "path": "outputs/coordinate_geometry_20261018_v1/calibrate-hamburg-v25.py",
+      "sha256": "e073ef3143622479e83f7000cd9dfadeac3c763cd9ff218c87dc41d2997f9dbf"
+    },
+    "verification": {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/full-suite-v24.log",
+        "sha256": "b596de8dc49d0c375e9392ef78ef4a13ca356a7cf0b89d7e73cd8a200953b3ab"
+      },
+      "junit": {
+        "path": "outputs/coordinate_geometry_20261018_v1/full-suite-v24-tests.xml",
+        "sha256": "bd5ae278f9f8ec7f90ee8dc28ab64703c07a24473ae1a5a122959791e1feb910"
+      },
+      "passed": 3364,
+      "skipped": 24,
+      "skip_reasons": {
+        "current Hamburg 2394 MAP artifact is not present": 3,
+        "current Hamburg 2394 OCIT artifact is not present": 1,
+        "current Hamburg 2394 MAP/network artifacts are not present": 1,
+        "untracked official Hamburg 2394 MAP KML is unavailable": 1,
+        "untracked official Hamburg 2394 MAP KML/XML files are unavailable": 1,
+        "untracked official Hamburg screen export KML/XML files are unavailable": 3,
+        "requires untracked Hamburg official signal and corridor artifacts": 1,
+        "real Hamburg 0228 regression assets are not present": 1,
+        "current Hamburg corridor OCIT-C artifacts are not present": 2,
+        "requires untracked Hamburg official transition workflow artifacts": 2,
+        "historical generated Hamburg artifact fixture is not committed": 8
+      }
+    },
+    "retained_ci_failure": {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/ci-1404-failure.log",
+        "sha256": "fb66a15eef774be5f731333cce38fb86cde85d75bdf5893458d75c19c49a63d5"
+      },
+      "revision": "1404ce0",
+      "failed": 3,
+      "passed": 3349
+    },
+    "limits": [
+      "Precision is not a monotonic robustness control. These finite precision-6 results do not establish invariance under other frames or input perturbations.",
+      "Some legacy re-import paths remain outside the shared precision policy.",
+      "Public-source recipe controls retain their declared/default settings. No earlier dataset or driving result is reinterpreted.",
+      "Independent dated field labels, field accuracy and traffic performance remain unverified."
+    ]
   }
 }

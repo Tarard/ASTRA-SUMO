@@ -184,12 +184,18 @@ def test_rebuilt_boundary_keeps_native_external_port_and_official_external_exits
     assert {edge.get("id") for edge in native.findall("edge") if edge.get("function") != "internal"} == {edge.get("id") for edge in result.findall("edge") if edge.get("function") != "internal"}
     assert candidate_module.audit_network_connection_mode(result, endpoint_tolerance_m=0.1)["structural_failure_count"] == 0
     roundtrip = tmp_path / "roundtrip.net.xml"
-    subprocess.run(["netconvert", "-s", str(output), "-o", str(roundtrip), "--offset.disable-normalization"], check=True, capture_output=True, timeout=30)
+    subprocess.run(["netconvert", "-s", str(output), "-o", str(roundtrip), "--offset.disable-normalization", "--precision", "6"], check=True, capture_output=True, timeout=30)
     reloaded = ET.parse(roundtrip).getroot()
     for edge_id in ("entry", "out", "north", "branch"):
         before_lane = result.find(f"edge[@id='{edge_id}']/lane")
         after_lane = reloaded.find(f"edge[@id='{edge_id}']/lane")
-        assert before_lane.attrib == after_lane.attrib
+        before_fields, after_fields = dict(before_lane.attrib), dict(after_lane.attrib)
+        for key in ("width", "speed", "length"):
+            if key in before_fields and key in after_fields:
+                assert abs(float(before_fields.pop(key)) - float(after_fields.pop(key))) < 1e-9
+        before_shape = [tuple(map(float, point.split(","))) for point in before_fields.pop("shape").split()]
+        after_shape = [tuple(map(float, point.split(","))) for point in after_fields.pop("shape").split()]
+        assert before_shape == after_shape and before_fields == after_fields
     assert report["cut_geometry"]["roundtrip_stable"] is True
 
 
