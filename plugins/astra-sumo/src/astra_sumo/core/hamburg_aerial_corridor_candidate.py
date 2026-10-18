@@ -341,17 +341,14 @@ def build_hamburg_aerial_combined_candidate(
     topology = selected_materialization["official_connection_audit"]
     structural_pass = connection_audit["structural_failure_count"] == 0 and connection_audit["status"] != "fail"
     source_unchanged = file_sha256(source_net) == str(request["source_net"]["sha256"]).lower()
-    status = (
-        "pass"
-        if load.returncode == 0
+    technical_pass = (load.returncode == 0
         and routeability["status"] == "pass"
         and candidate_findings <= source_findings
         and structural_pass
         and source_unchanged
         and topology["status"] != "blocked"
-        and link_preservation["status"] != "fail"
-        else "blocked"
     )
+    status = _construction_status(technical_pass, link_preservation["status"])
     plan_hashes = {
         node_id: str(row["plan_sha256"]).lower()
         for node_id, row in {
@@ -361,9 +358,9 @@ def build_hamburg_aerial_combined_candidate(
     manifest = {
         "schema": CANDIDATE_SCHEMA,
         "status": status,
-        "decision": "review_required" if status == "pass" else "blocked",
-        "topology_complete": status == "pass" and topology["status"] == "pass",
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "decision": "blocked" if status == "blocked" else "review_required",
+        "topology_complete": status != "blocked" and topology["status"] == "pass",
+        "claim_status": "construction-invalid" if status == "blocked" else "diagnostic-demo",
         "inputs": {
             "request": {"path": str(request_path), "sha256": file_sha256(request_path)},
             "source_net": {"path": str(source_net), "sha256": file_sha256(source_net)},
@@ -487,6 +484,12 @@ def build_hamburg_aerial_combined_candidate(
         "sha256": file_sha256(manifest_file),
     }
     return manifest
+
+
+def _construction_status(technical_pass, link_status):
+    if not technical_pass or link_status == "fail":
+        return "blocked"
+    return "pass" if link_status == "pass" else "review_required"
 
 
 def _measure_final_links(*, source_net, candidate_net, groups, context, join_conversion, boundary_rebuild,

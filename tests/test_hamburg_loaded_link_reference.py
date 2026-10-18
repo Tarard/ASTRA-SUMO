@@ -66,3 +66,27 @@ def test_signal_index_swap_is_detected_without_changing_saved_movement_paths(tmp
         return {**node, "lane_links": {lane: [{key: value for key, value in row.items() if key != "controls"} for row in links]
             for lane, links in node["lane_links"].items()}}
     assert without_controls(change["expected"]) == without_controls(change["actual"])
+
+
+def test_vehicle_stop_state_change_is_detected_without_changing_conflicts(tmp_path):
+    binary = shutil.which("sumo")
+    if not binary:
+        pytest.skip("SUMO required")
+    folder = Path(__file__).resolve().parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1"
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(gzip.decompress((folder / "candidate.net.xml.gz").read_bytes()))
+    root = ET.parse(source).getroot()
+    connection = root.find("connection[@from='-1191390064'][@to='-1191390080'][@fromLane='1'][@toLane='1']")
+    assert connection is not None and connection.get("state") == "M" and not connection.get("tl")
+    connection.set("state", "s")
+    candidate = tmp_path / "stop-state.net.xml"
+    ET.ElementTree(root).write(candidate, encoding="utf-8", xml_declaration=True)
+    result = compare_loaded_link_semantics(source_net_file=source, candidate_net_file=candidate,
+        native_net_file={}, mutable_junction_ids=set(), output_dir=tmp_path / "measured", sumo_binary=binary)
+    assert result["status"] == "fail"
+    assert len(result["differences"]) == 1
+    change = result["differences"][0]
+    def without_priority(node):
+        return {**node, "lane_links": {lane: [{key: value for key, value in row.items() if key not in {"has_priority", "state"}}
+            for row in links] for lane, links in node["lane_links"].items()}}
+    assert without_priority(change["expected"]) == without_priority(change["actual"])

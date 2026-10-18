@@ -193,10 +193,13 @@ SUMO can produce different seeded trajectories after road reordering, despite eq
 The [real-cohort control](../benchmarks/network_construction_20261016_v1/serialization-order-20261016-v1.md) records this difference.
 Typed edits also measure loaded link relations after restoration.
 The worker reads successor and via lanes, turn directions, SUMO controller and link-index assignments, yielding incoming lanes, and conflicting internal lanes through TraCI.
+It also reads priority and state for links without signal assignments.
+Controlled link colors depend on the active phase and are not compared as road-priority rules.
 Edited junctions are compared with their last native conversion. All other junctions are compared with the source.
 For a joined junction, the reference comes from boundary reconstruction rather than the initial join.
 Direct attribute edits use the source as their reference.
 Measurements run without vehicles or simulation steps. They do not verify signal timing, geometry, demand, or field legality.
+Only the active program loaded from the network is observed. Other programs, switching plans, and runtime additional files remain outside this check.
 The report retains network hashes, observations, errors, and the worker command under a process timeout.
 The worker loads frozen network copies and checks its loaded junction and lane inventories against the explicit XML.
 Input drift and damaged observation files remain recorded. They cannot produce a passing preservation result.
@@ -213,6 +216,7 @@ Source-side road renaming follows the declared upstream edge correspondence and 
 The comparison does not guess lane identities from an ID prefix.
 Missing reference files, changed native hashes, and unresolved correspondences remain `unavailable` with their measurements.
 They do not establish preserved traffic relations. Other construction measurements remain available.
+A candidate with unavailable preservation evidence reports `review_required`, rather than `pass`.
 The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
 Reports retain the local input, raw native output, and merged proposal with their hashes.
 Release validation independently reconstructs the source-derived input and the merge.

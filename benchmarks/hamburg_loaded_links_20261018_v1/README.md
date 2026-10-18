@@ -12,6 +12,8 @@ The [regression](../../tests/test_hamburg_loaded_link_reference.py) unpacks thes
 It compares successors, via lanes, directions, SUMO signal assignments, yielding incoming lanes, and conflicting internal lanes.
 An incorrect native-stage assignment must not pass. No vehicles are generated and no simulation steps are taken.
 The signal-index regression changes two assignments while keeping the other loaded relations unchanged. The comparison must detect that change.
+The stop-state regression changes a vehicle movement from a major-road link to a stop-sign link.
+Its conflicts and saved paths stay unchanged. The comparison must still detect the changed priority and state.
 SUMO 1.27.1 produced the retained outputs. The regression compares the loaded models rather than assuming another version's exact conflict implementation.
 
 The candidate SHA-256 is `0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a`.
@@ -34,6 +36,12 @@ This is a technical preservation check. It does not validate actual road width o
 The focused runs pass 100, 53, 18, and 38 checks. These runs overlap and must not be added together.
 They include source correspondence, missing observations, exact native stages, split-road identities, signal-index corruption, and the 14 typed edits.
 The raw results and their hashes are listed in the verification record.
+
+The follow-up adds priority and state for links without signal assignments.
+It passes 104 focused checks and a further 25 checks of typed edits, approach construction, and navigation.
+The priority-aware comparison also retains zero differences across Hamburg's 128 junctions and MoST's 2004 junctions.
+Unavailable observations produce a review decision on the candidate itself. Other construction measurements are retained.
+Only the active signal program is observed. This does not validate switching plans, runtime additional files, or historical control.
 
 ## Reproduce
 

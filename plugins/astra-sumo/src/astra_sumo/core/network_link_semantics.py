@@ -51,6 +51,9 @@ def _capture(network, binary, label):
                 for link in connection.lane.getLinks(lane):
                     row = {"successor": link[0], "via": link[4], "direction": link[6],
                            "controls": sorted(controls[lane, link[0], link[4]])}
+                    # Controlled link states depend on the active signal phase.
+                    if not row["controls"]:
+                        row.update(has_priority=bool(link[1]), state=link[5])
                     if lane in incoming:
                         row["yield_to"] = sorted(connection.lane.getFoes(lane, link[0]))
                     records.append(row)
@@ -202,7 +205,7 @@ def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate
         "frozen_inputs": observed.get("frozen_inputs", []),
         "request": {"path": str(request_file), "sha256": file_sha256(request_file)},
         "observations": {"path": str(observations), "sha256": file_sha256(observations)} if observations.is_file() else None,
-        "claim_boundary": "Loaded successors, via lanes, turn directions, signal assignments, yielding lanes, and internal conflicts only. No signal timing, geometry, demand, or field correctness claim."}
+        "claim_boundary": "Loaded successors, via lanes, directions, active-program signal assignments, yielding lanes, and internal conflicts. Priority and state are compared for links without signal assignments. Other signal programs, runtime additional files, historical timing, geometry, demand, and field correctness are not verified."}
     report_file = destination / "link-preservation.json"
     write_json_atomic(report_file, report)
     return {**report, "report_file": str(report_file)}
