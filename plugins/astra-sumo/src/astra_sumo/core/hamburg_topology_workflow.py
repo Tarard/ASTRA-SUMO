@@ -14,7 +14,7 @@ from typing import Any
 
 from .artifact_io import write_json_atomic
 from .candidate_contracts import file_sha256
-from .hamburg_aerial_corridor_candidate import build_hamburg_aerial_combined_candidate
+from .hamburg_aerial_corridor_candidate import build_hamburg_aerial_combined_candidate, _measure_final_links
 from .hamburg_road_geometry import build_hamburg_road_geometry_candidate
 from .hamburg_context_junctions import construction_coverage, rebuild_context_intersections
 from .hamburg_aerial_movement import build_hamburg_aerial_corridor_plan
@@ -541,10 +541,23 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             ordered_node_ids=request["route_node_order"], sumo_binary=sumo_binary, seed=options["seed"],
             context_manifest=destination / "context_intersections.json" if context_rebuild is not None else None,
             end_time_s=options["simulation_max_end"], timeout_seconds=timeout))
+        if context_rebuild is not None:
+            links = stage("loaded_link_preservation", lambda: _measure_final_links(
+                source_net=Path(geometry_baseline["path"]), candidate_net=Path(network["path"]),
+                groups=candidate["physical_parts"], context=context_rebuild,
+                join_conversion=candidate["netconvert"]["local_conversion"],
+                boundary_rebuild=candidate["boundary_rebuild"], approach_rebuild=candidate["approach_rebuild"],
+                materialization=candidate["movement_materialization"], output_dir=destination / "loaded-links",
+                sumo_binary=sumo_binary, timeout_seconds=timeout), destination / "loaded-links" / "link-preservation.json")
+        else:
+            links = stage("loaded_link_preservation", lambda: candidate["loaded_link_preservation"],
+                Path(candidate["loaded_link_preservation"]["report_file"]))
+        report["loaded_link_preservation"] = links
         length_report = audit_network_lengths(net_files=sorted(destination.rglob("*.net.xml")),
             output_file=destination / "construction-stage-lane-lengths.json")
         report["lane_length_measurements"] = {"status": "measured", "artifact": _identity(length_report["report_file"])}
         decisions = [source["status"], outside_geometry["status"], candidate["status"], quality["status"], movements["status"], routes["status"], source_policy['status']]
+        decisions.append("pass" if links["status"] == "pass" else "blocked" if links["status"] == "fail" else "review_required")
         if request.get("road_facts") is not None:
             reference_file = destination / "road-reference-scorecard.json"
             reference = stage("road_reference", lambda: evaluate_network_calibration(

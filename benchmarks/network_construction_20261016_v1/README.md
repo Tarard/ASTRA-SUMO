@@ -14,6 +14,7 @@ The [approach follow-up](approach-local-20261016-v1.md) records local road split
 The [existing-approach comparison](existing-approaches-20261016-v1.md) resolves four construction findings and measures the two remaining merge-location differences.
 The [fixed-cohort diagnosis](traffic-diagnosis-20261016-v1.md) distinguishes taper observations from edit decisions and checks immediate route access for recorded lane-front candidates.
 The [serialization control](serialization-order-20261016-v1.md) corrects an unsupported runtime-equivalence inference and verifies order-preserving local merges.
+The [complete-workflow fixture](../hamburg_loaded_links_20261018_v1/README.md) checks three adopted native junction references and 125 retained junctions, including signal assignments.
 
 ## Construction findings and repair
 

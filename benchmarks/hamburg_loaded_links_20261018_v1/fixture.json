@@ -1,0 +1,95 @@
+{
+  "kind": "frozen_loaded_link_preservation",
+  "date": "2026-10-18",
+  "native_version": "1.27.1",
+  "promotion_authority": false,
+  "models": {
+    "source": {
+      "path": "source.net.xml.gz",
+      "sha256": "cb1b5b166f6baa94fe1ed331a31eec1a80b081c384f672ed3f75b6c989f6b45d",
+      "uncompressed_sha256": "4629485efad7b0fcf88da44150ae43500f657fcb3ae5d584b513e944ed392ad1",
+      "uncompressed_bytes": 920758
+    },
+    "candidate": {
+      "path": "candidate.net.xml.gz",
+      "sha256": "48da2a9f750e4910866fa55573450a546851a077696d83b24bde623dcfd42684",
+      "uncompressed_sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a",
+      "uncompressed_bytes": 820380
+    },
+    "official-movements": {
+      "path": "official-movements.net.xml.gz",
+      "sha256": "d0b5ab55a6da09f6b90f66474bbf2d43efc251dc0a71ae5ca88246fded6a78f3",
+      "uncompressed_sha256": "89402f418e9cdb9915aaa477afe52962f1ba326ec0aa8aeafff633bf4949d074",
+      "uncompressed_bytes": 58999
+    },
+    "context": {
+      "path": "context.net.xml.gz",
+      "sha256": "520ab82bcd6ae40327871ae67fd670fb4676efdf4c442007ccf689f61349c523",
+      "uncompressed_sha256": "27abfe465492a1c5e1bc30b914f7d85a681bac20f0a23147e84404388998141e",
+      "uncompressed_bytes": 91048
+    }
+  },
+  "native_junction_references": {
+    "LSA2349_part0": "official-movements",
+    "LSA2394_part0": "official-movements",
+    "LSA2403_part0": "context"
+  },
+  "mutable_junction_ids": [
+    "1272392464",
+    "1709289468",
+    "249707791",
+    "25737304",
+    "2761334245",
+    "2761334249",
+    "2761334257",
+    "2761334279",
+    "2761334292",
+    "2761334296",
+    "2761334924",
+    "276356775",
+    "3847369285",
+    "3847369287",
+    "3847369288",
+    "4798742255",
+    "5241629952",
+    "5241632056",
+    "5353171703",
+    "5353171704",
+    "610506352",
+    "610506356",
+    "610506357",
+    "739654528",
+    "757036795",
+    "757036853",
+    "757036909",
+    "757036954",
+    "757037046",
+    "757037049",
+    "759714699",
+    "759714704",
+    "759714715",
+    "759714726",
+    "759714733",
+    "759714737",
+    "76463166",
+    "LSA2349_part0",
+    "LSA2394_part0",
+    "LSA2403_part0"
+  ],
+  "boundary_edge_map": {},
+  "expected": {
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 3,
+      "source": 125
+    },
+    "difference_count": 0
+  },
+  "provenance": {
+    "raw_osm_sha256": "c0ae1584324ada2fc1f6fa27a6b6329edcf0baa6b1134b9503d6128a0f219ef4",
+    "workflow": "outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v1/workflow.manifest.json",
+    "observations": "outputs/runtime_workflow_20261018_v1/global-final-v2/observations.json",
+    "source_notices": "../hamburg_approach_reference_20261016_v1/fixture.json"
+  },
+  "claim_boundary": "Loaded successors, yielding relations, and internal conflicts only. No field validity, traffic-performance improvement, historical signal timing, or demand claim."
+}

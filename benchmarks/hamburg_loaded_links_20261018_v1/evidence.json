@@ -1,0 +1,152 @@
+{
+  "kind": "complete_workflow_loaded_link_verification",
+  "date": "2026-10-18",
+  "promotion_authority": false,
+  "implementation": {
+    "commit": "22827f8c5b199dae08a44d120c7f65d56164ff60",
+    "implementation_sha256": {
+      "plugins/astra-sumo/src/astra_sumo/core/hamburg_topology_workflow.py": "4cbf51b7e7b2963b2aa7c677a11994a083e0fbf039f969409134d3c253745115",
+      "plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py": "6e08af12e576c06373e8ed42ae954fc562d3087319f05ed1c2e1cbb1cddddfc5",
+      "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py": "bdba0cf5a5144f3c168dad9ee8de3958fdbd134f880955759782d26f1c6dd043"
+    }
+  },
+  "construction": {
+    "request": {
+      "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+      "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+    },
+    "workflow": {
+      "path": "outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v2/workflow.manifest.json",
+      "sha256": "2f2ebe2cf9fd3d4f352330640972f9976255427624117589072f0d46765994fa"
+    },
+    "candidate_manifest": {
+      "path": "outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v2/candidate/manifest.json",
+      "sha256": "53dca1735e690b82729eabcea702e78577a44f3b33299c23f461f34f1483c592"
+    },
+    "status": "review_required",
+    "stage_statuses": {
+      "source_network": "pass",
+      "road_geometry": "not_applicable",
+      "context_intersections": "pass",
+      "construction_coverage": "review_required",
+      "physical_areas": "pass",
+      "intersection_binding": "pass",
+      "movement_geometry": "pass",
+      "network_construction": "pass",
+      "outside_geometry": "pass",
+      "construction_audit": "review_required",
+      "movement_probes": "pass",
+      "corridor_routes": "pass",
+      "loaded_link_preservation": "pass"
+    },
+    "topology_complete": true,
+    "inputs_unchanged": true,
+    "generated_inputs_unchanged": true,
+    "candidate_unchanged": true,
+    "candidate": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\runtime_workflow_20261018_v1\\hamburg-rebuild-v2\\candidate\\hamburg-five-aerial-combined.net.xml",
+      "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+    },
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "candidate_bytes_equal_to_previous": true,
+    "previous_candidate": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/hamburg-order-fixed-v2/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+    }
+  },
+  "global_preservation": {
+    "report": {
+      "path": "C:/Users/huqio/Documents/ASTRA-SUMO/outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v2/loaded-links/link-preservation.json",
+      "sha256": "3e0c19a722212b21444d0f33a215ee8ca4aa4e8a3c54f546adff4818bda245ec"
+    },
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 3,
+      "source": 125
+    },
+    "differences": 0,
+    "native_junction_references": {
+      "LSA2349_part0": "native-0",
+      "LSA2394_part0": "native-0",
+      "LSA2403_part0": "native-1"
+    },
+    "native_hash_errors": [],
+    "boundary_mapping_errors": [],
+    "observation_errors": {}
+  },
+  "candidate_preservation": {
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 2,
+      "source": 126
+    }
+  },
+  "most_control": {
+    "report": {
+      "path": "outputs/runtime_workflow_20261018_v1/most-width-v2/report.json",
+      "sha256": "e9b44baa1114e1bee82a2eda269b775a08291ee7c808e7cb64fc20769cff9537"
+    },
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+      "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+    },
+    "candidate": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\runtime_workflow_20261018_v1\\most-width-v2\\candidate.net.xml",
+      "sha256": "090527e6b1fa777d0318584b171eb9b6886928d45bc3cc3497bff2036487f344"
+    },
+    "source_unchanged": true,
+    "converted_normal_edge_count": 9,
+    "source_normal_edge_count": 4404,
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 2,
+      "source": 2002
+    },
+    "difference_count": 0
+  },
+  "verification_runs": [
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/targeted-v2.log",
+        "sha256": "db623d4e1b9d675cb5a92b28420c782f50842e950afb03ac818db55dc527ec4b"
+      },
+      "passed": 100
+    },
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/final-unit-v3.log",
+        "sha256": "92242d03feca2275faa835c16486504857092b55296d9af1a5c17b9d1c713633"
+      },
+      "passed": 53
+    },
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/signal-bindings-v5.log",
+        "sha256": "ee0d23765632e4a143625fcf7364d32a3f5c0af7decce2461cdb190461c0424e"
+      },
+      "passed": 18
+    },
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/native-final-v6.log",
+        "sha256": "f383e24c68dd1808dcb88820599fc387aed096f0d28c357c9fe1dd0c30fe103c"
+      },
+      "passed": 38
+    }
+  ],
+  "limits": [
+    "The preserved signal assignments do not establish historical signal timing.",
+    "The native outputs remain model references, not field ground truth.",
+    "Construction coverage and the broader construction audit still require review.",
+    "No driving-performance improvement is claimed. The candidate bytes and its prior driving limitations are unchanged."
+  ]
+}

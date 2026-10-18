@@ -320,6 +320,11 @@ def build_hamburg_aerial_combined_candidate(
         load.stdout + load.stderr,
         encoding="utf-8",
     )
+    link_preservation = _measure_final_links(source_net=source_net, candidate_net=final_net,
+        groups=groups, context=context, join_conversion=join_conversion, boundary_rebuild=boundary_rebuild,
+        approach_rebuild=approach_rebuild, materialization=selected_materialization,
+        output_dir=destination / "loaded-links", sumo_binary=str(sumo_executable),
+        timeout_seconds=float(request["timeout_seconds"]))
     source_surface = audit_sumo_lane_junction_surface_overlaps(
         source_net,
         report_file=destination / "source-surface-overlap.json",
@@ -344,6 +349,7 @@ def build_hamburg_aerial_combined_candidate(
         and structural_pass
         and source_unchanged
         and topology["status"] != "blocked"
+        and link_preservation["status"] != "fail"
         else "blocked"
     )
     plan_hashes = {
@@ -403,6 +409,7 @@ def build_hamburg_aerial_combined_candidate(
         "movement_materialization": selected_materialization,
         "official_connection_audit": topology,
         "connection_mode": {"status": connection_audit["status"], "structural_failure_count": connection_audit["structural_failure_count"], "report": str(connection_report)},
+        "loaded_link_preservation": link_preservation,
         "runtime_fallback_join_ids": sorted(skipped_join_ids),
         "attempts": attempts,
         "netconvert": {
@@ -448,6 +455,7 @@ def build_hamburg_aerial_combined_candidate(
             "routeability": "pass" if routeability["status"] == "pass" else "blocked",
             "surface_regression": "pass" if candidate_findings <= source_findings else "blocked",
             "connection_structure": "pass" if structural_pass else "blocked",
+            "loaded_link_preservation": link_preservation["status"],
             "official_lane_connections": topology["status"],
             "all_official_movements_materialized": (
                 "pass"
@@ -479,6 +487,43 @@ def build_hamburg_aerial_combined_candidate(
         "sha256": file_sha256(manifest_file),
     }
     return manifest
+
+
+def _measure_final_links(*, source_net, candidate_net, groups, context, join_conversion, boundary_rebuild,
+                         approach_rebuild, materialization, output_dir, sumo_binary, timeout_seconds):
+    from .network_link_semantics import compare_loaded_link_semantics
+
+    mutable, references = set(), {}
+
+    def adopt(nodes, conversion):
+        mutable.update(nodes)
+        native = conversion.get("native_output")
+        for node in nodes:
+            references.pop(node, None)
+            if native is not None:
+                references[node] = native
+
+    if context:
+        context_nodes = {str(node) for group in context["plan"]["groups"]
+            for node in [group["join_id"], *group["source_node_ids"]]}
+        adopt(context_nodes, context["local_conversion"])
+    original_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
+    initial = join_conversion if boundary_rebuild["status"] == "not_applicable" else boundary_rebuild.get("local_conversion", {})
+    adopt(original_nodes, initial)
+    boundary_map = {}
+    if approach_rebuild.get("candidate_network"):
+        restoration = approach_rebuild["scoped_geometry_restoration"]
+        adopt(restoration["mutable_junction_ids"], approach_rebuild["local_conversion"])
+        boundary_map.update(restoration["boundary_edge_map"])
+    for row in materialization["netconvert_passes"]:
+        conversion = row.get("local_conversion", {})
+        adopt(conversion.get("mutable_junction_ids", original_nodes), conversion)
+    all_groups = list(groups) + (context["plan"]["groups"] if context else [])
+    retired = {str(node) for group in all_groups for node in group["source_node_ids"] if str(node) != str(group["join_id"])}
+    references = {node: artifact for node, artifact in references.items() if node not in retired}
+    return compare_loaded_link_semantics(source_net_file=source_net, native_net_file=references,
+        candidate_net_file=candidate_net, mutable_junction_ids=mutable, boundary_edge_map=boundary_map,
+        output_dir=output_dir, sumo_binary=sumo_binary, timeout_seconds=timeout_seconds)
 
 
 def _collision_join_ids(routeability: Mapping[str, Any]) -> set[str]:

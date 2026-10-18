@@ -1,11 +1,12 @@
 import json
 from hashlib import sha256
 from pathlib import Path
+import xml.etree.ElementTree as ET
 
 import pytest
 
 from astra_sumo.core.command_runner import CommandResult
-from astra_sumo.core.network_link_semantics import _compare, compare_loaded_link_semantics
+from astra_sumo.core.network_link_semantics import _boundary_lane_mapping, _compare, compare_loaded_link_semantics
 
 
 def test_each_junction_uses_its_declared_reference():
@@ -25,6 +26,44 @@ def test_each_junction_uses_its_declared_reference():
     assert _compare(snapshots, {"edit"})["status"] == "unavailable"
     snapshots["native"] = []
     assert _compare(snapshots, {"edit"})["status"] == "unavailable"
+
+
+def test_later_native_stages_replace_only_their_declared_junctions():
+    snapshots = {"source": {"junctions": {"outside": {}, "old": {}}},
+        "early": {"junctions": {"A": {"foes": ["early"]}, "B": {"foes": ["obsolete"]}}},
+        "late": {"junctions": {"A": {"foes": ["not_adopted"]}, "B": {"foes": ["late"]}}},
+        "candidate": {"junctions": {"outside": {}, "A": {"foes": ["early"]}, "B": {"foes": ["late"]}}}}
+    mutable = {"old", "A", "B"}
+    references = {"A": "early", "B": "late"}
+    result = _compare(snapshots, mutable, references)
+    assert result["status"] == "pass" and result["compared_junction_counts"] == {"native": 2, "source": 1}
+    assert _compare(snapshots, mutable, {"A": "early"})["unresolved_references"] == ["native:B"]
+    assert _compare(snapshots, mutable, {"A": "early", "B": "early"})["status"] == "fail"
+    snapshots["empty"] = {"junctions": {}}
+    missing = _compare(snapshots, mutable, {"A": "early", "B": "empty"})
+    assert missing["status"] == "unavailable" and missing["unresolved_references"] == ["empty:B"]
+    assert missing["compared_junction_counts"] == {"native": 1, "source": 1}
+
+
+def test_boundary_renaming_uses_explicit_lane_indices_and_checks_all_lane_references():
+    source = ET.fromstring('<net><edge id="road"><lane index="0" id="custom"/></edge></net>')
+    candidate = ET.fromstring('<net><edge id="upstream"><lane index="0" id="new-custom"/></edge></net>')
+    mapping, errors = _boundary_lane_mapping(source, candidate, {"road": "upstream"})
+    assert mapping == {"custom": "new-custom"} and errors == []
+    before = {"lane_links": {"custom": [{"successor": "custom", "via": ":A_0_0", "direction": "s", "yield_to": ["custom"]}]},
+        "internal_foes": {":A_0_0": ["custom"]}}
+    after = {"lane_links": {"new-custom": [{"successor": "new-custom", "via": ":A_0_0", "direction": "s", "yield_to": ["new-custom"]}]},
+        "internal_foes": {":A_0_0": ["new-custom"]}}
+    snapshots = {"source": {"junctions": {"A": before}}, "candidate": {"junctions": {"A": after}}}
+    assert _compare(snapshots, set(), {}, mapping)["status"] == "pass"
+    assert _compare(snapshots, set(), {})["status"] == "fail"
+    candidate.find("edge/lane").set("index", "1")
+    assert _boundary_lane_mapping(source, candidate, {"road": "upstream"})[1]
+    assert _boundary_lane_mapping(source, candidate, {"road": "absent"})[1]
+    assert _boundary_lane_mapping(source, candidate, {"road": "upstream", "other": "upstream"})[1]
+    candidate.find("edge/lane").set("index", "0")
+    ET.SubElement(source.find("edge"), "lane", index="0", id="ambiguous-index")
+    assert _boundary_lane_mapping(source, candidate, {"road": "upstream"})[1]
 
 
 @pytest.mark.parametrize("fault", ["timeout", "malformed", "invalid_structure", "source_drift", "source_removed", "frozen_drift"])
@@ -68,6 +107,24 @@ def test_missing_sumo_binary_retains_worker_errors(tmp_path):
     assert report["status"] == "unavailable"
     assert set(report["observation_errors"]) == {"source", "native", "candidate"}
     assert report["compared_junction_counts"] == {"native": 0, "source": 0}
+
+
+def test_changed_declared_native_output_cannot_pass_using_its_new_hash(tmp_path):
+    source = tmp_path / "source.net.xml"
+    source.write_text("<net/>", encoding="utf-8")
+
+    def worker(command, *, cwd, timeout_seconds):
+        request = json.loads(Path(command[-2]).read_text())
+        Path(command[-1]).write_text(json.dumps({"snapshots": {name: {"junctions": {"J": {}}}
+            for name in request["inputs"]}}), encoding="utf-8")
+        return CommandResult(command=command, cwd=str(cwd), status="pass", returncode=0)
+
+    report = compare_loaded_link_semantics(source_net_file=source, candidate_net_file=source,
+        native_net_file={"J": {"path": str(source), "sha256": "0" * 64}}, mutable_junction_ids={"J"},
+        output_dir=tmp_path / "measurement", command_runner=worker)
+    assert report["status"] == "unavailable"
+    assert report["native_hash_errors"][0]["junction_id"] == "J"
+    assert report["compared_junction_counts"]["native"] == 1
 
 
 def test_worker_loads_frozen_bytes_and_retains_original_drift(tmp_path, monkeypatch):
