@@ -94,7 +94,7 @@ def _source_and_plan(tmp_path, distant_lane=False, reuse_boundary=False, right_p
     return source, {"7": plan}
 
 
-@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 @pytest.mark.parametrize("case", ["split", "reuse", "right_pocket", "restricted"])
 def test_local_approach_matches_complete_source_conversion(tmp_path, monkeypatch, case):
     source, plans = _source_and_plan(tmp_path, reuse_boundary=case == "reuse", right_pocket=case == "right_pocket",
@@ -111,6 +111,14 @@ def test_local_approach_matches_complete_source_conversion(tmp_path, monkeypatch
     assert record["status"] == "local"
     assert record["source_normal_edge_count"] == 15
     assert record["converted_normal_edge_count"] == 3
+    from astra_sumo.core.network_link_semantics import compare_loaded_link_semantics
+    restoration = local["scoped_geometry_restoration"]
+    links = compare_loaded_link_semantics(source_net_file=source, candidate_net_file=local["candidate_network"]["path"],
+        native_net_file={node: record["native_output"] for node in restoration["mutable_junction_ids"]},
+        mutable_junction_ids=restoration["mutable_junction_ids"], boundary_edge_map=restoration["boundary_edge_map"],
+        output_dir=tmp_path / "loaded-links", sumo_binary=shutil.which("sumo"))
+    assert links["status"] == "pass", links
+    assert links["boundary_mapping_errors"] == []
     assert record["source_unchanged"]
     assert set(record.get("edge_endpoints", {})) == ({"approach", local["approaches"][0]["upstream_edge_id"]} if case in {"split", "right_pocket"} else set())
     monkeypatch.setattr("astra_sumo.core.local_network_conversion.local_conversion_input",

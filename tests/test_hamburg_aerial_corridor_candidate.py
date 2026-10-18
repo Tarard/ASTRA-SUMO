@@ -640,3 +640,36 @@ def _area(points: list[tuple[float, float]]) -> float:
             for left, right in zip(points, [*points[1:], points[0]])
         )
     ) / 2
+
+
+def test_final_link_measurement_uses_each_junctions_last_adopted_native_output(tmp_path, monkeypatch):
+    from astra_sumo.core import network_link_semantics
+    seen = {}
+
+    def capture(**kwargs):
+        seen.update(kwargs)
+        return {"status": "pass"}
+
+    monkeypatch.setattr(network_link_semantics, "compare_loaded_link_semantics", capture)
+
+    def conversion(path, nodes):
+        return {"mutable_junction_ids": nodes, "native_output": {"path": path, "sha256": path}}
+
+    options = dict(source_net=tmp_path / "source.net.xml", candidate_net=tmp_path / "candidate.net.xml",
+        groups=[{"join_id": "J", "source_node_ids": ["old1", "old2"]}],
+        context={"plan": {"groups": [{"join_id": "C", "source_node_ids": ["oldC1", "oldC2"]}]},
+                 "local_conversion": conversion("context", ["C"])},
+        join_conversion=conversion("join", ["J"]), boundary_rebuild={"status": "pass", "local_conversion": conversion("boundary", ["J"])},
+        approach_rebuild={"candidate_network": {"path": "approach"}, "local_conversion": conversion("approach", ["N", "J"]),
+            "scoped_geometry_restoration": {"mutable_junction_ids": ["N", "J"], "boundary_edge_map": {"road": "before"}}},
+        materialization={"netconvert_passes": [{"local_conversion": conversion("last-movement", ["J"])}],
+            "junction_contours": {"parts": [{"status": "pass", "local_conversion": conversion("outline-trial", ["J"])}]}},
+        output_dir=tmp_path / "measurement", sumo_binary="sumo", timeout_seconds=30)
+    assert candidate_module._measure_final_links(**options)["status"] == "pass"
+    assert {key: value["path"] for key, value in seen["native_net_file"].items()} == {
+        "C": "context", "N": "approach", "J": "last-movement"}
+    assert seen["mutable_junction_ids"] == {"C", "J", "N", "old1", "old2", "oldC1", "oldC2"}
+    assert seen["boundary_edge_map"] == {"road": "before"}
+    options["materialization"]["netconvert_passes"].append({"local_conversion": {"mutable_junction_ids": ["J"]}})
+    candidate_module._measure_final_links(**options)
+    assert "J" not in seen["native_net_file"]

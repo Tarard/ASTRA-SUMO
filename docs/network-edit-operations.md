@@ -192,7 +192,7 @@ New elements follow their category's retained elements.
 SUMO can produce different seeded trajectories after road reordering, despite equal road attributes and saved connections.
 The [real-cohort control](../benchmarks/network_construction_20261016_v1/serialization-order-20261016-v1.md) records this difference.
 Typed edits also measure loaded link relations after restoration.
-The worker reads successor and via lanes, turn directions, yielding incoming lanes, and conflicting internal lanes through TraCI.
+The worker reads successor and via lanes, turn directions, SUMO controller and link-index assignments, yielding incoming lanes, and conflicting internal lanes through TraCI.
 Edited junctions are compared with their last native conversion. All other junctions are compared with the source.
 For a joined junction, the reference comes from boundary reconstruction rather than the initial join.
 Direct attribute edits use the source as their reference.
@@ -202,6 +202,17 @@ The worker loads frozen network copies and checks its loaded junction and lane i
 Input drift and damaged observation files remain recorded. They cannot produce a passing preservation result.
 An unavailable observation never counts as preserved. Explore mode retains the measurements and release warnings.
 Release mode requires this comparison to pass. Runtime driving checks remain separate.
+
+Complete Hamburg construction records the same comparison on its final network.
+Each edited junction uses the last native output actually adopted for that junction.
+Approach splits retain their own reference where a later movement pass does not edit that junction.
+Outline-only contour trials do not replace the traffic reference.
+The complete workflow also checks earlier context joins against the network before those joins.
+Without an earlier context rebuild, it reuses the candidate's exact comparison.
+Source-side road renaming follows the declared upstream edge correspondence and matching explicit lane indices.
+The comparison does not guess lane identities from an ID prefix.
+Missing reference files, changed native hashes, and unresolved correspondences remain `unavailable` with their measurements.
+They do not establish preserved traffic relations. Other construction measurements remain available.
 The existing preservation checks then fix the remote boundary ends and verify the complete candidate.
 Reports retain the local input, raw native output, and merged proposal with their hashes.
 Release validation independently reconstructs the source-derived input and the merge.

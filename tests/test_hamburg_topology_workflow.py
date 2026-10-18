@@ -34,7 +34,7 @@ def _request(tmp_path: Path) -> Path:
     })
 
 
-def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass"):
+def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass", link_status="pass"):
     observed = {}
 
     def build(**kwargs):
@@ -63,6 +63,11 @@ def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass")
         _write(kwargs["output_dir"] / "corridor-summary.json", result)
         return result
 
+    def links(**kwargs):
+        observed["links"] = kwargs
+        record = {"status": link_status}
+        return {**record, "report_file": str(_write(kwargs["output_dir"] / "link-preservation.json", record))}
+
     def combine(**kwargs):
         request = json.loads(Path(kwargs["request_file"]).read_text(encoding="utf-8"))
         observed["combine"] = request
@@ -70,7 +75,10 @@ def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass")
         net = _write(kwargs["output_dir"] / "candidate.net.xml", Path(request["source_net"]["path"]).read_text(encoding="utf-8"))
         result = {"status": "pass", "topology_complete": topology_complete,
                   "counts": {"official_vehicle_movements": 2, "materialized_movement_count": 2 * int(topology_complete)},
-                  "artifacts": {"network": _artifact(net)}, "inputs": {"source_net": request["source_net"]}}
+                  "artifacts": {"network": _artifact(net)}, "inputs": {"source_net": request["source_net"]},
+                  "physical_parts": [], "netconvert": {"local_conversion": {}}, "boundary_rebuild": {},
+                  "approach_rebuild": {}, "movement_materialization": {},
+                  "loaded_link_preservation": links(output_dir=kwargs["output_dir"] / "loaded-links")}
         _write(kwargs["output_dir"] / "manifest.json", result)
         return result
 
@@ -91,7 +99,8 @@ def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass")
     for name, function in {"build_osm_network": build, "audit_tls": tls,
         "bind_hamburg_corridor_tls_clusters": bind, "build_hamburg_aerial_corridor_plan": movements,
         "build_hamburg_aerial_combined_candidate": combine, "run_candidate_movement_probes": probes,
-        "audit_hamburg_topology_candidate": audit, "run_hamburg_topology_route_checks": routes}.items():
+        "audit_hamburg_topology_candidate": audit, "run_hamburg_topology_route_checks": routes,
+        "_measure_final_links": links}.items():
         monkeypatch.setattr(workflow, name, function)
     return observed
 
@@ -133,7 +142,7 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     assert observed["movements"]["intersections"][0]["map_xml"]["sha256"]
     assert observed["combine"]["seed"] == 104
     assert observed["route_checks"]["road_names"] == ["Example road"]
-    assert len(result["stages"]) == 11
+    assert len(result["stages"]) == 12
     assert result["stages"]["road_geometry"]["status"] == "not_applicable"
     assert all(row["status"] in {"pass", "not_applicable"} for row in result["stages"].values())
     assert result["inputs_unchanged"] is True
@@ -145,6 +154,16 @@ def test_rebuilds_every_stage_from_raw_inputs_and_keeps_calibration_separate(tmp
     with pytest.raises(ValueError, match="already exist"):
         workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
     assert Path(result["report_file"]).read_bytes() == before
+
+
+def test_missing_runtime_observations_keep_other_rebuild_measurements(tmp_path, monkeypatch):
+    request = _request(tmp_path)
+    _fake_stages(monkeypatch, link_status="unavailable")
+    result = workflow.build_hamburg_topology_workflow(request_file=request, output_dir=tmp_path / "run")
+    assert result["status"] == "review_required"
+    assert result["loaded_link_preservation"]["status"] == "unavailable"
+    assert result["stages"]["corridor_routes"]["status"] == "pass"
+    assert result["inputs_unchanged"]
 
 
 def test_reviewed_road_geometry_reaches_normal_hamburg_construction(tmp_path, monkeypatch):
