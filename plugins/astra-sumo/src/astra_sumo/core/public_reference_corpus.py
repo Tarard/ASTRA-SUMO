@@ -408,7 +408,9 @@ def _source_sensitivity(dataset, cases):
         record = control["label_provenance"]
         raw = Path(record["path"]).read_bytes()
         if (hashlib.sha256(raw).hexdigest() != record["sha256"] or control["primary_labels"]["sha256"] != labels["sha256"]
-                or control["primary_network"]["sha256"] != dataset["comparison_source"]["sha256"]):
+                or control["primary_network"]["sha256"] != dataset["comparison_source"]["sha256"]
+                or control["reference_network"]["sha256"] != dataset["reference_net"]["sha256"]
+                or file_sha256(Path(control["alternate_network"]["path"])) != control["alternate_network"]["sha256"]):
             raise ValueError("Coordinate-frame evidence does not match the primary source and labels.")
         rows = [json.loads(line) for line in raw.splitlines()]
         states = {row["primary_case_id"]: row["source_state_relation"] for row in rows if row["primary_case_id"] is not None}

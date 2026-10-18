@@ -216,5 +216,89 @@
     "sha256": "81aba27cb6301dec0ead3e8458d1ecb3f431e9d1b95298a0bd3e3ccad951038d"
   },
   "field_precision": null,
-  "human_cleaning_evaluation": false
+  "human_cleaning_evaluation": false,
+  "evidence_reader_follow_up": {
+    "implementation": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/public_reference_corpus.py",
+      "sha256": "93f3105ecb54d49afc5dce41585db565241416a0f444096a68f880094d6e45b0"
+    },
+    "verification": {
+      "path": "outputs/source_sensitivity_20261018_v1/evidence-v4.log",
+      "sha256": "2b7f1263f5d79885dad91106ecff481b10e05e6f39bbb10d534796ab502c04a5",
+      "passed": 9,
+      "overlaps_earlier_run": true
+    },
+    "comparisons": {
+      "self": {
+        "report": {
+          "path": "outputs/source_sensitivity_20261018_v1/self-comparison-v2.json",
+          "sha256": "5c78ecca5e946c659a444a521aedb80143e94f4d12d95dd12e7d707ba120a2b2"
+        },
+        "status": "review_required",
+        "known_reference_case_count": 9005,
+        "scored_case_count": 9005,
+        "coordinate_frame_sensitivity": {
+          "status": "measured",
+          "label_provenance": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\coordinate-frame-labels.jsonl",
+            "sha256": "cd837ab40ba401c39ed3eb91f3680bdc433f56e099b031cdebed47a0ef3a0abd"
+          },
+          "source_state_counts": {
+            "unchanged": 10968
+          },
+          "unscored_changed_selector_count": 1,
+          "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."
+        },
+        "counts": {
+          "junction_membership": {
+            "true_negative": 2475,
+            "unknown_reference": 261,
+            "true_positive": 58
+          },
+          "lane_connection": {
+            "unknown_reference": 1702,
+            "true_positive": 6462,
+            "true_negative": 10
+          }
+        },
+        "field_precision": null
+      },
+      "baseline": {
+        "report": {
+          "path": "outputs/source_sensitivity_20261018_v1/baseline-comparison-v2.json",
+          "sha256": "cee647bcd440b4dc6b1f8726593a3d69459f8b40ecec1a5486374fe19c5a498c"
+        },
+        "status": "review_required",
+        "known_reference_case_count": 9005,
+        "scored_case_count": 9005,
+        "coordinate_frame_sensitivity": {
+          "status": "measured",
+          "label_provenance": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\coordinate-frame-labels.jsonl",
+            "sha256": "cd837ab40ba401c39ed3eb91f3680bdc433f56e099b031cdebed47a0ef3a0abd"
+          },
+          "source_state_counts": {
+            "unchanged": 10968
+          },
+          "unscored_changed_selector_count": 1,
+          "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."
+        },
+        "counts": {
+          "junction_membership": {
+            "true_negative": 2475,
+            "unknown_reference": 261,
+            "false_negative": 58
+          },
+          "lane_connection": {
+            "unknown_reference": 1702,
+            "true_positive": 6171,
+            "false_negative": 291,
+            "false_positive": 10
+          }
+        },
+        "field_precision": null
+      }
+    },
+    "scope": "Alternate-network bytes and reference identity are checked before using diagnostics. Missing or damaged optional evidence remains unavailable without erasing primary model-relative measurements."
+  }
 }

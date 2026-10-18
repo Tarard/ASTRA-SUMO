@@ -82,3 +82,10 @@ Historical source dates, field-defect labels, audit precision, and automatic-cle
 - Measurement runner: `outputs/source_sensitivity_20261018_v1/measure-sensitivity-v1.py`.
 
 Reproduce with the existing corpus command, the v2 catalog, an intact cache, and a new output directory.
+
+## Diagnostic-evidence follow-up
+
+The comparison also checks the alternate network's retained bytes and the declared reference identity before using sensitivity records.
+Deleting that network leaves primary measurements available and marks sensitivity unavailable.
+Nine focused evidence checks pass, overlapping the earlier run.
+Fresh self and baseline comparisons retain the same 9,005 scored records and the separately retained unscored change.

@@ -423,7 +423,7 @@ def test_controlled_state_tracing_does_not_guess_renamed_lanes():
     assert list(corpus._controlled_predictions(source, variant, [case]))[0][1] is None
 
 
-@pytest.mark.parametrize("fault", [None, "hash", "inventory", "wrong_labels"])
+@pytest.mark.parametrize("fault", [None, "hash", "inventory", "wrong_labels", "alternate_removed"])
 def test_reference_comparison_retains_conditional_scores_and_reports_sensitivity(tmp_path, monkeypatch, fault):
     control, dataset, _ = _sensitivity_fixture(tmp_path, monkeypatch)
     provenance = Path(control["label_provenance"]["path"])
@@ -434,6 +434,8 @@ def test_reference_comparison_retains_conditional_scores_and_reports_sensitivity
         control["label_provenance"]["sha256"] = file_sha256(provenance)
     elif fault == "wrong_labels":
         control["primary_labels"]["sha256"] = "0" * 64
+    elif fault == "alternate_removed":
+        Path(control["alternate_network"]["path"]).unlink()
     dataset_path = tmp_path / "dataset.json"
     dataset_path.write_text(json.dumps(dataset), encoding="utf-8")
     request = {"schema": "astra.public-reference-request/v1", "dataset_sha256": file_sha256(dataset_path),
