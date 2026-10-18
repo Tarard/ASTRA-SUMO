@@ -18,6 +18,23 @@ The candidate SHA-256 is `0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b1
 It is byte-identical to the previous corrected reconstruction.
 The preserved driving limitations therefore remain relevant. This fixture supports no traffic-improvement or field-validity claim.
 
+## Complete reconstruction result
+
+The [verification record](evidence.json) binds the complete rebuild to commit `22827f8` and the actual implementation hashes.
+The final workflow comparison covers three edited junctions and 125 retained junctions, with no differences.
+All 16 official vehicle movements remain materialized. No fallback part is used.
+The workflow still reports `review_required` for construction coverage and the broader audit.
+Source files, generated inputs, and the final candidate remain unchanged during verification.
+
+A repeat on MoST uses the same typed-edit implementation.
+Its width perturbation converts 9 of 4404 ordinary roads.
+The two edited junctions and 2002 retained junctions match their respective references, including signal assignments.
+This is a technical preservation check. It does not validate actual road width or traffic demand.
+
+The focused runs pass 100, 53, 18, and 38 checks. These runs overlap and must not be added together.
+They include source correspondence, missing observations, exact native stages, split-road identities, signal-index corruption, and the 14 typed edits.
+The raw results and their hashes are listed in the verification record.
+
 ## Reproduce
 
 Use the repository environment and place its SUMO binaries on `PATH`.
