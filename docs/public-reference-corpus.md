@@ -55,6 +55,8 @@ Generated object names can differ. Raw ID differences alone do not establish los
 The values are `unchanged`, `changed`, `unresolved`, or `not_measured`.
 These describe generated node membership or direct connection presence under this control. They do not describe geometry or field accuracy.
 The report retains conditional scores against the frozen primary labels and gives separate sensitivity counts.
+It also splits source-state counts by record kind. Both imports disable node joining, so unchanged membership does not test joining sensitivity.
+The result applies only to the declared normalization toggle and toolchain. Other coordinate shifts and precision settings remain untested.
 Missing, incomplete, or damaged sensitivity evidence remains unavailable. It does not erase the primary measurements or become an unchanged-value claim.
 The [dated sensitivity result](../benchmarks/public_network_development_v2/source-sensitivity-20261018-v1.md) records the complete MoST repeat.
 

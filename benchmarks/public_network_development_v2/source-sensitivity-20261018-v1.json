@@ -300,5 +300,124 @@
       }
     },
     "scope": "Alternate-network bytes and reference identity are checked before using diagnostics. Missing or damaged optional evidence remains unavailable without erasing primary model-relative measurements."
+  },
+  "record_kind_and_failure_scope_follow_up": {
+    "implementation": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/public_reference_corpus.py",
+      "sha256": "682cdd83ea7e67eefb5d7c36ff39522363cceaaea7c4d78ad85d9f0d3e834515"
+    },
+    "dataset": {
+      "path": "outputs/source_sensitivity_20261018_v1/most-v2/MoST_2019_paired/dataset.json",
+      "sha256": "dad1fc5ab840aec6efdd3cda858ffabda262a142d71991cda2b56839fa5244a1"
+    },
+    "control": {
+      "path": "outputs/source_sensitivity_20261018_v1/most-v2/MoST_2019_paired/coordinate-frame-control.json",
+      "sha256": "34d54ac886abbc6801784ceef7edfbf2f0970a547039c6c6efb0891f67e8e19f"
+    },
+    "source_state_counts_by_kind": {
+      "junction_membership": {
+        "unchanged": 2794
+      },
+      "lane_connection": {
+        "changed": 1,
+        "unchanged": 8174
+      }
+    },
+    "membership_control_scope": "Node joining is disabled in both commands. Unchanged membership does not test joining sensitivity.",
+    "verification": {
+      "path": "outputs/source_sensitivity_20261018_v1/by-kind-v5.log",
+      "sha256": "3dc231788364f18b4d9b04cc3f624ef2d8f1fa965c7ac624f134ea2cf03a0095",
+      "passed": 45
+    },
+    "comparisons": {
+      "self": {
+        "report": {
+          "path": "outputs/source_sensitivity_20261018_v1/self-comparison-v3.json",
+          "sha256": "b4bbe60efe5666cb5941b9e28bed13607b13d3051af9ebf33eba88f69b2a96e7"
+        },
+        "status": "review_required",
+        "known_reference_case_count": 9005,
+        "scored_case_count": 9005,
+        "coordinate_frame_sensitivity": {
+          "status": "measured",
+          "label_provenance": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\coordinate-frame-labels.jsonl",
+            "sha256": "96d990704321dfa19df3fb2d3940b55ede59ae709ef6ffc46aadad2a5369d633"
+          },
+          "source_state_counts": {
+            "unchanged": 10968
+          },
+          "source_state_counts_by_kind": {
+            "junction_membership": {
+              "unchanged": 2794
+            },
+            "lane_connection": {
+              "unchanged": 8174
+            }
+          },
+          "membership_control_scope": "Node joining is disabled in both commands. Unchanged membership does not test joining sensitivity.",
+          "unscored_changed_selector_count": 1,
+          "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."
+        },
+        "counts": {
+          "junction_membership": {
+            "true_negative": 2475,
+            "unknown_reference": 261,
+            "true_positive": 58
+          },
+          "lane_connection": {
+            "unknown_reference": 1702,
+            "true_positive": 6462,
+            "true_negative": 10
+          }
+        },
+        "field_precision": null
+      },
+      "baseline": {
+        "report": {
+          "path": "outputs/source_sensitivity_20261018_v1/baseline-comparison-v3.json",
+          "sha256": "e2371a7a294ee5cfbecc6ba36d75cbdb7044dbcd9e8ad5a232f11bbb257548eb"
+        },
+        "status": "review_required",
+        "known_reference_case_count": 9005,
+        "scored_case_count": 9005,
+        "coordinate_frame_sensitivity": {
+          "status": "measured",
+          "label_provenance": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\coordinate-frame-labels.jsonl",
+            "sha256": "96d990704321dfa19df3fb2d3940b55ede59ae709ef6ffc46aadad2a5369d633"
+          },
+          "source_state_counts": {
+            "unchanged": 10968
+          },
+          "source_state_counts_by_kind": {
+            "junction_membership": {
+              "unchanged": 2794
+            },
+            "lane_connection": {
+              "unchanged": 8174
+            }
+          },
+          "membership_control_scope": "Node joining is disabled in both commands. Unchanged membership does not test joining sensitivity.",
+          "unscored_changed_selector_count": 1,
+          "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."
+        },
+        "counts": {
+          "junction_membership": {
+            "true_negative": 2475,
+            "unknown_reference": 261,
+            "false_negative": 58
+          },
+          "lane_connection": {
+            "unknown_reference": 1702,
+            "true_positive": 6171,
+            "false_negative": 291,
+            "false_positive": 10
+          }
+        },
+        "field_precision": null
+      }
+    },
+    "scope": "This single normalization toggle does not test joining sensitivity, geometry, other perturbations or field accuracy. Diagnostic tracing and malformed-label exceptions are recorded without aborting primary measurements."
   }
 }

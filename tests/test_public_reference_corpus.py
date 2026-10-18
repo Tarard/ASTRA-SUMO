@@ -286,6 +286,10 @@ def test_native_prepared_source_pairs_self_check_and_unjoined_baseline(tmp_path,
     assert dataset["import_coordinate_frame"]["projection_matches_reference"] is True
     assert dataset["paired_labels"]["counts"]["joined"] == 1
     assert dataset["paired_labels"]["counts"]["separate"] == 2
+    control = dataset["paired_labels"]["coordinate_frame_control"]
+    assert control["status"] == "measured", control
+    assert control["primary_case_count"] == dataset["paired_labels"]["count"]
+    assert "Node joining is disabled" in control["membership_control_scope"]
     request_path = tmp_path / "request.json"
     for name, candidate in [("self", dataset["reference_net"]), ("baseline", dataset["raw_net"])]:
         request = {"schema": "astra.public-reference-request/v1", "dataset_sha256": file_sha256(dataset_path),
@@ -346,7 +350,7 @@ def test_connection_change_labels_require_registered_approaches_and_lane_ids():
     assert list(corpus._connection_labels(source, reference, dataset, "binding"))[0]["expected_present"] is None
 
 
-def _sensitivity_fixture(tmp_path, monkeypatch, *, fails=False, malformed=False):
+def _sensitivity_fixture(tmp_path, monkeypatch, *, fails=False, malformed=False, bad_label=None):
     source = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
         <junction id="1" x="0" y="0"/><junction id="2" x="1" y="0"/><junction id="3" x="2" y="0"/>
         <edge id="a" from="1" to="2"><lane id="a_0" index="0"/></edge>
@@ -361,15 +365,19 @@ def _sensitivity_fixture(tmp_path, monkeypatch, *, fails=False, malformed=False)
     rows = [*corpus._pair_labels(source, source, model, "binding"),
             *corpus._connection_labels(source, source, model, "binding")]
     corpus._jsonl(label_file, rows)
+    if bad_label:
+        label_file.write_text(json.dumps({} if bad_label == "key" else []), encoding="utf-8")
     hashes = {path: file_sha256(path) for path in (source_file, reference_file, label_file)}
     alternate = ET.fromstring(ET.tostring(source))
     alternate.find("junction[@id='2']").set("x", "1.01")
     alternate.remove(alternate.find("connection"))
     ET.SubElement(alternate, "connection", **{"from": "b", "fromLane": "0", "to": "c", "toLane": "0"})
-    command = ["netconvert", "--osm-files", "same.osm", "--offset.disable-normalization", "false", "-o", str(source_file)]
+    command = ["netconvert", "--osm-files", "same.osm", "--junctions.join", "false", "--tls.join", "false",
+        "--offset.disable-normalization", "false", "-o", str(source_file)]
 
     def run(actual, **kwargs):
-        assert actual[:-1] == [*command[:4], "true", "-o"]
+        assert actual[:-1] == ["netconvert", "--osm-files", "same.osm", "--junctions.join", "false", "--tls.join", "false",
+            "--offset.disable-normalization", "true", "-o"]
         if not fails:
             if malformed:
                 Path(actual[-1]).write_text("<net", encoding="utf-8")
@@ -395,6 +403,7 @@ def test_coordinate_control_separates_registration_loss_from_changed_values(tmp_
     assert control["primary_case_count"] == len(cases) == 4
     assert control["compared_selector_count"] == 5
     assert control["source_state_counts"] == {"unchanged": 3, "changed": 2}
+    assert control["source_state_counts_by_kind"] == {"junction_membership": {"unchanged": 3}, "lane_connection": {"changed": 2}}
     assert control["registration_counts"] == {"shared": 1, "primary_only": 3, "unresolved": 1}
     assert control["sensitive_known_reference_count"] == 1
     rows = [json.loads(line) for line in Path(control["label_provenance"]["path"]).read_text().splitlines()]
@@ -404,11 +413,14 @@ def test_coordinate_control_separates_registration_loss_from_changed_values(tmp_
     assert extra["source_state_relation"] == "changed" and not extra["primary_registered"]
 
 
-@pytest.mark.parametrize("fault", ["timeout", "malformed"])
+@pytest.mark.parametrize("fault", ["timeout", "malformed", "key", "type"])
 def test_failed_coordinate_control_retains_primary_labels_and_has_no_stability_claim(tmp_path, monkeypatch, fault):
-    control, dataset, cases = _sensitivity_fixture(tmp_path, monkeypatch, fails=fault == "timeout", malformed=fault == "malformed")
+    control, dataset, cases = _sensitivity_fixture(tmp_path, monkeypatch, fails=fault == "timeout", malformed=fault == "malformed",
+        bad_label=fault if fault in {"key", "type"} else None)
     assert control["status"] == "unavailable"
     assert "source_state_counts" not in control and "label_provenance" not in control
+    if fault in {"key", "type"}:
+        assert control["error"].startswith("KeyError" if fault == "key" else "TypeError")
     status, values = corpus._source_sensitivity(dataset, cases)
     assert status["status"] == "unavailable" and values == {}
 
@@ -449,6 +461,7 @@ def test_reference_comparison_retains_conditional_scores_and_reports_sensitivity
     if fault is None:
         assert sensitivity["status"] == "measured"
         assert sensitivity["source_state_counts"] == {"unchanged": 3, "changed": 1}
+        assert sensitivity["source_state_counts_by_kind"] == {"junction_membership": {"unchanged": 3}, "lane_connection": {"changed": 1}}
         assert sensitivity["unscored_changed_selector_count"] == 1
         assert sum(row["source_coordinate_sensitivity"] == "changed" for row in measured["cases"]) == 1
     else:

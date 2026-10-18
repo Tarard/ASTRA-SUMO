@@ -89,3 +89,20 @@ The comparison also checks the alternate network's retained bytes and the declar
 Deleting that network leaves primary measurements available and marks sensitivity unavailable.
 Nine focused evidence checks pass, overlapping the earlier run.
 Fresh self and baseline comparisons retain the same 9,005 scored records and the separately retained unscored change.
+
+## Record-kind and failure-scope follow-up
+
+The report now separates source-state counts by record kind:
+
+| Kind | Unchanged | Changed |
+|---|---:|---:|
+| Junction membership | 2,794 | 0 |
+| Direct lane connection | 8,174 | 1 |
+
+Both commands disable joining. Unchanged memberships mainly check retained identities and do not test joining sensitivity.
+The connection result is unchanged only under this normalization toggle. It does not establish stability under other perturbations.
+
+The diagnostic now retains unexpected tracing or label-format exceptions as unavailable observations.
+Empty malformed dictionaries and lists are included in the failure regressions. They are not silently skipped.
+Primary label measurements remain separate. Native global and normalized regressions explicitly require a completed diagnostic.
+All 45 focused corpus and navigation checks pass. A fresh MoST run and two comparisons retain the measured counts above.

@@ -338,26 +338,30 @@ def _case_selector(case):
 def _coordinate_frame_control(*, command, source_file, reference_file, label_file, dataset, folder, sumo_binary):
     """Report generator state changes separately from exact registration changes."""
     alternate = folder / "alternate-coordinate-import.net.xml"
-    variant_command = list(command)
-    index = variant_command.index("--offset.disable-normalization") + 1
-    variant_command[index] = "false" if command[index] == "true" else "true"
-    variant_command[-1] = str(alternate)
-    built = run_command(variant_command, cwd=folder, timeout_seconds=240).to_dict()
-    report = {"status": "unavailable", "primary_command": command, "alternate_command": variant_command,
-        "result": built, "primary_network": _identity(source_file), "reference_network": _identity(reference_file),
+    report = {"status": "unavailable", "primary_command": command,
+        "primary_network": _identity(source_file), "reference_network": _identity(reference_file),
         "primary_labels": _identity(label_file), "human_cleaning_evaluation": False,
+        "membership_control_scope": "Node joining is disabled in both commands. Unchanged membership does not test joining sensitivity.",
         "claim_boundary": "Same input and recipe with normalization toggled. ID-only tracing covers node membership and direct connection presence in these controlled imports only. Registration loss is not a changed generated value. Geometry, driving equivalence and field validity are not verified."}
     try:
+        variant_command = list(command)
+        index = variant_command.index("--offset.disable-normalization") + 1
+        variant_command[index] = "false" if command[index] == "true" else "true"
+        variant_command[-1] = str(alternate)
+        report["alternate_command"] = variant_command
+        built = run_command(variant_command, cwd=folder, timeout_seconds=240).to_dict()
+        report["result"] = built
         if built["status"] == "pass" and alternate.is_file():
             source, variant, reference = [ET.parse(path).getroot() for path in (source_file, alternate, reference_file)]
-            primary = {_case_selector(row): row for line in label_file.read_text(encoding="utf-8").splitlines()
-                       if (row := json.loads(line))}
+            primary = {_case_selector(row): row for row in
+                       (json.loads(line) for line in label_file.read_text(encoding="utf-8").splitlines())}
             binding = [file_sha256(reference_file), file_sha256(alternate)]
             other = {_case_selector(row): row for row in chain(_pair_labels(variant, reference, dataset, binding),
                                                              _connection_labels(variant, reference, dataset, binding))}
             cases = [primary.get(key, other.get(key)) for key in sorted(primary.keys() | other.keys())]
             before = {_case_selector(row): value for row, value in _controlled_predictions(source, source, cases)}
             counts, registration_counts, rows = Counter(), Counter(), []
+            kind_counts = defaultdict(Counter)
             sensitive_known = 0
             def expected(row):
                 return (row.get("expected_present") if row["kind"] == "lane_connection" else row.get("expected_join")) if row else None
@@ -369,6 +373,7 @@ def _coordinate_frame_control(*, command, source_file, reference_file, label_fil
                                 "alternate_only" if b is not None else "unresolved")
                 state = "unresolved" if before[key] is None or value is None else "unchanged" if before[key] == value else "changed"
                 counts[state] += 1
+                kind_counts[key[0]][state] += 1
                 registration_counts[registration] += 1
                 sensitive_known += state == "changed" and a is not None
                 rows.append({"primary_case_id": old["case_id"] if old else None, "kind": key[0], "selector": list(key[1]),
@@ -386,11 +391,13 @@ def _coordinate_frame_control(*, command, source_file, reference_file, label_fil
             report.update(status="measured" if load["status"] == "pass" else "unavailable", alternate_network=_identity(alternate),
                 label_provenance=_identity(provenance), primary_case_count=len(primary), compared_selector_count=len(rows),
                 source_state_counts=dict(counts), registration_counts=dict(registration_counts),
+                source_state_counts_by_kind={kind: dict(values) for kind, values in kind_counts.items()},
                 sensitive_known_reference_count=sensitive_known, sumo_load=load,
                 raw_connection_identity_differences={"primary_only": [list(row) for row in sorted(raw_connections[0] - raw_connections[1])],
                     "alternate_only": [list(row) for row in sorted(raw_connections[1] - raw_connections[0])],
                     "claim_boundary": "Exact saved connection IDs, including internal and pedestrian objects. Generated names may change; these are not independent field defects."})
-    except (OSError, ValueError, ET.ParseError) as error:
+    except Exception as error:
+        # Optional experiment errors must not suppress the primary label measurements.
         report.update(status="unavailable", error=f"{type(error).__name__}: {error}")
     output = folder / "coordinate-frame-control.json"
     write_json_atomic(output, report, sort_keys=True)
@@ -417,7 +424,12 @@ def _source_sensitivity(dataset, cases):
         if (set(states) != {case["case_id"] for case in cases} or len(states) != sum(row["primary_case_id"] is not None for row in rows)
                 or any(value not in {"changed", "unchanged", "unresolved"} for value in states.values())):
             raise ValueError("Coordinate-frame evidence has an invalid case inventory or state.")
+        kind_counts = defaultdict(Counter)
+        for case in cases:
+            kind_counts[case["kind"]][states[case["case_id"]]] += 1
         return {"status": "measured", "label_provenance": record, "source_state_counts": dict(Counter(states.values())),
+            "source_state_counts_by_kind": {kind: dict(values) for kind, values in kind_counts.items()},
+            "membership_control_scope": "Node joining is disabled in both commands. Unchanged membership does not test joining sensitivity.",
             "unscored_changed_selector_count": sum(row["primary_case_id"] is None and row["source_state_relation"] == "changed" for row in rows),
             "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."}, states
     except (OSError, KeyError, TypeError, ValueError) as error:
