@@ -34,7 +34,7 @@ def _request(tmp_path: Path) -> Path:
     })
 
 
-def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass", link_status="pass"):
+def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass", link_status="pass", new_warning_count=0):
     observed = {}
 
     def build(**kwargs):
@@ -65,7 +65,8 @@ def _fake_stages(monkeypatch, *, topology_complete=True, geometry_status="pass",
 
     def links(**kwargs):
         observed["links"] = kwargs
-        record = {"status": link_status}
+        record = {"status": link_status, "load_warning_comparison": {
+            "status": "measured", "candidate_only": {"count": new_warning_count}}}
         return {**record, "report_file": str(_write(kwargs["output_dir"] / "link-preservation.json", record))}
 
     def combine(**kwargs):
@@ -164,6 +165,15 @@ def test_missing_runtime_observations_keep_other_rebuild_measurements(tmp_path, 
     assert result["loaded_link_preservation"]["status"] == "unavailable"
     assert result["stages"]["corridor_routes"]["status"] == "pass"
     assert result["inputs_unchanged"]
+
+
+def test_workflow_surfaces_load_warnings_without_changing_the_construction_decision(tmp_path, monkeypatch):
+    _fake_stages(monkeypatch, new_warning_count=2)
+    result = workflow.build_hamburg_topology_workflow(request_file=_request(tmp_path), output_dir=tmp_path / "run")
+    assert result["status"] == "pass"
+    assert result["load_warning_comparison"]["candidate_only"]["count"] == 2
+    assert "New warning line count: 2" in result["warnings"][0]
+    assert json.loads(Path(result["report_file"]).read_text())["warnings"] == result["warnings"]
 
 
 def test_reviewed_road_geometry_reaches_normal_hamburg_construction(tmp_path, monkeypatch):

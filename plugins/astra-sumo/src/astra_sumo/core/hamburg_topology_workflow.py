@@ -22,6 +22,7 @@ from .hamburg_aerial_road_edges import build_hamburg_road_edge_evidence
 from .hamburg_corridor_candidate import bind_hamburg_corridor_tls_clusters
 from .hamburg_topology_audit import audit_hamburg_topology_candidate
 from .network_length_audit import audit_network_lengths
+from .network_link_semantics import load_warning_messages
 from .hamburg_topology_route_checks import run_hamburg_topology_route_checks
 from .movement_routeability import run_candidate_movement_probes
 from .osm_network import audit_tls, build_osm_network, parse_bbox
@@ -553,6 +554,8 @@ def build_hamburg_topology_workflow(*, request_file: Path | str, output_dir: Pat
             links = stage("loaded_link_preservation", lambda: candidate["loaded_link_preservation"],
                 Path(candidate["loaded_link_preservation"]["report_file"]))
         report["loaded_link_preservation"] = links
+        report["load_warning_comparison"] = links.get("load_warning_comparison")
+        report["warnings"] = load_warning_messages(links)
         length_report = audit_network_lengths(net_files=sorted(destination.rglob("*.net.xml")),
             output_file=destination / "construction-stage-lane-lengths.json")
         report["lane_length_measurements"] = {"status": "measured", "artifact": _identity(length_report["report_file"])}

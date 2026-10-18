@@ -153,6 +153,11 @@ def _compare_load_warnings(observed):
     return result
 
 
+def load_warning_messages(report):
+    count = report.get("load_warning_comparison", {}).get("candidate_only", {}).get("count", 0)
+    return [f"Network loading added warnings. New warning line count: {count}. Inspect load_warning_comparison for the exact text."] if count else []
+
+
 def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate_net_file,
                                   mutable_junction_ids, output_dir, sumo_binary="sumo",
                                   timeout_seconds=120, command_runner=run_command, boundary_edge_map=None):
@@ -192,7 +197,8 @@ def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate
             raise ValueError("The frozen input inventory has an invalid structure.")
         logs = observed.get("load_logs", {})
         if not isinstance(logs, dict) or any(not isinstance(row, dict) or not isinstance(row.get("warnings"), list)
-                or any(not isinstance(line, str) for line in row["warnings"]) for row in logs.values()):
+                or not isinstance(row.get("errors", []), list)
+                or any(not isinstance(line, str) for line in row["warnings"] + row.get("errors", [])) for row in logs.values()):
             raise ValueError("The load warning inventory has an invalid structure.")
     except (OSError, ValueError) as error:
         observed = {"errors": {"worker_output": f"{type(error).__name__}: {error}"}}
@@ -263,9 +269,10 @@ def _main():
         except Exception as error:
             report["errors"][name] = f"{type(error).__name__}: {error}"
         if frozen is not None and (log := frozen.with_suffix(".load.log")).is_file():
+            lines = [line.strip() for line in log.read_text(encoding="utf-8").splitlines()]
             report["load_logs"][name] = {"path": str(log), "sha256": file_sha256(log),
-                "warnings": [line.strip() for line in log.read_text(encoding="utf-8").splitlines()
-                             if line.strip().startswith("Warning:")]}
+                "warnings": [line for line in lines if line.startswith("Warning:")],
+                "errors": [line for line in lines if line.startswith("Error:")]}
         write_json_atomic(args.observations, report)
 
 

@@ -798,7 +798,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])
     load = run_sumo_load_audit(net_file=candidate_file, output_dir=output_dir / "scoped-load",
         sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds, command_runner=command_runner)
-    from .network_link_semantics import compare_loaded_link_semantics
+    from .network_link_semantics import compare_loaded_link_semantics, load_warning_messages
     native_reference = source
     if kind in _JOIN_EDITS:
         native_reference = Path(rebuild.get("local_conversion", {}).get("native_output", rebuild["compiled_network"])["path"])
@@ -867,9 +867,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
     if link_preservation["status"] != "pass":
         warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
-    new_warnings = link_preservation.get("load_warning_comparison", {}).get("candidate_only", {}).get("count", 0)
-    if new_warnings:
-        warnings.append(f"Network loading added {new_warnings} warning lines. Inspect load_warning_comparison for the exact text.")
+    warnings.extend(load_warning_messages(link_preservation))
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,

@@ -286,5 +286,60 @@
       "Driving warnings and field validity are not measured.",
       "The retained candidate network is unchanged."
     ]
+  },
+  "load_error_and_warning_surface_follow_up": {
+    "reviewed_revision": "6b0bc0f",
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+        "sha256": "1b64a14053b7014c9294212071ebbbe3443a67fee648f52171ccc7925c1ec06a"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+        "sha256": "14fbe9fb52e47b16f6abd00f14a617ec7076247aa23eb88665fccd7e84f5336c"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py",
+        "sha256": "92c4069423b5e3be88635e360806197ec6482da73d01974b174c280cc6f77223"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_topology_workflow.py",
+        "sha256": "c0cbc7d2b14463a25b3a5eb1db67df5a0576cce5c037ac40a78736db5d2f00cf"
+      }
+    ],
+    "verification_runs": [
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-errors-v13.log",
+          "sha256": "64c0841eae06e7c08a6853b3a0bcfd7620271be2ed12d544f721b2cc504d7626"
+        },
+        "passed": 130
+      },
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-error-messages-v15.log",
+          "sha256": "2edbe7e05184f0daff0de1d6fee65306b10a5f6bc715081a23657dcc3285b131"
+        },
+        "passed": 3
+      }
+    ],
+    "native_failed_load": {
+      "status": "unavailable",
+      "warning_status": "unavailable",
+      "errors": [
+        "Error: An unknown lane (':does_not_exist_0') should be set as a via-lane for lane '193847534#1_0'."
+      ],
+      "report": {
+        "path": "outputs/runtime_workflow_20261018_v1/load-error-v16-native/observation/link-preservation.json",
+        "sha256": "374001895f26bd69867e309b8b90075ce0e348c35fdc7a57fe6a99d1e0cba3c6"
+      }
+    },
+    "behavior": [
+      "Structured load logs retain Error lines as well as Warning lines.",
+      "An incomplete warning observation has no zero-warning result.",
+      "Typed edits, the candidate manifest and the complete workflow use the same diagnostic warning summary.",
+      "Warning differences do not change construction decisions."
+    ],
+    "remaining_limit": "Warning matching uses exact text. Changed identifiers can appear as candidate-only lines. This is not proof of a new defect."
   }
 }

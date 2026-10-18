@@ -15,6 +15,7 @@ from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_aerial_approach import build_hamburg_aerial_approach_candidate
 from .routeability_audit import run_routeability_audit
+from .network_link_semantics import load_warning_messages
 from .topology_signal_rebuild import rebuild_topology_test_signals
 from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
 from .hamburg_junctions.boundaries import (
@@ -407,6 +408,8 @@ def build_hamburg_aerial_combined_candidate(
         "official_connection_audit": topology,
         "connection_mode": {"status": connection_audit["status"], "structural_failure_count": connection_audit["structural_failure_count"], "report": str(connection_report)},
         "loaded_link_preservation": link_preservation,
+        "load_warning_comparison": link_preservation.get("load_warning_comparison"),
+        "warnings": load_warning_messages(link_preservation),
         "runtime_fallback_join_ids": sorted(skipped_join_ids),
         "attempts": attempts,
         "netconvert": {

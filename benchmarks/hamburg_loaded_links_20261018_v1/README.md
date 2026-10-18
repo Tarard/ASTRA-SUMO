@@ -49,6 +49,9 @@ The current Hamburg and MoST repeats have zero load warnings and zero loaded-lin
 The warning regression adds an unused signal-state character while preserving loaded links.
 The added warning is measured separately. It does not create another acceptance condition.
 Failed loads retain their raw logs. An incomplete observation cannot claim that no warnings occurred.
+The follow-up also lists native error lines in the structured log records.
+An actual missing-via-lane mutation retains SUMO's unknown-lane error and an unavailable comparison.
+The Hamburg candidate and complete workflow surface new warning counts without changing the construction decision.
 The [verification record](evidence.json) retains the implementation hashes and raw report identities.
 
 ## Reproduce

@@ -7,7 +7,7 @@ import pytest
 
 from astra_sumo.core.command_runner import CommandResult
 from astra_sumo.core.network_link_semantics import (
-    _boundary_lane_mapping, _compare, _compare_load_warnings, compare_loaded_link_semantics,
+    _boundary_lane_mapping, _compare, _compare_load_warnings, compare_loaded_link_semantics, load_warning_messages,
 )
 
 
@@ -27,6 +27,8 @@ def test_load_warning_counts_retain_duplicates_and_separate_native_subnetworks()
     assert incomplete["status"] == "unavailable" and incomplete["missing_observations"] == ["candidate"]
     assert "candidate_only" not in incomplete
     assert _compare_load_warnings({})["status"] == "unavailable"
+    assert load_warning_messages({}) == []
+    assert "New warning line count: 1" in load_warning_messages({"load_warning_comparison": result})[0]
 
 
 def test_each_junction_uses_its_declared_reference():
@@ -192,6 +194,7 @@ def test_worker_retains_a_failed_load_log_without_claiming_no_warnings(tmp_path,
     assert observed["snapshots"] == {} and "load failed" in observed["errors"]["source"]
     log = observed["load_logs"]["source"]
     assert log["warnings"] == ["Warning: before failure"]
+    assert log["errors"] == ["Error: invalid network"]
     assert sha256(Path(log["path"]).read_bytes()).hexdigest() == log["sha256"]
     assert "Error: invalid network" in Path(log["path"]).read_text()
     assert _compare_load_warnings(observed)["status"] == "unavailable"
