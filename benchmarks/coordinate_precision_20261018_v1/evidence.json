@@ -499,5 +499,181 @@
       }
     },
     "scope": "Exact numeric canonicalization for shape, x, y and z. Actual numeric or custom-shape changes remain reported. Protected reload restores the source; raw reimport is not a lossless serializer."
+  },
+  "legacy_precision_follow_up": {
+    "implementation_commits": [
+      "c20ff18",
+      "3c5c32d"
+    ],
+    "migrated_legacy_reimport_export_commands": 34,
+    "migrated_supplied_geometry_plain_compiles": 10,
+    "native_control": {
+      "coordinate_errors_m": {
+        "2": 0.0030000000000001137,
+        "6": 0.0
+      },
+      "evidence": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\plain-control\\evidence.json",
+        "sha256": "a30e66f92797867edc3b9dd8d77e18847244bc795848e6a2fb5282e5d7e8ed4f"
+      },
+      "runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\plain-control.py",
+        "sha256": "0779ec64024fa7684fd347111a33ec63a711271776f7a5e0c466128f997c0d36"
+      }
+    },
+    "native_product_export_and_normalization": {
+      "source_unchanged": true,
+      "evidence": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\product-precision-control-v2.json",
+        "sha256": "0dc78e8bcd0382d11610ee2a845c54a6d8c433492ab8cadfc2dc072f3a53f99e"
+      },
+      "earlier_runner_failure": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\product-control-v1-failure.json",
+        "sha256": "fe809df5dc517ab9fa8ca35976d2cce03696f2741de1ca802457842706eaa28a"
+      }
+    },
+    "retained_first_full_suite": {
+      "commit": "c20ff18",
+      "passed": 3375,
+      "failed": 2,
+      "skipped": 24,
+      "log": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\full-suite.log",
+        "sha256": "6bede12e156d7c2589f38a914233dab4bd50b563791a1de33088d87422b256e9"
+      },
+      "cause": "Two test runners used fixed argument positions. Both now resolve named options and pass direct replay."
+    },
+    "focused_precision_pytest": {
+      "passed": 14,
+      "deselected": 96,
+      "log": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\focused-v2.log",
+        "sha256": "97e6f9f33c814901e38979c71fec79eaf1fae4ede393e9b6f38e88d86e371be1"
+      }
+    },
+    "direct_numeric_and_runner_checks": {
+      "passed": 14,
+      "includes_replay_of_both_failed_tests": true,
+      "is_pytest_session": false,
+      "runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\check-numerics-and-mocks.py",
+        "sha256": "263a0aca040f95ec722c0e9e3a13eb73991eeda57f004695485f568501f4b5ae"
+      },
+      "results": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\direct-checks.json",
+        "sha256": "790b5b730743dcfd65aa1d413d9c012c6d635094d44984b77389ea0ec332ae97"
+      }
+    },
+    "hamburg_rebuild": {
+      "summary": {
+        "status": "review_required",
+        "topology_complete": true,
+        "first_failed_stage": null,
+        "first_incomplete_stage": "construction_coverage",
+        "checks": {
+          "official_connectivity": "pass",
+          "outside_geometry": "pass",
+          "road_geometry": "not_applicable",
+          "construction_coverage": "review_required",
+          "movement_probes": "pass",
+          "corridor_routes": "pass",
+          "construction_audit": "review_required"
+        },
+        "inputs_unchanged": true,
+        "generated_inputs_unchanged": true,
+        "candidate_unchanged": true,
+        "counts": {
+          "official_vehicle_movements": 16,
+          "physical_part_count": 2,
+          "joined_part_count": 2,
+          "materialized_movement_count": 16,
+          "unmaterialized_official_movement_count": 0,
+          "runtime_fallback_part_count": 0,
+          "source_surface_finding_count": 51,
+          "candidate_surface_finding_count": 45
+        },
+        "network_handoff": {
+          "network": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-rebuild\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "0af85c0e49ca36e8f346b1f8891bcee19ec6b130a6352aa60143b1b65e9c887b"
+          },
+          "construction_decision": "review_required",
+          "construction_manifest": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-rebuild\\workflow.manifest.json"
+        },
+        "loaded_links": {
+          "status": "pass",
+          "compared_junction_counts": {
+            "native": 3,
+            "source": 125
+          },
+          "differences": []
+        },
+        "workflow_elapsed_seconds": 264.433018,
+        "recovery": {
+          "reason": "Local summary extraction used str where file_sha256 requires Path. Native workflow completed before the error.",
+          "retained_failure_log": "hamburg-rebuild.log",
+          "completed_workflow": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-rebuild\\workflow.manifest.json",
+            "sha256": "9b4637baf743f1c2cc380e29887273ba56473a031bcb2aa2c3d09e8eb0133ad9"
+          },
+          "implementation_unchanged": true
+        }
+      },
+      "summary_artifact": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-summary.json",
+        "sha256": "8b824cee960c6da86e469e40e189cb5eda88df3e53f8573124641c5be8fbcc86"
+      },
+      "code_identity": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-code.json",
+        "sha256": "1ecc16e03b5ee8ef5ce769e7944b989c3c17702db68a63457c12b6ac6a4917a9"
+      },
+      "runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\rebuild-hamburg.py",
+        "sha256": "f2e62a0a5bf983ab78b3ae0f9a31717a53bf088302e31db0e110b4d269f26d63"
+      },
+      "summary_recovery_runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\recover-hamburg-summary.py",
+        "sha256": "00789219135865ba45c20b89365ba4d0535b63ec8f9e316c6b903e50935401a0"
+      }
+    },
+    "independent_review": {
+      "commit": "3c5c32d",
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\claude-3c5c32d-review.txt",
+        "sha256": "4b1a90274ed3f67ac913fa94e6296dc8d8b214711005e67818144d3e471256dd"
+      },
+      "result": "No correctness problem found. Source-matched reload tolerances and initial product OSM precision remain follow-up questions."
+    },
+    "limits": [
+      "Original OSM import recipes, frozen generation policies and deliberate native-default probes retain their existing settings.",
+      "This current Hamburg input does not exercise the two historical source-matched road corrections.",
+      "The old 0.03 m length and 0.02 m shape reload bounds remain unchanged; their accepted source case still needs remeasurement.",
+      "Geometry precision does not establish field accuracy, audit precision or traffic improvement."
+    ],
+    "complete_windows_ci": {
+      "head_sha": "3c5c32ddb7ecba8183a863a02a4b3b91a3119fbb",
+      "event": "pull_request",
+      "conclusion": "success",
+      "tests": 3414,
+      "passed": 3390,
+      "failed_or_errors": 0,
+      "skipped": 24,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39133683184",
+      "native_verification": "Locked SUMO 1.27.1 verified before the full suite.",
+      "evidence": [
+        {
+          "path": "outputs\\legacy_precision_20261018_v1\\ci-3c5c32d.log",
+          "sha256": "dbcb45ab3e9909746893d46e6222b601f851897b98df6fd93b7731fe7f0de85f"
+        },
+        {
+          "path": "outputs\\legacy_precision_20261018_v1\\ci-3c5c32d-status.json",
+          "sha256": "4460c969b8b4520f24e0c400154378e0fb3ae12955c0dd46ff0aad1ede185939"
+        },
+        {
+          "path": "outputs\\legacy_precision_20261018_v1\\ci-3c5c32d\\test-results.xml",
+          "sha256": "5033550a3c78edaa65873842413a969279389d8bd257092091b76591e5511a51"
+        }
+      ]
+    }
   }
 }

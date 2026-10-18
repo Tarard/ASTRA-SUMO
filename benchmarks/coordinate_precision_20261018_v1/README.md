@@ -29,8 +29,10 @@ The regression checks the declared default for this input without requiring the 
 The shared scoped converter and typed geometry commands now supply precision 6 when the caller supplies no precision.
 Explicit precision arguments remain unchanged.
 Local extraction and full-input fallback use the same rule. Boundary round-trip verification uses it too.
-The topology reload audit uses that default. Other legacy re-import paths still require migration and verification.
+The topology reload audit uses that default. The legacy provided-network re-imports and plain exports use it too.
+Ten supplied-geometry plain compiles, including the Hamburg official signal paths and teacher-guided repair paths, now use the same default.
 Public-source recipe comparisons retain their declared or native-default precision. Their earlier controls remain unchanged.
+Deliberate native-default probes, frozen corridor generation policies and synthetic reference generators retain their recorded settings.
 Declared contour restoration keeps its existing 12-place representation. Native construction precision and restored output representation are separate settings.
 
 Native numeric conversion can also perturb inherited speeds at about one part in a billion.
@@ -97,6 +99,35 @@ The no-edit protected reload restores the source. Raw native output is not treat
 ## Reproduce
 
 Use the repository environment and put its SUMO binaries on `PATH`.
+### Legacy conversion follow-up
+
+Commits `c20ff18` and `3c5c32d` cover 34 legacy re-import/export commands and ten supplied-geometry plain compiles.
+The helper also supports plain-only exports, short output options and commands assembled in stages.
+Explicit precision values remain unchanged.
+
+A small native control declares a junction outline at coordinates `+/-3.003` m.
+Exporting at six places and recompiling at two places changes each coordinate by 0.003 m.
+Recompiling at six places retains those declared coordinates.
+The product export and normalization entry points retain them too, without changing the source file.
+These checks concern supplied numerical detail, without a field-accuracy or general stability claim.
+
+The road correction and official signal preservation checks now use the existing exact decimal comparison.
+Formatting `13.89` as `13.890000` no longer creates a false change.
+Real operating-value differences, permissions and distinct IDs remain different.
+Geometry fields excluded from the official operating-value hash still require their separate geometry audit.
+Historical hash records retain their original values. Hashes from different signature rules must not be compared directly.
+
+The portable checks are in [the local conversion tests](../../tests/test_local_network_conversion.py),
+[road preservation tests](../../tests/test_hamburg_road_geometry.py) and
+[official signal tests](../../tests/test_official_tls_rebuild.py).
+
+The complete [Windows suite for `3c5c32d`](https://github.com/Tarard/ASTRA-SUMO/actions/runs/39133683184)
+passes 3,390 checks with 24 asset-dependent skips.
+The retained first run on `c20ff18` has 3,375 passes and two failures from test runners using fixed argument positions.
+Those runners now resolve named options. The failed logs remain available.
+The fresh Hamburg build retains the preceding candidate hash, all 16 official movements and 128 compared junction-link relations.
+Its construction coverage and wider audit still require review.
+
 Run `python -m pytest tests/test_coordinate_precision_reference.py -q`.
 Use new output directories for complete reconstruction or import controls.
 The source configuration, runners, measurements and raw directories are recorded in the evidence file.
