@@ -4,7 +4,7 @@
   "native_version": "1.27.1",
   "fixture": {
     "path": "benchmarks/coordinate_precision_20261018_v1/fixture.json",
-    "sha256": "5b7660d45c9218fffdadb7a588649da5bdeeb9fa908eeda5db0cc22a272575bf"
+    "sha256": "6eb585f4ae67cc26b1852da60659491735b5030ea002c61ceefd9d1bf838fd05"
   },
   "runtime_code_identity": {
     "base_commit": "5486ce8ecbf14ab0f87adf42bed26f642b755e0f",
@@ -248,10 +248,11 @@
   ],
   "portable_fixture_verification": {
     "log": {
-      "path": "outputs/coordinate_geometry_20261018_v1/fixture-v15.log",
-      "sha256": "cb85b848b83f68f19119db5adfd7ca5bb322b05204a8189ea64d4cf7750d4edc"
+      "path": "outputs/coordinate_geometry_20261018_v1/fixture-lf-v16.log",
+      "sha256": "1a8c0b041c2198e058b94c5d5e2fd15178fd4f971619c42a155bc2ba1d7b9fda"
     },
     "passed": 8,
-    "includes_repository_navigation": true
+    "includes_repository_navigation": true,
+    "text_storage": "LF, matching repository attributes"
   }
 }
