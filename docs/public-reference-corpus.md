@@ -44,6 +44,20 @@ Different saved offsets do not by themselves prove incompatible world coordinate
 Native normalization can also change generated geometry or connections. Each new import remains a separate baseline.
 The [coordinate-frame repeat](../benchmarks/public_network_development_v2/coordinate-frame-20261018-v1.md) retains improved correspondence and the observed conversion changes.
 
+For verified prepared OSM inputs, the builder also repeats the unjoined import with normalization toggled.
+`coordinate-frame-control.json` retains both commands, the alternate network, and its load result.
+`coordinate-frame-labels.jsonl` separates exact reference registration changes from generated node-membership or direct-connection changes.
+The controlled comparison traces explicit node, road and lane identities. It does not relax candidate-to-reference registration.
+It retains selectors outside the primary label table and raw connection-ID differences, including internal and pedestrian objects.
+Generated object names can differ. Raw ID differences alone do not establish lost physical routes.
+
+`reference-check` adds `source_coordinate_sensitivity` to each scored or unknown case.
+The values are `unchanged`, `changed`, `unresolved`, or `not_measured`.
+These describe generated node membership or direct connection presence under this control. They do not describe geometry or field accuracy.
+The report retains conditional scores against the frozen primary labels and gives separate sensitivity counts.
+Missing, incomplete, or damaged sensitivity evidence remains unavailable. It does not erase the primary measurements or become an unchanged-value claim.
+The [dated sensitivity result](../benchmarks/public_network_development_v2/source-sensitivity-20261018-v1.md) records the complete MoST repeat.
+
 The [catalog](../benchmarks/public_network_development_v1/catalog.json) freezes
 four public models from three cities:
 

@@ -312,6 +312,116 @@ def _candidate_predictions(source, candidate, cases):
         yield case, prediction
 
 
+def _controlled_predictions(source, variant, cases):
+    """Trace IDs only inside the same-input, normalization-only native experiment."""
+    original_edges, original_lanes, _ = _connections(source)
+    edges, lanes, connections = _connections(variant)
+    owners = _membership(variant)
+    for case in cases:
+        if case["kind"] == "junction_membership":
+            parents = [owners.get(node, set()) for node in case["source_node_ids"]]
+            value = parents[0] == parents[1] if all(len(parent) == 1 for parent in parents) else None
+        else:
+            pair = tuple(case["connection"])
+            comparable = all(edge in original_edges and edge in edges and (edge, lane) in original_lanes
+                and original_lanes[(edge, lane)] == lanes.get((edge, lane))
+                and all(original_edges[edge].get(end) == edges[edge].get(end) for end in ("from", "to"))
+                for edge, lane in (pair[:2], pair[2:]))
+            value = pair in connections if comparable else None
+        yield case, value
+
+
+def _case_selector(case):
+    return case["kind"], tuple(case["connection"] if case["kind"] == "lane_connection" else case["source_node_ids"])
+
+
+def _coordinate_frame_control(*, command, source_file, reference_file, label_file, dataset, folder, sumo_binary):
+    """Report generator state changes separately from exact registration changes."""
+    alternate = folder / "alternate-coordinate-import.net.xml"
+    variant_command = list(command)
+    index = variant_command.index("--offset.disable-normalization") + 1
+    variant_command[index] = "false" if command[index] == "true" else "true"
+    variant_command[-1] = str(alternate)
+    built = run_command(variant_command, cwd=folder, timeout_seconds=240).to_dict()
+    report = {"status": "unavailable", "primary_command": command, "alternate_command": variant_command,
+        "result": built, "primary_network": _identity(source_file), "reference_network": _identity(reference_file),
+        "primary_labels": _identity(label_file), "human_cleaning_evaluation": False,
+        "claim_boundary": "Same input and recipe with normalization toggled. ID-only tracing covers node membership and direct connection presence in these controlled imports only. Registration loss is not a changed generated value. Geometry, driving equivalence and field validity are not verified."}
+    try:
+        if built["status"] == "pass" and alternate.is_file():
+            source, variant, reference = [ET.parse(path).getroot() for path in (source_file, alternate, reference_file)]
+            primary = {_case_selector(row): row for line in label_file.read_text(encoding="utf-8").splitlines()
+                       if (row := json.loads(line))}
+            binding = [file_sha256(reference_file), file_sha256(alternate)]
+            other = {_case_selector(row): row for row in chain(_pair_labels(variant, reference, dataset, binding),
+                                                             _connection_labels(variant, reference, dataset, binding))}
+            cases = [primary.get(key, other.get(key)) for key in sorted(primary.keys() | other.keys())]
+            before = {_case_selector(row): value for row, value in _controlled_predictions(source, source, cases)}
+            counts, registration_counts, rows = Counter(), Counter(), []
+            sensitive_known = 0
+            def expected(row):
+                return (row.get("expected_present") if row["kind"] == "lane_connection" else row.get("expected_join")) if row else None
+            for case, value in _controlled_predictions(source, variant, cases):
+                key = _case_selector(case)
+                old, new = primary.get(key), other.get(key)
+                a, b = expected(old), expected(new)
+                registration = ("shared" if a is not None and b is not None else "primary_only" if a is not None else
+                                "alternate_only" if b is not None else "unresolved")
+                state = "unresolved" if before[key] is None or value is None else "unchanged" if before[key] == value else "changed"
+                counts[state] += 1
+                registration_counts[registration] += 1
+                sensitive_known += state == "changed" and a is not None
+                rows.append({"primary_case_id": old["case_id"] if old else None, "kind": key[0], "selector": list(key[1]),
+                    "primary_present_in_table": old is not None, "alternate_present_in_table": new is not None,
+                    "primary_registered": a is not None, "alternate_registered": b is not None,
+                    "primary_expected": a, "alternate_expected": b, "registration_relation": registration,
+                    "primary_generated_value": before[key], "alternate_generated_value": value, "source_state_relation": state})
+            provenance = folder / "coordinate-frame-labels.jsonl"
+            with provenance.open("x", encoding="utf-8", newline="\n") as stream:
+                for row in rows:
+                    stream.write(json.dumps(row, sort_keys=True) + "\n")
+            load = run_sumo_load_audit(net_file=alternate, output_dir=folder / "coordinate-frame-load", sumo_binary=sumo_binary)
+            raw_connections = [{tuple(row.get(key) for key in ("from", "fromLane", "to", "toLane"))
+                                for row in root.findall("connection")} for root in (source, variant)]
+            report.update(status="measured" if load["status"] == "pass" else "unavailable", alternate_network=_identity(alternate),
+                label_provenance=_identity(provenance), primary_case_count=len(primary), compared_selector_count=len(rows),
+                source_state_counts=dict(counts), registration_counts=dict(registration_counts),
+                sensitive_known_reference_count=sensitive_known, sumo_load=load,
+                raw_connection_identity_differences={"primary_only": [list(row) for row in sorted(raw_connections[0] - raw_connections[1])],
+                    "alternate_only": [list(row) for row in sorted(raw_connections[1] - raw_connections[0])],
+                    "claim_boundary": "Exact saved connection IDs, including internal and pedestrian objects. Generated names may change; these are not independent field defects."})
+    except (OSError, ValueError, ET.ParseError) as error:
+        report.update(status="unavailable", error=f"{type(error).__name__}: {error}")
+    output = folder / "coordinate-frame-control.json"
+    write_json_atomic(output, report, sort_keys=True)
+    return {**report, "report": _identity(output)}
+
+
+def _source_sensitivity(dataset, cases):
+    labels = dataset["paired_labels"]
+    control = labels.get("coordinate_frame_control")
+    if control is None:
+        return {"status": "not_measured"}, {}
+    if not isinstance(control, dict) or control.get("status") != "measured":
+        return {"status": "unavailable", "reason": "The coordinate-frame control did not complete."}, {}
+    try:
+        record = control["label_provenance"]
+        raw = Path(record["path"]).read_bytes()
+        if (hashlib.sha256(raw).hexdigest() != record["sha256"] or control["primary_labels"]["sha256"] != labels["sha256"]
+                or control["primary_network"]["sha256"] != dataset["comparison_source"]["sha256"]):
+            raise ValueError("Coordinate-frame evidence does not match the primary source and labels.")
+        rows = [json.loads(line) for line in raw.splitlines()]
+        states = {row["primary_case_id"]: row["source_state_relation"] for row in rows if row["primary_case_id"] is not None}
+        if (set(states) != {case["case_id"] for case in cases} or len(states) != sum(row["primary_case_id"] is not None for row in rows)
+                or any(value not in {"changed", "unchanged", "unresolved"} for value in states.values())):
+            raise ValueError("Coordinate-frame evidence has an invalid case inventory or state.")
+        return {"status": "measured", "label_provenance": record, "source_state_counts": dict(Counter(states.values())),
+            "unscored_changed_selector_count": sum(row["primary_case_id"] is None and row["source_state_relation"] == "changed" for row in rows),
+            "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."}, states
+    except (OSError, KeyError, TypeError, ValueError) as error:
+        return {"status": "unavailable", "error": f"{type(error).__name__}: {error}"}, {}
+
+
 def _generator_control(*, files, osm, source, label_file, folder, netconvert_binary, sumo_binary):
     settings, configuration = _prepared_import_arguments(files, osm, unjoined=False)
     output = folder / "published-settings-control.net.xml"
@@ -476,6 +586,10 @@ def build_public_reference_corpus(*, catalog_file, cache_dir, output_dir, netcon
             row["paired_labels"] = {**_identity(label_file), "count": counts.get("total", 0), "counts": counts,
                                     "evidence_scope": row["comparison_source"]["kind"], "field_temporal_match": "unverified",
                                     "manual_edit_origin": "unestablished"}
+            if row["comparison_source"]["kind"] == "prepared_osm_import":
+                row["paired_labels"]["coordinate_frame_control"] = _coordinate_frame_control(command=command,
+                    source_file=raw, reference_file=net, label_file=label_file, dataset=dataset,
+                    folder=folder, sumo_binary=sumo_binary)
             if row.get("import_configuration") and row["comparison_source"]["kind"] == "prepared_osm_import":
                 row["paired_labels"].update(label_usage="generator_recipe_regression", human_cleaning_evaluation=False,
                     generator_control=_generator_control(files=files, osm=osm, source=comparison_root,
@@ -533,6 +647,7 @@ def compare_public_reference(*, dataset_file, request_file, output_file):
     counts, change_counts, cases = defaultdict(Counter), defaultdict(Counter), []
     labelled_connections = set()
     label_cases = [json.loads(text) for text in label_path.read_text(encoding="utf-8").splitlines()]
+    sensitivity, source_states = _source_sensitivity(dataset, label_cases)
     for case, predicted in _candidate_predictions(source_root, candidate_root, label_cases):
         if case["kind"] == "junction_membership":
             expected = case["expected_join"]
@@ -552,7 +667,8 @@ def compare_public_reference(*, dataset_file, request_file, output_file):
         if case["kind"] == "lane_connection":
             change_counts[case["change"]][outcome] += 1
         cases.append({"case_id": case["case_id"], "kind": case["kind"], "expected": expected,
-                      "predicted": predicted, "outcome": outcome, "reference_change": case.get("change")})
+                      "predicted": predicted, "outcome": outcome, "reference_change": case.get("change"),
+                      "source_coordinate_sensitivity": source_states.get(case["case_id"], "not_measured")})
     if len(cases) != labels["count"] or len({c["case_id"] for c in cases}) != len(cases):
         raise ValueError("Model label count or identity is inconsistent")
     totals = Counter(case["outcome"] for case in cases)
@@ -565,6 +681,7 @@ def compare_public_reference(*, dataset_file, request_file, output_file):
               "dataset_id": dataset["dataset_id"], "family_id": dataset["family_id"], "split": "development_only",
               "counts": {key: dict(value) for key, value in counts.items()}, "total_case_count": len(cases), "cases": cases,
               "connection_change_counts": {key: dict(value) for key, value in change_counts.items()},
+              "coordinate_frame_sensitivity": sensitivity,
               "known_reference_case_count": len(cases) - totals["unknown_reference"],
               "scored_case_count": len(cases) - totals["unknown_reference"] - totals["unresolved_candidate"],
               "additional_candidate_connections": [list(pair) for pair in additional_connections],

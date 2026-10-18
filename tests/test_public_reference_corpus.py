@@ -346,6 +346,115 @@ def test_connection_change_labels_require_registered_approaches_and_lane_ids():
     assert list(corpus._connection_labels(source, reference, dataset, "binding"))[0]["expected_present"] is None
 
 
+def _sensitivity_fixture(tmp_path, monkeypatch, *, fails=False, malformed=False):
+    source = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
+        <junction id="1" x="0" y="0"/><junction id="2" x="1" y="0"/><junction id="3" x="2" y="0"/>
+        <edge id="a" from="1" to="2"><lane id="a_0" index="0"/></edge>
+        <edge id="b" from="2" to="3"><lane id="b_0" index="0"/></edge>
+        <edge id="c" from="3" to="1"><lane id="c_0" index="0"/></edge>
+        <connection from="a" fromLane="0" to="b" toLane="0"/></net>''')
+    source_file, reference_file = tmp_path / "source.net.xml", tmp_path / "reference.net.xml"
+    for path in (source_file, reference_file):
+        ET.ElementTree(source).write(path, encoding="utf-8")
+    label_file = tmp_path / "labels.jsonl"
+    model = {"id": "toy", "family_id": "toy"}
+    rows = [*corpus._pair_labels(source, source, model, "binding"),
+            *corpus._connection_labels(source, source, model, "binding")]
+    corpus._jsonl(label_file, rows)
+    hashes = {path: file_sha256(path) for path in (source_file, reference_file, label_file)}
+    alternate = ET.fromstring(ET.tostring(source))
+    alternate.find("junction[@id='2']").set("x", "1.01")
+    alternate.remove(alternate.find("connection"))
+    ET.SubElement(alternate, "connection", **{"from": "b", "fromLane": "0", "to": "c", "toLane": "0"})
+    command = ["netconvert", "--osm-files", "same.osm", "--offset.disable-normalization", "false", "-o", str(source_file)]
+
+    def run(actual, **kwargs):
+        assert actual[:-1] == [*command[:4], "true", "-o"]
+        if not fails:
+            if malformed:
+                Path(actual[-1]).write_text("<net", encoding="utf-8")
+            else:
+                ET.ElementTree(alternate).write(actual[-1], encoding="utf-8")
+        return SimpleNamespace(to_dict=lambda: {"status": "timeout" if fails else "pass"})
+
+    monkeypatch.setattr(corpus, "run_command", run)
+    monkeypatch.setattr(corpus, "run_sumo_load_audit", _fake_load)
+    control = corpus._coordinate_frame_control(command=command, source_file=source_file, reference_file=reference_file,
+        label_file=label_file, dataset=model, folder=tmp_path, sumo_binary="sumo")
+    assert all(file_sha256(path) == digest for path, digest in hashes.items())
+    dataset = {"schema": "astra.public-reference-dataset/v1", "dataset_id": "toy", "family_id": "toy",
+        "reference_net": {"path": str(reference_file), "sha256": hashes[reference_file]},
+        "comparison_source": {"path": str(source_file), "sha256": hashes[source_file]},
+        "paired_labels": {"path": str(label_file), "sha256": hashes[label_file], "count": len(rows), "coordinate_frame_control": control}}
+    return control, dataset, rows
+
+
+def test_coordinate_control_separates_registration_loss_from_changed_values(tmp_path, monkeypatch):
+    control, _, cases = _sensitivity_fixture(tmp_path, monkeypatch)
+    assert control["status"] == "measured"
+    assert control["primary_case_count"] == len(cases) == 4
+    assert control["compared_selector_count"] == 5
+    assert control["source_state_counts"] == {"unchanged": 3, "changed": 2}
+    assert control["registration_counts"] == {"shared": 1, "primary_only": 3, "unresolved": 1}
+    assert control["sensitive_known_reference_count"] == 1
+    rows = [json.loads(line) for line in Path(control["label_provenance"]["path"]).read_text().splitlines()]
+    registration_only = [row for row in rows if row["kind"] == "junction_membership" and row["registration_relation"] == "primary_only"]
+    assert len(registration_only) == 2 and all(row["source_state_relation"] == "unchanged" for row in registration_only)
+    extra = next(row for row in rows if row["primary_case_id"] is None)
+    assert extra["source_state_relation"] == "changed" and not extra["primary_registered"]
+
+
+@pytest.mark.parametrize("fault", ["timeout", "malformed"])
+def test_failed_coordinate_control_retains_primary_labels_and_has_no_stability_claim(tmp_path, monkeypatch, fault):
+    control, dataset, cases = _sensitivity_fixture(tmp_path, monkeypatch, fails=fault == "timeout", malformed=fault == "malformed")
+    assert control["status"] == "unavailable"
+    assert "source_state_counts" not in control and "label_provenance" not in control
+    status, values = corpus._source_sensitivity(dataset, cases)
+    assert status["status"] == "unavailable" and values == {}
+
+
+def test_controlled_state_tracing_does_not_guess_renamed_lanes():
+    source = ET.fromstring('''<net><edge id="a" from="1" to="2"><lane id="a_0" index="0"/></edge>
+        <edge id="b" from="2" to="3"><lane id="b_0" index="0"/></edge>
+        <connection from="a" fromLane="0" to="b" toLane="0"/></net>''')
+    variant = ET.fromstring(ET.tostring(source))
+    variant.find("edge/lane").set("id", "renamed")
+    case = {"kind": "lane_connection", "connection": ["a", "0", "b", "0"]}
+    assert list(corpus._controlled_predictions(source, variant, [case]))[0][1] is None
+
+
+@pytest.mark.parametrize("fault", [None, "hash", "inventory", "wrong_labels"])
+def test_reference_comparison_retains_conditional_scores_and_reports_sensitivity(tmp_path, monkeypatch, fault):
+    control, dataset, _ = _sensitivity_fixture(tmp_path, monkeypatch)
+    provenance = Path(control["label_provenance"]["path"])
+    if fault == "hash":
+        provenance.write_text("corrupt", encoding="utf-8")
+    elif fault == "inventory":
+        provenance.write_text("\n".join(provenance.read_text().splitlines()[1:]), encoding="utf-8")
+        control["label_provenance"]["sha256"] = file_sha256(provenance)
+    elif fault == "wrong_labels":
+        control["primary_labels"]["sha256"] = "0" * 64
+    dataset_path = tmp_path / "dataset.json"
+    dataset_path.write_text(json.dumps(dataset), encoding="utf-8")
+    request = {"schema": "astra.public-reference-request/v1", "dataset_sha256": file_sha256(dataset_path),
+        "comparison_source_sha256": dataset["comparison_source"]["sha256"],
+        "candidate_net_file": dataset["reference_net"]["path"], "candidate_sha256": dataset["reference_net"]["sha256"]}
+    request_path = tmp_path / "request.json"
+    request_path.write_text(json.dumps(request), encoding="utf-8")
+    measured = corpus.compare_public_reference(dataset_file=dataset_path, request_file=request_path, output_file=tmp_path / "comparison.json")
+    assert measured["status"] == "pass" and measured["scored_case_count"] == 4
+    sensitivity = measured["coordinate_frame_sensitivity"]
+    if fault is None:
+        assert sensitivity["status"] == "measured"
+        assert sensitivity["source_state_counts"] == {"unchanged": 3, "changed": 1}
+        assert sensitivity["unscored_changed_selector_count"] == 1
+        assert sum(row["source_coordinate_sensitivity"] == "changed" for row in measured["cases"]) == 1
+    else:
+        assert sensitivity["status"] == "unavailable"
+        assert all(row["source_coordinate_sensitivity"] == "not_measured" for row in measured["cases"])
+    assert measured["field_precision"] is None
+
+
 def test_published_revision_pair_supports_a_model_regression_without_human_trial(tmp_path, monkeypatch):
     catalog_path, cache, catalog = _fixture(tmp_path)
     dataset = catalog["datasets"][0]

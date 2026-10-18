@@ -79,3 +79,6 @@ It retains 9,005 known model-relative records and 1,963 unknowns under the uncha
 The previous input, label table, and results remain intact.
 The repeat also records lost correspondence, one changed generated connection, and changed lane lengths.
 It provides no field-defect labels or automatic-cleaning precision estimate.
+
+The [source-sensitivity follow-up](source-sensitivity-20261018-v1.md) adds a controlled alternate import and per-selector records.
+It keeps source-value changes, correspondence changes, and unscored native differences separate.

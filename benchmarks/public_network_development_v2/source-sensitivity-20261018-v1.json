@@ -1,0 +1,220 @@
+{
+  "schema": "astra.public-reference-source-sensitivity-evidence/v1",
+  "date": "2026-10-18",
+  "implementation": {
+    "path": "plugins/astra-sumo/src/astra_sumo/core/public_reference_corpus.py",
+    "sha256": "8ceb1a1664eeac595b368f2801d0f857e9708766f6616fdb017701d21f7282b2"
+  },
+  "catalog": {
+    "path": "benchmarks/public_network_development_v2/catalog.json",
+    "sha256": "06a8bae89c97a66e240f32296773f8c5573a81cbe10fccf46c48b771f5d90ec0"
+  },
+  "dataset": {
+    "path": "outputs/source_sensitivity_20261018_v1/most-v1/MoST_2019_paired/dataset.json",
+    "sha256": "3e6a7b96144784da830d35bd7401c7084fe441e8489425a1a776f769acb91238"
+  },
+  "control": {
+    "path": "outputs/source_sensitivity_20261018_v1/most-v1/MoST_2019_paired/coordinate-frame-control.json",
+    "sha256": "c692261d3e729e7a981807ac6426512aa108c3b7e87918f4c7a6dfbd9c0973de"
+  },
+  "primary_command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO/.venv/Lib/site-packages/sumo/bin/netconvert.exe",
+    "--osm-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\most.raw.osm",
+    "--type-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvert.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvertUrbanDe.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvertPedestrians.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvertBicycle.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmBidiRailNetconvert.typ.xml",
+    "--tls.guess-signals=true",
+    "--tls.default-type=actuated",
+    "--tls.min-dur=5",
+    "--tls.max-dur=30",
+    "--ramps.guess=true",
+    "--roundabouts.guess=true",
+    "--junctions.limit-turn-speed=1",
+    "--crossings.guess=true",
+    "--walkingareas=false",
+    "--osm.elevation=true",
+    "--no-turnarounds.except-deadend=true",
+    "--no-internal-links=false",
+    "--ignore-errors=false",
+    "--ignore-errors.connections=false",
+    "--show-errors.connections-first-try=true",
+    "--default.crossing-width=2.0",
+    "--junctions.join",
+    "false",
+    "--tls.join",
+    "false",
+    "--geometry.remove",
+    "false",
+    "--offset.disable-normalization",
+    "false",
+    "--output-file",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\unjoined-import.net.xml"
+  ],
+  "alternate_command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO/.venv/Lib/site-packages/sumo/bin/netconvert.exe",
+    "--osm-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\most.raw.osm",
+    "--type-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvert.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvertUrbanDe.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvertPedestrians.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmNetconvertBicycle.typ.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\tools\\static\\typemap\\osmBidiRailNetconvert.typ.xml",
+    "--tls.guess-signals=true",
+    "--tls.default-type=actuated",
+    "--tls.min-dur=5",
+    "--tls.max-dur=30",
+    "--ramps.guess=true",
+    "--roundabouts.guess=true",
+    "--junctions.limit-turn-speed=1",
+    "--crossings.guess=true",
+    "--walkingareas=false",
+    "--osm.elevation=true",
+    "--no-turnarounds.except-deadend=true",
+    "--no-internal-links=false",
+    "--ignore-errors=false",
+    "--ignore-errors.connections=false",
+    "--show-errors.connections-first-try=true",
+    "--default.crossing-width=2.0",
+    "--junctions.join",
+    "false",
+    "--tls.join",
+    "false",
+    "--geometry.remove",
+    "false",
+    "--offset.disable-normalization",
+    "true",
+    "--output-file",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\alternate-coordinate-import.net.xml"
+  ],
+  "primary_labels": {
+    "path": "outputs/source_sensitivity_20261018_v1/most-v1/MoST_2019_paired/model-labels.jsonl",
+    "sha256": "15554798aca3bd1eec8928a69d45fcaedb78b6bddd2bedc55217723adb58b962"
+  },
+  "per_selector_records": {
+    "path": "outputs/source_sensitivity_20261018_v1/most-v1/MoST_2019_paired/coordinate-frame-labels.jsonl",
+    "sha256": "cd837ab40ba401c39ed3eb91f3680bdc433f56e099b031cdebed47a0ef3a0abd"
+  },
+  "measurement": {
+    "control": {
+      "status": "measured",
+      "primary_case_count": 10968,
+      "compared_selector_count": 10969,
+      "source_state_counts": {
+        "changed": 1,
+        "unchanged": 10968
+      },
+      "registration_counts": {
+        "alternate_only": 10,
+        "primary_only": 7456,
+        "shared": 1549,
+        "unresolved": 1954
+      },
+      "sensitive_known_reference_count": 0
+    },
+    "raw_connection_identity_counts": {
+      "primary_only": 34,
+      "alternate_only": 34
+    },
+    "changed_source_rows": [
+      {
+        "alternate_expected": null,
+        "alternate_generated_value": true,
+        "alternate_present_in_table": true,
+        "alternate_registered": false,
+        "kind": "lane_connection",
+        "primary_case_id": null,
+        "primary_expected": null,
+        "primary_generated_value": false,
+        "primary_present_in_table": false,
+        "primary_registered": false,
+        "registration_relation": "unresolved",
+        "selector": [
+          "152526",
+          "2",
+          "152527",
+          "2"
+        ],
+        "source_state_relation": "changed"
+      }
+    ],
+    "comparisons": {
+      "self": {
+        "report": {
+          "path": "outputs/source_sensitivity_20261018_v1/self-comparison-v1.json",
+          "sha256": "478cef62ef76ecf69d220d2cde5a8905a8c18a65c6e0e10eebb95bd3875246aa"
+        },
+        "status": "review_required",
+        "known_reference_case_count": 9005,
+        "scored_case_count": 9005,
+        "coordinate_frame_sensitivity": {
+          "status": "measured",
+          "label_provenance": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\coordinate-frame-labels.jsonl",
+            "sha256": "cd837ab40ba401c39ed3eb91f3680bdc433f56e099b031cdebed47a0ef3a0abd"
+          },
+          "source_state_counts": {
+            "unchanged": 10968
+          },
+          "unscored_changed_selector_count": 1,
+          "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."
+        },
+        "counts": {
+          "junction_membership": {
+            "true_negative": 2475,
+            "unknown_reference": 261,
+            "true_positive": 58
+          },
+          "lane_connection": {
+            "unknown_reference": 1702,
+            "true_positive": 6462,
+            "true_negative": 10
+          }
+        },
+        "field_precision": null
+      },
+      "baseline": {
+        "report": {
+          "path": "outputs/source_sensitivity_20261018_v1/baseline-comparison-v1.json",
+          "sha256": "3b07d6476edd72932d6d707a015ca4fafa02b35935675eb17a6985109fbcfa2c"
+        },
+        "status": "review_required",
+        "known_reference_case_count": 9005,
+        "scored_case_count": 9005,
+        "coordinate_frame_sensitivity": {
+          "status": "measured",
+          "label_provenance": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\coordinate-frame-labels.jsonl",
+            "sha256": "cd837ab40ba401c39ed3eb91f3680bdc433f56e099b031cdebed47a0ef3a0abd"
+          },
+          "source_state_counts": {
+            "unchanged": 10968
+          },
+          "unscored_changed_selector_count": 1,
+          "claim_boundary": "Node membership and direct connection presence under a normalization-only control. Registration-only changes do not imply changed source values. Geometry, field accuracy and driving equivalence are not verified."
+        },
+        "counts": {
+          "junction_membership": {
+            "true_negative": 2475,
+            "unknown_reference": 261,
+            "false_negative": 58
+          },
+          "lane_connection": {
+            "unknown_reference": 1702,
+            "true_positive": 6171,
+            "false_negative": 291,
+            "false_positive": 10
+          }
+        },
+        "field_precision": null
+      }
+    }
+  },
+  "verification": {
+    "path": "outputs/source_sensitivity_20261018_v1/corpus-v2.log",
+    "sha256": "13bf09189609bb76322a8142d9f6c66a800fb88e9ad05dadc15bf89968c645d3",
+    "passed": 42
+  },
+  "measurement_runner": {
+    "path": "outputs/source_sensitivity_20261018_v1/measure-sensitivity-v1.py",
+    "sha256": "81aba27cb6301dec0ead3e8458d1ecb3f431e9d1b95298a0bd3e3ccad951038d"
+  },
+  "field_precision": null,
+  "human_cleaning_evaluation": false
+}
