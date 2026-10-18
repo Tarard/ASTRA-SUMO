@@ -743,7 +743,7 @@ def run_teacher_guided_repair_queue(
                             continue
                         replay_type_value = str(replay_type_report.get("type_file", ""))
                         replay_type_file = Path(replay_type_value) if replay_type_value else None
-                    seed_command = [
+                    seed_command = with_geometry_precision([
                         netconvert_binary,
                         "--node-files",
                         _command_path(replay_node_file, output_dir / safe_junction_id),
@@ -756,7 +756,7 @@ def run_teacher_guided_repair_queue(
                         "--walkingareas",
                         "true",
                         "--tls.ignore-internal-junction-jam",
-                    ]
+                    ])
                     if replay_type_file is not None:
                         seed_command[5:5] = [
                             "--type-files",

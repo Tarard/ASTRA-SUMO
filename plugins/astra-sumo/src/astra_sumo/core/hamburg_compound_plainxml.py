@@ -20,6 +20,7 @@ from .osm_workflow import export_plain_net_for_teacher_guided_repair
 
 
 from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
 
 _SITE = load_site_parameters('hamburg_compound_plainxml')
 
@@ -194,7 +195,7 @@ def materialize_hamburg_2394_compound_geometry_first_pass(
         "official_tls_restoration": "not_run",
     }
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--node-files",
         str(staged_nodes),
@@ -204,7 +205,7 @@ def materialize_hamburg_2394_compound_geometry_first_pass(
         str(staged_connections),
         "--tllogic-files",
         str(staged_tllogic),
-    ]
+    ])
     if raw_types is not None:
         command.extend(["--type-files", str(staged_types)])
     command.extend(

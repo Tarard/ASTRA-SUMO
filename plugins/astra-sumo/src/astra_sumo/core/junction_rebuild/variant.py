@@ -177,7 +177,7 @@ def build_teacher_guided_junction_variant(
         teacher_internal_scope_id=teacher_junction_id if replay_target_internal_subgraph else None,
     )
 
-    netconvert_command = [
+    netconvert_command = with_geometry_precision([
         netconvert_binary,
         "--node-files",
         str(patched_node_file),
@@ -190,7 +190,7 @@ def build_teacher_guided_junction_variant(
         "--walkingareas",
         "true",
         "--tls.ignore-internal-junction-jam",
-    ]
+    ])
     type_file = Path(str(type_patch_report.get("type_file", ""))) if type_patch_report.get("type_file") else None
     if type_file is not None:
         netconvert_command[5:5] = ["--type-files", _command_path(type_file, output_dir)]

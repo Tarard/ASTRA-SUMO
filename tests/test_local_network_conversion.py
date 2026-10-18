@@ -62,6 +62,34 @@ def test_native_geometry_conversion_retains_subcentimetre_contour_points(tmp_pat
     assert file_sha256(source) == before
 
 
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
+@pytest.mark.parametrize("step", ["normalize", "export"])
+def test_legacy_native_export_and_normalization_retain_supplied_contours(tmp_path, step):
+    from astra_sumo.core.osm_workflow_tail import _normalize_sumo_net, export_plain_net_for_teacher_guided_repair
+    source = _source(tmp_path)
+    tree = ET.parse(source)
+    node = tree.getroot().find("junction[@id='A']")
+    node.set("shape", "-3.003,-3.003 3.003,-3.003 3.003,3.003 -3.003,3.003")
+    node.set("customShape", "1")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    before = file_sha256(source)
+    folder = tmp_path / step
+    folder.mkdir()
+    if step == "export":
+        report = export_plain_net_for_teacher_guided_repair(net_file=source, output_dir=folder, prefix="precise")
+        output, tag, command = report["raw_node_file"], "node", report["netconvert"]["command"]
+    else:
+        output = folder / "normalized.net.xml"
+        report = _normalize_sumo_net(net_file=source, output_file=output, output_dir=folder,
+            netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command)
+        tag, command = "junction", report["command"]
+    assert report["status"] == "pass", report
+    assert command[command.index("--precision") + 1] == "6"
+    shape = ET.parse(output).getroot().find(f"{tag}[@id='A']").get("shape")
+    assert all(abs(abs(float(value)) - 3.003) < 1e-9 for point in shape.split() for value in point.split(","))
+    assert file_sha256(source) == before
+
+
 def test_local_context_closes_roundabouts_and_retains_source_immutability():
     root = ET.fromstring('''<net><location netOffset="0,0" projParameter="!"/>
       <edge id="a" from="A" to="B"><lane id="a_0"/></edge>

@@ -208,7 +208,7 @@ def materialize_hamburg_2349_channelized_geometry(
     direct_connections = _stage_connections(raw_connections, connections_file, movement_shapes)
     tls_stage = _stage_tllogic(source_raw_tllogic, tllogic_file)
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--node-files",
         str(nodes_file),
@@ -218,7 +218,7 @@ def materialize_hamburg_2349_channelized_geometry(
         str(connections_file),
         "--tllogic-files",
         str(tllogic_file),
-    ]
+    ])
     if raw_types is not None:
         command.extend(["--type-files", str(types_file)])
     command.extend(

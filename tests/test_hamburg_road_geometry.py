@@ -65,6 +65,19 @@ def test_other_corridors_need_no_hamburg_repair():
     assert geometry.plan_hamburg_road_geometry(ET.fromstring('<net/>'))['status'] == 'not_applicable'
 
 
+@pytest.mark.parametrize('change', [None, 'speed', 'width', 'identity', 'permission', 'coordinate'])
+def test_road_preservation_compares_numeric_values_and_keeps_real_changes(change):
+    before = ET.fromstring('<edge id="001"><lane id="001_0" speed="13.89" width="3.2" shape="0,0 10,0"/></edge>')
+    after = ET.fromstring('<edge id="001"><lane id="001_0" speed="13.890000" width="3.200000" shape="0.000000,0 10.000000,0"/></edge>')
+    if change == 'identity':
+        after.set('id', '1')
+    elif change:
+        key, value = {'speed': ('speed', '13.891'), 'width': ('width', '3.201'),
+                      'permission': ('disallow', 'passenger'), 'coordinate': ('shape', '0,0 10.000001,0')}[change]
+        after.find('lane').set(key, value)
+    assert (geometry._signature(before) == geometry._signature(after)) is (change is None)
+
+
 @pytest.mark.parametrize('translation', [(0, 0), (-350.29, -181.62), (50000, -70000)])
 def test_san_francisco_clearance_preserves_cuts_and_remote_tangent(translation):
     root = ET.fromstring('''<net><junction id="3127482712" type="priority"/>

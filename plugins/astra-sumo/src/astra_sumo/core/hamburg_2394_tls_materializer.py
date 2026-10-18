@@ -30,6 +30,7 @@ from .surface_overlap_audit import (
     audit_sumo_lane_junction_surface_overlaps,
     compare_sumo_surface_overlap_reports,
 )
+from .local_network_conversion import with_geometry_precision
 
 
 MATERIALIZER_SCHEMA = "torii.hamburg-2394-tls-topology-materializer/v1"
@@ -140,7 +141,7 @@ def materialize_hamburg_2394_tls_topology_candidate(
     )
 
     output_net = destination / "hamburg_2394_tls_topology_candidate.net.xml"
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--node-files",
         str(staged["nodes"]),
@@ -157,7 +158,7 @@ def materialize_hamburg_2394_tls_topology_candidate(
         "true",
         "--output-file",
         str(output_net),
-    ]
+    ])
     result = command_runner(command, cwd=destination, timeout_seconds=timeout_seconds)
     command_report = result.to_dict() if hasattr(result, "to_dict") else dict(result)  # type: ignore[arg-type]
     if command_report.get("status") != "pass" or command_report.get("returncode") != 0:

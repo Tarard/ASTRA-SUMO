@@ -17,6 +17,7 @@ from .hamburg_lane_connection_repair import HAMBURG_DIVERGE_LANE_SHAPE
 
 from .site_parameters import load_site_parameters
 from .local_network_conversion import with_geometry_precision
+from .junction_boundary_rebuild import _signature
 
 _SITE = load_site_parameters('hamburg_road_geometry')
 
@@ -156,10 +157,6 @@ def plan_hamburg_road_geometry(root):
             "basis": "existing write_hamburg_diverge_geometry_patch; translated after source-shape checks"}
 
 
-def _signature(element):
-    return element.tag, dict(element.attrib), [_signature(c) for c in element]
-
-
 def _local(element, edge_ids, junction_id=_JUNCTION):
     identifier = element.get("id", "")
     if element.tag == "edge":
@@ -285,8 +282,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
                 stable &= len(a) == len(b)
                 shape_deltas.extend(math.dist(p, q) for p, q in zip(a, b))
             length_deltas.extend(abs(float(a.get("length")) - float(b.get("length"))) for a, b in zip(old, new))
-    # Native cuts use unrounded points, then stored centimetre coordinates.
-    # Bound that rounding effect in both the curves and their lengths.
+    # Retain the reviewed bounds on changes in both curves and lengths.
     stable &= max(length_deltas, default=0.0) <= 0.03 and max(shape_deltas, default=0.0) <= 0.02
     gates["native_reload_geometry"] = stable
     report.update(status="pass" if all(gates.values()) else "blocked", applied=all(gates.values()),

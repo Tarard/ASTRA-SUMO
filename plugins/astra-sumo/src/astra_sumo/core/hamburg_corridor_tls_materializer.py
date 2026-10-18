@@ -163,7 +163,7 @@ def materialize_hamburg_sandtorkai_corridor_tls_candidate(
     )
 
     output_net = destination / "hamburg_sandtorkai_corridor_tls_candidate.net.xml"
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--node-files",
         str(plain["nodes"]),
@@ -180,7 +180,7 @@ def materialize_hamburg_sandtorkai_corridor_tls_candidate(
         "true",
         "--output-file",
         str(output_net),
-    ]
+    ])
     result = command_runner(command, cwd=destination, timeout_seconds=timeout_seconds)
     command_report = _result_dict(result)
     if command_report.get("status") != "pass" or command_report.get("returncode") != 0:
