@@ -152,6 +152,23 @@ def test_stable_native_pedestrian_control_is_the_geometry_reference(tmp_path):
     invalid = assess_edit_applicability(ledger, candidate_net_file=modified, identity_control_report=control)
     assert invalid["status"] == "blocked"
     assert invalid["checks"]["walking_area_validity"] == "blocked"
+    changed = ET.parse(candidate)
+    edge = next(edge for edge in changed.getroot().findall("edge") if edge.get("function") == "walkingarea")
+    old_id, new_id = edge.get("id"), ":132981_w999999"
+    assert changed.getroot().find(f"edge[@id='{new_id}']") is None
+    edge.set("id", new_id)
+    for connection in changed.getroot().findall("connection"):
+        for key in ("from", "to"):
+            if connection.get(key) == old_id:
+                connection.set(key, new_id)
+    modified = candidate.with_name("renamed-walking-area.net.xml")
+    changed.write(modified, encoding="utf-8")
+    structural = assess_edit_applicability(ledger, candidate_net_file=modified, identity_control_report=control)
+    assert structural["status"] == "blocked"
+    assert structural["checks"]["protected_counts"] == structural["checks"]["all_class_explicit_boundary_paths"] == "pass"
+    assert structural["checks"]["pedestrian_facilities"] == "blocked"
+    assert structural["pedestrian_facility_changes"]["missing_ids"] == [old_id]
+    assert structural["pedestrian_facility_changes"]["added_ids"] == [new_id]
 
 
 @native
@@ -180,6 +197,20 @@ def test_unavailable_identity_build_remains_review_required(tmp_path, monkeypatc
     assert result["status"] == "review_required"
     assert result["applicability"]["reason"] == "contour_identity_control_unavailable"
     assert "control storage unavailable" in result["applicability"]["contour_identity_control"]["build_error"]
+
+
+@native
+def test_real_native_walking_area_fold_is_blocked_after_geometry_screen_passes(tmp_path):
+    record = json.loads((FIXTURES / "provenance-v3.json").read_text(encoding="utf-8"))["fixtures"][0]
+    source, before, ledger, candidate = _request(tmp_path, "140489", record["requested_shape"])
+    control = build_identity_control(ledger, output_dir=tmp_path, netconvert_binary=checkBinary("netconvert"), command_runner=run_command)
+    assert assess_identity_control(source, before, "140489", control)["status"] == "pass"
+    result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
+    assert result["checks"]["requested_contour_geometry"] == "pass"
+    assert result["checks"]["walking_area_validity"] == "blocked"
+    assert result["requested_walking_area_quality"]["newly_invalid_area_ids"] == [":140489_w0_0"]
+    assert result["status"] == "blocked"
+    assert result["reason"] == "requested_contour_worsens_walking_areas"
 
 
 def test_requested_length_budget_respects_spatial_grade_and_stop_offset():

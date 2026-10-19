@@ -1,6 +1,6 @@
 # MoST contour regression fixtures
 
-These compiled-network extracts retain junctions 132844, 151337, 132981, and 133196 from the
+These compiled-network extracts retain junctions 132844, 151337, 132981, 133196, and 140489 from the
 [pinned MoST prepared input](https://github.com/lcodeca/MoSTScenario/tree/d00e82945f5c6322a98ad2df4a8d5f48274fca53).
 The upstream repository declares GPLv3. Its unchanged [license](LICENSE.md) accompanies these extracts.
 The prepared input includes OpenStreetMap-derived and synthetic records.
@@ -27,3 +27,10 @@ The [additional requests](provenance-v2.json) retain a stable 132981 control who
 requested pedestrian paths are identical to that control. Junction 133196 has a
 stable identity control but a large requested recut. It checks the separate
 control-to-candidate geometry screen. Both additional extracts pass native load.
+
+The [folded-area request](provenance-v3.json) retains junction 140489. Its stable
+control has a valid walking area. A 0.5 m contour tightening produces a
+self-intersecting walking area even though the requested-geometry screen passes.
+This case comes from an independent review finding. It is a selected converter
+regression, not an additional member of the fixed three-case assessment cohort.
+The extract passes native load before the edit.

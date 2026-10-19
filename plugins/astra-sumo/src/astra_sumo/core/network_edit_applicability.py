@@ -233,7 +233,17 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
                     result["reason"] = effect["reason"]
                 if control["status"] == "pass":
                     result["pedestrian_geometry_reference"] = "validated_native_identity_control"
-                    checks["pedestrian_facilities"] = "pass" if facilities(control_root) == facilities(after) else "review_required"
+                    inventories = [{edge.get("id"): (edge.get("function"), tuple(
+                        (lane.get("id"), lane.get("index")) for lane in edge.findall("lane")))
+                        for edge in net.findall("edge") if edge.get("function") in {"crossing", "walkingarea"}}
+                        for net in (control_root, after)]
+                    result["pedestrian_facility_changes"] = {
+                        "missing_ids": sorted(inventories[0].keys() - inventories[1].keys()),
+                        "added_ids": sorted(inventories[1].keys() - inventories[0].keys()),
+                        "changed_structure_ids": sorted(key for key in inventories[0].keys() & inventories[1].keys()
+                                                        if inventories[0][key] != inventories[1][key])}
+                    checks["pedestrian_facilities"] = ("blocked" if inventories[0] != inventories[1] else
+                        "pass" if facilities(control_root) == facilities(after) else "review_required")
                     control_lanes = {lane.get("id"): lane for edge in control_root.findall("edge")
                                      if edge.get("id") in scope_edges for lane in edge.findall("lane")}
                     def geometry_signature(lane):
@@ -246,6 +256,8 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
                     checks["walking_area_validity"] = "blocked" if quality["newly_invalid_area_ids"] else "pass"
                     if quality["newly_invalid_area_ids"]:
                         result["reason"] = "requested_contour_worsens_walking_areas"
+                    elif inventories[0] != inventories[1]:
+                        result["reason"] = "pedestrian_facility_structure_changed"
                     elif effect["status"] == "pass" and any(checks[key] == "review_required" for key in
                             ("pedestrian_facilities", "pedestrian_lane_geometry")):
                         result["reason"] = "pedestrian_layout_change_requires_review"

@@ -100,6 +100,9 @@ Under a stable control, a changed pedestrian layout also requires review because
 automatic layout acceptance is unsupported. The report uses
 `pedestrian_layout_change_requires_review`. A newly invalid walking-area polygon
 remains blocked. Existing invalid source areas are retained as source findings.
+Missing or added pedestrian facilities, changed facility types, and changed
+facility lane identities remain blocked. The report separates these structural
+changes from geometry-only differences, even when facility counts stay equal.
 When topology never runs, `whole_network_review.execution_status` is `not_run`.
 OD diagnostics retain excluded road IDs, reasons, and source/destination counts.
 
