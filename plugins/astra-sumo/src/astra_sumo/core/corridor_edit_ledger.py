@@ -1998,8 +1998,14 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
 
 
 def _modal_connectivity_gate(source_root: ET.Element, candidate_root: ET.Element) -> dict[str, Any]:
-    source = {mode: _modal_graph_stats(source_root, mode) for mode in _MODAL_MODES}
-    candidate = {mode: _modal_graph_stats(candidate_root, mode) for mode in _MODAL_MODES}
+    snapshots = {}
+    for name, root in (("source", source_root), ("candidate", candidate_root)):
+        try:
+            snapshots[name] = {mode: _modal_graph_stats(root, mode) for mode in _MODAL_MODES}
+        except ValueError as error:
+            return {"status": "blocked", "source": snapshots.get("source", {}), "candidate": {}, "decreases": {},
+                    "errors": [{"code": "loaded_modal_graph_unavailable", "network": name, "detail": str(error)}]}
+    source, candidate = snapshots["source"], snapshots["candidate"]
     decreases: dict[str, dict[str, tuple[int, int]]] = {}
     for mode in _MODAL_MODES:
         mode_decreases: dict[str, tuple[int, int]] = {}
@@ -2032,8 +2038,10 @@ def _modal_addition_gate(
     candidate_root: ET.Element,
     edge_records: Iterable[Mapping[str, Any]],
 ) -> dict[str, Any]:
-    source_stats = {mode: _modal_graph_stats(source_root, mode) for mode in _MODAL_MODES}
-    candidate_stats = {mode: _modal_graph_stats(candidate_root, mode) for mode in _MODAL_MODES}
+    connectivity = _modal_connectivity_gate(source_root, candidate_root)
+    if connectivity.get("errors"):
+        return {"status": "blocked", "checked_additions": [], "errors": connectivity["errors"], "connectivity": connectivity}
+    source_stats, candidate_stats = connectivity["source"], connectivity["candidate"]
     candidate_edges = _normal_edges(candidate_root)
     errors: list[dict[str, Any]] = []
     checked: list[dict[str, Any]] = []
@@ -2074,7 +2082,6 @@ def _modal_addition_gate(
                     "modal_connection_count": modal_connection_count,
                 }
             )
-    connectivity = _modal_connectivity_gate(source_root, candidate_root)
     if connectivity.get("status") != "pass":
         errors.append({"code": "modal_graph_decreased", "decreases": connectivity.get("decreases", {})})
     return {

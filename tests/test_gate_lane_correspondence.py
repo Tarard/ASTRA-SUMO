@@ -1,10 +1,12 @@
 from copy import deepcopy
 import json
+from pathlib import Path
 import xml.etree.ElementTree as ET
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.corridor_edit_ledger import _bound_source_lane_indices, _modal_connectivity_gate
 from astra_sumo.core.corridor_simplification import audit_alias_normalized_connections
+import pytest
 
 
 def _shifted():
@@ -94,6 +96,27 @@ def test_actual_loaded_bicycle_permission_loss_still_blocks():
     result = _modal_connectivity_gate(before, after)
     assert result["status"] == "blocked"
     assert result["decreases"]["bicycle"]["connection_count"] == (1, 0)
+
+
+@pytest.mark.parametrize("broken_input", ["source", "candidate"])
+def test_dangling_internal_path_retains_a_blocked_diagnostic(tmp_path, broken_input):
+    from astra_sumo.core.corridor_edit_ledger import _modal_addition_gate, run_corridor_candidate_gates
+
+    before, after = _bicycle_path(False), _bicycle_path(False)
+    broken = before if broken_input == "source" else after
+    broken.find("connection").set("via", ":missing_0")
+    for report in (_modal_connectivity_gate(before, after), _modal_addition_gate(before, after, [])):
+        assert report["status"] == "blocked"
+        assert report["errors"][0]["network"] == broken_input
+        assert report["errors"][0]["code"] == "loaded_modal_graph_unavailable"
+    source, candidate = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
+    ET.ElementTree(before).write(source)
+    ET.ElementTree(after).write(candidate)
+    report = run_corridor_candidate_gates(source_net_file=source, candidate_net_file=candidate,
+                                          output_dir=tmp_path / "gates")
+    assert report["status"] == "blocked"
+    assert report["gates"]["modal_connectivity"]["errors"][0]["network"] == broken_input
+    assert Path(report["report_file"]).is_file()
 
 
 def test_modal_permission_reader_uses_native_allow_precedence():

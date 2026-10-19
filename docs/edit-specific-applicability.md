@@ -97,6 +97,8 @@ counts ordinary movements with loaded permissions, including their internal
 paths. Changing the number of internal path pieces alone does not remove a
 movement. Pedestrian connectivity retains its separate explicit-connection
 comparison and does not prove every implicit walking route.
+An unresolved internal-lane reference blocks the modal check with a saved cause.
+It does not abort the report or count as a measured loss of zero movements.
 
 If no shared diagnostic origin or destination remains, routeability reports
 `review_required` with `execution_status: not_run`. This can occur in a small
