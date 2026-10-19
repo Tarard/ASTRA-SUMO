@@ -74,6 +74,24 @@ margin was selected. They do not establish traffic benefit, exposure to every
 changed lane, field demand, or agreement across seeds. They do not replace the
 incomplete burst-demand results.
 
+### Frozen seed-set extension
+
+A [separate receipt](native-driving-seeds-20261019-v1.json) extends that exact
+deterministic cohort to seeds 17, 42, and 104. These are the complete seed set
+already fixed in the checked-in 2026-10-16 Hamburg diagnosis fixture. The seed
+source, request, and implementation were recorded before execution.
+
+All 15 network runs completed 100/100 vehicles without collisions, teleports,
+or discards. All 12 source/candidate pairs are valid. Trip records are identical
+across these seeds for each network. This deterministic profile therefore adds
+no observed driver variation across the three seeds. Stochastic-driver behavior
+and the original burst-demand failures remain open.
+
+The extension runner is `outputs/native_command_failure_20261019_v1/repeat-declared-driving-seeds-v1.py`.
+Its configuration is `outputs/native_command_failure_20261019_v1/declared-driving-seeds-v1-identity.json`.
+Raw results and vehicle-level comparisons are under
+`outputs/native_command_failure_20261019_v1/declared-driving-seeds-v1/`.
+
 ## Reproduction and remaining work
 
 The [frozen summary](native-runtime-20261019-v1.json) binds the raw records and
