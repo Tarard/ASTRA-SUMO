@@ -103,3 +103,17 @@ Paths below are relative to the repository:
 Original burst-demand failures, stochastic-driver validation, automatic-cleaning
 precision and remaining whole-network scopes remain open. Operational parking
 and field-valid digital-twin claims are outside this construction evidence.
+
+## Later service-coverage finding
+
+Claude's follow-up confirms the modal protection repairs and identifies a
+reporting gap. The default passenger-selected candidate has no ordinary
+incoming or outgoing movement on its new lane. Vehicles may enter or leave
+through lane changes. Its lane count describes geometry and permissions; it
+does not establish a third boundary through lane or extra capacity.
+
+The native one-car regression above supplies an explicit outgoing movement.
+It therefore checks a different construction, with the recorded merge conflict.
+Per-new-lane movement inventories and appropriate release qualification remain
+to be added. The offline confirmation is
+`outputs/modal_lane_layout_20261019_v1/new-lane-service-followup.json`.
