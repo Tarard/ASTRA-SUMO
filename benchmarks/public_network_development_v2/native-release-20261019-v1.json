@@ -1,0 +1,51 @@
+{
+  "producer_commit": "4fbc42f902081872ad57e71d1985abbdf51802c4",
+  "code_identical_to_ci_commit": "e1236f1ba5469bab1692ab080056c4099e05d5f0",
+  "node_id": "132981",
+  "source_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+  "candidate_sha256": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+  "status": "pass",
+  "elapsed_seconds": 430.22905690000334,
+  "gates": {
+    "artifact_identity": "pass",
+    "netconvert": "pass",
+    "review_contract": "pass",
+    "xml_parse": "pass",
+    "tls_modal_rail_bridge_tunnel": "pass",
+    "modal_connectivity": "pass",
+    "edit_applicability": "pass",
+    "sumo_load": "pass",
+    "routeability": "pass",
+    "topology": "pass"
+  },
+  "whole_network_review": {
+    "inherited_finding_count": 170,
+    "scope_finding_count": 0,
+    "status": "review_required"
+  },
+  "inputs_unchanged": true,
+  "implementation_unchanged": true,
+  "artifacts": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v4\\run-release.py",
+      "sha256": "58b7244354674442b256a23a6e1384e4a1ab7561e3e0175c88d7c379ebaed6e4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v4\\identity.json",
+      "sha256": "c15ced0aa90257763143c00ed63a38c833f0f2337a7b686c7589fa1fa6afeeb4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v4\\summary.json",
+      "sha256": "0a741fcd75dc13f7a490959854dfcd0cda1e17acc8d74367916f5a70f867806d"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v4\\verification\\edit-verification.json",
+      "sha256": "935997f3f3c7650c3a8fa204d250f0d3346c60fe4c1759c5b069518b87913630"
+    }
+  ],
+  "limits": [
+    "Technical qualification of this declared edit only.",
+    "The 170 inherited whole-network findings remain open.",
+    "No field-cleanliness, automatic-cleaning precision, or traffic-performance claim."
+  ]
+}

@@ -100,3 +100,6 @@ The [pedestrian follow-up](pedestrian-paths-20261019-v1.md) records native walki
 completion, a real folded-area regression, and the facility-semantic correction.
 The [source-validity correction](pedestrian-paths-20261019-v2.md) records the
 corrected blocked/pass/review outcomes and a standalone native reproduction.
+The [later complete release receipt](native-release-20261019-v1.json) reruns
+132981 under code identical to `e1236f1`. All ten technical gates pass; the
+170 inherited whole-network findings remain open.
