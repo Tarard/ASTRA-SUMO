@@ -98,3 +98,5 @@ The [scoped follow-up](topology-source-20261019-v2.md) records a fresh full-mode
 release, local source risks, and the final unchanged three-case assessment.
 The [pedestrian follow-up](pedestrian-paths-20261019-v1.md) records native walking
 completion, a real folded-area regression, and the facility-semantic correction.
+The [source-validity correction](pedestrian-paths-20261019-v2.md) records the
+corrected blocked/pass/review outcomes and a standalone native reproduction.

@@ -34,3 +34,6 @@ self-intersecting walking area even though the requested-geometry screen passes.
 This case comes from an independent review finding. It is a selected converter
 regression, not an additional member of the fixed three-case assessment cohort.
 The extract passes native load before the edit.
+The [standalone node patch](140489-tighten.nodes.xml) is the exact generated
+request used by the independent native replay. It produces the same folded
+walking area directly from the public fixture under locked SUMO 1.27.1.
