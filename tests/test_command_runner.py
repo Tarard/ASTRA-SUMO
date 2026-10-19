@@ -37,6 +37,18 @@ def test_run_command_reports_nonzero_exit() -> None:
     assert result.status == "fail"
     assert result.returncode == 7
     assert "bad" in result.stdout
+    assert "return code 7" in result.error
+
+
+@pytest.mark.parametrize("code", [3221225477, -11])
+def test_abnormal_return_code_without_output_is_visible(monkeypatch, code):
+    from types import SimpleNamespace
+
+    process = SimpleNamespace(returncode=code, poll=lambda: code)
+    monkeypatch.setattr(command_runner.subprocess, "Popen", lambda *_args, **_kwargs: process)
+    result = run_command(["sumo", "-n", "invalid.net.xml"])
+    assert result.status == "fail" and result.returncode == code
+    assert str(code) in result.error
 
 
 def test_run_command_reports_timeout() -> None:

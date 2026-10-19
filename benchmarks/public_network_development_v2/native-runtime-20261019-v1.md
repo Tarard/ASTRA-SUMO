@@ -31,6 +31,13 @@ The subsequent six-case check uses a compiled network with an invalid numeric
 lane attribute for its load-error cases. It confirms that the adapters preserve
 native errors. It makes no claim to repair the SUMO engine crash.
 
+A later diagnostic follow-up adds the observed nonzero return code to `error`,
+including failures without output. Three focused assertions failed before this
+change. All 111 related runner, consumer, intersection, and documentation tests
+passed afterward. The logs are `empty-failure-before-fix.log` and
+`empty-failure-after-fix.log` under `outputs/native_command_failure_20261019_v1/`.
+This reports the observed code without assigning a native crash cause.
+
 ## Unchanged Hamburg reconstruction and edits
 
 Under `32118df`, the complete reconstruction took 232.538 seconds. It produced
@@ -91,6 +98,15 @@ The extension runner is `outputs/native_command_failure_20261019_v1/repeat-decla
 Its configuration is `outputs/native_command_failure_20261019_v1/declared-driving-seeds-v1-identity.json`.
 Raw results and vehicle-level comparisons are under
 `outputs/native_command_failure_20261019_v1/declared-driving-seeds-v1/`.
+
+An offline check of completed native vehicle routes found 14 vehicles traversing
+the modified edge in each source and candidate run. Exact lane exposure remains
+unknown because these route records identify edges. Nine of the 21 changed
+lane-count trip durations belong to those 14 vehicles. Twelve belong to other
+routes. No same-materialization identity driving control has been measured, so
+these differences cannot yet be attributed entirely to the requested edit.
+The analysis runner is `outputs/native_command_failure_20261019_v1/check-driving-exposure.py`.
+Its saved input hashes and results are in the adjacent `declared-driving-exposure.json`.
 
 ## Reproduction and remaining work
 

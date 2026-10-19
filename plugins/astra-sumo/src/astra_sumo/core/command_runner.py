@@ -126,7 +126,8 @@ def run_command(
                 status="fail" if fatal else "timeout" if timed_out else "pass" if process.returncode == 0 else "fail",
                 returncode=None if timed_out and not fatal else process.returncode, stdout=output, stderr=errors,
                 error="SUMO reported a fatal error." if fatal else
-                      f"command timed out after {timeout_seconds} seconds" if timed_out else "")
+                      f"command timed out after {timeout_seconds} seconds" if timed_out else
+                      f"command exited with return code {process.returncode}" if process.returncode else "")
     except (OSError, subprocess.TimeoutExpired) as exc:
         return CommandResult(
             command=command,
