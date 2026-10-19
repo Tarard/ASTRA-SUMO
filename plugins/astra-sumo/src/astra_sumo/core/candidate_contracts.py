@@ -81,9 +81,17 @@ def validate_materialization_evidence(
                 "actual": str(report.get("schema", "")),
             }
         )
-    if str(report.get("status", "")) != "pass":
+    semantic = report.get("semantic_validation", {})
+    service = semantic.get("new_lane_service") if isinstance(semantic, Mapping) else None
+    needs_review = (report.get("status") == "review_required"
+                    and report.get("materialization_status") == "semantic_review_required"
+                    and isinstance(semantic, Mapping) and semantic.get("status") == "review_required"
+                    and semantic.get("construction_checks_passed") is True
+                    and semantic.get("release_checks_passed") is False
+                    and isinstance(service, Mapping) and service.get("status") == "review_required")
+    if str(report.get("status", "")) != "pass" and not needs_review:
         errors.append({"code": "materialization_status_not_pass"})
-    if str(report.get("materialization_status", "")) != "variant_created_for_review":
+    if str(report.get("materialization_status", "")) != "variant_created_for_review" and not needs_review:
         errors.append({"code": "candidate_not_materialized_for_review"})
     if str(report.get("candidate_variant_status", "")) != "review_only":
         errors.append({"code": "candidate_variant_status_not_review_only"})
@@ -250,7 +258,7 @@ def validate_materialization_evidence(
         )
 
     return {
-        "status": "pass" if not errors else "blocked",
+        "status": "blocked" if errors else "review_required" if needs_review else "pass",
         "errors": errors,
         "identity": identity,
         "materialization_report_file": str(evidence_path) if evidence_path is not None else "",

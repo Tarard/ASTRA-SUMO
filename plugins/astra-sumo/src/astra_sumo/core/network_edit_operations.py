@@ -263,6 +263,35 @@ def _patch_permissions(attributes, network_version):
     return {"allow": " ".join(sorted(allowed))} if allowed else {"disallow": "all"}
 
 
+def _new_lane_service(before, after, plan, source_access, candidate_access):
+    """Inventory mode-compatible ordinary boundary movements of added lanes."""
+    params = plan["operation"]["params"]
+    target = params["edge_id"]
+    old_edge = before.find(f"edge[@id='{target}']")
+    edge = after.find(f"edge[@id='{target}']")
+    retained = set(plan["lane_index_mapping"].values())
+    lanes = []
+    for index, lane in enumerate(edge.findall("lane")):
+        if index in retained:
+            continue
+        from .osm_access import _permission_set
+        modes = (_permission_set({"allow": params["vehicle_class"]}) if params.get("vehicle_class") else
+                 _permission_set(lane.attrib, network_version=after.get("version", "0.0")))
+        incoming = [list(key) for key, allowed in candidate_access.items() if key[2:] == (target, index) and allowed & modes]
+        outgoing = [list(key) for key, allowed in candidate_access.items() if key[:2] == (target, index) and allowed & modes]
+        expected_in = any(key[2] == target and allowed & modes for key, allowed in source_access.items())
+        expected_out = any(key[0] == target and allowed & modes for key, allowed in source_access.items())
+        missing = (["incoming"] if expected_in and not incoming else []) + (["outgoing"] if expected_out and not outgoing else [])
+        lanes.append({"lane_id": lane.get("id"), "lane_index": index, "vehicle_classes": sorted(modes),
+            "incoming_movement_count": len(incoming), "outgoing_movement_count": len(outgoing),
+            "incoming_movements": incoming, "outgoing_movements": outgoing,
+            "source_edge_has_compatible_incoming": expected_in, "source_edge_has_compatible_outgoing": expected_out,
+            "unverified_boundaries": missing, "lane_change_service": "not_measured"})
+    return {"status": "review_required" if any(lane["unverified_boundaries"] for lane in lanes) else "pass" if lanes else "not_applicable",
+            "source_lane_count": len(old_edge.findall("lane")), "candidate_lane_count": len(edge.findall("lane")), "lanes": lanes,
+            "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."}
+
+
 def _lane_count_connections(params, edges, connections, *, network_version=None):
     target = params["edge_id"]
     mapping = _lane_count_layout(params, edges[target], network_version)
@@ -961,6 +990,11 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                  "affected_lane_ids": sorted(coordinate_changes),
                  "reason": "This network edit does not check the positions of detectors, stops, parking areas, or other lane references."}
     physical = load["status"] == "pass" and integrity["status"] == "pass" and path_repair["remaining_endpoint_gap_count"] == 0
+    lane_service = (_new_lane_service(before, after, plan, old_access, new_access) if kind == "set_lane_count" else
+                    {"status": "not_applicable", "lanes": []})
+    service_review = lane_service["status"] == "review_required"
+    release_passed = passed and not service_review
+    release_status = "pass" if release_passed else "review_required" if passed and service_review else "blocked"
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
     if link_preservation["status"] != "pass":
@@ -969,16 +1003,19 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         warnings.append("Source signal programs changed or could not be verified on retained movements.")
     if nonmotor_access["status"] != "pass":
         warnings.append("Retained walking or cycling junction access changed or could not be verified.")
+    if service_review:
+        warnings.append("New lanes lack compatible boundary movements present on the source edge. Their intended service needs review.")
     warnings.extend(load_warning_messages(link_preservation))
     contour_changes = {}
     if kind == "set_junction_shape":
         from .junction_contour_control import geometry_delta
         contour_changes["source_to_candidate"] = geometry_delta(before, after, params["node_id"])
-    return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
-            "mode": mode, "release_checks_passed": passed,
+    return {"status": exploration_status if mode == "explore" else release_status,
+            "mode": mode, "release_checks_passed": release_passed, "construction_checks_passed": passed,
             "driving_integrity": integrity,
             "signal_program_preservation": signal_preservation,
             "nonmotor_access_preservation": nonmotor_access,
+            "new_lane_service": lane_service,
             "lane_coordinate_artifacts": dependent,
             "warnings": warnings,
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],

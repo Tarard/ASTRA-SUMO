@@ -357,7 +357,10 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
         built = materialize_corridor_edit_variant(output_dir=destination / "candidate", ledger_file=ledger_path,
                                                   netconvert_binary=netconvert_binary)
         report["materialization"] = built
-        report["status"] = "blocked"
+        report["status"] = "review_required" if built["status"] == "review_required" else "blocked"
+        if built["status"] == "review_required":
+            report["candidate_gates"] = {"status": "review_required", "execution_status": "not_run",
+                                         "reason": "materialization_requires_review"}
         if built["status"] == "pass":
             sumo_binary = _sumo_binary(netconvert_binary)
 

@@ -118,7 +118,8 @@ def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, cou
         netconvert_binary=shutil.which("netconvert"))
     nonmotor_access_loss = ((layout.get("add_side") == "right" and "vehicle_class" not in layout)
                            or layout.get("remove_index") == 0)
-    assert report["status"] == ("blocked" if nonmotor_access_loss else "pass"), report
+    expected_status = "blocked" if nonmotor_access_loss else "review_required" if count == 5 else "pass"
+    assert report["status"] == expected_status, report
     access = report["semantic_validation"]["nonmotor_access_preservation"]
     assert access["status"] == ("fail" if nonmotor_access_loss else "pass"), access
     if layout.get("remove_index") == 0:
@@ -238,7 +239,7 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
     assert ledger["status"] == "pass", ledger
     result = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate", ledger_file=Path(ledger["ledger_file"]),
         netconvert_binary=shutil.which("netconvert"))
-    assert result["status"] == "pass", result
+    assert result["status"] == ("review_required" if kind == "set_lane_count" else "pass"), result
     assert result["semantic_validation"]["requested_effect_applied"] is True
     assert result["semantic_validation"]["geometry_preservation"]["status"] == "pass"
     loaded = result["semantic_validation"]["loaded_link_preservation"]
@@ -255,7 +256,7 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
         new_y = [float(point.split(",")[1]) for point in new_lane.get("shape").split()]
         assert max(new_y) > max(old_y) + 1
     checked = validate_materialization_evidence(result, source_net_file=source, candidate_net_file=Path(result["candidate_net_file"]))
-    assert checked["status"] == "pass", checked
+    assert checked["status"] == ("review_required" if kind == "set_lane_count" else "pass"), checked
     if kind in {"relocate_tls_control", "demote_duplicate_tls"}:
         assert result["review_required"] is True
         assert result["map_review_required_location_ids"]
@@ -309,7 +310,7 @@ def test_lane_count_edit_preserves_survivor_permissions_and_declared_connections
     report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
         ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
         netconvert_binary=shutil.which("netconvert"))
-    assert report["status"] == "pass", report
+    assert report["status"] == ("review_required" if layout == "add_right" else "pass"), report
     actual = ET.parse(report["candidate_net_file"]).getroot()
     target_pairs = {(row.get("from"), row.get("fromLane"), row.get("to"), row.get("toLane"))
                     for row in actual.findall("connection") if "middle" in (row.get("from"), row.get("to"))

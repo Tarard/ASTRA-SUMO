@@ -112,6 +112,21 @@ For a new controlled movement, include `tl` and `linkIndex`, with optional
 Indices must fit every source program. Missing or incompatible bindings are
 invalid inputs. Existing matching pairs inherit their saved bindings.
 This reuses existing program states. It does not design a new signal program.
+`new_lane_service` lists each added lane's compatible ordinary incoming and
+outgoing movements. Counts use loaded vehicle-class permissions, including
+internal paths. A boundary is unverified when compatible source lanes have
+movements there but the added lane has none. Source departure and arrival
+boundaries do not acquire requirements that were absent from the source.
+Lane-change use, intended auxiliary use, and discharge capacity remain separate.
+
+Explore retains measurements and warns about unverified new-lane service.
+Release returns `review_required` when construction checks pass but those
+boundaries remain unverified. `construction_checks_passed` distinguishes that
+case from a definite failure. Hard failures retain `blocked`.
+The materialization report, evidence validator, and release command preserve
+the review outcome. Gates skipped for that reason remain `not_run`.
+An explicit compatible connection list can qualify the static boundary service.
+It does not by itself establish traffic benefit or a safe new signal design.
 Surviving connections retain their saved custom paths, lengths, speeds, signal
 bindings, and supported driving constraints when lane indices change.
 An explicit connection list also inherits these values for matching surviving

@@ -1256,22 +1256,23 @@ def materialize_corridor_edit_variant(
         except (OSError, TypeError, ValueError) as exc:
             review_html_error = f"{type(exc).__name__}: {exc}"
 
-    final_status = (
+    other_checks_passed = (
         command_status
-        and semantic_validation.get("status") == "pass"
         and artifact_identity.get("status") == "pass"
         and map_review_validation.get("status") == "pass"
         and overlay_status == "pass"
         and review_template_status == "pass"
         and review_html_status == "pass"
     )
+    final_status = other_checks_passed and semantic_validation.get("status") == "pass"
+    review_only = other_checks_passed and semantic_validation.get("status") == "review_required"
     if final_status:
         materialization_status = "variant_created_for_review"
     elif not command_status:
         materialization_status = "netconvert_failed"
     elif artifact_identity.get("status") != "pass":
         materialization_status = "artifact_identity_failed"
-    elif semantic_validation.get("status") != "pass":
+    elif semantic_validation.get("status") not in {"pass", "review_required"}:
         materialization_status = "semantic_gate_failed"
     elif map_review_validation.get("status") != "pass":
         materialization_status = "map_review_evidence_failed"
@@ -1279,12 +1280,14 @@ def materialize_corridor_edit_variant(
         materialization_status = "review_overlay_failed"
     elif review_template_status != "pass":
         materialization_status = "review_template_failed"
-    else:
+    elif review_html_status != "pass":
         materialization_status = "review_html_failed"
+    else:
+        materialization_status = "semantic_review_required"
     report = {
         "schema": "torii.corridor_materialization.v1",
-        "status": "pass" if final_status else "blocked",
-        "claim_status": "diagnostic-demo" if final_status else "construction-invalid",
+        "status": "pass" if final_status else "review_required" if review_only else "blocked",
+        "claim_status": "diagnostic-demo" if final_status or review_only else "construction-invalid",
         "materialization_status": materialization_status,
         "source_net_file": str(source_net_file.resolve()),
         "candidate_net_file": str(candidate_net_file.resolve()) if candidate_net_file.exists() else "",
