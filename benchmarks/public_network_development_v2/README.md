@@ -126,3 +126,7 @@ The [informational-gate follow-up](informational-gates-20261020-v1.md) runs the
 remaining diagnostics without approving reviewed candidates. It repairs declared
 lane-renumbering and internal-path segmentation false alarms and retains a
 clean committed-code Hamburg repeat.
+The [typed topology follow-up](typed-topology-20261020-v1.md) extends source
+comparison to typed edits, retains malformed-path failure reports, and records
+guarded local signal conversion. Its four-edit Hamburg repeat keeps the one
+in-scope inherited finding under review.
