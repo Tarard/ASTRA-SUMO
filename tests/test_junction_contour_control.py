@@ -70,6 +70,25 @@ def test_native_identity_control_measures_source_recut_before_acceptance(tmp_pat
     assert rejected["status"] == "review_required"
     assert rejected["reason"] == "contour_identity_control_unverified"
     assert file_sha256(source) == ledger["source_sha256"]
+    if node == "132844":
+        changed = ET.parse(candidate)
+        edge = next(edge for edge in changed.getroot().findall("edge") if edge.get("function") == "walkingarea")
+        old_id, new_id = edge.get("id"), ":132844_w999999"
+        edge.set("id", new_id)
+        for connection in changed.getroot().findall("connection"):
+            for key in ("from", "to"):
+                if connection.get(key) == old_id:
+                    connection.set(key, new_id)
+        renamed = candidate.with_name("unqualified-control-facility-change.net.xml")
+        changed.write(renamed, encoding="utf-8")
+        for reference in (control, None):
+            structural = assess_edit_applicability(ledger, candidate_net_file=renamed, identity_control_report=reference)
+            assert structural["status"] == "blocked"
+            assert structural["pedestrian_structure_reference"] == "immutable_source"
+            assert structural["checks"]["all_class_explicit_boundary_paths"] == "pass"
+            assert structural["checks"]["pedestrian_facilities"] == "blocked"
+            assert structural["pedestrian_facility_changes"]["missing_ids"] == [old_id]
+            assert structural["pedestrian_facility_changes"]["added_ids"] == [new_id]
     changed = ET.parse(candidate)
     lane = next(edge.find("lane") for edge in changed.getroot().findall("edge") if not edge.get("function"))
     lane.set("speed", str(float(lane.get("speed")) + 1))

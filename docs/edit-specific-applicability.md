@@ -106,6 +106,9 @@ changes from geometry-only differences, even when facility counts stay equal.
 Facility structure includes the roads spanned by each crossing and the incoming
 and outgoing lane neighbours of each walking area. These bindings must remain
 unchanged even when the overall boundary-path sets are preserved.
+Structure is compared with the immutable source, regardless of the identity
+control's geometry result. An unqualified control changes only the interpretation
+of geometry-dependent comparisons.
 When topology never runs, `whole_network_review.execution_status` is `not_run`.
 OD diagnostics retain excluded road IDs, reasons, and source/destination counts.
 
