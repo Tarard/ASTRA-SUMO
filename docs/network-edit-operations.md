@@ -249,6 +249,11 @@ direction alone does not establish a field prohibition.
 
 ## Preservation and review
 
+Signal demotion and static controller relocation use the shared local conversion
+path when the complete affected controller stays inside the declared scope.
+A controller that spans the edit boundary still requires full-network
+conversion. Unrelated signal programs and road records remain source-owned.
+
 Individual road-geometry and connection edits now supply a local network to netconvert.
 The input includes every incident road of the edited junctions. It closes any affected roundabout ring.
 It keeps explicit [right-of-way prohibitions](https://sumo.dlr.de/docs/Networks/PlainXML.html#right-of-way) whose movement references lie within that input.

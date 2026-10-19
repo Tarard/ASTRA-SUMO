@@ -711,14 +711,10 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"
                                       and _stop_line_patches(root, params) is not None else "netconvert")
     if plan["materialization_method"] == "netconvert":
-        subset = None
-        if kind in {"demote_duplicate_tls", "relocate_tls_control"}:
-            plan["local_conversion"] = {"status": "full_network", "reason": "controller_reconstruction"}
-        else:
-            from .local_network_conversion import local_conversion_input
-            groups = {params["join_id"]: params["node_ids"]} if kind in _JOIN_EDITS else None
-            subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
-            plan["local_conversion"] = local
+        from .local_network_conversion import local_conversion_input
+        groups = {params["join_id"]: params["node_ids"]} if kind in _JOIN_EDITS else None
+        subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
+        plan["local_conversion"] = local
         changed_permissions = ET.tostring(root) != ET.tostring(ET.parse(source_file).getroot())
         if subset is not None or changed_permissions:
             local = plan["local_conversion"]

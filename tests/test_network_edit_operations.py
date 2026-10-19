@@ -159,7 +159,7 @@ def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, cou
     assert file_sha256(source) == digest
 
 
-def _source(tmp_path, kind):
+def _source(tmp_path, kind, remote_controller=None):
     controlled = kind in {"relocate_tls_control", "demote_duplicate_tls"}
     duplicate = kind == "demote_duplicate_tls"
     attrs_a = 'type="traffic_light" tl="shared"' if controlled else 'type="priority"'
@@ -167,15 +167,21 @@ def _source(tmp_path, kind):
     nodes = tmp_path / "source.nod.xml"
     edges = tmp_path / "source.edg.xml"
     connections = tmp_path / "source.con.xml"
+    remote_nodes = (f'<node id="RX" x="1000" y="0"/><node id="RY" x="1100" y="0" '
+                    f'type="traffic_light" tl="{remote_controller}"/><node id="RZ" x="1200" y="0"/>') if remote_controller else ''
     nodes.write_text(f'<nodes><node id="W" x="-100" y="0"/><node id="A" x="0" y="0" {attrs_a}/>'
-        f'<node id="B" x="20" y="0" {attrs_b}/><node id="E" x="120" y="0"/></nodes>', encoding="utf-8")
+        f'<node id="B" x="20" y="0" {attrs_b}/><node id="E" x="120" y="0"/>{remote_nodes}</nodes>', encoding="utf-8")
+    remote_edges = ('<edge id="remote-in" from="RX" to="RY" allow="passenger bus"/>'
+                    '<edge id="remote-out" from="RY" to="RZ" allow="passenger bus"/>') if remote_controller else ''
     edges.write_text('<edges><edge id="in" from="W" to="A" allow="passenger bus"/>'
         '<edge id="middle" from="A" to="B" allow="passenger bus"/>'
         '<edge id="out" from="B" to="E" allow="passenger bus"/>'
         '<edge id="east" from="E" to="B" allow="passenger bus"/>'
         '<edge id="reverse" from="B" to="A" allow="passenger bus"/>'
-        '<edge id="west" from="A" to="W" allow="passenger bus"/></edges>', encoding="utf-8")
+        f'<edge id="west" from="A" to="W" allow="passenger bus"/>{remote_edges}</edges>', encoding="utf-8")
     pairs = [("in", "middle"), ("middle", "out")]
+    if remote_controller:
+        pairs.append(("remote-in", "remote-out"))
     if not controlled:
         pairs += [("east", "reverse"), ("reverse", "west")]
         if kind != "add_lane_connection":
@@ -222,6 +228,36 @@ def _params(kind, source):
                     "to": row.get("to"), "toLane": int(row.get("toLane"))}
         values[kind]["link_mapping"] = [{"source": pair(a), "target": pair(b)} for a, b in zip(sources, targets)]
     return values[kind]
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("kind,remote_controller", [
+    ("demote_duplicate_tls", "remote"), ("relocate_tls_control", "remote"),
+    ("demote_duplicate_tls", "shared"),
+])
+def test_signal_edits_use_local_conversion_unless_controller_crosses_boundary(tmp_path, kind, remote_controller):
+    source = _source(tmp_path, kind, remote_controller)
+    digest = file_sha256(source)
+    operation = {"id": "signal", "operation": kind, "status": "accepted", "params": _params(kind, source),
+                 "rationale": "Synthetic scoped signal reconstruction.",
+                 "evidence": [{"path": str(source), "sha256": digest}], "rollback": {"action": "discard_candidate"}}
+    report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
+        ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass", report
+    plan = json.loads(Path(report["plan_file"]).read_text(encoding="utf-8"))
+    scope = plan["local_conversion"]
+    if remote_controller == "shared":
+        assert scope["status"] == "full_network" and scope["reason"] == "controller_spans_edit_boundary"
+    else:
+        assert scope["status"] == "local"
+        assert not {"remote-in", "remote-out"} & set(scope["context_edge_ids"])
+        assert scope["converted_normal_edge_count"] < scope["source_normal_edge_count"]
+        before, after = ET.parse(source).getroot(), ET.parse(report["candidate_net_file"]).getroot()
+        for selector in ("tlLogic[@id='remote']", "edge[@id='remote-in']", "edge[@id='remote-out']", "junction[@id='RY']"):
+            assert ET.tostring(before.find(selector)) == ET.tostring(after.find(selector)), selector
+    assert report["semantic_validation"]["loaded_link_preservation"]["status"] == "pass"
+    assert file_sha256(source) == digest
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
