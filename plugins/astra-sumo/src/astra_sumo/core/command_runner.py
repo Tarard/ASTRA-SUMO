@@ -113,7 +113,10 @@ def run_command(
                         if timed_out or (fatal_at is not None and now - fatal_at >= 1):
                             _terminate_process_tree(process)
                             break
-                        time.sleep(min(.05, max(0, deadline - now)))
+                        try:
+                            process.wait(timeout=min(.05, max(0, deadline - now)))
+                        except subprocess.TimeoutExpired:
+                            pass
                 finally:
                     if process.poll() is None:
                         _terminate_process_tree(process)

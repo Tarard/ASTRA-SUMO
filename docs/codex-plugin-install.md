@@ -84,10 +84,14 @@ For known SUMO executables, `Quitting (on error)` starts a one-second exit grace
 period. A process that remains active is stopped with its owned process tree.
 The result is `fail` with the native error text. A silent deadline expiry remains
 `timeout`. Text from unrelated commands does not trigger this SUMO rule.
+After a forced stop, the return code describes termination, not a normal SUMO
+exit. Output files from failed runs can be incomplete. Keep their failure status
+when inspecting those files.
 
 The runner handles finite foreground commands. Detached service launchers need
 their own lifecycle handling. Native observation helpers also own and reap
 their SUMO process when a TraCI connection fails.
+Teacher replay and intersection load and compilation checks use the same runner.
 
 The underlying native shutdown fault remains unexplained. The current local
 native and launcher baselines exited normally; a controlled hanging process
