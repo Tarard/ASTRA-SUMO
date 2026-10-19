@@ -635,6 +635,17 @@ def test_static_signal_move_does_not_claim_actuated_detector_correspondence(tmp_
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="netconvert required")
+def test_signal_relocation_cannot_move_only_part_of_a_shared_controller(tmp_path):
+    source = _source(tmp_path, "relocate_tls_control", remote_controller="shared")
+    operation = {"operation": "relocate_tls_control", "params": {
+        "from_node": "A", "to_node": "B", "tls_id": "shared", "link_mapping": [{
+            "source": {"from": "in", "fromLane": 0, "to": "middle", "toLane": 0},
+            "target": {"from": "middle", "fromLane": 0, "to": "out", "toLane": 0}}]}}
+    errors = validate_scoped_operation(operation, ET.parse(source).getroot())
+    assert errors and "map every source link" in errors[0]["detail"]
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="netconvert required")
 def test_existing_edge_deletion_uses_the_shared_exterior_protection(tmp_path):
     from astra_sumo.core.command_runner import run_command
 

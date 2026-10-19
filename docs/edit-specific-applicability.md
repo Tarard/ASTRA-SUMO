@@ -56,8 +56,10 @@ Local rail, bridge, and tunnel semantics require separate review. Controlled
 turn removal also requires signal review. Absorption with local pedestrian
 lanes, crossings, or walking areas requires pedestrian-route evidence. Diagnostic signal rebuilds
 and assumed interior lane changes do not enter these automatic profiles.
-Other edit types return `not_applicable` from this entry point. Their existing
-construction tools remain available.
+Other edit types return `not_applicable` from `assess_edit_applicability`.
+The `verify-edit` command can still materialize an explicitly accepted typed
+edit and run its construction and final candidate checks. This does not assign
+that operation an automatic edit profile.
 
 ## Verification chain
 
