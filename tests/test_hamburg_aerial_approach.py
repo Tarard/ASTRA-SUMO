@@ -8,9 +8,9 @@ from pathlib import Path
 
 import pytest
 from pyproj import Transformer
+from sumolib import checkBinary
 
 from astra_sumo.core.candidate_contracts import file_sha256
-from astra_sumo.core.command_runner import run_command
 from astra_sumo.core import hamburg_aerial_approach as approach_module
 from astra_sumo.core.hamburg_aerial_approach import (
     _approach_proposal,
@@ -207,14 +207,20 @@ def test_official_bus_lane_permissions_and_real_vehicle_legality(tmp_path, full_
     first = event["upstream_edge_id"] or "before"
     routes = tmp_path / "legal.xml"
     routes.write_text('<routes><vType id="bus" vClass="bus"/><vehicle id="bus" type="bus" depart="0"><route edges="' + first + ' approach"/><stop lane="approach_1" endPos="' + str(float(bus_lane.get("length")) - 2) + '" duration="1"/></vehicle><vehicle id="car" depart="100"><route edges="' + first + ' approach"/></vehicle></routes>')
-    command = [shutil.which("sumo"), "-n", result["candidate_network"]["path"], "-r", str(routes), "--end", "200", "--no-step-log", "--tripinfo-output", str(tmp_path / "trips.xml")]
-    run = run_command(command, cwd=tmp_path, timeout_seconds=30)
-    assert run.returncode == 0, run.to_dict()
+    command = [checkBinary("sumo"), "-n", result["candidate_network"]["path"], "-r", str(routes), "--end", "200", "--no-step-log", "--tripinfo-output", str(tmp_path / "trips.xml")]
+    # A launcher descendant can retain captured pipes after the process exits on Windows.
+    legal_log = tmp_path / "legal.log"
+    with legal_log.open("w", encoding="utf-8") as log:
+        run = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=30)
+    assert run.returncode == 0, legal_log.read_text(encoding="utf-8")
     assert {row.get("id") for row in ET.parse(tmp_path / "trips.xml").getroot()} == {"bus", "car"}
     routes.write_text(routes.read_text().replace('id="bus" type="bus" depart="0"', 'id="bus" depart="0"'))
-    rejected = run_command(command, cwd=tmp_path, timeout_seconds=30)
-    assert rejected.returncode is not None and rejected.returncode != 0, rejected.to_dict()
-    assert "not allowed to stop on lane 'approach_1'" in rejected.stderr, rejected.to_dict()
+    rejected_log = tmp_path / "rejected.log"
+    with rejected_log.open("w", encoding="utf-8") as log:
+        rejected = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=30)
+    rejection = rejected_log.read_text(encoding="utf-8")
+    assert rejected.returncode != 0, rejection
+    assert "not allowed to stop on lane 'approach_1'" in rejection, rejection
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
