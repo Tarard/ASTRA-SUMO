@@ -1,0 +1,445 @@
+{
+  "schema": "astra.native-runtime-maintenance/v1",
+  "date": "2026-10-19",
+  "producer_commit": "18b400b16f1c2e7e799ece462ffc41b2cde61f49",
+  "native_consumer_code_matches_commit": true,
+  "prior_runner_ci": {
+    "commit": "32118df9c74061306daa25f962778642e75d87bf",
+    "pr": {
+      "run_id": 39308886188,
+      "status": "success",
+      "passed": 3550,
+      "skipped": 24,
+      "seconds": 791.98
+    },
+    "push": {
+      "run_id": 39308879200,
+      "status": "success",
+      "passed": 3550,
+      "skipped": 24,
+      "seconds": 808.11
+    }
+  },
+  "local_tests": {
+    "focused": {
+      "passed": 114,
+      "seconds": 49.94
+    },
+    "workflow_consumers": {
+      "passed": 353,
+      "seconds": 24.19
+    },
+    "counts_overlap": true,
+    "native_consumers": {
+      "cases": 6,
+      "seconds": 3.544743099999323
+    }
+  },
+  "native_hang_cause": "unresolved; pre-fix native and launcher baselines exited normally locally",
+  "controlled_hang_before_repair": "failed expected fail vs observed timeout; original log retained",
+  "native_minimal_net_crash": {
+    "input": "outputs/native_command_failure_20261019_v1/native-consumers-v2/empty.net.xml",
+    "observed_returncode": 3221225477,
+    "stdout": "",
+    "stderr": "",
+    "interpretation": "Malformed minimal net crashed native SUMO without fatal text. Failed probe retained; no engine fix claimed."
+  },
+  "hamburg": {
+    "producer_commit": "32118df9c74061306daa25f962778642e75d87bf",
+    "workflow": {
+      "status": "review_required",
+      "topology_complete": true,
+      "first_failed_stage": null,
+      "first_incomplete_stage": "construction_coverage",
+      "osm_build": {
+        "bbox": "9.9908,53.5420,10.0005,53.5452",
+        "highway_classes": "full_vehicle",
+        "netconvert_profile": "reference_visual_detail",
+        "tls_join_distance_m": 0,
+        "clip_source_ways_to_bbox": true,
+        "output_precision": 6
+      },
+      "source_import": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\source\\logs\\source_access-input.net.xml",
+        "sha256": "e9dcb0d7fdb41435d9982df515ece1dfbbd9a508eebc20eb97b72fa5643027cb",
+        "netconvert_precision": 6,
+        "precision_basis": "declared"
+      },
+      "checks": {
+        "official_connectivity": "pass",
+        "outside_geometry": "pass",
+        "road_geometry": "not_applicable",
+        "construction_coverage": "review_required",
+        "movement_probes": "pass",
+        "corridor_routes": "pass",
+        "construction_audit": "review_required"
+      },
+      "counts": {
+        "official_vehicle_movements": 16,
+        "physical_part_count": 2,
+        "joined_part_count": 2,
+        "materialized_movement_count": 16,
+        "unmaterialized_official_movement_count": 0,
+        "runtime_fallback_part_count": 0,
+        "source_surface_finding_count": 51,
+        "candidate_surface_finding_count": 45
+      },
+      "network_handoff": {
+        "network": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+          "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+        },
+        "construction_decision": "review_required",
+        "construction_manifest": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\workflow.manifest.json"
+      },
+      "inputs_unchanged": true,
+      "generated_inputs_unchanged": true,
+      "candidate_unchanged": true,
+      "loaded_links": {
+        "status": "pass",
+        "compared_junction_counts": {
+          "native": 3,
+          "source": 125
+        },
+        "differences": []
+      },
+      "elapsed_seconds": 232.53793510000105,
+      "same_candidate_as_previous": true
+    },
+    "identity_check": {
+      "source_unchanged": true,
+      "request_unchanged": true,
+      "implementation_unchanged": true
+    },
+    "centerlines": {
+      "2349": {
+        "all": {
+          "count": 10,
+          "median_lateral_offset_m": 0.5571260486923849,
+          "p90_lateral_offset_m": 2.588132251045594
+        },
+        "high_confidence": {
+          "count": 7,
+          "median_lateral_offset_m": 0.3877049084568565,
+          "p90_lateral_offset_m": 0.7215789801890949
+        }
+      },
+      "2394": {
+        "all": {
+          "count": 11,
+          "median_lateral_offset_m": 0.8081146012482162,
+          "p90_lateral_offset_m": 1.6383110613547864
+        },
+        "high_confidence": {
+          "count": 8,
+          "median_lateral_offset_m": 0.5803228606028571,
+          "p90_lateral_offset_m": 1.1310514986352096
+        }
+      }
+    },
+    "original_burst_diagnostic_edits": [
+      {
+        "operation": "set_edge_shape",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "outside_fact_change_count": 0,
+        "source_summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\shape-stress\\source-routes\\routeability_audit_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 62,
+          "running": 37,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.62,
+          "warnings": [
+            "37 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        }
+      },
+      {
+        "operation": "set_lane_count",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "outside_fact_change_count": 0,
+        "source_summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\lane-count-stress\\source-routes\\routeability_audit_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 62,
+          "running": 37,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.62,
+          "warnings": [
+            "37 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        }
+      },
+      {
+        "operation": "move_stop_line",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "outside_fact_change_count": 0,
+        "source_summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\stop-line-stress\\source-routes\\routeability_audit_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 62,
+          "running": 37,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.62,
+          "warnings": [
+            "37 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        }
+      },
+      {
+        "operation": "set_speed",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "outside_fact_change_count": 0,
+        "source_summary": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\speed-stress\\source-routes\\routeability_audit_end2400_summary.xml",
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 99,
+          "arrived": 62,
+          "running": 37,
+          "waiting": 1,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 0.62,
+          "warnings": [
+            "37 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        }
+      }
+    ]
+  },
+  "declared_driving_repeat": {
+    "producer_commit": "18b400b16f1c2e7e799ece462ffc41b2cde61f49",
+    "inherited_plan": "outputs/interaction_diagnosis_20261016_v1/departure-sensitivity-v1/window-150/plan.json",
+    "route_sha256": "d0e8393fd96f5ec284dbdea07aee0d502be3c20103684273b075d34685ed2dc4",
+    "seeds": [
+      17
+    ],
+    "horizon_s": 2400,
+    "settings": {
+      "step_length_s": 1,
+      "collision_check_junctions": true,
+      "collision_action": "teleport"
+    },
+    "summaries": {
+      "17": {
+        "source": {
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 1.0
+        },
+        "shape-stress": {
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 1.0
+        },
+        "lane-count-stress": {
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 1.0
+        },
+        "stop-line-stress": {
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 1.0
+        },
+        "speed-stress": {
+          "exists": true,
+          "valid_xml": true,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 100,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0,
+          "completion_ratio": 1.0
+        }
+      }
+    },
+    "pair_validity_counts": {
+      "valid": 4
+    },
+    "pairs": [
+      {
+        "seed": 17,
+        "candidate": "shape-stress",
+        "valid": true,
+        "vehicle_count": 100,
+        "diagnostic_mean_duration_delta_s": -0.03,
+        "maximum_absolute_duration_delta_s": 1.0,
+        "changed_duration_count": 3
+      },
+      {
+        "seed": 17,
+        "candidate": "lane-count-stress",
+        "valid": true,
+        "vehicle_count": 100,
+        "diagnostic_mean_duration_delta_s": -24.9,
+        "maximum_absolute_duration_delta_s": 221.0,
+        "changed_duration_count": 21
+      },
+      {
+        "seed": 17,
+        "candidate": "stop-line-stress",
+        "valid": true,
+        "vehicle_count": 100,
+        "diagnostic_mean_duration_delta_s": 0.01,
+        "maximum_absolute_duration_delta_s": 1.0,
+        "changed_duration_count": 1
+      },
+      {
+        "seed": 17,
+        "candidate": "speed-stress",
+        "valid": true,
+        "vehicle_count": 100,
+        "diagnostic_mean_duration_delta_s": 0.0,
+        "maximum_absolute_duration_delta_s": 0.0,
+        "changed_duration_count": 0
+      }
+    ],
+    "identity_check": {
+      "inputs_unchanged": true,
+      "implementation_unchanged": true
+    }
+  },
+  "artifacts": {
+    "baseline/results.json": {
+      "path": "outputs/native_command_failure_20261019_v1/baseline/results.json",
+      "sha256": "e0302d59b5bd4cc80b33ee67a85c6aafc28b957cbfa707d80b709e04f2926a07"
+    },
+    "controlled-pre-fix.log": {
+      "path": "outputs/native_command_failure_20261019_v1/controlled-pre-fix.log",
+      "sha256": "13b37ade3000016c9334030807765285ce56d8d37bcdc96d4d63dc6f25d5f1a7"
+    },
+    "runner-consumers-v2.log": {
+      "path": "outputs/native_command_failure_20261019_v1/runner-consumers-v2.log",
+      "sha256": "a148a5f58647036857d8ae3556ace5ab89cbacf866b671ab18cabd50784d2699"
+    },
+    "runner-workflow-consumers-v2.log": {
+      "path": "outputs/native_command_failure_20261019_v1/runner-workflow-consumers-v2.log",
+      "sha256": "867264a7e22c457d4480809ea873077d266030c4e2d8744db272de1207ece1ac"
+    },
+    "runner-workflow-consumers-v3.log": {
+      "path": "outputs/native_command_failure_20261019_v1/runner-workflow-consumers-v3.log",
+      "sha256": "cfd0757ea04f3a9b7ece80bf42fb4c971cbc81f447e1be233920df6bf2788812"
+    },
+    "native-consumers-v2.log": {
+      "path": "outputs/native_command_failure_20261019_v1/native-consumers-v2.log",
+      "sha256": "598f4461d4e5b633d9d05de9dd1114d9f4dfdcadf76576252c6c9c5b18c8c31c"
+    },
+    "native-consumers-v3/results.json": {
+      "path": "outputs/native_command_failure_20261019_v1/native-consumers-v3/results.json",
+      "sha256": "9c81ba16433d48028a07063901b97a987f58acebf2876bb6987596d00ef14825"
+    },
+    "claude-review-32118df.txt": {
+      "path": "outputs/native_command_failure_20261019_v1/claude-review-32118df.txt",
+      "sha256": "59e85bc8b9190b4bb4b6397101900ac6d39462c18710997060bfa25903e85db4"
+    },
+    "hamburg/workflow-summary.json": {
+      "path": "outputs/native_command_failure_20261019_v1/hamburg/workflow-summary.json",
+      "sha256": "282caab1115f2240388b5ff56dda33493551057acf1128559b112d1fcc8b2c3e"
+    },
+    "hamburg/actuation-results.json": {
+      "path": "outputs/native_command_failure_20261019_v1/hamburg/actuation-results.json",
+      "sha256": "ff9ec33d2351ff1fe5bcf9b21442e160bc7b29bcd01b9f1a36636df0218abb71"
+    },
+    "hamburg/calibration-summary.json": {
+      "path": "outputs/native_command_failure_20261019_v1/hamburg/calibration-summary.json",
+      "sha256": "8008cd7082c71c6bf2915944b40fc20fea8c481a1a26b3da23701fdc2b3fd6f9"
+    },
+    "hamburg/runtime.json": {
+      "path": "outputs/native_command_failure_20261019_v1/hamburg/runtime.json",
+      "sha256": "0457a7101e5152a2f3cd04b2ab7c7d40a6b1f66d1ef06d8b9dce1ef163841d75"
+    },
+    "hamburg/implementation.json": {
+      "path": "outputs/native_command_failure_20261019_v1/hamburg/implementation.json",
+      "sha256": "1a9a07897bb3e23c3a780bc7fde1ba1b3b2e672f863ca136a322e9f3517a09c2"
+    },
+    "declared-driving-repeat/comparison.json": {
+      "path": "outputs/native_command_failure_20261019_v1/declared-driving-repeat/comparison.json",
+      "sha256": "778df141f9cb0ed7e0a8ba4904c25dc76931d74342fb56e90f21c314a7401bdc"
+    },
+    "declared-driving-repeat-identity.json": {
+      "path": "outputs/native_command_failure_20261019_v1/declared-driving-repeat-identity.json",
+      "sha256": "ce1f30ead33c1d61883cf4bfd4b8930c82d099dccbcc1a819ea23dbf3fb5bbf9"
+    }
+  },
+  "limits": [
+    "Latest consumer commit CI pending at record creation.",
+    "The 150-second deterministic single-seed demand is diagnostic, not observed field demand.",
+    "No equivalence margin or multi-seed conclusion. Duration deltas are descriptive.",
+    "Original burst-demand failures remain source findings; no invalid run enters a paired mean.",
+    "Automatic cleaning precision, unsupported conversion scopes, and changed pedestrian layouts remain incomplete."
+  ]
+}

@@ -103,3 +103,7 @@ corrected blocked/pass/review outcomes and a standalone native reproduction.
 The [later complete release receipt](native-release-20261019-v1.json) reruns
 132981 under code identical to `e1236f1`. All ten technical gates pass; the
 170 inherited whole-network findings remain open.
+The [native runtime follow-up](native-runtime-20261019-v1.md) records bounded
+teacher and intersection checks, another unchanged Hamburg reconstruction,
+and four valid pairs using the previously saved deterministic driving cohort.
+The original burst-demand failures remain open.
