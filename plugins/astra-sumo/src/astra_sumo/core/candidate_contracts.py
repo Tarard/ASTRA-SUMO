@@ -640,7 +640,11 @@ def validate_routeability_evidence(
         return {"status": "blocked", "errors": [{"code": "routeability_report_required"}]}
     if str(report.get("schema", "")) != "torii.routeability_audit.v2":
         errors.append({"code": "routeability_schema_mismatch"})
-    if report.get("status") != "pass" or report.get("routeability_status") != "pass":
+    not_run = (report.get("status") == "review_required" and report.get("routeability_status") == "not_run"
+               and report.get("execution_status") == "not_run" and report.get("reason") == "no_diagnostic_od_pool")
+    if not_run and (report.get("attempts") != [] or report.get("route_generation") != {"status": "not_run"}):
+        errors.append({"code": "routeability_not_run_has_execution_results"})
+    if not not_run and (report.get("status") != "pass" or report.get("routeability_status") != "pass"):
         errors.append({"code": "routeability_result_not_pass"})
     if not _same_path(report.get("net_file"), candidate_net_file):
         errors.append({"code": "routeability_net_path_mismatch"})
@@ -664,6 +668,10 @@ def validate_routeability_evidence(
                 "route_generation",
                 "attempts",
                 "final_attempt",
+                "execution_status",
+                "reason",
+                "od_policy",
+                "sampling",
             ),
             "routeability",
             errors,
@@ -678,7 +686,9 @@ def validate_routeability_evidence(
     if persisted_manifest is not None:
         if persisted_manifest.get("schema") != "torii.routeability_manifest.v2":
             errors.append({"code": "routeability_manifest_schema_mismatch"})
-        if persisted_manifest.get("status") != "pass":
+        if persisted_manifest.get("status") != report.get("status"):
+            errors.append({"code": "routeability_manifest_report_status_mismatch"})
+        if not not_run and persisted_manifest.get("status") != "pass":
             errors.append({"code": "routeability_manifest_status_not_pass"})
         if not _same_path(persisted_manifest.get("net_file"), candidate_net_file):
             errors.append({"code": "routeability_manifest_net_path_mismatch"})
@@ -686,7 +696,8 @@ def validate_routeability_evidence(
             errors.append({"code": "routeability_manifest_net_hash_mismatch"})
 
     return {
-        "status": "pass" if not errors else "blocked",
+        "status": "blocked" if errors else "review_required" if not_run else "pass",
+        "execution_status": "not_run" if not_run else report.get("execution_status", "completed"),
         "routeability_status": str(report.get("routeability_status", "blocked")),
         "report_file": str(report_path) if report_path is not None else "",
         "manifest_file": str(manifest_path) if manifest_path is not None else "",

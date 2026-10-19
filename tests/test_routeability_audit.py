@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.candidate_contracts import validate_routeability_evidence
 from astra_sumo.core.routeability_audit import (
     inspect_routeability_outputs,
     run_routeability_audit,
@@ -16,6 +17,27 @@ from astra_sumo.core.routeability_audit import (
 
 def _write_od_network(path: Path) -> None:
     path.write_text('<net version="1.20"><location netOffset="0,0" convBoundary="0,0,20,1" origBoundary="0,0,20,1" projParameter="!"/><edge id="a" from="x" to="y" priority="1"><lane id="a_0" index="0" speed="10" length="20" shape="0,0 20,0" allow="passenger"/></edge><edge id="b" from="y" to="x" priority="1"><lane id="b_0" index="0" speed="10" length="20" shape="20,1 0,1" allow="passenger"/></edge><junction id="x" type="priority" x="0" y="0" incLanes="b_0" intLanes="" shape="0,0 0,1"/><junction id="y" type="priority" x="20" y="0" incLanes="a_0" intLanes="" shape="20,0 20,1"/><connection from="a" to="b" fromLane="0" toLane="0" dir="t" state="M"/><connection from="b" to="a" fromLane="0" toLane="0" dir="t" state="M"/></net>', encoding="utf-8")
+
+
+def test_empty_shared_od_pool_is_unchecked_not_an_invalid_network(tmp_path):
+    source, candidate = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
+    _write_od_network(source)
+    candidate.write_text(source.read_text(encoding="utf-8").replace('shape="0,0 20,0"', 'shape="0,0 19,0"')
+        .replace('shape="20,1 0,1"', 'shape="19,1 0,1"'), encoding="utf-8")
+
+    def should_not_run(*_args, **_kwargs):
+        raise AssertionError("No native command should run without diagnostic requests.")
+
+    report = run_routeability_audit(net_file=candidate, od_reference_net_file=source,
+        output_dir=tmp_path / "audit", binaries={"sumo": "sumo", "duarouter": "duarouter"}, command_runner=should_not_run)
+    assert report["status"] == "review_required"
+    assert report["claim_status"] != "construction-invalid"
+    assert report["routeability_status"] == report["execution_status"] == "not_run"
+    assert report["attempts"] == []
+    checked = validate_routeability_evidence(report, candidate_net_file=candidate)
+    assert checked["status"] == "review_required" and not checked["errors"]
+    forged = {**report, "execution_status": "completed"}
+    assert validate_routeability_evidence(forged, candidate_net_file=candidate)["status"] == "blocked"
 
 
 def _fake_route_stage(command: list[str], cwd: Path) -> bool:

@@ -445,7 +445,11 @@ def run_routeability_audit(
             original = reference or net_file
             od_policy = build_routeability_od_policy([original, *([net_file] if reference is not None else [])])
             if not od_policy["source_edge_ids"] or not od_policy["destination_edge_ids"]:
-                raise ValueError("no qualifying diagnostic origin or destination edges")
+                return finish({"status": "review_required", "claim_status": "review_required",
+                    "routeability_status": "not_run", "execution_status": "not_run",
+                    "reason": "no_diagnostic_od_pool", "od_policy": od_policy, "sampling": sampling,
+                    "route_generation": {"status": "not_run"}, "attempts": [],
+                    "warnings": ["No qualifying diagnostic origin or destination edges. Route preservation was not checked."]})
             sampling = _write_source_reachable_trips(original, od_policy, trip_file, vehicle_count=vehicle_count, seed=seed)
             od_policy["mode"] = "source_reachable_shared_generated" if reference is not None else "source_reachable_independent_generated"
             od_policy["request_generation"] = sampling

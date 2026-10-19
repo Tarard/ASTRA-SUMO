@@ -246,6 +246,12 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
                 control.update(status="review_required", reason="contour_identity_control_unavailable", error=str(error))
         if control["status"] != "pass":
             result["reason"] = control["reason"]
+            result["unqualified_source_pedestrian_checks"] = {
+                "status": "not_applicable", "reason": "native_identity_control_not_qualified",
+                "source_comparison": {key: checks[key] for key in ("pedestrian_facilities", "pedestrian_lane_geometry")}}
+            for key in ("pedestrian_facilities", "pedestrian_lane_geometry"):
+                if checks[key] == "blocked":
+                    checks[key] = "review_required"
     from ..corridor.canonicalizer import canonicalize_net_xml_file
     from ..corridor.conflict_graph import audit_independent_movement_safety
     from ..corridor.enums import TrafficSide

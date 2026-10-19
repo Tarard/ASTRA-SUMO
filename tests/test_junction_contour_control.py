@@ -60,14 +60,23 @@ def test_native_identity_control_measures_source_recut_before_acceptance(tmp_pat
     assert observed["same_source_polygon"] and observed["custom_shape_declared"]
     assert observed["geometry"]["max_absolute_declared_length_delta_m"] > 0.5
     result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
-    assert result["status"] != "pass"
+    assert result["status"] == "review_required"
     assert result["reason"] == "custom_contour_recuts_source_geometry"
     assert result["contour_geometry_changes"]["control_to_candidate"] is not None
+    assert result["unqualified_source_pedestrian_checks"]["status"] == "not_applicable"
+    assert not any(status == "blocked" for status in result["checks"].values())
     wrong_control = {**control, "candidate_net_file": str(candidate)}
     rejected = assess_identity_control(source, before, node, wrong_control)
     assert rejected["status"] == "review_required"
     assert rejected["reason"] == "contour_identity_control_unverified"
     assert file_sha256(source) == ledger["source_sha256"]
+    changed = ET.parse(candidate)
+    lane = next(edge.find("lane") for edge in changed.getroot().findall("edge") if not edge.get("function"))
+    lane.set("speed", str(float(lane.get("speed")) + 1))
+    changed.write(candidate, encoding="utf-8")
+    unsafe = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
+    assert unsafe["status"] == "blocked"
+    assert unsafe["checks"]["boundary_lane_permissions_width_speed"] == "blocked"
 
 
 def test_geometry_delta_keeps_spatial_and_declared_length_changes_separate():

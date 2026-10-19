@@ -85,6 +85,18 @@ completion, and topology. Required map review still applies. Route requests
 come from the original network. SUMO and duarouter come from the same directory
 as the selected netconvert binary.
 
+If no shared diagnostic origin or destination remains, routeability reports
+`review_required` with `execution_status: not_run`. This can occur in a small
+extract when the edit moves every incident road. It does not establish route
+preservation or identify an invalid network. Route generation and execution
+failures still block qualification.
+
+If the contour identity control is unqualified, source-relative pedestrian
+geometry checks cannot distinguish native recutting from the requested effect.
+Their original results remain under `unqualified_source_pedestrian_checks`.
+They require review instead of reporting a confirmed edit defect. Independent
+permission, structure, safety, and requested-geometry failures still block.
+
 The old aggregate modal counts remain in the report as diagnostics. Removing
 a declared turn decreases connection count. Absorbing a declared fragment
 decreases road and node counts. Those count changes cannot determine whether
