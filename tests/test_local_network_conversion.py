@@ -353,7 +353,9 @@ def test_legacy_lane_count_checks_inherited_lane_and_connection_permissions(tmp_
     checks = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
         netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command, mode="explore")
     assert checks["requested_effect_applied"], checks
-    assert checks["release_checks_passed"] is not alter_permissions, checks
+    assert checks["construction_checks_passed"] is not alter_permissions, checks
+    assert checks["release_checks_passed"] is False
+    assert checks["new_lane_service"]["status"] == "review_required"
     if alter_permissions:
         assert not checks["other_lane_permissions_preserved"]
         return
