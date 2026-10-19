@@ -528,6 +528,8 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                 raise ValueError("Scoped edit evidence hash does not match.")
         evidence_sources.append({"path": str(path), "sha256": file_sha256(path), "declared_sha256": record["sha256"]})
     kind, params = operation["operation"], operation["params"]
+    from .local_network_conversion import with_loaded_turn_permissions
+    root = with_loaded_turn_permissions(root)
     edges, nodes, connections = _inventory(root)
     patches = {"nodes": ET.Element("nodes"), "edges": ET.Element("edges"),
                "connections": ET.Element("connections"), "tllogics": ET.Element("tlLogics")}
@@ -599,6 +601,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                                       else "stop_line_edge_mean_3d" if kind == "move_stop_line"
                                       and _stop_line_patches(root, params) is not None else "netconvert")
     if plan["materialization_method"] == "netconvert":
+        subset = None
         if kind in {"demote_duplicate_tls", "relocate_tls_control"}:
             plan["local_conversion"] = {"status": "full_network", "reason": "controller_reconstruction"}
         else:
@@ -606,15 +609,17 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             groups = {params["join_id"]: params["node_ids"]} if kind in _JOIN_EDITS else None
             subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
             plan["local_conversion"] = local
-            if subset is not None:
-                local_file = output_dir / f"{prefix}.local-input.net.xml"
-                if local_file.resolve() == candidate_file.resolve():
-                    raise ValueError("The local conversion input must differ from its output.")
-                with local_file.open("xb") as stream:
-                    stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
-                local.update(input={"path": str(local_file.resolve()), "sha256": file_sha256(local_file)},
-                             operation=operation)
-                command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
+        changed_permissions = ET.tostring(root) != ET.tostring(ET.parse(source_file).getroot())
+        if subset is not None or changed_permissions:
+            local = plan["local_conversion"]
+            local_file = output_dir / f"{prefix}.{'local' if subset is not None else 'full'}-input.net.xml"
+            if local_file.resolve() == candidate_file.resolve():
+                raise ValueError("The conversion input must differ from its output.")
+            with local_file.open("xb") as stream:
+                stream.write(ET.tostring(subset if subset is not None else root, encoding="utf-8", xml_declaration=True))
+            local.update(input={"path": str(local_file.resolve()), "sha256": file_sha256(local_file)},
+                         operation=operation, preserve_loaded_turn_permissions=True)
+            command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
     for name, flag in (("nodes", "--node-files"), ("edges", "--edge-files"),
                        ("connections", "--connection-files"), ("tllogics", "--tllogic-files")):
         if not len(patches[name]):
@@ -768,10 +773,14 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         connections_preserved = new_pairs == expected_pairs
         effect &= connections_preserved and all(pair in connections and _permission_set(connections[pair].attrib) == _permission_set(record)
                                                for pair, record in target_records.items())
-    connection_permissions_preserved = kind in _JOIN_EDITS or all(
-        _permission_set(old_connections[key].attrib, network_version=before.get("version", "0.0")) ==
-        _permission_set(connections[key].attrib, network_version=after.get("version", "0.0"))
-        for key in old_pairs & new_pairs if not (kind == "set_lane_count" and params["edge_id"] in (key[0], key[2])))
+    connection_permissions_preserved = True
+    if kind not in _JOIN_EDITS:
+        from .local_network_conversion import loaded_turn_permissions
+        old_access, new_access = loaded_turn_permissions(before), loaded_turn_permissions(after)
+        connection_permissions_preserved = all(old_access[key] == new_access[key] for key in old_pairs & new_pairs
+            if not (kind == "set_lane_count" and params["edge_id"] in (key[0], key[2]))
+            and not (kind == "set_lane_permissions" and params["lane_id"] in {
+                old_edges[key[0]].findall("lane")[key[1]].get("id"), old_edges[key[2]].findall("lane")[key[3]].get("id")}))
     if kind not in _JOIN_EDITS:
         changed_lane_layout = old_lanes.keys() != new_lanes.keys()
         if kind == "set_lane_count":

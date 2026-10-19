@@ -49,6 +49,8 @@ version's implicit exclusions. Connection `allow` and `disallow` directives
 take effect during conversion; SUMO's network loader uses the resulting lane
 permissions. Changing those directives alone in a compiled network does not
 establish a loaded access change.
+A later netconvert pass can apply those directives and change access.
+Geometry-edit conversion inputs therefore reconcile directives with loaded lane permissions before the requested edit.
 It records changed lane width, speed, and storage length for shared permitted
 lanes. Unspecified dimensions remain unknown. Numeric formatting changes do
 not count as changed dimensions.

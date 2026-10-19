@@ -21,6 +21,78 @@ def with_geometry_precision(command):
     return command
 
 
+def loaded_turn_permissions(root):
+    """Read complete ordinary-road movements from lane permissions, including internal chains."""
+    from collections import defaultdict
+    from .osm_access import _permission_set
+    version = root.get("version", "0.0")
+    lanes, keys, internal = {}, {}, set()
+    for edge in root.findall("edge"):
+        for ordinal, lane in enumerate(edge.findall("lane")):
+            identity = lane.get("id")
+            lanes[identity] = _permission_set(lane.attrib, network_version=version)
+            keys[(edge.get("id"), str(ordinal))] = identity
+            if edge.get("function") in {"internal", "crossing", "walkingarea"} or edge.get("id", "").startswith(":"):
+                internal.add(identity)
+    outgoing = defaultdict(list)
+    movements = []
+    for row in root.findall("connection"):
+        first = keys.get((row.get("from"), row.get("fromLane")))
+        last = keys.get((row.get("to"), row.get("toLane")))
+        if first is None or last is None:
+            if row.get("via"):
+                raise ValueError("A loaded movement references an unknown endpoint lane.")
+            continue
+        via = row.get("via") or last
+        outgoing[(first, last)].append(via)
+        if first not in internal and last not in internal:
+            movements.append((row, first, last, via))
+    result = {}
+    for row, first, last, via in movements:
+        pending, seen, allowed = [(via, lanes[first] & lanes[last])], {}, set()
+        while pending:
+            current, modes = pending.pop()
+            if current not in lanes:
+                raise ValueError("A loaded movement references an unknown internal lane.")
+            modes = (modes & lanes[current]) - seen.get(current, set())
+            if not modes:
+                continue
+            seen.setdefault(current, set()).update(modes)
+            if current == last:
+                allowed.update(modes)
+            elif current in internal:
+                pending.extend((nxt, modes) for nxt in outgoing[(current, last)])
+        key = (row.get("from"), int(row.get("fromLane")), row.get("to"), int(row.get("toLane")))
+        result[key] = allowed
+    return result
+
+
+def with_loaded_turn_permissions(root):
+    """Make native re-import reproduce loaded turn access without changing the source."""
+    from .osm_access import _permission_set
+    result = deepcopy(root)
+    permissions = loaded_turn_permissions(root)
+    lanes = {(edge.get("id"), ordinal): lane for edge in root.findall("edge")
+             for ordinal, lane in enumerate(edge.findall("lane"))}
+    version = root.get("version", "0.0")
+    for row in result.findall("connection"):
+        key = (row.get("from"), int(row.get("fromLane", "-1")), row.get("to"), int(row.get("toLane", "-1")))
+        if key not in permissions:
+            continue
+        endpoints = (_permission_set(lanes[(edge, index)].attrib, network_version=version)
+                     for edge, index in (key[:2], key[2:]))
+        declared = _permission_set(row.attrib, network_version=version).intersection(*endpoints)
+        if declared != permissions[key]:
+            # netconvert reads directives, whereas SUMO loads the internal lane permissions.
+            row.attrib.pop("allow", None)
+            row.attrib.pop("disallow", None)
+            if permissions[key]:
+                row.set("allow", " ".join(sorted(permissions[key])))
+            else:
+                row.set("disallow", "all")
+    return result
+
+
 def _index(root):
     edges = {row.get("id"): row for row in root.findall("edge")}
     if len(edges) != len(root.findall("edge")) or any(not identity for identity in edges):
@@ -42,12 +114,14 @@ def _owner(element, index):
     return index["ownership"][element.tag].get(identity)
 
 
-def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None):
+def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None, preserve_turn_permissions=True):
     """Keep complete edit junctions and the roads needed to position their ends."""
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
     if not mutable_edges:
         return None, {"status": "full_network", "reason": "no_incident_ordinary_roads"}
+    if preserve_turn_permissions:
+        root = with_loaded_turn_permissions(root)
     index = _index(root)
     edge_endpoints = edge_endpoints or {}
     if (set(edge_endpoints) - mutable_edges or any(not key or key.startswith(":")
@@ -132,6 +206,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
         record.update(junction_aliases=aliases, absorbed_edge_ids=sorted(absorbed))
     if edge_endpoints:
         record["edge_endpoints"] = deepcopy(edge_endpoints)
+    if preserve_turn_permissions:
+        record["preserve_loaded_turn_permissions"] = True
     return result, record
 
 
@@ -228,6 +304,14 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     merge_root = root if merge_source == source else ET.fromstring(merge_bytes)
     subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups,
                                             edge_endpoints=edge_endpoints)
+    if subset is None:
+        prepared = with_loaded_turn_permissions(root)
+        subset_bytes = source_bytes
+        if ET.tostring(prepared) != ET.tostring(root):
+            subset_bytes = ET.tostring(prepared, encoding="utf-8", xml_declaration=True)
+            record["preserve_loaded_turn_permissions"] = True
+    else:
+        subset_bytes = ET.tostring(subset, encoding="utf-8", xml_declaration=True)
     record["source"] = {"path": str(source), "sha256": sha256(source_bytes).hexdigest()}
     record["merge_source"] = {"path": str(merge_source), "sha256": sha256(merge_bytes).hexdigest()}
     input_file = Path(output_dir) / f"{prefix}.{'local' if subset is not None else 'full'}-input.net.xml"
@@ -237,7 +321,7 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     if input_file.exists() or raw.exists() or failure_file.exists() or input_file.resolve() == output or raw.resolve() == output:
         raise ValueError("Use a new conversion output separate from its native snapshot.")
     with input_file.open("xb") as stream:
-        stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True) if subset is not None else source_bytes)
+        stream.write(subset_bytes)
     record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
     command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
     command[command.index("--output-file") + 1] = str(raw.resolve())
@@ -278,13 +362,20 @@ def validate_local_conversion(record, source_file):
     """Rebuild the local input and merged proposal from saved source and native files."""
     from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
     source_root = ET.parse(source_file).getroot()
+    if record.get("status") == "full_network" and record.get("preserve_loaded_turn_permissions") is True:
+        expected = ET.tostring(with_loaded_turn_permissions(source_root), encoding="utf-8", xml_declaration=True)
+        input_file = Path(record["input"]["path"])
+        if file_sha256(input_file) != record["input"]["sha256"] or input_file.read_bytes() != expected:
+            raise ValueError("Full conversion input differs from its source-derived permissions.")
+        return input_file
     operation = record["operation"]
     if validate_scoped_operation(operation, source_root):
         raise ValueError("Local conversion has an invalid scoped operation.")
     nodes, edges = scoped_operation_scope(source_root, operation)
     params = operation["params"]
     groups = {params["join_id"]: params["node_ids"]} if operation["operation"] in {"join_junctions", "absorb_reciprocal_fragment"} else None
-    subset, expected = local_conversion_input(source_root, nodes, edges, join_groups=groups)
+    subset, expected = local_conversion_input(source_root, nodes, edges, join_groups=groups,
+        preserve_turn_permissions=record.get("preserve_loaded_turn_permissions") is True)
     return _validate_local_artifacts(record, source_root, subset, expected)
 
 
@@ -326,7 +417,8 @@ def validate_join_boundary_conversion(report, source_file):
     root = ET.parse(joined_path).getroot()
     edges = {row.get("id") for row in root.findall("edge") if not row.get("id", "").startswith(":")
              and any(row.get(end) in nodes for end in ("from", "to"))}
-    subset, expected = local_conversion_input(root, nodes, edges)
+    subset, expected = local_conversion_input(root, nodes, edges,
+        preserve_turn_permissions=record.get("preserve_loaded_turn_permissions") is True)
     input_file = _validate_local_artifacts(record, root, subset, expected)
     command = report["commands"][0]["command"]
     if command.count("--sumo-net-file") != 1 or command.index("--sumo-net-file") + 1 >= len(command):

@@ -145,7 +145,7 @@ def validate_materialization_evidence(
         command_source = source_net_file
         semantic = report.get("semantic_validation")
         local = semantic.get("local_conversion") if isinstance(semantic, Mapping) else None
-        if isinstance(local, Mapping) and local.get("status") == "local":
+        if isinstance(local, Mapping) and (local.get("status") == "local" or local.get("preserve_loaded_turn_permissions") is True):
             from .local_network_conversion import validate_local_conversion
             try:
                 command_source = validate_local_conversion(local, source_net_file)

@@ -283,6 +283,11 @@ Explicit class aliases retain their native meaning. These comparisons do not rew
 Width and native stop-offset checks compare at the command's 12-decimal output precision.
 Inherited lane-count patch permissions use explicit classes, so a new plain-XML patch keeps the source network's legacy meaning.
 Lane and connection preservation checks both apply the corresponding network-format version.
+For surviving movements, connection preservation compares loaded access through the complete internal path.
+Before conversion, a separate input copy reconciles connection directives with the source's loaded lane permissions.
+This prevents a width edit from opening a restricted turn or closing an open turn.
+Explicit connection edits still apply after this preparation. Sources remain unchanged.
+Conversion records retain the prepared input and its hash, including full-network fallback inputs when needed.
 Native conversion can emit a newer file format. Copying older permission text into that format can change effective classes.
 Restoration now retains the source header and type definitions. Generated permission declarations keep their native meaning in that source format.
 Inherited boundary patches retain source classes in current plain XML. Teacher copies instead follow the receiving network's format.

@@ -10,6 +10,7 @@ import pytest
 from pyproj import Transformer
 
 from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.command_runner import run_command
 from astra_sumo.core import hamburg_aerial_approach as approach_module
 from astra_sumo.core.hamburg_aerial_approach import (
     _approach_proposal,
@@ -207,12 +208,13 @@ def test_official_bus_lane_permissions_and_real_vehicle_legality(tmp_path, full_
     routes = tmp_path / "legal.xml"
     routes.write_text('<routes><vType id="bus" vClass="bus"/><vehicle id="bus" type="bus" depart="0"><route edges="' + first + ' approach"/><stop lane="approach_1" endPos="' + str(float(bus_lane.get("length")) - 2) + '" duration="1"/></vehicle><vehicle id="car" depart="100"><route edges="' + first + ' approach"/></vehicle></routes>')
     command = [shutil.which("sumo"), "-n", result["candidate_network"]["path"], "-r", str(routes), "--end", "200", "--no-step-log", "--tripinfo-output", str(tmp_path / "trips.xml")]
-    run = subprocess.run(command, capture_output=True, text=True, timeout=30)
-    assert run.returncode == 0, run.stderr
+    run = run_command(command, cwd=tmp_path, timeout_seconds=30)
+    assert run.returncode == 0, run.to_dict()
     assert {row.get("id") for row in ET.parse(tmp_path / "trips.xml").getroot()} == {"bus", "car"}
     routes.write_text(routes.read_text().replace('id="bus" type="bus" depart="0"', 'id="bus" depart="0"'))
-    rejected = subprocess.run(command, capture_output=True, text=True, timeout=30)
-    assert rejected.returncode != 0, "A passenger vehicle must not use the official bus-only stop lane"
+    rejected = run_command(command, cwd=tmp_path, timeout_seconds=30)
+    assert rejected.returncode is not None and rejected.returncode != 0, rejected.to_dict()
+    assert "not allowed to stop on lane 'approach_1'" in rejected.stderr, rejected.to_dict()
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
