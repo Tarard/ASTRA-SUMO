@@ -1501,6 +1501,7 @@ def run_corridor_candidate_gates(
     topology_gate = _not_run_gate("candidate preflight did not pass")
     routeability_report: dict[str, Any] = {}
     topology_report: dict[str, Any] = {}
+    source_topology_report: dict[str, Any] = {}
 
     if preflight_pass:
         load_file = output_dir / f"{prefix}_sumo_load.txt"
@@ -1592,6 +1593,25 @@ def run_corridor_candidate_gates(
             topology_report,
             candidate_net_file=candidate_net_file,
         )
+        if topology_gate["status"] == "review_required" and preflight_gates.get("edit_applicability", {}).get("status") == "pass":
+            from .topology_audit import compare_topology_source_findings
+            try:
+                source_token = str(artifact_identity.get("source_sha256", ""))[:12]
+                source_topology_report = dict(topology_audit_func(net_file=source_net_file,
+                    output_dir=output_dir / f"topology_source_{source_token}", prefix=f"{prefix}_source_topology",
+                    cluster_radius_m=30.0, min_cluster_nodes=3, osm_file=osm_file))
+                source_evidence = validate_topology_evidence(source_topology_report, candidate_net_file=source_net_file)
+                if source_evidence["status"] in {"pass", "review_required"}:
+                    operation = preflight_gates["edit_applicability"]["operation"]
+                    params = operation["params"]
+                    aliases = ({node: params["join_id"] for node in params["node_ids"]}
+                               if operation["operation"] == "absorb_reciprocal_fragment" else {})
+                    relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases)
+                    topology_gate = {**relative, "candidate_audit": topology_gate, "source_audit": source_evidence}
+                else:
+                    topology_gate.update(reason="source_topology_evidence_unavailable", source_audit=source_evidence)
+            except (OSError, RuntimeError, TypeError, ValueError, KeyError, ET.ParseError) as error:
+                topology_gate.update(reason="source_topology_comparison_unavailable", error=str(error))
 
     gates = {
         **preflight_gates,
@@ -1631,8 +1651,11 @@ def run_corridor_candidate_gates(
         "gates": gates,
         "routeability_report": routeability_report,
         "topology_report": topology_report,
+        "source_topology_report": source_topology_report,
         "warnings": [] if status == "pass" else ["candidate remains review-only until every required gate passes"],
     }
+    if topology_gate.get("whole_network_status") == "review_required":
+        report["warnings"].append("Source-relative topology qualification retains inherited whole-network findings for review.")
     return _write_candidate_gate_outcome(
         report=report,
         report_file=report_file,

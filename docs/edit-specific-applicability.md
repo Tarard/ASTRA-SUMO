@@ -92,6 +92,23 @@ boundary access was lost. For these three verified profiles, the final modal
 gate uses exact vehicle-class boundary paths. It requires the same materialized
 ledger and source. Invalid applicability evidence cannot replace that gate.
 
+### Inherited topology findings
+
+A valid topology audit with unresolved findings returns `review_required`.
+Missing, changed, or invalid audit evidence remains `blocked`.
+
+For an edit that passes its automatic applicability profile, the final topology
+check also audits the immutable source with the same parameters and OSM context.
+It compares cluster membership by source node IDs. A declared fragment absorption
+maps its removed nodes to the declared join ID. Positional cluster labels do not
+identify a finding.
+
+New clusters, changed classifications, and increased recorded risks require review.
+Unchanged inherited findings do not prevent technical qualification of that edit.
+The report retains both audits, the inherited finding count, and a separate
+`whole_network_status`. An unscoped candidate still requires whole-network review.
+This comparison does not resolve source findings or establish field accuracy.
+
 All other callers retain their existing aggregate modal gate. The report and
 manifest bind the ledger, source, candidate evidence, and results. Changed
 inputs block the result.

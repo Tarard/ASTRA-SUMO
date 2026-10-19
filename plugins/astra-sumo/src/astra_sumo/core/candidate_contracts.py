@@ -705,7 +705,9 @@ def validate_topology_evidence(
         return {"status": "blocked", "errors": [{"code": "topology_report_required"}]}
     if str(report.get("schema", "")) != "torii.topology_audit.v2":
         errors.append({"code": "topology_schema_mismatch"})
-    if report.get("status") != "pass" or report.get("topology_fragmentation_status") != "pass":
+    needs_review = (report.get("status") in {"blocked", "review_required"}
+                    and report.get("topology_fragmentation_status") == "needs_review")
+    if not needs_review and (report.get("status") != "pass" or report.get("topology_fragmentation_status") != "pass"):
         errors.append({"code": "topology_result_not_pass"})
     if not _same_path(report.get("net_file"), candidate_net_file):
         errors.append({"code": "topology_net_path_mismatch"})
@@ -729,6 +731,8 @@ def validate_topology_evidence(
                 "min_cluster_nodes",
                 "suspicious_cluster_count",
                 "topology_canonical_cell_records",
+                "suspicious_clusters",
+                "topology_osm_context_sha256",
             ),
             "topology",
             errors,
@@ -743,15 +747,19 @@ def validate_topology_evidence(
     if persisted_manifest is not None:
         if persisted_manifest.get("schema") != "torii.topology_manifest.v2":
             errors.append({"code": "topology_manifest_schema_mismatch"})
-        if persisted_manifest.get("status") != "pass":
+        if persisted_manifest.get("status") != report.get("status"):
+            errors.append({"code": "topology_manifest_report_status_mismatch"})
+        if not needs_review and persisted_manifest.get("status") != "pass":
             errors.append({"code": "topology_manifest_status_not_pass"})
+        if persisted_manifest.get("topology_fragmentation_status", "pass") != report.get("topology_fragmentation_status"):
+            errors.append({"code": "topology_manifest_fragmentation_status_mismatch"})
         if not _same_path(persisted_manifest.get("net_file"), candidate_net_file):
             errors.append({"code": "topology_manifest_net_path_mismatch"})
         if str(persisted_manifest.get("net_sha256", "")) != expected_hash:
             errors.append({"code": "topology_manifest_net_hash_mismatch"})
 
     return {
-        "status": "pass" if not errors else "blocked",
+        "status": "blocked" if errors else "review_required" if needs_review else "pass",
         "topology_fragmentation_status": str(report.get("topology_fragmentation_status", "blocked")),
         "report_file": str(report_path) if report_path is not None else "",
         "manifest_file": str(manifest_path) if manifest_path is not None else "",

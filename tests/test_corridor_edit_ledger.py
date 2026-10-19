@@ -813,6 +813,29 @@ def test_candidate_gate_blocks_tls_phase_semantic_change(tmp_path: Path) -> None
     assert "tls" in semantic["tls_logic_signature_differences"]
 
 
+def test_unscoped_candidate_retains_global_topology_review(tmp_path: Path) -> None:
+    from astra_sumo.core.topology_audit import audit_topology_fragmentation
+
+    source = tmp_path / "source.net.xml"
+    candidate = tmp_path / "candidate.net.xml"
+    _write_net(source)
+    _write_distinct_candidate(source, candidate)
+    materialization = _persist_materialization_report(source, candidate, tmp_path / "materialization.json")
+    report = run_corridor_candidate_gates(
+        source_net_file=source,
+        candidate_net_file=candidate,
+        output_dir=tmp_path / "gates",
+        materialization_report=materialization,
+        routeability_audit_func=_passing_routeability_audit,
+        topology_audit_func=audit_topology_fragmentation,
+        command_runner=lambda *_args, **_kwargs: {"status": "pass", "returncode": 0},
+    )
+    assert report["status"] == "review_required"
+    assert report["gates"]["topology"]["status"] == "review_required"
+    assert report["topology_report"]["suspicious_cluster_count"] > 0
+    assert report["source_topology_report"] == {}
+
+
 def test_candidate_gate_accepts_only_explicit_tls_phase_review_allowance(tmp_path: Path) -> None:
     source = tmp_path / "source.net.xml"
     candidate = tmp_path / "candidate.net.xml"
