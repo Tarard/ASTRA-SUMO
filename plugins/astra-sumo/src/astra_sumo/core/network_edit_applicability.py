@@ -313,6 +313,7 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
         "status": "pass", "reason": "explicit_release_materialization_without_automatic_profile"}
     destination.mkdir(parents=True)
     report = {"schema": "astra.network-edit-verification/v1", "status": preflight["status"],
+              "whole_network_review": {"status": "not_run"},
               "preconditions": preflight, "field_correctness": "not_established", "certification_claim": "not_established",
               "ledger": {"path": str(ledger_path), "sha256": ledger_hash}}
     if preflight["status"] == "pass":
@@ -333,6 +334,7 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
                 materialization_report=built, sumo_binary=sumo_binary, routeability_audit_func=routeability,
                 edit_ledger_file=ledger_path if automatic_profile else None, netconvert_binary=netconvert_binary)
             report["candidate_gates"] = gates
+            report["whole_network_review"] = gates["whole_network_review"]
             report["applicability"] = gates["gates"].get("edit_applicability", {"status": "not_applicable"})
             report["status"] = gates["status"]
     report["inputs_unchanged"] = all(file_sha256(path) == digest for path, digest in hashes.items())

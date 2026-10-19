@@ -1606,7 +1606,8 @@ def run_corridor_candidate_gates(
                     params = operation["params"]
                     aliases = ({node: params["join_id"] for node in params["node_ids"]}
                                if operation["operation"] == "absorb_reciprocal_fragment" else {})
-                    relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases)
+                    relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases,
+                        source_node_ids=preflight_gates["edit_applicability"]["scope"]["source_junction_ids"])
                     topology_gate = {**relative, "candidate_audit": topology_gate, "source_audit": source_evidence}
                 else:
                     topology_gate.update(reason="source_topology_evidence_unavailable", source_audit=source_evidence)
@@ -1652,6 +1653,9 @@ def run_corridor_candidate_gates(
         "routeability_report": routeability_report,
         "topology_report": topology_report,
         "source_topology_report": source_topology_report,
+        "whole_network_review": {"status": topology_gate.get("whole_network_status", topology_gate["status"]),
+                                 "inherited_finding_count": topology_gate.get("inherited_finding_count"),
+                                 "scope_finding_count": len(topology_gate["scope_findings"]) if "scope_findings" in topology_gate else None},
         "warnings": [] if status == "pass" else ["candidate remains review-only until every required gate passes"],
     }
     if topology_gate.get("whole_network_status") == "review_required":

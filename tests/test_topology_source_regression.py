@@ -82,3 +82,40 @@ def test_missing_or_ambiguous_source_findings_require_review():
     candidate["suspicious_clusters"].append(deepcopy(candidate["suspicious_clusters"][0]))
     candidate["suspicious_cluster_count"] = 2
     assert compare_topology_source_findings(candidate, source)["status"] == "review_required"
+
+
+def test_edit_scope_cannot_inherit_its_own_unresolved_finding():
+    from astra_sumo.core.topology_audit import compare_topology_source_findings
+    source = _report()
+    assert compare_topology_source_findings(source, source, source_node_ids=["remote"])["status"] == "pass"
+    local = compare_topology_source_findings(source, source, source_node_ids=["b"])
+    assert local["status"] == "review_required"
+    assert local["reason"] == "edit_scope_in_inherited_topology_finding"
+    assert len(local["scope_findings"]) == 1
+
+
+def test_changed_cluster_structure_is_not_an_inherited_finding():
+    from astra_sumo.core.topology_audit import compare_topology_source_findings
+    for field, value in {"node_types": ["traffic_light"], "connected_node_pairs": ["a<->c"],
+                         "internal_edge_count": 2, "boundary_edge_count": 4, "direct_connected_node_pair_count": 1,
+                         "internal_edge_max_length_m": 100, "aggregation_confidence": "high"}.items():
+        source, candidate = _report(), _report()
+        candidate["suspicious_clusters"][0][field] = value
+        assert compare_topology_source_findings(candidate, source)["status"] == "review_required"
+
+
+def test_failed_corridor_audit_requires_review_even_without_dense_findings(tmp_path, monkeypatch):
+    from astra_sumo.core.topology_audit import compare_topology_source_findings
+    network, osm = tmp_path / "empty.net.xml", tmp_path / "empty.osm.xml"
+    network.write_text('<net><location netOffset="0,0" projParameter="!"/></net>', encoding="utf-8")
+    osm.write_text('<osm version="0.6"/>', encoding="utf-8")
+
+    def failed_corridor(*_args, **_kwargs):
+        raise ValueError("corridor probe failure")
+
+    monkeypatch.setattr("astra_sumo.core.topology_audit.enrich_clusters_with_corridor_audit", failed_corridor)
+    report = audit_topology_fragmentation(net_file=network, osm_file=osm, output_dir=tmp_path / "audit")
+    assert report["suspicious_cluster_count"] == 0 and report["status"] == "pass"
+    assert report["corridor_audit_status"] == "failed"
+    assert validate_topology_evidence(report, candidate_net_file=network)["status"] == "review_required"
+    assert compare_topology_source_findings(report, report)["status"] == "review_required"

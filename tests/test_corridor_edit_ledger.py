@@ -834,6 +834,7 @@ def test_unscoped_candidate_retains_global_topology_review(tmp_path: Path) -> No
     assert report["gates"]["topology"]["status"] == "review_required"
     assert report["topology_report"]["suspicious_cluster_count"] > 0
     assert report["source_topology_report"] == {}
+    assert report["whole_network_review"]["status"] == "review_required"
 
 
 def test_candidate_gate_accepts_only_explicit_tls_phase_review_allowance(tmp_path: Path) -> None:

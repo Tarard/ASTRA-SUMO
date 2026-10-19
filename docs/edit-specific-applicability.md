@@ -116,9 +116,16 @@ maps its removed nodes to the declared join ID. Positional cluster labels do not
 identify a finding.
 
 New clusters, changed classifications, and increased recorded risks require review.
-Unchanged inherited findings do not prevent technical qualification of that edit.
+The comparison also checks node types, edge and connected-pair counts, connected
+node pairs, maximum internal length, and aggregation confidence. A failed OSM
+corridor audit cannot qualify as an unchanged baseline.
+Unchanged inherited findings outside the edit scope do not prevent technical
+qualification. A source finding that contains an edited node requires review,
+even when that finding is unchanged.
 The report retains both audits, the inherited finding count, and a separate
-`whole_network_status`. An unscoped candidate still requires whole-network review.
+`whole_network_status`. The outer gate and edit-verification reports also expose
+`whole_network_review`, including the inherited and local finding counts.
+An unscoped candidate still requires whole-network review.
 This comparison does not resolve source findings or establish field accuracy.
 
 All other callers retain their existing aggregate modal gate. The report and

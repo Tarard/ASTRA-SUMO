@@ -716,9 +716,10 @@ def validate_topology_evidence(
         return {"status": "blocked", "errors": [{"code": "topology_report_required"}]}
     if str(report.get("schema", "")) != "torii.topology_audit.v2":
         errors.append({"code": "topology_schema_mismatch"})
-    needs_review = (report.get("status") in {"blocked", "review_required"}
-                    and report.get("topology_fragmentation_status") == "needs_review")
-    if not needs_review and (report.get("status") != "pass" or report.get("topology_fragmentation_status") != "pass"):
+    fragment_review = (report.get("status") in {"blocked", "review_required"}
+                       and report.get("topology_fragmentation_status") == "needs_review")
+    needs_review = fragment_review or report.get("corridor_audit_status", "not_run") not in {"pass", "not_run"}
+    if not fragment_review and (report.get("status") != "pass" or report.get("topology_fragmentation_status") != "pass"):
         errors.append({"code": "topology_result_not_pass"})
     if not _same_path(report.get("net_file"), candidate_net_file):
         errors.append({"code": "topology_net_path_mismatch"})
@@ -744,6 +745,8 @@ def validate_topology_evidence(
                 "topology_canonical_cell_records",
                 "suspicious_clusters",
                 "topology_osm_context_sha256",
+                "corridor_audit_status",
+                "corridor_audit_error",
             ),
             "topology",
             errors,

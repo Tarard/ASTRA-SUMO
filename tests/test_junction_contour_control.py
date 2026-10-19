@@ -115,6 +115,7 @@ def test_release_preserves_review_and_marks_unexecuted_checks(tmp_path):
     assert result["applicability"]["status"] == "review_required"
     assert result["status"] == "review_required"
     assert result["candidate_gates"]["gates"]["sumo_load"]["execution_status"] == "not_run"
+    assert result["whole_network_review"]["status"] == "review_required"
     assert result["candidate_gates"]["gates"]["sumo_load"]["status"] != "blocked"
 
 

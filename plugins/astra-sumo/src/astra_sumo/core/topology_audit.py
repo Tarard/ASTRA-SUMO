@@ -186,11 +186,15 @@ def audit_topology_fragmentation(
 
 def compare_topology_source_findings(
     candidate_report: Mapping[str, Any], source_report: Mapping[str, Any], *,
-    node_aliases: Mapping[str, str] | None = None,
+    node_aliases: Mapping[str, str] | None = None, source_node_ids: Iterable[str] = (),
 ) -> dict[str, Any]:
     """Compare findings within one source lineage, without certifying the baseline."""
     result = {"status": "review_required", "basis": "edit_specific_topology_non_regression",
-              "whole_network_status": "review_required", "inherited_finding_count": 0, "new_or_changed_findings": []}
+              "whole_network_status": "review_required", "inherited_finding_count": 0,
+              "scope_findings": [], "new_or_changed_findings": []}
+    corridor_states = [report.get("corridor_audit_status", "not_run") for report in (candidate_report, source_report)]
+    if corridor_states[0] != corridor_states[1] or any(state not in {"pass", "not_run"} for state in corridor_states):
+        return {**result, "reason": "topology_corridor_audit_unavailable"}
     for key in ("cluster_radius_m", "min_cluster_nodes", "topology_osm_context_sha256"):
         if candidate_report.get(key) != source_report.get(key):
             return {**result, "reason": "topology_audit_parameters_differ", "parameter": key}
@@ -221,7 +225,10 @@ def compare_topology_source_findings(
             if old is not None:
                 changed |= any(row.get(name) != old.get(name) for name in (
                     "physical_intersection_shape", "modal_primary_role", "aggregation_decision",
-                    "modal_aggregation_decision", "modal_review_action", "corridor_decision"))
+                    "modal_aggregation_decision", "modal_review_action", "corridor_decision", "aggregation_confidence",
+                    "internal_edge_count", "boundary_edge_count", "direct_connected_node_pair_count", "internal_edge_max_length_m"))
+                changed |= any(sorted(row.get(name, []) or []) != sorted(old.get(name, []) or [])
+                               for name in ("node_types", "connected_node_pairs"))
                 changed |= any(int(row.get(name, 0)) > int(old.get(name, 0)) for name in (
                     "approach_count", "internal_edge_overlap_pair_count", "traffic_light_node_count"))
                 changed |= any(bool(row.get(name)) and not bool(old.get(name)) for name in (
@@ -231,10 +238,15 @@ def compare_topology_source_findings(
                 result["new_or_changed_findings"].append({"node_ids": list(key), "candidate": row, "source": old})
             else:
                 result["inherited_finding_count"] += 1
+        scope = {aliases.get(node, node) for node in source_node_ids}
+        result["scope_findings"] = [row for key, row in before.items() if scope.intersection(key)]
         result.update(source_finding_count=len(before), candidate_finding_count=len(after), removed_finding_count=len(before.keys() - after.keys()))
         result["whole_network_status"] = "review_required" if after else "pass"
-        return {**result, "status": "review_required" if result["new_or_changed_findings"] else "pass",
-                "reason": "topology_findings_changed" if result["new_or_changed_findings"] else "no_new_or_worsened_source_topology_findings"}
+        reason = ("topology_findings_changed" if result["new_or_changed_findings"] else
+                  "edit_scope_in_inherited_topology_finding" if result["scope_findings"] else
+                  "no_new_or_worsened_source_topology_findings")
+        return {**result, "status": "pass" if not result["new_or_changed_findings"] and not result["scope_findings"] else "review_required",
+                "reason": reason}
     except (ValueError, TypeError, KeyError) as error:
         return {**result, "reason": "topology_source_comparison_unavailable", "error": str(error)}
 
