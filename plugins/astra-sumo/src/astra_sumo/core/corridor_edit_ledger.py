@@ -132,14 +132,25 @@ def propose_corridor_edits(
     if include_duplicates:
         duplicate_groups: dict[tuple[Any, ...], list[str]] = defaultdict(list)
         incident_connections: dict[str, list[ET.Element]] = defaultdict(list)
+        lanes = {lane.get("id"): lane for lane in root.findall("edge/lane")}
+        lane_ids = {(edge.get("id"), str(index)): lane.get("id") for edge in root.findall("edge")
+                    for index, lane in enumerate(edge.findall("lane"))}
+        continuations = defaultdict(list)
         for row in root.findall("connection"):
+            if row.get("from") not in edges:
+                continuations[lane_ids.get((row.get("from"), row.get("fromLane"))), row.get("to"), row.get("toLane")].append(row)
+        internal_paths = {}
+        for row in root.findall("connection"):
+            if row.get("from") not in edges or row.get("to") not in edges:
+                continue
+            internal_paths[row] = _duplicate_internal_path(row, lanes, continuations)
             for edge_id in {row.get("from"), row.get("to")}:
                 if edge_id in edges:
                     incident_connections[edge_id].append(row)
         for edge_id, edge in edges.items():
             if _is_protected_edge(edge, root):
                 continue
-            duplicate_groups[_edge_duplicate_signature(edge, incident_connections[edge_id])].append(edge_id)
+            duplicate_groups[_edge_duplicate_signature(edge, incident_connections[edge_id], internal_paths)].append(edge_id)
         for signature, edge_ids in sorted(duplicate_groups.items(), key=lambda item: str(item[0])):
             if len(edge_ids) < 2:
                 continue
@@ -150,13 +161,14 @@ def propose_corridor_edits(
                         operation_id=f"delete-duplicate-{duplicate_id}",
                         operation="delete_edge",
                         target_ids=[duplicate_id],
-                        rationale="edge is an exact semantic duplicate of a deterministic retained edge",
+                        rationale="edge has coincident stored geometry, matching lane rules and ordinary movement neighbors",
                         evidence=[
                             {
                                 "kind": "duplicate_signature",
                                 "retained_edge_id": keep_id,
                                 "duplicate_group": sorted(edge_ids),
                                 "signature": list(signature),
+                            "native_turn_states": "not_equivalence_checked",
                             }
                         ],
                         rollback={"action": "restore_source_edge", "edge_ids": [duplicate_id]},
@@ -2858,9 +2870,11 @@ def _normal_edges(root: ET.Element | None) -> dict[str, ET.Element]:
     }
 
 
-def _edge_duplicate_signature(edge: ET.Element, connections: Iterable[ET.Element] = ()) -> tuple[Any, ...]:
-    copy = deepcopy(edge)
+def _duplicate_element_state(element: ET.Element) -> str:
+    copy = deepcopy(element)
     copy.attrib.pop("id", None)
+    if copy.tag == "lane":
+        copy.attrib.pop("index", None)
     for lane in copy.findall("lane"):
         lane.attrib.pop("id", None)
     for row in copy.iter():
@@ -2868,16 +2882,39 @@ def _edge_duplicate_signature(edge: ET.Element, connections: Iterable[ET.Element
         row.tail = None
         if row.text is not None and not row.text.strip():
             row.text = None
+    return ET.tostring(copy, encoding="unicode")
+
+
+def _duplicate_internal_path(connection, lanes, continuations):
+    path, seen = [], set()
+    current = connection
+    while current.get("via"):
+        via = current.get("via")
+        rows = continuations.get((via, connection.get("to"), connection.get("toLane")), [])
+        if via not in lanes or via in seen or len(rows) != 1:
+            return ("unresolved", connection.get("from"), via)
+        seen.add(via)
+        current = rows[0]
+        rules = tuple(sorted((key, value) for key, value in current.attrib.items()
+                             if key not in {"from", "fromLane", "to", "via", "state"}))
+        children = tuple(ET.tostring(child, encoding="unicode") for child in current)
+        path.append((_duplicate_element_state(lanes[via]), rules, children))
+    return ("resolved", tuple(path))
+
+
+def _edge_duplicate_signature(edge: ET.Element, connections, internal_paths) -> tuple[Any, ...]:
     movements = []
     for connection in connections:
         attributes = []
         for key, value in sorted(connection.attrib.items()):
+            if key in {"via", "state"}:
+                continue
             if key in {"from", "to"}:
                 value = (value == edge.get("id"), "" if value == edge.get("id") else value)
             attributes.append((key, value))
         children = tuple(ET.tostring(child, encoding="unicode") for child in connection)
-        movements.append((tuple(attributes), children))
-    return ET.tostring(copy, encoding="unicode"), tuple(sorted(movements))
+        movements.append((tuple(attributes), children, internal_paths[connection]))
+    return _duplicate_element_state(edge), tuple(sorted(movements))
 
 
 def _edge_lane_signature(edge: ET.Element) -> tuple[tuple[str, ...], ...]:

@@ -250,10 +250,15 @@ direction alone does not establish a field prohibition.
 ## Preservation and review
 
 Duplicate-road proposals require matching geometry, lane attributes, parameters,
-and incident connection records after replacing only the compared road identity.
+and ordinary movement neighbors after replacing the compared road identity.
+Internal paths compare their lane state and geometry instead of generated IDs.
+Generated internal indices and native priority states are not identity keys.
+Turn directions and declared connection rules remain part of the comparison.
+Unknown or branching internal paths do not establish equivalence.
 Shared endpoints and lane classes alone do not establish duplicate roads.
 The comparison is exact and can leave numerically equivalent spellings unmatched.
 Proposals remain review candidates and do not prove a field defect.
+They also do not establish equal native right-of-way or authorize deletion.
 
 Signal demotion and static controller relocation use the shared local conversion
 path when the complete affected controller stays inside the declared scope.
