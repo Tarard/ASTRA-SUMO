@@ -84,3 +84,17 @@ includes the captured connected native case. Paths are repository-relative:
 Stochastic-driver behavior, automatic-cleaning precision, remaining whole-network
 conversion scopes, and operational parking remain open. Static compatible
 movements do not prove signal availability over time or discharge capacity.
+
+## CI follow-up on 2026-10-20
+
+The push suite for `bc2efd8` finished with 3622 passes, one failure and 24 skips.
+The legacy permission regression still expected release qualification whenever
+permissions were retained. Its added lane has no boundary service, so the new
+review outcome correctly prevents release qualification.
+
+Test commit `b960e86` checks `construction_checks_passed` for permission
+preservation and separately checks the unverified service. Its tampered-permission
+negative case remains rejected. No production code changed. All 66 related
+local tests passed in 100.85 seconds. The failed inputs and CI logs were downloaded
+before another run. The [receipt](new-lane-service-ci-20261020-v1.json) retains
+their locations and hashes. The new full CI run remains pending at this record.
