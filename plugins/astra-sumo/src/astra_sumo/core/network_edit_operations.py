@@ -577,13 +577,18 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for left, right in sorted({(pair[0], pair[2]) for pair in connections
                     if params["edge_id"] in (pair[0], pair[2]) and pair[0] in edges and pair[2] in edges}):
                 ET.SubElement(patches["connections"], "delete", **{"from": left, "to": right})
-            for record in _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0")):
+            requested_connections = _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0"))
+            for record in requested_connections:
                 ET.SubElement(patches["connections"], "connection", **record)
             affected_tls = {row.get("tl") for pair, row in connections.items()
                             if params["edge_id"] in (pair[0], pair[2]) and row.get("tl")}
             for logic in root.findall("tlLogic"):
                 if logic.get("id") in affected_tls:
                     patches["tllogics"].append(deepcopy(logic))
+            for record in requested_connections:
+                if record.get("tl") and "linkIndex" in record:
+                    ET.SubElement(patches["tllogics"], "connection", **{key: record[key] for key in (
+                        "from", "fromLane", "to", "toLane", "tl", "linkIndex", "linkIndex2") if key in record})
     elif kind == "demote_duplicate_tls":
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], type="priority")
     elif kind == "relocate_tls_control":
@@ -608,7 +613,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
     if kind == "set_lane_count":
         plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
-        plan["requested_connections"] = _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0"))
+        plan["requested_connections"] = requested_connections
     plan["junction_link_detail"] = int(root.get("junctionLinkDetail", "5"))
     from .local_network_conversion import with_geometry_precision
     command = with_geometry_precision([netconvert_binary, "--sumo-net-file", str(source_file.resolve()), "--offset.disable-normalization", "true",
@@ -836,10 +841,13 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     link_preservation = compare_loaded_link_semantics(source_net_file=source, native_net_file=native_reference,
         candidate_net_file=candidate_file, mutable_junction_ids=mutable_nodes, output_dir=output_dir / "loaded-links",
         sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds, command_runner=command_runner)
+    affected_tls = set().union(*(_controllers(before, old_edges, node) for node in mutable_nodes))
+    signal_preservation = _retained_signal_programs(before, after, operation, affected_tls)
     passed = (rebuild["status"] == geometry["status"] == load["status"] == "pass" and effect
               and structure["structural_failure_count"] == 0 and not changed_lane_layout and unchanged_permissions
               and connections_preserved and connection_permissions_preserved
               and link_preservation["status"] == "pass"
+              and signal_preservation["status"] in {"pass", "not_applicable"}
               and not green_conflicts and evidence_unchanged and file_sha256(source) == plan["source"]["sha256"])
     direct = {}
     added_modes = []
@@ -894,6 +902,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
     if link_preservation["status"] != "pass":
         warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
+    if signal_preservation["status"] == "fail":
+        warnings.append("Source signal programs changed or could not be verified on retained movements.")
     warnings.extend(load_warning_messages(link_preservation))
     contour_changes = {}
     if kind == "set_junction_shape":
@@ -902,6 +912,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,
+            "signal_program_preservation": signal_preservation,
             "lane_coordinate_artifacts": dependent,
             "warnings": warnings,
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],
@@ -1072,6 +1083,51 @@ def _program(logic):
     numeric = {"duration", "offset", "minDur", "maxDur", "earliestEnd", "latestEnd"}
     return (logic.tag, tuple(sorted((key, float(value) if key in numeric else value)
                                    for key, value in logic.attrib.items())), [_program(child) for child in logic])
+
+
+def _retained_signal_programs(before, after, operation, affected_tls):
+    """Compare source timing on retained movements, including declared lane remapping."""
+    kind, params = operation["operation"], operation["params"]
+    if kind in {"relocate_tls_control", "demote_duplicate_tls"} or (
+            kind in _JOIN_EDITS and params.get("signal_policy") == "rebuild_diagnostic"):
+        return {"status": "not_applicable", "reason": "explicit_signal_operation"}
+    edges, _, old_connections = _inventory(before)
+    _, _, new_connections = _inventory(after)
+    mapping = _lane_count_layout(params, edges[params["edge_id"]]) if kind == "set_lane_count" else {}
+    requested = {_pair(row) for row in params["connections"]} if kind == "set_lane_count" and "connections" in params else None
+    differences, checked, removed = [], 0, 0
+    for key, old in old_connections.items():
+        if old.get("tl") not in affected_tls:
+            continue
+        updated, discarded = list(key), False
+        if kind == "set_lane_count":
+            for end in (0, 2):
+                if key[end] == params["edge_id"]:
+                    if key[end+1] not in mapping:
+                        discarded = True
+                    else:
+                        updated[end+1] = mapping[key[end+1]]
+        explicitly_removed = (requested is not None and params["edge_id"] in (key[0], key[2])
+                              and tuple(updated) not in requested)
+        if discarded or explicitly_removed or kind in {"delete_lane_connection", "suppress_turnaround"} and key == _pair(params):
+            removed += 1
+            continue
+        checked += 1
+        new = new_connections.get(tuple(updated))
+        reason = "missing_retained_signal_connection" if new is None else None
+        if new is not None:
+            try:
+                previous, current = _link_program(before, old), _link_program(after, new)
+                reason = ("signal_program_unavailable" if not previous or not current else
+                          "retained_signal_program_changed" if previous != current else None)
+            except (ValueError, TypeError):
+                reason = "signal_program_unavailable"
+        if reason:
+            differences.append({"source_connection": list(key), "candidate_connection": updated,
+                "source_tls": old.get("tl"), "candidate_tls": new.get("tl") if new is not None else None,
+                "reason": reason})
+    return {"status": "fail" if differences else "pass", "checked_connection_count": checked,
+            "declared_removed_connection_count": removed, "differences": differences}
 
 
 def _link_program(root, connection):

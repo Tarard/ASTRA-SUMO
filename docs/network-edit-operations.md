@@ -72,6 +72,14 @@ An explore result has no promotion authority.
 Successful exploration returns `measured`. An unapplied requested effect returns `no_effect`.
 Both describe a completed command. Neither status accepts the candidate for publication.
 
+Scoped checks compare source signal programs on retained movements. They check
+controller type, offset, phase timing, and the bound signal states with numeric
+time normalization. Declared lane mappings and removed movements define the
+comparison. Explicit signal edits retain their existing dedicated checks.
+`signal_program_preservation` records the result and each changed or unavailable
+binding. Explore reports a warning while preserving otherwise valid measurements.
+Release checks require preservation for edits that retain source signal control.
+
 Supply `--facts-file <facts.json>` to measure the source and candidate against one frozen fact table.
 The output includes both scorecards, `fact_deltas`, and `outside_fact_changes`.
 It records numerical differences inside nested coverage metrics too.
@@ -91,6 +99,7 @@ An explicit connection list also inherits these values for matching surviving
 pairs. Explicit `allow` or `disallow` replaces the inherited permission directives.
 Lane-count patches supply existing affected signal programs explicitly. Adding
 or removing lanes must not silently replace those programs with generated timing.
+The signal file also binds surviving movements to their remapped lane indices.
 New controlled movements still need compatible signal bindings and a valid load.
 With `--facts-file`, surviving lanes use the declared index mapping in a separate candidate fact table.
 Reference geometry and expected physical values stay fixed. Removed lanes retain a missing-lane result.

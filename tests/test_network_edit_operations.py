@@ -100,14 +100,16 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
-@pytest.mark.parametrize("count", [3, 4, 5])
-def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, count):
+@pytest.mark.parametrize("count,layout", [(3, {}), (4, {}), (5, {}),
+    (5, {"add_side": "right"}), (3, {"remove_index": 0})],
+    ids=["remove_high", "identity", "add_left", "add_right", "remove_right"])
+def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, count, layout):
     fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
     source = tmp_path / "source.net.xml"
     source.write_bytes(gzip.decompress(fixture.read_bytes()))
     digest = file_sha256(source)
     operation = {"id": "count", "operation": "set_lane_count", "status": "accepted",
-        "params": {"edge_id": "554713076#0", "num_lanes": count},
+        "params": {"edge_id": "554713076#0", "num_lanes": count, **layout},
         "rationale": "Regression: preserve published source signal programs during a lane-count edit.",
         "evidence": [{"path": str(source), "sha256": digest}], "rollback": {"action": "discard_candidate"}}
     report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
@@ -125,7 +127,18 @@ def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, cou
         assert float(actual.get("duration")) == float(expected.get("duration"))
         assert {key:value for key,value in expected.attrib.items() if key != "duration"}.items() <= actual.attrib.items()
     retained = [row for row in new.findall("connection") if row.get("from") == "554713076#0" and row.get("shape")]
-    assert len(retained) == (1 if count == 3 else 2)
+    assert len(retained) == (1 if count == 3 and not layout else 2)
+    actual_connections = {(row.get("fromLane"),row.get("to"),row.get("toLane")):row
+                          for row in new.findall("connection") if row.get("from") == "554713076#0"}
+    shift = 1 if layout.get("add_side") == "right" else -1 if layout.get("remove_index") == 0 else 0
+    for row in old.findall("connection"):
+        if row.get("from") != "554713076#0" or not row.get("tl"):
+            continue
+        index = int(row.get("fromLane"))
+        if count == 3 and not layout and index >= count:
+            continue
+        actual = actual_connections[str(index+shift),row.get("to"),row.get("toLane")]
+        assert (actual.get("tl"),actual.get("linkIndex")) == (row.get("tl"),row.get("linkIndex"))
     assert file_sha256(source) == digest
 
 
