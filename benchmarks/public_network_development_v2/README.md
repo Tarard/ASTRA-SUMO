@@ -134,3 +134,6 @@ The [direct-edit and proposal follow-up](maintenance-20261020-v1.md) removes
 unchanged topology review from verified direct edits, distinguishes declared
 lane removals, and fixes 31 duplicate-road proposals contradicted by the paired
 published model. It retains the failed CI assertion and correction.
+The [native duplicate follow-up](native-duplicates-20261020-v1.md) corrects the
+intermediate repair's missed native positive. It compares actual internal paths
+without generated identities and retains the zero-proposal MoST result.
