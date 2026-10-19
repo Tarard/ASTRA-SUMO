@@ -118,3 +118,7 @@ The [modal-lane follow-up](modal-lanes-20261019-v1.md) adds explicit traffic-cla
 selection, retained walking/cycling access checks, and walking/bicycle completion
 probes. It resolves the recorded right-addition layout gap through class-selected
 construction while retaining raw physical-index semantics.
+The [new-lane service follow-up](new-lane-service-20261019-v1.md) reports compatible
+boundary movements, preserves review through release/evidence validation, and
+records a connected native example. It also repairs the tuple-versus-JSON-array
+false alarm found in the real Hamburg evidence.
