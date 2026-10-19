@@ -1,0 +1,502 @@
+{
+  "schema": "astra.lane-count-preservation-followup/v1",
+  "date": "2026-10-19",
+  "production_commit": "a06076abad89f154519307885f6a1a0ac1aa8d86",
+  "source": {
+    "path": "outputs/native_command_failure_20261019_v1/hamburg/workflow/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+  },
+  "source_signal_program": {
+    "attributes": {
+      "id": "LSA2349_part0",
+      "type": "static",
+      "programID": "0",
+      "offset": "0"
+    },
+    "phases": [
+      {
+        "duration": "15",
+        "state": "GrGGrrrrrrrrr"
+      },
+      {
+        "duration": "3",
+        "state": "yryyrrrrrrrrr"
+      },
+      {
+        "duration": "5",
+        "state": "rrrrrrrrrrrrr"
+      },
+      {
+        "duration": "15",
+        "state": "rGrrGGrrGrrrr"
+      },
+      {
+        "duration": "3",
+        "state": "ryrryyrryrrrr"
+      },
+      {
+        "duration": "5",
+        "state": "rrrrrrrrrrrrr"
+      },
+      {
+        "duration": "15",
+        "state": "rrrrrrGGrGrrr"
+      },
+      {
+        "duration": "3",
+        "state": "rrrrrryyryrrr"
+      },
+      {
+        "duration": "5",
+        "state": "rrrrrrrrrrrrr"
+      },
+      {
+        "duration": "15",
+        "state": "rrrrrrrrrrGGG"
+      },
+      {
+        "duration": "3",
+        "state": "rrrrrrrrrryyy"
+      },
+      {
+        "duration": "5",
+        "state": "rrrrrrrrrrrrr"
+      }
+    ]
+  },
+  "stages": [
+    {
+      "version": 1,
+      "code": {
+        "path": "outputs/driving_identity_20261019_v1/network-edit-operations.reconstructed.py",
+        "sha256": "34ab096c6aa85e7da5a33afc93871fae4f742a78af1a3d37cc2e159ed3390dda"
+      },
+      "code_archive_origin": "Reconstructed after the run and verified against its pre-execution hash.",
+      "declaration": {
+        "path": "outputs/driving_identity_20261019_v1/declaration.json",
+        "sha256": "b53b28b53d71942f2d53f2c96a78022a8fddf7a32ac4832478b9d5267160c100"
+      },
+      "comparison": {
+        "path": "outputs/driving_identity_20261019_v1/driving/comparison.json",
+        "sha256": "f053e0cfcd003e000454837619b0ed36a1edc60bedc5b2b0376b6444f61c5287"
+      },
+      "cases": [
+        {
+          "name": "lane-count-control",
+          "network": {
+            "path": "outputs/driving_identity_20261019_v1/lane-count-control/candidate.net.xml",
+            "sha256": "0e976d3b89c239e1c15ffdd560a42d4fcfc79dfbd0175a3cecfae5f080e78aae"
+          },
+          "loaded": 100,
+          "arrived": 100,
+          "collisions": 0,
+          "teleports": 0,
+          "phase_count": 6,
+          "custom_turn_count": 0,
+          "mean_duration_delta_s": -24.89,
+          "maximum_absolute_duration_delta_s": 221.0,
+          "changed_duration_count": 21,
+          "signal_program_sha256": "28f0e0420941d8258ae4e7c8ef3768770c7d860483ea4a752f51dc1d135c2b79"
+        },
+        {
+          "name": "lane-count-stress",
+          "network": {
+            "path": "outputs/native_command_failure_20261019_v1/hamburg/lane-count-stress/candidate.net.xml",
+            "sha256": "819b06374491fa587532dd4654c90641d855eb8613167b12aa02f1257a20ef6a"
+          },
+          "loaded": 100,
+          "arrived": 100,
+          "collisions": 0,
+          "teleports": 0,
+          "phase_count": 6,
+          "custom_turn_count": 0,
+          "mean_duration_delta_s": -24.9,
+          "maximum_absolute_duration_delta_s": 221.0,
+          "changed_duration_count": 21,
+          "signal_program_sha256": "28f0e0420941d8258ae4e7c8ef3768770c7d860483ea4a752f51dc1d135c2b79"
+        }
+      ]
+    },
+    {
+      "version": 2,
+      "code": {
+        "path": "outputs/driving_identity_20261019_v2/network-edit-operations.reconstructed.py",
+        "sha256": "d700f549c97e4adbc3a0525914a4d5f2427ae87225c398d61de701acbace2ce9"
+      },
+      "code_archive_origin": "Reconstructed after the run and verified against its pre-execution hash.",
+      "declaration": {
+        "path": "outputs/driving_identity_20261019_v2/declaration.json",
+        "sha256": "ede3747e70861e6e47dde4f2379c03f52be5a03b8bdff4e7a7165e3ed4b36b38"
+      },
+      "comparison": {
+        "path": "outputs/driving_identity_20261019_v2/driving/comparison.json",
+        "sha256": "f516b77c7c461252185265cc48696a0fc32ab5fe87b07ed86b5416d5de67eb98"
+      },
+      "cases": [
+        {
+          "name": "control",
+          "network": {
+            "path": "outputs/driving_identity_20261019_v2/control/candidate.net.xml",
+            "sha256": "67c21228ebf27904c5a0746a7f2a01d2738124cdb4f0c28464a78938e441675d"
+          },
+          "loaded": 100,
+          "arrived": 100,
+          "collisions": 0,
+          "teleports": 0,
+          "phase_count": 6,
+          "custom_turn_count": 2,
+          "mean_duration_delta_s": -24.9,
+          "maximum_absolute_duration_delta_s": 221.0,
+          "changed_duration_count": 21,
+          "signal_program_sha256": "28f0e0420941d8258ae4e7c8ef3768770c7d860483ea4a752f51dc1d135c2b79"
+        },
+        {
+          "name": "stress",
+          "network": {
+            "path": "outputs/driving_identity_20261019_v2/stress/candidate.net.xml",
+            "sha256": "0288dc043ab8302bf432bbeffa534373b00e268e3624322287eb452ed74f6911"
+          },
+          "loaded": 100,
+          "arrived": 100,
+          "collisions": 0,
+          "teleports": 0,
+          "phase_count": 6,
+          "custom_turn_count": 2,
+          "mean_duration_delta_s": -24.88,
+          "maximum_absolute_duration_delta_s": 221.0,
+          "changed_duration_count": 21,
+          "signal_program_sha256": "28f0e0420941d8258ae4e7c8ef3768770c7d860483ea4a752f51dc1d135c2b79"
+        }
+      ]
+    },
+    {
+      "version": 3,
+      "code": {
+        "path": "outputs/driving_identity_20261019_v3/network-edit-operations.reconstructed.py",
+        "sha256": "e90f84cc58ec7fac7a77e2960f3fc3ddb57b00805838a3e111493c3707df180a"
+      },
+      "code_archive_origin": "Reconstructed after the run and verified against its pre-execution hash.",
+      "declaration": {
+        "path": "outputs/driving_identity_20261019_v3/declaration.json",
+        "sha256": "8762ae4f865e49f5390fe4a091a9f095bfec3c3251ee2957115981af21ba6051"
+      },
+      "comparison": {
+        "path": "outputs/driving_identity_20261019_v3/driving/comparison.json",
+        "sha256": "db8b30698f3fdb265af3e85d99d496d65c708efe6429d00ee7d70d5f471a64fd"
+      },
+      "cases": [
+        {
+          "name": "control",
+          "network": {
+            "path": "outputs/driving_identity_20261019_v3/control/candidate.net.xml",
+            "sha256": "caede4cd7b6f4de4ddc90a2b1234425d96b790ce01ba09d6dfe8d848091d11e1"
+          },
+          "loaded": 100,
+          "arrived": 100,
+          "collisions": 0,
+          "teleports": 0,
+          "phase_count": 12,
+          "custom_turn_count": 2,
+          "mean_duration_delta_s": 0.0,
+          "maximum_absolute_duration_delta_s": 0.0,
+          "changed_duration_count": 0,
+          "signal_program_sha256": "ae4e0ecee58e0c7db7204e7b6aebf4e1563120e18d32d95352f8545fd3c215c2"
+        },
+        {
+          "name": "stress",
+          "network": {
+            "path": "outputs/driving_identity_20261019_v3/stress/candidate.net.xml",
+            "sha256": "0b7a3b15ce61495e9a5849ad1fde62f9a53fe22d8668edce1c08e639dd4e03f7"
+          },
+          "loaded": 100,
+          "arrived": 100,
+          "collisions": 0,
+          "teleports": 0,
+          "phase_count": 12,
+          "custom_turn_count": 2,
+          "mean_duration_delta_s": 0.0,
+          "maximum_absolute_duration_delta_s": 0.0,
+          "changed_duration_count": 0,
+          "signal_program_sha256": "ae4e0ecee58e0c7db7204e7b6aebf4e1563120e18d32d95352f8545fd3c215c2"
+        }
+      ]
+    }
+  ],
+  "calibration": [
+    {
+      "site": "2349",
+      "case": "control",
+      "status": "measured",
+      "fact_count": 90,
+      "scorecard": {
+        "path": "outputs/driving_identity_20261019_v3/2349-control-scorecard.json",
+        "sha256": "8a1ba618351e9d4b80b7a1aa71abd925d8d12a0c35d90fbd40c82d98b2e07b6a"
+      },
+      "facts": {
+        "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2349-facts.json",
+        "sha256": "f051a2356943199f70317e916dcbe21a56868f558e1387068f1cb3e99d511473"
+      },
+      "changed_facts": [
+        {
+          "fact_id": "2349:lane:1:centerline",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "mean_reference_offset_m": -0.0015914791734716882,
+            "mean_lateral_offset_m": -0.0018230130122827148,
+            "reference_coverage": 0.006756756756756799,
+            "covered_reference_length_m": 0.496885716189567,
+            "uncovered_reference_length_m": -0.496885716189567,
+            "mean_direction_cosine": -1.3556227890232364e-06,
+            "coverage_within_m": {
+              "2.0": 0.006756756756756688
+            }
+          }
+        },
+        {
+          "fact_id": "2349:lane:1:stop_line",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "offset_m": -0.0032112218849724705,
+            "longitudinal_offset_m": 0.0011646397418001095,
+            "lateral_offset_m": 0.0031708841270656762
+          }
+        },
+        {
+          "fact_id": "2349:lane:2:centerline",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "mean_reference_offset_m": -0.00040944454553315524,
+            "mean_lateral_offset_m": -0.00040786381879831524,
+            "mean_direction_cosine": 1.8495033171639363e-07
+          }
+        },
+        {
+          "fact_id": "2349:lane:2:stop_line",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "offset_m": 0.0025613931544725688,
+            "longitudinal_offset_m": 0.00048010299744474794,
+            "lateral_offset_m": -0.0025512621375538558
+          }
+        },
+        {
+          "fact_id": "2349:lane:3:centerline",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "mean_reference_offset_m": -0.001546752318710265,
+            "mean_lateral_offset_m": -0.0017051263338236922,
+            "max_sampled_lateral_offset_m": -0.0031263502252474318,
+            "mean_direction_cosine": -5.0370454631742945e-06
+          }
+        },
+        {
+          "fact_id": "2349:lane:3:stop_line",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "offset_m": -0.003027965895544771,
+            "longitudinal_offset_m": -0.003008703050184136,
+            "lateral_offset_m": 0.0031161828048142937
+          }
+        }
+      ],
+      "changed_fact_count": 6,
+      "outside_changed_fact_ids": [],
+      "regressed_facts": []
+    },
+    {
+      "site": "2349",
+      "case": "stress",
+      "status": "measured",
+      "fact_count": 90,
+      "scorecard": {
+        "path": "outputs/driving_identity_20261019_v3/2349-stress-scorecard.json",
+        "sha256": "59931967caa500185e3c571fe6614e76d8cacac865f9b0d0f3c9baf4bf9e56e3"
+      },
+      "facts": {
+        "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2349-facts.json",
+        "sha256": "f051a2356943199f70317e916dcbe21a56868f558e1387068f1cb3e99d511473"
+      },
+      "changed_facts": [
+        {
+          "fact_id": "2349:lane:1:centerline",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "mean_reference_offset_m": 0.6028495556991671,
+            "mean_lateral_offset_m": 0.6745260424032,
+            "max_sampled_lateral_offset_m": 1.1792335541106413,
+            "reference_coverage": -0.027027027027026973,
+            "covered_reference_length_m": -1.9875428647582396,
+            "uncovered_reference_length_m": 1.9875428647582396,
+            "mean_direction_cosine": 0.002385541635529287,
+            "coverage_within_m": {
+              "2.0": -0.40540540540540543
+            }
+          }
+        },
+        {
+          "fact_id": "2349:lane:1:stop_line",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "offset_m": 1.596249880123844,
+            "longitudinal_offset_m": 0.0011647918000412122,
+            "lateral_offset_m": -1.5968297686850053
+          }
+        },
+        {
+          "fact_id": "2349:lane:2:centerline",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "mean_reference_offset_m": 0.5983563913385788,
+            "max_sampled_reference_offset_m": 1.5337594295132928,
+            "mean_lateral_offset_m": 0.6096845981533305,
+            "max_sampled_lateral_offset_m": 1.530810794069613,
+            "reference_coverage": -0.033557046979865834,
+            "covered_reference_length_m": -2.4856053679001064,
+            "uncovered_reference_length_m": 2.4856053679001064,
+            "mean_direction_cosine": 0.0030412610985273147
+          }
+        },
+        {
+          "fact_id": "2349:lane:2:stop_line",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "offset_m": 1.6020378410385727,
+            "longitudinal_offset_m": -0.021843788816359885,
+            "lateral_offset_m": -1.60255067578187
+          }
+        },
+        {
+          "fact_id": "2349:lane:3:centerline",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "mean_reference_offset_m": 0.5837556166454081,
+            "mean_lateral_offset_m": 0.6531793580662906,
+            "max_sampled_lateral_offset_m": 1.5968738374093743,
+            "reference_coverage": -0.046052631578947345,
+            "covered_reference_length_m": -3.494739867573159,
+            "uncovered_reference_length_m": 3.494739867573159,
+            "mean_direction_cosine": -2.7989044976028943e-05
+          }
+        },
+        {
+          "fact_id": "2349:lane:3:stop_line",
+          "before": "measured",
+          "after": "measured",
+          "metric_deltas": {
+            "offset_m": 1.595663563147983,
+            "longitudinal_offset_m": 0.08552755238606556,
+            "lateral_offset_m": -1.5968840079774695
+          }
+        },
+        {
+          "fact_id": "2349:approach:1:lanes",
+          "before": "matched",
+          "after": "mismatched",
+          "metric_deltas": {
+            "absolute_count_error": 1
+          }
+        }
+      ],
+      "changed_fact_count": 7,
+      "outside_changed_fact_ids": [],
+      "regressed_facts": [
+        "2349:approach:1:lanes"
+      ]
+    },
+    {
+      "site": "2394",
+      "case": "control",
+      "status": "measured",
+      "fact_count": 74,
+      "scorecard": {
+        "path": "outputs/driving_identity_20261019_v3/2394-control-scorecard.json",
+        "sha256": "14cb5784301af1e0945b2ff69e85048282c99a05ab6ba13070467b771d960114"
+      },
+      "facts": {
+        "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2394-facts.json",
+        "sha256": "0a83f78b8c703a074a1b0cbfc8e055e043f88f8439415fef69c4cbd9e769f68c"
+      },
+      "changed_facts": [],
+      "changed_fact_count": 0,
+      "outside_changed_fact_ids": [],
+      "regressed_facts": []
+    },
+    {
+      "site": "2394",
+      "case": "stress",
+      "status": "measured",
+      "fact_count": 74,
+      "scorecard": {
+        "path": "outputs/driving_identity_20261019_v3/2394-stress-scorecard.json",
+        "sha256": "d89b23fd821d5ad151489317a0e7c5f893474db0afcf055aa16a46c709f61384"
+      },
+      "facts": {
+        "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2394-facts.json",
+        "sha256": "0a83f78b8c703a074a1b0cbfc8e055e043f88f8439415fef69c4cbd9e769f68c"
+      },
+      "changed_facts": [],
+      "changed_fact_count": 0,
+      "outside_changed_fact_ids": [],
+      "regressed_facts": []
+    }
+  ],
+  "identity_check": {
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "local_test_runs": [
+    {
+      "path": "outputs/driving_identity_20261019_v1/connection-retention-after.log",
+      "passed": 109,
+      "seconds": 280.05,
+      "scope": "Intermediate connection-attribute repair, before the program fix."
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/final-lane-count-tests.log",
+      "passed": 14,
+      "seconds": 33.05
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/native-program-regressions.log",
+      "passed": 2,
+      "seconds": 17.85
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/lane-reduction-program-tests.log",
+      "passed": 2,
+      "seconds": 10.49
+    }
+  ],
+  "prior_ci": {
+    "commit": "f7b45f4a692b1908dc5ec57352018ab66de26e75",
+    "pr": {
+      "run": 39312296573,
+      "status": "success",
+      "passed": 3565,
+      "skipped": 24,
+      "seconds": 753.57
+    },
+    "push": {
+      "run": 39312288192,
+      "status": "success"
+    }
+  },
+  "current_ci": "pending at record creation",
+  "limits": [
+    "The fixed deterministic diagnostic is one pre-existing cohort and seed, not field demand or traffic benefit.",
+    "The previous lane-count duration reduction cannot be attributed to extra capacity: the unchanged-count control reproduced it.",
+    "The fact tables contain signal-group bindings, not full signal programs. Their scores do not establish timing preservation.",
+    "This does not finish stochastic-driver validation, cleaning precision, or remaining whole-network conversion scopes."
+  ]
+}

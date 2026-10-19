@@ -107,3 +107,7 @@ The [native runtime follow-up](native-runtime-20261019-v1.md) records bounded
 teacher and intersection checks, another unchanged Hamburg reconstruction,
 and four valid pairs using the previously saved deterministic driving cohort.
 The original burst-demand failures remain open.
+The [lane-count follow-up](lane-count-preservation-20261019-v1.md) records an
+unintended 12-to-6-phase signal rewrite exposed by unchanged-count controls.
+It supersedes the earlier lane-count traffic-effect interpretation and records
+the retained-turn and signal-program repair.
