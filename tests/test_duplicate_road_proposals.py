@@ -57,7 +57,7 @@ def test_duplicate_deletion_requires_equal_geometry_rules_and_movements(tmp_path
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="netconvert required")
-@pytest.mark.parametrize("difference", [None, "internal_shape", "internal_permission", "unresolved"])
+@pytest.mark.parametrize("difference", [None, "internal_shape", "internal_permission", "unresolved", "signalized"])
 def test_native_duplicate_ignores_generated_ids_but_keeps_actual_internal_paths(tmp_path, difference):
     nodes, edges, turns = [tmp_path / name for name in ("nodes.xml", "edges.xml", "connections.xml")]
     nodes.write_text(
@@ -65,6 +65,10 @@ def test_native_duplicate_ignores_generated_ids_but_keeps_actual_internal_paths(
         '<node id="e" x="100" y="0"/></nodes>',
         encoding="utf-8",
     )
+    if difference == "signalized":
+        nodes.write_text(
+            nodes.read_text(encoding="utf-8").replace('type="priority"', 'type="traffic_light"'), encoding="utf-8"
+        )
     edges.write_text(
         '<edges><edge id="in" from="inlet" to="w" allow="passenger" speed="10"/>'
         '<edge id="first" from="w" to="j" allow="passenger" speed="10"/>'
@@ -103,7 +107,11 @@ def test_native_duplicate_ignores_generated_ids_but_keeps_actual_internal_paths(
     movement = root.find("connection[@from='second']")
     first = root.find("connection[@from='first']")
     assert first.get("via") != movement.get("via")
-    assert first.get("state") != movement.get("state")
+    if difference == "signalized":
+        assert first.get("tl") == movement.get("tl") == "j"
+        assert first.get("linkIndex") != movement.get("linkIndex")
+    else:
+        assert first.get("state") != movement.get("state")
     lane = root.find(f"edge/lane[@id='{movement.get('via')}']")
     if difference == "internal_shape":
         lane.set("shape", "-1.5,-1.6 0,1 1.5,-1.6")
