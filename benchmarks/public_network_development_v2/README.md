@@ -111,3 +111,6 @@ The [lane-count follow-up](lane-count-preservation-20261019-v1.md) records an
 unintended 12-to-6-phase signal rewrite exposed by unchanged-count controls.
 It supersedes the earlier lane-count traffic-effect interpretation and records
 the retained-turn and signal-program repair.
+The [shifted-index follow-up](lane-count-preservation-20261019-v2.md) repairs
+right-side additions and lower-index removals. It records independent source
+signal checks, explore/release fault injection, and a clean committed-code repeat.
