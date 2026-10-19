@@ -68,7 +68,7 @@ def _boundary_access(root, members, *, incoming_lane_ids=None, outgoing_lane_ids
     return incoming, outgoing, access
 
 
-def assess_edit_applicability(ledger, *, candidate_net_file=None):
+def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_control_report=None):
     """Assess a single accepted edit. A pass establishes technical applicability only."""
     from .corridor_edit_ledger import normalize_edit_operation, validate_edit_ledger, _is_structurally_protected_edge
     from .network_edit_operations import validate_scoped_operation, _shape
@@ -216,6 +216,21 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None):
         shape = Polygon([tuple(map(float, token.split(",")[:2])) for token in actual.get("shape", "").split()])
         requested = Polygon([tuple(map(float, point.split(","))) for point in _shape(params["shape"]).split()])
         checks["requested_shape"] = "pass" if shape.equals(requested) else "blocked"
+        from .junction_contour_control import assess_identity_control, geometry_delta
+        control = assess_identity_control(source, root, params["node_id"], identity_control_report)
+        result["contour_identity_control"] = control
+        checks["native_contour_identity_control"] = control["status"]
+        result["contour_geometry_changes"] = {"source_to_candidate": geometry_delta(root, after, params["node_id"]),
+                                               "control_to_candidate": None}
+        if control.get("geometry") is not None and control.get("candidate"):
+            try:
+                control_root = ET.parse(control["candidate"]["path"]).getroot()
+                result["contour_geometry_changes"]["control_to_candidate"] = geometry_delta(control_root, after, params["node_id"])
+            except (OSError, ValueError, ET.ParseError) as error:
+                checks["native_contour_identity_control"] = "review_required"
+                control.update(status="review_required", reason="contour_identity_control_unavailable", error=str(error))
+        if control["status"] != "pass":
+            result["reason"] = control["reason"]
     from ..corridor.canonicalizer import canonicalize_net_xml_file
     from ..corridor.conflict_graph import audit_independent_movement_safety
     from ..corridor.enums import TrafficSide
@@ -232,7 +247,20 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None):
     result["stage"] = "candidate_checked"
     checks["inputs_unchanged"] = "pass" if (file_sha256(source) == digest and file_sha256(candidate) == candidate_digest
         and all(file_sha256(Path(row["path"])) == row["sha256"] for row in evidence)) else "blocked"
-    return {**result, "status": "pass" if all(value == "pass" for value in checks.values()) else "blocked"}
+    if kind == "set_junction_shape":
+        for name in ("candidate", "materialization_report"):
+            identity = result["contour_identity_control"].get(name)
+            if not identity or not identity.get("sha256"):
+                continue
+            try:
+                if file_sha256(Path(identity["path"])) != identity["sha256"]:
+                    checks["inputs_unchanged"] = "blocked"
+            except OSError as error:
+                checks["inputs_unchanged"] = "blocked"
+                result["contour_identity_control"]["input_error"] = str(error)
+    status = "pass" if all(value == "pass" for value in checks.values()) else (
+        "review_required" if all(value in {"pass", "review_required"} for value in checks.values()) else "blocked")
+    return {**result, "status": status}
 
 
 def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconvert", mode="explore", facts_file=None):
@@ -272,23 +300,20 @@ def verify_network_edit(*, ledger_file, output_dir, netconvert_binary="netconver
         report["materialization"] = built
         report["status"] = "blocked"
         if built["status"] == "pass":
-            applicability = (assess_edit_applicability(ledger, candidate_net_file=built["candidate_net_file"])
-                             if automatic_profile else {"status": "not_applicable"})
-            report["applicability"] = applicability
-            if applicability["status"] in {"pass", "not_applicable"}:
-                sumo_binary = _sumo_binary(netconvert_binary)
+            sumo_binary = _sumo_binary(netconvert_binary)
 
-                def routeability(**kwargs):
-                    duarouter = str(Path(sumo_binary).with_name("duarouter" + Path(sumo_binary).suffix))
-                    return run_routeability_audit(**kwargs, od_reference_net_file=source,
-                                                 binaries={"sumo": sumo_binary, "duarouter": duarouter})
+            def routeability(**kwargs):
+                duarouter = str(Path(sumo_binary).with_name("duarouter" + Path(sumo_binary).suffix))
+                return run_routeability_audit(**kwargs, od_reference_net_file=source,
+                                             binaries={"sumo": sumo_binary, "duarouter": duarouter})
 
-                gates = run_corridor_candidate_gates(source_net_file=source,
-                    candidate_net_file=Path(built["candidate_net_file"]), output_dir=destination / "gates",
-                    materialization_report=built, sumo_binary=sumo_binary, routeability_audit_func=routeability,
-                    edit_ledger_file=ledger_path if automatic_profile else None)
-                report["candidate_gates"] = gates
-                report["status"] = gates["status"]
+            gates = run_corridor_candidate_gates(source_net_file=source,
+                candidate_net_file=Path(built["candidate_net_file"]), output_dir=destination / "gates",
+                materialization_report=built, sumo_binary=sumo_binary, routeability_audit_func=routeability,
+                edit_ledger_file=ledger_path if automatic_profile else None, netconvert_binary=netconvert_binary)
+            report["candidate_gates"] = gates
+            report["applicability"] = gates["gates"].get("edit_applicability", {"status": "not_applicable"})
+            report["status"] = gates["status"]
     report["inputs_unchanged"] = all(file_sha256(path) == digest for path, digest in hashes.items())
     if not report["inputs_unchanged"]:
         report["status"] = "blocked"

@@ -35,6 +35,11 @@ request described by the input schema.
 The existing operations remain `add_edge`, `add_sidewalk`, `add_crossing`,
 `add_ramp`, `delete_edge`, and `merge_edges`.
 
+Junction shape edits use native reconstruction. Final automatic qualification
+compares that reconstruction with a source-contour identity control. See
+[local edit applicability](edit-specific-applicability.md) for the measured
+geometry changes and the control's limits.
+
 ## Daily exploration and release
 
 Use `astra network verify-edit <ledger.json> <new-output-dir> --mode explore --json` for daily calibration.

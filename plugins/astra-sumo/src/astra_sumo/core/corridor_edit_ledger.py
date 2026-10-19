@@ -1371,6 +1371,7 @@ def run_corridor_candidate_gates(
     topology_audit_func: Any | None = None,
     command_runner: Any = run_command,
     edit_ledger_file: Path | None = None,
+    netconvert_binary: str | None = None,
 ) -> dict[str, Any]:
     """Run promotion gates for an already materialized corridor candidate.
 
@@ -1470,7 +1471,15 @@ def run_corridor_candidate_gates(
                                if row.get("kind") == "edit_ledger" and Path(row["path"]).resolve() == edit_path]
             if len(ledger_bindings) != 1 or ledger_bindings[0].get("sha256") != edit_hash:
                 raise ValueError("Edit ledger differs from the materialized ledger hash")
-            applicability = assess_edit_applicability(edit_ledger, candidate_net_file=candidate_net_file)
+            control = None
+            if (materialization_evidence["status"] == "pass" and len(edit_ledger.get("operations", [])) == 1
+                    and edit_ledger["operations"][0].get("operation") == "set_junction_shape"
+                    and assess_edit_applicability(edit_ledger)["status"] == "pass"):
+                from .junction_contour_control import build_identity_control
+                control = build_identity_control(edit_ledger, output_dir=output_dir,
+                    netconvert_binary=netconvert_binary or str(Path(sumo_binary).with_name("netconvert" + Path(sumo_binary).suffix)),
+                    command_runner=command_runner)
+            applicability = assess_edit_applicability(edit_ledger, candidate_net_file=candidate_net_file, identity_control_report=control)
             applicability["ledger"] = {"path": str(edit_path), "sha256": edit_hash}
             if file_sha256(edit_path) != edit_hash:
                 applicability["status"] = "blocked"

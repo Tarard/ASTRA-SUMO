@@ -1,0 +1,28 @@
+{
+  "parent_source_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+  "upstream_commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+  "label_scope": "native_converter_regression_not_field_defect",
+  "osm_snapshot_date": null,
+  "field_validity_date": null,
+  "terminal_boundary_transform": "outside junctions are dead ends; exterior connections and unused TLS programs removed",
+  "fixtures": [
+    {
+      "node_id": "132844",
+      "sha256": "5a3aef46e46f6b502c58a9010614ad146eff63476ad9051776451aa70d151e28",
+      "bytes": 18922,
+      "parent_lane_attributes_preserved": true,
+      "parent_target_junction_attributes_preserved": true,
+      "original_applicability": "blocked",
+      "identity_control_length_drift_m": 1.0
+    },
+    {
+      "node_id": "151337",
+      "sha256": "383819ca79898b64c61318d5a89aa88f7eb09cc80986eae39156c5c1b312ed83",
+      "bytes": 10626,
+      "parent_lane_attributes_preserved": true,
+      "parent_target_junction_attributes_preserved": true,
+      "original_applicability": "pass",
+      "identity_control_length_drift_m": 6.34
+    }
+  ]
+}

@@ -16,12 +16,30 @@ every evidence hash must match before construction.
 | Edit | Local preconditions | Candidate checks |
 |---|---|---|
 | `suppress_turnaround` | Exact existing uncontrolled turnaround. Every affected vehicle class retains another local exit | Only the declared movement disappears. All other explicit boundary paths and their vehicle classes remain |
-| `set_junction_shape` | Valid polygon strictly inside the original polygon | Exact requested polygon, preserved boundary access, fixed remote lane ends, and unchanged lane widths, speeds, and permissions |
+| `set_junction_shape` | Valid polygon strictly inside the original polygon | Exact requested polygon, stable native source-contour control, preserved boundary access, fixed remote lane ends, and unchanged lane widths, speeds, and permissions |
 | `absorb_reciprocal_fragment` | Two connected uncontrolled nodes. Reciprocal roads within the explicitly supplied length limit. Fixed-lane paths and preserved control | Exact boundary lane identities and all explicit vehicle-class paths through the former two nodes remain |
 
 The profiles do not require four arms, a single fixed program, or a network
 without pedestrians. Signals and mixed traffic outside the edit remain in
 the network. The checks protect their exact outside state.
+
+Contour edits retain native geometry reconstruction. Final candidate gates also
+materialize the source's own polygon as a custom contour. This identity control
+uses the same converter and construction path as the requested edit.
+The report separates source-to-control, source-to-candidate, and control-to-candidate
+geometry changes. It records XY and XYZ endpoint movement, shape displacement,
+declared lengths, missing lanes, and unavailable comparisons.
+
+The stability screen uses the existing connection-audit tolerance of 0.1 m.
+Large changes under the identity control return
+`custom_contour_recuts_source_geometry`. Missing or unverified controls require
+review before automatic acceptance. Explore mode retains its measurements and
+does not require this final qualification.
+
+The control has no promotion authority. Its source, native materialization, and
+artifacts remain bound to their hashes. Pedestrian geometry changes still retain
+the current preservation checks. Support for automatically accepting a changed
+pedestrian layout remains incomplete.
 
 Local rail, bridge, and tunnel semantics require separate review. Controlled
 turn removal also requires signal review. Absorption with local pedestrian
