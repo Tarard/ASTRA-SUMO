@@ -69,6 +69,46 @@ def test_added_lane_service_is_distinguished_from_geometry(tmp_path, connected):
             )["status"]
             == "blocked"
         )
+    else:
+        from astra_sumo.core.command_runner import run_command
+
+        routes = tmp_path / "through.rou.xml"
+        routes.write_text(
+            '<routes><vehicle id="through" depart="0"><route edges="in middle out"/>'
+            '<stop lane="middle_1" endPos="10" duration="0"/></vehicle></routes>',
+            encoding="utf-8",
+        )
+        trips, fcd = tmp_path / "tripinfo.xml", tmp_path / "fcd.xml"
+        native = run_command(
+            [
+                shutil.which("sumo"),
+                "-n",
+                report["candidate_net_file"],
+                "-r",
+                str(routes),
+                "--end",
+                "120",
+                "--step-length",
+                "0.1",
+                "--tripinfo-output",
+                str(trips),
+                "--fcd-output",
+                str(fcd),
+                "--no-step-log",
+                "true",
+            ],
+            timeout_seconds=30,
+        )
+        assert native.status == "pass", native
+        trip = ET.parse(trips).getroot().find("tripinfo")
+        assert trip is not None and trip.get("id") == "through" and float(trip.get("arrival")) > 0
+        observed = [
+            v.get("lane")
+            for step in ET.parse(fcd).getroot().findall("timestep")
+            for v in step.findall("vehicle")
+            if v.get("lane", "").startswith("middle_")
+        ]
+        assert observed and set(observed) == {"middle_1"}
     assert file_sha256(source) == digest
 
 
