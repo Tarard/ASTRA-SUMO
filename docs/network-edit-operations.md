@@ -90,9 +90,28 @@ Native command time remains separate from the measurements.
 For lane-count edits, `remove_index` removes one selected lane and remaps surviving indices.
 `add_side` adds one lane on the left or right. Existing lanes retain their permissions, widths, and speeds.
 Without these fields, a reduction removes the highest indices and an increase adds lanes on the left.
+`num_lanes` is the total SUMO lane count, including walking and cycling lanes.
+Optional `vehicle_class` selects the source lanes that may be copied or removed.
+Right insertion precedes the rightmost compatible lane. Left insertion follows
+the leftmost compatible lane. Reductions remove the highest compatible indices.
+An explicit `remove_index` must serve the selected class when that class is given.
+Omitting `vehicle_class` retains the existing physical-index interpretation.
+
+For example, on a road with one sidewalk, one cycle lane, and two passenger
+lanes, these parameters add a passenger lane beside the cycle lane:
+
+```json
+{"edge_id": "road", "num_lanes": 5, "add_side": "right", "vehicle_class": "passenger"}
+```
+
 The default connection policy preserves existing movements of surviving lanes, with their remapped indices.
 New lanes need an explicit complete `connections` list when they should serve additional movements.
 The tool does not guess these movements. The report lists added and removed ordinary lane connections.
+For a new controlled movement, include `tl` and `linkIndex`, with optional
+`linkIndex2`, in its connection record. The controller must serve that junction.
+Indices must fit every source program. Missing or incompatible bindings are
+invalid inputs. Existing matching pairs inherit their saved bindings.
+This reuses existing program states. It does not design a new signal program.
 Surviving connections retain their saved custom paths, lengths, speeds, signal
 bindings, and supported driving constraints when lane indices change.
 An explicit connection list also inherits these values for matching surviving
@@ -104,6 +123,17 @@ New controlled movements still need compatible signal bindings and a valid load.
 With `--facts-file`, surviving lanes use the declared index mapping in a separate candidate fact table.
 Reference geometry and expected physical values stay fixed. Removed lanes retain a missing-lane result.
 The report records both table hashes and every changed selector.
+
+`nonmotor_access_preservation` compares dedicated walking and cycling lanes
+against their source junction access. It follows lane and junction remapping,
+permits declared lane or movement removals, and reports collateral access loss.
+Pedestrian access is bidirectional. Walking-area renaming alone is not a failure.
+The check also detects a retained sidewalk displaced as the pedestrian model's
+selected lane, or a newly duplicated sidewalk. SUMO assumes at most one sidewalk
+per edge; see [pedestrian network definitions](https://sumo.dlr.de/docs/Simulation/Pedestrians.html).
+Explore retains otherwise valid measurements with warnings. Release checks
+require preservation of the retained facilities. This checks explicit access,
+not complete implicit pedestrian routing or field legality.
 
 The road shape is the SUMO edge reference line, not one individual lane centerline.
 Road-shape and lane-count edits clear custom shapes on the retained target lanes so SUMO can recompute their geometry.

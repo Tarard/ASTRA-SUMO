@@ -468,6 +468,10 @@
                           "right"
                         ]
                       },
+                      "vehicle_class": {
+                        "type": "string",
+                        "minLength": 1
+                      },
                       "connections": {
                         "type": "array",
                         "items": {
@@ -501,7 +505,31 @@
                             },
                             "disallow": {
                               "type": "string"
+                            },
+                            "tl": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "linkIndex": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "linkIndex2": {
+                              "type": "integer",
+                              "minimum": 0
                             }
+                          },
+                          "dependentRequired": {
+                            "tl": [
+                              "linkIndex"
+                            ],
+                            "linkIndex": [
+                              "tl"
+                            ],
+                            "linkIndex2": [
+                              "tl",
+                              "linkIndex"
+                            ]
                           }
                         }
                       }

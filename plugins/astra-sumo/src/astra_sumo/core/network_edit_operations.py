@@ -36,7 +36,7 @@ _PARAMETERS = {
     "set_lane_permissions": {"lane_id", "allow", "disallow"},
     "set_lane_width": {"lane_id", "width_m"},
     "set_edge_shape": {"edge_id", "shape"},
-    "set_lane_count": {"edge_id", "num_lanes", "remove_index", "add_side", "connections"},
+    "set_lane_count": {"edge_id", "num_lanes", "remove_index", "add_side", "vehicle_class", "connections"},
     "move_stop_line": {"lane_id", "end_offset_m"},
     "set_speed": {"lane_id", "speed_m_s"},
 }
@@ -212,17 +212,49 @@ def _stop_line_patches(root, params):
     return patches
 
 
-def _lane_count_layout(params, edge):
+def _lane_count_members(params, edge, network_version=None):
+    from .osm_access import _permission_set
+    lanes = edge.findall("lane")
+    if "vehicle_class" not in params:
+        return list(range(len(lanes)))
+    mode = params["vehicle_class"]
+    if not isinstance(mode, str):
+        raise ValueError("Select one supported vehicle class.")
+    selected = _permission_set({"allow": mode})
+    if len(selected) != 1 or not selected <= _permission_set({}):
+        raise ValueError("Select one supported vehicle class.")
+    members = [index for index, lane in enumerate(lanes)
+               if selected <= _permission_set(lane.attrib, network_version=network_version)]
+    if not members:
+        raise ValueError("No source lane serves the selected vehicle class.")
+    return members
+
+
+def _lane_count_template(params, edge, network_version=None):
+    members = _lane_count_members(params, edge, network_version)
+    return members[0] if params.get("add_side") == "right" else members[-1]
+
+
+def _lane_count_layout(params, edge, network_version=None):
     old_count, new_count = len(edge.findall("lane")), params["num_lanes"]
+    members = _lane_count_members(params, edge, network_version)
     if "remove_index" in params:
         if new_count != old_count - 1 or params["remove_index"] >= old_count:
             raise ValueError("remove_index requires removing exactly one existing lane.")
+        if params["remove_index"] not in members:
+            raise ValueError("The removed lane must serve the selected vehicle class.")
         survivors = [index for index in range(old_count) if index != params["remove_index"]]
         return {old: new for new, old in enumerate(survivors)}
     if "add_side" in params and new_count != old_count + 1:
         raise ValueError("add_side requires adding exactly one lane.")
-    return {index: index + (1 if params.get("add_side") == "right" else 0)
-            for index in range(min(old_count, new_count))}
+    if new_count < old_count:
+        amount = old_count - new_count
+        if amount > len(members):
+            raise ValueError("The reduction exceeds lanes serving the selected vehicle class.")
+        removed = set(members[-amount:])
+        return {old: new for new, old in enumerate(index for index in range(old_count) if index not in removed)}
+    insertion = members[0] if params.get("add_side") == "right" else members[-1] + 1
+    return {index: index + (new_count-old_count if index >= insertion else 0) for index in range(old_count)}
 
 
 def _patch_permissions(attributes, network_version):
@@ -233,7 +265,7 @@ def _patch_permissions(attributes, network_version):
 
 def _lane_count_connections(params, edges, connections, *, network_version=None):
     target = params["edge_id"]
-    mapping = _lane_count_layout(params, edges[target])
+    mapping = _lane_count_layout(params, edges[target], network_version)
     result = []
     for pair, row in connections.items():
         if target not in (pair[0], pair[2]) or pair[0] not in edges or pair[2] not in edges:
@@ -367,8 +399,13 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                     pairs = set()
                     for row in params["connections"]:
                         pair = _pair(row)
-                        if set(row) - {"from", "fromLane", "to", "toLane", "allow", "disallow"} or pair in pairs:
+                        if set(row) - {"from", "fromLane", "to", "toLane", "allow", "disallow", "tl", "linkIndex", "linkIndex2"} or pair in pairs:
                             raise ValueError("Lane-count connections must contain distinct supported lane pairs.")
+                        if {"tl", "linkIndex", "linkIndex2"} & row.keys():
+                            if not isinstance(row.get("tl"), str) or not row["tl"] or "linkIndex" not in row:
+                                raise ValueError("A signal binding requires tl and linkIndex.")
+                            if any(type(row[key]) is not int or row[key] < 0 for key in ("linkIndex", "linkIndex2") if key in row):
+                                raise ValueError("Signal binding indices must be nonnegative integers.")
                         pairs.add(pair)
         elif kind == "demote_duplicate_tls":
             if params["node_id"] == params["retained_node_id"]:
@@ -445,7 +482,7 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
             if params["edge_id"] not in edges:
                 raise ValueError("Road is unknown.")
             if kind == "set_lane_count":
-                _lane_count_layout(params, edges[params["edge_id"]])
+                _lane_count_layout(params, edges[params["edge_id"]], root.get("version", "0.0"))
                 for row in params.get("connections", []):
                     pair = _pair(row)
                     if params["edge_id"] not in (pair[0], pair[2]):
@@ -455,6 +492,26 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                             raise ValueError("Lane-count connection addresses an unknown resulting lane.")
                     if edges[pair[0]].get("to") != edges[pair[2]].get("from"):
                         raise ValueError("Lane-count connection roads must meet at one junction.")
+                if "connections" in params:
+                    original = _lane_count_connections({key:value for key,value in params.items() if key != "connections"},
+                        edges, connections, network_version=root.get("version", "0.0"))
+                    known = {_key(ET.Element("connection", record)) for record in original}
+                    controllers = {}
+                    for row in params["connections"]:
+                        pair = _pair(row)
+                        node = edges[pair[0]].get("to")
+                        if node not in controllers:
+                            controllers[node] = _controllers(root, edges, node)
+                        if pair not in known and controllers[node] and not row.get("tl"):
+                            raise ValueError("A new controlled movement requires an explicit signal binding with tl and linkIndex.")
+                        if row.get("tl"):
+                            programs = [logic for logic in root.findall("tlLogic") if logic.get("id") == row["tl"]]
+                            indices = [row[key] for key in ("linkIndex", "linkIndex2") if key in row]
+                            if row["tl"] not in controllers[node] or not programs:
+                                raise ValueError("The signal binding must use an existing controller at this junction.")
+                            if any(not logic.findall("phase") or any(index >= len(phase.get("state", ""))
+                                for phase in logic.findall("phase") for index in indices) for logic in programs):
+                                raise ValueError("The signal binding must fit every source program phase state.")
         elif kind == "demote_duplicate_tls":
             left, right = params["node_id"], params["retained_node_id"]
             left_controllers, right_controllers = _controllers(root, edges, left), _controllers(root, edges, right)
@@ -563,10 +620,11 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for index, _lane in enumerate(edge.findall("lane")):
                 ET.SubElement(patch, "lane", index=str(index), shape="")
         else:
-            mapping = _lane_count_layout(params, edge)
+            mapping = _lane_count_layout(params, edge, root.get("version", "0.0"))
             new_to_old = {new: old for old, new in mapping.items()}
+            template = _lane_count_template(params, edge, root.get("version", "0.0"))
             for new in range(params["num_lanes"]):
-                old = new_to_old.get(new, 0 if params.get("add_side") == "right" else len(edge.findall("lane")) - 1)
+                old = new_to_old.get(new, template)
                 original = edge.findall("lane")[old]
                 permissions = _patch_permissions(original.attrib, root.get("version", "0.0"))
                 lane_patch = ET.SubElement(patch, "lane", index=str(new), shape="", **permissions,
@@ -612,7 +670,8 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             "evidence_sources": evidence_sources,
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
     if kind == "set_lane_count":
-        plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]]).items()}
+        plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]], root.get("version", "0.0")).items()}
+        plan["lane_template_index"] = template
         plan["requested_connections"] = requested_connections
     plan["junction_link_detail"] = int(root.get("junctionLinkDetail", "5"))
     from .local_network_conversion import with_geometry_precision
@@ -816,9 +875,10 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             and not (kind == "set_lane_count" and identifier.rsplit("_", 1)[0] == params["edge_id"]))
         if kind == "set_lane_count":
             original = old_edges[params["edge_id"]].findall("lane")
-            mapping = {new: old for old, new in _lane_count_layout(params, old_edges[params["edge_id"]]).items()}
+            mapping = {new: old for old, new in _lane_count_layout(params, old_edges[params["edge_id"]], before.get("version", "0.0")).items()}
+            template = _lane_count_template(params, old_edges[params["edge_id"]], before.get("version", "0.0"))
             for new, lane in enumerate(after.find(f"edge[@id='{params['edge_id']}']").findall("lane")):
-                old = mapping.get(new, 0 if params.get("add_side") == "right" else len(original) - 1)
+                old = mapping.get(new, template)
                 unchanged_permissions &= (_permission_set(original[old].attrib, network_version=before.get("version", "0.0")) ==
                                           _permission_set(lane.attrib, network_version=after.get("version", "0.0")))
     else:
@@ -843,11 +903,14 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds, command_runner=command_runner)
     affected_tls = set().union(*(_controllers(before, old_edges, node) for node in mutable_nodes))
     signal_preservation = _retained_signal_programs(before, after, operation, affected_tls)
+    from .network_nonmotor_access import compare_nonmotor_access
+    nonmotor_access = compare_nonmotor_access(before, after, plan)
     passed = (rebuild["status"] == geometry["status"] == load["status"] == "pass" and effect
               and structure["structural_failure_count"] == 0 and not changed_lane_layout and unchanged_permissions
               and connections_preserved and connection_permissions_preserved
               and link_preservation["status"] == "pass"
               and signal_preservation["status"] in {"pass", "not_applicable"}
+              and nonmotor_access["status"] == "pass"
               and not green_conflicts and evidence_unchanged and file_sha256(source) == plan["source"]["sha256"])
     direct = {}
     added_modes = []
@@ -904,6 +967,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
     if signal_preservation["status"] == "fail":
         warnings.append("Source signal programs changed or could not be verified on retained movements.")
+    if nonmotor_access["status"] != "pass":
+        warnings.append("Retained walking or cycling junction access changed or could not be verified.")
     warnings.extend(load_warning_messages(link_preservation))
     contour_changes = {}
     if kind == "set_junction_shape":
@@ -913,6 +978,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,
             "signal_program_preservation": signal_preservation,
+            "nonmotor_access_preservation": nonmotor_access,
             "lane_coordinate_artifacts": dependent,
             "warnings": warnings,
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],
@@ -1093,7 +1159,7 @@ def _retained_signal_programs(before, after, operation, affected_tls):
         return {"status": "not_applicable", "reason": "explicit_signal_operation"}
     edges, _, old_connections = _inventory(before)
     _, _, new_connections = _inventory(after)
-    mapping = _lane_count_layout(params, edges[params["edge_id"]]) if kind == "set_lane_count" else {}
+    mapping = _lane_count_layout(params, edges[params["edge_id"]], before.get("version", "0.0")) if kind == "set_lane_count" else {}
     requested = {_pair(row) for row in params["connections"]} if kind == "set_lane_count" and "connections" in params else None
     differences, checked, removed = [], 0, 0
     for key, old in old_connections.items():

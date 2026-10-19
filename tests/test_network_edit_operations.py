@@ -101,8 +101,9 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 @pytest.mark.parametrize("count,layout", [(3, {}), (4, {}), (5, {}),
-    (5, {"add_side": "right"}), (3, {"remove_index": 0})],
-    ids=["remove_high", "identity", "add_left", "add_right", "remove_right"])
+    (5, {"add_side": "right"}), (3, {"remove_index": 0}),
+    (5, {"add_side": "right", "vehicle_class": "passenger"})],
+    ids=["remove_high", "identity", "add_left", "add_right", "remove_right", "add_passenger_right"])
 def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, count, layout):
     fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
     source = tmp_path / "source.net.xml"
@@ -115,11 +116,25 @@ def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, cou
     report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
         ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
         netconvert_binary=shutil.which("netconvert"))
-    assert report["status"] == "pass", report
+    nonmotor_access_loss = ((layout.get("add_side") == "right" and "vehicle_class" not in layout)
+                           or layout.get("remove_index") == 0)
+    assert report["status"] == ("blocked" if nonmotor_access_loss else "pass"), report
+    access = report["semantic_validation"]["nonmotor_access_preservation"]
+    assert access["status"] == ("fail" if nonmotor_access_loss else "pass"), access
+    if layout.get("remove_index") == 0:
+        assert access["declared_removed_lane_ids"] == ["554713076#0_0"]
+        assert {change["source_lane"] for change in access["changes"]} == {"127716467#1_0", "60578487#3_0"}
+    assert report["semantic_validation"]["sumo_load"]["status"] == "pass"
     old = ET.parse(source).getroot()
     new = ET.parse(report["candidate_net_file"]).getroot()
     before = old.find("tlLogic[@id='LSA2349_part0']")
     after = new.find("tlLogic[@id='LSA2349_part0']")
+    if layout.get("vehicle_class") == "passenger":
+        from astra_sumo.core.osm_access import _permission_set
+        lanes = new.find("edge[@id='554713076#0']").findall('lane')
+        modes = [_permission_set(lane.attrib,network_version=new.get('version')) for lane in lanes]
+        assert modes[0] == {"pedestrian"} and modes[1] == {"bicycle"}
+        assert sum('passenger' in mode for mode in modes) == 3
     assert after is not None and after.get("type") == before.get("type")
     assert float(after.get("offset")) == float(before.get("offset"))
     assert len(before.findall("phase")) == len(after.findall("phase")) == 12
@@ -137,7 +152,8 @@ def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, cou
         index = int(row.get("fromLane"))
         if count == 3 and not layout and index >= count:
             continue
-        actual = actual_connections[str(index+shift),row.get("to"),row.get("toLane")]
+        actual_shift = shift if layout.get("vehicle_class") != "passenger" or index >= 2 else 0
+        actual = actual_connections[str(index+actual_shift),row.get("to"),row.get("toLane")]
         assert (actual.get("tl"),actual.get("linkIndex")) == (row.get("tl"),row.get("linkIndex"))
     assert file_sha256(source) == digest
 
