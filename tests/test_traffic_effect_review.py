@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import shutil
+import subprocess
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
@@ -119,19 +121,181 @@ def _network():
     </net>''')
 
 
+def _native_network(folder):
+    nodes, edges, network = [folder / name for name in ("nodes.xml", "edges.xml", "base.net.xml")]
+    nodes.write_text('<nodes><node id="a" x="-100" y="0"/><node id="j" x="0" y="0"/>'
+        '<node id="b" x="100" y="0"/><node id="c" x="0" y="100"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="in" from="a" to="j"/><edge id="out" from="j" to="b"/>'
+        '<edge id="branch" from="j" to="c"/></edges>', encoding="utf-8")
+    result = subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(edges),
+        "--precision", "6", "--offset.disable-normalization", "true", "-o", str(network)],
+        text=True, capture_output=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    return ET.parse(network).getroot()
+
+
+def _native_access(path, mode):
+    import traci
+    before = file_sha256(path)
+    label = f"review-{path.parent.name}-{path.stem}"
+    with path.with_suffix(".stdout.log").open("w", encoding="utf-8") as log:
+        traci.start([shutil.which("sumo"), "-n", str(path), "--no-step-log", "true",
+            "--duration-log.disable", "true", "--error-log", str(path.with_suffix(".errors.log"))],
+            label=label, stdout=log, numRetries=3)
+        connection = traci.getConnection(label)
+        try:
+            link = next(row for row in connection.lane.getLinks("in_0", extended=True) if row[0] == "out_0")
+            via = link[4]
+            assert via and any(row[0] == "out_0" and not row[4]
+                for row in connection.lane.getLinks(via, extended=True))
+            chain = ["in_0", via, "out_0"]
+            denied = {lane: list(connection.lane.getDisallowed(lane)) for lane in chain}
+            record = {"admitted": all(mode not in denied[lane] for lane in chain),
+                "chain": chain, "disallowed": denied, "native_version": connection.getVersion()[1]}
+        finally:
+            connection.close()
+    assert file_sha256(path) == before
+    return record
+
+
+@pytest.mark.parametrize("alias,canonical", [("public_transport", "bus"), ("transport", "truck"), ("cityrail", "rail_urban")])
+@pytest.mark.parametrize("selector", ["edge[@id='out']/lane", "edge[@id=':j_0']/lane"])
+def test_class_aliases_do_not_create_access_changes(alias, canonical, selector):
+    before, after = _network(), _network()
+    before.set("version", "1.20")
+    after.set("version", "1.20")
+    before.find(selector).set("allow", alias)
+    after.find(selector).set("allow", canonical)
+    assert compare_model_access(before, after, vehicle_class=canonical) == []
+
+
+@pytest.mark.parametrize("version,mode,legacy,modern", [
+    ("1.3", "subway", "rail_urban", "rail_urban subway cable_car"),
+    ("1.3", "cable_car", "rail_urban", "rail_urban subway cable_car"),
+    ("1.2", "rail_fast", "bus", "bus rail_fast"),
+])
+@pytest.mark.parametrize("selector", ["edge[@id='out']/lane", "edge[@id=':j_0']/lane"])
+def test_equivalent_legacy_denials_do_not_create_access_changes(version, mode, legacy, modern, selector):
+    before, after = _network(), _network()
+    before.set("version", version)
+    after.set("version", "1.20")
+    before.find(selector).set("disallow", legacy)
+    after.find(selector).set("disallow", modern)
+    assert compare_model_access(before, after, vehicle_class=mode) == []
+
+
+@pytest.mark.parametrize("version,mode,denied", [("1.3", "subway", "rail_urban"),
+    ("1.3", "cable_car", "rail_urban"), ("1.2", "rail_fast", "bus")])
+def test_legacy_version_changes_retain_real_access_differences(version, mode, denied):
+    before, after = _network(), _network()
+    before.set("version", version)
+    after.set("version", "1.20")
+    for root in (before, after):
+        root.find("edge[@id='out']/lane").set("disallow", denied)
+    changes = compare_model_access(before, after, vehicle_class=mode)
+    access = [row for row in changes if row["effect"] == "movement_access"]
+    assert len(access) == 1
+    assert access[0]["before_source_lanes"] == [] and access[0]["after_source_lanes"] == ["in_0"]
+
+
+@pytest.mark.parametrize("alias,canonical", [("public_transport", "bus"), ("transport", "truck"), ("cityrail", "rail_urban")])
+def test_requested_class_alias_uses_the_same_permissions(alias, canonical):
+    before, after = _network(), _network()
+    before.set("version", "1.20")
+    after.set("version", "1.20")
+    after.find("edge[@id='out']/lane").set("disallow", canonical)
+    assert compare_model_access(before, after, vehicle_class=alias) == compare_model_access(before, after, vehicle_class=canonical)
+
+
+def test_explicit_allow_precedence_does_not_create_a_false_access_change():
+    before, after = _network(), _network()
+    before.find("edge[@id='out']/lane").attrib.update(allow="bus", disallow="bus")
+    after.find("edge[@id='out']/lane").set("allow", "bus")
+    assert compare_model_access(before, after, vehicle_class="bus") == []
+
+
+def test_ignoring_override_is_not_a_supported_review_class():
+    before, after = _network(), _network()
+    after.find("edge[@id='out']/lane").set("disallow", "all")
+    with pytest.raises(ValueError, match="vehicle class"):
+        compare_model_access(before, after, vehicle_class="ignoring")
+
+
+def test_rail_fast_is_not_an_alias_of_rail_electric():
+    before, after = _network(), _network()
+    before.find("edge[@id='out']/lane").set("allow", "rail_fast")
+    after.find("edge[@id='out']/lane").set("allow", "rail_electric")
+    access = [row for row in compare_model_access(before, after, vehicle_class="rail_fast") if row["effect"] == "movement_access"]
+    assert len(access) == 1 and access[0]["before_source_lanes"] == ["in_0"] and access[0]["after_source_lanes"] == []
+
+
 @pytest.mark.parametrize("restriction", ["internal_lane", "internal_connection", "direct_connection", "target_lane"])
-def test_local_access_traces_all_permission_restrictions(restriction):
+def test_compiled_access_uses_lane_permissions_and_not_connection_directives(restriction):
     before, after = _network(), _network()
     selectors = {"internal_lane": "edge[@id=':j_0']/lane", "target_lane": "edge[@id='out']/lane",
                  "direct_connection": "connection[@from='in']", "internal_connection": "connection[@from=':j_0']"}
     after.find(selectors[restriction]).set("disallow", "passenger")
     changes = compare_model_access(before, after)
+    if restriction.endswith("connection"):
+        assert changes == []
+        return
     access = [row for row in changes if row["effect"] == "movement_access"]
     assert len(access) == 1
     assert access[0]["before_source_lanes"] == ["in_0"]
     assert access[0]["after_source_lanes"] == []
     assert not compare_model_access(before, after, vehicle_class="bus")
     assert access[0]["route_effect"] == "not_measured"
+
+
+@pytest.mark.parametrize("selector", ["connection[@from='in']", "connection[@from=':j_0']"])
+def test_legacy_connection_directives_do_not_change_compiled_access(selector):
+    before, after = _network(), _network()
+    before.set("version", "1.3")
+    after.set("version", "1.20")
+    for root in (before, after):
+        root.find(selector).set("disallow", "rail_urban")
+    assert compare_model_access(before, after, vehicle_class="subway") == []
+
+
+@pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="Native SUMO is required.")
+@pytest.mark.parametrize("kind,mode,versions,declarations", [
+    ("out_lane", "bus", ("1.20", "1.20"), ({"allow": "public_transport"}, {"allow": "bus"})),
+    ("out_lane", "subway", ("1.3", "1.20"), ({"disallow": "rail_urban"}, {"disallow": "rail_urban"})),
+    ("out_lane", "subway", ("1.3", "1.20"), ({"disallow": "rail_urban"}, {"disallow": "rail_urban subway cable_car"})),
+    ("out_lane", "rail_fast", ("1.2", "1.20"), ({"disallow": "bus"}, {"disallow": "bus"})),
+    ("out_lane", "bus", ("1.20", "1.20"), ({"allow": "bus", "disallow": "bus"}, {"allow": "bus"})),
+    ("via_lane", "passenger", ("1.20", "1.20"), ({}, {"disallow": "passenger"})),
+    ("entry_connection", "passenger", ("1.20", "1.20"), ({}, {"disallow": "passenger"})),
+    ("via_connection", "passenger", ("1.20", "1.20"), ({}, {"disallow": "passenger"})),
+    ("via_connection", "subway", ("1.3", "1.20"), ({"disallow": "rail_urban"}, {"disallow": "rail_urban"})),
+])
+def test_review_access_matches_loaded_native_permissions(tmp_path, kind, mode, versions, declarations):
+    from copy import deepcopy
+    original = _native_network(tmp_path)
+    via = original.find("connection[@from='in'][@to='out']").get("via")
+    lane_edges = {lane.get("id"): edge.get("id") for edge in original.findall("edge") for lane in edge.findall("lane")}
+    selectors = {"out_lane": "edge[@id='out']/lane", "via_lane": f"edge[@id='{lane_edges[via]}']/lane[@id='{via}']",
+        "entry_connection": "connection[@from='in'][@to='out']",
+        "via_connection": f"connection[@from='{lane_edges[via]}'][@to='out']"}
+    roots, loaded = [], []
+    for name, version, attributes in zip(("before", "after"), versions, declarations):
+        root = deepcopy(original)
+        root.set("version", version)
+        target = root.find(selectors[kind])
+        target.attrib.pop("allow", None)
+        target.attrib.pop("disallow", None)
+        target.attrib.update(attributes)
+        path = tmp_path / f"{name}.net.xml"
+        ET.ElementTree(root).write(path, encoding="utf-8", xml_declaration=True)
+        roots.append(root)
+        loaded.append(_native_access(path, mode))
+    access = [row for row in compare_model_access(*roots, vehicle_class=mode) if row["effect"] == "movement_access"]
+    changed = loaded[0]["admitted"] != loaded[1]["admitted"]
+    assert bool(access) == changed
+    if changed:
+        assert len(access) == 1
+        assert access[0]["before_source_lanes"] == (["in_0"] if loaded[0]["admitted"] else [])
+        assert access[0]["after_source_lanes"] == (["in_0"] if loaded[1]["admitted"] else [])
 
 
 def test_lane_supply_and_unrelated_geometry_do_not_claim_capacity_or_route_loss():

@@ -124,22 +124,25 @@ def rank_traffic_effects(connection, *, safety=None, owners=None, changes=(), pa
                             "Geometry and envelope overlap do not prove a route loss or collision.",
                             "Lane supply is a capacity proxy. No saturation flow is estimated.",
                             "Unknown effects and original audit blockers remain unresolved.",
-                            "No human labels are supplied with this review to estimate a false-alarm rate."]}
+                            "No independently adjudicated field findings are supplied to estimate a false-alarm rate."]}
 
 
 def compare_model_access(before, after, *, vehicle_class="passenger"):
-    """Compare explicit lane identities and local permission-aware paths, without exterior detours."""
+    """Compare compiled lane permissions and local paths, without exterior detours."""
     from sumolib.net.lane import SUMO_VEHICLE_CLASSES
+    from .osm_access import _permission_set
 
     if vehicle_class not in SUMO_VEHICLE_CLASSES:
         raise ValueError("Unknown SUMO vehicle class")
 
-    def permits(element):
-        allowed, denied = set(element.get("allow", "").split()), set(element.get("disallow", "").split())
-        return (not allowed or "all" in allowed or vehicle_class in allowed) and not (
-            "all" in denied or vehicle_class in denied)
+    selected = _permission_set({"allow": vehicle_class})
 
     def inventory(root):
+        version = root.get("version", "0.0")
+
+        def permits(element):
+            return bool(selected & _permission_set(element.attrib, network_version=version))
+
         edges = {row.get("id"): row for row in root.findall("edge")}
         lanes, lane_keys, internal = {}, {}, set()
         supply, endpoints = {}, {}
@@ -158,8 +161,9 @@ def compare_model_access(before, after, *, vehicle_class="passenger"):
         for row in root.findall("connection"):
             source = lane_keys.get((row.get("from"), row.get("fromLane")))
             target = lane_keys.get((row.get("to"), row.get("toLane")))
-            if not source or not target or not permits(row):
+            if not source or not target:
                 continue
+            # Compiled turn permissions reside on lanes; connection directives apply during conversion.
             via = row.get("via") or target
             if via not in lanes or not all(permits(lanes[key]) for key in (source, via, target)):
                 continue

@@ -43,6 +43,12 @@ The optional comparison uses exact edge and lane identities. It counts lanes
 that allow the selected vehicle class. It also traces local connections through
 internal lanes and their permission restrictions. It cannot use an exterior
 detour to replace a missing local movement.
+The comparison follows SUMO's compiled-network permissions on incoming,
+internal and outgoing lanes. It resolves legacy class names and the network
+version's implicit exclusions. Connection `allow` and `disallow` directives
+take effect during conversion; SUMO's network loader uses the resulting lane
+permissions. Changing those directives alone in a compiled network does not
+establish a loaded access change.
 It records changed lane width, speed, and storage length for shared permitted
 lanes. Unspecified dimensions remain unknown. Numeric formatting changes do
 not count as changed dimensions.
@@ -72,6 +78,6 @@ assessments, witness ledgers, sampling probabilities, or blinded review packages
 Run it in a separate output directory. Existing raw findings remain available
 through exact JSON pointers and report hashes.
 
-The historical 30-corridor findings have no completed human labels. Their
+The historical 30-corridor findings have no completed field adjudication. Their
 false-alarm rate remains unknown. This review order does not estimate precision
 or establish automatic-cleaning accuracy.
