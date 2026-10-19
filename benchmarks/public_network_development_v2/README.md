@@ -122,3 +122,7 @@ The [new-lane service follow-up](new-lane-service-20261019-v1.md) reports compat
 boundary movements, preserves review through release/evidence validation, and
 records a connected native example. It also repairs the tuple-versus-JSON-array
 false alarm found in the real Hamburg evidence.
+The [informational-gate follow-up](informational-gates-20261020-v1.md) runs the
+remaining diagnostics without approving reviewed candidates. It repairs declared
+lane-renumbering and internal-path segmentation false alarms and retains a
+clean committed-code Hamburg repeat.
