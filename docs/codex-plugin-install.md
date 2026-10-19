@@ -42,6 +42,18 @@ SUMO programs must still be available on `PATH`. Developers can install the test
 native binaries with `uv sync --extra dev --extra native`; CI uses SUMO 1.27.1 on
 Windows and verifies its binaries before running tests.
 
+Environment reports include `python_executable` and `python_module_origins` for
+`sumolib` and `traci`. Check these paths when a local run differs from CI.
+A global `PYTHONPATH` can select system SUMO modules before the project environment.
+For a dedicated test process, remove that variable before starting Python:
+
+```powershell
+Remove-Item -LiteralPath Env:PYTHONPATH -ErrorAction SilentlyContinue
+```
+
+This changes the current process environment. It does not change Windows user or
+system settings. The recorded paths do not add a new acceptance check.
+
 ## Repository Layout
 
 The installable plugin root is:
