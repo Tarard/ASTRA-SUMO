@@ -39,13 +39,42 @@ def test_declared_index_alias_does_not_hide_changed_signal_binding(tmp_path):
     assert audit_alias_normalized_connections(source, candidate, source_lane_indices=mapping)["status"] == "fail"
 
 
-def test_lane_index_alias_requires_a_matching_plan_hash_and_source(tmp_path):
+def test_removed_lane_is_separate_from_renumbered_retained_connections(tmp_path):
+    before, _ = _shifted()
+    after = deepcopy(before)
+    edge = after.find("edge[@id='in']")
+    edge.remove(edge.findall("lane")[0])
+    edge.find("lane").set("id", "in_0")
+    after.remove(after.findall("connection")[0])
+    after.find("connection").set("fromLane", "0")
+    source, candidate = tmp_path / "source.xml", tmp_path / "candidate.xml"
+    ET.ElementTree(before).write(source)
+    ET.ElementTree(after).write(candidate)
+    result = audit_alias_normalized_connections(source, candidate, source_lane_indices={"in": {"0": None, "1": "0"}})
+    assert result["status"] == "fail"
+    assert result["retained_controlled_missing_count"] == result["controlled_extra_count"] == 0
+    assert result["declared_controlled_removed_count"] == result["controlled_missing_count"] == 1
+    assert result["declared_removed_sample"][0]["linkIndex"] == "0"
+
+
+@pytest.mark.parametrize("remove", [False, True])
+def test_lane_index_alias_requires_a_matching_plan_hash_and_source(tmp_path, remove):
     before, after = _shifted()
+    if remove:
+        after = deepcopy(before)
+        edge = after.find("edge[@id='in']")
+        edge.remove(edge.findall("lane")[0])
+        edge.find("lane").set("id", "in_0")
     source = tmp_path / "source.net.xml"
     ET.ElementTree(before).write(source)
-    mapping = {"0": 1, "1": 2}
+    mapping = {"1": 0} if remove else {"0": 1, "1": 2}
     plan = dict(
-        operation=dict(operation="set_lane_count", params=dict(edge_id="in", num_lanes=3, add_side="right")),
+        operation=dict(
+            operation="set_lane_count",
+            params=dict(edge_id="in", num_lanes=1, remove_index=0)
+            if remove
+            else dict(edge_id="in", num_lanes=3, add_side="right"),
+        ),
         source=dict(path=str(source), sha256=file_sha256(source)),
         lane_index_mapping=mapping,
         mutable_junction_ids=["a", "j"],
@@ -62,7 +91,7 @@ def test_lane_index_alias_requires_a_matching_plan_hash_and_source(tmp_path):
         plan_file=str(path), manifest_file=str(manifest), semantic_validation=dict(lane_index_mapping=mapping)
     )
     result = _bound_source_lane_indices(report, dict(status="review_required"), source, before, after)
-    assert result == {"in": {"0": "1", "1": "2"}}
+    assert result == {"in": {"0": None, "1": "0"} if remove else {"0": "1", "1": "2"}}
     forged = {**plan, "mutable_junction_ids": ["remote"]}
     path.write_text(json.dumps(forged), encoding="utf-8")
     manifest.write_text(

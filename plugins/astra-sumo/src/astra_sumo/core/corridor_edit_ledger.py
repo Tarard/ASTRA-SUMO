@@ -1791,7 +1791,7 @@ def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
 
 
 def _bound_source_lane_indices(report, evidence, source_file, source_root, candidate_root):
-    """Use only a hash-bound, complete declared lane relabeling for comparison."""
+    """Bind retained lane identities and explicit removals to the source plan."""
     plan = _bound_scoped_edit_plan(report, evidence, source_file, source_root)
     if not plan or plan["operation"]["operation"] != "set_lane_count":
         return {}
@@ -1803,10 +1803,11 @@ def _bound_source_lane_indices(report, evidence, source_file, source_root, candi
             return {}
         from .network_edit_operations import _lane_count_layout
         mapping = {str(key): value for key, value in _lane_count_layout(params, old[target], source_root.get("version", "0.0")).items()}
-        if (len(mapping) != len(old[target].findall("lane")) or mapping != plan["lane_index_mapping"]
+        if (mapping != plan["lane_index_mapping"]
                 or mapping != report["semantic_validation"]["lane_index_mapping"]):
             return {}
-        return {target: {key: str(value) for key, value in mapping.items()}}
+        return {target: {str(index): str(mapping[str(index)]) if str(index) in mapping else None
+                         for index in range(len(old[target].findall("lane")))}}
     except (OSError, KeyError, ValueError, TypeError):
         return {}
 

@@ -309,11 +309,13 @@ def audit_alias_normalized_connections(source_file: Path, candidate_file: Path, 
     source_root = ET.parse(source_file).getroot()
     candidate_root = ET.parse(candidate_file).getroot()
     aliases = _corridor_edge_aliases(source_root, candidate_root)
-    source_all, source_controlled, collapsed = _connection_counters(source_root, aliases, source_lane_indices)
-    candidate_all, candidate_controlled, _ = _connection_counters(candidate_root, {})
-    all_missing = source_all - candidate_all
+    source_all, source_controlled, collapsed, removed = _connection_counters(source_root, aliases, source_lane_indices)
+    candidate_all, candidate_controlled, _, _ = _connection_counters(candidate_root, {})
+    controlled_removed = Counter({key: count for key, count in removed.items() if key[4]})
+    all_missing = (source_all - candidate_all) + removed
     all_extra = candidate_all - source_all
-    controlled_missing = source_controlled - candidate_controlled
+    retained_controlled_missing = source_controlled - candidate_controlled
+    controlled_missing = retained_controlled_missing + controlled_removed
     controlled_extra = candidate_controlled - source_controlled
     return {
         "status": "pass" if not controlled_missing and not controlled_extra else "fail",
@@ -325,6 +327,10 @@ def audit_alias_normalized_connections(source_file: Path, candidate_file: Path, 
         "normal_extra_count": sum(all_extra.values()),
         "controlled_missing_count": sum(controlled_missing.values()),
         "controlled_extra_count": sum(controlled_extra.values()),
+        "retained_controlled_missing_count": sum(retained_controlled_missing.values()),
+        "declared_removed_count": sum(removed.values()),
+        "declared_controlled_removed_count": sum(controlled_removed.values()),
+        "declared_removed_sample": _counter_sample(removed),
         "normal_missing_sample": _counter_sample(all_missing),
         "normal_extra_sample": _counter_sample(all_extra),
         "controlled_missing_sample": _counter_sample(controlled_missing),
@@ -383,9 +389,10 @@ def _corridor_edge_aliases(source_root: ET.Element, candidate_root: ET.Element) 
 
 def _connection_counters(
     root: ET.Element, aliases: dict[str, str], lane_indices=None
-) -> tuple[Counter[tuple[str, ...]], Counter[tuple[str, ...]], int]:
+) -> tuple[Counter[tuple[str, ...]], Counter[tuple[str, ...]], int, Counter[tuple[str, ...]]]:
     all_connections: Counter[tuple[str, ...]] = Counter()
     controlled_connections: Counter[tuple[str, ...]] = Counter()
+    removed: Counter[tuple[str, ...]] = Counter()
     collapsed = 0
     for connection in root.findall("connection"):
         from_edge = connection.attrib.get("from", "")
@@ -397,20 +404,25 @@ def _connection_counters(
         if mapped_from == mapped_to:
             collapsed += 1
             continue
+        mapped_lanes = [(lane_indices or {}).get(edge, {}).get(connection.get(key, ""), connection.get(key, ""))
+                        for edge, key in ((from_edge, "fromLane"), (to_edge, "toLane"))]
         signature = (
             mapped_from,
             mapped_to,
-            (lane_indices or {}).get(from_edge, {}).get(connection.get("fromLane", ""), connection.get("fromLane", "")),
-            (lane_indices or {}).get(to_edge, {}).get(connection.get("toLane", ""), connection.get("toLane", "")),
+            mapped_lanes[0] if mapped_lanes[0] is not None else connection.get("fromLane", ""),
+            mapped_lanes[1] if mapped_lanes[1] is not None else connection.get("toLane", ""),
             connection.attrib.get("tl", ""),
             connection.attrib.get("linkIndex", ""),
             connection.attrib.get("linkIndex2", ""),
             connection.attrib.get("dir", ""),
         )
+        if None in mapped_lanes:
+            removed[signature] += 1
+            continue
         all_connections[signature] += 1
         if connection.attrib.get("tl"):
             controlled_connections[signature] += 1
-    return all_connections, controlled_connections, collapsed
+    return all_connections, controlled_connections, collapsed, removed
 
 
 def _counter_sample(counter: Counter[tuple[str, ...]], limit: int = 20) -> list[dict[str, Any]]:

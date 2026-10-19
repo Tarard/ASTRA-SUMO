@@ -90,9 +90,11 @@ diagnostics when its persisted evidence is valid. These measurements do not
 approve the candidate. Existing blocked checks remain blocked in the final
 decision. Invalid artifact identities or unreadable XML prevent execution.
 
-For lane additions, controlled-connection comparison follows a complete,
-source-bound lane index mapping from the hashed materialization plan. It does
-not excuse deleted lanes or changed signal bindings. Vehicle-mode connectivity
+Controlled-connection comparison follows source-bound retained lane indices
+from the hashed materialization plan. Declared lane removals appear separately
+from missing retained connections. Removed controlled connections still count
+as missing and still fail this gate. Changed signal bindings also fail.
+Vehicle-mode connectivity
 counts ordinary movements with loaded permissions, including their internal
 paths. Changing the number of internal path pieces alone does not remove a
 movement. Pedestrian connectivity retains its separate explicit-connection
