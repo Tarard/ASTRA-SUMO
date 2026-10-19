@@ -39,6 +39,8 @@ Junction shape edits use native reconstruction. Final automatic qualification
 compares that reconstruction with a source-contour identity control. See
 [local edit applicability](edit-specific-applicability.md) for the measured
 geometry changes and the control's limits.
+Explore output also records source-to-candidate lane movement and logical-length
+changes under `construction.contour_geometry_changes`. This adds no native run.
 
 ## Daily exploration and release
 

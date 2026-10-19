@@ -35,7 +35,7 @@ def _signature(element: ET.Element) -> tuple:
     for key, value in attributes.items():
         if key in {"x", "y", "z", "speed", "width", "length", "endOffset", "radius", "duration", "offset", "friction", "contPos", "visibility", "foeVisibility"}:
             attributes[key] = number(value)
-        elif key in {"shape", "netOffset", "convBoundary", "origBoundary"}:
+        elif key in {"shape", "outlineShape", "netOffset", "convBoundary", "origBoundary"}:
             attributes[key] = " ".join(",".join(number(value) for value in point.split(",")) for point in value.split())
     return (element.tag, tuple(sorted(attributes.items())), (element.text or "").strip(), tuple(_signature(child) for child in element))
 

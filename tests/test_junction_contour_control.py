@@ -10,7 +10,7 @@ from sumolib import checkBinary
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import run_command
 from astra_sumo.core.corridor_edit_ledger import build_corridor_edit_ledger, materialize_corridor_edit_variant
-from astra_sumo.core.junction_contour_control import build_identity_control, assess_identity_control, geometry_delta
+from astra_sumo.core.junction_contour_control import build_identity_control, assess_identity_control, assess_requested_geometry, geometry_delta
 from astra_sumo.core.network_edit_applicability import assess_edit_applicability, verify_network_edit
 
 
@@ -18,14 +18,14 @@ FIXTURES = Path(__file__).parent / "fixtures/most-contour-controls"
 native = pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
 
 
-def _request(tmp_path, node):
+def _request(tmp_path, node, requested_shape=None):
     source = (FIXTURES / f"{node}.net.xml").resolve()
     root = ET.parse(source).getroot()
     junction = next(row for row in root.findall("junction") if row.get("id") == node)
     polygon = Polygon([tuple(map(float, point.split(",")[:2])) for point in junction.get("shape").split()])
     target = polygon.buffer(-0.01, join_style="mitre")
     operation = {"id": "contour", "operation": "set_junction_shape", "status": "accepted",
-        "params": {"node_id": node, "shape": [list(point) for point in target.exterior.coords[:-1]]},
+        "params": {"node_id": node, "shape": requested_shape or [list(point) for point in target.exterior.coords[:-1]]},
         "rationale": "Published-model native conversion regression. No field claim.",
         "evidence": [{"path": str(source), "sha256": file_sha256(source)}], "rollback": {"action": "discard_candidate"}}
     ledger_report = build_corridor_edit_ledger(net_file=source, output_dir=tmp_path / "ledger",
@@ -95,3 +95,72 @@ def test_exploration_still_measures_a_recut_without_an_identity_gate(tmp_path):
     assert result["release_gates"] == "not_run"
     assert "candidate_gates" not in result
     assert result["construction"]["requested_effect_applied"]
+    assert result["construction"]["contour_geometry_changes"]["source_to_candidate"]["max_absolute_declared_length_delta_m"] > 1
+
+
+@native
+def test_release_preserves_review_and_marks_unexecuted_checks(tmp_path):
+    _request(tmp_path, "151337")
+    result = verify_network_edit(ledger_file=tmp_path / "ledger/corridor_edit_ledger.json", output_dir=tmp_path / "release",
+        netconvert_binary=checkBinary("netconvert"), mode="release")
+    assert result["applicability"]["status"] == "review_required"
+    assert result["status"] == "review_required"
+    assert result["candidate_gates"]["gates"]["sumo_load"]["execution_status"] == "not_run"
+    assert result["candidate_gates"]["gates"]["sumo_load"]["status"] != "blocked"
+
+
+@native
+def test_stable_native_pedestrian_control_is_the_geometry_reference(tmp_path):
+    records = json.loads((FIXTURES / "provenance-v2.json").read_text(encoding="utf-8"))["fixtures"]
+    shape = next(row["requested_shape"] for row in records if row["node_id"] == "132981")
+    source, before, ledger, candidate = _request(tmp_path, "132981", shape)
+    control = build_identity_control(ledger, output_dir=tmp_path, netconvert_binary=checkBinary("netconvert"), command_runner=run_command)
+    assert assess_identity_control(source, before, "132981", control)["status"] == "pass"
+    result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
+    assert result["status"] == "pass", result
+    assert result["pedestrian_geometry_reference"] == "validated_native_identity_control"
+
+
+@native
+def test_requested_contour_effect_is_checked_after_a_stable_control(tmp_path):
+    records = json.loads((FIXTURES / "provenance-v2.json").read_text(encoding="utf-8"))["fixtures"]
+    shape = next(row["requested_shape"] for row in records if row["node_id"] == "133196")
+    source, before, ledger, candidate = _request(tmp_path, "133196", shape)
+    control = build_identity_control(ledger, output_dir=tmp_path, netconvert_binary=checkBinary("netconvert"), command_runner=run_command)
+    assert assess_identity_control(source, before, "133196", control)["status"] == "pass"
+    result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
+    observed = result["requested_contour_geometry"]
+    assert observed["geometry"]["max_endpoint_shift_xy_m"] > 10
+    assert observed["status"] == "review_required"
+    assert observed["oversized_lane_changes"] and observed["boundary_failures"]
+
+
+@native
+def test_unavailable_identity_build_remains_review_required(tmp_path, monkeypatch):
+    from astra_sumo.core import junction_contour_control
+    _request(tmp_path, "151337")
+    def unavailable(*args, **kwargs):
+        raise OSError("control storage unavailable")
+    monkeypatch.setattr(junction_contour_control, "build_identity_control", unavailable)
+    result = verify_network_edit(ledger_file=tmp_path / "ledger/corridor_edit_ledger.json", output_dir=tmp_path / "release",
+        netconvert_binary=checkBinary("netconvert"), mode="release")
+    assert result["status"] == "review_required"
+    assert result["applicability"]["reason"] == "contour_identity_control_unavailable"
+    assert "control storage unavailable" in result["applicability"]["contour_identity_control"]["build_error"]
+
+
+def test_requested_length_budget_respects_spatial_grade_and_stop_offset():
+    control = ET.fromstring('<net><edge id="road" from="a" to="j"><lane id="road_0" length="12" endOffset="2" shape="0,0,0 8,0,8"/></edge>'
+        '<junction id="j" type="priority" x="10" y="0" shape="10,-2 12,-2 12,2 10,2"/></net>')
+    candidate = ET.fromstring(ET.tostring(control))
+    candidate.find("junction").set("shape", "10.5,-2 12,-2 12,2 10.5,2")
+    candidate.find("edge/lane").set("shape", "0,0,0 8.5,0,8.5")
+    candidate.find("edge/lane").set("length", "12.7")
+    result = assess_requested_geometry(control, candidate, "j")
+    assert result["status"] == "pass"
+    assert result["logical_length_budgets_m"]["road"] > 1.4
+    assert not result["boundary_failures"]
+    candidate.find("edge/lane").set("endOffset", "nan")
+    unknown = assess_requested_geometry(control, candidate, "j")
+    assert unknown["status"] == "review_required"
+    assert unknown["unmeasured_input_lane_ids"] == ["road_0"]

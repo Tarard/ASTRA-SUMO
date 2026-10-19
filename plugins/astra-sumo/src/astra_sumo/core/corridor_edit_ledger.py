@@ -1476,9 +1476,12 @@ def run_corridor_candidate_gates(
                     and edit_ledger["operations"][0].get("operation") == "set_junction_shape"
                     and assess_edit_applicability(edit_ledger)["status"] == "pass"):
                 from .junction_contour_control import build_identity_control
-                control = build_identity_control(edit_ledger, output_dir=output_dir,
-                    netconvert_binary=netconvert_binary or str(Path(sumo_binary).with_name("netconvert" + Path(sumo_binary).suffix)),
-                    command_runner=command_runner)
+                try:
+                    control = build_identity_control(edit_ledger, output_dir=output_dir,
+                        netconvert_binary=netconvert_binary or str(Path(sumo_binary).with_name("netconvert" + Path(sumo_binary).suffix)),
+                        command_runner=command_runner)
+                except (OSError, RuntimeError, ValueError, TypeError, KeyError, ET.ParseError) as error:
+                    control = {"status": "fail", "error": f"{type(error).__name__}: {error}"}
             applicability = assess_edit_applicability(edit_ledger, candidate_net_file=candidate_net_file, identity_control_report=control)
             applicability["ledger"] = {"path": str(edit_path), "sha256": edit_hash}
             if file_sha256(edit_path) != edit_hash:
@@ -1607,11 +1610,12 @@ def run_corridor_candidate_gates(
         except OSError as exc:
             gates["edit_applicability"]["status"] = "blocked"
             gates["edit_applicability"]["error"] = str(exc)
-    status = "pass" if all(gate.get("status") == "pass" for gate in gates.values()) else "blocked"
+    states = {gate.get("status") for gate in gates.values()}
+    status = "pass" if states == {"pass"} else "review_required" if states <= {"pass", "review_required"} else "blocked"
     report = {
         "schema": "torii.corridor_candidate_gates.v2",
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "blocked",
+        "claim_status": "diagnostic-demo" if status == "pass" else status,
         "source_net_file": str(source_net_file.resolve()),
         "candidate_net_file": str(candidate_net_file.resolve()),
         "source_sha256": artifact_identity.get("source_sha256", ""),
@@ -2088,7 +2092,7 @@ def _protected_semantic_counts(root: ET.Element) -> dict[str, int]:
 
 
 def _not_run_gate(reason: str) -> dict[str, Any]:
-    return {"status": "blocked", "execution_status": "not_run", "reason": reason}
+    return {"status": "review_required", "execution_status": "not_run", "reason": reason}
 
 
 def _result_to_dict(result: Any) -> dict[str, Any]:

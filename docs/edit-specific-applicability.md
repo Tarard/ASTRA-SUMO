@@ -37,9 +37,20 @@ review before automatic acceptance. Explore mode retains its measurements and
 does not require this final qualification.
 
 The control has no promotion authority. Its source, native materialization, and
-artifacts remain bound to their hashes. Pedestrian geometry changes still retain
-the current preservation checks. Support for automatically accepting a changed
-pedestrian layout remains incomplete.
+artifacts remain bound to their hashes. A stable, verified control becomes the
+pedestrian geometry reference. Candidate pedestrian paths and facilities must
+match that reference. Newly invalid walking areas also disqualify the control.
+Support for automatically accepting a changed pedestrian layout remains incomplete.
+
+The requested edit has a separate geometry screen. It compares ordinary lane
+ends with the measured polygon displacement plus the existing 0.1 m tolerance.
+The logical-length budget covers two moving ends and the observed spatial grade.
+Boundary checks allow declared stop-line offsets and compare with the control's
+existing boundary distances. Large effects remain measured and require review.
+
+Final gates retain `review_required` when no gate has a definite failure.
+Unexecuted gates carry `execution_status=not_run` and remain unverified. They do
+not become executed failures, and they cannot satisfy publication requirements.
 
 Local rail, bridge, and tunnel semantics require separate review. Controlled
 turn removal also requires signal review. Absorption with local pedestrian

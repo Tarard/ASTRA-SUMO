@@ -1,6 +1,6 @@
 # MoST contour regression fixtures
 
-These compiled-network extracts retain junctions 132844 and 151337 from the
+These compiled-network extracts retain junctions 132844, 151337, 132981, and 133196 from the
 [pinned MoST prepared input](https://github.com/lcodeca/MoSTScenario/tree/d00e82945f5c6322a98ad2df4a8d5f48274fca53).
 The upstream repository declares GPLv3. Its unchanged [license](LICENSE.md) accompanies these extracts.
 The prepared input includes OpenStreetMap-derived and synthetic records.
@@ -22,3 +22,8 @@ changes. Junction 132844 includes pedestrian facilities. Junction 151337 has
 no local sidewalk and exposes the earlier automatic-applicability false pass.
 The regression tests measure this conversion effect before automatic acceptance.
 These are model and converter regression labels. They are not field-defect labels.
+
+The [additional requests](provenance-v2.json) retain a stable 132981 control whose
+requested pedestrian paths are identical to that control. Junction 133196 has a
+stable identity control but a large requested recut. It checks the separate
+control-to-candidate geometry screen. Both additional extracts pass native load.

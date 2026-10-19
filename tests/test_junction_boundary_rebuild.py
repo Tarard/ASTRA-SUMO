@@ -16,17 +16,19 @@ from astra_sumo.core.junction_boundary_rebuild import (
 from astra_sumo.core.source_movement_support import _index
 
 
-@pytest.mark.parametrize("change", [None, "identity", "speed", "geometry"])
+@pytest.mark.parametrize("change", [None, "identity", "speed", "geometry", "outline"])
 def test_network_signature_ignores_numeric_formatting_but_keeps_actual_changes(change):
     from astra_sumo.core.junction_boundary_rebuild import _signature
-    original = ET.fromstring('<lane id="001" speed="13.89" width="3.20" length="4.0" shape="-0.0,0 4.00,0.00"/>')
-    native = ET.fromstring('<lane id="001" speed="13.890000" width="3.200000" length="4.000000" shape="0.000000,0.000000 4.000000,0.000000"/>')
+    original = ET.fromstring('<lane id="001" speed="13.89" width="3.20" length="4.0" shape="-0.0,0 4.00,0.00" outlineShape="0,1 4,1"/>')
+    native = ET.fromstring('<lane id="001" speed="13.890000" width="3.200000" length="4.000000" shape="0.000000,0.000000 4.000000,0.000000" outlineShape="0.000000,1.000000 4.000000,1.000000"/>')
     if change == "identity":
         native.set("id", "1")
     elif change == "speed":
         native.set("speed", "13.891")
     elif change == "geometry":
         native.set("shape", "0,0 4.000001,0")
+    elif change == "outline":
+        native.set("outlineShape", "0,1 4.000001,1")
     assert (_signature(original) == _signature(native)) is (change is None)
 
 

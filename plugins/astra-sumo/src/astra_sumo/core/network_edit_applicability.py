@@ -216,7 +216,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
         shape = Polygon([tuple(map(float, token.split(",")[:2])) for token in actual.get("shape", "").split()])
         requested = Polygon([tuple(map(float, point.split(","))) for point in _shape(params["shape"]).split()])
         checks["requested_shape"] = "pass" if shape.equals(requested) else "blocked"
-        from .junction_contour_control import assess_identity_control, geometry_delta
+        from .junction_contour_control import assess_identity_control, assess_requested_geometry, geometry_delta
         control = assess_identity_control(source, root, params["node_id"], identity_control_report)
         result["contour_identity_control"] = control
         checks["native_contour_identity_control"] = control["status"]
@@ -225,7 +225,22 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
         if control.get("geometry") is not None and control.get("candidate"):
             try:
                 control_root = ET.parse(control["candidate"]["path"]).getroot()
-                result["contour_geometry_changes"]["control_to_candidate"] = geometry_delta(control_root, after, params["node_id"])
+                effect = assess_requested_geometry(control_root, after, params["node_id"])
+                result["requested_contour_geometry"] = effect
+                result["contour_geometry_changes"]["control_to_candidate"] = effect["geometry"]
+                checks["requested_contour_geometry"] = effect["status"]
+                if effect["status"] != "pass":
+                    result["reason"] = effect["reason"]
+                if control["status"] == "pass":
+                    result["pedestrian_geometry_reference"] = "validated_native_identity_control"
+                    checks["pedestrian_facilities"] = "pass" if facilities(control_root) == facilities(after) else "blocked"
+                    control_lanes = {lane.get("id"): lane for edge in control_root.findall("edge")
+                                     if edge.get("id") in scope_edges for lane in edge.findall("lane")}
+                    def geometry_signature(lane):
+                        return _signature(ET.Element("lane", {key: lane.get(key) for key in ("shape", "length") if lane.get(key) is not None}))
+                    checks["pedestrian_lane_geometry"] = "pass" if all(key in new_lanes and
+                        geometry_signature(lane) == geometry_signature(new_lanes[key]) for key, lane in control_lanes.items()
+                        if "pedestrian" in _permissions(lane, network_version=control_root.get("version", "0.0"))) else "blocked"
             except (OSError, ValueError, ET.ParseError) as error:
                 checks["native_contour_identity_control"] = "review_required"
                 control.update(status="review_required", reason="contour_identity_control_unavailable", error=str(error))

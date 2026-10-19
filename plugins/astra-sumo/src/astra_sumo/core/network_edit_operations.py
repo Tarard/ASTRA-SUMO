@@ -878,6 +878,10 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     if link_preservation["status"] != "pass":
         warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
     warnings.extend(load_warning_messages(link_preservation))
+    contour_changes = {}
+    if kind == "set_junction_shape":
+        from .junction_contour_control import geometry_delta
+        contour_changes["source_to_candidate"] = geometry_delta(before, after, params["node_id"])
     return {"status": exploration_status if mode == "explore" else "pass" if passed else "blocked",
             "mode": mode, "release_checks_passed": passed,
             "driving_integrity": integrity,
@@ -887,6 +891,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "direct_permission_edit": direct if kind == "set_lane_permissions" else {},
             "direct_speed_edit": direct if kind == "set_speed" else {},
             "direct_stop_line_edit": direct if plan["materialization_method"] == "stop_line_edge_mean_3d" else {},
+            "contour_geometry_changes": contour_changes,
             "connectivity_review_required": bool(added_modes), "newly_allowed_vehicle_classes": added_modes,
             "requested_effect_applied": effect, "geometry_preservation": geometry, "restoration": rebuild,
             "geometry_before_restoration": before_restore,
