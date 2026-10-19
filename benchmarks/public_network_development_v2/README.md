@@ -87,3 +87,6 @@ It keeps source-value changes, correspondence changes, and unscored native diffe
 
 The [2026-10-19 maintenance record](maintenance-20261019-v2.md) covers the later
 native permission test, unchanged source OD sampling, and actual Python module paths.
+
+The [native contour-control follow-up](contour-identity-20261019-v1.md) records
+the real-model automatic-applicability false pass and the source-contour identity repair.
