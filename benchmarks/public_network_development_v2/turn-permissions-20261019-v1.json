@@ -1,0 +1,138 @@
+{
+  "implementation": "2de375dab8d39e3cbb5135e6d71088139a6d2541",
+  "native_version": "1.27.1",
+  "focused_passed": 71,
+  "caller_passed": 144,
+  "new_regression_cases": 13,
+  "frozen_source_sha256": "4032e5ca5ff09f0551d5f56fb7ced33101e72660faec3af815eace8bee137747",
+  "frozen_candidate_sha256": "b980f5114504eda94b3fb455ae3a32ad638abcd94f56daae1160b5ae25995a3b",
+  "source_passenger_admitted": false,
+  "candidate_passenger_admitted": false,
+  "candidate_bus_admitted": true,
+  "source_unchanged": true,
+  "ci_failure": {
+    "run": 39220361116,
+    "reason": "30-second timeout during the illegal-vehicle subprocess",
+    "cause_confirmed": false,
+    "reproduced_locally": false,
+    "original_log": "outputs/permission_review_20261019_v1/ci-39220361116.log",
+    "native_negative_exit": 1,
+    "wheel_entrypoint_negative_exit": 1,
+    "timeout_seconds": 30
+  },
+  "artifacts": [
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/pre-fix.log",
+      "sha256": "f598af78dd175a7b68c6a1fdfdc78f1cd05649350c18a184fe923b09e4838f86"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/focused-v1.log",
+      "sha256": "236150912e5d4c9f8ee7921569b403828c483d73525d589187b568b752e166f4"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/focused-v2.log",
+      "sha256": "9c465625884bb6406471e3a6103339946698b25976894a6dae2da41517b9c8b5"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/callers.log",
+      "sha256": "2c2a1f832749c9d059e538719f2d2ce933af024cab863228852a3fd55966ba7a"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/callers.xml",
+      "sha256": "36a1148f40c6198bc844c161ef463cfdad420e88f17175976637d1df613bfe04"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-wrapper-environment.txt",
+      "sha256": "ce726633d5d70c19051f4d8688596a1b8db96f495a3a4394ceb21a506c20e913"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-wrapper.log",
+      "sha256": "57ee22e3816fca20e9a431113157a953c7a91b22a8232bfb1c37b4daf6cdcf25"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-wrapper.xml",
+      "sha256": "676d3b03b69f00366f6b7831dd7502f75d087a60f989c6858104013abe4f34f7"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-negative-probe.json",
+      "sha256": "7e1447ecffae2311e2c20373e404f819b116851720d2f82452d6f386eff98023"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/verify-fixed.py",
+      "sha256": "a13d1daaa10b19a368c98747b2530aaad8a7f987e802bcb041b24dcc9847a1a2"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/fixed-frozen-case/report.json",
+      "sha256": "179e3363e21b4f65823e21d62a46c6ba1216f318c139c981fafbf2099cfe17d7"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/claude-review.txt",
+      "sha256": "e3d22d8163295af5dadfbd3c76125e0a8a81941dde30141985705701fb57c98e"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/claude-review.png",
+      "sha256": "99ebfaf35e1495415cfa15a33f524f9a248c0860cf308b2547dbdf602b95bbb3"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/reconciliation-trace.json",
+      "sha256": "fd0c473e99736b15f7275541e975d8a7020a18099d3db681dd7b23d32893d48e"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-39224598993.log",
+      "sha256": "702a8a3f9f670078c3e2f1f32a90e1939f90edf8ba073e3ace76f781408d87c1"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-final.json",
+      "sha256": "0ad3876bfdf16de2a1b804b87a7a98999132adbb055cf22f0066a1bd35f0af6f"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-native-file-v2.log",
+      "sha256": "ba4bcfbe5ceacc028f808bcb9915f9ec3f0aa5cdcee165d4ce48c278b3019ce2"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-native-file-v2.xml",
+      "sha256": "9abf291e942add5707fee5a3169f38e03f41c661fe6d066ae4f3fe6269889cab"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/ci-native-file-v2-environment.txt",
+      "sha256": "9bd928010ddf8eef6eb4bf5c361d5c20e74685f34e709202115068c32d914e6a"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/pipe-control.py",
+      "sha256": "ea1d958f65d726bd38a393be28673ae0d28b6abc43e7c92670282ff3e285728a"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/pipe-control.json",
+      "sha256": "236c2372452ee3c2491f5afc7ad7efa629c286805ff1bb6b1b8fde8d013912e7"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/claude-ci-review.txt",
+      "sha256": "e3d22d8163295af5dadfbd3c76125e0a8a81941dde30141985705701fb57c98e"
+    },
+    {
+      "path": "outputs/turn_permission_fix_20261019_v1/claude-ci-review.png",
+      "sha256": "c9695a6592056b9518de52d8ca668900f88a879ad4034115e413c3db25c0046b"
+    }
+  ],
+  "independent_review": {
+    "verdict": "Core fix confirmed; other re-import paths and a per-connection reconciliation summary remain follow-ups.",
+    "subscription_only": true
+  },
+  "ci_test_follow_up": {
+    "native_version": "1.27.1",
+    "uses_native_binary": true,
+    "output_to_files": true,
+    "targeted_passed": 2,
+    "commit": "d16d4b8feb0ee57fa2f4e08ce7c143ae4348418f",
+    "timeout_seconds": 30,
+    "requires_specific_rejection": true
+  },
+  "production_ci": {
+    "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39224598993",
+    "failed": 0,
+    "run": 39224598993,
+    "passed": 3449,
+    "commit": "2de375dab8d39e3cbb5135e6d71088139a6d2541",
+    "skipped": 24
+  }
+}
