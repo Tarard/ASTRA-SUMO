@@ -36,6 +36,8 @@ The command checks the local preconditions, calls the existing materializer,
 and independently checks the actual candidate. It compares every explicit
 boundary path for every SUMO vehicle class. A path must stay inside the declared
 nodes. It cannot use an exterior detour or assume an interior lane change.
+Boundary access uses loaded lane permissions and each network's format version.
+Compiled connection directives supply topology but do not restrict loaded vehicle classes.
 
 It also checks outside geometry and state, fixed remote lane ends, protected
 feature counts, unchanged signal programs, preserved pedestrian facilities,

@@ -127,6 +127,8 @@ def test_all_vehicle_classes_are_checked_without_an_exterior_detour():
     </net>''')
     assert _boundary_access(root, {"a", "b"})[2] == {("in_0", "out_0"): {"passenger", "bicycle", "pedestrian"}}
     root.find("connection[@from='mid']").set("disallow", "bicycle")
+    assert _boundary_access(root, {"a", "b"})[2] == {("in_0", "out_0"): {"passenger", "bicycle", "pedestrian"}}
+    root.find("edge[@id='mid']/lane").set("allow", "passenger pedestrian")
     assert _boundary_access(root, {"a", "b"})[2] == {("in_0", "out_0"): {"passenger", "pedestrian"}}
     root.find("edge[@id='mid']").set("to", "external")
     assert ("in_0", "out_0") not in _boundary_access(root, {"a", "b"})[2]

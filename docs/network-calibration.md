@@ -23,6 +23,8 @@ Each layer includes `measured_facts` and `provisional_facts` alongside matches, 
 Facts without acceptance thresholds and with a primary value have status `measured`.
 `measured_facts` excludes centerlines without a lateral value.
 Motor-vehicle summaries separate all measured lanes from high-confidence lanes and list the worst five.
+Lane-permission facts and vehicle-class lane counts follow native aliases, permission precedence, and the network's declared format version.
+Expected permission aliases resolve to the same native classes. Equivalent names do not create mismatches.
 Tentative matches retain `mapping_status: unresolved` and a confidence label.
 The explore matched fraction uses only facts with an evaluated acceptance rule.
 It is null when no acceptance rule was evaluated.

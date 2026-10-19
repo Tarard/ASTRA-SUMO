@@ -14,7 +14,7 @@ import xml.etree.ElementTree as ET
 from pydantic import BaseModel, ConfigDict, Field
 from pyproj import CRS, Transformer
 from shapely.geometry import LineString, MultiLineString, Point, Polygon
-from sumolib.net.lane import SUMO_VEHICLE_CLASSES, get_allowed
+from sumolib.net.lane import SUMO_VEHICLE_CLASSES
 
 from .artifact_io import write_json_atomic
 
@@ -141,14 +141,13 @@ def _list(value: Any, label: str) -> list[str]:
     return value
 
 
-def _permissions(lane: ET.Element) -> set[str]:
+def _permissions(lane: ET.Element, *, network_version: str | None = None) -> set[str]:
+    from .osm_access import _permission_set
     allow, disallow = lane.get("allow"), lane.get("disallow")
     tokens = set((allow or "").split()) | set((disallow or "").split())
     if tokens - set(SUMO_VEHICLE_CLASSES) - {"all"}:
         raise ValueError("Lane permissions contain an unknown vehicle class.")
-    if allow == "all":
-        allow = None
-    return set(get_allowed(allow, disallow))
+    return _permission_set(lane.attrib, network_version=network_version)
 
 
 def _pairs(value: Any) -> set[tuple[str, str]]:
@@ -289,7 +288,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
             wanted = set(_list(expected, "Expected vehicle classes")) if expected else set()
             if wanted - set(SUMO_VEHICLE_CLASSES):
                 raise ValueError("Expected permissions contain an unknown vehicle class.")
-            observed = sorted(_permissions(lane))
+            wanted = _permissions(ET.Element("lane", allow=" ".join(wanted))) if wanted else set()
+            observed = sorted(_permissions(lane, network_version=root.get("version", "0.0")))
             matches = set(observed) == wanted
             result["metrics"] = {"permission_difference_count": len(set(observed) ^ wanted)}
         else:
@@ -345,7 +345,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
             raise ValueError("Expected lane count must be a nonnegative integer.")
         if any(edge not in edges for edge in selected):
             return {**result, "status": "mismatched", "reason": "network_edge_missing"}
-        observed = sum(vehicle_class == "all" or vehicle_class in _permissions(lane)
+        selected_classes = _permissions(ET.Element("lane", allow=vehicle_class))
+        observed = sum(vehicle_class == "all" or bool(selected_classes & _permissions(lane, network_version=root.get("version", "0.0")))
                        for edge in selected for lane in edges[edge].findall("lane"))
         result["metrics"] = {"absolute_count_error": abs(observed - expected)}
         matches = observed == expected

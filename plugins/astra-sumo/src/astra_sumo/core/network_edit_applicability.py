@@ -45,7 +45,7 @@ def _boundary_access(root, members, *, incoming_lane_ids=None, outgoing_lane_ids
             edge = index["edges"][index["lanes"][lane][0]]
             if edge.get(endpoint) not in members and index["owners"].get(lane) not in members:
                 raise ValueError("Selected movement lanes must enter or leave the declared junction scope.")
-    allowed = {lane: _permissions(row[1]) for lane, row in index["lanes"].items()}
+    allowed = {lane: _permissions(row[1], network_version=root.get("version", "0.0")) for lane, row in index["lanes"].items()}
     access = {}
     for start in sorted(incoming):
         reached = defaultdict(set)
@@ -53,10 +53,11 @@ def _boundary_access(root, members, *, incoming_lane_ids=None, outgoing_lane_ids
         pending = deque([start])
         while pending:
             current = pending.popleft()
-            for target, connection in index["outgoing"].get(current, []):
+            for target, _connection in index["outgoing"].get(current, []):
                 if target not in interior | outgoing:
                     continue
-                modes = reached[current] & allowed[target] & _permissions(connection)
+                # SUMO loads lane permissions; compiled connection directives do not restrict the path.
+                modes = reached[current] & allowed[target]
                 if modes - reached[target]:
                     reached[target].update(modes)
                     if target in interior:
@@ -136,7 +137,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None):
             return {**result, "status": "review_required", "reason": "diagnostic_control_or_lane_changes_require_review"}
         pedestrian = [key for key, edge in index["edges"].items() if edge.get("function") in {"crossing", "walkingarea"}
                       and any(index["owners"].get(row.get("id")) in members for row in edge.findall("lane"))]
-        pedestrian.extend(key for key in scope_edges if any("pedestrian" in _permissions(row)
+        pedestrian.extend(key for key in scope_edges if any("pedestrian" in _permissions(row, network_version=root.get("version", "0.0"))
                           for row in index["edges"][key].findall("lane")))
         if pedestrian:
             return {**result, "status": "review_required", "reason": "local_pedestrian_join_requires_walking_route_evidence"}
@@ -202,13 +203,14 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None):
     removed_lanes = {lane.get("id") for edge in root.findall("edge") if kind == "absorb_reciprocal_fragment"
                      and edge.get("from") in members and edge.get("to") in members for lane in edge.findall("lane")}
     checks["boundary_lane_permissions_width_speed"] = "pass" if all(
-        key in new_lanes and _permissions(lane) == _permissions(new_lanes[key]) and all(
+        key in new_lanes and _permissions(lane, network_version=root.get("version", "0.0")) ==
+            _permissions(new_lanes[key], network_version=after.get("version", "0.0")) and all(
             (float(lane.get(attr)) if lane.get(attr) is not None else None) ==
             (float(new_lanes[key].get(attr)) if new_lanes[key].get(attr) is not None else None)
             for attr in ("width", "speed")) for key, lane in old_lanes.items() if key not in removed_lanes) else "blocked"
     checks["pedestrian_lane_geometry"] = "pass" if all(key in new_lanes and all(
         lane.get(attr) == new_lanes[key].get(attr) for attr in ("shape", "length"))
-        for key, lane in old_lanes.items() if "pedestrian" in _permissions(lane)) else "blocked"
+        for key, lane in old_lanes.items() if "pedestrian" in _permissions(lane, network_version=root.get("version", "0.0"))) else "blocked"
     if kind == "set_junction_shape":
         actual = after.find(f"junction[@id='{params['node_id']}']")
         shape = Polygon([tuple(map(float, token.split(",")[:2])) for token in actual.get("shape", "").split()])
