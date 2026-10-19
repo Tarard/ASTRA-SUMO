@@ -15,7 +15,7 @@ from .command_runner import run_command
 from .connection_mode_audit import build_network_connection_mode_audit
 
 from .site_parameters import load_site_parameters
-from .local_network_conversion import with_geometry_precision
+from .local_network_conversion import with_geometry_precision, with_loaded_turn_permissions, loaded_turn_permissions
 
 _SITE = load_site_parameters('hamburg_lane_connection_repair')
 
@@ -65,6 +65,9 @@ def build_hamburg_lane_connection_repair(
         raise ValueError("timeout_seconds must be finite and positive")
     destination.mkdir(parents=True)
     source_hash = file_sha256(source)
+    conversion_source = destination / "source-permissions.net.xml"
+    ET.ElementTree(with_loaded_turn_permissions(source_root)).write(conversion_source, encoding="utf-8", xml_declaration=True)
+    conversion_input = {"path": str(conversion_source), "sha256": file_sha256(conversion_source)}
 
     plain_prefix = destination / "source"
     export = _command_result(
@@ -72,7 +75,7 @@ def build_hamburg_lane_connection_repair(
             with_geometry_precision([
                 str(netconvert_binary),
                 "--sumo-net-file",
-                str(source),
+                str(conversion_source),
                 "--plain-output-prefix",
                 str(plain_prefix),
             ]),
@@ -101,7 +104,7 @@ def build_hamburg_lane_connection_repair(
             with_geometry_precision([
                 str(netconvert_binary),
                 "--sumo-net-file",
-                str(source),
+                str(conversion_source),
                 "--connection-files",
                 str(connection_patch),
                 *(
@@ -177,7 +180,8 @@ def build_hamburg_lane_connection_repair(
         and "overlap" in compile_log.lower()
     )
     gates = {
-        "source_immutable": "pass" if file_sha256(source) == source_hash else "blocked",
+        "source_immutable": "pass" if file_sha256(source) == source_hash
+            and file_sha256(conversion_source) == conversion_input["sha256"] else "blocked",
         "netconvert": "pass" if compiled else "blocked",
         "sumo_load": "pass" if load.get("status") == "pass" else "blocked",
         "lsa119_one_to_one_links": "pass" if candidate_links == expected_links else "blocked",
@@ -191,8 +195,11 @@ def build_hamburg_lane_connection_repair(
     if supplied_patch is not None:
         gates = {key: gates[key] for key in ("source_immutable", "netconvert", "sumo_load")}
         expected_pairs = (_external_connection_pairs(source_root) - deleted_links) | added_links
+        before_access = loaded_turn_permissions(source_root)
+        after_access = loaded_turn_permissions(candidate_root) if candidate_root is not None else {}
         gates["exact_connection_patch"] = (
-            "pass" if candidate_root is not None and _external_connection_pairs(candidate_root) == expected_pairs else "blocked"
+            "pass" if candidate_root is not None and _external_connection_pairs(candidate_root) == expected_pairs
+            and all(before_access[key] == after_access[key] for key in before_access.keys() & after_access.keys()) else "blocked"
         )
         gates["connection_patch_immutable"] = (
             "pass" if file_sha256(supplied_patch) == file_sha256(connection_patch) == expected_connection_patch_sha256 else "blocked"
@@ -212,6 +219,7 @@ def build_hamburg_lane_connection_repair(
         "status": "review_required" if passed else "blocked",
         "claim_status": "diagnostic-demo" if passed else "construction-invalid",
         "source_network": {"path": str(source), "sha256": source_hash},
+        "conversion_input": conversion_input,
         "candidate_network": (
             {"path": str(candidate), "sha256": file_sha256(candidate)}
             if candidate.is_file()

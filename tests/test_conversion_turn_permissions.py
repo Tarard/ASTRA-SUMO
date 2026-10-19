@@ -110,3 +110,53 @@ def test_shared_conversion_keeps_dormant_turn_restrictions(tmp_path, monkeypatch
     assert not _native_access(candidate, "passenger")["admitted"]
     assert _native_access(candidate, "bus")["admitted"]
     assert file_sha256(source) == digest
+
+
+@pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
+@pytest.mark.parametrize("entrypoint", ["connection_repair", "road_geometry"])
+@pytest.mark.parametrize("damage", [False, True])
+def test_legacy_repair_entrypoints_keep_untouched_bus_only_turns(tmp_path, monkeypatch, entrypoint, damage):
+    root = _native_network(tmp_path)
+    turn = root.find("connection[@from='in'][@to='out']")
+    root.find(f"edge/lane[@id='{turn.get('via')}']").set("allow", "bus")
+    source = tmp_path / "source.net.xml"
+    ET.ElementTree(root).write(source, encoding="utf-8", xml_declaration=True)
+    digest = file_sha256(source)
+    assert not _native_access(source, "passenger")["admitted"]
+    output = tmp_path / "repair"
+    def compile_case(command, **kwargs):
+        result = run_command(command, **kwargs)
+        if damage and "--output-file" in command and result.returncode == 0:
+            artifact = Path(command[command.index("--output-file") + 1])
+            changed = ET.parse(artifact)
+            turn = changed.getroot().find("connection[@from='in'][@to='out']")
+            lane = changed.getroot().find(f"edge/lane[@id='{turn.get('via')}']")
+            lane.set("allow", "all")
+            lane.attrib.pop("disallow", None)
+            changed.write(artifact, encoding="utf-8", xml_declaration=True)
+        return result
+    if entrypoint == "connection_repair":
+        from astra_sumo.core.hamburg_lane_connection_repair import build_hamburg_lane_connection_repair
+        patch = tmp_path / "delete-branch.con.xml"
+        patch.write_text('<connections><delete from="in" fromLane="0" to="branch" toLane="0"/></connections>', encoding="utf-8")
+        report = build_hamburg_lane_connection_repair(source_net=source, output_dir=output,
+            connection_patch_file=patch, expected_connection_patch_sha256=file_sha256(patch), timeout_seconds=30,
+            command_runner=compile_case)
+        candidate = Path(report["candidate_network"]["path"])
+    else:
+        from astra_sumo.core import hamburg_road_geometry as geometry
+        monkeypatch.setattr(geometry, "run_command", compile_case)
+        # The source-matching profile is tested separately. Exercise its native conversion with a fixed local shape.
+        monkeypatch.setattr(geometry, "plan_hamburg_road_geometry", lambda network: {
+            "status": "pass", "junction_id": "j", "edge_id": "out", "opposing_edge_id": "branch",
+            "lane_shapes": {"0": geometry._points(network.find("edge[@id='out']/lane").get("shape"))}})
+        report = geometry.build_hamburg_road_geometry_candidate(source_net=source, output_dir=output, timeout_seconds=30)
+        candidate = output / "road-geometry.net.xml"
+    assert _native_access(candidate, "passenger")["admitted"] is damage
+    assert _native_access(candidate, "bus")["admitted"]
+    assert file_sha256(source) == digest
+    expected_statuses = {"blocked"} if damage else {"pass", "review_required"}
+    assert report["status"] in expected_statuses, report
+    assert file_sha256(Path(report["conversion_input"]["path"])) == report["conversion_input"]["sha256"]
+    if entrypoint == "road_geometry":
+        assert file_sha256(Path(report["reload_input"]["path"])) == report["reload_input"]["sha256"]

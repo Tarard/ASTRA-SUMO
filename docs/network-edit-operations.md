@@ -288,6 +288,10 @@ Before conversion, a separate input copy reconciles connection directives with t
 This prevents a width edit from opening a restricted turn or closing an open turn.
 Explicit connection edits still apply after this preparation. Sources remain unchanged.
 Conversion records retain the prepared input and its hash, including full-network fallback inputs when needed.
+The legacy Hamburg connection repair and reviewed road correction now use the same permission preparation.
+Their reports retain the prepared source hash. The road correction also retains its prepared reload input.
+Existing connection-patch and road-preservation checks compare loaded access, including internal-lane restrictions.
+The road reload checks both geometry and loaded access. Sources and source-matching profiles remain unchanged.
 Native conversion can emit a newer file format. Copying older permission text into that format can change effective classes.
 Restoration now retains the source header and type definitions. Generated permission declarations keep their native meaning in that source format.
 Inherited boundary patches retain source classes in current plain XML. Teacher copies instead follow the receiving network's format.

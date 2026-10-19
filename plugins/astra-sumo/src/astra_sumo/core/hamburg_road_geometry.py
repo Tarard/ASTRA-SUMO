@@ -16,7 +16,7 @@ from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_lane_connection_repair import HAMBURG_DIVERGE_LANE_SHAPE
 
 from .site_parameters import load_site_parameters
-from .local_network_conversion import with_geometry_precision
+from .local_network_conversion import with_geometry_precision, with_loaded_turn_permissions, loaded_turn_permissions
 from .junction_boundary_rebuild import _signature
 
 _SITE = load_site_parameters('hamburg_road_geometry')
@@ -186,6 +186,9 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     if destination.exists():
         raise ValueError("output_dir must not already exist")
     destination.mkdir(parents=True)
+    conversion_source = destination / "source-permissions.net.xml"
+    ET.ElementTree(with_loaded_turn_permissions(root)).write(conversion_source, encoding="utf-8", xml_declaration=True)
+    conversion_input = {"path": str(conversion_source), "sha256": file_sha256(conversion_source)}
     edges = {e.get("id"): e for e in root.findall("edge") if e.get("function") != "internal"}
     scope = {key for key, e in edges.items() if junction_id in (e.get("from"), e.get("to"))}
     nodes = ET.Element("nodes")
@@ -201,7 +204,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     ET.ElementTree(nodes).write(node_file, encoding="utf-8", xml_declaration=True)
     ET.ElementTree(patch).write(edge_file, encoding="utf-8", xml_declaration=True)
     compiled = destination / "native.net.xml"
-    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(source), "--node-files", str(node_file),
+    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(conversion_source), "--node-files", str(node_file),
                "--edge-files", str(edge_file), "--offset.disable-normalization", "true",
                "--junctions.internal-link-detail", "25", "--output-file", str(compiled)])
     result = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
@@ -246,9 +249,11 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     before_audit = audit_network_connection_mode(root, junction_ids=checked_junctions, endpoint_tolerance_m=0.1)
     after_overlap = sum(_overlap(candidate, _points(lane.get("shape")), plan["opposing_edge_id"])
                         for lane in rebuilt_edges[primary].findall("lane"))
-    gates = {"source_immutable": file_sha256(source) == source_hash,
+    gates = {"source_immutable": file_sha256(source) == source_hash
+                and file_sha256(conversion_source) == conversion_input["sha256"],
              "external_lane_semantics": semantics_preserved, "remote_endpoints": remote_endpoints_preserved,
-             "lane_connections_and_controls": external_pairs(root) == external_pairs(candidate),
+             "lane_connections_and_controls": external_pairs(root) == external_pairs(candidate)
+                 and loaded_turn_permissions(root) == loaded_turn_permissions(candidate),
              "outside_elements": [_signature(e) for e in root if not _local(e, scope, junction_id)] ==
                                  [_signature(e) for e in candidate if not _local(e, scope, junction_id)],
              "exit_lane_overlap_removed": after_overlap <= 0.01,
@@ -263,7 +268,10 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     ET.indent(candidate)
     ET.ElementTree(candidate).write(target, encoding="utf-8", xml_declaration=True)
     reloaded_file = destination / "reload.net.xml"
-    reload_command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(target),
+    reload_source = destination / "reload-input.net.xml"
+    ET.ElementTree(with_loaded_turn_permissions(candidate)).write(reload_source, encoding="utf-8", xml_declaration=True)
+    reload_input = {"path": str(reload_source), "sha256": file_sha256(reload_source)}
+    reload_command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(reload_source),
                       "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25",
                       "--output-file", str(reloaded_file)])
     reloaded = run_command(reload_command, cwd=destination, timeout_seconds=timeout_seconds)
@@ -273,6 +281,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     shape_deltas = []
     if stable:
         reloaded_root = ET.parse(reloaded_file).getroot()
+        stable &= loaded_turn_permissions(candidate) == loaded_turn_permissions(reloaded_root)
         for edge_id in scope:
             old = rebuilt_edges[edge_id].findall("lane")
             new = reloaded_root.findall(f"edge[@id='{edge_id}']/lane")
@@ -288,6 +297,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     report.update(status="pass" if all(gates.values()) else "blocked", applied=all(gates.values()),
                   gates=gates, after_overlap_m2=after_overlap, edited_edge_ids=sorted(scope), command=command,
                   fixed_boundary_junctions=fixed_junctions, reload_command=reload_command,
+                  conversion_input=conversion_input, reload_input=reload_input,
                   reload_max_length_delta_m=max(length_deltas, default=0.0),
                   reload_max_shape_delta_m=max(shape_deltas, default=0.0),
                   patch={"path": str(edge_file), "sha256": file_sha256(edge_file)},
