@@ -883,6 +883,15 @@ def _compare_persisted_fields(
     role: str,
     errors: list[dict[str, Any]],
 ) -> None:
-    mismatches = [field for field in fields if supplied.get(field) != persisted.get(field)]
+    mismatches = []
+    for field in fields:
+        try:
+            # JSON arrays represent both native Python lists and coordinate tuples.
+            value = json.loads(json.dumps(supplied.get(field), allow_nan=False))
+        except (TypeError, ValueError):
+            mismatches.append(field)
+            continue
+        if value != persisted.get(field):
+            mismatches.append(field)
     if mismatches:
         errors.append({"code": f"{role}_evidence_content_mismatch", "fields": mismatches})
