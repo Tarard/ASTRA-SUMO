@@ -33,7 +33,9 @@ def _routing_model(path, variant):
     assert result.returncode == 0, result.stderr
     if variant == "restricted":
         tree = ET.parse(path)
-        tree.getroot().find("connection[@from='e0'][@to='e1']").set("allow", "bus")
+        turn = tree.getroot().find("connection[@from='e0'][@to='e1']")
+        turn.set("allow", "bus")
+        tree.getroot().find(f"edge/lane[@id='{turn.get('via')}']").set("allow", "bus")
         tree.write(path, encoding="utf-8", xml_declaration=True)
     return audit.build_routeability_od_policy([path])
 
@@ -78,11 +80,38 @@ def test_sampling_preserves_v1_requests_and_all_pair_counts(tmp_path, variant, s
 def test_route_generation_does_not_search_a_path_for_every_possible_pair(tmp_path, monkeypatch):
     source = tmp_path / "routing.net.xml"
     policy = _routing_model(source, "cycle")
-    original = sumolib.net.edge.Edge.getAllowedOutgoing
+    from astra_sumo.core import local_network_conversion
+    original = local_network_conversion.loaded_turn_permissions
     calls = []
-    def counted(edge, vehicle_class):
-        calls.append(edge.getID())
-        return original(edge, vehicle_class)
-    monkeypatch.setattr(sumolib.net.edge.Edge, "getAllowedOutgoing", counted)
+    def counted(root):
+        calls.append(root)
+        return original(root)
+    monkeypatch.setattr(local_network_conversion, "loaded_turn_permissions", counted)
     audit._write_source_reachable_trips(source, policy, tmp_path / "trips.xml", vehicle_count=100, seed=104)
-    assert len(calls) <= 2 * len(policy["source_edge_ids"])
+    assert len(calls) == 1
+
+
+@pytest.mark.skipif(not shutil.which("duarouter"), reason="SUMO router required")
+@pytest.mark.parametrize("restriction,expected_pairs,expected_targets", [("directive", 132, 11), ("internal_lane", 66, 0)])
+def test_source_sampling_matches_native_loaded_turn_access(tmp_path, restriction, expected_pairs, expected_targets):
+    source = tmp_path / "routing.net.xml"
+    policy = _routing_model(source, "cycle")
+    tree = ET.parse(source)
+    turn = tree.getroot().find("connection[@from='e0'][@to='e1']")
+    if restriction == "directive":
+        turn.set("allow", "bus")
+    else:
+        tree.getroot().find(f"edge/lane[@id='{turn.get('via')}']").set("allow", "bus")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    trips = tmp_path / "native.trips.xml"
+    trips.write_text('<routes><trip id="probe" depart="0" from="e0" to="e1"/></routes>', encoding="utf-8")
+    routed = tmp_path / "native.routes.xml"
+    result = subprocess.run([checkBinary("duarouter"), "-n", str(source), "-r", str(trips),
+        "-o", str(routed), "--ignore-errors", "true", "--no-step-log", "true"],
+        capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stderr
+    assert len(ET.parse(routed).getroot().findall("vehicle")) == (restriction == "directive")
+    report = audit._write_source_reachable_trips(source, policy, tmp_path / "sampled.trips.xml", vehicle_count=100, seed=104)
+    assert report["reachable_od_pair_count"] == expected_pairs
+    assert report["reachable_destination_count_by_source"]["e0"] == expected_targets
+    assert report["method"].endswith("/v2")

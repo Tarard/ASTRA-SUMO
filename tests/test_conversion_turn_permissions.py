@@ -145,6 +145,28 @@ def test_permission_preparation_preserves_raw_source_and_reports_unavailable_ref
     assert source.read_bytes() == original and not prepared.exists()
 
 
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO required")
+@pytest.mark.parametrize("step", ["normalize", "plain_export"])
+def test_unavailable_permission_trace_is_visible_without_blocking_native_repair(tmp_path, monkeypatch, step):
+    from astra_sumo.core import osm_workflow_tail as tail
+    source = tmp_path / "source.net.xml"
+    ET.ElementTree(_native_network(tmp_path)).write(source, encoding="utf-8", xml_declaration=True)
+    def unavailable(source_file, prepared_file):
+        return {"path": str(source_file), "sha256": file_sha256(source_file),
+                "preparation": "unavailable", "warning": "Unknown internal lane."}
+    monkeypatch.setattr(tail, "prepare_permission_preserving_input", unavailable)
+    output = tmp_path / "conversion"
+    if step == "normalize":
+        report = tail._normalize_sumo_net(net_file=source, output_file=output / "candidate.net.xml", output_dir=output,
+            netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command)
+    else:
+        report = tail.export_plain_net_for_teacher_guided_repair(net_file=source, output_dir=output, prefix="export",
+            netconvert_binary=shutil.which("netconvert"), timeout_seconds=30)
+    assert report["status"] == "pass"
+    assert report["warnings"] == ["Loaded turn permissions could not be traced. Unknown internal lane."]
+    assert report["permission_input"]["preparation"] == "unavailable"
+
+
 @pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
 @pytest.mark.parametrize("entrypoint", ["connection_repair", "road_geometry"])
 @pytest.mark.parametrize("damage", [False, True])

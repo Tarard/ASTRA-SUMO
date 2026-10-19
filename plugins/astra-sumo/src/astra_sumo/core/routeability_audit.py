@@ -74,18 +74,21 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
     from graphlib import TopologicalSorter
     from scipy.sparse import csr_matrix
     from scipy.sparse.csgraph import connected_components
-    import sumolib.net
+    from .local_network_conversion import loaded_turn_permissions
+    from .osm_access import _permission_set
 
     if vehicle_count <= 0 or not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
         raise ValueError("vehicle_count must be positive and seed must be a nonnegative integer")
     if trip_file.resolve() == reference_net.resolve() or trip_file.exists() and trip_file.samefile(reference_net):
         raise ValueError("trip output must not replace the reference network")
     reference_hash = file_sha256(reference_net)
-    net = sumolib.net.readNet(str(reference_net), maxcache=1)
+    root = ET.parse(reference_net).getroot()
     destinations = set(policy["destination_edge_ids"])
-    edges = net.getEdges(withInternal=True)
-    positions = {edge: index for index, edge in enumerate(edges)}
-    links = [(positions[edge], positions[target]) for edge in edges for target in edge.getAllowedOutgoing("passenger")]
+    edges = {edge.get("id"): edge for edge in root.findall("edge")
+             if not edge.get("id", "").startswith(":") and edge.get("function") not in {"internal", "crossing", "walkingarea"}}
+    positions = {identity: index for index, identity in enumerate(edges)}
+    links = [(positions[start], positions[target]) for (start, _, target, _), modes in loaded_turn_permissions(root).items()
+             if "passenger" in modes]
     rows, columns = zip(*links) if links else ([], [])
     graph = csr_matrix(([True] * len(links), (rows, columns)), shape=(len(edges), len(edges)), dtype=bool)
     count, components = connected_components(graph, directed=True, connection="strong")
@@ -94,21 +97,21 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
         a, b = int(components[left]), int(components[right])
         if a != b:
             successors[a].add(b)
-    destination_ids = sorted(destinations & {edge.getID() for edge in edges})
+    destination_ids = sorted(destinations & edges.keys())
     destination_bits = {identity: 1 << index for index, identity in enumerate(destination_ids)}
     reachable = [0] * count
     for identity in destination_ids:
-        reachable[int(components[positions[net.getEdge(identity)]])] |= destination_bits[identity]
+        reachable[int(components[positions[identity]])] |= destination_bits[identity]
     # Edges in one strong component share destinations. Bitsets avoid all-pairs path searches and lists.
     for component in TopologicalSorter(successors).static_order():
         for target in successors[component]:
             reachable[component] |= reachable[target]
     choices, source_components, usable = {}, {}, 0
     for source in policy["source_edge_ids"]:
-        start = net.getEdge(source)
-        if not start.allows("passenger"):
+        if not any("passenger" in _permission_set(lane.attrib, network_version=root.get("version", "0.0"))
+                   for lane in edges[source].findall("lane")):
             raise RuntimeError(f"'{source}' does not allow passenger")
-        component = int(components[positions[start]])
+        component = int(components[positions[source]])
         source_components[source] = component
         targets = reachable[component] & ~destination_bits.get(source, 0)
         choices[source] = targets.bit_count()
@@ -147,14 +150,14 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
     ET.indent(root)
     write_text_atomic(trip_file, ET.tostring(root, encoding="unicode", xml_declaration=True))
     usable_destinations = set(unpack(usable))
-    return {"status": "pass", "method": "source_reachable_uniform_origin_then_destination/v1", "reference_network": {"path": str(reference_net), "sha256": reference_hash},
-            "reachability_method": "SUMO Edge.getAllowedOutgoing(passenger) graph; strong-component destination sets equivalent to unbounded default Net.getShortestPath existence",
+    return {"status": "pass", "method": "source_reachable_uniform_origin_then_destination/v2", "reference_network": {"path": str(reference_net), "sha256": reference_hash},
+            "reachability_method": "Loaded ordinary-road turn graph from endpoint and complete internal-lane permissions; dormant compiled connection directives ignored",
             "seed": seed, "vehicle_count": vehicle_count, "departures": "one vehicle per second at 0..vehicle_count-1", "same_edge_trips": 0,
             "reachable_od_pair_count": sum(choices.values()), "reachable_destination_count_by_source": choices,
             "sources_without_reachable_destinations": sorted(set(choices) - set(sources)), "destinations_without_reachable_sources": sorted(destinations - usable_destinations),
             "sampled_source_edge_ids": sorted(sampled_sources), "sampled_destination_edge_ids": sorted(sampled_destinations), "sampled_unique_od_pairs": len(sampled_pairs),
             "eligible_sources_not_sampled": sorted(set(sources) - sampled_sources), "eligible_destinations_not_sampled": sorted(usable_destinations - sampled_destinations),
-            "source": "https://sumo.dlr.de/pydoc/sumolib/net.html#Net.getReachable",
+            "source": "https://sumo.dlr.de/docs/Simulation/VehiclePermissions.html",
             "claim_boundary": "Synthetic source-reachable diagnostic OD, not historical demand. Candidate reachability never selects requests. Native duarouter still checks every request; no failed request is replaced. Unused endpoints and unsampled roads are not claimed covered."}
 
 

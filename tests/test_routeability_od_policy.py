@@ -128,13 +128,13 @@ def test_source_reachable_requests_are_reproducible_and_candidate_cannot_filter_
     assert Path(generated['trip_file']).read_bytes() == outputs[0].read_bytes()
     assert generated['od_policy']['mode'] == 'source_reachable_shared_generated'
 
-    # getReachable alone ignores connection-level vehicle restrictions in
-    # SUMO 1.27.1. Endpoint lane permissions are not sufficient evidence.
+    # Loaded internal lane restrictions must constrain requests even when endpoints permit them.
     restricted = tmp_path / 'restricted.net.xml'
     tree = ET.parse(source)
     for lane in tree.getroot().iter('lane'):
         lane.set('allow', 'passenger bus')
-    tree.getroot().find("connection[@from='a'][@to='b']").set('allow', 'bus')
+    turn = tree.getroot().find("connection[@from='a'][@to='b']")
+    tree.getroot().find(f"edge/lane[@id='{turn.get('via')}']").set('allow', 'bus')
     tree.write(restricted, encoding='utf-8')
     restricted_requests = tmp_path / 'restricted-trips.xml'
     audit._write_source_reachable_trips(restricted, audit.build_routeability_od_policy([restricted]), restricted_requests, vehicle_count=100, seed=104)

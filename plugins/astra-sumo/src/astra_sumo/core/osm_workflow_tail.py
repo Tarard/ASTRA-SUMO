@@ -585,6 +585,8 @@ def _normalize_sumo_net(
     report["source_net_file"] = str(net_file)
     report["output_file"] = str(output_file)
     report["permission_input"] = permission_input
+    if permission_input.get("warning"):
+        report.setdefault("warnings", []).append("Loaded turn permissions could not be traced. " + permission_input["warning"])
     return report
 def _run_tls_movement_routeability_smoke(
     *,
@@ -898,6 +900,7 @@ def export_plain_net_for_teacher_guided_repair(
         "net_file": str(net_file),
         "plain_source_net_file": str(source_copy),
         "permission_input": permission_input,
+        "warnings": ["Loaded turn permissions could not be traced. " + permission_input["warning"]] if permission_input.get("warning") else [],
         "plain_output_prefix": str(plain_prefix),
         "requested_plain_output_prefix": str(output_dir / prefix),
         "plain_output_prefix_shortened": plain_prefix_shortened,

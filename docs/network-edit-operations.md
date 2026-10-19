@@ -419,11 +419,19 @@ The [Hamburg construction comparison](../benchmarks/network_construction_2026101
 ## Diagnostic sampling cost
 
 Source-reachable diagnostic sampling builds the passenger connection graph once.
-Strong components share destination sets. The sampler retains the v1 endpoint
-rules, sorted choices, seed, request bytes, and all-pair counts. It uses routing
-connection restrictions for parity with the original default `getShortestPath`
-check. Native `duarouter` still checks every selected request. A failed request
-is never replaced. These synthetic requests do not establish field demand.
+Strong components share destination sets. Method v2 uses loaded endpoint and
+internal-lane permissions. It ignores dormant compiled connection directives.
+Endpoint roles, sorted choices, and the uniform origin-then-destination rule
+stay the same. Requests can change when sumolib's earlier rules disagree with
+loaded SUMO permissions. The report records the method version. Historical v1
+reports retain their original requests. Native `duarouter` still checks every
+selected request. A failed request is never replaced. These synthetic requests
+do not establish field demand.
+
+Normalization and plain export require fresh prepared-output paths when turn
+permissions need reconciliation. They never replace a prepared input from an
+earlier run. If tracing is unavailable, a top-level warning records the gap.
+Native repair can continue, but a successful command does not prove preservation.
 
 ## Site parameters
 
