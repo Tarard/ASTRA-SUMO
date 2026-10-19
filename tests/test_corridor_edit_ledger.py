@@ -98,6 +98,11 @@ def _persist_review_decision(
 def _append_generated_edges_with_connections(source_root: ET.Element, additions_root: ET.Element) -> None:
     for edge in additions_root.findall("edge"):
         edge_id = str(edge.attrib["id"])
+        # Mimic netconvert's expansion of edge permissions onto compiled lanes.
+        if not edge.findall("lane"):
+            for index in range(int(edge.get("numLanes", "1"))):
+                ET.SubElement(edge, "lane", id=f"{edge_id}_{index}", index=str(index),
+                    **{key: edge.get(key) for key in ("allow", "disallow") if edge.get(key) is not None})
         source_root.append(edge)
         ET.SubElement(
             source_root,

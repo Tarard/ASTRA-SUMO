@@ -305,11 +305,11 @@ def _connections_are_lane_preserving_straights(
     return True
 
 
-def audit_alias_normalized_connections(source_file: Path, candidate_file: Path) -> dict[str, Any]:
+def audit_alias_normalized_connections(source_file: Path, candidate_file: Path, *, source_lane_indices=None) -> dict[str, Any]:
     source_root = ET.parse(source_file).getroot()
     candidate_root = ET.parse(candidate_file).getroot()
     aliases = _corridor_edge_aliases(source_root, candidate_root)
-    source_all, source_controlled, collapsed = _connection_counters(source_root, aliases)
+    source_all, source_controlled, collapsed = _connection_counters(source_root, aliases, source_lane_indices)
     candidate_all, candidate_controlled, _ = _connection_counters(candidate_root, {})
     all_missing = source_all - candidate_all
     all_extra = candidate_all - source_all
@@ -319,6 +319,7 @@ def audit_alias_normalized_connections(source_file: Path, candidate_file: Path) 
         "status": "pass" if not controlled_missing and not controlled_extra else "fail",
         "edge_alias_count": len(aliases),
         "edge_aliases": dict(sorted(aliases.items())),
+        "source_lane_indices": source_lane_indices or {},
         "collapsed_source_connection_count": collapsed,
         "normal_missing_count": sum(all_missing.values()),
         "normal_extra_count": sum(all_extra.values()),
@@ -381,7 +382,7 @@ def _corridor_edge_aliases(source_root: ET.Element, candidate_root: ET.Element) 
 
 
 def _connection_counters(
-    root: ET.Element, aliases: dict[str, str]
+    root: ET.Element, aliases: dict[str, str], lane_indices=None
 ) -> tuple[Counter[tuple[str, ...]], Counter[tuple[str, ...]], int]:
     all_connections: Counter[tuple[str, ...]] = Counter()
     controlled_connections: Counter[tuple[str, ...]] = Counter()
@@ -399,8 +400,8 @@ def _connection_counters(
         signature = (
             mapped_from,
             mapped_to,
-            connection.attrib.get("fromLane", ""),
-            connection.attrib.get("toLane", ""),
+            (lane_indices or {}).get(from_edge, {}).get(connection.get("fromLane", ""), connection.get("fromLane", "")),
+            (lane_indices or {}).get(to_edge, {}).get(connection.get("toLane", ""), connection.get("toLane", "")),
             connection.attrib.get("tl", ""),
             connection.attrib.get("linkIndex", ""),
             connection.attrib.get("linkIndex2", ""),

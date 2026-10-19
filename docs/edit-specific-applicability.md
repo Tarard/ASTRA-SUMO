@@ -85,6 +85,19 @@ completion, and topology. Required map review still applies. Route requests
 come from the original network. SUMO and duarouter come from the same directory
 as the selected netconvert binary.
 
+A materialization that requires review can still run load, route, and topology
+diagnostics when its persisted evidence is valid. These measurements do not
+approve the candidate. Existing blocked checks remain blocked in the final
+decision. Invalid artifact identities or unreadable XML prevent execution.
+
+For lane additions, controlled-connection comparison follows a complete,
+source-bound lane index mapping from the hashed materialization plan. It does
+not excuse deleted lanes or changed signal bindings. Vehicle-mode connectivity
+counts ordinary movements with loaded permissions, including their internal
+paths. Changing the number of internal path pieces alone does not remove a
+movement. Pedestrian connectivity retains its separate explicit-connection
+comparison and does not prove every implicit walking route.
+
 If no shared diagnostic origin or destination remains, routeability reports
 `review_required` with `execution_status: not_run`. This can occur in a small
 extract when the edit moves every incident road. It does not establish route

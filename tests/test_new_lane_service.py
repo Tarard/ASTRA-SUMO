@@ -113,9 +113,20 @@ def test_added_lane_service_is_distinguished_from_geometry(tmp_path, connected):
 
 
 @pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO binaries required")
-def test_release_command_preserves_review_and_unexecuted_gate_status(tmp_path):
+@pytest.mark.parametrize("semantic_failure", [False, True])
+def test_release_command_collects_diagnostics_without_approving_unknown_lane(tmp_path, monkeypatch, semantic_failure):
     import json
+    from astra_sumo.core import corridor_edit_ledger
     from astra_sumo.core.network_edit_applicability import verify_network_edit
+
+    if semantic_failure:
+        original = corridor_edit_ledger._candidate_semantic_gate
+
+        def failed_semantics(*args, **kwargs):
+            result = original(*args, **kwargs)
+            return {**result, "status": "blocked", "error": "Injected retained semantic failure"}
+
+        monkeypatch.setattr(corridor_edit_ledger, "_candidate_semantic_gate", failed_semantics)
 
     source = _source(tmp_path, "set_lane_count")
     digest = file_sha256(source)
@@ -138,8 +149,12 @@ def test_release_command_preserves_review_and_unexecuted_gate_status(tmp_path):
         netconvert_binary=shutil.which("netconvert"),
         mode="release",
     )
-    assert report["status"] == "review_required", report
-    assert report["candidate_gates"]["execution_status"] == "not_run"
+    assert report["status"] == ("blocked" if semantic_failure else "review_required"), report
+    gates = report["candidate_gates"]
+    assert gates["gates"]["netconvert"]["status"] == "review_required"
+    assert gates["gates"]["sumo_load"]["status"] == "pass"
+    assert gates["routeability_report"]["report_file"]
+    assert gates["topology_report"]["report_file"]
 
 
 def _case():

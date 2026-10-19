@@ -1437,6 +1437,8 @@ def run_corridor_candidate_gates(
     xml_gate = {"status": "pass" if not xml_errors else "blocked", "errors": xml_errors}
 
     if source_root is not None and candidate_root is not None:
+        source_lane_indices = _bound_source_lane_indices(materialization_report, materialization_evidence,
+            source_net_file, source_root, candidate_root)
         semantic_report = _candidate_semantic_gate(
             source_root,
             candidate_root,
@@ -1444,6 +1446,7 @@ def run_corridor_candidate_gates(
             candidate_net_file,
             allowed_deltas=semantic_allowances,
             allowed_tls_logic_changes=tls_logic_allowances,
+            source_lane_indices=source_lane_indices,
         )
         modal_report = _modal_connectivity_gate(source_root, candidate_root)
     else:
@@ -1497,7 +1500,12 @@ def run_corridor_candidate_gates(
                 }
         except (OSError, ValueError, TypeError, KeyError, ET.ParseError) as exc:
             preflight_gates["edit_applicability"] = {"status": "blocked", "error": str(exc)}
-    preflight_pass = all(gate.get("status") == "pass" for gate in preflight_gates.values())
+    preflight_allows_measurement = all(gate.get("status") in {"pass", "review_required"} for gate in preflight_gates.values())
+    qualified_review = (materialization_evidence["status"] == "review_required"
+                        and artifact_identity["status"] == xml_gate["status"] == "pass"
+                        and review_evidence["status"] in {"pass", "review_required"}
+                        and preflight_gates.get("edit_applicability", {}).get("status", "pass") != "blocked")
+    preflight_allows_measurement |= qualified_review
 
     sumo_load_gate = _not_run_gate("candidate preflight did not pass")
     routeability_gate = _not_run_gate("candidate preflight did not pass")
@@ -1506,7 +1514,7 @@ def run_corridor_candidate_gates(
     topology_report: dict[str, Any] = {}
     source_topology_report: dict[str, Any] = {}
 
-    if preflight_pass:
+    if preflight_allows_measurement:
         load_file = output_dir / f"{prefix}_sumo_load.txt"
         load_command = [
             sumo_binary,
@@ -1751,6 +1759,37 @@ def normalize_edit_operation(operation: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _bound_source_lane_indices(report, evidence, source_file, source_root, candidate_root):
+    """Use only a hash-bound, complete declared lane relabeling for comparison."""
+    if not report or evidence.get("status") not in {"pass", "review_required"}:
+        return {}
+    try:
+        path = Path(report["plan_file"]).resolve(strict=True)
+        manifest = json.loads(Path(report["manifest_file"]).read_text(encoding="utf-8"))
+        bindings = [row for row in manifest["artifacts"] if row.get("kind") == "materialization_plan"
+                    and Path(row["path"]).resolve() == path]
+        if len(bindings) != 1 or bindings[0].get("sha256") != file_sha256(path):
+            return {}
+        plan = json.loads(path.read_text(encoding="utf-8"))
+        if (plan["operation"]["operation"] != "set_lane_count"
+                or Path(plan["source"]["path"]).resolve() != source_file.resolve()
+                or plan["source"]["sha256"] != file_sha256(source_file)):
+            return {}
+        old, new = _normal_edges(source_root), _normal_edges(candidate_root)
+        params = plan["operation"]["params"]
+        target = params["edge_id"]
+        if old.keys() != new.keys() or len(new[target].findall("lane")) != params["num_lanes"]:
+            return {}
+        from .network_edit_operations import _lane_count_layout
+        mapping = {str(key): value for key, value in _lane_count_layout(params, old[target], source_root.get("version", "0.0")).items()}
+        if (len(mapping) != len(old[target].findall("lane")) or mapping != plan["lane_index_mapping"]
+                or mapping != report["semantic_validation"]["lane_index_mapping"]):
+            return {}
+        return {target: {key: str(value) for key, value in mapping.items()}}
+    except (OSError, KeyError, ValueError, TypeError):
+        return {}
+
+
 def _candidate_semantic_gate(
     source_root: ET.Element,
     candidate_root: ET.Element,
@@ -1759,6 +1798,7 @@ def _candidate_semantic_gate(
     *,
     allowed_deltas: Mapping[str, int] | None = None,
     allowed_tls_logic_changes: Mapping[str, Mapping[str, Any]] | None = None,
+    source_lane_indices=None,
 ) -> dict[str, Any]:
     source_counts = _protected_semantic_counts(source_root)
     candidate_counts = _protected_semantic_counts(candidate_root)
@@ -1787,7 +1827,7 @@ def _candidate_semantic_gate(
     try:
         from .corridor_simplification import audit_alias_normalized_connections
 
-        connection_audit = audit_alias_normalized_connections(source_file, candidate_file)
+        connection_audit = audit_alias_normalized_connections(source_file, candidate_file, source_lane_indices=source_lane_indices)
     except (OSError, ET.ParseError, ValueError) as exc:
         connection_audit = {"status": "fail", "error": f"{type(exc).__name__}: {exc}"}
     tls_logic_report = _compare_tls_logic_semantics(
@@ -1833,27 +1873,20 @@ def _permission_allows_mode(
     lane_attributes: Mapping[str, str],
     mode: str,
 ) -> bool:
-    edge_allow = set(str(edge_attributes.get("allow", "")).split())
-    edge_disallow = set(str(edge_attributes.get("disallow", "")).split())
-    lane_allow = set(str(lane_attributes.get("allow", "")).split())
-    lane_disallow = set(str(lane_attributes.get("disallow", "")).split())
-    if mode in lane_disallow or mode in edge_disallow:
-        return False
-    if lane_allow:
-        return mode in lane_allow
-    if edge_allow:
-        return mode in edge_allow
-    return True
+    from .osm_access import _permission_set
+    attributes = lane_attributes if "allow" in lane_attributes or "disallow" in lane_attributes else edge_attributes
+    return mode in _permission_set(attributes)
 
 
 def _edge_lane_allows_modal_mode(edge: ET.Element, lane_index: str, mode: str) -> bool:
     lanes = list(edge.findall("lane"))
     if not lanes:
         return _edge_allows_modal_mode(edge, mode)
-    lane = next((item for item in lanes if str(item.attrib.get("index", "")) == lane_index), None)
-    if lane is None:
+    try:
+        index = int(lane_index)
+    except (ValueError, TypeError):
         return False
-    return _permission_allows_mode(edge.attrib, lane.attrib, mode)
+    return 0 <= index < len(lanes) and _permission_allows_mode(edge.attrib, lanes[index].attrib, mode)
 
 
 def _connected_components(adjacency: Mapping[str, set[str]]) -> list[set[str]]:
@@ -1885,6 +1918,15 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
         for edge_id, edge in all_edges.items()
         if _edge_allows_modal_mode(edge, mode)
     }
+    connections = root.findall("connection")
+    if mode != "pedestrian":
+        from .osm_access import _permission_set
+        from .local_network_conversion import loaded_turn_permissions
+        modal_edges = {key: edge for key, edge in normal_edges.items()
+                       if any(mode in _permission_set(lane.attrib, network_version=root.get("version", "0.0"))
+                              for lane in edge.findall("lane"))}
+        connections = [ET.Element("connection", **dict(zip(("from", "fromLane", "to", "toLane"), map(str, key))))
+                       for key, allowed in loaded_turn_permissions(root).items() if mode in allowed]
     normal_modal_edges: dict[str, ET.Element] = {}
     junction_adjacency: dict[str, set[str]] = defaultdict(set)
     for edge_id, edge in normal_edges.items():
@@ -1901,7 +1943,7 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
     connection_adjacency: dict[str, set[str]] = {edge_id: set() for edge_id in modal_edges}
     edge_connection_counts = {edge_id: 0 for edge_id in normal_modal_edges}
     connection_count = 0
-    for connection in root.findall("connection"):
+    for connection in connections:
         from_edge_id = str(connection.attrib.get("from", ""))
         to_edge_id = str(connection.attrib.get("to", ""))
         from_edge = modal_edges.get(from_edge_id)
@@ -1910,9 +1952,9 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
             continue
         from_lane = str(connection.attrib.get("fromLane", "0"))
         to_lane = str(connection.attrib.get("toLane", "0"))
-        if not _edge_lane_allows_modal_mode(from_edge, from_lane, mode):
+        if mode == "pedestrian" and not _edge_lane_allows_modal_mode(from_edge, from_lane, mode):
             continue
-        if not _edge_lane_allows_modal_mode(to_edge, to_lane, mode):
+        if mode == "pedestrian" and not _edge_lane_allows_modal_mode(to_edge, to_lane, mode):
             continue
         connection_count += 1
         connection_adjacency[from_edge_id].add(to_edge_id)
@@ -1937,6 +1979,7 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
     )
     return {
         "edge_count": len(normal_modal_edges),
+        "connection_basis": "explicit_pedestrian_connections" if mode == "pedestrian" else "loaded_ordinary_movements",
         "node_count": len(junction_adjacency),
         "component_count": len(junction_components),
         "largest_component_node_count": max((len(component) for component in junction_components), default=0),
