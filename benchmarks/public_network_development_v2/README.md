@@ -130,3 +130,7 @@ The [typed topology follow-up](typed-topology-20261020-v1.md) extends source
 comparison to typed edits, retains malformed-path failure reports, and records
 guarded local signal conversion. Its four-edit Hamburg repeat keeps the one
 in-scope inherited finding under review.
+The [direct-edit and proposal follow-up](maintenance-20261020-v1.md) removes
+unchanged topology review from verified direct edits, distinguishes declared
+lane removals, and fixes 31 duplicate-road proposals contradicted by the paired
+published model. It retains the failed CI assertion and correction.
