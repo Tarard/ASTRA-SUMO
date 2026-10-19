@@ -92,3 +92,5 @@ The [native contour-control follow-up](contour-identity-20261019-v1.md) records
 the real-model automatic-applicability false pass and the source-contour identity repair.
 The [follow-up assessment](contour-identity-20261019-v2.md) retains review outcomes,
 reports daily geometry changes, and removes the 132981 pedestrian false alarm.
+The [source-topology qualification](topology-source-20261019-v1.md) records the
+full-model release, its 170 inherited findings, and two native reporting checks.
