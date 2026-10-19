@@ -249,6 +249,12 @@ direction alone does not establish a field prohibition.
 
 ## Preservation and review
 
+Duplicate-road proposals require matching geometry, lane attributes, parameters,
+and incident connection records after replacing only the compared road identity.
+Shared endpoints and lane classes alone do not establish duplicate roads.
+The comparison is exact and can leave numerically equivalent spellings unmatched.
+Proposals remain review candidates and do not prove a field defect.
+
 Signal demotion and static controller relocation use the shared local conversion
 path when the complete affected controller stays inside the declared scope.
 A controller that spans the edit boundary still requires full-network

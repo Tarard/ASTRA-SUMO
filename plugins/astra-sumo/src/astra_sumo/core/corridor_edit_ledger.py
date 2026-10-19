@@ -5,6 +5,7 @@ import json
 import math
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
+from copy import deepcopy
 from html import escape
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -130,10 +131,15 @@ def propose_corridor_edits(
 
     if include_duplicates:
         duplicate_groups: dict[tuple[Any, ...], list[str]] = defaultdict(list)
+        incident_connections: dict[str, list[ET.Element]] = defaultdict(list)
+        for row in root.findall("connection"):
+            for edge_id in {row.get("from"), row.get("to")}:
+                if edge_id in edges:
+                    incident_connections[edge_id].append(row)
         for edge_id, edge in edges.items():
             if _is_protected_edge(edge, root):
                 continue
-            duplicate_groups[_edge_duplicate_signature(edge)].append(edge_id)
+            duplicate_groups[_edge_duplicate_signature(edge, incident_connections[edge_id])].append(edge_id)
         for signature, edge_ids in sorted(duplicate_groups.items(), key=lambda item: str(item[0])):
             if len(edge_ids) < 2:
                 continue
@@ -2852,16 +2858,26 @@ def _normal_edges(root: ET.Element | None) -> dict[str, ET.Element]:
     }
 
 
-def _edge_duplicate_signature(edge: ET.Element) -> tuple[Any, ...]:
-    params = tuple(sorted((item.attrib.get("key", ""), item.attrib.get("value", "")) for item in edge.findall("param")))
-    return (
-        edge.attrib.get("from", ""),
-        edge.attrib.get("to", ""),
-        edge.attrib.get("type", ""),
-        edge.attrib.get("name", ""),
-        params,
-        _edge_lane_signature(edge),
-    )
+def _edge_duplicate_signature(edge: ET.Element, connections: Iterable[ET.Element] = ()) -> tuple[Any, ...]:
+    copy = deepcopy(edge)
+    copy.attrib.pop("id", None)
+    for lane in copy.findall("lane"):
+        lane.attrib.pop("id", None)
+    for row in copy.iter():
+        row.attrib = dict(sorted(row.attrib.items()))
+        row.tail = None
+        if row.text is not None and not row.text.strip():
+            row.text = None
+    movements = []
+    for connection in connections:
+        attributes = []
+        for key, value in sorted(connection.attrib.items()):
+            if key in {"from", "to"}:
+                value = (value == edge.get("id"), "" if value == edge.get("id") else value)
+            attributes.append((key, value))
+        children = tuple(ET.tostring(child, encoding="unicode") for child in connection)
+        movements.append((tuple(attributes), children))
+    return ET.tostring(copy, encoding="unicode"), tuple(sorted(movements))
 
 
 def _edge_lane_signature(edge: ET.Element) -> tuple[tuple[str, ...], ...]:
