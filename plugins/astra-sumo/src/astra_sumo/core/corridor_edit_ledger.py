@@ -1437,6 +1437,7 @@ def run_corridor_candidate_gates(
     xml_gate = {"status": "pass" if not xml_errors else "blocked", "errors": xml_errors}
 
     if source_root is not None and candidate_root is not None:
+        scoped_plan = _bound_scoped_edit_plan(materialization_report, materialization_evidence, source_net_file, source_root)
         source_lane_indices = _bound_source_lane_indices(materialization_report, materialization_evidence,
             source_net_file, source_root, candidate_root)
         semantic_report = _candidate_semantic_gate(
@@ -1450,6 +1451,7 @@ def run_corridor_candidate_gates(
         )
         modal_report = _modal_connectivity_gate(source_root, candidate_root)
     else:
+        scoped_plan = {}
         semantic_report = _not_run_gate("source or candidate XML could not be parsed")
         modal_report = _not_run_gate("source or candidate XML could not be parsed")
 
@@ -1604,7 +1606,8 @@ def run_corridor_candidate_gates(
             topology_report,
             candidate_net_file=candidate_net_file,
         )
-        if topology_gate["status"] == "review_required" and preflight_gates.get("edit_applicability", {}).get("status") == "pass":
+        automatic_scope = preflight_gates.get("edit_applicability", {})
+        if topology_gate["status"] == "review_required" and (automatic_scope.get("status") == "pass" or scoped_plan):
             from .topology_audit import compare_topology_source_findings
             try:
                 source_token = str(artifact_identity.get("source_sha256", ""))[:12]
@@ -1613,12 +1616,14 @@ def run_corridor_candidate_gates(
                     cluster_radius_m=30.0, min_cluster_nodes=3, osm_file=osm_file))
                 source_evidence = validate_topology_evidence(source_topology_report, candidate_net_file=source_net_file)
                 if source_evidence["status"] in {"pass", "review_required"}:
-                    operation = preflight_gates["edit_applicability"]["operation"]
+                    operation = automatic_scope["operation"] if automatic_scope.get("status") == "pass" else scoped_plan["operation"]
                     params = operation["params"]
                     aliases = ({node: params["join_id"] for node in params["node_ids"]}
-                               if operation["operation"] == "absorb_reciprocal_fragment" else {})
+                               if operation["operation"] in {"join_junctions", "absorb_reciprocal_fragment"} else {})
+                    scope_nodes = (automatic_scope["scope"]["source_junction_ids"] if automatic_scope.get("status") == "pass"
+                                   else scoped_plan["mutable_junction_ids"])
                     relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases,
-                        source_node_ids=preflight_gates["edit_applicability"]["scope"]["source_junction_ids"])
+                        source_node_ids=scope_nodes)
                     topology_gate = {**relative, "candidate_audit": topology_gate, "source_audit": source_evidence}
                 else:
                     topology_gate.update(reason="source_topology_evidence_unavailable", source_audit=source_evidence)
@@ -1759,8 +1764,8 @@ def normalize_edit_operation(operation: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _bound_source_lane_indices(report, evidence, source_file, source_root, candidate_root):
-    """Use only a hash-bound, complete declared lane relabeling for comparison."""
+def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
+    """Read a bound plan only when its scope matches the source operation."""
     if not report or evidence.get("status") not in {"pass", "review_required"}:
         return {}
     try:
@@ -1771,10 +1776,26 @@ def _bound_source_lane_indices(report, evidence, source_file, source_root, candi
         if len(bindings) != 1 or bindings[0].get("sha256") != file_sha256(path):
             return {}
         plan = json.loads(path.read_text(encoding="utf-8"))
-        if (plan["operation"]["operation"] != "set_lane_count"
-                or Path(plan["source"]["path"]).resolve() != source_file.resolve()
+        if (Path(plan["source"]["path"]).resolve() != source_file.resolve()
                 or plan["source"]["sha256"] != file_sha256(source_file)):
             return {}
+        from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
+        if validate_scoped_operation(plan["operation"], source_root):
+            return {}
+        nodes, edges = scoped_operation_scope(source_root, plan["operation"])
+        if set(plan["mutable_junction_ids"]) != nodes or set(plan["mutable_edge_ids"]) != edges:
+            return {}
+        return plan
+    except (OSError, KeyError, ValueError, TypeError):
+        return {}
+
+
+def _bound_source_lane_indices(report, evidence, source_file, source_root, candidate_root):
+    """Use only a hash-bound, complete declared lane relabeling for comparison."""
+    plan = _bound_scoped_edit_plan(report, evidence, source_file, source_root)
+    if not plan or plan["operation"]["operation"] != "set_lane_count":
+        return {}
+    try:
         old, new = _normal_edges(source_root), _normal_edges(candidate_root)
         params = plan["operation"]["params"]
         target = params["edge_id"]

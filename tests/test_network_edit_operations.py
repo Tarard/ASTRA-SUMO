@@ -167,8 +167,8 @@ def _source(tmp_path, kind, remote_controller=None):
     nodes = tmp_path / "source.nod.xml"
     edges = tmp_path / "source.edg.xml"
     connections = tmp_path / "source.con.xml"
-    remote_nodes = (f'<node id="RX" x="1000" y="0"/><node id="RY" x="1100" y="0" '
-                    f'type="traffic_light" tl="{remote_controller}"/><node id="RZ" x="1200" y="0"/>') if remote_controller else ''
+    remote_nodes = (f'<node id="RX" x="1000" y="0"/><node id="RY" x="1010" y="0" '
+                    f'type="traffic_light" tl="{remote_controller}"/><node id="RZ" x="1020" y="0"/>') if remote_controller else ''
     nodes.write_text(f'<nodes><node id="W" x="-100" y="0"/><node id="A" x="0" y="0" {attrs_a}/>'
         f'<node id="B" x="20" y="0" {attrs_b}/><node id="E" x="120" y="0"/>{remote_nodes}</nodes>', encoding="utf-8")
     remote_edges = ('<edge id="remote-in" from="RX" to="RY" allow="passenger bus"/>'

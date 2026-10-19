@@ -11,8 +11,8 @@ import pytest
 
 def _shifted():
     before = ET.fromstring(
-        '<net version="1.20"><edge id="in"><lane id="in_0" allow="passenger"/>'
-        '<lane id="in_1" allow="passenger"/></edge><edge id="out"><lane id="out_0" allow="passenger"/></edge>'
+        '<net version="1.20"><edge id="in" from="a" to="j"><lane id="in_0" allow="passenger"/>'
+        '<lane id="in_1" allow="passenger"/></edge><edge id="out" from="j" to="b"><lane id="out_0" allow="passenger"/></edge>'
         '<connection from="in" fromLane="0" to="out" toLane="0" tl="signal" linkIndex="0" dir="s"/>'
         '<connection from="in" fromLane="1" to="out" toLane="0" tl="signal" linkIndex="1" dir="s"/></net>'
     )
@@ -48,6 +48,8 @@ def test_lane_index_alias_requires_a_matching_plan_hash_and_source(tmp_path):
         operation=dict(operation="set_lane_count", params=dict(edge_id="in", num_lanes=3, add_side="right")),
         source=dict(path=str(source), sha256=file_sha256(source)),
         lane_index_mapping=mapping,
+        mutable_junction_ids=["a", "j"],
+        mutable_edge_ids=["in", "out"],
     )
     path = tmp_path / "plan.json"
     path.write_text(json.dumps(plan), encoding="utf-8")
@@ -61,6 +63,18 @@ def test_lane_index_alias_requires_a_matching_plan_hash_and_source(tmp_path):
     )
     result = _bound_source_lane_indices(report, dict(status="review_required"), source, before, after)
     assert result == {"in": {"0": "1", "1": "2"}}
+    forged = {**plan, "mutable_junction_ids": ["remote"]}
+    path.write_text(json.dumps(forged), encoding="utf-8")
+    manifest.write_text(
+        json.dumps(dict(artifacts=[dict(kind="materialization_plan", path=str(path), sha256=file_sha256(path))])),
+        encoding="utf-8",
+    )
+    assert _bound_source_lane_indices(report, dict(status="review_required"), source, before, after) == {}
+    path.write_text(json.dumps(plan), encoding="utf-8")
+    manifest.write_text(
+        json.dumps(dict(artifacts=[dict(kind="materialization_plan", path=str(path), sha256=file_sha256(path))])),
+        encoding="utf-8",
+    )
     path.write_text(json.dumps({**plan, "lane_index_mapping": {"0": 2, "1": 1}}), encoding="utf-8")
     assert _bound_source_lane_indices(report, dict(status="review_required"), source, before, after) == {}
 
@@ -112,8 +126,9 @@ def test_dangling_internal_path_retains_a_blocked_diagnostic(tmp_path, broken_in
     source, candidate = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
     ET.ElementTree(before).write(source)
     ET.ElementTree(after).write(candidate)
-    report = run_corridor_candidate_gates(source_net_file=source, candidate_net_file=candidate,
-                                          output_dir=tmp_path / "gates")
+    report = run_corridor_candidate_gates(
+        source_net_file=source, candidate_net_file=candidate, output_dir=tmp_path / "gates"
+    )
     assert report["status"] == "blocked"
     assert report["gates"]["modal_connectivity"]["errors"][0]["network"] == broken_input
     assert Path(report["report_file"]).is_file()

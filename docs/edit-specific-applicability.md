@@ -140,6 +140,13 @@ ledger and source. Invalid applicability evidence cannot replace that gate.
 
 ### Inherited topology findings
 
+Typed scoped edits also compare candidate findings with the source audit.
+The materialization plan must match its manifest hash and actual source.
+The checker recomputes the operation's node and road scope before using it.
+An unchanged finding outside that scope does not fail the local edit.
+A finding that intersects the scope still requires review, even if inherited.
+The report retains the whole-network review status and inherited finding count.
+
 A valid topology audit with unresolved findings returns `review_required`.
 Missing, changed, or invalid audit evidence remains `blocked`.
 
