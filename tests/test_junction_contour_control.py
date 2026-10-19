@@ -116,6 +116,7 @@ def test_release_preserves_review_and_marks_unexecuted_checks(tmp_path):
     assert result["status"] == "review_required"
     assert result["candidate_gates"]["gates"]["sumo_load"]["execution_status"] == "not_run"
     assert result["whole_network_review"]["status"] == "review_required"
+    assert result["whole_network_review"]["execution_status"] == "not_run"
     assert result["candidate_gates"]["gates"]["sumo_load"]["status"] != "blocked"
 
 
@@ -129,6 +130,28 @@ def test_stable_native_pedestrian_control_is_the_geometry_reference(tmp_path):
     result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
     assert result["status"] == "pass", result
     assert result["pedestrian_geometry_reference"] == "validated_native_identity_control"
+    changed = ET.parse(candidate)
+    lane = next(edge.find("lane") for edge in changed.getroot().findall("edge")
+                if not edge.get("function") and edge.find("lane").get("allow") == "pedestrian")
+    points = lane.get("shape").split()
+    a, b = [tuple(map(float, point.split(","))) for point in points[:2]]
+    points.insert(1, f"{(a[0]+b[0])/2+.001},{(a[1]+b[1])/2+.001}")
+    lane.set("shape", " ".join(points))
+    modified = candidate.with_name("pedestrian-change.net.xml")
+    changed.write(modified, encoding="utf-8")
+    unsupported = assess_edit_applicability(ledger, candidate_net_file=modified, identity_control_report=control)
+    assert unsupported["status"] == "review_required", unsupported
+    assert unsupported["reason"] == "pedestrian_layout_change_requires_review"
+    changed = ET.parse(candidate)
+    lane = next(edge.find("lane") for edge in changed.getroot().findall("edge") if edge.get("function") == "walkingarea"
+                and Polygon([tuple(map(float, point.split(",")[:2])) for point in edge.find("lane").get("shape").split()]).is_valid)
+    x, y = map(float, lane.get("shape").split()[0].split(",")[:2])
+    lane.set("shape", f"{x},{y} {x+1},{y+1} {x+1},{y} {x},{y+1}")
+    modified = candidate.with_name("invalid-walking-area.net.xml")
+    changed.write(modified, encoding="utf-8")
+    invalid = assess_edit_applicability(ledger, candidate_net_file=modified, identity_control_report=control)
+    assert invalid["status"] == "blocked"
+    assert invalid["checks"]["walking_area_validity"] == "blocked"
 
 
 @native

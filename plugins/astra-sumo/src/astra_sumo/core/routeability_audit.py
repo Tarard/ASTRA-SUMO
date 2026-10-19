@@ -62,6 +62,8 @@ def build_routeability_od_policy(net_files: Sequence[Path]) -> dict[str, Any]:
         destination -= geometry_exclusions.keys()
     differences = [{"network": row["path"], "source_edges_outside_common_pool": sorted(set(row["source_edge_ids"]) - source), "destination_edges_outside_common_pool": sorted(set(row["destination_edge_ids"]) - destination)} for row in networks]
     for row in differences:
+        row["source_excluded_count"] = len(row["source_edges_outside_common_pool"])
+        row["destination_excluded_count"] = len(row["destination_edges_outside_common_pool"])
         row["reasons"] = {key: [{"network": other["path"], "reason": geometry_exclusions.get(key, other[f"{role}_excluded_edges"].get(key, "missing_edge"))} for other in networks if key not in other[f"{role}_edge_ids"] or key in geometry_exclusions] for role in ("source", "destination") for key in row[f"{role}_edges_outside_common_pool"]}
     connection_differences = [{"network": row["path"], "source_edges_missing_connections": sorted(source - set(row["source_edge_ids"])), "destination_edges_missing_connections": sorted(destination - set(row["destination_edge_ids"]))} for row in networks[1:]]
     review = any(row["source_edges_outside_common_pool"] or row["destination_edges_outside_common_pool"] for row in differences) or any(row["source_edges_missing_connections"] or row["destination_edges_missing_connections"] for row in connection_differences)

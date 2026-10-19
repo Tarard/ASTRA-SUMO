@@ -96,6 +96,12 @@ geometry checks cannot distinguish native recutting from the requested effect.
 Their original results remain under `unqualified_source_pedestrian_checks`.
 They require review instead of reporting a confirmed edit defect. Independent
 permission, structure, safety, and requested-geometry failures still block.
+Under a stable control, a changed pedestrian layout also requires review because
+automatic layout acceptance is unsupported. The report uses
+`pedestrian_layout_change_requires_review`. A newly invalid walking-area polygon
+remains blocked. Existing invalid source areas are retained as source findings.
+When topology never runs, `whole_network_review.execution_status` is `not_run`.
+OD diagnostics retain excluded road IDs, reasons, and source/destination counts.
 
 The old aggregate modal counts remain in the report as diagnostics. Removing
 a declared turn decreases connection count. Absorbing a declared fragment

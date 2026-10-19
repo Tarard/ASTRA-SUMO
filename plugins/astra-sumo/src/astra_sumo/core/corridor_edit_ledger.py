@@ -1654,6 +1654,7 @@ def run_corridor_candidate_gates(
         "topology_report": topology_report,
         "source_topology_report": source_topology_report,
         "whole_network_review": {"status": topology_gate.get("whole_network_status", topology_gate["status"]),
+                                 **({"execution_status": "not_run"} if topology_gate.get("execution_status") == "not_run" else {}),
                                  "inherited_finding_count": topology_gate.get("inherited_finding_count"),
                                  "scope_finding_count": len(topology_gate["scope_findings"]) if "scope_findings" in topology_gate else None},
         "warnings": [] if status == "pass" else ["candidate remains review-only until every required gate passes"],

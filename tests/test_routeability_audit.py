@@ -34,6 +34,8 @@ def test_empty_shared_od_pool_is_unchecked_not_an_invalid_network(tmp_path):
     assert report["claim_status"] != "construction-invalid"
     assert report["routeability_status"] == report["execution_status"] == "not_run"
     assert report["attempts"] == []
+    exclusions = report["od_policy"]["eligibility_differences"][0]
+    assert exclusions["source_excluded_count"] == exclusions["destination_excluded_count"] == 2
     checked = validate_routeability_evidence(report, candidate_net_file=candidate)
     assert checked["status"] == "review_required" and not checked["errors"]
     forged = {**report, "execution_status": "completed"}
