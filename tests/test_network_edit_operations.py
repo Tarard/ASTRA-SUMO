@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import gzip
 from pathlib import Path
 import shutil
 import subprocess
@@ -11,6 +12,121 @@ import pytest
 from astra_sumo.core.candidate_contracts import file_sha256, validate_materialization_evidence
 from astra_sumo.core.corridor_edit_ledger import build_corridor_edit_ledger, materialize_corridor_edit_variant
 from astra_sumo.core.network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation
+
+
+@pytest.mark.parametrize("explicit", [False, True])
+def test_lane_count_remapping_retains_real_hamburg_custom_movements(explicit):
+    from astra_sumo.core.network_edit_operations import _inventory, _lane_count_connections
+
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
+    root = ET.fromstring(gzip.decompress(fixture.read_bytes()))
+    edges, _, connections = _inventory(root)
+    target = "554713076#0"
+    params = {"edge_id": target, "num_lanes": 5, "add_side": "right"}
+    original = [row for pair, row in connections.items()
+                if target in (pair[0], pair[2]) and pair[0] in edges and pair[2] in edges]
+    if explicit:
+        params["connections"] = [{key: int(row.get(key)) + (row.get(edge) == target) if key.endswith("Lane") else row.get(key)
+                                  for key, edge in (("from", "from"), ("fromLane", "from"), ("to", "to"), ("toLane", "to"))}
+                                 for row in original]
+    records = _lane_count_connections(params, edges, connections, network_version=root.get("version"))
+    indexed = {tuple(row[key] for key in ("from", "fromLane", "to", "toLane")): row for row in records}
+    assert sum(bool(row.get("shape")) for row in original) == 2
+    for row in original:
+        key = (row.get("from"), str(int(row.get("fromLane")) + (row.get("from") == target)),
+               row.get("to"), str(int(row.get("toLane")) + (row.get("to") == target)))
+        actual = indexed[key]
+        for attribute in ("shape", "length", "speed", "tl", "linkIndex", "linkIndex2", "keepClear", "contPos"):
+            if row.get(attribute) is not None:
+                assert actual.get(attribute) == row.get(attribute), (key, attribute)
+        assert not {"via", "dir", "state"} & actual.keys()
+
+
+def test_lane_count_remapping_preserves_spatial_and_driving_constraints():
+    from astra_sumo.core.network_edit_operations import _inventory, _lane_count_connections
+
+    root = ET.fromstring('<net version="1.20"><edge id="in"><lane id="in_0"/></edge>'
+        '<edge id="out"><lane id="out_0"/></edge>'
+        '<connection from="in" fromLane="0" to="out" toLane="0" via=":j_0_0" dir="s" state="M" '
+        'shape="0,0,0 1,2,3 4,0,5" length="8.7" speed="3.2" contPos="2.5" visibility="11" '
+        'keepClear="false" pass="true" changeLeft="bus" changeRight="passenger"/></net>')
+    edges, _, connections = _inventory(root)
+    records = _lane_count_connections({"edge_id": "out", "num_lanes": 2, "add_side": "right"}, edges, connections)
+    assert len(records) == 1
+    original = root.find('connection').attrib
+    assert records[0] == {key: "1" if key == "toLane" else value for key,value in original.items()
+                          if key not in {"via", "dir", "state"}}
+
+
+@pytest.mark.parametrize("source_permissions,requested", [({"allow": "bus"}, {"disallow": "bus"}),
+                                                         ({"disallow": "bus"}, {"allow": "bus"})])
+def test_explicit_lane_count_permissions_replace_inherited_directives(source_permissions, requested):
+    from astra_sumo.core.network_edit_operations import _inventory, _lane_count_connections
+
+    root = ET.fromstring('<net version="1.20"><edge id="in"><lane id="in_0"/></edge>'
+        '<edge id="out"><lane id="out_0"/></edge>'
+        '<connection from="in" fromLane="0" to="out" toLane="0" shape="0,0 1,1 2,0"/></net>')
+    root.find('connection').attrib.update(source_permissions)
+    edges, _, connections = _inventory(root)
+    row = {"from": "in", "fromLane": 0, "to": "out", "toLane": 0, **requested}
+    records = _lane_count_connections({"edge_id": "out", "num_lanes": 2, "connections": [row]},
+                                      edges, connections, network_version=root.get("version"))
+    assert {key:value for key,value in records[0].items() if key in {"allow", "disallow"}} == requested
+    assert records[0]["shape"] == "0,0 1,1 2,0"
+
+
+@pytest.mark.parametrize("count", [3, 4, 5])
+def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, count):
+    from astra_sumo.core.network_edit_operations import write_scoped_edit_plan
+
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(gzip.decompress(fixture.read_bytes()))
+    root = ET.parse(source).getroot()
+    output = tmp_path / "edit"
+    output.mkdir()
+    plan = write_scoped_edit_plan(root=root, operation={"id": "count", "operation": "set_lane_count",
+        "params": {"edge_id": "554713076#0", "num_lanes": count}}, source_file=source,
+        candidate_file=output / "candidate.net.xml", output_dir=output, prefix="count",
+        netconvert_binary="netconvert", mode="explore")
+    assert "tllogics" in plan["patches"]
+    patch = ET.parse(plan["patches"]["tllogics"]["path"]).getroot()
+    original = root.find("tlLogic[@id='LSA2349_part0']")
+    retained = patch.find("tlLogic[@id='LSA2349_part0']")
+    assert retained is not None and len(retained.findall("phase")) == 12
+    assert [(row.tag, row.attrib, (row.text or "").strip()) for row in retained.iter()] == [
+        (row.tag, row.attrib, (row.text or "").strip()) for row in original.iter()]
+    assert "--tllogic-files" in plan["command"]
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("count", [3, 4, 5])
+def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, count):
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(gzip.decompress(fixture.read_bytes()))
+    digest = file_sha256(source)
+    operation = {"id": "count", "operation": "set_lane_count", "status": "accepted",
+        "params": {"edge_id": "554713076#0", "num_lanes": count},
+        "rationale": "Regression: preserve published source signal programs during a lane-count edit.",
+        "evidence": [{"path": str(source), "sha256": digest}], "rollback": {"action": "discard_candidate"}}
+    report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
+        ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass", report
+    old = ET.parse(source).getroot()
+    new = ET.parse(report["candidate_net_file"]).getroot()
+    before = old.find("tlLogic[@id='LSA2349_part0']")
+    after = new.find("tlLogic[@id='LSA2349_part0']")
+    assert after is not None and after.get("type") == before.get("type")
+    assert float(after.get("offset")) == float(before.get("offset"))
+    assert len(before.findall("phase")) == len(after.findall("phase")) == 12
+    for expected, actual in zip(before.findall("phase"), after.findall("phase")):
+        assert float(actual.get("duration")) == float(expected.get("duration"))
+        assert {key:value for key,value in expected.attrib.items() if key != "duration"}.items() <= actual.attrib.items()
+    retained = [row for row in new.findall("connection") if row.get("from") == "554713076#0" and row.get("shape")]
+    assert len(retained) == (1 if count == 3 else 2)
+    assert file_sha256(source) == digest
 
 
 def _source(tmp_path, kind):

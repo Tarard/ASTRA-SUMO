@@ -85,6 +85,13 @@ Without these fields, a reduction removes the highest indices and an increase ad
 The default connection policy preserves existing movements of surviving lanes, with their remapped indices.
 New lanes need an explicit complete `connections` list when they should serve additional movements.
 The tool does not guess these movements. The report lists added and removed ordinary lane connections.
+Surviving connections retain their saved custom paths, lengths, speeds, signal
+bindings, and supported driving constraints when lane indices change.
+An explicit connection list also inherits these values for matching surviving
+pairs. Explicit `allow` or `disallow` replaces the inherited permission directives.
+Lane-count patches supply existing affected signal programs explicitly. Adding
+or removing lanes must not silently replace those programs with generated timing.
+New controlled movements still need compatible signal bindings and a valid load.
 With `--facts-file`, surviving lanes use the declared index mapping in a separate candidate fact table.
 Reference geometry and expected physical values stay fixed. Removed lanes retain a missing-lane result.
 The report records both table hashes and every changed selector.

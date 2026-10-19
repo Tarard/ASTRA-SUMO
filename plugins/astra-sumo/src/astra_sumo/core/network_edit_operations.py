@@ -234,15 +234,17 @@ def _patch_permissions(attributes, network_version):
 def _lane_count_connections(params, edges, connections, *, network_version=None):
     target = params["edge_id"]
     mapping = _lane_count_layout(params, edges[target])
-    if "connections" in params:
-        return [{key: str(value) for key, value in row.items()} for row in params["connections"]]
     result = []
     for pair, row in connections.items():
         if target not in (pair[0], pair[2]) or pair[0] not in edges or pair[2] not in edges:
             continue
         if any(edge == target and index not in mapping for edge, index in (pair[:2], pair[2:])):
             continue
-        record = {key: row.get(key) for key in ("from", "fromLane", "to", "toLane", "allow", "disallow") if row.get(key) is not None}
+        # Retained movements keep their saved geometry and driving rules through lane renumbering.
+        record = {key: row.get(key) for key in (
+            "from", "fromLane", "to", "toLane", "allow", "disallow", "shape", "length", "speed", "type",
+            "tl", "linkIndex", "linkIndex2", "pass", "keepClear", "contPos", "visibility", "uncontrolled",
+            "indirect", "changeLeft", "changeRight") if row.get(key) is not None}
         if record.keys() & {"allow", "disallow"}:
             permissions = _patch_permissions(record, network_version)
             record = {key: value for key, value in record.items() if key not in {"allow", "disallow"}}
@@ -251,6 +253,16 @@ def _lane_count_connections(params, edges, connections, *, network_version=None)
             if record[end] == target:
                 record[lane_key] = str(mapping[int(record[lane_key])])
         result.append(record)
+    if "connections" in params:
+        existing = {_key(ET.Element("connection", record)): record for record in result}
+        result = []
+        for row in params["connections"]:
+            record = dict(existing.get(_pair(row), {}))
+            if {"allow", "disallow"} & row.keys():
+                record.pop("allow", None)
+                record.pop("disallow", None)
+            record.update({key: str(value) for key, value in row.items()})
+            result.append(record)
     return result
 
 
@@ -567,6 +579,11 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                 ET.SubElement(patches["connections"], "delete", **{"from": left, "to": right})
             for record in _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0")):
                 ET.SubElement(patches["connections"], "connection", **record)
+            affected_tls = {row.get("tl") for pair, row in connections.items()
+                            if params["edge_id"] in (pair[0], pair[2]) and row.get("tl")}
+            for logic in root.findall("tlLogic"):
+                if logic.get("id") in affected_tls:
+                    patches["tllogics"].append(deepcopy(logic))
     elif kind == "demote_duplicate_tls":
         ET.SubElement(patches["nodes"], "node", id=params["node_id"], type="priority")
     elif kind == "relocate_tls_control":
