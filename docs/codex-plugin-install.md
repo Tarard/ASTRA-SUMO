@@ -74,6 +74,25 @@ The repo marketplace entry is:
 .agents/plugins/marketplace.json
 ```
 
+## Native command completion
+
+The shared runner captures UTF-8 output through temporary files. This avoids
+waiting for captured-pipe EOF during Windows error shutdown. Reports retain
+stdout, stderr, return codes, and timeout status in the existing format.
+
+For known SUMO executables, `Quitting (on error)` starts a one-second exit grace
+period. A process that remains active is stopped with its owned process tree.
+The result is `fail` with the native error text. A silent deadline expiry remains
+`timeout`. Text from unrelated commands does not trigger this SUMO rule.
+
+The runner handles finite foreground commands. Detached service launchers need
+their own lifecycle handling. Native observation helpers also own and reap
+their SUMO process when a TraCI connection fails.
+
+The underlying native shutdown fault remains unexplained. The current local
+native and launcher baselines exited normally; a controlled hanging process
+tests the error path. Windows CI also exercises twenty native rejection runs.
+
 ## Local Development Install
 
 From a local checkout, add the repository as a local marketplace:

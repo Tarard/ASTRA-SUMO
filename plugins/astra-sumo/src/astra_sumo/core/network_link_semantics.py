@@ -7,17 +7,20 @@ from hashlib import sha256
 import json
 from pathlib import Path
 import shutil
+import subprocess
+import os
 import sys
 import xml.etree.ElementTree as ET
 
 from .artifact_io import write_json_atomic
 from .candidate_contracts import file_sha256
-from .command_runner import run_command
+from .command_runner import run_command, _terminate_process_tree
 from .internal_ownership import resolve_internal_ownership
 
 
 def _capture(network, binary, label):
     import traci
+    from sumolib.miscutils import getFreeSocketPort
 
     root = ET.parse(network).getroot()
     ownership = resolve_internal_ownership(root)
@@ -28,9 +31,13 @@ def _capture(network, binary, label):
         internal[owner].append(lane)
     command = [binary, "-n", str(network), "--no-step-log", "true", "--duration-log.disable", "true",
                "--error-log", str(network.with_suffix(".load.log")), "--aggregate-warnings", "-1"]
-    traci.start(command, label=label, numRetries=3)
-    connection = traci.getConnection(label)
+    port = getFreeSocketPort()
+    command.extend(["--remote-port", str(port)])
+    process = subprocess.Popen(command, stdin=subprocess.DEVNULL, start_new_session=os.name != "nt",
+        creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
+    connection = None
     try:
+        connection = traci.connect(port, numRetries=3, proc=process, label=label)
         if set(connection.junction.getIDList()) != {row.get("id") for row in root.findall("junction")}:
             raise ValueError("Loaded junctions differ from the explicit network inventory.")
         if set(connection.lane.getIDList()) != {row.get("id") for row in root.findall("edge/lane")}:
@@ -61,9 +68,19 @@ def _capture(network, binary, label):
                 links[lane] = sorted(records, key=lambda row: (row["successor"], row["via"]))
             nodes[identity] = {"lane_links": links,
                 "internal_foes": {lane: sorted(connection.lane.getInternalFoes(lane)) for lane in sorted(internal[identity])}}
-        return {"native_version": connection.getVersion(), "command": command, "junctions": nodes}
+        snapshot = {"native_version": connection.getVersion(), "command": command, "junctions": nodes}
     finally:
-        connection.close()
+        try:
+            if connection is not None:
+                connection.close(wait=False)
+        finally:
+            try:
+                process.wait(timeout=3)
+            except subprocess.TimeoutExpired:
+                _terminate_process_tree(process)
+    if process.returncode != 0:
+        raise RuntimeError(f"SUMO observation process exited with code {process.returncode}.")
+    return snapshot
 
 
 def _remap_lanes(record, mapping):

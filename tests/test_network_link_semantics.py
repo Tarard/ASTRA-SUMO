@@ -6,9 +6,45 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core import network_link_semantics
 from astra_sumo.core.network_link_semantics import (
     _boundary_lane_mapping, _compare, _compare_load_warnings, compare_loaded_link_semantics, load_warning_messages,
 )
+
+
+def test_failed_native_connection_stops_the_owned_process(tmp_path, monkeypatch):
+    import subprocess
+    import traci
+    import sumolib.miscutils
+
+    network = tmp_path / "source.net.xml"
+    network.write_text('<net><junction id="j" type="priority" x="0" y="0" incLanes="" intLanes=""/></net>', encoding="utf-8")
+
+    class Process:
+        returncode = None
+        stopped = False
+
+        def wait(self, timeout):
+            assert timeout == 3
+            raise subprocess.TimeoutExpired("sumo", timeout)
+
+    process = Process()
+    monkeypatch.setattr(network_link_semantics.subprocess, "Popen", lambda *_args, **_kwargs: process)
+    monkeypatch.setattr(sumolib.miscutils, "getFreeSocketPort", lambda: 9001)
+
+    def failed_connect(*_args, **_kwargs):
+        raise RuntimeError("Native connection failed.")
+
+    def stop(owned):
+        assert owned is process
+        owned.stopped = True
+        owned.returncode = -1
+
+    monkeypatch.setattr(traci, "connect", failed_connect)
+    monkeypatch.setattr(network_link_semantics, "_terminate_process_tree", stop)
+    with pytest.raises(RuntimeError, match="Native connection failed"):
+        network_link_semantics._capture(network, "sumo", "failed")
+    assert process.stopped
 
 
 def test_load_warning_counts_retain_duplicates_and_separate_native_subnetworks():
