@@ -259,12 +259,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
                     checks["pedestrian_lane_geometry"] = "pass" if all(key in new_lanes and
                         geometry_signature(lane) == geometry_signature(new_lanes[key]) for key, lane in control_lanes.items()
                         if "pedestrian" in _permissions(lane, network_version=control_root.get("version", "0.0"))) else "review_required"
-                    quality = walking_area_quality(control_root, after, params["node_id"])
-                    result["requested_walking_area_quality"] = quality
-                    checks["walking_area_validity"] = "blocked" if quality["newly_invalid_area_ids"] else "pass"
-                    if quality["newly_invalid_area_ids"]:
-                        result["reason"] = "requested_contour_worsens_walking_areas"
-                    elif effect["status"] == "pass" and any(checks[key] == "review_required" for key in
+                    if effect["status"] == "pass" and any(checks[key] == "review_required" for key in
                             ("pedestrian_facilities", "pedestrian_lane_geometry")):
                         result["reason"] = "pedestrian_layout_change_requires_review"
             except (OSError, ValueError, ET.ParseError) as error:
@@ -287,8 +282,13 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
                                             if inventories[0][key] != inventories[1][key])}
         if inventories[0] != inventories[1]:
             checks["pedestrian_facilities"] = "blocked"
-            if checks.get("walking_area_validity") != "blocked":
-                result["reason"] = "pedestrian_facility_structure_changed"
+            result["reason"] = "pedestrian_facility_structure_changed"
+        quality = walking_area_quality(root, after, params["node_id"])
+        result["requested_walking_area_quality"] = quality
+        result["walking_area_validity_reference"] = "immutable_source"
+        checks["walking_area_validity"] = "blocked" if quality["newly_invalid_area_ids"] else "pass"
+        if quality["newly_invalid_area_ids"]:
+            result["reason"] = "candidate_newly_invalid_walking_areas"
     from ..corridor.canonicalizer import canonicalize_net_xml_file
     from ..corridor.conflict_graph import audit_independent_movement_safety
     from ..corridor.enums import TrafficSide

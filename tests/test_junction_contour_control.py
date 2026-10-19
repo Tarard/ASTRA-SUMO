@@ -60,11 +60,23 @@ def test_native_identity_control_measures_source_recut_before_acceptance(tmp_pat
     assert observed["same_source_polygon"] and observed["custom_shape_declared"]
     assert observed["geometry"]["max_absolute_declared_length_delta_m"] > 0.5
     result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
-    assert result["status"] == "review_required"
-    assert result["reason"] == "custom_contour_recuts_source_geometry"
+    assert result["contour_identity_control"]["reason"] == "custom_contour_recuts_source_geometry"
+    if node == "132844":
+        assert result["status"] == "blocked"
+        assert result["reason"] == "candidate_newly_invalid_walking_areas"
+        assert result["checks"]["walking_area_validity"] == "blocked"
+        assert result["requested_walking_area_quality"]["newly_invalid_area_ids"] == [":132844_w1_0"]
+        missing_control = assess_edit_applicability(ledger, candidate_net_file=candidate)
+        assert missing_control["status"] == "blocked"
+        assert missing_control["contour_identity_control"]["reason"] == "contour_identity_control_missing"
+        assert missing_control["checks"]["walking_area_validity"] == "blocked"
+        assert not any(missing_control["pedestrian_facility_changes"].values())
+    else:
+        assert result["status"] == "review_required"
+        assert result["reason"] == "custom_contour_recuts_source_geometry"
+        assert not any(status == "blocked" for status in result["checks"].values())
     assert result["contour_geometry_changes"]["control_to_candidate"] is not None
     assert result["unqualified_source_pedestrian_checks"]["status"] == "not_applicable"
-    assert not any(status == "blocked" for status in result["checks"].values())
     wrong_control = {**control, "candidate_net_file": str(candidate)}
     rejected = assess_identity_control(source, before, node, wrong_control)
     assert rejected["status"] == "review_required"
@@ -157,6 +169,7 @@ def test_stable_native_pedestrian_control_is_the_geometry_reference(tmp_path):
     result = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
     assert result["status"] == "pass", result
     assert result["pedestrian_geometry_reference"] == "validated_native_identity_control"
+    assert result["walking_area_validity_reference"] == "immutable_source"
     changed = ET.parse(candidate)
     lane = next(edge.find("lane") for edge in changed.getroot().findall("edge")
                 if not edge.get("function") and edge.find("lane").get("allow") == "pedestrian")
@@ -263,7 +276,7 @@ def test_real_native_walking_area_fold_is_blocked_after_geometry_screen_passes(t
     assert result["checks"]["walking_area_validity"] == "blocked"
     assert result["requested_walking_area_quality"]["newly_invalid_area_ids"] == [":140489_w0_0"]
     assert result["status"] == "blocked"
-    assert result["reason"] == "requested_contour_worsens_walking_areas"
+    assert result["reason"] == "candidate_newly_invalid_walking_areas"
 
 
 def test_requested_length_budget_respects_spatial_grade_and_stop_offset():

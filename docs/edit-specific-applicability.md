@@ -109,6 +109,10 @@ unchanged even when the overall boundary-path sets are preserved.
 Structure is compared with the immutable source, regardless of the identity
 control's geometry result. An unqualified control changes only the interpretation
 of geometry-dependent comparisons.
+Walking-area validity also uses the immutable source. A newly invalid candidate
+area remains blocked when the identity control is unqualified or absent.
+The reason is `candidate_newly_invalid_walking_areas`; the control record retains
+whether the same defect was already present in the reconstruction control.
 When topology never runs, `whole_network_review.execution_status` is `not_run`.
 OD diagnostics retain excluded road IDs, reasons, and source/destination counts.
 
