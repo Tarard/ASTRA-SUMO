@@ -89,7 +89,8 @@ def _prepared_import_arguments(files, osm, *, unjoined=True):
         raise ValueError("Prepared configuration type inputs differ from the catalog")
     allowed = {"tls.join", "tls.guess-signals", "tls.default-type", "tls.min-dur", "tls.max-dur", "ramps.guess",
                "geometry.remove", "roundabouts.guess", "junctions.join", "junctions.limit-turn-speed", "crossings.guess",
-               "walkingareas", "osm.elevation", "no-turnarounds.except-deadend", "no-internal-links", "ignore-errors",
+               "walkingareas", "osm.elevation", "no-turnarounds", "no-turnarounds.tls", "no-turnarounds.except-deadend",
+               "default.lanewidth", "no-internal-links", "ignore-errors",
                "ignore-errors.connections", "show-errors.connections-first-try", "default.crossing-width",
                "precision", "proj.utm", "junctions.join-turns"}
     ignored_output_options = {"output-file", "output-prefix", "log", "error-log", "message-log", "verbose"}

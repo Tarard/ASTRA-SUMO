@@ -89,6 +89,19 @@ def test_prepared_import_preserves_elevation_and_bound_types_without_upstream_ou
     assert full == [*arguments, "--junctions.join=true", "--geometry.remove=true"]
 
 
+@pytest.mark.parametrize("unjoined", [False, True])
+def test_historical_turnaround_and_lane_width_settings_remain_literal(tmp_path, unjoined):
+    config = tmp_path / "historical.netcfg"
+    config.write_text('''<configuration><input><osm-files value="source.osm"/></input>
+        <processing><no-turnarounds value="false"/><no-turnarounds.tls value="true"/>
+        <no-turnarounds.except-deadend value="true"/></processing>
+        <building_defaults><default.lanewidth value="2.7"/></building_defaults></configuration>''', encoding="utf-8")
+    arguments, _ = corpus._prepared_import_arguments([({"role": "build_config"}, config)],
+                                                     tmp_path / "source.osm", unjoined=unjoined)
+    assert arguments == ["--no-turnarounds=false", "--no-turnarounds.tls=true",
+                         "--no-turnarounds.except-deadend=true", "--default.lanewidth=2.7"]
+
+
 @pytest.mark.parametrize("content,reason", [
     ('<input><osm-files value="other.osm"/></input>', "OSM input"),
     ('<input><osm-files value="source.osm"/><type-files value="unlisted.xml"/></input>', "type inputs"),
