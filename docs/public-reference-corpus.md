@@ -156,8 +156,11 @@ use these references while formal human validation remains separate.
 
 OSM snapshot dates and field-validity dates remain unknown when upstream does
 not establish them. The command does not substitute current OSM for missing
-historical input. LuST and the current MoST prepared input receive no inferred
-paired labels. Their import reports remain compatibility observations.
+historical input. In the original four-model catalog, LuST and the newer MoST
+prepared input have no verified source pair. Their imports remain compatibility
+observations. The separate historical MoST supplement supplies prepared-source
+model labels. Those labels do not establish field defects or the original OSM
+snapshot date.
 
 The references have different modeling goals:
 

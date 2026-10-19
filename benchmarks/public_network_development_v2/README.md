@@ -96,3 +96,5 @@ The [source-topology qualification](topology-source-20261019-v1.md) records the
 full-model release, its 170 inherited findings, and two native reporting checks.
 The [scoped follow-up](topology-source-20261019-v2.md) records a fresh full-model
 release, local source risks, and the final unchanged three-case assessment.
+The [pedestrian follow-up](pedestrian-paths-20261019-v1.md) records native walking
+completion, a real folded-area regression, and the facility-semantic correction.
