@@ -94,6 +94,7 @@ def propose_corridor_edits(
     """
     root = ET.parse(net_file).getroot()
     edges = _normal_edges(root)
+    protected_edges = _controlled_edges(root) | {key for key, edge in edges.items() if _is_structurally_protected_edge(edge)}
     proposals: list[dict[str, Any]] = []
 
     if include_isolated:
@@ -108,7 +109,7 @@ def propose_corridor_edits(
                 continue
             if len(incident[from_id]) != 1 or len(incident[to_id]) != 1:
                 continue
-            if _is_protected_edge(edge, root):
+            if edge_id in protected_edges:
                 continue
             proposals.append(
                 _proposal(
@@ -148,7 +149,7 @@ def propose_corridor_edits(
                 if edge_id in edges:
                     incident_connections[edge_id].append(row)
         for edge_id, edge in edges.items():
-            if _is_protected_edge(edge, root):
+            if edge_id in protected_edges:
                 continue
             duplicate_groups[_edge_duplicate_signature(edge, incident_connections[edge_id], internal_paths)].append(edge_id)
         for signature, edge_ids in sorted(duplicate_groups.items(), key=lambda item: str(item[0])):
@@ -168,7 +169,7 @@ def propose_corridor_edits(
                                 "retained_edge_id": keep_id,
                                 "duplicate_group": sorted(edge_ids),
                                 "signature": list(signature),
-                            "native_turn_states": "not_equivalence_checked",
+                                "native_turn_states": "not_equivalence_checked",
                             }
                         ],
                         rollback={"action": "restore_source_edge", "edge_ids": [duplicate_id]},
@@ -202,6 +203,7 @@ def propose_corridor_edits(
                 "node_id": node_id,
                 "proof": candidate.get("proof", ""),
                 "minimum_incident_edge_length_m": candidate.get("minimum_incident_edge_length_m"),
+                "reference_node_absent": candidate.get("reference_node_absent"),
             }
             if _local_controlled_target_edges(root, set(incident_ids)):
                 proposals.append(
@@ -222,7 +224,7 @@ def propose_corridor_edits(
                     operation_id=f"merge-micro-node-{node_id}",
                     operation="merge_edges",
                     target_ids=incident_ids,
-                    rationale="reference-absent micro node has identical corridor/lane semantics and straight lane-preserving connections",
+                    rationale="micro node has matching corridor/lane rules and straight lane-preserving connections; reference absence is recorded separately",
                     evidence=[proof_evidence],
                     rollback={
                         "action": "restore_source_edges_and_junction",

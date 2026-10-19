@@ -22,7 +22,8 @@ def find_removable_corridor_geometry_nodes(
 ) -> list[dict[str, Any]]:
     """Find locally provable geometry-only corridor nodes.
 
-    A candidate must be a priority node absent from the manual reference, have
+    A supplied reference must omit the candidate. Without a reference, its
+    absence remains unknown. A candidate must be a priority node and have
     exactly one straight lane-preserving continuation per incoming lane, and
     connect edges with identical type, lane semantics, OSM params, and a
     non-empty road name. At least one incident edge must be a micro segment.
@@ -120,7 +121,7 @@ def find_removable_corridor_geometry_nodes(
                 "outgoing_edge_count": len(outgoing),
                 "lane_count_per_edge": len(node_edges[0].findall("lane")),
                 "minimum_incident_edge_length_m": round(min(edge_lengths), 3),
-                "reference_node_absent": reference_node_ids is not None,
+                "reference_node_absent": True if reference_node_ids is not None else None,
                 "proof": "same_corridor_same_semantics_lane_preserving_micro_segment",
             }
         )
