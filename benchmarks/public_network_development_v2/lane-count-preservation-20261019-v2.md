@@ -84,3 +84,21 @@ Paths below are relative to the repository:
 Original burst-demand failures, stochastic-driver validation, cleaning precision,
 and remaining whole-network conversion scopes remain open. Source timing
 preservation does not establish its field accuracy.
+
+## Later open modal-layout finding
+
+Claude's subsequent review identified a retained-sidewalk problem. An offline
+check of the saved final networks confirms it. The source has one pedestrian
+lane, one bicycle lane, and two passenger lanes. A raw right-side addition
+copies the outer sidewalk. The candidate has two pedestrian lanes and still
+only two passenger lanes. The retained sidewalk moves from index 0 to index 1,
+but has no outgoing walking-area connection.
+
+The current contract counts all SUMO lanes and treats `remove_index` as a raw
+physical index. Removing index 0 therefore explicitly removes this source
+sidewalk. Traffic-aware selection is not available in that interface yet.
+The source-program and vehicle checks above do not validate retained walking
+access. These mixed-mode constructions remain diagnostic work pending repair.
+
+The offline record is `outputs/driving_identity_20261019_v5/lane-mode-followup.json`.
+The original candidates and measurements remain unchanged.
