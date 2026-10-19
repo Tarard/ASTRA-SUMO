@@ -147,16 +147,18 @@ def test_exploration_still_measures_a_recut_without_an_identity_gate(tmp_path):
 
 
 @native
-def test_release_preserves_review_and_marks_unexecuted_checks(tmp_path):
+def test_release_preserves_review_after_collecting_available_diagnostics(tmp_path):
     _request(tmp_path, "151337")
     result = verify_network_edit(ledger_file=tmp_path / "ledger/corridor_edit_ledger.json", output_dir=tmp_path / "release",
         netconvert_binary=checkBinary("netconvert"), mode="release")
     assert result["applicability"]["status"] == "review_required"
     assert result["status"] == "review_required"
-    assert result["candidate_gates"]["gates"]["sumo_load"]["execution_status"] == "not_run"
+    assert result["candidate_gates"]["gates"]["sumo_load"]["status"] == "pass"
+    assert result["candidate_gates"]["topology_report"]["report_file"]
     assert result["whole_network_review"]["status"] == "review_required"
-    assert result["whole_network_review"]["execution_status"] == "not_run"
-    assert result["candidate_gates"]["gates"]["sumo_load"]["status"] != "blocked"
+    assert result["whole_network_review"]["inherited_finding_count"] == 1
+    assert result["candidate_gates"]["gates"]["routeability"]["execution_status"] == "not_run"
+    assert result["candidate_gates"]["gates"]["routeability"]["status"] == "review_required"
 
 
 @native
