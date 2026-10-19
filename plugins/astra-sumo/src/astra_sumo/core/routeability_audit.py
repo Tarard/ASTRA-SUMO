@@ -70,6 +70,10 @@ def build_routeability_od_policy(net_files: Sequence[Path]) -> dict[str, Any]:
 
 def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any], trip_file: Path, *, vehicle_count: int, seed: int) -> dict[str, Any]:
     """Sample original-network reachable pairs once, without candidate routing."""
+    from bisect import bisect_left
+    from graphlib import TopologicalSorter
+    from scipy.sparse import csr_matrix
+    from scipy.sparse.csgraph import connected_components
     import sumolib.net
 
     if vehicle_count <= 0 or not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
@@ -79,22 +83,61 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
     reference_hash = file_sha256(reference_net)
     net = sumolib.net.readNet(str(reference_net), maxcache=1)
     destinations = set(policy["destination_edge_ids"])
-    choices = {}
+    edges = net.getEdges(withInternal=True)
+    positions = {edge: index for index, edge in enumerate(edges)}
+    links = [(positions[edge], positions[target]) for edge in edges for target in edge.getAllowedOutgoing("passenger")]
+    rows, columns = zip(*links) if links else ([], [])
+    graph = csr_matrix(([True] * len(links), (rows, columns)), shape=(len(edges), len(edges)), dtype=bool)
+    count, components = connected_components(graph, directed=True, connection="strong")
+    successors = {index: set() for index in range(count)}
+    for left, right in links:
+        a, b = int(components[left]), int(components[right])
+        if a != b:
+            successors[a].add(b)
+    destination_ids = sorted(destinations & {edge.getID() for edge in edges})
+    destination_bits = {identity: 1 << index for index, identity in enumerate(destination_ids)}
+    reachable = [0] * count
+    for identity in destination_ids:
+        reachable[int(components[positions[net.getEdge(identity)]])] |= destination_bits[identity]
+    # Edges in one strong component share destinations. Bitsets avoid all-pairs path searches and lists.
+    for component in TopologicalSorter(successors).static_order():
+        for target in successors[component]:
+            reachable[component] |= reachable[target]
+    choices, source_components, usable = {}, {}, 0
     for source in policy["source_edge_ids"]:
         start = net.getEdge(source)
-        reachable = {edge.getID() for edge in net.getReachable(start, vclass="passenger")} & destinations - {source}
-        # getReachable ignores connection-only restrictions in SUMO 1.27.1.
-        # Reuse the native cached router before choosing any requests.
-        choices[source] = [target for target in sorted(reachable) if net.getShortestPath(start, net.getEdge(target), vClass="passenger")[0] is not None]
+        if not start.allows("passenger"):
+            raise RuntimeError(f"'{source}' does not allow passenger")
+        component = int(components[positions[start]])
+        source_components[source] = component
+        targets = reachable[component] & ~destination_bits.get(source, 0)
+        choices[source] = targets.bit_count()
+        usable |= targets
     sources = sorted(source for source, targets in choices.items() if targets)
     if not sources:
         raise ValueError("the original network has no reachable distinct-edge diagnostic OD pair")
+    def unpack(mask):
+        result = []
+        while mask:
+            bit = mask & -mask
+            result.append(destination_ids[bit.bit_length() - 1])
+            mask ^= bit
+        return result
     generator = random.Random(seed)
     root = ET.Element("routes")
     sampled_sources, sampled_destinations, sampled_pairs = set(), set(), set()
+    pools = {}
     for number in range(vehicle_count):
         source = generator.choice(sources)
-        destination = generator.choice(choices[source])
+        component = source_components[source]
+        if component not in pools:
+            pools[component] = unpack(reachable[component])
+        targets = pools[component]
+        index = generator.randrange(choices[source])
+        own = bisect_left(targets, source)
+        if own < len(targets) and targets[own] == source and index >= own:
+            index += 1
+        destination = targets[index]
         ET.SubElement(root, "trip", id=str(number), depart=str(number), **{"from": source, "to": destination})
         sampled_sources.add(source)
         sampled_destinations.add(destination)
@@ -103,11 +146,11 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
         raise ValueError("reference network changed during OD preparation")
     ET.indent(root)
     write_text_atomic(trip_file, ET.tostring(root, encoding="unicode", xml_declaration=True))
-    usable_destinations = set().union(*(set(targets) for targets in choices.values()))
+    usable_destinations = set(unpack(usable))
     return {"status": "pass", "method": "source_reachable_uniform_origin_then_destination/v1", "reference_network": {"path": str(reference_net), "sha256": reference_hash},
-            "reachability_method": "SUMO Net.getReachable prefilter followed by cached Net.getShortestPath(vClass=passenger), including connection permissions",
+            "reachability_method": "SUMO Edge.getAllowedOutgoing(passenger) graph; strong-component destination sets equivalent to unbounded default Net.getShortestPath existence",
             "seed": seed, "vehicle_count": vehicle_count, "departures": "one vehicle per second at 0..vehicle_count-1", "same_edge_trips": 0,
-            "reachable_od_pair_count": sum(map(len, choices.values())), "reachable_destination_count_by_source": {source: len(targets) for source, targets in choices.items()},
+            "reachable_od_pair_count": sum(choices.values()), "reachable_destination_count_by_source": choices,
             "sources_without_reachable_destinations": sorted(set(choices) - set(sources)), "destinations_without_reachable_sources": sorted(destinations - usable_destinations),
             "sampled_source_edge_ids": sorted(sampled_sources), "sampled_destination_edge_ids": sorted(sampled_destinations), "sampled_unique_od_pairs": len(sampled_pairs),
             "eligible_sources_not_sampled": sorted(set(sources) - sampled_sources), "eligible_destinations_not_sampled": sorted(usable_destinations - sampled_destinations),

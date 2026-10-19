@@ -416,6 +416,15 @@ Affected pairs retain their raw recorded duration difference, but `duration_delt
 This prevents a teleport-shortened trip from appearing as an ordinary duration comparison.
 The [Hamburg construction comparison](../benchmarks/network_construction_20261016_v1/README.md) retains measured geometry changes and invalid driving pairs.
 
+## Diagnostic sampling cost
+
+Source-reachable diagnostic sampling builds the passenger connection graph once.
+Strong components share destination sets. The sampler retains the v1 endpoint
+rules, sorted choices, seed, request bytes, and all-pair counts. It uses routing
+connection restrictions for parity with the original default `getShortestPath`
+check. Native `duarouter` still checks every selected request. A failed request
+is never replaced. These synthetic requests do not establish field demand.
+
 ## Site parameters
 
 Nine legacy adapters now read their identifiers, correspondence tables,
