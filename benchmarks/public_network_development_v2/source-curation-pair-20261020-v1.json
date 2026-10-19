@@ -1,0 +1,79 @@
+{
+  "repository": "https://github.com/lcodeca/MoSTScenario",
+  "commit_url": "https://github.com/lcodeca/MoSTScenario/commit/e9585c408ebcb8c987b4573f0426487851685a8b",
+  "commit_message": "2 intersections fixed",
+  "commit_date": "2018-09-19T18:50:58Z",
+  "field_validity_date": null,
+  "input_pair": {
+    "before": {
+      "path": "outputs\\source_revision_pairs_20261020_v1\\before-network.osm",
+      "revision": "f551c4a25db8695591ae80cb5618645dd8e75f2b",
+      "git_blob_sha1": "54c6f59621a6ac8ca9697c4e4a81164ddc220d5f",
+      "sha256": "fb28fd5aa52e58b578823d860d3a1a94b731e108b991e1889d6b5179cddb49d6",
+      "size": 3097920
+    },
+    "after": {
+      "path": "outputs\\source_revision_pairs_20261020_v1\\after-network.osm",
+      "revision": "e9585c408ebcb8c987b4573f0426487851685a8b",
+      "git_blob_sha1": "62bb045f12913e8bf520cbfb8ba52e28a53e386e",
+      "sha256": "dedeabb0a01251bd7271bc23b3babb93fb2fd271e22700aea63a24f99260515d",
+      "size": 3097608
+    }
+  },
+  "source_state_changes": {
+    "shared_positive_node_coordinates": 67,
+    "shared_positive_way_records": 5,
+    "added_identifiers": 20,
+    "removed_identifiers": 21
+  },
+  "registered_road_geometry": {
+    "changed": 17,
+    "unchanged": 1417,
+    "unresolved": 23
+  },
+  "label_scope": "Prepared source-road geometry changes under documented curation intent, not SUMO lanes or field defects.",
+  "correspondence": "Same positive file-local way ID plus a unique unchanged external source ID in both snapshots.",
+  "artifacts": [
+    {
+      "path": "outputs/source_revision_pairs_20261020_v1/commit.json",
+      "sha256": "a66f6c2a28a274b229ca5d6790becb04ac6a2ff2d8cd9665ce0a08c204348771"
+    },
+    {
+      "path": "outputs/source_revision_pairs_20261020_v1/before-metadata.json",
+      "sha256": "32b5498df3a883daa777322747fa982bd6bcdbfbc34638d5ceaea3da5e3c2397"
+    },
+    {
+      "path": "outputs/source_revision_pairs_20261020_v1/after-metadata.json",
+      "sha256": "317a97c6fc444d9169b99db609e2d707420fb61c1d6c3c90c64ffa85e2b0307f"
+    },
+    {
+      "path": "outputs/source_revision_pairs_20261020_v1/source-state-comparison.json",
+      "sha256": "d0794af20deb5339752eab35bbd41c82ff1ba87b6e8f39552667067d2d356ae5"
+    },
+    {
+      "path": "outputs/source_revision_pairs_20261020_v1/source-way-geometry-labels.jsonl",
+      "sha256": "baa16a03e9f6bd784a04622537812c160aa69af9264bbcb6540552b03363cc92"
+    },
+    {
+      "path": "outputs/source_revision_pairs_20261020_v1/source-way-label-summary.json",
+      "sha256": "6a4d92594cce780466afc6ba4c3934e96edf2a0de1a313c06452f441a9b80e8b"
+    },
+    {
+      "path": "outputs/acquire_source_revision_pair_20261020_v1.py",
+      "sha256": "94a71942c5f747f5e4e9f49e8c97deb33667a80fdb0241f934c9df884150c4da"
+    },
+    {
+      "path": "outputs/label_source_way_changes_20261020_v1.py",
+      "sha256": "44119c595c910f5b5cb73ff23aa126779584927d2d8e28c55a86bef1467eb476"
+    }
+  ],
+  "limitations": [
+    "Prepared road centerlines are not SUMO lane centerlines.",
+    "Curation intent does not establish field correctness.",
+    "No new field, movement, added-road or removed-road labels are inferred.",
+    "SUMO import and candidate-fact integration remain unrun.",
+    "Negative editor IDs can be renumbered and remain excluded.",
+    "The historical data license has not been separately reviewed. Source geometry remains in local outputs.",
+    "This is another revision of the Monaco family, not an independent city."
+  ]
+}

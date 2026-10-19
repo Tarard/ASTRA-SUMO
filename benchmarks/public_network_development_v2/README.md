@@ -137,3 +137,10 @@ published model. It retains the failed CI assertion and correction.
 The [native duplicate follow-up](native-duplicates-20261020-v1.md) corrects the
 intermediate repair's missed native positive. It compares actual internal paths
 without generated identities and retains the zero-proposal MoST result.
+The [generator-domain follow-up](generator-domains-20261020-v1.md) adds native
+isolation and micro-node controls, preserves unknown reference absence, removes
+repeated protection scans, and repairs the all-target merge construction path.
+The [documented source-revision pair](source-curation-pair-20261020-v1.md)
+recovers 17 prepared-road geometry changes and 1,417 unchanged registered roads
+from a historical curation commit. Its labels remain separate from SUMO lanes
+and field defects.
