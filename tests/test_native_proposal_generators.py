@@ -1,9 +1,12 @@
 import shutil
+import xml.etree.ElementTree as ET
 
 import pytest
 
 from astra_sumo.core.command_runner import run_command
 from astra_sumo.core.corridor_edit_ledger import propose_corridor_edits
+from astra_sumo.core.corridor_edit_ledger import materialize_corridor_edit_variant
+from astra_sumo.core.candidate_contracts import file_sha256
 
 
 def _compile(folder, nodes, edges, connections="<connections/>"):
@@ -46,7 +49,7 @@ def test_native_isolated_proposals_keep_connected_and_parking_roads(tmp_path, co
     assert source.read_bytes() == before
 
 
-@pytest.mark.skipif(not shutil.which("netconvert"), reason="netconvert required")
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
 @pytest.mark.parametrize("variant", ["no_reference", "different_name", "reference_present", "reference_absent"])
 def test_native_micro_proposals_record_reference_absence_without_inventing_it(tmp_path, variant):
     nodes = '<nodes><node id="west" x="-0.2" y="0"/><node id="micro" x="0" y="0" type="priority"/>'
@@ -85,4 +88,22 @@ def test_native_micro_proposals_record_reference_absence_without_inventing_it(tm
         assert proposals[0]["operation"] == "merge_edges"
         assert proposals[0]["evidence"][0]["reference_node_absent"] == (True if variant == "reference_absent" else None)
         assert "reference-absent" not in proposals[0]["rationale"]
+    if variant == "no_reference":
+        digest = file_sha256(source)
+        operation = {
+            **proposals[0],
+            "status": "accepted",
+            "evidence": [*proposals[0]["evidence"], {"path": str(source), "sha256": digest}],
+        }
+        report = materialize_corridor_edit_variant(
+            output_dir=tmp_path / "materialized",
+            ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+            netconvert_binary=shutil.which("netconvert"),
+        )
+        assert report["status"] == "pass", report
+        with open(report["plan_file"], encoding="utf-8") as stream:
+            assert stream.read() == "\n"
+        candidate = ET.parse(report["candidate_net_file"]).getroot()
+        assert "micro" not in {row.get("id") for row in candidate.findall("junction")}
+        assert len([row for row in candidate.findall("edge") if not row.get("id").startswith(":")]) == 2
     assert source.read_bytes() == before

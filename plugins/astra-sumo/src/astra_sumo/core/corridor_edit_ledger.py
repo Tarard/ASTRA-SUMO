@@ -842,24 +842,6 @@ def materialize_corridor_edit_variant(
         plan_description = "source_bound_scoped_plain_xml"
     elif operation_family == "merge_edges":
         keep_ids = sorted(set(edges) - set(target_ids))
-        if not keep_ids:
-            return _write_materialization_outcome(
-                output_dir=output_dir,
-                report_file=report_file,
-                manifest_file=manifest_file,
-                command_file=command_file,
-                report={
-                    "schema": "torii.corridor_materialization.v1",
-                    "status": "blocked",
-                    "claim_status": "blocked",
-                    "materialization_status": "empty_keep_edge_set",
-                    "source_net_file": str(source_net_file.resolve()),
-                    "target_edge_ids": target_ids,
-                    "warnings": ["netconvert geometry removal requires at least one retained normal edge"],
-                },
-                source_net_file=source_net_file,
-                ledger_file=ledger_file,
-            )
         plan_file = output_dir / f"{prefix}.keep-edges.txt"
         write_text_atomic(plan_file, "\n".join(keep_ids) + "\n")
         command = with_geometry_precision([
