@@ -1624,6 +1624,13 @@ def run_corridor_candidate_gates(
                                    else scoped_plan["mutable_junction_ids"])
                     relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases,
                         source_node_ids=scope_nodes)
+                    # Verified direct edits do not reconstruct the inherited junction structure.
+                    direct_method = scoped_plan.get("materialization_method")
+                    if (direct_method in {"speed_attributes_only", "permission_attributes_only", "stop_line_edge_mean_3d"}
+                            and direct_method == materialization_report.get("materialization_method")
+                            and relative.get("reason") == "edit_scope_in_inherited_topology_finding"):
+                        relative.update(status="pass", reason="no_new_or_worsened_source_topology_findings",
+                                        scope_findings_informational=True, scope_basis="verified_direct_edit_without_junction_reconstruction")
                     topology_gate = {**relative, "candidate_audit": topology_gate, "source_audit": source_evidence}
                 else:
                     topology_gate.update(reason="source_topology_evidence_unavailable", source_audit=source_evidence)

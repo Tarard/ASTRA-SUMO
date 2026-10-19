@@ -148,6 +148,10 @@ The checker recomputes the operation's node and road scope before using it.
 An unchanged finding outside that scope does not fail the local edit.
 A finding that intersects the scope still requires review, even if inherited.
 The report retains the whole-network review status and inherited finding count.
+For verified direct speed, permission, and stop-line changes, an unchanged
+in-scope finding is informational. Its record remains in the report.
+New or changed findings still require review. Edits that reconstruct junctions,
+including lane-width changes, retain the ordinary scope rule.
 
 A valid topology audit with unresolved findings returns `review_required`.
 Missing, changed, or invalid audit evidence remains `blocked`.
