@@ -94,3 +94,5 @@ The [follow-up assessment](contour-identity-20261019-v2.md) retains review outco
 reports daily geometry changes, and removes the 132981 pedestrian false alarm.
 The [source-topology qualification](topology-source-20261019-v1.md) records the
 full-model release, its 170 inherited findings, and two native reporting checks.
+The [scoped follow-up](topology-source-20261019-v2.md) records a fresh full-model
+release, local source risks, and the final unchanged three-case assessment.
