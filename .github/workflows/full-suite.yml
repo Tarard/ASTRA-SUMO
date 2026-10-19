@@ -61,4 +61,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: tests-windows
-          path: test-results.xml
+          path: |
+            test-results.xml
+            outputs/pytest-failures/

@@ -2,13 +2,16 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import threading
 import xml.etree.ElementTree as ET
 from copy import deepcopy
 from pathlib import Path
 
 import pytest
+import traci
 from pyproj import Transformer
 from sumolib import checkBinary
+from sumolib.miscutils import getFreeSocketPort
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core import hamburg_aerial_approach as approach_module
@@ -214,13 +217,32 @@ def test_official_bus_lane_permissions_and_real_vehicle_legality(tmp_path, full_
         run = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=30)
     assert run.returncode == 0, legal_log.read_text(encoding="utf-8")
     assert {row.get("id") for row in ET.parse(tmp_path / "trips.xml").getroot()} == {"bus", "car"}
-    routes.write_text(routes.read_text().replace('id="bus" type="bus" depart="0"', 'id="bus" depart="0"'))
-    rejected_log = tmp_path / "rejected.log"
+    port = getFreeSocketPort()
+    rejected_log = tmp_path / "runtime-rejection.log"
     with rejected_log.open("w", encoding="utf-8") as log:
-        rejected = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=30)
-    rejection = rejected_log.read_text(encoding="utf-8")
-    assert rejected.returncode != 0, rejection
-    assert "not allowed to stop on lane 'approach_1'" in rejection, rejection
+        process = subprocess.Popen([checkBinary("sumo"), "-n", result["candidate_network"]["path"],
+            "--remote-port", str(port), "--no-step-log", "true"],
+            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
+        deadline = threading.Timer(30, lambda: process.kill() if process.poll() is None else None)
+        deadline.start()
+        try:
+            connection = traci.connect(port, numRetries=3, proc=process)
+            connection.route.add("negative", [first, "approach"])
+            connection.vehicle.add("negative", "negative")
+            assert connection.vehicle.getVehicleClass("negative") == "passenger"
+            # Check native rejection without depending on SUMO's fatal input-error shutdown path.
+            with pytest.raises(traci.TraCIException, match="not allowed to stop on lane 'approach_1'"):
+                connection.vehicle.setStop("negative", "approach", pos=float(bus_lane.get("length")) - 2,
+                                          laneIndex=1, duration=1)
+            assert not connection.vehicle.getStops("negative")
+            connection.simulationStep()
+            connection.close(wait=False)
+            assert process.wait(timeout=30) == 0, rejected_log.read_text(encoding="utf-8")
+        finally:
+            deadline.cancel()
+            if process.poll() is None:
+                process.kill()
+            process.wait(timeout=5)
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
