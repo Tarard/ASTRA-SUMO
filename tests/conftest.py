@@ -2,12 +2,13 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
+from uuid import uuid4
 
 import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-FAILURE_ARTIFACTS = ROOT / "outputs" / "pytest-failures"
+FAILURE_ARTIFACTS = ROOT / "outputs" / "pytest-failures" / uuid4().hex
 SCHEMAS = ROOT / "schemas"
 ORGANIZED_SCHEMA_DIRS = (
     SCHEMAS / "product",

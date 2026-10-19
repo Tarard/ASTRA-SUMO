@@ -226,7 +226,7 @@ def test_official_bus_lane_permissions_and_real_vehicle_legality(tmp_path, full_
         deadline = threading.Timer(30, lambda: process.kill() if process.poll() is None else None)
         deadline.start()
         try:
-            connection = traci.connect(port, numRetries=3, proc=process)
+            connection = traci.connect(port, numRetries=30, proc=process)
             connection.route.add("negative", [first, "approach"])
             connection.vehicle.add("negative", "negative")
             assert connection.vehicle.getVehicleClass("negative") == "passenger"
