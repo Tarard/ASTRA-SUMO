@@ -1,0 +1,549 @@
+{
+  "schema": "astra.modal-lane-preservation/v1",
+  "date": "2026-10-19",
+  "production_commit": "36265b8354d94c2ea648a53e8edab71c965f30a3",
+  "producer_worktree_clean": true,
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+    "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+  },
+  "source_lane_modes": {
+    "total": 4,
+    "pedestrian_only": 1,
+    "bicycle_only": 1,
+    "passenger_allowed": 2
+  },
+  "cases": [
+    {
+      "name": "control",
+      "operation": {
+        "id": "lane-count-control",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 4
+        },
+        "status": "candidate",
+        "rationale": "Control: request the exact source value through the same typed construction path.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/control/candidate.net.xml",
+        "sha256": "caede4cd7b6f4de4ddc90a2b1234425d96b790ce01ba09d6dfe8d848091d11e1"
+      },
+      "lane_modes": {
+        "total": 4,
+        "pedestrian_only": 1,
+        "bicycle_only": 1,
+        "passenger_allowed": 2
+      },
+      "signal_status": "pass",
+      "nonmotor_access": {
+        "status": "pass",
+        "checked_retained_lane_count": 5,
+        "changes": [],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "release_checks_passed": true,
+      "source_immutable": true,
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/control/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/control/candidate-scorecard.json",
+        "sha256": "aa58e2dac21204b47b78194827e97c53bff378d45f1cf86573ffacf4ee95f56e"
+      },
+      "selector_remap": {
+        "554713076#0_1": "554713076#0_1",
+        "554713076#0_2": "554713076#0_2",
+        "554713076#0_3": "554713076#0_3"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "max_absolute_duration_delta_s": 0.0
+    },
+    {
+      "name": "stress",
+      "operation": {
+        "id": "lane-count-stress",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 5
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/stress/candidate.net.xml",
+        "sha256": "0b7a3b15ce61495e9a5849ad1fde62f9a53fe22d8668edce1c08e639dd4e03f7"
+      },
+      "lane_modes": {
+        "total": 5,
+        "pedestrian_only": 1,
+        "bicycle_only": 1,
+        "passenger_allowed": 3
+      },
+      "signal_status": "pass",
+      "nonmotor_access": {
+        "status": "pass",
+        "checked_retained_lane_count": 5,
+        "changes": [],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "release_checks_passed": true,
+      "source_immutable": true,
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/stress/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/stress/candidate-scorecard.json",
+        "sha256": "d1b9c9e5d2b68dc9128252c4a1950e70d852e75d8df66b6ebc927467a316bf3a"
+      },
+      "selector_remap": {
+        "554713076#0_1": "554713076#0_1",
+        "554713076#0_2": "554713076#0_2",
+        "554713076#0_3": "554713076#0_3"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "max_absolute_duration_delta_s": 0.0
+    },
+    {
+      "name": "add-right",
+      "operation": {
+        "id": "lane-count-add-right",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 5,
+          "add_side": "right"
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/add-right/candidate.net.xml",
+        "sha256": "1686740d8a86e29662b737c4067df80af8ff93866d099460efbd6e246f5422b6"
+      },
+      "lane_modes": {
+        "total": 5,
+        "pedestrian_only": 2,
+        "bicycle_only": 1,
+        "passenger_allowed": 2
+      },
+      "signal_status": "pass",
+      "nonmotor_access": {
+        "status": "fail",
+        "checked_retained_lane_count": 5,
+        "changes": [
+          {
+            "source_lane": "554713076#0_0",
+            "candidate_lane": "554713076#0_1",
+            "reason": "retained_sidewalk_no_longer_selected_by_pedestrian_model"
+          },
+          {
+            "source_lane": "554713076#0_0",
+            "candidate_lane": "554713076#0_1",
+            "reason": "retained_nonmotor_junction_access_lost",
+            "missing_access": [
+              [
+                "pedestrian",
+                "759714744",
+                "either"
+              ],
+              [
+                "pedestrian",
+                "LSA2349_part0",
+                "either"
+              ]
+            ]
+          }
+        ],
+        "new_multiple_sidewalks": [
+          {
+            "edge_id": "554713076#0",
+            "source_sidewalk_count": 1,
+            "candidate_sidewalk_count": 2
+          }
+        ],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "release_checks_passed": false,
+      "source_immutable": true,
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/add-right/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/add-right/candidate-scorecard.json",
+        "sha256": "434f5e3f1e05f7e4c73a160f72ae16ce28e8cdab9395649a90e165e1500627c4"
+      },
+      "selector_remap": {
+        "554713076#0_1": "554713076#0_2",
+        "554713076#0_2": "554713076#0_3",
+        "554713076#0_3": "554713076#0_4"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "max_absolute_duration_delta_s": 1.0
+    },
+    {
+      "name": "remove-right",
+      "operation": {
+        "id": "lane-count-remove-right",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 3,
+          "remove_index": 0
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/remove-right/candidate.net.xml",
+        "sha256": "4f4308723a80141324a750cab1d929f62e25a767aef365aafae410275c76f46e"
+      },
+      "lane_modes": {
+        "total": 3,
+        "pedestrian_only": 0,
+        "bicycle_only": 1,
+        "passenger_allowed": 2
+      },
+      "signal_status": "pass",
+      "nonmotor_access": {
+        "status": "fail",
+        "checked_retained_lane_count": 4,
+        "changes": [
+          {
+            "source_lane": "127716467#1_0",
+            "candidate_lane": "127716467#1_0",
+            "reason": "retained_nonmotor_junction_access_lost",
+            "missing_access": [
+              [
+                "pedestrian",
+                "LSA2349_part0",
+                "either"
+              ]
+            ]
+          },
+          {
+            "source_lane": "60578487#3_0",
+            "candidate_lane": "60578487#3_0",
+            "reason": "retained_nonmotor_junction_access_lost",
+            "missing_access": [
+              [
+                "pedestrian",
+                "759714744",
+                "either"
+              ]
+            ]
+          }
+        ],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [
+          "554713076#0_0"
+        ],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "release_checks_passed": false,
+      "source_immutable": true,
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/remove-right/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/remove-right/candidate-scorecard.json",
+        "sha256": "3faaaa7108d98bcbd04c8d489952aa418312a050967b2e6dfc4567b268184ec8"
+      },
+      "selector_remap": {
+        "554713076#0_1": "554713076#0_0",
+        "554713076#0_2": "554713076#0_1",
+        "554713076#0_3": "554713076#0_2"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "max_absolute_duration_delta_s": 0.0
+    },
+    {
+      "name": "passenger-right",
+      "operation": {
+        "id": "lane-count-passenger-right",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 5,
+          "add_side": "right",
+          "vehicle_class": "passenger"
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/passenger-right/candidate.net.xml",
+        "sha256": "bb80c7ad50316db21c1dfd3e113587641134265b11d78aed45b0efd46b8e1b71"
+      },
+      "lane_modes": {
+        "total": 5,
+        "pedestrian_only": 1,
+        "bicycle_only": 1,
+        "passenger_allowed": 3
+      },
+      "signal_status": "pass",
+      "nonmotor_access": {
+        "status": "pass",
+        "checked_retained_lane_count": 5,
+        "changes": [],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "release_checks_passed": true,
+      "source_immutable": true,
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/passenger-right/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/passenger-right/candidate-scorecard.json",
+        "sha256": "eb3319ab1a31e128e736e95f21bfa14d842c5783d1612488eb8aedca7f676105"
+      },
+      "selector_remap": {
+        "554713076#0_1": "554713076#0_1",
+        "554713076#0_2": "554713076#0_3",
+        "554713076#0_3": "554713076#0_4"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "max_absolute_duration_delta_s": 1.0
+    }
+  ],
+  "car_cohort": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\interaction_diagnosis_20261016_v1\\departure-sensitivity-v1\\departure-150.rou.xml",
+    "sha256": "d0e8393fd96f5ec284dbdea07aee0d502be3c20103684273b075d34685ed2dc4"
+  },
+  "seeds": [
+    17
+  ],
+  "horizon_s": 2400,
+  "car_pair_validity_counts": {
+    "valid": 7
+  },
+  "nonmotor_native_probes": [
+    {
+      "network": "source",
+      "case": "walk",
+      "completed": 4,
+      "expected": 4,
+      "adverse_warnings": []
+    },
+    {
+      "network": "source",
+      "case": "bicycle-in",
+      "completed": 1,
+      "expected": 1,
+      "adverse_warnings": []
+    },
+    {
+      "network": "source",
+      "case": "bicycle-out",
+      "completed": 1,
+      "expected": 1,
+      "adverse_warnings": []
+    },
+    {
+      "network": "passenger-right",
+      "case": "walk",
+      "completed": 4,
+      "expected": 4,
+      "adverse_warnings": []
+    },
+    {
+      "network": "passenger-right",
+      "case": "bicycle-in",
+      "completed": 1,
+      "expected": 1,
+      "adverse_warnings": []
+    },
+    {
+      "network": "passenger-right",
+      "case": "bicycle-out",
+      "completed": 1,
+      "expected": 1,
+      "adverse_warnings": []
+    }
+  ],
+  "prior_unchanged_outputs_reassessed": [
+    {
+      "operation": "set_edge_shape",
+      "source_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+      "candidate_sha256": "4c01c3c6af7bc0980ed4630211bebc8f58d8e363931338f339e7aa0b0cf1cc4a",
+      "saved_candidate_path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\shape-stress\\candidate.net.xml",
+      "nonmotor_access": {
+        "status": "pass",
+        "checked_retained_lane_count": 5,
+        "changes": [],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "scope": "Read-only reassessment of unchanged saved output; not a fresh materialization."
+    },
+    {
+      "operation": "move_stop_line",
+      "source_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+      "candidate_sha256": "c7e0c99db5eba6a990eeb4aab3294dde54b22d7976339395b6234e466129b5bc",
+      "saved_candidate_path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\stop-line-stress\\candidate.net.xml",
+      "nonmotor_access": {
+        "status": "pass",
+        "checked_retained_lane_count": 5,
+        "changes": [],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "scope": "Read-only reassessment of unchanged saved output; not a fresh materialization."
+    },
+    {
+      "operation": "set_speed",
+      "source_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+      "candidate_sha256": "6ce938d847de2d7d4f72ece36f3c753fdc32a61cbecbf98c35d3cb733300a185",
+      "saved_candidate_path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\speed-stress\\candidate.net.xml",
+      "nonmotor_access": {
+        "status": "pass",
+        "checked_retained_lane_count": 5,
+        "changes": [],
+        "new_multiple_sidewalks": [],
+        "declared_removed_lane_ids": [],
+        "unresolved_lane_ids": [],
+        "declared_removed_connections": [],
+        "claim_boundary": "Explicit junction access for dedicated pedestrian/bicycle lanes only. No implicit-route or trajectory-equivalence claim."
+      },
+      "scope": "Read-only reassessment of unchanged saved output; not a fresh materialization."
+    }
+  ],
+  "local_tests": [
+    {
+      "passed": 111,
+      "seconds": 251.35,
+      "scope": "Modal access and existing consumers, before explicit new binding support."
+    },
+    {
+      "passed": 20,
+      "seconds": 22.35,
+      "scope": "Class/binding validation and native new-lane departure."
+    },
+    {
+      "passed": 21,
+      "seconds": 2.01,
+      "scope": "Final pure checks including explicit bicycle-turn deletion and reversed walking connection."
+    }
+  ],
+  "test_counts_overlap": true,
+  "prior_ci": {
+    "commit": "3439ae5",
+    "pr_run": 39318158384,
+    "push_run": 39318149594,
+    "status": "success",
+    "passed": 3592,
+    "skipped": 24,
+    "pr_seconds": 815.8
+  },
+  "latest_ci": "running at record creation",
+  "artifacts": [
+    {
+      "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/declaration.json",
+      "sha256": "c9bdad49ce151ab22ceb2c3b9e7cde2adee9cf91ec1db5fb0b4634d9de58cc07"
+    },
+    {
+      "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/construction-results.json",
+      "sha256": "d4d6a19c1f0d55bba3592f91f6c9d9bd3e10c3bebc9e8f9cd5038745e9be6e98"
+    },
+    {
+      "path": "outputs/modal_lane_layout_20261019_v1/hamburg-v1/driving/comparison.json",
+      "sha256": "fdd85539b2f35a9430a60a0ce3801a893642abb3289c0ffe999dd1f1cb7b1b31"
+    },
+    {
+      "path": "outputs/modal_lane_layout_20261019_v1/native-access/declaration.json",
+      "sha256": "45f2cd75838ee356f06562e0802faf635ba376695452f8b1f8f7657e33ca0a6e"
+    },
+    {
+      "path": "outputs/modal_lane_layout_20261019_v1/native-access/results.json",
+      "sha256": "8f370d2d593808988592f42acc3232ab9b9821a0b5f0173b2e60a7e2e31800d8"
+    },
+    {
+      "path": "outputs/modal_lane_layout_20261019_v1/original-edits-rescore.json",
+      "sha256": "7def77b9fdf1a69fa189c91111456e0925503dcbdeb3fe0535c119cb40e57fca"
+    },
+    {
+      "path": "outputs/run_modal_lane_hamburg_20261019_v1.py",
+      "sha256": "c0e2b3832ad0ab50a442c43f68205f8585eec2d04356b696be0e2f3e41b92953"
+    },
+    {
+      "path": "outputs/probe_modal_access_20261019_v1.py",
+      "sha256": "a8fe53468421693f9c34641251e861e8f4ba7014dbf950f8dce5f1a1f412ea84"
+    }
+  ],
+  "limits": [
+    "Fixed deterministic car cohort and small walking/bicycle mechanism requests only.",
+    "The explicit new merging movement is measurable and serves a native vehicle, but has a protected-green conflict and is not release-qualified.",
+    "The dedicated nonmotor check covers explicit junction access and preferred sidewalk identity, not full implicit routes or field legality.",
+    "Original burst-demand failures, stochastic-driver behavior, cleaning precision and remaining whole-network scopes remain open."
+  ]
+}

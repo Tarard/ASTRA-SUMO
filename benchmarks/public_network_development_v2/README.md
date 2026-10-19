@@ -114,3 +114,7 @@ the retained-turn and signal-program repair.
 The [shifted-index follow-up](lane-count-preservation-20261019-v2.md) repairs
 right-side additions and lower-index removals. It records independent source
 signal checks, explore/release fault injection, and a clean committed-code repeat.
+The [modal-lane follow-up](modal-lanes-20261019-v1.md) adds explicit traffic-class
+selection, retained walking/cycling access checks, and walking/bicycle completion
+probes. It resolves the recorded right-addition layout gap through class-selected
+construction while retaining raw physical-index semantics.
