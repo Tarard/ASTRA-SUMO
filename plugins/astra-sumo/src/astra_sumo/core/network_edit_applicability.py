@@ -18,6 +18,24 @@ from .source_movement_support import _index, _internal
 AUTOMATIC_EDIT_PROFILES = ("suppress_turnaround", "set_junction_shape", "absorb_reciprocal_fragment")
 
 
+def _pedestrian_facility_inventory(root):
+    index = _index(root)
+    result = {}
+    for edge in root.findall("edge"):
+        kind = edge.get("function")
+        if kind not in {"crossing", "walkingarea"}:
+            continue
+        lanes = edge.findall("lane")
+        structure = {"function": kind, "lanes": tuple((lane.get("id"), lane.get("index")) for lane in lanes)}
+        if kind == "crossing":
+            structure["crossed_edges"] = tuple(sorted(set(edge.get("crossingEdges", "").split())))
+        else:
+            structure["neighbors"] = tuple((lane.get("id"), tuple(sorted(index["incoming"].get(lane.get("id"), ()))),
+                tuple(sorted({target for target, _ in index["outgoing"].get(lane.get("id"), ())}))) for lane in lanes)
+        result[edge.get("id")] = structure
+    return result
+
+
 def _boundary_access(root, members, *, incoming_lane_ids=None, outgoing_lane_ids=None):
     """Trace every explicit vehicle-class path inside the declared nodes, without lane changes."""
     index = _index(root)
@@ -233,10 +251,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
                     result["reason"] = effect["reason"]
                 if control["status"] == "pass":
                     result["pedestrian_geometry_reference"] = "validated_native_identity_control"
-                    inventories = [{edge.get("id"): (edge.get("function"), tuple(
-                        (lane.get("id"), lane.get("index")) for lane in edge.findall("lane")))
-                        for edge in net.findall("edge") if edge.get("function") in {"crossing", "walkingarea"}}
-                        for net in (control_root, after)]
+                    inventories = [_pedestrian_facility_inventory(net) for net in (control_root, after)]
                     result["pedestrian_facility_changes"] = {
                         "missing_ids": sorted(inventories[0].keys() - inventories[1].keys()),
                         "added_ids": sorted(inventories[1].keys() - inventories[0].keys()),

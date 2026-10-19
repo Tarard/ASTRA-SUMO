@@ -103,6 +103,9 @@ remains blocked. Existing invalid source areas are retained as source findings.
 Missing or added pedestrian facilities, changed facility types, and changed
 facility lane identities remain blocked. The report separates these structural
 changes from geometry-only differences, even when facility counts stay equal.
+Facility structure includes the roads spanned by each crossing and the incoming
+and outgoing lane neighbours of each walking area. These bindings must remain
+unchanged even when the overall boundary-path sets are preserved.
 When topology never runs, `whole_network_review.execution_status` is `not_run`.
 OD diagnostics retain excluded road IDs, reasons, and source/destination counts.
 

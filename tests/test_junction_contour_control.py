@@ -11,7 +11,7 @@ from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import run_command
 from astra_sumo.core.corridor_edit_ledger import build_corridor_edit_ledger, materialize_corridor_edit_variant
 from astra_sumo.core.junction_contour_control import build_identity_control, assess_identity_control, assess_requested_geometry, geometry_delta
-from astra_sumo.core.network_edit_applicability import assess_edit_applicability, verify_network_edit
+from astra_sumo.core.network_edit_applicability import assess_edit_applicability, verify_network_edit, _pedestrian_facility_inventory
 
 
 FIXTURES = Path(__file__).parent / "fixtures/most-contour-controls"
@@ -77,6 +77,14 @@ def test_native_identity_control_measures_source_recut_before_acceptance(tmp_pat
     unsafe = assess_edit_applicability(ledger, candidate_net_file=candidate, identity_control_report=control)
     assert unsafe["status"] == "blocked"
     assert unsafe["checks"]["boundary_lane_permissions_width_speed"] == "blocked"
+
+
+def test_crossed_road_order_does_not_change_facility_structure():
+    root = ET.parse(FIXTURES / "132981.net.xml").getroot()
+    before = _pedestrian_facility_inventory(root)
+    crossing = next(edge for edge in root.findall("edge") if edge.get("function") == "crossing")
+    crossing.set("crossingEdges", " ".join(reversed(crossing.get("crossingEdges").split())))
+    assert _pedestrian_facility_inventory(root) == before
 
 
 def test_geometry_delta_keeps_spatial_and_declared_length_changes_separate():
@@ -169,6 +177,32 @@ def test_stable_native_pedestrian_control_is_the_geometry_reference(tmp_path):
     assert structural["checks"]["pedestrian_facilities"] == "blocked"
     assert structural["pedestrian_facility_changes"]["missing_ids"] == [old_id]
     assert structural["pedestrian_facility_changes"]["added_ids"] == [new_id]
+    changed = ET.parse(candidate)
+    crossings = [edge for edge in changed.getroot().findall("edge") if edge.get("function") == "crossing"]
+    first, second = crossings[:2]
+    first_roads, second_roads = first.get("crossingEdges"), second.get("crossingEdges")
+    first.set("crossingEdges", second_roads)
+    second.set("crossingEdges", first_roads)
+    modified = candidate.with_name("reassigned-crossings.net.xml")
+    changed.write(modified, encoding="utf-8")
+    reassigned = assess_edit_applicability(ledger, candidate_net_file=modified, identity_control_report=control)
+    assert reassigned["checks"]["protected_counts"] == reassigned["checks"]["all_class_explicit_boundary_paths"] == "pass"
+    assert reassigned["checks"]["pedestrian_facilities"] == "blocked"
+    assert reassigned["pedestrian_facility_changes"]["changed_structure_ids"] == sorted([first.get("id"), second.get("id")])
+    changed = ET.parse(candidate)
+    walking = {edge.get("id") for edge in changed.getroot().findall("edge") if edge.get("function") == "walkingarea"}
+    arrivals = [row for row in changed.getroot().findall("connection") if row.get("to") in walking
+                and not row.get("from", "").startswith(":")]
+    first, second = arrivals[:2]
+    first_to, second_to = first.get("to"), second.get("to")
+    first.set("to", second_to)
+    second.set("to", first_to)
+    modified = candidate.with_name("reassigned-walking-neighbors.net.xml")
+    changed.write(modified, encoding="utf-8")
+    reassigned = assess_edit_applicability(ledger, candidate_net_file=modified, identity_control_report=control)
+    assert reassigned["checks"]["protected_counts"] == reassigned["checks"]["all_class_explicit_boundary_paths"] == "pass"
+    assert reassigned["checks"]["pedestrian_facilities"] == "blocked"
+    assert reassigned["pedestrian_facility_changes"]["changed_structure_ids"] == sorted([first_to, second_to])
 
 
 @native
