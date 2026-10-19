@@ -51,7 +51,7 @@ from .osm_workflow_helpers import (
     _synthesize_missing_plain_edge_types,
     _teacher_owner_ids,
 )
-from .local_network_conversion import with_geometry_precision
+from .local_network_conversion import with_geometry_precision, prepare_permission_preserving_input
 
 PARTIAL_MAIN_COMPONENT_RATIO = 0.98
 
@@ -567,17 +567,24 @@ def _normalize_sumo_net(
     timeout_seconds: float,
     command_runner: Callable[..., Any],
 ) -> dict[str, Any]:
-    output_file.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        if net_file.resolve() == output_file.resolve() or output_file.exists() and output_file.samefile(net_file):
+            raise ValueError("Normalization must not replace its source network.")
+        output_file.parent.mkdir(parents=True, exist_ok=True)
+        permission_input = prepare_permission_preserving_input(net_file, output_file.with_suffix(".permission-input.xml"))
+    except (OSError, ValueError) as error:
+        return {"status": "fail", "source_net_file": str(net_file), "output_file": str(output_file), "error": str(error)}
     command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
-        _command_path_for_cwd(net_file, output_dir),
+        _command_path_for_cwd(Path(permission_input["path"]), output_dir),
         "--output-file",
         _command_path_for_cwd(output_file, output_dir),
     ])
     report = _command_result_report(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
     report["source_net_file"] = str(net_file)
     report["output_file"] = str(output_file)
+    report["permission_input"] = permission_input
     return report
 def _run_tls_movement_routeability_smoke(
     *,
@@ -825,9 +832,14 @@ def export_plain_net_for_teacher_guided_repair(
     plain_prefix, plain_prefix_shortened, plain_prefix_digest = _plain_output_prefix(output_dir, prefix)
     source_copy = output_dir / "plain_source.net.xml"
     try:
+        for suffix in (".nod.xml", ".edg.xml", ".con.xml", ".typ.xml", ".tll.xml"):
+            artifact = Path(f"{plain_prefix}{suffix}")
+            if artifact.resolve() == net_file or artifact.exists() and artifact.samefile(net_file):
+                raise ValueError("Plain export must not replace its source network.")
         if source_copy.resolve() != net_file.resolve():
             shutil.copyfile(net_file, source_copy)
-    except OSError as exc:
+        permission_input = prepare_permission_preserving_input(source_copy, output_dir / "plain_permission_input.net.xml")
+    except (OSError, ValueError) as exc:
         return {
             "status": "fail",
             "claim_status": "construction-invalid",
@@ -836,7 +848,7 @@ def export_plain_net_for_teacher_guided_repair(
     command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
-        _command_path_for_cwd(source_copy, output_dir),
+        _command_path_for_cwd(Path(permission_input["path"]), output_dir),
         "--plain-output-prefix",
         str(plain_prefix),
     ])
@@ -885,6 +897,7 @@ def export_plain_net_for_teacher_guided_repair(
         "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
         "net_file": str(net_file),
         "plain_source_net_file": str(source_copy),
+        "permission_input": permission_input,
         "plain_output_prefix": str(plain_prefix),
         "requested_plain_output_prefix": str(output_dir / prefix),
         "plain_output_prefix_shortened": plain_prefix_shortened,

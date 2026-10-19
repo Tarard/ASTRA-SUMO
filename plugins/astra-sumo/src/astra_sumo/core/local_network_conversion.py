@@ -93,6 +93,32 @@ def with_loaded_turn_permissions(root):
     return result
 
 
+def prepare_permission_preserving_input(source_file, prepared_file):
+    """Bind a separate native input to loaded permissions, without blocking repairs of invalid sources."""
+    from .osm_access import _permission_attributes, _permission_set
+    source = Path(source_file).resolve(strict=True)
+    original = source.read_bytes()
+    identity = {"path": str(source), "sha256": sha256(original).hexdigest()}
+    record = {**identity, "source": dict(identity), "preparation": "unchanged", "reconciled_connections": []}
+    try:
+        root = ET.fromstring(original)
+        prepared = with_loaded_turn_permissions(root)
+    except (ET.ParseError, ValueError) as error:
+        return {**record, "preparation": "unavailable", "warning": str(error)}
+    changes = [{"connection": {key: before.get(key) for key in ("from", "fromLane", "to", "toLane")},
+                "before": _permission_attributes(before), "after": _permission_attributes(after),
+                "loaded_classes": sorted(_permission_set(after.attrib, network_version=root.get("version", "0.0")))}
+               for before, after in zip(root.findall("connection"), prepared.findall("connection"))
+               if _permission_attributes(before) != _permission_attributes(after)]
+    if changes:
+        destination = Path(prepared_file).resolve()
+        with destination.open("xb") as stream:
+            stream.write(ET.tostring(prepared, encoding="utf-8", xml_declaration=True))
+        record.update(path=str(destination), sha256=file_sha256(destination),
+                      preparation="reconciled", reconciled_connections=changes)
+    return record
+
+
 def _index(root):
     edges = {row.get("id"): row for row in root.findall("edge")}
     if len(edges) != len(root.findall("edge")) or any(not identity for identity in edges):

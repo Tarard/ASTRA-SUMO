@@ -292,6 +292,10 @@ The legacy Hamburg connection repair and reviewed road correction now use the sa
 Their reports retain the prepared source hash. The road correction also retains its prepared reload input.
 Existing connection-patch and road-preservation checks compare loaded access, including internal-lane restrictions.
 The road reload checks both geometry and loaded access. Sources and source-matching profiles remain unchanged.
+Workflow normalization and teacher-guided PlainXML export also prepare permission-preserving inputs.
+Their reports record each reconciled connection's original directive, rewritten directive, and loaded vehicle classes.
+If source references cannot establish loaded permissions, preparation reports that limitation and still allows native repair.
+Existing candidate validation remains necessary. Normalization and export reject output paths that would replace their source.
 Native conversion can emit a newer file format. Copying older permission text into that format can change effective classes.
 Restoration now retains the source header and type definitions. Generated permission declarations keep their native meaning in that source format.
 Inherited boundary patches retain source classes in current plain XML. Teacher copies instead follow the receiving network's format.

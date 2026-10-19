@@ -9,6 +9,7 @@ from astra_sumo.core.command_runner import run_command
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 from astra_sumo.core.local_network_conversion import (
     loaded_turn_permissions, with_loaded_turn_permissions, validate_local_conversion, run_scoped_native_conversion,
+    prepare_permission_preserving_input,
 )
 from test_traffic_effect_review import _native_network, _native_access
 
@@ -112,6 +113,38 @@ def test_shared_conversion_keeps_dormant_turn_restrictions(tmp_path, monkeypatch
     assert file_sha256(source) == digest
 
 
+@pytest.mark.parametrize("step", ["normalize", "plain_export"])
+def test_workflow_conversion_cannot_overwrite_its_source(tmp_path, step):
+    from astra_sumo.core.osm_workflow_tail import _normalize_sumo_net, export_plain_net_for_teacher_guided_repair
+    source = tmp_path / "export.nod.xml"
+    original = b"<net/>"
+    source.write_bytes(original)
+    def cannot_run(*args, **kwargs):
+        pytest.fail("A source collision must be detected before native conversion.")
+    if step == "normalize":
+        report = _normalize_sumo_net(net_file=source, output_file=source, output_dir=tmp_path,
+            netconvert_binary="netconvert", timeout_seconds=30, command_runner=cannot_run)
+    else:
+        report = export_plain_net_for_teacher_guided_repair(net_file=source, output_dir=tmp_path,
+            prefix="export", command_runner=cannot_run)
+    assert report["status"] == "fail" and "source network" in report["error"]
+    assert source.read_bytes() == original
+
+
+@pytest.mark.parametrize("broken_reference", [False, True])
+def test_permission_preparation_preserves_raw_source_and_reports_unavailable_references(tmp_path, broken_reference):
+    source = tmp_path / "source.net.xml"
+    original = (b'<net><edge id="in"><lane id="in_0"/></edge><edge id="out"><lane id="out_0"/></edge>'
+        b'<connection from="in" fromLane="0" to="out" toLane="0" via=":missing"/></net>') if broken_reference else b"<net/>"
+    source.write_bytes(original)
+    prepared = tmp_path / "prepared.net.xml"
+    report = prepare_permission_preserving_input(source, prepared)
+    assert report["preparation"] == ("unavailable" if broken_reference else "unchanged")
+    assert report["path"] == str(source) and report["sha256"] == file_sha256(source)
+    assert ("warning" in report) is broken_reference
+    assert source.read_bytes() == original and not prepared.exists()
+
+
 @pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
 @pytest.mark.parametrize("entrypoint", ["connection_repair", "road_geometry"])
 @pytest.mark.parametrize("damage", [False, True])
@@ -160,3 +193,40 @@ def test_legacy_repair_entrypoints_keep_untouched_bus_only_turns(tmp_path, monke
     assert file_sha256(Path(report["conversion_input"]["path"])) == report["conversion_input"]["sha256"]
     if entrypoint == "road_geometry":
         assert file_sha256(Path(report["reload_input"]["path"])) == report["reload_input"]["sha256"]
+
+
+@pytest.mark.skipif(not shutil.which("sumo") or not shutil.which("netconvert"), reason="SUMO required")
+@pytest.mark.parametrize("step", ["normalize", "plain_export"])
+def test_workflow_normalization_and_plain_export_preserve_loaded_turn_access(tmp_path, step):
+    from astra_sumo.core.osm_workflow_tail import _normalize_sumo_net, export_plain_net_for_teacher_guided_repair
+    root = _native_network(tmp_path)
+    turn = root.find("connection[@from='in'][@to='out']")
+    root.find(f"edge/lane[@id='{turn.get('via')}']").set("allow", "bus")
+    source = tmp_path / "source.net.xml"
+    ET.ElementTree(root).write(source, encoding="utf-8", xml_declaration=True)
+    digest = file_sha256(source)
+    output = tmp_path / "conversion"
+    candidate = output / "candidate.net.xml"
+    if step == "normalize":
+        report = _normalize_sumo_net(net_file=source, output_file=candidate, output_dir=output,
+            netconvert_binary=shutil.which("netconvert"), timeout_seconds=30, command_runner=run_command)
+    else:
+        report = export_plain_net_for_teacher_guided_repair(net_file=source, output_dir=output, prefix="export",
+            netconvert_binary=shutil.which("netconvert"), timeout_seconds=30)
+        result = run_command([shutil.which("netconvert"), "-n", report["raw_node_file"],
+            "-e", report["raw_edge_file"], "-x", report["raw_connection_file"],
+            "--offset.disable-normalization", "true", "-o", str(candidate)], cwd=output, timeout_seconds=30)
+        assert result.returncode == 0, result.stderr
+    assert report["status"] == "pass", report
+    assert not _native_access(candidate, "passenger")["admitted"]
+    assert _native_access(candidate, "bus")["admitted"]
+    assert file_sha256(source) == digest
+    assert report["permission_input"]["source"]["sha256"] == digest
+    changes = report["permission_input"]["reconciled_connections"]
+    assert len(changes) == 1 and changes[0]["before"] == {} and changes[0]["after"] == {"allow": "bus"}
+    assert changes[0]["loaded_classes"] == ["bus"]
+    prepared = Path(report["permission_input"]["path"])
+    prepared_digest = file_sha256(prepared)
+    with pytest.raises(FileExistsError):
+        prepare_permission_preserving_input(source, prepared)
+    assert file_sha256(prepared) == prepared_digest and file_sha256(source) == digest
