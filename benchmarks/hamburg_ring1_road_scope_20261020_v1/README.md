@@ -6,8 +6,11 @@ It is separate from the Am Sandtorkai fixtures.
 ## Current status
 
 The current scope has 467 of 1,156 source road segments.
-The [five-node driving record](full-movement-driving-evidence-v1.json) verifies 92 of 114 official motor movements and loads 13 field loops.
+The [committed public replay](public-replay-evidence-v1.json) verifies 92 of 114 official motor movements and loads 13 field loops.
+The added motor lane inherits bus access. Input and implementation hashes remain unchanged during that run.
 Twenty-two movements and four supplementary motor connections remain unresolved. No demand fitting or count-accuracy result is available.
+The separate static influence diagnostic marks 19 unresolved movements as potentially count-relevant and two outlets as unknown.
+It does not justify excluding the remaining movement, establish driving feasibility, or change fitting targets.
 Earlier records below keep their original 367-, 468-, and 533-road scopes. They do not replace the current record.
 
 ## Source and replay details

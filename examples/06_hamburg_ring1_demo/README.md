@@ -46,6 +46,7 @@ It records every retained movement's effective permissions after each such remov
 | `field-bindings/` | Published count-field points and tentative lane associations |
 | `field-loops.add.xml` | E1 definitions for active field associations |
 | `field-layout.json` | Native layout load, published station membership, and missing fields |
+| `count-influence.json` | Static potential count influence of unresolved movements, with unknown outlet associations retained |
 | `lane-edit-*/verification.json` | Lane-count effect, access, geometry changes, and service checks |
 
 The earlier five-node candidate verified 92 of 114 official movements and loaded 13 field loops.
@@ -55,6 +56,11 @@ The lane-count stage also has a neighboring geometry change under review.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.
+The [public replay record](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v1.json) binds the 91254d6 construction run to unchanged input and implementation hashes.
+The count-influence diagnostic was added afterward on the same candidate. It found 19 potentially relevant movements and two unknown outlets.
+Count influence uses compiled permissions and allowed ordinary lane changes as an upper bound.
+It ignores lane-change space, time, signals, and queues. Saved outlet hypotheses are not exhaustive.
+It does not establish native driving or justify dropping a movement or fitting target.
 
 ## Outputs
 

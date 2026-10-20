@@ -16,6 +16,7 @@ from ..detector_demand import active_detectors, read_detector_mapping, read_net_
 from ..hamburg_aerial_approach import build_hamburg_aerial_approach_candidate
 from ..hamburg_aerial_movement import build_hamburg_official_movement_plan
 from ..hamburg_corridor_candidate import bind_hamburg_corridor_tls_clusters
+from ..hamburg_count_reachability import audit_hamburg_count_reachability
 from ..hamburg_named_detector_bindings import materialize_hamburg_named_detector_bindings
 from ..hamburg_official import parse_hamburg_count_streams
 from ..local_network_conversion import loaded_turn_permissions
@@ -107,7 +108,8 @@ def rebuild_hamburg_official_corridor(
     report_file = output / "run.json"
     implementation = [Path(__file__), Path(__file__).with_name("groups.py"), Path(__file__).with_name("movements.py"),
                       Path(__file__).parents[1] / "network_edit_operations.py",
-                      Path(__file__).parents[1] / "local_network_conversion.py"]
+                      Path(__file__).parents[1] / "local_network_conversion.py",
+                      Path(__file__).parents[1] / "hamburg_count_reachability.py"]
     report = {"schema": "astra.hamburg-official-corridor-replay/v1", "status": "running", "mode": "explore",
               "promotion_authority": False, "inputs": inputs, "stages": {}, "warnings": [],
               "current_stage": "official_plans", "report_file": str(report_file),
@@ -261,6 +263,13 @@ def rebuild_hamburg_official_corridor(
             "claim_boundary": "One-second layout load with no traffic demand. No count fitting or experiment-window selection."})
         if load.returncode:
             raise ValueError("SUMO cannot load the field-loop layout.")
+        report["current_stage"] = "count_influence"
+        save()
+        influence_file = output / "count-influence.json"
+        influence = audit_hamburg_count_reachability(candidate_manifest=manifest,
+            field_binding_manifest=Path(field_binding["artifacts_manifest"]), output_file=influence_file)
+        report["stages"]["count-influence"] = _identity(influence_file)
+        report["count_influence"] = {key: influence[key] for key in ("potential_count_influence", "unknown_outlets")}
         report["topology_complete"] = probes["passed_exact_lane_transition"] == count
         if not report["topology_complete"]:
             report["warnings"].append(f"{count - probes['passed_exact_lane_transition']} official motor movements lack driving proof.")

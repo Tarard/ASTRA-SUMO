@@ -138,6 +138,10 @@ All 13 count-field associations are active on this five-node candidate, with no 
 Thirteen E1 loops load in SUMO, and their membership reproduces the four published station groups.
 The one-second layout load has no traffic demand. It supplies no count-fit result and does not select the experiment window.
 The [shared example command](../examples/06_hamburg_ring1_demo/README.md#continue-through-junctions-and-detectors) now rebuilds construction and detector placement from saved inputs.
+The [committed public replay](../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v1.json) reproduces 92 passing movements and 13 loops at `91254d6`.
+Its input and implementation hashes stay unchanged during the run. The added motor lane retains passenger and bus access.
+The separate static influence check finds possible count influence for 19 unresolved movements and unknown outlets for two more.
+The remaining movement has no path in its saved outlet hypotheses. That finding does not establish absence of count influence.
 Signal treatment and fitting remain unfinished. The complete six-stage demonstration is not available yet.
 
 ### Earlier construction diagnostics
