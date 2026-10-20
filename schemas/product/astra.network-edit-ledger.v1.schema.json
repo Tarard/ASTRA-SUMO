@@ -427,11 +427,15 @@
                         "items": {
                           "type": "array",
                           "minItems": 2,
-                          "maxItems": 2,
+                          "maxItems": 3,
                           "items": {
                             "type": "number"
                           }
-                        }
+                        },
+                        "oneOf": [
+                          { "items": { "minItems": 2, "maxItems": 2 } },
+                          { "items": { "minItems": 3, "maxItems": 3 } }
+                        ]
                       }
                     }
                   }

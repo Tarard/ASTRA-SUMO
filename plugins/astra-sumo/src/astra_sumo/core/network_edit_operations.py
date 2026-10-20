@@ -79,11 +79,31 @@ def _inventory(root):
 
 
 def _line_shape(value):
-    from .network_calibration import _points
-    points = _points(value)
+    if (not isinstance(value, list) or len(value) < 2
+            or any(not isinstance(point, (list, tuple)) or len(point) not in (2, 3) for point in value)
+            or len({len(point) for point in value}) != 1):
+        raise ValueError("Road shape requires at least two consistently dimensioned XY or XYZ points.")
+    if any(isinstance(number, bool) or not isinstance(number, (int, float, str)) for point in value for number in point):
+        raise ValueError("Road coordinates must contain numeric values, without booleans.")
+    points = [tuple(float(number) for number in point) for point in value]
+    if any(not math.isfinite(number) for point in points for number in point):
+        raise ValueError("Road coordinates must be finite.")
     if LineString(points).length <= 0:
-        raise ValueError("Road shape must have positive length.")
-    return " ".join(f"{x:.12f},{y:.12f}" for x, y in points)
+        raise ValueError("Road shape must have positive planar length.")
+    return " ".join(",".join(f"{number:.12f}" for number in point) for point in points)
+
+
+def _road_shape_matches(actual, requested):
+    requested = [tuple(float(number) for number in point) for point in requested]
+    if len(actual) < 2 or not LineString([point[:2] for point in actual]).hausdorff_distance(
+            LineString([point[:2] for point in requested])) < 0.02:
+        return False
+    if len(requested[0]) == 3:
+        # Native road shapes retain ordered vertices. Planar Hausdorff ignores elevation.
+        spatial = [tuple(point) + (0.0,) * (3 - len(point)) for point in actual]
+        return (len(spatial) == len(requested)
+                and all(math.dist(a, b) < 0.02 for a, b in zip(spatial, requested)))
+    return True
 
 
 def write_direct_lane_edit(source, candidate, operation):
@@ -835,7 +855,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     elif kind == "set_edge_shape":
         edge = after.find(f"edge[@id='{params['edge_id']}']")
         actual = [tuple(map(float, point.split(","))) for point in edge.get("shape", "").split()]
-        effect = len(actual) >= 2 and LineString(actual).hausdorff_distance(LineString(params["shape"])) < 0.02
+        effect = _road_shape_matches(actual, params["shape"])
     elif kind == "set_lane_count":
         effect = len(after.find(f"edge[@id='{params['edge_id']}']").findall("lane")) == params["num_lanes"]
     elif kind == "demote_duplicate_tls":

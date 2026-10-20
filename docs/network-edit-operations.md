@@ -27,7 +27,7 @@ request described by the input schema.
 | `demote_duplicate_tls` | `node_id`, `retained_node_id` | Existing signal nodes sharing a controller, retained signal node remains controlled |
 | `set_lane_permissions` | `lane_id`, `allow` or `disallow` | Only the declared permission attributes may change. No native geometry conversion |
 | `set_lane_width` | `lane_id`, `width_m` | Finite positive width, unchanged other lane identities and permissions, fixed outside geometry |
-| `set_edge_shape` | `edge_id`, `shape` | At least two finite network XY points with positive line length. SUMO rebuilds lane offsets and local connections |
+| `set_edge_shape` | `edge_id`, `shape` | At least two finite network XY or XYZ points with consistent dimensions and positive planar length. SUMO rebuilds lane offsets and local connections |
 | `set_lane_count` | `edge_id`, `num_lanes` | Positive integer. SUMO rebuilds the changed road and its local connections. Record resulting movement changes |
 | `move_stop_line` | `lane_id`, `end_offset_m` | Nonnegative absolute setback. Transfer the saved lane prefix to its internal paths when correspondence is unique. Otherwise retain native reconstruction |
 | `set_speed` | `lane_id`, `speed_m_s` | Positive speed in metres per second. Change only that lane attribute without native conversion |
@@ -43,6 +43,12 @@ Explore output also records source-to-candidate lane movement and logical-length
 changes under `construction.contour_geometry_changes`. This adds no native run.
 
 ## Daily exploration and release
+
+Road shape edits retain supplied elevation. Use XYZ coordinates when the source
+road has elevation. The applied-shape check compares ordered XYZ vertices within
+2 cm, so a planar match cannot hide lost elevation. Omitted native heights mean
+zero. Native vertex resampling may require review. XY-only geometry and
+calibration distances remain planar.
 
 Use `astra network verify-edit <ledger.json> <new-output-dir> --mode explore --json` for daily calibration.
 Explore is the default for this command and supports one typed operation per candidate.

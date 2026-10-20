@@ -599,6 +599,58 @@ def test_reciprocal_absorption_requires_a_declared_length_bound():
     assert validate_scoped_operation(operation)
 
 
+@pytest.mark.parametrize("shape", [
+    [[0, 0], [1, 0, 2]], [[0, 0, 0], [1, 0, float("nan")]],
+    [[0, 0, 0], [1, 0, True]], [[0, 0, 0], [0, 0, 2]],
+])
+def test_road_shapes_reject_mixed_dimensions_invalid_heights_and_vertical_roads(shape):
+    operation = {"operation": "set_edge_shape", "params": {"edge_id": "road", "shape": shape}}
+    assert validate_scoped_operation(operation)
+
+
+def test_spatial_road_shape_check_does_not_accept_lost_elevation():
+    from astra_sumo.core.network_edit_operations import _line_shape, _road_shape_matches
+
+    requested = [[0, 0, 0], [10, 2, 5], [20, 0, 0]]
+    assert _line_shape(requested).split()[1] == "10.000000000000,2.000000000000,5.000000000000"
+    assert _road_shape_matches(requested, requested)
+    assert _road_shape_matches([[0, 0], [10, 2, 5], [20, 0]], requested)
+    assert _road_shape_matches(requested, [[str(number) for number in point] for point in requested])
+    assert not _road_shape_matches([[x, y, 0] for x, y, _ in requested], requested)
+    assert not _road_shape_matches([[x, y] for x, y, _ in requested], requested)
+
+
+def test_spatial_road_shape_matches_published_schema():
+    from jsonschema import Draft202012Validator
+
+    schema = json.loads((Path(__file__).parents[1] / "schemas/product/astra.network-edit-ledger.v1.schema.json").read_text(encoding="utf-8"))
+    alternatives = schema["properties"]["operations"]["items"]["allOf"][1]["oneOf"]
+    contract = next(row for row in alternatives if row["properties"]["operation"].get("const") == "set_edge_shape")
+    validator = Draft202012Validator(contract)
+    for shape in ([[0, 0], [1, 1]], [[0, 0, 0], [1, 1, 2]]):
+        validator.validate({"operation": "set_edge_shape", "params": {"edge_id": "road", "shape": shape}})
+    assert list(validator.iter_errors({"operation": "set_edge_shape", "params": {"edge_id": "road", "shape": [[0, 0], [1, 1, 2]]}}))
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_native_road_shape_edit_preserves_requested_elevation(tmp_path):
+    source = _source(tmp_path, "set_edge_shape")
+    digest = file_sha256(source)
+    shape = [[0, 0, 0], [10, 2, 5], [20, 0, 0]]
+    operation = {"id": "spatial-road", "operation": "set_edge_shape", "status": "accepted",
+        "params": {"edge_id": "middle", "shape": shape}, "rationale": "Preserve source elevation.",
+        "evidence": [{"path": str(source), "sha256": digest}], "rollback": {"action": "discard_candidate"}}
+    report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
+        ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"))
+    assert report["status"] == "pass", report
+    edge = ET.parse(report["candidate_net_file"]).getroot().find("edge[@id='middle']")
+    actual = [tuple(map(float, point.split(","))) for point in edge.get("shape").split()]
+    assert [point + (0.0,) * (3 - len(point)) for point in actual] == [tuple(point) for point in shape]
+    assert max(float(point.split(",")[2]) for lane in edge.findall("lane") for point in lane.get("shape").split()) > 0
+    assert file_sha256(source) == digest
+
+
 def test_typed_edit_rejects_ignored_parameters():
     assert validate_scoped_operation({"operation": "set_lane_width", "params": {"lane_id": "x_0", "width_m": 3.4, "ignored": True}})
 
