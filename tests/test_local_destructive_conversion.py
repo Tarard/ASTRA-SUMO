@@ -1,11 +1,16 @@
 from copy import deepcopy
+import gzip
 from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
 
 import pytest
 
-from astra_sumo.core.local_network_conversion import local_conversion_input, merge_local_conversion
+from astra_sumo.core.local_network_conversion import (
+    local_conversion_input,
+    merge_local_conversion,
+    legacy_edge_edit_scope,
+)
 
 
 def _source():
@@ -55,9 +60,69 @@ def test_isolated_deletion_adds_only_one_retained_native_context_road():
     source = _source()
     native, record = local_conversion_input(source, {"x", "y"}, {"far"}, removed_edge_ids={"far"})
     assert record["context_edge_ids"] == ["a", "far"]
+    assert record["context_anchor_edge_ids"] == ["a"]
     native.remove(native.find("edge[@id='far']"))
     result = merge_local_conversion(source, native, record)
     assert {row.get("id") for row in result.findall("edge")} == {"a", "b"}
+
+
+def test_a_geometry_merge_must_actually_merge_the_declared_roads():
+    source = _source()
+    native, record = local_conversion_input(source, {"w", "m", "e"}, {"a", "b"}, merge_edge_ids={"a", "b"})
+    with pytest.raises(ValueError, match="not fully realized"):
+        merge_local_conversion(source, native, record)
+
+
+@pytest.mark.parametrize(
+    "flags",
+    [["--geometry.remove", "false"], ["--geometry.remove=false"], ["--geometry.remove", "--geometry.remove=false"]],
+)
+def test_saved_merge_commands_cannot_disable_geometry_removal(tmp_path, flags):
+    keep = tmp_path / "keep.txt"
+    keep.write_text("far\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="enabled"):
+        legacy_edge_edit_scope(
+            _source(), "merge_edges", ["netconvert", *flags, "--geometry.remove.keep-edges.input-file", str(keep)]
+        )
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO programs required")
+@pytest.mark.parametrize("full_input", [False, True])
+def test_hamburg_branching_pair_does_not_report_a_successful_merge(tmp_path, monkeypatch, full_input):
+    from astra_sumo.core.candidate_contracts import file_sha256
+    from astra_sumo.core.corridor_edit_ledger import materialize_corridor_edit_variant
+
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
+    source = tmp_path / "hamburg.net.xml"
+    source.write_bytes(gzip.decompress(fixture.read_bytes()))
+    original = source.read_bytes()
+    if full_input:
+        monkeypatch.setattr(
+            "astra_sumo.core.local_network_conversion.local_conversion_input",
+            lambda *args, **kwargs: (None, {"status": "full_network", "reason": "test_full_input"}),
+        )
+    operation = {
+        "id": "branching-merge",
+        "operation": "merge_edges",
+        "status": "accepted",
+        "target_ids": ["83075269#1", "83075269#2"],
+        "rationale": "Controlled no-merge regression.",
+        "evidence": [{"path": str(source), "sha256": file_sha256(source)}],
+        "rollback": {"action": "discard_candidate"},
+    }
+    report = materialize_corridor_edit_variant(
+        output_dir=tmp_path / "edit",
+        ledger={"source_net_file": str(source), "source_sha256": file_sha256(source), "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"),
+    )
+    assert report["command_result"]["returncode"] == 0, report
+    assert report["status"] == "blocked"
+    assert "not fully realized" in report["semantic_validation"]["error"]
+    if not full_input:
+        assert report["candidate_variant_status"] == "failed_local_subset"
+        assert report["semantic_validation"]["local_conversion"]["merge_status"] == "failed"
+        assert not (tmp_path / "edit/corridor_materialized_variant.native-proposal.net.xml").exists()
+    assert source.read_bytes() == original
 
 
 def test_destructive_scope_keeps_a_prohibition_fallback_explicit():

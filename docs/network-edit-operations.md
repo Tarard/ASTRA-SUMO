@@ -260,6 +260,9 @@ converter. Their saved native road list determines the source junctions and
 incident roads in scope. A merge must preserve source paths through the native
 `removedNodeIds` correspondence. Losing a road without a corresponding merged
 path fails the inventory check.
+Every declared merge target must belong to an actual merged source path.
+A native command that merges nothing does not produce a successful variant.
+Failed local subsets retain their raw output and an explicit failure role.
 
 Geometry removal must also preserve every absorbed lane continuation and its
 loaded vehicle access. A bus-only interior connection cannot disappear into

@@ -1049,7 +1049,8 @@ def materialize_corridor_edit_variant(
                 legacy_edges.update(_corridor_edge_aliases(source_root, native_root).values())
         except (OSError, ET.ParseError, KeyError, TypeError, ValueError) as error:
             legacy_merge_error = f"{type(error).__name__}: {error}"
-    if command_status and scoped_plan is None:
+            legacy_conversion.update(merge_status="failed", merge_error=legacy_merge_error)
+    if command_status and scoped_plan is None and legacy_merge_error is None:
         from .artifact_io import copy_file_atomic
         if legacy_proposal.resolve() == source_net_file.resolve() or (ledger_file is not None and legacy_proposal.resolve() == ledger_file.resolve()):
             raise ValueError("Native proposal output must not replace a protected input.")
@@ -1107,7 +1108,7 @@ def materialize_corridor_edit_variant(
             if operation_family == "merge_edges":
                 from .corridor_simplification import _corridor_edge_aliases, validate_merged_road_access
                 proposed_root = ET.parse(candidate_net_file).getroot()
-                validate_merged_road_access(source_root, proposed_root, _corridor_edge_aliases(source_root, proposed_root))
+                validate_merged_road_access(source_root, proposed_root, _corridor_edge_aliases(source_root, proposed_root), target_ids=target_ids)
             legacy_geometry = None
             if scoped_plan is None:
                 restore = restore_off_scope_netconvert_artifacts(source_file=source_net_file, target_file=candidate_net_file,
@@ -1399,7 +1400,7 @@ def materialize_corridor_edit_variant(
         "review_template_error": review_template_error,
         "review_required": bool(review_template.get("review_required")),
         "validation": validation,
-        "candidate_variant_status": "review_only",
+        "candidate_variant_status": "failed_local_subset" if legacy_merge_error else "review_only",
         "warnings": [
             "source network was not modified",
             "candidate must pass SUMO load, routeability, topology, and semantic gates before promotion",

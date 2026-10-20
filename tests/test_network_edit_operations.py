@@ -698,7 +698,8 @@ def test_signal_relocation_cannot_move_only_part_of_a_shared_controller(tmp_path
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="netconvert required")
-def test_existing_edge_deletion_uses_the_shared_exterior_protection(tmp_path):
+@pytest.mark.parametrize("full_input", [False, True])
+def test_existing_edge_deletion_uses_the_shared_exterior_protection(tmp_path, monkeypatch, full_input):
     from astra_sumo.core.command_runner import run_command
 
     source = _source(tmp_path, "join_junctions")
@@ -715,20 +716,28 @@ def test_existing_edge_deletion_uses_the_shared_exterior_protection(tmp_path):
     operation = {"id": "delete-west", "operation": "delete_edge", "status": "accepted", "target_ids": ["west"],
         "rationale": "Synthetic deletion with a separate remote geometry fault.",
         "evidence": [{"path": str(source), "sha256": digest}], "rollback": {"action": "discard_candidate"}}
+    if full_input:
+        monkeypatch.setattr("astra_sumo.core.local_network_conversion.local_conversion_input",
+            lambda *args, **kwargs: (None, {"status": "full_network", "reason": "test_full_input"}))
     def shifted_conversion(command, **kwargs):
         result = run_command(command, **kwargs)
         assert result.returncode == 0, result.stderr
         file = Path(command[command.index("--output-file") + 1])
         changed = ET.parse(file)
         lane = changed.getroot().find("edge[@id='remote']/lane")
-        lane.set("length", "27.84")
-        lane.set("shape", "-477.84,0 -450,0")
+        if full_input:
+            assert lane is not None
+            lane.set("length", "27.84")
+            lane.set("shape", "-477.84,0 -450,0")
+        else:
+            assert lane is None
         changed.write(file, encoding="utf-8", xml_declaration=True)
         return result
     result = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
         ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
         netconvert_binary=shutil.which("netconvert"), command_runner=shifted_conversion)
     assert result["status"] == "pass", result
+    assert result["semantic_validation"]["local_conversion"]["status"] == ("full_network" if full_input else "local")
     assert result["semantic_validation"]["geometry_preservation"]["status"] == "pass"
     actual = ET.parse(result["candidate_net_file"]).getroot()
     assert actual.find("edge[@id='west']") is None

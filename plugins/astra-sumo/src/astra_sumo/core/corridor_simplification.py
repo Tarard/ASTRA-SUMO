@@ -322,8 +322,10 @@ def _connections_preserve_access(connections, edges, permissions, network_versio
     return True
 
 
-def validate_merged_road_access(source_root, candidate_root, aliases):
+def validate_merged_road_access(source_root, candidate_root, aliases, *, target_ids=None):
     """A geometry merge must retain lane access and every absorbed continuation."""
+    if target_ids is not None and set(target_ids) != set(aliases):
+        raise ValueError("The requested geometry merge was not fully realized on its declared source roads.")
     if not aliases:
         return
     from .osm_access import _permission_set
