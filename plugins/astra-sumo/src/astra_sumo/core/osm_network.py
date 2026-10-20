@@ -5,6 +5,8 @@ import gzip
 import hashlib
 import math
 import os
+from importlib.util import find_spec
+import shutil
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -631,25 +633,35 @@ REFERENCE_VISUAL_SERVICE_TYPE_XML = """<types xmlns:xsi="http://www.w3.org/2001/
 """
 
 
+def _sumo_typemap_directory(netconvert_binary, explicit_sumo_home=None):
+    configured = explicit_sumo_home or os.environ.get("SUMO_HOME", "").strip()
+    if configured:
+        return Path(configured).resolve() / "data" / "typemap"
+    executable = Path(shutil.which(str(netconvert_binary)) or netconvert_binary).resolve()
+    candidates = [executable.parent.parent / "data" / "typemap",
+                  executable.parent.parent / "share" / "sumo" / "data" / "typemap"]
+    package = find_spec("sumo")
+    if package is not None and package.origin:
+        candidates.append(Path(package.origin).parent / "data" / "typemap")
+    for directory in candidates:
+        if directory.is_dir():
+            return directory
+    raise ValueError("Cannot find the SUMO OSM type maps. Set sumo_home to the SUMO installation directory.")
+
+
 def _reference_visual_type_options(
     root: Path,
     logs_dir: Path,
     prefix: str,
     *,
     explicit_sumo_home: Path | None = None,
+    netconvert_binary: str = "netconvert",
 ) -> tuple[list[str], list[str]]:
-    sumo_home_value = (
-        str(explicit_sumo_home.resolve())
-        if explicit_sumo_home is not None
-        else os.environ.get("SUMO_HOME", "").strip()
-    )
-    if not sumo_home_value:
-        return [], ["SUMO_HOME is not set; reference visual service typemap overlay skipped"]
-    typemap_dir = Path(sumo_home_value) / "data" / "typemap"
+    typemap_dir = _sumo_typemap_directory(netconvert_binary, explicit_sumo_home)
     base_type_files = [typemap_dir / name for name in REFERENCE_VISUAL_SUMO_TYPEMAPS]
     missing = [str(path) for path in base_type_files if not path.exists()]
     if missing:
-        return [], ["SUMO typemap files missing; reference visual service typemap overlay skipped: " + ", ".join(missing)]
+        raise ValueError("The selected visual profile requires SUMO type maps. Missing files: " + ", ".join(missing))
     service_type_file = logs_dir / f"{prefix}_service_no_pedestrian.typ.xml"
     _write_text(service_type_file, REFERENCE_VISUAL_SERVICE_TYPE_XML)
     type_files = [*base_type_files, service_type_file]
@@ -662,21 +674,9 @@ def _forced_construction_type_options(
     prefix: str,
     *,
     explicit_sumo_home: Path | None = None,
+    netconvert_binary: str = "netconvert",
 ) -> tuple[list[str], Path]:
-    sumo_home_value = (
-        str(explicit_sumo_home.resolve())
-        if explicit_sumo_home is not None
-        else os.environ.get("SUMO_HOME", "").strip()
-    )
-    if not sumo_home_value:
-        raise ValueError(
-            "SUMO_HOME is not set; forced highway=construction import requires "
-            "the official SUMO OSM typemap"
-        )
-
-    base_type_file = (
-        Path(sumo_home_value) / "data" / "typemap" / OSM_BASE_SUMO_TYPEMAP
-    )
+    base_type_file = _sumo_typemap_directory(netconvert_binary, explicit_sumo_home) / OSM_BASE_SUMO_TYPEMAP
     if not base_type_file.is_file():
         raise ValueError(
             "SUMO official OSM typemap is missing for forced "
@@ -925,6 +925,7 @@ def build_osm_network(
                 logs_dir,
                 prefix,
                 explicit_sumo_home=sumo_home,
+                netconvert_binary=netconvert_binary,
             )
             if normalized_profile in REFERENCE_VISUAL_PROFILES
             else ([], [])
@@ -938,6 +939,7 @@ def build_osm_network(
                         logs_dir,
                         prefix,
                         explicit_sumo_home=sumo_home,
+                        netconvert_binary=netconvert_binary,
                     )
                 )
             except ValueError as exc:

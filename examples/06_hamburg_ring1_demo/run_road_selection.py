@@ -74,7 +74,8 @@ def run(output_dir):
                 "signal_difference_count": len(signals.get("unexpected_changes", {})),
                 "signal_changes_by_scope": {key: len(values) for key, values in selected.get("signal_scope_changes", {}).items()},
                 "warnings": selected.get("warnings", [])}
-            if not all(case["reproduction"]["checks"].values()):
+            case["reproduction"]["status"] = "matches_fixture" if all(case["reproduction"]["checks"].values()) else "different_input"
+            if case["reproduction"]["status"] == "different_input":
                 case["review"]["warnings"].append("The run differs from the frozen example expectations. Inspect the reproduction checks.")
             if not case["official_approach_protection"]["source_content_matches"]:
                 case["review"]["warnings"].append("The prepared source differs from the tentative official approach evidence. Refresh its correspondence before using the result for calibration.")

@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import xml.etree.ElementTree as ET
 
 import sumo
 
@@ -29,6 +30,12 @@ def run(output_dir):
     write_json_atomic(output / "source-build.json", source)
     if not source.get("net_file") or not Path(source["net_file"]).is_file():
         raise ValueError("The frozen OSM import did not produce a source network.")
+    raw = output / "source/sumo/ring1-full.net.xml"
+    content_hash = hashlib.sha256(ET.canonicalize(raw.read_text(encoding="utf-8")).encode("utf-8")).hexdigest()
+    write_json_atomic(output / "source-reproduction.json", {
+        "status": "matches_fixture" if content_hash == fixture["native_network_content_sha256"] else "different_input",
+        "actual_content_sha256": content_hash, "expected_content_sha256": fixture["native_network_content_sha256"],
+    })
     official_dir = repo / "benchmarks/hamburg_ring1_official_sources_20261020_v1"
     official = json.loads((official_dir / "manifest.json").read_text(encoding="utf-8"))
     paths, downloads, warnings = {}, [], []

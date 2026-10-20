@@ -2,6 +2,8 @@ import gzip
 from pathlib import Path
 import json
 import shutil
+import xml.etree.ElementTree as ET
+import hashlib
 
 import pytest
 
@@ -64,11 +66,12 @@ def test_retention_never_overwrites_existing_output(tmp_path):
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
-def test_native_ring1_approach_generation_from_frozen_sources(tmp_path):
+def test_native_ring1_approach_generation_from_frozen_sources(tmp_path, monkeypatch):
     from astra_sumo.core.osm_network import build_osm_network
     repo = Path(__file__).parents[1]
     fixture_dir = repo / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
     fixture = json.loads((fixture_dir / "fixture.json").read_text(encoding="utf-8"))
+    monkeypatch.delenv("SUMO_HOME", raising=False)
     built = build_osm_network(bbox=fixture["bbox"], source_osm_path=fixture_dir / "source.osm.xml.gz",
         historical_date=fixture["osm_snapshot_date"], output_dir=tmp_path / "source", prefix="ring1-full",
         allowed_highways=set(fixture["road_classes"]), tls_join_distance_m=fixture["tls_join_distance_m"],
@@ -93,6 +96,8 @@ def test_native_ring1_approach_generation_from_frozen_sources(tmp_path):
         output_dir=tmp_path / "calibration", target_date=fixture["osm_snapshot_date"][:10], sample_spacing_m=.5)
     result = write_hamburg_approach_retention(calibration_run_file=tmp_path / "calibration/run.json", output_file=tmp_path / "retention.json")
     expected = json.loads((fixture_dir / fixture["official_approach_anchors_file"]).read_text(encoding="utf-8"))
+    content = ET.canonicalize(Path(built["net_file"]).read_text(encoding="utf-8")).encode("utf-8")
+    assert hashlib.sha256(content).hexdigest() == expected["source_network_content_sha256"]
     wanted = {r["edge_id"] for r in expected["anchors"] if r["official_fact"].startswith("535:")}
     assert set(result["protected_edge_ids"]) == wanted
     assert result["warnings"] == [] and result["source_unchanged"]

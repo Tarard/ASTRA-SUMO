@@ -47,6 +47,11 @@ These public scripts are useful workflow evidence, but they are not a substitute
 
 Keep `vehicle_core` and `reference_visual_detail` as separate profiles. For a candidate bbox, compare only one small junction at a time:
 
+The visual profile requires SUMO's OSM, bicycle, and pedestrian type maps.
+ASTRA first uses an explicit `sumo_home` or `SUMO_HOME` when supplied.
+Otherwise it searches the selected executable's installation and the installed `sumo` Python package without importing that package.
+A missing required type map returns an input error. ASTRA does not silently build a different visual profile.
+
 1. Build the current ASTRA OSM net.
 2. Rebuild with one borrowed profile variant.
 3. Compare approach-edge preservation, routeability, TLS/linkIndex delta, crossing/walkingarea delta, and NetEdit connection screenshots.

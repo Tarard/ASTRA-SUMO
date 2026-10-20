@@ -69,6 +69,10 @@ This command rebuilds the full source network and measures all five official sit
 It writes `calibration/run.json` and `official-approach-anchors.json` in the new output directory.
 It does not read the saved protection list to derive its result.
 The current frozen inputs produce the same 126 protected source edges.
+`source-reproduction.json` records whether the rebuilt raw network matches the frozen input content.
+The road-selection `case.json` reports `reproduction.status` separately from its measured construction status.
+An input mismatch remains visible while exploratory measurements continue.
+The required visual-profile type maps are located from the selected SUMO installation even when `SUMO_HOME` is absent.
 
 To extract retention evidence from an existing measured snapshot, use:
 
