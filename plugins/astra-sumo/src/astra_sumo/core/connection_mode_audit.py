@@ -1641,6 +1641,9 @@ def _audit_network_tls_link_bindings(
         logics = logics_by_id.get(controller_id, ())
         owner_id = connection_owner.get(connection_index, "")
         owner = catalog["junctions"].get(owner_id)
+        if owner is None:
+            # Scoped road reviews still check runtime rail controllers outside the selection.
+            owner = catalog["junctions"].get(controller_id)
         runtime_managed_rail = bool(
             owner is not None
             and owner.attrib.get("type", "") in {"rail_crossing", "rail_signal"}

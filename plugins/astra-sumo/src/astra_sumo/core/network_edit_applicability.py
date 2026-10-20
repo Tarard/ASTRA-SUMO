@@ -137,12 +137,7 @@ def assess_edit_applicability(ledger, *, candidate_net_file=None, identity_contr
     scope_edges = {key for key, row in index["edges"].items() if not _internal(row)
                    and (row.get("from") in members or row.get("to") in members)}
     result["scope"] = {"source_junction_ids": sorted(members), "edge_ids": sorted(scope_edges)}
-    protected = [key for key in scope_edges if _is_structurally_protected_edge(index["edges"][key]) or any(
-        row.get(name, "").lower() not in {"", "false", "no", "0"}
-        for row in [index["edges"][key], *index["edges"][key].findall("param")]
-        for name in ("bridge", "tunnel", "railway")) or any(
-            row.get("key") in {"bridge", "tunnel", "railway"} and row.get("value", "").lower() not in {"", "false", "no", "0"}
-            for row in index["edges"][key].findall("param"))]
+    protected = [key for key in scope_edges if _is_structurally_protected_edge(index["edges"][key])]
     if protected or any(nodes[node].get("type", "").startswith("rail_") for node in members):
         return {**result, "status": "review_required", "reason": "local_grade_or_rail_semantics", "protected_edge_ids": protected}
     if kind == "set_junction_shape":

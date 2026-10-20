@@ -4,6 +4,7 @@ import importlib.util
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -19,6 +20,37 @@ def _load_script():
     sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
+
+
+@pytest.mark.parametrize("fails", [False, True])
+def test_capture_uses_target_dpi_and_restores_callers_context(monkeypatch, tmp_path, fails):
+    script = _load_script()
+    calls = []
+
+    def get_context(hwnd):
+        assert hwnd == 42
+        return 96
+
+    def set_context(context):
+        calls.append(context)
+        return 144
+
+    def capture(hwnd, path):
+        assert calls == [96]
+        assert hwnd == 42 and path == tmp_path / "capture.png"
+        if fails:
+            raise OSError("capture failed")
+        return {"width": 1600}
+
+    monkeypatch.setattr(script.ctypes, "windll", SimpleNamespace(user32=SimpleNamespace(
+        GetWindowDpiAwarenessContext=get_context, SetThreadDpiAwarenessContext=set_context)), raising=False)
+    monkeypatch.setattr(script, "_capture_window_pixels", capture)
+    if fails:
+        with pytest.raises(OSError, match="capture failed"):
+            script._capture_window(42, tmp_path / "capture.png")
+    else:
+        assert script._capture_window(42, tmp_path / "capture.png")["width"] == 1600
+    assert calls == [96, 144]
 
 
 def _write_bound_bundle(tmp_path: Path, script):
@@ -284,7 +316,7 @@ def test_viewsettings_selection_and_mode_are_deterministic() -> None:
 
     assert script.viewsettings_text((12.5, 34.25), zoom=500) == (
         "<viewsettings>\n"
-        '  <scheme name="standard"/>\n'
+        '  <scheme name="standard"><junctions showLane2Lane="true"/></scheme>\n'
         '  <viewport zoom="500" x="12.5" y="34.25" angle="0"/>\n'
         '  <delay value="100"/>\n'
         "</viewsettings>\n"
@@ -883,6 +915,43 @@ def _aerial_sources(tmp_path, projection="+proj=utm +zone=32 +datum=WGS84 +units
     aerial = tmp_path / "aerial & north.png"
     Image.new("RGB", (40, 20), (20, 130, 70)).save(aerial)
     return net, aerial, [565100, 5932100, 565500, 5932300]
+
+
+def test_aerial_decal_supports_dresden_utm33_without_mislabeling_it_as_hamburg_crs(tmp_path):
+    script = _load_script()
+    net, aerial, _ = _aerial_sources(tmp_path, projection="EPSG:32633")
+    net.write_text(net.read_text(encoding="utf-8").replace("-565000,-5932000", "-410000,-5653000"), encoding="utf-8")
+    bbox = [410900, 5653500, 411300, 5653700]
+    background = script.aerial_decal(net_file=net, aerial_image=aerial, bbox_epsg25832=bbox, source_crs="EPSG:32633")
+    assert background["image_crs"] == "EPSG:32633" and background["bbox"] == bbox
+    assert "bbox_epsg25832" not in background
+    assert float(background["decal"]["centerX"]) == pytest.approx(1100)
+    assert float(background["decal"]["centerY"]) == pytest.approx(600)
+
+
+@pytest.mark.parametrize("selection", ["none", "junction"])
+def test_direct_inspect_capture_preserves_explicit_framing_and_selection(tmp_path, monkeypatch, selection):
+    script = _load_script()
+    net, _, _ = _aerial_sources(tmp_path)
+    calls = []
+    def capture(**kwargs):
+        calls.append(kwargs)
+        request = kwargs["request"]
+        return dict(name=request.name, mode=request.mode, selection_type=request.selection_type,
+            sha256="1" * 64, print_window_result=1, render_quality="pass", foreground_unchanged=True,
+            foreground_context_restored=True, mode_delivery={"foreground_context_unchanged": True})
+    monkeypatch.setattr(script.sys, "platform", "win32")
+    monkeypatch.setattr(script, "_capture_request", capture)
+    report = script.run_direct_background_review(net_file=net, expected_net_sha256=script.file_sha256(net),
+        target_junction_id="owner", output_dir=tmp_path / "capture", netedit_binary="netedit",
+        center=(250, 180), zoom=700, window_size="1400,1000", window_pos="20,20", settle_seconds=0,
+        capture_modes=("inspect",), inspect_selection=selection)
+    assert len(calls) == 1 and calls[0]["center"] == (250, 180) and calls[0]["zoom"] == 700
+    request = calls[0]["request"]
+    assert request.mode == "inspect" and request.selection_type == selection
+    assert request.selection_id == ("owner" if selection == "junction" else "")
+    assert report["expected_capture_session_count"] == 1 and report["requested_capture_modes"] == ["inspect"]
+    assert report["status"] == "review_material_ready" and report["candidate_unchanged"]
 
 
 def test_native_aerial_decal_uses_projection_offset_and_escaped_original_image(tmp_path):

@@ -510,9 +510,7 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                 raise ValueError("Rail-control joins need a separate rail-specific operation.")
             from .corridor_edit_ledger import _is_structurally_protected_edge
             internal = [e for e in edges.values() if e.get("from") in members and e.get("to") in members]
-            if any(_is_structurally_protected_edge(edge) or any(
-                    p.get("key") in {"bridge", "tunnel", "railway"} and p.get("value", "").lower() not in {"", "no", "false", "0"}
-                    for p in edge.findall("param")) for edge in internal):
+            if any(_is_structurally_protected_edge(edge) for edge in internal):
                 raise ValueError("Protected roads, including parking access, require a separate protected operation.")
             if kind == "absorb_reciprocal_fragment":
                 if ({(e.get("from"), e.get("to")) for e in internal}

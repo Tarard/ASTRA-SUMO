@@ -5,6 +5,8 @@ import shutil
 from pathlib import Path
 from xml.etree import ElementTree as ET
 
+import pytest
+
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.command_runner import CommandResult
 from astra_sumo.core.connection_mode_audit import (
@@ -1491,7 +1493,8 @@ def test_network_connection_mode_audit_fails_invalid_tls_link_index(
     )
 
 
-def test_network_connection_mode_accepts_runtime_managed_rail_signal_without_tllogic() -> None:
+@pytest.mark.parametrize("junction_ids", [None, []])
+def test_network_connection_mode_accepts_runtime_managed_rail_signal_without_tllogic(junction_ids) -> None:
     root = ET.fromstring(
         """<net>
   <edge id="rail_in" from="a" to="rs">
@@ -1511,7 +1514,7 @@ def test_network_connection_mode_accepts_runtime_managed_rail_signal_without_tll
 </net>"""
     )
 
-    report = audit_network_connection_mode(root)
+    report = audit_network_connection_mode(root, junction_ids=junction_ids)
 
     assert report["status"] == "pass"
     tls = report["tls_link_binding_audit"]

@@ -3087,11 +3087,15 @@ def _local_controlled_target_edges(root: ET.Element, target_ids: set[str]) -> se
 
 
 def _is_rail_edge(edge: ET.Element) -> bool:
-    values = " ".join(
-        [edge.attrib.get("type", ""), edge.attrib.get("allow", ""), edge.attrib.get("disallow", "")]
-        + [param.attrib.get("value", "") for param in edge.findall("param")]
-    ).lower()
-    return any(token in values for token in _RAIL_TOKENS)
+    absent = {"", "no", "false", "0", "razed", "dismantled", "demolished", "removed"}
+    types = {part.strip().lower() for part in edge.get("type", "").split("|")}
+    railway = [edge.get("railway", ""), *(param.get("value", "") for param in edge.findall("param")
+                                         if param.get("key") == "railway")]
+    # Names, exclusion lists and lifecycle-prefixed tags do not establish current rail infrastructure.
+    return (any(value in _RAIL_TOKENS or value.startswith("railway.") and value[8:] not in absent for value in types)
+            or any(value.strip().lower() not in absent for value in railway)
+            or any(value == "tram" or value.startswith("rail") or value in {"subway", "monorail"}
+                   for row in [edge, *edge.findall("lane")] for value in row.get("allow", "").split()))
 
 
 def _deduplicate_operations(operations: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
