@@ -584,11 +584,17 @@ def _expected_conversion_input(record, root):
             or frozen["frozen_input"] != record["input"]
             or file_sha256(path) != original["sha256"] or path.read_bytes() != expected):
         raise ValueError("Frozen geometry input does not match its source-derived edit input.")
-    from .network_geometry_freeze import _freeze_geometry_hints
+    from .network_geometry_freeze import _freeze_geometry_hints, _lane_count_automatic_pedestrian_nodes
     root = deepcopy(root)
+    policy = frozen.get("junction_contour_policy")
+    if policy not in {None, "preserve", "preserve_motor"} or kind != "set_lane_count" and policy == "preserve_motor":
+        raise ValueError("Frozen geometry input has an unsupported junction contour policy.")
+    # Legacy count plans allowed automatic contours. Their saved inputs remain reproducible.
     automatic = (frozenset(j.get("id") for j in root.findall("junction")
         if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
-        if kind == "set_lane_count" else frozenset())
+        if kind == "set_lane_count" and policy is None else frozenset())
+    if policy == "preserve_motor":
+        automatic = _lane_count_automatic_pedestrian_nodes(root)
     edges = frozenset({operation["params"]["edge_id"]}) if kind == "set_lane_count" else frozenset()
     hints = _freeze_geometry_hints(root, edges, automatic)
     if any(frozen.get(key) != value for key, value in hints.items()):

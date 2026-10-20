@@ -800,16 +800,15 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                          operation=operation, preserve_loaded_turn_permissions=True)
             command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
         if kind == "set_lane_count" or kind in _CONNECTION_EDITS:
-            from .network_geometry_freeze import prepare_geometry_frozen_input
+            from .network_geometry_freeze import prepare_geometry_frozen_input, _lane_count_automatic_pedestrian_nodes
             slot = command.index("--sumo-net-file") + 1
-            import_root = ET.parse(command[slot]).getroot()
-            automatic_contours = (frozenset(j.get("id") for j in import_root.findall("junction")
-                if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
-                if kind == "set_lane_count" else frozenset())
+            automatic = (_lane_count_automatic_pedestrian_nodes(ET.parse(command[slot]).getroot())
+                         if kind == "set_lane_count" else frozenset())
             frozen = prepare_geometry_frozen_input(source_file=Path(command[slot]),
                 output_file=output_dir / f"{prefix}.geometry-frozen-input.net.xml",
                 mutable_edge_ids=frozenset({params["edge_id"]}) if kind == "set_lane_count" else frozenset(),
-                mutable_junction_ids=automatic_contours)
+                mutable_junction_ids=automatic)
+            frozen["junction_contour_policy"] = "preserve_motor" if kind == "set_lane_count" else "preserve"
             plan["geometry_frozen_input"] = frozen
             command[slot] = frozen["frozen_input"]["path"]
             if local.get("input"):
@@ -859,12 +858,20 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     copy_file_atomic(candidate_file, proposal)
     operation, mutable_nodes, mutable_edges = plan["operation"], set(plan["mutable_junction_ids"]), set(plan["mutable_edge_ids"])
     kind, params = operation["operation"], operation["params"]
+    before = ET.parse(source).getroot()
+    geometry_edges = {params["edge_id"]} if kind == "set_lane_count" else set() if kind in _CONNECTION_EDITS else mutable_edges
+    if kind == "set_lane_count":
+        from .network_geometry_freeze import _lane_count_automatic_pedestrian_nodes
+        pedestrian_nodes = _lane_count_automatic_pedestrian_nodes(before) & mutable_nodes
+        geometry_edges |= {edge.get("id") for edge in before.findall("edge") if edge.get("id") in mutable_edges
+                           and pedestrian_nodes & {edge.get("from"), edge.get("to")}}
     before_restore = compare_frozen_geometry(source_file=source, candidate_file=proposal,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=set() if kind in _CONNECTION_EDITS else mutable_edges)
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=geometry_edges)
     if plan["materialization_method"] != "netconvert":
         rebuild = {"status": "pass", "method": plan["materialization_method"], "netconvert_rebuild_count": 0}
         if kind in {"set_lane_permissions", "set_speed"}:
             mutable_nodes, mutable_edges = set(), set()
+            geometry_edges = set()
     elif kind in _JOIN_EDITS:
         from .junction_boundary_rebuild import restore_joined_boundary_connections
         rebuild = restore_joined_boundary_connections(source_net=source, joined_net=proposal,
@@ -876,16 +883,16 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         copy_file_atomic(Path(rebuild["candidate_network"]["path"]), candidate_file)
     else:
         rebuild = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate_file,
-            mutable_junction_ids=mutable_nodes, mutable_edge_ids=set() if kind in _CONNECTION_EDITS else mutable_edges,
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=geometry_edges,
             expand_mutable_edge_endpoints=False)
     geometry = compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=set() if kind in _CONNECTION_EDITS else mutable_edges)
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=geometry_edges)
     neighboring_geometry = (compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids={params["edge_id"]})
         if kind == "set_lane_count" else None)
     if neighboring_geometry is not None:
         neighboring_geometry.update(source_geometry_preserved=neighboring_geometry["status"] == "pass", status="measured")
-    before, after = ET.parse(source).getroot(), ET.parse(candidate_file).getroot()
+    after = ET.parse(candidate_file).getroot()
     restored_speeds = []
     if kind not in {"set_lane_permissions", "set_speed"}:
         source_speeds = {lane.get("id"): lane.get("speed") for edge in before.findall("edge")

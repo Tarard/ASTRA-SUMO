@@ -31,6 +31,32 @@ def test_green_conflict_comparison_uses_physical_pairs_and_lane_remapping(monkey
     assert result["inherited"] == ([] if expected_new else [current])
 
 
+def test_green_conflict_real_audit_survives_connection_reordering():
+    from copy import deepcopy
+    from astra_sumo.core.connection_mode_audit import audit_network_connection_mode
+    from astra_sumo.core.network_edit_operations import _classify_protected_green_conflicts
+
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
+    before = ET.fromstring(gzip.decompress(fixture.read_bytes()))
+    phase = before.find("tlLogic[@id='LSA2349_part0']/phase")
+    phase.set("state", "G" * len(phase.get("state")))
+    original = audit_network_connection_mode(before)["tls_link_binding_audit"]["protected_green_foe_conflicts"]
+    assert original
+    after = deepcopy(before)
+    connections = after.findall("connection")
+    groups = {}
+    for connection in connections:
+        groups.setdefault((connection.get("from"), connection.get("fromLane")), []).append(connection)
+        after.remove(connection)
+    # SUMO request indices depend on each lane's outgoing-connection order.
+    for group in reversed(list(groups.values())):
+        after.extend(group)
+    current = audit_network_connection_mode(after)["tls_link_binding_audit"]["protected_green_foe_conflicts"]
+    assert current and original[0]["connection_indices"] != current[0]["connection_indices"]
+    comparison = _classify_protected_green_conflicts(before, after, current, {})
+    assert not comparison["new"] and len(comparison["inherited"]) == len(current)
+
+
 @pytest.mark.parametrize("explicit", [False, True])
 def test_lane_count_remapping_retains_real_hamburg_custom_movements(explicit):
     from astra_sumo.core.network_edit_operations import _inventory, _lane_count_connections
@@ -123,9 +149,9 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
     assert str(actual_input) == frozen["frozen_input"]["path"]
     assert file_sha256(actual_input) == frozen["frozen_input"]["sha256"]
     assert frozen["mutable_edge_ids"] == ["554713076#0"]
+    assert frozen["junction_contour_policy"] == "preserve_motor"
     original_input = ET.parse(frozen["source"]["path"]).getroot()
-    assert frozen["mutable_junction_ids"] == sorted(j.get("id") for j in original_input.findall("junction")
-        if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
+    assert frozen["mutable_junction_ids"] == ["759714744"]
     current = ET.parse(actual_input).getroot()
     frozen_lanes = set(frozen["frozen_lane_ids"])
     assert all(lane.get("customShape") == "true" for edge in current.findall("edge")
@@ -135,6 +161,22 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
     from astra_sumo.core.local_network_conversion import _expected_conversion_input
     record = plan["local_conversion"]
     assert _expected_conversion_input(record, original_input) == actual_input.read_bytes()
+    from astra_sumo.core.network_geometry_freeze import _freeze_geometry_hints
+    legacy_root = deepcopy(original_input)
+    automatic = frozenset(j.get("id") for j in legacy_root.findall("junction")
+        if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
+    legacy_hints = _freeze_geometry_hints(legacy_root, frozenset({"554713076#0"}), automatic)
+    legacy_path = output / "legacy-frozen-input.xml"
+    legacy_path.write_bytes(ET.tostring(legacy_root, encoding="utf-8", xml_declaration=True))
+    legacy = deepcopy(record)
+    legacy["input"] = {"path": str(legacy_path), "sha256": file_sha256(legacy_path)}
+    legacy["geometry_frozen_input"].pop("junction_contour_policy")
+    legacy["geometry_frozen_input"].update(legacy_hints, frozen_input=legacy["input"])
+    assert _expected_conversion_input(legacy, original_input) == legacy_path.read_bytes()
+    forged = deepcopy(record)
+    forged["geometry_frozen_input"]["junction_contour_policy"] = "expand"
+    with pytest.raises(ValueError, match="unsupported junction contour policy"):
+        _expected_conversion_input(forged, original_input)
     forged = deepcopy(record)
     forged["geometry_frozen_input"]["mutable_edge_ids"].append("another-road")
     with pytest.raises(ValueError, match="hints differ"):
@@ -179,6 +221,8 @@ def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path):
     assert report["nonmotor_access_preservation"]["status"] == "pass"
     assert validate_local_conversion(report["local_conversion"], source).is_file()
     neighboring = report["neighboring_road_geometry"]
+    assert neighboring["source_geometry_preserved"], neighboring
+    assert neighboring["ordinary_lane_attribute_changes"] == {"shape": 0, "length": 0, "width": 0}
     assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
     assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]
     assert report["source_immutable"] and source.read_bytes() == original

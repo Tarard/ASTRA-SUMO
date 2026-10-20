@@ -46,6 +46,12 @@ Declared lane remapping preserves those identities across lane-count edits.
 New conflict relations and inherited relations have separate lists. Signal timing changes retain their separate preservation check.
 Inherited conflicts remain warnings and release findings. Reclassification does not remove a conflict or relax the release checks.
 
+Lane-count import hints preserve source contours at junctions without pedestrian permission.
+Automatic junctions that serve pedestrians can still rebuild their walking areas and incident road ends.
+Their neighboring geometry changes remain measured separately. The conversion scope does not imply that every neighboring road may move.
+The new hints record `junction_contour_policy=preserve_motor`.
+The evidence reader also reconstructs legacy count inputs that allowed all automatic contours.
+
 Junction shape edits use native reconstruction. Final automatic qualification
 compares that reconstruction with a source-contour identity control. See
 [local edit applicability](edit-specific-applicability.md) for the measured

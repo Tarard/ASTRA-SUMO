@@ -170,6 +170,17 @@ Two source lanes lose their direct motor exit: `368989705_4` and `626677498_0`.
 The first binds official ingress lane 1 at 200, whose required movements remain unresolved. Neither lane carries a count loop.
 The workflow records terminal lanes and their official identities. It does not establish service by lane changes.
 
+The next 200 diagnostic concerns official egress lanes 16 and 17, each about 14 m long and separated by about 3.2 m.
+Both currently fit one SUMO motor lane on `551284796#0`, a roughly 49 m road with a separate bicycle lane.
+The [dated aerial reference](../benchmarks/hamburg_ring1_lsa200_aerial_20261020_v1/README.md) supports visual review of this receiving section.
+Its tile metadata dates the image to 2026-03-19. The MAP validity date remains unresolved.
+A full-road lane addition is a diagnostic candidate. Its source agreement and a shorter merge interpretation still need review.
+
+That diagnostic exposed neighboring road-end displacement during lane-count conversion.
+Source-derived contour hints and a narrower geometric edit scope now preserve neighboring roads at junctions without pedestrian permission.
+Automatic pedestrian junctions retain their walking-area rebuilding behavior, with remaining neighboring changes reported.
+The repair has a failing source regression and a passing repaired regression. A complete current-profile replay is still required.
+
 ### Earlier construction diagnostics
 
 A separate prototype constructs LSA535 and LSA119.

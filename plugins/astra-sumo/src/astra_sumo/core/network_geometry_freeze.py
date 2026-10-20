@@ -10,6 +10,18 @@ from shapely.geometry import LineString
 from .candidate_contracts import file_sha256
 
 
+def _lane_count_automatic_pedestrian_nodes(root):
+    """Keep automatic pedestrian junctions available for walking-area rebuilding."""
+    from .osm_access import _permission_set
+
+    pedestrian_nodes = {edge.get(end) for edge in root.findall("edge") if not edge.get("function")
+        for lane in edge.findall("lane") if "pedestrian" in _permission_set(lane.attrib, network_version=root.get("version", "0.0"))
+        for end in ("from", "to")}
+    return frozenset(j.get("id") for j in root.findall("junction")
+        if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"}
+        and j.get("id") in pedestrian_nodes)
+
+
 def prepare_geometry_frozen_input(*, source_file: Path, output_file: Path,
                                   mutable_edge_ids: frozenset[str] = frozenset(),
                                   mutable_junction_ids: frozenset[str] = frozenset()) -> dict:
