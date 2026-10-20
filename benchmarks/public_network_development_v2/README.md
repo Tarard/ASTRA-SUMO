@@ -160,3 +160,9 @@ The [neighbor-control follow-up](source-curation-neighbors-20261020-v1.md)
 measures all 39 excluded neighbors and separates the one road inside the actual
 edit scope. It traces three removed and two added finding memberships and
 records both complete Windows suites with 3,699 tests passed in each run.
+The [legacy local-conversion follow-up](legacy-local-conversion-20261020-v1.md)
+uses local contexts for deletion and geometry merges, preserves absorbed turn
+access and retains a bus-only interior counterexample.
+The [merge-realization follow-up](legacy-merge-realization-20261020-v1.md)
+rejects successful native commands that merge no declared roads, compares a
+real Hamburg pair with full conversion, and requires critical native CI cases.
