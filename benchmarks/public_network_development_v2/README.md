@@ -144,3 +144,11 @@ The [documented source-revision pair](source-curation-pair-20261020-v1.md)
 recovers 17 prepared-road geometry changes and 1,417 unchanged registered roads
 from a historical curation commit. Its labels remain separate from SUMO lanes
 and field defects.
+The [native import and calibration follow-up](source-curation-calibration-20261020-v1.md)
+imports that pair with the same pinned recipe and creates 165 provisional lane
+reference fragments through a reusable adapter. It records before-model
+measurements and a separate reference self-control.
+The [legacy funnel follow-up](legacy-funnel-20261020-v1.md) binds deletion and
+merge scope to existing native plans. One planted isolated component is removed
+on the 4,800-road MoST background while 171 inherited findings remain visible.
+It also retains the mixed CI outcome and native-worker harness correction.
