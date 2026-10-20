@@ -250,6 +250,8 @@ def build_corridor_geometry_simplification_variant(
     candidate_active_tls_ids = _active_tls_ids(variant_file)
     missing_active_tls_ids = sorted(source_active_tls_ids - candidate_active_tls_ids)
     extra_active_tls_ids = sorted(candidate_active_tls_ids - source_active_tls_ids)
+    merge_realized = (not planned_nodes - set(removed_nodes)
+                      and set(connection_audit["edge_aliases"]) == candidate_edge_ids)
     preservation_status = (
         "pass"
         if not preservation_deltas
@@ -258,14 +260,18 @@ def build_corridor_geometry_simplification_variant(
         and not extra_active_tls_ids
         and connection_audit["controlled_missing_count"] == 0
         and connection_audit["controlled_extra_count"] == 0
+        and connection_audit["status"] == "pass"
+        and merge_realized
         else "fail"
     )
     return {
         "status": "pass" if preservation_status == "pass" else "fail",
         "claim_status": "blocked" if preservation_status == "pass" else "construction-invalid",
         "corridor_geometry_simplification_status": (
-            "variant_created_for_review" if preservation_status == "pass" else "semantic_preservation_failed"
+            "variant_created_for_review" if preservation_status == "pass" else
+            "requested_merge_not_realized" if not merge_realized else "semantic_preservation_failed"
         ),
+        "requested_merge_realized": merge_realized,
         "variant_file": str(variant_file),
         "plan_file": str(plan_file),
         "candidates_file": str(candidates_file),
