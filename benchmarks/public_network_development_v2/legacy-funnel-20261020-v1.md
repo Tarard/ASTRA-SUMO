@@ -90,3 +90,13 @@ passed again. Counts overlap. Ruff and `git diff --check` passed.
 
 General useful proposal recall, field truth, remaining legacy whole-network
 conversion, and merged-road OD correspondence remain open.
+
+## Complete CI follow-up
+
+Both complete Windows suites for `f3c3f23` now pass 3,676 tests with 24 skipped.
+The PR JUnit confirms all 20 native fatal-exit cases executed without skips or
+failures. The [receipt](legacy-funnel-ci-20261020-v1.json) binds both logs and
+the JUnit file. The [PR run](https://github.com/Tarard/ASTRA-SUMO/actions/runs/39353231281)
+and [push run](https://github.com/Tarard/ASTRA-SUMO/actions/runs/39353226269) pass.
+This result does not identify the stage of the earlier worker delays or grant
+field correctness to the modeled network.
