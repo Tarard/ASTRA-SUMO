@@ -8,11 +8,11 @@ import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
-from ..artifact_io import write_json_atomic
+from ..artifact_io import copy_file_atomic, write_json_atomic
 from ..cached_detector_demand import read_hamburg_count_stream_snapshot
 from ..candidate_contracts import file_sha256
 from ..command_runner import run_command
-from ..connection_mode_audit import audit_network_connection_mode
+from ..connection_mode_audit import _MOTORIZED_MODES, audit_network_connection_mode
 from ..detector_demand import active_detectors, read_detector_mapping, read_net_lanes, write_e1_additional
 from ..hamburg_aerial_approach import build_hamburg_aerial_approach_candidate
 from ..hamburg_aerial_movement import build_hamburg_official_movement_plan
@@ -23,7 +23,9 @@ from ..hamburg_official import parse_hamburg_count_streams
 from ..local_network_conversion import loaded_turn_permissions
 from ..movement_routeability import run_candidate_movement_probes
 from ..network_edit_operations import check_scoped_edit, write_scoped_edit_plan
+from ..network_geometry_freeze import compare_frozen_geometry
 from ..osm_network import audit_tls
+from ..source_movement_support import audit_source_movement_support
 from .groups import _compile_official_part_joins, _select_join_groups
 from .lanes import _approach_lane_identities
 from .movements import _write_movement_candidate
@@ -81,6 +83,64 @@ def _remap_lane_origins(before, after, plan, origins, constructed):
     return edge_id
 
 
+def _apply_connection_edits(source, operations, *, original_net, audit, groups, origins, changed_edges,
+                            output, netconvert, timeout):
+    """Apply declared exclusions without interpreting them as field prohibitions."""
+    if not operations:
+        return source, audit, []
+    initial = source
+    protected = {tuple(row["sumo_connection"]) for row in audit["boundary_connections"]}
+    eligible = {tuple(row) for row in audit["unexplained_extra"]}
+    records = []
+    for index, operation in enumerate(operations):
+        params = operation["params"]
+        pair = tuple(params[key] for key in ("from", "fromLane", "to", "toLane"))
+        if operation["operation"] != "delete_lane_connection" or pair in protected or pair not in eligible:
+            raise ValueError("Connection exclusions must address an unverified supplementary pair outside the official boundary inventory.")
+        before = loaded_turn_permissions(ET.parse(source).getroot())
+        if {"bicycle", "pedestrian"} & before[pair]:
+            raise ValueError("The declared connection also carries protected nonmotor access.")
+        folder = output / f"connection-edit-{index}"
+        candidate, _, checked = _apply_edit(source, operation, folder, netconvert, timeout)
+        expected = {key: modes for key, modes in before.items() if key != pair}
+        after = loaded_turn_permissions(ET.parse(candidate).getroot())
+        if after != expected:
+            raise ValueError("The connection exclusion changed other loaded movements or vehicle permissions.")
+        records.append({"operation": operation, "source": _identity(source), "candidate": _identity(candidate),
+                        "removed_vehicle_classes": sorted(before[pair]), "retained_effective_vehicle_classes_exact": True,
+                        "verification": _identity(folder / "verification.json"), "status": checked["status"]})
+        source = candidate
+        eligible.remove(pair)
+    original_root, root = ET.parse(original_net).getroot(), ET.parse(source).getroot()
+    support = audit_source_movement_support(original_root, root,
+        group_source_node_ids={row["join_id"]: row["source_node_ids"] for row in groups},
+        official_required_pairs=[row["sumo_connection"] for row in audit["boundary_connections"]],
+        current_lane_to_original_lane=origins, identity_changed_edges=changed_edges,
+        source_lane_change_evidence=audit["source_lane_change_probes"])
+    loaded = loaded_turn_permissions(root)
+    owners = {edge.get("id"): edge.get("to") for edge in root.findall("edge")}
+    join_ids = {row["join_id"] for row in groups}
+    actual = {pair for pair, modes in loaded.items() if owners.get(pair[0]) in join_ids and modes & _MOTORIZED_MODES}
+    refreshed = dict(audit)
+    missing = [row for row in audit["required"] if tuple(row["sumo_connection"]) not in actual]
+    required_missing = {tuple(row["sumo_connection"]) for row in missing}
+    missing.extend({"sumo_connection": list(pair), "reason": "composed_boundary_connection_missing"}
+                   for pair in sorted(protected - actual - required_missing))
+    refreshed.update(actual=[list(pair) for pair in sorted(actual)],
+        missing=missing,
+        extra=[list(pair) for pair in sorted(actual - protected)],
+        unexplained_extra=[row["connection"] for row in support["unresolved"]] + support["unsupported_redundant_pairs"],
+        source_supported_extra=support["source_backed_extra"], source_movement_support=support,
+        declared_connection_exclusions=records,
+        connection_exclusion_geometry=compare_frozen_geometry(source_file=initial, candidate_file=source),
+        connection_exclusion_source=_identity(initial), connection_exclusion_candidate=_identity(source),
+        extra_policy="Explicit candidate exclusions remove unverified supplementary pairs. Source-supported and official movements remain protected; no field prohibition is inferred.")
+    refreshed["status"] = ("blocked" if not refreshed["exterior_edges_preserved"] else
+        "pass" if not (refreshed["missing"] or refreshed["unexplained_extra"] or refreshed["ambiguous"]
+        or refreshed["composed_boundary_path_reviews"]) else "review_required")
+    return source, refreshed, records
+
+
 def rebuild_hamburg_official_corridor(
     *, source_net: Path, official_sources: Path, lsa_identity: Path, lane_count_edits: Path,
     count_fields: Path, count_stations: Path, output_dir: Path,
@@ -108,9 +168,13 @@ def rebuild_hamburg_official_corridor(
             resolved[node][role] = path.resolve(strict=True) if path.is_absolute() else (sources_path.parent / path).resolve(strict=True)
     inputs = [_identity(path) for path in (source, sources_path, lsa_path, edits_path, fields_path, stations_path)]
     inputs.extend(_identity(path) for row in resolved.values() for path in row.values())
-    edits = json.loads(edits_path.read_text(encoding="utf-8"))["operations"]
+    edit_config = json.loads(edits_path.read_text(encoding="utf-8"))
+    edits = edit_config["operations"]
+    connection_edits = edit_config.get("connection_edits", [])
     if not isinstance(edits, list) or any(not isinstance(row, dict) or row.get("operation") != "set_lane_count" for row in edits):
         raise ValueError("The corridor lane-count edits must contain typed set_lane_count operations.")
+    if not isinstance(connection_edits, list) or any(not isinstance(row, dict) or row.get("operation") != "delete_lane_connection" for row in connection_edits):
+        raise ValueError("The corridor connection exclusions must contain typed delete_lane_connection operations.")
     output.mkdir(parents=True)
     report_file = output / "run.json"
     implementation = [Path(__file__), Path(__file__).with_name("groups.py"), Path(__file__).with_name("movements.py"),
@@ -215,15 +279,27 @@ def rebuild_hamburg_official_corridor(
         stage("lane-edits", {"edits": edit_records, "candidate": _identity(current)})
         report["current_stage"] = "official_movements"
         save()
-        final = output / "official.net.xml"
+        movement_candidate = output / "movement-candidate.net.xml"
         materialized = _write_movement_candidate(joined_net=current, plans=plans, groups=groups, skipped_join_ids=set(),
-            output_file=final, maximum_anchor_projection_error_m=10, maximum_lane_projection_error_m=10,
+            output_file=movement_candidate, maximum_anchor_projection_error_m=10, maximum_lane_projection_error_m=10,
             minimum_lane_match_margin_m=.5, original_net=source, constructed_ingress=constructed, lane_origins=origins,
             identity_changed_edges=sorted(changed), netconvert_binary=netconvert_binary, sumo_binary=sumo_binary,
             timeout_seconds=timeout_seconds, junction_contours="preserve")
         audit = materialized["official_connection_audit"]
         audit["ambiguous"].extend(row for plan in plans.values() for row in plan["unusable_vehicle_movements"])
         stage("official-movements", materialized)
+        report["current_stage"] = "connection_exclusions"
+        save()
+        refined, audit, exclusions = _apply_connection_edits(movement_candidate, connection_edits,
+            original_net=source, audit=audit, groups=groups, origins=origins, changed_edges=sorted(changed),
+            output=output, netconvert=netconvert_binary, timeout=timeout_seconds)
+        for index, record in enumerate(exclusions):
+            edit_warnings(f"connection-edit-{index}", json.loads(Path(record["verification"]["path"]).read_text(encoding="utf-8")))
+        final = output / "official.net.xml"
+        copy_file_atomic(refined, final)
+        stage("connection-exclusions", {"edits": exclusions, "candidate": _identity(final),
+            "official_connection_audit": audit,
+            "claim_boundary": "Declared candidate scope restrictions. Missing verified support does not establish a field turn prohibition."})
         structure = audit_network_connection_mode(ET.parse(final).getroot(), endpoint_tolerance_m=.1)
         stage("connection-structure", structure)
         if structure["structural_failure_count"]:

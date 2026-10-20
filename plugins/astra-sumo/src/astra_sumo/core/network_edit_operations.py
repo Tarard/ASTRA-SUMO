@@ -860,7 +860,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     operation, mutable_nodes, mutable_edges = plan["operation"], set(plan["mutable_junction_ids"]), set(plan["mutable_edge_ids"])
     kind, params = operation["operation"], operation["params"]
     before_restore = compare_frozen_geometry(source_file=source, candidate_file=proposal,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=set() if kind in _CONNECTION_EDITS else mutable_edges)
     if plan["materialization_method"] != "netconvert":
         rebuild = {"status": "pass", "method": plan["materialization_method"], "netconvert_rebuild_count": 0}
         if kind in {"set_lane_permissions", "set_speed"}:
@@ -876,9 +876,10 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         copy_file_atomic(Path(rebuild["candidate_network"]["path"]), candidate_file)
     else:
         rebuild = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate_file,
-            mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges, expand_mutable_edge_endpoints=False)
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=set() if kind in _CONNECTION_EDITS else mutable_edges,
+            expand_mutable_edge_endpoints=False)
     geometry = compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=set() if kind in _CONNECTION_EDITS else mutable_edges)
     neighboring_geometry = (compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids={params["edge_id"]})
         if kind == "set_lane_count" else None)

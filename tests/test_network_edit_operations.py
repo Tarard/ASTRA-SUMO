@@ -220,6 +220,12 @@ def test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints(tm
     source = tmp_path / "source.net.xml"
     source.write_bytes(gzip.decompress((fixture / metadata["file"]).read_bytes()))
     assert file_sha256(source) == metadata["uncompressed_sha256"]
+    tree = ET.parse(source)
+    logical_edge = tree.getroot().find("edge[@id='31050638#2']")
+    logical_edge.set("length", "80.123456")
+    for lane in logical_edge.findall("lane"):
+        lane.set("length", "80.123456")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
     digest = file_sha256(source)
     official = fixture.parent / "hamburg_ring1_official_sources_20261020_v1"
     catalog = json.loads((official / "manifest.json").read_text(encoding="utf-8"))

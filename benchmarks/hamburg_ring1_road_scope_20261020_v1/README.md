@@ -74,6 +74,13 @@ The 22 unresolved movements remain in the denominator. Bus-only and revocable la
 All 13 count fields have distinct active lane associations. Their E1 loops load, with the four published station compositions retained.
 There is no demand fitting or count accuracy result in that layout check.
 
+The [post-exclusion full replay](public-replay-evidence-v3.json) verifies the current four declared connection exclusions.
+It retains all 92 passing official movements, 13 field loops, and four station groups.
+Every other loaded movement keeps its vehicle permissions. The exclusions preserve ordinary geometry, logical lengths, and junction contours exactly.
+The shared restoration repair also retains pre-cleanup precision on 13 lane lengths and two shapes that earlier cleanup rounded.
+The maximum restored shape difference is 0.0057 m. All 22 unresolved official movements remain recorded.
+These exclusions define the candidate scope. They do not establish field turn prohibitions or calibrated counts.
+
 `movement-contour-input.net.xml.gz` freezes four ordinary roads at LSA118 part 1.
 `movement-contour-input.json` records the source and the two official movements whose paths failed after automatic contour recomputation.
 The native regression now preserves source contours and ordinary geometry, checks internal continuity, and drives both movements.

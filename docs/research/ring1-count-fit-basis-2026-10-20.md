@@ -26,3 +26,20 @@ The original papers' method and experiment sections were read. Neither paper est
 
 Before fitting, the reproducible construction must expose unsupported extra turns, unresolved lanes, detector-placement assumptions and signal timing.
 Any initialization period precedes the declared comparison window. Fitting results and independent validation remain separate.
+
+## Signal timing source check
+
+The [OCIT-C supply-data specification](https://www.ocit.org/media/ocit-c_lsa_versorgungsdaten_v2.0_a01.pdf), section 3.4.12.1, defines program entries as transition start times.
+They are not the times when the final green or red image becomes active.
+The importer must apply the signal group's standard or explicitly referenced transition, including red-yellow and yellow durations.
+Section 3.2 defines the cycle-reference code separately. A timestamp on a document change does not establish the program clock or cycle origin.
+
+The frozen Ring1 OCIT documents do not supply `Rueckrechenverfahren`.
+Cycle alignment therefore remains a declared model assumption until separate evidence establishes it.
+The current parser reads Saturday selection commands. The saved count window falls on Monday.
+Weekly references, special dates, previous-day carryover, and an explicit time basis must determine program selection.
+Program selection alone does not establish that the field controller ran that static plan.
+
+The [SUMO signal documentation](https://sumo.dlr.de/docs/Simulation/Traffic_Lights.html) distinguishes priority green from yielding green.
+New signal plans require compatible junction right-of-way rules. Replacing phase strings alone does not establish that compatibility.
+Primary and secondary official signal-group references must remain distinct during movement binding.

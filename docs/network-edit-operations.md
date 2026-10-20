@@ -38,6 +38,8 @@ The existing operations remain `add_edge`, `add_sidewalk`, `add_crossing`,
 Connection additions, deletions, and turnaround suppression freeze ordinary road geometry and existing junction contours before native conversion.
 Their source-derived import hints also remove inherited sidewalk and bicycle synthesis defaults.
 The evidence validator reconstructs these hints from the source and edit, rather than trusting the saved input.
+The restoration step also preserves ordinary lane lengths on roads adjacent to the edited connection.
+Those roads belong to the conversion scope, but their geometry is not an intended edit effect.
 Connection and control changes retain their separate checks. A geometry-preserving connection edit does not establish field legality.
 
 Junction shape edits use native reconstruction. Final automatic qualification

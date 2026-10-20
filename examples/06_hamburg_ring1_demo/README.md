@@ -42,6 +42,8 @@ It records every retained movement's effective permissions after each such remov
 | `plans/` | Official MAP/KML movement geometry and permissions, without aerial tracing |
 | `physical-groups.json` | Physical parts derived from official boundaries and the source network |
 | `official.net.xml` | Separate constructed candidate |
+| `movement-candidate.net.xml` | Constructed network before declared supplementary-connection exclusions |
+| `connection-exclusions.json` | Declared exclusions, retained permissions, geometry comparison, and refreshed movement audit |
 | `movement-probes/summary.json` | Official movement denominator and exact lane-chain driving results |
 | `field-bindings/` | Published count-field points and tentative lane associations |
 | `field-loops.add.xml` | E1 definitions for active field associations |
@@ -51,7 +53,17 @@ It records every retained movement's effective permissions after each such remov
 
 The earlier five-node candidate verified 92 of 114 official movements and loaded 13 field loops.
 Twenty-two movements and four supplementary motor connections remain unresolved.
-The latter need removal or source justification before fitting routes are generated.
+The current case configuration declares four connection exclusions after official movement construction.
+They restrict this demonstration to official movements and source-verified supplements.
+Each exclusion retains all other loaded movement permissions. Official boundary pairs and nonmotor access remain protected.
+The runner retains the pre-exclusion network and compares ordinary road geometry, logical lengths, and junction contours after exclusions.
+Missing verified support does not establish a real-world turn prohibition.
+The [new complete replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v3.json) retains all 92 passing official movements and 13 field loops after these exclusions.
+It has zero missing required boundary pairs and zero unsupported supplementary pairs. Twenty-two official movements remain unresolved.
+The full model differs from the prior version by the four exclusions and restored source precision on 13 lane lengths and two lane shapes.
+The maximum restored shape difference is 0.0057 m. The restored shapes match the pre-cleanup source.
+Its network hash differs from the saved v1 reference. The runner reports that difference and retains the older reference.
+The new model has one complete Windows replay. The earlier model's Windows/Linux match does not establish the same result for this version.
 The lane-count stage also has a neighboring geometry change under review.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.

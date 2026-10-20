@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 import gzip
 import json
 from pathlib import Path
+import pytest
 
 from astra_sumo.core.hamburg_junctions.workflow import _remap_lane_origins
 
@@ -56,3 +57,22 @@ def test_sumo_content_hash_ignores_presentation_and_keeps_model_values(tmp_path)
     changed.write_text('<net><lane speed="11" id="road_0"/></net>', encoding="utf-8")
     assert sumo_xml_content_sha256(first) == sumo_xml_content_sha256(second)
     assert sumo_xml_content_sha256(first) != sumo_xml_content_sha256(changed)
+
+
+@pytest.mark.parametrize("protected", [True, False])
+def test_connection_exclusions_protect_official_pairs_and_nonmotor_access(tmp_path, protected):
+    from astra_sumo.core.hamburg_junctions.workflow import _apply_connection_edits
+
+    source = tmp_path / "source.xml"
+    source.write_text('''<net><edge id="in" from="a" to="j"><lane id="in_0" index="0" allow="passenger bicycle"/></edge>
+      <edge id="out" from="j" to="b"><lane id="out_0" index="0" allow="passenger bicycle"/></edge>
+      <connection from="in" fromLane="0" to="out" toLane="0"/></net>''', encoding="utf-8")
+    before = source.read_bytes()
+    pair = ["in", 0, "out", 0]
+    audit = {"boundary_connections": [{"sumo_connection": pair}] if protected else [], "unexplained_extra": [pair]}
+    operation = {"operation": "delete_lane_connection", "params": dict(zip(("from", "fromLane", "to", "toLane"), pair))}
+    with pytest.raises(ValueError, match="official boundary inventory" if protected else "nonmotor access"):
+        _apply_connection_edits(source, [operation], original_net=source, audit=audit, groups=[], origins={},
+            changed_edges=[], output=tmp_path, netconvert="unneeded", timeout=30)
+    assert source.read_bytes() == before
+    assert not (tmp_path / "connection-edit-0").exists()

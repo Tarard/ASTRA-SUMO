@@ -88,5 +88,67 @@
         "action": "discard_candidate"
       }
     }
+  ],
+  "connection_edits": [
+    {
+      "id": "exclude-unverified-supplement-0",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "186821027#0",
+        "fromLane": 5,
+        "to": "186821029#1",
+        "toLane": 3
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    },
+    {
+      "id": "exclude-unverified-supplement-1",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "186821034#0",
+        "fromLane": 4,
+        "to": "186821029#1",
+        "toLane": 2
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    },
+    {
+      "id": "exclude-unverified-supplement-2",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "368989705",
+        "fromLane": 4,
+        "to": "142944399#2",
+        "toLane": 3
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    },
+    {
+      "id": "exclude-unverified-supplement-3",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "626677498",
+        "fromLane": 0,
+        "to": "551303417",
+        "toLane": 2
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    }
   ]
 }

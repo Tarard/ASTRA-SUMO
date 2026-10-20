@@ -68,6 +68,12 @@ It does not select a fitting window.
 The frozen OCIT files contain static signal programs. Their actual use during the count window still needs evidence.
 Any use of static programs must remain distinct from same-window signal replay in the report.
 
+The post-exclusion candidate also retains an OSM-derived controller at `6390683126`.
+Field `0119-Z.15` binds to lane `603103445#0_0`, immediately upstream of that controller's one controlled link.
+Its generated actuated program is separate from `LSA119_part0`. Thus, importing only the named LSA119 program would leave this field under placeholder control.
+The official group correspondence for this section remains unresolved. An assumed discharge headway cannot establish its signal group.
+Other retained OSM controllers also need an explicit treatment before interpreting a traffic-count fit.
+
 The local raw responses, request URLs, retrieval times, and hashes are under
 `outputs/hamburg-readme-case-20261020-v1/counts-discovery-v1/`.
 The official service has a rolling observation range. A later query can return different coverage or revised records.
@@ -146,6 +152,15 @@ Inputs and implementation files stay unchanged during the fresh run. The added m
 The separate static influence check finds possible count influence for 19 unresolved movements and unknown outlets for two more.
 The remaining movement has no path in its saved outlet hypotheses. That finding does not establish absence of count influence.
 Signal treatment and fitting remain unfinished. The complete six-stage demonstration is not available yet.
+
+The [subsequent complete replay](../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v3.json) applies four explicit supplementary-connection exclusions from the case configuration.
+It retains 92 passing official movements, 13 field loops, and four station groups. No required boundary pair disappears.
+The four exclusions preserve all other loaded movement permissions, ordinary geometry, logical lengths, and junction contours.
+They define this model candidate. Missing verified source support does not establish real-world turn prohibitions.
+The shared connection-edit repair also restores pre-cleanup precision on 13 lane lengths and two shapes.
+The maximum restored shape difference is 0.0057 m. This is separate from the remaining neighboring lane change of up to 0.91 m.
+The changed network has one complete Windows replay and differs from the retained v1 content reference.
+Its detector XML content is unchanged. The earlier model's cross-platform agreement does not establish it for this new version.
 
 ### Earlier construction diagnostics
 
