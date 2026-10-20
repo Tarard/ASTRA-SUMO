@@ -43,3 +43,6 @@ Program selection alone does not establish that the field controller ran that st
 The [SUMO signal documentation](https://sumo.dlr.de/docs/Simulation/Traffic_Lights.html) distinguishes priority green from yielding green.
 New signal plans require compatible junction right-of-way rules. Replacing phase strings alone does not establish that compatibility.
 Primary and secondary official signal-group references must remain distinct during movement binding.
+The frozen 119 source defines K8's standard release image as `00`, with only red/yellow lamp outputs.
+K9 instead has release image `30` and a green output. The existing signal-device adapter retains these group-specific definitions.
+Image codes therefore need their source group semantics. An assumed green duration or headway cannot establish Z.15's group correspondence.

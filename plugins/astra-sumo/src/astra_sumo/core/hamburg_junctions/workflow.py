@@ -108,6 +108,11 @@ def _apply_connection_edits(source, operations, *, original_net, audit, groups, 
             raise ValueError("The connection exclusion changed other loaded movements or vehicle permissions.")
         records.append({"operation": operation, "source": _identity(source), "candidate": _identity(candidate),
                         "removed_vehicle_classes": sorted(before[pair]), "retained_effective_vehicle_classes_exact": True,
+                        "remaining_source_lane_motor_outlets": [list(key) for key, modes in sorted(after.items())
+                            if key[:2] == pair[:2] and modes & _MOTORIZED_MODES],
+                        "official_ingress_identities": [{"node_id": row["node_id"], "intersection_part": row["intersection_part"],
+                            "lane_id": lane} for row in audit["lane_bindings"]
+                            for lane, binding in row["ingress"]["bindings"].items() if tuple(binding) == pair[:2]],
                         "verification": _identity(folder / "verification.json"), "status": checked["status"]})
         source = candidate
         eligible.remove(pair)
@@ -135,6 +140,7 @@ def _apply_connection_edits(source, operations, *, original_net, audit, groups, 
         connection_exclusion_geometry=compare_frozen_geometry(source_file=initial, candidate_file=source),
         connection_exclusion_source=_identity(initial), connection_exclusion_candidate=_identity(source),
         extra_policy="Explicit candidate exclusions remove unverified supplementary pairs. Source-supported and official movements remain protected; no field prohibition is inferred.")
+    refreshed["exterior_edges_preserved"] = audit["exterior_edges_preserved"] and refreshed["connection_exclusion_geometry"]["status"] == "pass"
     refreshed["status"] = ("blocked" if not refreshed["exterior_edges_preserved"] else
         "pass" if not (refreshed["missing"] or refreshed["unexplained_extra"] or refreshed["ambiguous"]
         or refreshed["composed_boundary_path_reviews"]) else "review_required")
@@ -302,6 +308,18 @@ def rebuild_hamburg_official_corridor(
             "claim_boundary": "Declared candidate scope restrictions. Missing verified support does not establish a field turn prohibition."})
         structure = audit_network_connection_mode(ET.parse(final).getroot(), endpoint_tolerance_m=.1)
         stage("connection-structure", structure)
+        conflicts = structure["tls_link_binding_audit"]["protected_green_foe_conflicts"]
+        terminal_lanes = [row for row in exclusions if not row["remaining_source_lane_motor_outlets"]]
+        report["control_review"] = {"protected_green_foe_conflict_count": len(conflicts),
+            "controller_ids": sorted({row["controller_id"] for row in conflicts}),
+            "claim_boundary": "Static protected-green foe relations, not observed collisions or validated field control."}
+        report["terminal_motor_lanes_after_exclusions"] = [
+            {"sumo_lane": f"{row['operation']['params']['from']}_{row['operation']['params']['fromLane']}",
+             "official_ingress_identities": row["official_ingress_identities"]} for row in terminal_lanes]
+        if conflicts:
+            report["warnings"].append(f"{len(conflicts)} protected-green foe findings remain in the current signal programs. Inspect connection-structure.json.")
+        if terminal_lanes:
+            report["warnings"].append(f"{len(terminal_lanes)} exclusion source lanes have no outgoing motor connection. Lane-change service remains unverified.")
         if structure["structural_failure_count"]:
             raise ValueError("The constructed network has broken internal driving paths.")
         count = sum(plan["source_vehicle_movement_count"] for plan in plans.values())

@@ -162,6 +162,14 @@ The maximum restored shape difference is 0.0057 m. This is separate from the rem
 The changed network has one complete Windows replay and differs from the retained v1 content reference.
 Its detector XML content is unchanged. The earlier model's cross-platform agreement does not establish it for this new version.
 
+Subsequent independent Linux review reproduced the new network and loop hashes as well.
+The pre-exclusion and post-exclusion networks each contain ten protected-green foe findings in the temporary programs.
+Those physical conflict relations persist across renumbered link indices. They remain unresolved control findings.
+The verifier now compares physical connection identities and separates inherited from new relations without relaxing release checks.
+Two source lanes lose their direct motor exit: `368989705_4` and `626677498_0`.
+The first binds official ingress lane 1 at 200, whose required movements remain unresolved. Neither lane carries a count loop.
+The workflow records terminal lanes and their official identities. It does not establish service by lane changes.
+
 ### Earlier construction diagnostics
 
 A separate prototype constructs LSA535 and LSA119.

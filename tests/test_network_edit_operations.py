@@ -14,6 +14,23 @@ from astra_sumo.core.corridor_edit_ledger import build_corridor_edit_ledger, mat
 from astra_sumo.core.network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation
 
 
+@pytest.mark.parametrize("remap, expected_new", [({}, True), ({("a", 0): ("a", 1)}, False), ({("a", 0): None}, True)])
+def test_green_conflict_comparison_uses_physical_pairs_and_lane_remapping(monkeypatch, remap, expected_new):
+    import astra_sumo.core.network_edit_operations as edits
+
+    before = ET.fromstring('<net><connection from="a" fromLane="0" to="x" toLane="0"/>'
+                           '<connection from="b" fromLane="0" to="y" toLane="0"/></net>')
+    after = ET.fromstring('<net><connection from="b" fromLane="0" to="y" toLane="0" linkIndex="7"/>'
+                          '<connection from="a" fromLane="1" to="x" toLane="0" linkIndex="8"/></net>')
+    old = {"junction_id": "j", "controller_id": "j", "program_id": "0", "phase_index": 1, "connection_indices": [0, 1]}
+    current = {**old, "phase_index": 4, "connection_indices": [1, 0]}
+    monkeypatch.setattr(edits, "audit_network_connection_mode", lambda *args, **kwargs:
+                        {"tls_link_binding_audit": {"protected_green_foe_conflicts": [old]}})
+    result = edits._classify_protected_green_conflicts(before, after, [current], remap)
+    assert result["new"] == ([current] if expected_new else [])
+    assert result["inherited"] == ([] if expected_new else [current])
+
+
 @pytest.mark.parametrize("explicit", [False, True])
 def test_lane_count_remapping_retains_real_hamburg_custom_movements(explicit):
     from astra_sumo.core.network_edit_operations import _inventory, _lane_count_connections

@@ -41,6 +41,10 @@ The evidence validator reconstructs these hints from the source and edit, rather
 The restoration step also preserves ordinary lane lengths on roads adjacent to the edited connection.
 Those roads belong to the conversion scope, but their geometry is not an intended edit effect.
 Connection and control changes retain their separate checks. A geometry-preserving connection edit does not establish field legality.
+Protected-green conflict comparisons use directed lane-pair identities, rather than native connection or link indices.
+Declared lane remapping preserves those identities across lane-count edits.
+New conflict relations and inherited relations have separate lists. Signal timing changes retain their separate preservation check.
+Inherited conflicts remain warnings and release findings. Reclassification does not remove a conflict or relax the release checks.
 
 Junction shape edits use native reconstruction. Final automatic qualification
 compares that reconstruction with a source-contour identity control. See

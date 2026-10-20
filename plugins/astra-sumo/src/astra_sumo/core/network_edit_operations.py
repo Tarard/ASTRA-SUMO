@@ -1008,6 +1008,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                                     for identity in old_lanes.keys() & new_lanes.keys())
     green_conflicts = [row for row in structure.get("tls_link_binding_audit", {}).get("protected_green_foe_conflicts", [])
                        if row.get("junction_id") in mutable_nodes]
+    lane_remap = {(params["edge_id"], int(old)): None if new is None else (params["edge_id"], new)
+                  for old, new in plan.get("lane_index_mapping", {}).items()}
+    green_comparison = _classify_protected_green_conflicts(before, after, green_conflicts, lane_remap)
     evidence_unchanged = all(file_sha256(Path(row["path"])) == row["sha256"] for row in plan["evidence_sources"])
     load = run_sumo_load_audit(net_file=candidate_file, output_dir=output_dir / "scoped-load",
         sumo_binary=_sumo_binary(netconvert_binary), timeout_seconds=timeout_seconds, command_runner=command_runner)
@@ -1094,6 +1097,9 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     release_status = "pass" if release_passed else "review_required" if passed and (service_review or movement_review) else "blocked"
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
+    if green_conflicts:
+        warnings.append(f"Protected-green foe findings: {len(green_comparison['new'])} new and "
+                        f"{len(green_comparison['inherited'])} inherited. Existing conflicts still require release review.")
     if link_preservation["status"] != "pass":
         warnings.append(f"Loaded link comparison: {link_preservation['status']}. Inspect the saved observations and differences.")
     if signal_preservation["status"] == "fail":
@@ -1138,7 +1144,10 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "shape_coordinate_precision": 12 if kind == "set_junction_shape" else None,
             "declared_junction_shape_restored": kind == "set_junction_shape",
             "other_connection_permissions_preserved": connection_permissions_preserved,
-            "new_protected_green_conflicts": green_conflicts, "evidence_unchanged": evidence_unchanged,
+            "new_protected_green_conflicts": green_comparison["new"],
+            "inherited_protected_green_conflicts": green_comparison["inherited"],
+            "protected_green_conflict_comparison_basis": green_comparison["comparison_basis"],
+            "evidence_unchanged": evidence_unchanged,
             "structural_failure_count": structure["structural_failure_count"], "sumo_load": load,
             "native_proposal": {"path": str(proposal), "sha256": file_sha256(proposal), "stage": "before_exterior_restoration"},
             "local_conversion": local_conversion,
@@ -1290,6 +1299,32 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
     path = destination / "edit-verification.json"
     write_json_atomic(path, report, sort_keys=True)
     return {**report, "report_file": str(path)}
+
+
+def _classify_protected_green_conflicts(before, after, candidate_findings, lane_remap):
+    """Compare physical conflict relations. Timing preservation is checked separately."""
+    def identity(root, row, remap):
+        connections, pairs = root.findall("connection"), []
+        for index in row["connection_indices"]:
+            key = _key(connections[index])
+            inlet = remap.get(key[:2], key[:2])
+            outlet = remap.get(key[2:], key[2:])
+            if inlet is None or outlet is None:
+                return None
+            pairs.append((*inlet, *outlet))
+        return row["junction_id"], row["controller_id"], row["program_id"], frozenset(pairs)
+
+    if not candidate_findings:
+        source_findings = []
+    else:
+        source_findings = audit_network_connection_mode(before, endpoint_tolerance_m=.1)["tls_link_binding_audit"]["protected_green_foe_conflicts"]
+    original = {identity(before, row, lane_remap) for row in source_findings}
+    original.discard(None)
+    new, inherited = [], []
+    for row in candidate_findings:
+        (inherited if identity(after, row, {}) in original else new).append(row)
+    return {"new": new, "inherited": inherited,
+            "comparison_basis": "Junction, controller, program and directed lane-pair identities, with declared lane remapping. Phase timing preservation is checked separately. Existing conflicts remain release findings."}
 
 
 def _program(logic):

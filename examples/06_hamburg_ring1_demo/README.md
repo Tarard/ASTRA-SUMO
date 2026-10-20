@@ -64,6 +64,17 @@ The full model differs from the prior version by the four exclusions and restore
 The maximum restored shape difference is 0.0057 m. The restored shapes match the pre-cleanup source.
 Its network hash differs from the saved v1 reference. The runner reports that difference and retains the older reference.
 The new model has one complete Windows replay. The earlier model's Windows/Linux match does not establish the same result for this version.
+
+The [independent Linux review](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v4.json) subsequently reproduced both new content hashes.
+The source and candidate each contain ten protected-green foe findings.
+The physical conflict relations persist from the pre-exclusion signal programs. Renumbered connection or link indices do not establish new conflicts.
+The verifier now separates inherited and new relations while retaining all conflicts for release review.
+The final workflow summary also exposes these findings directly.
+Two excluded source lanes, `368989705_4` and `626677498_0`, have no remaining outgoing motor connection.
+The first corresponds to official ingress lane 1 at 200. Its official movements remain among the unresolved 22.
+Neither lane carries one of the 13 count loops. Lane-change service remains unverified.
+At 535, the Z.8 lane now retains left-turn exits, while Z.7 retains its source-backed turnaround.
+These route restrictions must remain explicit in later fitting reports.
 The lane-count stage also has a neighboring geometry change under review.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.

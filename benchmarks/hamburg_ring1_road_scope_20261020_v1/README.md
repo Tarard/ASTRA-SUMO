@@ -80,6 +80,10 @@ Every other loaded movement keeps its vehicle permissions. The exclusions preser
 The shared restoration repair also retains pre-cleanup precision on 13 lane lengths and two shapes that earlier cleanup rounded.
 The maximum restored shape difference is 0.0057 m. All 22 unresolved official movements remain recorded.
 These exclusions define the candidate scope. They do not establish field turn prohibitions or calibrated counts.
+The [independent replay and control review](public-replay-evidence-v4.json) records matching Linux content hashes for the changed model.
+It separates ten inherited protected-green foe findings from new findings, without relaxing release checks.
+It also identifies two terminal motor lanes after exclusions, including official ingress lane 1 at 200.
+The reporting repair's isolated native replay retains the same network content hash and exact ordinary geometry.
 
 `movement-contour-input.net.xml.gz` freezes four ordinary roads at LSA118 part 1.
 `movement-contour-input.json` records the source and the two official movements whose paths failed after automatic contour recomputation.
