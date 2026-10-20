@@ -53,3 +53,69 @@ A vehicle can pass several stations, so the sum of station counts is not the num
 
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
+
+## Proposed main-road demonstration
+
+This section describes the agreed demonstration scope. The complete workflow is not implemented yet.
+The demonstration uses one case configuration, one frozen input package, and one report.
+The configuration records the bbox, corridor, road tier, observation window, and signal treatment.
+
+### Road importance and retained roads
+
+The first version uses three coarse tiers: major roads, collector roads, and local roads.
+OSM `highway` tags supply the initial classification.
+They describe a road's role and importance in its network, as defined in the [OSM highway documentation](https://wiki.openstreetmap.org/wiki/Key:highway).
+Missing classification remains visible in the report.
+The tier is separate from SUMO's `priority` attribute, which affects [junction right-of-way rules](https://sumo.dlr.de/docs/Networks/SUMO_Road_Networks.html).
+
+The corridor, observed road sections, necessary connectors, and required entry/exit approaches receive retention reasons before pruning.
+Their source road class remains recorded even when the study needs a lower-class road.
+For example, the V1 calibration scripts reference OSM way `186821027`, Ernst-Merck-Straße, currently tagged `tertiary`.
+Way `186821036`, Glockengießerwall, is tagged `secondary` with `ref=Ring 1`.
+These source identities were checked on 2026-10-20. Their classes alone do not decide their use in this study.
+
+Pruning defines the simulation scope. It does not establish that an excluded street is absent in the field.
+Cut branches that feed or drain the retained corridor require explicit traffic boundaries.
+Required entry-to-exit movements are checked in their driving direction, with path-length changes recorded.
+The first version does not impose a universal detour-ratio threshold.
+Parking access can remain a declared boundary when its internal driving area is outside the chosen study.
+
+### Six visible stages
+
+| Stage | Demonstration output |
+|---|---|
+| 1. Original OSM | Full import from the frozen bbox, with the original road inventory |
+| 2. Classify and prune | Coarse road tiers, retained connectors, excluded branches, and entry/exit boundaries |
+| 3. Consolidate junctions | Actual joined junctions, including an LSA118 detail view and remaining unresolved groups |
+| 4. Place virtual sensors | Final-network detectors at the recorded physical sections, with mapping status |
+| 5. Calibrate | Demand fitting on one frozen network using the declared observations and signal treatment |
+| 6. Compare counts | Observed and simulated 15-minute counts, station residuals, and run validity |
+
+Detector sections are identified before pruning. The detector objects are placed after the lane layout is final.
+The main corridor view and the LSA118 detail view each keep equal geographic bounds in their before/after pair.
+The comparison uses actual NetEdit screenshots over one registered Google background.
+The joined junction is selected in Inspect mode for the after detail.
+These figures are part of the core demonstration.
+The screenshots retain Google and imagery-provider attribution under the [Google geo guidelines](https://about.google/brand-resource-center/products-and-services/geo-guidelines/).
+Declared OSM and official road sources supply the network geometry. The Google background supplies visual context.
+
+The report shows retained road and junction counts, each station's count curve, total count error, and MAE per 15-minute bin.
+It also records collisions, teleports, unfinished vehicles, insertion backlog, and the demand variables constrained by the observations.
+Same-window count matching is labelled as calibration fit.
+It does not establish independent prediction accuracy or geometric accuracy at LSA118.
+
+The frozen package supports an offline presentation and a reproducible rerun.
+The report retains original inputs, intermediate networks, selection reasons, and final count outputs.
+Internet access is used for source acquisition, before the live demonstration.
+
+Withheld-counter checks and comparisons across pruning levels are separate optional analyses.
+They retain the same fitting method and prior and state which observations can affect demand.
+They are not prerequisites for producing the core demonstration.
+
+### Existing implementation and missing composition
+
+The repository already contains road-class presets in `core/road_scope.py`,
+road-arm classification in `intersection/road_detail.py`, and corridor extraction in `core/corridor_scope.py`.
+The Hamburg topology, detector, demand, and NetEdit capture modules provide the later stages.
+The remaining product work is the shared retention and boundary treatment, consistent stage composition, and the demonstration report.
+The Am Sandtorkai mainline profile supplies an implementation pattern. Its fixed road IDs do not belong to this case.
