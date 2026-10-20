@@ -243,11 +243,17 @@ nonzero results. Unchanged source geometry can still produce different native
 geometry through neighboring road or junction changes.
 
 The adapter groups sections by source road, travel direction, allowed vehicle
-classes, and lane order. It includes uniquely saved internal connections between
-the selected ordinary lanes. It marks the resulting association as unresolved
-with a confidence label. Lane additions or changes in lane order can invalidate
-this association. Missing roles, absent reference roads, and invalid reference
-shapes remain unknown instead of disappearing from the table.
+classes, and lane order. A stable native edge ID with unchanged endpoint IDs
+bounds a reference fragment to that source interval. Other intervals of the
+same road cannot supply its geometry. The association remains provisional.
+
+When that interval cannot be bound, the adapter retains the whole-road selection
+with low confidence. It includes uniquely saved internal connections between
+the selected ordinary lanes. The report records `source_interval_bound` and the
+reference endpoint IDs. A whole-road fallback can select another interval on
+a road that curves back on itself. Lane additions or changes in lane order can
+also invalidate the association. Missing roles, absent reference roads, and
+invalid reference shapes remain unknown instead of disappearing from the table.
 
 The factory writes `before-facts.json`, `reference-self-control-facts.json`, and
 an explicit selector correspondence. They retain the same ordered reference

@@ -97,6 +97,36 @@ def test_missing_lane_role_stays_unknown_instead_of_selecting_another_class(tmp_
     assert score["facts"][0]["known"] is True
 
 
+@pytest.mark.parametrize("matching_endpoints", [True, False])
+def test_stable_native_edge_uses_its_own_source_interval(tmp_path, matching_endpoints):
+    before, reference, labels = _inputs(tmp_path)
+    raw = reference.read_text(encoding="utf-8").replace("10#9", "10#0")
+    if matching_endpoints:
+        raw = raw.replace('to="b"', 'to="j"').replace('shape="0,1 10,1"', 'shape="0,1 4.5,1"')
+        before.write_text(
+            before.read_text(encoding="utf-8").replace('shape="5.5,0 10,0"', 'shape="5.5,1 0,1 10,1"'), encoding="utf-8"
+        )
+    reference.write_text(raw, encoding="utf-8")
+    report = _build(tmp_path, before, reference, labels)
+    table = json.loads(Path(report["outputs"]["before"]["path"]).read_text(encoding="utf-8"))
+    fact = table["facts"][0]
+    assert fact["mapping_diagnostics"]["source_interval_bound"] is matching_endpoints
+    if matching_endpoints:
+        assert fact["selector"] == {"lane_ids": ["10#0_0"]}
+        assert fact["mapping_confidence"] == "medium"
+        score = evaluate_network_calibration(
+            net_file=before,
+            facts_file=report["outputs"]["before"]["path"],
+            output_file=tmp_path / "anchored-score.json",
+            mode="explore",
+        )
+        assert score["facts"][0]["metrics"]["mean_lateral_offset_m"] == pytest.approx(1)
+        assert score["facts"][0]["metrics"]["reference_coverage"] == 1
+    else:
+        assert set(fact["selector"]["lane_ids"]) == {"10#0_0", "10#1_0", ":j_0_0"}
+        assert fact["mapping_confidence"] == "low"
+
+
 @pytest.mark.parametrize(
     "permissions,mode",
     [

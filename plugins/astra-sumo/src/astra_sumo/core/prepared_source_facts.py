@@ -104,6 +104,10 @@ def build_prepared_source_lane_facts(
         for name, root in roots.items()
     }
     reference_lanes = {lane.get("id"): lane for lane in roots["reference"].findall("edge/lane")}
+    lane_edges = {
+        name: {lane.get("id"): edge for edge in root.findall("edge") for lane in edge.findall("lane")}
+        for name, root in roots.items()
+    }
     paths = _saved_lane_paths(roots["before"])
     sources = [
         {
@@ -130,11 +134,11 @@ def build_prepared_source_lane_facts(
             old = _slots(roots["before"], groups["before"], record["way_id"], direction)
             new = _slots(roots["reference"], groups["reference"], record["way_id"], direction)
             for slot, reference_ids in new.items():
-                ordinary = old.get(slot, [])
-                selected = set(ordinary)
+                whole_ordinary = old.get(slot, [])
+                whole_selected = set(whole_ordinary)
                 for (first, last), candidates in paths.items():
-                    if first in ordinary and last in ordinary and len(candidates) == 1:
-                        selected.update(candidates[0][1:-1])
+                    if first in whole_ordinary and last in whole_ordinary and len(candidates) == 1:
+                        whole_selected.update(candidates[0][1:-1])
                 allowed = slot[0]
                 mode = (
                     "motor"
@@ -146,6 +150,18 @@ def build_prepared_source_lane_facts(
                     else "unspecified"
                 )
                 for reference_id in reference_ids:
+                    reference_edge = lane_edges["reference"][reference_id]
+                    endpoints = [reference_edge.get(key) for key in ("from", "to")]
+                    anchored = [
+                        lane_id
+                        for lane_id in whole_ordinary
+                        if lane_edges["before"][lane_id].get("id") == reference_edge.get("id")
+                        and all(endpoints)
+                        and [lane_edges["before"][lane_id].get(key) for key in ("from", "to")] == endpoints
+                    ]
+                    bound = len(anchored) == 1
+                    ordinary = anchored if bound else whole_ordinary
+                    selected = set(anchored) if bound else whole_selected
                     try:
                         expected = [list(point) for point in transform(_shape(reference_lanes[reference_id]))]
                         if len({tuple(point) for point in expected}) < 2:
@@ -165,9 +181,12 @@ def build_prepared_source_lane_facts(
                         "allowed_classes": list(allowed),
                         "permission_rank": slot[1],
                         "reference_lane_id": reference_id,
+                        "reference_edge_id": reference_edge.get("id"),
+                        "reference_endpoint_ids": endpoints,
+                        "source_interval_bound": bound,
                         "candidate_ordinary_lane_ids": ordinary,
                         "candidate_internal_lane_count": len(selected) - len(ordinary),
-                        "correspondence_limit": "Source-way, direction, permission set and ordinal only. No confirmed field-lane identity.",
+                        "correspondence_limit": "Source identity, endpoint IDs and permission rank are provisional. A whole-way fallback can include another road interval. No confirmed field-lane identity.",
                     }
                     if reason:
                         diagnostics["unresolved_reference"] = reason
@@ -178,8 +197,10 @@ def build_prepared_source_lane_facts(
                         "expected": expected,
                         "source_ids": [source["id"] for source in sources],
                         "mapping_status": "unresolved",
-                        "mapping_confidence": "medium" if selected else "none",
-                        "mapping_method": "prepared_source_way_direction_permission_rank"
+                        "mapping_confidence": "medium" if bound else "low" if selected else "none",
+                        "mapping_method": "prepared_source_edge_endpoints_permission_rank"
+                        if bound
+                        else "prepared_source_way_direction_permission_rank"
                         if selected
                         else "not_modeled_no_source_lane_role",
                         "traffic_mode": mode,
