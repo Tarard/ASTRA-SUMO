@@ -153,8 +153,8 @@ def test_pedestrian_connection_direction_does_not_change_bidirectional_access():
 @pytest.mark.parametrize("binding", [True, False])
 def test_new_controlled_lane_movement_requires_an_explicit_compatible_binding(binding):
     root, road = _road()
-    row = dict(fromLane=2, toLane=1, tl="LSA2349_part0", linkIndex=1)
-    row.update({"from": road.get("id"), "to": "127716467#1"})
+    row = dict(fromLane=2, toLane=0, tl="LSA2349_part0", linkIndex=2)
+    row.update({"from": road.get("id"), "to": "61649649#1"})
     if not binding:
         row.pop("tl")
         row.pop("linkIndex")
@@ -169,6 +169,18 @@ def test_new_controlled_lane_movement_requires_an_explicit_compatible_binding(bi
         assert errors == []
     else:
         assert errors and "signal binding" in str(errors)
+
+
+def test_cloned_controlled_lane_movement_inherits_the_template_binding():
+    from astra_sumo.core.network_edit_operations import _lane_count_connections
+
+    root, road = _road()
+    row = {"from": road.get("id"), "fromLane": 2, "to": "127716467#1", "toLane": 1}
+    params = dict(edge_id=road.get("id"), num_lanes=5, add_side="right", vehicle_class="passenger", connections=[row])
+    assert validate_scoped_operation(dict(operation="set_lane_count", params=params), root) == []
+    records = _lane_count_connections(params, root)
+    assert len(records) == 1
+    assert (records[0]["tl"], records[0]["linkIndex"]) == ("LSA2349_part0", "1")
 
 
 @pytest.mark.parametrize(
@@ -253,7 +265,7 @@ def test_new_passenger_lane_has_explicit_signalled_movement_and_native_vehicle(t
     digest = file_sha256(source)
     edges, _, connections = _inventory(root)
     params = dict(edge_id=road.get("id"), num_lanes=5, add_side="right", vehicle_class="passenger")
-    records = _lane_count_connections(params, edges, connections, network_version=root.get("version"))
+    records = _lane_count_connections(params, root)
     supported = {"from", "fromLane", "to", "toLane", "allow", "disallow", "tl", "linkIndex", "linkIndex2"}
     params["connections"] = [
         {
@@ -263,9 +275,7 @@ def test_new_passenger_lane_has_explicit_signalled_movement_and_native_vehicle(t
         }
         for row in records
     ]
-    params["connections"].append(
-        {"from": road.get("id"), "fromLane": 2, "to": "127716467#1", "toLane": 1, "tl": "LSA2349_part0", "linkIndex": 1}
-    )
+    assert any(row.get("fromLane") == 2 and row.get("tl") == "LSA2349_part0" for row in params["connections"])
     operation = dict(
         id="new-motor-lane",
         operation="set_lane_count",

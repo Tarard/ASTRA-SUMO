@@ -295,8 +295,7 @@ def _new_lane_service(before, after, plan, source_access, candidate_access):
         if index in retained:
             continue
         from .osm_access import _permission_set
-        modes = (_permission_set({"allow": params["vehicle_class"]}) if params.get("vehicle_class") else
-                 _permission_set(lane.attrib, network_version=after.get("version", "0.0")))
+        modes = _permission_set(lane.attrib, network_version=after.get("version", "0.0"))
         incoming = [list(key) for key, allowed in candidate_access.items() if key[2:] == (target, index) and allowed & modes]
         outgoing = [list(key) for key, allowed in candidate_access.items() if key[:2] == (target, index) and allowed & modes]
         expected_in = any(key[2] == target and allowed & modes for key, allowed in source_access.items())
@@ -312,14 +311,45 @@ def _new_lane_service(before, after, plan, source_access, candidate_access):
             "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."}
 
 
-def _lane_count_connections(params, edges, connections, *, network_version=None):
+def _lane_count_road_movements(source_access, candidate_access, params):
+    """Compare source turns by road and vehicle class, independently of the native proposal."""
+    def collect(access):
+        result = {}
+        for (first, _, last, _), modes in access.items():
+            if params["edge_id"] in (first, last):
+                result.setdefault((first, last), set()).update(modes)
+        return result
+
+    before, after = collect(source_access), collect(candidate_access)
+    lost = [{"from": pair[0], "to": pair[1], "vehicle_classes": sorted(modes - after.get(pair, set()))}
+            for pair, modes in sorted(before.items()) if modes - after.get(pair, set())]
+    added = [{"from": pair[0], "to": pair[1], "vehicle_classes": sorted(modes - before.get(pair, set()))}
+             for pair, modes in sorted(after.items()) if modes - before.get(pair, set())]
+    declared = "connections" in params
+    return {"status": "pass" if not lost else "review_required" if declared else "fail",
+            "source_movement_count": len(before), "candidate_movement_count": len(after),
+            "lost": lost, "added": added, "removals_declared_by_connection_override": declared,
+            "claim_boundary": "Direct ordinary-road turns by vehicle class. Detours, lane-changing reachability and demand completion require separate evidence."}
+
+
+def _lane_count_connections(params, root):
+    from itertools import product
+    from .local_network_conversion import loaded_turn_permissions
+    from .osm_access import _permission_set
+
+    edges, _, connections = _inventory(root)
+    network_version = root.get("version", "0.0")
     target = params["edge_id"]
     mapping = _lane_count_layout(params, edges[target], network_version)
-    result = []
+    lanes = edges[target].findall("lane")
+    lane_permissions = {index: _permission_set(lane.attrib, network_version=network_version)
+                        for index, lane in enumerate(lanes)}
+    added = sorted(set(range(params["num_lanes"])) - set(mapping.values()))
+    template = _lane_count_template(params, edges[target], network_version)
+    access = loaded_turn_permissions(root)
+    result, changed = [], []
     for pair, row in connections.items():
         if target not in (pair[0], pair[2]) or pair[0] not in edges or pair[2] not in edges:
-            continue
-        if any(edge == target and index not in mapping for edge, index in (pair[:2], pair[2:])):
             continue
         # Retained movements keep their saved geometry and driving rules through lane renumbering.
         record = {key: row.get(key) for key in (
@@ -330,10 +360,36 @@ def _lane_count_connections(params, edges, connections, *, network_version=None)
             permissions = _patch_permissions(record, network_version)
             record = {key: value for key, value in record.items() if key not in {"allow", "disallow"}}
             record.update(permissions)
-        for end, lane_key in (("from", "fromLane"), ("to", "toLane")):
-            if record[end] == target:
-                record[lane_key] = str(mapping[int(record[lane_key])])
-        result.append(record)
+        modes = access.get(pair, set()) & _permission_set(row.attrib, network_version=network_version)
+        choices = []
+        retained = True
+        for edge, index in (pair[:2], pair[2:]):
+            if edge != target:
+                choices.append([index])
+            elif index in mapping:
+                choices.append([mapping[index], *(added if index == template else [])])
+            else:
+                retained = False
+                compatible = [old for old in mapping if modes and modes <= lane_permissions[old]]
+                nearest = min(compatible, key=lambda old: (abs(old - index), old)) if compatible else None
+                choices.append([mapping[nearest]] if nearest is not None else [])
+        for first, last in product(*choices):
+            current = {**record, "fromLane": str(first), "toLane": str(last)}
+            original_pair = (mapping.get(pair[1], pair[1]) if pair[0] == target else pair[1],
+                             mapping.get(pair[3], pair[3]) if pair[2] == target else pair[3])
+            if retained and (first, last) == original_pair:
+                result.append(current)
+            elif modes:
+                # Rebuild shifted paths; a copied curve still ends at the old lane.
+                for key in ("shape", "length", "contPos"):
+                    current.pop(key, None)
+                current.pop("disallow", None)
+                current["allow"] = " ".join(sorted(modes))
+                changed.append(current)
+    existing = {_key(ET.Element("connection", row)): row for row in result}
+    for record in changed:
+        existing.setdefault(_key(ET.Element("connection", record)), record)
+    result = list(existing.values())
     if "connections" in params:
         existing = {_key(ET.Element("connection", record)): record for record in result}
         result = []
@@ -540,8 +596,7 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
                     if edges[pair[0]].get("to") != edges[pair[2]].get("from"):
                         raise ValueError("Lane-count connection roads must meet at one junction.")
                 if "connections" in params:
-                    original = _lane_count_connections({key:value for key,value in params.items() if key != "connections"},
-                        edges, connections, network_version=root.get("version", "0.0"))
+                    original = _lane_count_connections({key:value for key,value in params.items() if key != "connections"}, root)
                     known = {_key(ET.Element("connection", record)) for record in original}
                     controllers = {}
                     for row in params["connections"]:
@@ -682,7 +737,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             for left, right in sorted({(pair[0], pair[2]) for pair in connections
                     if params["edge_id"] in (pair[0], pair[2]) and pair[0] in edges and pair[2] in edges}):
                 ET.SubElement(patches["connections"], "delete", **{"from": left, "to": right})
-            requested_connections = _lane_count_connections(params, edges, connections, network_version=root.get("version", "0.0"))
+            requested_connections = _lane_count_connections(params, root)
             for record in requested_connections:
                 ET.SubElement(patches["connections"], "connection", **record)
             affected_tls = {row.get("tl") for pair, row in connections.items()
@@ -1006,9 +1061,14 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     physical = load["status"] == "pass" and integrity["status"] == "pass" and path_repair["remaining_endpoint_gap_count"] == 0
     lane_service = (_new_lane_service(before, after, plan, old_access, new_access) if kind == "set_lane_count" else
                     {"status": "not_applicable", "lanes": []})
+    movements = (_lane_count_road_movements(old_access, new_access, params) if kind == "set_lane_count" else
+                 {"status": "not_applicable", "lost": [], "added": []})
+    passed &= movements["status"] != "fail"
+    physical &= movements["status"] != "fail"
     service_review = lane_service["status"] == "review_required"
-    release_passed = passed and not service_review
-    release_status = "pass" if release_passed else "review_required" if passed and service_review else "blocked"
+    movement_review = movements["status"] == "review_required"
+    release_passed = passed and not service_review and not movement_review
+    release_status = "pass" if release_passed else "review_required" if passed and (service_review or movement_review) else "blocked"
     exploration_status = "blocked" if not physical else "measured" if effect else "no_effect"
     warnings = [] if passed else ["Some release checks failed. Inspect the recorded measurements."]
     if link_preservation["status"] != "pass":
@@ -1019,6 +1079,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         warnings.append("Retained walking or cycling junction access changed or could not be verified.")
     if service_review:
         warnings.append("New lanes lack compatible boundary movements present on the source edge. Their intended service needs review.")
+    if movements["lost"]:
+        warnings.append("Source road-to-road movements were lost for the listed vehicle classes. Inspect road_movement_preservation before reusing source routes.")
     warnings.extend(load_warning_messages(link_preservation))
     contour_changes = {}
     if kind == "set_junction_shape":
@@ -1030,6 +1092,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "signal_program_preservation": signal_preservation,
             "nonmotor_access_preservation": nonmotor_access,
             "new_lane_service": lane_service,
+            "road_movement_preservation": movements,
             "lane_coordinate_artifacts": dependent,
             "warnings": warnings,
             "source_immutable": file_sha256(source) == plan["source"]["sha256"],

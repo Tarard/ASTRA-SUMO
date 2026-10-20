@@ -29,7 +29,7 @@ def test_lane_count_remapping_retains_real_hamburg_custom_movements(explicit):
         params["connections"] = [{key: int(row.get(key)) + (row.get(edge) == target) if key.endswith("Lane") else row.get(key)
                                   for key, edge in (("from", "from"), ("fromLane", "from"), ("to", "to"), ("toLane", "to"))}
                                  for row in original]
-    records = _lane_count_connections(params, edges, connections, network_version=root.get("version"))
+    records = _lane_count_connections(params, root)
     indexed = {tuple(row[key] for key in ("from", "fromLane", "to", "toLane")): row for row in records}
     assert sum(bool(row.get("shape")) for row in original) == 2
     for row in original:
@@ -47,15 +47,19 @@ def test_lane_count_remapping_preserves_spatial_and_driving_constraints():
 
     root = ET.fromstring('<net version="1.20"><edge id="in"><lane id="in_0"/></edge>'
         '<edge id="out"><lane id="out_0"/></edge>'
+        '<edge id=":j_0" function="internal"><lane id=":j_0_0"/></edge>'
         '<connection from="in" fromLane="0" to="out" toLane="0" via=":j_0_0" dir="s" state="M" '
         'shape="0,0,0 1,2,3 4,0,5" length="8.7" speed="3.2" contPos="2.5" visibility="11" '
-        'keepClear="false" pass="true" changeLeft="bus" changeRight="passenger"/></net>')
+        'keepClear="false" pass="true" changeLeft="bus" changeRight="passenger"/>'
+        '<connection from=":j_0" to="out" fromLane="0" toLane="0"/></net>')
     edges, _, connections = _inventory(root)
-    records = _lane_count_connections({"edge_id": "out", "num_lanes": 2, "add_side": "right"}, edges, connections)
-    assert len(records) == 1
+    records = _lane_count_connections({"edge_id": "out", "num_lanes": 2, "add_side": "right"}, root)
+    assert len(records) == 2
     original = root.find('connection').attrib
     assert records[0] == {key: "1" if key == "toLane" else value for key,value in original.items()
                           if key not in {"via", "dir", "state"}}
+    assert records[1]["toLane"] == "0"
+    assert not {"shape", "length", "contPos", "via", "dir", "state"} & records[1].keys()
 
 
 @pytest.mark.parametrize("source_permissions,requested", [({"allow": "bus"}, {"disallow": "bus"}),
@@ -69,8 +73,7 @@ def test_explicit_lane_count_permissions_replace_inherited_directives(source_per
     root.find('connection').attrib.update(source_permissions)
     edges, _, connections = _inventory(root)
     row = {"from": "in", "fromLane": 0, "to": "out", "toLane": 0, **requested}
-    records = _lane_count_connections({"edge_id": "out", "num_lanes": 2, "connections": [row]},
-                                      edges, connections, network_version=root.get("version"))
+    records = _lane_count_connections({"edge_id": "out", "num_lanes": 2, "connections": [row]}, root)
     assert {key:value for key,value in records[0].items() if key in {"allow", "disallow"}} == requested
     assert records[0]["shape"] == "0,0 1,1 2,0"
 
@@ -118,8 +121,10 @@ def test_real_hamburg_lane_count_native_output_keeps_signal_phases(tmp_path, cou
         netconvert_binary=shutil.which("netconvert"))
     nonmotor_access_loss = ((layout.get("add_side") == "right" and "vehicle_class" not in layout)
                            or layout.get("remove_index") == 0)
-    expected_status = "blocked" if nonmotor_access_loss else "review_required" if count == 5 else "pass"
+    protected_merge = count == 5 and not nonmotor_access_loss
+    expected_status = "blocked" if nonmotor_access_loss or protected_merge else "pass"
     assert report["status"] == expected_status, report
+    assert bool(report["semantic_validation"]["new_protected_green_conflicts"]) is protected_merge
     access = report["semantic_validation"]["nonmotor_access_preservation"]
     assert access["status"] == ("fail" if nonmotor_access_loss else "pass"), access
     if layout.get("remove_index") == 0:
@@ -275,7 +280,7 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
     assert ledger["status"] == "pass", ledger
     result = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate", ledger_file=Path(ledger["ledger_file"]),
         netconvert_binary=shutil.which("netconvert"))
-    assert result["status"] == ("review_required" if kind == "set_lane_count" else "pass"), result
+    assert result["status"] == "pass", result
     assert result["semantic_validation"]["requested_effect_applied"] is True
     assert result["semantic_validation"]["geometry_preservation"]["status"] == "pass"
     loaded = result["semantic_validation"]["loaded_link_preservation"]
@@ -292,7 +297,7 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
         new_y = [float(point.split(",")[1]) for point in new_lane.get("shape").split()]
         assert max(new_y) > max(old_y) + 1
     checked = validate_materialization_evidence(result, source_net_file=source, candidate_net_file=Path(result["candidate_net_file"]))
-    assert checked["status"] == ("review_required" if kind == "set_lane_count" else "pass"), checked
+    assert checked["status"] == "pass", checked
     if kind in {"relocate_tls_control", "demote_duplicate_tls"}:
         assert result["review_required"] is True
         assert result["map_review_required_location_ids"]
@@ -346,12 +351,14 @@ def test_lane_count_edit_preserves_survivor_permissions_and_declared_connections
     report = materialize_corridor_edit_variant(output_dir=tmp_path / "candidate",
         ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [operation]},
         netconvert_binary=shutil.which("netconvert"))
-    assert report["status"] == ("review_required" if layout == "add_right" else "pass"), report
+    assert report["status"] == ("blocked" if layout == "remove_right" else "pass"), report
     actual = ET.parse(report["candidate_net_file"]).getroot()
     target_pairs = {(row.get("from"), row.get("fromLane"), row.get("to"), row.get("toLane"))
                     for row in actual.findall("connection") if "middle" in (row.get("from"), row.get("to"))
                     and not row.get("from", "").startswith(":") and not row.get("to", "").startswith(":")}
     if layout == "remove_right":
+        assert report["semantic_validation"]["road_movement_preservation"]["status"] == "fail"
+        assert all(row["vehicle_classes"] == ["bus"] for row in report["semantic_validation"]["road_movement_preservation"]["lost"])
         assert actual.find("edge[@id='middle']/lane").get("allow") == "passenger"
         assert target_pairs == {("in", "0", "middle", "0"), ("middle", "0", "out", "0")}
         import json
@@ -368,11 +375,12 @@ def test_lane_count_edit_preserves_survivor_permissions_and_declared_connections
                                           "operations": [operation]}), encoding="utf-8")
         checked = verify_network_edit(ledger_file=ledger_path, output_dir=tmp_path / "daily", facts_file=facts_path,
                                       netconvert_binary=shutil.which("netconvert"))
-        assert checked["status"] == "measured", checked
+        assert checked["status"] == "blocked", checked
         assert checked["fact_selector_remap"]["lane_id_mapping"]["middle_1"] == "middle_0"
         assert checked["fact_deltas"][0]["before"] == checked["fact_deltas"][0]["after"] == "matched"
     elif layout == "add_right":
-        assert target_pairs == {("in", "0", "middle", "1"), ("middle", "1", "out", "0")}
+        assert target_pairs == {("in", "0", "middle", "1"), ("middle", "1", "out", "0"),
+                                ("in", "0", "middle", "0"), ("middle", "0", "out", "0")}
     else:
         assert target_pairs == {(row["from"], str(row["fromLane"]), row["to"], str(row["toLane"])) for row in params["connections"]}
     assert report["semantic_validation"]["connection_inventory_preserved"]
