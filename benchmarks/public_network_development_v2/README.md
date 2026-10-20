@@ -169,3 +169,6 @@ real Hamburg pair with full conversion, and requires critical native CI cases.
 The [standalone-entry follow-up](legacy-standalone-realization-20261020-v1.md)
 extends realization checks to the independent simplifier and records both
 complete Windows suites for 1ad8919, including 38 executed critical native cases.
+The [complete standalone CI receipt](legacy-standalone-ci-20261020-v1.md)
+records both 3,722-pass Windows suites for 84c7e6a and retains the remaining
+conversion, source-topology and OD limits.
