@@ -1,8 +1,6 @@
 import csv
 import json
 
-import pytest
-
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.hamburg_count_reachability import audit_hamburg_count_reachability
 
@@ -52,7 +50,9 @@ def test_count_influence_respects_vehicle_permissions_and_keeps_unknown_outlets(
     assert next(row for row in result["field_correspondence"] if row["stream_id"] == 102)["mapping_confidence"] == "low"
     payload["source"]["candidate_net"]["sha256"] = "0" * 64
     binding.write_text(json.dumps(payload), encoding="utf-8")
-    with pytest.raises(ValueError, match="same network"):
-        audit_hamburg_count_reachability(candidate_manifest=manifest, field_binding_manifest=binding,
-                                         output_file=tmp_path / "wrong-network.json")
-    assert not (tmp_path / "wrong-network.json").exists()
+    stale = audit_hamburg_count_reachability(candidate_manifest=manifest, field_binding_manifest=binding,
+                                            output_file=tmp_path / "stale-network.json")
+    assert stale["status"] == "measured" and stale["warnings"]
+    assert stale["correspondence_basis"] == "unverified_supplied_hypotheses"
+    assert stale["hash_records"]["field_network_declared"] == "0" * 64
+    assert stale["rows"] == result["rows"]

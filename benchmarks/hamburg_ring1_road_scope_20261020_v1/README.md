@@ -6,7 +6,10 @@ It is separate from the Am Sandtorkai fixtures.
 ## Current status
 
 The current scope has 467 of 1,156 source road segments.
-The [committed public replay](public-replay-evidence-v1.json) verifies 92 of 114 official motor movements and loads 13 field loops.
+The [fresh public replay](public-replay-evidence-v2.json) verifies 92 of 114 official motor movements and loads 13 field loops.
+The observed Windows and Linux runs have identical canonical network and detector XML contents.
+The earlier [saved-input replay](public-replay-evidence-v1.json) reused a road-scope network generated before the source-cut repair.
+The fresh replay rebuilds that input. Its difference report retains the changed geometry and matching movement permissions and programs.
 The added motor lane inherits bus access. Input and implementation hashes remain unchanged during that run.
 Twenty-two movements and four supplementary motor connections remain unresolved. No demand fitting or count-accuracy result is available.
 The separate static influence diagnostic marks 19 unresolved movements as potentially count-relevant and two outlets as unknown.

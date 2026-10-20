@@ -21,16 +21,20 @@ def audit_hamburg_count_reachability(*, candidate_manifest: Path, field_binding_
     network = Path(network_record["path"])
     network = network.resolve(strict=True) if network.is_absolute() else (manifest_path.parent / network).resolve(strict=True)
     digest = file_sha256(network)
-    if digest != network_record["sha256"] or digest != binding["source"]["candidate_net"]["sha256"]:
-        raise ValueError("Movement and field evidence must describe the same network.")
+    warnings = []
+    if digest != network_record["sha256"]:
+        warnings.append("The candidate network differs from its manifest. Outlet correspondence is a supplied hypothesis.")
+    if digest != binding["source"]["candidate_net"]["sha256"]:
+        warnings.append("The field evidence names a different network hash. Field-to-lane correspondence is unverified.")
     output = Path(output_file).resolve()
     if output.exists() or output in {network, manifest_path, binding_path}:
         raise ValueError("Use a new count-reachability output file.")
     mapping_record = binding["artifacts"]["detector_mapping"]
     mapping_path = Path(mapping_record["path"])
     mapping_path = mapping_path.resolve(strict=True) if mapping_path.is_absolute() else (binding_path.parent / mapping_path).resolve(strict=True)
-    if file_sha256(mapping_path) != mapping_record["sha256"]:
-        raise ValueError("The field-to-lane mapping changed.")
+    mapping_digest = file_sha256(mapping_path)
+    if mapping_digest != mapping_record["sha256"]:
+        warnings.append("The mapping differs from its recorded hash. The actual saved lane hypotheses are measured.")
     root = ET.parse(network).getroot()
     edges = {edge.get("id"): edge for edge in root.findall("edge") if not edge.get("function")}
     lanes = {lane.get("id"): lane for edge in edges.values() for lane in edge.findall("lane")}
@@ -108,6 +112,10 @@ def audit_hamburg_count_reachability(*, candidate_manifest: Path, field_binding_
             "reachable_fields_by_vehicle_class": by_mode,
             "witnesses": [{"stream_id": field, **value} for field, value in sorted(witnesses.items())]})
     result = {"schema": "astra.hamburg-count-reachability/v1", "status": "measured", "promotion_authority": False,
+        "warnings": warnings, "correspondence_basis": "unverified_supplied_hypotheses" if warnings else "matching_saved_evidence",
+        "hash_records": {"network_declared": network_record["sha256"], "network_observed": digest,
+                         "field_network_declared": binding["source"]["candidate_net"]["sha256"],
+                         "mapping_declared": mapping_record["sha256"], "mapping_observed": mapping_digest},
         "network": {"path": str(network), "sha256": digest},
         "candidate_manifest": {"path": str(manifest_path), "sha256": file_sha256(manifest_path)},
         "field_binding_manifest": {"path": str(binding_path), "sha256": file_sha256(binding_path)},

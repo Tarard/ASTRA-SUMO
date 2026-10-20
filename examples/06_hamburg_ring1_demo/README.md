@@ -56,8 +56,10 @@ The lane-count stage also has a neighboring geometry change under review.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.
-The [public replay record](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v1.json) binds the 91254d6 construction run to unchanged input and implementation hashes.
-The count-influence diagnostic was added afterward on the same candidate. It found 19 potentially relevant movements and two unknown outlets.
+The [fresh public replay record](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v2.json) binds the construction run to unchanged input and implementation hashes.
+Fresh Windows and independent Linux runs have identical canonical network and loop XML contents.
+The earlier saved-input record retains the mismatch caused by reusing a road-scope result from before the source-cut repair.
+The count-influence diagnostic found 19 potentially relevant movements and two unknown outlets.
 `run.json` now compares canonical network and loop XML hashes with `replay-reference-v1.json`, along with movement and loop counts.
 Canonicalization removes comments and presentation whitespace while retaining model values and element order.
 A reference mismatch remains a warning and does not suppress measurements.
@@ -69,6 +71,8 @@ An absent identical line is not a safety verdict. Final layout warnings remain r
 Count influence uses compiled permissions and allowed ordinary lane changes as an upper bound.
 It ignores lane-change space, time, signals, and queues. Saved outlet hypotheses are not exhaustive.
 It does not establish native driving or justify dropping a movement or fitting target.
+Hash mismatches in this read-only diagnostic remain warnings. It records actual and declared hashes and treats correspondence as unverified supplied hypotheses.
+Invalid graph data and attempts to replace existing output files still stop the diagnostic.
 
 ## Outputs
 
