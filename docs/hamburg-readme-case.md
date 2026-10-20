@@ -5,7 +5,7 @@
 The two `torii-v1-*` README figures depict the Binnenalster / Ring1 corridor, including LSA118.
 The registered five-junction preset contains nodes `104`, `118`, `119`, `200`, and `535`.
 Its definition is in [hamburg_corridor_candidate.py](../plugins/astra-sumo/src/astra_sumo/core/hamburg_corridor_candidate.py).
-The four displayed directional count streams are `35822`, `33023`, `30666`, and `26585`.
+The four displayed station count streams are `35822`, `33023`, `30666`, and `26585`.
 
 This case is separate from the [Am Sandtorkai workflow](hamburg-sandtorkai-codex-execution-workflow.md).
 That named corridor uses nodes `2349`, `2394`, and `2403`.
@@ -14,8 +14,10 @@ Its existing network fixtures do not establish results for the README case.
 ## Published count inputs
 
 The official service still publishes the four displayed count streams.
-Their metadata identifies processed directional station totals, with a 15-minute count interval.
+Their metadata identifies processed station totals, with a 15-minute count interval.
 The station composition lists constituent detector fields. Those field names are not SUMO lane numbers.
+Stations 33023 and 26585 include fields with different published direction labels.
+Their observation operator follows the explicit field membership. It does not assume one corridor direction per station.
 
 | Stream | Published detector composition |
 |---|---|
@@ -49,6 +51,10 @@ Its XML position uses SUMO's logical lane length, which can differ from the save
 It does not reuse the MAP anchor's position. A native coordinate round-trip regression checks this conversion.
 The binding report keeps field-to-reference and reference-to-network distances separate.
 These are geometric associations with confidence labels. They do not establish independently surveyed field identity or historical validity.
+The [published-point check](../benchmarks/hamburg_ring1_road_scope_20261020_v1/published-field-point-evidence-v1.json) places all 13 points within 0.80 m along the reference from its first anchor.
+Their lateral distances are below 2.16 m.
+This proximity does not establish surveyed sensor cross-sections. The simulation uses projections of the published points as an explicit placement assumption.
+It does not establish that the observations are measured at the stop line or represent discharge counts.
 
 ## Signal observation availability
 
@@ -87,7 +93,10 @@ A vehicle can pass several stations, so the sum of station counts is not the num
 
 The requested calibration target is exact integer agreement at every declared station and 15-minute bin in the fitting window.
 Both MAE and maximum absolute count error must equal zero. An average error of 0.15 does not meet this target.
-The comparison must use actual SUMO detector output with fixed observations, physical detector sections, count definitions, and time boundaries.
+The comparison must use actual SUMO detector output with fixed observations, declared detector sections, count definitions, and time boundaries.
+The comparison will also report all 130 field-level fifteen-minute residuals before their aggregation into the 40 station totals.
+This prevents errors in different fields or directions from cancelling within a station total.
+Any initialization period precedes the declared comparison window. Declared first-bin observations remain in the result.
 The report must retain every declared station and bin, including residuals that remain nonzero.
 It must record demand variables, signal treatment, vehicle insertion, unfinished traffic, collisions, and teleports.
 Exact agreement is not achieved or established as feasible for the current reconstructed corridor yet.
@@ -107,7 +116,7 @@ The configuration records the bbox, corridor, road tier, observation window, and
 
 ### Current junction diagnostics
 
-A separate prototype constructs LSA535 and the two official parts of LSA119.
+A separate prototype constructs LSA535 and LSA119.
 It materializes all 19 official motor movements at 535 and all 16 at 119.
 All 35 mapped movements pass isolated SUMO probes on the combined prototype.
 Each probe verifies its inlet lane, complete internal lane sequence, and first outlet lane.
@@ -130,6 +139,13 @@ Two extra 535 connections remain unexplained. The earlier source diagnostic also
 The probes disable autonomous lane changes and do not establish multi-vehicle capacity, field signal timing, or count accuracy.
 The [diagnostic record](../benchmarks/hamburg_ring1_road_scope_20261020_v1/junction-diagnostic-evidence-v2.json) records the prototype lineage, results, and remaining limits.
 The complete junction-stage replay and final sensor mapping remain unfinished.
+
+The [new-scope approach replay](../benchmarks/hamburg_ring1_road_scope_20261020_v1/approach-replay-evidence-v1.json) constructs nine physical parts across all five nodes on the 467-road scope.
+It records the failed initial approach conversion and its source-derived geometry repairs.
+The repaired stage preserves its declared outside geometry, attributes, and connection set.
+Two pre-existing movements have no effective permitted vehicle class. Their explicit deletion preserves every remaining movement's loaded permissions.
+The resulting intermediate network has zero structural path failures. Its full official movement inventory and driving still need verification.
+These diagnostic runners depend on local outputs. They do not yet make stages 3 and 4 reproducible from the committed example.
 
 ### Road importance and retained roads
 

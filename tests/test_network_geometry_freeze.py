@@ -230,6 +230,20 @@ def test_added_local_lane_uses_explicit_split_road_boundary_correspondence(tmp_p
     assert source.read_bytes() == before
 
 
+@pytest.mark.parametrize("target_at_start", [False, True])
+def test_boundary_restoration_keeps_an_exact_curved_source_cut(target_at_start):
+    from astra_sumo.core.junction_rebuild.geometry import _warp_anchor_shape_to_teacher_endpoint
+
+    source = ["0,0,1", "10,2,3", "20,5,4", "30,0,6"]
+    prefix = [*source[:2], "15,3.5,3.5"]
+    if target_at_start:
+        source.reverse()
+        prefix.reverse()
+    original = " ".join(source)
+    cut = " ".join(prefix)
+    assert _warp_anchor_shape_to_teacher_endpoint(original, cut, target_at_start=target_at_start) == cut
+
+
 def test_scoped_admission_rejects_a_new_lane_at_a_fixed_boundary(tmp_path):
     from astra_sumo.core.junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
 

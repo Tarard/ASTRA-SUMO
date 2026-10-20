@@ -47,6 +47,13 @@ Thirteen geometric count-field associations are active, with no shared lane assi
 Two extra 535 connections, the complete junction-stage replay, and final detector placement remain unresolved.
 The earlier 34-of-35 diagnostic record remains available.
 
+The [five-node approach replay](approach-replay-evidence-v1.json) uses the current 467-road scope and nine physical parts.
+Its first complete-constructor attempt exposed an inherited sidewalk default that shifted a split road's lane indices.
+Source-derived import hints remove that extra lane. Exact source cuts also retain their curved vertices instead of a warped replacement.
+The repaired approach stage passes its boundary, geometry, attribute, and connection-set checks.
+Two pre-existing movements have no traversable vehicle class. Explicit deletions retain all other loaded movement permissions and leave zero structural failures.
+Complete official movement construction and driving on this scope remain unfinished. These diagnostic runners still depend on local outputs.
+
 `lane-count-input.net.xml.gz` freezes a 12-road conversion context from the unaccepted LSA119 prototype.
 `lane-count-input.json` records its identity and the earlier conversion's adjacent geometry changes.
 `lane-count-operation.json` adds a motor lane with explicit connections and retains bicycle access.
@@ -61,3 +68,5 @@ ASTRA-generated files retain this source attribution. Code follows the repositor
 `detector-metadata.json.gz` retains two published adjacent count-field records at 119.
 `detector-metadata-input.json` binds their model-relative regression expectations to the frozen source road context.
 The KML regression checks separate field-to-reference and reference-to-SUMO associations without treating field numbers as lane indices.
+The [published-point check](published-field-point-evidence-v1.json) records their proximity to the first official lane anchor.
+This does not establish independently surveyed sensor cross-sections or discharge counting.

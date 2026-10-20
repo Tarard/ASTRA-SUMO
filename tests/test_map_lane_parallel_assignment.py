@@ -138,7 +138,9 @@ def test_native_detector_position_roundtrip_uses_logical_scale(tmp_path):
         network_projection="EPSG:25832",lane_shapes=shapes)
     assert detector.mapping_status == "active" and detector.lane_position == pytest.approx(50)
     label = "detector-coordinate-scale"
-    traci.start([shutil.which("sumo"),"-n",str(network),"--end","1","--no-step-log","true"],label=label,numRetries=3)
+    traci.start([shutil.which("sumo"), "-n", str(network), "--end", "1", "--no-step-log", "true",
+                 "--log", str(tmp_path / "sumo.log"), "--error-log", str(tmp_path / "sumo-error.log")],
+                label=label, numRetries=3)
     connection = traci.getConnection(label)
     try:
         assert connection.simulation.convert2D("road",detector.lane_position,0) == pytest.approx((565975,5933205),abs=1e-6)

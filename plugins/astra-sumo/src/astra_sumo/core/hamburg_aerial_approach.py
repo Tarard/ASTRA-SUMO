@@ -246,7 +246,13 @@ def build_hamburg_aerial_approach_candidate(
         ET.indent(traffic_lights)
         ET.ElementTree(traffic_lights).write(paths["traffic_lights"], encoding="utf-8", xml_declaration=True)
     candidate = destination / "approach-candidate.net.xml"
-    command = [netconvert_binary, "--sumo-net-file", str(source), "--node-files", str(paths["nodes"]), "--edge-files", str(paths["edges"]), "--connection-files", str(paths["connections"]), *(["--tllogic-files", str(paths["traffic_lights"])] if touched_controller_ids else []), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(candidate)]
+    from .network_geometry_freeze import prepare_geometry_frozen_input
+    automatic_contours = frozenset(j.get("id") for j in root.findall("junction")
+        if j.get("type") != "internal" and j.get("customShape", "false") not in {"1", "true"})
+    geometry_input = prepare_geometry_frozen_input(source_file=source,
+        output_file=destination / "approach.geometry-input.net.xml",
+        mutable_edge_ids=frozenset(rewritten), mutable_junction_ids=automatic_contours)
+    command = [netconvert_binary, "--sumo-net-file", geometry_input["frozen_input"]["path"], "--node-files", str(paths["nodes"]), "--edge-files", str(paths["edges"]), "--connection-files", str(paths["connections"]), *(["--tllogic-files", str(paths["traffic_lights"])] if touched_controller_ids else []), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(candidate)]
     from .local_network_conversion import run_scoped_native_conversion
     conversion_nodes = mutable_nodes | {row["original_from"] for row in accepted}
     conversion_edges = set(mutable_edges) | {key for key, edge in source_edges.items()
@@ -270,11 +276,16 @@ def build_hamburg_aerial_approach_candidate(
     result_root = ET.parse(candidate).getroot()
     permission_versions = dict(source_version=root.get("version", "0.0"), candidate_version=result_root.get("version", "0.0"))
     result_edges = {edge.get("id"): edge for edge in result_root.findall("edge") if edge.get("function") != "internal"}
+    removed_length_hints = []
+    for edge_id in geometry_input["pinned_operational_length_edge_ids"]:
+        if edge_id in result_edges and "length" in result_edges[edge_id].attrib:
+            result_edges[edge_id].attrib.pop("length")
+            removed_length_hints.append(edge_id)
     speed_before = file_sha256(candidate)
     speed_roundoff = _restore_speed_roundoff(
         {**{key: edge for key, edge in source_edges.items() if key not in rewritten},
          **{edge.get("id"): edge for edge in edge_patch}}, result_edges)
-    if speed_roundoff:
+    if speed_roundoff or removed_length_hints:
         ET.ElementTree(result_root).write(candidate, encoding="utf-8", xml_declaration=True)
     speed_after = file_sha256(candidate)
     preservation = compare_frozen_geometry(source_file=source, candidate_file=candidate, **preservation_scope)
@@ -321,12 +332,13 @@ def build_hamburg_aerial_approach_candidate(
         "inputs": inputs, "approaches": [{key: value for key, value in row.items() if not key.startswith("_")} for row in accepted],
         "reviews": reviews, "not_applicable": not_applicable, "gates": gates, "outside_preservation": evidence, "boundary_geometry_adjustments": boundary_adjustments, "affected_tls": affected_tls, "preserved_controller_ids": sorted(touched_controller_ids),
         "inherited_speed_roundoff_restoration": {"before_sha256": speed_before, "after_sha256": speed_after, "lanes": speed_roundoff},
+        "removed_operational_length_import_hints": removed_length_hints,
         "scoped_geometry_restoration": restoration, "fixed_boundary_geometry": preservation,
         "source_priority": {"local_lane_identity_and_geometry": "official_MAP_KML", "vehicle_permissions": "explicit_official_MAP_XML_otherwise_source_lane", "outside_geometry_and_connections": "frozen_source_SUMO_network", "aerial_imagery": "context_only_not_automatically_interpreted"},
         "connection_changes": {"missing": sorted(expected_connections - actual_connections), "extra": sorted(actual_connections - expected_connections)},
         "logical_lane_lengths_m": {edge_id: [float(lane.get("length")) for lane in result_edges[edge_id].findall("lane")]
             for edge_id in sorted(set(rewritten) | set(expected_upstream))},
-        "commands": [compiled.to_dict()], "local_conversion": local_conversion,
+        "commands": [compiled.to_dict()], "local_conversion": local_conversion, "geometry_frozen_input": geometry_input,
         "artifacts": {**{key: _identity(path) for key, path in paths.items()}, "connection_audit": _identity(audit_file)},
         "claim_boundary": "Only documented ingress lane additions are rebuilt. The original edge ID now denotes its shorter downstream section. Routes, detectors and signal bindings require remapping before traffic experiments. Official junction movements remain a separate construction step."})
 
@@ -901,6 +913,7 @@ def _set_lane_shape(lane, index, shape):
         lane.attrib.pop(key, None)
     lane.set("index", str(index))
     lane.set("shape", _shape(shape))
+    lane.set("customShape", "true")
 
 
 def _parse(value):

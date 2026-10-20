@@ -1,0 +1,99 @@
+{
+  "schema": "astra.ring1-approach-replay-evidence/v1",
+  "status": "measured_partial",
+  "promotion_authority": false,
+  "source_scope": {
+    "path": "outputs/ring1-road-demo-20261020-v11/case.json",
+    "sha256": "c54868cc6f22db3f3f0c9e3cc7640eb935106892f6a236535fc2c5986c5b58da"
+  },
+  "source_scope_road_count": 467,
+  "groups": {
+    "path": "outputs/ring1-map-junction-groups-20261020-v2/groups.json",
+    "sha256": "dc31e2acf4779cea024c4ba45d85972287fdec342acc78ea336a258b877eaeb1"
+  },
+  "physical_part_count": 9,
+  "initial_full_runner": {
+    "path": "outputs/run_ring1_full_candidate_20261020_v1.py",
+    "sha256": "25a98a4123c75cfbdf3aa4a8f35446e7fc0172dca6efcd9e8800f4120d0352f6"
+  },
+  "initial_failed_result": {
+    "path": "outputs/ring1-full-candidate-20261020-v1/result.json",
+    "sha256": "a2e44128ed9d5376277005502a8c3bf3bf7dbf4d8a649ca913b8cdfa7fc9d9ce"
+  },
+  "initial_approach_result": {
+    "path": "outputs/ring1-full-candidate-20261020-v1/candidate/approach-sections/manifest.json",
+    "sha256": "e01ea93b414815c60331bbdbe59ec4d9bf8be000d49f19b813ab1f4c6de8a16a"
+  },
+  "repair_runner": {
+    "path": "outputs/rebuild_ring1_approaches_20261020_v4.py",
+    "sha256": "823dbcb37aa76960c4d2bae90b74974f71771dec2dfdf8e0ed1f9fb22c317eec"
+  },
+  "repaired_approach_result": {
+    "path": "outputs/ring1-all-approaches-20261020-v4/manifest.json",
+    "sha256": "b503d00e2e3d217c440b59f1249bb7f8807d8ab8ddf6c9fa2810689e6ec2035c"
+  },
+  "repaired_approach_gates": {
+    "source_immutable": "pass",
+    "scoped_geometry_restoration": "pass",
+    "fixed_boundary_geometry": "pass",
+    "external_connection_set": "pass",
+    "outside_geometry_and_attributes": "pass",
+    "controlled_continuations": "pass",
+    "bounded_restricted_ordinary_preserved": "pass",
+    "internal_path_continuity": "blocked"
+  },
+  "repairs": [
+    "Use source-derived geometry input hints and remove inherited sidewalk/bicycle synthesis defaults.",
+    "Keep the explicit custom shape of the constructed lane.",
+    "Retain an exact curved source cut instead of warping all retained vertices.",
+    "Remove import-only edge-length hints from the final network."
+  ],
+  "remaining_source_path_cleanup": {
+    "runner": {
+      "path": "outputs/remove_ring1_empty_loaded_turns_20261020_v3.py",
+      "sha256": "3720c8e21676f752c5baa733251f0ecd5724d8875642b869e41b7ab8ac092f04"
+    },
+    "result": {
+      "path": "outputs/ring1-empty-turn-cleanup-20261020-v3/result.json",
+      "sha256": "7331d1cb6cf432ad6fb6774d0357c7c0bf02742d94a3f62a9c150b23d5443119"
+    },
+    "deleted_connections": [
+      {
+        "from": "-219999179",
+        "fromLane": 0,
+        "to": "551319336",
+        "toLane": 1
+      },
+      {
+        "from": "-551319336",
+        "fromLane": 1,
+        "to": "219999179",
+        "toLane": 0
+      }
+    ],
+    "retained_effective_vehicle_classes_exact": true,
+    "structural_failure_count": 0,
+    "candidate": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-empty-turn-cleanup-20261020-v3\\edit-1\\candidate.net.xml",
+      "sha256": "4f83113a9869fd3cc4db57839fa60543c0ca96aff95aaa3632b3c180d6a8e180"
+    },
+    "claim_boundary": "Static loaded-permission cleanup. No field permission, demand or signal-timing acceptance."
+  },
+  "regressions": {
+    "type_defaults_before_fix": {
+      "path": "outputs/approach-type-default-negative-20261020-v1.xml",
+      "sha256": "e91b3c35ea731d737184edfac08181528479b9e4a69cacd0ef9a9c4da9d8f13d"
+    },
+    "source_cut_before_fix": {
+      "path": "outputs/source-cut-negative-20261020-v1.xml",
+      "sha256": "199a78c2c06b1aaeadc79fdbf8c657c8ee9d1aacd2624d635870e01e7ca647a7"
+    },
+    "after_fixes": {
+      "path": "outputs/source-cut-and-approach-fix-20261020-v1.xml",
+      "sha256": "4e24b019dfcbd3ef3da4c65619243dc77e980008a495660358963c7570972d5b"
+    },
+    "passed": 343,
+    "test_note": "Related source, native, and shared-consumer tests. This is not a traffic calibration result."
+  },
+  "claim_boundary": "All five nodes have native physical joins and measured approach construction. Complete official movements, driving, detector placement, field timing and count fitting remain unfinished. The runners still depend on local outputs and are not the committed end-to-end example."
+}

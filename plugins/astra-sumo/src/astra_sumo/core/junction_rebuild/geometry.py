@@ -315,6 +315,28 @@ def _warp_anchor_shape_to_teacher_endpoint(
     if not parsed or not teacher_points:
         return ""
 
+    # A split can already be an exact source cut. Warping it would move retained vertices.
+    try:
+        source = [(x, y, *map(float, extra)) for x, y, extra in parsed]
+        cut = [tuple(map(float, token.split(","))) for token in _split(teacher_shape)]
+    except ValueError:
+        return ""
+    if all(len(point) in (2, 3) for point in [*source, *cut]):
+        source = [point + (0.0,) * (3 - len(point)) for point in source]
+        cut = [point + (0.0,) * (3 - len(point)) for point in cut]
+        if target_at_start:
+            source.reverse()
+            cut.reverse()
+        if 2 <= len(cut) <= len(source) and cut[:-1] == source[:len(cut) - 1]:
+            a, b = source[len(cut) - 2:len(cut)]
+            delta = tuple(y - x for x, y in zip(a, b))
+            squared_length = sum(value * value for value in delta)
+            if squared_length > 0:
+                ratio = sum((value - start) * direction for value, start, direction in zip(cut[-1], a, delta)) / squared_length
+                closest = tuple(start + ratio * direction for start, direction in zip(a, delta))
+                if 0 <= ratio <= 1 and math.dist(cut[-1], closest) <= 1e-6:
+                    return teacher_shape
+
     desired_x, desired_y = teacher_points[0 if target_at_start else -1]
     anchor_x, anchor_y, _ = parsed[0 if target_at_start else -1]
     delta_x = desired_x - anchor_x

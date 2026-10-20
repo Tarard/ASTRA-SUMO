@@ -105,12 +105,24 @@ def test_local_approach_matches_complete_source_conversion(tmp_path, monkeypatch
         through_count=1 if case == "restricted" else 2, full_length_bus=case == "restricted", remote_roads=True)
     if case == "restricted":
         plans["7"]["lanes"][1]["allowed_vehicle_classes"] = ["bus"]
+    if case == "split":
+        tree = ET.parse(source)
+        root = tree.getroot()
+        root.insert(1, ET.Element("type", id="inherited", sidewalkWidth="3", bikeLaneWidth="1.5"))
+        root.find("edge[@id='approach']").set("type", "inherited")
+        tree.write(source, encoding="utf-8", xml_declaration=True)
     digest = file_sha256(source)
     def build(name):
         return build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
             junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / name)
     local = build("local")
     assert local["status"] == "pass", local
+    assert local["geometry_frozen_input"]["source"]["sha256"] == digest
+    candidate_root = ET.parse(local["candidate_network"]["path"]).getroot()
+    for row in local["approaches"]:
+        if row["upstream_edge_id"]:
+            upstream = candidate_root.find(f"edge[@id='{row['upstream_edge_id']}']")
+            assert len(upstream.findall("lane")) == len(row["through_lane_ids"])
     assert local["inherited_speed_roundoff_restoration"]["after_sha256"] == local["candidate_network"]["sha256"]
     record = local["local_conversion"]
     assert record["status"] == "local"
