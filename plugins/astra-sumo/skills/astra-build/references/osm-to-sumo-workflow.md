@@ -50,6 +50,17 @@ Use a small option set rather than silently adding every OSM class:
 | bicycle/pedestrian layers | explicit multimodal study | requires modal review and claim boundary |
 | background-only layers | water, buildings, land use, visual context | not routeable network evidence |
 
+## Main-Road Study Scope
+
+When the user requests major roads or a pruning demonstration, retain a full source import first.
+Use `python -m astra_sumo.cli network select-roads <source.net.xml> <new-output-dir> --keep-tier major --json`.
+Protect the declared corridor and known detector roads with repeated `--protect-edge-id` or `--protect-way-id` arguments.
+The stage records coarse tiers, necessary approaches, source-supported connectors, traffic boundaries, and native checks.
+It does not assign boundary flow rates or validate sensor correspondence.
+Use the report's `normalized_full_network` for a loadable full-network baseline when source signal references needed narrow repair.
+Retain the raw import for the original topology view.
+Keep source and candidate observations and detector sections identical in later count comparisons.
+
 ## Reference-Matched Construction
 
 If the user asks to match, mimic, compare against, or learn from a reference network or dataset, first locate or request the reference artifact. Do not hardcode a city, repository, or named reference into the plugin.

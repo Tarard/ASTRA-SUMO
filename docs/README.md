@@ -23,6 +23,7 @@ This is the current documentation index for ASTRA. Product behavior and claims a
 
 - [Road-network calibration](network-calibration.md) — dated road facts, separate error measures and parent comparisons.
 - [Scoped road-network edits](network-edit-operations.md) — typed edits, source-bound plans, preservation checks and site parameters.
+- [Road hierarchy and selection](road-hierarchy.md) — coarse road tiers, protected study roads, necessary approaches, and traffic boundaries.
 - [Traffic-effect review](traffic-effect-review.md) — ordered findings, original evidence, local access and lane supply changes.
 - [Local edit applicability](edit-specific-applicability.md) — edit profiles, exact boundary paths, and final candidate checks.
 - [Public network references](public-reference-corpus.md) — frozen public models, development targets, and revision comparisons.

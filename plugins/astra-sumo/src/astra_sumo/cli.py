@@ -226,6 +226,16 @@ def _build_parser() -> argparse.ArgumentParser:
     network_compare.add_argument("output_dir")
     network_compare.add_argument("--prefix", default="network_compare")
     _add_output_argument(network_compare)
+    road_selection = network_sub.add_parser("select-roads", help="Select main roads with necessary approaches and traffic boundaries.")
+    road_selection.add_argument("net_file")
+    road_selection.add_argument("output_dir")
+    road_selection.add_argument("--keep-tier", choices=("major", "collector", "local"), default="major")
+    road_selection.add_argument("--protect-edge-id", action="append", default=[])
+    road_selection.add_argument("--protect-way-id", action="append", default=[])
+    road_selection.add_argument("--vehicle-class", default="passenger")
+    road_selection.add_argument("--netconvert-binary", default="netconvert")
+    road_selection.add_argument("--sumo-binary", default="sumo")
+    _add_output_argument(road_selection)
     calibration = network_sub.add_parser("calibrate", help="Measure a network against dated road facts.")
     calibration.add_argument("net_file")
     calibration.add_argument("facts_file")
@@ -524,6 +534,13 @@ def _dispatch(args: argparse.Namespace) -> int:
 
         return _emit(verify_network_edit(ledger_file=args.ledger_file, output_dir=args.output_dir,
             netconvert_binary=args.netconvert_binary, mode=args.mode, facts_file=args.facts_file), json_output=json_output)
+    if args.command == "network" and args.network_command == "select-roads":
+        from .core.road_hierarchy import build_road_hierarchy_variant
+
+        return _emit(build_road_hierarchy_variant(net_file=args.net_file, output_dir=args.output_dir,
+            keep_tier=args.keep_tier, protected_edge_ids=args.protect_edge_id, protected_way_ids=args.protect_way_id,
+            vehicle_class=args.vehicle_class, netconvert_binary=args.netconvert_binary, sumo_binary=args.sumo_binary),
+            json_output=json_output)
     if args.command == "network" and args.network_command == "review-effects":
         from .core.traffic_effect_review import build_network_traffic_effect_review
 

@@ -56,7 +56,9 @@ Their source networks, calibration inputs, and dated aerial registration need a 
 
 ## Proposed main-road demonstration
 
-This section describes the agreed demonstration scope. The complete workflow is not implemented yet.
+This section describes the agreed demonstration scope.
+Road classification and scope selection are implemented in the [offline Ring1 example](../examples/06_hamburg_ring1_demo/README.md).
+The complete six-stage workflow is not implemented yet.
 The demonstration uses one case configuration, one frozen input package, and one report.
 The configuration records the bbox, corridor, road tier, observation window, and signal treatment.
 
