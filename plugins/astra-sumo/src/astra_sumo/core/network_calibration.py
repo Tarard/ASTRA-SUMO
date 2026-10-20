@@ -163,7 +163,7 @@ def _pairs(value: Any) -> set[tuple[str, str]]:
     return pairs
 
 
-def _saved_lane_path(root, ordinary_lanes):
+def _saved_lane_paths(root):
     from .source_movement_support import _candidate_modes, _index
     index = _index(root)
     paths = {}
@@ -171,6 +171,11 @@ def _saved_lane_path(root, ordinary_lanes):
         _, path = _candidate_modes(index, start, target, connection)
         if path:
             paths.setdefault((start, target), []).append(path)
+    return paths
+
+
+def _saved_lane_path(root, ordinary_lanes):
+    paths = _saved_lane_paths(root)
     result = [ordinary_lanes[0]]
     for pair in zip(ordinary_lanes, ordinary_lanes[1:]):
         candidates = paths.get(pair, [])

@@ -203,6 +203,52 @@ inference benchmark.
 Independent source correspondence and field-validity dates remain necessary.
 Synthetic tests validate calculations and input checks, not real-site accuracy.
 
+## Prepared source revision models
+
+`build_prepared_source_lane_facts` creates reusable fact tables from two generated
+networks and registered source road geometry revisions:
+
+```python
+from astra_sumo.core.prepared_source_facts import build_prepared_source_lane_facts
+
+report = build_prepared_source_lane_facts(
+    before_net_file="before.net.xml",
+    reference_net_file="reference.net.xml",
+    way_labels_file="registered-way-revisions.jsonl",
+    output_dir="model-facts-v1",
+    site_id="prepared-source-model-reference",
+    model_revision_date="2018-09-19",
+    license_name="GPLv3",
+    sample_spacing_m=0.5,
+)
+```
+
+The label records use `kind: prepared_way_coordinate_sequence_revision`, a
+positive `way_id`, and an `external_source_id`. Establish source registration
+before using this adapter. Both networks must share that source road namespace.
+The report records the assumption and binds the three inputs by hash.
+
+The adapter groups sections by source road, travel direction, allowed vehicle
+classes, and lane order. It includes uniquely saved internal connections between
+the selected ordinary lanes. It marks the resulting association as unresolved
+with a confidence label. Lane additions or changes in lane order can invalidate
+this association. Missing roles, absent reference roads, and invalid reference
+shapes remain unknown instead of disappearing from the table.
+
+The factory writes `before-facts.json`, `reference-self-control-facts.json`, and
+an explicit selector correspondence. They retain the same ordered reference
+identities. Use the existing explore calibration command on each network with
+its corresponding table. A reference self comparison checks calculations and
+coordinates. It does not measure reference quality or repair precision.
+
+`model_revision_date` describes the model version and becomes `target_date`.
+The field validity date remains unknown. Generated model geometry does not
+establish field lane geometry. A revised source road can also contain many
+unchanged lane fragments. Keep those fragments in the measurement table.
+
+The [prepared source pair](../benchmarks/public_network_development_v2/source-curation-pair-20261020-v1.md)
+records the historical input and its source registration limits.
+
 ## Preserve geometry during a scoped edit
 
 A compiled SUMO network is not a lossless authoring format for `netconvert`.
