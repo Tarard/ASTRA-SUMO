@@ -51,6 +51,17 @@ The demand fitting method and signal treatment must be recorded for both network
 Fitting-window error and independent validation error are separate results.
 A vehicle can pass several stations, so the sum of station counts is not the number of distinct corridor vehicles.
 
+### Exact count-fit target
+
+The requested calibration target is exact integer agreement at every declared station and 15-minute bin in the fitting window.
+Both MAE and maximum absolute count error must equal zero. An average error of 0.15 does not meet this target.
+The comparison must use actual SUMO detector output with fixed observations, physical detector sections, count definitions, and time boundaries.
+The report must retain every declared station and bin, including residuals that remain nonzero.
+It must record demand variables, signal treatment, vehicle insertion, unfinished traffic, collisions, and teleports.
+Exact agreement is not achieved or established as feasible for the current reconstructed corridor yet.
+If constraints prevent exact agreement, the report must identify the remaining residuals and their causes.
+An exact fitting-window result does not establish independent prediction accuracy or exact field geometry.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 

@@ -1,5 +1,6 @@
 """Select a road scope with source-supported approaches, connections and traffic boundaries."""
 from collections import Counter, defaultdict
+from collections.abc import Mapping
 import heapq
 import math
 from pathlib import Path
@@ -107,18 +108,24 @@ def _signal_scope_changes(source, candidate, comparison):
 
 
 def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), protected_way_ids=(),
-                          vehicle_class="passenger", required_movements=None):
+                          vehicle_class="passenger", required_movements=None, protected_edge_evidence=None):
     if keep_tier not in ROAD_HIERARCHY_TIERS:
         raise ValueError("Choose major, collector, or local roads.")
     if not isinstance(vehicle_class, str) or _permission_set({"allow": vehicle_class}) != {vehicle_class}:
         raise ValueError("Choose one supported vehicle class.")
     edges, graph, lengths = _network(root, vehicle_class)
     protected = set(protected_edge_ids)
+    declared_edges = set(protected)
+    evidence = protected_edge_evidence or {}
+    if not isinstance(evidence, Mapping) or any(not isinstance(value, Mapping) or not str(value.get("basis", "")).strip() for value in evidence.values()):
+        raise ValueError("Protection evidence must map edges to records with a basis.")
+    if set(evidence) - protected:
+        raise ValueError("Protection evidence must address explicitly protected edges.")
     if protected - edges.keys():
         raise ValueError("A protected road is absent from the source network.")
     ways = set(map(str, protected_way_ids))
     matched_ways = set()
-    reasons, tiers = {}, {}
+    reasons, tiers, protection = {}, {}, {}
     for key, edge in edges.items():
         tier = tiers[key] = road_hierarchy_tier(edge.get("type", ""))
         keep = ["class_threshold"] if tier in ROAD_HIERARCHY_TIERS[:ROAD_HIERARCHY_TIERS.index(keep_tier) + 1] else []
@@ -128,6 +135,9 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
         if match and match[1] in ways:
             matched_ways.add(match[1])
             protected.add(key)
+            protection.setdefault(key, []).append({"basis": "declared_OSM_way", "way_id": match[1]})
+        if key in declared_edges:
+            protection.setdefault(key, []).append(evidence.get(key, {"basis": "declared_edge"}))
         if key in protected:
             keep.append("protected_road")
         if keep:
@@ -216,7 +226,8 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
         "source_tier_counts": dict(Counter(tiers.values())), "protected_edge_ids": sorted(protected),
         "selected_edge_ids": sorted(selected), "excluded_edge_ids": sorted(edges.keys() - selected),
         "roads": [{"edge_id": key, "type": edge.get("type"), "name": edge.get("name"), "tier": tiers[key],
-                   "selected": key in selected, "reasons": reasons.get(key, ["below_selected_tier"])} for key, edge in sorted(edges.items())],
+                   "selected": key in selected, "reasons": reasons.get(key, ["below_selected_tier"]),
+                   **({"protection_evidence": protection[key]} if key in protection else {})} for key, edge in sorted(edges.items())],
         "boundaries": boundaries, "final_cut_attachments": _boundaries(root, edges, graph, selected),
         "unserved_source_boundaries": unserved, "connection_repairs": repairs, "movements": movements, "worst_detour": worst,
         "movement_basis": "explicit" if explicit else "fixed main-road boundary pairs and retained local turns",
@@ -225,7 +236,7 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
 
 
 def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", protected_edge_ids=(), protected_way_ids=(),
-                                 vehicle_class="passenger", netconvert_binary="netconvert", sumo_binary="sumo"):
+                                 vehicle_class="passenger", netconvert_binary="netconvert", sumo_binary="sumo", protected_edge_evidence=None):
     source = Path(net_file).resolve(strict=True)
     output = Path(output_dir).resolve()
     if output.exists() or source.is_relative_to(output):
@@ -233,7 +244,7 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
     before_hash = file_sha256(source)
     root = ET.parse(source).getroot()
     plan = select_road_hierarchy(root, keep_tier=keep_tier, protected_edge_ids=protected_edge_ids,
-        protected_way_ids=protected_way_ids, vehicle_class=vehicle_class)
+        protected_way_ids=protected_way_ids, vehicle_class=vehicle_class, protected_edge_evidence=protected_edge_evidence)
     output.mkdir(parents=True)
     write_json_atomic(output / "selection.json", plan)
     write_json_atomic(output / "boundaries.json", {"zones": plan["boundaries"], "traffic_rates": "not_assigned"})

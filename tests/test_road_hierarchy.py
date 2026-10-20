@@ -172,6 +172,22 @@ def test_unknown_types_remain_visible_and_missing_protected_roads_fail():
         select_road_hierarchy(root, protected_way_ids=["999999"])
 
 
+def test_protection_reasons_keep_study_ways_separate_from_tentative_approaches():
+    root = _network()
+    root.find("edge[@id='detector-road']").set("id", "123")
+    root.find("edge[@id='123']/lane").set("id", "123_0")
+    inputs = {"protected_way_ids": ["123"], "protected_edge_ids": ["connector"]}
+    original = select_road_hierarchy(root, **inputs)
+    annotated = select_road_hierarchy(root, **inputs, protected_edge_evidence={"connector": {
+        "basis": "official_motor_approach_correspondence", "mapping_confidences": ["conflict"]}})
+    assert annotated["selected_edge_ids"] == original["selected_edge_ids"]
+    rows = {row["edge_id"]: row for row in annotated["roads"]}
+    assert rows["123"]["protection_evidence"] == [{"basis": "declared_OSM_way", "way_id": "123"}]
+    assert rows["connector"]["protection_evidence"][0]["mapping_confidences"] == ["conflict"]
+    with pytest.raises(ValueError, match="explicitly protected"):
+        select_road_hierarchy(root, **inputs, protected_edge_evidence={"main-b": {"basis": "unbound"}})
+
+
 @pytest.mark.parametrize("empty", [False, True])
 def test_no_effect_does_not_rebuild_or_invent_a_candidate(tmp_path, monkeypatch, empty):
     from astra_sumo.core import road_hierarchy

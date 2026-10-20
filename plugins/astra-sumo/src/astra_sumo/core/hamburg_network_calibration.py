@@ -75,7 +75,7 @@ def evaluate_hamburg_calibration_snapshot(*, network: Path, official_sources: Pa
                              and f["metrics"].get("reference_coverage") is not None]
         reliable = [f for f in measured if f["traffic_mode"] == "motor" and f["mapping_confidence"] in {"high", "confirmed"}]
         reports[node] = {"status": report["status"], "layers": report["layers"],
-                         "scorecard": report["output_file"], "measured_centerlines": len(measured),
+                         "scorecard": report["output_file"], "facts_file": str(facts_file.resolve()), "measured_centerlines": len(measured),
                          "coverage_measured_centerlines": len(coverage_measured),
                          "motor_centerlines": report["motor_centerlines"],
                          "largest_sampled_lateral_offset_m": max((f["metrics"]["max_sampled_lateral_offset_m"]

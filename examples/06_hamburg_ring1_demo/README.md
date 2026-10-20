@@ -33,7 +33,7 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 
 The current full example selects 468 of 1,156 ordinary road segments.
 It applies the existing OSM access corrections before scope selection.
-It also retains the saved tentative official approach associations in `official-approach-anchors.json`.
+It also retains the saved tentative official approach associations in `official-approach-anchors-v2.json`.
 Those associations protect 126 source edges. The case records their confidence, source compatibility, and unresolved references.
 The direct raw-native regression uses only the class rule and four V1 road anchors. It selects 367 segments.
 Its permissions and study-retention reasons differ from the full example.
@@ -56,6 +56,32 @@ Seven associated lanes have zero directed overlap and no lateral measurement. Th
 All 132 saved associations retain their ordinary-lane parts. Their measured coverage does not regress against the full source network.
 This is preservation of tentative source correspondence, not field geometry acceptance.
 The grouped official movement inventory still has incomplete correspondence. Approach preservation does not establish complete official turns.
+
+## Regenerate the approach evidence
+
+The frozen approach list can be regenerated offline from the frozen OSM, MAP, KML, and OCIT files:
+
+```powershell
+.venv/Scripts/python.exe examples/06_hamburg_ring1_demo/prepare_approach_evidence.py outputs/ring1-approach-evidence
+```
+
+This command rebuilds the full source network and measures all five official sites.
+It writes `calibration/run.json` and `official-approach-anchors.json` in the new output directory.
+It does not read the saved protection list to derive its result.
+The current frozen inputs produce the same 126 protected source edges.
+
+To extract retention evidence from an existing measured snapshot, use:
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/generate_hamburg_approach_retention.py outputs/ring1-approach-evidence/calibration/run.json outputs/ring1-regenerated-anchors.json
+```
+
+Use a new output file. Neither command replaces the frozen fixture.
+Low-confidence associations remain visible and retained. Their confidence does not prevent measurement or retention.
+Each anchor separates whole-reference coverage from the coverage and lateral offset supplied by its individual source edge.
+Each retained road records its basis: a declared study way, a declared edge, or tentative official approach correspondence.
+Thirteen protected edges have no supporting fact marked high or confirmed. They remain tentative.
+These measurements do not establish independent field accuracy or final detector correspondence.
 
 ## Remaining demonstration stages
 

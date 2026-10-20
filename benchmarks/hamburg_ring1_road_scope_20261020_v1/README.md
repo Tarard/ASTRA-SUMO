@@ -18,9 +18,14 @@ The import has 1,156 ordinary road segments and nine narrowly repairable stale p
 SUMO 1.27.1 crashes or stalls during postload pruning on this input. The current implementation uses checked preload extraction.
 The raw-native class regression retains 367 segments, including four V1 calibration-road references supplied as study anchors.
 The full offline example applies OSM access corrections and protects tentative official approach parts. It retains 468 segments.
-`official-approach-anchors.json` records the source associations, their confidence, input identity, and unresolved references.
+`official-approach-anchors-v2.json` records the source associations, their confidence, input identity, and unresolved references.
 These data protect 126 source edges. They do not constitute confirmed SUMO correspondence or field geometry acceptance.
 These anchors do not establish an exact sensor-to-lane mapping.
+The v2 file separates whole-lane coverage from individual-edge support and records the retention basis for each edge.
+It preserves low-confidence associations. Thirteen retained edges lack high or confirmed fact support.
+The earlier `official-approach-anchors.json` remains available.
+The [regeneration instructions](../../examples/06_hamburg_ring1_demo/README.md#regenerate-the-approach-evidence) start from the frozen source files.
+[Regeneration evidence](approach-regeneration-evidence-v1.json) records the measured input identities and focused test results.
 
 [Current execution evidence](execution-evidence-v3.json) records the official-approach scope and remaining stages.
 [Official approach comparison](official-approach-comparison-v1.json) records source-bound lane-part and coverage preservation.

@@ -43,6 +43,10 @@
     "official-approach-anchors.json": {
       "sha256": "e97ed6280b24c379dca48c7e9a86d1154d41c661939c9ef1e3e0bed9e28ad6a5",
       "bytes": 63132
+    },
+    "official-approach-anchors-v2.json": {
+      "sha256": "a7f896ab0b8e4d39586d866355ac20d31e208f886dd1750e8c254649b54b5cd1",
+      "bytes": 183791
     }
   },
   "protected_way_ids": [
@@ -66,5 +70,5 @@
   "claim_boundary": "Road classification and simulation-scope selection only. No detector calibration, field signal or whole-corridor driving claim.",
   "keep_tier": "major",
   "vehicle_class": "passenger",
-  "official_approach_anchors_file": "official-approach-anchors.json"
+  "official_approach_anchors_file": "official-approach-anchors-v2.json"
 }

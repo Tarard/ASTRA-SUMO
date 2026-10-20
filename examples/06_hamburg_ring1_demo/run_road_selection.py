@@ -49,6 +49,7 @@ def run(output_dir):
             selected = build_road_hierarchy_variant(net_file=prepared_full, output_dir=output / "02-main-roads",
                 keep_tier=fixture["keep_tier"], vehicle_class=fixture["vehicle_class"],
                 protected_way_ids=fixture["protected_way_ids"], protected_edge_ids=anchors["protected_edge_ids"], netconvert_binary=netconvert,
+                protected_edge_evidence=anchors.get("edge_evidence"),
                 sumo_binary=str(binary_dir / f"sumo{suffix}"))
             case.update(status=selected["status"], raw_native_import={"path": str(raw), "sha256": file_sha256(raw)},
                 selection_input={"path": str(prepared_full), "sha256": file_sha256(prepared_full)},

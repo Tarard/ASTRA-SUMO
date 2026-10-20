@@ -30,6 +30,7 @@ REQUIRED = {
     "test_native_hierarchy_scope_keeps_protected_turns_and_removes_local_tail": 2,
     "test_native_ring1_road_selection": 1,
     "test_native_ring1_official_approach_demo": 1,
+    "test_native_ring1_approach_generation_from_frozen_sources": 1,
 }
 
 
