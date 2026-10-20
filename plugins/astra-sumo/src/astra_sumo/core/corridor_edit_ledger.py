@@ -25,7 +25,7 @@ from .map_review import build_map_review_evidence, validate_map_review_evidence
 from .network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation, write_scoped_edit_plan, check_scoped_edit
 from .network_geometry_freeze import compare_frozen_geometry
 from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
-from .local_network_conversion import with_geometry_precision, legacy_edge_edit_scope
+from .local_network_conversion import with_geometry_precision, legacy_edge_edit_scope, legacy_additive_edit_scope
 
 
 EDIT_OPERATION_TYPES = (
@@ -829,7 +829,7 @@ def materialize_corridor_edit_variant(
             scoped_plan = write_scoped_edit_plan(root=source_root, operation=scoped_operations[0],
                 source_file=source_net_file, candidate_file=candidate_net_file, output_dir=output_dir,
                 prefix=prefix, netconvert_binary=netconvert_binary)
-        except (OSError, TypeError, ValueError) as error:
+        except (OSError, ET.ParseError, TypeError, ValueError) as error:
             return _write_materialization_outcome(output_dir=output_dir, report_file=report_file,
                 manifest_file=manifest_file, command_file=command_file, source_net_file=source_net_file,
                 ledger_file=ledger_file, report={"schema": "torii.corridor_materialization.v1", "status": "blocked",
@@ -943,15 +943,19 @@ def materialize_corridor_edit_variant(
         legacy_edges.update(row["edge_id"] for row in additive_plan.get("edge_records", []))
     source_geometry_hash = file_sha256(source_net_file)
     legacy_conversion = None
-    if operation_family in {"delete_edge", "merge_edges"}:
+    if operation_family in {"delete_edge", "merge_edges", "additive"}:
         from .local_network_conversion import local_conversion_input, prepare_permission_preserving_input
         try:
-            legacy_nodes, legacy_edges, native_targets = legacy_edge_edit_scope(source_root, operation_family, command)
-            if native_targets != set(target_ids):
-                raise ValueError("The native road list differs from the accepted edit targets.")
+            native_targets, endpoints = set(), None
+            if operation_family == "additive":
+                legacy_nodes, legacy_edges, endpoints, _ = legacy_additive_edit_scope(source_root, command)
+            else:
+                legacy_nodes, legacy_edges, native_targets = legacy_edge_edit_scope(source_root, operation_family, command)
+                if native_targets != set(target_ids):
+                    raise ValueError("The native road list differs from the accepted edit targets.")
             subset, legacy_conversion = local_conversion_input(source_root, legacy_nodes, legacy_edges,
                 removed_edge_ids=native_targets if operation_family == "delete_edge" else None,
-                merge_edge_ids=native_targets if operation_family == "merge_edges" else None)
+                merge_edge_ids=native_targets if operation_family == "merge_edges" else None, edge_endpoints=endpoints)
             legacy_conversion["operation"] = {"operation": operation_family, "target_ids": target_ids}
             if subset is not None:
                 local_file = output_dir / f"{prefix}.local-input.net.xml"
@@ -968,7 +972,7 @@ def materialize_corridor_edit_variant(
                 command[command.index("--sumo-net-file") + 1] = legacy_conversion["input"]["path"]
                 additional_plan_files.append((Path(legacy_conversion["input"]["path"]), "local_conversion_input"))
             command.extend(["--offset.disable-normalization", "true"])
-        except (OSError, TypeError, ValueError) as error:
+        except (OSError, ET.ParseError, TypeError, ValueError) as error:
             return _write_materialization_outcome(output_dir=output_dir, report_file=report_file,
                 manifest_file=manifest_file, command_file=command_file, source_net_file=source_net_file,
                 ledger_file=ledger_file, plan_file=plan_file, additional_plan_files=additional_plan_files,
@@ -1056,7 +1060,7 @@ def materialize_corridor_edit_variant(
             raise ValueError("Native proposal output must not replace a protected input.")
         copy_file_atomic(candidate_net_file, legacy_proposal)
         extra_artifacts.append((legacy_proposal, "native_proposal"))
-    if command_status and additive_plan is not None:
+    if command_status and additive_plan is not None and legacy_merge_error is None:
         touched_junction_ids = {
             str(record.get("from", ""))
             for record in additive_plan.get("edge_records", [])
@@ -1870,7 +1874,22 @@ def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
             return _native_edge_list_scope(report, source_file, source_root, path, matched[0])
         if matched:
             return {}
-        plan = json.loads(path.read_text(encoding="utf-8"))
+        try:
+            plan = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            if (Path(report["source_net_file"]).resolve() != source_file.resolve()
+                    or report["source_sha256"] != file_sha256(source_file)):
+                return {}
+            nodes, edges, _, files = legacy_additive_edit_scope(source_root, command)
+            if path not in files or any(not any(Path(row["path"]).resolve() == file and row.get("sha256") == file_sha256(file)
+                    for row in manifest["artifacts"] if row.get("kind") in {"materialization_plan", "additive_plain_input"})
+                    for file in files):
+                return {}
+            return {"operation": {"operation": "additive", "params": {}},
+                    "source": {"path": str(source_file), "sha256": file_sha256(source_file)},
+                    "mutable_junction_ids": sorted(nodes), "mutable_edge_ids": sorted(edges),
+                    "scope_binding": {"basis": "manifest_bound_native_additive_inputs", "inputs": [
+                        {"path": str(file), "sha256": file_sha256(file)} for file in files]}}
         if (Path(plan["source"]["path"]).resolve() != source_file.resolve()
                 or plan["source"]["sha256"] != file_sha256(source_file)):
             return {}
@@ -1881,7 +1900,7 @@ def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
         if set(plan["mutable_junction_ids"]) != nodes or set(plan["mutable_edge_ids"]) != edges:
             return {}
         return plan
-    except (OSError, KeyError, ValueError, TypeError):
+    except (OSError, ET.ParseError, KeyError, ValueError, TypeError):
         return {}
 
 

@@ -171,6 +171,47 @@ def legacy_edge_edit_scope(root, kind, command):
     return nodes, mutable, targets
 
 
+def legacy_additive_edit_scope(root, command):
+    """Derive added-road and crossing scope from the native plain inputs."""
+    nodes = {row.get("id") for row in root.findall("junction")}
+    edges = {row.get("id"): row for row in root.findall("edge") if row.get("id") and not row.get("id").startswith(":")}
+    endpoints, crossings, files = {}, [], []
+    for flag, tag, parent in (("--edge-files", "edge", "edges"), ("--connection-files", "crossing", "connections")):
+        if flag not in command:
+            continue
+        if command.count(flag) != 1 or command.index(flag) + 1 >= len(command):
+            raise ValueError("Use one saved plain input per additive native option.")
+        path = Path(command[command.index(flag) + 1]).resolve(strict=True)
+        parsed = ET.parse(path).getroot()
+        if parsed.tag != parent or any(row.tag != tag for row in parsed):
+            raise ValueError("Additive inputs may only add roads or declared crossings.")
+        files.append(path)
+        for row in parsed:
+            if tag == "edge":
+                identity = row.get("id")
+                ends = {key: row.get(key) for key in ("from", "to")}
+                if (not identity or identity.startswith(":") or identity in edges or identity in endpoints
+                        or any(value not in nodes for value in ends.values())):
+                    raise ValueError("An added road requires a new identity and existing source junctions.")
+                endpoints[identity] = ends
+            else:
+                crossings.append(row)
+    mutable_nodes = {value for ends in endpoints.values() for value in ends.values()}
+    for row in crossings:
+        node, road_ids = row.get("node"), row.get("edges", "").split()
+        if node not in nodes or not road_ids or any(key not in edges and key not in endpoints for key in road_ids):
+            raise ValueError("A crossing requires its source junction and declared roads.")
+        if any(node not in (endpoints[key].values() if key in endpoints else
+                           (edges[key].get("from"), edges[key].get("to"))) for key in road_ids):
+            raise ValueError("Crossing roads must meet the declared junction.")
+        mutable_nodes.add(node)
+    if not mutable_nodes:
+        raise ValueError("An additive edit requires roads or crossings.")
+    mutable_edges = set(endpoints) | {key for key, edge in edges.items()
+                                     if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes}
+    return mutable_nodes, mutable_edges, endpoints, files
+
+
 def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None, preserve_turn_permissions=True,
                            removed_edge_ids=None, merge_edge_ids=None):
     """Keep complete edit junctions and the roads needed to position their ends."""
@@ -470,6 +511,11 @@ def validate_local_conversion(record, source_file, *, command=None):
             raise ValueError("Full conversion input differs from its source-derived permissions.")
         return input_file
     operation = record["operation"]
+    if operation.get("operation") == "additive":
+        nodes, edges, endpoints, _ = legacy_additive_edit_scope(source_root, command)
+        subset, expected = local_conversion_input(source_root, nodes, edges, edge_endpoints=endpoints,
+            preserve_turn_permissions=record.get("preserve_loaded_turn_permissions") is True)
+        return _validate_local_artifacts(record, source_root, subset, expected)
     if operation.get("operation") in {"delete_edge", "merge_edges"}:
         kind = operation["operation"]
         nodes, edges, targets = legacy_edge_edit_scope(source_root, kind, command)

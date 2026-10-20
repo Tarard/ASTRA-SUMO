@@ -280,7 +280,11 @@ input and merge from the source and command, including the saved road list.
 Shared controllers, unsupported prohibitions, missing coordinate frames, or
 absence of a retained context road keep a recorded full-network fallback.
 Permission reconciliation remains separate from the immutable source.
-Legacy additive road and crossing operations still use full-network conversion.
+Legacy additive roads and crossings also use local conversion. The saved plain
+inputs determine their new road IDs, source endpoints, crossing junctions and
+incident roads. Evidence validation reconstructs that scope and checks every
+plain input against its manifest binding. Existing roads cannot be modified
+through an additive patch. Guarded full-network fallbacks remain explicit.
 
 Duplicate-road proposals require matching geometry, lane attributes, parameters,
 and ordinary movement neighbors after replacing the compared road identity.

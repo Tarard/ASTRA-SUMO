@@ -722,7 +722,7 @@ def test_materializer_blocks_crossing_when_netconvert_does_not_create_crossing_s
 
     def fake_runner(command: list[str], *, cwd: Path, timeout_seconds: float) -> dict[str, object]:
         candidate = Path(command[command.index("--output-file") + 1])
-        root = ET.parse(net_file).getroot()
+        root = ET.parse(Path(command[command.index("--sumo-net-file") + 1])).getroot()
         ET.SubElement(root, "param", {"key": "netconvert-ran", "value": "true"})
         ET.ElementTree(root).write(candidate, encoding="utf-8")
         return {"status": "pass", "returncode": 0, "command": command}

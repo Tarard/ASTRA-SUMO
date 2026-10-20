@@ -16,6 +16,7 @@ REQUIRED = {
     "test_native_road_shape_edit_preserves": 1,
     "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
     "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+    "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
 }
 
 
