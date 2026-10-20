@@ -43,7 +43,7 @@ def test_frozen_official_approach_anchors_reference_existing_source_lanes():
     assert all(lanes[row["lane_id"]] == row["edge_id"] for row in anchors["anchors"])
     assert set(anchors["protected_edge_ids"]) == {row["edge_id"] for row in anchors["anchors"]}
     assert sum(row["reference_motor_lanes"] for row in anchors["motor_lane_counts"].values()) == 149
-    assert sum(row["unmapped_source_lanes"] for row in anchors["motor_lane_counts"].values()) == 17
+    assert sum(row["unmapped_source_lanes"] for row in anchors["motor_lane_counts"].values()) == 14
     assert sum(row["source_lateral_offset_unavailable"] for row in anchors["motor_lane_counts"].values()) == 7
 
 
@@ -55,10 +55,10 @@ def test_native_ring1_official_approach_demo(tmp_path):
         cwd=repo, capture_output=True, text=True, timeout=180)
     assert run.returncode == 0, run.stderr + run.stdout
     case = json.loads((output / "case.json").read_text(encoding="utf-8"))
-    assert case["selected_road_count"] == 468
+    assert case["selected_road_count"] == 467
     assert all(case["reproduction"]["checks"].values())
     assert case["official_approach_protection"]["source_content_matches"]
-    assert case["official_approach_protection"]["protected_edge_count"] == 126
+    assert case["official_approach_protection"]["protected_edge_count"] == 130
     assert case["review"]["signal_changes_by_scope"]["changed_retained"] == 0
     report = json.loads(Path(case["road_selection_report"]).read_text(encoding="utf-8"))
     assert all(report["checks"].values())

@@ -1,0 +1,75 @@
+{
+  "schema": "astra.hamburg-approach-regeneration-evidence/v2",
+  "status": "measured",
+  "promotion_authority": false,
+  "runner": {
+    "path": "examples/06_hamburg_ring1_demo/prepare_approach_evidence.py",
+    "sha256": "97aa218e2a2c952194844cab8ec5aaa30d8bb64553bf0b476fb632d21b5f6117"
+  },
+  "source_reproduction": {
+    "status": "matches_fixture",
+    "actual_content_sha256": "5b9363b296e8bbf82bd76f8cdc71c7c4bfa66023240a958aca645ab6ba093247",
+    "expected_content_sha256": "5b9363b296e8bbf82bd76f8cdc71c7c4bfa66023240a958aca645ab6ba093247"
+  },
+  "frozen_inputs": [
+    {
+      "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/source.osm.xml.gz",
+      "sha256": "f0b77bcac03a4c3095b40272ca2067e838b0d95125883855a28d53a7d9429365"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json",
+      "sha256": "e8cac2a3d012f517225500424722e0813a577c0876f15ac2cebf834a67fc88df"
+    }
+  ],
+  "regenerated_anchors": {
+    "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/official-approach-anchors-v3.json",
+    "sha256": "10a7b1b2f4cd570e25a807db06c1f33af79762d695cf6fa4a3f3e4c0b18e988b"
+  },
+  "regenerated_bytes_match_frozen": true,
+  "protected_edges": 130,
+  "motor_lane_counts": {
+    "104": {
+      "reference_motor_lanes": 16,
+      "source_lane_parts_available": 14,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 2,
+      "usable_overlap_retention_anchors": 14
+    },
+    "118": {
+      "reference_motor_lanes": 33,
+      "source_lane_parts_available": 26,
+      "source_lateral_offset_unavailable": 3,
+      "unmapped_source_lanes": 7,
+      "usable_overlap_retention_anchors": 23
+    },
+    "119": {
+      "reference_motor_lanes": 27,
+      "source_lane_parts_available": 26,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 1,
+      "usable_overlap_retention_anchors": 26
+    },
+    "200": {
+      "reference_motor_lanes": 52,
+      "source_lane_parts_available": 48,
+      "source_lateral_offset_unavailable": 4,
+      "unmapped_source_lanes": 4,
+      "usable_overlap_retention_anchors": 44
+    },
+    "535": {
+      "reference_motor_lanes": 21,
+      "source_lane_parts_available": 21,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 0,
+      "usable_overlap_retention_anchors": 21
+    }
+  },
+  "warnings": [],
+  "source_unchanged": true,
+  "reference_geometry": "Explicit paired KML geometry and local heading at the bound MAP anchor.",
+  "scope_replay": {
+    "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/execution-evidence-v4.json",
+    "sha256": "66fb6663e6a0e200e5741a996c9fb5f276fdc5e0b54365cf8114332ca4363042"
+  },
+  "claim_boundary": "Tentative source-retention evidence. Whole-lane coverage and individual-edge support are separate. No independent field validation."
+}

@@ -31,14 +31,16 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 | `02-main-roads/selected.net.xml` | Selected scope candidate |
 | `02-main-roads/report.json` | Source preservation, native attempts, load, permissions, reachability, geometry, and signal changes |
 
-The current full example selects 468 of 1,156 ordinary road segments.
+The current full example selects 467 of 1,156 ordinary road segments.
 It applies the existing OSM access corrections before scope selection.
-It also retains the saved tentative official approach associations in `official-approach-anchors-v2.json`.
-Those associations protect 126 source edges. The case records their confidence, source compatibility, and unresolved references.
+It also retains the saved tentative official approach associations in `official-approach-anchors-v3.json`.
+Those associations protect 130 source edges. The case records their confidence, source compatibility, and unresolved references.
 The direct raw-native regression uses only the class rule and four V1 road anchors. It selects 367 segments.
 Its permissions and study-retention reasons differ from the full example.
 Earlier versions selected 540 or 533 segments because their boundary repairs cascaded into excluded residential routes.
 The current rule retains main-road movements and local side-approach turns without those outside route obligations.
+The earlier association replay retained 468 roads. The v3 replay uses explicit KML geometry and local anchor headings.
+It excludes one old source association and retains the updated source parts.
 The first 367-road example still excluded some official approach fragments. The added approach evidence restores that context.
 It retains Ernst-Merck-Straße even though its OSM class is tertiary, because the V1 study references it.
 The imported source has stale pedestrian-internal signal references. Their narrow repair is recorded separately.
@@ -51,9 +53,9 @@ No retained controller program changes in this scope.
 The detailed report retains the raw strict comparison and controller IDs grouped by scope.
 The runner compares canonical XML content with the frozen native import, ignoring generator comments and platform line endings.
 The scope is exploratory. Successful loading and static connectivity do not establish complete corridor driving validity.
-The source has 149 official motor-lane references. Of these, 132 have tentative ordinary-lane parts and 17 remain unmapped.
+The source has 149 official motor-lane references. Of these, 135 have tentative ordinary-lane parts and 14 remain unmapped.
 Seven associated lanes have zero directed overlap and no lateral measurement. They remain explicit uncertainties.
-All 132 saved associations retain their ordinary-lane parts. Their measured coverage does not regress against the full source network.
+All 135 saved associations retain their ordinary-lane parts. Their measured coverage does not regress against the full source network.
 This is preservation of tentative source correspondence, not field geometry acceptance.
 The grouped official movement inventory still has incomplete correspondence. Approach preservation does not establish complete official turns.
 
@@ -68,7 +70,7 @@ The frozen approach list can be regenerated offline from the frozen OSM, MAP, KM
 This command rebuilds the full source network and measures all five official sites.
 It writes `calibration/run.json` and `official-approach-anchors.json` in the new output directory.
 It does not read the saved protection list to derive its result.
-The current frozen inputs produce the same 126 protected source edges.
+The current frozen inputs produce the same 130 protected source edges.
 `source-reproduction.json` records whether the rebuilt raw network matches the frozen input content.
 The road-selection `case.json` reports `reproduction.status` separately from its measured construction status.
 An input mismatch remains visible while exploratory measurements continue.
@@ -84,7 +86,7 @@ Use a new output file. Neither command replaces the frozen fixture.
 Low-confidence associations remain visible and retained. Their confidence does not prevent measurement or retention.
 Each anchor separates whole-reference coverage from the coverage and lateral offset supplied by its individual source edge.
 Each retained road records its basis: a declared study way, a declared edge, or tentative official approach correspondence.
-Thirteen protected edges have no supporting fact marked high or confirmed. They remain tentative.
+Eighteen protected edges have no supporting fact marked high or confirmed. They remain tentative.
 These measurements do not establish independent field accuracy or final detector correspondence.
 
 ## Remaining demonstration stages
@@ -97,4 +99,6 @@ These measurements do not establish independent field accuracy or final detector
 The intended presentation uses actual matched NetEdit screenshots over one Google background.
 Those figures and the count curves are not produced by this partial runner yet.
 The [official source package](../../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) supplies the next junction stage offline.
+The [source-count package](../../benchmarks/hamburg_ring1_count_window_20261020_v1/README.md) checks official field-to-station aggregation offline.
+It contains no simulated or fitted counts.
 See the [case and six-stage design](../../docs/hamburg-readme-case.md) and [road-selection behavior](../../docs/road-hierarchy.md).

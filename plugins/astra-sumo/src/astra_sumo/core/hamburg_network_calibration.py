@@ -18,7 +18,7 @@ from .artifact_io import relative_or_absolute_path, write_json_atomic
 from .candidate_contracts import file_sha256
 from .digital_twin import parse_mapem
 from .digital_twin_mapping import MapLaneBinding, bind_map_lanes_to_network
-from .hamburg_map_kml import bind_hamburg_map_kml_to_mapem, parse_hamburg_map_kml
+from .hamburg_map_kml import bind_hamburg_map_kml_to_mapem, parse_hamburg_map_kml, read_hamburg_map_lane_references
 from .network_calibration import (NetworkFactTable, centerline_overlap_metrics, evaluate_network_calibration,
                                   _coordinate_transform, _shape)
 from .lane_correspondence import assign_nonmotor_lanes, diagnose_lane_match, duplicate_lane_assignments
@@ -54,7 +54,8 @@ def evaluate_hamburg_calibration_snapshot(*, network: Path, official_sources: Pa
         lanes, _ = parse_mapem(map_file)
         if {lane.node_id for lane in lanes} != {node}:
             raise ValueError(f"Official MAP content does not match requested node {node}.")
-        bindings = bind_map_lanes_to_network(network, lanes)
+        _, reference_shapes = read_hamburg_map_lane_references(network, (map_file,), (kml_file,))
+        bindings = bind_map_lanes_to_network(network, lanes, lane_shapes=reference_shapes)
         serialized = []
         for binding in bindings:
             row = asdict(binding)

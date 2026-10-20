@@ -165,6 +165,42 @@ def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path):
     assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
     assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]
     assert report["source_immutable"] and source.read_bytes() == original
+    from pyproj import Transformer
+    from astra_sumo.core.digital_twin import parse_mapem
+    from astra_sumo.core.hamburg_map_kml import parse_hamburg_map_kml, bind_hamburg_map_kml_to_mapem
+    from astra_sumo.core.hamburg_junctions.source import _project_plan_to_network
+    from astra_sumo.core.hamburg_junctions.movements import _write_movement_candidate
+    from astra_sumo.core.network_geometry_freeze import compare_frozen_geometry
+    official = fixture.parent / "hamburg_ring1_official_sources_20261020_v1"
+    catalog = json.loads((official / "manifest.json").read_text(encoding="utf-8"))
+    paths = {}
+    for row in catalog["files"]:
+        if row["node_id"] == "119" and row["kind"] in {"map_xml", "map_kml"}:
+            path = tmp_path / row["source_filename"]
+            path.write_bytes(gzip.decompress((official / row["path"]).read_bytes()))
+            assert file_sha256(path) == row["sha256"]
+            paths[row["kind"]] = path
+    lanes,connections = parse_mapem(paths["map_xml"])
+    geometry = bind_hamburg_map_kml_to_mapem(parse_hamburg_map_kml(paths["map_kml"]),lanes,connections)
+    transform = Transformer.from_crs("EPSG:4326","EPSG:25832",always_xy=True)
+    def project(points):
+        return [list(transform.transform(point[0],point[1])) for point in points]
+    official_move = next(row for row in geometry["connections"] if row["ingress_lane_id"]=="3" and row["egress_lane_id"]=="41")
+    plan = {"node_id":"119","crs":"EPSG:25832","inputs":{key:{"path":str(path),"sha256":file_sha256(path)} for key,path in paths.items()},
+        "lanes":[{"lane_id":row["lane_id"],"lane_type":row["lane_type"],"ingress_approach":row["ingress_approach"],
+            "egress_approach":row["egress_approach"],"shape_epsg25832":project(row["coordinates"])} for row in geometry["lanes"] if row["lane_id"] in {"3","41"}],
+        "movements":[{"movement_id":official_move["connection_id"],"ingress_lane_id":"3","egress_lane_id":"41","intersection_part":"0",
+            "selected_source":"official_MAP_reference","selected_shape_epsg25832":project(official_move["drive_line_coordinates"])}]}
+    plan = _project_plan_to_network(plan, ET.parse(candidate).getroot())
+    digest = file_sha256(candidate)
+    refreshed = output / "refreshed.net.xml"
+    built = _write_movement_candidate(joined_net=candidate,plans={"119":plan},groups=[{"node_id":"119","intersection_part":"0",
+        "join_id":"LSA119_part0","source_node_ids":["LSA119_part0"]}],skipped_join_ids=set(),output_file=refreshed,
+        maximum_anchor_projection_error_m=10,netconvert_binary=executable,sumo_binary=shutil.which("sumo"),timeout_seconds=60)
+    assert built["materialized_movement_count"] == 1, built
+    assert built["geometry_frozen_input"]["source"]["sha256"] == digest
+    assert file_sha256(candidate) == digest
+    assert compare_frozen_geometry(source_file=candidate,candidate_file=refreshed,mutable_junction_ids={"LSA119_part0"})["status"] == "pass"
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")

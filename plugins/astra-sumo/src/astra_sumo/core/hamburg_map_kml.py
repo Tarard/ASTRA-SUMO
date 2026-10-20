@@ -41,6 +41,39 @@ class HamburgMapKmlError(ValueError):
     """Raised when an official MAP KML cannot be parsed deterministically."""
 
 
+def read_hamburg_map_lane_references(
+    net_file: Path,
+    map_files: Sequence[Path],
+    map_kml_files: Sequence[Path] = (),
+    *,
+    network_projection: str | None = None,
+):
+    """Read paired source geometry in the final SUMO network coordinate frame."""
+    from .digital_twin import parse_mapem
+    from .digital_twin_mapping import _convert_network_lonlat2xy, read_network_lanes
+
+    if map_kml_files and (len(map_kml_files) != len(map_files) or len(set(map_kml_files)) != len(map_kml_files)):
+        raise HamburgMapKmlError("Supply one unique KML file for each MAP file, in the same order.")
+    all_lanes = []
+    shapes = {}
+    net = None
+    for index, path in enumerate(map_files):
+        lanes, connections = parse_mapem(path)
+        all_lanes.extend(lanes)
+        if map_kml_files:
+            geometry = bind_hamburg_map_kml_to_mapem(parse_hamburg_map_kml(map_kml_files[index]), lanes, connections)
+            if net is None:
+                net, _ = read_network_lanes(net_file)
+            for row in geometry["lanes"]:
+                shapes[geometry["node_id"], row["lane_id"]] = tuple(
+                    _convert_network_lonlat2xy(net, point[0], point[1], network_projection=network_projection)
+                    for point in row["coordinates"]
+                )
+    if len({(lane.node_id, lane.lane_id) for lane in all_lanes}) != len(all_lanes):
+        raise HamburgMapKmlError("Official MAP files repeat a node/lane identity.")
+    return all_lanes, shapes or None
+
+
 def parse_hamburg_map_kml(
     path: Path,
     *,

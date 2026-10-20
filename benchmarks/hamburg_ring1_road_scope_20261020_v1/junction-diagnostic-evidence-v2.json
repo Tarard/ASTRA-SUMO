@@ -1,0 +1,54 @@
+{
+  "schema": "astra.ring1-junction-diagnostic-evidence/v2",
+  "status": "partial",
+  "promotion_authority": false,
+  "source_scope": {
+    "path": "outputs/ring1-road-demo-20261020-v9/case.json",
+    "sha256": "349686def07f9500b42123ec373450a74a1298af39cd516cd0a848fc1d06b60f"
+  },
+  "source_scope_road_count": 468,
+  "lineage_note": "This two-node prototype predates the new 467-road scope. It is not the complete junction-stage replay.",
+  "candidate": {
+    "path": "outputs/ring1-119-added-lane-movements-20261020-v5/official.net.xml",
+    "sha256": "8a65b17df5d412abf5f99c4b1c3d52ba599c3e3bf19f7447d9b5eb9e8375a1ff"
+  },
+  "movement_result": {
+    "path": "outputs/ring1-119-added-lane-movements-20261020-v5/result.json",
+    "sha256": "edcba3a395b65c1c147a44816ecad3ad797179336a1372e455e66a41d2c66950"
+  },
+  "probe_runner": {
+    "path": "outputs/probe_ring1_119_535_movements_20261020_v3.py",
+    "sha256": "2e6252b8a5e32735b7b0ff0e70149021c127747c3e28d1c01d0ab92739238512"
+  },
+  "probe_report": {
+    "path": "outputs/ring1-119-535-movement-probes-20261020-v3/runs/summary.json",
+    "sha256": "736cd843cdec45c60eda70e3786ba139ea5a6ef8bac901022b69a03733420d24"
+  },
+  "official_motor_movements": 35,
+  "mapped_and_tested": 35,
+  "passed_exact_lane_transition": 35,
+  "composed_boundary_path_review_count": 0,
+  "movement_only_ordinary_geometry_changes": {
+    "shape": [],
+    "length": [],
+    "width": []
+  },
+  "normal_new_lane_driving": {
+    "path": "outputs/ring1-119-added-lane-normal-driving-20261020-v2/result.json",
+    "sha256": "b67b618d19439ec660c9546e4f0757b6333ad74849c97e0cd22162fbd27b0f99"
+  },
+  "normal_driving_scope": "One normal passenger vehicle completes an explicit one-second stop on the new lane. It does not establish natural lane allocation or capacity.",
+  "field_bindings": {
+    "path": "outputs/ring1-kml-field-bindings-20261020-v6/detector-binding.manifest.json",
+    "sha256": "f591d576681aec83551b65cce29c874aad46807c4b433215223f8e6425724ca8"
+  },
+  "active_field_mappings": 13,
+  "shared_lane_stream_groups": [],
+  "remaining": [
+    "Full five-node replay on the new scope",
+    "Two unexplained extra connections at 535",
+    "Three neighboring shape changes from the earlier lane-count stage",
+    "Final detector placement, signal treatment, demand fitting and same-window count comparison"
+  ],
+  "claim_boundary": "Isolated movements and model-relative geometric field associations. No field-control, complete corridor, demand or count-accuracy claim."
+}

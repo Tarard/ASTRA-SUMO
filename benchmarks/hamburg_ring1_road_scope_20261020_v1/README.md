@@ -17,18 +17,21 @@ It is separate from the Am Sandtorkai fixtures.
 The import has 1,156 ordinary road segments and nine narrowly repairable stale pedestrian-internal signal references.
 SUMO 1.27.1 crashes or stalls during postload pruning on this input. The current implementation uses checked preload extraction.
 The raw-native class regression retains 367 segments, including four V1 calibration-road references supplied as study anchors.
-The full offline example applies OSM access corrections and protects tentative official approach parts. It retains 468 segments.
-`official-approach-anchors-v2.json` records the source associations, their confidence, input identity, and unresolved references.
-These data protect 126 source edges. They do not constitute confirmed SUMO correspondence or field geometry acceptance.
+The full offline example applies OSM access corrections and protects tentative official approach parts. It retains 467 segments.
+`official-approach-anchors-v3.json` records the source associations, their confidence, input identity, and unresolved references.
+These data protect 130 source edges. They do not constitute confirmed SUMO correspondence or field geometry acceptance.
 These anchors do not establish an exact sensor-to-lane mapping.
-The v2 file separates whole-lane coverage from individual-edge support and records the retention basis for each edge.
-It preserves low-confidence associations. Thirteen retained edges lack high or confirmed fact support.
-The earlier `official-approach-anchors.json` remains available.
+The v3 file separates whole-lane coverage from individual-edge support and records the retention basis for each edge.
+It preserves low-confidence associations. Eighteen retained edges lack high or confirmed fact support.
+The earlier `official-approach-anchors.json` and v2 data remain available.
+V3 uses the same explicit KML coordinates for association and measurement, with headings taken at the bound anchor.
+The previous v2 association replay retained 468 roads. That version remains recorded separately.
 The [regeneration instructions](../../examples/06_hamburg_ring1_demo/README.md#regenerate-the-approach-evidence) start from the frozen source files.
-[Regeneration evidence](approach-regeneration-evidence-v1.json) records the measured input identities and focused test results.
+[Regeneration evidence](approach-regeneration-evidence-v2.json) records the current measured input identities and byte comparison.
 
-[Current execution evidence](execution-evidence-v3.json) records the official-approach scope and remaining stages.
-[Official approach comparison](official-approach-comparison-v1.json) records source-bound lane-part and coverage preservation.
+[Current execution evidence](execution-evidence-v4.json) records the 467-road scope and remaining stages.
+[Official approach comparison](official-approach-comparison-v2.json) records source-bound lane-part and coverage preservation.
+Earlier evidence files retain their original scope and measurements.
 The prior [367-road execution](execution-evidence-v2.json) and [geometry check](main-road-geometry-evidence-v2.json) remain available.
 [Earlier signal-scope evidence](signal-scope-evidence-v1.json) records the reporting repair on the 367-road scope.
 The earlier [533-road run](execution-evidence.json) and [geometry check](main-road-geometry-evidence.json) remain as superseded evidence.
@@ -36,8 +39,13 @@ Other retained approach geometry can change during extraction. Controller remova
 
 The fixture tests road selection and input handling. It contains no new traffic-count calibration result.
 Run the [offline example](../../examples/06_hamburg_ring1_demo/README.md) to rebuild stages 1 and 2.
-[Separate junction diagnostics](junction-diagnostic-evidence-v1.json) record 34 passing isolated movements out of 35 official movements at 119 and 535.
-One movement, two extra 535 connections, and final sensor correspondence remain unresolved. The full junction-stage replay is incomplete.
+[Separate junction diagnostics](junction-diagnostic-evidence-v2.json) record 35 passing isolated movements at 119 and 535.
+This prototype comes from the earlier 468-road scope. It has not been replayed on the current 467-road scope.
+Its movement-only conversion preserves all ordinary lane shapes, lengths, and widths from its lane-count input.
+The earlier lane-count stage still changes three neighboring lane shapes. These changes remain unaccepted.
+Thirteen geometric count-field associations are active, with no shared lane assignments.
+Two extra 535 connections, the complete junction-stage replay, and final detector placement remain unresolved.
+The earlier 34-of-35 diagnostic record remains available.
 
 `lane-count-input.net.xml.gz` freezes a 12-road conversion context from the unaccepted LSA119 prototype.
 `lane-count-input.json` records its identity and the earlier conversion's adjacent geometry changes.
@@ -49,3 +57,7 @@ Remaining changes stay measured. This fixture does not establish field geometry,
 Data attribution: © OpenStreetMap contributors.
 Data license: [Open Database License 1.0](https://www.openstreetmap.org/copyright).
 ASTRA-generated files retain this source attribution. Code follows the repository license.
+
+`detector-metadata.json.gz` retains two published adjacent count-field records at 119.
+`detector-metadata-input.json` binds their model-relative regression expectations to the frozen source road context.
+The KML regression checks separate field-to-reference and reference-to-SUMO associations without treating field numbers as lane indices.

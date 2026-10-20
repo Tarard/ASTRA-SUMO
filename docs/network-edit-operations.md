@@ -199,10 +199,12 @@ not complete implicit pedestrian routing or field legality.
 
 The road shape is the SUMO edge reference line, not one individual lane centerline.
 Road-shape and lane-count edits clear custom shapes on the retained target lanes so SUMO can recompute their geometry.
+
 Lane-count edits add source geometry hints for all other ordinary lanes and their saved logical lengths.
 They retain existing custom junction contours. Automatically generated contours can adapt, including their walking connections.
 The plan records both the original conversion input and the input with geometry hints, with separate hashes.
 The materialization manifest includes both files. Verification reconstructs the hints from the source rather than trusting their saved contents.
+
 Native SUMO can still clip hinted lane shapes near junctions.
 `neighboring_road_geometry` reports changes on every ordinary road except the edited target.
 Its `source_geometry_preserved` flag states whether that comparison is exact. Its status remains `measured` during exploration.

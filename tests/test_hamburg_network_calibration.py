@@ -88,7 +88,8 @@ def test_snapshot_coverage_average_includes_zero_overlap(tmp_path, monkeypatch):
     source_manifest.write_text(json.dumps({"paths": {"2349": paths}, "downloads": [
         {"node_id": "2349", "kind": kind, "path": path, "sha256": calibration.file_sha256(Path(path))}
         for kind, path in paths.items()]}), encoding="utf-8")
-    monkeypatch.setattr(calibration, "bind_map_lanes_to_network", lambda *_: [])
+    monkeypatch.setattr(calibration, "read_hamburg_map_lane_references", lambda *_, **__: ([], None))
+    monkeypatch.setattr(calibration, "bind_map_lanes_to_network", lambda *_, **__: [])
     monkeypatch.setattr(calibration, "write_hamburg_network_facts", lambda **_: {"facts": [{}, {}]})
     facts = [{"kind": "lane_centerline", "traffic_mode": "motor", "mapping_confidence": "low",
         "metrics": {"mean_lateral_offset_m": offset, "reference_coverage": coverage}}

@@ -47,6 +47,10 @@
     "official-approach-anchors-v2.json": {
       "sha256": "a7f896ab0b8e4d39586d866355ac20d31e208f886dd1750e8c254649b54b5cd1",
       "bytes": 183791
+    },
+    "official-approach-anchors-v3.json": {
+      "sha256": "10a7b1b2f4cd570e25a807db06c1f33af79762d695cf6fa4a3f3e4c0b18e988b",
+      "bytes": 190493
     }
   },
   "protected_way_ids": [
@@ -58,7 +62,7 @@
   "protection_basis": "V1 calibration-script road references retained as study anchors; exact sensor-to-lane matching remains separate.",
   "expected_source_road_count": 1156,
   "expected_selected_road_count": 367,
-  "expected_prepared_selected_road_count": 468,
+  "expected_prepared_selected_road_count": 467,
   "native_network_content_sha256": "5b9363b296e8bbf82bd76f8cdc71c7c4bfa66023240a958aca645ab6ba093247",
   "native_content_hash_method": "SHA-256 of UTF-8 XML C14N 2.0 without comments",
   "native_import_defects": "Contains nine narrowly repairable stale pedestrian-internal TLS references. Postload pruning fails in SUMO 1.27.1; preload is retained as the checked fallback.",
@@ -70,5 +74,5 @@
   "claim_boundary": "Road classification and simulation-scope selection only. No detector calibration, field signal or whole-corridor driving claim.",
   "keep_tier": "major",
   "vehicle_class": "passenger",
-  "official_approach_anchors_file": "official-approach-anchors-v2.json"
+  "official_approach_anchors_file": "official-approach-anchors-v3.json"
 }

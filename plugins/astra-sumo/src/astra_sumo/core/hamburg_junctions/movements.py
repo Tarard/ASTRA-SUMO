@@ -204,7 +204,16 @@ def _write_movement_candidate(
                 connection.set("allow", " ".join(sorted(composed_permissions[key])))
 
     patch_file = output_file.with_suffix(".con.xml")
-    command = [str(netconvert_binary), "--sumo-net-file", str(joined_net), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(output_file)]
+    geometry_input = None
+    native_source = joined_net
+    if junction_contours == "preserve":
+        from ..network_geometry_freeze import prepare_geometry_frozen_input
+        automatic = frozenset(j.get("id") for j in root.findall("junction")
+            if j.get("type") != "internal" and j.get("customShape", "false") not in {"1", "true"})
+        geometry_input = prepare_geometry_frozen_input(source_file=joined_net,
+            output_file=output_file.with_suffix(".geometry-input.net.xml"), mutable_junction_ids=automatic)
+        native_source = Path(geometry_input["frozen_input"]["path"])
+    command = [str(netconvert_binary), "--sumo-net-file", str(native_source), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(output_file)]
     base_command = list(command)
     from ..local_network_conversion import run_scoped_native_conversion
     conversion_edges = {identity for identity in mutable_edges if identity in edges}
@@ -335,11 +344,11 @@ def _write_movement_candidate(
         raise ValueError("The protected source changed during movement compilation.")
     outside_restoration = restore_off_scope_netconvert_artifacts(
         source_file=protected_source, target_file=output_file,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges if geometry_input is None else set(),
         expand_mutable_edge_endpoints=False,
     )
     preservation = compare_frozen_geometry(source_file=protected_source, candidate_file=output_file,
-        mutable_junction_ids=frozenset(mutable_nodes), mutable_edge_ids=frozenset(mutable_edges))
+        mutable_junction_ids=frozenset(mutable_nodes), mutable_edge_ids=frozenset(mutable_edges) if geometry_input is None else frozenset())
     outside_restoration["independent_geometry_preservation"] = preservation
     outside_restoration["protected_source_sha256"] = protected_hash
     if outside_restoration["status"] != "pass" or preservation["status"] != "pass":
@@ -428,6 +437,7 @@ def _write_movement_candidate(
         "connection_patch": str(patch_file),
         "netconvert_passes": commands,
         "selected_netconvert_command": contours.get("selected_command", commands[-1]["command"]),
+        "geometry_frozen_input": geometry_input,
         "junction_contours": contours,
     }
 

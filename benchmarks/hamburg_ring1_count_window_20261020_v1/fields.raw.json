@@ -1,0 +1,1203 @@
+{
+  "request_urls": [
+    "https://iot.hamburg.de/v1.1/Datastreams?%24top=100&%24expand=Thing%28%24expand%3DLocations%29&%24filter=properties%2FknotenName+eq+%270119%27+and+properties%2FserviceName+eq+%27HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren%27+and+properties%2FlayerName+eq+%27Anzahl_Kfz_Zaehlfeld_5-Min%27",
+    "https://iot.hamburg.de/v1.1/Datastreams?%24top=100&%24expand=Thing%28%24expand%3DLocations%29&%24filter=properties%2FknotenName+eq+%270535%27+and+properties%2FserviceName+eq+%27HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren%27+and+properties%2FlayerName+eq+%27Anzahl_Kfz_Zaehlfeld_5-Min%27"
+  ],
+  "pages_by_node": {
+    "119": [
+      {
+        "value": [
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(28853)",
+            "@iot.id": 28853,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.11 im 5-Min-Intervall an der LSA 0119",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                9.993307145,
+                53.557914125
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.11",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_5395",
+              "knotenName": "0119",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:07:06.596Z/2026-10-20T14:22:07.536Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13770)",
+              "@iot.id": 13770,
+              "name": "Verkehrszählfeld Z.11 an der LSA 0119",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.11",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_5395",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26525605)",
+                  "@iot.id": 26525605,
+                  "name": "Verkehrszählfeld Z.11 an der LSA 0119",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        9.993307145,
+                        53.557914125
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_5395"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(28853)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(28853)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(28853)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(28853)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(29375)",
+            "@iot.id": 29375,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.15 im 5-Min-Intervall an der LSA 0119",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                9.994021259,
+                53.557727498
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.15",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_5398",
+              "knotenName": "0119",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:07:06.607Z/2026-10-20T14:22:07.558Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13976)",
+              "@iot.id": 13976,
+              "name": "Verkehrszählfeld Z.15 an der LSA 0119",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.15",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_5398",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26525812)",
+                  "@iot.id": 26525812,
+                  "name": "Verkehrszählfeld Z.15 an der LSA 0119",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        9.994021259,
+                        53.557727498
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_5398"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29375)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29375)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29375)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29375)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(29437)",
+            "@iot.id": 29437,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.4 im 5-Min-Intervall an der LSA 0119",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                9.992846349,
+                53.5576008
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.4",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_5391",
+              "knotenName": "0119",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:07:06.587Z/2026-10-20T14:22:07.512Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13997)",
+              "@iot.id": 13997,
+              "name": "Verkehrszählfeld Z.4 an der LSA 0119",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.4",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_5391",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 2"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26525834)",
+                  "@iot.id": 26525834,
+                  "name": "Verkehrszählfeld Z.4 an der LSA 0119",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        9.992846349,
+                        53.5576008
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_5391"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29437)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29437)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29437)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29437)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(30494)",
+            "@iot.id": 30494,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.5 im 5-Min-Intervall an der LSA 0119",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                9.992860376,
+                53.55762417
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.5",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_5399",
+              "knotenName": "0119",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:07:06.618Z/2026-10-20T14:22:07.567Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(14415)",
+              "@iot.id": 14415,
+              "name": "Verkehrszählfeld Z.5 an der LSA 0119",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.5",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_5399",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 2"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26526250)",
+                  "@iot.id": 26526250,
+                  "name": "Verkehrszählfeld Z.5 an der LSA 0119",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        9.992860376,
+                        53.55762417
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_5399"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30494)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30494)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30494)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30494)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(31546)",
+            "@iot.id": 31546,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.12 im 5-Min-Intervall an der LSA 0119",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                9.993394622,
+                53.557897047
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.12",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_5397",
+              "knotenName": "0119",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:39.179Z/2026-10-20T14:22:07.55Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(14760)",
+              "@iot.id": 14760,
+              "name": "Verkehrszählfeld Z.12 an der LSA 0119",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.12",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_5397",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26526595)",
+                  "@iot.id": 26526595,
+                  "name": "Verkehrszählfeld Z.12 an der LSA 0119",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        9.993394622,
+                        53.557897047
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_5397"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31546)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31546)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31546)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31546)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(34018)",
+            "@iot.id": 34018,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.13 im 5-Min-Intervall an der LSA 0119",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                9.993445331,
+                53.557887707
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.13",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_5396",
+              "knotenName": "0119",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:39.171Z/2026-10-20T14:22:07.543Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(15389)",
+              "@iot.id": 15389,
+              "name": "Verkehrszählfeld Z.13 an der LSA 0119",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.13",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_5396",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26527225)",
+                  "@iot.id": 26527225,
+                  "name": "Verkehrszählfeld Z.13 an der LSA 0119",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        9.993445331,
+                        53.557887707
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_5396"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34018)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34018)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34018)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34018)/Observations"
+          }
+        ]
+      }
+    ],
+    "535": [
+      {
+        "value": [
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(29038)",
+            "@iot.id": 29038,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.9 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.004211038,
+                53.553893389
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.9",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6303",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.332Z/2026-10-20T14:22:16.539Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13852)",
+              "@iot.id": 13852,
+              "name": "Verkehrszählfeld Z.9 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.9",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6303",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 2"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26525687)",
+                  "@iot.id": 26525687,
+                  "name": "Verkehrszählfeld Z.9 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.004211038,
+                        53.553893389
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6303"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29038)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29038)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29038)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29038)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(29316)",
+            "@iot.id": 29316,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.7 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.00414666,
+                53.554177047
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.7",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6309",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.392Z/2026-10-20T14:22:16.602Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13955)",
+              "@iot.id": 13955,
+              "name": "Verkehrszählfeld Z.7 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.7",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6309",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26525791)",
+                  "@iot.id": 26525791,
+                  "name": "Verkehrszählfeld Z.7 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.00414666,
+                        53.554177047
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6309"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29316)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29316)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29316)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(29316)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(30894)",
+            "@iot.id": 30894,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.5 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.004098497,
+                53.554227825
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.5",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6312",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.415Z/2026-10-20T14:22:16.636Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(14550)",
+              "@iot.id": 14550,
+              "name": "Verkehrszählfeld Z.5 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.5",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6312",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26526386)",
+                  "@iot.id": 26526386,
+                  "name": "Verkehrszählfeld Z.5 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.004098497,
+                        53.554227825
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6312"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30894)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30894)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30894)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30894)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(31892)",
+            "@iot.id": 31892,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.14 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.003435252,
+                53.55383446
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.14",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6308",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.375Z/2026-10-20T14:22:16.593Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(14864)",
+              "@iot.id": 14864,
+              "name": "Verkehrszählfeld Z.14 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.14",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6308",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 2"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26526697)",
+                  "@iot.id": 26526697,
+                  "name": "Verkehrszählfeld Z.14 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.003435252,
+                        53.55383446
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6308"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31892)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31892)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31892)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(31892)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(33055)",
+            "@iot.id": 33055,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.4 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.003346462,
+                53.554124019
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.4",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6302",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.322Z/2026-10-20T14:22:16.531Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(15164)",
+              "@iot.id": 15164,
+              "name": "Verkehrszählfeld Z.4 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.4",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6302",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26526997)",
+                  "@iot.id": 26526997,
+                  "name": "Verkehrszählfeld Z.4 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.003346462,
+                        53.554124019
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6302"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33055)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33055)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33055)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33055)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(33855)",
+            "@iot.id": 33855,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.6 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.004121872,
+                53.554202942
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.6",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6313",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.423Z/2026-10-20T14:22:16.651Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(15342)",
+              "@iot.id": 15342,
+              "name": "Verkehrszählfeld Z.6 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.6",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6313",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26527177)",
+                  "@iot.id": 26527177,
+                  "name": "Verkehrszählfeld Z.6 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.004121872,
+                        53.554202942
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6313"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33855)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33855)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33855)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33855)/Observations"
+          },
+          {
+            "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(34287)",
+            "@iot.id": 34287,
+            "name": "Kfz-Aufkommen an Verkehrszählfeld Z.8 im 5-Min-Intervall an der LSA 0535",
+            "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 5-Min-Intervall aufsummiert.",
+            "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+            "unitOfMeasurement": {
+              "name": "Anzahl",
+              "symbol": "",
+              "definition": ""
+            },
+            "observedArea": {
+              "type": "Point",
+              "coordinates": [
+                10.004170756,
+                53.554152301
+              ]
+            },
+            "phenomenonTime": "2026-02-28T00:00:00Z/2026-10-20T14:19:59Z",
+            "properties": {
+              "aggregationDuration": "P5M",
+              "aggregationMethod": "count",
+              "art": "Zählfeld",
+              "assetID": "Z.8",
+              "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+              "internID": "ZF_6310",
+              "knotenName": "0535",
+              "layerName": "Anzahl_Kfz_Zaehlfeld_5-Min",
+              "mediaMonitored": "transport",
+              "ownerData": "Freie und Hansestadt Hamburg",
+              "resultNature": "processed",
+              "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+              "topic": "Verkehr",
+              "typ": "Kfz",
+              "verkehrsführung": "P"
+            },
+            "resultTime": "2026-02-28T00:05:46.4Z/2026-10-20T14:22:16.61Z",
+            "Thing": {
+              "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(15439)",
+              "@iot.id": 15439,
+              "name": "Verkehrszählfeld Z.8 an der LSA 0535",
+              "description": "Verkehrszählfeld zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+              "properties": {
+                "art": "Zählfeld",
+                "assetID": "Z.8",
+                "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                "internID": "ZF_6310",
+                "keywords": [
+                  "Infrarotdetektor",
+                  "Verkehrsmenge",
+                  "automatisierte Verkehrsmengenerfassung",
+                  "Hamburg",
+                  "Hamburger Radzählnetz",
+                  "aVME",
+                  "HaRaZäN",
+                  "Zählfeld"
+                ],
+                "language": "de",
+                "operationStart": "2026-02-28T23:00:00.000Z",
+                "ownerThing": "Freie und Hansestadt Hamburg",
+                "richtung": "Richtung 1"
+              },
+              "Locations": [
+                {
+                  "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26527279)",
+                  "@iot.id": 26527279,
+                  "name": "Verkehrszählfeld Z.8 an der LSA 0535",
+                  "description": "Zählfeld auf der Fahrbahn",
+                  "encodingType": "application/vnd.geo+json",
+                  "location": {
+                    "type": "Feature",
+                    "geometry": {
+                      "type": "Point",
+                      "coordinates": [
+                        10.004170756,
+                        53.554152301
+                      ]
+                    }
+                  },
+                  "properties": {
+                    "infoLastUpdate": "2025-09-26T06:19:22.271Z",
+                    "internID": "ZF_6310"
+                  }
+                }
+              ]
+            },
+            "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34287)/ObservedProperty",
+            "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34287)/Sensor",
+            "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34287)/Thing",
+            "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(34287)/Observations"
+          }
+        ]
+      }
+    ]
+  }
+}

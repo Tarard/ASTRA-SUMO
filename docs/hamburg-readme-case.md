@@ -30,6 +30,26 @@ The service records each interval's final second as `hh:14:59`, `hh:29:59`, `hh:
 These input checks do not establish sensor accuracy, lane correspondence, or calibrated simulation accuracy.
 The acquisition range is not a selected fitting or validation split.
 
+The [frozen source-count package](../benchmarks/hamburg_ring1_count_window_20261020_v1/README.md) covers 2026-10-19 from 05:30 to 08:00 UTC.
+It retains 390 five-minute field observations and 40 fifteen-minute station totals.
+An independent aggregation check reproduces all 40 published totals from their constituent fields.
+This is a source-data check. It is not a SUMO calibration result or a selected fitting/validation split.
+
+### Detector positions and source geometry
+
+The binding tool accepts `map_kml_files` paired with `map_files` in the same order.
+Its CLI uses repeated `--map-kml-file` and `--map-file` arguments.
+Road-fact snapshots and count bindings use the same explicit KML geometry when available.
+The MAP files supply lane identities and direction semantics. The KML files supply geographic polylines.
+The association uses the reference heading at the bound endpoint, rather than the chord across a curved lane.
+Parallel lanes are assigned within their nearest road arms when a channelized approach spans several roads.
+
+The detector point determines its position on the selected SUMO lane.
+Its XML position uses SUMO's logical lane length, which can differ from the saved XY polyline length.
+It does not reuse the MAP anchor's position. A native coordinate round-trip regression checks this conversion.
+The binding report keeps field-to-reference and reference-to-network distances separate.
+These are geometric associations with confidence labels. They do not establish independently surveyed field identity or historical validity.
+
 ## Signal observation availability
 
 The [2026-10-20 signal screen](../benchmarks/hamburg_ring1_road_scope_20261020_v1/signal-history-screen-v1.json) records the current metadata and five bounded observation queries.
@@ -88,18 +108,27 @@ The configuration records the bbox, corridor, road tier, observation window, and
 ### Current junction diagnostics
 
 A separate prototype constructs LSA535 and the two official parts of LSA119.
-It materializes all 19 official motor movements at 535 and 15 of 16 at 119.
-All 34 mapped movements pass isolated SUMO probes on the combined prototype.
+It materializes all 19 official motor movements at 535 and all 16 at 119.
+All 35 mapped movements pass isolated SUMO probes on the combined prototype.
 Each probe verifies its inlet lane, complete internal lane sequence, and first outlet lane.
-The remaining 119 movement stays in the denominator. Its approach has two official motor lanes but only one source motor lane.
-The source bicycle lane remains unchanged. A lane-count correction still needs construction and driving checks.
+The earlier missing movement required a second motor lane alongside a source bicycle lane.
+The typed lane-count correction retains bicycle access and supplies the official motor connection.
+A normal passenger vehicle completes an explicit stop on the new lane and then arrives without collision or teleport.
+This requested stop does not establish natural lane allocation or capacity.
+The lane-count stage still changes three neighboring lane shapes. Those changes remain measured and unaccepted.
+The subsequent movement-only conversion preserves ordinary lane shapes, lengths, and widths exactly in contour-preservation mode.
+
+This prototype comes from the earlier 468-road scope. It is separate from the current 467-road replay.
+Its 13 count-field associations are active and have no shared lane assignments.
+They use physical field points, explicit paired KML geometry, and SUMO logical positions.
+These model-relative associations do not establish independently surveyed identity or final detector placement.
 
 Channelized official approaches can span several source roads.
 Lane-order matching now handles each unambiguously selected source road separately, with equal counts and consistent shared-section order.
 It does not select a more distant road to obtain a desired lane count.
-Two extra 535 connections remain unexplained. Nine source structural failures remain at the same four outside junctions.
+Two extra 535 connections remain unexplained. The earlier source diagnostic also records nine failures at four outside junctions.
 The probes disable autonomous lane changes and do not establish multi-vehicle capacity, field signal timing, or count accuracy.
-The [diagnostic record](../benchmarks/hamburg_ring1_road_scope_20261020_v1/junction-diagnostic-evidence-v1.json) retains missing movements and these limits.
+The [diagnostic record](../benchmarks/hamburg_ring1_road_scope_20261020_v1/junction-diagnostic-evidence-v2.json) records the prototype lineage, results, and remaining limits.
 The complete junction-stage replay and final sensor mapping remain unfinished.
 
 ### Road importance and retained roads
@@ -160,9 +189,9 @@ The repository already contains road-class presets in `core/road_scope.py`,
 road-arm classification in `intersection/road_detail.py`, and corridor extraction in `core/corridor_scope.py`.
 The Hamburg topology, detector, demand, and NetEdit capture modules provide the later stages.
 Road selection now fixes the original interfaces, preserves main-road movements and local turns, and avoids expanding residential repair obligations.
-The offline example currently retains 468 of 1,156 ordinary road segments, including tentative official approach context.
+The offline example currently retains 467 of 1,156 ordinary road segments, including tentative official approach context.
 The class-only variant retained 367 segments but excluded some official approach fragments.
-The current result retains the source parts of 132 tentative motor-lane associations. Seventeen official motor lanes remain unmapped.
+The current result retains the source parts of 135 tentative motor-lane associations. Fourteen official motor lanes remain unmapped.
 Seven associated lanes have zero directed overlap, so their lateral offset remains unavailable.
 Its main report exposes geometry and signal changes beside the measured status.
 The [official static source package](../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) contains all five MAP/KML/OCIT triplets.

@@ -979,6 +979,7 @@ def sumo_hamburg_named_detector_bindings(
     ambiguity_margin_m: float = 1.0,
     map_files: list[str] | None = None,
     movement_evidence_file: str | None = None,
+    map_kml_files: list[str] | None = None,
 ) -> dict[str, Any]:
     """Bind a frozen Hamburg count inventory to nearby lanes in one candidate network."""
 
@@ -992,6 +993,7 @@ def sumo_hamburg_named_detector_bindings(
             max_distance_m=max_distance_m,
             ambiguity_margin_m=ambiguity_margin_m,
             map_files=tuple(_existing_file(path, "map_file") for path in map_files or []),
+            map_kml_files=tuple(_existing_file(path, "map_kml_file") for path in map_kml_files or []),
             movement_evidence_file=(
                 _existing_file(movement_evidence_file, "movement_evidence_file")
                 if movement_evidence_file

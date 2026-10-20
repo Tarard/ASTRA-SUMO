@@ -383,6 +383,18 @@ def _write_e1_output(path: Path, rows: list[tuple[str, int, int, int]]) -> None:
     ET.ElementTree(root).write(path, encoding="unicode")
 
 
+def test_declared_kml_source_hash_is_checked_before_station_materialization(tmp_path):
+    from astra_sumo.core.hamburg_count_station_binding import _validated_identity_sources
+    source = tmp_path / "reference.kml"
+    source.write_text("frozen KML input",encoding="utf-8")
+    record = {"official_map_kml_files":[_artifact(source)]}
+    trusted,_ = _validated_identity_sources(record,tmp_path / "manifest.json")
+    assert _artifact(source)["sha256"] in trusted
+    source.write_text("changed KML input",encoding="utf-8")
+    with pytest.raises(HamburgCountStationBindingError,match="SHA-256 mismatch"):
+        _validated_identity_sources(record,tmp_path / "manifest.json")
+
+
 def test_binds_composition_fields_and_reuses_one_physical_e1(tmp_path: Path) -> None:
     inputs = _inputs(tmp_path)
     result = _run(inputs, tmp_path / "output")
