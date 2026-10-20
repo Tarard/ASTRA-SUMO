@@ -1,0 +1,611 @@
+{
+  "schema": "astra.endpoint-routing-coverage/v1",
+  "production_commit": "ddedffb2e75b8d5c02926ada1afd16f705d7d1c3",
+  "implementation": {
+    "routeability_audit.py": "7a0abdaeb4ecdc9a09a6d60718dd242e8bce01e6b867308e20647dc074f1eedc",
+    "routeability_od_mapping.py": "28e8c22541c788ab63f9178002c10d0e3bc251388f9c3a22357dc7b19b5c97ce",
+    "network_edit_operations.py": "d549aef5301b4cf48e5d1f971845941373744c79bc9c7c28a52933793a451971",
+    "candidate_contracts.py": "b1ca1b5aceebe95fa77ca6acb3b498c27f2927e84a843ae2d99cb5b748e128f7",
+    "paired_driving.py": "626da49795a3b16549c5f193415b25cfd5af7dc1f847a2799f1ddc4ea186cf52",
+    "command_runner.py": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+  },
+  "native_distribution": "1.27.1",
+  "native_binary": {
+    "path": ".venv/Lib/site-packages/sumo/bin/sumo.exe",
+    "sha256": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c"
+  },
+  "source_networks": {
+    "review_crop": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\source.net.xml",
+      "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+    },
+    "existing_merge": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_hamburg_merge_pair_20261020_v1\\local\\corridor_materialized_variant.net.xml": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_hamburg_merge_pair_20261020_v1\\full\\corridor_materialized_variant.net.xml": "2ecadfb1d601ddd6840aa3015dfe4fa023f6991de62cd1cdbdf37933c116bade",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\original.trips.xml": "c775d370ddee8dcf1b240d40791db8331cab1b7e8a49494e9217e5ca487b3af3"
+    }
+  },
+  "cases": {
+    "deletion": {
+      "status": "fail",
+      "routeability_status": "route-generation-failed",
+      "routing_status": "fail",
+      "request_count": 100,
+      "physical_request_count": 98,
+      "logical_only_request_count": 2,
+      "unresolved_requests": [
+        {
+          "vehicle_id": "1",
+          "reason": "Road '609417456' has no verified directed-road correspondence.",
+          "classification": "source_endpoint_removed",
+          "removed_source_edge_ids": [
+            "609417456"
+          ]
+        },
+        {
+          "vehicle_id": "12",
+          "reason": "Road '609417456' has no verified directed-road correspondence.",
+          "classification": "source_endpoint_removed",
+          "removed_source_edge_ids": [
+            "609417456"
+          ]
+        }
+      ],
+      "driving": {
+        "last_time": null,
+        "loaded": null,
+        "inserted": null,
+        "arrived": null,
+        "running": null,
+        "waiting": null,
+        "collisions": null,
+        "teleports": null
+      },
+      "evidence": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "route-generation-failed",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\delete-routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\delete-routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "d9b5c9787a27b14cf4b0a62771b2b7c43472d971fd2d19c6a4a1c8236ab67090",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "report": {
+        "path": "outputs/epreview26v2/delete-routes/routeability_audit_routeability_audit.json",
+        "sha256": "afddf12ada7a4c13751bed5043134f8d681b00b1bb635cbeaf9892e110befb66"
+      }
+    },
+    "lane_count_source": {
+      "status": "fail",
+      "routeability_status": "incomplete",
+      "routing_status": "pass",
+      "request_count": 100,
+      "physical_request_count": null,
+      "logical_only_request_count": null,
+      "unresolved_requests": [],
+      "driving": {
+        "last_time": 2399.0,
+        "loaded": 100,
+        "inserted": 99,
+        "arrived": 63,
+        "running": 36,
+        "waiting": 1,
+        "collisions": 0,
+        "teleports": 0
+      },
+      "evidence": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "incomplete",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\lane-count\\source-routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\lane-count\\source-routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "report": {
+        "path": "outputs/epreview26v2/lane-count/source-routes/routeability_audit_routeability_audit.json",
+        "sha256": "9f7f9f6dae61852a8941fcc957bc344dc40869db462391d1c390c4c57fbcfdc5"
+      }
+    },
+    "lane_count_candidate": {
+      "status": "fail",
+      "routeability_status": "incomplete",
+      "routing_status": "pass",
+      "request_count": 100,
+      "physical_request_count": 97,
+      "logical_only_request_count": 3,
+      "unresolved_requests": [
+        {
+          "vehicle_id": "22",
+          "reason": "A selected source lane is absent from the candidate road.",
+          "classification": "physical_position_unresolved",
+          "removed_source_edge_ids": []
+        },
+        {
+          "vehicle_id": "40",
+          "reason": "A selected source lane is absent from the candidate road.",
+          "classification": "physical_position_unresolved",
+          "removed_source_edge_ids": []
+        },
+        {
+          "vehicle_id": "95",
+          "reason": "A selected source lane is absent from the candidate road.",
+          "classification": "physical_position_unresolved",
+          "removed_source_edge_ids": []
+        }
+      ],
+      "driving": {
+        "last_time": 2399.0,
+        "loaded": 100,
+        "inserted": 99,
+        "arrived": 63,
+        "running": 36,
+        "waiting": 1,
+        "collisions": 0,
+        "teleports": 0
+      },
+      "evidence": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "incomplete",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\lane-count\\candidate-routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\lane-count\\candidate-routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "23f544918f869a1d31e9ce5d48fbba06f1421cb1dd01c8fe08665d318f6b2718",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "report": {
+        "path": "outputs/epreview26v2/lane-count/candidate-routes/routeability_audit_routeability_audit.json",
+        "sha256": "fa4405eb5dd8e0f161d9962cad133b2edfda34f4f02cd8dc180f8bfda962b90f"
+      }
+    },
+    "merged_candidates": {
+      "source": {
+        "status": "pass",
+        "routeability_status": "pass",
+        "routing_status": "pass",
+        "request_count": 4,
+        "physical_request_count": null,
+        "logical_only_request_count": null,
+        "unresolved_requests": [],
+        "driving": {
+          "last_time": 299.0,
+          "loaded": 4,
+          "inserted": 4,
+          "arrived": 4,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "evidence": {
+          "status": "pass",
+          "execution_status": "completed",
+          "routeability_status": "pass",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\source\\routeability_audit_routeability_audit.json",
+          "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\source\\routeability_audit_routeability_audit.manifest.json",
+          "net_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+          "errors": []
+        },
+        "report": {
+          "path": "outputs/odmap26v5/source/routeability_audit_routeability_audit.json",
+          "sha256": "db2890a7c1017bd1c836339727e12533e8d1479c8d145ab212ec4414c133fa32"
+        }
+      },
+      "unmapped-local": {
+        "status": "fail",
+        "routeability_status": "route-generation-failed",
+        "routing_status": "fail",
+        "request_count": 4,
+        "physical_request_count": null,
+        "logical_only_request_count": null,
+        "unresolved_requests": [],
+        "driving": {
+          "last_time": null,
+          "loaded": null,
+          "inserted": null,
+          "arrived": null,
+          "running": null,
+          "waiting": null,
+          "collisions": null,
+          "teleports": null
+        },
+        "evidence": {
+          "status": "blocked",
+          "execution_status": "completed",
+          "routeability_status": "route-generation-failed",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\unmapped-local\\routeability_audit_routeability_audit.json",
+          "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\unmapped-local\\routeability_audit_routeability_audit.manifest.json",
+          "net_sha256": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+          "errors": [
+            {
+              "code": "routeability_result_not_pass"
+            },
+            {
+              "code": "routeability_manifest_status_not_pass"
+            }
+          ]
+        },
+        "report": {
+          "path": "outputs/odmap26v5/unmapped-local/routeability_audit_routeability_audit.json",
+          "sha256": "fe4d93e6c137fbc63f556d943b50b7f3f8afc455340de8f0c42ffb54e1d5ab52"
+        }
+      },
+      "local": {
+        "status": "pass",
+        "routeability_status": "pass",
+        "routing_status": "pass",
+        "request_count": 4,
+        "physical_request_count": 4,
+        "logical_only_request_count": 0,
+        "unresolved_requests": [],
+        "driving": {
+          "last_time": 299.0,
+          "loaded": 4,
+          "inserted": 4,
+          "arrived": 4,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "evidence": {
+          "status": "pass",
+          "execution_status": "completed",
+          "routeability_status": "pass",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\local\\routeability_audit_routeability_audit.json",
+          "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\local\\routeability_audit_routeability_audit.manifest.json",
+          "net_sha256": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+          "errors": []
+        },
+        "report": {
+          "path": "outputs/odmap26v5/local/routeability_audit_routeability_audit.json",
+          "sha256": "c3295436a7a868fb3c92f96cf01d8e7e6167db818ccc030c457f9f714208b4b3"
+        }
+      },
+      "full": {
+        "status": "pass",
+        "routeability_status": "pass",
+        "routing_status": "pass",
+        "request_count": 4,
+        "physical_request_count": 4,
+        "logical_only_request_count": 0,
+        "unresolved_requests": [],
+        "driving": {
+          "last_time": 299.0,
+          "loaded": 4,
+          "inserted": 4,
+          "arrived": 4,
+          "running": 0,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "evidence": {
+          "status": "pass",
+          "execution_status": "completed",
+          "routeability_status": "pass",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\full\\routeability_audit_routeability_audit.json",
+          "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\full\\routeability_audit_routeability_audit.manifest.json",
+          "net_sha256": "2ecadfb1d601ddd6840aa3015dfe4fa023f6991de62cd1cdbdf37933c116bade",
+          "errors": []
+        },
+        "report": {
+          "path": "outputs/odmap26v5/full/routeability_audit_routeability_audit.json",
+          "sha256": "54c10946b7be364b281ce196ee4da62b1f17850978f5b2fa53b887794093938c"
+        }
+      },
+      "generated-local": {
+        "status": "fail",
+        "routeability_status": "incomplete",
+        "routing_status": "pass",
+        "request_count": 100,
+        "physical_request_count": 99,
+        "logical_only_request_count": 1,
+        "unresolved_requests": [
+          {
+            "vehicle_id": "45",
+            "reason": "The arrival lane set needs different candidate positions; use an explicit source lane.",
+            "classification": "physical_position_unresolved",
+            "removed_source_edge_ids": []
+          }
+        ],
+        "driving": {
+          "last_time": 1199.0,
+          "loaded": 100,
+          "inserted": 100,
+          "arrived": 98,
+          "running": 2,
+          "waiting": 0,
+          "collisions": 0,
+          "teleports": 0
+        },
+        "evidence": {
+          "status": "blocked",
+          "execution_status": "completed",
+          "routeability_status": "incomplete",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\generated-local\\routeability_audit_routeability_audit.json",
+          "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v5\\generated-local\\routeability_audit_routeability_audit.manifest.json",
+          "net_sha256": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+          "errors": [
+            {
+              "code": "routeability_result_not_pass"
+            },
+            {
+              "code": "routeability_manifest_status_not_pass"
+            }
+          ]
+        },
+        "report": {
+          "path": "outputs/odmap26v5/generated-local/routeability_audit_routeability_audit.json",
+          "sha256": "ec8434adbb7b07cc7da5a58d48d51a9ee51f37e43d5c8022ad1fdf184e8b9de9"
+        }
+      }
+    }
+  },
+  "lane_count_explore_status": "measured",
+  "source_baseline": {
+    "status": "dirty",
+    "scope": "synthetic_passenger_driving_diagnostic",
+    "diagnostic_status": "fail",
+    "reason": "incomplete",
+    "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\epreview26v2\\lane-count\\source-routes\\routeability_audit_routeability_audit.json"
+  },
+  "paired_requests": {
+    "pair_valid": false,
+    "performance_mean": null,
+    "request_count": 100,
+    "input_changes": [],
+    "transitions": {
+      "unfinished_at_horizon -> unfinished_at_horizon": {
+        "count": 36,
+        "vehicle_ids": [
+          "0",
+          "18",
+          "2",
+          "23",
+          "26",
+          "33",
+          "38",
+          "44",
+          "47",
+          "49",
+          "5",
+          "55",
+          "56",
+          "6",
+          "61",
+          "62",
+          "66",
+          "72",
+          "73",
+          "74",
+          "75",
+          "76",
+          "78",
+          "80",
+          "81",
+          "82",
+          "85",
+          "86",
+          "87",
+          "89",
+          "91",
+          "92",
+          "93",
+          "95",
+          "96",
+          "99"
+        ]
+      },
+      "arrived -> arrived": {
+        "count": 62,
+        "vehicle_ids": [
+          "1",
+          "10",
+          "11",
+          "12",
+          "13",
+          "14",
+          "15",
+          "16",
+          "17",
+          "19",
+          "20",
+          "21",
+          "22",
+          "24",
+          "25",
+          "27",
+          "28",
+          "29",
+          "3",
+          "30",
+          "31",
+          "32",
+          "34",
+          "35",
+          "36",
+          "37",
+          "39",
+          "4",
+          "40",
+          "41",
+          "42",
+          "43",
+          "45",
+          "46",
+          "48",
+          "50",
+          "51",
+          "52",
+          "53",
+          "54",
+          "57",
+          "58",
+          "59",
+          "60",
+          "63",
+          "64",
+          "65",
+          "67",
+          "69",
+          "7",
+          "70",
+          "71",
+          "77",
+          "79",
+          "8",
+          "84",
+          "88",
+          "9",
+          "90",
+          "94",
+          "97",
+          "98"
+        ]
+      },
+      "arrived -> unfinished_at_horizon": {
+        "count": 1,
+        "vehicle_ids": [
+          "68"
+        ]
+      },
+      "unfinished_at_horizon -> arrived": {
+        "count": 1,
+        "vehicle_ids": [
+          "83"
+        ]
+      }
+    },
+    "physical_endpoint_boundary": "The three unresolved source lane selections retain road-level diagnosis only. This paired trace does not resolve their physical correspondence."
+  },
+  "paired_plan": {
+    "path": "outputs/epreviewpair26v1/plan.json",
+    "sha256": "b8cb488c6f07bbd0286bde11d4824ca0b0110b14ac0635982fa229b14dc3d6f4"
+  },
+  "paired_comparison": {
+    "path": "outputs/epreviewpair26v1/comparison.json",
+    "sha256": "e1707e0d0b19cf49c06b4af7eeff75ccd270586b82a96ca8c84a69b61e2c8017"
+  },
+  "ci_failures_at_previous_code": [
+    {
+      "conclusion": "failure",
+      "headSha": "b2810d51ac4d020c7e8ec97ade8a0044f9c5cddf",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39379971246",
+      "event": "pr",
+      "totals": {
+        "tests": 3774,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3748
+      },
+      "critical_native_passed": 50,
+      "junit": {
+        "path": "outputs/ci-b2810d5-pr-artifacts-20261020/test-results.xml",
+        "sha256": "1f3a7f23a354f2fbf8b299bc993d1ec8cc804a273dcbef1db583031cf188a561"
+      },
+      "log": {
+        "path": "outputs/ci-b2810d5-pr-20261020-v1.log",
+        "sha256": "a152ff2ad25e041473ec93b8a58f10f9352de0682751a3928400a725fb26b001"
+      },
+      "failed_cases": [
+        {
+          "name": "test_release_preserves_review_after_collecting_available_diagnostics",
+          "time_s": 12.377
+        },
+        {
+          "name": "test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle",
+          "time_s": 32.051
+        }
+      ]
+    },
+    {
+      "conclusion": "failure",
+      "headSha": "b2810d51ac4d020c7e8ec97ade8a0044f9c5cddf",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39379965789",
+      "event": "push",
+      "totals": {
+        "tests": 3774,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3749
+      },
+      "critical_native_passed": 50,
+      "junit": {
+        "path": "outputs/ci-b2810d5-push-artifacts-20261020/test-results.xml",
+        "sha256": "96f18071a1df4bacd66a7dd57236d044ae33daa34a096af76ea7784216541766"
+      },
+      "log": {
+        "path": "outputs/ci-b2810d5-push-20261020-v1.log",
+        "sha256": "3164434a833a881930116214f36d0c2158992cf37c8a142512fa4872d4cb310a"
+      },
+      "failed_cases": [
+        {
+          "name": "test_release_preserves_review_after_collecting_available_diagnostics",
+          "time_s": 9.139
+        }
+      ]
+    }
+  ],
+  "focused_checks": [
+    {
+      "passed": 79,
+      "log": {
+        "path": "outputs/endpoint-logical-probes-20261020-v1.log",
+        "sha256": "18762f0a8e40951b3f51818ee9a10150bf8bba30da807239d0e91ccd4c2fcb88"
+      }
+    },
+    {
+      "passed": 113,
+      "log": {
+        "path": "outputs/endpoint-review-consumers-20261020-v1.log",
+        "sha256": "793fd37153c49876f327de6b7de4b809e4eb9ab7401a32b3f760b30280ea449a"
+      }
+    },
+    {
+      "passed": 27,
+      "log": {
+        "path": "outputs/endpoint-ci-regressions-20261020-v1.log",
+        "sha256": "27931541dec4a85ada63dd152ab66b81c5cf3c4f04e6bcf9c1e99fa8da178d99"
+      }
+    }
+  ],
+  "raw_directories": [
+    "outputs/epreview26v2",
+    "outputs/odmap26v5",
+    "outputs/epreviewpair26v1"
+  ],
+  "runners": [
+    "outputs/probe_endpoint_review_hamburg_20261020_v2.py",
+    "outputs/probe_merged_od_hamburg_20261020_v5.py",
+    "outputs/probe_endpoint_review_pair_20261020_v1.py"
+  ],
+  "analysis_script": "outputs/freeze_endpoint_routing_coverage_20261020_v1.py",
+  "claim_boundary": "Every source request remains in the strict road-level probe. Unresolved physical endpoints stay unqualified. Incomplete source/candidate driving pairs yield no performance mean. These technical controls establish neither field accuracy nor automatic-cleaning precision. Full CI for ddedffb is not covered by the preceding failed b2810d5 receipts."
+}
