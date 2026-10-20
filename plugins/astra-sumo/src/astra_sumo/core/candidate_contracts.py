@@ -649,7 +649,8 @@ def validate_routeability_evidence(
     if str(report.get("schema", "")) != "torii.routeability_audit.v2":
         errors.append({"code": "routeability_schema_mismatch"})
     not_run = (report.get("status") == "review_required" and report.get("routeability_status") == "not_run"
-               and report.get("execution_status") == "not_run" and report.get("reason") == "no_diagnostic_od_pool")
+               and report.get("execution_status") == "not_run"
+               and report.get("reason") in {"no_diagnostic_od_pool", "unresolved_endpoint_mapping"})
     if not_run and (report.get("attempts") != [] or report.get("route_generation") != {"status": "not_run"}):
         errors.append({"code": "routeability_not_run_has_execution_results"})
     if not not_run and (report.get("status") != "pass" or report.get("routeability_status") != "pass"):

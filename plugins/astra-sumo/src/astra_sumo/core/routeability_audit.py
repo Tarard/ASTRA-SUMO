@@ -195,6 +195,13 @@ def _request_records(path: Path, *, routed: bool = False) -> dict[str, tuple[str
     return records
 
 
+def _same_endpoint_value(expected: str, actual: str) -> bool:
+    try:
+        return math.isfinite(float(actual)) and abs(float(expected) - float(actual)) <= 1e-6
+    except ValueError:
+        return expected == actual
+
+
 def _hash_changes(expected: Mapping[Path, str]) -> list[dict[str, Any]]:
     changes = []
     for path, digest in expected.items():
@@ -213,6 +220,8 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
         approved_rows = ET.parse(approved_file).getroot().findall("vehicle")
         expected = {row.get("id"): row.find("route").get("edges", "").split() for row in approved_rows}
         departures = {row.get("id"): float(row.get("depart", "nan")) for row in approved_rows}
+        endpoints = {row.get("id"): {name: float(row.get(name)) for name in ("departPos", "arrivalPos")
+                     if row.get(name) is not None and _is_nonnegative_position(row.get(name))} for row in approved_rows}
         rows = ET.parse(observed_file).getroot().findall("vehicle")
         tripinfo_rows = ET.parse(tripinfo_file).getroot().findall("tripinfo")
         tripinfo = {row.get("id"): row for row in tripinfo_rows}
@@ -237,6 +246,9 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
                 failures.append({"vehicle_id": identity, "reason": "tripinfo_completion_not_normal_or_inconsistent"})
             elif route.get("edges", "").split() != expected[identity]:
                 failures.append({"vehicle_id": identity, "reason": "vehicle_route_changed"})
+            elif any(not math.isfinite(float(trip.get(name, "nan"))) or abs(float(trip.get(name)) - position) > 0.01
+                     for name, position in endpoints[identity].items()):
+                failures.append({"vehicle_id": identity, "reason": "vehicle_endpoint_position_changed"})
             elif len(exits) != len(expected[identity]) or not exits or any(not math.isfinite(value) or value < depart or value > arrival for value in exits) or any(a > b for a, b in zip(exits, exits[1:])) or exits[-1] != arrival:
                 failures.append({"vehicle_id": identity, "reason": "vehicle_route_exit_times_incomplete"})
             else:
@@ -247,6 +259,13 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
     except (OSError, ET.ParseError, AttributeError, TypeError, ValueError) as error:
         result["error"] = f"{type(error).__name__}: {error}"
     return result
+
+
+def _is_nonnegative_position(value: str) -> bool:
+    try:
+        return math.isfinite(float(value)) and float(value) >= 0
+    except ValueError:
+        return False
 
 
 def inspect_routeability_outputs(
@@ -342,8 +361,8 @@ def run_routeability_audit(
     """Test fixed requests or new source-reachable synthetic diagnostic OD.
 
     With a reference network, only that original network determines OD
-    connectivity. Candidate lane geometry may exclude nonmatching physical
-    endpoints, but candidate connection losses cannot remove requests.
+    connectivity and endpoint eligibility. Verified merges map original
+    endpoint positions. No candidate change may remove or replace requests.
     """
     if not prefix or Path(prefix).name != prefix or prefix in {".", ".."}:
         return _construction_invalid("prefix must be a single file-name component")
@@ -352,7 +371,7 @@ def run_routeability_audit(
     reference = Path(od_reference_net_file).resolve() if od_reference_net_file is not None else None
     frozen = Path(frozen_trip_file).resolve() if frozen_trip_file is not None else None
     protected = {path for path in (net_file, reference, frozen) if path is not None}
-    planned_outputs = {output_dir / f"{prefix}{suffix}" for suffix in (".trips.xml", ".rou.xml", "_routeability_audit.json", "_routeability_audit.manifest.json", ".od.src.xml", ".od.dst.xml")}
+    planned_outputs = {output_dir / f"{prefix}{suffix}" for suffix in (".trips.xml", ".source.trips.xml", ".od-map.json", ".rou.xml", "_routeability_audit.json", "_routeability_audit.manifest.json", ".od.src.xml", ".od.dst.xml")}
     if initial_end > 0 and max_end >= initial_end:
         planned_outputs.update(output_dir / f"{prefix}_end{end}{suffix}" for end in _horizon_sequence(initial_end, max_end) for suffix in (".sumocfg", "_summary.xml", "_tripinfo.xml", "_vehroute.xml"))
     if any(path.resolve() in protected or any(path.exists() and source.exists() and path.samefile(source) for source in protected) for path in planned_outputs):
@@ -370,6 +389,10 @@ def run_routeability_audit(
 
     def finish(report: Mapping[str, Any]) -> dict[str, Any]:
         payload = dict(report)
+        if source_trip_file in approved_hashes:
+            payload["source_trip_file"] = str(source_trip_file)
+        if mapping_file in approved_hashes:
+            payload["endpoint_mapping_file"] = str(mapping_file)
         payload["completion_policy"] = {
             "mode": "bounded_natural_completion",
             "begin_s": 0,
@@ -393,6 +416,8 @@ def run_routeability_audit(
             net_file=net_file,
         )
 
+    source_trip_file = output_dir / f"{prefix}.source.trips.xml"
+    mapping_file = output_dir / f"{prefix}.od-map.json"
     if vehicle_count <= 0:
         return finish(_construction_invalid("vehicle_count must be positive"))
     if initial_end <= 0 or max_end <= 0:
@@ -421,7 +446,7 @@ def run_routeability_audit(
 
     trip_file = output_dir / f"{prefix}.trips.xml"
     route_file = output_dir / f"{prefix}.rou.xml"
-    cleanup_errors = _remove_stale_outputs(trip_file, route_file)
+    cleanup_errors = _remove_stale_outputs(trip_file, source_trip_file, mapping_file, route_file)
     if cleanup_errors:
         return finish(
             {
@@ -445,7 +470,7 @@ def run_routeability_audit(
                 raise ValueError("frozen trip changed while being copied")
         else:
             original = reference or net_file
-            od_policy = build_routeability_od_policy([original, *([net_file] if reference is not None else [])])
+            od_policy = build_routeability_od_policy([original])
             if not od_policy["source_edge_ids"] or not od_policy["destination_edge_ids"]:
                 return finish({"status": "review_required", "claim_status": "review_required",
                     "routeability_status": "not_run", "execution_status": "not_run",
@@ -453,8 +478,30 @@ def run_routeability_audit(
                     "route_generation": {"status": "not_run"}, "attempts": [],
                     "warnings": ["No qualifying diagnostic origin or destination edges. Route preservation was not checked."]})
             sampling = _write_source_reachable_trips(original, od_policy, trip_file, vehicle_count=vehicle_count, seed=seed)
-            od_policy["mode"] = "source_reachable_shared_generated" if reference is not None else "source_reachable_independent_generated"
+            od_policy["mode"] = "source_reachable_reference_generated" if reference is not None else "source_reachable_independent_generated"
             od_policy["request_generation"] = sampling
+        if reference is not None:
+            from .routeability_od_mapping import map_merged_od_requests
+
+            od_policy["request_count"] = len(_request_records(trip_file))
+            if od_policy["request_count"] != vehicle_count:
+                raise ValueError("The original request count differs from vehicle_count; no requests were replaced.")
+            shutil.copy2(trip_file, source_trip_file)
+            approved_hashes[source_trip_file] = file_sha256(source_trip_file)
+            od_policy["source_request_file_sha256"] = approved_hashes[source_trip_file]
+            mapped, mapping = map_merged_od_requests(ET.parse(reference).getroot(), ET.parse(net_file).getroot(), ET.parse(source_trip_file).getroot())
+            write_json_atomic(mapping_file, mapping)
+            approved_hashes[mapping_file] = file_sha256(mapping_file)
+            od_policy["endpoint_mapping"] = mapping
+            if mapping["status"] != "pass":
+                return finish({"status": "review_required", "claim_status": "review_required",
+                    "routeability_status": "not_run", "execution_status": "not_run",
+                    "reason": "unresolved_endpoint_mapping", "od_policy": od_policy, "sampling": sampling,
+                    "trip_file": str(trip_file), "route_generation": {"status": "not_run"}, "attempts": [],
+                    "warnings": ["All original requests are retained. Endpoint correspondence remains unverified; routing was not run."]})
+            if mapping["changed"]:
+                ET.indent(mapped)
+                write_text_atomic(trip_file, ET.tostring(mapped, encoding="unicode", xml_declaration=True))
         observed_changes.extend(_hash_changes(input_hashes))
         if observed_changes:
             raise ValueError("protected input changed during trip preparation")
@@ -463,7 +510,7 @@ def run_routeability_audit(
             raise ValueError(f"generated {len(requested)} requests, expected {vehicle_count}; no requests were replaced")
         planned_hash = file_sha256(trip_file)
         approved_hashes[trip_file] = planned_hash
-        command = [str(selected["duarouter"]), "--net-file", str(net_file), "--route-files", str(trip_file), "--output-file", str(route_file), "--alternatives-output", os.devnull, "--seed", str(seed)]
+        command = [str(selected["duarouter"]), "--net-file", str(net_file), "--route-files", str(trip_file), "--output-file", str(route_file), "--alternatives-output", os.devnull, "--precision", "12", "--seed", str(seed)]
         route_generation = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
         if route_generation.get("returncode") != 0 or route_generation.get("status") != "pass" or not route_file.is_file():
             raise ValueError("strict route generation failed; original requests are retained")
@@ -473,6 +520,13 @@ def run_routeability_audit(
         routed_hash = file_sha256(route_file)
         if _request_records(route_file, routed=True) != requested or file_sha256(route_file) != routed_hash:
             raise ValueError("routing changed or omitted diagnostic vehicle IDs, departures, or OD")
+        planned_rows = {row.get("id"): row for row in ET.parse(trip_file).getroot().findall("trip")}
+        defaults = {"departPos": "base", "arrivalPos": "max", "departLane": "first", "arrivalLane": "current"}
+        for row in ET.parse(route_file).getroot().findall("vehicle"):
+            for name in ("departPos", "arrivalPos", "departLane", "arrivalLane"):
+                value = planned_rows[row.get("id")].get(name)
+                if value is not None and not _same_endpoint_value(value, row.get(name, defaults[name])):
+                    raise ValueError(f"Routing changed the diagnostic endpoint attribute {name}.")
         approved_hashes[route_file] = routed_hash
         od_policy["request_file_sha256"] = planned_hash
         od_policy["request_count"] = len(requested)
@@ -811,7 +865,8 @@ def _write_routeability_outcome(
     artifact_candidates: list[tuple[Path, str]] = []
     if net_file.is_file():
         artifact_candidates.append((net_file, "routeability_net"))
-    for key, kind in (("trip_file", "random_trips"), ("route_file", "route_file")):
+    for key, kind in (("trip_file", "random_trips"), ("source_trip_file", "source_trips"),
+                      ("endpoint_mapping_file", "endpoint_mapping"), ("route_file", "route_file")):
         value = persisted.get(key)
         if value:
             artifact_candidates.append((Path(str(value)), kind))

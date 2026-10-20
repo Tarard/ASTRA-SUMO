@@ -2,6 +2,7 @@ import hashlib
 import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
+import pytest
 
 from astra_sumo.core.candidate_contracts import (
     build_review_decision_template,
@@ -748,7 +749,8 @@ def test_materializer_blocks_crossing_when_netconvert_does_not_create_crossing_s
     assert Path(report["candidate_net_file"]).exists()
 
 
-def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_passes(tmp_path: Path) -> None:
+@pytest.mark.parametrize("injected", [True, False])
+def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_passes(tmp_path: Path, monkeypatch, injected) -> None:
     source = tmp_path / "source.net.xml"
     candidate = tmp_path / "candidate.net.xml"
     _write_net(source)
@@ -763,7 +765,13 @@ def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_pa
         return {"status": "pass", "command": command, "returncode": 0}
 
     def _routeability(**_kwargs):
+        if not injected:
+            assert _kwargs.pop("od_reference_net_file") == source
         return _passing_routeability_audit(**_kwargs)
+
+    if not injected:
+        from astra_sumo.core import routeability_audit
+        monkeypatch.setattr(routeability_audit, "run_routeability_audit", _routeability)
 
     def _topology(**_kwargs):
         return _passing_topology_audit(**_kwargs)
@@ -773,7 +781,7 @@ def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_pa
         candidate_net_file=candidate,
         output_dir=tmp_path / "gates",
         materialization_report=materialization,
-        routeability_audit_func=_routeability,
+        routeability_audit_func=_routeability if injected else None,
         topology_audit_func=_topology,
         command_runner=_command_runner,
     )

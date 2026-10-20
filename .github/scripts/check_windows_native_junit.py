@@ -20,6 +20,7 @@ REQUIRED = {
     "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
     "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1,
     "test_standalone_simplifier_uses_shared_local_conversion_and_keeps_remote_roads": 1,
+    "test_native_merged_od_retains_original_requests_and_physical_positions": 4,
 }
 
 

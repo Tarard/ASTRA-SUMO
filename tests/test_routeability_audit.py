@@ -19,7 +19,7 @@ def _write_od_network(path: Path) -> None:
     path.write_text('<net version="1.20"><location netOffset="0,0" convBoundary="0,0,20,1" origBoundary="0,0,20,1" projParameter="!"/><edge id="a" from="x" to="y" priority="1"><lane id="a_0" index="0" speed="10" length="20" shape="0,0 20,0" allow="passenger"/></edge><edge id="b" from="y" to="x" priority="1"><lane id="b_0" index="0" speed="10" length="20" shape="20,1 0,1" allow="passenger"/></edge><junction id="x" type="priority" x="0" y="0" incLanes="b_0" intLanes="" shape="0,0 0,1"/><junction id="y" type="priority" x="20" y="0" incLanes="a_0" intLanes="" shape="20,0 20,1"/><connection from="a" to="b" fromLane="0" toLane="0" dir="t" state="M"/><connection from="b" to="a" fromLane="0" toLane="0" dir="t" state="M"/></net>', encoding="utf-8")
 
 
-def test_empty_shared_od_pool_is_unchecked_not_an_invalid_network(tmp_path):
+def test_changed_endpoint_requests_are_retained_for_review(tmp_path):
     source, candidate = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
     _write_od_network(source)
     candidate.write_text(source.read_text(encoding="utf-8").replace('shape="0,0 20,0"', 'shape="0,0 19,0"')
@@ -34,8 +34,10 @@ def test_empty_shared_od_pool_is_unchecked_not_an_invalid_network(tmp_path):
     assert report["claim_status"] != "construction-invalid"
     assert report["routeability_status"] == report["execution_status"] == "not_run"
     assert report["attempts"] == []
-    exclusions = report["od_policy"]["eligibility_differences"][0]
-    assert exclusions["source_excluded_count"] == exclusions["destination_excluded_count"] == 2
+    mapping = report["od_policy"]["endpoint_mapping"]
+    assert report["reason"] == "unresolved_endpoint_mapping"
+    assert mapping["request_count"] == len(mapping["unresolved_requests"]) == 100
+    assert len(ET.parse(report["source_trip_file"]).getroot().findall("trip")) == 100
     checked = validate_routeability_evidence(report, candidate_net_file=candidate)
     assert checked["status"] == "review_required" and not checked["errors"]
     forged = {**report, "execution_status": "completed"}

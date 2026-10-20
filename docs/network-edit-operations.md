@@ -63,6 +63,14 @@ It checks SUMO load, internal driving paths, and 100 original-network route requ
 Requests come from the source alone. Changed candidate endpoints cannot remove them from the test.
 Lost routes block the result. Unfinished driving runs remain visible with a warning when routes still exist.
 If no original route requests can be validated, exploration retains a warning and makes no route-preservation claim.
+Candidate endpoint changes cannot shrink the original request pool.
+Retained directed road identities and verified geometry merges can map lane positions to the candidate.
+The mapping uses each lane's logical-to-geometric length ratio and checks XYZ positions within 0.02 m.
+It does not add the lengths of absorbed roads, which would omit internal gaps and shape-length differences.
+The source request file remains unchanged. A separate correspondence record identifies every mapped or unresolved request.
+The router must retain explicit endpoint attributes. Driving checks also verify mapped nonnegative endpoint positions against trip output.
+Ambiguous arrival lanes, unsupported vehicle definitions, and absorbed endpoints without an ordinary-road correspondence remain unverified.
+Exploration retains their measurements with a warning. Release qualification requires their route evidence to be resolved.
 `source_baseline` separates checked `clean` or `dirty` diagnostics from `not_run` cases.
 These labels describe the synthetic passenger probe, not field quality.
 The sampled passenger requests do not establish all-class or all-pair route preservation.

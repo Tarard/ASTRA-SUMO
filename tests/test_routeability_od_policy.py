@@ -126,7 +126,7 @@ def test_source_reachable_requests_are_reproducible_and_candidate_cannot_filter_
     assert generated['routeability_status'] == 'route-generation-failed'
     assert audit._request_records(Path(generated['trip_file'])) == requests
     assert Path(generated['trip_file']).read_bytes() == outputs[0].read_bytes()
-    assert generated['od_policy']['mode'] == 'source_reachable_shared_generated'
+    assert generated['od_policy']['mode'] == 'source_reachable_reference_generated'
 
     # Loaded internal lane restrictions must constrain requests even when endpoints permit them.
     restricted = tmp_path / 'restricted.net.xml'

@@ -1633,9 +1633,10 @@ def run_corridor_candidate_gates(
 
         candidate_token = str(artifact_identity.get("candidate_sha256", ""))[:12] or "unknown"
         if routeability_audit_func is None:
+            from functools import partial
             from .routeability_audit import run_routeability_audit
 
-            routeability_audit_func = run_routeability_audit
+            routeability_audit_func = partial(run_routeability_audit, od_reference_net_file=source_net_file)
         try:
             raw_routeability = routeability_audit_func(
                 net_file=candidate_net_file,

@@ -1156,9 +1156,12 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
                     and Path(baseline.get("trip_file", "")).is_file()):
                 trip_file = Path(baseline["trip_file"])
                 routed = run_routeability_audit(net_file=candidate, output_dir=destination / "candidate-routes",
-                    binaries=binaries, frozen_trip_file=trip_file, expected_frozen_trip_sha256=file_sha256(trip_file))
+                    binaries=binaries, frozen_trip_file=trip_file, expected_frozen_trip_sha256=file_sha256(trip_file),
+                    od_reference_net_file=source)
                 report["candidate_routeability"] = routed
-                if routed.get("route_generation", {}).get("status") != "pass":
+                if routed.get("reason") == "unresolved_endpoint_mapping":
+                    warnings.append("Original endpoint correspondence remains unverified. Requests are retained; route preservation was not checked.")
+                elif routed.get("route_generation", {}).get("status") != "pass":
                     report["status"] = "blocked"
                 if routed.get("attempts") and routed["status"] != "pass":
                     warnings.append("Candidate driving checks failed. Inspect collisions, teleports, and completion separately from missing routes.")
