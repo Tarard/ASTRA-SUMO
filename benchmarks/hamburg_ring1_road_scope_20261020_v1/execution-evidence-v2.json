@@ -1,0 +1,109 @@
+{
+  "schema": "astra.ring1-scope-execution-evidence/v2",
+  "status": "measured_scope_only",
+  "implementation": {
+    "osm_network.py": "153a069916d36095f9e64869e98cf82c9e52f26a6b5b4d6c4c9c8a938f679d04",
+    "road_hierarchy.py": "148c508d4a5d9c640d405754e5eb0eac4aec5d79ea876f968d2a20462ffc8c19",
+    "road_scope.py": "1417d8bbc38bfa519cd4f5d3e1912968c15375fd69ccf4394b2bef6d9755c6c5"
+  },
+  "runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_road_selection.py",
+    "sha256": "e83c8cae0e44a35e5a64eb7e110be9a82dbd62f071465d25c7d939bdf487a490"
+  },
+  "case": {
+    "path": "outputs/ring1-road-demo-20261020-v6/case.json",
+    "sha256": "f1673fdacd2d42f8545ec278834faa27e218dfee4edbc8182875dc418fe0e88f"
+  },
+  "effective_config": {
+    "path": "outputs/ring1-road-demo-20261020-v6/case-input.json",
+    "sha256": "fba8bdf0d52ecd6f095502e3c26d24390e5a156827a7a43d693ae76ac2c8fc79"
+  },
+  "source": {
+    "path": "outputs/ring1-road-demo-20261020-v6/01-osm/logs/ring1-full_access-input.net.xml",
+    "sha256": "9e8a0a81799f28242273ca8b35a0bfa27b0f53e7d68a621b9af0a4d494b0e280"
+  },
+  "candidate": {
+    "path": "outputs/ring1-road-demo-20261020-v6/02-main-roads/selected.net.xml",
+    "sha256": "bc69def09e30785cce0ff02df9d2d14dcd9a43bbb886204ffc97f4660f49085e"
+  },
+  "scope_report": {
+    "path": "outputs/ring1-road-demo-20261020-v6/02-main-roads/report.json",
+    "sha256": "eefcaa4631f5a2fb24b2a5661f6e765ca5aecf778010f7e67d532f1e49d7dd52"
+  },
+  "checks": {
+    "source_unchanged": true,
+    "selected_roads_realized": true,
+    "required_movements_kept": true,
+    "retained_lane_permissions": true,
+    "retained_local_turns": true,
+    "retained_road_priorities": true,
+    "sumo_load": true
+  },
+  "reproduction": {
+    "raw_network_content_sha256": "5b9363b296e8bbf82bd76f8cdc71c7c4bfa66023240a958aca645ab6ba093247",
+    "checks": {
+      "raw_network_matches_fixture": true,
+      "source_road_count_matches": true,
+      "selected_road_count_matches": true
+    }
+  },
+  "source_road_count": 1156,
+  "selected_road_count": 367,
+  "excluded_road_count": 789,
+  "boundary_count": 50,
+  "movement_basis": "fixed main-road boundary pairs and retained local turns",
+  "movement_count": 439,
+  "connector_repair_count": 1,
+  "lost_movements": [],
+  "local_turn_changes": {
+    "lost": [],
+    "added": []
+  },
+  "worst_detour": {
+    "from": "142944473#0",
+    "to": "142944538",
+    "source_length_m": 980.589176,
+    "selected_length_m": 1281.774821,
+    "added_length_m": 301.185645,
+    "detour_ratio": 1.3071476336589707,
+    "source_has_turnaround": false,
+    "selected_has_turnaround": false
+  },
+  "length_basis": "ordinary-road logical lengths; internal junction paths are excluded",
+  "review": {
+    "geometry_status": "blocked",
+    "lane_attribute_changes": {
+      "shape": 123,
+      "length": 119,
+      "width": 0
+    },
+    "max_lane_shape_displacement_m": 15.1130095048723,
+    "signal_status": "blocked",
+    "unexpected_signal_program_count": 96,
+    "warnings": [
+      "Scope extraction changed signal programs, including excluded controllers. Check retained movement control before calibration.",
+      "Some side approaches serve only retained local turns and have no retained core access. Inspect their boundary roles before assigning traffic."
+    ]
+  },
+  "remaining_stages": [
+    "junction_consolidation",
+    "detector_placement",
+    "count_calibration",
+    "observed_simulated_count_comparison"
+  ],
+  "native_attempts": [
+    {
+      "status": "pass",
+      "returncode": 0
+    }
+  ],
+  "focused_tests": {
+    "result": {
+      "path": "outputs/road-hierarchy-revised-tests-20261020-v2.xml",
+      "sha256": "10c2e1a878fb2d7eb29b9f6d10c4a26944633173dcc3202b5b699ff03dd6495c"
+    },
+    "passed": 76
+  },
+  "supersedes": "execution-evidence.json",
+  "claim_boundary": "Only stages 1 and 2 are implemented. A loadable road scope is not a completed sensor-calibrated demonstration."
+}

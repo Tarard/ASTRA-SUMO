@@ -15,13 +15,14 @@ It is separate from the Am Sandtorkai fixtures.
 `fixture.json` records hashes, build settings, and the declared study anchors.
 
 The import has 1,156 ordinary road segments and nine narrowly repairable stale pedestrian-internal signal references.
-SUMO 1.27.1 fails during postload pruning on this input. The checked preload fallback remains separate.
-The direct raw-native main-road regression retains 540 segments, including four V1 calibration-road references supplied as study anchors.
-The full offline example applies OSM access corrections first and currently retains 533 segments.
+SUMO 1.27.1 crashes or stalls during postload pruning on this input. The current implementation uses checked preload extraction.
+The raw-native regression and prepared full example each retain 367 segments, including four V1 calibration-road references supplied as study anchors.
+The full offline example applies OSM access corrections before selection.
 These anchors do not establish an exact sensor-to-lane mapping.
 
-[Execution evidence](execution-evidence.json) retains the full prepared-input run, its failed prototypes, and the remaining stages.
-[Geometry evidence](main-road-geometry-evidence.json) confirms unchanged shapes, lengths, and widths on the major and protected roads.
+[Current execution evidence](execution-evidence-v2.json) records the fixed-interface scope and remaining stages.
+[Current geometry evidence](main-road-geometry-evidence-v2.json) checks the major and protected roads.
+The earlier [533-road run](execution-evidence.json) and [geometry check](main-road-geometry-evidence.json) remain as superseded evidence.
 Other retained approach geometry and signal programs changed during extraction and remain recorded for review.
 
 The fixture tests road selection and input handling. It contains no new traffic-count calibration result.

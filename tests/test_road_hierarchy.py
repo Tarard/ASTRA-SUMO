@@ -1,4 +1,5 @@
 import gzip
+import hashlib
 import json
 from pathlib import Path
 import shutil
@@ -29,6 +30,8 @@ def test_frozen_ring1_scope_files_match_manifest():
         path = directory / name
         assert file_sha256(path) == identity["sha256"]
         assert path.stat().st_size == identity["bytes"]
+    native_xml = gzip.decompress((directory / "native-import.net.xml.gz").read_bytes()).decode("utf-8")
+    assert hashlib.sha256(ET.canonicalize(native_xml).encode("utf-8")).hexdigest() == fixture["native_network_content_sha256"]
 
 
 def _network():
@@ -80,6 +83,24 @@ def test_missing_directed_connection_is_repaired_from_source_only():
     assert report["connection_repairs"]
     assert report["connection_repairs"][0]["source_path"] == ["main-a", "connector", "middle", "last", "main-b"]
     assert report["movements"][0]["detour_ratio"] == 1
+    assert report["movements"][0]["added_length_m"] == 0
+
+
+def test_terminal_side_approaches_do_not_require_an_outside_residential_route():
+    root = _network()
+    inlet = ET.SubElement(root, "edge", id="side-in", **{"from": "f", "to": "b"}, type="highway.residential")
+    ET.SubElement(inlet, "lane", id="side-in_0", index="0", allow="passenger", length="20")
+    for first, last in [("side-3", "side-in"), ("side-in", "main-b")]:
+        ET.SubElement(root, "connection", **{"from": first, "to": last}, fromLane="0", toLane="0")
+    report = select_road_hierarchy(root)
+    assert report["excluded_edge_ids"] == ["detector-road", "side-2", "side-3"]
+    assert not report["connection_repairs"]
+    pairs = {(row["from"], row["to"]) for row in report["movements"]}
+    assert {("main-a", "side-1"), ("side-in", "main-b"), ("main-a", "main-b")} <= pairs
+    assert ("side-1", "side-in") not in pairs
+    explicit = select_road_hierarchy(root, required_movements=[("side-1", "side-in")])
+    assert {"side-2", "side-3"} <= set(explicit["selected_edge_ids"])
+    assert explicit["connection_repairs"]
 
 
 def test_unknown_types_remain_visible_and_missing_protected_roads_fail():
@@ -122,7 +143,7 @@ def test_failed_native_attempts_keep_partial_files_without_a_candidate(tmp_path,
     monkeypatch.setattr(road_hierarchy, "run_command", fail)
     report = build_road_hierarchy_variant(net_file=source, output_dir=tmp_path / "out")
     assert report["status"] == "blocked" and report["reason"] == "native_scope_conversion_failed"
-    assert "candidate" not in report and len(report["failed_outputs"]) == 2
+    assert "candidate" not in report and len(report["failed_outputs"]) == 1
     assert all(Path(row["path"]).read_text() == "<net" and row["status"] == (
         "invalid_native_output" if status == "pass" else "incomplete_native_output") for row in report["failed_outputs"])
     assert file_sha256(source) == digest

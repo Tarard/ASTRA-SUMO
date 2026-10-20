@@ -119,5 +119,11 @@ They are not prerequisites for producing the core demonstration.
 The repository already contains road-class presets in `core/road_scope.py`,
 road-arm classification in `intersection/road_detail.py`, and corridor extraction in `core/corridor_scope.py`.
 The Hamburg topology, detector, demand, and NetEdit capture modules provide the later stages.
-The remaining product work is the shared retention and boundary treatment, consistent stage composition, and the demonstration report.
+Road selection now fixes the original interfaces, preserves main-road movements and local turns, and avoids expanding residential repair obligations.
+The offline example currently retains 367 of 1,156 ordinary road segments.
+Its main report exposes geometry and signal changes beside the measured status.
+The [official static source package](../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) contains all five MAP/KML/OCIT triplets.
+Exact XML/KML joins pass for all five nodes. This does not establish SUMO correspondence or a completed junction.
+Nearest signal clusters remain grouping proposals. Chained nearby nodes must not become an automatic physical-junction merge.
+The remaining work is junction construction, detector correspondence, count fitting, matched figures, and the demonstration report.
 The Am Sandtorkai mainline profile supplies an implementation pattern. Its fixed road IDs do not belong to this case.

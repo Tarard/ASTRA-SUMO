@@ -1,0 +1,193 @@
+{
+  "schema": "astra.ring1-official-inputs/v1",
+  "retrieved_at_utc": "2026-10-20T12:22:49.704551+00:00",
+  "source_catalog_url": "https://suche.transparenz.hamburg.de/api/3/action/package_show?id=traffic-lights-data-hamburg6",
+  "licensor": "Landesbetrieb Straßen, Brücken und Gewässer",
+  "license": "dl-de-by-2.0",
+  "license_url": "http://www.govdata.de/dl-de/by-2-0",
+  "nodes": [
+    "104",
+    "118",
+    "119",
+    "200",
+    "535"
+  ],
+  "files": [
+    {
+      "node_id": "104",
+      "kind": "map_xml",
+      "source_filename": "MAP_ITS_01_104_9.2_R2_Quelle_ETRS89.xml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_01_104_9.2_R2_Quelle_ETRS89.xml",
+      "sha256": "d296f2cb3165c0eafb2bd5060fd62ce40cde14c24e3ba723d1e23c88ce0a03a8",
+      "bytes": 91272,
+      "path": "104-map_xml.xml.gz",
+      "compressed_sha256": "1cf3bedfecbc035428fcbf4f6fedc1a973b1100895524f9b52b4f446758a4b7c",
+      "compressed_bytes": 3322
+    },
+    {
+      "node_id": "104",
+      "kind": "map_kml",
+      "source_filename": "MAP_ITS_01_104_9.2_R2_Quelle_ETRS89.kml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_01_104_9.2_R2_Quelle_ETRS89.kml",
+      "sha256": "93ff9ebee7822874c8a691c8743be5c9c883517d9556930077ffaf5d270158b9",
+      "bytes": 223575,
+      "path": "104-map_kml.kml.gz",
+      "compressed_sha256": "81f85ee725d910bc5d5ecf9b87ba16dfde65fafbfbb605544f7e122913973b7d",
+      "compressed_bytes": 12909
+    },
+    {
+      "node_id": "104",
+      "kind": "ocit_xml",
+      "source_filename": "MAP_ITS_01_104_9.2.xml",
+      "url": "https://daten-hamburg.de/tlf_public/OCIT-C/MAP_ITS_01_104_9.2.xml",
+      "sha256": "20bec90a1c6e90284b2d2d961e97afeb95ea4a8f98224ddd4cfaebb0d7dd52c9",
+      "bytes": 397799,
+      "path": "104-ocit_xml.xml.gz",
+      "compressed_sha256": "9101f67526ab824e716437398259d5843c26ad3677d40eca440e92bff4e343ab",
+      "compressed_bytes": 16068
+    },
+    {
+      "node_id": "118",
+      "kind": "map_xml",
+      "source_filename": "MAP_ITS_01_118_37.6_R6_Quelle_ETRS89.xml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_01_118_37.6_R6_Quelle_ETRS89.xml",
+      "sha256": "c865b56fb17abd1e07375ff6179a7977e59c099e6e7500782259b898cf38ba66",
+      "bytes": 164068,
+      "path": "118-map_xml.xml.gz",
+      "compressed_sha256": "f0d760c5ad5d8d98b1f4e72a54270b68d104f6c5801fa7e2f914dafa6a0ad70f",
+      "compressed_bytes": 5309
+    },
+    {
+      "node_id": "118",
+      "kind": "map_kml",
+      "source_filename": "MAP_ITS_01_118_37.6_R6_Quelle_ETRS89.kml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_01_118_37.6_R6_Quelle_ETRS89.kml",
+      "sha256": "32501efc461e01177ece37e2be479816a192a3fdcced2efdc772e0a6628484db",
+      "bytes": 454326,
+      "path": "118-map_kml.kml.gz",
+      "compressed_sha256": "d0cc481b9d32925a5a916dddbc9a3f033ac446dd55aa868b1c4554ab6c6061b1",
+      "compressed_bytes": 26638
+    },
+    {
+      "node_id": "118",
+      "kind": "ocit_xml",
+      "source_filename": "MAP_ITS_01_118_37.6.xml",
+      "url": "https://daten-hamburg.de/tlf_public/OCIT-C/MAP_ITS_01_118_37.6.xml",
+      "sha256": "5aedfeee29763d763921f003777f6a1beed83ebbdc14bda8b0b5ab4b669b15d0",
+      "bytes": 684728,
+      "path": "118-ocit_xml.xml.gz",
+      "compressed_sha256": "6f7beaf440c7c4f94fcc826fe4611cfcd20827d264b4f05057208939df424352",
+      "compressed_bytes": 27614
+    },
+    {
+      "node_id": "119",
+      "kind": "map_xml",
+      "source_filename": "MAP_ITS_01_119_18.2_R2_Quelle_ETRS89.xml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_01_119_18.2_R2_Quelle_ETRS89.xml",
+      "sha256": "6f2e7740932379cbd88ff42d55bf577633004f195a27ac832e8de3e405fac5e4",
+      "bytes": 184380,
+      "path": "119-map_xml.xml.gz",
+      "compressed_sha256": "1fe2ff5fdac70b3a594384f465b3303a27951fe5957bde1a06255ef7eec6d7e7",
+      "compressed_bytes": 5741
+    },
+    {
+      "node_id": "119",
+      "kind": "map_kml",
+      "source_filename": "MAP_ITS_01_119_18.2_R2_Quelle_ETRS89.kml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_01_119_18.2_R2_Quelle_ETRS89.kml",
+      "sha256": "0a2b7c54ae6768ac4879a5956b453baa439bcdd4799738f4b0fa76d3b9915619",
+      "bytes": 483156,
+      "path": "119-map_kml.kml.gz",
+      "compressed_sha256": "4533588782961e77bf8cfdbba94d553d4b6bbcbbfbf6186d6421bf248377b49d",
+      "compressed_bytes": 26749
+    },
+    {
+      "node_id": "119",
+      "kind": "ocit_xml",
+      "source_filename": "MAP_ITS_01_119_18.2.xml",
+      "url": "https://daten-hamburg.de/tlf_public/OCIT-C/MAP_ITS_01_119_18.2.xml",
+      "sha256": "d69cf2736036e1c3023e711246376f45e029356cb3a585d83cb66e61398e9b13",
+      "bytes": 401469,
+      "path": "119-ocit_xml.xml.gz",
+      "compressed_sha256": "99da6cd38af4daad7ec485a1b6ab16608bd81ad4a69615db177f1a4a585d6927",
+      "compressed_bytes": 16486
+    },
+    {
+      "node_id": "200",
+      "kind": "map_xml",
+      "source_filename": "MAP_ITS_02_200_19.2_R2_Quelle_ETRS89.xml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_02_200_19.2_R2_Quelle_ETRS89.xml",
+      "sha256": "074bcc99a8bc11e5f70e7e3da27f9dc0a40134a602459d04d5a86fa9cc6a7d4c",
+      "bytes": 219131,
+      "path": "200-map_xml.xml.gz",
+      "compressed_sha256": "b296701d005f1c4e4c4e19b415c71f19f63b36efc98730c54ec9167ca4ede6e8",
+      "compressed_bytes": 6761
+    },
+    {
+      "node_id": "200",
+      "kind": "map_kml",
+      "source_filename": "MAP_ITS_02_200_19.2_R2_Quelle_ETRS89.kml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_02_200_19.2_R2_Quelle_ETRS89.kml",
+      "sha256": "865d9ee0f90955563ed340213698c358e04149ec956f74b547870ebe983c8878",
+      "bytes": 541467,
+      "path": "200-map_kml.kml.gz",
+      "compressed_sha256": "70a2b257af5c2e7fed0103b61650d6e6f4dc7b8f2f738993479d1aa2c24328d8",
+      "compressed_bytes": 30248
+    },
+    {
+      "node_id": "200",
+      "kind": "ocit_xml",
+      "source_filename": "MAP_ITS_02_200_19.2.xml",
+      "url": "https://daten-hamburg.de/tlf_public/OCIT-C/MAP_ITS_02_200_19.2.xml",
+      "sha256": "ba3c4713f5a3f48a0e6c50c5d70caddb23a651fabb0eb2c0d7bc6d6758ac4d14",
+      "bytes": 710947,
+      "path": "200-ocit_xml.xml.gz",
+      "compressed_sha256": "98e496293e9f452040b928ce108a71f7b27ed8ddec515df9e711bf40f5069e69",
+      "compressed_bytes": 25086
+    },
+    {
+      "node_id": "535",
+      "kind": "map_xml",
+      "source_filename": "MAP_ITS_05_535_9.2_R2_Quelle_ETRS89.xml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_05_535_9.2_R2_Quelle_ETRS89.xml",
+      "sha256": "633563d038f88327e240bd6e69ca6a7886b9725742315626edd0b5825a2a8936",
+      "bytes": 139733,
+      "path": "535-map_xml.xml.gz",
+      "compressed_sha256": "ed10624422848a0d74633acd3899584e5c82289dfc87edd591734279af048b85",
+      "compressed_bytes": 4688
+    },
+    {
+      "node_id": "535",
+      "kind": "map_kml",
+      "source_filename": "MAP_ITS_05_535_9.2_R2_Quelle_ETRS89.kml",
+      "url": "https://daten-hamburg.de/tlf_public/MAP_ITS_05_535_9.2_R2_Quelle_ETRS89.kml",
+      "sha256": "076e2a4c8bfdf93c6a89fc79835eed8a6228684d5b597a3b6e18f6a7aac9696e",
+      "bytes": 351525,
+      "path": "535-map_kml.kml.gz",
+      "compressed_sha256": "d2ba2046abcd6aa048a1074f76cfe4a16c4038316374e952c76ee4bd849ccdb8",
+      "compressed_bytes": 19746
+    },
+    {
+      "node_id": "535",
+      "kind": "ocit_xml",
+      "source_filename": "MAP_ITS_05_535_9.2.xml",
+      "url": "https://daten-hamburg.de/tlf_public/OCIT-C/MAP_ITS_05_535_9.2.xml",
+      "sha256": "3c8ff54b26908332d05eaabe95efa65197bdc6f75ff004322482fc1e8a79e6ec",
+      "bytes": 310529,
+      "path": "535-ocit_xml.xml.gz",
+      "compressed_sha256": "4988bab25dffb88b712bed2022c2fba8eca97558e761fb146e87d19bbe1dbae9",
+      "compressed_bytes": 13458
+    }
+  ],
+  "claim_boundary": "Current static source versions acquired on 2026-10-20. No proof of their validity throughout the October observation window. No SUMO lane correspondence or constructed-junction claim.",
+  "metadata_files": {
+    "catalog.json": {
+      "sha256": "42fd5c0e9798ea6554e3657b0cf33e22fb852ebe80a295e68cd9531a771e7d1d",
+      "bytes": 24614
+    },
+    "lsa-identities.json": {
+      "sha256": "6a2d7e48947b4012510933d49012d6dd0e96b9613793514f1ba8a0e180ba0bba",
+      "bytes": 15060
+    }
+  }
+}

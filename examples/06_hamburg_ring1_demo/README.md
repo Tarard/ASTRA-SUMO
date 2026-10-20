@@ -22,7 +22,7 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 
 | File | Meaning |
 |---|---|
-| `case.json` | Implemented stages, input identities, counts, and remaining work |
+| `case.json` | Implemented stages, input identities, reproduction checks, geometry/signal findings, and remaining work |
 | `case-input.json` | Immutable copy of the effective case settings used by this run |
 | `01-osm-result.json` | Full OSM import and its recorded postprocessing |
 | `01-osm/sumo/ring1-full.net.xml` | Original native import for the before view |
@@ -31,15 +31,18 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 | `02-main-roads/selected.net.xml` | Selected scope candidate |
 | `02-main-roads/report.json` | Source preservation, native attempts, load, permissions, reachability, geometry, and signal changes |
 
-The current full example selects 533 of 1,156 ordinary road segments.
+The current full example selects 367 of 1,156 ordinary road segments.
 It applies the existing OSM access corrections before scope selection.
-The direct raw-native regression selects 540 segments. Its permissions differ from the prepared full-network input.
+The direct raw-native regression also selects 367 segments. Its permissions differ from the prepared full-network input.
+Earlier versions selected 540 or 533 segments because their boundary repairs cascaded into excluded residential routes.
+The current rule retains main-road movements and local side-approach turns without those outside route obligations.
 It retains Ernst-Merck-Straße even though its OSM class is tertiary, because the V1 study references it.
 The imported source has stale pedestrian-internal signal references. Their narrow repair is recorded separately.
 The raw before view remains unchanged. `selection_input` in `case.json` identifies the prepared full network used for pruning.
 
 Use `normalized_full_network` from the selection report for a loadable full-network baseline.
 Review signal and geometry changes before a later demand comparison.
+The runner compares canonical XML content with the frozen native import, ignoring generator comments and platform line endings.
 The scope is exploratory. Successful loading and static connectivity do not establish complete corridor driving validity.
 
 ## Remaining demonstration stages
@@ -51,4 +54,5 @@ The scope is exploratory. Successful loading and static connectivity do not esta
 
 The intended presentation uses actual matched NetEdit screenshots over one Google background.
 Those figures and the count curves are not produced by this partial runner yet.
+The [official source package](../../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) supplies the next junction stage offline.
 See the [case and six-stage design](../../docs/hamburg-readme-case.md) and [road-selection behavior](../../docs/road-hierarchy.md).

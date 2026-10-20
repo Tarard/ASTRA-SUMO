@@ -109,6 +109,7 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
             reasons[key] = keep
     if ways - matched_ways:
         raise ValueError("A protected OSM way is absent from the source network.")
+    core = set(reasons) & graph.keys()
     seed_nodes = {edge.get(side) for key, edge in edges.items() if key in reasons for side in ("from", "to")}
     # Keep one original approach at a cut; vehicles then enter before the main junction.
     for key, edge in edges.items():
@@ -116,47 +117,67 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
             reasons[key] = ["boundary_approach"]
     selected = set(reasons)
     full_paths, repairs = {}, []
+    boundaries = _boundaries(root, edges, graph, selected)
     explicit = required_movements is not None
     if explicit and any(len(pair) != 2 or any(key not in selected or key not in graph for key in pair) for pair in required_movements):
         raise ValueError("Required movements must address two retained roads serving the selected vehicle class.")
-    while True:
-        boundaries = _boundaries(root, edges, graph, selected)
+    unserved = []
+    if not explicit:
         entries = sorted({key for row in boundaries for key in row["entry_edges"]})
         exits = sorted({key for row in boundaries for key in row["exit_edges"]})
-        starts = sorted({pair[0] for pair in required_movements}) if explicit else entries
         pairs = []
-        additions = set()
-        for start in starts:
-            if start not in full_paths:
-                full_paths[start] = _paths(graph, lengths, start, set(graph))
-            old_distances, old_previous = full_paths[start]
-            distances, _ = _paths(graph, lengths, start, selected)
-            targets = sorted({pair[1] for pair in required_movements if pair[0] == start}) if explicit else exits
-            for target in targets:
-                if target not in old_distances:
-                    if explicit:
-                        raise ValueError("A required movement is not supported by the source network.")
+        for start in sorted(set(entries) & core):
+            full_paths[start] = _paths(graph, lengths, start, set(graph))
+            pairs.extend((start, last) for last in sorted(set(exits) & core) if last in full_paths[start][0])
+        pairs.extend((first, last) for first in sorted(selected & graph.keys()) for last in sorted(graph[first] & selected))
+        reverse = {key: set() for key in graph}
+        for first, targets in graph.items():
+            for last in targets:
+                reverse[last].add(first)
+        # Side approaches use retained local turns. Never repair them through excluded streets.
+        for direction, endpoints, network in (("entry", entries, graph), ("exit", exits, reverse)):
+            for endpoint in sorted(set(endpoints) - core):
+                distances, _ = _paths(network, lengths, endpoint, selected)
+                choices = core & distances.keys()
+                if not choices:
+                    unserved.append({"direction": direction, "edge_id": endpoint, "reason": "no_retained_core_access_local_turns_only"})
                     continue
-                pairs.append((start, target))
-                if target not in distances:
-                    path = _path(old_previous, start, target)
-                    added = set(path) - selected
-                    additions.update(added)
-                    repairs.append({"from": start, "to": target, "added_edges": sorted(added), "source_path": path})
-        if not additions:
-            break
-        for key in additions:
-            reasons[key] = ["required_connection"]
-        selected.update(additions)
-    movements = []
+                nearest = min(choices, key=lambda key: (distances[key], key))
+                pairs.append((endpoint, nearest) if direction == "entry" else (nearest, endpoint))
+    else:
+        pairs = required_movements
+    pairs = sorted(set(map(tuple, pairs)))
     for start in sorted({pair[0] for pair in pairs}):
+        if start not in full_paths:
+            full_paths[start] = _paths(graph, lengths, start, set(graph))
+        old_distances, old_previous = full_paths[start]
         distances, _ = _paths(graph, lengths, start, selected)
+        for _, target in (pair for pair in pairs if pair[0] == start):
+            if target not in old_distances:
+                raise ValueError("A required movement is not supported by the source network.")
+            if target not in distances:
+                path = _path(old_previous, start, target)
+                added = set(path) - selected
+                repairs.append({"from": start, "to": target, "added_edges": sorted(added), "source_path": path})
+                for key in added:
+                    reasons[key] = ["required_connection"]
+                selected.update(added)
+                distances, _ = _paths(graph, lengths, start, selected)
+    movements = []
+    turnarounds = {(row.get("from"), row.get("to")) for row in root.findall("connection") if row.get("dir") == "t"}
+    for start in sorted({pair[0] for pair in pairs}):
+        distances, previous = _paths(graph, lengths, start, selected)
         for first, last in pairs:
             if first != start:
                 continue
             baseline = full_paths[start][0][last]
+            source_path = _path(full_paths[start][1], start, last)
+            selected_path = _path(previous, start, last)
             movements.append({"from": first, "to": last, "source_length_m": baseline,
-                "selected_length_m": distances[last], "detour_ratio": distances[last] / baseline if baseline else None})
+                "selected_length_m": distances[last], "added_length_m": distances[last] - baseline,
+                "detour_ratio": distances[last] / baseline if baseline else None,
+                "source_has_turnaround": any(pair in turnarounds for pair in zip(source_path, source_path[1:])),
+                "selected_has_turnaround": any(pair in turnarounds for pair in zip(selected_path, selected_path[1:]))})
     worst = max(movements, key=lambda row: row["detour_ratio"] or 0, default=None)
     return {"schema": "astra.road-hierarchy-selection/v1", "keep_tier": keep_tier, "vehicle_class": vehicle_class,
         "source_road_count": len(edges), "selected_road_count": len(selected),
@@ -164,8 +185,9 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
         "selected_edge_ids": sorted(selected), "excluded_edge_ids": sorted(edges.keys() - selected),
         "roads": [{"edge_id": key, "type": edge.get("type"), "name": edge.get("name"), "tier": tiers[key],
                    "selected": key in selected, "reasons": reasons.get(key, ["below_selected_tier"])} for key, edge in sorted(edges.items())],
-        "boundaries": boundaries, "connection_repairs": repairs, "movements": movements, "worst_detour": worst,
-        "movement_basis": "explicit" if explicit else "source-supported final boundary pairs",
+        "boundaries": boundaries, "final_cut_attachments": _boundaries(root, edges, graph, selected),
+        "unserved_source_boundaries": unserved, "connection_repairs": repairs, "movements": movements, "worst_detour": worst,
+        "movement_basis": "explicit" if explicit else "fixed main-road boundary pairs and retained local turns",
         "length_basis": "ordinary-road logical lengths; internal junction paths are excluded",
         "claim_boundary": "Simulation scope and road-level reachability for the declared vehicle class. Boundary traffic rates, lane-level driving and field signal timing are not established."}
 
@@ -208,32 +230,27 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
     effective = Path(cleanup["effective_net_file"])
     prepared = prepare_permission_preserving_input(effective, output / "permission-input.net.xml")
     command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", prepared["path"],
-        "--keep-edges.input-file", str(keep), "--keep-edges.postload", "--offset.disable-normalization", "true",
+        "--keep-edges.input-file", str(keep), "--offset.disable-normalization", "true",
         "--output-file", str(candidate)])
-    attempts = []
-    for name in ("postload", "preload"):
-        current = list(command)
-        if name == "preload":
-            current.remove("--keep-edges.postload")
-        proposal = output / f"{name}-proposal.net.xml"
-        current[current.index("--output-file") + 1] = str(proposal)
-        native = run_command(current, cwd=output, timeout_seconds=240)
-        attempt = {"command": native.to_dict()}
-        successful = native.status == "pass" and native.returncode == 0
-        if proposal.is_file():
-            attempt["output"] = {"path": str(proposal), "sha256": file_sha256(proposal),
-                "status": "complete" if successful else "incomplete_native_output"}
-            if successful:
-                try:
-                    if ET.parse(proposal).getroot().tag != "net":
-                        raise ValueError("Native output root is not a SUMO network.")
-                except (ET.ParseError, ValueError) as error:
-                    successful = False
-                    attempt["output"].update(status="invalid_native_output", error=str(error))
-        attempts.append(attempt)
-        if successful and proposal.is_file():
-            copy_file_atomic(proposal, candidate)
-            break
+    # Preload pruning avoids the known postload crash or stall on the frozen Ring1 source.
+    proposal = output / "preload-proposal.net.xml"
+    command[command.index("--output-file") + 1] = str(proposal)
+    native = run_command(command, cwd=output, timeout_seconds=240)
+    attempt = {"command": native.to_dict()}
+    successful = native.status == "pass" and native.returncode == 0
+    if proposal.is_file():
+        attempt["output"] = {"path": str(proposal), "sha256": file_sha256(proposal),
+            "status": "complete" if successful else "incomplete_native_output"}
+        if successful:
+            try:
+                if ET.parse(proposal).getroot().tag != "net":
+                    raise ValueError("Native output root is not a SUMO network.")
+            except (ET.ParseError, ValueError) as error:
+                successful = False
+                attempt["output"].update(status="invalid_native_output", error=str(error))
+    attempts = [attempt]
+    if successful and proposal.is_file():
+        copy_file_atomic(proposal, candidate)
     report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked", "promotion_authority": False,
         "source": {"path": str(source), "sha256": before_hash}, "selection_file": str(output / "selection.json"),
         "source_road_count": plan["source_road_count"], "selected_road_count": plan["selected_road_count"],
@@ -251,6 +268,12 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
             mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges, expand_mutable_edge_endpoints=False)
         after = ET.parse(candidate).getroot()
         edges, graph, lengths = _network(after, vehicle_class)
+        _, source_graph, _ = _network(root, vehicle_class)
+        original_local_turns = {(first, last) for first, targets in source_graph.items() for last in targets
+                                if first in edges and last in edges}
+        candidate_local_turns = {(first, last) for first, targets in graph.items() for last in targets}
+        local_turns = {"lost": sorted(original_local_turns - candidate_local_turns),
+                       "added": sorted(candidate_local_turns - original_local_turns)}
         path_cache = {}
         lost = []
         for row in plan["movements"]:
@@ -267,11 +290,13 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
         checks = {"source_unchanged": file_sha256(source) == before_hash,
                   "selected_roads_realized": set(edges) == set(plan["selected_edge_ids"]),
                   "required_movements_kept": not lost, "retained_lane_permissions": not changed_permissions,
+                  "retained_local_turns": not local_turns["lost"],
                   "retained_road_priorities": all(edge.get("priority") == old_edges[key].get("priority") for key, edge in edges.items() if key in old_edges),
                   "sumo_load": load["status"] == "pass"}
         report.update(status=("measured" if removed else "no_effect") if all(checks.values()) else "blocked",
             candidate={"path": str(candidate), "sha256": file_sha256(candidate)}, checks=checks,
-            lost_movements=lost, changed_lane_permissions=changed_permissions, restoration=restoration, sumo_load=load,
+            lost_movements=lost, retained_local_turn_changes=local_turns,
+            changed_lane_permissions=changed_permissions, restoration=restoration, sumo_load=load,
             source_road_count=plan["source_road_count"], selected_road_count=len(edges),
             warnings=[] if restoration["status"] == "pass" else ["Inspect the recorded off-scope restoration findings."])
         report["retained_road_geometry"] = compare_frozen_geometry(source_file=source, candidate_file=candidate,
@@ -281,6 +306,10 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
             report["warnings"].append("Scope extraction changed signal programs, including excluded controllers. Check retained movement control before calibration.")
         if plan["source_tier_counts"].get("unknown"):
             report["warnings"].append("Unknown source road types were retained. Inspect their recorded classification before further pruning.")
+        if plan["unserved_source_boundaries"]:
+            report["warnings"].append("Some side approaches serve only retained local turns and have no retained core access. Inspect their boundary roles before assigning traffic.")
+        if local_turns["added"]:
+            report["warnings"].append("Scope extraction added local turns. Inspect their legality before calibration.")
     report["report_file"] = str(output / "report.json")
     report["source_unchanged"] = file_sha256(source) == before_hash
     if not candidate.is_file():

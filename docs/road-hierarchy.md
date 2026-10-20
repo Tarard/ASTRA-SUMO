@@ -31,17 +31,25 @@ The stage preserves retained SUMO road priorities and vehicle permissions.
 
 Protected roads remain selected regardless of tier.
 The stage retains one original approach incident to the initial retained roads.
-It then checks source-supported entry-to-exit movements for `--vehicle-class`, which defaults to `passenger`.
-Missing connections receive source-supported shortest-path connectors, with a recorded reason.
+It fixes the original traffic interfaces before adding connectors.
+It checks source-supported movements between main-road interfaces for `--vehicle-class`, which defaults to `passenger`.
+Missing main-road connections receive source-supported shortest-path connectors, with a recorded reason.
+Side approaches retain local turns, including movements across the main junction to another side approach.
+They do not require residential routes between distant side streets.
+Added connectors do not create new required traffic interfaces.
 The stage does not demand reverse travel where the source has no such path.
 
-`boundaries.json` lists cut attachments and source-model boundaries, with entry and exit road members.
+`boundaries.json` retains the original study interfaces, with entry and exit road members.
+`final_cut_attachments` separately records attachments after connector construction.
+Boundary locations are not calibrated demand zones. The demand stage must declare their grouping.
+Nonpassenger approaches remain as geometric context and receive no passenger boundary assignment.
+Approaches without retained core access remain listed. Their local crossing turns can still load a junction.
 It assigns no traffic rates. Demand fitting must define how traffic enters and leaves at those locations.
 A cut boundary is a simulation choice, not evidence that a street is absent in reality.
 Source-model dead ends are not observed traffic origins.
 
 `selection.json` records every source tier, selection reason, excluded road, connector repair, and boundary movement.
-It also records the largest detour and its affected movement.
+It also records the largest detour, added length in meters, and source/selected turnaround flags.
 Selection lengths sum source ordinary-road logical lengths before native extraction and exclude internal junction paths.
 Native changes at cut ends are recorded separately in the geometry report.
 They are a routing proxy, not measured travel distances or travel times.
@@ -54,14 +62,16 @@ It preserves runtime rail controllers. Unsupported signal-reference repairs rema
 `normalized_full_network` identifies the full-network input after this recorded preparation.
 Use that input when a later comparison needs a loadable full-network baseline.
 
-Native extraction first uses postload selection. If that attempt fails, it tries preload selection once.
-Each attempt and any partial output remain separate artifacts.
+Native extraction uses preload selection once.
+The previous postload attempt crashed or stalled on the frozen Ring1 input. Its failed runs remain in the execution history.
+Native output and any failed partial file remain separate artifacts.
 A successful process status, zero exit code, and readable SUMO XML are required before a native proposal becomes a candidate.
 No conversion runs when all roads remain selected or no roads match. These cases return `no_effect` without a candidate.
 
-`report.json` verifies the realized road set, declared-mode reachability, retained lane permissions, retained road priorities, and SUMO load.
+`report.json` verifies the realized roads, required reachability, retained local turns, lane permissions, road priorities, and SUMO load.
 It retains geometry differences, source preparation, signal-program changes, and restoration findings.
 The result has no automatic promotion authority.
+The Ring1 `case.json` shows geometry and signal findings beside its measured status.
 Road-level reachability does not establish lane-level execution, queue storage, or valid field signal timing.
 
 ## Hamburg example

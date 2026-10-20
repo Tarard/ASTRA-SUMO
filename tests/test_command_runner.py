@@ -202,6 +202,6 @@ def test_windows_native_fatal_exit_is_bounded_and_retains_error(windows_native_f
     assert json.loads(ready.read_text(encoding="utf-8"))["stage"] == "command_start"
     outcome = json.loads(result_path.read_text(encoding="utf-8"))
     result = outcome["result"]
-    assert result["status"] == "fail" and result["returncode"] not in (None, 0)
+    assert result["status"] == "fail" and result["returncode"] not in (None, 0), outcome
     assert "not allowed to depart" in result["stderr"] and "Quitting (on error)" in result["stderr"]
     assert result["command"] == command

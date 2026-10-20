@@ -1,7 +1,9 @@
 """Rebuild the frozen Ring1 OSM import and select its main-road study scope offline."""
+import hashlib
 import json
 from pathlib import Path
 import sys
+import xml.etree.ElementTree as ET
 
 import sumo
 
@@ -50,6 +52,21 @@ def run(output_dir):
                 selection_input={"path": str(prepared_full), "sha256": file_sha256(prepared_full)},
                 road_selection_report=selected["report_file"], source_road_count=selected.get("source_road_count"),
                 selected_road_count=selected.get("selected_road_count"))
+            raw_content_hash = hashlib.sha256(ET.canonicalize(raw.read_text(encoding="utf-8")).encode("utf-8")).hexdigest()
+            case["reproduction"] = {"raw_network_content_sha256": raw_content_hash, "checks": {
+                "raw_network_matches_fixture": raw_content_hash == fixture["native_network_content_sha256"],
+                "source_road_count_matches": selected.get("source_road_count") == fixture["expected_source_road_count"],
+                "selected_road_count_matches": selected.get("selected_road_count") == fixture["expected_prepared_selected_road_count"]}}
+            geometry = selected.get("retained_road_geometry", {})
+            signals = selected.get("signal_program_changes", {})
+            case["review"] = {"geometry_status": geometry.get("status", "not_measured"),
+                "lane_attribute_changes": geometry.get("ordinary_lane_attribute_changes"),
+                "max_lane_shape_displacement_m": geometry.get("max_outside_lane_shape_displacement_xy_m"),
+                "signal_status": signals.get("status", "not_measured"),
+                "unexpected_signal_program_count": len(signals.get("unexpected_changes", {})),
+                "warnings": selected.get("warnings", [])}
+            if not all(case["reproduction"]["checks"].values()):
+                case["review"]["warnings"].append("The run differs from the frozen example expectations. Inspect the reproduction checks.")
     case["claim_boundary"] = "Only stages 1 and 2 are implemented. A loadable road scope is not a completed sensor-calibrated demonstration."
     write_json_atomic(output / "case.json", case)
     print(json.dumps(case, indent=2), flush=True)
