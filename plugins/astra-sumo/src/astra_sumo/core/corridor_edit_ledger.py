@@ -25,7 +25,7 @@ from .map_review import build_map_review_evidence, validate_map_review_evidence
 from .network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation, write_scoped_edit_plan, check_scoped_edit
 from .network_geometry_freeze import compare_frozen_geometry
 from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
-from .local_network_conversion import with_geometry_precision
+from .local_network_conversion import with_geometry_precision, legacy_edge_edit_scope
 
 
 EDIT_OPERATION_TYPES = (
@@ -942,6 +942,39 @@ def materialize_corridor_edit_variant(
     if additive_plan is not None:
         legacy_edges.update(row["edge_id"] for row in additive_plan.get("edge_records", []))
     source_geometry_hash = file_sha256(source_net_file)
+    legacy_conversion = None
+    if operation_family in {"delete_edge", "merge_edges"}:
+        from .local_network_conversion import local_conversion_input, prepare_permission_preserving_input
+        try:
+            legacy_nodes, legacy_edges, native_targets = legacy_edge_edit_scope(source_root, operation_family, command)
+            if native_targets != set(target_ids):
+                raise ValueError("The native road list differs from the accepted edit targets.")
+            subset, legacy_conversion = local_conversion_input(source_root, legacy_nodes, legacy_edges,
+                removed_edge_ids=native_targets if operation_family == "delete_edge" else None,
+                merge_edge_ids=native_targets if operation_family == "merge_edges" else None)
+            legacy_conversion["operation"] = {"operation": operation_family, "target_ids": target_ids}
+            if subset is not None:
+                local_file = output_dir / f"{prefix}.local-input.net.xml"
+                with local_file.open("xb") as stream:
+                    stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
+                legacy_conversion["input"] = {"path": str(local_file.resolve()), "sha256": file_sha256(local_file)}
+            else:
+                prepared = prepare_permission_preserving_input(source_net_file, output_dir / f"{prefix}.permission-input.net.xml")
+                legacy_conversion["permission_input"] = prepared
+                if prepared["preparation"] == "reconciled":
+                    legacy_conversion.update(input={key: prepared[key] for key in ("path", "sha256")},
+                        preserve_loaded_turn_permissions=True)
+            if "input" in legacy_conversion:
+                command[command.index("--sumo-net-file") + 1] = legacy_conversion["input"]["path"]
+                additional_plan_files.append((Path(legacy_conversion["input"]["path"]), "local_conversion_input"))
+            command.extend(["--offset.disable-normalization", "true"])
+        except (OSError, TypeError, ValueError) as error:
+            return _write_materialization_outcome(output_dir=output_dir, report_file=report_file,
+                manifest_file=manifest_file, command_file=command_file, source_net_file=source_net_file,
+                ledger_file=ledger_file, plan_file=plan_file, additional_plan_files=additional_plan_files,
+                report={"schema": "torii.corridor_materialization.v1", "status": "blocked",
+                    "claim_status": "construction-invalid", "materialization_status": "invalid_legacy_conversion_plan",
+                    "error": str(error), "source_net_file": str(source_net_file.resolve()), "validation": validation})
     write_text_atomic(command_file, " ".join(_quote_command_token(token) for token in command) + "\n")
 
     stale_candidate_removed = False
@@ -995,6 +1028,27 @@ def materialize_corridor_edit_variant(
     )
     pedestrian_restore_report: list[dict[str, Any]] = []
     legacy_proposal = output_dir / f"{prefix}.native-proposal.net.xml"
+    legacy_merge_error = None
+    if command_status and legacy_conversion is not None and legacy_conversion["status"] == "local":
+        from .artifact_io import copy_file_atomic
+        from .local_network_conversion import merge_local_conversion
+        raw = output_dir / f"{prefix}.native-local-output.net.xml"
+        try:
+            if raw.exists():
+                raise ValueError("Use a new local conversion output directory without protected inputs.")
+            copy_file_atomic(candidate_net_file, raw)
+            extra_artifacts.append((raw, "local_conversion_native_output"))
+            legacy_conversion["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw)}
+            native_root = ET.parse(raw).getroot()
+            merged = merge_local_conversion(source_root, native_root, legacy_conversion)
+            candidate_net_file.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
+            legacy_conversion.update(merged_proposal={"path": str(legacy_proposal.resolve()),
+                "sha256": file_sha256(candidate_net_file), "stage": "before_exterior_restoration"}, native_rebuild_count=1)
+            if operation_family == "merge_edges":
+                from .corridor_simplification import _corridor_edge_aliases
+                legacy_edges.update(_corridor_edge_aliases(source_root, native_root).values())
+        except (OSError, ET.ParseError, KeyError, TypeError, ValueError) as error:
+            legacy_merge_error = f"{type(error).__name__}: {error}"
     if command_status and scoped_plan is None:
         from .artifact_io import copy_file_atomic
         if legacy_proposal.resolve() == source_net_file.resolve() or (ledger_file is not None and legacy_proposal.resolve() == ledger_file.resolve()):
@@ -1048,6 +1102,12 @@ def materialize_corridor_edit_variant(
     }
     if command_status:
         try:
+            if legacy_merge_error:
+                raise ValueError(legacy_merge_error)
+            if operation_family == "merge_edges":
+                from .corridor_simplification import _corridor_edge_aliases, validate_merged_road_access
+                proposed_root = ET.parse(candidate_net_file).getroot()
+                validate_merged_road_access(source_root, proposed_root, _corridor_edge_aliases(source_root, proposed_root))
             legacy_geometry = None
             if scoped_plan is None:
                 restore = restore_off_scope_netconvert_artifacts(source_file=source_net_file, target_file=candidate_net_file,
@@ -1123,6 +1183,8 @@ def materialize_corridor_edit_variant(
                     semantic_validation["status"] = "blocked"
         except (OSError, ET.ParseError, KeyError, TypeError, ValueError, StopIteration) as exc:
             semantic_validation = {"status": "blocked", "error": f"{type(exc).__name__}: {exc}"}
+    if legacy_conversion is not None:
+        semantic_validation["local_conversion"] = legacy_conversion
 
     artifact_identity = (
         build_artifact_identity(source_net_file, candidate_net_file)
@@ -1782,17 +1844,7 @@ def _native_edge_list_scope(report, source_file, source_root, path, operation):
     if (Path(report["source_net_file"]).resolve() != source_file.resolve()
             or report["source_sha256"] != file_sha256(source_file)):
         return {}
-    edges = _normal_edges(source_root)
-    listed = {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
-    if listed - edges.keys():
-        return {}
-    if operation == "merge_edges" and not any(value in report["command"] for value in ("--geometry.remove", "--geometry.remove=true")):
-        return {}
-    targets = listed if operation == "delete_edge" else edges.keys() - listed
-    if not targets:
-        return {}
-    nodes = {value for key in targets for value in (edges[key].get("from"), edges[key].get("to")) if value}
-    mutable_edges = targets | {key for key, edge in edges.items() if edge.get("from") in nodes or edge.get("to") in nodes}
+    nodes, mutable_edges, _ = legacy_edge_edit_scope(source_root, operation, report["command"])
     return {"operation": {"operation": operation, "params": {}}, "source": {"path": str(source_file), "sha256": report["source_sha256"]},
             "mutable_junction_ids": sorted(nodes), "mutable_edge_ids": sorted(mutable_edges),
             "scope_binding": {"basis": "manifest_bound_native_edge_list", "path": str(path), "sha256": file_sha256(path)}}

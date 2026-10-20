@@ -392,7 +392,7 @@ def test_materializer_materializes_accepted_sidewalk_as_plain_edge_candidate(tmp
     assert "--walkingareas" in report["command"]
 
 
-def test_materializer_creates_separate_merge_variant_from_accepted_operation(tmp_path: Path) -> None:
+def test_materializer_rejects_a_merge_that_only_deletes_a_source_road(tmp_path: Path) -> None:
     net_file = tmp_path / "source.net.xml"
     _write_net(net_file)
     output_dir = tmp_path / "materialized"
@@ -419,8 +419,9 @@ def test_materializer_creates_separate_merge_variant_from_accepted_operation(tmp
         command_runner=fake_runner,
     )
 
-    assert report["status"] == "pass"
-    assert report["materialization_status"] == "variant_created_for_review"
+    assert report["status"] == "blocked"
+    assert report["materialization_status"] == "semantic_gate_failed"
+    assert "retained ordinary-road inventory" in report["semantic_validation"]["error"]
     assert Path(report["candidate_net_file"]).exists()
     assert "--geometry.remove" in report["command"]
     assert "ab\n" not in Path(report["plan_file"]).read_text(encoding="utf-8")

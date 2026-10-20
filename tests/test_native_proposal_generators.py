@@ -50,7 +50,17 @@ def test_native_isolated_proposals_keep_connected_and_parking_roads(tmp_path, co
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
-@pytest.mark.parametrize("variant", ["no_reference", "different_name", "reference_present", "reference_absent"])
+@pytest.mark.parametrize(
+    "variant",
+    [
+        "no_reference",
+        "different_name",
+        "reference_present",
+        "reference_absent",
+        "interior_bus_only",
+        "interior_bus_only_full",
+    ],
+)
 def test_native_micro_proposals_record_reference_absence_without_inventing_it(tmp_path, variant):
     nodes = '<nodes><node id="west" x="-0.2" y="0"/><node id="micro" x="0" y="0" type="priority"/>'
     nodes += '<node id="east" x="20" y="0"/></nodes>'
@@ -71,6 +81,20 @@ def test_native_micro_proposals_record_reference_absence_without_inventing_it(tm
     connections = '<connections><connection from="f0" to="f1" fromLane="0" toLane="0"/>'
     connections += '<connection from="r0" to="r1" fromLane="0" toLane="0"/></connections>'
     source = _compile(tmp_path / "source", nodes, edges, connections)
+    unrestricted = None
+    if variant.startswith("interior_bus_only"):
+        (unrestricted,) = propose_corridor_edits(source, include_isolated=False, include_duplicates=False)
+        tree = ET.parse(source)
+        root = tree.getroot()
+        lanes = {lane.get("id"): lane for lane in root.findall("edge/lane")}
+        for lane in lanes.values():
+            lane.set("allow", "passenger bus")
+        for first, last in (("f0", "f1"), ("r0", "r1")):
+            connection = root.find(f"connection[@from='{first}'][@to='{last}']")
+            lanes[connection.get("via")].set("allow", "bus")
+        if variant.endswith("_full"):
+            root.remove(root.find("location"))
+        tree.write(source, encoding="utf-8", xml_declaration=True)
     reference = source if variant == "reference_present" else None
     if variant == "reference_absent":
         reference = _compile(
@@ -106,4 +130,18 @@ def test_native_micro_proposals_record_reference_absence_without_inventing_it(tm
         candidate = ET.parse(report["candidate_net_file"]).getroot()
         assert "micro" not in {row.get("id") for row in candidate.findall("junction")}
         assert len([row for row in candidate.findall("edge") if not row.get("id").startswith(":")]) == 2
+    if unrestricted is not None:
+        digest = file_sha256(source)
+        forced = {
+            **unrestricted,
+            "status": "accepted",
+            "evidence": [*unrestricted["evidence"], {"path": str(source), "sha256": digest}],
+        }
+        report = materialize_corridor_edit_variant(
+            output_dir=tmp_path / "forced",
+            ledger={"source_net_file": str(source), "source_sha256": digest, "operations": [forced]},
+            netconvert_binary=shutil.which("netconvert"),
+        )
+        assert report["status"] == "blocked", report
+        assert "interior lane access" in report["semantic_validation"]["error"]
     assert source.read_bytes() == before

@@ -140,7 +140,31 @@ def _owner(element, index):
     return index["ownership"][element.tag].get(identity)
 
 
-def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None, preserve_turn_permissions=True):
+def legacy_edge_edit_scope(root, kind, command):
+    """Derive destructive edit scope from the native road-list input."""
+    flags = {"delete_edge": "--remove-edges.input-file", "merge_edges": "--geometry.remove.keep-edges.input-file"}
+    if kind not in flags or not isinstance(command, list) or sum(command.count(flag) for flag in flags.values()) != 1:
+        raise ValueError("A legacy edit requires one native road-list operation.")
+    flag = flags[kind]
+    if command.count(flag) != 1 or command.index(flag) + 1 >= len(command):
+        raise ValueError("The native road-list input is missing.")
+    if kind == "merge_edges" and not any(value in command for value in ("--geometry.remove", "--geometry.remove=true")):
+        raise ValueError("A geometry merge requires native geometry removal.")
+    edges = {row.get("id"): row for row in root.findall("edge") if row.get("id") and not row.get("id", "").startswith(":")}
+    path = Path(command[command.index(flag) + 1]).resolve(strict=True)
+    listed = {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
+    if listed - edges.keys():
+        raise ValueError("The native road list contains an unknown source road.")
+    targets = listed if kind == "delete_edge" else edges.keys() - listed
+    if not targets:
+        raise ValueError("A destructive edit requires source roads.")
+    nodes = {edge.get(end) for key in targets for edge in [edges[key]] for end in ("from", "to") if edge.get(end)}
+    mutable = targets | {key for key, edge in edges.items() if edge.get("from") in nodes or edge.get("to") in nodes}
+    return nodes, mutable, targets
+
+
+def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None, preserve_turn_permissions=True,
+                           removed_edge_ids=None, merge_edge_ids=None):
     """Keep complete edit junctions and the roads needed to position their ends."""
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
@@ -149,6 +173,10 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
     if preserve_turn_permissions:
         root = with_loaded_turn_permissions(root)
     index = _index(root)
+    removed, merge_targets = set(removed_edge_ids or ()), set(merge_edge_ids or ())
+    if (removed and merge_targets or (removed | merge_targets) - mutable_edges
+            or any(key not in index["edges"] or key in index["ownership"]["edge"] for key in removed | merge_targets)):
+        raise ValueError("Declare one destructive operation on ordinary source roads inside its scope.")
     edge_endpoints = edge_endpoints or {}
     if (set(edge_endpoints) - mutable_edges or any(not key or key.startswith(":")
             or set(ends) != {"from", "to"} or any(not isinstance(value, str) or not value for value in ends.values())
@@ -167,6 +195,14 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
     if shared:
         return None, {"status": "full_network", "reason": "controller_spans_edit_boundary", "controller_ids": shared}
     selected = set(mutable_edges) - created
+    if removed and selected <= removed:
+        # An isolated deletion still needs one retained native road. Its exterior is copied from the source.
+        anchors = sorted(key for key, edge in index["edges"].items() if key not in removed
+                         and key not in index["ownership"]["edge"] and not edge.get("bidi"))
+        if anchors:
+            selected.add(anchors[0])
+        else:
+            return None, {"status": "full_network", "reason": "no_retained_ordinary_context_road"}
     changed = True
     while changed:
         before = set(selected)
@@ -200,6 +236,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
             return None, {"status": "full_network", "reason": "prohibition_references_absorbed_road"}
         if any(edge in edge_endpoints for path in paths for edge in path):
             return None, {"status": "full_network", "reason": "prohibition_references_rewritten_road"}
+        if any(edge in removed | merge_targets for path in paths for edge in path):
+            return None, {"status": "full_network", "reason": "prohibition_references_destructive_edit"}
         if all(edge in kept for path in paths for edge in path):
             prohibitions.append(deepcopy(row))
     used_tls = {row.get("tl") for row in connections if row.get("tl")}
@@ -232,6 +270,10 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
         record.update(junction_aliases=aliases, absorbed_edge_ids=sorted(absorbed))
     if edge_endpoints:
         record["edge_endpoints"] = deepcopy(edge_endpoints)
+    if removed:
+        record["removed_edge_ids"] = sorted(removed)
+    if merge_targets:
+        record["merge_edge_ids"] = sorted(merge_targets)
     if preserve_turn_permissions:
         record["preserve_loaded_turn_permissions"] = True
     return result, record
@@ -245,13 +287,34 @@ def merge_local_conversion(source_root, native_root, record):
     actual = {key for key in after["edges"] if not key.startswith(":")}
     endpoints = record.get("edge_endpoints", {})
     created = set(endpoints) - before["edges"].keys()
-    if actual != (set(record["context_edge_ids"]) - set(record.get("absorbed_edge_ids", []))) | created:
+    aliases = {}
+    if record.get("merge_edge_ids"):
+        from .corridor_simplification import _corridor_edge_aliases
+        aliases = _corridor_edge_aliases(source_root, native_root)
+        if set(aliases) - set(record["merge_edge_ids"]):
+            raise ValueError("Local geometry removal absorbed an undeclared road.")
+        if any(key in before["edges"] and key not in record["context_edge_ids"] for key in aliases.values()):
+            raise ValueError("A merged road collides with a retained exterior road.")
+    retained = set(record["context_edge_ids"]) - set(record.get("absorbed_edge_ids", [])) - set(record.get("removed_edge_ids", []))
+    if actual != {aliases.get(key, key) for key in retained} | created:
         raise ValueError("Local conversion changed the retained ordinary-road inventory.")
-    aliases = record.get("junction_aliases", {})
+    if aliases:
+        from .corridor_simplification import validate_merged_road_access
+        validate_merged_road_access(source_root, native_root, aliases)
+    junction_aliases = record.get("junction_aliases", {})
     for key in actual:
+        members = [identity for identity, merged in aliases.items() if merged == key]
+        merged_ends = {}
+        if members:
+            for end, opposite in (("from", "to"), ("to", "from")):
+                candidates = {before["edges"][member].get(end) for member in members} - {
+                    before["edges"][member].get(opposite) for member in members}
+                if len(candidates) != 1:
+                    raise ValueError("Merged source roads have ambiguous endpoints.")
+                merged_ends[end] = next(iter(candidates))
         for end in ("from", "to"):
             original = before["edges"][key].get(end) if key in before["edges"] else None
-            expected = endpoints[key][end] if key in endpoints else aliases.get(original, original)
+            expected = merged_ends[end] if members else endpoints[key][end] if key in endpoints else junction_aliases.get(original, original)
             if after["edges"][key].get(end) != expected:
                 raise ValueError("Local conversion changed an undeclared ordinary-road endpoint.")
     locations = [root.find("location") for root in (source_root, native_root)]
@@ -260,6 +323,7 @@ def merge_local_conversion(source_root, native_root, record):
     if frames[0] is None or frames[0] != frames[1]:
         raise ValueError("Local conversion changed the declared coordinate frame.")
     controllers = set(record["controller_ids"])
+    mutable_edges.update(aliases.values())
 
     def belongs(child, index):
         if child.tag == "edge":
@@ -384,7 +448,7 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     return result, record
 
 
-def validate_local_conversion(record, source_file):
+def validate_local_conversion(record, source_file, *, command=None):
     """Rebuild the local input and merged proposal from saved source and native files."""
     from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
     source_root = ET.parse(source_file).getroot()
@@ -395,6 +459,16 @@ def validate_local_conversion(record, source_file):
             raise ValueError("Full conversion input differs from its source-derived permissions.")
         return input_file
     operation = record["operation"]
+    if operation.get("operation") in {"delete_edge", "merge_edges"}:
+        kind = operation["operation"]
+        nodes, edges, targets = legacy_edge_edit_scope(source_root, kind, command)
+        if set(operation.get("target_ids", [])) != targets:
+            raise ValueError("The local destructive operation differs from its native road list.")
+        subset, expected = local_conversion_input(source_root, nodes, edges,
+            removed_edge_ids=targets if kind == "delete_edge" else None,
+            merge_edge_ids=targets if kind == "merge_edges" else None,
+            preserve_turn_permissions=record.get("preserve_loaded_turn_permissions") is True)
+        return _validate_local_artifacts(record, source_root, subset, expected)
     if validate_scoped_operation(operation, source_root):
         raise ValueError("Local conversion has an invalid scoped operation.")
     nodes, edges = scoped_operation_scope(source_root, operation)

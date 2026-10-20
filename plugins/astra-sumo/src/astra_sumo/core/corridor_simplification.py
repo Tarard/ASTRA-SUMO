@@ -8,7 +8,7 @@ from typing import Any, Callable
 import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
-from .local_network_conversion import with_geometry_precision
+from .local_network_conversion import with_geometry_precision, loaded_turn_permissions
 
 
 PRESERVED_JUNCTION_ATTRS = ("type", "rightOfWay", "fringe")
@@ -68,6 +68,7 @@ def find_removable_corridor_geometry_nodes(
     }
 
     candidates: list[dict[str, Any]] = []
+    permissions = None
     for junction in root.findall("junction"):
         node_id = junction.attrib.get("id", "")
         node_edges = incident.get(node_id, [])
@@ -107,6 +108,10 @@ def find_removable_corridor_geometry_nodes(
         if len(connections) != expected_connection_count or any(connection.attrib.get("tl") for connection in connections):
             continue
         if not _connections_are_lane_preserving_straights(connections, edges):
+            continue
+        if permissions is None:
+            permissions = loaded_turn_permissions(root)
+        if not _connections_preserve_access(connections, edges, permissions, root.get("version", "0.0")):
             continue
 
         params = dict(_edge_params(node_edges[0]))
@@ -306,10 +311,52 @@ def _connections_are_lane_preserving_straights(
     return True
 
 
+def _connections_preserve_access(connections, edges, permissions, network_version):
+    from .osm_access import _permission_set
+    for row in connections:
+        key = (row.get("from"), int(row.get("fromLane")), row.get("to"), int(row.get("toLane")))
+        allowed = [_permission_set(edges[edge].findall("lane")[index].attrib, network_version=network_version)
+                   for edge, index in (key[:2], key[2:])]
+        if permissions.get(key) != allowed[0] & allowed[1]:
+            return False
+    return True
+
+
+def validate_merged_road_access(source_root, candidate_root, aliases):
+    """A geometry merge must retain lane access and every absorbed continuation."""
+    if not aliases:
+        return
+    from .osm_access import _permission_set
+    before = {row.get("id"): row for row in source_root.findall("edge")}
+    after = {row.get("id"): row for row in candidate_root.findall("edge")}
+    collapsed = [row for row in source_root.findall("connection")
+                 if row.get("from") in aliases and row.get("to") in aliases
+                 and aliases[row.get("from")] == aliases[row.get("to")]]
+    required = {(first, str(index), last, str(index)) for first in aliases for last in aliases
+                if aliases[first] == aliases[last] and before[first].get("to") == before[last].get("from")
+                for index in range(len(before[first].findall("lane")))}
+    observed = {tuple(row.get(key) for key in ("from", "fromLane", "to", "toLane")) for row in collapsed}
+    if required != observed or not _connections_preserve_access(collapsed, before,
+            loaded_turn_permissions(source_root), source_root.get("version", "0.0")):
+        raise ValueError("A geometry merge would lose source interior lane access restrictions or continuations.")
+    for merged in set(aliases.values()):
+        allowed = [_permission_set(lane.attrib, network_version=candidate_root.get("version", "0.0"))
+                   for lane in after[merged].findall("lane")]
+        if any([_permission_set(lane.attrib, network_version=source_root.get("version", "0.0"))
+                for lane in before[member].findall("lane")] != allowed
+                for member, target in aliases.items() if target == merged):
+            raise ValueError("A geometry merge changed source lane permissions or lane count.")
+
+
 def audit_alias_normalized_connections(source_file: Path, candidate_file: Path, *, source_lane_indices=None) -> dict[str, Any]:
     source_root = ET.parse(source_file).getroot()
     candidate_root = ET.parse(candidate_file).getroot()
     aliases = _corridor_edge_aliases(source_root, candidate_root)
+    access = {"status": "pass"}
+    try:
+        validate_merged_road_access(source_root, candidate_root, aliases)
+    except ValueError as error:
+        access = {"status": "fail", "error": str(error)}
     source_all, source_controlled, collapsed, removed = _connection_counters(source_root, aliases, source_lane_indices)
     candidate_all, candidate_controlled, _, _ = _connection_counters(candidate_root, {})
     controlled_removed = Counter({key: count for key, count in removed.items() if key[4]})
@@ -319,7 +366,8 @@ def audit_alias_normalized_connections(source_file: Path, candidate_file: Path, 
     controlled_missing = retained_controlled_missing + controlled_removed
     controlled_extra = candidate_controlled - source_controlled
     return {
-        "status": "pass" if not controlled_missing and not controlled_extra else "fail",
+        "status": "pass" if not controlled_missing and not controlled_extra and access["status"] == "pass" else "fail",
+        "merged_road_access_preservation": access,
         "edge_alias_count": len(aliases),
         "edge_aliases": dict(sorted(aliases.items())),
         "source_lane_indices": source_lane_indices or {},

@@ -8,8 +8,13 @@ import pytest
 
 from astra_sumo.core.candidate_contracts import file_sha256, validate_materialization_evidence
 from astra_sumo.core.command_runner import run_command
-from astra_sumo.core.corridor_edit_ledger import _bound_scoped_edit_plan, propose_corridor_edits
+from astra_sumo.core.corridor_edit_ledger import (
+    _bound_scoped_edit_plan,
+    propose_corridor_edits,
+    materialize_corridor_edit_variant,
+)
 from astra_sumo.core.network_edit_applicability import verify_network_edit
+from astra_sumo.core.local_network_conversion import validate_local_conversion
 
 
 def _source(folder, operation):
@@ -92,6 +97,24 @@ def test_legacy_native_lists_bind_scope_and_preserve_inherited_topology(tmp_path
     )
     built = report["materialization"]
     assert built["status"] == "pass", built
+    local = built["semantic_validation"]["local_conversion"]
+    assert local["status"] == "local"
+    assert local["converted_normal_edge_count"] < local["source_normal_edge_count"]
+    assert validate_local_conversion(local, source, command=built["command"]) == Path(local["input"]["path"])
+    forged = deepcopy(local)
+    forged["operation"]["target_ids"] = ["r0"]
+    with pytest.raises(ValueError, match="native road list"):
+        validate_local_conversion(forged, source, command=built["command"])
+    before, after = ET.parse(source).getroot(), ET.parse(built["candidate_net_file"]).getroot()
+    for identity in ("r0", "r1", "r2", "r3"):
+        states = [
+            [
+                (child.tag, child.attrib, (child.text or "").strip())
+                for child in root.find(f"edge[@id='{identity}']").iter()
+            ]
+            for root in (before, after)
+        ]
+        assert states[0] == states[1]
     topology = report["candidate_gates"]["gates"]["topology"]
     assert topology["inherited_finding_count"] == 1, topology
     assert report["whole_network_review"]["status"] == "review_required"
@@ -117,3 +140,27 @@ def test_legacy_native_lists_bind_scope_and_preserve_inherited_topology(tmp_path
     Path(built["plan_file"]).write_text("r0\n", encoding="utf-8")
     assert _bound_scoped_edit_plan(built, evidence, source, ET.parse(source).getroot()) == {}
     assert file_sha256(source) == digest
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO programs required")
+def test_legacy_local_output_does_not_replace_its_source(tmp_path):
+    compiled = _source(tmp_path, "delete_edge")
+    output = tmp_path / "edit"
+    output.mkdir()
+    source = output / "corridor_materialized_variant.native-local-output.net.xml"
+    source.write_bytes(compiled.read_bytes())
+    original = source.read_bytes()
+    (proposal,) = propose_corridor_edits(source, include_duplicates=False, include_micro_merges=False)
+    operation = {
+        **proposal,
+        "status": "accepted",
+        "evidence": [*proposal["evidence"], {"path": str(source), "sha256": file_sha256(source)}],
+    }
+    report = materialize_corridor_edit_variant(
+        output_dir=output,
+        ledger={"source_net_file": str(source), "source_sha256": file_sha256(source), "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"),
+    )
+    assert report["status"] == "blocked"
+    assert "protected inputs" in report["semantic_validation"]["error"]
+    assert source.read_bytes() == original

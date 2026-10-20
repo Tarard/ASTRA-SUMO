@@ -255,6 +255,30 @@ direction alone does not establish a field prohibition.
 
 ## Preservation and review
 
+Legacy `delete_edge` and `merge_edges` variants now use the shared local native
+converter. Their saved native road list determines the source junctions and
+incident roads in scope. A merge must preserve source paths through the native
+`removedNodeIds` correspondence. Losing a road without a corresponding merged
+path fails the inventory check.
+
+Geometry removal must also preserve every absorbed lane continuation and its
+loaded vehicle access. A bus-only interior connection cannot disappear into
+an unrestricted road. Candidate generation excludes that case. Both local
+and full-network materialization reject it, and the shared connection audit
+records the access failure. A merged lane must retain the permission set and
+lane count of each original road segment.
+
+An isolated deletion retains one extra road in the converter input because
+`netconvert` requires a nonempty road network. The merge copies that road from
+the source, outside the edit scope. Native input, raw output, and the full
+merged proposal remain separate records. Evidence validation reconstructs the
+input and merge from the source and command, including the saved road list.
+
+Shared controllers, unsupported prohibitions, missing coordinate frames, or
+absence of a retained context road keep a recorded full-network fallback.
+Permission reconciliation remains separate from the immutable source.
+Legacy additive road and crossing operations still use full-network conversion.
+
 Duplicate-road proposals require matching geometry, lane attributes, parameters,
 and ordinary movement neighbors after replacing the compared road identity.
 Internal paths compare their lane state and geometry instead of generated IDs.
