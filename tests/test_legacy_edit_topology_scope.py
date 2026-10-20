@@ -164,3 +164,35 @@ def test_legacy_local_output_does_not_replace_its_source(tmp_path):
     assert report["status"] == "blocked"
     assert "protected inputs" in report["semantic_validation"]["error"]
     assert source.read_bytes() == original
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
+def test_standalone_simplifier_uses_shared_local_conversion_and_keeps_remote_roads(tmp_path):
+    from astra_sumo.core.corridor_simplification import build_corridor_geometry_simplification_variant
+    from astra_sumo.core.sumo_commands import run_sumo_load_audit
+
+    source = _source(tmp_path, "merge_edges")
+    digest = file_sha256(source)
+    report = build_corridor_geometry_simplification_variant(
+        net_file=source, output_dir=tmp_path / "simplified", netconvert_binary=shutil.which("netconvert")
+    )
+    assert report["status"] == "pass", report
+    assert report["requested_merge_realized"] and report["removed_node_ids"] == ["micro"]
+    local = report["local_conversion"]
+    assert local["status"] == "local" and local["converted_normal_edge_count"] == 4
+    assert local["source_normal_edge_count"] == 8
+    assert report["exterior_geometry"]["status"] == "pass"
+    before, after = ET.parse(source).getroot(), ET.parse(report["variant_file"]).getroot()
+    for identity in ("r0", "r1", "r2", "r3"):
+        states = [
+            [(row.tag, row.attrib, (row.text or "").strip()) for row in root.find(f"edge[@id='{identity}']").iter()]
+            for root in (before, after)
+        ]
+        assert states[0] == states[1]
+    assert (
+        run_sumo_load_audit(
+            net_file=Path(report["variant_file"]), output_dir=tmp_path / "load", sumo_binary=shutil.which("sumo")
+        )["status"]
+        == "pass"
+    )
+    assert file_sha256(source) == digest

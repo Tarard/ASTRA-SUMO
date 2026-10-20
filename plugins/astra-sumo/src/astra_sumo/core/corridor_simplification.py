@@ -8,7 +8,7 @@ from typing import Any, Callable
 import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
-from .local_network_conversion import with_geometry_precision, loaded_turn_permissions
+from .local_network_conversion import with_geometry_precision, loaded_turn_permissions, legacy_edge_edit_scope, run_scoped_native_conversion
 
 
 PRESERVED_JUNCTION_ATTRS = ("type", "rightOfWay", "fringe")
@@ -144,6 +144,11 @@ def build_corridor_geometry_simplification_variant(
     timeout_seconds: float = 240.0,
     command_runner: Callable[..., Any] = run_command,
 ) -> dict[str, Any]:
+    if not prefix or Path(prefix).name != prefix or prefix in {".", ".."}:
+        return _failure("Use a single filename component for the simplification prefix.")
+    output_dir = output_dir.resolve()
+    if any(path.resolve().is_relative_to(output_dir) for path in (net_file, reference_net_file) if path is not None):
+        return _failure("Use a simplification output directory separate from its source and reference.")
     if not net_file.exists():
         return _failure(f"net file does not exist: {net_file}")
     if reference_net_file is not None and not reference_net_file.exists():
@@ -210,13 +215,20 @@ def build_corridor_geometry_simplification_variant(
         str(keep_edges_file),
         "--geometry.remove.keep-ptstops",
         "--output.removed-nodes",
+        "--offset.disable-normalization", "true",
         "--output-file",
         str(variant_file),
     ])
     command_file.write_text(" ".join(command) + "\n", encoding="utf-8")
+    local_conversion = None
     try:
-        result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
-    except OSError as exc:
+        mutable_nodes, mutable_edges, targets = legacy_edge_edit_scope(source_root, "merge_edges", command)
+        execution, local_conversion = run_scoped_native_conversion(command=command, mutable_nodes=mutable_nodes,
+            mutable_edges=mutable_edges, output_dir=output_dir, prefix=prefix, timeout_seconds=timeout_seconds,
+            merge_edge_ids=targets, command_runner=command_runner)
+        result = _result_to_dict(execution)
+        command_file.write_text(" ".join(local_conversion["command"]) + "\n", encoding="utf-8")
+    except (OSError, ET.ParseError, KeyError, TypeError, ValueError, RuntimeError) as exc:
         return _failure(f"{type(exc).__name__}: {exc}")
     if result.get("status") != "pass" or not variant_file.exists():
         return {
@@ -224,8 +236,15 @@ def build_corridor_geometry_simplification_variant(
             "netconvert": result,
             "variant_file": str(variant_file),
             "plan_file": str(plan_file),
+            "local_conversion": local_conversion,
         }
 
+    from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from .network_geometry_freeze import compare_frozen_geometry
+    restoration = restore_off_scope_netconvert_artifacts(source_file=net_file, target_file=variant_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges, expand_mutable_edge_endpoints=False)
+    geometry = compare_frozen_geometry(source_file=net_file, candidate_file=variant_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
     restored_junction_count = _restore_surviving_junction_semantics(net_file, variant_file)
     connection_audit = audit_alias_normalized_connections(net_file, variant_file)
     source_counts = _semantic_counts(net_file)
@@ -262,6 +281,7 @@ def build_corridor_geometry_simplification_variant(
         and connection_audit["controlled_extra_count"] == 0
         and connection_audit["status"] == "pass"
         and merge_realized
+        and restoration["status"] == geometry["status"] == "pass"
         else "fail"
     )
     return {
@@ -272,6 +292,9 @@ def build_corridor_geometry_simplification_variant(
             "requested_merge_not_realized" if not merge_realized else "semantic_preservation_failed"
         ),
         "requested_merge_realized": merge_realized,
+        "local_conversion": local_conversion,
+        "exterior_restoration": restoration,
+        "exterior_geometry": geometry,
         "variant_file": str(variant_file),
         "plan_file": str(plan_file),
         "candidates_file": str(candidates_file),

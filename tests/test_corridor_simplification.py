@@ -156,3 +156,17 @@ def test_standalone_simplification_requires_realized_and_access_preserving_merge
     elif variant == "changed_access":
         assert result["alias_normalized_connection_audit"]["merged_road_access_preservation"]["status"] == "fail"
     assert source.read_bytes() == original
+
+
+@pytest.mark.parametrize("bad_prefix", [False, True])
+def test_standalone_plan_outputs_do_not_replace_a_source(tmp_path, bad_prefix):
+    source = tmp_path / "corridor_geometry_simplification_plan.json"
+    _write_net(source)
+    original = source.read_bytes()
+    result = build_corridor_geometry_simplification_variant(
+        net_file=source,
+        output_dir=tmp_path / "new" if bad_prefix else tmp_path,
+        prefix="../corridor_geometry_simplification" if bad_prefix else "corridor_geometry_simplification",
+    )
+    assert result["status"] == "fail"
+    assert source.read_bytes() == original

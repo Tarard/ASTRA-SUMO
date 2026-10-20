@@ -303,6 +303,11 @@ expected total lanes and built total lanes in `added_lane_layouts`.
 An unexpected total fails construction. Matching the count does not waive
 pedestrian, bicycle, permission or connectivity checks.
 
+The independent corridor-geometry simplifier also uses the shared scoped
+converter. It retains its existing candidate and semantic checks, records the
+actual native command and local artifacts, and verifies exterior geometry
+after source-derived restoration. Explicit full-network fallbacks remain.
+
 Duplicate-road proposals require matching geometry, lane attributes, parameters,
 and ordinary movement neighbors after replacing the compared road identity.
 Internal paths compare their lane state and geometry instead of generated IDs.

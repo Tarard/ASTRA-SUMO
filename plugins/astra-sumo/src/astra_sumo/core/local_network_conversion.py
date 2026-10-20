@@ -435,9 +435,11 @@ def merge_local_conversion(source_root, native_root, record):
 
 
 def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, output_dir, prefix,
-                                 timeout_seconds, join_groups=None, merge_source_file=None, edge_endpoints=None):
+                                 timeout_seconds, join_groups=None, merge_source_file=None, edge_endpoints=None,
+                                 merge_edge_ids=None, command_runner=None):
     """Run one native conversion and retain its local input and full merged proposal."""
     from .command_runner import run_command
+    execute = command_runner or run_command
     command = with_geometry_precision(command)
     source = Path(command[command.index("--sumo-net-file") + 1]).resolve(strict=True)
     output = Path(command[command.index("--output-file") + 1]).resolve()
@@ -453,7 +455,9 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     merge_bytes = source_bytes if merge_source == source else merge_source.read_bytes()
     merge_root = root if merge_source == source else ET.fromstring(merge_bytes)
     subset, record = local_conversion_input(root, set(mutable_nodes), set(mutable_edges), join_groups=join_groups,
-                                            edge_endpoints=edge_endpoints)
+                                            edge_endpoints=edge_endpoints, merge_edge_ids=merge_edge_ids)
+    if merge_edge_ids:
+        record["operation"] = {"operation": "merge_edges", "target_ids": sorted(merge_edge_ids)}
     if subset is None:
         prepared = with_loaded_turn_permissions(root)
         subset_bytes = source_bytes
@@ -475,13 +479,15 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     record["input"] = {"path": str(input_file.resolve()), "sha256": file_sha256(input_file)}
     command[command.index("--sumo-net-file") + 1] = str(input_file.resolve())
     command[command.index("--output-file") + 1] = str(raw.resolve())
+    record["command"] = list(command)
     result, exception = None, None
     try:
-        result = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
+        result = execute(command, cwd=output_dir, timeout_seconds=timeout_seconds)
+        returncode = result.get("returncode") if isinstance(result, dict) else result.returncode
         if raw.is_file():
             record["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw),
-                                       "status": "complete" if result.returncode == 0 else "incomplete"}
-        if result.returncode == 0 and raw.is_file():
+                                       "status": "complete" if returncode == 0 else "incomplete"}
+        if returncode == 0 and raw.is_file():
             if subset is not None:
                 merged = merge_local_conversion(merge_root, ET.parse(raw).getroot(), record)
                 content = ET.tostring(merged, encoding="utf-8", xml_declaration=True)
@@ -498,10 +504,11 @@ def run_scoped_native_conversion(*, command, mutable_nodes, mutable_edges, outpu
     finally:
         record["source_unchanged"] = file_sha256(source) == record["source"]["sha256"]
         record["merge_source_unchanged"] = file_sha256(merge_source) == record["merge_source"]["sha256"]
-        failed = exception is not None or result is None or result.returncode != 0 or not output.is_file()
+        failed = exception is not None or result is None or returncode != 0 or not output.is_file()
         if failed or not record["source_unchanged"] or not record["merge_source_unchanged"]:
             from .artifact_io import write_json_atomic
-            execution = {key: getattr(result, key, None) for key in ("command", "returncode", "stdout", "stderr", "error", "status")}
+            execution = dict(result) if isinstance(result, dict) else {
+                key: getattr(result, key, None) for key in ("command", "returncode", "stdout", "stderr", "error", "status")}
             execution.update(command=command, cwd=str(output_dir))
             write_json_atomic(failure_file, {"status": "failed" if failed else "source_changed",
                 "command": execution, "local_conversion": record, "exception": exception})
