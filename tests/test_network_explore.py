@@ -126,6 +126,10 @@ def test_explore_materializes_unapproved_edits_and_tests_original_requests(tmp_p
     assert report["mode"] == "explore" and report["release_gates"] == "not_run"
     assert report["construction"]["requested_effect_applied"], report["construction"]
     assert report["candidate_routeability"]["od_policy"]["request_count"] == 100
+    if kind == "set_lane_count":
+        expected = {str(old): str(new) for old, new in report["construction"]["lane_index_mapping"].items()}
+        mapping = report["candidate_routeability"]["od_policy"]["endpoint_mapping"]
+        assert mapping["source_lane_indices"] == {ledger["operations"][0]["params"]["edge_id"]: expected}
     assert report["source_immutable"] and source.read_bytes() == original
     assert report["warnings"]
     if kind == "set_speed":

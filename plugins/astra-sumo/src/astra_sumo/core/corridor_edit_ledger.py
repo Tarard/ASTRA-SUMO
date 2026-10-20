@@ -1636,7 +1636,8 @@ def run_corridor_candidate_gates(
             from functools import partial
             from .routeability_audit import run_routeability_audit
 
-            routeability_audit_func = partial(run_routeability_audit, od_reference_net_file=source_net_file)
+            routeability_audit_func = partial(run_routeability_audit, od_reference_net_file=source_net_file,
+                                             source_lane_indices=source_lane_indices)
         try:
             raw_routeability = routeability_audit_func(
                 net_file=candidate_net_file,

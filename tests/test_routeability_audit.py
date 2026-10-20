@@ -28,7 +28,7 @@ def test_changed_endpoint_requests_are_retained_for_review(tmp_path):
     root = ET.Element("routes")
     for index in range(100):
         ET.SubElement(root, "trip", id=str(index), depart=str(index),
-                      attrib={"from": "a", "to": "b", "departPos": "10", "arrivalPos": "10"})
+                      attrib={"from": "a", "to": "b", "departPos": "20", "arrivalPos": "10"})
     ET.ElementTree(root).write(requests, encoding="utf-8")
 
     def runner(command, *, cwd, **kwargs):

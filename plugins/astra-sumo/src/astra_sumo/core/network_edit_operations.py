@@ -1155,9 +1155,11 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
             if (baseline.get("route_generation", {}).get("status") == "pass"
                     and Path(baseline.get("trip_file", "")).is_file()):
                 trip_file = Path(baseline["trip_file"])
+                lane_indices = ({operation["params"]["edge_id"]: {str(old): str(new)
+                    for old, new in plan["lane_index_mapping"].items()}} if operation["operation"] == "set_lane_count" else {})
                 routed = run_routeability_audit(net_file=candidate, output_dir=destination / "candidate-routes",
                     binaries=binaries, frozen_trip_file=trip_file, expected_frozen_trip_sha256=file_sha256(trip_file),
-                    od_reference_net_file=source)
+                    od_reference_net_file=source, source_lane_indices=lane_indices)
                 report["candidate_routeability"] = routed
                 if routed.get("od_policy", {}).get("endpoint_mapping", {}).get("status") == "review_required":
                     removed = routed.get("cohort_coverage", {}).get("removed_endpoint_count", 0)

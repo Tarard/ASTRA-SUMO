@@ -1,6 +1,7 @@
 """Keep original diagnostic endpoints when ordinary roads are merged."""
 
 from bisect import bisect_right
+from collections.abc import Mapping
 from copy import deepcopy
 import math
 
@@ -56,11 +57,15 @@ def _lane_endpoint(source, target, value):
         position += length
     if not math.isfinite(position) or not 0 <= position <= length:
         raise ValueError("The source endpoint lies outside its lane.")
-    projected = [_project(point, after, after_offsets)[0] for point in points]
-    if any(b < a - TOLERANCE_M for a, b in zip(projected, projected[1:])) or projected[-1] <= projected[0]:
-        raise ValueError("The source lane does not follow the candidate lane direction.")
-    point = _point_at(points, offsets, position / length * offsets[-1])
+    source_offset = position / length * offsets[-1]
+    point = _point_at(points, offsets, source_offset)
     offset, distance = _project(point, after, after_offsets)
+    source_segment = min(bisect_right(offsets, source_offset) - 1, len(points) - 2)
+    candidate_segment = min(bisect_right(after_offsets, offset) - 1, len(after) - 2)
+    direction = sum((b-a) * (d-c) for a, b, c, d in zip(
+        points[source_segment], points[source_segment + 1], after[candidate_segment], after[candidate_segment + 1]))
+    if direction <= 0:
+        raise ValueError("The source endpoint does not follow the candidate lane direction.")
     candidate_position = offset / after_offsets[-1] * after_length
     return {"source_lane_id": source.get("id"), "candidate_lane_id": target.get("id"),
             "source_position_m": position, "candidate_position_m": candidate_position,
@@ -80,12 +85,23 @@ def _relative_lane_endpoint(source, target, value, source_base, candidate_base):
             "point_displacement_m": math.dist(point, candidate_point)}
 
 
-def map_merged_od_requests(source_root, candidate_root, requests):
+def map_merged_od_requests(source_root, candidate_root, requests, *, source_lane_indices=None):
     """Return all mapped requests or retain all unresolved requests for review."""
     aliases = _corridor_edge_aliases(source_root, candidate_root)
     validate_merged_road_access(source_root, candidate_root, aliases)
     original = {row.get("id"): row for row in source_root.findall("edge")}
     candidate = {row.get("id"): row for row in candidate_root.findall("edge")}
+    if source_lane_indices is not None and not isinstance(source_lane_indices, Mapping):
+        raise ValueError("Source lane correspondence must map roads to lane indices.")
+    for identity, mapping in (source_lane_indices or {}).items():
+        if identity not in original or not isinstance(mapping, Mapping):
+            raise ValueError("Source lane correspondence requires existing source roads and lane mappings.")
+        indices = {lane.get("index") for lane in original[identity].findall("lane")}
+        retained = [index for index in mapping.values() if index is not None]
+        if (any(index not in indices for index in mapping)
+                or any(not isinstance(index, str) or not index.isdigit() for index in retained)
+                or len(set(retained)) != len(retained)):
+            raise ValueError("Source lane correspondence requires distinct candidate lane indices.")
     before_frame, after_frame = source_root.find("location"), candidate_root.find("location")
     if before_frame is None or after_frame is None or (
         before_frame.get("projParameter"), tuple(map(float, before_frame.get("netOffset", "0,0").split(",")))
@@ -104,7 +120,9 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                 identity = row.get(key)
                 source = original[identity]
                 target = candidate.get(aliases.get(identity, identity))
-                if identity not in aliases and target is not None and signature(source) == signature(target):
+                lane_mapping = (source_lane_indices or {}).get(identity)
+                if (lane_mapping is None and identity not in aliases and target is not None
+                        and signature(source) == signature(target)):
                     continue
                 same_road = target is not None and all(source.get(key) == target.get(key) for key in ("from", "to"))
                 if identity not in aliases and not same_road:
@@ -125,24 +143,51 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                     raise ValueError("The source endpoint has no selected passenger lane.")
                 value = row.get(role + "Pos", "base" if role == "depart" else "max")
                 targets = {lane.get("index"): lane for lane in target.findall("lane")}
-                if any(lane.get("index") not in targets for lane in lanes):
+                if lane_mapping is None:
+                    if len(source.findall("lane")) != len(targets):
+                        raise ValueError("A changed lane count requires declared source lane correspondence.")
+                    lane_mapping = {index: index for index in targets}
+                relative_default = identity not in aliases and same_road and value == ("base" if role == "depart" else "max")
+                removed_lanes = []
+                if relative_default and selector in {"best_prob", "best", "free", "allowed", "random", "current"}:
+                    removed_lanes = [lane.get("id") for lane in lanes if lane_mapping.get(lane.get("index")) is None]
+                    lanes = [lane for lane in lanes if lane_mapping.get(lane.get("index")) is not None]
+                selected = [lane_mapping.get(lane.get("index")) for lane in lanes]
+                if not lanes or any(index is None or str(index) not in targets for index in selected):
                     raise ValueError("A selected source lane is absent from the candidate road.")
-                if identity not in aliases and same_road and value == ("base" if role == "depart" else "max"):
+                selected_targets = [targets[str(index)] for index in selected]
+                if any("passenger" not in _permission_set(lane.attrib, network_version=candidate_root.get("version", "0.0"))
+                       for lane in selected_targets):
+                    raise ValueError("A mapped candidate lane no longer permits the source passenger request.")
+                if selector.isdigit() or selector == "first" and role == "depart":
+                    if row.get(role + "Lane") != str(selected[0]):
+                        row.set(role + "Lane", str(selected[0]))
+                        changed = True
+                if relative_default:
                     # Road-relative defaults move with a retained road. Explicit positions keep their physical correspondence checks.
-                    pairs = [_relative_lane_endpoint(lane, targets[lane.get("index")], value,
+                    pairs = [_relative_lane_endpoint(lane, target_lane, value,
                         min(5.1, float(source.find("lane").get("length"))),
-                        min(5.1, float(target.find("lane").get("length")))) for lane in lanes]
+                        min(5.1, float(target.find("lane").get("length")))) for lane, target_lane in zip(lanes, selected_targets)]
                     record["endpoints"].append({"role": role, "source_edge_id": identity, "candidate_edge_id": identity,
                         "position_semantics": "road_relative_default", "requested_position": value,
-                        "lane_selection": selector, "lanes": pairs})
+                        "removed_source_lane_ids": removed_lanes,
+                        "candidate_lane_choice_ids": ([lane.get("id") for lane in target.findall("lane")
+                            if "passenger" in _permission_set(lane.attrib, network_version=candidate_root.get("version", "0.0"))]
+                            if selector in {"best_prob", "best", "free", "allowed", "random", "current"}
+                            else [lane.get("id") for lane in selected_targets]),
+                        "lane_selection": selector, "candidate_lane_selection": row.get(role + "Lane", selector), "lanes": pairs})
                     continue
+                if selector in {"best_prob", "best", "free", "allowed", "random", "current"} and {
+                        lane.get("id") for lane in selected_targets} != {
+                        lane.get("id") for lane in target.findall("lane")
+                        if "passenger" in _permission_set(lane.attrib, network_version=candidate_root.get("version", "0.0"))}:
+                    raise ValueError("A physical endpoint on a changed lane set requires an explicit source lane.")
                 if value == "base" and role == "depart":
                     # SUMO basePos adds POSITION_EPS and clamps to the source edge length.
                     value = str(min(5.1, float(source.find("lane").get("length"))))
-                pairs = [_lane_endpoint(lane, targets[lane.get("index")], value) for lane in lanes]
+                pairs = [_lane_endpoint(lane, target_lane, value) for lane, target_lane in zip(lanes, selected_targets)]
                 position = pairs[0]["candidate_position_m"]
-                for pair, lane in zip(pairs, lanes):
-                    target_lane = next(value for value in target.findall("lane") if value.get("index") == lane.get("index"))
+                for pair, target_lane in zip(pairs, selected_targets):
                     shape, offsets, length = _geometry(target_lane)
                     point = _point_at(shape, offsets, position / length * offsets[-1])
                     pair["encoded_candidate_position_m"] = position
@@ -153,7 +198,7 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                 row.set(role + "Pos", format(position, ".12g"))
                 record["endpoints"].append({"role": role, "source_edge_id": identity,
                                              "candidate_edge_id": aliases.get(identity, identity),
-                                             "lane_selection": selector, "lanes": pairs})
+                                             "lane_selection": selector, "candidate_lane_selection": row.get(role + "Lane", selector), "lanes": pairs})
                 changed = True
             if row.get("from") == row.get("to") and record["source"]["from"] != record["source"]["to"]:
                 if float(row.get("arrivalPos", "nan")) < float(row.get("departPos", "nan")):
@@ -186,6 +231,7 @@ def map_merged_od_requests(source_root, candidate_root, requests):
     return mapped, {"status": "review_required" if failures else "pass", "changed": changed,
                     "method": "directed_road_identity_or_verified_merge_and_lane_geometry/v3", "maximum_projection_error_m": TOLERANCE_M,
                     "request_count": len(records), "unresolved_requests": failures, "requests": records,
+                    "source_lane_indices": source_lane_indices or {},
                     "physical_request_count": len(records) - len(failures) - relative_count,
                     "road_relative_request_count": relative_count, "logical_only_request_count": len(failures) - len(removed_ids),
                     "removed_endpoint_request_count": len(removed_ids), "removed_endpoint_vehicle_ids": removed_ids,

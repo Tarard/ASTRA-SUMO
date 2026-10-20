@@ -362,6 +362,7 @@ def run_routeability_audit(
     od_reference_net_file: Path | None = None,
     frozen_trip_file: Path | None = None,
     expected_frozen_trip_sha256: str | None = None,
+    source_lane_indices: Mapping[str, Mapping[str, str | None]] | None = None,
 ) -> dict[str, Any]:
     """Test fixed requests or new source-reachable synthetic diagnostic OD.
 
@@ -511,7 +512,8 @@ def run_routeability_audit(
             shutil.copy2(trip_file, source_trip_file)
             approved_hashes[source_trip_file] = file_sha256(source_trip_file)
             od_policy["source_request_file_sha256"] = approved_hashes[source_trip_file]
-            mapped, mapping = map_merged_od_requests(ET.parse(reference).getroot(), ET.parse(net_file).getroot(), ET.parse(source_trip_file).getroot())
+            mapped, mapping = map_merged_od_requests(ET.parse(reference).getroot(), ET.parse(net_file).getroot(),
+                ET.parse(source_trip_file).getroot(), source_lane_indices=source_lane_indices)
             write_json_atomic(mapping_file, mapping)
             approved_hashes[mapping_file] = file_sha256(mapping_file)
             od_policy["endpoint_mapping"] = mapping

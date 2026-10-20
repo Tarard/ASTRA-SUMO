@@ -10,7 +10,7 @@ import pytest
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.routeability_audit import run_routeability_audit
 from astra_sumo.core.routeability_audit import _inspect_vehicle_routes
-from astra_sumo.core.routeability_od_mapping import _lane_endpoint
+from astra_sumo.core.routeability_od_mapping import _lane_endpoint, map_merged_od_requests
 from astra_sumo.core.routeability_od_mapping import _geometry, _point_at
 
 
@@ -38,6 +38,16 @@ def test_endpoint_projection_retains_elevation_and_ignores_duplicate_vertices():
     result = _lane_endpoint(source, target, "20")
     assert result["source_point_xyz_m"] == pytest.approx((15, 0, 15))
     assert result["candidate_position_m"] == pytest.approx(60)
+
+
+def test_physical_endpoint_only_requires_its_local_overlap_after_boundary_clipping():
+    source = ET.fromstring('<lane id="source_0" length="20" shape="0,0 20,0"/>')
+    candidate = ET.fromstring('<lane id="candidate_0" length="10" shape="5,0 15,0"/>')
+    result = _lane_endpoint(source, candidate, "10")
+    assert result["candidate_position_m"] == 5 and result["projection_error_m"] == 0
+    for position in ("0", "max", "-1"):
+        with pytest.raises(ValueError, match="unique candidate position"):
+            _lane_endpoint(source, candidate, position)
 
 
 @pytest.mark.skipif(any(not shutil.which(name) for name in ("netconvert", "sumo", "duarouter")), reason="SUMO programs required")
@@ -77,6 +87,64 @@ def test_native_retained_road_defaults_keep_relative_placement(tmp_path, explici
     forged = {**result, "cohort_coverage": {**result["cohort_coverage"], "road_relative_count": -1}}
     assert validate_routeability_evidence(forged, candidate_net_file=candidate)["status"] == "blocked"
     assert all(file_sha256(path) == digest for path, digest in hashes.items())
+
+
+@pytest.mark.skipif(any(not shutil.which(name) for name in ("netconvert", "sumo", "duarouter")), reason="SUMO programs required")
+@pytest.mark.parametrize("remove", [False, True])
+def test_native_lane_correspondence_keeps_retained_and_removed_endpoint_requests(tmp_path, remove):
+    from astra_sumo.core.corridor_edit_ledger import materialize_corridor_edit_variant
+    source, _ = _compiled_chain(tmp_path, lane_count=2)
+    mapping = {"0": None, "1": "0"} if remove else {"0": "1", "1": "2"}
+    operation = {"id": "lanes", "operation": "set_lane_count", "status": "accepted",
+        "params": {"edge_id": "a", "num_lanes": 1 if remove else 3, "vehicle_class": "passenger",
+                   **({"remove_index": 0} if remove else {"add_side": "right"})},
+        "rationale": "Native endpoint correspondence regression.", "evidence": [{"path": str(source), "sha256": file_sha256(source)}],
+        "rollback": {"action": "discard_candidate"}}
+    built = materialize_corridor_edit_variant(output_dir=tmp_path / "build", ledger={"source_net_file": str(source),
+        "source_sha256": file_sha256(source), "operations": [operation]}, netconvert_binary=shutil.which("netconvert"))
+    assert built["status"] in {"pass", "review_required"}, built
+    candidate, trips = Path(built["candidate_net_file"]), tmp_path / "requests.xml"
+    root = ET.parse(candidate).getroot()
+    trips.write_text('<routes><trip id="fixed" depart="0" from="a" to="b" departPos="10" departLane="1"/>'
+                     '<trip id="dynamic" depart="30" from="a" to="b"/>'
+                     '<trip id="first" depart="60" from="a" to="b" departLane="first"/></routes>', encoding="utf-8")
+    hashes = {path: file_sha256(path) for path in (source, candidate, trips)}
+    result = run_routeability_audit(net_file=candidate, od_reference_net_file=source, source_lane_indices={"a": mapping},
+        frozen_trip_file=trips, expected_frozen_trip_sha256=hashes[trips], output_dir=tmp_path / "audit",
+        vehicle_count=3, initial_end=300, max_end=300)
+    assert result["status"] == ("review_required" if remove else "pass"), result
+    assert result["final_attempt"]["vehicle_routes"]["complete_count"] == 3
+    observed = {row.get("id"): row for row in ET.parse(result["final_attempt"]["tripinfo_file"]).getroot()}
+    assert observed["fixed"].get("departLane") == "a_" + mapping["1"]
+    report = result["od_policy"]["endpoint_mapping"]
+    assert report["source_lane_indices"] == {"a": mapping}
+    records = {row["vehicle_id"]: row for row in report["requests"]}
+    assert records["fixed"]["source"]["departLane"] == "1"
+    assert records["fixed"]["candidate"]["departLane"] == mapping["1"]
+    pair = records["fixed"]["endpoints"][0]["lanes"][0]
+    assert pair["source_lane_id"] == "a_1" and pair["candidate_lane_id"] == "a_" + mapping["1"]
+    assert pair["projection_error_m"] == 0
+    assert report["logical_only_request_count"] == (1 if remove else 0)
+    assert records["dynamic"]["probe_mode"] == "road_relative_endpoints"
+    if remove:
+        assert records["dynamic"]["endpoints"][0]["removed_source_lane_ids"] == ["a_0"]
+    if not remove:
+        assert records["first"]["candidate"]["departLane"] == "1"
+        assert report["road_relative_request_count"] == 3
+        attrs = ET.parse(trips).getroot()
+        attrs.find("trip[@id='dynamic']").set("departPos", "10")
+        _, uncertain = map_merged_od_requests(ET.parse(source).getroot(), root, attrs, source_lane_indices={"a": mapping})
+        assert any(row["vehicle_id"] == "dynamic" and "explicit source lane" in row["reason"] for row in uncertain["unresolved_requests"])
+    from astra_sumo.core.candidate_contracts import validate_routeability_evidence
+    assert validate_routeability_evidence(result, candidate_net_file=candidate)["status"] == result["status"]
+    assert all(file_sha256(path) == digest for path, digest in hashes.items())
+
+
+@pytest.mark.parametrize("mapping", [[], {"missing": {}}, {"a": {"0": "0", "1": "0"}}, {"a": {"0": [0]}}, {"a": {"2": "1"}}])
+def test_endpoint_mapping_rejects_malformed_lane_correspondence(mapping):
+    root = ET.fromstring('<net><edge id="a"><lane index="0"/><lane index="1"/></edge></net>')
+    with pytest.raises(ValueError, match="lane correspondence"):
+        map_merged_od_requests(root, root, ET.fromstring('<routes/>'), source_lane_indices=mapping)
 
 
 @pytest.mark.parametrize("suffix", [".source.trips.xml", ".routable.trips.xml", ".od-map.json"])
