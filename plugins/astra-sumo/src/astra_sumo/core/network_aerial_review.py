@@ -1,4 +1,4 @@
-"""Draw immutable SUMO lane geometry over a declared north-up aerial image."""
+"""Draw saved SUMO geometry over bounded imagery or a registered screenshot."""
 
 from __future__ import annotations
 
@@ -48,9 +48,25 @@ class _Bounds(_Model):
         return self
 
 
-class _Aerial(_Artifact, _Bounds):
+class _ControlPoint(_Model):
+    id: str = Field(min_length=1)
+    pixel: tuple[float, float]
+    lon_lat: tuple[float, float]
+    role: Literal["fit", "check"] = "fit"
+
+    @model_validator(mode="after")
+    def geographic(self):
+        if not (-180 <= self.lon_lat[0] <= 180 and -90 < self.lon_lat[1] < 90):
+            raise ValueError("Use longitude and latitude in degrees.")
+        return self
+
+
+class _Aerial(_Artifact):
+    bbox: tuple[float, float, float, float] | None = None
+    control_points: list[_ControlPoint] | None = Field(default=None, min_length=3, max_length=24)
+    crop_px: tuple[int, int, int, int] | None = None
     crs: str
-    north_up: Literal[True]
+    north_up: bool
     capture_date: date | None
     capture_year: int | None = Field(default=None, ge=1900, le=2200)
     authority: str = Field(min_length=1)
@@ -59,6 +75,12 @@ class _Aerial(_Artifact, _Bounds):
 
     @model_validator(mode="after")
     def consistent_date(self):
+        if (self.bbox is None) == (self.control_points is None):
+            raise ValueError("Supply either image bounds or screenshot control points.")
+        if self.bbox is not None:
+            _Bounds(bbox=self.bbox)
+            if not self.north_up or self.crop_px is not None:
+                raise ValueError("Bounded images must be north-up and already cropped.")
         if self.capture_date and self.capture_year and self.capture_date.year != self.capture_year:
             raise ValueError("The aerial date and year disagree.")
         return self
@@ -75,8 +97,10 @@ class _Request(_Model):
     parking_facilities: _Artifact | None = None
     aerial: _Aerial
     target_date: date | None
-    views: list[_View] = Field(min_length=1, max_length=24)
+    views: list[_View] | None = Field(default=None, min_length=1, max_length=24)
     width_px: int = Field(default=1200, ge=128, le=4096, strict=True)
+    source_label: str = Field(default="Before: source network", min_length=1, max_length=100)
+    candidate_label: str = Field(default="After: candidate network", min_length=1, max_length=100)
 
 
 def build_network_aerial_review_request_schema() -> dict:
@@ -189,7 +213,8 @@ def _parts(geometry):
 
 
 def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: str,
-          *, structure_detail: bool = False, facilities: list[dict] | None = None) -> tuple[Image.Image, dict]:
+          *, structure_detail: bool = False, facilities: list[dict] | None = None,
+          attribution: str | None = None) -> tuple[Image.Image, dict]:
     width, height = background.size
     extent = box(*bounds)
     image = background.copy().convert("RGB")
@@ -294,7 +319,7 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
                             (px + 8 * math.cos(angle - 2.5), py + 8 * math.sin(angle - 2.5))]
                 draw.polygon(triangle, fill=(20, 190, 90, 255) if portal["role"] == "entry" else (255, 150, 20, 255),
                              outline="white", width=1)
-    panel = Image.new("RGB", (width, height + 86), "white")
+    panel = Image.new("RGB", (width, height + (106 if attribution else 86)), "white")
     panel.paste(image, (0, 24))
     labels = ImageDraw.Draw(panel)
     font = ImageFont.load_default()
@@ -307,6 +332,8 @@ def _draw(background: Image.Image, objects: list[dict], bounds: tuple, title: st
     labels.text((6, height + 45), "Full structure detail: saved geometry, field review required" if structure_detail else
                 "Gray dashes: tagged structures / transitions. Full geometry is in the structure detail view.",
                 fill="black", font=font)
+    if attribution:
+        labels.text((6, height + 81), attribution, fill="black", font=font)
     return panel, {key: sorted(value) for key, value in visible.items()}
 
 
@@ -329,19 +356,25 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
         if file_sha256(path) != artifact.sha256:
             raise ValueError(f"The {role} hash does not match the request.")
         inputs[role] = {"path": str(path), "sha256": artifact.sha256}
-    full_bounds = request.aerial.bbox
-    view_ids = [view.id for view in request.views]
-    if len(set(view_ids)) != len(view_ids):
-        raise ValueError("View identifiers must be unique.")
-    for view in request.views:
-        if not box(*full_bounds).covers(box(*view.bbox)):
-            raise ValueError("Each view must lie inside the declared aerial bounds.")
     with Image.open(io.BytesIO(Path(inputs["aerial"]["path"]).read_bytes())) as source_image:
         if source_image.getexif().get(274, 1) != 1:
-            raise ValueError("Use a north-up image without EXIF rotation.")
+            raise ValueError("Use an image without EXIF rotation.")
         source_image.load()
         aerial = source_image.convert("RGB")
         aerial.info.clear()
+    registration = None
+    full_bounds = request.aerial.bbox
+    if request.aerial.control_points is not None:
+        from .image_registration import register_map_screenshot
+        aerial, full_bounds, registration = register_map_screenshot(aerial, crs,
+            [point.model_dump(mode="json") for point in request.aerial.control_points], request.aerial.crop_px)
+    selected_views = request.views or [_View(id="junction", bbox=full_bounds)]
+    view_ids = [view.id for view in selected_views]
+    if len(set(view_ids)) != len(view_ids):
+        raise ValueError("View identifiers must be unique.")
+    for view in selected_views:
+        if not box(*full_bounds).covers(box(*view.bbox)):
+            raise ValueError("Each view must lie inside the declared aerial bounds.")
     networks = {role: _network(Path(inputs[role]["path"]), crs)
                 for role in ("source_net", "candidate_net") if role in inputs}
     facilities = []
@@ -376,16 +409,16 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
     if any(row["kind"] not in _COLORS for objects, _frame in networks.values() for row in objects):
         raise ValueError("The network contains an unsupported edge function.")
     dimensions = [(request.width_px, round(request.width_px * (view.bbox[3] - view.bbox[1]) /
-                                         (view.bbox[2] - view.bbox[0]))) for view in request.views]
+                                         (view.bbox[2] - view.bbox[0]))) for view in selected_views]
     if any(height < 64 or height > 4096 for _width, height in dimensions):
         raise ValueError("Each view height must be between 64 and 4096 pixels.")
-    for view in request.views:
+    for view in selected_views:
         for role, (objects, _frame) in networks.items():
             if not any("line" in row and row["line"].intersects(box(*view.bbox)) for row in objects):
                 raise ValueError(f"The view {view.id} contains no lanes from {role}.")
     destination.mkdir(parents=True, exist_ok=False)
     views, artifacts = [], {}
-    for view, size in zip(request.views, dimensions):
+    for view, size in zip(selected_views, dimensions):
         x0, y0, x1, y1 = view.bbox
         w, h = aerial.size
         crop = ((x0 - full_bounds[0]) / (full_bounds[2] - full_bounds[0]) * w,
@@ -397,14 +430,16 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
         files = {"aerial": f"{view.id}-aerial.png"}
         background.save(destination / files["aerial"], format="PNG")
         for role, (objects, frame) in networks.items():
-            title = "Source network" if role == "source_net" else "Candidate network"
-            panel, visible = _draw(background, objects, view.bbox, title, facilities=facilities)
+            title = request.source_label if role == "source_net" else request.candidate_label
+            attribution = request.aerial.authority + " | " + request.aerial.license
+            panel, visible = _draw(background, objects, view.bbox, title, facilities=facilities, attribution=attribution)
             if not visible["lanes"]:
                 raise ValueError(f"The view {view.id} contains no lanes from {role}.")
             files[role] = f"{view.id}-{role}.png"
             panel.save(destination / files[role], format="PNG")
             panels.append(panel)
-            detail, _ = _draw(background, objects, view.bbox, title, structure_detail=True, facilities=facilities)
+            detail, _ = _draw(background, objects, view.bbox, title, structure_detail=True, facilities=facilities,
+                              attribution=attribution)
             files[f"{role}_structure_detail"] = f"{view.id}-{role}-structures.png"
             detail.save(destination / files[f"{role}_structure_detail"], format="PNG")
             detail_panels.append(detail)
@@ -441,10 +476,15 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
         f"{sum(portal['role'] == 'exit' for portal in facility['portals'])} exits. "
         "Detailed driving paths are retained. Parking operations remain unconfigured.</li>"
         for facility in facilities) + "</ul>") if facilities else ""
+    registration_html = ("<h2>Screenshot registration</h2><p>Independent geographic control points. "
+        f"Fit RMSE: {registration['fit']['rmse_m']:.3f} m. "
+        f"Check points excluded from fitting: {registration['check']['count']}. "
+        f"Check RMSE: {escape(str(registration['check']['rmse_m']))} m. "
+        "These residuals do not establish road or imagery accuracy.</p>") if registration else ""
     html = ("<!doctype html><meta charset='utf-8'><title>Network aerial review</title>"
             "<h1>Network aerial review</h1><p>Visual review only. Field accuracy and temporal alignment require review.</p>"
             f"<p>{escape(request.aerial.authority)} | {escape(request.aerial.license)} | "
-            f"Capture: {escape(str(request.aerial.capture_date or request.aerial.capture_year or 'unknown'))}</p>" +
+            f"Capture: {escape(str(request.aerial.capture_date or request.aerial.capture_year or 'unknown'))}</p>" + registration_html +
             "".join(f"<h2>{escape(view['id'])}</h2><a href='{view['files']['aerial']}'>Aerial without overlays</a>"
                     f"<p><img style='max-width:100%' alt='{escape(view['id'])} source and candidate' "
                     f"src='{view['files']['comparison']}'></p>"
@@ -457,14 +497,17 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
               "render_status": "pass", "promotion_authority": False, "inputs": inputs,
               "inputs_unchanged": unchanged, "crs": crs.to_string(),
               "aerial": request.aerial.model_dump(mode="json"),
+              "image_registration": registration,
+              "labels": {"source_net": request.source_label, "candidate_net": request.candidate_label},
               "target_date": str(request.target_date) if request.target_date else None,
               "temporal_alignment": "unknown" if not request.target_date or not request.aerial.capture_date else
                   "same_day" if request.target_date == request.aerial.capture_date else "different_dates",
               "frames": {role: frame for role, (_objects, frame) in networks.items()},
               "views": views, "artifacts": artifacts,
               "parking_facility_ids": [facility["id"] for facility in facilities],
-              "renderer": {"policy": "astra.network-aerial-render/v3", "python": platform.python_version(),
+              "renderer": {"policy": "astra.network-aerial-render/v4", "python": platform.python_version(),
                            "implementation_sha256": file_sha256(Path(__file__)),
+                           "image_registration_sha256": file_sha256(Path(__file__).with_name("image_registration.py")),
                            "structure_review_sha256": file_sha256(Path(__file__).with_name("network_structure_review.py")),
                            "pillow": PIL.__version__, "pyproj": pyproj.__version__,
                            "proj": pyproj.proj_version_str, "shapely": shapely.__version__},

@@ -297,7 +297,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
     review = subparsers.add_parser("review", help="Create review artifacts.")
     review_sub = review.add_subparsers(dest="review_command", required=True)
-    render = review_sub.add_parser("render", help="Draw fixed network views over a georeferenced aerial image.")
+    render = review_sub.add_parser("render", help="Draw fixed Before/After views over bounded imagery or a registered screenshot.")
     render.add_argument("request_file")
     render.add_argument("output_dir")
     _add_output_argument(render)

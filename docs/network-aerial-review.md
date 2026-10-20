@@ -87,6 +87,67 @@ The CLI therefore returns exit code 1 when the images are ready and field review
 Read `render_status` to distinguish that result from an execution failure.
 Exceptions can leave a partial directory without a final report. Use a new directory after correcting the input.
 
+## Google Maps screenshots and Before/After figures
+
+Use a flat 2D screenshot and independent geographic control points when image bounds are unknown.
+The same command registers the screenshot once and uses that background for both networks.
+It does not align the image to either network.
+Keep the original screenshot and its attribution.
+
+Replace `aerial.bbox` with `aerial.control_points`:
+
+```json
+{
+  "path": "google-map.png",
+  "sha256": "<actual screenshot SHA-256>",
+  "crs": "EPSG:32633",
+  "north_up": true,
+  "capture_date": null,
+  "authority": "Google Maps; include the displayed imagery credits",
+  "license": "Google Maps attribution and terms",
+  "source_url": "<the actual map view URL>",
+  "control_points": [
+    {"id": "northwest", "pixel": [650, 180], "lon_lat": [13.743545, 51.049698], "role": "fit"},
+    {"id": "northeast", "pixel": [1750, 180], "lon_lat": [13.746493, 51.049698], "role": "fit"},
+    {"id": "southwest", "pixel": [650, 800], "lon_lat": [13.743545, 51.048653], "role": "fit"},
+    {"id": "southeast", "pixel": [1750, 800], "lon_lat": [13.746493, 51.048653], "role": "check"}
+  ]
+}
+```
+
+This example uses points from one Dresden screenshot. They do not apply to another screenshot or window size.
+Pixel coordinates start at the original screenshot's upper-left outer edge.
+`lon_lat` means longitude followed by latitude in degrees.
+In Google Maps, a right-click displays the latitude and longitude of that pixel. Reverse that order for `lon_lat`.
+Wait until the image and browser viewport are stable before recording the points.
+Do not use the SUMO lane geometry to choose geographic control positions.
+
+Use at least three noncollinear fit points spread across the image.
+Keep additional points as `check`. The fit excludes these points.
+The report records fit and check residuals in metres and pixels.
+Small residuals measure image registration, not the accuracy of Google imagery or the road model.
+Rounded map coordinates can understate uncertainty.
+
+`crop_px: [left, top, right, bottom]` optionally selects part of the original screenshot.
+Control points still use the original screenshot coordinates.
+The renderer rectifies rotation and skew into a north-up projected image.
+Neutral corners can lie outside the original image footprint.
+Perspective and tilted 3D views require another screenshot.
+
+Omit `views` to use the whole registered image, or supply fixed projected views as before.
+Set these request-level labels for the requested comparison:
+
+```json
+{
+  "source_label": "Before: OSM import",
+  "candidate_label": "After: ASTRA result"
+}
+```
+
+Both panels use identical bounds, registration, scale, drawing settings, and attribution.
+The renderer keeps the source image and both networks unchanged.
+It performs no cleanup itself. Label rejected or unchanged ASTRA candidates explicitly.
+
 ## Read the images
 
 Cyan marks ordinary lane centerlines and lane width ribbons.

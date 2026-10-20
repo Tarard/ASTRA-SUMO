@@ -9,24 +9,32 @@
           "type": "string"
         },
         "bbox": {
-          "maxItems": 4,
-          "minItems": 4,
-          "prefixItems": [
+          "anyOf": [
             {
-              "type": "number"
+              "maxItems": 4,
+              "minItems": 4,
+              "prefixItems": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "number"
+                }
+              ],
+              "type": "array"
             },
             {
-              "type": "number"
-            },
-            {
-              "type": "number"
-            },
-            {
-              "type": "number"
+              "type": "null"
             }
           ],
-          "title": "Bbox",
-          "type": "array"
+          "default": null,
+          "title": "Bbox"
         },
         "capture_date": {
           "anyOf": [
@@ -54,6 +62,51 @@
           "default": null,
           "title": "Capture Year"
         },
+        "control_points": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/_ControlPoint"
+              },
+              "maxItems": 24,
+              "minItems": 3,
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Control Points"
+        },
+        "crop_px": {
+          "anyOf": [
+            {
+              "maxItems": 4,
+              "minItems": 4,
+              "prefixItems": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "integer"
+                }
+              ],
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Crop Px"
+        },
         "crs": {
           "title": "Crs",
           "type": "string"
@@ -64,7 +117,6 @@
           "type": "string"
         },
         "north_up": {
-          "const": true,
           "title": "North Up",
           "type": "boolean"
         },
@@ -85,7 +137,6 @@
         }
       },
       "required": [
-        "bbox",
         "path",
         "sha256",
         "crs",
@@ -117,6 +168,60 @@
         "sha256"
       ],
       "title": "_Artifact",
+      "type": "object"
+    },
+    "_ControlPoint": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "title": "Id",
+          "type": "string"
+        },
+        "lon_lat": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Lon Lat",
+          "type": "array"
+        },
+        "pixel": {
+          "maxItems": 2,
+          "minItems": 2,
+          "prefixItems": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "number"
+            }
+          ],
+          "title": "Pixel",
+          "type": "array"
+        },
+        "role": {
+          "default": "fit",
+          "enum": [
+            "fit",
+            "check"
+          ],
+          "title": "Role",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "pixel",
+        "lon_lat"
+      ],
+      "title": "_ControlPoint",
       "type": "object"
     },
     "_View": {
@@ -161,6 +266,13 @@
     "aerial": {
       "$ref": "#/$defs/_Aerial"
     },
+    "candidate_label": {
+      "default": "After: candidate network",
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Candidate Label",
+      "type": "string"
+    },
     "candidate_net": {
       "$ref": "#/$defs/_Artifact"
     },
@@ -178,6 +290,13 @@
     "schema": {
       "const": "astra.network-aerial-review-request/v1",
       "title": "Schema",
+      "type": "string"
+    },
+    "source_label": {
+      "default": "Before: source network",
+      "maxLength": 100,
+      "minLength": 1,
+      "title": "Source Label",
       "type": "string"
     },
     "source_net": {
@@ -204,13 +323,21 @@
       "title": "Target Date"
     },
     "views": {
-      "items": {
-        "$ref": "#/$defs/_View"
-      },
-      "maxItems": 24,
-      "minItems": 1,
-      "title": "Views",
-      "type": "array"
+      "anyOf": [
+        {
+          "items": {
+            "$ref": "#/$defs/_View"
+          },
+          "maxItems": 24,
+          "minItems": 1,
+          "type": "array"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Views"
     },
     "width_px": {
       "default": 1200,
@@ -224,8 +351,7 @@
     "schema",
     "candidate_net",
     "aerial",
-    "target_date",
-    "views"
+    "target_date"
   ],
   "title": "_Request",
   "type": "object"
