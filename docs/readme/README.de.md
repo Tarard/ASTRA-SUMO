@@ -91,7 +91,7 @@ ASTRA kombiniert offizielle Verkehrsdaten, Luftbilder und die Rekonstruktion von
 
 <p align="center"><sub>LSA118-Rekonstruktion: offizielle MAP-Endpunkte und Fahrtrichtungen, rekonstruierte Kurven sowie Fahrspurverbindungen vor und nach der Bereinigung.</sub></p>
 
-Die aktuelle Hamburg-Kalibrierung erreicht im Anpassungszeitraum exakt die aggregierte Detektoranzahl, mit **0,15 Fahrzeugen MAE pro 15-Minuten-Intervall**. Dies ist ein Ergebnis innerhalb der Kalibrierungsstichprobe. Es misst keine Vorhersagegenauigkeit für unabhängige Zeiträume.
+Die Abbildungen zeigen den Fall Binnenalster / Ring1 um LSA118. Die Kalibrierung der Verkehrszählungen wird erneut geprüft. Hier wird noch kein verifizierter Fehlerwert veröffentlicht. Siehe [Fallbeschreibung und Nachweise](../hamburg-readme-case.md).
 
 ## Dokumentation
 

@@ -40,6 +40,7 @@ This is the current documentation index for ASTRA. Product behavior and claims a
 - [OSM Source Patterns](osm-source-patterns.md) — OSM/SUMO acquisition and conversion patterns.
 - [Common SUMO Signal-Control Failures](common-sumo-signal-control-failures.md) — recurring controller and evidence failures.
 - [Hamburg corridor workflow](hamburg-sandtorkai-codex-execution-workflow.md) — the plan, run, audit, and revision loop for the current digital-twin case.
+- [Hamburg README case](hamburg-readme-case.md) — the separate Binnenalster / Ring1 scope, count-stream identities, and calibration evidence limits.
 
 Runnable examples live under [`examples/`](../examples/). The upstream public snapshot omits the `benchmarks/` datasets required by some historical tests. Command-line experiment entry points live under [`plugins/astra-sumo/scripts/`](../plugins/astra-sumo/scripts/).
 
