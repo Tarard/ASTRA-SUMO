@@ -31,21 +31,31 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 | `02-main-roads/selected.net.xml` | Selected scope candidate |
 | `02-main-roads/report.json` | Source preservation, native attempts, load, permissions, reachability, geometry, and signal changes |
 
-The current full example selects 367 of 1,156 ordinary road segments.
+The current full example selects 468 of 1,156 ordinary road segments.
 It applies the existing OSM access corrections before scope selection.
-The direct raw-native regression also selects 367 segments. Its permissions differ from the prepared full-network input.
+It also retains the saved tentative official approach associations in `official-approach-anchors.json`.
+Those associations protect 126 source edges. The case records their confidence, source compatibility, and unresolved references.
+The direct raw-native regression uses only the class rule and four V1 road anchors. It selects 367 segments.
+Its permissions and study-retention reasons differ from the full example.
 Earlier versions selected 540 or 533 segments because their boundary repairs cascaded into excluded residential routes.
 The current rule retains main-road movements and local side-approach turns without those outside route obligations.
+The first 367-road example still excluded some official approach fragments. The added approach evidence restores that context.
 It retains Ernst-Merck-Straße even though its OSM class is tertiary, because the V1 study references it.
 The imported source has stale pedestrian-internal signal references. Their narrow repair is recorded separately.
 The raw before view remains unchanged. `selection_input` in `case.json` identifies the prepared full network used for pruning.
 
 Use `normalized_full_network` from the selection report for a loadable full-network baseline.
 Review signal and geometry changes before a later demand comparison.
-The current signal summary separates 81 controllers removed with their junctions, 14 removed at dead ends, and one changed retained controller.
-It retains the raw strict comparison and the changed controller ID in the detailed report.
+The current signal summary separates 61 controllers removed with their junctions and six removed at dead ends.
+No retained controller program changes in this scope.
+The detailed report retains the raw strict comparison and controller IDs grouped by scope.
 The runner compares canonical XML content with the frozen native import, ignoring generator comments and platform line endings.
 The scope is exploratory. Successful loading and static connectivity do not establish complete corridor driving validity.
+The source has 149 official motor-lane references. Of these, 132 have tentative ordinary-lane parts and 17 remain unmapped.
+Seven associated lanes have zero directed overlap and no lateral measurement. They remain explicit uncertainties.
+All 132 saved associations retain their ordinary-lane parts. Their measured coverage does not regress against the full source network.
+This is preservation of tentative source correspondence, not field geometry acceptance.
+The grouped official movement inventory still has incomplete correspondence. Approach preservation does not establish complete official turns.
 
 ## Remaining demonstration stages
 

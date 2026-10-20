@@ -71,13 +71,16 @@ def evaluate_hamburg_calibration_snapshot(*, network: Path, official_sources: Pa
                                              output_file=output_dir / f"{node}-scorecard.json", mode=mode)
         measured = [f for f in report["facts"] if f["kind"] == "lane_centerline"
                     and f["metrics"].get("mean_lateral_offset_m") is not None]
+        coverage_measured = [f for f in report["facts"] if f["kind"] == "lane_centerline"
+                             and f["metrics"].get("reference_coverage") is not None]
         reliable = [f for f in measured if f["traffic_mode"] == "motor" and f["mapping_confidence"] in {"high", "confirmed"}]
         reports[node] = {"status": report["status"], "layers": report["layers"],
                          "scorecard": report["output_file"], "measured_centerlines": len(measured),
+                         "coverage_measured_centerlines": len(coverage_measured),
                          "motor_centerlines": report["motor_centerlines"],
                          "largest_sampled_lateral_offset_m": max((f["metrics"]["max_sampled_lateral_offset_m"]
                              for f in reliable), default=None),
-                         "mean_reference_coverage": sum(f["metrics"]["reference_coverage"] for f in measured) / len(measured) if measured else None,
+                         "mean_reference_coverage": sum(f["metrics"]["reference_coverage"] for f in coverage_measured) / len(coverage_measured) if coverage_measured else None,
                          "fact_count": len(table["facts"])}
     if (file_sha256(network) != network_digest or file_sha256(official_sources) != manifest_digest
             or any(file_sha256(Path(path)) != digest for (_, _, path), digest in verified.items())):

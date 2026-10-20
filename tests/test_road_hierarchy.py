@@ -34,6 +34,37 @@ def test_frozen_ring1_scope_files_match_manifest():
     assert hashlib.sha256(ET.canonicalize(native_xml).encode("utf-8")).hexdigest() == fixture["native_network_content_sha256"]
 
 
+def test_frozen_official_approach_anchors_reference_existing_source_lanes():
+    directory = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
+    fixture = json.loads((directory / "fixture.json").read_text(encoding="utf-8"))
+    anchors = json.loads((directory / fixture["official_approach_anchors_file"]).read_text(encoding="utf-8"))
+    root = ET.fromstring(gzip.decompress((directory / "native-import.net.xml.gz").read_bytes()))
+    lanes = {lane.get("id"): edge.get("id") for edge in root.findall("edge") for lane in edge.findall("lane")}
+    assert all(lanes[row["lane_id"]] == row["edge_id"] for row in anchors["anchors"])
+    assert set(anchors["protected_edge_ids"]) == {row["edge_id"] for row in anchors["anchors"]}
+    assert sum(row["reference_motor_lanes"] for row in anchors["motor_lane_counts"].values()) == 149
+    assert sum(row["unmapped_source_lanes"] for row in anchors["motor_lane_counts"].values()) == 17
+    assert sum(row["source_lateral_offset_unavailable"] for row in anchors["motor_lane_counts"].values()) == 7
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_native_ring1_official_approach_demo(tmp_path):
+    repo = Path(__file__).parents[1]
+    output = tmp_path / "case"
+    run = subprocess.run([sys.executable, str(repo / "examples/06_hamburg_ring1_demo/run_road_selection.py"), str(output)],
+        cwd=repo, capture_output=True, text=True, timeout=180)
+    assert run.returncode == 0, run.stderr + run.stdout
+    case = json.loads((output / "case.json").read_text(encoding="utf-8"))
+    assert case["selected_road_count"] == 468
+    assert all(case["reproduction"]["checks"].values())
+    assert case["official_approach_protection"]["source_content_matches"]
+    assert case["official_approach_protection"]["protected_edge_count"] == 126
+    assert case["review"]["signal_changes_by_scope"]["changed_retained"] == 0
+    report = json.loads(Path(case["road_selection_report"]).read_text(encoding="utf-8"))
+    assert all(report["checks"].values())
+    assert report["retained_local_turn_changes"] == {"lost": [], "added": []}
+
+
 def _network():
     root = ET.Element("net", version="1.20")
     definitions = [("main-a", "w", "a", "primary"), ("connector", "a", "b", "tertiary"),

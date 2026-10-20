@@ -29,6 +29,7 @@ REQUIRED = {
     "test_native_lane_count_keeps_unique_turn_and_serves_new_lane": 2,
     "test_native_hierarchy_scope_keeps_protected_turns_and_removes_local_tail": 2,
     "test_native_ring1_road_selection": 1,
+    "test_native_ring1_official_approach_demo": 1,
 }
 
 

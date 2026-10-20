@@ -1,0 +1,2217 @@
+{
+  "schema": "astra.ring1-official-approach-anchors/v1",
+  "source_network_content_sha256": "4eb0e4bc88f97153c96597a980ee32d46e1bed8a9587b1d8dfac0c210b149dae",
+  "official_source_manifest_content_sha256": "5f0fb476d043beabf934abc8301a7f0aed4c54d5521b57caa3e95fa085cda188",
+  "manifest_hash_method": "SHA-256 of sorted compact UTF-8 JSON",
+  "association_code_base_commit": "83ee56b2c92daf82e17917ded0c2c760e2f66be3",
+  "sample_spacing_m": 0.5,
+  "retention_basis": "Existing source-bound MAP motor-lane associations with measured longitudinal overlap. Tentative associations remain labeled.",
+  "protected_edge_ids": [
+    "-139083714#1",
+    "-139083723#0",
+    "-139083723#1",
+    "-142770548",
+    "-142770551",
+    "-186713427",
+    "-186821026",
+    "-186821028",
+    "-983227468#0",
+    "1068722010",
+    "1217435074",
+    "1227169967",
+    "1227325137",
+    "1286645419",
+    "1326490377",
+    "1326490378#0",
+    "1326490379",
+    "1345107183#1",
+    "1373419479",
+    "139056860#1",
+    "139083714#1",
+    "139083714#2",
+    "139083720",
+    "139083723#0",
+    "139083723#1",
+    "142770549",
+    "142944325#0",
+    "142944337#1",
+    "142944399#2",
+    "142944527",
+    "1537476013#0",
+    "1562283744",
+    "186713402#1",
+    "186713403#0",
+    "186713403#1",
+    "186713404#0",
+    "186713404#1",
+    "186713410#0",
+    "186713422#0",
+    "186713426",
+    "186713428",
+    "186713429",
+    "186713430",
+    "186714394",
+    "186714395",
+    "186714396#0",
+    "186714396#1",
+    "186722706",
+    "186821027#0",
+    "186821029#1",
+    "186821032",
+    "186821034#0",
+    "186821034#1",
+    "186821035#0",
+    "186821035#1",
+    "186821036#1",
+    "189775480",
+    "199230909#0",
+    "199230912#0",
+    "199230912#1",
+    "219999172#0",
+    "219999172#1",
+    "219999172#2",
+    "220109544",
+    "22127047",
+    "234421319",
+    "234423652#1",
+    "24483192",
+    "24483344#0",
+    "24483344#1",
+    "251397516",
+    "251871172#0",
+    "251871172#1",
+    "251871702",
+    "2963460#0",
+    "2963460#1",
+    "2963460#2",
+    "31050638#0",
+    "31050638#1",
+    "31050638#2",
+    "31050639",
+    "31106387",
+    "350033480#0",
+    "350033485#0",
+    "363112756#0",
+    "363112756#1",
+    "368989705",
+    "37413814#0",
+    "37693933#0",
+    "37693933#1",
+    "381750337",
+    "381750338",
+    "413418696",
+    "43292244",
+    "43305966#1",
+    "43866090#0",
+    "480873120#0",
+    "486864288",
+    "486864294",
+    "486870074#0",
+    "486870074#1",
+    "48979207#0",
+    "495246281",
+    "503043835",
+    "51200768#1",
+    "51214742#1",
+    "538341584",
+    "551284796#0",
+    "551288834",
+    "551303409",
+    "551303410",
+    "551303416",
+    "551303417",
+    "551303418",
+    "551303422",
+    "551303423",
+    "551303424",
+    "551319336",
+    "551319351#0",
+    "606141102#1",
+    "606141103#0",
+    "606141103#1",
+    "606141108",
+    "79014037#1",
+    "963776077#0",
+    "963776077#1"
+  ],
+  "anchors": [
+    {
+      "official_fact": "104:lane:16:centerline",
+      "lane_id": "963776077#0_2",
+      "edge_id": "963776077#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:16:centerline",
+      "lane_id": "963776077#1_2",
+      "edge_id": "963776077#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:8:centerline",
+      "lane_id": "234423652#1_0",
+      "edge_id": "234423652#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:2:centerline",
+      "lane_id": "139056860#1_1",
+      "edge_id": "139056860#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:4:centerline",
+      "lane_id": "606141108_0",
+      "edge_id": "606141108",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:4:centerline",
+      "lane_id": "606141103#0_0",
+      "edge_id": "606141103#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:4:centerline",
+      "lane_id": "606141103#1_0",
+      "edge_id": "606141103#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:18:centerline",
+      "lane_id": "606141102#1_0",
+      "edge_id": "606141102#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:18:centerline",
+      "lane_id": "139083720_0",
+      "edge_id": "139083720",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:3:centerline",
+      "lane_id": "606141108_1",
+      "edge_id": "606141108",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:3:centerline",
+      "lane_id": "606141103#0_1",
+      "edge_id": "606141103#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:3:centerline",
+      "lane_id": "606141103#1_1",
+      "edge_id": "606141103#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:17:centerline",
+      "lane_id": "606141102#1_1",
+      "edge_id": "606141102#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:17:centerline",
+      "lane_id": "139083720_2",
+      "edge_id": "139083720",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:12:centerline",
+      "lane_id": "-139083723#1_1",
+      "edge_id": "-139083723#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:12:centerline",
+      "lane_id": "-139083723#0_1",
+      "edge_id": "-139083723#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:11:centerline",
+      "lane_id": "-983227468#0_1",
+      "edge_id": "-983227468#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.6212121212121212
+    },
+    {
+      "official_fact": "104:lane:11:centerline",
+      "lane_id": "139083723#0_2",
+      "edge_id": "139083723#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.6212121212121212
+    },
+    {
+      "official_fact": "104:lane:11:centerline",
+      "lane_id": "139083723#1_2",
+      "edge_id": "139083723#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.6212121212121212
+    },
+    {
+      "official_fact": "104:lane:7:centerline",
+      "lane_id": "234423652#1_1",
+      "edge_id": "234423652#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:9:centerline",
+      "lane_id": "-139083714#1_1",
+      "edge_id": "-139083714#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6620689655172414
+    },
+    {
+      "official_fact": "104:lane:9:centerline",
+      "lane_id": "139083714#1_2",
+      "edge_id": "139083714#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6620689655172414
+    },
+    {
+      "official_fact": "104:lane:9:centerline",
+      "lane_id": "139083714#2_2",
+      "edge_id": "139083714#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6620689655172414
+    },
+    {
+      "official_fact": "104:lane:9:centerline",
+      "lane_id": "139083723#0_3",
+      "edge_id": "139083723#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6620689655172414
+    },
+    {
+      "official_fact": "104:lane:9:centerline",
+      "lane_id": "139083723#1_3",
+      "edge_id": "139083723#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6620689655172414
+    },
+    {
+      "official_fact": "104:lane:15:centerline",
+      "lane_id": "963776077#0_3",
+      "edge_id": "963776077#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:15:centerline",
+      "lane_id": "963776077#1_3",
+      "edge_id": "963776077#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:14:centerline",
+      "lane_id": "963776077#0_4",
+      "edge_id": "963776077#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:14:centerline",
+      "lane_id": "963776077#1_4",
+      "edge_id": "963776077#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "104:lane:6:centerline",
+      "lane_id": "234423652#1_2",
+      "edge_id": "234423652#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:24:centerline",
+      "lane_id": "234423652#1_2",
+      "edge_id": "234423652#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9981132075471698
+    },
+    {
+      "official_fact": "118:lane:24:centerline",
+      "lane_id": "538341584_2",
+      "edge_id": "538341584",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9981132075471698
+    },
+    {
+      "official_fact": "118:lane:24:centerline",
+      "lane_id": "1537476013#0_3",
+      "edge_id": "1537476013#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9981132075471698
+    },
+    {
+      "official_fact": "118:lane:13:centerline",
+      "lane_id": "51214742#1_3",
+      "edge_id": "51214742#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:13:centerline",
+      "lane_id": "37693933#0_3",
+      "edge_id": "37693933#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:13:centerline",
+      "lane_id": "37693933#1_3",
+      "edge_id": "37693933#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:25:centerline",
+      "lane_id": "234423652#1_1",
+      "edge_id": "234423652#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9981060606060606
+    },
+    {
+      "official_fact": "118:lane:25:centerline",
+      "lane_id": "538341584_1",
+      "edge_id": "538341584",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9981060606060606
+    },
+    {
+      "official_fact": "118:lane:25:centerline",
+      "lane_id": "1537476013#0_2",
+      "edge_id": "1537476013#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9981060606060606
+    },
+    {
+      "official_fact": "118:lane:14:centerline",
+      "lane_id": "51214742#1_2",
+      "edge_id": "51214742#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9743589743589743
+    },
+    {
+      "official_fact": "118:lane:14:centerline",
+      "lane_id": "37693933#0_2",
+      "edge_id": "37693933#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9743589743589743
+    },
+    {
+      "official_fact": "118:lane:14:centerline",
+      "lane_id": "37693933#1_2",
+      "edge_id": "37693933#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9743589743589743
+    },
+    {
+      "official_fact": "118:lane:26:centerline",
+      "lane_id": "234423652#1_0",
+      "edge_id": "234423652#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9980988593155894
+    },
+    {
+      "official_fact": "118:lane:26:centerline",
+      "lane_id": "538341584_0",
+      "edge_id": "538341584",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9980988593155894
+    },
+    {
+      "official_fact": "118:lane:26:centerline",
+      "lane_id": "1537476013#0_1",
+      "edge_id": "1537476013#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9980988593155894
+    },
+    {
+      "official_fact": "118:lane:15:centerline",
+      "lane_id": "51214742#1_1",
+      "edge_id": "51214742#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:15:centerline",
+      "lane_id": "37693933#0_1",
+      "edge_id": "37693933#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:15:centerline",
+      "lane_id": "37693933#1_1",
+      "edge_id": "37693933#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:28:centerline",
+      "lane_id": "606141108_1",
+      "edge_id": "606141108",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:29:centerline",
+      "lane_id": "606141108_0",
+      "edge_id": "606141108",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:4:centerline",
+      "lane_id": "1286645419_0",
+      "edge_id": "1286645419",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9823008849557522
+    },
+    {
+      "official_fact": "118:lane:4:centerline",
+      "lane_id": "220109544_0",
+      "edge_id": "220109544",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9823008849557522
+    },
+    {
+      "official_fact": "118:lane:4:centerline",
+      "lane_id": "1326490377_0",
+      "edge_id": "1326490377",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9823008849557522
+    },
+    {
+      "official_fact": "118:lane:4:centerline",
+      "lane_id": "251871172#0_0",
+      "edge_id": "251871172#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9823008849557522
+    },
+    {
+      "official_fact": "118:lane:4:centerline",
+      "lane_id": "251871172#1_0",
+      "edge_id": "251871172#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9823008849557522
+    },
+    {
+      "official_fact": "118:lane:3:centerline",
+      "lane_id": "220109544_1",
+      "edge_id": "220109544",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.43162393162393164
+    },
+    {
+      "official_fact": "118:lane:3:centerline",
+      "lane_id": "1326490377_1",
+      "edge_id": "1326490377",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.43162393162393164
+    },
+    {
+      "official_fact": "118:lane:3:centerline",
+      "lane_id": "251871172#0_1",
+      "edge_id": "251871172#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.43162393162393164
+    },
+    {
+      "official_fact": "118:lane:22:centerline",
+      "lane_id": "381750337_2",
+      "edge_id": "381750337",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:22:centerline",
+      "lane_id": "1373419479_2",
+      "edge_id": "1373419479",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:2:centerline",
+      "lane_id": "220109544_1",
+      "edge_id": "220109544",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6265822784810127
+    },
+    {
+      "official_fact": "118:lane:2:centerline",
+      "lane_id": "1326490377_2",
+      "edge_id": "1326490377",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6265822784810127
+    },
+    {
+      "official_fact": "118:lane:2:centerline",
+      "lane_id": "251871172#0_2",
+      "edge_id": "251871172#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6265822784810127
+    },
+    {
+      "official_fact": "118:lane:1:centerline",
+      "lane_id": "1217435074_1",
+      "edge_id": "1217435074",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:1:centerline",
+      "lane_id": "1286645419_1",
+      "edge_id": "1286645419",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:1:centerline",
+      "lane_id": "1227169967_0",
+      "edge_id": "1227169967",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:1:centerline",
+      "lane_id": "1326490378#0_0",
+      "edge_id": "1326490378#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:18:centerline",
+      "lane_id": "31050639_1",
+      "edge_id": "31050639",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:18:centerline",
+      "lane_id": "551319351#0_2",
+      "edge_id": "551319351#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:7:centerline",
+      "lane_id": "251871702_0",
+      "edge_id": "251871702",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:7:centerline",
+      "lane_id": "1326490379_0",
+      "edge_id": "1326490379",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:19:centerline",
+      "lane_id": "31050639_1",
+      "edge_id": "31050639",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:19:centerline",
+      "lane_id": "551319351#0_1",
+      "edge_id": "551319351#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:6:centerline",
+      "lane_id": "251871702_1",
+      "edge_id": "251871702",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:6:centerline",
+      "lane_id": "1326490379_1",
+      "edge_id": "1326490379",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:61:centerline",
+      "lane_id": "381750338_2",
+      "edge_id": "381750338",
+      "mapping_confidence": "low",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:61:centerline",
+      "lane_id": "22127047_1",
+      "edge_id": "22127047",
+      "mapping_confidence": "low",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:70:centerline",
+      "lane_id": "1345107183#1_1",
+      "edge_id": "1345107183#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5588235294117647
+    },
+    {
+      "official_fact": "118:lane:70:centerline",
+      "lane_id": "31050638#0_2",
+      "edge_id": "31050638#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5588235294117647
+    },
+    {
+      "official_fact": "118:lane:73:centerline",
+      "lane_id": "31050638#2_2",
+      "edge_id": "31050638#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:73:centerline",
+      "lane_id": "551319336_2",
+      "edge_id": "551319336",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "118:lane:72:centerline",
+      "lane_id": "31050638#1_2",
+      "edge_id": "31050638#1",
+      "mapping_confidence": "low",
+      "reference_coverage": 0.78125
+    },
+    {
+      "official_fact": "118:lane:72:centerline",
+      "lane_id": "31050638#2_2",
+      "edge_id": "31050638#2",
+      "mapping_confidence": "low",
+      "reference_coverage": 0.78125
+    },
+    {
+      "official_fact": "118:lane:63:centerline",
+      "lane_id": "251397516_1",
+      "edge_id": "251397516",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.25728155339805825
+    },
+    {
+      "official_fact": "118:lane:63:centerline",
+      "lane_id": "219999172#0_2",
+      "edge_id": "219999172#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.25728155339805825
+    },
+    {
+      "official_fact": "118:lane:63:centerline",
+      "lane_id": "219999172#1_2",
+      "edge_id": "219999172#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.25728155339805825
+    },
+    {
+      "official_fact": "118:lane:63:centerline",
+      "lane_id": "219999172#2_2",
+      "edge_id": "219999172#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.25728155339805825
+    },
+    {
+      "official_fact": "118:lane:66:centerline",
+      "lane_id": "31050639_1",
+      "edge_id": "31050639",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:58:centerline",
+      "lane_id": "142770549_1",
+      "edge_id": "142770549",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9878048780487805
+    },
+    {
+      "official_fact": "119:lane:58:centerline",
+      "lane_id": "48979207#0_1",
+      "edge_id": "48979207#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9878048780487805
+    },
+    {
+      "official_fact": "119:lane:12:centerline",
+      "lane_id": "486864294_1",
+      "edge_id": "486864294",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:59:centerline",
+      "lane_id": "142770549_0",
+      "edge_id": "142770549",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9878048780487805
+    },
+    {
+      "official_fact": "119:lane:59:centerline",
+      "lane_id": "48979207#0_0",
+      "edge_id": "48979207#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9878048780487805
+    },
+    {
+      "official_fact": "119:lane:13:centerline",
+      "lane_id": "486864294_0",
+      "edge_id": "486864294",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:52:centerline",
+      "lane_id": "37693933#0_1",
+      "edge_id": "37693933#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:52:centerline",
+      "lane_id": "37693933#1_1",
+      "edge_id": "37693933#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:52:centerline",
+      "lane_id": "234421319_1",
+      "edge_id": "234421319",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:52:centerline",
+      "lane_id": "1227325137_2",
+      "edge_id": "1227325137",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:52:centerline",
+      "lane_id": "199230909#0_3",
+      "edge_id": "199230909#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:26:centerline",
+      "lane_id": "1562283744_3",
+      "edge_id": "1562283744",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:26:centerline",
+      "lane_id": "142770549_1",
+      "edge_id": "142770549",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:26:centerline",
+      "lane_id": "48979207#0_1",
+      "edge_id": "48979207#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:53:centerline",
+      "lane_id": "199230909#0_2",
+      "edge_id": "199230909#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.16216216216216217
+    },
+    {
+      "official_fact": "119:lane:27:centerline",
+      "lane_id": "1562283744_2",
+      "edge_id": "1562283744",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:27:centerline",
+      "lane_id": "142770549_0",
+      "edge_id": "142770549",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:27:centerline",
+      "lane_id": "48979207#0_0",
+      "edge_id": "48979207#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:54:centerline",
+      "lane_id": "1227325137_1",
+      "edge_id": "1227325137",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:54:centerline",
+      "lane_id": "199230909#0_1",
+      "edge_id": "199230909#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:41:centerline",
+      "lane_id": "199230912#0_0",
+      "edge_id": "199230912#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:41:centerline",
+      "lane_id": "199230912#1_0",
+      "edge_id": "199230912#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:5:centerline",
+      "lane_id": "79014037#1_1",
+      "edge_id": "79014037#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:5:centerline",
+      "lane_id": "186713429_2",
+      "edge_id": "186713429",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:51:centerline",
+      "lane_id": "31106387_0",
+      "edge_id": "31106387",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.916256157635468
+    },
+    {
+      "official_fact": "119:lane:51:centerline",
+      "lane_id": "24483344#0_1",
+      "edge_id": "24483344#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.916256157635468
+    },
+    {
+      "official_fact": "119:lane:51:centerline",
+      "lane_id": "24483344#1_1",
+      "edge_id": "24483344#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.916256157635468
+    },
+    {
+      "official_fact": "119:lane:6:centerline",
+      "lane_id": "79014037#1_0",
+      "edge_id": "79014037#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:6:centerline",
+      "lane_id": "186713429_0",
+      "edge_id": "186713429",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:4:centerline",
+      "lane_id": "24483192_0",
+      "edge_id": "24483192",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:4:centerline",
+      "lane_id": "1068722010_0",
+      "edge_id": "1068722010",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:4:centerline",
+      "lane_id": "37413814#0_1",
+      "edge_id": "37413814#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:57:centerline",
+      "lane_id": "363112756#0_0",
+      "edge_id": "363112756#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:57:centerline",
+      "lane_id": "363112756#1_0",
+      "edge_id": "363112756#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:2:centerline",
+      "lane_id": "24483192_1",
+      "edge_id": "24483192",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:2:centerline",
+      "lane_id": "43866090#0_0",
+      "edge_id": "43866090#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:1:centerline",
+      "lane_id": "24483192_2",
+      "edge_id": "24483192",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9883720930232558
+    },
+    {
+      "official_fact": "119:lane:1:centerline",
+      "lane_id": "43866090#0_1",
+      "edge_id": "43866090#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9883720930232558
+    },
+    {
+      "official_fact": "119:lane:7:centerline",
+      "lane_id": "186713426_4",
+      "edge_id": "186713426",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.625615763546798
+    },
+    {
+      "official_fact": "119:lane:7:centerline",
+      "lane_id": "186713422#0_3",
+      "edge_id": "186713422#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.625615763546798
+    },
+    {
+      "official_fact": "119:lane:8:centerline",
+      "lane_id": "186713422#0_2",
+      "edge_id": "186713422#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.017513134851138354
+    },
+    {
+      "official_fact": "119:lane:55:centerline",
+      "lane_id": "363112756#0_2",
+      "edge_id": "363112756#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:55:centerline",
+      "lane_id": "363112756#1_2",
+      "edge_id": "363112756#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:9:centerline",
+      "lane_id": "186713422#0_1",
+      "edge_id": "186713422#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.017482517482517484
+    },
+    {
+      "official_fact": "119:lane:56:centerline",
+      "lane_id": "363112756#0_1",
+      "edge_id": "363112756#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:56:centerline",
+      "lane_id": "363112756#1_1",
+      "edge_id": "363112756#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "119:lane:10:centerline",
+      "lane_id": "186713422#0_0",
+      "edge_id": "186713422#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.017452006980802792
+    },
+    {
+      "official_fact": "200:lane:24:centerline",
+      "lane_id": "350033480#0_1",
+      "edge_id": "350033480#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.07746478873239436
+    },
+    {
+      "official_fact": "200:lane:16:centerline",
+      "lane_id": "186713402#1_1",
+      "edge_id": "186713402#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:16:centerline",
+      "lane_id": "551284796#0_1",
+      "edge_id": "551284796#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:4:centerline",
+      "lane_id": "503043835_0",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9928057553956835
+    },
+    {
+      "official_fact": "200:lane:4:centerline",
+      "lane_id": "368989705_1",
+      "edge_id": "368989705",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9928057553956835
+    },
+    {
+      "official_fact": "200:lane:4:centerline",
+      "lane_id": "350033485#0_1",
+      "edge_id": "350033485#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9928057553956835
+    },
+    {
+      "official_fact": "200:lane:27:centerline",
+      "lane_id": "142944399#2_1",
+      "edge_id": "142944399#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:3:centerline",
+      "lane_id": "503043835_1",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:3:centerline",
+      "lane_id": "368989705_2",
+      "edge_id": "368989705",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:3:centerline",
+      "lane_id": "350033485#0_2",
+      "edge_id": "350033485#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:26:centerline",
+      "lane_id": "142944399#2_2",
+      "edge_id": "142944399#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:2:centerline",
+      "lane_id": "503043835_2",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9927536231884058
+    },
+    {
+      "official_fact": "200:lane:2:centerline",
+      "lane_id": "368989705_3",
+      "edge_id": "368989705",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9927536231884058
+    },
+    {
+      "official_fact": "200:lane:25:centerline",
+      "lane_id": "142944399#2_3",
+      "edge_id": "142944399#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:1:centerline",
+      "lane_id": "503043835_2",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:1:centerline",
+      "lane_id": "368989705_4",
+      "edge_id": "368989705",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:19:centerline",
+      "lane_id": "-186713427_1",
+      "edge_id": "-186713427",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9954337899543378
+    },
+    {
+      "official_fact": "200:lane:19:centerline",
+      "lane_id": "186713428_2",
+      "edge_id": "186713428",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9954337899543378
+    },
+    {
+      "official_fact": "200:lane:19:centerline",
+      "lane_id": "551303409_3",
+      "edge_id": "551303409",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9954337899543378
+    },
+    {
+      "official_fact": "200:lane:19:centerline",
+      "lane_id": "551303410_4",
+      "edge_id": "551303410",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9954337899543378
+    },
+    {
+      "official_fact": "200:lane:19:centerline",
+      "lane_id": "186714396#0_4",
+      "edge_id": "186714396#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9954337899543378
+    },
+    {
+      "official_fact": "200:lane:6:centerline",
+      "lane_id": "51200768#1_4",
+      "edge_id": "51200768#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:6:centerline",
+      "lane_id": "551303417_5",
+      "edge_id": "551303417",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "-142770551_1",
+      "edge_id": "-142770551",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "-142770548_1",
+      "edge_id": "-142770548",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "-186713427_1",
+      "edge_id": "-186713427",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "186713428_2",
+      "edge_id": "186713428",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "551303409_3",
+      "edge_id": "551303409",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "551303410_3",
+      "edge_id": "551303410",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:20:centerline",
+      "lane_id": "186714396#0_3",
+      "edge_id": "186714396#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9983388704318937
+    },
+    {
+      "official_fact": "200:lane:7:centerline",
+      "lane_id": "51200768#1_3",
+      "edge_id": "51200768#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:7:centerline",
+      "lane_id": "551303417_4",
+      "edge_id": "551303417",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:21:centerline",
+      "lane_id": "186713428_1",
+      "edge_id": "186713428",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5985915492957746
+    },
+    {
+      "official_fact": "200:lane:21:centerline",
+      "lane_id": "551303409_2",
+      "edge_id": "551303409",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5985915492957746
+    },
+    {
+      "official_fact": "200:lane:21:centerline",
+      "lane_id": "551303410_2",
+      "edge_id": "551303410",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5985915492957746
+    },
+    {
+      "official_fact": "200:lane:21:centerline",
+      "lane_id": "186714396#0_2",
+      "edge_id": "186714396#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5985915492957746
+    },
+    {
+      "official_fact": "200:lane:21:centerline",
+      "lane_id": "186714396#1_2",
+      "edge_id": "186714396#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5985915492957746
+    },
+    {
+      "official_fact": "200:lane:8:centerline",
+      "lane_id": "51200768#1_2",
+      "edge_id": "51200768#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:8:centerline",
+      "lane_id": "551303417_3",
+      "edge_id": "551303417",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "-142770551_0",
+      "edge_id": "-142770551",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "-142770548_0",
+      "edge_id": "-142770548",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "-186713427_0",
+      "edge_id": "-186713427",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "186713428_0",
+      "edge_id": "186713428",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "551303409_1",
+      "edge_id": "551303409",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "551303410_1",
+      "edge_id": "551303410",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "186714396#0_1",
+      "edge_id": "186714396#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:22:centerline",
+      "lane_id": "186714396#1_1",
+      "edge_id": "186714396#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:9:centerline",
+      "lane_id": "51200768#1_1",
+      "edge_id": "51200768#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:9:centerline",
+      "lane_id": "551303417_2",
+      "edge_id": "551303417",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:78:centerline",
+      "lane_id": "186714395_1",
+      "edge_id": "186714395",
+      "mapping_confidence": "low",
+      "reference_coverage": 0.417910447761194
+    },
+    {
+      "official_fact": "200:lane:78:centerline",
+      "lane_id": "551288834_2",
+      "edge_id": "551288834",
+      "mapping_confidence": "low",
+      "reference_coverage": 0.417910447761194
+    },
+    {
+      "official_fact": "200:lane:78:centerline",
+      "lane_id": "186713404#0_0",
+      "edge_id": "186713404#0",
+      "mapping_confidence": "low",
+      "reference_coverage": 0.417910447761194
+    },
+    {
+      "official_fact": "200:lane:14:centerline",
+      "lane_id": "186714394_1",
+      "edge_id": "186714394",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:14:centerline",
+      "lane_id": "186714395_1",
+      "edge_id": "186714395",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:14:centerline",
+      "lane_id": "551288834_2",
+      "edge_id": "551288834",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:14:centerline",
+      "lane_id": "186713404#0_0",
+      "edge_id": "186713404#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:14:centerline",
+      "lane_id": "186713404#1_0",
+      "edge_id": "186713404#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:13:centerline",
+      "lane_id": "186714394_2",
+      "edge_id": "186714394",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:13:centerline",
+      "lane_id": "186714395_2",
+      "edge_id": "186714395",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:13:centerline",
+      "lane_id": "551288834_3",
+      "edge_id": "551288834",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:13:centerline",
+      "lane_id": "186713404#0_1",
+      "edge_id": "186713404#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:13:centerline",
+      "lane_id": "186713404#1_1",
+      "edge_id": "186713404#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9847328244274809
+    },
+    {
+      "official_fact": "200:lane:11:centerline",
+      "lane_id": "186714394_4",
+      "edge_id": "186714394",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:11:centerline",
+      "lane_id": "186714395_4",
+      "edge_id": "186714395",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:11:centerline",
+      "lane_id": "186713403#0_1",
+      "edge_id": "186713403#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:11:centerline",
+      "lane_id": "186713403#1_1",
+      "edge_id": "186713403#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:12:centerline",
+      "lane_id": "186714395_3",
+      "edge_id": "186714395",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5267175572519084
+    },
+    {
+      "official_fact": "200:lane:12:centerline",
+      "lane_id": "186713403#0_0",
+      "edge_id": "186713403#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5267175572519084
+    },
+    {
+      "official_fact": "200:lane:29:centerline",
+      "lane_id": "186713410#0_3",
+      "edge_id": "186713410#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.012944983818770227
+    },
+    {
+      "official_fact": "200:lane:30:centerline",
+      "lane_id": "186713410#0_2",
+      "edge_id": "186713410#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.007246376811594203
+    },
+    {
+      "official_fact": "200:lane:33:centerline",
+      "lane_id": "486870074#0_1",
+      "edge_id": "486870074#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.33653846153846156
+    },
+    {
+      "official_fact": "200:lane:33:centerline",
+      "lane_id": "486870074#1_1",
+      "edge_id": "486870074#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.33653846153846156
+    },
+    {
+      "official_fact": "200:lane:34:centerline",
+      "lane_id": "486870074#0_0",
+      "edge_id": "486870074#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.10631229235880399
+    },
+    {
+      "official_fact": "200:lane:37:centerline",
+      "lane_id": "142944325#0_0",
+      "edge_id": "142944325#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:36:centerline",
+      "lane_id": "142944325#0_1",
+      "edge_id": "142944325#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:41:centerline",
+      "lane_id": "480873120#0_0",
+      "edge_id": "480873120#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.08968609865470852
+    },
+    {
+      "official_fact": "200:lane:45:centerline",
+      "lane_id": "43292244_2",
+      "edge_id": "43292244",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:50:centerline",
+      "lane_id": "142944337#1_0",
+      "edge_id": "142944337#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:50:centerline",
+      "lane_id": "486864288_1",
+      "edge_id": "486864288",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:59:centerline",
+      "lane_id": "551303422_2",
+      "edge_id": "551303422",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:58:centerline",
+      "lane_id": "413418696_0",
+      "edge_id": "413418696",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:58:centerline",
+      "lane_id": "503043835_0",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:49:centerline",
+      "lane_id": "142944337#1_1",
+      "edge_id": "142944337#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:49:centerline",
+      "lane_id": "486864288_2",
+      "edge_id": "486864288",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:57:centerline",
+      "lane_id": "495246281_0",
+      "edge_id": "495246281",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:57:centerline",
+      "lane_id": "503043835_1",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:56:centerline",
+      "lane_id": "495246281_1",
+      "edge_id": "495246281",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:56:centerline",
+      "lane_id": "503043835_2",
+      "edge_id": "503043835",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:48:centerline",
+      "lane_id": "142944527_0",
+      "edge_id": "142944527",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9937106918238994
+    },
+    {
+      "official_fact": "200:lane:48:centerline",
+      "lane_id": "551303418_0",
+      "edge_id": "551303418",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9937106918238994
+    },
+    {
+      "official_fact": "200:lane:47:centerline",
+      "lane_id": "142944527_0",
+      "edge_id": "142944527",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:47:centerline",
+      "lane_id": "551303418_1",
+      "edge_id": "551303418",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:46:centerline",
+      "lane_id": "142944527_1",
+      "edge_id": "142944527",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:46:centerline",
+      "lane_id": "551303418_2",
+      "edge_id": "551303418",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:51:centerline",
+      "lane_id": "186713430_1",
+      "edge_id": "186713430",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:52:centerline",
+      "lane_id": "186713430_0",
+      "edge_id": "186713430",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:53:centerline",
+      "lane_id": "551303424_4",
+      "edge_id": "551303424",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:54:centerline",
+      "lane_id": "551303424_3",
+      "edge_id": "551303424",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "200:lane:55:centerline",
+      "lane_id": "551303424_2",
+      "edge_id": "551303424",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:4:centerline",
+      "lane_id": "-186821026_2",
+      "edge_id": "-186821026",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9803921568627451
+    },
+    {
+      "official_fact": "535:lane:4:centerline",
+      "lane_id": "-186821028_2",
+      "edge_id": "-186821028",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9803921568627451
+    },
+    {
+      "official_fact": "535:lane:4:centerline",
+      "lane_id": "186821027#0_2",
+      "edge_id": "186821027#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9803921568627451
+    },
+    {
+      "official_fact": "535:lane:23:centerline",
+      "lane_id": "142944337#1_0",
+      "edge_id": "142944337#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:3:centerline",
+      "lane_id": "186821027#0_3",
+      "edge_id": "186821027#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.5148514851485149
+    },
+    {
+      "official_fact": "535:lane:22:centerline",
+      "lane_id": "142944337#1_1",
+      "edge_id": "142944337#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:2:centerline",
+      "lane_id": "186821027#0_4",
+      "edge_id": "186821027#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.17049180327868851
+    },
+    {
+      "official_fact": "535:lane:15:centerline",
+      "lane_id": "43305966#1_1",
+      "edge_id": "43305966#1",
+      "mapping_confidence": "conflict",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:1:centerline",
+      "lane_id": "186821029#1_3",
+      "edge_id": "186821029#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.17763157894736842
+    },
+    {
+      "official_fact": "535:lane:1:centerline",
+      "lane_id": "186821027#0_5",
+      "edge_id": "186821027#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.17763157894736842
+    },
+    {
+      "official_fact": "535:lane:11:centerline",
+      "lane_id": "186821036#1_1",
+      "edge_id": "186821036#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:12:centerline",
+      "lane_id": "186821036#1_0",
+      "edge_id": "186821036#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:13:centerline",
+      "lane_id": "2963460#0_1",
+      "edge_id": "2963460#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9922480620155039
+    },
+    {
+      "official_fact": "535:lane:13:centerline",
+      "lane_id": "2963460#1_1",
+      "edge_id": "2963460#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.9922480620155039
+    },
+    {
+      "official_fact": "535:lane:5:centerline",
+      "lane_id": "186821029#1_3",
+      "edge_id": "186821029#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:14:centerline",
+      "lane_id": "2963460#1_0",
+      "edge_id": "2963460#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.2863636363636364
+    },
+    {
+      "official_fact": "535:lane:14:centerline",
+      "lane_id": "2963460#2_0",
+      "edge_id": "2963460#2",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.2863636363636364
+    },
+    {
+      "official_fact": "535:lane:10:centerline",
+      "lane_id": "186821032_0",
+      "edge_id": "186821032",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:10:centerline",
+      "lane_id": "186821035#0_0",
+      "edge_id": "186821035#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:10:centerline",
+      "lane_id": "186821035#1_0",
+      "edge_id": "186821035#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:6:centerline",
+      "lane_id": "186821029#1_2",
+      "edge_id": "186821029#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:9:centerline",
+      "lane_id": "186821035#0_1",
+      "edge_id": "186821035#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.4959677419354839
+    },
+    {
+      "official_fact": "535:lane:9:centerline",
+      "lane_id": "186821035#1_1",
+      "edge_id": "186821035#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.4959677419354839
+    },
+    {
+      "official_fact": "535:lane:8:centerline",
+      "lane_id": "186821035#0_2",
+      "edge_id": "186821035#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.4959677419354839
+    },
+    {
+      "official_fact": "535:lane:8:centerline",
+      "lane_id": "186821035#1_2",
+      "edge_id": "186821035#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.4959677419354839
+    },
+    {
+      "official_fact": "535:lane:7:centerline",
+      "lane_id": "186821035#0_3",
+      "edge_id": "186821035#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6988636363636364
+    },
+    {
+      "official_fact": "535:lane:7:centerline",
+      "lane_id": "186821035#1_3",
+      "edge_id": "186821035#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.6988636363636364
+    },
+    {
+      "official_fact": "535:lane:19:centerline",
+      "lane_id": "189775480_2",
+      "edge_id": "189775480",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:19:centerline",
+      "lane_id": "186821034#0_2",
+      "edge_id": "186821034#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 1.0
+    },
+    {
+      "official_fact": "535:lane:18:centerline",
+      "lane_id": "189775480_3",
+      "edge_id": "189775480",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.3161764705882353
+    },
+    {
+      "official_fact": "535:lane:18:centerline",
+      "lane_id": "186821034#0_3",
+      "edge_id": "186821034#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.3161764705882353
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "51200768#1_2",
+      "edge_id": "51200768#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "551303417_3",
+      "edge_id": "551303417",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "186722706_4",
+      "edge_id": "186722706",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "551303416_2",
+      "edge_id": "551303416",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "551303423_3",
+      "edge_id": "551303423",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "551303424_4",
+      "edge_id": "551303424",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "189775480_4",
+      "edge_id": "189775480",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "186821034#0_4",
+      "edge_id": "186821034#0",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:17:centerline",
+      "lane_id": "186821034#1_4",
+      "edge_id": "186821034#1",
+      "mapping_confidence": "medium",
+      "reference_coverage": 0.9951219512195122
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "186722706_4",
+      "edge_id": "186722706",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "551303416_2",
+      "edge_id": "551303416",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "551303423_3",
+      "edge_id": "551303423",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "551303424_4",
+      "edge_id": "551303424",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "189775480_4",
+      "edge_id": "189775480",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "186821034#0_5",
+      "edge_id": "186821034#0",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    },
+    {
+      "official_fact": "535:lane:16:centerline",
+      "lane_id": "186821034#1_5",
+      "edge_id": "186821034#1",
+      "mapping_confidence": "high",
+      "reference_coverage": 0.99079754601227
+    }
+  ],
+  "motor_lane_counts": {
+    "104": {
+      "reference_motor_lanes": 16,
+      "source_lane_parts_available": 14,
+      "usable_overlap_retention_anchors": 14,
+      "unmapped_source_lanes": 2,
+      "source_lateral_offset_unavailable": 0
+    },
+    "118": {
+      "reference_motor_lanes": 33,
+      "source_lane_parts_available": 26,
+      "usable_overlap_retention_anchors": 23,
+      "unmapped_source_lanes": 7,
+      "source_lateral_offset_unavailable": 3
+    },
+    "119": {
+      "reference_motor_lanes": 27,
+      "source_lane_parts_available": 24,
+      "usable_overlap_retention_anchors": 23,
+      "unmapped_source_lanes": 3,
+      "source_lateral_offset_unavailable": 1
+    },
+    "200": {
+      "reference_motor_lanes": 52,
+      "source_lane_parts_available": 47,
+      "usable_overlap_retention_anchors": 44,
+      "unmapped_source_lanes": 5,
+      "source_lateral_offset_unavailable": 3
+    },
+    "535": {
+      "reference_motor_lanes": 21,
+      "source_lane_parts_available": 21,
+      "usable_overlap_retention_anchors": 21,
+      "unmapped_source_lanes": 0,
+      "source_lateral_offset_unavailable": 0
+    }
+  },
+  "unresolved_motor_lane_facts": {
+    "104": [
+      "104:lane:13:centerline",
+      "104:lane:5:centerline"
+    ],
+    "118": [
+      "118:lane:21:centerline",
+      "118:lane:30:centerline",
+      "118:lane:17:centerline",
+      "118:lane:69:centerline",
+      "118:lane:68:centerline",
+      "118:lane:62:centerline",
+      "118:lane:65:centerline"
+    ],
+    "119": [
+      "119:lane:50:centerline",
+      "119:lane:3:centerline",
+      "119:lane:11:centerline"
+    ],
+    "200": [
+      "200:lane:17:centerline",
+      "200:lane:39:centerline",
+      "200:lane:43:centerline",
+      "200:lane:42:centerline",
+      "200:lane:44:centerline"
+    ],
+    "535": []
+  },
+  "no_directed_overlap_motor_lane_facts": {
+    "104": [],
+    "118": [
+      "118:lane:9:centerline",
+      "118:lane:10:centerline",
+      "118:lane:11:centerline"
+    ],
+    "119": [
+      "119:lane:40:centerline"
+    ],
+    "200": [
+      "200:lane:38:centerline",
+      "200:lane:31:centerline",
+      "200:lane:32:centerline"
+    ],
+    "535": []
+  },
+  "local_source_evidence": [
+    {
+      "node_id": "104",
+      "facts_sha256": "a32f823a121aa392a633bf93a628df35b5c7d895477c16a1b573519b4254fc9d",
+      "source_scorecard_sha256": "ec49ad271fd91f8fdab4334f1541d5c0051e11beb655fab76472bf5b5c4e74cd"
+    },
+    {
+      "node_id": "118",
+      "facts_sha256": "42c57b83417920fddd1868d831e7d9c75301b5f49f1984c42d170ccebfd0ed23",
+      "source_scorecard_sha256": "73585c3773a5b168e35d25e46311eac8bd64ce3aa87b113e0a3f11d0b419ff41"
+    },
+    {
+      "node_id": "119",
+      "facts_sha256": "c944bd8afe3fb843136c346f89fccd81c739d2e7360d4837688d67029e5b4877",
+      "source_scorecard_sha256": "2b186584f2e8fe6f75804aa73dd79b38a0c2f713de0fe38889b2ef5ecf3007a2"
+    },
+    {
+      "node_id": "200",
+      "facts_sha256": "d910340889bb1653f54c3e3326a67755eeaa381e81e20f172e1439758e1522f6",
+      "source_scorecard_sha256": "f35ac99858a1c4fb16679c4e07cd402e697be8feb4b19a74c28c6b2c67fdfa24"
+    },
+    {
+      "node_id": "535",
+      "facts_sha256": "c23b900f269bc49622abfb947b36055b6b75fdd4af3f96de65415165f5fe5b8a",
+      "source_scorecard_sha256": "5bb24e43c8a1ca748da555262ee36f6763a7c944d6a5aa9325d8e15dcb62796e"
+    }
+  ],
+  "reproduction": "Use core.hamburg_network_calibration.evaluate_hamburg_calibration_snapshot on the prepared full network and the frozen official sources at 0.5 m spacing.",
+  "claim_boundary": "Study-retention evidence only. No confirmed lane correspondence, field geometry acceptance, or count fitting claim."
+}

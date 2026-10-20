@@ -20,6 +20,8 @@ def run(output_dir):
     fixture_dir = root / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
     config_bytes = (fixture_dir / "fixture.json").read_bytes()
     fixture = json.loads(config_bytes)
+    anchor_file = fixture_dir / fixture["official_approach_anchors_file"]
+    anchors = json.loads(anchor_file.read_text(encoding="utf-8"))
     effective_config = output / "case-input.json"
     effective_config.write_bytes(config_bytes)
     source_osm = fixture_dir / "source.osm.xml.gz"
@@ -46,12 +48,17 @@ def run(output_dir):
         if raw.is_file() and prepared_full.is_file():
             selected = build_road_hierarchy_variant(net_file=prepared_full, output_dir=output / "02-main-roads",
                 keep_tier=fixture["keep_tier"], vehicle_class=fixture["vehicle_class"],
-                protected_way_ids=fixture["protected_way_ids"], netconvert_binary=netconvert,
+                protected_way_ids=fixture["protected_way_ids"], protected_edge_ids=anchors["protected_edge_ids"], netconvert_binary=netconvert,
                 sumo_binary=str(binary_dir / f"sumo{suffix}"))
             case.update(status=selected["status"], raw_native_import={"path": str(raw), "sha256": file_sha256(raw)},
                 selection_input={"path": str(prepared_full), "sha256": file_sha256(prepared_full)},
                 road_selection_report=selected["report_file"], source_road_count=selected.get("source_road_count"),
                 selected_road_count=selected.get("selected_road_count"))
+            prepared_content_hash = hashlib.sha256(ET.canonicalize(prepared_full.read_text(encoding="utf-8")).encode("utf-8")).hexdigest()
+            case["official_approach_protection"] = {"path": str(anchor_file), "sha256": file_sha256(anchor_file),
+                "source_content_matches": prepared_content_hash == anchors["source_network_content_sha256"],
+                "source_network_content_sha256": prepared_content_hash,
+                "protected_edge_count": len(anchors["protected_edge_ids"]), "motor_lane_counts": anchors["motor_lane_counts"]}
             raw_content_hash = hashlib.sha256(ET.canonicalize(raw.read_text(encoding="utf-8")).encode("utf-8")).hexdigest()
             case["reproduction"] = {"raw_network_content_sha256": raw_content_hash, "checks": {
                 "raw_network_matches_fixture": raw_content_hash == fixture["native_network_content_sha256"],
@@ -68,6 +75,8 @@ def run(output_dir):
                 "warnings": selected.get("warnings", [])}
             if not all(case["reproduction"]["checks"].values()):
                 case["review"]["warnings"].append("The run differs from the frozen example expectations. Inspect the reproduction checks.")
+            if not case["official_approach_protection"]["source_content_matches"]:
+                case["review"]["warnings"].append("The prepared source differs from the tentative official approach evidence. Refresh its correspondence before using the result for calibration.")
     case["claim_boundary"] = "Only stages 1 and 2 are implemented. A loadable road scope is not a completed sensor-calibrated demonstration."
     write_json_atomic(output / "case.json", case)
     print(json.dumps(case, indent=2), flush=True)

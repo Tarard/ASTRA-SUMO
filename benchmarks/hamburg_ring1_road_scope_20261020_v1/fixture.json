@@ -39,6 +39,10 @@
       "sha256": "a34ff07b8d60cd17407260a9b7b430ed6855aed6be434e09e44cd6286e8e66f3",
       "bytes": 192,
       "line_endings": "LF"
+    },
+    "official-approach-anchors.json": {
+      "sha256": "e97ed6280b24c379dca48c7e9a86d1154d41c661939c9ef1e3e0bed9e28ad6a5",
+      "bytes": 63132
     }
   },
   "protected_way_ids": [
@@ -50,7 +54,7 @@
   "protection_basis": "V1 calibration-script road references retained as study anchors; exact sensor-to-lane matching remains separate.",
   "expected_source_road_count": 1156,
   "expected_selected_road_count": 367,
-  "expected_prepared_selected_road_count": 367,
+  "expected_prepared_selected_road_count": 468,
   "native_network_content_sha256": "5b9363b296e8bbf82bd76f8cdc71c7c4bfa66023240a958aca645ab6ba093247",
   "native_content_hash_method": "SHA-256 of UTF-8 XML C14N 2.0 without comments",
   "native_import_defects": "Contains nine narrowly repairable stale pedestrian-internal TLS references. Postload pruning fails in SUMO 1.27.1; preload is retained as the checked fallback.",
@@ -61,5 +65,6 @@
   "scope_note": "Whole OSM ways intersecting the bbox are retained. The import includes their complete geometry outside the view rectangle.",
   "claim_boundary": "Road classification and simulation-scope selection only. No detector calibration, field signal or whole-corridor driving claim.",
   "keep_tier": "major",
-  "vehicle_class": "passenger"
+  "vehicle_class": "passenger",
+  "official_approach_anchors_file": "official-approach-anchors.json"
 }

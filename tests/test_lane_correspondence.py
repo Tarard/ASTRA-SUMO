@@ -137,3 +137,38 @@ def test_frozen_ordinary_lane_correspondence_resolves_new_internal_ids(tmp_path)
     assert row["status"] == "matched"
     assert row["resolved_lane_ids"] == ["a_0", ":j_99_0", "b_0"]
     assert row["metrics"]["coverage_within_m"]["1.0"] == 1
+
+
+@pytest.mark.parametrize("mode", ["explore", "release"])
+def test_missing_reference_part_does_not_hide_retained_geometry_or_bridge_the_gap(tmp_path, mode):
+    net, facts, output = _case(tmp_path, [{"kind": "lane_centerline",
+        "selector": {"lane_ids": ["a_0", "removed_0", "b_0"], "include_internal_paths": True},
+        "expected": [[0, 0], [10, 0]], "sample_spacing_m": 0.25}])
+    root = ET.fromstring('''<net><edge id="a" from="w" to="j"><lane id="a_0" index="0" shape="0,0 1,0"/></edge>
+      <edge id=":j_99" function="internal"><lane id=":j_99_0" index="0" shape="1,0 9,0"/></edge>
+      <edge id="b" from="j" to="e"><lane id="b_0" index="0" shape="9,0 10,0"/></edge>
+      <junction id="j"/><connection from="a" fromLane="0" to="b" toLane="0" via=":j_99_0"/>
+      <connection from=":j_99" fromLane="0" to="b" toLane="0"/></net>''')
+    ET.ElementTree(root).write(net, encoding="utf-8")
+    report = calibration.evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output, mode=mode)
+    row = report["facts"][0]
+    assert row["missing_lane_ids"] == ["removed_0"]
+    if mode == "release":
+        assert row["status"] == "mismatched" and row["metrics"] == {}
+    else:
+        assert row["status"] == "measured" and row["reason"] == "network_lane_parts_missing"
+        assert row["resolved_lane_ids"] == ["a_0", "b_0"]
+        assert row["metrics"]["reference_coverage"] == pytest.approx(.2)
+        assert row["metrics"]["mean_lateral_offset_m"] == 0
+
+
+def test_all_missing_tentative_parts_report_zero_coverage_without_inventing_lateral_error(tmp_path):
+    net, facts, output = _case(tmp_path, [{"kind": "lane_centerline", "selector": {"lane_ids": ["removed_0"]},
+        "mapping_status": "unresolved", "expected": [[0, 0], [10, 0]], "sample_spacing_m": .25}])
+    report = calibration.evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output, mode="explore")
+    row = report["facts"][0]
+    assert row["metrics"]["reference_coverage"] == 0
+    assert row["metrics"]["uncovered_reference_length_m"] == 10
+    assert row["metrics"]["mean_lateral_offset_m"] is None
+    assert report["layers"]["geometry"]["coverage_measured_facts"] == 1
+    assert report["layers"]["geometry"]["measured_facts"] == 0

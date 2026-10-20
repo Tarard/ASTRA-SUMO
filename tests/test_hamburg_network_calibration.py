@@ -79,6 +79,29 @@ def test_empty_site_manifest_is_rejected_before_creating_a_run(tmp_path):
     assert not output.exists()
 
 
+def test_snapshot_coverage_average_includes_zero_overlap(tmp_path, monkeypatch):
+    xml, kml, _ = _sources(tmp_path, monkeypatch)
+    ocit = tmp_path / "ocit.xml"
+    ocit.write_text("OCIT fixture", encoding="utf-8")
+    paths = {"map_xml": str(xml), "map_kml": str(kml), "ocit_xml": str(ocit)}
+    source_manifest = tmp_path / "sources.json"
+    source_manifest.write_text(json.dumps({"paths": {"2349": paths}, "downloads": [
+        {"node_id": "2349", "kind": kind, "path": path, "sha256": calibration.file_sha256(Path(path))}
+        for kind, path in paths.items()]}), encoding="utf-8")
+    monkeypatch.setattr(calibration, "bind_map_lanes_to_network", lambda *_: [])
+    monkeypatch.setattr(calibration, "write_hamburg_network_facts", lambda **_: {"facts": [{}, {}]})
+    facts = [{"kind": "lane_centerline", "traffic_mode": "motor", "mapping_confidence": "low",
+        "metrics": {"mean_lateral_offset_m": offset, "reference_coverage": coverage}}
+        for offset, coverage in [(2.0, 1.0), (None, 0.0)]]
+    monkeypatch.setattr(calibration, "evaluate_network_calibration", lambda **_: {
+        "status": "measured", "layers": {}, "output_file": "scorecard.json", "motor_centerlines": {}, "facts": facts})
+    result = calibration.evaluate_hamburg_calibration_snapshot(network=xml, official_sources=source_manifest,
+        output_dir=tmp_path / "run", target_date="2026-10-06", sample_spacing_m=.5)
+    assert result["sites"]["2349"]["measured_centerlines"] == 1
+    assert result["sites"]["2349"]["coverage_measured_centerlines"] == 2
+    assert result["sites"]["2349"]["mean_reference_coverage"] == .5
+
+
 def test_manifest_node_cannot_relabel_another_official_maps_contents(tmp_path, monkeypatch):
     xml, kml, _ = _sources(tmp_path, monkeypatch)
     ocit = tmp_path / "ocit.xml"

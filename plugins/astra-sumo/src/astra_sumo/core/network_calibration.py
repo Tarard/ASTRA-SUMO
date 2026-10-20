@@ -266,14 +266,38 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
     if kind in ("lane_centerline", "stop_line", "lane_permissions", "speed", "lane_width"):
         selected_ids = (_list(selector["lane_ids"], "Centerline lane IDs")
                         if kind == "lane_centerline" and "lane_ids" in selector else [selector["lane_id"]])
-        if any(lane_id not in lanes for lane_id in selected_ids):
-            return {**result, "status": "unknown" if fact.mapping_status == "unresolved" else "mismatched",
-                    "reason": "network_lane_missing"}
+        missing = [lane_id for lane_id in selected_ids if lane_id not in lanes]
+        if missing:
+            result["missing_lane_ids"] = missing
+            if kind != "lane_centerline" or mode == "release":
+                return {**result, "status": "unknown" if fact.mapping_status == "unresolved" else "mismatched",
+                        "reason": "network_lane_missing"}
+            if fact.sample_spacing_m is None:
+                raise ValueError("lane_centerline requires an explicit sample_spacing_m.")
+            reference = LineString(_points(expected))
+            if reference.length <= 0:
+                raise ValueError("Lane centerlines must have positive geometric length.")
+            if len(missing) == len(selected_ids):
+                bands = (1.0, 2.0) + ((fact.tolerance_m,) if fact.tolerance_m is not None else ())
+                return {**result, "status": "unknown" if fact.mapping_status == "unresolved" else "mismatched",
+                        "reason": "network_lane_missing", "observed": [],
+                        "metrics": centerline_overlap_metrics(reference, [], fact.sample_spacing_m,
+                            direction=fact.reference_direction, coverage_bands_m=bands)}
+            result["reason"] = "network_lane_parts_missing"
         if selector.get("include_internal_paths"):
             if selector["include_internal_paths"] is not True:
                 raise ValueError("include_internal_paths must be a boolean.")
-            selected_ids = _saved_lane_path(root, selected_ids)
+            # A missing ordinary lane separates runs; do not bridge the deleted reference span.
+            runs = [[]]
+            for lane_id in selected_ids:
+                if lane_id in lanes:
+                    runs[-1].append(lane_id)
+                elif runs[-1]:
+                    runs.append([])
+            selected_ids = [lane_id for run in runs if run for lane_id in _saved_lane_path(root, run)]
             result["resolved_lane_ids"] = selected_ids
+        else:
+            selected_ids = [lane_id for lane_id in selected_ids if lane_id in lanes]
         lane = lanes[selected_ids[0]]
         if kind == "lane_width":
             if type(expected) not in (int, float) or not math.isfinite(expected) or expected <= 0:
@@ -341,6 +365,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
                            and (fact.maximum_mean_lateral_offset_m is None
                                 or result["metrics"]["mean_lateral_offset_m"] <= fact.maximum_mean_lateral_offset_m)) \
                     if fact.tolerance_m is not None else None
+                if missing and matches is not None:
+                    matches = False
     elif kind == "lane_count":
         selected = _list(selector["edge_ids"], "Approach edge IDs")
         vehicle_class = selector["vehicle_class"]
@@ -421,7 +447,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
         if kind == "lane_centerline" and result["metrics"]["mean_lateral_offset_m"] is None:
             return {**result, "observed": observed, "reason": "no_directed_longitudinal_overlap"}
         if mode == "explore":
-            return {**result, "status": "measured", "observed": observed, "reason": "acceptance_threshold_not_declared"}
+            return {**result, "status": "measured", "observed": observed,
+                    "reason": result.get("reason", "acceptance_threshold_not_declared")}
         return {**result, "observed": observed, "reason": "acceptance_threshold_not_declared"}
     return {**result, "status": "matched" if matches else "mismatched", "observed": observed}
 
@@ -452,6 +479,8 @@ def _score(root: ET.Element, table: NetworkFactTable, mode="release") -> dict[st
             measured = [f for f in rows if (f["metrics"].get("mean_lateral_offset_m") is not None
                         if f["kind"] == "lane_centerline" else bool(f["metrics"]))]
             layers[layer].update(measured_facts=len(measured),
+                                 coverage_measured_facts=sum(f["kind"] == "lane_centerline" and
+                                     f["metrics"].get("reference_coverage") is not None for f in rows),
                                  provisional_facts=sum(f["mapping_status"] == "unresolved" for f in measured),
                                  matched_fraction=counts["matched"] / judged if judged else None,
                                  matched_fraction_basis="measured_facts_with_declared_acceptance")

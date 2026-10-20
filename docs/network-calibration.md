@@ -22,6 +22,8 @@ Exit code zero means the command completed, not that the network matches the fie
 Each layer includes `measured_facts` and `provisional_facts` alongside matches, mismatches, and unknown results.
 Facts without acceptance thresholds and with a primary value have status `measured`.
 `measured_facts` excludes centerlines without a lateral value.
+`coverage_measured_facts` separately counts centerlines with a coverage result, including zero coverage.
+The Hamburg coverage average includes zero-overlap lanes. Lateral summaries still require an actual lateral measurement.
 Motor-vehicle summaries separate all measured lanes from high-confidence lanes and list the worst five.
 Lane-permission facts and vehicle-class lane counts follow native aliases, permission precedence, and the network's declared format version.
 Expected permission aliases resolve to the same native classes. Equivalent names do not create mismatches.
@@ -129,6 +131,10 @@ Those distances include missing tails and are not lateral errors.
 One official lane may correspond to several compiled SUMO segments. Declare
 all of them with `lane_ids`. The evaluator keeps their separate geometry and
 does not draw an invented line across a missing segment.
+In explore mode, removed parts remain listed in `missing_lane_ids` while surviving parts still supply measurements.
+An entirely removed association reports zero coverage and null lateral offsets.
+Missing parts separate ordinary-lane runs, so internal-path resolution cannot bridge a deleted reference span.
+Release mode retains its missing-lane result.
 The Hamburg adapter extends a supplied association along saved directed lane connections when those parts add reference coverage.
 It keeps that association tentative.
 For vehicle lanes, it saves ordinary lane IDs with `include_internal_paths: true`.

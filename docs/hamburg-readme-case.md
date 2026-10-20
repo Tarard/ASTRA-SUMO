@@ -120,7 +120,10 @@ The repository already contains road-class presets in `core/road_scope.py`,
 road-arm classification in `intersection/road_detail.py`, and corridor extraction in `core/corridor_scope.py`.
 The Hamburg topology, detector, demand, and NetEdit capture modules provide the later stages.
 Road selection now fixes the original interfaces, preserves main-road movements and local turns, and avoids expanding residential repair obligations.
-The offline example currently retains 367 of 1,156 ordinary road segments.
+The offline example currently retains 468 of 1,156 ordinary road segments, including tentative official approach context.
+The class-only variant retained 367 segments but excluded some official approach fragments.
+The current result retains the source parts of 132 tentative motor-lane associations. Seventeen official motor lanes remain unmapped.
+Seven associated lanes have zero directed overlap, so their lateral offset remains unavailable.
 Its main report exposes geometry and signal changes beside the measured status.
 The [official static source package](../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) contains all five MAP/KML/OCIT triplets.
 Exact XML/KML joins pass for all five nodes. This does not establish SUMO correspondence or a completed junction.
