@@ -1,0 +1,108 @@
+{
+  "schema": "astra.ring1-scope-execution-evidence/v1",
+  "status": "measured_scope_only",
+  "execution_base_commit": "c46ff49ab0147e0c209d7e6088905f1d3248a34e",
+  "checks": {
+    "scope_checks": true,
+    "case_config_frozen": true,
+    "prepared_full_network_used": true,
+    "prepared_input_unchanged": true,
+    "raw_before_unchanged": true,
+    "implementation_matches": true
+  },
+  "implementation": {
+    "osm_network.py": "153a069916d36095f9e64869e98cf82c9e52f26a6b5b4d6c4c9c8a938f679d04",
+    "road_hierarchy.py": "409b178025028ce90b8249cf15d64a0c86862e633abadf7337d5e1d6d1165dbc",
+    "road_scope.py": "1417d8bbc38bfa519cd4f5d3e1912968c15375fd69ccf4394b2bef6d9755c6c5"
+  },
+  "runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_road_selection.py",
+    "sha256": "bf4f097445bfc41afd9f3d49dfd30694a33081fa8e1b5b6d2bd9f27d30006533"
+  },
+  "case": {
+    "path": "outputs/ring1-road-demo-20261020-v4/case.json",
+    "sha256": "1ded7569dc0062252c4d8573d586fcece41578941ec44ebc38f5d3be35584d44"
+  },
+  "effective_config": {
+    "path": "outputs/ring1-road-demo-20261020-v4/case-input.json",
+    "sha256": "3711c8b9b75e641df767cdf9b54becf3c5a32b25dbf7af0898c3b48ac9270936"
+  },
+  "build_report": {
+    "path": "outputs/ring1-road-demo-20261020-v4/01-osm-result.json",
+    "sha256": "80830a7ddd01d7678b3e1bea521b0a7626068c3196fce1371c0d773933d2b0fa"
+  },
+  "scope_report": {
+    "path": "outputs/ring1-road-demo-20261020-v4/02-main-roads/report.json",
+    "sha256": "1409309c72f2dcc96ee5e61d7b90a95a0b6fe19a39c340f6f3a61b634e374eb8"
+  },
+  "source_road_count": 1156,
+  "selected_road_count": 533,
+  "excluded_road_count": 623,
+  "source_tier_counts": {
+    "local": 698,
+    "collector": 196,
+    "major": 262
+  },
+  "protected_edge_count": 8,
+  "boundary_count": 85,
+  "traffic_boundary_rates": "not_assigned",
+  "required_movement_count": 5767,
+  "lost_movement_count": 0,
+  "worst_ordinary_road_length_detour": {
+    "from": "291737406#2",
+    "to": "291737406#1",
+    "source_length_m": 0.6403719999999999,
+    "selected_length_m": 280.76918699999993,
+    "detour_ratio": 438.44700736446936
+  },
+  "length_basis": "ordinary-road logical lengths; internal junction paths are excluded",
+  "ordinary_lane_geometry_changes": {
+    "shape": 427,
+    "length": 400,
+    "width": 0
+  },
+  "signal_program_change_status": "blocked",
+  "warnings": [
+    "Scope extraction changed signal programs, including excluded controllers. Check retained movement control before calibration."
+  ],
+  "access_corrected_lane_count": 68,
+  "native_scope_attempts": [
+    {
+      "status": "fail",
+      "returncode": 1,
+      "output": null,
+      "stderr": "Warning: Lane '-44135328#2_2' is not connected from any incoming edge at junction '36685308'.\nWarning: Lane '186821027#0_3' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '186821027#0_4' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '186821029#0_1' is not connected from any incoming edge at junction '1975693619'.\nWarning: Lane '186821029#0_3' is not connected from any incoming edge at junction '1975693619'.\nWarning: 7 total messages of type: Lane '%' is not connected from any incoming edge at junction '%'.\nError: Index out of range in bracket operator of PositionVector\nQuitting (on error).\n"
+    },
+    {
+      "status": "pass",
+      "returncode": 0,
+      "output": {
+        "path": "outputs/ring1-road-demo-20261020-v4/02-main-roads/preload-proposal.net.xml",
+        "sha256": "b650d36b16f3fe43e60f362ab58c6c3837e6e4411db96b55fec2a8643cea9f21"
+      },
+      "stderr": "Warning: Lane '-44135328#2_2' is not connected from any incoming edge at junction '36685308'.\nWarning: Lane '186821027#0_3' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '186821027#0_4' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '186821029#0_1' is not connected from any incoming edge at junction '1975693619'.\nWarning: Lane '186821029#0_3' is not connected from any incoming edge at junction '1975693619'.\nWarning: Invalid pedestrian topology at junction '13411627662'; crossing ':13411627662_c0' starts and ends at walkingarea ':13411627662_w0'.\nWarning: Invalid pedestrian topology: crossing ':13870881_c0' across [142944318] has no target.\nWarning: Discarding invalid crossing ':14004682442_c0' at junction '14004682442' with edges [1537477255#2] (no walkingarea found).\nWarning: Discarding invalid crossing ':1524487551_c0' at junction '1524487551' with edges [1537477255#1] (no walkingarea found).\nWarning: Discarding invalid crossing ':1562406626_c0' at junction '1562406626' with edges [291737406#3] (no walkingarea found).\nWarning: Invalid pedestrian topology: crossing ':1677782620_c0' across [189775479] has no target.\nWarning: Discarding invalid crossing ':2003617180_c0' at junction '2003617180' with edges [3994312#7] (no walkingarea found).\nWarning: Invalid pedestrian topology: crossing ':2003802536_c0' across [189775478] has no target.\nWarning: Invalid pedestrian topology: crossing ':205068087_c0' across [186714394] has no target.\nWarning: Invalid pedestrian topology: crossing ':205068513_c0' across [19728366] has no target.\nWarning: Discarding invalid crossing ':238002053_c0' at junction '238002053' with edges [-23489785] (no walkingarea found).\nWarning: Invalid pedestrian topology at junction '5254541548'; crossing ':5254541548_c0' starts and ends at walkingarea ':5254541548_w0'.\nWarning: Speed of straight connection '199500674#2_0->24483192_0' reduced by 5.714052 due to turning radius of 12.150539 (length=10.731757, angle=69.172260).\nWarning: Intersecting left turns at junction '309704080' from lane '39977156_0' and lane '1227169970#0_0' (increase junction radius to avoid this).\nWarning: Speed of straight connection '142944325#1_1->142944325#2_1' reduced by 7.317175 due to turning radius of 7.852258 (length=1.417067, angle=26.512904).\nWarning: Unused state in tlLogic '13870880', program '0' at tl-index 0\nWarning: Unused state in tlLogic '1561371007', program '0' at tl-index 0\nWarning: Unused state in tlLogic '1561371034', program '0' at tl-index 0\nWarning: Unused state in tlLogic '1567901139', program '0' at tl-index 2\nWarning: Unused state in tlLogic '16738088', program '0' at tl-index 4\nWarning: 14 total messages of type: Discarding invalid crossing '%' at junction '%' with edges [%] (no walkingarea found).\nWarning: 12 total messages of type: Invalid pedestrian topology: crossing '%' across [%] has no target.\nWarning: 7 total messages of type: Lane '%' is not connected from any incoming edge at junction '%'.\nWarning: 29 total messages of type: Unused state in tlLogic '%', program '%' at tl-index %\n"
+    }
+  ],
+  "focused_tests": {
+    "path": "outputs/road-hierarchy-final-tests-20261020-v3.xml",
+    "sha256": "4ece85246d19757f4a785b40ab2fa27966cad241bae549362cbfb081755bf100",
+    "passed": 69
+  },
+  "remaining_stages": [
+    "junction_consolidation",
+    "detector_placement",
+    "count_calibration",
+    "observed_simulated_count_comparison"
+  ],
+  "failed_prototypes": [
+    {
+      "path": "outputs/hamburg-readme-case-20261020-v1/main-roads-v1/report.json",
+      "sha256": "e2e968c269c20ba53d7a8a5709c7506c989313ee9a16a0d3581a3a5d1f82bbe8"
+    },
+    {
+      "path": "outputs/hamburg-readme-case-20261020-v1/main-roads-v2/report.json",
+      "sha256": "df4e9eebab5fb357a5e188fab434b93d230238bc6ec966a62fd64ba46c8f10b7"
+    }
+  ],
+  "claim_boundary": "The prepared full network has 1156 segments and the selected scope has 533. The direct raw-native fixture regression has 540. Signal changes and detours need review. No whole-corridor driving, sensor fitting, or independent validation claim."
+}

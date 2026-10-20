@@ -42,7 +42,8 @@ Source-model dead ends are not observed traffic origins.
 
 `selection.json` records every source tier, selection reason, excluded road, connector repair, and boundary movement.
 It also records the largest detour and its affected movement.
-Lengths sum ordinary-road logical lengths and exclude internal junction paths.
+Selection lengths sum source ordinary-road logical lengths before native extraction and exclude internal junction paths.
+Native changes at cut ends are recorded separately in the geometry report.
 They are a routing proxy, not measured travel distances or travel times.
 No universal detour-ratio cutoff is imposed.
 

@@ -16,8 +16,13 @@ It is separate from the Am Sandtorkai fixtures.
 
 The import has 1,156 ordinary road segments and nine narrowly repairable stale pedestrian-internal signal references.
 SUMO 1.27.1 fails during postload pruning on this input. The checked preload fallback remains separate.
-The current main-road plan retains 540 segments, including four V1 calibration-road references supplied as study anchors.
+The direct raw-native main-road regression retains 540 segments, including four V1 calibration-road references supplied as study anchors.
+The full offline example applies OSM access corrections first and currently retains 533 segments.
 These anchors do not establish an exact sensor-to-lane mapping.
+
+[Execution evidence](execution-evidence.json) retains the full prepared-input run, its failed prototypes, and the remaining stages.
+[Geometry evidence](main-road-geometry-evidence.json) confirms unchanged shapes, lengths, and widths on the major and protected roads.
+Other retained approach geometry and signal programs changed during extraction and remain recorded for review.
 
 The fixture tests road selection and input handling. It contains no new traffic-count calibration result.
 Run the [offline example](../../examples/06_hamburg_ring1_demo/README.md) to rebuild stages 1 and 2.

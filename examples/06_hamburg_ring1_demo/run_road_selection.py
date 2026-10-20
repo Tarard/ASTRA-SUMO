@@ -16,7 +16,10 @@ def run(output_dir):
     output.mkdir(parents=True, exist_ok=False)
     root = Path(__file__).resolve().parents[2]
     fixture_dir = root / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
-    fixture = json.loads((fixture_dir / "fixture.json").read_text(encoding="utf-8"))
+    config_bytes = (fixture_dir / "fixture.json").read_bytes()
+    fixture = json.loads(config_bytes)
+    effective_config = output / "case-input.json"
+    effective_config.write_bytes(config_bytes)
     source_osm = fixture_dir / "source.osm.xml.gz"
     if file_sha256(source_osm) != fixture["files"][source_osm.name]["sha256"]:
         raise ValueError("The frozen OSM snapshot hash does not match.")
@@ -29,7 +32,7 @@ def run(output_dir):
         netconvert_profile=fixture["native_profile"], output_precision=fixture["precision"], netconvert_binary=netconvert)
     write_json_atomic(output / "01-osm-result.json", build)
     case = {"schema": "astra.ring1-demo-partial/v1", "status": "blocked",
-        "fixture": {"path": str(fixture_dir / "fixture.json"), "sha256": file_sha256(fixture_dir / "fixture.json")},
+        "fixture": {"path": str(effective_config), "sha256": file_sha256(effective_config)},
         "source_osm_sha256": file_sha256(source_osm),
         "implementation": {name: file_sha256(root / "plugins/astra-sumo/src/astra_sumo/core" / name)
                            for name in ["osm_network.py", "road_hierarchy.py", "road_scope.py"]},
@@ -37,11 +40,14 @@ def run(output_dir):
     if build.get("netconvert", {}).get("command"):
         command = build["netconvert"]["command"]
         raw = Path(build["netconvert"]["cwd"]) / command[command.index("--output-file") + 1]
-        if raw.is_file():
-            selected = build_road_hierarchy_variant(net_file=raw, output_dir=output / "02-main-roads",
+        prepared_full = Path(build.get("net_file", ""))
+        if raw.is_file() and prepared_full.is_file():
+            selected = build_road_hierarchy_variant(net_file=prepared_full, output_dir=output / "02-main-roads",
+                keep_tier=fixture["keep_tier"], vehicle_class=fixture["vehicle_class"],
                 protected_way_ids=fixture["protected_way_ids"], netconvert_binary=netconvert,
                 sumo_binary=str(binary_dir / f"sumo{suffix}"))
             case.update(status=selected["status"], raw_native_import={"path": str(raw), "sha256": file_sha256(raw)},
+                selection_input={"path": str(prepared_full), "sha256": file_sha256(prepared_full)},
                 road_selection_report=selected["report_file"], source_road_count=selected.get("source_road_count"),
                 selected_road_count=selected.get("selected_road_count"))
     case["claim_boundary"] = "Only stages 1 and 2 are implemented. A loadable road scope is not a completed sensor-calibrated demonstration."

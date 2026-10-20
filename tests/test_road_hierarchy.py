@@ -137,7 +137,8 @@ def test_native_ring1_road_selection(tmp_path):
     digest = file_sha256(source)
     assert digest == fixture["source_net_uncompressed_sha256"]
     report = build_road_hierarchy_variant(net_file=source, output_dir=tmp_path / "out",
-        protected_way_ids=fixture["protected_way_ids"], netconvert_binary=shutil.which("netconvert"), sumo_binary=shutil.which("sumo"))
+        keep_tier=fixture["keep_tier"], vehicle_class=fixture["vehicle_class"], protected_way_ids=fixture["protected_way_ids"],
+        netconvert_binary=shutil.which("netconvert"), sumo_binary=shutil.which("sumo"))
     assert report["status"] == "measured", report
     assert all(report["checks"].values())
     assert report["source_road_count"] == fixture["expected_source_road_count"]

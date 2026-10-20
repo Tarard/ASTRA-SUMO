@@ -23,6 +23,7 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 | File | Meaning |
 |---|---|
 | `case.json` | Implemented stages, input identities, counts, and remaining work |
+| `case-input.json` | Immutable copy of the effective case settings used by this run |
 | `01-osm-result.json` | Full OSM import and its recorded postprocessing |
 | `01-osm/sumo/ring1-full.net.xml` | Original native import for the before view |
 | `02-main-roads/selection.json` | Road tiers, retention reasons, exclusions, connector repairs, and detours |
@@ -30,10 +31,12 @@ The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json
 | `02-main-roads/selected.net.xml` | Selected scope candidate |
 | `02-main-roads/report.json` | Source preservation, native attempts, load, permissions, reachability, geometry, and signal changes |
 
-The current frozen example selects 540 of 1,156 ordinary road segments.
+The current full example selects 533 of 1,156 ordinary road segments.
+It applies the existing OSM access corrections before scope selection.
+The direct raw-native regression selects 540 segments. Its permissions differ from the prepared full-network input.
 It retains Ernst-Merck-Straße even though its OSM class is tertiary, because the V1 study references it.
 The imported source has stale pedestrian-internal signal references. Their narrow repair is recorded separately.
-The raw before view remains unchanged.
+The raw before view remains unchanged. `selection_input` in `case.json` identifies the prepared full network used for pruning.
 
 Use `normalized_full_network` from the selection report for a loadable full-network baseline.
 Review signal and geometry changes before a later demand comparison.

@@ -56,5 +56,7 @@
   "data_license": "ODbL-1.0",
   "license_url": "https://www.openstreetmap.org/copyright",
   "scope_note": "Whole OSM ways intersecting the bbox are retained. The import includes their complete geometry outside the view rectangle.",
-  "claim_boundary": "Road classification and simulation-scope selection only. No detector calibration, field signal or whole-corridor driving claim."
+  "claim_boundary": "Road classification and simulation-scope selection only. No detector calibration, field signal or whole-corridor driving claim.",
+  "keep_tier": "major",
+  "vehicle_class": "passenger"
 }
