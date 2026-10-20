@@ -1,0 +1,3277 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<wfs:FeatureCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs/2.0 http://schemas.opengis.net/wfs/2.0/wfs.xsd http://www.opengis.net/gml/3.2 http://schemas.opengis.net/gml/3.2.1/gml.xsd https://registry.gdi-de.org/id/de.hh.up https://geodienste.hamburg.de/wfs_parkhaeuser?SERVICE=WFS&amp;VERSION=2.0.0&amp;REQUEST=DescribeFeatureType&amp;OUTPUTFORMAT=application%2Fgml%2Bxml%3B+version%3D3.2&amp;TYPENAME=de.hh.up:parkhaeuser&amp;NAMESPACES=xmlns(de.hh.up,https%3A%2F%2Fregistry.gdi-de.org%2Fid%2Fde.hh.up)" xmlns:wfs="http://www.opengis.net/wfs/2.0" timeStamp="2026-10-16T08:25:14Z" xmlns:gml="http://www.opengis.net/gml/3.2" numberMatched="unknown" numberReturned="0">
+  <!--NOTE: numberReturned attribute should be 'unknown' as well, but this would not validate against the current version of the WFS 2.0 schema (change upcoming). See change request (CR 144): https://portal.opengeospatial.org/files?artifact_id=43925.-->
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1012">
+      <de.hh.up:name>Suerhop</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>? Buchholz</de.hh.up:betreiber>
+      <de.hh.up:einfahrt>Drosselweg</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>20</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1012_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1012_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>556953.049 5907758.496</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1018">
+      <de.hh.up:name>Dahlenburg</de.hh.up:name>
+      <de.hh.up:art>Straßenrand</de.hh.up:art>
+      <de.hh.up:betreiber>K35, 21368 Dahlenburg</de.hh.up:betreiber>
+      <de.hh.up:einfahrt>Bahnhofsweg</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>6</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1018_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1018_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>614231.140 5892511.931</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1024">
+      <de.hh.up:name>Ruschwedel</de.hh.up:name>
+      <de.hh.up:art>Straßenrand</de.hh.up:art>
+      <de.hh.up:betreiber>Harsefeld</de.hh.up:betreiber>
+      <de.hh.up:einfahrt>Ruschwedeler Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>6</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1024_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1024_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>537150.624 5922105.632</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1044">
+      <de.hh.up:name>Echem</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>bei Lüneburg</de.hh.up:betreiber>
+      <de.hh.up:einfahrt>Bahnhofstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>18</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1044_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1044_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>602325.892 5910875.953</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1077">
+      <de.hh.up:name>Tanneneck</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Buchenweg</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>32</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1077_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1077_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562189.448 5956733.511</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1094">
+      <de.hh.up:name>Holstentherme</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Norderstedt</de.hh.up:betreiber>
+      <de.hh.up:einfahrt>Norderstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1094_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1094_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562227.225 5966042.942</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1096">
+      <de.hh.up:name>Kaltenkirchen Süd</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Kaltenkirchen</de.hh.up:betreiber>
+      <de.hh.up:einfahrt>Werner-von-Siemens-Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1096_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1096_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564064.111 5964294.821</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1097">
+      <de.hh.up:name>dodenhof</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Kieler Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1097_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1097_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>561726.303 5966626.038</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1106">
+      <de.hh.up:name>Quickborner Straße</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Am Umspannwerk</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>22</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1106_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1106_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565274.514 5954415.906</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1107">
+      <de.hh.up:name>Richtweg</de.hh.up:name>
+      <de.hh.up:art>Straßenrand</de.hh.up:art>
+      <de.hh.up:einfahrt>Dahlienstieg</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>20</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1107_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1107_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565389.243 5950128.304</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_1110">
+      <de.hh.up:name>Haslohfurth</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Schleswiger Hagen</de.hh.up:einfahrt>
+      <de.hh.up:preise> </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>10</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>HVV</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_1110_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_1110_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565098.878 5955528.655</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10001">
+      <de.hh.up:name>Alsterhaus</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>The KaDeWe Group GmbH, Katharina-Heinroth-Ufer 1, 10787 Berlin</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.vincipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Bei der Stadtwassermühle</de.hh.up:strasse>
+      <de.hh.up:hausnr>16-20</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Poststraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>Reguläres Parkentgelt 8:00 - 21:00 Uhr: 1. angef. Std. 4,00 EUR| je weitere Std. 4,00 EUR | Tageshöchstsatz: 28,00 EUR
+Nachttarif 21:00 - 8:00 Uhr: 1. angef. Std. 1,50 EUR| je weitere Std. 1,50 EUR | Höchstsatz: 5,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>87</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>6</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>3</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>26</de.hh.up:frei>
+      <de.hh.up:gesamt>87</de.hh.up:gesamt>
+      <de.hh.up:auslastung>70</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10001_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10001_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565703.765 5934210.671</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10002">
+      <de.hh.up:name>Am Hauptbahnhof</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:link>http://www.sprinkenhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Borgesch</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>über Baumeisterstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>2,00 EUR/30min | Tageshöchstsatz 20,00 EUR| Nachttarif 1,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>547</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>6</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>246</de.hh.up:frei>
+      <de.hh.up:gesamt>547</de.hh.up:gesamt>
+      <de.hh.up:auslastung>55</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10002_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10002_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566880.910 5934455.780</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10003">
+      <de.hh.up:name>Bavaria Office</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Zirkusweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>4</de.hh.up:hausnr>
+      <de.hh.up:preise>1. Stunde 1,50 EUR|2. Stunde 1,50 EUR|jede weitere Std. 2,00 EUR|Tageshöchstsatz 11,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>58</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>3</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10003_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10003_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564049.209 5933656.001</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10004">
+      <de.hh.up:name>Berliner Tor</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Berliner Tor</de.hh.up:strasse>
+      <de.hh.up:hausnr>3a</de.hh.up:hausnr>
+      <de.hh.up:preise>2,80 EUR/h|Tageshöchstsatz 18,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>328</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10004_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10004_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>567679.088 5934684.581</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10005">
+      <de.hh.up:name>Billstedt Center Hamburg</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>POLLUX Grundstücksgesellschaft m.b.H. &amp; Co. Verwaltungs-KG</de.hh.up:betreiber>
+      <de.hh.up:strasse>Möllner Landstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>3</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>a) P-Nord: Reclamstraße 2|P-Süd: Am alten Zoll 1</de.hh.up:einfahrt>
+      <de.hh.up:preise>1. Stunde 0,40 EUR|2. Stunde 0,60 EUR|jede weitere Std. 1,00 EUR|Tageshöchstsatz 10 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:45-20:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1320</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>32</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>21</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10005_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10005_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>573152.752 5932948.612</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10006">
+      <de.hh.up:name>Parkhaus Stadthöfe (Bleichenhof)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Große Bleichen</de.hh.up:strasse>
+      <de.hh.up:hausnr>35</de.hh.up:hausnr>
+      <de.hh.up:preise>3,90 EUR/h|Tageshöchstsatz 32,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>0</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>0</de.hh.up:frei>
+      <de.hh.up:gesamt>0</de.hh.up:gesamt>
+      <de.hh.up:auslastung>100</de.hh.up:auslastung>
+      <de.hh.up:status>geschlossen</de.hh.up:status>
+      <de.hh.up:situation>besetzt</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10006_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10006_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565365.871 5934125.564</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10007">
+      <de.hh.up:name>Radison Blu</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Marseiller Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>1. Std. 3,00 EUR|je weitere angef. Std. 3,00 EUR|Tagesentgelt 25,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo- So 0:00 -24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>700</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>1</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.8</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>419</de.hh.up:frei>
+      <de.hh.up:gesamt>700</de.hh.up:gesamt>
+      <de.hh.up:auslastung>40</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10007_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10007_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565423.158 5935148.839</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10010">
+      <de.hh.up:name>Deichtorhallen</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Deichtorhallen Hamburg GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.deichtorhallen.de</de.hh.up:link>
+      <de.hh.up:strasse>Deichtorstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>2</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Oberbaumbrücke</de.hh.up:einfahrt>
+      <de.hh.up:preise>1 Stunde 2,00 EUR|Tageshöchstsatz 20,00 EUR|Nachttarif 22 - 6 Uhr 1,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>37</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>27</de.hh.up:frei>
+      <de.hh.up:gesamt>37</de.hh.up:gesamt>
+      <de.hh.up:auslastung>27</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10010_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10010_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566587.504 5933580.784</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10011">
+      <de.hh.up:name>Deutsch Japanisches Zentrum</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de/de-DE/find-parking/hamburg-tiefgarage-deutsch-japanisches-zentrum/</de.hh.up:link>
+      <de.hh.up:strasse>Stadthausbrücke</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 1,50 EUR |zweite 30 Min. 1,50 EUR |Je weitere Std. 3,00 EUR |Tag (24 Std.) 22,00 EUR
+Sondertarif (P-Card): erste 30 Min. 0,50 EUR |zweite 30 Min. 1,00 EUR |Je weitere Std. 1,50 EUR |Tag (24 Std.) 9,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 06:00-23:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>304</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>12</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>83</de.hh.up:frei>
+      <de.hh.up:gesamt>304</de.hh.up:gesamt>
+      <de.hh.up:auslastung>73</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10011_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10011_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565271.329 5934043.046</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10012">
+      <de.hh.up:name>Elbphilharmonie</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:strasse>Platz der Deutschen Einheit</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>Parkbereich A Kurzparker (Ebenen OG1 – OG5): 1. Stunde 5,00 EUR|jede weitere Std. 5,00 EUR|Tageshöchstsatz 50,00 EUR &amp; Parkbereich B (UG1 = „Hotel-Bereich“): 1. Stunde 6,00 EUR|jede weitere Std. 6,00 EUR|Tageshöchstsatz 50,00 EUR &amp; Parkbereich C (EG = Umfahrung): 5 Minuten freie |Durchfahrt | je weitere 5 Minuten 1,00 EUR | Tageshöchstsatz 90,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So 0-24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>228</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>23</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>174</de.hh.up:frei>
+      <de.hh.up:gesamt>228</de.hh.up:gesamt>
+      <de.hh.up:auslastung>24</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10012_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10012_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565261.142 5932940.259</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10013">
+      <de.hh.up:name>Europa-Passage</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Hermannstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>09 - 11</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: 1. Std 2,50 EUR |jede weitere Std. 2,50 EUR |Tag (24 Std.) 16,00 EUR
+Sondertarif (P-Card): 1. Std 2,00 EUR |jede weitere Std. 2,00 EUR |Tag (24 Std.) 12,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-23:30 Uhr|So. 09:00-23:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>690</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>31</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>19</de.hh.up:frei>
+      <de.hh.up:gesamt>690</de.hh.up:gesamt>
+      <de.hh.up:auslastung>97</de.hh.up:auslastung>
+      <de.hh.up:status>Störung</de.hh.up:status>
+      <de.hh.up:situation>belegt</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10013_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10013_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566030.278 5934134.995</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10014">
+      <de.hh.up:name>Fleethof</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Tectareal Property Management GmbH</de.hh.up:betreiber>
+      <de.hh.up:strasse>Stadthausbrücke</de.hh.up:strasse>
+      <de.hh.up:hausnr>3</de.hh.up:hausnr>
+      <de.hh.up:preise>1,50 EUR/30min|3,00 EUR/h|Tageshöchstsatz 18,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>55</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>10</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10014_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10014_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565303.056 5933939.457</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10015">
+      <de.hh.up:name>City-Parkhaus</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Q-Park      </de.hh.up:betreiber>
+      <de.hh.up:strasse>Gertrudenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>2</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>a) Raboisen |b) Rosenstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>3,30 EUR/h|Tageshöchstsatz 20,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Fr. 06:00-23:30 Uhr|Sa. 08:00-23:30 Uhr|So. 10:00-23:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1110</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>1.93</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>887</de.hh.up:frei>
+      <de.hh.up:gesamt>1110</de.hh.up:gesamt>
+      <de.hh.up:auslastung>20</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10015_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10015_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566301.343 5934248.285</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10016">
+      <de.hh.up:name>Große Reichenstraße</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:link>http://www.sprinkenhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Große Reichenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>14</de.hh.up:hausnr>
+      <de.hh.up:preise>2,00 EUR/30min |Tageshöchstsatz 20,00 EUR|Nachttarif 1,50 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Mi. 07:00-21:00 Uhr|Do.+Fr. 07:00-23:00 Uhr|Sa. 07:00-21:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>850</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>3</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>3</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>488</de.hh.up:frei>
+      <de.hh.up:gesamt>850</de.hh.up:gesamt>
+      <de.hh.up:auslastung>43</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10016_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10016_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566010.714 5933731.109</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10017">
+      <de.hh.up:name>Gänsemarkt</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.opg-os.de</de.hh.up:link>
+      <de.hh.up:strasse>Dammtorwall</de.hh.up:strasse>
+      <de.hh.up:hausnr>5</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Welckerstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>jede Std 4,50 EUR |Tageshöchstsatz 30,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>544</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>402</de.hh.up:frei>
+      <de.hh.up:gesamt>544</de.hh.up:gesamt>
+      <de.hh.up:auslastung>26</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10017_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10017_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565368.320 5934747.159</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10018">
+      <de.hh.up:name>Hafentor</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:strasse>Johannisbollwerk</de.hh.up:strasse>
+      <de.hh.up:einfahrt>Johannesbollwerk</de.hh.up:einfahrt>
+      <de.hh.up:preise>2,00 EUR/30min |Tageshöchstsatz 20,00 EUR|Nachttarif 2,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 06:30-02:00 Uhr
+</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>253</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>0</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>8</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.5</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>185</de.hh.up:frei>
+      <de.hh.up:gesamt>253</de.hh.up:gesamt>
+      <de.hh.up:auslastung>27</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10018_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10018_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564477.494 5933352.515</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10019">
+      <de.hh.up:name>Hanse-Viertel</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Hohe Bleichen</de.hh.up:strasse>
+      <de.hh.up:hausnr>22</de.hh.up:hausnr>
+      <de.hh.up:preise>ab 3,50 EUR pro Stunde|Tageshöchstsatz 28,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-02:00 Uhr|So. 09:00-02:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>421</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>7</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>312</de.hh.up:frei>
+      <de.hh.up:gesamt>421</de.hh.up:gesamt>
+      <de.hh.up:auslastung>26</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10019_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10019_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565418.176 5934315.356</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10020">
+      <de.hh.up:name>Hanseatic Trade Center</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>SECURITAS Sicherheitsdienste</de.hh.up:betreiber>
+      <de.hh.up:strasse>Am Sandtorkai</de.hh.up:strasse>
+      <de.hh.up:hausnr>74-77</de.hh.up:hausnr>
+      <de.hh.up:preise>k. A.</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>k. A.</de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10020_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10020_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565146.452 5933068.834</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10021">
+      <de.hh.up:name>Holzdamm / Ibis</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Ibis Hamburg Alster Centrum</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.ibishotel.com</de.hh.up:link>
+      <de.hh.up:strasse>Holzdamm</de.hh.up:strasse>
+      <de.hh.up:hausnr>4-12</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: 3,00 EUR / Std. |Tageshöchstsatz 29,00 EUR
+Sondertarif für Hotelgäste: 2,00 EUR / Std. |Tageshöchstsatz 10,00 EUR (bei Übernachtung)</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>50</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>50</de.hh.up:frei>
+      <de.hh.up:gesamt>50</de.hh.up:gesamt>
+      <de.hh.up:auslastung>0</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10021_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10021_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566557.509 5934645.053</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10022">
+      <de.hh.up:name>Hühnerposten</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Hühnerposten</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Tagesentgelt 14,00 EUR
+Sondertarif: Bis 4 Std. 6,00 EUR|jede weitere Stunde 2,50 EUR|Tageshöchstsatz 11,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 04:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>427</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>5</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10022_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10022_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566770.419 5933841.024</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10024">
+      <de.hh.up:name>Kaufhof (Galeria Kaufhof)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Galeria Kaufhof GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.galeria-kaufhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Bugenhagenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>3,00 EUR je angef. Std.|Kunden ab Einkauf v. 10,00 EUR zahlen 2,50 EUR je angef. Std.  </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:30-20:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>327</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>21</de.hh.up:frauenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>260</de.hh.up:frei>
+      <de.hh.up:gesamt>327</de.hh.up:gesamt>
+      <de.hh.up:auslastung>20</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10024_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10024_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566560.848 5933998.538</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10025">
+      <de.hh.up:name>MediaMarkt Tech Village</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Saturn Electro-Handelsges.mbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.saturn.de</de.hh.up:link>
+      <de.hh.up:strasse>Mönckebergstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Lange Mühren 12</de.hh.up:einfahrt>
+      <de.hh.up:preise>5,00 EUR/h|Tageshöchstsatz (gibt kein Tagesticket)</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:30-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>287</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>10</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>6</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>227</de.hh.up:frei>
+      <de.hh.up:gesamt>287</de.hh.up:gesamt>
+      <de.hh.up:auslastung>21</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10025_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10025_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566608.195 5933991.089</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10026">
+      <de.hh.up:name>Kunsthalle</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:link>http://www.sprinkenhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Ferdinandstor</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>2,00 EUR/30min|Tageshöchstsatz 30,00 EUR|Nachttarif 10,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 06:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>111</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>0</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>92</de.hh.up:frei>
+      <de.hh.up:gesamt>111</de.hh.up:gesamt>
+      <de.hh.up:auslastung>17</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>08.04.2025, 11:05</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10026_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10026_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566349.929 5934592.153</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10027">
+      <de.hh.up:name>Madison</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:strasse>Schaarsteinweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>6</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Herrengraben</de.hh.up:einfahrt>
+      <de.hh.up:preise>ab 2,50 EUR pro Stunde|Tageshöchstsatz 32,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>0</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>3</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>25</de.hh.up:frei>
+      <de.hh.up:gesamt>0</de.hh.up:gesamt>
+      <de.hh.up:auslastung>100</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>besetzt</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10027_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10027_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565038.596 5933504.501</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10028">
+      <de.hh.up:name>Marriott</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>ABC-Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>52</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Neue ABC-Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise>4,50 EUR Stunde|Tageshöchstsatz 32,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>106</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>5</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.8</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>18</de.hh.up:frei>
+      <de.hh.up:gesamt>106</de.hh.up:gesamt>
+      <de.hh.up:auslastung>83</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10028_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10028_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565363.112 5934451.189</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10029">
+      <de.hh.up:name>Messe-Mitte</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Hamburg Messe und Congress GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Lagerstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>2,00 EUR/h|Tageshöchstsatz 16,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>850</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>815</de.hh.up:frei>
+      <de.hh.up:gesamt>850</de.hh.up:gesamt>
+      <de.hh.up:auslastung>4</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10029_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10029_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564497.402 5935112.952</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10030">
+      <de.hh.up:name>Messe-Ost</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Hamburg Messe und Congress GmbH</de.hh.up:betreiber>
+      <de.hh.up:strasse>Bei den Kirchhöfen</de.hh.up:strasse>
+      <de.hh.up:einfahrt>bei Halle B5</de.hh.up:einfahrt>
+      <de.hh.up:preise>2,00 EUR/h|Tageshöchstsatz 16,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>819</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>773</de.hh.up:frei>
+      <de.hh.up:gesamt>819</de.hh.up:gesamt>
+      <de.hh.up:auslastung>6</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10030_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10030_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564918.610 5934989.614</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10031">
+      <de.hh.up:name>Michel-Garage</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:link>http://www.sprinkenhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Schaarmarkt</de.hh.up:strasse>
+      <de.hh.up:einfahrt>a) Schaarsteinweg|b) Neustädter Neuer Weg</de.hh.up:einfahrt>
+      <de.hh.up:preise>2,00 EUR/30min |Tageshöchstsatz 20,00 EUR|Nachttarif 5,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Do. 07:00-01:00 Uhr|Fr. 07:00-02:00 Uhr|Sa. 09:30-02:00 Uhr|So. 09:30-01:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>297</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>10</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>189</de.hh.up:frei>
+      <de.hh.up:gesamt>297</de.hh.up:gesamt>
+      <de.hh.up:auslastung>36</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10031_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10031_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564805.417 5933513.660</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10032">
+      <de.hh.up:name>Millerntor</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>GOLDBECK Parking Services GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Millerntorplatz</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Kleine Seilerstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>erste 30 Minuten = 1,50 EUR|1. Std. = 3,00 EUR|jede weitere angef. 30 Minuten +1,50 EUR|Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>504</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>387</de.hh.up:frei>
+      <de.hh.up:gesamt>504</de.hh.up:gesamt>
+      <de.hh.up:auslastung>23</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10032_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10032_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564120.121 5933949.601</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10033">
+      <de.hh.up:name>Neue Gröningerstraße (Katharinenkirche)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof</de.hh.up:betreiber>
+      <de.hh.up:strasse>Neue Gröningerstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>12</de.hh.up:hausnr>
+      <de.hh.up:preise>0,90 EUR/30min |Tageshöchstsatz 14,60 EUR|Tageskarte bei Vorauszahlung 9,70 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Fr. 07:00-21:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>546</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.05</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10033_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10033_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565932.370 5933566.340</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10034">
+      <de.hh.up:name>Neues Steintor</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>HAMPARK GmbH     040 / 36 88 13 70</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Hammerbrookstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>a) Hammerbrookstraße; b) Beim Strohhause</de.hh.up:einfahrt>
+      <de.hh.up:preise>1,30 EUR/h|bis 5,0 Std. 6,50 EUR|Tageshöchstsatz 13,00 EUR|Kundentarif (Real)</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 06:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>590</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10034_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10034_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>567560.340 5934162.238</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10035">
+      <de.hh.up:name>Nomis Quartier</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Simon-von-Utrecht-Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>63</de.hh.up:hausnr>
+      <de.hh.up:preise>je 30min 2,80 EUR|Tageshöchstsatz 25,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>271</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>12</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10035_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10035_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>563972.699 5934017.052</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10037">
+      <de.hh.up:name>Reeperbahn-Garagen (Spielbudenplatz)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Ernst u. Jürgen Schütze    IG St.Pauli Mitglied</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.reeperbahn-garagen.de</de.hh.up:link>
+      <de.hh.up:strasse>Spielbudenplatz</de.hh.up:strasse>
+      <de.hh.up:preise>1,50 EUR/30min|3,00 EUR/ 1. Std.|Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>200</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>156</de.hh.up:frei>
+      <de.hh.up:gesamt>200</de.hh.up:gesamt>
+      <de.hh.up:auslastung>22</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10037_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10037_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564061.102 5933861.027</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10038">
+      <de.hh.up:name>Rödingsmarkt</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:link>http://www.sprinkenhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Rödingsmarkt</de.hh.up:strasse>
+      <de.hh.up:hausnr>14</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Herrlichkeit</de.hh.up:einfahrt>
+      <de.hh.up:preise>1,50 EUR/30min |Tageshöchstsatz 20,00 EUR|Nachttarif 1,50 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Fr. 07:00-23:00 Uhr|Sa. 07:00-21:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>0</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>4</de.hh.up:frauenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>700</de.hh.up:frei>
+      <de.hh.up:gesamt>0</de.hh.up:gesamt>
+      <de.hh.up:auslastung>100</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>besetzt</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10038_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10038_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565281.345 5933551.459</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10039">
+      <de.hh.up:name>Speicherstadt</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Am Sandtorkai</de.hh.up:strasse>
+      <de.hh.up:hausnr>6</de.hh.up:hausnr>
+      <de.hh.up:preise>erste 30 Min. 1,00 EUR|zweite 30 Min. 1,50 EUR|je weitere Std. 2,50 EUR|Tagesentgelt 15,00 EUR|Sondertarif Kreuzfahrer ab 5 Tage 10,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>553</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>32</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>452</de.hh.up:frei>
+      <de.hh.up:gesamt>553</de.hh.up:gesamt>
+      <de.hh.up:auslastung>18</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10039_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10039_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565888.774 5933197.991</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10040">
+      <de.hh.up:name>Überseequartier Nord</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Überseeallee</de.hh.up:strasse>
+      <de.hh.up:hausnr>3</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 1,00 EUR |zweite 30 Min. 1,50 EUR |Je weitere Std. 2,50 EUR |Tag (24 Std.) 15,00 EUR
+Sondertarif (P-Card): erste 30 Min. 0,50 EUR |zweite 30 Min. 1,00 EUR |Je weitere Std. 1,50 EUR |Tag (24 Std.) 10,00 EUR
+Sondertarif Kreuzfahrer: ab 5 Tage 10,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>350</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>8</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>322</de.hh.up:frei>
+      <de.hh.up:gesamt>350</de.hh.up:gesamt>
+      <de.hh.up:auslastung>8</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10040_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10040_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566094.120 5932981.960</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10045">
+      <de.hh.up:name>Bahnhof Altona</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.opg-os.de</de.hh.up:link>
+      <de.hh.up:strasse>Scheel-Plessen-Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>19</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>a) Scheel-Plessen-Straße|b) Präsident-Krahn-Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise>1.Std: 1,30 EUR|ab 2.Std: 1,50 EUR|Tageshöchstsatz 12,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>100</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>3</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>16</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>100</de.hh.up:frei>
+      <de.hh.up:gesamt>100</de.hh.up:gesamt>
+      <de.hh.up:auslastung>0</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10045_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10045_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>561882.766 5934196.861</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10046">
+      <de.hh.up:name>Blankenese P1</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.opg-os.de</de.hh.up:link>
+      <de.hh.up:strasse>Sülldorfer Kirchenweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>2b</de.hh.up:hausnr>
+      <de.hh.up:preise>1,50 EUR/30min|je weiter Std 2,50 EUR |Tageshöchstsatz 14,00 EUR|Kundentarif (Rewe + Penny)</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>170</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10046_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10046_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>553909.665 5935367.151</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10047">
+      <de.hh.up:name>Elbe Einkaufszentrum (EEZ)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>POLLUX Grundstücksgesellschaft m.b.H. &amp; Co. Verwaltungs-KG</de.hh.up:betreiber>
+      <de.hh.up:strasse>Osdorfer Landstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>131</de.hh.up:hausnr>
+      <de.hh.up:preise>1. Stunde kostenlos|2. Stunde 1,20 EUR | jede weitere Std. 1,50 EUR|Tageshöchstsatz k. A.</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:30-20:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>2200</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>6</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>36</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10047_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10047_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>556868.979 5936115.474</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10048">
+      <de.hh.up:name>Hahnenkamp</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.opg-os.de</de.hh.up:link>
+      <de.hh.up:strasse>Hahnenkamp</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>je 45min 1,00 EUR|Tageshöchstsatz 12,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>70</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>0</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10048_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10048_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>561829.929 5934215.554</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10050">
+      <de.hh.up:name>Holzhafen</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.opg-os.de</de.hh.up:link>
+      <de.hh.up:strasse>Große Elbstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>61</de.hh.up:hausnr>
+      <de.hh.up:preise>ab 2,50 EUR pro Stunde|Tageshöchstsatz 20,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>445</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10050_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10050_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562468.985 5933223.841</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10051">
+      <de.hh.up:name>Neue Flora</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Stresemannstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>161</de.hh.up:hausnr>
+      <de.hh.up:preise>2,50 EUR/h|Tageshöchstsatz 14,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-02:00 Uhr / So. 12:00-02:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>351</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>6</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>10</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10051_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10051_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562898.701 5935312.008</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10052">
+      <de.hh.up:name>Neues Forum</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.opg-os.de</de.hh.up:link>
+      <de.hh.up:strasse>Lawaetzweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>4</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Je angef. Std. 1,50 EUR |Tag (24 Std.) 3,00 EUR
+Sondertarif (P-Card): Je angef. Std. 1,50 EUR |Tag (24 Std.) 2,30 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-Sa 07:00 -21:00</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>75</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10052_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10052_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562389.431 5934010.327</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10053">
+      <de.hh.up:name>Othmarschen Park</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Alpha Parking GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Jürgen-Töpfer-Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>2,00 EUR/h|Kunden: 1,50 EUR/h</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>800</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>45</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.15</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10053_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10053_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>559700.124 5934757.247</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10054">
+      <de.hh.up:name>Schillerstraße (CCA)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>GBDK GmbH</de.hh.up:betreiber>
+      <de.hh.up:strasse>Schillerstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>44</de.hh.up:hausnr>
+      <de.hh.up:preise>10 min. frei|1 Std. 1,00 EUR|jede weitere Std. 1,00 EUR|Tageshöchstsatz 15,00 EUR|Nachtparktarif 23-7 Uhr 5,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo - So 7.00 - 23.00</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>130</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10054_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10054_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562178.010 5933946.944</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10055">
+      <de.hh.up:name>Stadtlagerhaus</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>?</de.hh.up:betreiber>
+      <de.hh.up:strasse>Große Elbstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>27</de.hh.up:hausnr>
+      <de.hh.up:preise>k. A.</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>k. A.</de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10055_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10055_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562938.322 5933237.774</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10056">
+      <de.hh.up:name>Parkplatz blau</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>über Parkplatz grau</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>200</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10056_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10056_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>559629.689 5938226.535</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10057">
+      <de.hh.up:name>Parkplatz braun</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Schnackenburgallee</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1100</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10057_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10057_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>560533.562 5937478.938</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10058">
+      <de.hh.up:name>Parkplatz gelb</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Schnackenburgallee/August-Kirch-Straße</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>350</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10058_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10058_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>559843.129 5937916.075</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10059">
+      <de.hh.up:name>Parkplatz grau</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Hellgrundweg</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>350</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10059_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10059_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>559536.813 5938413.069</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10060">
+      <de.hh.up:name>Parkplatz grün</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Luruper Chaussee</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>200</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10060_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10060_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>558479.119 5937289.969</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10062">
+      <de.hh.up:name>Parkplatz rot</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>Hellgrundweg</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1900</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10062_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10062_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>559357.203 5938142.313</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10063">
+      <de.hh.up:name>Parkplatz weiß</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:einfahrt>über Parkplatz gelb</de.hh.up:einfahrt>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10063_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10063_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>559699.124 5937938.263</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10064">
+      <de.hh.up:name>Hagenbecks Tierpark</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>?</de.hh.up:betreiber>
+      <de.hh.up:strasse>Lokstedter Grenzstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>9</de.hh.up:hausnr>
+      <de.hh.up:oeffnungszeit>&lt;Null></de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>491</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10064_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10064_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562384.378 5938906.507</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10065">
+      <de.hh.up:name>Karstadt Eimsbüttel</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Karstadt Warenhaus GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.vincipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Henriettenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>52</de.hh.up:hausnr>
+      <de.hh.up:preise>2,00 EUR/h|Tageshöchstsatz 4,00 EUR|Kundentarif (Karstadt)</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Fr. 07:00-20:30 Uhr | Sa. 07:00 - 19:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>307</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>1</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10065_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10065_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>563081.918 5936669.274</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10066">
+      <de.hh.up:name>Tibarg Center</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Paul-Sorge-Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>9</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Paul-Sorge-Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise>bis 2. Stunde 1,00 EUR|je weitere Stunde 2,00 EUR|Tageshöchstsatz 12,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-21:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>407</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>12</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10066_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10066_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562933.387 5942011.758</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10067">
+      <de.hh.up:name>EKZ Nedderfeld</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Nedderfeld</de.hh.up:strasse>
+      <de.hh.up:hausnr>70</de.hh.up:hausnr>
+      <de.hh.up:preise>1,50 EUR/h|Tageshöchstsatz 10,00 EUR|Kundentarif</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. ab 08:00 bis 23:00 Uhr / So. geschlossen</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>526</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>17</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10067_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10067_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564555.437 5939581.458</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10068">
+      <de.hh.up:name>Facharztklinik</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Martinistraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>72</de.hh.up:hausnr>
+      <de.hh.up:preise>je 30min 2,50 EUR|Tageshöchstsatz 20,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>206</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>6</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10068_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10068_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564408.765 5938139.032</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10069">
+      <de.hh.up:name>Hamburger Meile</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Hamburger Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>43-49</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Desenißstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>Reguläres Parkentgelt: Mo.-So. 06:00 - 20:00 Uhr| 1. Std. Frei| je weitere Std. 1,00 EUR| Tag (24 Std.) 8,00 EUR
+Abendtarif: Mo.-So. 20:00 - 06:00 Uhr|Je angef. Std. 1,00 EUR |Höchstsatz 3,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>159</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10069_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10069_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>568426.575 5936762.169</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10070">
+      <de.hh.up:name>Hamburger Meile</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Humboldtstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>6</de.hh.up:hausnr>
+      <de.hh.up:preise>1. Std. Frei |Je weitere Std. 1,00 EUR |Tag (24 Std.) 3,50 EUR
+
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 00:00 - 24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>2000</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>5</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10070_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10070_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>568080.937 5936381.337</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10071">
+      <de.hh.up:name>Hamburger Meile</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Adolph-Schönfelder-Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>5</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Mo.-So. 06:00 - 20:00 Uhr| 1. Std. Frei| je weitere Std. 1,00 EUR| Tag (24 Std.) 8,00 EUR
+Abendtarif: Mo.-So. 20:00 - 06:00 Uhr|Je angef. Std. 1,00 EUR |Höchstsatz 3,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa- 07:00-22.00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>50</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>6</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10071_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10071_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>568455.867 5936763.958</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10072">
+      <de.hh.up:name>Marie-Jonas-Platz</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Kümmellstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>4</de.hh.up:hausnr>
+      <de.hh.up:preise>je 30min 1,50 EUR|Tageshöchstsatz 20,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>275</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>9</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10072_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10072_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565205.591 5938399.476</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10073">
+      <de.hh.up:name>Mundsburg Center</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Humboldtstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>3-11</de.hh.up:hausnr>
+      <de.hh.up:preise>1,00 EUR/h|Tagesmax: 3,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>298</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>20</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>10</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10073_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10073_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>568080.773 5936381.518</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10074">
+      <de.hh.up:name>Uniklinik Eppendorf</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Martinistraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>52</de.hh.up:hausnr>
+      <de.hh.up:preise>Tagtarif (6:00 - 19:00 Uhr): die ersten 30 Minuten 0,50 EUR|bis 60 Minuten 2,50 EUR |jede weitere angefangene Stunde 2,50 EUR |Maximum Tagtarif: 18,00 EUR
+Nachttarif (19.00 - 06.00 Uhr):die ersten 30 Minuten 0,50 EUR|bis 60 Minuten 2,50 EUR |jede weitere angefangene Stunde.: 1,50 EUR |Nachtmaximum: 7,00 EUR Parkdauer|24 Stunden: max. 24,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>915</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>16</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.05</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10074_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10074_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564474.220 5938376.744</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10075">
+      <de.hh.up:name>Winterhuder Markt</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Winterhuder Markt</de.hh.up:strasse>
+      <de.hh.up:hausnr>6-7a</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Je angef. Std. 1,50 EUR |Tag (24 Std.) 4,50 EUR
+Sondertarif (P-Card): Je angef. Std. 1,30 EUR |Tag (24 Std.) 3,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 07:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>230</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10075_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10075_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566212.850 5938822.525</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10076">
+      <de.hh.up:name>Alstertal Einkaufszentrum (AEZ) Ost</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>POLLUX Grundstücksgesellschaft m.b.H. &amp; Co. Verwaltungs-KG</de.hh.up:betreiber>
+      <de.hh.up:strasse>Kritenbarg</de.hh.up:strasse>
+      <de.hh.up:hausnr>4</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Heegbarg, Saseler Damm</de.hh.up:einfahrt>
+      <de.hh.up:preise>1. Stunde kostenlos|jede weitere Std. 1,50 EUR|Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich  24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1105</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>9</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>19</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>735</de.hh.up:frei>
+      <de.hh.up:gesamt>1105</de.hh.up:gesamt>
+      <de.hh.up:auslastung>33</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10076_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10076_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>572222.801 5945742.402</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10077">
+      <de.hh.up:name>EKZ Tonndorf</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>?</de.hh.up:betreiber>
+      <de.hh.up:strasse>Tonndorfer Hauptstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>67</de.hh.up:hausnr>
+      <de.hh.up:preise>k. A.</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>k. A.</de.hh.up:oeffnungszeit>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10077_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10077_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>574603.627 5938171.832</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10078">
+      <de.hh.up:name>Friedrich-Ebert-Damm</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Friedrich-Ebert-Damm</de.hh.up:strasse>
+      <de.hh.up:hausnr>112</de.hh.up:hausnr>
+      <de.hh.up:preise>1,50 EUR/h|Tageshöchstsatz 9,00 EUR|Kundentarif (Media-Markt)|Dauerstellplätze</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 08:30-20:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>257</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10078_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10078_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>572302.384 5938062.787</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10079">
+      <de.hh.up:name>Heegbarg</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Heegbarg</de.hh.up:strasse>
+      <de.hh.up:hausnr>2-8</de.hh.up:hausnr>
+      <de.hh.up:preise>1. Stunde 1,00 EUR|2. Stunde 1,00 EUR|3. Stunde 1,00 EUR|jede weitere Std. 1,60 EUR|Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-So. 06:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>600</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10079_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10079_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>572278.133 5945500.156</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10080">
+      <de.hh.up:name>Karstadt Wandsbek Parkhaus 1</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.vincipark.de</de.hh.up:link>
+      <de.hh.up:strasse>Quarree</de.hh.up:strasse>
+      <de.hh.up:hausnr>8-10</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 0,60 EUR |zweite 30 Min. 0,60 EUR |Je weitere Std. 1,20 EUR |Tag (24 Std.) 4,50 EUR
+Sondertarif (P-Card): 1. Std. 0,50 EUR |Je weitere Std. 1,00 EUR |Tag (24 Std.) 2,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-Do 06:00-24:00 Fr-Sa 06:00-02:00 So-Feier. 06:00-24:00</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>350</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>13</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10080_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10080_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>570560.170 5936498.236</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10081">
+      <de.hh.up:name>Rahlstedt</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:link>http://www.sprinkenhof.de</de.hh.up:link>
+      <de.hh.up:strasse>Mecklenburger Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>5</de.hh.up:hausnr>
+      <de.hh.up:preise>1,00 EUR/30min |Tageshöchstsatz 10,00 EUR|Nachttarif 1,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>445</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>9</de.hh.up:frauenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10081_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10081_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>576523.389 5940055.470</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10082">
+      <de.hh.up:name>Smart City</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Friedrich-Ebert-Damm</de.hh.up:strasse>
+      <de.hh.up:hausnr>126</de.hh.up:hausnr>
+      <de.hh.up:preise>0,70 EUR/h|Tageshöchstsatz 4,00 EUR|Kinotarif|Dauerstellplätze</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 18:00-06:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>452</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10082_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10082_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>572630.168 5938285.521</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10083">
+      <de.hh.up:name>CCB Einkaufzentrum</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>DI Technik GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.citycenter-bergedorf.de</de.hh.up:link>
+      <de.hh.up:strasse>Bergedorfer Str.</de.hh.up:strasse>
+      <de.hh.up:hausnr>105</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Weidenbaumsweg</de.hh.up:einfahrt>
+      <de.hh.up:preise>Erste halbe Stunde  0,40 EUR|1. Stunde 1,00 EUR|jede weitere Stunden +1,50 EUR|Tageshöchstsatz 7,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>7.00-0:30h (Mo.-Sa.) Sonn- und Feiertage geschlossen</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>670</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>16</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>453</de.hh.up:frei>
+      <de.hh.up:gesamt>670</de.hh.up:gesamt>
+      <de.hh.up:auslastung>32</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10083_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10083_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580096.399 5927306.289</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10084">
+      <de.hh.up:name>CCB Fachmarktzentrum</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>DI Technik GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.citycenter-bergedorf.de</de.hh.up:link>
+      <de.hh.up:strasse>Bergedorfer Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>106</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Stuhlrohrstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>Erste halbe Stunde  0,40 EUR|1. Stunde 1,00 EUR|jede weitere Stunden +1,50 EUR|Tageshöchstsatz 7,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>7.00-0:30h (Mo.-Sa.) Sonn- und Feiertage geschlossen</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>590</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>16</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>14</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.7</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>465</de.hh.up:frei>
+      <de.hh.up:gesamt>590</de.hh.up:gesamt>
+      <de.hh.up:auslastung>21</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10084_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10084_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580021.818 5927143.070</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10085">
+      <de.hh.up:name>Marktkauf-Center Bergedorf</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>EDEKA Nord SB-Warenhaus GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.marktkaufcenter-bergedorf.de</de.hh.up:link>
+      <de.hh.up:strasse>Alte Holstenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>30-32</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Hein-Möller-Weg</de.hh.up:einfahrt>
+      <de.hh.up:preise>Für Kunden 2 Stunden gratis (bei einem Einkaufswert von 5 EUR)
+Reguläres Parkentgelt: 2 Std. 5,00 EUR |3 Std. 6,00 EUR |4 Std. 7,00 EUR |jede weiter Std. 1,50 EUR |Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:45-22:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>100</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>10</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>26</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>0</de.hh.up:frei>
+      <de.hh.up:gesamt>100</de.hh.up:gesamt>
+      <de.hh.up:auslastung>100</de.hh.up:auslastung>
+      <de.hh.up:status>Störung</de.hh.up:status>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10085_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10085_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580008.559 5927662.043</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10087">
+      <de.hh.up:name>H4 Hotel</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>H4 Hotel Hamburg Bergedorf</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.ramada.de</de.hh.up:link>
+      <de.hh.up:strasse>Holzhude</de.hh.up:strasse>
+      <de.hh.up:hausnr>2</de.hh.up:hausnr>
+      <de.hh.up:preise>2,50 EUR/h|Tageshöchstsatz 12,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>150</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10087_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10087_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580242.062 5927096.614</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10088">
+      <de.hh.up:name>Sachsentor</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Hotel Sachsentor GbR</de.hh.up:betreiber>
+      <de.hh.up:strasse>Bergedorfer Schloßstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>10</de.hh.up:hausnr>
+      <de.hh.up:preise>1,00 EUR pro Stunde</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>250</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>81</de.hh.up:frei>
+      <de.hh.up:gesamt>250</de.hh.up:gesamt>
+      <de.hh.up:auslastung>68</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10088_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10088_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580568.167 5927255.326</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10089">
+      <de.hh.up:name>Sander Markt</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:strasse>Sander Markt</de.hh.up:strasse>
+      <de.hh.up:preise>keine Gebühren</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>220</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10089_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10089_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580140.208 5927957.480</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10090">
+      <de.hh.up:name>Frascatiplatz</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:strasse>Frascatiplatz</de.hh.up:strasse>
+      <de.hh.up:preise>keine Gebühren</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>450</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10090_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10090_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580393.900 5926753.096</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10091">
+      <de.hh.up:name>Lohbrügger Marktplatz</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:strasse>Lohbrügger Markt</de.hh.up:strasse>
+      <de.hh.up:preise>keine Gebühren</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>taglich 24 Stunden|An Markttagen (Mi.+Sa. 06:00-15:00 Uhr) gesperrt</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>180</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10091_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10091_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>580095.257 5928151.910</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10092">
+      <de.hh.up:name>City Galerie</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>City Galerie</de.hh.up:betreiber>
+      <de.hh.up:strasse>Harburger Ring</de.hh.up:strasse>
+      <de.hh.up:hausnr>17</de.hh.up:hausnr>
+      <de.hh.up:preise>1 Stunde 1,25 EUR|2 Stunden 1,75 EUR|3 Stunden 2,25 EUR|4 Stunden 2,75 EUR|5 Stunden 3,25 EUR|6 Stunden 4,00 EUR|jede weitere halbe Stunde 0,50 EUR|Tageshöchstsatz 7,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Fr. 08:00-20:00 Uhr|Sa. 08:00-18:30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>68</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>15</de.hh.up:frei>
+      <de.hh.up:gesamt>68</de.hh.up:gesamt>
+      <de.hh.up:auslastung>78</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10092_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10092_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565280.390 5923855.885</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10093">
+      <de.hh.up:name>Harburg Arcaden</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Lüneburger Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>39</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Harburger Ring 25</de.hh.up:einfahrt>
+      <de.hh.up:preise>1,50 EUR/h|Tageshöchstsatz 10,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00 bis 20:30 Uhr / So. geschlossen</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>150</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>12</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>12</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>150</de.hh.up:frei>
+      <de.hh.up:gesamt>150</de.hh.up:gesamt>
+      <de.hh.up:auslastung>0</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10093_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10093_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565134.917 5923945.608</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10094">
+      <de.hh.up:name>Harburg Carree</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Royal Parking</de.hh.up:betreiber>
+      <de.hh.up:strasse>Wilstorfer Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>48</de.hh.up:hausnr>
+      <de.hh.up:preise>1. halbe Stunde: kostenlos|2. halbe Stunde: 0,50 EUR|2. Stunde: 1,00 EUR|3. Stunde und jede weitere angefangene Stunde: 1,50 EUR|Tageshöchstsatz: 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-Do:06.00-01.00 Uhr|Fr:06.00-03.00 Uhr|Sa:07.30-03.00 Uhr|So:09.30-01.00 Uhr|Feiertag:09.30-01.00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>900</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>18</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.95</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>861</de.hh.up:frei>
+      <de.hh.up:gesamt>900</de.hh.up:gesamt>
+      <de.hh.up:auslastung>4</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10094_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10094_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565352.114 5923493.270</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10095">
+      <de.hh.up:name>Harburg Center</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:strasse>Schüttstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>zurzeit außer Betrieb</de.hh.up:preise>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10095_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10095_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565406.413 5923738.917</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10096">
+      <de.hh.up:name>Buxtehuder Straße/Karstadt</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.karstadt.de</de.hh.up:link>
+      <de.hh.up:strasse>Küchgarten</de.hh.up:strasse>
+      <de.hh.up:hausnr>21</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Je angef. Std. 1,00 EUR |Tag (24 Std.) 5,00 EUR
+Sondertarif (P-Card): Je angef. Std. 0,70 EUR |Tag (24 Std.) 2,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa 07.00-20:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>373</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>10</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>330</de.hh.up:frei>
+      <de.hh.up:gesamt>373</de.hh.up:gesamt>
+      <de.hh.up:auslastung>12</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10096_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10096_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565349.765 5924157.652</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10097">
+      <de.hh.up:name>Krummholzberg</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Krummholzberg</de.hh.up:strasse>
+      <de.hh.up:hausnr>10</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Je angef. Std. 1,00 EUR |Tag (24 Std.) 5,00 EUR
+Sondertarif (P-Card): Je angef. Std. 0,70 EUR |Tag (24 Std.) 2,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa 07.00-20:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>149</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>106</de.hh.up:frei>
+      <de.hh.up:gesamt>149</de.hh.up:gesamt>
+      <de.hh.up:auslastung>29</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10097_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10097_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565235.478 5923633.848</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10098">
+      <de.hh.up:name>Marktkauf-Center Harburg</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>EDEKA Nord SB-Warenhaus GmbH</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.marktkaufcenter-harburg.de</de.hh.up:link>
+      <de.hh.up:strasse>Seeveplatz</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Goldschmidstraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>Für Kunden 2 Stunden gratis (bei einem Einkaufswert von 5 EUR)|jede weitere Stunde  EUR 1,50|für Parker jede angefangene Stunde  EUR 1,50 /Stunde</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.- Sa. 08.00 - 20.30 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>0</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>12</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>420</de.hh.up:frei>
+      <de.hh.up:gesamt>0</de.hh.up:gesamt>
+      <de.hh.up:auslastung>100</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>besetzt</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10098_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10098_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565457.344 5923814.142</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10099">
+      <de.hh.up:name>Phoenix Center</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>POLLUX Grundstücksgesellschaft m.b.H. &amp; Co. Verwaltungs-KG </de.hh.up:betreiber>
+      <de.hh.up:strasse>Hannoversche Straße</de.hh.up:strasse>
+      <de.hh.up:hausnr>86</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>a) Hannoversche Straße|b) Wilstorfer Straße</de.hh.up:einfahrt>
+      <de.hh.up:preise>1. Stunde 0,50 EUR|2. Stunde 1,00 EUR|jede weitere Std. 1,50 EUR|Tageshöchstsatz 13,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:30-20:30 Uhr (Wilstorfer Straße ab 5 Uhr)</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1400</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>1145</de.hh.up:frei>
+      <de.hh.up:gesamt>1400</de.hh.up:gesamt>
+      <de.hh.up:auslastung>18</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10099_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10099_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565561.562 5923385.575</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10100">
+      <de.hh.up:name>Veritaskai</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Cologne Parkhaus-Service GmbH</de.hh.up:betreiber>
+      <de.hh.up:strasse>Veritaskai</de.hh.up:strasse>
+      <de.hh.up:hausnr>2a</de.hh.up:hausnr>
+      <de.hh.up:preise>1.Stunde, je angefangene 20 Minuten 0,50 EUR|Jede weitere Stunde 1,50 EUR|Tageshöchstsatz 13,00 EUR|Verlorenes Ticket 18,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>350</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>20</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10100_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10100_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565565.488 5924528.953</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10102">
+      <de.hh.up:name>Parkplatz Cruise Center</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Sprinkenhof  </de.hh.up:betreiber>
+      <de.hh.up:strasse>Van-der-Smissen-Strasse</de.hh.up:strasse>
+      <de.hh.up:hausnr>5</de.hh.up:hausnr>
+      <de.hh.up:preise>1,00 EUR/30min |Tageshöchstsatz 10,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden|Höchstparkdauer 12 Std.|bei Schiffsanlegung geschlossen</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>312</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10102_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10102_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>562156.474 5933186.142</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10103">
+      <de.hh.up:name>Marktplatz-Galerie Bramfeld</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:strasse>Bramfelder Chaussee</de.hh.up:strasse>
+      <de.hh.up:hausnr>230</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Ein- und Ausfahrt über Herthastraße</de.hh.up:einfahrt>
+      <de.hh.up:preise>bis 2 Std 1,00 EUR|bis 4 Std 2,00 EUR|Tageshöchstsatz 4,00 EUR|Nachttarif pauschal 2,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.-Sa. 07:00-23:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>438</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>4</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10103_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10103_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>571193.019 5940885.092</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10104">
+      <de.hh.up:name>Langenhorner Chaussee 365</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Park Easy &amp; Fly Easy   017648841847</de.hh.up:betreiber>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10105">
+      <de.hh.up:name>Rindermarkthalle</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:strasse>Neuer Kamp</de.hh.up:strasse>
+      <de.hh.up:hausnr>31</de.hh.up:hausnr>
+      <de.hh.up:preise>je Std 2,50 EUR |Tageshöchstsatz 50,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>400</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>12</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10105_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10105_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564111.645 5934645.697</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10106">
+      <de.hh.up:name>Ottensen</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Britta Steffens</de.hh.up:betreiber>
+      <de.hh.up:strasse>Piependreiherweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>2</de.hh.up:hausnr>
+      <de.hh.up:preise>0,80 EUR / Stunde|max. 6,00 EUR / Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo.- Fr. 8.00 - 20.00 Uhr, Sa. 10.00 - 18.00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>35</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>35</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>0</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.02</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10106_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10106_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>561501.516 5934213.841</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10107">
+      <de.hh.up:name>Falkenried</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Lehmweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>7</de.hh.up:hausnr>
+      <de.hh.up:preise>1. Std. 2,50 EUR|je weitere angef. Std. 2,50 EUR|Tagesentgelt 16,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 06:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>162</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>7</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10107_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10107_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564646.391 5937163.015</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10108">
+      <de.hh.up:name>Elbarkaden</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Honkongstr.</de.hh.up:strasse>
+      <de.hh.up:hausnr>6-10 A</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 1,00 EUR |zweite 30 Min. 1,50 EUR |Je weitere Std. 2,00 EUR |Tag (24 Std.) 12,00 EUR
+Sondertarif (P-Card): erste 30 Min. 0,50 EUR |zweite 30 Min. 0,50 EUR |Je weitere Std. 1,00 EUR |Tag (24 Std.) 9,00 EUR
+Sondertarif Kreuzfahrer: ab 5 Tage 9,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>175</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>5</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>115</de.hh.up:frei>
+      <de.hh.up:gesamt>175</de.hh.up:gesamt>
+      <de.hh.up:auslastung>34</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10108_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10108_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566351.711 5933086.657</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10109">
+      <de.hh.up:name>W 1</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Brauhausstieg</de.hh.up:strasse>
+      <de.hh.up:hausnr>1</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 0,60 EUR |zweite 30 Min. 0,60 EUR |Je weitere Std. 1,20 EUR |Tag (24 Std.) 4,50 EUR
+Sondertarif (P-Card): 1. Std. 0,50 EUR |Je weitere Std. 1,00 EUR |Tag (24 Std.) 2,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-Sa 07:00-22:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>316</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>14</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10109_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10109_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>570221.317 5936367.804</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10110">
+      <de.hh.up:name>Karstadt Wandsbek Parkhaus 2</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Quarree</de.hh.up:strasse>
+      <de.hh.up:hausnr>8-10</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 0,60 EUR |zweite 30 Min. 0,60 EUR |Je weitere Std. 1,20 EUR |Tag (24 Std.) 4,50 EUR
+Sondertarif (P-Card): 1. Std. 0,50 EUR |Je weitere Std. 1,00 EUR |Tag (24 Std.) 2,50 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-Sa 06:00-21:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>571</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>20</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10110_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10110_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>570666.101 5936619.598</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10111">
+      <de.hh.up:name>Tanzende Türme</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.contipark.de/de-DE/find-parking/hamburg-tiefgarage-tanzende-tuerme/</de.hh.up:link>
+      <de.hh.up:strasse>Zirkusweg</de.hh.up:strasse>
+      <de.hh.up:hausnr>20</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: Je angef. Std. 4,00 EUR |Tag (24 Std.) 22,00 EUR  
+Sondertarif (P-Card): Je angef. Std. 3,00 EUR |Tag (24 Std.) 10,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>310</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>16</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10111_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10111_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>564141.647 5933834.997</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10112">
+      <de.hh.up:name>Hansa- Theater</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Bremer Reihe</de.hh.up:strasse>
+      <de.hh.up:hausnr>16-18</de.hh.up:hausnr>
+      <de.hh.up:preise>Je angefangene Std. 2,00 EUR|Tag (24 Std.) 10,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>51</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10112_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10112_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566950.179 5934356.264</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10113">
+      <de.hh.up:name>Harburg Bahnhof</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Hannoversche Str.</de.hh.up:strasse>
+      <de.hh.up:preise>ersten 30 Min. 1,10 EUR |je angef. Std. 2,20 EUR |Tag (24 Std.) 8,00 EUR  </de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>53</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10113_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10113_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565771.398 5923403.977</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10114">
+      <de.hh.up:name>Rahlstedt</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Boizenburger Weg</de.hh.up:strasse>
+      <de.hh.up:preise>Tagestarif 6:00 - 19:00 Uhr je angefangene Std. 0,80 EUR|Tageshöchstsatz 6,00 EUR
+Nachttarif 19:00 - 6:00 Uhr je weitere Std. 0,80 EUR|Nachthöchstsatz 2,00 EUR
+24 Stunden 00:00 - 24:00 Uhr Tagesentgelt 8,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>65</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>2</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10114_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10114_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>576546.751 5940128.441</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10115">
+      <de.hh.up:name>Hühnerposten</de.hh.up:name>
+      <de.hh.up:art>Parkplatz</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Hühnerposten</de.hh.up:strasse>
+      <de.hh.up:hausnr>1-2</de.hh.up:hausnr>
+      <de.hh.up:preise>je Std. 2,20 EUR|Tag 15,00 EUR
+</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>Mo-So 00:00-24:00 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>16</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10115_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10115_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566825.898 5933874.362</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10116">
+      <de.hh.up:name>Alstertal Einkaufszentrum (AEZ) Mitte</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>POLLUX Grundstücksgesellschaft m.b.H. &amp; Co. Verwaltungs-KG</de.hh.up:betreiber>
+      <de.hh.up:strasse>Kritenbarg</de.hh.up:strasse>
+      <de.hh.up:hausnr>4</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Kritenbarg, Heegbarg,</de.hh.up:einfahrt>
+      <de.hh.up:preise>1. Stunde kostenlos|jede weitere Std. 1,50 EUR|Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 08-21 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>973</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>24</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>33</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>792</de.hh.up:frei>
+      <de.hh.up:gesamt>973</de.hh.up:gesamt>
+      <de.hh.up:auslastung>19</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10116_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10116_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>572184.883 5945524.035</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10117">
+      <de.hh.up:name>Alstertal Einkaufszentrum (AEZ) West</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>POLLUX Grundstücksgesellschaft m.b.H. &amp; Co. Verwaltungs-KG</de.hh.up:betreiber>
+      <de.hh.up:strasse>Kritenbarg</de.hh.up:strasse>
+      <de.hh.up:hausnr>4</de.hh.up:hausnr>
+      <de.hh.up:einfahrt>Kritenbarg, Heegbarg,</de.hh.up:einfahrt>
+      <de.hh.up:preise>1. Stunde kostenlos|jede weitere Std. 1,50 EUR|Tageshöchstsatz 15,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>666</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>0</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>24</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>335</de.hh.up:frei>
+      <de.hh.up:gesamt>666</de.hh.up:gesamt>
+      <de.hh.up:auslastung>50</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10117_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10117_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>571954.397 5945446.855</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10118">
+      <de.hh.up:name>Alter Wall / BUCERIUS-Passage</de.hh.up:name>
+      <de.hh.up:art>Tiefgarage</de.hh.up:art>
+      <de.hh.up:betreiber>APCOA PARKING Deutschland GmbH, Zentale</de.hh.up:betreiber>
+      <de.hh.up:link>http://www.apcoa.de</de.hh.up:link>
+      <de.hh.up:strasse>Alter Wall</de.hh.up:strasse>
+      <de.hh.up:hausnr>20-22</de.hh.up:hausnr>
+      <de.hh.up:preise>ab 3,90 EUR pro Stunde|bis maximal 32,00 EUR pro Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>210</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:behindertenst>8</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>2.1</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>34</de.hh.up:frei>
+      <de.hh.up:gesamt>210</de.hh.up:gesamt>
+      <de.hh.up:auslastung>84</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:24</de.hh.up:received>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10118_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10118_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>565643.501 5933975.149</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10119">
+      <de.hh.up:name>Courtyard by Marriott Hamburg Airport</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>KG Airport Hotel Hamburg GmbH &amp; Co.</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>47</de.hh.up:hausnr>
+      <de.hh.up:preise>2,50 EUR pro Stunde|  Tageshöchstsatz 14,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 24 Stunden</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>234</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10119_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10119_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566927.463 5943926.470</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10120">
+      <de.hh.up:name>Parkhaus P1, Ebene 0</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1 bis 3</de.hh.up:hausnr>
+      <de.hh.up:preise>6 EUR pro Stunde|27 EUR Tageshöchstsatz|89 EUR Wochenpauschale|5 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>400</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>3.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10120_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10120_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566594.852 5943493.893</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10121">
+      <de.hh.up:name>Parkhaus P1, Ebene 1-5</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1 bis 3</de.hh.up:hausnr>
+      <de.hh.up:preise>6 EUR pro Stunde|25 EUR Tageshöchstsatz|89 EUR Wochenpauschale|5 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>2400</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10121_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10121_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566594.852 5943493.893</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10122">
+      <de.hh.up:name>Parkhaus P2</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1 bis 3</de.hh.up:hausnr>
+      <de.hh.up:preise>6 EUR pro Stunde|28 EUR Tageshöchstsatz|100 EUR Wochenpauschale|5 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>2100</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10122_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10122_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566610.299 5943271.682</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10123">
+      <de.hh.up:name>Parkhaus P4, Ebene 0</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1 bis 3</de.hh.up:hausnr>
+      <de.hh.up:preise>7 EUR pro Stunde|32 EUR Tageshöchstsatz|160 EUR Wochenpauschale|10 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>1200</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10123_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10123_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566629.306 5943068.993</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10124">
+      <de.hh.up:name>Parkhaus P4, Ebene 1 + 2</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1 bis 3</de.hh.up:hausnr>
+      <de.hh.up:preise>6 EUR pro Stunde|29 EUR Tageshöchstsatz|160 EUR Wochenpauschale|10 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>2400</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10124_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10124_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566629.306 5943068.993</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10125">
+      <de.hh.up:name>Parkhaus P5</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Flughafenstraße</de.hh.up:strasse>
+      <de.hh.up:hausnr>1 bis 3</de.hh.up:hausnr>
+      <de.hh.up:preise>6 EUR pro Stunde|32 EUR Tageshöchstsatz|160 EUR Wochenpauschale|10 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>700</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10125_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10125_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566564.403 5942869.678</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10126">
+      <de.hh.up:name>Parkhaus P8-9</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>FHK
+Flughafen Hamburg Konsortial- und Service GmbH &amp; Co. oHG
+Flughafenstraße 1-3
+22335 Hamburg</de.hh.up:betreiber>
+      <de.hh.up:strasse>Weg beim Jäger</de.hh.up:strasse>
+      <de.hh.up:hausnr></de.hh.up:hausnr>
+      <de.hh.up:preise>6 EUR pro Stunde|22 EUR Tageshöchstsatz|70 EUR Wochenpauschale|5 EUR je weiterer Tag</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>2000</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>2.0</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:pur>nein</de.hh.up:pur>
+      <de.hh.up:punkt>multi</de.hh.up:punkt>
+      <de.hh.up:datenherkunft>BWVI_V</de.hh.up:datenherkunft>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10126_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10126_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>566112.043 5941751.597</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10127">
+      <de.hh.up:name>Mercado (Einkaufszentrum)</de.hh.up:name>
+      <de.hh.up:art>Parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Contipark</de.hh.up:betreiber>
+      <de.hh.up:strasse>Hahnenkamp</de.hh.up:strasse>
+      <de.hh.up:hausnr>3</de.hh.up:hausnr>
+      <de.hh.up:preise>Reguläres Parkentgelt: erste 30 Min. 0,50 EUR |zweite 30 Min. 0,50 EUR |Je weitere Std. 1,20 EUR |Tag (24 Std.) 8,00 EUR  
+Sondertarif (P-Card): je angefangene Std. 0,50 EUR |Tag (24 Std.) 5,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>332</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:frauenst>6</de.hh.up:frauenst>
+      <de.hh.up:behindertenst>25</de.hh.up:behindertenst>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:frei>74</de.hh.up:frei>
+      <de.hh.up:gesamt>332</de.hh.up:gesamt>
+      <de.hh.up:auslastung>78</de.hh.up:auslastung>
+      <de.hh.up:status>frei</de.hh.up:status>
+      <de.hh.up:situation>frei</de.hh.up:situation>
+      <de.hh.up:received>16.10.2026, 10:25</de.hh.up:received>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10127_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10127_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>561828.062 5934220.806</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+  <wfs:member>
+    <de.hh.up:parkhaeuser xmlns:de.hh.up="https://registry.gdi-de.org/id/de.hh.up" gml:id="DE.HH.UP_PARKHAEUSER_10140">
+      <de.hh.up:name>StadtKontor Parking</de.hh.up:name>
+      <de.hh.up:art>parkhaus</de.hh.up:art>
+      <de.hh.up:betreiber>Alphaparking</de.hh.up:betreiber>
+      <de.hh.up:strasse>Norderstraße</de.hh.up:strasse>
+      <de.hh.up:einfahrt>über Norderstraße 101</de.hh.up:einfahrt>
+      <de.hh.up:preise>1,00 EUR je Stunde, Tageshöchstsatz 12,00 EUR</de.hh.up:preise>
+      <de.hh.up:oeffnungszeit>täglich 00 - 24 Uhr</de.hh.up:oeffnungszeit>
+      <de.hh.up:stellplaetze_gesamt>450</de.hh.up:stellplaetze_gesamt>
+      <de.hh.up:einfahrtshoehe_in_meter>1.9</de.hh.up:einfahrtshoehe_in_meter>
+      <de.hh.up:situation>keine Auslastungsdaten</de.hh.up:situation>
+      <de.hh.up:position>
+        <!--Inlined geometry 'DE.HH.UP_PARKHAEUSER_10140_DE.HH.UP_POSITION'-->
+        <gml:Point gml:id="DE.HH.UP_PARKHAEUSER_10140_DE.HH.UP_POSITION" srsName="EPSG:25832">
+          <gml:pos>567195.429 5933937.170</gml:pos>
+        </gml:Point>
+      </de.hh.up:position>
+    </de.hh.up:parkhaeuser>
+  </wfs:member>
+</wfs:FeatureCollection>
