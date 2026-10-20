@@ -44,13 +44,42 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
         raise ValueError("Custom-path repair must not replace its source.")
     initial_hash = file_sha256(candidate_file)
     nodes = set(plan["mutable_junction_ids"])
+    source_root = ET.parse(plan["source"]["path"]).getroot()
+    source_lanes = {lane.get("id"): lane for edge in source_root.findall("edge")
+                    if not edge.get("function") for lane in edge.findall("lane")}
+    count_edit = plan["operation"]["operation"] == "set_lane_count"
+    if count_edit:
+        from ..network_geometry_freeze import _lane_count_mutable_geometry_edges
+        geometry_edges = _lane_count_mutable_geometry_edges(source_root, plan["operation"]["params"]["edge_id"],
+                                                          nodes, set(plan["mutable_edge_ids"]))
+
+    def endpoint_view(root):
+        if not count_edit:
+            return root
+        # Use retained road endpoints, rather than temporary native clipping.
+        result = deepcopy(root)
+        for edge in result.findall("edge"):
+            if edge.get("function") or edge.get("id") in geometry_edges:
+                continue
+            for lane in edge.findall("lane"):
+                original = source_lanes.get(lane.get("id"))
+                if original is None:
+                    continue
+                lane.set("shape", original.get("shape"))
+                for key in ("width", "endOffset"):
+                    if key in original.attrib:
+                        lane.set(key, original.get(key))
+                    else:
+                        lane.attrib.pop(key, None)
+        return result
+
     command = list(plan["command"])
     existing = plan["patches"].get("connections")
     patch = ET.parse(existing["path"]).getroot() if existing else ET.Element("connections")
     attempts = []
     remaining = None
     for iteration in range(3):
-        root = ET.parse(candidate_file).getroot()
+        root = endpoint_view(ET.parse(candidate_file).getroot())
         gaps = _gap_movements(root, nodes)
         remaining = gaps
         if not gaps:
@@ -136,9 +165,11 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
             break
         remaining = None
     if remaining is None:
-        remaining = _gap_movements(ET.parse(candidate_file).getroot(), nodes)
+        remaining = _gap_movements(endpoint_view(ET.parse(candidate_file).getroot()), nodes)
     return {"attempts": attempts, "initial_output_sha256": initial_hash, "remaining_endpoint_gap_count": len(remaining),
             "remaining_endpoint_gaps": remaining,
+            "endpoint_geometry_reference": "source_geometry_after_restoration" if count_edit else "native_output",
+            "native_endpoint_gaps_before_restoration": _gap_movements(ET.parse(candidate_file).getroot(), nodes) if count_edit else [],
             "claim_boundary": "Custom curves follow the edited road endpoints. Native conversion owns the resulting paths and junction requests. No field-accuracy claim."}
 
 

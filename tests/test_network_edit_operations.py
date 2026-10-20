@@ -193,12 +193,13 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
-def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path):
+@pytest.mark.parametrize("metadata_file", ["lane-count-input.json", "lane-count-short-context-input.json"])
+def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path, metadata_file):
     from astra_sumo.core.command_runner import run_command
     from astra_sumo.core.local_network_conversion import validate_local_conversion
     from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
     fixture = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
-    metadata = json.loads((fixture / "lane-count-input.json").read_text(encoding="utf-8"))
+    metadata = json.loads((fixture / metadata_file).read_text(encoding="utf-8"))
     assert file_sha256(fixture / metadata["file"]) == metadata["compressed_sha256"]
     assert file_sha256(fixture / metadata["operation_file"]) == metadata["operation_sha256"]
     source = tmp_path / "source.net.xml"
@@ -223,8 +224,18 @@ def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path):
     neighboring = report["neighboring_road_geometry"]
     assert neighboring["source_geometry_preserved"], neighboring
     assert neighboring["ordinary_lane_attribute_changes"] == {"shape": 0, "length": 0, "width": 0}
-    assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
-    assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]
+    assert report["structural_failure_count"] == 0
+    assert not report["driving_integrity"]["endpoint_gap_movements"]
+    if "unfrozen_baseline" in metadata:
+        assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
+        assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]
+    if metadata.get("pre_repair_endpoint_gap_count"):
+        repair = report["native_path_repair"]
+        assert repair["attempts"] and repair["remaining_endpoint_gap_count"] == 0
+        assert repair["endpoint_geometry_reference"] == "source_geometry_after_restoration"
+        assert len(repair["native_endpoint_gaps_before_restoration"]) == metadata["pre_repair_endpoint_gap_count"]
+        from astra_sumo.core.junction_rebuild.native_path_repair import validate_native_path_repair_chain
+        validate_native_path_repair_chain(plan["command"], repair, report["local_conversion"]["native_output"])
     assert report["source_immutable"] and source.read_bytes() == original
     from pyproj import Transformer
     from astra_sumo.core.digital_twin import parse_mapem

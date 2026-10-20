@@ -51,6 +51,9 @@ Automatic junctions that serve pedestrians can still rebuild their walking areas
 Their neighboring geometry changes remain measured separately. The conversion scope does not imply that every neighboring road may move.
 The new hints record `junction_contour_policy=preserve_motor`.
 The evidence reader also reconstructs legacy count inputs that allowed all automatic contours.
+Lane-count curve repair uses the road endpoints that will remain after exterior restoration.
+Its record keeps temporary native endpoint gaps and each native recompilation.
+The final driving check also tests endpoint continuity after restoration. A complete graph path alone does not establish geometric continuity.
 
 Junction shape edits use native reconstruction. Final automatic qualification
 compares that reconstruction with a source-contour identity control. See

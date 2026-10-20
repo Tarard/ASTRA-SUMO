@@ -861,10 +861,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     before = ET.parse(source).getroot()
     geometry_edges = {params["edge_id"]} if kind == "set_lane_count" else set() if kind in _CONNECTION_EDITS else mutable_edges
     if kind == "set_lane_count":
-        from .network_geometry_freeze import _lane_count_automatic_pedestrian_nodes
-        pedestrian_nodes = _lane_count_automatic_pedestrian_nodes(before) & mutable_nodes
-        geometry_edges |= {edge.get("id") for edge in before.findall("edge") if edge.get("id") in mutable_edges
-                           and pedestrian_nodes & {edge.get("from"), edge.get("to")}}
+        from .network_geometry_freeze import _lane_count_mutable_geometry_edges
+        geometry_edges = _lane_count_mutable_geometry_edges(before, params["edge_id"], mutable_nodes, mutable_edges)
     before_restore = compare_frozen_geometry(source_file=source, candidate_file=proposal,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids=geometry_edges)
     if plan["materialization_method"] != "netconvert":
@@ -1076,6 +1074,12 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                   "logical_lengths": {key: {"before_m": source_lengths[key], "after_m": float(attrs["length"])}
                                       for key, attrs in patches.items()}}
     integrity = driving_integrity(after)
+    endpoint_gaps = [row for junction in structure["junctions"] if junction["junction_id"] in mutable_nodes
+        for row in junction["connection_mode_audit"]["movement_checks"]
+        if any(value.startswith("path_endpoint_gap:") for value in row.get("failures", []))]
+    integrity["endpoint_gap_movements"] = endpoint_gaps
+    if endpoint_gaps:
+        integrity["status"] = "blocked"
     def lane_coordinates(root):
         return {lane.get("id"): (float(lane.get("length", "0")),
                 tuple(tuple(map(float, point.split(","))) for point in lane.get("shape", "").split()))

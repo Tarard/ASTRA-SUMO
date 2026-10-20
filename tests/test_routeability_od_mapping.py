@@ -130,7 +130,12 @@ def test_native_lane_correspondence_keeps_retained_and_removed_endpoint_requests
         assert records["dynamic"]["endpoints"][0]["removed_source_lane_ids"] == ["a_0"]
     if not remove:
         assert records["first"]["candidate"]["departLane"] == "1"
-        assert report["road_relative_request_count"] == 3
+        assert report["physical_request_count"] == 1
+        assert report["road_relative_request_count"] == 2
+        assert records["fixed"]["probe_mode"] == "physical_endpoints"
+        original_b = ET.parse(source).getroot().find("edge[@id='b']")
+        assert [_geometry(lane) for lane in original_b.findall("lane")] == [
+            _geometry(lane) for lane in root.find("edge[@id='b']").findall("lane")]
         attrs = ET.parse(trips).getroot()
         attrs.find("trip[@id='dynamic']").set("departPos", "10")
         _, uncertain = map_merged_od_requests(ET.parse(source).getroot(), root, attrs, source_lane_indices={"a": mapping})

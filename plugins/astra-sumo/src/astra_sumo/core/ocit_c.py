@@ -269,7 +269,7 @@ def build_vehicle_topology_inventory(
             mismatched = [
                 stream
                 for stream in observed_rows
-                if _normalize_motor_group(stream.signal_group) not in referenced_groups
+                if _normalize_group_label(stream.signal_group) not in referenced_groups
             ]
             if mismatched:
                 details = ", ".join(
@@ -320,7 +320,7 @@ def build_vehicle_topology_inventory(
                 topology_control_key=topology_control_key,
                 observed_stream_ids=tuple(stream.stream_id for stream in observed_rows),
                 observed_signal_groups=tuple(
-                    sorted({_normalize_motor_group(stream.signal_group) or "" for stream in observed_rows})
+                    sorted({_normalize_group_label(stream.signal_group) for stream in observed_rows})
                 ),
             )
         )
@@ -404,11 +404,12 @@ def parse_ocit_c(
     for element in _descendants(root, "Signalgruppe"):
         traffic_type = _text(_child(element, "Verkehrsart"))
         raw_group_id = _text(_child(element, "BezeichnungKurz"))
-        group_id = _normalize_motor_group(raw_group_id)
+        # The declared traffic class defines service. Names are identifiers.
+        group_id = _normalize_group_label(raw_group_id)
         outstation = _text(_child(element, "OCITOutstationNr"))
-        if outstation and (traffic_type.casefold() != "kfz" or group_id is None):
+        if outstation and (traffic_type.casefold() != "kfz" or not group_id):
             non_motor_vt.add(outstation)
-        if traffic_type.casefold() != "kfz" or group_id is None:
+        if traffic_type.casefold() != "kfz" or not group_id:
             continue
         signal_heads = {
             head
@@ -431,7 +432,7 @@ def parse_ocit_c(
             heads.update(signal_heads)
 
     for signal_head in _descendants(root, "Signalgeber"):
-        group_id = _normalize_motor_group(_text(_child(signal_head, "SgrBezeichnung")))
+        group_id = _normalize_group_label(_text(_child(signal_head, "SgrBezeichnung")))
         head_name = _text(_child(signal_head, "BezeichnungKurz"))
         if group_id not in groups or not head_name:
             continue
@@ -519,13 +520,16 @@ def validate_primary_signal_groups(
     for stream in streams:
         if stream.layer_name != "primary_signal":
             continue
+        node_key = _normalize_node(stream.node_id)
+        config = config_by_node.get(node_key)
         group_id = _normalize_motor_group(stream.signal_group)
         if group_id is None:
-            continue
+            declared = _normalize_group_label(stream.signal_group)
+            if config is None or declared not in config.motor_group_ids:
+                continue
+            group_id = declared
         primary_stream_count += 1
-        node_key = _normalize_node(stream.node_id)
         checked.add((node_key, group_id))
-        config = config_by_node.get(node_key)
         if config is None:
             missing.append(f"node {stream.node_id} has no OCIT-C configuration (stream {stream.stream_id})")
             continue

@@ -22,6 +22,12 @@ def _lane_count_automatic_pedestrian_nodes(root):
         and j.get("id") in pedestrian_nodes)
 
 
+def _lane_count_mutable_geometry_edges(root, edge_id, mutable_nodes, context_edges):
+    pedestrian_nodes = _lane_count_automatic_pedestrian_nodes(root) & set(mutable_nodes)
+    return {edge_id} | {edge.get("id") for edge in root.findall("edge") if edge.get("id") in context_edges
+                       and pedestrian_nodes & {edge.get("from"), edge.get("to")}}
+
+
 def prepare_geometry_frozen_input(*, source_file: Path, output_file: Path,
                                   mutable_edge_ids: frozenset[str] = frozenset(),
                                   mutable_junction_ids: frozenset[str] = frozenset()) -> dict:

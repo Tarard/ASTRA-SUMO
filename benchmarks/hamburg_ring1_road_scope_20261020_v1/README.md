@@ -97,6 +97,19 @@ The native regression verifies source preservation, source-derived geometry hint
 It checks that neighboring geometry changes decrease relative to the recorded conversion without hints.
 Remaining changes stay measured. This fixture does not establish field geometry, complete junction reconstruction, or count accuracy.
 
+`lane-count-short-context-input.net.xml.gz` retains the later real context with a 0.2 m inlet road.
+Its metadata and operation are in `lane-count-short-context-input.json` and `lane-count-short-context-operation.json`.
+Native import shifts that short lane before exterior restoration. Restoring the road without recompiling its connections left three entry gaps.
+The new regression requires native curves anchored to the retained road endpoints, zero final structural failures, and exact neighboring geometry.
+Temporary native gaps remain recorded before restoration. They do not replace the final endpoint-continuity check.
+The required Windows native inventory includes both lane-count contexts.
+The [repaired complete replay](public-replay-evidence-v5.json) retains the failed full case and verifies the repaired result with 92 passing movements and 13 loops.
+Its local passenger, bus, and bicycle checks preserve complete requested lane chains without collision or teleport.
+Native sensor-coordinate checks retain all thirteen declared fields, with maximum model-to-model displacement of 0.00236 m.
+
+The [OCIT group check](ocit-vehicle-group-evidence-v1.json) retains the declared Kfz group `R6` at 200 and its VT correspondence.
+Traffic class, rather than a K-prefixed name, determines this source classification. Current timing and road availability remain unverified.
+
 Data attribution: © OpenStreetMap contributors.
 Data license: [Open Database License 1.0](https://www.openstreetmap.org/copyright).
 ASTRA-generated files retain this source attribution. Code follows the repository license.

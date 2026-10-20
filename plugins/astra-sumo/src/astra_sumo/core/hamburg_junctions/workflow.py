@@ -187,6 +187,7 @@ def rebuild_hamburg_official_corridor(
                       Path(__file__).parents[1] / "network_edit_operations.py",
                       Path(__file__).parents[1] / "local_network_conversion.py",
                       Path(__file__).parents[1] / "network_geometry_freeze.py",
+                      Path(__file__).parents[1] / "junction_rebuild" / "native_path_repair.py",
                       Path(__file__).parents[1] / "hamburg_count_reachability.py"]
     report = {"schema": "astra.hamburg-official-corridor-replay/v1", "status": "running", "mode": "explore",
               "promotion_authority": False, "inputs": inputs, "stages": {}, "warnings": [], "load_warning_records": [],

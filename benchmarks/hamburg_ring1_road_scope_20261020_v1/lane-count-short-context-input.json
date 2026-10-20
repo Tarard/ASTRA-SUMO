@@ -1,0 +1,18 @@
+{
+  "schema": "astra.ring1-lane-count-regression-input/v2",
+  "file": "lane-count-short-context-input.net.xml.gz",
+  "compressed_sha256": "9434a7dc35262015954e8eaa571bd96a76332ee101694b2522894063434886f0",
+  "uncompressed_sha256": "2d498a14921d6049202731bfb14d75dbf069a07678bd772ae4822cb8d29f2775",
+  "operation_file": "lane-count-short-context-operation.json",
+  "operation_sha256": "4418d4c7ea2995300ff6ff6fef51d7714ba6dcc2b3a6c699b4fb43e5aa748d63",
+  "source_stage": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v5/lane-edit-0/edit.scoped-plan.json",
+    "sha256": "f4a08a953a01a334d40bd081f3c27c178ebba331cf2d876ae5d28299069621b5"
+  },
+  "source_input": {
+    "path": "C:/Users/huqio/Documents/ASTRA-SUMO/outputs/ring1-public-junction-demo-20261020-v5/lane-edit-0/edit.local-input.net.xml",
+    "sha256": "2d498a14921d6049202731bfb14d75dbf069a07678bd772ae4822cb8d29f2775"
+  },
+  "pre_repair_endpoint_gap_count": 3,
+  "claim_boundary": "Local context with a 0.2 m inlet lane. Native clipping and exterior restoration disconnected three entry paths before source-restored endpoint recompilation. No field accuracy or count-fit claim."
+}

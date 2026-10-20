@@ -1,0 +1,53 @@
+{
+  "schema": "astra.ring1-ocit-group-evidence/v1",
+  "status": "measured",
+  "promotion_authority": false,
+  "parser": {
+    "path": "plugins/astra-sumo/src/astra_sumo/core/ocit_c.py",
+    "sha256": "9633a6e6a4892f641719189723a7020f81665d7dd6189aa559f03212be35491d"
+  },
+  "source": {
+    "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/200-ocit_xml.xml.gz",
+    "sha256": "98e496293e9f452040b928ce108a71f7b27ed8ddec515df9e711bf40f5069e69"
+  },
+  "uncompressed_source_sha256": "ba3c4713f5a3f48a0e6c50c5d70caddb23a651fabb0eb2c0d7bc6d6758ac4d14",
+  "node_id": "200",
+  "source_group": {
+    "name": "R6",
+    "native_traffic_class": "Kfz",
+    "ocit_outstation_number": "9",
+    "signal_heads": [
+      "R6a",
+      "R6b"
+    ]
+  },
+  "source_movements": [
+    {
+      "ingress_lane_id": "1",
+      "egress_lane_id": "16",
+      "primary_groups": [],
+      "secondary_groups": [
+        "R6"
+      ],
+      "non_motor_only": false
+    },
+    {
+      "ingress_lane_id": "1",
+      "egress_lane_id": "17",
+      "primary_groups": [],
+      "secondary_groups": [
+        "R6"
+      ],
+      "non_motor_only": false
+    }
+  ],
+  "negative_regression": {
+    "path": "outputs/ocit-non-k-negative-20261021-v1.log",
+    "sha256": "12da8f0c602188f3922d0b2377f8739d9ec4504ae5f22b48ef86e7a7d875f426"
+  },
+  "positive_tests": {
+    "path": "outputs/restored-endpoint-ocit-and-ci-tests-20261021-v1.xml",
+    "sha256": "25737373dd83ab916851d56947b2372fcd40667f5bf7410b1b3fbaffac27334a"
+  },
+  "claim_boundary": "Native Kfz declarations and VT correspondence only. Names do not establish traffic class. This is not current signal timing, field hardware verification, road availability or a count-fit result."
+}

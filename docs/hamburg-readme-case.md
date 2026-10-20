@@ -137,7 +137,7 @@ The other 22 movements remain unresolved. The report retains their lane reviews,
 Some unresolved references are bus-only or revocable lanes. Adding ordinary motor lanes is not a general correction for them.
 An earlier movement-only conversion left four endpoint gaps after it recalculated automatic contours and restored the ordinary roads.
 Contour-preservation mode now fixes existing contours as well as ordinary roads. A four-road native regression reproduces the failure and checks both repaired movements by driving.
-The lane-count edit still changes one neighboring lane shape by up to 0.91 m. This change remains unaccepted.
+The earlier lane-count edit changed one neighboring lane shape by up to 0.91 m. That historical change was unaccepted.
 A normal passenger vehicle completes a requested stop on the added lane and arrives without collision or teleport.
 
 All 13 count-field associations are active on this five-node candidate, with no shared lane assignments.
@@ -180,6 +180,30 @@ That diagnostic exposed neighboring road-end displacement during lane-count conv
 Source-derived contour hints and a narrower geometric edit scope now preserve neighboring roads at junctions without pedestrian permission.
 Automatic pedestrian junctions retain their walking-area rebuilding behavior, with remaining neighboring changes reported.
 The repair has a failing source regression and a passing repaired regression. A complete current-profile replay is still required.
+
+The first complete replay with that narrower scope failed at junction `9810392490`.
+It retained a 0.2 m inlet road while the compiled internal entries followed a temporary native shift, leaving three gaps after restoration.
+The failed run remains in `outputs/ring1-public-junction-demo-20261020-v5/`.
+Native curve repair now uses the final retained road endpoints. The [short-context regression input](../benchmarks/hamburg_ring1_road_scope_20261020_v1/lane-count-short-context-input.json) preserves this failure case.
+The repaired real-input check has zero structural failures and no neighboring shape, length, or width changes.
+This result still requires complete corridor driving and detector verification on the new recipe.
+
+Official signal-group names also require their declared traffic class.
+At 200, `R6` is explicitly `Kfz`, despite its name. The parser now retains its VT reference for movements 1→16 and 1→17.
+This corrects source classification. It does not establish current signal timing or that these movements were available during the count window.
+
+The [repaired complete replay](../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v5.json) retains the failed predecessor and its successful repair.
+The new run verifies all 92 mapped movements out of 114 and loads 13 field loops in four published station groups.
+It has zero structural failures. The lane-count stage preserves neighboring shapes, logical lengths, and widths exactly.
+Three local transition checks also complete their requested lane chains for passenger, bus, and bicycle classes without collision or teleport.
+The bicycle starts on the local inlet. These checks do not establish upstream bicycle access or capacity.
+
+A native coordinate comparison covers all 13 declared field loops between the previous and repaired models.
+Only Z.11 changes its logical position, from 10.763 m to 13.936 m as the saved lane length changes.
+Its native XY displacement is 0.00236 m. The other twelve positions are unchanged.
+The comparison records 207 automatic controller loops separately. They are outside the declared count-field inventory.
+These are model-coordinate checks, not surveyed field correspondence or a count-fit result.
+The 22 unresolved movements and ten inherited protected-green foe findings remain explicit.
 
 ### Earlier construction diagnostics
 

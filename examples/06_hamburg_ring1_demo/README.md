@@ -75,6 +75,14 @@ The first corresponds to official ingress lane 1 at 200. Its official movements 
 Neither lane carries one of the 13 count loops. Lane-change service remains unverified.
 At 535, the Z.8 lane now retains left-turn exits, while Z.7 retains its source-backed turnaround.
 These route restrictions must remain explicit in later fitting reports.
+
+The [latest complete replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v5.json) repairs the failed narrow-scope count conversion.
+It retains 92 passing movements and 13 loops, with zero structural failures and exact neighboring road geometry.
+The record also retains the failed predecessor with three entry gaps at the 0.2 m inlet road.
+Native curve repair now uses the endpoints that remain after exterior restoration.
+All thirteen declared field loops have native coordinates within 0.00236 m of the previous model. Only Z.11 changes.
+Automatic controller loops remain separate from the published count-field inventory.
+Ten inherited protected-green foe findings and 22 unresolved movements remain. No count calibration has run.
 The lane-count stage also has a neighboring geometry change under review.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
@@ -170,7 +178,7 @@ These measurements do not establish independent field accuracy or final detector
 
 ## Remaining demonstration work
 
-1. Resolve the remaining official lane relations, supplementary turns, and neighboring geometry change.
+1. Resolve the remaining official lane relations, construction-stage uncertainty, terminal-lane service, and inherited control conflicts.
 2. Declare signal timing and the comparison window, then freeze the final network and detector positions.
 3. Fit against the frozen observations and retain all field-level residuals.
 4. Compare observed and simulated counts in the same window, with separate independent validation.
