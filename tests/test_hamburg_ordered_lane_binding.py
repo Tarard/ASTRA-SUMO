@@ -74,6 +74,31 @@ def test_joint_matching_rejects_competing_official_approaches():
 
 
 @pytest.mark.parametrize("role", ["ingress", "egress"])
+def test_one_official_approach_can_span_distinct_channelized_source_roads(role):
+    lanes, movements, candidates = _case(role)
+    for lane in deepcopy(lanes):
+        lane["lane_id"] += "-separate"
+        lane["shape_network"] = [(x, y + 20) for x, y in lane["shape_network"]]
+        lanes.append(lane)
+        movements.append({f"{role}_lane_id": lane["lane_id"], "selected_shape_network": [(-5, 0), (5, 0)]})
+    candidates.update({("separate", index): [(x, y + 20) for x, y in shape]
+                       for (_, index), shape in list(candidates.items())})
+    expected = {"right": ("road", 0), "left": ("road", 1),
+                "right-separate": ("separate", 0), "left-separate": ("separate", 1)}
+    result = _bind(lanes, movements, candidates, role)
+    assert result["bindings"] == expected and not result["ambiguous"]
+    assert len(result["ordered_groups"]) == 2
+    reversed_result = _bind(list(reversed(lanes)), list(reversed(movements)), dict(reversed(list(candidates.items()))), role)
+    assert reversed_result["bindings"] == expected
+
+    candidates.pop(("separate", 1))
+    incomplete = _bind(lanes, movements, candidates, role)
+    assert incomplete["bindings"]["right"] == ("road", 0)
+    assert incomplete["bindings"]["left"] == ("road", 1)
+    assert incomplete["ambiguous"]
+
+
+@pytest.mark.parametrize("role", ["ingress", "egress"])
 @pytest.mark.parametrize("competing_offset", [-3.85, -0.9])
 def test_missing_third_lane_does_not_discard_a_mutually_unique_existing_lane(role, competing_offset):
     # LSA118 has three official exits and two OSM exits. Two official lanes

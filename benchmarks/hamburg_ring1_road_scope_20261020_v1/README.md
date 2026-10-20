@@ -36,6 +36,8 @@ Other retained approach geometry can change during extraction. Controller remova
 
 The fixture tests road selection and input handling. It contains no new traffic-count calibration result.
 Run the [offline example](../../examples/06_hamburg_ring1_demo/README.md) to rebuild stages 1 and 2.
+[Separate junction diagnostics](junction-diagnostic-evidence-v1.json) record 34 passing isolated movements out of 35 official movements at 119 and 535.
+One movement, two extra 535 connections, and final sensor correspondence remain unresolved. The full junction-stage replay is incomplete.
 
 Data attribution: © OpenStreetMap contributors.
 Data license: [Open Database License 1.0](https://www.openstreetmap.org/copyright).

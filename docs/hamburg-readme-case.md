@@ -73,6 +73,23 @@ The complete six-stage workflow is not implemented yet.
 The demonstration uses one case configuration, one frozen input package, and one report.
 The configuration records the bbox, corridor, road tier, observation window, and signal treatment.
 
+### Current junction diagnostics
+
+A separate prototype constructs LSA535 and the two official parts of LSA119.
+It materializes all 19 official motor movements at 535 and 15 of 16 at 119.
+All 34 mapped movements pass isolated SUMO probes on the combined prototype.
+Each probe verifies its inlet lane, complete internal lane sequence, and first outlet lane.
+The remaining 119 movement stays in the denominator. Its approach has two official motor lanes but only one source motor lane.
+The source bicycle lane remains unchanged. A lane-count correction still needs construction and driving checks.
+
+Channelized official approaches can span several source roads.
+Lane-order matching now handles each unambiguously selected source road separately, with equal counts and consistent shared-section order.
+It does not select a more distant road to obtain a desired lane count.
+Two extra 535 connections remain unexplained. Nine source structural failures remain at the same four outside junctions.
+The probes disable autonomous lane changes and do not establish multi-vehicle capacity, field signal timing, or count accuracy.
+The [diagnostic record](../benchmarks/hamburg_ring1_road_scope_20261020_v1/junction-diagnostic-evidence-v1.json) retains missing movements and these limits.
+The complete junction-stage replay and final sensor mapping remain unfinished.
+
 ### Road importance and retained roads
 
 The first version uses three coarse tiers: major roads, collector roads, and local roads.
