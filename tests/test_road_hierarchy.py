@@ -22,6 +22,15 @@ def test_coarse_road_tier_uses_source_type(kind, tier):
     assert road_hierarchy_tier(kind) == tier
 
 
+def test_frozen_ring1_scope_files_match_manifest():
+    directory = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
+    fixture = json.loads((directory / "fixture.json").read_text(encoding="utf-8"))
+    for name, identity in fixture["files"].items():
+        path = directory / name
+        assert file_sha256(path) == identity["sha256"]
+        assert path.stat().st_size == identity["bytes"]
+
+
 def _network():
     root = ET.Element("net", version="1.20")
     definitions = [("main-a", "w", "a", "primary"), ("connector", "a", "b", "tertiary"),
