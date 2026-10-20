@@ -156,3 +156,7 @@ The [frozen source controls and spatial-edit check](source-curation-controls-202
 adds 20 unchanged roads, repairs whole-road correspondence bias, and tests a real
 XYZ road edit against its identity control. It retains incomplete junction
 corrections, finding-overlap limits, and the failed native coordinate check.
+The [neighbor-control follow-up](source-curation-neighbors-20261020-v1.md)
+measures all 39 excluded neighbors and separates the one road inside the actual
+edit scope. It traces three removed and two added finding memberships and
+records both complete Windows suites with 3,699 tests passed in each run.

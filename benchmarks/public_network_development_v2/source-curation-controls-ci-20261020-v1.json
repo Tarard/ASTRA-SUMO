@@ -1,0 +1,51 @@
+{
+  "code_commit": "09673bea90da9abb1a350d87f984ddc8b52c5d6a",
+  "passed_per_run": 3699,
+  "runs": [
+    {
+      "artifacts": [
+        {
+          "path": "outputs/ci-09673be-pr-artifacts-20261020/test-results.xml",
+          "sha256": "8ae70128a46d94f137ab2d7aa0c501410ed0316d37a54427a08c0f5ecd23bc47"
+        },
+        {
+          "path": "outputs/ci-09673be-39358387174-20261020.log",
+          "sha256": "e4263af6c5751f6124a30d63048c9fc39933c7b64b2c0943d7a36e78d0559e9a"
+        }
+      ],
+      "junit_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 24,
+        "tests": 3723
+      },
+      "kind": "pr",
+      "native_fatal_cases_executed": 20,
+      "native_spatial_case_executed": true,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39358387174"
+    },
+    {
+      "artifacts": [
+        {
+          "path": "outputs/ci-09673be-push-artifacts-20261020/test-results.xml",
+          "sha256": "5e3edc365a84ce10f8b7239e438e0f0407aa8a44ab01e70269c5a43b48a5a71a"
+        },
+        {
+          "path": "outputs/ci-09673be-39358383506-20261020.log",
+          "sha256": "7f1dca861120b68717b6ab2ede8a5a707ccfd8a58cc878c59a406314d7888b84"
+        }
+      ],
+      "junit_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 24,
+        "tests": 3723
+      },
+      "kind": "push",
+      "native_fatal_cases_executed": 20,
+      "native_spatial_case_executed": true,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39358383506"
+    }
+  ],
+  "skipped_per_run": 24
+}
