@@ -228,6 +228,20 @@ positive `way_id`, and an `external_source_id`. Establish source registration
 before using this adapter. Both networks must share that source road namespace.
 The report records the assumption and binds the three inputs by hash.
 
+`register_prepared_source_way_geometry` in `prepared_source_registration.py`
+compares two prepared OSM-like inputs. Declare their external road provenance
+tag. Registration requires the same positive file-local way ID and a unique,
+unchanged external road ID. The report separates coordinate changes from full
+source-state changes, including node identities, node tags, and way tags.
+Missing coordinates and ambiguous provenance remain unresolved. Added, removed,
+and negative editor IDs do not create road-removal labels.
+
+Use `kind: prepared_way_unchanged_control` for separately selected control roads.
+The fact report retains that selection role. A control label never forces its
+measured offset to zero. Freeze control selection before scoring, and retain
+nonzero results. Unchanged source geometry can still produce different native
+geometry through neighboring road or junction changes.
+
 The adapter groups sections by source road, travel direction, allowed vehicle
 classes, and lane order. It includes uniquely saved internal connections between
 the selected ordinary lanes. It marks the resulting association as unresolved

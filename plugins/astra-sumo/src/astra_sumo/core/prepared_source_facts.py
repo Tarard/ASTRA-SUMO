@@ -9,6 +9,7 @@ from pathlib import Path
 
 from .artifact_io import write_json_atomic
 from .candidate_contracts import file_sha256
+from .connection_mode_audit import _MOTORIZED_MODES
 from .network_calibration import (
     NetworkFactTable,
     _coordinate_transform,
@@ -18,6 +19,11 @@ from .network_calibration import (
     _shape,
 )
 from .reference_road_alignment import _edge_direction, _group_edges
+
+_SOURCE_SELECTION_ROLES = {
+    "prepared_way_coordinate_sequence_revision": "source_revision",
+    "prepared_way_unchanged_control": "unchanged_control",
+}
 
 
 def _slots(root, groups, way, direction):
@@ -64,7 +70,8 @@ def build_prepared_source_lane_facts(
         not records
         or any(
             not isinstance(row, dict)
-            or row.get("kind") != "prepared_way_coordinate_sequence_revision"
+            or not isinstance(row.get("kind"), str)
+            or row.get("kind") not in _SOURCE_SELECTION_ROLES
             or not isinstance(row.get("way_id"), str)
             or not row["way_id"].isdigit()
             or int(row["way_id"]) <= 0
@@ -109,7 +116,11 @@ def build_prepared_source_lane_facts(
         }
         for identity, path, authority in (
             ("generated-model-reference", reference, "Generated model reference, not a field survey"),
-            ("registered-source-revision", labels, "Prepared source-road geometry revisions, not field-defect labels"),
+            (
+                "registered-source-revision",
+                labels,
+                "Prepared source-road geometry comparisons, not field-defect labels",
+            ),
         )
     ]
     facts, controls, correspondences = [], [], []
@@ -127,7 +138,7 @@ def build_prepared_source_lane_facts(
                 allowed = slot[0]
                 mode = (
                     "motor"
-                    if "passenger" in allowed
+                    if _MOTORIZED_MODES.intersection(allowed)
                     else "bicycle"
                     if "bicycle" in allowed and "pedestrian" not in allowed
                     else "pedestrian"
@@ -143,6 +154,7 @@ def build_prepared_source_lane_facts(
                     except ValueError as error:
                         expected, reason = None, str(error)
                     diagnostics = {
+                        "source_selection_role": _SOURCE_SELECTION_ROLES[record["kind"]],
                         "reference_scope": "generated_model_after_prepared_source_revision",
                         "field_defect_label": None,
                         "field_validity_date": None,
@@ -201,7 +213,11 @@ def build_prepared_source_lane_facts(
                 "mapping_status": "unresolved",
                 "mapping_confidence": "none",
                 "mapping_method": "not_modeled_reference_source_way_absent",
-                "mapping_diagnostics": {"way_id": record["way_id"], "reference_scope": "generated_model_only"},
+                "mapping_diagnostics": {
+                    "way_id": record["way_id"],
+                    "reference_scope": "generated_model_only",
+                    "source_selection_role": _SOURCE_SELECTION_ROLES[record["kind"]],
+                },
             }
             facts.append(fact)
             controls.append(deepcopy(fact))
@@ -233,6 +249,8 @@ def build_prepared_source_lane_facts(
         "field_validity_date": None,
         "model_revision_date": model_date,
         "source_way_count": len(records),
+        "source_revision_way_count": sum(row["kind"] == "prepared_way_coordinate_sequence_revision" for row in records),
+        "unchanged_control_way_count": sum(row["kind"] == "prepared_way_unchanged_control" for row in records),
         "fact_count": len(facts),
         "unresolved_before_selectors": sum(not row["selector"] for row in facts),
         "unknown_reference_facts": sum(row["expected"] is None for row in facts),

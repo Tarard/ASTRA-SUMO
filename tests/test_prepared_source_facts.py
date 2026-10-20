@@ -97,6 +97,30 @@ def test_missing_lane_role_stays_unknown_instead_of_selecting_another_class(tmp_
     assert score["facts"][0]["known"] is True
 
 
+@pytest.mark.parametrize(
+    "permissions,mode",
+    [
+        ("bus", "motor"),
+        ("coach", "motor"),
+        ("bus bicycle", "motor"),
+        ("bicycle", "bicycle"),
+        ("pedestrian", "pedestrian"),
+    ],
+)
+def test_fact_mode_includes_motorized_lanes_without_passenger_access(tmp_path, permissions, mode):
+    before, reference, labels = _inputs(tmp_path, reference_permissions=permissions)
+    report = _build(tmp_path, before, reference, labels)
+    table = json.loads(Path(report["outputs"]["reference-self-control"]["path"]).read_text(encoding="utf-8"))
+    assert table["facts"][0]["traffic_mode"] == mode
+    score = evaluate_network_calibration(
+        net_file=reference,
+        facts_file=report["outputs"]["reference-self-control"]["path"],
+        output_file=tmp_path / "mode-score.json",
+        mode="explore",
+    )
+    assert score["motor_centerlines"]["all"]["count"] == (1 if mode == "motor" else 0)
+
+
 @pytest.mark.parametrize("invalid", ["duplicate", "wrong_kind", "non_record"])
 def test_invalid_registration_labels_do_not_create_output(tmp_path, invalid):
     before, reference, labels = _inputs(tmp_path)
@@ -130,6 +154,33 @@ def test_reference_way_without_generated_lanes_remains_in_the_fact_table(tmp_pat
     assert report["source_way_count"] == report["fact_count"] == report["unknown_reference_facts"] == 1
     table = json.loads(Path(report["outputs"]["before"]["path"]).read_text(encoding="utf-8"))
     assert table["facts"][0]["expected"] is None
+
+
+def test_control_role_does_not_force_its_measured_offset_to_zero(tmp_path):
+    before, reference, labels = _inputs(tmp_path)
+    row = json.loads(labels.read_text(encoding="utf-8"))
+    labels.write_text(json.dumps({**row, "kind": "prepared_way_unchanged_control"}) + "\n", encoding="utf-8")
+    report = _build(tmp_path, before, reference, labels)
+    assert report["source_revision_way_count"] == 0 and report["unchanged_control_way_count"] == 1
+    table = json.loads(Path(report["outputs"]["before"]["path"]).read_text(encoding="utf-8"))
+    assert table["facts"][0]["mapping_diagnostics"]["source_selection_role"] == "unchanged_control"
+    score = evaluate_network_calibration(
+        net_file=before,
+        facts_file=report["outputs"]["before"]["path"],
+        output_file=tmp_path / "control-score.json",
+        mode="explore",
+    )
+    assert score["facts"][0]["metrics"]["mean_lateral_offset_m"] == pytest.approx(1)
+
+
+@pytest.mark.parametrize("kind", [[], {}, "unsupported"])
+def test_invalid_label_kind_does_not_create_output(tmp_path, kind):
+    before, reference, labels = _inputs(tmp_path)
+    row = json.loads(labels.read_text(encoding="utf-8"))
+    labels.write_text(json.dumps({**row, "kind": kind}) + "\n", encoding="utf-8")
+    with pytest.raises(ValueError):
+        _build(tmp_path, before, reference, labels)
+    assert not (tmp_path / "facts").exists()
 
 
 def test_malformed_reference_geometry_is_unknown_without_losing_other_metadata(tmp_path):
