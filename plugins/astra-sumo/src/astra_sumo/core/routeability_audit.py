@@ -544,6 +544,7 @@ def run_routeability_audit(
         routing_vehicle_count = len(executable)
         coverage.update(requested_count=len(requested), routing_count=routing_vehicle_count,
                         physical_count=mapping.get("physical_request_count", len(requested)),
+                        road_relative_count=mapping.get("road_relative_request_count", 0),
                         logical_only_count=mapping.get("logical_only_request_count", 0),
                         removed_endpoint_count=len(removed_ids), removed_endpoint_vehicle_ids=sorted(removed_ids))
         od_policy.update(request_file_sha256=planned_hash, request_count=len(requested),

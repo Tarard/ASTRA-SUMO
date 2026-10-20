@@ -658,12 +658,14 @@ def validate_routeability_evidence(
     if coverage is not None:
         fields = ("requested_count", "routing_count", "physical_count", "logical_only_count", "removed_endpoint_count")
         removed_ids = coverage.get("removed_endpoint_vehicle_ids") if isinstance(coverage, Mapping) else None
+        relative = coverage.get("road_relative_count", 0) if isinstance(coverage, Mapping) else None
         if (not isinstance(coverage, Mapping) or not isinstance(removed_ids, list)
+                or type(relative) is not int or relative < 0
                 or any(not isinstance(identity, str) or not identity for identity in removed_ids)
                 or any(type(coverage.get(key)) is not int or coverage[key] < 0 for key in fields)):
             errors.append({"code": "routeability_invalid_cohort_counts"})
         elif (coverage["requested_count"] != report.get("vehicle_count")
-              or coverage["requested_count"] != coverage["physical_count"] + coverage["logical_only_count"] + coverage["removed_endpoint_count"]
+              or coverage["requested_count"] != coverage["physical_count"] + relative + coverage["logical_only_count"] + coverage["removed_endpoint_count"]
               or coverage["routing_count"] != coverage["requested_count"] - coverage["removed_endpoint_count"]
               or coverage["routing_count"] != report.get("routing_vehicle_count")
               or len(set(removed_ids)) != coverage["removed_endpoint_count"]):

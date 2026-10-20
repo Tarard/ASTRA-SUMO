@@ -67,6 +67,19 @@ def _lane_endpoint(source, target, value):
             "source_point_xyz_m": point, "projection_error_m": distance}
 
 
+def _relative_lane_endpoint(source, target, value, source_base, candidate_base):
+    points, offsets, length = _geometry(source)
+    after, after_offsets, after_length = _geometry(target)
+    position = length if value == "max" else source_base
+    candidate_position = after_length if value == "max" else candidate_base
+    point = _point_at(points, offsets, position / length * offsets[-1])
+    candidate_point = _point_at(after, after_offsets, candidate_position / after_length * after_offsets[-1])
+    return {"source_lane_id": source.get("id"), "candidate_lane_id": target.get("id"),
+            "source_position_m": position, "candidate_position_m": candidate_position,
+            "source_point_xyz_m": point, "candidate_point_xyz_m": candidate_point,
+            "point_displacement_m": math.dist(point, candidate_point)}
+
+
 def map_merged_od_requests(source_root, candidate_root, requests):
     """Return all mapped requests or retain all unresolved requests for review."""
     aliases = _corridor_edge_aliases(source_root, candidate_root)
@@ -111,12 +124,21 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                 if not lanes:
                     raise ValueError("The source endpoint has no selected passenger lane.")
                 value = row.get(role + "Pos", "base" if role == "depart" else "max")
-                if value == "base" and role == "depart":
-                    # SUMO basePos adds POSITION_EPS and clamps to the source edge length.
-                    value = str(min(5.1, float(source.find("lane").get("length"))))
                 targets = {lane.get("index"): lane for lane in target.findall("lane")}
                 if any(lane.get("index") not in targets for lane in lanes):
                     raise ValueError("A selected source lane is absent from the candidate road.")
+                if identity not in aliases and same_road and value == ("base" if role == "depart" else "max"):
+                    # Road-relative defaults move with a retained road. Explicit positions keep their physical correspondence checks.
+                    pairs = [_relative_lane_endpoint(lane, targets[lane.get("index")], value,
+                        min(5.1, float(source.find("lane").get("length"))),
+                        min(5.1, float(target.find("lane").get("length")))) for lane in lanes]
+                    record["endpoints"].append({"role": role, "source_edge_id": identity, "candidate_edge_id": identity,
+                        "position_semantics": "road_relative_default", "requested_position": value,
+                        "lane_selection": selector, "lanes": pairs})
+                    continue
+                if value == "base" and role == "depart":
+                    # SUMO basePos adds POSITION_EPS and clamps to the source edge length.
+                    value = str(min(5.1, float(source.find("lane").get("length"))))
                 pairs = [_lane_endpoint(lane, targets[lane.get("index")], value) for lane in lanes]
                 position = pairs[0]["candidate_position_m"]
                 for pair, lane in zip(pairs, lanes):
@@ -137,7 +159,9 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                 if float(row.get("arrivalPos", "nan")) < float(row.get("departPos", "nan")):
                     raise ValueError("The merged endpoints require a return route rather than a forward same-road trip.")
             record["candidate"] = dict(row.attrib)
-            record["probe_mode"] = "physical_endpoints"
+            record["probe_mode"] = ("road_relative_endpoints" if any(
+                endpoint.get("position_semantics") == "road_relative_default" for endpoint in record["endpoints"])
+                else "physical_endpoints")
         except (KeyError, ValueError, StopIteration) as error:
             removed = [record["source"][key] for key in ("from", "to")
                        if record["source"][key] in original
@@ -158,9 +182,11 @@ def map_merged_od_requests(source_root, candidate_root, requests):
             changed = True
         records.append(record)
     removed_ids = [row["vehicle_id"] for row in failures if row["classification"] == "source_endpoint_removed"]
+    relative_count = sum(row["probe_mode"] == "road_relative_endpoints" for row in records)
     return mapped, {"status": "review_required" if failures else "pass", "changed": changed,
-                    "method": "directed_road_identity_or_verified_merge_and_lane_geometry/v2", "maximum_projection_error_m": TOLERANCE_M,
+                    "method": "directed_road_identity_or_verified_merge_and_lane_geometry/v3", "maximum_projection_error_m": TOLERANCE_M,
                     "request_count": len(records), "unresolved_requests": failures, "requests": records,
-                    "physical_request_count": len(records) - len(failures), "logical_only_request_count": len(failures) - len(removed_ids),
+                    "physical_request_count": len(records) - len(failures) - relative_count,
+                    "road_relative_request_count": relative_count, "logical_only_request_count": len(failures) - len(removed_ids),
                     "removed_endpoint_request_count": len(removed_ids), "removed_endpoint_vehicle_ids": removed_ids,
-                    "claim_boundary": "Every original request remains recorded without resampling. Removed endpoints are reported separately and cannot receive native routes. Remaining unresolved positions receive strict road-level probes. Default lane selection qualifies the source lane endpoint set rather than identical realized lane choices. Physical endpoint qualification stays incomplete for removed or unresolved endpoints."}
+                    "claim_boundary": "Every original request remains recorded without resampling. Retained-road defaults preserve road-relative placement and record coordinate displacements separately. They do not establish fixed physical endpoints. Explicit positions and merged-road defaults require physical correspondence. Removed endpoints cannot receive native routes. Remaining unresolved positions receive strict road-level probes. Default lane selection does not require identical realized lane choices."}

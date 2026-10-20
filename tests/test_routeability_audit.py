@@ -24,6 +24,12 @@ def test_changed_endpoint_requests_are_retained_for_review(tmp_path):
     _write_od_network(source)
     candidate.write_text(source.read_text(encoding="utf-8").replace('shape="0,0 20,0"', 'shape="0,0 19,0"')
         .replace('shape="20,1 0,1"', 'shape="19,1 0,1"'), encoding="utf-8")
+    requests = tmp_path / "explicit.trips.xml"
+    root = ET.Element("routes")
+    for index in range(100):
+        ET.SubElement(root, "trip", id=str(index), depart=str(index),
+                      attrib={"from": "a", "to": "b", "departPos": "10", "arrivalPos": "10"})
+    ET.ElementTree(root).write(requests, encoding="utf-8")
 
     def runner(command, *, cwd, **kwargs):
         if not _fake_route_stage(command, cwd):
@@ -39,6 +45,7 @@ def test_changed_endpoint_requests_are_retained_for_review(tmp_path):
         return {"status": "pass", "returncode": 0}
 
     report = run_routeability_audit(net_file=candidate, od_reference_net_file=source,
+        frozen_trip_file=requests, expected_frozen_trip_sha256=hashlib.sha256(requests.read_bytes()).hexdigest(),
         output_dir=tmp_path / "audit", binaries={"sumo": "sumo", "duarouter": "duarouter"}, command_runner=runner)
     assert report["status"] == "review_required"
     assert report["claim_status"] != "construction-invalid"

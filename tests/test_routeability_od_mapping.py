@@ -40,6 +40,45 @@ def test_endpoint_projection_retains_elevation_and_ignores_duplicate_vertices():
     assert result["candidate_position_m"] == pytest.approx(60)
 
 
+@pytest.mark.skipif(any(not shutil.which(name) for name in ("netconvert", "sumo", "duarouter")), reason="SUMO programs required")
+@pytest.mark.parametrize("explicit_defaults", [False, True])
+def test_native_retained_road_defaults_keep_relative_placement(tmp_path, explicit_defaults):
+    source, _ = _compiled_chain(tmp_path, lane_count=2)
+    tree = ET.parse(source)
+    edge = tree.getroot().find("edge[@id='a']")
+    for lane in edge.findall("lane"):
+        points = lane.get("shape").split()
+        first = points[0].split(",")
+        first[0] = str(float(first[0]) - 2.46)
+        points[0] = ",".join(first)
+        lane.set("shape", " ".join(points))
+        lane.set("length", str(float(lane.get("length")) + 2.46))
+    candidate, trips = tmp_path / "changed.net.xml", tmp_path / "requests.xml"
+    tree.write(candidate, encoding="utf-8")
+    attributes = ' departPos="base" arrivalPos="max"' if explicit_defaults else ""
+    trips.write_text(f'<routes><trip id="relative" depart="0" from="a" to="b"{attributes}/></routes>', encoding="utf-8")
+    hashes = {path: file_sha256(path) for path in (source, candidate, trips)}
+    result = run_routeability_audit(net_file=candidate, od_reference_net_file=source, frozen_trip_file=trips,
+        expected_frozen_trip_sha256=hashes[trips], output_dir=tmp_path / "audit", vehicle_count=1, initial_end=300, max_end=300)
+    assert result["status"] == "pass", result
+    mapping = result["od_policy"]["endpoint_mapping"]
+    assert mapping["physical_request_count"] == mapping["logical_only_request_count"] == 0
+    assert mapping["road_relative_request_count"] == 1
+    record = mapping["requests"][0]
+    assert record["probe_mode"] == "road_relative_endpoints"
+    assert record["source"] == record["candidate"]
+    for lane in record["endpoints"][0]["lanes"]:
+        assert lane["source_position_m"] == lane["candidate_position_m"] == pytest.approx(5.1)
+        assert lane["point_displacement_m"] == pytest.approx(2.46)
+    assert result["cohort_coverage"]["road_relative_count"] == 1
+    assert result["final_attempt"]["vehicle_routes"]["complete_count"] == 1
+    from astra_sumo.core.candidate_contracts import validate_routeability_evidence
+    assert validate_routeability_evidence(result, candidate_net_file=candidate)["status"] == "pass"
+    forged = {**result, "cohort_coverage": {**result["cohort_coverage"], "road_relative_count": -1}}
+    assert validate_routeability_evidence(forged, candidate_net_file=candidate)["status"] == "blocked"
+    assert all(file_sha256(path) == digest for path, digest in hashes.items())
+
+
 @pytest.mark.parametrize("suffix", [".source.trips.xml", ".routable.trips.xml", ".od-map.json"])
 def test_endpoint_mapping_outputs_cannot_replace_an_input(tmp_path, suffix):
     source = tmp_path / ("probe" + suffix)
@@ -203,7 +242,7 @@ def test_native_unresolved_endpoint_does_not_hide_other_route_results(tmp_path, 
     candidate = tmp_path / "changed.net.xml"
     ET.ElementTree(root).write(candidate, encoding="utf-8")
     trips = tmp_path / "requests.xml"
-    trips.write_text('<routes><trip id="uncertain" depart="0" from="a" to="b"/>'
+    trips.write_text('<routes><trip id="uncertain" depart="0" from="a" to="b" departPos="10"/>'
                      '<trip id="other" depart="30" from="b" to="tail"/></routes>', encoding="utf-8")
     source_hash, request_hash = file_sha256(source), file_sha256(trips)
     baseline = run_routeability_audit(net_file=source, frozen_trip_file=trips,
@@ -258,7 +297,7 @@ def test_native_removed_endpoints_do_not_abort_remaining_requests(tmp_path, case
     assert coverage["requested_count"] == count and coverage["removed_endpoint_count"] == 1
     assert coverage["routing_count"] == len(executable)
     assert coverage["removed_endpoint_vehicle_ids"] == ["removed"]
-    assert coverage["physical_count"] + coverage["logical_only_count"] + coverage["removed_endpoint_count"] == count
+    assert coverage["physical_count"] + coverage["road_relative_count"] + coverage["logical_only_count"] + coverage["removed_endpoint_count"] == count
     from astra_sumo.core.candidate_contracts import validate_routeability_evidence
     checked = validate_routeability_evidence(result, candidate_net_file=candidate)
     malformed = {**result, "cohort_coverage": {**coverage, "removed_endpoint_vehicle_ids": None}}

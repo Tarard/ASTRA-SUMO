@@ -24,6 +24,7 @@ REQUIRED = {
     "test_native_unresolved_endpoint_does_not_hide_other_route_results": 2,
     "test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle": 1,
     "test_native_removed_endpoints_do_not_abort_remaining_requests": 3,
+    "test_native_retained_road_defaults_keep_relative_placement": 2,
 }
 
 
