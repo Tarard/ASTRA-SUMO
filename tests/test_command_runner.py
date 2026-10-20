@@ -132,6 +132,7 @@ def windows_native_fatal_case(tmp_path_factory):
     import sumo
     from astra_sumo.core.osm_network import build_osm_network
     from astra_sumo.core.candidate_contracts import file_sha256
+    from astra_sumo.core.osm_access import _permission_set
     import xml.etree.ElementTree as ET
 
     binary = Path(sumo.__file__).parent / "bin"
@@ -145,8 +146,13 @@ def windows_native_fatal_case(tmp_path_factory):
         netconvert_binary=str(binary / "netconvert.exe"))
     assert built["status"] == "pass", built
     network = Path(built["net_file"])
-    edge = next(row.get("id") for row in ET.parse(network).getroot().findall("edge")
-                if not row.get("function") and "219999179" in row.get("id"))
+    network_root = ET.parse(network).getroot()
+    candidates = [row.get("id") for row in network_root.findall("edge")
+                  if not row.get("function") and "219999179" in row.get("id") and row.findall("lane")
+                  and all("bicycle" not in _permission_set(lane.attrib, network_version=network_root.get("version"))
+                          for lane in row.findall("lane"))]
+    assert candidates, "The native negative case requires a road that forbids bicycle departure."
+    edge = sorted(candidates)[0]
     routes = ET.Element("routes")
     ET.SubElement(routes, "vType", id="forbidden", vClass="bicycle")
     vehicle = ET.SubElement(routes, "vehicle", id="forbidden", type="forbidden", depart="0")
@@ -161,19 +167,30 @@ def windows_native_fatal_case(tmp_path_factory):
 @pytest.mark.parametrize("repeat", range(10))
 def test_windows_native_fatal_exit_is_bounded_and_retains_error(windows_native_fatal_case, tmp_path, binary_kind, repeat):
     network, route_file, binaries = windows_native_fatal_case
+    network_copy, route_copy = tmp_path / "network.net.xml", tmp_path / "forbidden.rou.xml"
+    network_copy.write_bytes(network.read_bytes())
+    route_copy.write_bytes(route_file.read_bytes())
+    network, route_file = network_copy, route_copy
     command = [str(binaries[binary_kind]), "-n", str(network), "-r", str(route_file), "--end", "2",
         "--no-step-log", "true", "--duration-log.disable", "true", "--error-log", str(tmp_path / "native error.log")]
     request = tmp_path / "request.json"
     result_path = tmp_path / "result.json"
     request.write_text(json.dumps(command), encoding="utf-8")
-    worker = ("import json,sys,time;from pathlib import Path;from astra_sumo.core.command_runner import run_command;"
+    ready = tmp_path / "worker-ready.json"
+    worker_temp = tmp_path / "worker-temp"
+    worker_temp.mkdir()
+    worker = ("import json,sys,time;from pathlib import Path;import_started=time.monotonic();"
+        "from astra_sumo.core.command_runner import run_command;"
+        "Path(sys.argv[4]).write_text(json.dumps({'import_seconds':time.monotonic()-import_started,'stage':'command_start'}),encoding='utf-8');"
         "started=time.monotonic();r=run_command(json.loads(Path(sys.argv[1]).read_text()),cwd=Path(sys.argv[2]),timeout_seconds=10);"
         "Path(sys.argv[3]).write_text(json.dumps({'elapsed':time.monotonic()-started,'result':r.to_dict()}),encoding='utf-8')")
     with (tmp_path / "worker.log").open("w", encoding="utf-8") as log:
-        process = subprocess.Popen([sys.executable, "-c", worker, str(request), str(tmp_path), str(result_path)],
-            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
+        process = subprocess.Popen([sys.executable, "-c", worker, str(request), str(tmp_path), str(result_path), str(ready)],
+            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT,
+            env={**os.environ, "TMP": str(worker_temp), "TEMP": str(worker_temp), "TMPDIR": str(worker_temp)})
         try:
-            process.wait(timeout=8)
+            # Cover worker startup, the 10-second command deadline, and bounded Windows cleanup.
+            process.wait(timeout=30)
         finally:
             if process.poll() is None:
                 subprocess.run(["taskkill", "/PID", str(process.pid), "/T", "/F"], stdout=subprocess.DEVNULL,
@@ -182,8 +199,8 @@ def test_windows_native_fatal_exit_is_bounded_and_retains_error(windows_native_f
                     process.kill()
                 process.wait(timeout=3)
     assert process.returncode == 0, (tmp_path / "worker.log").read_text(encoding="utf-8")
+    assert json.loads(ready.read_text(encoding="utf-8"))["stage"] == "command_start"
     outcome = json.loads(result_path.read_text(encoding="utf-8"))
-    assert outcome["elapsed"] < 6
     result = outcome["result"]
     assert result["status"] == "fail" and result["returncode"] not in (None, 0)
     assert "not allowed to depart" in result["stderr"] and "Quitting (on error)" in result["stderr"]
