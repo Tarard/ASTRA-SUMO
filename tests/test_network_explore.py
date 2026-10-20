@@ -216,6 +216,7 @@ def test_daily_edit_retains_measurements_when_link_observation_is_unavailable(tm
     assert report["construction"]["loaded_link_preservation"]["status"] == "unavailable"
     assert not report["construction"]["release_checks_passed"]
     assert any("Loaded link comparison: unavailable" in warning for warning in report["warnings"])
+    assert any("FileNotFoundError" in warning for warning in report["warnings"])
     assert report["construction"]["direct_speed_edit"]["all_other_bytes_preserved"]
 
 

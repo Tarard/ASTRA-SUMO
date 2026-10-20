@@ -167,6 +167,23 @@ def test_missing_sumo_binary_retains_worker_errors(tmp_path):
     assert report["status"] == "unavailable"
     assert set(report["observation_errors"]) == {"source", "native", "candidate"}
     assert report["compared_junction_counts"] == {"native": 0, "source": 0}
+    assert any("FileNotFoundError" in message for message in load_warning_messages(report))
+
+
+def test_worker_import_failure_is_visible_in_the_report_and_warnings(tmp_path):
+    source = tmp_path / "source.net.xml"
+    source.write_text("<net/>", encoding="utf-8")
+    def worker(command, *, cwd, **kwargs):
+        return CommandResult(command=command, cwd=str(cwd), status="fail", returncode=1,
+            error="command exited with return code 1", stderr="Traceback (most recent call last):\nModuleNotFoundError: No module named 'astra_sumo'\n")
+    report = compare_loaded_link_semantics(source_net_file=source, native_net_file=source, candidate_net_file=source,
+        mutable_junction_ids=set(), output_dir=tmp_path / "measurement", command_runner=worker)
+    assert report["status"] == "unavailable"
+    assert report["observation_errors"]["worker_process"] == "ModuleNotFoundError: No module named 'astra_sumo'"
+    assert any("No module named 'astra_sumo'" in message for message in load_warning_messages(report))
+    persisted = json.loads(Path(report["report_file"]).read_text(encoding="utf-8"))
+    assert persisted["observation_errors"] == report["observation_errors"]
+    assert persisted["command"]["stderr"] == report["command"]["stderr"]
 
 
 def test_changed_declared_native_output_cannot_pass_using_its_new_hash(tmp_path):

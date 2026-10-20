@@ -1,5 +1,6 @@
 from copy import deepcopy
 import gzip
+import json
 from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
@@ -120,8 +121,25 @@ def test_hamburg_branching_pair_does_not_report_a_successful_merge(tmp_path, mon
     assert "not fully realized" in report["semantic_validation"]["error"]
     if not full_input:
         assert report["candidate_variant_status"] == "failed_local_subset"
+        assert report["candidate_net_file"] == report["candidate_sha256"] == ""
+        failed = Path(report["failed_local_subset_file"])
+        assert failed.is_file() and file_sha256(failed) == report["failed_local_subset_sha256"]
+        manifest = json.loads(Path(report["manifest_file"]).read_text(encoding="utf-8"))
+        assert manifest["candidate_net_file"] == ""
+        assert not any(row["kind"] == "candidate_net" for row in manifest["artifacts"])
+        assert any(row["kind"] == "failed_local_subset" and Path(row["path"]) == failed for row in manifest["artifacts"])
         assert report["semantic_validation"]["local_conversion"]["merge_status"] == "failed"
         assert not (tmp_path / "edit/corridor_materialized_variant.native-proposal.net.xml").exists()
+        from astra_sumo.core.corridor_edit_ledger import run_corridor_candidate_gates
+        def should_not_run(*args, **kwargs):
+            raise AssertionError("A failed local subset must not enter native candidate checks.")
+        checked = run_corridor_candidate_gates(source_net_file=source, candidate_net_file=failed,
+            output_dir=tmp_path / "gates", materialization_report=report, command_runner=should_not_run,
+            routeability_audit_func=should_not_run, topology_audit_func=should_not_run)
+        assert checked["status"] == "blocked" and checked["candidate_net_file"] == ""
+        gate_manifest = json.loads(Path(checked["manifest_file"]).read_text(encoding="utf-8"))
+        assert gate_manifest["candidate_net_file"] == ""
+        assert not any(row["kind"] == "candidate_net" for row in gate_manifest["artifacts"])
     assert source.read_bytes() == original
 
 

@@ -172,7 +172,11 @@ def _compare_load_warnings(observed):
 
 def load_warning_messages(report):
     count = report.get("load_warning_comparison", {}).get("candidate_only", {}).get("count", 0)
-    return [f"Network loading added warnings. New warning line count: {count}. Inspect load_warning_comparison for the exact text."] if count else []
+    messages = [f"Network loading added warnings. New warning line count: {count}. Inspect load_warning_comparison for the exact text."] if count else []
+    if report.get("status") == "unavailable":
+        messages.extend(f"Loaded link observation failed ({name}): {error}"
+                        for name, error in report.get("observation_errors", {}).items())
+    return messages
 
 
 def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate_net_file,
@@ -238,6 +242,12 @@ def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate
     frozen_unchanged = all(unchanged(row) for row in observed.get("frozen_inputs", []))
     if result.status != "pass" or not originals_unchanged or not frozen_unchanged or mapping_errors or scope_errors or hash_errors:
         comparison["status"] = "unavailable"
+    observation_errors = observed.get("errors", {})
+    if not isinstance(observation_errors, dict):
+        observation_errors = {"worker_output": "The worker error inventory has an invalid structure."}
+    if result.status != "pass":
+        details = result.stderr.strip() or result.stdout.strip() or result.error or f"Worker status: {result.status}."
+        observation_errors["worker_process"] = details.splitlines()[-1]
     report = {"schema": "astra.loaded-link-preservation/v1", **comparison,
         "inputs": inputs, "inputs_unchanged": originals_unchanged, "frozen_inputs_unchanged": frozen_unchanged,
         "mutable_junction_ids": sorted(mutable_junction_ids),
@@ -245,7 +255,7 @@ def compare_loaded_link_semantics(*, source_net_file, native_net_file, candidate
         "declared_native_hashes": declared_hashes, "native_hash_errors": hash_errors,
         "boundary_edge_map": boundary_edge_map or {}, "boundary_lane_mapping": lane_mapping,
         "boundary_mapping_errors": mapping_errors,
-        "command": result.to_dict(), "observation_errors": observed.get("errors", {}),
+        "command": result.to_dict(), "observation_errors": observation_errors,
         "load_warning_comparison": _compare_load_warnings(observed),
         "frozen_inputs": observed.get("frozen_inputs", []),
         "request": {"path": str(request_file), "sha256": file_sha256(request_file)},

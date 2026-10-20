@@ -3128,6 +3128,10 @@ def _write_materialization_outcome(
 ) -> dict[str, Any]:
     """Persist both successful and blocked materialization decisions."""
     persisted = dict(report)
+    failed_subset = persisted.get("candidate_variant_status") == "failed_local_subset"
+    if failed_subset and candidate_net_file is not None and candidate_net_file.is_file():
+        persisted.update(failed_local_subset_file=str(candidate_net_file.resolve()),
+                         failed_local_subset_sha256=file_sha256(candidate_net_file), candidate_net_file="", candidate_sha256="")
     persisted["report_file"] = str(report_file)
     persisted["manifest_file"] = str(manifest_file)
     write_json_atomic(report_file, persisted, sort_keys=True)
@@ -3136,7 +3140,7 @@ def _write_materialization_outcome(
         (ledger_file, "edit_ledger"),
         (plan_file, "materialization_plan"),
         (command_file, "netconvert_command"),
-        (candidate_net_file, "candidate_net"),
+        (candidate_net_file, "failed_local_subset" if failed_subset else "candidate_net"),
         (report_file, "materialization_report"),
     ]
     artifact_candidates.extend((path, kind) for path, kind in (additional_plan_files or []))
@@ -3154,13 +3158,15 @@ def _write_materialization_outcome(
         "source_net_file": str(source_net_file.resolve()) if source_net_file is not None else "",
         "candidate_net_file": (
             str(candidate_net_file.resolve())
-            if candidate_net_file is not None and candidate_net_file.exists()
+            if not failed_subset and candidate_net_file is not None and candidate_net_file.exists()
             else ""
         ),
         "artifacts": artifacts,
         "source_overwrite_forbidden": True,
         "warnings": list(persisted.get("warnings") or []),
     }
+    if failed_subset:
+        manifest.update(candidate_variant_status="failed_local_subset", failed_local_subset_file=persisted.get("failed_local_subset_file", ""))
     write_json_atomic(manifest_file, manifest, sort_keys=True)
     return persisted
 
@@ -3177,13 +3183,17 @@ def _write_candidate_gate_outcome(
 ) -> dict[str, Any]:
     """Persist a candidate-gate decision, including all blocked preflight cases."""
     persisted = dict(report)
+    failed_subset = isinstance(materialization_report, Mapping) and materialization_report.get("candidate_variant_status") == "failed_local_subset"
+    if failed_subset:
+        persisted.update(candidate_variant_status="failed_local_subset", failed_local_subset_file=str(candidate_net_file.resolve()),
+                         candidate_net_file="", candidate_sha256="")
     persisted["report_file"] = str(report_file)
     persisted["manifest_file"] = str(manifest_file)
     write_json_atomic(report_file, persisted, sort_keys=True)
 
     artifact_candidates: list[tuple[Path | None, str]] = [
         (source_net_file, "source_net"),
-        (candidate_net_file, "candidate_net"),
+        (candidate_net_file, "failed_local_subset" if failed_subset else "candidate_net"),
     ]
     if isinstance(materialization_report, Mapping):
         materialization_path = materialization_report.get(
@@ -3239,7 +3249,7 @@ def _write_candidate_gate_outcome(
         "status": persisted.get("status", "blocked"),
         "claim_status": persisted.get("claim_status", "blocked"),
         "source_net_file": str(source_net_file.resolve()),
-        "candidate_net_file": str(candidate_net_file.resolve()),
+        "candidate_net_file": "" if failed_subset else str(candidate_net_file.resolve()),
         "source_sha256": persisted.get("source_sha256", ""),
         "candidate_sha256": persisted.get("candidate_sha256", ""),
         "gates": {
@@ -3249,6 +3259,8 @@ def _write_candidate_gate_outcome(
         "artifacts": artifacts,
         "source_overwrite_forbidden": True,
     }
+    if failed_subset:
+        manifest.update(candidate_variant_status="failed_local_subset", failed_local_subset_file=str(candidate_net_file.resolve()))
     write_json_atomic(manifest_file, manifest, sort_keys=True)
     return persisted
 
