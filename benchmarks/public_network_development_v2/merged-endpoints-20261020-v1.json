@@ -1,0 +1,857 @@
+{
+  "schema": "astra.merged-endpoint-probe/v1",
+  "declaration": {
+    "commit": "b2810d51ac4d020c7e8ec97ade8a0044f9c5cddf",
+    "implementation": {
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\aerial_curve_trace.py": "23dc98fe73349cb40c34fe5386adaeeb2ca5fb7813ae5ee1abe57d266317dd0b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\artifact_io.py": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\cached_detector_demand.py": "7c7dfae0d58d58ddeaa00aaea987d575bed26ae2e6d0c554f55872be43d51b0e",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\candidate_contracts.py": "defa5cd8a031fa992fa230070f1ddd4253e9b5574262a8a78e8788b962ee5835",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\cell_movement_routeability.py": "3b94a9d78d99aeb9dd7052fadf04a8c0b24ff2b3735a83d95893bb507dbb4461",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\claim_tiers.py": "a308546d96bf3688a24b9c492902fa08f18ffdae08ed7def8f6ab9dc252f1a82",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\command_runner.py": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\connection_mode_audit.py": "5eaada89c7a58b9da71d1bfe7fd6cd056726df41d4b53b587860ca74b64cdace",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\connectivity.py": "363dc2be72de366988ec10691d207ac9fc5971755c79f37fd48822d9fe0678e6",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\corridor_edit_ledger.py": "4a0fb77f2072158f663e837085035979c509da478e2d434c1329fb06c1fa3408",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\corridor_scope.py": "b303230b16adb00270c20121612c4dd9f17b73377d121b651bc7bfa25982e307",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\corridor_simplification.py": "7c4782105860a7728561e746a9d8d4c522f82b849a0d15fdc7c7cdbfa89f10c9",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\detector_demand.py": "b6ad52a51163bb5de76f141817f474cb1830637ccbfac7871a2d0e14965e5730",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\digital_twin.py": "60895c2b16e8f49f4e6dcb641758bb402cbd4a0d532606bc79178f7050707348",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\digital_twin_mapping.py": "06172899c9a71d21f573b26e36cb2b122fd25d8f6a9836a601c59bb76e652012",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\digital_twin_timeline.py": "dbe2467f170024fb8317091ced5f17003c4f4e81473c30d1f5ad8bb1be5795a6",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\digital_twin_workflow.py": "f451887ec513edc4ce1329f8d2f06add150d7463f0ffaf14320fc426a28c73aa",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\directed_corridor_routeability.py": "8ea7c4fb35dea96d624342d3b47bcdcce931d79cec32f08cf7babe2af5395680",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\environment.py": "6bfedeaf11738975bfdc494ef258618200e81cdedab55be83768257d8055867a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\external_micro_junction_audit.py": "ce6feed37dfa954e2c7258a7557ce421db96922c3162c6505504d5557423d18b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_2349_channelized_geometry.py": "8dc02238d315a23f083fdc4b4260095d3f54fe4f867d9f1ef8c89ef94bc701f7",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_2394_tls_materializer.py": "28eb80df5743f0eca11e114f6d9a252d5987adc539598cacfa75b5b6fd7082e5",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_2394_tls_topology.py": "5b577f3b608cafcb55d7282d3cfe04b28465895f2bb2bb2714e7e9acf20a3d31",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_approach.py": "a593686c0e2d2e33963a4d6b401551b6ecf81df66e1cf2771577a8f2bb480027",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_corridor_candidate.py": "92c4069423b5e3be88635e360806197ec6482da73d01974b174c280cc6f77223",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_count.py": "b938989b16628b3185d9df2d4f6b75f780790f8faf6ed474c54469671e7829af",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_demand.py": "8189a43a337946f1733d47d2aaa052f06e0d4cbf7b2dc4af162ad73e9d70ec3f",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_movement.py": "e493403470228cb1d4735eac136accf5552196c9d7824fe79a8768cb268cf425",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_road_edges.py": "95bbde8d2014a7e0decb7c11dc32dfcd73960de9bf6b917df5c2189f3805c05d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_signal.py": "31419f0f4cfe69d4df016c09f0a3e3f3a3543876bd9cfe080f79fb135eecdaea",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_compound_official_tls.py": "a4e6c988910e6de41c2b9deb4f35764fd7e536267cf748bf281f8e66e3e64caa",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_compound_plainxml.py": "22432a32937a2253b0553efbc3f4e9bfd1c0185d1680be82e54dcded51ce0aca",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_compound_tls_acceptance.py": "27af63c2d730afc37baa711267d168cc35d1927575268d34c64e8eb0ea4bd5ea",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_context_junctions.py": "bd3c9473f5e0ddfe627705d7f7609b4269640b16d456c085bf7ed159319de2cb",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_corridor_candidate.py": "651d32d140a8239039dad38fb20aeab7066726ef92be4d229b88d9b6be81f1f9",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_corridor_geometry_materializer.py": "e63ca475a49f0cda3fd50b9a22e8af2558c816311f7a3695e8f144589c58f15d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_corridor_tls_materializer.py": "f152409ea2a35dcdfc9203d69ef1992a2d82694dcec6dfc42d4045900a3129fb",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_corridor_workflow.py": "f7ceb62bfe00c2ec3f5b0871a585eb469fc060512ecd9d7153665e65e34eeb6b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_count_station_binding.py": "f9d44a10286fafc59bb0b94b1337c062caa2381239cea5c2afc0535b70d3b364",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_dynamic_demand.py": "105df1f2894cac19a62073bc123043f4a75e7c318121b376dd673368e7c54688",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_event_retiming.py": "79218788d12deb2145afc61b4d880c2614800fbb7cc2515a412d7da292f82d3a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_execution_workflow.py": "679310790712bac62f1d3fde4567472efaa6ba4157a2c4f76264e5b9bc1268b2",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_junction_contour.py": "49fb4d62f8bdfb439545993bad6a480854589b91c1ba839955c86ff9b58c64a4",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_lane_connection_repair.py": "eb3a9a890e0299107ac7fb0ddce071ce493aab8b5c61a5d974dad4b444284386",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_lsa_nodes.py": "3d359ff34bd222fdb7d99b5efcca71332b0f8f512cc067c1bbf146b6ce09c055",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_mainline_scope_materializer.py": "640326fb79f8b358a15c6854af9eb5b95116a4dc028ba63a288f1b7b1c37819f",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_map_kml.py": "648c5f3f891c5ea0b3afc16153271d7b4195db9732f20caf4a72558d4ed21db1",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_movement_path.py": "b311f6a5cbdac3f983a4e657fc03367ac0a4b60232c4e91e2e811f3fa1ee0ac4",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_named_count_scope.py": "c8f986dd6d0524458c4228a73b0293fa9362f4d44acf4f14d35e70c6a33f5f23",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_named_detector_bindings.py": "a12d2ae27c5c058747ef7e36980d3f5bc31eeb542a565788df264058f038e9f2",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_named_replay.py": "8de46f01432664b63eab2e23e9b98ff39ebc08789e35948b2f0759cae6b95681",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_named_scope.py": "f06e27578189a974e891985f80bd58b6c5b03f33230481a72be909b5f8ab6b04",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_named_signal_binding.py": "a7c8e4f9e7674fbdc493d65a8a1be7bc2df0f96bd423163d1e1480bc6387fc74",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_named_signal_observations.py": "bf72d609677c858f64dd7a588c74812e69bf5d041429aec7c07f605b48cc360f",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_network_calibration.py": "2a4dea078014c2e54f6e51c3a61797933f03666a1401653bc2cdbc3d8d7314e3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_official.py": "aaf23c6057aecb1f20f951c34e84b5696f28b57208ce589d4654066b87c9aa93",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_official_corridor_geometry.py": "57de7c3cea1935726a3df6dc1c2bb1dbc0db8cad1ea27ee5c10e9e88d7a12089",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_official_intersection_plainxml.py": "a22414ca6bc3240aba36778fc41f255f3a168f6de5b79ff86d25934901f7f8e9",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_official_road_scope.py": "6f93d9efd7a49cbb22f471caaa3e7e02492e136b4ea1a6679be795a913da2a12",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_road_geometry.py": "f484e2b82a394ca65323ab851c4fa6b8015e37e7b9687983a605bc9c2e69321a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_road_use_review.py": "3b0e892fd88297d43d6e0f8d6d4db89c65270358f37900f82b944816e46c1d89",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_sensor_twin.py": "dc09b10f4c559d6583a4b1c4c1e04100223d597c6349eb84c078bd090fe9a90c",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_shared_teacher.py": "7ecf593ddbd948a6ee32bd61611ec758d227024428da1120bf8f32a4b09c8291",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_stopline_binding.py": "ce7c62deedbdc084edc9653ef68427504e899ddd8cce5cdb7f457379289904c6",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_teacher_cell.py": "82885a2a6480a8b84cc5bfacc26ae9cf5b7277887c596b0eb820b055e46acd6a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_teacher_workflow.py": "e623820f809dcb8489477e2516caf3ae9b66278061af30e77f607e3f025a5b11",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_topology_audit.py": "bd11965485d207d9d25948be27da2e4d58a2332f90131146425489e17e008088",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_topology_route_checks.py": "51df92a41d011b86eb7e6224af47dd00f5f93a36d5d8ffbcb3b0c62d3590d368",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_topology_workflow.py": "1b89d487f5009c8f1465d238902df3b9eca341005616a3a01647a3b4f124ffe2",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\ingolstadt_netedit_ab_evidence.py": "4fdd2157b6637609dbcdbdcd3226e7fe80f23ea3a4d22a9e7cdf399ea92a5fbc",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\internal_ownership.py": "0a7ae945cf47bde698bb5abb5ece1ebe20e262848191d4eb1d9c89afedf825f5",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_aggregation.py": "83d6f7c7dd4c21fecf2b96d7d4dfa9b68e2b78b972a1424a2e2590c5999d8dcf",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_boundary_rebuild.py": "4cc797ffad99404a7b445cea8314b18800ffb361720c5759176f1f5e37a3cf93",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_connection_audit.py": "2b54c875d3cc9fad0680fa27c3983a9f247132de49f915eff206659c04fe44e8",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_contour_control.py": "8a961d227c2b71369c4dacd34424d68b5c3bfbfe4a53a9ca6dd5c1b4583feac5",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_footprint.py": "928db4935f302bc19024c5b0f22f138ff1af1325517f4b9e83800046fa59ede4",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_join_definition.py": "8d963c252f720718794b7d54865201ab6aa0bcf453172e700d76c5b70e0077e0",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_movement_model.py": "6962b83a3da587141463df8c133f745ac15169fae8363c305d0f53e14ec403cb",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_rebuild_candidate.py": "ce6b1d716106dbedb41a9a60d749f251451396b47180b01eda30a69486f89634",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_rebuild_helpers.py": "d5a29f721d9f858bfe6b0061c3f7905d9e2396d39bff98434ec02be520cb26e0",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_rebuild_tail.py": "0e85fc099a063af083670f3e8b173ea8ed2bfdd5ea72cb866e7290444f39d1d1",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_strategy_probe.py": "764adc3f975a496b534c4664f597f9e8bcf55dfaea88f9d0342e30fcaaec791a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_teacher_model.py": "7594fdcf1ff11403231ebe5f7be73673d1d1106511a1faaf11351b9d032997cf",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_correspondence.py": "b2383fbd3d6f7b38682bebc8b6e49cf375c6531eaa6686f2b942a4e0d4221117",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\local_network_conversion.py": "da839859a9775231ba82a85b97d55e957d2d80abc0af708ae624a2a3ff400aa5",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\map_review.py": "4148029f5221458dedeeb3225e882c316de74a49fef297f91e97d600ee6a00e0",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\modal_aggregation_policy.py": "843623f44728a0f578cc3acebe9faa7c8af5697d01f543bb4b5a110b718754d3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\movement_routeability.py": "0704c069777e5d7e5e3b387044323bf56a6df0ab4f6c58079aeb3cfa8b46cfc3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\nema_topology_stage.py": "f9cb975de4d057d6b32ffd3a056af7688b3b5964622b50b3e7df9c58f5f1cdb0",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\netedit.py": "762e96bbc280fb29806cfa1e95652ce799d8f5abb89c92c847af9c1c74c01f8d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_aerial_review.py": "ad2c6de5d16e6f1f232c5c469c207254af2add97046efe855e35891126c1868c",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_calibration.py": "ce5e21f5bfefe9c71c0fba99ea50341f12a3acb6e05245007dc06c8fc346b44e",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_applicability.py": "d794a3118fa7f8e5c1236dbb75db06f2b17b1dad40129af3717d6fcc10c759d7",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_operations.py": "769311309798d9e13506388ba6b57ca158070c427af37dc8a2bb40de9f7f94ce",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_geometry_freeze.py": "f2ebb8fb919aafcc4b1f36f64e76f64e71499c4275288ffddbf94e6eff3efef7",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_length_audit.py": "eb014150327fe8434aceeda77baf61dc4dd19ab84f91fd228898159ba8ef25e7",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_link_semantics.py": "a63fa525e9eb680957c78f9c4629f4bab6bf622b544ca81e73b03ef445b13933",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_nonmotor_access.py": "d319730382fb7a8811bbb5a63184af6cc82b175fac9ea04ad91035e71e28d8bc",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_permissions.py": "4f07e084da9ec25af34ef91e74afa3054ec97fa713509ee35457f95513a2ffe7",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_plan.py": "6deded7040d4cd583dd30fb278a6d707ba30a574fc071f457928aa80b2563084",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_rebuild_probe.py": "e285db412825053d4826b7ee0186edd25fc11855f15b1007035a25b40b96550c",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_source_policy.py": "dbb86ca162c0d063f0a3422d1ad538b8962538e51fab072f9056430f70b779ee",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_structure_review.py": "eef56c806b9986ba19c97fd8351817da2f99563a47c1f2dab394db507de171a4",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_visualization.py": "50c67f302809b202d22b7de367e41e5ef0c481bf088ca26635d905ac0f7385bd",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\ocit_c.py": "6d14d5f8b0108e1db7da42a64a99aac0cebcac0b212d01f84f437e9a47028b52",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\ocit_c_signal_devices.py": "73a8203e095f11270d5ad5e6587c0f3db105c4cc6120124be48bfb3e1895877d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\official_movement_composition.py": "ed1ae7dbbb493460981a530680ffb0b9a9fe1bb84178b051fc7a1eba7cbc3f43",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\official_tls_rebuild.py": "82489dc8461be108c82f3b89a58c8e68ad881e66d998545f1180abb217e43c6c",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\official_tls_workflow.py": "e5a1b82a85b24e684a00fdca026cd3a7826a9905c4bf74ccf8790121ab8f3f2b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_access.py": "5dbebdb4201b833269874385cb91507ffa32fd782fcc879933f9fdfa085688db",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_area.py": "6729e48b53f81ceade0c0086619da2fa40543c4e03d5e523c2bfe802afd6d968",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_network.py": "153a069916d36095f9e64869e98cf82c9e52f26a6b5b4d6c4c9c8a938f679d04",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_workflow.py": "9ef1697020302dc5f7f38d819d451ec9a0138982ba46ee73c9edc2be02b161ae",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_workflow_helpers.py": "0c00c68d7adab20a51e52fc315713fa6bc38a96969776f65bd4aecd0e412f927",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_workflow_tail.py": "00162eca5d45daff03c20631c1f34df90c4ad461df103d2cfe5f36e6b98bbd45",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\overlapping_junction_audit.py": "7d98bfcbdc4b47fd3caca527c76d3850f5a9ce7178c7097b0b07b51b4ac41244",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\paired_driving.py": "626da49795a3b16549c5f193415b25cfd5af7dc1f847a2799f1ddc4ea186cf52",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\parking_facilities.py": "66e11d0d8b627cf3804245c2deda214d61baa371e0996fc775bccc00700a7e10",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\prepared_source_facts.py": "755a31fdae4a54e5c17b6a941cc62dda000afe8dd571e3cab40e7891cb8d9b01",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\prepared_source_registration.py": "50b66469a44200e31648213c2726c0000ccde254b9c63b9729100f27179d68da",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\producer_identity.py": "52de0f1190df4bdb771799b18f2b55b8f3496ce7efd492c4bbbb998f455e2fe7",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\public_reference_corpus.py": "187cf3db589f0e01746b202d602c26424bdea2791285404df0fb2aa13d3f3ef3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_bbox.py": "9b70c60b6a5c3dd17d9049982fb7690233b190f45bb8b6745dc92cf2d074a3b3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_hierarchy.py": "b6df6f6b1404fed019f865223a63970087cf02fd07b4d9a484e7a5a7f4bfe2e8",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_join_audit.py": "0243952c63e696fd7ca7e6d9789b16fbb52a0baf762705601430381246b2faf0",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_policy.py": "f422b1ca32d85e64e08ac6cf6c5e9e2ed3730deeece96bf2fa39f9a4c5b7b6a8",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_policy_audit.py": "f37588eeb19ec22a23ddb7a317511a85df841cf0a33093f963eb739ee035484f",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_road_alignment.py": "a015f503dbc118b8d49d945f34772c78670b167582e00c0a3cb5b835a3f49401",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_scope.py": "0a25fdeee2d574bd2ec621e5feb742f73d691d50e96f7c8b8d5c64a5b42c7b49",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_spatial_registration.py": "4d14c38900c60bec377035192ecb64d31fdef91954f24838b31ebfa1c5f09cd5",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_teacher_action_projector.py": "d59daff4c41af57166fa710df0cbd20cc283c611611d43d939dde889ee71b404",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\reference_teacher_curriculum.py": "980da22a72d1dfd1a761588a749e01f41d735e3d9e75c6bbbf575b9a0f13658d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\road_connectivity_teacher_model.py": "efc3a14ac93d6bc62c22002c5a5b97741c8d649d53bfd64772ae4f09266c25b6",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\road_corridor.py": "38393c44139bb260daf1262695c58edfc17a0807a023d9870f120e96e36f91b5",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\road_scope.py": "11a6fe7c64475db3d34658a19d0a32a67e5657a2b4a71427a341407633265a9b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\routeability_audit.py": "8e9588d1163f28fa9e9b470cf72305ef98599dd24de555bc7159582d21c5ec80",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\routeability_od_mapping.py": "204d3a1c46e845ded1199c3e2797ca0f44aa38639caa058560801fc177401a27",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sampler.py": "3581a6fa5f178c3c991e78b0e808256cfe15c7b27715932368beb1b757a7cac0",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sensor_matrix.py": "bd4bea3fef4e6eccc896abc475f8cf7337870f575420dcb80fe90d29aba4aff8",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\signal_device_profile.py": "4e8e5e5175e2fac991b1050f8546cd73b77bc003701b37e5742377491daa2d4d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\signal_stage_contract.py": "8ccedc6fa3e7347807b54a6db77b96a06d64de8a88b9dfaa5385213d3756929d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\site_parameters.py": "a34208c83efc48c715bd18b689e61eeed94ddc148ba82d1f1d25f09292257196",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\source_movement_support.py": "4030a785168dd4c95359b0e2d0f31b64b95e17119078a791b3f2fb4bdcccf74a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\standard_nema_binding.py": "0867f3fc9664e2df04c8a80d71380bc78ddbd86b503491e240724ba79699c1ec",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\sumo_commands.py": "e4b87df2dad4b33bd9828e3cfd682e5a9fa82a120d87940ddcfafa0106c7b5cf",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\sumo_gui.py": "706265b15e9e588814fbf780c326480e021257abfb0ab7a82e2448321119b785",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\sumo_warning_audit.py": "de7d4a677ff26f55da106350e25c85eb460a31c859032d431ba45435fa706278",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\surface_overlap_audit.py": "c517651bab467be70b4b06bb034247b591091722df5c15bce34cba1a9a1b42b3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\teacher_corridor.py": "903e57e08cbe43e79587497d9f27e9d64325e3bcdbb446f97f2e7807d8f62791",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\teacher_free_discovery_workflow.py": "0aa37f6ee57ffc54339ea4c23e019bca572a57ab5b8b2b978cd589ec5c55d31d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\teacher_free_materialization_workflow.py": "cdef84de93da0a95a6c022924509f09bf365cc76548aaaf5c775c6d2e72c45d3",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\teacher_free_topology_workflow.py": "85c58f3edec5c22d440899e6ca3bf8d44e14af70452488f4c636c6b15c9eabe8",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\tls_aggregation.py": "ef89bd50ebd6cb3b2a7c6f75107d03408c5a4360790c276bb5f89d4cc67e951b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\tls_gap_mapping.py": "0232092caa49db0dee166e904645354c93054f2a06f42f0e8b431a3089bfa50f",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\tls_ownership.py": "3518a144bf3c4419f4ae044183083db240f1c140b419ccfde059b19a53e7dd1c",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\tls_reference_cleanup.py": "2a87f49e86592e53d4bad8ae457fb41389e8f054bc380db4137266046cb905f9",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\tls_replay.py": "508d193e0e683e4e8a5512e79052f6dcd5cbb05941b900aef98964c24647b2eb",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\topology_audit.py": "56ada8ba172b6e59ada5c8cf3defc68a898a91dbda5db5140e43083b33a96b38",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\topology_signal_rebuild.py": "0e90eb128b795a616af8d737b3627b5af6ec92e0f08bc9de4ae642616607470d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\topology_variant_workflow.py": "311331e27d57cb26469849aa84d1b8920e1ef3b33376dcf52fc91a907ff55e68",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\traffic_effect_review.py": "dfe10f6da83960e839df561351a6c125a1a432d66b8f47f75b3ae82cf20edc60",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\workflow_catalog.py": "a44035197f7f7c663ea1221ad15c50962894bad55f2b03453ba218a133a16b6a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\workflow_review_html.py": "48a9af1be9ebb474659dca56bceb3341ab02dc3e032460ee6f16baf5c754e6f8",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\workflow_router.py": "370b4a4d1173777fcad874ae3a8d7f97f08a16ad4573313fb1a11916ca21b26b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\workflow_state.py": "eeb4ccc8ae15dc1a2d2a45d0bc7d4c90fe43c46e7f05b6190daba8bda396ce4b",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\xs1_workflow.py": "e79fb37d65a20e8298279dea156c744e3a47ae9e7efa058a051a5b635d2230c6",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\__init__.py": "709e4638ced03b21e1f2f09434667778bea70339746339796e5e08f462826982"
+    },
+    "inputs": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_hamburg_merge_pair_20261020_v1\\local\\corridor_materialized_variant.net.xml": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_hamburg_merge_pair_20261020_v1\\full\\corridor_materialized_variant.net.xml": "2ecadfb1d601ddd6840aa3015dfe4fa023f6991de62cd1cdbdf37933c116bade",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\original.trips.xml": "c775d370ddee8dcf1b240d40791db8331cab1b7e8a49494e9217e5ca487b3af3"
+    },
+    "runner_sha256": "e6e68dd6fcda15aaf30f6c878e2d39584186468c65a6b74ad6906789b1897937",
+    "claim_boundary": "Synthetic endpoint probes on an existing real Hamburg merge. No demand, traffic-benefit or field-validity claim."
+  },
+  "checks": {
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "cases": {
+    "source": {
+      "status": "pass",
+      "routeability_status": "pass",
+      "evidence_validation": {
+        "status": "pass",
+        "execution_status": "completed",
+        "routeability_status": "pass",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\source\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\source\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+        "errors": []
+      },
+      "source_request_count": 4,
+      "unresolved_requests": [],
+      "mapped_endpoints": [],
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\source\\routeability_audit_routeability_audit.json",
+        "sha256": "55d098688fd762b976dbe4bbee4748b1dd25e9fa9b818d60cb9f1d69d3b94b3d"
+      },
+      "attempt_completion": [
+        "pass"
+      ]
+    },
+    "unmapped-local": {
+      "status": "fail",
+      "routeability_status": "route-generation-failed",
+      "evidence_validation": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "route-generation-failed",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\unmapped-local\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\unmapped-local\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "source_request_count": 4,
+      "unresolved_requests": [],
+      "mapped_endpoints": [],
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\unmapped-local\\routeability_audit_routeability_audit.json",
+        "sha256": "b1492e6174360520876d18d76792727e5441c829870ed773c606ed7670c35db2"
+      },
+      "attempt_completion": []
+    },
+    "local": {
+      "status": "pass",
+      "routeability_status": "pass",
+      "evidence_validation": {
+        "status": "pass",
+        "execution_status": "completed",
+        "routeability_status": "pass",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\local\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\local\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+        "errors": []
+      },
+      "source_request_count": 4,
+      "unresolved_requests": [],
+      "mapped_endpoints": [
+        {
+          "vehicle_id": "0",
+          "source": {
+            "from": "83075269#0",
+            "to": "83075269#1",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "0",
+            "depart": "0"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#0",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#0_0",
+                  "candidate_lane_id": "83075269#0_0",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 4.990583024558816,
+                  "source_point_xyz_m": [
+                    399.4921841373969,
+                    112.75731645824148,
+                    0.0
+                  ],
+                  "projection_error_m": 0.0,
+                  "encoded_candidate_position_m": 4.990583024558816,
+                  "encoded_position_error_m": 0.0
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_0",
+                  "candidate_lane_id": "83075269#0_0",
+                  "source_position_m": 6.133077999999999,
+                  "candidate_position_m": 16.52613597762071,
+                  "source_point_xyz_m": [
+                    404.1866111115248,
+                    102.25105083119281,
+                    0.0
+                  ],
+                  "projection_error_m": 2.2838191453712153e-08,
+                  "encoded_candidate_position_m": 16.52613597762071,
+                  "encoded_position_error_m": 2.2838191453712153e-08
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#0",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "4.99058302456",
+            "arrivalPos": "16.5261359776",
+            "id": "0",
+            "depart": "0"
+          }
+        },
+        {
+          "vehicle_id": "1",
+          "source": {
+            "from": "83075269#0",
+            "to": "83075269#1",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "1",
+            "depart": "30"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#0",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#0_1",
+                  "candidate_lane_id": "83075269#0_1",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 5.009371377250136,
+                  "source_point_xyz_m": [
+                    402.39617368040086,
+                    114.10217516832176,
+                    0.0
+                  ],
+                  "projection_error_m": 0.0,
+                  "encoded_candidate_position_m": 5.009371377250136,
+                  "encoded_position_error_m": 0.0
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_1",
+                  "candidate_lane_id": "83075269#0_1",
+                  "source_position_m": 6.133077999999999,
+                  "candidate_position_m": 16.53587050812004,
+                  "source_point_xyz_m": [
+                    407.1098093574342,
+                    103.5529378311928,
+                    0.0
+                  ],
+                  "projection_error_m": 4.6612186287620864e-08,
+                  "encoded_candidate_position_m": 16.53587050812004,
+                  "encoded_position_error_m": 4.6612186287620864e-08
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#0",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "5.00937137725",
+            "arrivalPos": "16.5358705081",
+            "id": "1",
+            "depart": "30"
+          }
+        },
+        {
+          "vehicle_id": "2",
+          "source": {
+            "from": "83075269#1",
+            "to": "83075269#2",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "2",
+            "depart": "60"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_0",
+                  "candidate_lane_id": "83075269#0_0",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 15.39029382116098,
+                  "source_point_xyz_m": [
+                    403.725629721188,
+                    103.28611692201795,
+                    0.0
+                  ],
+                  "projection_error_m": 3.5776905736493814e-08,
+                  "encoded_candidate_position_m": 15.39029382116098,
+                  "encoded_position_error_m": 3.5776905736493814e-08
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#2",
+              "candidate_edge_id": "83075269#2",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#2_0",
+                  "candidate_lane_id": "83075269#2_0",
+                  "source_position_m": 43.034167,
+                  "candidate_position_m": 43.030238809689386,
+                  "source_point_xyz_m": [
+                    426.19285032591745,
+                    51.29352976761018,
+                    0.0
+                  ],
+                  "projection_error_m": 2.438046377767733e-05,
+                  "encoded_candidate_position_m": 43.030238809689386,
+                  "encoded_position_error_m": 2.438046377767733e-05
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#2",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "15.3902938212",
+            "arrivalPos": "43.0302388097",
+            "id": "2",
+            "depart": "60"
+          }
+        },
+        {
+          "vehicle_id": "3",
+          "source": {
+            "from": "83075269#1",
+            "to": "83075269#2",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "3",
+            "depart": "90"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_1",
+                  "candidate_lane_id": "83075269#0_1",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 15.40554334283484,
+                  "source_point_xyz_m": [
+                    406.64882810641456,
+                    104.58800392201796,
+                    0.0
+                  ],
+                  "projection_error_m": 7.30197803213691e-08,
+                  "encoded_candidate_position_m": 15.40554334283484,
+                  "encoded_position_error_m": 7.30197803213691e-08
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#2",
+              "candidate_edge_id": "83075269#2",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#2_1",
+                  "candidate_lane_id": "83075269#2_1",
+                  "source_position_m": 43.034167,
+                  "candidate_position_m": 43.03009403739227,
+                  "source_point_xyz_m": [
+                    429.13359131524743,
+                    52.55528961504677,
+                    0.0
+                  ],
+                  "projection_error_m": 2.329754709090842e-05,
+                  "encoded_candidate_position_m": 43.03009403739227,
+                  "encoded_position_error_m": 2.3297547088104014e-05
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#2",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "15.4055433428",
+            "arrivalPos": "43.0300940374",
+            "id": "3",
+            "depart": "90"
+          }
+        }
+      ],
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\local\\routeability_audit_routeability_audit.json",
+        "sha256": "19baca156b3f05e1ba15df22b1a509c8bbca5cad9cfa15a96c37cd4ce856ba29"
+      },
+      "attempt_completion": [
+        "pass"
+      ]
+    },
+    "full": {
+      "status": "pass",
+      "routeability_status": "pass",
+      "evidence_validation": {
+        "status": "pass",
+        "execution_status": "completed",
+        "routeability_status": "pass",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\full\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\full\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "2ecadfb1d601ddd6840aa3015dfe4fa023f6991de62cd1cdbdf37933c116bade",
+        "errors": []
+      },
+      "source_request_count": 4,
+      "unresolved_requests": [],
+      "mapped_endpoints": [
+        {
+          "vehicle_id": "0",
+          "source": {
+            "from": "83075269#0",
+            "to": "83075269#1",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "0",
+            "depart": "0"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#0",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#0_0",
+                  "candidate_lane_id": "83075269#0_0",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 4.990583024558816,
+                  "source_point_xyz_m": [
+                    399.4921841373969,
+                    112.75731645824148,
+                    0.0
+                  ],
+                  "projection_error_m": 0.0,
+                  "encoded_candidate_position_m": 4.990583024558816,
+                  "encoded_position_error_m": 0.0
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_0",
+                  "candidate_lane_id": "83075269#0_0",
+                  "source_position_m": 6.133077999999999,
+                  "candidate_position_m": 16.52613597762071,
+                  "source_point_xyz_m": [
+                    404.1866111115248,
+                    102.25105083119281,
+                    0.0
+                  ],
+                  "projection_error_m": 2.2838191453712153e-08,
+                  "encoded_candidate_position_m": 16.52613597762071,
+                  "encoded_position_error_m": 2.2838191453712153e-08
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#0",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "4.99058302456",
+            "arrivalPos": "16.5261359776",
+            "id": "0",
+            "depart": "0"
+          }
+        },
+        {
+          "vehicle_id": "1",
+          "source": {
+            "from": "83075269#0",
+            "to": "83075269#1",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "1",
+            "depart": "30"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#0",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#0_1",
+                  "candidate_lane_id": "83075269#0_1",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 5.009371377250136,
+                  "source_point_xyz_m": [
+                    402.39617368040086,
+                    114.10217516832176,
+                    0.0
+                  ],
+                  "projection_error_m": 0.0,
+                  "encoded_candidate_position_m": 5.009371377250136,
+                  "encoded_position_error_m": 0.0
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_1",
+                  "candidate_lane_id": "83075269#0_1",
+                  "source_position_m": 6.133077999999999,
+                  "candidate_position_m": 16.53587050812004,
+                  "source_point_xyz_m": [
+                    407.1098093574342,
+                    103.5529378311928,
+                    0.0
+                  ],
+                  "projection_error_m": 4.6612186287620864e-08,
+                  "encoded_candidate_position_m": 16.53587050812004,
+                  "encoded_position_error_m": 4.6612186287620864e-08
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#0",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "5.00937137725",
+            "arrivalPos": "16.5358705081",
+            "id": "1",
+            "depart": "30"
+          }
+        },
+        {
+          "vehicle_id": "2",
+          "source": {
+            "from": "83075269#1",
+            "to": "83075269#2",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "2",
+            "depart": "60"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_0",
+                  "candidate_lane_id": "83075269#0_0",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 15.39029382116098,
+                  "source_point_xyz_m": [
+                    403.725629721188,
+                    103.28611692201795,
+                    0.0
+                  ],
+                  "projection_error_m": 3.5776905736493814e-08,
+                  "encoded_candidate_position_m": 15.39029382116098,
+                  "encoded_position_error_m": 3.5776905736493814e-08
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#2",
+              "candidate_edge_id": "83075269#2",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#2_0",
+                  "candidate_lane_id": "83075269#2_0",
+                  "source_position_m": 43.034167,
+                  "candidate_position_m": 43.030238809689386,
+                  "source_point_xyz_m": [
+                    426.19285032591745,
+                    51.29352976761018,
+                    0.0
+                  ],
+                  "projection_error_m": 2.438046377767733e-05,
+                  "encoded_candidate_position_m": 43.030238809689386,
+                  "encoded_position_error_m": 2.438046377767733e-05
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#2",
+            "departLane": "0",
+            "arrivalLane": "0",
+            "departPos": "15.3902938212",
+            "arrivalPos": "43.0302388097",
+            "id": "2",
+            "depart": "60"
+          }
+        },
+        {
+          "vehicle_id": "3",
+          "source": {
+            "from": "83075269#1",
+            "to": "83075269#2",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "5",
+            "arrivalPos": "-2",
+            "id": "3",
+            "depart": "90"
+          },
+          "endpoints": [
+            {
+              "role": "depart",
+              "source_edge_id": "83075269#1",
+              "candidate_edge_id": "83075269#0",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#1_1",
+                  "candidate_lane_id": "83075269#0_1",
+                  "source_position_m": 5.0,
+                  "candidate_position_m": 15.40554334283484,
+                  "source_point_xyz_m": [
+                    406.64882810641456,
+                    104.58800392201796,
+                    0.0
+                  ],
+                  "projection_error_m": 7.30197803213691e-08,
+                  "encoded_candidate_position_m": 15.40554334283484,
+                  "encoded_position_error_m": 7.30197803213691e-08
+                }
+              ]
+            },
+            {
+              "role": "arrival",
+              "source_edge_id": "83075269#2",
+              "candidate_edge_id": "83075269#2",
+              "lanes": [
+                {
+                  "source_lane_id": "83075269#2_1",
+                  "candidate_lane_id": "83075269#2_1",
+                  "source_position_m": 43.034167,
+                  "candidate_position_m": 43.03009403739227,
+                  "source_point_xyz_m": [
+                    429.13359131524743,
+                    52.55528961504677,
+                    0.0
+                  ],
+                  "projection_error_m": 2.329754709090842e-05,
+                  "encoded_candidate_position_m": 43.03009403739227,
+                  "encoded_position_error_m": 2.3297547088104014e-05
+                }
+              ]
+            }
+          ],
+          "candidate": {
+            "from": "83075269#0",
+            "to": "83075269#2",
+            "departLane": "1",
+            "arrivalLane": "1",
+            "departPos": "15.4055433428",
+            "arrivalPos": "43.0300940374",
+            "id": "3",
+            "depart": "90"
+          }
+        }
+      ],
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\full\\routeability_audit_routeability_audit.json",
+        "sha256": "13a6e4e505b79413fbb45405d92cf4f02b06f5cf0f23b631b5c513718707a652"
+      },
+      "attempt_completion": [
+        "pass"
+      ]
+    },
+    "generated-local": {
+      "status": "review_required",
+      "routeability_status": "not_run",
+      "evidence_validation": {
+        "status": "review_required",
+        "execution_status": "not_run",
+        "routeability_status": "not_run",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\generated-local\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\generated-local\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "c04bd2224ee33126642792e3bc853415582b5f792c7a7fe2268e4e0718741e60",
+        "errors": []
+      },
+      "source_request_count": 100,
+      "unresolved_requests": [
+        {
+          "vehicle_id": "45",
+          "reason": "The current arrival lane needs different candidate positions; use an explicit source lane."
+        }
+      ],
+      "mapped_endpoints": [],
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\odmap26v3\\generated-local\\routeability_audit_routeability_audit.json",
+        "sha256": "3d7e88e17849b908ba9b8dde42c9827e8bee266cf50aa10db2b9b834efcfc594"
+      },
+      "attempt_completion": []
+    }
+  },
+  "runner": {
+    "path": "outputs/probe_merged_od_hamburg_20261020_v3.py",
+    "sha256": "e6e68dd6fcda15aaf30f6c878e2d39584186468c65a6b74ad6906789b1897937"
+  },
+  "raw_result_directory": "outputs/odmap26v3",
+  "analysis_script": "outputs/freeze_merged_od_20261020_v1.py",
+  "claim_boundary": "Four synthetic requests on an actual Hamburg merge. No field accuracy, all-pair reachability, historical demand or traffic benefit is established. The independent 100-request batch remains unverified, without filtering its one unresolved request."
+}

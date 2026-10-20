@@ -1,5 +1,10 @@
 # Historical MoST input supplement
 
+The [standalone conversion CI receipt](standalone-local-ci-20261020-v1.md) records
+the complete `cc54a92` and `89aa27d` Windows results, with the tested native execution policies.
+The [original-endpoint follow-up](merged-endpoints-20261020-v1.md) records the
+`b2810d5` merge repair, real Hamburg controls, retained requests and unresolved arrival correspondence.
+
 This catalog supplements [the four-model v1 corpus](../public_network_development_v1/catalog.json).
 It preserves that catalog and adds the prepared input from the published MoST network revision.
 It is the same Monaco model family, not another independent city.
