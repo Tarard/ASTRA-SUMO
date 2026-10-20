@@ -72,6 +72,10 @@ No conversion runs when all roads remain selected or no roads match. These cases
 It retains geometry differences, source preparation, signal-program changes, and restoration findings.
 The result has no automatic promotion authority.
 The Ring1 `case.json` shows geometry and signal findings beside its measured status.
+`signal_scope_changes` separates controllers removed with junctions, removed at dead ends, and changed at retained junctions.
+It also lists added controllers and unresolved ownership.
+The raw strict signal comparison remains available. Expected scope removals do not produce a retained-control warning.
+Connector repairs identify turnarounds in their shortest source path and whether another source path exists without turnarounds.
 Road-level reachability does not establish lane-level execution, queue storage, or valid field signal timing.
 
 ## Hamburg example

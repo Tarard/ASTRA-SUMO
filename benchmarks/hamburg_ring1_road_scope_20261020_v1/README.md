@@ -22,6 +22,7 @@ These anchors do not establish an exact sensor-to-lane mapping.
 
 [Current execution evidence](execution-evidence-v2.json) records the fixed-interface scope and remaining stages.
 [Current geometry evidence](main-road-geometry-evidence-v2.json) checks the major and protected roads.
+[Signal-scope evidence](signal-scope-evidence-v1.json) separates expected scope removals from retained controller changes.
 The earlier [533-road run](execution-evidence.json) and [geometry check](main-road-geometry-evidence.json) remain as superseded evidence.
 Other retained approach geometry and signal programs changed during extraction and remain recorded for review.
 

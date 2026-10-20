@@ -42,6 +42,8 @@ The raw before view remains unchanged. `selection_input` in `case.json` identifi
 
 Use `normalized_full_network` from the selection report for a loadable full-network baseline.
 Review signal and geometry changes before a later demand comparison.
+The current signal summary separates 81 controllers removed with their junctions, 14 removed at dead ends, and one changed retained controller.
+It retains the raw strict comparison and the changed controller ID in the detailed report.
 The runner compares canonical XML content with the frozen native import, ignoring generator comments and platform line endings.
 The scope is exploratory. Successful loading and static connectivity do not establish complete corridor driving validity.
 

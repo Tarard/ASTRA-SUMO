@@ -15,6 +15,7 @@ Data: Freie und Hansestadt Hamburg, Landesbetrieb Straßen, Brücken und Gewäss
 License: [Datenlizenz Deutschland – Namensnennung 2.0](https://www.govdata.de/dl-de/by-2-0).
 Source: [Traffic Lights Data Hamburg](https://suche.transparenz.hamburg.de/dataset/traffic-lights-data-hamburg6).
 The catalog records this license and attribution.
+The raw catalog also records `isopen: false`. The package retains that flag, the explicit license fields, and the license URL.
 
 The geographic TLS clustering result is only a proposal for physical junction grouping.
 For example, the 60 m clustering can chain several nearby junctions into one large group at LSA118.

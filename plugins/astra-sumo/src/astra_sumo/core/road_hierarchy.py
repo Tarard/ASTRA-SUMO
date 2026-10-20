@@ -81,6 +81,31 @@ def _boundaries(root, edges, graph, selected):
     return [zones[key] for key in sorted(zones)]
 
 
+def _signal_scope_changes(source, candidate, comparison):
+    edges = {row.get("id"): row for row in source.findall("edge") if not row.get("function")}
+    nodes = {row.get("id"): row for row in candidate.findall("junction")}
+    owners = defaultdict(set)
+    for row in source.findall("connection"):
+        if row.get("tl") and row.get("from") in edges:
+            owners[row.get("tl")].add(edges[row.get("from")].get("to"))
+    groups = {key: [] for key in ("removed_with_junction", "removed_at_dead_end", "changed_retained",
+                                  "added", "removed_at_retained_junction", "unresolved_removed_owner")}
+    for key, change in comparison["unexpected_changes"].items():
+        owned = owners[key]
+        if change.get("candidate"):
+            kind = "changed_retained" if change.get("source") else "added"
+        elif not owned:
+            kind = "unresolved_removed_owner"
+        elif not (owned & nodes.keys()):
+            kind = "removed_with_junction"
+        elif all(nodes[node].get("type") == "dead_end" for node in owned & nodes.keys()):
+            kind = "removed_at_dead_end"
+        else:
+            kind = "removed_at_retained_junction"
+        groups[kind].append(key)
+    return {key: sorted(values) for key, values in groups.items()}
+
+
 def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), protected_way_ids=(),
                           vehicle_class="passenger", required_movements=None):
     if keep_tier not in ROAD_HIERARCHY_TIERS:
@@ -147,6 +172,7 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
     else:
         pairs = required_movements
     pairs = sorted(set(map(tuple, pairs)))
+    turnarounds = {(row.get("from"), row.get("to")) for row in root.findall("connection") if row.get("dir") == "t"}
     for start in sorted({pair[0] for pair in pairs}):
         if start not in full_paths:
             full_paths[start] = _paths(graph, lengths, start, set(graph))
@@ -158,13 +184,19 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
             if target not in distances:
                 path = _path(old_previous, start, target)
                 added = set(path) - selected
-                repairs.append({"from": start, "to": target, "added_edges": sorted(added), "source_path": path})
+                has_turnaround = any(pair in turnarounds for pair in zip(path, path[1:]))
+                without_turnaround = True
+                if has_turnaround:
+                    straight_graph = {key: {last for last in targets if (key, last) not in turnarounds} for key, targets in graph.items()}
+                    without_turnaround = target in _paths(straight_graph, lengths, start, set(graph))[0]
+                repairs.append({"from": start, "to": target, "added_edges": sorted(added), "source_path": path,
+                    "source_shortest_path_has_turnaround": has_turnaround,
+                    "source_path_without_turnaround_exists": without_turnaround})
                 for key in added:
                     reasons[key] = ["required_connection"]
                 selected.update(added)
                 distances, _ = _paths(graph, lengths, start, selected)
     movements = []
-    turnarounds = {(row.get("from"), row.get("to")) for row in root.findall("connection") if row.get("dir") == "t"}
     for start in sorted({pair[0] for pair in pairs}):
         distances, previous = _paths(graph, lengths, start, selected)
         for first, last in pairs:
@@ -302,8 +334,9 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
         report["retained_road_geometry"] = compare_frozen_geometry(source_file=source, candidate_file=candidate,
             mutable_junction_ids={row.get("id") for row in root.findall("junction")}, mutable_edge_ids=removed)
         report["signal_program_changes"] = _compare_tls_logic_semantics(root, after)
-        if report["signal_program_changes"]["status"] != "pass":
-            report["warnings"].append("Scope extraction changed signal programs, including excluded controllers. Check retained movement control before calibration.")
+        report["signal_scope_changes"] = _signal_scope_changes(root, after, report["signal_program_changes"])
+        if any(values for key, values in report["signal_scope_changes"].items() if key not in {"removed_with_junction", "removed_at_dead_end"}):
+            report["warnings"].append("Scope extraction changed retained control or has unresolved controller ownership. Inspect signal_scope_changes before calibration.")
         if plan["source_tier_counts"].get("unknown"):
             report["warnings"].append("Unknown source road types were retained. Inspect their recorded classification before further pruning.")
         if plan["unserved_source_boundaries"]:

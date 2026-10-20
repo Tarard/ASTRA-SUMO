@@ -63,7 +63,8 @@ def run(output_dir):
                 "lane_attribute_changes": geometry.get("ordinary_lane_attribute_changes"),
                 "max_lane_shape_displacement_m": geometry.get("max_outside_lane_shape_displacement_xy_m"),
                 "signal_status": signals.get("status", "not_measured"),
-                "unexpected_signal_program_count": len(signals.get("unexpected_changes", {})),
+                "signal_difference_count": len(signals.get("unexpected_changes", {})),
+                "signal_changes_by_scope": {key: len(values) for key, values in selected.get("signal_scope_changes", {}).items()},
                 "warnings": selected.get("warnings", [])}
             if not all(case["reproduction"]["checks"].values()):
                 case["review"]["warnings"].append("The run differs from the frozen example expectations. Inspect the reproduction checks.")

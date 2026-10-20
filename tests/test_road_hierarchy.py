@@ -67,7 +67,8 @@ def test_hierarchy_keeps_detector_road_and_approaches_without_return_loops():
     assert all(row.get("priority") == "99" for row in root.findall("edge"))
 
 
-def test_missing_directed_connection_is_repaired_from_source_only():
+@pytest.mark.parametrize("turnaround", [False, True])
+def test_missing_directed_connection_is_repaired_from_source_only(turnaround):
     root = _network()
     edge = root.find("edge[@id='connector']")
     edge.set("to", "middle")
@@ -78,12 +79,39 @@ def test_missing_directed_connection_is_repaired_from_source_only():
     ET.SubElement(last, "lane", id="last_0", index="0", length="10", allow="passenger")
     ET.SubElement(root, "connection", **{"from": "middle", "to": "last"}, fromLane="0", toLane="0")
     ET.SubElement(root, "connection", **{"from": "last", "to": "main-b"}, fromLane="0", toLane="0")
+    if turnaround:
+        root.find("connection[@from='connector']").set("dir", "t")
+        alternative = ET.SubElement(root, "edge", id="alternative", **{"from": "middle", "to": "last"}, type="highway.service")
+        ET.SubElement(alternative, "lane", id="alternative_0", index="0", length="100", allow="passenger")
+        for first, target in [("connector", "alternative"), ("alternative", "last")]:
+            ET.SubElement(root, "connection", **{"from": first, "to": target}, fromLane="0", toLane="0", dir="s")
     # Explicit entry/exit scope does not demand the reverse trip on a one-way corridor.
     report = select_road_hierarchy(root, required_movements=[("main-a", "main-b")])
     assert report["connection_repairs"]
     assert report["connection_repairs"][0]["source_path"] == ["main-a", "connector", "middle", "last", "main-b"]
     assert report["movements"][0]["detour_ratio"] == 1
     assert report["movements"][0]["added_length_m"] == 0
+    assert report["connection_repairs"][0]["source_shortest_path_has_turnaround"] == turnaround
+    assert report["connection_repairs"][0]["source_path_without_turnaround_exists"]
+
+
+def test_signal_removal_due_to_pruning_is_separate_from_retained_control_changes():
+    from astra_sumo.core.road_hierarchy import _signal_scope_changes
+    source = ET.fromstring('''<net>
+      <edge id="a" to="removed"/><edge id="b" to="dead"/><edge id="c" to="retained"/>
+      <edge id="d" to="changed"/>
+      <connection from="a" tl="gone"/><connection from="b" tl="dead-tls"/>
+      <connection from="c" tl="retained-tls"/><connection from="d" tl="changed-tls"/>
+      </net>''')
+    candidate = ET.fromstring('''<net><junction id="dead" type="dead_end"/>
+      <junction id="retained" type="priority"/><junction id="changed" type="traffic_light"/></net>''')
+    changes = {key: {"source": {"program": "0"}, "candidate": None} for key in ["gone", "dead-tls", "retained-tls", "unknown"]}
+    changes["changed-tls"] = {"source": {"program": "0"}, "candidate": {"program": "1"}}
+    changes["new"] = {"source": None, "candidate": {"program": "0"}}
+    groups = _signal_scope_changes(source, candidate, {"unexpected_changes": changes})
+    assert groups == {"removed_with_junction": ["gone"], "removed_at_dead_end": ["dead-tls"],
+        "changed_retained": ["changed-tls"], "added": ["new"], "removed_at_retained_junction": ["retained-tls"],
+        "unresolved_removed_owner": ["unknown"]}
 
 
 def test_terminal_side_approaches_do_not_require_an_outside_residential_route():

@@ -1,0 +1,48 @@
+{
+  "schema": "astra.ring1-signal-scope-evidence/v1",
+  "case": {
+    "path": "outputs/ring1-road-demo-20261020-v7/case.json",
+    "sha256": "ee593dc7534091b9cda8c4247da38aaa4d887bc99c8326888d47305596c7bf43"
+  },
+  "scope_report": {
+    "path": "outputs/ring1-road-demo-20261020-v7/02-main-roads/report.json",
+    "sha256": "a03480663c8e1f6cf95f43a255407c2fea095b24b4df5c0f8c941ea98f769f14"
+  },
+  "implementation": {
+    "osm_network.py": "153a069916d36095f9e64869e98cf82c9e52f26a6b5b4d6c4c9c8a938f679d04",
+    "road_hierarchy.py": "b92ca7c9b09e9e2a39780d6d6cd3b95fc4863a4ef7f3f89bbc2fe98b061a8325",
+    "road_scope.py": "1417d8bbc38bfa519cd4f5d3e1912968c15375fd69ccf4394b2bef6d9755c6c5"
+  },
+  "runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_road_selection.py",
+    "sha256": "ba0f3b9fd8107980904366b27aed69a41aa053158079b89875d2a78cc69daf50"
+  },
+  "candidate_content_matches_previous_scope": true,
+  "signal_changes_by_scope": {
+    "removed_with_junction": 81,
+    "removed_at_dead_end": 14,
+    "changed_retained": 1,
+    "added": 0,
+    "removed_at_retained_junction": 0,
+    "unresolved_removed_owner": 0
+  },
+  "retained_controller_changes": [
+    "GS_205068087"
+  ],
+  "connector_turnaround_analysis": [
+    {
+      "from": "486870074#0",
+      "to": "139083720",
+      "source_shortest_path_has_turnaround": true,
+      "source_path_without_turnaround_exists": true
+    }
+  ],
+  "focused_tests": {
+    "result": {
+      "path": "outputs/road-hierarchy-signal-tests-20261020-v1.xml",
+      "sha256": "924cee1bf0e4cb50aaa1eb1fee8dc19752398bc4e5742866ccd8853408bd4f17"
+    },
+    "passed": 78
+  },
+  "claim_boundary": "Reporting repair only. No field signal timing or completed corridor claim."
+}
