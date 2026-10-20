@@ -179,3 +179,6 @@ retaining unapproved facility increases as blocked release results.
 The [real walking-area context follow-up](additive-walking-context-20261020-v1.md)
 retains a real-junction regression missed by those synthetic controls, its
 14-road native-context repair, and type-derived lane-count verification.
+The [shared-controller context follow-up](additive-controller-context-20261020-v1.md)
+keeps the original adoption boundary even when native computation includes
+adjacent junctions. Shared controllers can still require a full-network fallback.
