@@ -140,7 +140,8 @@ def map_merged_od_requests(source_root, candidate_root, requests):
             record["probe_mode"] = "physical_endpoints"
         except (KeyError, ValueError, StopIteration) as error:
             removed = [record["source"][key] for key in ("from", "to")
-                       if aliases.get(record["source"][key], record["source"][key]) not in candidate]
+                       if record["source"][key] in original
+                       and aliases.get(record["source"][key], record["source"][key]) not in candidate]
             failures.append({"vehicle_id": row.get("id"), "reason": str(error),
                              "classification": "source_endpoint_removed" if removed else "physical_position_unresolved",
                              "removed_source_edge_ids": removed})
@@ -152,11 +153,14 @@ def map_merged_od_requests(source_root, candidate_root, requests):
             for key in ("departPos", "arrivalPos", "departLane", "arrivalLane", "departPosLat", "arrivalPosLat"):
                 row.attrib.pop(key, None)
             record["attempted_mapped_endpoints"] = record["endpoints"]
-            record.update(candidate=dict(row.attrib), endpoints=[], probe_mode="logical_only")
+            record.update(candidate=dict(row.attrib), endpoints=[],
+                          probe_mode="removed_endpoint" if removed else "logical_only")
             changed = True
         records.append(record)
+    removed_ids = [row["vehicle_id"] for row in failures if row["classification"] == "source_endpoint_removed"]
     return mapped, {"status": "review_required" if failures else "pass", "changed": changed,
-                    "method": "directed_road_identity_or_verified_merge_and_lane_geometry/v1", "maximum_projection_error_m": TOLERANCE_M,
+                    "method": "directed_road_identity_or_verified_merge_and_lane_geometry/v2", "maximum_projection_error_m": TOLERANCE_M,
                     "request_count": len(records), "unresolved_requests": failures, "requests": records,
-                    "physical_request_count": len(records) - len(failures), "logical_only_request_count": len(failures),
-                    "claim_boundary": "Source requests are never filtered or resampled. Logical lane positions use each lane's geometric-length ratio. Both projection and encoded position errors must stay within 0.02 m. Default lane selection preserves the source lane endpoint set, not each vehicle's realized lane choice. Unresolved requests still receive strict road-level routing probes without physical endpoint qualification."}
+                    "physical_request_count": len(records) - len(failures), "logical_only_request_count": len(failures) - len(removed_ids),
+                    "removed_endpoint_request_count": len(removed_ids), "removed_endpoint_vehicle_ids": removed_ids,
+                    "claim_boundary": "Every original request remains recorded without resampling. Removed endpoints are reported separately and cannot receive native routes. Remaining unresolved positions receive strict road-level probes. Default lane selection qualifies the source lane endpoint set rather than identical realized lane choices. Physical endpoint qualification stays incomplete for removed or unresolved endpoints."}

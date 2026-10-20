@@ -376,7 +376,7 @@ def run_routeability_audit(
     reference = Path(od_reference_net_file).resolve() if od_reference_net_file is not None else None
     frozen = Path(frozen_trip_file).resolve() if frozen_trip_file is not None else None
     protected = {path for path in (net_file, reference, frozen) if path is not None}
-    planned_outputs = {output_dir / f"{prefix}{suffix}" for suffix in (".trips.xml", ".source.trips.xml", ".od-map.json", ".rou.xml", "_routeability_audit.json", "_routeability_audit.manifest.json", ".od.src.xml", ".od.dst.xml")}
+    planned_outputs = {output_dir / f"{prefix}{suffix}" for suffix in (".trips.xml", ".source.trips.xml", ".routable.trips.xml", ".od-map.json", ".rou.xml", "_routeability_audit.json", "_routeability_audit.manifest.json", ".od.src.xml", ".od.dst.xml")}
     if initial_end > 0 and max_end >= initial_end:
         planned_outputs.update(output_dir / f"{prefix}_end{end}{suffix}" for end in _horizon_sequence(initial_end, max_end) for suffix in (".sumocfg", "_summary.xml", "_tripinfo.xml", "_vehroute.xml"))
     if any(path.resolve() in protected or any(path.exists() and source.exists() and path.samefile(source) for source in protected) for path in planned_outputs):
@@ -385,6 +385,8 @@ def run_routeability_audit(
     input_hashes = {path: file_sha256(path) for path in protected if path.is_file()}
     approved_hashes: dict[Path, str] = {}
     observed_changes: list[dict[str, Any]] = []
+    routing_vehicle_count = 0
+    coverage = {}
     try:
         output_dir.mkdir(parents=True, exist_ok=True)
     except OSError as exc:
@@ -394,13 +396,20 @@ def run_routeability_audit(
 
     def finish(report: Mapping[str, Any]) -> dict[str, Any]:
         payload = dict(report)
+        payload.setdefault("vehicle_count", vehicle_count)
+        payload["routing_vehicle_count"] = routing_vehicle_count
+        if coverage:
+            payload["cohort_coverage"] = coverage
+        if executable_trip_file in approved_hashes:
+            payload["routing_trip_file"] = str(executable_trip_file)
         mapping = payload.get("od_policy", {}).get("endpoint_mapping", {})
         if mapping.get("status") == "review_required":
             payload["warnings"] = list(payload.get("warnings", [])) + [
-                "Unresolved endpoints received logical road-level probes only. Physical route preservation remains unverified."]
+                "Physical endpoint qualification remains incomplete. See removed endpoints and logical-only routing coverage."]
             if payload.get("status") == "pass":
                 payload.update(status="review_required", claim_status="review_required", routeability_status="unverified_endpoints",
-                               execution_status="completed", reason="unresolved_endpoint_mapping")
+                               execution_status="partial" if coverage.get("removed_endpoint_count", 0) else "completed",
+                               reason="unresolved_endpoint_mapping")
         if source_trip_file in approved_hashes:
             payload["source_trip_file"] = str(source_trip_file)
         if mapping_file in approved_hashes:
@@ -410,7 +419,7 @@ def run_routeability_audit(
             "begin_s": 0,
             "max_end_s": max_end,
             "time_to_teleport_s": max_end,
-            "claim_boundary": "Every attempt uses the same finite waiting-teleport threshold as the fixed maximum end. All requested vehicles must arrive normally on their complete approved routes within that window. Native vehicle-route output must retain every vehicle, route edge and exit time without replacement. Running, waiting, discarded, teleported or collided vehicles fail. Other recovery modes are not disabled; their events still fail. This is topology diagnostics, not traffic-performance or calibration evidence.",
+            "claim_boundary": "Every executable request must arrive normally on its complete approved route within the fixed maximum window. Removed-endpoint requests remain recorded outside the native subset and prevent full-cohort qualification. Running, waiting, discarded, teleported or collided vehicles fail. Recovery events still fail. This is topology diagnosis, not traffic-performance or calibration evidence.",
         }
         changes = observed_changes + _hash_changes({**input_hashes, **approved_hashes})
         payload["input_identities"] = [{"path": str(path), "sha256": digest} for path, digest in input_hashes.items()]
@@ -430,6 +439,7 @@ def run_routeability_audit(
 
     source_trip_file = output_dir / f"{prefix}.source.trips.xml"
     mapping_file = output_dir / f"{prefix}.od-map.json"
+    executable_trip_file = output_dir / f"{prefix}.routable.trips.xml"
     if vehicle_count <= 0:
         return finish(_construction_invalid("vehicle_count must be positive"))
     if initial_end <= 0 or max_end <= 0:
@@ -458,7 +468,7 @@ def run_routeability_audit(
 
     trip_file = output_dir / f"{prefix}.trips.xml"
     route_file = output_dir / f"{prefix}.rou.xml"
-    cleanup_errors = _remove_stale_outputs(trip_file, source_trip_file, mapping_file, route_file)
+    cleanup_errors = _remove_stale_outputs(trip_file, source_trip_file, executable_trip_file, mapping_file, route_file)
     if cleanup_errors:
         return finish(
             {
@@ -516,7 +526,34 @@ def run_routeability_audit(
             raise ValueError(f"generated {len(requested)} requests, expected {vehicle_count}; no requests were replaced")
         planned_hash = file_sha256(trip_file)
         approved_hashes[trip_file] = planned_hash
-        command = [str(selected["duarouter"]), "--net-file", str(net_file), "--route-files", str(trip_file), "--output-file", str(route_file), "--alternatives-output", os.devnull, "--precision", "12", "--seed", str(seed)]
+        routing_input = trip_file
+        mapping = od_policy.get("endpoint_mapping", {})
+        removed_ids = set(mapping.get("removed_endpoint_vehicle_ids", []))
+        if removed_ids:
+            root = ET.parse(trip_file).getroot()
+            for row in root.findall("trip"):
+                if row.get("id") in removed_ids:
+                    root.remove(row)
+            ET.indent(root)
+            write_text_atomic(executable_trip_file, ET.tostring(root, encoding="unicode", xml_declaration=True))
+            routing_input = executable_trip_file
+            approved_hashes[routing_input] = file_sha256(routing_input)
+        executable = _request_records(routing_input)
+        if set(executable) & removed_ids or set(executable) | removed_ids != set(requested):
+            raise ValueError("Executable and removed-endpoint requests do not partition the original cohort.")
+        routing_vehicle_count = len(executable)
+        coverage.update(requested_count=len(requested), routing_count=routing_vehicle_count,
+                        physical_count=mapping.get("physical_request_count", len(requested)),
+                        logical_only_count=mapping.get("logical_only_request_count", 0),
+                        removed_endpoint_count=len(removed_ids), removed_endpoint_vehicle_ids=sorted(removed_ids))
+        od_policy.update(request_file_sha256=planned_hash, request_count=len(requested),
+                         routing_request_file_sha256=approved_hashes[routing_input])
+        if not routing_vehicle_count:
+            return finish({"status": "review_required", "claim_status": "review_required", "routeability_status": "not_run",
+                "execution_status": "not_run", "reason": "all_source_endpoints_removed", "trip_file": str(trip_file),
+                "od_policy": od_policy, "sampling": sampling, "route_generation": {"status": "not_run"}, "attempts": [],
+                "warnings": ["Every original request has a removed endpoint. The original cohort remains recorded; native routing was not run."]})
+        command = [str(selected["duarouter"]), "--net-file", str(net_file), "--route-files", str(routing_input), "--output-file", str(route_file), "--alternatives-output", os.devnull, "--precision", "12", "--seed", str(seed)]
         route_generation = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
         if route_generation.get("returncode") != 0 or route_generation.get("status") != "pass" or not route_file.is_file():
             raise ValueError("strict route generation failed; original requests are retained")
@@ -524,9 +561,9 @@ def run_routeability_audit(
         if observed_changes:
             raise ValueError("protected input or planned trips changed during routing")
         routed_hash = file_sha256(route_file)
-        if _request_records(route_file, routed=True) != requested or file_sha256(route_file) != routed_hash:
+        if _request_records(route_file, routed=True) != executable or file_sha256(route_file) != routed_hash:
             raise ValueError("routing changed or omitted diagnostic vehicle IDs, departures, or OD")
-        planned_rows = {row.get("id"): row for row in ET.parse(trip_file).getroot().findall("trip")}
+        planned_rows = {row.get("id"): row for row in ET.parse(routing_input).getroot().findall("trip")}
         defaults = {"departPos": "base", "arrivalPos": "max", "departLane": "best_prob", "arrivalLane": "current"}
         for row in ET.parse(route_file).getroot().findall("vehicle"):
             for name in ("departPos", "arrivalPos", "departLane", "arrivalLane"):
@@ -583,7 +620,7 @@ def run_routeability_audit(
             end=end,
             time_to_teleport=max_end,
             seed=seed,
-            vehicle_count=vehicle_count,
+            vehicle_count=routing_vehicle_count,
             timeout_seconds=timeout_seconds,
             command_runner=command_runner,
         )
@@ -872,6 +909,7 @@ def _write_routeability_outcome(
     if net_file.is_file():
         artifact_candidates.append((net_file, "routeability_net"))
     for key, kind in (("trip_file", "random_trips"), ("source_trip_file", "source_trips"),
+                      ("routing_trip_file", "executable_trips"),
                       ("endpoint_mapping_file", "endpoint_mapping"), ("route_file", "route_file")):
         value = persisted.get(key)
         if value:

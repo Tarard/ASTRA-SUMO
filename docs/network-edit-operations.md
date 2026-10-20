@@ -73,12 +73,17 @@ The pinned SUMO 1.27.1 default base position is the smaller of 5.1 m and the ori
 An omitted departure-lane selector uses `best_prob`. Mapping checks every possible source passenger lane rather than assuming the first lane.
 Default lane selection qualifies the source lane endpoint set. It does not require identical realized lane choices after an edit.
 Ambiguous lane sets, unsupported vehicle definitions, and absorbed endpoints without an ordinary-road correspondence remain unverified.
-These requests still receive strict road-level routing probes. Their original physical selectors remain in the source request file and correspondence record.
-The separate probe removes unresolved endpoint selectors and retains the original IDs, departure times and corresponding road OD.
-No request is filtered, replaced or resampled. Missing original roads still cause strict routing failure.
-`physical_request_count` and `logical_only_request_count` state the qualification coverage.
-Completed road-level probes with unresolved physical endpoints return `review_required` and `unverified_endpoints`.
-Routing or driving failures remain failures. An unresolved endpoint cannot turn another request's failure into a review outcome.
+Requests whose endpoint roads still exist receive strict road-level routing probes.
+Removed endpoints remain in the complete source and candidate request files and in the correspondence record.
+A separate `.routable.trips.xml` file excludes only requests with recorded removed endpoint roads.
+It retains the other IDs, departure times and corresponding road OD. It does not establish route existence before the strict native check.
+No original request is silently lost, replaced or resampled.
+`cohort_coverage` states the original, native-input, physical, logical-only and removed-endpoint counts.
+The three qualification counts sum to the full original cohort. `vehicle_count` remains the original count, while `routing_vehicle_count` states the native subset size.
+Completed subset probes retain `review_required` and `unverified_endpoints` when endpoints remain unqualified.
+Their execution status is `partial` when removed endpoints lie outside the native subset.
+If all original endpoints are removed, the audit reports review and `not_run` with the full retained cohort.
+Remaining routing or driving failures stay failures. A removed endpoint cannot hide a disconnection between retained roads.
 Exploration retains available measurements with warnings. Release qualification requires complete physical endpoint evidence.
 `source_baseline` separates checked `clean` or `dirty` diagnostics from `not_run` cases.
 These labels describe the synthetic passenger probe, not field quality.

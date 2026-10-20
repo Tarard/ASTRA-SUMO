@@ -1160,8 +1160,10 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
                     od_reference_net_file=source)
                 report["candidate_routeability"] = routed
                 if routed.get("od_policy", {}).get("endpoint_mapping", {}).get("status") == "review_required":
-                    warnings.append("Original endpoint correspondence remains unverified. All requests received road-level routing probes.")
-                if routed.get("route_generation", {}).get("status") != "pass":
+                    removed = routed.get("cohort_coverage", {}).get("removed_endpoint_count", 0)
+                    warnings.append(f"Original endpoint evidence is incomplete. Routing status: {routed.get('route_generation', {}).get('status', 'not_run')}. Removed-endpoint requests: {removed}. The original cohort remains recorded.")
+                if (routed.get("route_generation", {}).get("status") != "pass"
+                        and routed.get("reason") != "all_source_endpoints_removed"):
                     report["status"] = "blocked"
                 if routed.get("attempts") and routed["status"] != "pass":
                     warnings.append("Candidate driving checks failed. Inspect collisions, teleports, and completion separately from missing routes.")

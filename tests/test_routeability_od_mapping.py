@@ -40,7 +40,7 @@ def test_endpoint_projection_retains_elevation_and_ignores_duplicate_vertices():
     assert result["candidate_position_m"] == pytest.approx(60)
 
 
-@pytest.mark.parametrize("suffix", [".source.trips.xml", ".od-map.json"])
+@pytest.mark.parametrize("suffix", [".source.trips.xml", ".routable.trips.xml", ".od-map.json"])
 def test_endpoint_mapping_outputs_cannot_replace_an_input(tmp_path, suffix):
     source = tmp_path / ("probe" + suffix)
     source.write_text('<net/>', encoding="utf-8")
@@ -228,3 +228,54 @@ def test_native_unresolved_endpoint_does_not_hide_other_route_results(tmp_path, 
         assert result["final_attempt"]["vehicle_routes"]["complete_count"] == 2
         assert checked["status"] == "review_required" and not checked["errors"]
     assert file_sha256(source) == source_hash and file_sha256(trips) == request_hash
+
+
+@pytest.mark.skipif(any(not shutil.which(name) for name in ("netconvert", "sumo", "duarouter")), reason="SUMO programs required")
+@pytest.mark.parametrize("case", ["remaining_ok", "remaining_disconnected", "all_removed"])
+def test_native_removed_endpoints_do_not_abort_remaining_requests(tmp_path, case):
+    source, _ = _compiled_chain(tmp_path)
+    candidate = tmp_path / "deleted.net.xml"
+    subprocess.run(["netconvert", "-s", str(source), "--remove-edges.explicit", "a",
+                    "--offset.disable-normalization", "true", "-o", str(candidate)], check=True, capture_output=True, timeout=30)
+    if case == "remaining_disconnected":
+        tree = ET.parse(candidate)
+        tree.getroot().remove(tree.getroot().find("connection[@from='b'][@to='tail']"))
+        tree.write(candidate, encoding="utf-8")
+    root = ET.fromstring('<routes><trip id="removed" depart="0" from="a" to="b"/></routes>')
+    if case != "all_removed":
+        ET.SubElement(root, "trip", id="retained", depart="30", attrib={"from": "b", "to": "tail"})
+    trips = tmp_path / "original.xml"
+    ET.ElementTree(root).write(trips, encoding="utf-8")
+    count, digest = len(root.findall("trip")), file_sha256(trips)
+    result = run_routeability_audit(net_file=candidate, od_reference_net_file=source, frozen_trip_file=trips,
+        expected_frozen_trip_sha256=digest, output_dir=tmp_path / "audit", vehicle_count=count, initial_end=300, max_end=300)
+    assert file_sha256(trips) == digest
+    assert len(ET.parse(result["trip_file"]).getroot().findall("trip")) == count
+    assert file_sha256(Path(result["source_trip_file"])) == digest
+    executable = ET.parse(result["routing_trip_file"]).getroot().findall("trip")
+    assert [row.get("id") for row in executable] == ([] if case == "all_removed" else ["retained"])
+    coverage = result["cohort_coverage"]
+    assert coverage["requested_count"] == count and coverage["removed_endpoint_count"] == 1
+    assert coverage["routing_count"] == len(executable)
+    assert coverage["removed_endpoint_vehicle_ids"] == ["removed"]
+    assert coverage["physical_count"] + coverage["logical_only_count"] + coverage["removed_endpoint_count"] == count
+    from astra_sumo.core.candidate_contracts import validate_routeability_evidence
+    checked = validate_routeability_evidence(result, candidate_net_file=candidate)
+    malformed = {**result, "cohort_coverage": {**coverage, "removed_endpoint_vehicle_ids": None}}
+    rejected = validate_routeability_evidence(malformed, candidate_net_file=candidate)
+    assert any(row["code"] == "routeability_invalid_cohort_counts" for row in rejected["errors"])
+    if case == "remaining_disconnected":
+        assert result["status"] == "fail" and result["routeability_status"] == "route-generation-failed"
+        assert "not known" not in result["route_generation"].get("stderr", "")
+        assert checked["status"] == "blocked"
+    else:
+        assert result["status"] == checked["status"] == "review_required"
+        assert not checked["errors"]
+        if case == "all_removed":
+            assert result["execution_status"] == "not_run" and result["attempts"] == []
+            assert result["route_generation"] == {"status": "not_run"}
+        else:
+            assert result["execution_status"] == "partial"
+            assert result["final_attempt"]["vehicle_routes"]["complete_count"] == 1
+            forged = {**result, "status": "pass", "routeability_status": "pass"}
+            assert validate_routeability_evidence(forged, candidate_net_file=candidate)["status"] == "blocked"

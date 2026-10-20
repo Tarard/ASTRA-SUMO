@@ -650,9 +650,29 @@ def validate_routeability_evidence(
         errors.append({"code": "routeability_schema_mismatch"})
     not_run = (report.get("status") == "review_required" and report.get("routeability_status") == "not_run"
                and report.get("execution_status") == "not_run"
-               and report.get("reason") in {"no_diagnostic_od_pool", "unresolved_endpoint_mapping"})
+               and report.get("reason") in {"no_diagnostic_od_pool", "unresolved_endpoint_mapping", "all_source_endpoints_removed"})
     incomplete_endpoints = (report.get("status") == "review_required" and report.get("routeability_status") == "unverified_endpoints"
-                            and report.get("execution_status") == "completed" and report.get("reason") == "unresolved_endpoint_mapping")
+                            and report.get("execution_status") in {"completed", "partial"}
+                            and report.get("reason") == "unresolved_endpoint_mapping")
+    coverage = report.get("cohort_coverage")
+    if coverage is not None:
+        fields = ("requested_count", "routing_count", "physical_count", "logical_only_count", "removed_endpoint_count")
+        removed_ids = coverage.get("removed_endpoint_vehicle_ids") if isinstance(coverage, Mapping) else None
+        if (not isinstance(coverage, Mapping) or not isinstance(removed_ids, list)
+                or any(not isinstance(identity, str) or not identity for identity in removed_ids)
+                or any(type(coverage.get(key)) is not int or coverage[key] < 0 for key in fields)):
+            errors.append({"code": "routeability_invalid_cohort_counts"})
+        elif (coverage["requested_count"] != report.get("vehicle_count")
+              or coverage["requested_count"] != coverage["physical_count"] + coverage["logical_only_count"] + coverage["removed_endpoint_count"]
+              or coverage["routing_count"] != coverage["requested_count"] - coverage["removed_endpoint_count"]
+              or coverage["routing_count"] != report.get("routing_vehicle_count")
+              or len(set(removed_ids)) != coverage["removed_endpoint_count"]):
+            errors.append({"code": "routeability_cohort_partition_mismatch"})
+        elif coverage["removed_endpoint_count"] and report.get("status") == "pass":
+            errors.append({"code": "routeability_removed_endpoints_cannot_pass"})
+        elif incomplete_endpoints and (report.get("final_attempt", {}).get("vehicle_routes", {}).get("planned_count") != coverage["routing_count"]
+                or report.get("final_attempt", {}).get("vehicle_routes", {}).get("complete_count") != coverage["routing_count"]):
+            errors.append({"code": "routeability_completed_subset_count_mismatch"})
     if incomplete_endpoints and not (report.get("route_generation", {}).get("status") == "pass"
             and type(report.get("route_generation", {}).get("returncode")) is int
             and report.get("route_generation", {}).get("returncode") == 0
@@ -683,6 +703,9 @@ def validate_routeability_evidence(
                 "net_file",
                 "net_sha256",
                 "vehicle_count",
+                "routing_vehicle_count",
+                "routing_trip_file",
+                "cohort_coverage",
                 "route_generation",
                 "attempts",
                 "final_attempt",
