@@ -150,6 +150,12 @@ The checker recomputes the operation's node and road scope before using it.
 An unchanged finding outside that scope does not fail the local edit.
 A finding that intersects the scope still requires review, even if inherited.
 The report retains the whole-network review status and inherited finding count.
+Legacy `delete_edge` and `merge_edges` operations use their existing native
+road-ID lists for the same comparison. The checker binds the list to the
+materialization manifest and recorded command. Deletion scope includes the
+declared roads and both end junctions. Merge scope includes the target roads,
+their end junctions, and incident roads. The converter's input format stays
+unchanged. Unrecognized or modified plans do not grant scoped qualification.
 For verified direct speed, permission, and stop-line changes, an unchanged
 in-scope finding is informational. Its record remains in the report.
 New or changed findings still require review. Edits that reconstruct junctions,

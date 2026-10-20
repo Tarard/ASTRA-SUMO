@@ -1626,6 +1626,8 @@ def run_corridor_candidate_gates(
                                    else scoped_plan["mutable_junction_ids"])
                     relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases,
                         source_node_ids=scope_nodes)
+                    if scoped_plan.get("scope_binding"):
+                        relative.update(source_scope_junction_ids=sorted(scope_nodes), scope_binding=scoped_plan["scope_binding"])
                     # Verified direct edits do not reconstruct the inherited junction structure.
                     direct_method = scoped_plan.get("materialization_method")
                     if (direct_method in {"speed_attributes_only", "permission_attributes_only", "stop_line_edge_mean_3d"}
@@ -1773,6 +1775,29 @@ def normalize_edit_operation(operation: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _native_edge_list_scope(report, source_file, source_root, path, operation):
+    """Derive legacy scope from the recorded native input, without a new plan format."""
+    if sum(report["command"].count(flag) for flag in ("--remove-edges.input-file", "--geometry.remove.keep-edges.input-file")) != 1:
+        return {}
+    if (Path(report["source_net_file"]).resolve() != source_file.resolve()
+            or report["source_sha256"] != file_sha256(source_file)):
+        return {}
+    edges = _normal_edges(source_root)
+    listed = {line.strip() for line in path.read_text(encoding="utf-8").splitlines() if line.strip()}
+    if listed - edges.keys():
+        return {}
+    if operation == "merge_edges" and not any(value in report["command"] for value in ("--geometry.remove", "--geometry.remove=true")):
+        return {}
+    targets = listed if operation == "delete_edge" else edges.keys() - listed
+    if not targets:
+        return {}
+    nodes = {value for key in targets for value in (edges[key].get("from"), edges[key].get("to")) if value}
+    mutable_edges = targets | {key for key, edge in edges.items() if edge.get("from") in nodes or edge.get("to") in nodes}
+    return {"operation": {"operation": operation, "params": {}}, "source": {"path": str(source_file), "sha256": report["source_sha256"]},
+            "mutable_junction_ids": sorted(nodes), "mutable_edge_ids": sorted(mutable_edges),
+            "scope_binding": {"basis": "manifest_bound_native_edge_list", "path": str(path), "sha256": file_sha256(path)}}
+
+
 def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
     """Read a bound plan only when its scope matches the source operation."""
     if not report or evidence.get("status") not in {"pass", "review_required"}:
@@ -1783,6 +1808,14 @@ def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
         bindings = [row for row in manifest["artifacts"] if row.get("kind") == "materialization_plan"
                     and Path(row["path"]).resolve() == path]
         if len(bindings) != 1 or bindings[0].get("sha256") != file_sha256(path):
+            return {}
+        command = report.get("command", [])
+        native_kinds = {"--remove-edges.input-file": "delete_edge", "--geometry.remove.keep-edges.input-file": "merge_edges"}
+        matched = [kind for flag, kind in native_kinds.items() if command.count(flag) == 1
+                   and command.index(flag) + 1 < len(command) and Path(command[command.index(flag) + 1]).resolve() == path]
+        if len(matched) == 1:
+            return _native_edge_list_scope(report, source_file, source_root, path, matched[0])
+        if matched:
             return {}
         plan = json.loads(path.read_text(encoding="utf-8"))
         if (Path(plan["source"]["path"]).resolve() != source_file.resolve()
