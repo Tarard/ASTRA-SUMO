@@ -789,7 +789,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
         plan["local_conversion"] = local
         changed_permissions = ET.tostring(root) != ET.tostring(ET.parse(source_file).getroot())
-        if subset is not None or changed_permissions or kind == "set_lane_count":
+        if subset is not None or changed_permissions or kind == "set_lane_count" or kind in _CONNECTION_EDITS:
             local = plan["local_conversion"]
             local_file = output_dir / f"{prefix}.{'local' if subset is not None else 'full'}-input.net.xml"
             if local_file.resolve() == candidate_file.resolve():
@@ -799,15 +799,17 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             local.update(input={"path": str(local_file.resolve()), "sha256": file_sha256(local_file)},
                          operation=operation, preserve_loaded_turn_permissions=True)
             command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
-        if kind == "set_lane_count":
+        if kind == "set_lane_count" or kind in _CONNECTION_EDITS:
             from .network_geometry_freeze import prepare_geometry_frozen_input
             slot = command.index("--sumo-net-file") + 1
             import_root = ET.parse(command[slot]).getroot()
-            automatic_contours = frozenset(j.get("id") for j in import_root.findall("junction")
+            automatic_contours = (frozenset(j.get("id") for j in import_root.findall("junction")
                 if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
+                if kind == "set_lane_count" else frozenset())
             frozen = prepare_geometry_frozen_input(source_file=Path(command[slot]),
                 output_file=output_dir / f"{prefix}.geometry-frozen-input.net.xml",
-                mutable_edge_ids=frozenset({params["edge_id"]}), mutable_junction_ids=automatic_contours)
+                mutable_edge_ids=frozenset({params["edge_id"]}) if kind == "set_lane_count" else frozenset(),
+                mutable_junction_ids=automatic_contours)
             plan["geometry_frozen_input"] = frozen
             command[slot] = frozen["frozen_input"]["path"]
             if local.get("input"):

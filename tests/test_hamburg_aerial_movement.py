@@ -216,3 +216,34 @@ def test_newer_aerial_cannot_replace_a_historical_target_even_if_curve_is_close(
     assert result['reason'] == 'aerial_not_from_target_year'
     same_year = select_movement_geometry(official, traced, max_error_m=3.0, target_year=2013, aerial_year=2013)
     assert same_year['selected_source'] == 'aerial_trace'
+
+
+@pytest.mark.parametrize("node_id,expected", [("104", 14), ("118", 26), ("119", 16), ("200", 39), ("535", 19)])
+def test_official_plan_uses_frozen_sources_without_an_aerial_image(tmp_path, node_id, expected):
+    import gzip
+    from astra_sumo.core.hamburg_aerial_movement import build_hamburg_official_movement_plan
+
+    base = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_official_sources_20261020_v1"
+    catalog = json.loads((base / "manifest.json").read_text(encoding="utf-8"))
+    paths, hashes = {}, {}
+    for row in catalog["files"]:
+        if row["node_id"] == node_id and row["kind"] in {"map_xml", "map_kml"}:
+            assert file_sha256(base / row["path"]) == row["compressed_sha256"]
+            path = tmp_path / row["source_filename"]
+            path.write_bytes(gzip.decompress((base / row["path"]).read_bytes()))
+            paths[row["kind"]], hashes[row["kind"]] = path, row["sha256"]
+    output = tmp_path / "official-plan.json"
+    plan = build_hamburg_official_movement_plan(node_id=node_id, map_xml_file=paths["map_xml"],
+        map_kml_file=paths["map_kml"], expected_sha256=hashes, output_file=output)
+    assert plan["source_vehicle_movement_count"] == len(plan["movements"]) == expected
+    assert plan["unusable_vehicle_movements"] == []
+    assert {row["selected_source"] for row in plan["movements"]} == {"official_map"}
+    assert all(row["selected_shape_epsg25832"] == row["official_shape_epsg25832"] for row in plan["movements"])
+    assert not plan["promotion_authority"] and not plan["independent_geometry_validation"]
+    assert all("permission_status" in row for row in plan["lanes"])
+    assert all(file_sha256(path) == hashes[key] for key, path in paths.items())
+    rejected = tmp_path / "changed-source-plan.json"
+    with pytest.raises(ValueError, match="SHA-256"):
+        build_hamburg_official_movement_plan(node_id=node_id, map_xml_file=paths["map_xml"],
+            map_kml_file=paths["map_kml"], expected_sha256={**hashes, "map_kml": "0" * 64}, output_file=rejected)
+    assert not rejected.exists()

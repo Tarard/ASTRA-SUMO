@@ -48,6 +48,7 @@ from .hamburg_junctions.geometry import (
     reanchor_movement_shape as reanchor_movement_shape,
 )
 from .hamburg_junctions.groups import (
+    _compile_official_part_joins,
     _movements_by_part as _movements_by_part,
     _prepare_context_joins as _prepare_context_joins,
     _select_join_groups as _select_join_groups,
@@ -136,52 +137,10 @@ def build_hamburg_aerial_combined_candidate(
     ) if request["context_joins"] else None
     construction_net = Path(context["candidate_network"]["path"]) if context else source_net
     join_file = destination / "physical-part-joins.nod.xml"
-    _write_join_file(join_file, groups)
-    joined_auto = destination / "joined-auto.net.xml"
-    joined_net = destination / "joined-base.net.xml"
-    joined_output = destination / "joined-output.nod.xml"
-    construction_root = ET.parse(construction_net).getroot()
-    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
-    mutable_edges = {edge.get("id") for edge in construction_root.findall("edge")
-                     if not edge.get("id", "").startswith(":")
-                     and any(edge.get(end) in mutable_nodes for end in ("from", "to"))}
-    join_groups = {str(group["join_id"]): group["source_node_ids"] for group in groups if len(group["source_node_ids"]) > 1}
-    from .local_network_conversion import run_scoped_native_conversion
-    netconvert, join_conversion = run_scoped_native_conversion(
-        command=
-        [
-            str(request.get("netconvert_binary", "netconvert")),
-            "--junctions.internal-link-detail",
-            construction_root.get("junctionLinkDetail", "5"),
-            "--sumo-net-file",
-            str(construction_net),
-            "--node-files",
-            str(join_file),
-            "--output-file",
-            str(joined_auto),
-            "--junctions.join-output",
-            str(joined_output),
-            "--seed",
-            str(int(request["seed"])),
-            "--offset.disable-normalization",
-            "true",
-        ],
-        mutable_nodes=mutable_nodes, mutable_edges=mutable_edges, join_groups=join_groups or None,
-        output_dir=destination, prefix="physical-parts",
-        timeout_seconds=float(request["timeout_seconds"]),
-    )
-    (destination / "netconvert.log").write_text(
-        netconvert.stdout + netconvert.stderr,
-        encoding="utf-8",
-    )
-    if netconvert.returncode != 0 or not joined_auto.is_file():
-        raise ValueError("netconvert could not build the physical-part candidate")
-    boundary_rebuild = _rebuild_join_boundaries(
-        joined_auto, joined_net, groups,
-        protected_source=construction_net,
+    joined_net, netconvert, join_conversion, boundary_rebuild = _compile_official_part_joins(
+        source_net=construction_net, groups=groups, output_dir=destination,
         netconvert_binary=str(request.get("netconvert_binary", "netconvert")),
-        timeout_seconds=float(request["timeout_seconds"]),
-    )
+        timeout_seconds=float(request["timeout_seconds"]), seed=int(request["seed"]))
     approach_rebuild = build_hamburg_aerial_approach_candidate(
         source_net=joined_net,
         plans=plans,

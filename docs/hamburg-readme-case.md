@@ -114,7 +114,33 @@ The complete six-stage workflow is not implemented yet.
 The demonstration uses one case configuration, one frozen input package, and one report.
 The configuration records the bbox, corridor, road tier, observation window, and signal treatment.
 
-### Current junction diagnostics
+### Current construction and driving
+
+The [latest five-node driving check](../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) also applies the explicit missing-lane correction at 119.
+It verifies 92 of the 114 official motor movements on the new scope. All 92 matched movements pass their inlet/internal/outlet probes.
+
+| Node | Verified movements | Official total |
+|---|---:|---:|
+| 104 | 13 | 14 |
+| 118 | 17 | 26 |
+| 119 | 16 | 16 |
+| 200 | 27 | 39 |
+| 535 | 19 | 19 |
+
+The other 22 movements remain unresolved. The report retains their lane reviews, unexplained extra connections, and composed-boundary reviews.
+Some unresolved references are bus-only or revocable lanes. Adding ordinary motor lanes is not a general correction for them.
+An earlier movement-only conversion left four endpoint gaps after it recalculated automatic contours and restored the ordinary roads.
+Contour-preservation mode now fixes existing contours as well as ordinary roads. A four-road native regression reproduces the failure and checks both repaired movements by driving.
+The lane-count edit still changes one neighboring lane shape by up to 0.91 m. This change remains unaccepted.
+A normal passenger vehicle completes a requested stop on the added lane and arrives without collision or teleport.
+
+All 13 count-field associations are active on this five-node candidate, with no shared lane assignments.
+Thirteen E1 loops load in SUMO, and their membership reproduces the four published station groups.
+The one-second layout load has no traffic demand. It supplies no count-fit result and does not select the experiment window.
+The [shared example command](../examples/06_hamburg_ring1_demo/README.md#continue-through-junctions-and-detectors) now rebuilds construction and detector placement from saved inputs.
+Signal treatment and fitting remain unfinished. The complete six-stage demonstration is not available yet.
+
+### Earlier construction diagnostics
 
 A separate prototype constructs LSA535 and LSA119.
 It materializes all 19 official motor movements at 535 and all 16 at 119.
@@ -138,37 +164,14 @@ It does not select a more distant road to obtain a desired lane count.
 Two extra 535 connections remain unexplained. The earlier source diagnostic also records nine failures at four outside junctions.
 The probes disable autonomous lane changes and do not establish multi-vehicle capacity, field signal timing, or count accuracy.
 The [diagnostic record](../benchmarks/hamburg_ring1_road_scope_20261020_v1/junction-diagnostic-evidence-v2.json) records the prototype lineage, results, and remaining limits.
-The complete junction-stage replay and final sensor mapping remain unfinished.
+At that stage, the complete junction replay and final sensor mapping were unfinished.
 
 The [new-scope approach replay](../benchmarks/hamburg_ring1_road_scope_20261020_v1/approach-replay-evidence-v1.json) constructs nine physical parts across all five nodes on the 467-road scope.
 It records the failed initial approach conversion and its source-derived geometry repairs.
 The repaired stage preserves its declared outside geometry, attributes, and connection set.
 Two pre-existing movements have no effective permitted vehicle class. Their explicit deletion preserves every remaining movement's loaded permissions.
 The resulting intermediate network has zero structural path failures. Its full official movement inventory and driving still need verification.
-These diagnostic runners depend on local outputs. They do not yet make stages 3 and 4 reproducible from the committed example.
-
-The [latest five-node driving check](../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) also applies the explicit missing-lane correction at 119.
-It verifies 92 of the 114 official motor movements on the new scope. All 92 matched movements pass their inlet/internal/outlet probes.
-
-| Node | Verified movements | Official total |
-|---|---:|---:|
-| 104 | 13 | 14 |
-| 118 | 17 | 26 |
-| 119 | 16 | 16 |
-| 200 | 27 | 39 |
-| 535 | 19 | 19 |
-
-The other 22 movements remain unresolved. The report retains their lane reviews, unexplained extra connections, and composed-boundary reviews.
-Some unresolved references are bus-only or revocable lanes. Adding ordinary motor lanes is not a general correction for them.
-An earlier movement-only conversion left four endpoint gaps after it recalculated automatic contours and restored the ordinary roads.
-Contour-preservation mode now fixes existing contours as well as ordinary roads. A four-road native regression reproduces the failure and checks both repaired movements by driving.
-The lane-count edit still changes one neighboring lane shape by up to 0.91 m. This change remains unaccepted.
-A normal passenger vehicle completes a requested stop on the added lane and arrives without collision or teleport.
-
-All 13 count-field associations are active on this five-node candidate, with no shared lane assignments.
-Thirteen E1 loops load in SUMO, and their membership reproduces the four published station groups.
-The one-second layout load has no traffic demand. It supplies no count-fit result and does not select the experiment window.
-The committed example still lacks the complete construction-to-detector runner, signal treatment, and fitting stages.
+Those diagnostic runners depend on local outputs. The shared example command now replaces their construction and detector steps.
 
 ### Road importance and retained roads
 

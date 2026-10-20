@@ -3,6 +3,15 @@
 This fixture covers the Binnenalster / Ring1 case shown in the repository README.
 It is separate from the Am Sandtorkai fixtures.
 
+## Current status
+
+The current scope has 467 of 1,156 source road segments.
+The [five-node driving record](full-movement-driving-evidence-v1.json) verifies 92 of 114 official motor movements and loads 13 field loops.
+Twenty-two movements and four supplementary motor connections remain unresolved. No demand fitting or count-accuracy result is available.
+Earlier records below keep their original 367-, 468-, and 533-road scopes. They do not replace the current record.
+
+## Source and replay details
+
 - OSM query date: `2026-10-06T00:00:00Z`.
 - Retrieval date: 2026-10-20.
 - Requested bbox: `9.9815,53.5525,10.0065,53.5598`.
@@ -38,8 +47,8 @@ The earlier [533-road run](execution-evidence.json) and [geometry check](main-ro
 Other retained approach geometry can change during extraction. Controller removals remain recorded separately.
 
 The fixture tests road selection and input handling. It contains no new traffic-count calibration result.
-Run the [offline example](../../examples/06_hamburg_ring1_demo/README.md) to rebuild stages 1 and 2.
-[Separate junction diagnostics](junction-diagnostic-evidence-v2.json) record 35 passing isolated movements at 119 and 535.
+Run the [offline example](../../examples/06_hamburg_ring1_demo/README.md) to rebuild the source and selected scope, then continue through partial junction reconstruction and detector layout.
+[Older two-node diagnostics](junction-diagnostic-evidence-v2.json) record 35 passing isolated movements at 119 and 535.
 This prototype comes from the earlier 468-road scope. It has not been replayed on the current 467-road scope.
 Its movement-only conversion preserves all ordinary lane shapes, lengths, and widths from its lane-count input.
 The earlier lane-count stage still changes three neighboring lane shapes. These changes remain unaccepted.

@@ -284,6 +284,41 @@ def _select_join_groups(
     return groups
 
 
+def _compile_official_part_joins(*, source_net, groups, output_dir, netconvert_binary, timeout_seconds, seed):
+    """Compile official physical parts, including disconnected source carriageways."""
+    from ..local_network_conversion import run_scoped_native_conversion
+    from .boundaries import _rebuild_join_boundaries
+
+    output_dir = Path(output_dir)
+    output_dir.mkdir(parents=True, exist_ok=True)
+    join_file = output_dir / "physical-part-joins.nod.xml"
+    joined_auto = output_dir / "joined-auto.net.xml"
+    joined_net = output_dir / "joined-base.net.xml"
+    joined_output = output_dir / "joined-output.nod.xml"
+    if any(path.exists() for path in (join_file, joined_auto, joined_net, joined_output)):
+        raise ValueError("Use new output files for official part joins.")
+    _write_join_file(join_file, groups)
+    root = ET.parse(source_net).getroot()
+    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
+    mutable_edges = {edge.get("id") for edge in root.findall("edge")
+                     if not edge.get("id", "").startswith(":")
+                     and any(edge.get(end) in mutable_nodes for end in ("from", "to"))}
+    join_groups = {str(group["join_id"]): group["source_node_ids"] for group in groups if len(group["source_node_ids"]) > 1}
+    result, conversion = run_scoped_native_conversion(
+        command=[str(netconvert_binary), "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"),
+                 "--sumo-net-file", str(source_net), "--node-files", str(join_file), "--output-file", str(joined_auto),
+                 "--junctions.join-output", str(joined_output), "--seed", str(int(seed)),
+                 "--offset.disable-normalization", "true"],
+        mutable_nodes=mutable_nodes, mutable_edges=mutable_edges, join_groups=join_groups or None,
+        output_dir=output_dir, prefix="physical-parts", timeout_seconds=float(timeout_seconds))
+    (output_dir / "netconvert.log").write_text(result.stdout + result.stderr, encoding="utf-8")
+    if result.returncode != 0 or not joined_auto.is_file():
+        raise ValueError("netconvert could not build the physical-part candidate")
+    boundary = _rebuild_join_boundaries(joined_auto, joined_net, groups, protected_source=source_net,
+        netconvert_binary=str(netconvert_binary), timeout_seconds=float(timeout_seconds))
+    return joined_net, result, conversion, boundary
+
+
 def _prepare_context_joins(*, source_net, context_groups, official_groups, output_dir, netconvert_binary, sumo_binary, timeout_seconds, seed, adjacent_geometry_junction_ids=(), signal_policy="preserve", junction_contours="preserve", junction_corner_radius_m=8.0, interior_lane_change_policy="fixed_paths"):
     """Rebuild declared context under its explicit signal policy."""
     from ..junction_boundary_rebuild import collect_join_boundary_paths, restore_joined_boundary_connections

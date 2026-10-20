@@ -35,6 +35,11 @@ request described by the input schema.
 The existing operations remain `add_edge`, `add_sidewalk`, `add_crossing`,
 `add_ramp`, `delete_edge`, and `merge_edges`.
 
+Connection additions, deletions, and turnaround suppression freeze ordinary road geometry and existing junction contours before native conversion.
+Their source-derived import hints also remove inherited sidewalk and bicycle synthesis defaults.
+The evidence validator reconstructs these hints from the source and edit, rather than trusting the saved input.
+Connection and control changes retain their separate checks. A geometry-preserving connection edit does not establish field legality.
+
 Junction shape edits use native reconstruction. Final automatic qualification
 compares that reconstruction with a source-contour identity control. See
 [local edit applicability](edit-specific-applicability.md) for the measured

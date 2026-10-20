@@ -1,6 +1,6 @@
 # Hamburg Ring1 main-road demonstration
 
-**Implemented: stages 1 and 2. The six-stage demonstration is not complete.**
+**Offline commands cover stages 1–4. Junction correspondence remains partial. The calibration demonstration is not complete.**
 
 This example uses the Binnenalster / Ring1 case and LSA118 shown in the repository README.
 It rebuilds a full vehicle import from a frozen OSM snapshot, then selects the main-road scope.
@@ -17,6 +17,44 @@ Use the repository's declared environment from the repository root:
 
 Use a new output directory. The installed SUMO package supplies the native binaries.
 The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json) records the bbox, source date, classes, and study anchors.
+
+## Continue through junctions and detectors
+
+Regenerate the official inputs, then continue the road-scope run above:
+
+```powershell
+.venv/Scripts/python.exe examples/06_hamburg_ring1_demo/prepare_approach_evidence.py outputs/ring1-official-inputs
+.venv/Scripts/python.exe examples/06_hamburg_ring1_demo/run_junction_construction.py outputs/ring1-demo/case.json outputs/ring1-official-inputs/official-sources.json outputs/ring1-junctions
+```
+
+All inputs come from the frozen repository packages. Use a new output directory for each run.
+The command calls shared source readers, grouping, conversion, typed edits, movement probes, and field-loop writers.
+The first five-node run can take several minutes because it tests source lane changes for the retained vehicle classes.
+
+`junction-edits.json` supplies the explicit LSA119 lane-count correction and its lane connections.
+The added motor lane inherits its source donor's permissions, including bus access. Bicycle access remains separate.
+The workflow removes only source-model turns whose compiled permission intersection is empty before applying that correction.
+It records every retained movement's effective permissions after each such removal.
+
+| Output under `outputs/ring1-junctions` | Meaning |
+|---|---|
+| `run.json` | Current stage, source identities, measurements, warnings, and remaining coverage |
+| `plans/` | Official MAP/KML movement geometry and permissions, without aerial tracing |
+| `physical-groups.json` | Physical parts derived from official boundaries and the source network |
+| `official.net.xml` | Separate constructed candidate |
+| `movement-probes/summary.json` | Official movement denominator and exact lane-chain driving results |
+| `field-bindings/` | Published count-field points and tentative lane associations |
+| `field-loops.add.xml` | E1 definitions for active field associations |
+| `field-layout.json` | Native layout load, published station membership, and missing fields |
+| `lane-edit-*/verification.json` | Lane-count effect, access, geometry changes, and service checks |
+
+The earlier five-node candidate verified 92 of 114 official movements and loaded 13 field loops.
+Twenty-two movements and four supplementary motor connections remain unresolved.
+The latter need removal or source justification before fitting routes are generated.
+The lane-count stage also has a neighboring geometry change under review.
+Every declared official movement remains in the denominator.
+Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
+The one-second layout load has no traffic demand or fitted counts.
 
 ## Outputs
 
@@ -89,19 +127,18 @@ Each retained road records its basis: a declared study way, a declared edge, or 
 Eighteen protected edges have no supporting fact marked high or confirmed. They remain tentative.
 These measurements do not establish independent field accuracy or final detector correspondence.
 
-## Remaining demonstration stages
+## Remaining demonstration work
 
-1. Consolidate the physical junctions, including the LSA118 detail.
-2. Place final-network virtual detectors at the real observation sections.
-3. Calibrate against the frozen observations.
-4. Compare observed and simulated counts in the same window.
+1. Resolve the remaining official lane relations, supplementary turns, and neighboring geometry change.
+2. Declare signal timing and the comparison window, then freeze the final network and detector positions.
+3. Fit against the frozen observations and retain all field-level residuals.
+4. Compare observed and simulated counts in the same window, with separate independent validation.
 
 The intended presentation uses actual matched NetEdit screenshots over one Google background.
 Those figures and the count curves are not produced by this partial runner yet.
 The [official source package](../../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) supplies the next junction stage offline.
 The [source-count package](../../benchmarks/hamburg_ring1_count_window_20261020_v1/README.md) checks official field-to-station aggregation offline.
 It contains no simulated or fitted counts.
-The [five-node driving evidence](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) records a separate partial construction on this scope.
-It verifies 92 of 114 official movements and loads 13 field loops. Its diagnostic runners still depend on local outputs.
-Those results do not make the complete demonstration reproducible from this example yet.
+The [earlier five-node driving evidence](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) retains the diagnostic construction before this shared replay command.
+Its local runner references remain historical. The commands above replace those scripts for the construction and detector steps.
 See the [case and six-stage design](../../docs/hamburg-readme-case.md) and [road-selection behavior](../../docs/road-hierarchy.md).

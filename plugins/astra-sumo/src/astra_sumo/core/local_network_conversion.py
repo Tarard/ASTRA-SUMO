@@ -570,7 +570,7 @@ def _validate_local_artifacts(record, source_root, subset, expected):
 
 
 def _expected_conversion_input(record, root):
-    """Reconstruct optional lane-count geometry hints without trusting their saved output."""
+    """Reconstruct source geometry hints without trusting their saved output."""
     expected = ET.tostring(root, encoding="utf-8", xml_declaration=True)
     frozen = record.get("geometry_frozen_input")
     if frozen is None:
@@ -578,17 +578,21 @@ def _expected_conversion_input(record, root):
     operation = record["operation"]
     original = record["unfrozen_input"]
     path = Path(original["path"])
-    if (operation["operation"] != "set_lane_count" or frozen["source"] != original
+    kind = operation["operation"]
+    if (kind not in {"set_lane_count", "add_lane_connection", "delete_lane_connection", "suppress_turnaround"}
+            or frozen["source"] != original
             or frozen["frozen_input"] != record["input"]
             or file_sha256(path) != original["sha256"] or path.read_bytes() != expected):
-        raise ValueError("Frozen geometry input does not match its source-derived lane-count input.")
+        raise ValueError("Frozen geometry input does not match its source-derived edit input.")
     from .network_geometry_freeze import _freeze_geometry_hints
     root = deepcopy(root)
-    automatic = frozenset(j.get("id") for j in root.findall("junction")
+    automatic = (frozenset(j.get("id") for j in root.findall("junction")
         if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
-    hints = _freeze_geometry_hints(root, frozenset({operation["params"]["edge_id"]}), automatic)
+        if kind == "set_lane_count" else frozenset())
+    edges = frozenset({operation["params"]["edge_id"]}) if kind == "set_lane_count" else frozenset()
+    hints = _freeze_geometry_hints(root, edges, automatic)
     if any(frozen.get(key) != value for key, value in hints.items()):
-        raise ValueError("Frozen geometry hints differ from the declared lane-count operation.")
+        raise ValueError("Frozen geometry hints differ from the declared edit operation.")
     return ET.tostring(root, encoding="utf-8", xml_declaration=True)
 
 

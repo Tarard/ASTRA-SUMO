@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Ring1 count-fit method basis, 2026-10-20](ring1-count-fit-basis-2026-10-20.md)
 - [Research Paper Blueprint](../research-paper-blueprint.md)
 - [Corridor human-modeling research plan](../torii-corridor-human-modeling-research-plan.md)
 - [Corridor human-modeling implementation status](../torii-corridor-human-modeling-implementation-status.md)

@@ -266,6 +266,27 @@ def test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints(tm
     driven = run_candidate_movement_probes(candidate_manifest=manifest, output_dir=tmp_path / "probes", sumo_binary=shutil.which("sumo"))
     assert driven["passed_exact_lane_transition"] == 2, driven
     assert file_sha256(source) == digest
+    from astra_sumo.core.command_runner import run_command
+    from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
+    from astra_sumo.core.local_network_conversion import _expected_conversion_input
+    edit_dir = tmp_path / "connection-edit"
+    edit_dir.mkdir()
+    removed = edit_dir / "candidate.net.xml"
+    pair = built["movements"][0]["sumo_connection"]
+    operation = {"id": "remove-declared-turn", "operation": "delete_lane_connection",
+                 "params": dict(zip(("from", "fromLane", "to", "toLane"), pair))}
+    edit = write_scoped_edit_plan(root=ET.parse(candidate).getroot(), operation=operation, source_file=candidate,
+        candidate_file=removed, output_dir=edit_dir, prefix="delete", netconvert_binary=shutil.which("netconvert"), mode="explore")
+    frozen = edit["geometry_frozen_input"]
+    assert frozen["mutable_edge_ids"] == frozen["mutable_junction_ids"] == []
+    original_input = ET.parse(frozen["source"]["path"]).getroot()
+    assert _expected_conversion_input(edit["local_conversion"], original_input) == Path(frozen["frozen_input"]["path"]).read_bytes()
+    executed = run_command(edit["command"], cwd=edit_dir, timeout_seconds=60)
+    assert executed.returncode == 0, executed.to_dict()
+    checked = check_scoped_edit(plan=edit, candidate_file=removed, output_dir=edit_dir,
+        netconvert_binary=shutil.which("netconvert"), command_runner=run_command, timeout_seconds=60, mode="explore")
+    assert checked["requested_effect_applied"], checked
+    assert compare_frozen_geometry(source_file=candidate, candidate_file=removed)["status"] == "pass"
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
