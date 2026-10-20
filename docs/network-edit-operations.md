@@ -293,6 +293,16 @@ original edit junctions, roads and controllers enter the final candidate.
 The record separates `native_rebuild_junction_ids` from the mutable scope.
 An outer shared controller can still require a recorded full-network fallback.
 
+For legacy additions, `lanes` maps to native `numLanes` before type-derived
+sidewalk and bicycle lanes. SUMO defines `sidewalkWidth` and `bikeLaneWidth`
+as [additional-lane attributes](https://sumo.dlr.de/docs/Netedit/attribute_help.html).
+An existing dedicated sidewalk prevents another automatic sidewalk, as the
+[pedestrian documentation](https://sumo.dlr.de/docs/Simulation/Pedestrians.html) explains.
+The construction report separates input lane count, type-derived lanes,
+expected total lanes and built total lanes in `added_lane_layouts`.
+An unexpected total fails construction. Matching the count does not waive
+pedestrian, bicycle, permission or connectivity checks.
+
 Duplicate-road proposals require matching geometry, lane attributes, parameters,
 and ordinary movement neighbors after replacing the compared road identity.
 Internal paths compare their lane state and geometry instead of generated IDs.

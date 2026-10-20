@@ -447,6 +447,8 @@ def _write_additive_plain_files(
                 "to": to_id,
                 "type": edge_type,
                 "allow": attributes["allow"],
+                "requested_native_num_lanes": int(attributes["numLanes"]),
+                "native_permissions": {key: attributes[key] for key in ("allow", "disallow") if key in attributes},
             }
         )
 
@@ -2179,15 +2181,34 @@ def _modal_addition_gate(
     if connectivity.get("errors"):
         return {"status": "blocked", "checked_additions": [], "errors": connectivity["errors"], "connectivity": connectivity}
     source_stats, candidate_stats = connectivity["source"], connectivity["candidate"]
+    types = {row.get("id"): row for row in source_root.findall("type")}
     candidate_edges = _normal_edges(candidate_root)
     errors: list[dict[str, Any]] = []
     checked: list[dict[str, Any]] = []
+    layouts: list[dict[str, Any]] = []
     for record in edge_records:
         edge_id = str(record.get("edge_id", ""))
         operation = str(record.get("operation", ""))
         edge = candidate_edges.get(edge_id)
         if edge is None:
             continue
+        if "requested_native_num_lanes" in record:
+            from .osm_access import _permission_set
+            requested = int(record["requested_native_num_lanes"])
+            permissions = _permission_set(record["native_permissions"], network_version="1.20")
+            type_row = types.get(str(record.get("type", "")))
+            type_attrs = type_row.attrib if type_row is not None else {}
+            sidewalk = float(type_attrs.get("sidewalkWidth", "-1")) > 0 and permissions != {"pedestrian"}
+            base_permissions = permissions - {"pedestrian"} if sidewalk else permissions
+            bicycle = float(type_attrs.get("bikeLaneWidth", "-1")) > 0 and base_permissions != {"bicycle"}
+            actual = len(edge.findall("lane"))
+            expected = requested + int(sidewalk) + int(bicycle)
+            layout = {"edge_id": edge_id, "kind": "added_lane_layout", "input_num_lanes": requested,
+                      "type_added_sidewalk_lanes": int(sidewalk), "type_added_bicycle_lanes": int(bicycle),
+                      "expected_total_lanes": expected, "built_total_lanes": actual}
+            layouts.append(layout)
+            if actual != expected:
+                errors.append({**layout, "code": "added_lane_count_not_materialized"})
         allow = set(str(record.get("allow", "")).split())
         modes = [mode for mode in _MODAL_MODES if mode in allow]
         if operation == "add_sidewalk" and "pedestrian" not in modes:
@@ -2224,6 +2245,7 @@ def _modal_addition_gate(
     return {
         "status": "pass" if not errors else "blocked",
         "checked_additions": checked,
+        "added_lane_layouts": layouts,
         "errors": errors,
         "connectivity": connectivity,
     }

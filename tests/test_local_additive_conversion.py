@@ -146,6 +146,83 @@ def test_native_additions_use_local_context_and_replay_bound_plain_inputs(tmp_pa
     assert source.read_bytes() == original
 
 
+@pytest.mark.parametrize("actual_lanes", [2, 3])
+def test_added_lane_count_separates_input_lanes_from_type_sidewalk(tmp_path, actual_lanes):
+    from astra_sumo.core.corridor_edit_ledger import _modal_addition_gate
+
+    source = ET.fromstring("""<net version="1.20"><type id="residential" sidewalkWidth="2"/>
+      <junction id="a"/><junction id="b"/>
+      <edge id="old0" from="a" to="b"><lane id="old0_0" index="0" allow="pedestrian"/></edge>
+      <edge id="old1" from="b" to="a"><lane id="old1_0" index="0" allow="pedestrian"/></edge>
+      <connection from="old0" to="old1" fromLane="0" toLane="0"/>
+      <connection from="old1" to="old0" fromLane="0" toLane="0"/></net>""")
+    candidate = deepcopy(source)
+    ET.SubElement(candidate, "edge", id="new", attrib={"from": "a", "to": "b"})
+    ET.SubElement(candidate, "connection", attrib={"from": "new", "to": "old1", "fromLane": "0", "toLane": "0"})
+    ET.SubElement(candidate, "connection", attrib={"from": "old1", "to": "new", "fromLane": "0", "toLane": "0"})
+    for index in range(actual_lanes):
+        ET.SubElement(
+            candidate.find("edge[@id='new']"),
+            "lane",
+            id=f"new_{index}",
+            index=str(index),
+            allow="pedestrian" if index == 0 else "passenger",
+        )
+    result = _modal_addition_gate(
+        source,
+        candidate,
+        [
+            {
+                "edge_id": "new",
+                "operation": "add_edge",
+                "type": "residential",
+                "allow": "passenger",
+                "requested_native_num_lanes": 1,
+                "native_permissions": {"allow": "passenger"},
+            }
+        ],
+    )
+    assert result["status"] == ("pass" if actual_lanes == 2 else "blocked")
+    layout = result["added_lane_layouts"][0]
+    assert layout["input_num_lanes"] == 1 and layout["type_added_sidewalk_lanes"] == 1
+    assert layout["expected_total_lanes"] == 2 and layout["built_total_lanes"] == actual_lanes
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO programs required")
+def test_native_type_adds_declared_sidewalk_and_bicycle_lanes(tmp_path):
+    source = _source(tmp_path)
+    tree = ET.parse(source)
+    tree.getroot().insert(
+        1, ET.Element("type", id="typed-extras", sidewalkWidth="2", bikeLaneWidth="1", numLanes="1", speed="10")
+    )
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    operation = {
+        "id": "typed-lanes",
+        "operation": "add_edge",
+        "status": "accepted",
+        "target_ids": [],
+        "params": {"id": "typed-road", "from": "a", "to": "c", "type": "typed-extras", "lanes": 1},
+        "rationale": "Native type-derived lane count control.",
+        "evidence": [{"path": str(source), "sha256": file_sha256(source)}],
+        "rollback": {"action": "discard_candidate"},
+    }
+    report = materialize_corridor_edit_variant(
+        output_dir=tmp_path / "edit",
+        ledger={"source_net_file": str(source), "source_sha256": file_sha256(source), "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"),
+    )
+    assert report["command_result"]["returncode"] == 0, report
+    assert report["status"] == "blocked"
+    modal = report["semantic_validation"]["modal_connectivity"]
+    assert any(error["code"] == "modal_graph_decreased" for error in modal["errors"])
+    assert not any(error["code"] == "added_lane_count_not_materialized" for error in modal["errors"])
+    layout = modal["added_lane_layouts"][0]
+    assert layout["input_num_lanes"] == 1 and layout["type_added_sidewalk_lanes"] == 1
+    assert (
+        layout["type_added_bicycle_lanes"] == 1 and layout["built_total_lanes"] == layout["expected_total_lanes"] == 3
+    )
+
+
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
 @pytest.mark.parametrize("full_input", [False, True])
 def test_hamburg_added_sidewalk_reaches_its_walking_area(tmp_path, monkeypatch, full_input):

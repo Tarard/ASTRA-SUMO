@@ -18,6 +18,7 @@ REQUIRED = {
     "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
     "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
     "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
+    "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1,
 }
 
 
