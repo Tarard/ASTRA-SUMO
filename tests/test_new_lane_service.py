@@ -17,16 +17,19 @@ def test_added_lane_service_is_distinguished_from_geometry(tmp_path, connected):
     source = _source(tmp_path, "set_lane_count")
     digest = file_sha256(source)
     params = dict(edge_id="middle", num_lanes=2)
-    if connected:
-        params["connections"] = [
+    # An explicit full list can still leave the new lane isolated for review.
+    params["connections"] = [
             {"from": a, "fromLane": i, "to": b, "toLane": j}
             for a, i, b, j in [
                 ("in", 0, "middle", 0),
-                ("in", 0, "middle", 1),
                 ("middle", 0, "out", 0),
-                ("middle", 1, "out", 0),
             ]
         ]
+    if connected:
+        params["connections"].extend([
+            {"from": "in", "fromLane": 0, "to": "middle", "toLane": 1},
+            {"from": "middle", "fromLane": 1, "to": "out", "toLane": 0},
+        ])
     operation = dict(
         id="lane",
         operation="set_lane_count",
@@ -134,7 +137,10 @@ def test_release_command_collects_diagnostics_without_approving_unknown_lane(tmp
         id="lane",
         operation="set_lane_count",
         status="accepted",
-        params=dict(edge_id="middle", num_lanes=2),
+        params=dict(edge_id="middle", num_lanes=2, connections=[
+            {"from": "in", "fromLane": 0, "to": "middle", "toLane": 0},
+            {"from": "middle", "fromLane": 0, "to": "out", "toLane": 0},
+        ]),
         rationale="Review propagation regression.",
         evidence=[dict(path=str(source), sha256=digest)],
         rollback=dict(action="discard_candidate"),
