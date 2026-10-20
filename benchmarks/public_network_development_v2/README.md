@@ -152,3 +152,7 @@ The [legacy funnel follow-up](legacy-funnel-20261020-v1.md) binds deletion and
 merge scope to existing native plans. One planted isolated component is removed
 on the 4,800-road MoST background while 171 inherited findings remain visible.
 It also retains the mixed CI outcome and native-worker harness correction.
+The [frozen source controls and spatial-edit check](source-curation-controls-20261020-v1.md)
+adds 20 unchanged roads, repairs whole-road correspondence bias, and tests a real
+XYZ road edit against its identity control. It retains incomplete junction
+corrections, finding-overlap limits, and the failed native coordinate check.
