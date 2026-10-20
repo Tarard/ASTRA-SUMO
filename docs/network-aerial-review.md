@@ -197,6 +197,38 @@ These rules follow the [SUMO network coordinate format](https://sumo.dlr.de/docs
 and [pyproj Transformer API](https://pyproj4.github.io/pyproj/stable/api/transformer.html).
 The view bounds come from the request. The renderer does not recenter either network to conceal an offset.
 
+## NetEdit before and after screenshots
+
+Use `plugins/astra-sumo/scripts/netedit_background_review.py` when a comparison requires the actual NetEdit display.
+Keep the source network and candidate network in separate files.
+Use the same registered aerial image, image bounds, viewport center, zoom, and window size for both captures.
+The source and candidate must use the same network coordinate frame and initial view bounds.
+
+Use these options with `--net-file`:
+
+- Set `--capture-modes inspect` to capture only Inspect mode.
+- Set `--inspect-selection none` for the source image.
+- Keep the default `--inspect-selection junction` for the candidate image.
+- Supply the actual junction ID with `--target-junction-id`.
+- Supply the file hash with `--expected-net-sha256`.
+- Set `--view-center X,Y` and `--zoom PERCENT` to the same values in both captures.
+- Supply `--aerial-image`, `--aerial-bbox WEST SOUTH EAST NORTH`, and `--aerial-crs EPSG:32633` for a registered UTM zone 33 image.
+
+The default image CRS remains EPSG:25832 for existing Hamburg captures.
+The script displays lane-to-lane connections and uses the target window's DPI context for the screenshot.
+It writes a separate report and full-window image for each capture.
+It leaves the network files unchanged.
+
+Inspect mode and junction selection are separate operations.
+The blue selected junction shows the actual junction stored in the candidate.
+The script does not claim that the Inspect attribute pane contains that junction.
+Verify the saved image before use.
+
+Count the source junction IDs and verify that the candidate contains one replacement junction.
+Do not use a blue selection alone as evidence of a merge.
+Keep failed construction checks visible in the figure caption or its accompanying report.
+An equal crop and resize can prepare the comparison sheet. Keep the full screenshots and capture reports.
+
 ## Claim limits
 
 A registered image does not establish positional accuracy of the aerial source.
