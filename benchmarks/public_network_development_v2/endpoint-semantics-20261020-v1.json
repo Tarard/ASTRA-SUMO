@@ -1,0 +1,613 @@
+{
+  "schema": "astra.endpoint-semantics/v1",
+  "production_commit": "c8df073f56a476929b4809a011ca7934311eb747",
+  "implementation": {
+    "routeability_od_mapping.py": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/routeability_od_mapping.py",
+      "sha256": "98f2430d90484d0ab8f6d5e08ef8c2f8500f5217bab468185a6e39df4c05c318"
+    },
+    "routeability_audit.py": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/routeability_audit.py",
+      "sha256": "31fd29dfb7ba8e06b015c6190638059e3857bb19b29fe776e1362744503df22f"
+    },
+    "candidate_contracts.py": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    "corridor_edit_ledger.py": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/corridor_edit_ledger.py",
+      "sha256": "058c986a7b97333e8e99733f4dc5bcdc62f73a493fea13efcc15fa1f94e92f1e"
+    },
+    "network_edit_operations.py": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+      "sha256": "6c2933a17e90ac4547281c7237964bc3b1699c63a3a06b7aea9e3735ada3bb6a"
+    },
+    "network_link_semantics.py": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+      "sha256": "bc3d66d0eaa3c147e14a6283a448fd483c6835019674aec47f4b9613a496e4f2"
+    }
+  },
+  "native_binary": {
+    "path": ".venv/Lib/site-packages/sumo/bin/sumo.exe",
+    "sha256": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c"
+  },
+  "native_distribution": "1.27.1",
+  "source_fixture": {
+    "path": "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz",
+    "sha256": "48da2a9f750e4910866fa55573450a546851a077696d83b24bde623dcfd42684"
+  },
+  "source_net_sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a",
+  "runners": [
+    {
+      "path": "outputs/probe_relative_endpoint_hamburg_20261020_v2.py",
+      "sha256": "a198dac11d64be88e49353bcd66e59f7b2905de73076471e23b9208b33748bac"
+    },
+    {
+      "path": "outputs/probe_lane_endpoint_hamburg_20261020_v1.py",
+      "sha256": "d594adcc5e86d74481ed1b49e34fa58369805079a37b7244a6ef0eee151c7c56"
+    },
+    {
+      "path": "outputs/freeze_endpoint_semantics_20261020_v1.py",
+      "sha256": "00f4f944d8f2297e2a7b49be374afccf0faf4ef4721c4c6fd6e51981dd164ecb"
+    }
+  ],
+  "checks": {
+    "retained_defaults": {
+      "path": "outputs/road-relative-focused-20261020-v2.xml",
+      "sha256": "0d4a2d8f18cfcdd5df8fe1921a91fee7d03b76cc48b036dfce0d7880a8f495fa",
+      "passed": 85,
+      "skipped": 0,
+      "failed": []
+    },
+    "retained_default_consumers": {
+      "path": "outputs/road-relative-consumers-20261020-v1.xml",
+      "sha256": "73a8350cf4360f2362bbbc3beae9112151842facea8fe43426ebd8d0ca2aa8c7",
+      "passed": 137,
+      "skipped": 0,
+      "failed": []
+    },
+    "lane_endpoint_consumers": {
+      "path": "outputs/lane-endpoint-consumers-20261020-v1.xml",
+      "sha256": "01ef6a79781b5983b588c4ec5146013e665f8fa72a13e9002e231927871312e7",
+      "passed": 230,
+      "skipped": 0,
+      "failed": []
+    },
+    "navigation": {
+      "path": "outputs/endpoint-semantics-navigation-20261020-v1.xml",
+      "sha256": "8ac7b4cdb1b64df7f4aacaa15044747d20af244974c03e9e367069410dd5d58c",
+      "passed": 11,
+      "skipped": 0,
+      "failed": []
+    }
+  },
+  "results": {
+    "retained_defaults": {
+      "declaration": {
+        "path": "outputs/relativeep26v2/declaration.json",
+        "sha256": "a71e8e8f905ea0d0b46216070797bbbc246bd4b10122f3af57605a511829166d"
+      },
+      "raw_results": {
+        "path": "outputs/relativeep26v2/result.json",
+        "sha256": "69382f53062b7516d5db2dd29205a4d062a7f821a78f5555f112f02648934078"
+      },
+      "execution_commit": "32734fd89fce0c3078319aeb65ca32700827c303",
+      "cases": {
+        "5": {
+          "baseline": {
+            "status": "pass",
+            "routeability_status": "pass",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 20,
+              "routing_count": 20,
+              "physical_count": 20,
+              "road_relative_count": 0,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/relativeep26v2/source-5/routeability_audit_routeability_audit.json",
+              "sha256": "c70ad667bc2bfdc68e117204d6468e45d42880ad28e6e68b3bcd815c5c0ca356"
+            },
+            "mapping": null,
+            "original_requests": {
+              "path": "outputs/relativeep26v2/source-5/routeability_audit.trips.xml",
+              "sha256": "690fc027de4d509537dcd32e550401c7367de9c8d30cc92344357a31d25a397f"
+            },
+            "candidate_requests": {
+              "path": "outputs/relativeep26v2/source-5/routeability_audit.trips.xml",
+              "sha256": "690fc027de4d509537dcd32e550401c7367de9c8d30cc92344357a31d25a397f"
+            },
+            "completion": {
+              "last_time": 599.0,
+              "loaded": 20,
+              "inserted": 20,
+              "arrived": 20,
+              "running": 0,
+              "waiting": 0,
+              "collisions": 0,
+              "teleports": 0
+            },
+            "completed_routes": 20,
+            "native_stderr": ""
+          },
+          "candidate": {
+            "status": "pass",
+            "routeability_status": "pass",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 20,
+              "routing_count": 20,
+              "physical_count": 19,
+              "road_relative_count": 1,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/relativeep26v2/candidate-5/routeability_audit_routeability_audit.json",
+              "sha256": "af3a3ba278856d8728a30dbc7c468c5308e865b592d5b2fd7ae06eec8afea68a"
+            },
+            "mapping": {
+              "path": "outputs/relativeep26v2/candidate-5/routeability_audit.od-map.json",
+              "sha256": "895714733b5ad0c9cb54727ca166e0ec101c4db768e7e600eda537d4d0574126"
+            },
+            "original_requests": {
+              "path": "outputs/relativeep26v2/candidate-5/routeability_audit.source.trips.xml",
+              "sha256": "690fc027de4d509537dcd32e550401c7367de9c8d30cc92344357a31d25a397f"
+            },
+            "candidate_requests": {
+              "path": "outputs/relativeep26v2/candidate-5/routeability_audit.trips.xml",
+              "sha256": "690fc027de4d509537dcd32e550401c7367de9c8d30cc92344357a31d25a397f"
+            },
+            "completion": {
+              "last_time": 599.0,
+              "loaded": 20,
+              "inserted": 20,
+              "arrived": 20,
+              "running": 0,
+              "waiting": 0,
+              "collisions": 0,
+              "teleports": 0
+            },
+            "completed_routes": 20,
+            "native_stderr": ""
+          },
+          "prior_unresolved_requests": [
+            {
+              "vehicle_id": "5",
+              "reason": "The depart lane set needs different candidate positions; use an explicit source lane.",
+              "classification": "physical_position_unresolved",
+              "removed_source_edge_ids": []
+            }
+          ]
+        },
+        "42": {
+          "baseline": {
+            "status": "pass",
+            "routeability_status": "pass",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 20,
+              "routing_count": 20,
+              "physical_count": 20,
+              "road_relative_count": 0,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/relativeep26v2/source-42/routeability_audit_routeability_audit.json",
+              "sha256": "9807ed2cc2a4c8e3744355134dcd91eb8e072b27d2ed85e4666cf1a8d8a44885"
+            },
+            "mapping": null,
+            "original_requests": {
+              "path": "outputs/relativeep26v2/source-42/routeability_audit.trips.xml",
+              "sha256": "e369bf2dd9b37e350d7213100ceda6e8498f03c689c0084393bf3d7c50169fef"
+            },
+            "candidate_requests": {
+              "path": "outputs/relativeep26v2/source-42/routeability_audit.trips.xml",
+              "sha256": "e369bf2dd9b37e350d7213100ceda6e8498f03c689c0084393bf3d7c50169fef"
+            },
+            "completion": {
+              "last_time": 599.0,
+              "loaded": 20,
+              "inserted": 20,
+              "arrived": 20,
+              "running": 0,
+              "waiting": 0,
+              "collisions": 0,
+              "teleports": 0
+            },
+            "completed_routes": 20,
+            "native_stderr": ""
+          },
+          "candidate": {
+            "status": "review_required",
+            "routeability_status": "unverified_endpoints",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 20,
+              "routing_count": 18,
+              "physical_count": 18,
+              "road_relative_count": 0,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 2,
+              "removed_endpoint_vehicle_ids": [
+                "1",
+                "12"
+              ]
+            },
+            "report": {
+              "path": "outputs/relativeep26v2/candidate-42/routeability_audit_routeability_audit.json",
+              "sha256": "6929ac6ef4e9c4a9707f5ce785361c0bd918e05e46f0de8475a9db04f47d9f9c"
+            },
+            "mapping": {
+              "path": "outputs/relativeep26v2/candidate-42/routeability_audit.od-map.json",
+              "sha256": "95d41496a667089bb53cce4c1cb7c9b3621283f373b4e42b8edeb801fd74e128"
+            },
+            "original_requests": {
+              "path": "outputs/relativeep26v2/candidate-42/routeability_audit.source.trips.xml",
+              "sha256": "e369bf2dd9b37e350d7213100ceda6e8498f03c689c0084393bf3d7c50169fef"
+            },
+            "candidate_requests": {
+              "path": "outputs/relativeep26v2/candidate-42/routeability_audit.trips.xml",
+              "sha256": "e369bf2dd9b37e350d7213100ceda6e8498f03c689c0084393bf3d7c50169fef"
+            },
+            "completion": {
+              "last_time": 599.0,
+              "loaded": 18,
+              "inserted": 18,
+              "arrived": 18,
+              "running": 0,
+              "waiting": 0,
+              "collisions": 0,
+              "teleports": 0
+            },
+            "completed_routes": 18,
+            "native_stderr": ""
+          },
+          "prior_unresolved_requests": [
+            {
+              "vehicle_id": "1",
+              "reason": "Road '609417456' has no verified directed-road correspondence.",
+              "classification": "source_endpoint_removed",
+              "removed_source_edge_ids": [
+                "609417456"
+              ]
+            },
+            {
+              "vehicle_id": "12",
+              "reason": "Road '609417456' has no verified directed-road correspondence.",
+              "classification": "source_endpoint_removed",
+              "removed_source_edge_ids": [
+                "609417456"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "lane_correspondence": {
+      "declaration": {
+        "path": "outputs/laneep26v1/declaration.json",
+        "sha256": "e9ee3720f236e96e6be6adaaf2284c6e97c6626162b9d468ad0e8745e8a8b403"
+      },
+      "raw_results": {
+        "path": "outputs/laneep26v1/result.json",
+        "sha256": "975dd495cdca195a40df0f8a805e972bb4c051e2941729232a49afd24183cc73"
+      },
+      "execution_commit": "32734fd89fce0c3078319aeb65ca32700827c303",
+      "cases": {
+        "add-right": {
+          "explore_status": "measured",
+          "edit_report": {
+            "path": "outputs/laneep26v1/add-right/edit-verification.json",
+            "sha256": "6b143b555c105386770eda300857bd455e17babb2a1bff3773f398d0ead9fc63"
+          },
+          "candidate_net": {
+            "path": "outputs/laneep26v1/add-right/candidate.net.xml",
+            "sha256": "e25b580e9c7bc8bc2886d9006af22d932d7c2095f9f130917f2379aa7a5c167b"
+          },
+          "source_lane_indices": {
+            "47854310#1": {
+              "0": "1",
+              "1": "2",
+              "2": "3"
+            }
+          },
+          "new_lane_service": {
+            "status": "review_required",
+            "source_lane_count": 3,
+            "candidate_lane_count": 4,
+            "lanes": [
+              {
+                "lane_id": "47854310#1_0",
+                "lane_index": 0,
+                "vehicle_classes": [
+                  "passenger"
+                ],
+                "incoming_movement_count": 0,
+                "outgoing_movement_count": 0,
+                "incoming_movements": [],
+                "outgoing_movements": [],
+                "source_edge_has_compatible_incoming": true,
+                "source_edge_has_compatible_outgoing": true,
+                "unverified_boundaries": [
+                  "incoming",
+                  "outgoing"
+                ],
+                "lane_change_service": "not_measured"
+              }
+            ],
+            "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."
+          },
+          "baseline": {
+            "status": "fail",
+            "routeability_status": "incomplete",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 100,
+              "routing_count": 100,
+              "physical_count": 100,
+              "road_relative_count": 0,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/laneep26v1/add-right/source-routes/routeability_audit_routeability_audit.json",
+              "sha256": "8b170824e0cd0c7d50d08f4da0975802b136e2857f81db2423f4d361cf6a4750"
+            },
+            "mapping": null,
+            "original_requests": {
+              "path": "outputs/laneep26v1/add-right/source-routes/routeability_audit.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "candidate_requests": {
+              "path": "outputs/laneep26v1/add-right/source-routes/routeability_audit.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "completion": {
+              "last_time": 2399.0,
+              "loaded": 100,
+              "inserted": 99,
+              "arrived": 63,
+              "running": 36,
+              "waiting": 1,
+              "collisions": 0,
+              "teleports": 0
+            },
+            "completed_routes": 63,
+            "native_stderr": ""
+          },
+          "candidate": {
+            "status": "fail",
+            "routeability_status": "collision-failure",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 100,
+              "routing_count": 100,
+              "physical_count": 96,
+              "road_relative_count": 4,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/laneep26v1/add-right/candidate-routes/routeability_audit_routeability_audit.json",
+              "sha256": "88ed6e248b6e45e8bfa36c91dac264b6ee2edd5b0cf3cd83120ab7be598e6b4d"
+            },
+            "mapping": {
+              "path": "outputs/laneep26v1/add-right/candidate-routes/routeability_audit.od-map.json",
+              "sha256": "c2d066dedd3d407d83646951b6c3ce94920910f4f20cc45231150d76a0fd752a"
+            },
+            "original_requests": {
+              "path": "outputs/laneep26v1/add-right/candidate-routes/routeability_audit.source.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "candidate_requests": {
+              "path": "outputs/laneep26v1/add-right/candidate-routes/routeability_audit.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "completion": {
+              "last_time": 2399.0,
+              "loaded": 100,
+              "inserted": 99,
+              "arrived": 63,
+              "running": 36,
+              "waiting": 1,
+              "collisions": 1,
+              "teleports": 1
+            },
+            "completed_routes": 63,
+            "native_stderr": "Warning: Teleporting vehicle '90'; junction collision with vehicle '95', lane=':77777614_2_0', gap=-1.00, time=132.00, stage=move.\nWarning: Vehicle '90' ends teleporting on edge '-197365078#1', time=132.00.\n"
+          }
+        },
+        "remove-lower": {
+          "explore_status": "blocked",
+          "edit_report": {
+            "path": "outputs/laneep26v1/remove-lower/edit-verification.json",
+            "sha256": "4856211b332b0fcab9f7b1ede98a2fc97d95908a56e80cae4c9d5367d5c0457e"
+          },
+          "candidate_net": {
+            "path": "outputs/laneep26v1/remove-lower/candidate.net.xml",
+            "sha256": "dac4006816f7559a3e6b172a12db74309940c6530b2dab007899c1a500df46d2"
+          },
+          "source_lane_indices": {
+            "47854310#1": {
+              "1": "0",
+              "2": "1"
+            }
+          },
+          "new_lane_service": {
+            "status": "not_applicable",
+            "source_lane_count": 3,
+            "candidate_lane_count": 2,
+            "lanes": [],
+            "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."
+          },
+          "baseline": {
+            "status": "fail",
+            "routeability_status": "incomplete",
+            "route_generation_status": "pass",
+            "coverage": {
+              "requested_count": 100,
+              "routing_count": 100,
+              "physical_count": 100,
+              "road_relative_count": 0,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/laneep26v1/remove-lower/source-routes/routeability_audit_routeability_audit.json",
+              "sha256": "a3a21b8b08e230c1c85cafdcd90f7a3dddb5f2df1759a43d5b36f44e4349c024"
+            },
+            "mapping": null,
+            "original_requests": {
+              "path": "outputs/laneep26v1/remove-lower/source-routes/routeability_audit.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "candidate_requests": {
+              "path": "outputs/laneep26v1/remove-lower/source-routes/routeability_audit.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "completion": {
+              "last_time": 2399.0,
+              "loaded": 100,
+              "inserted": 99,
+              "arrived": 63,
+              "running": 36,
+              "waiting": 1,
+              "collisions": 0,
+              "teleports": 0
+            },
+            "completed_routes": 63,
+            "native_stderr": ""
+          },
+          "candidate": {
+            "status": "fail",
+            "routeability_status": "route-generation-failed",
+            "route_generation_status": "fail",
+            "coverage": {
+              "requested_count": 100,
+              "routing_count": 100,
+              "physical_count": 96,
+              "road_relative_count": 4,
+              "logical_only_count": 0,
+              "removed_endpoint_count": 0,
+              "removed_endpoint_vehicle_ids": []
+            },
+            "report": {
+              "path": "outputs/laneep26v1/remove-lower/candidate-routes/routeability_audit_routeability_audit.json",
+              "sha256": "9a5ff28c2ea7d79bfd3b0c5b041a54c364603aed8d61e5d3eb3771b5095449b5"
+            },
+            "mapping": {
+              "path": "outputs/laneep26v1/remove-lower/candidate-routes/routeability_audit.od-map.json",
+              "sha256": "f61ee6442752a063d9bb48a9b7555701bffb2347cf0dce082660763dbfbbdb00"
+            },
+            "original_requests": {
+              "path": "outputs/laneep26v1/remove-lower/candidate-routes/routeability_audit.source.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "candidate_requests": {
+              "path": "outputs/laneep26v1/remove-lower/candidate-routes/routeability_audit.trips.xml",
+              "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+            },
+            "completion": {
+              "last_time": null,
+              "loaded": null,
+              "inserted": null,
+              "arrived": null,
+              "running": null,
+              "waiting": null,
+              "collisions": null,
+              "teleports": null
+            },
+            "completed_routes": null,
+            "native_stderr": ""
+          }
+        }
+      }
+    }
+  },
+  "complete_prior_ci": [
+    {
+      "event": "pr",
+      "run_id": 39385556707,
+      "commit": "642b2f84df7eec0e23d85d5099082f4982e46c2c",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39385556707",
+      "tests": {
+        "path": "outputs/ci-642b2f8-pr-artifacts-20261020/test-results.xml",
+        "sha256": "3263bc3a668a63affaf2760a131f6a0fd4f7f9a73fdb01f60b3ec4f25d089cba",
+        "passed": 3758,
+        "skipped": 24,
+        "failed": []
+      },
+      "required_native_executed": 57
+    },
+    {
+      "event": "push",
+      "run_id": 39385551568,
+      "commit": "642b2f84df7eec0e23d85d5099082f4982e46c2c",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39385551568",
+      "tests": {
+        "path": "outputs/ci-642b2f8-push-artifacts-20261020/test-results.xml",
+        "sha256": "18ec3c529cb6746f910a53ea462f3a135535805a0db03d548e5c10ed46626a0d",
+        "passed": 3758,
+        "skipped": 24,
+        "failed": []
+      },
+      "required_native_executed": 57
+    }
+  ],
+  "retained_failed_logs": [
+    {
+      "path": "outputs/road-relative-focused-20261020-v1.log",
+      "sha256": "27b6ce699d9e1a619bea12c852324e4bf1aeb5166cda3862dedde383c25ead8e"
+    },
+    {
+      "path": "outputs/lane-endpoint-focused-20261020-v1.log",
+      "sha256": "6cbfc9e0f40f6a2c734954b56ca1d70523fd2bb0614916822e00bd250317bd63"
+    },
+    {
+      "path": "outputs/lane-endpoint-focused-20261020-v2.log",
+      "sha256": "f94fcb42a3ee7cd428078844a5de4fac713488ca7860688380a14d483b9f3bc3"
+    },
+    {
+      "path": "outputs/lane-endpoint-focused-20261020-v3.log",
+      "sha256": "c8b704984f118c595fbef6d0ea63d6511917cb123671f2ee9ddf36f48d7f3a6c"
+    }
+  ],
+  "limits": [
+    "Selected Hamburg corridor, not the entire city.",
+    "Road-relative default placement does not establish fixed world-coordinate endpoints.",
+    "Random requests still do not guarantee edit-target coverage.",
+    "The right-addition case has an unserved new lane and a collision outside the edit junctions.",
+    "The lower-index removal loses routes. Both 100-request source baselines are incomplete.",
+    "No valid traffic-performance comparison or promotion is established.",
+    "The complete prior CI qualifies 642b2f8, not this later implementation."
+  ],
+  "current_ci": {
+    "required_native_cases": 61,
+    "runs": [
+      {
+        "run_id": 39392288162,
+        "conclusion": "",
+        "headSha": "c8df073f56a476929b4809a011ca7934311eb747",
+        "status": "in_progress",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39392288162"
+      },
+      {
+        "run_id": 39392280657,
+        "conclusion": "",
+        "headSha": "c8df073f56a476929b4809a011ca7934311eb747",
+        "status": "in_progress",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39392280657"
+      }
+    ]
+  }
+}

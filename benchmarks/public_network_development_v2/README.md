@@ -10,6 +10,10 @@ the failed preceding CI and the incomplete per-vehicle Hamburg comparison.
 The [removed-endpoint follow-up](removed-endpoint-coverage-20261020-v1.md) records
 `642b2f8`, the complete retained cohort and strict native subset, four real
 Hamburg repetitions and both completed 3754-pass runs for the preceding code.
+The [endpoint-semantics follow-up](endpoint-semantics-20261020-v1.md) separates
+road-relative defaults from fixed positions and reuses declared lane correspondence.
+It retains a lost-path removal, an incomplete right-addition run with a collision,
+and both complete 3758-pass Windows results for `642b2f8`.
 
 This catalog supplements [the four-model v1 corpus](../public_network_development_v1/catalog.json).
 It preserves that catalog and adds the prepared input from the published MoST network revision.
