@@ -25,22 +25,33 @@ def test_changed_endpoint_requests_are_retained_for_review(tmp_path):
     candidate.write_text(source.read_text(encoding="utf-8").replace('shape="0,0 20,0"', 'shape="0,0 19,0"')
         .replace('shape="20,1 0,1"', 'shape="19,1 0,1"'), encoding="utf-8")
 
-    def should_not_run(*_args, **_kwargs):
-        raise AssertionError("No native command should run without diagnostic requests.")
+    def runner(command, *, cwd, **kwargs):
+        if not _fake_route_stage(command, cwd):
+            cfg_path = cwd / command[command.index("-c") + 1]
+            cfg = ET.parse(cfg_path).getroot()
+            (cwd / cfg.find("output/summary-output").get("value")).write_text(
+                '<summary><step time="300" loaded="100" inserted="100" arrived="100" running="0" waiting="0" collisions="0" teleports="0"/></summary>', encoding="utf-8")
+            trips = ET.Element("tripinfos")
+            for index in range(100):
+                ET.SubElement(trips, "tripinfo", id=str(index), depart=str(index), arrival=str(index + 10), duration="10", waitingTime="0", timeLoss="0")
+            ET.ElementTree(trips).write(cwd / cfg.find("output/tripinfo-output").get("value"), encoding="utf-8")
+            _fake_vehicle_routes(cwd, cfg, cfg_path, 100)
+        return {"status": "pass", "returncode": 0}
 
     report = run_routeability_audit(net_file=candidate, od_reference_net_file=source,
-        output_dir=tmp_path / "audit", binaries={"sumo": "sumo", "duarouter": "duarouter"}, command_runner=should_not_run)
+        output_dir=tmp_path / "audit", binaries={"sumo": "sumo", "duarouter": "duarouter"}, command_runner=runner)
     assert report["status"] == "review_required"
     assert report["claim_status"] != "construction-invalid"
-    assert report["routeability_status"] == report["execution_status"] == "not_run"
-    assert report["attempts"] == []
+    assert report["routeability_status"] == "unverified_endpoints"
+    assert report["execution_status"] == "completed"
+    assert report["final_attempt"]["vehicle_routes"]["complete_count"] == 100
     mapping = report["od_policy"]["endpoint_mapping"]
     assert report["reason"] == "unresolved_endpoint_mapping"
     assert mapping["request_count"] == len(mapping["unresolved_requests"]) == 100
     assert len(ET.parse(report["source_trip_file"]).getroot().findall("trip")) == 100
     checked = validate_routeability_evidence(report, candidate_net_file=candidate)
     assert checked["status"] == "review_required" and not checked["errors"]
-    forged = {**report, "execution_status": "completed"}
+    forged = {**report, "status": "pass", "routeability_status": "pass"}
     assert validate_routeability_evidence(forged, candidate_net_file=candidate)["status"] == "blocked"
 
 

@@ -76,16 +76,18 @@ def test_native_profiles_work_outside_the_four_way_vehicle_only_domain(tmp_path,
     assert assess_edit_applicability(ledger)["status"] == "pass"
     report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "verification",
                                  netconvert_binary=shutil.which("netconvert"), mode="release")
-    assert report["status"] == ("review_required" if kind == "absorb_reciprocal_fragment" else "pass"), report
+    assert report["status"] == ("blocked" if kind == "absorb_reciprocal_fragment" else "pass"), report
     assert all(value == "pass" for value in report["applicability"]["checks"].values())
     assert report["candidate_gates"]["gates"]["modal_connectivity"]["basis"] == "edit_specific_all_class_boundary_paths"
     routing = report["candidate_gates"]["routeability_report"]
     if kind == "absorb_reciprocal_fragment":
-        assert routing["reason"] == "unresolved_endpoint_mapping"
+        assert routing["routeability_status"] == "route-generation-failed"
         source_requests = ET.parse(routing["source_trip_file"]).getroot().findall("trip")
         assert len(source_requests) == 20
         assert {row.get("from") for row in source_requests} & {"A_B", "B_A"}
         assert any("A_B" in row["reason"] or "B_A" in row["reason"]
+                   for row in routing["od_policy"]["endpoint_mapping"]["unresolved_requests"])
+        assert any(row["classification"] == "source_endpoint_removed"
                    for row in routing["od_policy"]["endpoint_mapping"]["unresolved_requests"])
     else:
         assert routing["final_attempt"]["inspection"]["summary"]["arrived"] == 20

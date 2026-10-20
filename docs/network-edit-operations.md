@@ -68,9 +68,18 @@ Retained directed road identities and verified geometry merges can map lane posi
 The mapping uses each lane's logical-to-geometric length ratio and checks XYZ positions within 0.02 m.
 It does not add the lengths of absorbed roads, which would omit internal gaps and shape-length differences.
 The source request file remains unchanged. A separate correspondence record identifies every mapped or unresolved request.
-The router must retain explicit endpoint attributes. Driving checks also verify mapped nonnegative endpoint positions against trip output.
-Ambiguous arrival lanes, unsupported vehicle definitions, and absorbed endpoints without an ordinary-road correspondence remain unverified.
-Exploration retains their measurements with a warning. Release qualification requires their route evidence to be resolved.
+The router must retain explicit endpoint attributes. Driving checks verify mapped nonnegative positions and explicit numeric lane selectors against trip output.
+The pinned SUMO 1.27.1 default base position is the smaller of 5.1 m and the original edge length.
+An omitted departure-lane selector uses `best_prob`. Mapping checks every possible source passenger lane rather than assuming the first lane.
+Default lane selection qualifies the source lane endpoint set. It does not require identical realized lane choices after an edit.
+Ambiguous lane sets, unsupported vehicle definitions, and absorbed endpoints without an ordinary-road correspondence remain unverified.
+These requests still receive strict road-level routing probes. Their original physical selectors remain in the source request file and correspondence record.
+The separate probe removes unresolved endpoint selectors and retains the original IDs, departure times and corresponding road OD.
+No request is filtered, replaced or resampled. Missing original roads still cause strict routing failure.
+`physical_request_count` and `logical_only_request_count` state the qualification coverage.
+Completed road-level probes with unresolved physical endpoints return `review_required` and `unverified_endpoints`.
+Routing or driving failures remain failures. An unresolved endpoint cannot turn another request's failure into a review outcome.
+Exploration retains available measurements with warnings. Release qualification requires complete physical endpoint evidence.
 `source_baseline` separates checked `clean` or `dirty` diagnostics from `not_run` cases.
 These labels describe the synthetic passenger probe, not field quality.
 The sampled passenger requests do not establish all-class or all-pair route preservation.

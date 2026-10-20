@@ -157,8 +157,11 @@ def test_release_preserves_review_after_collecting_available_diagnostics(tmp_pat
     assert result["candidate_gates"]["topology_report"]["report_file"]
     assert result["whole_network_review"]["status"] == "review_required"
     assert result["whole_network_review"]["inherited_finding_count"] == 1
-    assert result["candidate_gates"]["gates"]["routeability"]["execution_status"] == "not_run"
-    assert result["candidate_gates"]["gates"]["routeability"]["status"] == "review_required"
+    assert result["candidate_gates"]["gates"]["routeability"]["execution_status"] == "completed"
+    assert result["candidate_gates"]["gates"]["routeability"]["status"] == "pass"
+    routing = result["candidate_gates"]["routeability_report"]
+    assert routing["final_attempt"]["vehicle_routes"]["complete_count"] == 20
+    assert len(ET.parse(routing["source_trip_file"]).getroot().findall("trip")) == 20
 
 
 @native

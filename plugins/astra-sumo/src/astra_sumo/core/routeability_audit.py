@@ -222,6 +222,9 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
         departures = {row.get("id"): float(row.get("depart", "nan")) for row in approved_rows}
         endpoints = {row.get("id"): {name: float(row.get(name)) for name in ("departPos", "arrivalPos")
                      if row.get(name) is not None and _is_nonnegative_position(row.get(name))} for row in approved_rows}
+        endpoint_lanes = {row.get("id"): {name: f"{expected[row.get('id')][index]}_{int(row.get(name))}"
+                         for name, index in (("departLane", 0), ("arrivalLane", -1))
+                         if row.get(name, "").isdigit()} for row in approved_rows}
         rows = ET.parse(observed_file).getroot().findall("vehicle")
         tripinfo_rows = ET.parse(tripinfo_file).getroot().findall("tripinfo")
         tripinfo = {row.get("id"): row for row in tripinfo_rows}
@@ -249,6 +252,8 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
             elif any(not math.isfinite(float(trip.get(name, "nan"))) or abs(float(trip.get(name)) - position) > 0.01
                      for name, position in endpoints[identity].items()):
                 failures.append({"vehicle_id": identity, "reason": "vehicle_endpoint_position_changed"})
+            elif any(trip.get(name) != lane for name, lane in endpoint_lanes[identity].items()):
+                failures.append({"vehicle_id": identity, "reason": "vehicle_endpoint_lane_changed"})
             elif len(exits) != len(expected[identity]) or not exits or any(not math.isfinite(value) or value < depart or value > arrival for value in exits) or any(a > b for a, b in zip(exits, exits[1:])) or exits[-1] != arrival:
                 failures.append({"vehicle_id": identity, "reason": "vehicle_route_exit_times_incomplete"})
             else:
@@ -389,6 +394,13 @@ def run_routeability_audit(
 
     def finish(report: Mapping[str, Any]) -> dict[str, Any]:
         payload = dict(report)
+        mapping = payload.get("od_policy", {}).get("endpoint_mapping", {})
+        if mapping.get("status") == "review_required":
+            payload["warnings"] = list(payload.get("warnings", [])) + [
+                "Unresolved endpoints received logical road-level probes only. Physical route preservation remains unverified."]
+            if payload.get("status") == "pass":
+                payload.update(status="review_required", claim_status="review_required", routeability_status="unverified_endpoints",
+                               execution_status="completed", reason="unresolved_endpoint_mapping")
         if source_trip_file in approved_hashes:
             payload["source_trip_file"] = str(source_trip_file)
         if mapping_file in approved_hashes:
@@ -493,12 +505,6 @@ def run_routeability_audit(
             write_json_atomic(mapping_file, mapping)
             approved_hashes[mapping_file] = file_sha256(mapping_file)
             od_policy["endpoint_mapping"] = mapping
-            if mapping["status"] != "pass":
-                return finish({"status": "review_required", "claim_status": "review_required",
-                    "routeability_status": "not_run", "execution_status": "not_run",
-                    "reason": "unresolved_endpoint_mapping", "od_policy": od_policy, "sampling": sampling,
-                    "trip_file": str(trip_file), "route_generation": {"status": "not_run"}, "attempts": [],
-                    "warnings": ["All original requests are retained. Endpoint correspondence remains unverified; routing was not run."]})
             if mapping["changed"]:
                 ET.indent(mapped)
                 write_text_atomic(trip_file, ET.tostring(mapped, encoding="unicode", xml_declaration=True))
@@ -521,7 +527,7 @@ def run_routeability_audit(
         if _request_records(route_file, routed=True) != requested or file_sha256(route_file) != routed_hash:
             raise ValueError("routing changed or omitted diagnostic vehicle IDs, departures, or OD")
         planned_rows = {row.get("id"): row for row in ET.parse(trip_file).getroot().findall("trip")}
-        defaults = {"departPos": "base", "arrivalPos": "max", "departLane": "first", "arrivalLane": "current"}
+        defaults = {"departPos": "base", "arrivalPos": "max", "departLane": "best_prob", "arrivalLane": "current"}
         for row in ET.parse(route_file).getroot().findall("vehicle"):
             for name in ("departPos", "arrivalPos", "departLane", "arrivalLane"):
                 value = planned_rows[row.get("id")].get(name)

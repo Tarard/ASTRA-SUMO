@@ -5,6 +5,7 @@ ODbL-1.0. It contains original node/way tags from the public corridor extract.
 """
 
 import hashlib
+import os
 import shutil
 import subprocess
 import threading
@@ -19,6 +20,7 @@ from sumolib.miscutils import getFreeSocketPort
 
 from astra_sumo.core.osm_network import build_osm_network
 from astra_sumo.core.osm_access import resolve_static_osm_access
+from astra_sumo.core.command_runner import _terminate_process_tree
 
 
 def test_static_restriction_hierarchy_and_unresolved_access_stay_explicit():
@@ -124,11 +126,20 @@ def test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle(t
     route_file, tripinfo = tmp_path / "vehicles.rou.xml", tmp_path / "tripinfo.xml"
     ET.ElementTree(routes).write(route_file, encoding="utf-8", xml_declaration=True)
     port, native_log = getFreeSocketPort(), tmp_path / "native.log"
+    expired = threading.Event()
     with native_log.open("w", encoding="utf-8") as log:
         process = subprocess.Popen([checkBinary("sumo"), "-n", result["net_file"], "-r", str(route_file),
-            "--remote-port", str(port), "--tripinfo-output", str(tripinfo), "--no-step-log", "true"],
-            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
-        deadline = threading.Timer(30, lambda: process.kill() if process.poll() is None else None)
+            "--remote-port", str(port), "--tripinfo-output", str(tripinfo), "--no-step-log", "true",
+            "--error-log", str(tmp_path / "native-errors.log")],
+            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT,
+            start_new_session=os.name != "nt", creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
+        def stop_at_deadline():
+            if process.poll() is not None:
+                return
+            expired.set()
+            (tmp_path / "native-timeout.txt").write_text("The native permission probe exceeded 30 seconds.\n", encoding="utf-8")
+            _terminate_process_tree(process)
+        deadline = threading.Timer(30, stop_at_deadline)
         deadline.start()
         try:
             connection = traci.connect(port, numRetries=30, proc=process)
@@ -145,9 +156,11 @@ def test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle(t
             connection.simulationStep(300)
             connection.close(wait=False)
             assert process.wait(timeout=15) == 0, native_log.read_text(encoding="utf-8")
+        except traci.FatalTraCIError as error:
+            raise AssertionError(f"Native permission connection closed. Deadline expired: {expired.is_set()}. Process exit: {process.poll()}. See native logs.") from error
         finally:
             deadline.cancel()
             if process.poll() is None:
-                process.kill()
+                _terminate_process_tree(process)
             process.wait(timeout=5)
     assert {row.get("id") for row in ET.parse(tripinfo).getroot().findall("tripinfo")} == {"v0", "v1"}

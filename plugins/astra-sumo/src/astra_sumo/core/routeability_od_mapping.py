@@ -93,11 +93,9 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                 target = candidate.get(aliases.get(identity, identity))
                 if identity not in aliases and target is not None and signature(source) == signature(target):
                     continue
-                same_road = target is not None and all(source.get(key) == target.get(key) for key in ("from", "to")) and (
-                    [(lane.get("id"), lane.get("index")) for lane in source.findall("lane")]
-                    == [(lane.get("id"), lane.get("index")) for lane in target.findall("lane")])
+                same_road = target is not None and all(source.get(key) == target.get(key) for key in ("from", "to"))
                 if identity not in aliases and not same_road:
-                    raise ValueError(f"Road {identity!r} has no verified merge correspondence.")
+                    raise ValueError(f"Road {identity!r} has no verified directed-road correspondence.")
                 if row.get("type") is not None or requests.find("vType") is not None or requests.find("vTypeDistribution") is not None:
                     raise ValueError("Merged endpoint mapping currently requires the default passenger vehicle type.")
                 if row.get("via") or list(row) or any(row.get(name) is not None for name in ("departPosLat", "arrivalPosLat")):
@@ -105,18 +103,21 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                 lanes = [lane for lane in source.findall("lane")
                          if "passenger" in _permission_set(lane.attrib, network_version=source_root.get("version", "0.0"))]
                 lanes.sort(key=lambda lane: int(lane.get("index")))
-                selector = row.get(role + "Lane", "first" if role == "depart" else "current")
+                selector = row.get(role + "Lane", "best_prob" if role == "depart" else "current")
                 if selector == "first" and role == "depart":
                     lanes = lanes[:1]
-                elif selector != "current" or role != "arrival":
+                elif not (role == "arrival" and selector == "current" or role == "depart" and selector in {"best_prob", "best", "free", "allowed", "random"}):
                     lanes = [lane for lane in lanes if lane.get("index") == str(int(selector))]
                 if not lanes:
                     raise ValueError("The source endpoint has no selected passenger lane.")
                 value = row.get(role + "Pos", "base" if role == "depart" else "max")
                 if value == "base" and role == "depart":
-                    value = "5"  # SUMO's default passenger front starts at its 5 m vehicle length.
-                pairs = [_lane_endpoint(lane, next(target_lane for target_lane in target.findall("lane")
-                          if target_lane.get("index") == lane.get("index")), value) for lane in lanes]
+                    # SUMO basePos adds POSITION_EPS and clamps to the source edge length.
+                    value = str(min(5.1, float(source.find("lane").get("length"))))
+                targets = {lane.get("index"): lane for lane in target.findall("lane")}
+                if any(lane.get("index") not in targets for lane in lanes):
+                    raise ValueError("A selected source lane is absent from the candidate road.")
+                pairs = [_lane_endpoint(lane, targets[lane.get("index")], value) for lane in lanes]
                 position = pairs[0]["candidate_position_m"]
                 for pair, lane in zip(pairs, lanes):
                     target_lane = next(value for value in target.findall("lane") if value.get("index") == lane.get("index"))
@@ -125,20 +126,37 @@ def map_merged_od_requests(source_root, candidate_root, requests):
                     pair["encoded_candidate_position_m"] = position
                     pair["encoded_position_error_m"] = math.dist(pair["source_point_xyz_m"], point)
                     if not 0 <= position <= length or pair["encoded_position_error_m"] > TOLERANCE_M:
-                        raise ValueError("The current arrival lane needs different candidate positions; use an explicit source lane.")
+                        raise ValueError(f"The {role} lane set needs different candidate positions; use an explicit source lane.")
                 row.set(key, aliases.get(identity, identity))
                 row.set(role + "Pos", format(position, ".12g"))
                 record["endpoints"].append({"role": role, "source_edge_id": identity,
-                                             "candidate_edge_id": aliases.get(identity, identity), "lanes": pairs})
+                                             "candidate_edge_id": aliases.get(identity, identity),
+                                             "lane_selection": selector, "lanes": pairs})
                 changed = True
             if row.get("from") == row.get("to") and record["source"]["from"] != record["source"]["to"]:
                 if float(row.get("arrivalPos", "nan")) < float(row.get("departPos", "nan")):
                     raise ValueError("The merged endpoints require a return route rather than a forward same-road trip.")
             record["candidate"] = dict(row.attrib)
+            record["probe_mode"] = "physical_endpoints"
         except (KeyError, ValueError, StopIteration) as error:
-            failures.append({"vehicle_id": row.get("id"), "reason": str(error)})
+            removed = [record["source"][key] for key in ("from", "to")
+                       if aliases.get(record["source"][key], record["source"][key]) not in candidate]
+            failures.append({"vehicle_id": row.get("id"), "reason": str(error),
+                             "classification": "source_endpoint_removed" if removed else "physical_position_unresolved",
+                             "removed_source_edge_ids": removed})
+            # Preserve every OD for strict routing, without claiming unresolved physical positions.
+            row.attrib.clear()
+            row.attrib.update(record["source"])
+            for key in ("from", "to"):
+                row.set(key, aliases.get(record["source"][key], record["source"][key]))
+            for key in ("departPos", "arrivalPos", "departLane", "arrivalLane", "departPosLat", "arrivalPosLat"):
+                row.attrib.pop(key, None)
+            record["attempted_mapped_endpoints"] = record["endpoints"]
+            record.update(candidate=dict(row.attrib), endpoints=[], probe_mode="logical_only")
+            changed = True
         records.append(record)
     return mapped, {"status": "review_required" if failures else "pass", "changed": changed,
                     "method": "directed_road_identity_or_verified_merge_and_lane_geometry/v1", "maximum_projection_error_m": TOLERANCE_M,
                     "request_count": len(records), "unresolved_requests": failures, "requests": records,
-                    "claim_boundary": "Source requests are never filtered or resampled. Logical lane positions use each lane's geometric-length ratio. Mapping requires retained directed road and lane identities or a verified merge path. Both projection and encoded position errors must stay within 0.02 m. Other endpoints remain unverified."}
+                    "physical_request_count": len(records) - len(failures), "logical_only_request_count": len(failures),
+                    "claim_boundary": "Source requests are never filtered or resampled. Logical lane positions use each lane's geometric-length ratio. Both projection and encoded position errors must stay within 0.02 m. Default lane selection preserves the source lane endpoint set, not each vehicle's realized lane choice. Unresolved requests still receive strict road-level routing probes without physical endpoint qualification."}

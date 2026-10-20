@@ -651,9 +651,18 @@ def validate_routeability_evidence(
     not_run = (report.get("status") == "review_required" and report.get("routeability_status") == "not_run"
                and report.get("execution_status") == "not_run"
                and report.get("reason") in {"no_diagnostic_od_pool", "unresolved_endpoint_mapping"})
+    incomplete_endpoints = (report.get("status") == "review_required" and report.get("routeability_status") == "unverified_endpoints"
+                            and report.get("execution_status") == "completed" and report.get("reason") == "unresolved_endpoint_mapping")
+    if incomplete_endpoints and not (report.get("route_generation", {}).get("status") == "pass"
+            and type(report.get("route_generation", {}).get("returncode")) is int
+            and report.get("route_generation", {}).get("returncode") == 0
+            and report.get("final_attempt", {}).get("inspection", {}).get("status") == "pass"
+            and report.get("final_attempt", {}).get("vehicle_routes", {}).get("status") == "pass"
+            and report.get("od_policy", {}).get("endpoint_mapping", {}).get("status") == "review_required"):
+        errors.append({"code": "routeability_unverified_endpoints_missing_completed_probe"})
     if not_run and (report.get("attempts") != [] or report.get("route_generation") != {"status": "not_run"}):
         errors.append({"code": "routeability_not_run_has_execution_results"})
-    if not not_run and (report.get("status") != "pass" or report.get("routeability_status") != "pass"):
+    if not (not_run or incomplete_endpoints) and (report.get("status") != "pass" or report.get("routeability_status") != "pass"):
         errors.append({"code": "routeability_result_not_pass"})
     if not _same_path(report.get("net_file"), candidate_net_file):
         errors.append({"code": "routeability_net_path_mismatch"})
@@ -697,7 +706,7 @@ def validate_routeability_evidence(
             errors.append({"code": "routeability_manifest_schema_mismatch"})
         if persisted_manifest.get("status") != report.get("status"):
             errors.append({"code": "routeability_manifest_report_status_mismatch"})
-        if not not_run and persisted_manifest.get("status") != "pass":
+        if not (not_run or incomplete_endpoints) and persisted_manifest.get("status") != "pass":
             errors.append({"code": "routeability_manifest_status_not_pass"})
         if not _same_path(persisted_manifest.get("net_file"), candidate_net_file):
             errors.append({"code": "routeability_manifest_net_path_mismatch"})
@@ -705,7 +714,7 @@ def validate_routeability_evidence(
             errors.append({"code": "routeability_manifest_net_hash_mismatch"})
 
     return {
-        "status": "blocked" if errors else "review_required" if not_run else "pass",
+        "status": "blocked" if errors else "review_required" if not_run or incomplete_endpoints else "pass",
         "execution_status": "not_run" if not_run else report.get("execution_status", "completed"),
         "routeability_status": str(report.get("routeability_status", "blocked")),
         "report_file": str(report_path) if report_path is not None else "",
