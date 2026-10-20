@@ -35,6 +35,19 @@ def main():
     report["road_scope_candidate_matches"] = file_sha256(source) == selection["candidate"]["sha256"]
     if not report["road_scope_candidate_matches"]:
         report["warnings"].append("The source network differs from the supplied road-scope result. Its actual hash is recorded.")
+    reference_file = Path(__file__).with_name("replay-reference-v1.json")
+    reference = json.loads(reference_file.read_text(encoding="utf-8"))
+    if report.get("content_hashes"):
+        actual = {**report["content_hashes"], "official_motor_movements": report["movement_coverage"]["official"],
+                  "passed_official_movements": report["movement_coverage"]["passed"], "field_loop_count": report["field_detector_count"]}
+        checks = {key: actual.get(key) == value for key, value in reference["expected"].items()}
+        report["reproduction"] = {"status": "matches_reference" if all(checks.values()) else "different_reference",
+            "reference": {"path": str(reference_file), "sha256": file_sha256(reference_file)},
+            "canonicalization": reference["canonicalization"], "actual": actual, "checks": checks}
+        if not all(checks.values()):
+            report["warnings"].append("[reproduction] The output differs from the saved reference. The measured result remains available.")
+    else:
+        report["reproduction"] = {"status": "not_run"}
     write_json_atomic(Path(report["report_file"]), report)
     print(json.dumps({key: report.get(key) for key in ("status", "report_file", "movement_coverage", "inputs_unchanged", "error")}), flush=True)
     return 0 if report["status"] == "measured" else 2

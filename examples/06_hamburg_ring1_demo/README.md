@@ -58,6 +58,14 @@ Field points are published reference locations. Their projections do not establi
 The one-second layout load has no traffic demand or fitted counts.
 The [public replay record](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v1.json) binds the 91254d6 construction run to unchanged input and implementation hashes.
 The count-influence diagnostic was added afterward on the same candidate. It found 19 potentially relevant movements and two unknown outlets.
+`run.json` now compares canonical network and loop XML hashes with `replay-reference-v1.json`, along with movement and loop counts.
+Canonicalization removes comments and presentation whitespace while retaining model values and element order.
+A reference mismatch remains a warning and does not suppress measurements.
+The road-scope case also records its selected-network content hash and shared geometry dependencies.
+Rebuild a saved road-scope result after a relevant shared geometry change before comparing complete construction outputs.
+
+`load_warning_records` names each intermediate edit stage and records whether its exact SUMO warning line also appears in the final layout load.
+An absent identical line is not a safety verdict. Final layout warnings remain recorded separately.
 Count influence uses compiled permissions and allowed ordinary lane changes as an upper bound.
 It ignores lane-change space, time, signals, and queues. Saved outlet hypotheses are not exhaustive.
 It does not establish native driving or justify dropping a movement or fitting target.

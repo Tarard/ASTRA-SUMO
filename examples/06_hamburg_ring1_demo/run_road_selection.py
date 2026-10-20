@@ -39,7 +39,10 @@ def run(output_dir):
         "fixture": {"path": str(effective_config), "sha256": file_sha256(effective_config)},
         "source_osm_sha256": file_sha256(source_osm),
         "implementation": {name: file_sha256(root / "plugins/astra-sumo/src/astra_sumo/core" / name)
-                           for name in ["osm_network.py", "road_hierarchy.py", "road_scope.py"]},
+                           for name in ["osm_network.py", "road_hierarchy.py", "road_scope.py", "osm_access.py",
+                                        "local_network_conversion.py", "network_geometry_freeze.py",
+                                        "junction_rebuild/geometry.py", "junction_rebuild/boundary_restore.py",
+                                        "junction_rebuild/restoration.py"]},
         "remaining_stages": ["junction_consolidation", "detector_placement", "count_calibration", "observed_simulated_count_comparison"]}
     if build.get("netconvert", {}).get("command"):
         command = build["netconvert"]["command"]
@@ -65,6 +68,10 @@ def run(output_dir):
                 "raw_network_matches_fixture": raw_content_hash == fixture["native_network_content_sha256"],
                 "source_road_count_matches": selected.get("source_road_count") == fixture["expected_source_road_count"],
                 "selected_road_count_matches": selected.get("selected_road_count") == fixture["expected_prepared_selected_road_count"]}}
+            case["reproduction"]["selected_network_content_sha256"] = hashlib.sha256(ET.canonicalize(
+                Path(selected["candidate"]["path"]).read_text(encoding="utf-8"), strip_text=True, with_comments=False
+            ).encode("utf-8")).hexdigest()
+            case["reproduction"]["selected_network_hash_recipe"] = "ElementTree C14N 2.0, strip_text=True, with_comments=False"
             geometry = selected.get("retained_road_geometry", {})
             signals = selected.get("signal_program_changes", {})
             case["review"] = {"geometry_status": geometry.get("status", "not_measured"),

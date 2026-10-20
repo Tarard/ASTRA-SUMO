@@ -45,3 +45,14 @@ def test_ring1_added_motor_lane_inherits_bus_access_from_its_source(tmp_path):
     patch = ET.parse(plan["patches"]["edges"]["path"]).getroot().find("edge[@id='37413814#0']").findall("lane")[-1]
     assert {"passenger", "bus"} <= _permission_set(patch.attrib)
     assert _permission_set(patch.attrib) == _permission_set(original.attrib, network_version="1.20")
+
+
+def test_sumo_content_hash_ignores_presentation_and_keeps_model_values(tmp_path):
+    from astra_sumo.core.hamburg_junctions.workflow import sumo_xml_content_sha256
+
+    first, second, changed = (tmp_path / name for name in ("first.xml", "second.xml", "changed.xml"))
+    first.write_text('<!--generated at Windows path--><net>\n <lane id="road_0" speed="10"/>\n</net>', encoding="utf-8")
+    second.write_text('<!--generated at Linux path--><net><lane speed="10" id="road_0"/></net>', encoding="utf-8")
+    changed.write_text('<net><lane speed="11" id="road_0"/></net>', encoding="utf-8")
+    assert sumo_xml_content_sha256(first) == sumo_xml_content_sha256(second)
+    assert sumo_xml_content_sha256(first) != sumo_xml_content_sha256(changed)

@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import hashlib
 import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -32,6 +33,12 @@ from .source import _project_plan_to_network
 def _identity(path):
     path = Path(path).resolve(strict=True)
     return {"path": str(path), "sha256": file_sha256(path)}
+
+
+def sumo_xml_content_sha256(path):
+    """Ignore comments, indentation and attribute order, retaining SUMO values."""
+    canonical = ET.canonicalize(Path(path).read_text(encoding="utf-8"), strip_text=True, with_comments=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
 
 
 def _apply_edit(source, operation, output, netconvert, timeout):
@@ -111,7 +118,7 @@ def rebuild_hamburg_official_corridor(
                       Path(__file__).parents[1] / "local_network_conversion.py",
                       Path(__file__).parents[1] / "hamburg_count_reachability.py"]
     report = {"schema": "astra.hamburg-official-corridor-replay/v1", "status": "running", "mode": "explore",
-              "promotion_authority": False, "inputs": inputs, "stages": {}, "warnings": [],
+              "promotion_authority": False, "inputs": inputs, "stages": {}, "warnings": [], "load_warning_records": [],
               "current_stage": "official_plans", "report_file": str(report_file),
               "implementation": [_identity(path) for path in implementation],
               "parameters": {"seed": 104, "netconvert_binary": netconvert_binary, "sumo_binary": sumo_binary,
@@ -128,6 +135,12 @@ def rebuild_hamburg_official_corridor(
         report["stages"][name] = _identity(path)
         report["current_stage"] = name
         save()
+
+    def edit_warnings(name, checked):
+        report["warnings"].extend(f"[{name}] {message}" for message in checked.get("warnings", []))
+        stderr = checked.get("sumo_load", {}).get("command_result", {}).get("stderr", "")
+        report["load_warning_records"].extend({"stage": name, "message": line.strip()}
+            for line in stderr.splitlines() if line.strip().startswith("Warning:"))
 
     save()
     try:
@@ -185,6 +198,7 @@ def rebuild_hamburg_official_corridor(
                 raise ValueError("Empty-turn cleanup changed other loaded movement permissions.")
             cleanup.append({"operation": operation, "verification": _identity(output / f"empty-turn-{index}" / "verification.json"),
                             "retained_effective_vehicle_classes_exact": True, "status": checked["status"]})
+            edit_warnings(f"empty-turn-{index}", checked)
             current, permissions = edited, after
         stage("empty-loaded-turns", {"deleted_count": len(cleanup), "edits": cleanup, "candidate": _identity(current)})
 
@@ -197,7 +211,7 @@ def rebuild_hamburg_official_corridor(
             changed.add(_remap_lane_origins(before, current, plan, origins, constructed))
             edit_records.append({"operation": operation, "status": checked["status"],
                                  "verification": _identity(output / f"lane-edit-{index}" / "verification.json")})
-            report["warnings"].extend(checked.get("warnings", []))
+            edit_warnings(f"lane-edit-{index}", checked)
         stage("lane-edits", {"edits": edit_records, "candidate": _identity(current)})
         report["current_stage"] = "official_movements"
         save()
@@ -263,6 +277,15 @@ def rebuild_hamburg_official_corridor(
             "claim_boundary": "One-second layout load with no traffic demand. No count fitting or experiment-window selection."})
         if load.returncode:
             raise ValueError("SUMO cannot load the field-loop layout.")
+        final_warnings = sorted({line.strip() for line in load.stderr.splitlines() if line.strip().startswith("Warning:")})
+        for row in report["load_warning_records"]:
+            row["also_observed_in_final_load"] = row["message"] in final_warnings
+        report["load_warning_records"].extend({"stage": "field-layout", "message": line,
+            "also_observed_in_final_load": True} for line in final_warnings)
+        report["load_warning_comparison_basis"] = "Exact warning-line occurrence only. Absence of an identical line is not a safety verdict."
+        report["content_hashes"] = {"network_content_sha256": sumo_xml_content_sha256(final),
+                                   "field_loops_content_sha256": sumo_xml_content_sha256(loops)}
+        report["field_detector_count"] = len(ids)
         report["current_stage"] = "count_influence"
         save()
         influence_file = output / "count-influence.json"
