@@ -120,6 +120,8 @@ For lane-count edits, `remove_index` removes one selected lane and remaps surviv
 Without these fields, a reduction removes the highest indices and an increase adds lanes on the left.
 `num_lanes` is the total SUMO lane count, including walking and cycling lanes.
 Optional `vehicle_class` selects the source lanes that may be copied or removed.
+It selects a template. It does not restrict the new lane to that class.
+The copied lane retains the template's complete vehicle permissions.
 Right insertion precedes the rightmost compatible lane. Left insertion follows
 the leftmost compatible lane. Reductions remove the highest compatible indices.
 An explicit `remove_index` must serve the selected class when that class is given.
@@ -133,19 +135,36 @@ lanes, these parameters add a passenger lane beside the cycle lane:
 ```
 
 The default connection policy preserves existing movements of surviving lanes, with their remapped indices.
-New lanes need an explicit complete `connections` list when they should serve additional movements.
-The tool does not guess these movements. The report lists added and removed ordinary lane connections.
-For a new controlled movement, include `tl` and `linkIndex`, with optional
+New lanes copy the template lane's source-supported incoming and outgoing movements.
+A removed lane's movements transfer to the nearest surviving lane that allows all their source vehicle classes.
+The tool retains existing matching connections when transferred movements share a resulting lane pair.
+It does not expand a surviving lane's permissions to accommodate a removed lane.
+Copied and transferred paths use newly computed geometry instead of the source lane's custom curve.
+Their source driving constraints and signal bindings remain recorded.
+
+Supply an explicit complete `connections` list to replace the default result.
+Matching pairs inherit their source or template bindings.
+For a controlled movement without such a binding, include `tl` and `linkIndex`, with optional
 `linkIndex2`, in its connection record. The controller must serve that junction.
-Indices must fit every source program. Missing or incompatible bindings are
-invalid inputs. Existing matching pairs inherit their saved bindings.
+Indices must fit every source program. Missing or incompatible bindings are invalid inputs.
 This reuses existing program states. It does not design a new signal program.
+Parallel copied turns can introduce protected-green conflicts when they merge into the same destination lane.
+Release checks retain these conflicts. A served lane does not establish safe signal control.
 `new_lane_service` lists each added lane's compatible ordinary incoming and
 outgoing movements. Counts use loaded vehicle-class permissions, including
 internal paths. A boundary is unverified when compatible source lanes have
 movements there but the added lane has none. Source departure and arrival
 boundaries do not acquire requirements that were absent from the source.
 Lane-change use, intended auxiliary use, and discharge capacity remain separate.
+
+`road_movement_preservation` compares the original and candidate road-to-road turns by vehicle class.
+This comparison does not use the native proposal as its reference.
+It lists every lost and added turn, even when the total turn count stays equal.
+An undeclared lost turn blocks construction and explore driving because the original fixed route no longer exists.
+An explicit connection override declares its omitted turns and retains a release review outcome.
+The report still lists these losses. Original traffic requests require separate routing and driving checks.
+The [Hamburg lane-service reproduction](../benchmarks/public_network_development_v2/lane-count-service-20261020-v1.md)
+retains the successful fixed-turn checks and failed paired corridor runs.
 
 Explore retains measurements and warns about unverified new-lane service.
 Release returns `review_required` when construction checks pass but those

@@ -1,0 +1,288 @@
+{
+  "schema": "astra.lane-count-service-evidence/v1",
+  "production_commit": "d398174223e2a80b24782f787310be8e5f83c8c1",
+  "execution_parent_commit": "54f5218163c0fa3f846ad89f6a6e29eb68df801c",
+  "execution_note": "The run used uncommitted implementation bytes that match production_commit.",
+  "declaration": {
+    "path": "outputs/lane-service-20261020-v1/declaration.json",
+    "sha256": "c2ece6722c1146ea372515ad2c1a6489c3e6e44fbaf54728b37726ea2d32ea5d"
+  },
+  "runner": {
+    "path": "benchmarks/public_network_development_v2/run_lane_count_service.py",
+    "sha256": "93c70aa0a15733c7ff37986cefc1f06b8201528629401a4c0ca2f6cd126621c7"
+  },
+  "source_sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a",
+  "checks": {
+    "source_unchanged": true,
+    "implementation_unchanged": true,
+    "fixture_unchanged": true,
+    "new_lane_served": true,
+    "source_turns_kept": true,
+    "original_requests_route": true,
+    "targeted_runs_valid": true,
+    "new_lane_used": true,
+    "paired_inputs_unchanged": true
+  },
+  "cases": {
+    "add-right": {
+      "report": {
+        "path": "outputs/lane-service-20261020-v1/add-right/edit-verification.json",
+        "sha256": "fe125507b6e5cb82e91224c3f379e345f5885775cc489249ecf1373e0c091516"
+      },
+      "status": "measured",
+      "new_lane_service": {
+        "candidate_lane_count": 4,
+        "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence.",
+        "lanes": [
+          {
+            "incoming_movement_count": 2,
+            "incoming_movements": [
+              [
+                "-780360331",
+                0,
+                "47854310#1",
+                0
+              ],
+              [
+                "47854310#0",
+                0,
+                "47854310#1",
+                0
+              ]
+            ],
+            "lane_change_service": "not_measured",
+            "lane_id": "47854310#1_0",
+            "lane_index": 0,
+            "outgoing_movement_count": 2,
+            "outgoing_movements": [
+              [
+                "47854310#1",
+                0,
+                "714078605",
+                0
+              ],
+              [
+                "47854310#1",
+                0,
+                "47854310#2",
+                0
+              ]
+            ],
+            "source_edge_has_compatible_incoming": true,
+            "source_edge_has_compatible_outgoing": true,
+            "unverified_boundaries": [],
+            "vehicle_classes": [
+              "army",
+              "authority",
+              "bicycle",
+              "bus",
+              "coach",
+              "custom1",
+              "custom2",
+              "delivery",
+              "emergency",
+              "evehicle",
+              "hov",
+              "moped",
+              "motorcycle",
+              "passenger",
+              "private",
+              "taxi",
+              "trailer",
+              "truck",
+              "vip"
+            ]
+          }
+        ],
+        "source_lane_count": 3,
+        "status": "pass"
+      },
+      "road_movement_preservation": {
+        "added": [],
+        "candidate_movement_count": 4,
+        "claim_boundary": "Direct ordinary-road turns by vehicle class. Detours, lane-changing reachability and demand completion require separate evidence.",
+        "lost": [],
+        "removals_declared_by_connection_override": false,
+        "source_movement_count": 4,
+        "status": "pass"
+      },
+      "route_generation_status": "pass",
+      "requested_count": 100
+    },
+    "remove-lower": {
+      "report": {
+        "path": "outputs/lane-service-20261020-v1/remove-lower/edit-verification.json",
+        "sha256": "0251832c2f7e97c775213dd19436934b8070ec6c331a6ee2d269bd9e0ffad32d"
+      },
+      "status": "measured",
+      "new_lane_service": {
+        "candidate_lane_count": 2,
+        "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence.",
+        "lanes": [],
+        "source_lane_count": 3,
+        "status": "not_applicable"
+      },
+      "road_movement_preservation": {
+        "added": [],
+        "candidate_movement_count": 4,
+        "claim_boundary": "Direct ordinary-road turns by vehicle class. Detours, lane-changing reachability and demand completion require separate evidence.",
+        "lost": [],
+        "removals_declared_by_connection_override": false,
+        "source_movement_count": 4,
+        "status": "pass"
+      },
+      "route_generation_status": "pass",
+      "requested_count": 100
+    }
+  },
+  "focused_tests": {
+    "path": "outputs/lane-count-movement-final-tests-20261020.xml",
+    "sha256": "de4c81d1d5b5982c47d6db6df87bf7bdf02d36d558d654ee66f077ea9254d14f",
+    "passed": 120,
+    "native_service_cases_passed": 2
+  },
+  "targeted_driving": {
+    "path": "outputs/lane-service-20261020-v1/targeted-driving/comparison.json",
+    "sha256": "d306e5844374139ef548b4005badfb1b46ae2bcef4d70de902adf957130be857",
+    "vehicles_per_network": 5,
+    "network_count": 3,
+    "all_valid": true
+  },
+  "paired_driving": {
+    "path": "outputs/lane-service-20261020-v1/paired-driving/comparison.json",
+    "sha256": "ca43c56e8fc7f67c9e31cf03ba7b0212465653f355f87dd2d33821506d83b759",
+    "seeds": [
+      6,
+      10,
+      42
+    ],
+    "horizon_s": 600,
+    "validity": {
+      "invalid": 6
+    },
+    "performance_mean": null,
+    "runs": {
+      "6": {
+        "source": {
+          "valid": false,
+          "arrived": 63,
+          "collisions": [
+            {
+              "time": "61.00",
+              "type": "junction",
+              "lane": ":77777614_2_0",
+              "pos": "4.67",
+              "collider": "54",
+              "victim": "49",
+              "colliderType": "DEFAULT_VEHTYPE",
+              "victimType": "DEFAULT_VEHTYPE",
+              "colliderSpeed": "4.18",
+              "victimSpeed": "3.86",
+              "colliderFront": "189.87,312.98",
+              "colliderBack": "189.96,316.30",
+              "victimFront": "191.41,312.52",
+              "victimBack": "186.44,312.01"
+            }
+          ]
+        },
+        "add-right": {
+          "valid": false,
+          "arrived": 60,
+          "collisions": []
+        },
+        "remove-lower": {
+          "valid": false,
+          "arrived": 64,
+          "collisions": []
+        }
+      },
+      "10": {
+        "source": {
+          "valid": false,
+          "arrived": 91,
+          "collisions": [
+            {
+              "time": "94.00",
+              "type": "junction",
+              "lane": ":77777614_2_0",
+              "pos": "3.90",
+              "collider": "77",
+              "victim": "72",
+              "colliderType": "DEFAULT_VEHTYPE",
+              "victimType": "DEFAULT_VEHTYPE",
+              "colliderSpeed": "3.27",
+              "victimSpeed": "5.71",
+              "colliderFront": "189.17,313.29",
+              "colliderBack": "190.69,316.58",
+              "victimFront": "194.25,312.86",
+              "victimBack": "189.29,312.27"
+            }
+          ]
+        },
+        "add-right": {
+          "valid": false,
+          "arrived": 60,
+          "collisions": []
+        },
+        "remove-lower": {
+          "valid": false,
+          "arrived": 61,
+          "collisions": []
+        }
+      },
+      "42": {
+        "source": {
+          "valid": false,
+          "arrived": 63,
+          "collisions": []
+        },
+        "add-right": {
+          "valid": false,
+          "arrived": 63,
+          "collisions": [
+            {
+              "time": "132.00",
+              "type": "junction",
+              "lane": ":77777614_2_0",
+              "pos": "4.17",
+              "collider": "90",
+              "victim": "95",
+              "colliderType": "DEFAULT_VEHTYPE",
+              "victimType": "DEFAULT_VEHTYPE",
+              "colliderSpeed": "3.67",
+              "victimSpeed": "4.43",
+              "colliderFront": "189.41,313.17",
+              "colliderBack": "190.44,316.49",
+              "victimFront": "193.73,312.80",
+              "victimBack": "188.76,312.21"
+            }
+          ]
+        },
+        "remove-lower": {
+          "valid": false,
+          "arrived": 62,
+          "collisions": [
+            {
+              "time": "132.00",
+              "type": "junction",
+              "lane": ":77777614_2_0",
+              "pos": "4.30",
+              "collider": "90",
+              "victim": "95",
+              "colliderType": "DEFAULT_VEHTYPE",
+              "victimType": "DEFAULT_VEHTYPE",
+              "colliderSpeed": "3.48",
+              "victimSpeed": "5.01",
+              "colliderFront": "189.52,313.12",
+              "colliderBack": "190.32,316.44",
+              "victimFront": "194.35,312.87",
+              "victimBack": "189.39,312.28"
+            }
+          ]
+        }
+      }
+    }
+  },
+  "claim_boundary": "Source-supported lane service only. All six corridor pairs remain invalid. No traffic improvement, sensor calibration or field legality claim.",
+  "readme_case_scope": "This fixture is Am Sandtorkai. It is not the README Binnenalster/LSA118 paper case."
+}
