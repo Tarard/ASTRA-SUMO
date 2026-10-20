@@ -176,3 +176,6 @@ The [local-addition follow-up](local-additive-conversion-20261020-v1.md)
 extends scoped native conversion to roads, sidewalks, ramps and crossings.
 Four full-Hamburg controls preserve original access and signal programs while
 retaining unapproved facility increases as blocked release results.
+The [real walking-area context follow-up](additive-walking-context-20261020-v1.md)
+retains a real-junction regression missed by those synthetic controls, its
+14-road native-context repair, and type-derived lane-count verification.

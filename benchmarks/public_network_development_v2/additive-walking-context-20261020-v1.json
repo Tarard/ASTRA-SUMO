@@ -1,0 +1,383 @@
+{
+  "artifacts": [
+    {
+      "path": "outputs/awc26v1/local/result.json",
+      "sha256": "b77a4f5ff80f09dda9f2ea4c17d657459ff10803aab56dfad20d982a41d92ad9"
+    },
+    {
+      "path": "outputs/awc26v1/full/result.json",
+      "sha256": "0113d55e1192b448bb2f91f0d91cd0d442f75d7a72d3ff287e1a596ad7aa070a"
+    },
+    {
+      "path": "outputs/awc26v1/unfrozen/result.json",
+      "sha256": "016680dfae8e3c3f7d98b7631e6dc1d3a962e538075a30554243a6405f06729b"
+    },
+    {
+      "path": "outputs/awc26v1/unfrozen_complete_requests/result.json",
+      "sha256": "a2a1d211caa5c698031ab8f6f8be2912b6daa9bbde8a19f59b2bdc1917e60479"
+    },
+    {
+      "path": "outputs/awc26v3/local/result.json",
+      "sha256": "81430267faa0b2f520e9ab77784d2b3d2a52c4cf8b02033f825dd531aa2d0481"
+    },
+    {
+      "path": "outputs/awc26v3/full/result.json",
+      "sha256": "2647a9a1bfc40fb74c6d4fbb3ada6dcb52d699975f8eaef97ee849bcd9a1efcb"
+    },
+    {
+      "path": "outputs/claude-review-ab5bfb4-complete-20261020.txt",
+      "sha256": "18609ad6415c018ec0423cdab2891d7f797f9ee9d5fd072ec93c766f8d89c6f8"
+    },
+    {
+      "path": "outputs/probe_additive_walking_context_20261020_v1.py",
+      "sha256": "3e630e65e92218efe193cac25fcfccd136b07eafe941f01650426332b94070bf"
+    },
+    {
+      "path": "outputs/probe_additive_walking_context_20261020_v2.py",
+      "sha256": "8107b88a2624ba97f0ae20ff82aed99b513636ffe79b094e5c457bd7d559e89c"
+    },
+    {
+      "path": "outputs/probe_additive_walking_context_20261020_v3.py",
+      "sha256": "0f0ca13847c10b1d64b3b791dc3ad87bb83f22cada59856f77e3e545cea98312"
+    },
+    {
+      "path": "outputs/additive-adjacent-context-consumers-20261020-v1.log",
+      "sha256": "cab4219a090a11dc5dbc51d2322d8c5acd6a0aa981de1679e0ef08c9bdc5e0ec"
+    },
+    {
+      "path": "outputs/additive-lane-layout-20261020-v1.log",
+      "sha256": "c3c3d3b29d3d71228de8aea67a97fef5011a783a61f9418f517ceca0b1b5a50b"
+    },
+    {
+      "path": "outputs/additive-lane-layout-20261020-v2.log",
+      "sha256": "d1abef924e649f816ef904cf653fa5a940033fd5b97c69e33d6cc5b8bc252db2"
+    },
+    {
+      "path": "outputs/additive-lane-layout-20261020-v3.log",
+      "sha256": "8a6bdca3a5cbdfde83fe2c9e43eba8bbe1896724843e6c2681e53a2cdd7ecd40"
+    },
+    {
+      "path": "outputs/additive-native-type-lanes-20261020-v1.log",
+      "sha256": "166eadfed35aab917f73c58ab0a30f78fb0cb459b3e2176fcdc8fadebb8bdb2c"
+    }
+  ],
+  "checks": {
+    "new_lane_states_match_full_control": true,
+    "new_outgoing_connections_match_full_control": true,
+    "outside_controllers_not_adopted": true
+  },
+  "code_commit": "cc90733b2f6869e4b00803e08a0c84740d8c2cb1",
+  "current_context": {
+    "context_edge_ids": [
+      "-381540198#0",
+      "193847534#1",
+      "381540198#0",
+      "402732222#0",
+      "402732222#1",
+      "47854310#2",
+      "554713077",
+      "60260767#0",
+      "60578487#0",
+      "60578487#1",
+      "60578487#2",
+      "60578487#3",
+      "882966132",
+      "9702432#0"
+    ],
+    "controller_ids": [],
+    "converted_normal_edge_count": 14,
+    "mutable_edge_ids": [
+      "402732222#0",
+      "402732222#1",
+      "554713077",
+      "60578487#0",
+      "probe-residential"
+    ],
+    "mutable_junction_ids": [
+      "12865383036",
+      "5353176677"
+    ],
+    "native_rebuild_junction_ids": [
+      "12865383036",
+      "4051376209",
+      "4051376234",
+      "5353176677",
+      "748827192",
+      "LSA2394_part0"
+    ],
+    "source_normal_edge_count": 196
+  },
+  "current_results": {
+    "full": {
+      "new_connections": [
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "2",
+          "via": ":5353176677_3_0"
+        },
+        {
+          "dir": "s",
+          "from": "probe-residential",
+          "fromLane": "0",
+          "state": "M",
+          "to": ":5353176677_w1",
+          "toLane": "0"
+        }
+      ],
+      "new_lanes": [
+        {
+          "allow": "pedestrian",
+          "id": "probe-residential_0",
+          "index": "0",
+          "length": "8.387284",
+          "shape": "293.453876,242.709651 301.776942,241.673745",
+          "speed": "13.900000",
+          "width": "2.000000"
+        },
+        {
+          "allow": "passenger",
+          "id": "probe-residential_1",
+          "index": "1",
+          "length": "8.387284",
+          "shape": "293.775000,245.289744 302.098066,244.253837",
+          "speed": "13.900000"
+        }
+      ],
+      "status": "pass"
+    },
+    "local": {
+      "new_connections": [
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "2",
+          "via": ":5353176677_3_0"
+        },
+        {
+          "dir": "s",
+          "from": "probe-residential",
+          "fromLane": "0",
+          "state": "M",
+          "to": ":5353176677_w1",
+          "toLane": "0"
+        }
+      ],
+      "new_lanes": [
+        {
+          "allow": "pedestrian",
+          "id": "probe-residential_0",
+          "index": "0",
+          "length": "8.387284",
+          "shape": "293.453876,242.709651 301.776942,241.673745",
+          "speed": "13.900000",
+          "width": "2.000000"
+        },
+        {
+          "allow": "passenger",
+          "id": "probe-residential_1",
+          "index": "1",
+          "length": "8.387284",
+          "shape": "293.775000,245.289744 302.098066,244.253837",
+          "speed": "13.900000"
+        }
+      ],
+      "status": "pass"
+    }
+  },
+  "field_precision": null,
+  "field_recall": null,
+  "limits": [
+    "A real-network construction and native-control comparison does not approve the road as a field addition.",
+    "A larger native rebuild context does not enlarge the final edit scope.",
+    "The type-derived bicycle lane control retains a modal isolation failure. Correct lane count does not qualify connectivity.",
+    "Standalone global conversion, guarded fallbacks, merged-road OD correspondence and complete source-curation correction remain open.",
+    "Earlier whole-Hamburg planted controls checked exterior restoration and did not cover this real junction interaction."
+  ],
+  "new_lane_layout": [
+    {
+      "built_total_lanes": 2,
+      "edge_id": "probe-residential",
+      "expected_total_lanes": 2,
+      "input_num_lanes": 1,
+      "kind": "added_lane_layout",
+      "type_added_bicycle_lanes": 0,
+      "type_added_sidewalk_lanes": 1
+    }
+  ],
+  "operation": {
+    "from": "12865383036",
+    "input_num_lanes": 1,
+    "kind": "add_edge",
+    "to": "5353176677",
+    "type": "highway.residential"
+  },
+  "previous_results": {
+    "full": {
+      "new_connections": [
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "2",
+          "via": ":5353176677_3_0"
+        },
+        {
+          "dir": "s",
+          "from": "probe-residential",
+          "fromLane": "0",
+          "state": "M",
+          "to": ":5353176677_w1",
+          "toLane": "0"
+        }
+      ],
+      "new_lanes": [
+        {
+          "allow": "pedestrian",
+          "id": "probe-residential_0",
+          "index": "0",
+          "length": "8.387284",
+          "shape": "293.453876,242.709651 301.776942,241.673745",
+          "speed": "13.900000",
+          "width": "2.000000"
+        },
+        {
+          "allow": "passenger",
+          "id": "probe-residential_1",
+          "index": "1",
+          "length": "8.387284",
+          "shape": "293.775000,245.289744 302.098066,244.253837",
+          "speed": "13.900000"
+        }
+      ],
+      "status": "pass"
+    },
+    "local": {
+      "new_connections": [
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "2",
+          "via": ":5353176677_3_0"
+        },
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "3",
+          "via": ":5353176677_3_1"
+        }
+      ],
+      "new_lanes": [
+        {
+          "allow": "pedestrian",
+          "id": "probe-residential_0",
+          "index": "0",
+          "length": "15.294544",
+          "shape": "293.453876,242.709651 308.631316,240.820635",
+          "speed": "13.900000",
+          "width": "2.000000"
+        },
+        {
+          "allow": "passenger",
+          "id": "probe-residential_1",
+          "index": "1",
+          "length": "15.294544",
+          "shape": "293.775000,245.289744 308.952440,243.400728",
+          "speed": "13.900000"
+        }
+      ],
+      "status": "blocked"
+    },
+    "unfrozen": {
+      "new_connections": [
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "2",
+          "via": ":5353176677_3_0"
+        }
+      ],
+      "new_lanes": [
+        {
+          "allow": "pedestrian",
+          "id": "probe-residential_0",
+          "index": "0",
+          "length": "8.387284",
+          "shape": "293.453876,242.709651 301.776942,241.673745",
+          "speed": "13.900000",
+          "width": "2.000000"
+        },
+        {
+          "allow": "passenger",
+          "id": "probe-residential_1",
+          "index": "1",
+          "length": "8.387284",
+          "shape": "293.775000,245.289744 302.098066,244.253837",
+          "speed": "13.900000"
+        }
+      ],
+      "status": "blocked"
+    },
+    "unfrozen_complete_requests": {
+      "new_connections": [
+        {
+          "dir": "r",
+          "from": "probe-residential",
+          "fromLane": "1",
+          "state": "m",
+          "to": "60578487#0",
+          "toLane": "2",
+          "via": ":5353176677_3_0"
+        }
+      ],
+      "new_lanes": [
+        {
+          "allow": "pedestrian",
+          "id": "probe-residential_0",
+          "index": "0",
+          "length": "8.387284",
+          "shape": "293.453876,242.709651 301.776942,241.673745",
+          "speed": "13.900000",
+          "width": "2.000000"
+        },
+        {
+          "allow": "passenger",
+          "id": "probe-residential_1",
+          "index": "1",
+          "length": "8.387284",
+          "shape": "293.775000,245.289744 302.098066,244.253837",
+          "speed": "13.900000"
+        }
+      ],
+      "status": "blocked"
+    }
+  },
+  "schema": "astra.additive-walking-context-evidence/v1",
+  "source_fixture": {
+    "path": "benchmarks\\hamburg_loaded_links_20261018_v1\\candidate.net.xml.gz",
+    "sha256": "48da2a9f750e4910866fa55573450a546851a077696d83b24bde623dcfd42684"
+  },
+  "source_sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a",
+  "verification": {
+    "adjacent_context_consumers_passed": 155,
+    "counts_overlap": true,
+    "lane_layout_group_passed": 40
+  }
+}
