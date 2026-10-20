@@ -955,7 +955,8 @@ def materialize_corridor_edit_variant(
                     raise ValueError("The native road list differs from the accepted edit targets.")
             subset, legacy_conversion = local_conversion_input(source_root, legacy_nodes, legacy_edges,
                 removed_edge_ids=native_targets if operation_family == "delete_edge" else None,
-                merge_edge_ids=native_targets if operation_family == "merge_edges" else None, edge_endpoints=endpoints)
+                merge_edge_ids=native_targets if operation_family == "merge_edges" else None, edge_endpoints=endpoints,
+                rebuild_adjacent_junctions=operation_family == "additive")
             legacy_conversion["operation"] = {"operation": operation_family, "target_ids": target_ids}
             if subset is not None:
                 local_file = output_dir / f"{prefix}.local-input.net.xml"

@@ -1,4 +1,5 @@
 from copy import deepcopy
+import gzip
 from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
@@ -142,4 +143,51 @@ def test_native_additions_use_local_context_and_replay_bound_plain_inputs(tmp_pa
     assert states[0] == states[1]
     loaded = run_sumo_load_audit(net_file=candidate, output_dir=tmp_path / "load", sumo_binary=shutil.which("sumo"))
     assert loaded["status"] == "pass", loaded
+    assert source.read_bytes() == original
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
+@pytest.mark.parametrize("full_input", [False, True])
+def test_hamburg_added_sidewalk_reaches_its_walking_area(tmp_path, monkeypatch, full_input):
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
+    source = tmp_path / "hamburg.net.xml"
+    source.write_bytes(gzip.decompress(fixture.read_bytes()))
+    original = source.read_bytes()
+    if full_input:
+        monkeypatch.setattr(
+            "astra_sumo.core.local_network_conversion.local_conversion_input",
+            lambda *args, **kwargs: (None, {"status": "full_network", "reason": "controlled_full_comparison"}),
+        )
+    operation = {
+        "id": "walking-area-context",
+        "operation": "add_edge",
+        "status": "accepted",
+        "target_ids": [],
+        "params": {
+            "id": "new-residential",
+            "from": "12865383036",
+            "to": "5353176677",
+            "type": "highway.residential",
+            "lanes": 1,
+        },
+        "rationale": "Real native context regression, not field acceptance.",
+        "evidence": [{"path": str(source), "sha256": file_sha256(source)}],
+        "rollback": {"action": "discard_candidate"},
+    }
+    report = materialize_corridor_edit_variant(
+        output_dir=tmp_path / "edit",
+        ledger={"source_net_file": str(source), "source_sha256": file_sha256(source), "operations": [operation]},
+        netconvert_binary=shutil.which("netconvert"),
+    )
+    assert report["status"] == "pass", report
+    root = ET.parse(report["candidate_net_file"]).getroot()
+    outgoing = root.findall("connection[@from='new-residential'][@fromLane='0']")
+    assert any(row.get("to", "").startswith(":5353176677_w") for row in outgoing)
+    if not full_input:
+        local = report["semantic_validation"]["local_conversion"]
+        assert local["converted_normal_edge_count"] == 14
+        assert local["converted_normal_edge_count"] < local["source_normal_edge_count"]
+        assert set(local["mutable_junction_ids"]) < set(local["native_rebuild_junction_ids"])
+        assert local["controller_ids"] == []
+        assert validate_local_conversion(local, source, command=report["command"]) == Path(local["input"]["path"])
     assert source.read_bytes() == original

@@ -213,7 +213,7 @@ def legacy_additive_edit_scope(root, command):
 
 
 def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=None, edge_endpoints=None, preserve_turn_permissions=True,
-                           removed_edge_ids=None, merge_edge_ids=None):
+                           removed_edge_ids=None, merge_edge_ids=None, rebuild_adjacent_junctions=False):
     """Keep complete edit junctions and the roads needed to position their ends."""
     if root.find("location") is None:
         return None, {"status": "full_network", "reason": "coordinate_frame_not_declared"}
@@ -232,6 +232,11 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
             for key, ends in edge_endpoints.items())):
         raise ValueError("Declare complete endpoints for each changed ordinary road within the conversion scope.")
     created = set(edge_endpoints) - index["edges"].keys()
+    native_nodes, native_edges = set(mutable_nodes), set(mutable_edges)
+    if rebuild_adjacent_junctions:
+        ordinary = {key: edge for key, edge in index["edges"].items() if key not in index["ownership"]["edge"]}
+        native_nodes.update(edge.get(end) for key, edge in ordinary.items() if key in mutable_edges for end in ("from", "to"))
+        native_edges.update(key for key, edge in ordinary.items() if edge.get("from") in native_nodes or edge.get("to") in native_nodes)
     aliases = {node: joined for joined, nodes in (join_groups or {}).items() for node in nodes}
     absorbed = {key for key, edge in index["edges"].items() if key not in index["ownership"]["edge"]
                 and edge.get("from") in aliases and aliases.get(edge.get("from")) == aliases.get(edge.get("to"))}
@@ -240,10 +245,10 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
         if connection.get("tl"):
             controllers.setdefault(connection.get("tl"), set()).add(_owner(connection, index))
     shared = sorted(key for key, owners in controllers.items()
-                    if (owners & mutable_nodes or key in (join_groups or {})) and owners - mutable_nodes)
+                    if (owners & native_nodes or key in (join_groups or {})) and owners - native_nodes)
     if shared:
         return None, {"status": "full_network", "reason": "controller_spans_edit_boundary", "controller_ids": shared}
-    selected = set(mutable_edges) - created
+    selected = native_edges - created
     anchors = []
     if removed and selected <= removed:
         # An isolated deletion still needs one retained native road. Its exterior is copied from the source.
@@ -266,7 +271,7 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
     if unpaired:
         return None, {"status": "full_network", "reason": "bidirectional_pair_exceeds_context", "edge_ids": unpaired}
     context = {index["edges"][key].get(end) for key in selected for end in ("from", "to")}
-    internal = {key for key, owner in index["ownership"]["edge"].items() if owner in mutable_nodes}
+    internal = {key for key, owner in index["ownership"]["edge"].items() if owner in native_nodes}
     kept = selected | internal
     lanes = {lane.get("id") for key in kept for lane in index["edges"][key].findall("lane")}
     connections = []
@@ -297,12 +302,12 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
             result.append(deepcopy(child))
         elif child.tag == "edge" and child.get("id") in kept:
             result.append(deepcopy(child))
-        elif child.tag == "junction" and (child.get("id") in context or _owner(child, index) in mutable_nodes):
+        elif child.tag == "junction" and (child.get("id") in context or _owner(child, index) in native_nodes):
             row = deepcopy(child)
             for name in ("incLanes", "intLanes"):
                 if name in row.attrib:
                     row.set(name, " ".join(value for value in row.get(name).split() if value in lanes))
-            if child.get("id") not in mutable_nodes:
+            if child.get("id") not in native_nodes:
                 for request in list(row.findall("request")):
                     row.remove(request)
                 row.set("customShape", "true")
@@ -320,6 +325,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
         record.update(junction_aliases=aliases, absorbed_edge_ids=sorted(absorbed))
     if edge_endpoints:
         record["edge_endpoints"] = deepcopy(edge_endpoints)
+    if rebuild_adjacent_junctions:
+        record["native_rebuild_junction_ids"] = sorted(native_nodes)
     if removed:
         record["removed_edge_ids"] = sorted(removed)
         if anchors:
@@ -514,7 +521,7 @@ def validate_local_conversion(record, source_file, *, command=None):
     if operation.get("operation") == "additive":
         nodes, edges, endpoints, _ = legacy_additive_edit_scope(source_root, command)
         subset, expected = local_conversion_input(source_root, nodes, edges, edge_endpoints=endpoints,
-            preserve_turn_permissions=record.get("preserve_loaded_turn_permissions") is True)
+            preserve_turn_permissions=record.get("preserve_loaded_turn_permissions") is True, rebuild_adjacent_junctions=True)
         return _validate_local_artifacts(record, source_root, subset, expected)
     if operation.get("operation") in {"delete_edge", "merge_edges"}:
         kind = operation["operation"]

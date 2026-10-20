@@ -286,6 +286,13 @@ incident roads. Evidence validation reconstructs that scope and checks every
 plain input against its manifest binding. Existing roads cannot be modified
 through an additive patch. Guarded full-network fallbacks remain explicit.
 
+Additive conversion rebuilds the edited junctions and their adjacent junctions
+in the native input, with complete incident roads and saved internal paths.
+This larger computation context supports walking-area generation. Only the
+original edit junctions, roads and controllers enter the final candidate.
+The record separates `native_rebuild_junction_ids` from the mutable scope.
+An outer shared controller can still require a recorded full-network fallback.
+
 Duplicate-road proposals require matching geometry, lane attributes, parameters,
 and ordinary movement neighbors after replacing the compared road identity.
 Internal paths compare their lane state and geometry instead of generated IDs.
