@@ -204,6 +204,71 @@ def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path):
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints(tmp_path):
+    from pyproj import Transformer
+    from astra_sumo.core.digital_twin import parse_mapem
+    from astra_sumo.core.hamburg_map_kml import parse_hamburg_map_kml, bind_hamburg_map_kml_to_mapem
+    from astra_sumo.core.hamburg_junctions.source import _project_plan_to_network
+    from astra_sumo.core.hamburg_junctions.movements import _write_movement_candidate
+    from astra_sumo.core.connection_mode_audit import audit_network_connection_mode
+    from astra_sumo.core.movement_routeability import run_candidate_movement_probes
+    from astra_sumo.core.network_geometry_freeze import compare_frozen_geometry
+
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
+    metadata = json.loads((fixture / "movement-contour-input.json").read_text(encoding="utf-8"))
+    assert file_sha256(fixture / metadata["file"]) == metadata["compressed_sha256"]
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(gzip.decompress((fixture / metadata["file"]).read_bytes()))
+    assert file_sha256(source) == metadata["uncompressed_sha256"]
+    digest = file_sha256(source)
+    official = fixture.parent / "hamburg_ring1_official_sources_20261020_v1"
+    catalog = json.loads((official / "manifest.json").read_text(encoding="utf-8"))
+    paths = {}
+    for row in catalog["files"]:
+        if row["node_id"] == "118" and row["kind"] in {"map_xml", "map_kml"}:
+            path = tmp_path / row["source_filename"]
+            path.write_bytes(gzip.decompress((official / row["path"]).read_bytes()))
+            assert file_sha256(path) == row["sha256"]
+            paths[row["kind"]] = path
+    lanes, connections = parse_mapem(paths["map_xml"])
+    geometry = bind_hamburg_map_kml_to_mapem(parse_hamburg_map_kml(paths["map_kml"]), lanes, connections)
+    moves = [row for row in geometry["connections"] if row["connection_id"] in metadata["official_movement_ids"]]
+    used = {row[key] for row in moves for key in ("ingress_lane_id", "egress_lane_id")}
+    transform = Transformer.from_crs("EPSG:4326", "EPSG:25832", always_xy=True)
+
+    def project(points):
+        return [list(transform.transform(point[0], point[1])) for point in points]
+
+    plan = {"node_id": "118", "crs": "EPSG:25832",
+        "inputs": {key: {"path": str(path), "sha256": file_sha256(path)} for key, path in paths.items()},
+        "lanes": [{"lane_id": row["lane_id"], "lane_type": row["lane_type"],
+                   "direction_role": row["kml_direction_role"], "ingress_approach": row["ingress_approach"],
+                   "egress_approach": row["egress_approach"], "shape_epsg25832": project(row["coordinates"])}
+                  for row in geometry["lanes"] if row["lane_id"] in used],
+        "movements": [{"movement_id": row["connection_id"], "ingress_lane_id": row["ingress_lane_id"],
+                       "egress_lane_id": row["egress_lane_id"], "intersection_part": "1",
+                       "selected_source": "official_MAP_reference", "selected_shape_epsg25832": project(row["drive_line_coordinates"])}
+                      for row in moves]}
+    plan = _project_plan_to_network(plan, ET.parse(source).getroot())
+    candidate = tmp_path / "candidate.net.xml"
+    built = _write_movement_candidate(joined_net=source, plans={"118": plan},
+        groups=[{"node_id": "118", "intersection_part": "1", "join_id": "LSA118_part1", "source_node_ids": ["LSA118_part1"]}],
+        skipped_join_ids=set(), output_file=candidate, maximum_anchor_projection_error_m=10,
+        netconvert_binary=shutil.which("netconvert"), sumo_binary=shutil.which("sumo"), timeout_seconds=60)
+    assert built["materialized_movement_count"] == 2, built
+    audit = audit_network_connection_mode(ET.parse(candidate).getroot(), endpoint_tolerance_m=.1)
+    assert audit["structural_failure_count"] == 0, audit
+    assert compare_frozen_geometry(source_file=source, candidate_file=candidate)["status"] == "pass"
+    manifest = tmp_path / "manifest.json"
+    manifest.write_text(json.dumps({"schema": "torii.hamburg-aerial-corridor-candidate/v1",
+        "artifacts": {"network": {"path": str(candidate), "sha256": file_sha256(candidate)}},
+        "counts": {"official_vehicle_movements": 2}, "official_connection_audit": built["official_connection_audit"]}), encoding="utf-8")
+    driven = run_candidate_movement_probes(candidate_manifest=manifest, output_dir=tmp_path / "probes", sumo_binary=shutil.which("sumo"))
+    assert driven["passed_exact_lane_transition"] == 2, driven
+    assert file_sha256(source) == digest
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 @pytest.mark.parametrize("count,layout", [(3, {}), (4, {}), (5, {}),
     (5, {"add_side": "right"}), (3, {"remove_index": 0}),
     (5, {"add_side": "right", "vehicle_class": "passenger"})],

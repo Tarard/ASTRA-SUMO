@@ -101,4 +101,7 @@ Those figures and the count curves are not produced by this partial runner yet.
 The [official source package](../../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) supplies the next junction stage offline.
 The [source-count package](../../benchmarks/hamburg_ring1_count_window_20261020_v1/README.md) checks official field-to-station aggregation offline.
 It contains no simulated or fitted counts.
+The [five-node driving evidence](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) records a separate partial construction on this scope.
+It verifies 92 of 114 official movements and loads 13 field loops. Its diagnostic runners still depend on local outputs.
+Those results do not make the complete demonstration reproducible from this example yet.
 See the [case and six-stage design](../../docs/hamburg-readme-case.md) and [road-selection behavior](../../docs/road-hierarchy.md).

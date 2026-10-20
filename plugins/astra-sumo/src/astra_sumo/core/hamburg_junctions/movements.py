@@ -208,10 +208,8 @@ def _write_movement_candidate(
     native_source = joined_net
     if junction_contours == "preserve":
         from ..network_geometry_freeze import prepare_geometry_frozen_input
-        automatic = frozenset(j.get("id") for j in root.findall("junction")
-            if j.get("type") != "internal" and j.get("customShape", "false") not in {"1", "true"})
         geometry_input = prepare_geometry_frozen_input(source_file=joined_net,
-            output_file=output_file.with_suffix(".geometry-input.net.xml"), mutable_junction_ids=automatic)
+            output_file=output_file.with_suffix(".geometry-input.net.xml"))
         native_source = Path(geometry_input["frozen_input"]["path"])
     command = [str(netconvert_binary), "--sumo-net-file", str(native_source), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(output_file)]
     base_command = list(command)

@@ -54,6 +54,16 @@ The repaired approach stage passes its boundary, geometry, attribute, and connec
 Two pre-existing movements have no traversable vehicle class. Explicit deletions retain all other loaded movement permissions and leave zero structural failures.
 Complete official movement construction and driving on this scope remain unfinished. These diagnostic runners still depend on local outputs.
 
+The [full-scope driving record](full-movement-driving-evidence-v1.json) verifies 92 of 114 official motor movements after the 119 lane-count correction.
+The 22 unresolved movements remain in the denominator. Bus-only and revocable lanes require their own correspondence and use assumptions.
+All 13 count fields have distinct active lane associations. Their E1 loops load, with the four published station compositions retained.
+There is no demand fitting or count accuracy result in that layout check.
+
+`movement-contour-input.net.xml.gz` freezes four ordinary roads at LSA118 part 1.
+`movement-contour-input.json` records the source and the two official movements whose paths failed after automatic contour recomputation.
+The native regression now preserves source contours and ordinary geometry, checks internal continuity, and drives both movements.
+This verifies the movement-only preservation repair. It does not establish field geometry or signal timing.
+
 `lane-count-input.net.xml.gz` freezes a 12-road conversion context from the unaccepted LSA119 prototype.
 `lane-count-input.json` records its identity and the earlier conversion's adjacent geometry changes.
 `lane-count-operation.json` adds a motor lane with explicit connections and retains bicycle access.

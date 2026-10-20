@@ -1,0 +1,3604 @@
+{
+  "schema": "astra.ring1-full-movement-driving-evidence/v1",
+  "status": "partial",
+  "promotion_authority": false,
+  "source_scope": {
+    "path": "outputs/ring1-road-demo-20261020-v11/case.json",
+    "sha256": "c54868cc6f22db3f3f0c9e3cc7640eb935106892f6a236535fc2c5986c5b58da"
+  },
+  "source_scope_roads": 467,
+  "candidate": {
+    "path": "outputs/ring1-all-official-movements-20261020-v5/official.net.xml",
+    "sha256": "b63ddad9437ae7374675b8bfd267a5a7bfd39230258b45f67566b8ab156cfb9e"
+  },
+  "construction_runner": {
+    "path": "outputs/materialize_ring1_all_movements_20261020_v5.py",
+    "sha256": "13bd88f87230d346349a4e323f9bb2fd22bd43476b11800897f743ffda66028a"
+  },
+  "construction_result": {
+    "path": "outputs/ring1-all-official-movements-20261020-v5/result.json",
+    "sha256": "fc2977191bb4d47a90c69231508bf18be32ede86ebb4143aab90eda505d55472"
+  },
+  "probe_runner": {
+    "path": "outputs/probe_ring1_all_movements_20261020_v3.py",
+    "sha256": "2b33c3eac66647055ebe6d758a61a581f8c7f66c84f0e405b24acffc5b40476e"
+  },
+  "probe_report": {
+    "path": "outputs/ring1-all-movement-probes-20261020-v3/runs/summary.json",
+    "sha256": "5012deecc624fd47952b718d18adad572b503f607207991caeb44f01c6fcec97"
+  },
+  "official_motor_movements": 114,
+  "materialized_movements": 92,
+  "passed_exact_lane_transition": 92,
+  "unmapped_not_tested": 22,
+  "passed_by_node": {
+    "104": 13,
+    "118": 17,
+    "119": 16,
+    "200": 27,
+    "535": 19
+  },
+  "unresolved_by_node": {
+    "104": 1,
+    "118": 9,
+    "200": 12
+  },
+  "unresolved_movements": [
+    {
+      "node_id": "104",
+      "intersection_part": "0",
+      "join_id": "LSA104_part0",
+      "movement_id": "2",
+      "ingress_lane_id": "13",
+      "egress_lane_id": "2",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "join_id": "LSA118_part0",
+      "movement_id": "10",
+      "ingress_lane_id": "2",
+      "egress_lane_id": "21",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "join_id": "LSA118_part0",
+      "movement_id": "29",
+      "ingress_lane_id": "10",
+      "egress_lane_id": "30",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "join_id": "LSA118_part0",
+      "movement_id": "30",
+      "ingress_lane_id": "17",
+      "egress_lane_id": "30",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "join_id": "LSA118_part0",
+      "movement_id": "31",
+      "ingress_lane_id": "17",
+      "egress_lane_id": "6",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "join_id": "LSA118_part0",
+      "movement_id": "32",
+      "ingress_lane_id": "26",
+      "egress_lane_id": "21",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "join_id": "LSA118_part0",
+      "movement_id": "33",
+      "ingress_lane_id": "61",
+      "egress_lane_id": "30",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "1",
+      "join_id": "LSA118_part1",
+      "movement_id": "36",
+      "ingress_lane_id": "69",
+      "egress_lane_id": "73",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "1",
+      "join_id": "LSA118_part1",
+      "movement_id": "37",
+      "ingress_lane_id": "68",
+      "egress_lane_id": "72",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "1",
+      "join_id": "LSA118_part1",
+      "movement_id": "38",
+      "ingress_lane_id": "62",
+      "egress_lane_id": "65",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": [
+        "bus"
+      ],
+      "revocable_lane_assumption": "enabled_for_topology_test;activation_not_replayed",
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "1",
+      "ingress_lane_id": "24",
+      "egress_lane_id": "17",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "2",
+      "ingress_lane_id": "24",
+      "egress_lane_id": "16",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "7",
+      "ingress_lane_id": "1",
+      "egress_lane_id": "16",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "8",
+      "ingress_lane_id": "1",
+      "egress_lane_id": "17",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "20",
+      "ingress_lane_id": "14",
+      "egress_lane_id": "39",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "21",
+      "ingress_lane_id": "13",
+      "egress_lane_id": "38",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "25",
+      "ingress_lane_id": "29",
+      "egress_lane_id": "6",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "26",
+      "ingress_lane_id": "30",
+      "egress_lane_id": "7",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "27",
+      "ingress_lane_id": "31",
+      "egress_lane_id": "8",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "28",
+      "ingress_lane_id": "32",
+      "egress_lane_id": "9",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "29",
+      "ingress_lane_id": "33",
+      "egress_lane_id": "16",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "join_id": "LSA200_part0",
+      "movement_id": "30",
+      "ingress_lane_id": "34",
+      "egress_lane_id": "17",
+      "selected_source": "official_MAP_reference",
+      "allowed_vehicle_classes": null,
+      "revocable_lane_assumption": null,
+      "reason": "official_lane_binding_unresolved"
+    }
+  ],
+  "lane_binding_reviews": [
+    {
+      "node_id": "104",
+      "intersection_part": "0",
+      "junction_id": "LSA104_part0",
+      "ingress": {
+        "bindings": {
+          "11": [
+            "139083723#0",
+            2
+          ],
+          "15": [
+            "963776077#0",
+            3
+          ],
+          "16": [
+            "963776077#0",
+            2
+          ],
+          "3": [
+            "606141103#1",
+            2
+          ],
+          "4": [
+            "606141103#1",
+            1
+          ],
+          "5": [
+            "606141103#1",
+            0
+          ],
+          "9": [
+            "139083723#0",
+            3
+          ],
+          "14": [
+            "963776077#0",
+            4
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "11",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "139083723#0",
+                "lane": 2,
+                "mean_error_m": 2.116267
+              },
+              {
+                "edge": "139083723#0",
+                "lane": 3,
+                "mean_error_m": 5.353134
+              }
+            ]
+          },
+          {
+            "lane_id": "13",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "963776077#0",
+                "lane": 4,
+                "mean_error_m": 2.804101
+              },
+              {
+                "edge": "963776077#0",
+                "lane": 3,
+                "mean_error_m": 6.001175
+              }
+            ]
+          },
+          {
+            "lane_id": "14",
+            "role": "ingress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "963776077#0",
+                "lane": 4,
+                "mean_error_m": 0.401545
+              },
+              {
+                "edge": "963776077#0",
+                "lane": 3,
+                "mean_error_m": 3.372001
+              }
+            ],
+            "reverse_match_margin_m": 2.402556
+          },
+          {
+            "lane_id": "15",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "963776077#0",
+                "lane": 3,
+                "mean_error_m": 0.539873
+              },
+              {
+                "edge": "963776077#0",
+                "lane": 4,
+                "mean_error_m": 2.813891
+              }
+            ]
+          },
+          {
+            "lane_id": "16",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "963776077#0",
+                "lane": 2,
+                "mean_error_m": 0.758342
+              },
+              {
+                "edge": "963776077#0",
+                "lane": 3,
+                "mean_error_m": 2.517722
+              }
+            ]
+          },
+          {
+            "lane_id": "3",
+            "role": "ingress",
+            "reason": "constructed_official_lane_identity",
+            "candidates": [
+              {
+                "edge": "606141103#1",
+                "lane": 2,
+                "mean_error_m": 0.0
+              },
+              {
+                "edge": "606141103#1",
+                "lane": 1,
+                "mean_error_m": 3.318182
+              }
+            ]
+          },
+          {
+            "lane_id": "4",
+            "role": "ingress",
+            "reason": "constructed_official_lane_identity",
+            "candidates": [
+              {
+                "edge": "606141103#1",
+                "lane": 1,
+                "mean_error_m": 0.0
+              },
+              {
+                "edge": "606141103#1",
+                "lane": 0,
+                "mean_error_m": 3.251353
+              }
+            ]
+          },
+          {
+            "lane_id": "5",
+            "role": "ingress",
+            "reason": "constructed_official_lane_identity",
+            "candidates": [
+              {
+                "edge": "606141103#1",
+                "lane": 0,
+                "mean_error_m": 0.0
+              },
+              {
+                "edge": "606141103#1",
+                "lane": 1,
+                "mean_error_m": 3.202825
+              }
+            ]
+          },
+          {
+            "lane_id": "9",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "139083723#0",
+                "lane": 3,
+                "mean_error_m": 1.21974
+              },
+              {
+                "edge": "139083723#0",
+                "lane": 2,
+                "mean_error_m": 4.525464
+              }
+            ]
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "13",
+            "role": "ingress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "963776077#0",
+              4
+            ]
+          }
+        ],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "12": [
+            "-139083723#0",
+            1
+          ],
+          "17": [
+            "606141102#1",
+            1
+          ],
+          "18": [
+            "606141102#1",
+            0
+          ],
+          "2": [
+            "139056860#1",
+            1
+          ],
+          "6": [
+            "234423652#1",
+            2
+          ],
+          "7": [
+            "234423652#1",
+            1
+          ],
+          "8": [
+            "234423652#1",
+            0
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "12",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "-139083723#0",
+                "lane": 1,
+                "mean_error_m": 1.237147
+              }
+            ]
+          },
+          {
+            "lane_id": "17",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "606141102#1",
+                "lane": 1,
+                "mean_error_m": 0.607157
+              },
+              {
+                "edge": "606141102#1",
+                "lane": 0,
+                "mean_error_m": 2.58929
+              }
+            ]
+          },
+          {
+            "lane_id": "18",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "606141102#1",
+                "lane": 0,
+                "mean_error_m": 0.650445
+              },
+              {
+                "edge": "606141102#1",
+                "lane": 1,
+                "mean_error_m": 3.846963
+              }
+            ]
+          },
+          {
+            "lane_id": "2",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "139056860#1",
+                "lane": 1,
+                "mean_error_m": 0.594679
+              }
+            ]
+          },
+          {
+            "lane_id": "6",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "234423652#1",
+                "lane": 2,
+                "mean_error_m": 0.125828
+              },
+              {
+                "edge": "234423652#1",
+                "lane": 1,
+                "mean_error_m": 3.07067
+              }
+            ]
+          },
+          {
+            "lane_id": "7",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "234423652#1",
+                "lane": 1,
+                "mean_error_m": 0.179011
+              },
+              {
+                "edge": "234423652#1",
+                "lane": 2,
+                "mean_error_m": 3.017528
+              }
+            ]
+          },
+          {
+            "lane_id": "8",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "234423652#1",
+                "lane": 0,
+                "mean_error_m": 0.268606
+              },
+              {
+                "edge": "234423652#1",
+                "lane": 1,
+                "mean_error_m": 2.930966
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "0",
+      "junction_id": "LSA118_part0",
+      "ingress": {
+        "bindings": {
+          "1": [
+            "1326490378#0",
+            1
+          ],
+          "10": [
+            "538341579#0",
+            1
+          ],
+          "11": [
+            "538341579#0",
+            0
+          ],
+          "19": [
+            "551319351#0",
+            1
+          ],
+          "2": [
+            "1326490378#0",
+            0
+          ],
+          "24": [
+            "538341584",
+            2
+          ],
+          "25": [
+            "538341584",
+            1
+          ],
+          "26": [
+            "538341584",
+            0
+          ],
+          "3": [
+            "251871172#0",
+            1
+          ],
+          "4": [
+            "251871172#0",
+            0
+          ],
+          "9": [
+            "538341579#0",
+            2
+          ],
+          "18": [
+            "551319351#0",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "1",
+            "role": "ingress",
+            "reason": "constructed_official_lane_identity",
+            "candidates": [
+              {
+                "edge": "1326490378#0",
+                "lane": 1,
+                "mean_error_m": 0.0
+              },
+              {
+                "edge": "1326490378#0",
+                "lane": 0,
+                "mean_error_m": 5.020954
+              }
+            ]
+          },
+          {
+            "lane_id": "10",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "538341579#0",
+                "lane": 1,
+                "mean_error_m": 0.604863
+              },
+              {
+                "edge": "538341579#0",
+                "lane": 2,
+                "mean_error_m": 2.596425
+              }
+            ]
+          },
+          {
+            "lane_id": "11",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "538341579#0",
+                "lane": 0,
+                "mean_error_m": 0.471869
+              },
+              {
+                "edge": "538341579#0",
+                "lane": 1,
+                "mean_error_m": 2.732919
+              }
+            ]
+          },
+          {
+            "lane_id": "17",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551319351#0",
+                "lane": 2,
+                "mean_error_m": 5.983903
+              },
+              {
+                "edge": "551319351#0",
+                "lane": 1,
+                "mean_error_m": 9.18801
+              }
+            ]
+          },
+          {
+            "lane_id": "18",
+            "role": "ingress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551319351#0",
+                "lane": 2,
+                "mean_error_m": 0.309623
+              },
+              {
+                "edge": "551319351#0",
+                "lane": 1,
+                "mean_error_m": 2.908357
+              }
+            ],
+            "reverse_match_margin_m": 3.160034
+          },
+          {
+            "lane_id": "19",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551319351#0",
+                "lane": 1,
+                "mean_error_m": 0.266219
+              },
+              {
+                "edge": "551319351#0",
+                "lane": 2,
+                "mean_error_m": 3.469657
+              }
+            ]
+          },
+          {
+            "lane_id": "2",
+            "role": "ingress",
+            "reason": "constructed_official_lane_identity",
+            "candidates": [
+              {
+                "edge": "1326490378#0",
+                "lane": 0,
+                "mean_error_m": 0.0
+              },
+              {
+                "edge": "251871172#0",
+                "lane": 2,
+                "mean_error_m": 1.097328
+              }
+            ]
+          },
+          {
+            "lane_id": "24",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "538341584",
+                "lane": 2,
+                "mean_error_m": 0.512266
+              },
+              {
+                "edge": "538341584",
+                "lane": 1,
+                "mean_error_m": 3.717567
+              }
+            ]
+          },
+          {
+            "lane_id": "25",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "538341584",
+                "lane": 1,
+                "mean_error_m": 0.529423
+              },
+              {
+                "edge": "538341584",
+                "lane": 2,
+                "mean_error_m": 2.678668
+              }
+            ]
+          },
+          {
+            "lane_id": "26",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "538341584",
+                "lane": 0,
+                "mean_error_m": 0.612686
+              },
+              {
+                "edge": "538341584",
+                "lane": 1,
+                "mean_error_m": 2.602611
+              }
+            ]
+          },
+          {
+            "lane_id": "3",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "251871172#0",
+                "lane": 1,
+                "mean_error_m": 0.861528
+              },
+              {
+                "edge": "251871172#0",
+                "lane": 2,
+                "mean_error_m": 2.338679
+              }
+            ]
+          },
+          {
+            "lane_id": "4",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "251871172#0",
+                "lane": 0,
+                "mean_error_m": 0.707918
+              },
+              {
+                "edge": "251871172#0",
+                "lane": 1,
+                "mean_error_m": 2.495696
+              }
+            ]
+          },
+          {
+            "lane_id": "61",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "9",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "538341579#0",
+                "lane": 2,
+                "mean_error_m": 0.533884
+              },
+              {
+                "edge": "538341579#0",
+                "lane": 1,
+                "mean_error_m": 3.734015
+              }
+            ]
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "61",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "17",
+            "role": "ingress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "551319351#0",
+              2
+            ]
+          }
+        ],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "28": [
+            "606141108",
+            1
+          ],
+          "6": [
+            "251871702",
+            1
+          ],
+          "7": [
+            "251871702",
+            0
+          ],
+          "15": [
+            "51214742#1",
+            1
+          ],
+          "14": [
+            "51214742#1",
+            2
+          ],
+          "13": [
+            "51214742#1",
+            3
+          ],
+          "22": [
+            "381750337",
+            2
+          ],
+          "29": [
+            "606141108",
+            0
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "13",
+            "role": "egress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "51214742#1",
+                "lane": 3,
+                "mean_error_m": 2.282229
+              },
+              {
+                "edge": "51214742#1",
+                "lane": 2,
+                "mean_error_m": 5.384458
+              }
+            ]
+          },
+          {
+            "lane_id": "14",
+            "role": "egress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "51214742#1",
+                "lane": 3,
+                "mean_error_m": 1.31551
+              },
+              {
+                "edge": "51214742#1",
+                "lane": 2,
+                "mean_error_m": 1.888059
+              }
+            ]
+          },
+          {
+            "lane_id": "15",
+            "role": "egress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "51214742#1",
+                "lane": 1,
+                "mean_error_m": 1.58887
+              },
+              {
+                "edge": "51214742#1",
+                "lane": 2,
+                "mean_error_m": 1.611414
+              }
+            ]
+          },
+          {
+            "lane_id": "21",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "381750337",
+                "lane": 2,
+                "mean_error_m": 8.676662
+              }
+            ]
+          },
+          {
+            "lane_id": "22",
+            "role": "egress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "381750337",
+                "lane": 2,
+                "mean_error_m": 1.700046
+              }
+            ],
+            "reverse_match_margin_m": 6.976616
+          },
+          {
+            "lane_id": "28",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "606141108",
+                "lane": 1,
+                "mean_error_m": 0.864365
+              },
+              {
+                "edge": "606141108",
+                "lane": 0,
+                "mean_error_m": 2.340506
+              }
+            ]
+          },
+          {
+            "lane_id": "29",
+            "role": "egress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "606141108",
+                "lane": 0,
+                "mean_error_m": 0.860529
+              },
+              {
+                "edge": "606141108",
+                "lane": 1,
+                "mean_error_m": 4.067067
+              }
+            ],
+            "reverse_match_margin_m": 1.479976
+          },
+          {
+            "lane_id": "30",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "606141108",
+                "lane": 0,
+                "mean_error_m": 3.846736
+              },
+              {
+                "edge": "606141108",
+                "lane": 1,
+                "mean_error_m": 7.056379
+              }
+            ]
+          },
+          {
+            "lane_id": "6",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "251871702",
+                "lane": 1,
+                "mean_error_m": 0.177422
+              },
+              {
+                "edge": "251871702",
+                "lane": 0,
+                "mean_error_m": 3.025031
+              }
+            ]
+          },
+          {
+            "lane_id": "7",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "251871702",
+                "lane": 0,
+                "mean_error_m": 0.025867
+              },
+              {
+                "edge": "251871702",
+                "lane": 1,
+                "mean_error_m": 3.22265
+              }
+            ]
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "21",
+            "role": "egress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "381750337",
+              2
+            ]
+          },
+          {
+            "lane_id": "30",
+            "role": "egress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "606141108",
+              0
+            ]
+          }
+        ],
+        "ordered_groups": [
+          {
+            "approach": "2",
+            "role": "egress",
+            "edge_id": "51214742#1",
+            "bindings": {
+              "15": [
+                "51214742#1",
+                1
+              ],
+              "14": [
+                "51214742#1",
+                2
+              ],
+              "13": [
+                "51214742#1",
+                3
+              ]
+            },
+            "basis": "equal_lane_count_and_consistent_common_section_order",
+            "maximum_lane_error_m": 2.282229
+          }
+        ]
+      }
+    },
+    {
+      "node_id": "118",
+      "intersection_part": "1",
+      "junction_id": "LSA118_part1",
+      "ingress": {
+        "bindings": {
+          "63": [
+            "219999172#1",
+            2
+          ],
+          "70": [
+            "31050638#0",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "62",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "63",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "219999172#1",
+                "lane": 2,
+                "mean_error_m": 0.693481
+              }
+            ]
+          },
+          {
+            "lane_id": "68",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050638#0",
+                "lane": 2,
+                "mean_error_m": 8.910609
+              }
+            ]
+          },
+          {
+            "lane_id": "69",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050638#0",
+                "lane": 2,
+                "mean_error_m": 2.554197
+              }
+            ]
+          },
+          {
+            "lane_id": "70",
+            "role": "ingress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050638#0",
+                "lane": 2,
+                "mean_error_m": 0.521453
+              }
+            ],
+            "reverse_match_margin_m": 2.032744
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "62",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "68",
+            "role": "ingress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "31050638#0",
+              2
+            ]
+          },
+          {
+            "lane_id": "69",
+            "role": "ingress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "31050638#0",
+              2
+            ]
+          }
+        ],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "66": [
+            "31050639",
+            1
+          ],
+          "73": [
+            "31050638#2",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "65",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050639",
+                "lane": 1,
+                "mean_error_m": 6.656532
+              }
+            ]
+          },
+          {
+            "lane_id": "66",
+            "role": "egress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050639",
+                "lane": 1,
+                "mean_error_m": 0.619895
+              }
+            ],
+            "reverse_match_margin_m": 6.036638
+          },
+          {
+            "lane_id": "72",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050638#2",
+                "lane": 2,
+                "mean_error_m": 6.467272
+              }
+            ]
+          },
+          {
+            "lane_id": "73",
+            "role": "egress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "31050638#2",
+                "lane": 2,
+                "mean_error_m": 0.322415
+              }
+            ],
+            "reverse_match_margin_m": 6.144857
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "65",
+            "role": "egress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "31050639",
+              1
+            ]
+          },
+          {
+            "lane_id": "72",
+            "role": "egress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "31050638#2",
+              2
+            ]
+          }
+        ],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "119",
+      "intersection_part": "0",
+      "junction_id": "LSA119_part0",
+      "ingress": {
+        "bindings": {
+          "1": [
+            "43866090#0",
+            1
+          ],
+          "10": [
+            "186713422#0",
+            0
+          ],
+          "2": [
+            "43866090#0",
+            0
+          ],
+          "3": [
+            "37413814#0",
+            2
+          ],
+          "4": [
+            "37413814#0",
+            1
+          ],
+          "52": [
+            "199230909#0",
+            3
+          ],
+          "53": [
+            "199230909#0",
+            2
+          ],
+          "54": [
+            "199230909#0",
+            1
+          ],
+          "7": [
+            "186713422#0",
+            3
+          ],
+          "8": [
+            "186713422#0",
+            2
+          ],
+          "9": [
+            "186713422#0",
+            1
+          ],
+          "51": [
+            "24483344#1",
+            0
+          ],
+          "50": [
+            "24483344#1",
+            1
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "1",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "43866090#0",
+                "lane": 1,
+                "mean_error_m": 0.643592
+              },
+              {
+                "edge": "43866090#0",
+                "lane": 0,
+                "mean_error_m": 3.841932
+              }
+            ]
+          },
+          {
+            "lane_id": "10",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713422#0",
+                "lane": 0,
+                "mean_error_m": 0.215026
+              },
+              {
+                "edge": "186713422#0",
+                "lane": 1,
+                "mean_error_m": 2.993341
+              }
+            ]
+          },
+          {
+            "lane_id": "2",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "43866090#0",
+                "lane": 0,
+                "mean_error_m": 0.200888
+              },
+              {
+                "edge": "43866090#0",
+                "lane": 1,
+                "mean_error_m": 3.03953
+              }
+            ]
+          },
+          {
+            "lane_id": "3",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "37413814#0",
+                "lane": 2,
+                "mean_error_m": 0.321021
+              },
+              {
+                "edge": "37413814#0",
+                "lane": 1,
+                "mean_error_m": 3.361601
+              }
+            ]
+          },
+          {
+            "lane_id": "4",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "37413814#0",
+                "lane": 1,
+                "mean_error_m": 0.600698
+              },
+              {
+                "edge": "37413814#0",
+                "lane": 2,
+                "mean_error_m": 2.599298
+              }
+            ]
+          },
+          {
+            "lane_id": "50",
+            "role": "ingress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "24483344#1",
+                "lane": 1,
+                "mean_error_m": 2.473341
+              },
+              {
+                "edge": "24483344#1",
+                "lane": 0,
+                "mean_error_m": 5.671311
+              }
+            ]
+          },
+          {
+            "lane_id": "51",
+            "role": "ingress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "24483344#1",
+                "lane": 1,
+                "mean_error_m": 0.383052
+              },
+              {
+                "edge": "24483344#1",
+                "lane": 0,
+                "mean_error_m": 2.815873
+              }
+            ]
+          },
+          {
+            "lane_id": "52",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "199230909#0",
+                "lane": 3,
+                "mean_error_m": 0.548169
+              },
+              {
+                "edge": "24483344#1",
+                "lane": 0,
+                "mean_error_m": 2.001573
+              }
+            ]
+          },
+          {
+            "lane_id": "53",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "199230909#0",
+                "lane": 2,
+                "mean_error_m": 0.420351
+              },
+              {
+                "edge": "199230909#0",
+                "lane": 1,
+                "mean_error_m": 2.780678
+              }
+            ]
+          },
+          {
+            "lane_id": "54",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "199230909#0",
+                "lane": 1,
+                "mean_error_m": 0.160219
+              },
+              {
+                "edge": "199230909#0",
+                "lane": 2,
+                "mean_error_m": 3.374968
+              }
+            ]
+          },
+          {
+            "lane_id": "58",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "59",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "7",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713422#0",
+                "lane": 3,
+                "mean_error_m": 0.610121
+              },
+              {
+                "edge": "186713422#0",
+                "lane": 2,
+                "mean_error_m": 3.81347
+              }
+            ]
+          },
+          {
+            "lane_id": "8",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713422#0",
+                "lane": 2,
+                "mean_error_m": 0.103058
+              },
+              {
+                "edge": "186713422#0",
+                "lane": 3,
+                "mean_error_m": 3.108144
+              }
+            ]
+          },
+          {
+            "lane_id": "9",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713422#0",
+                "lane": 1,
+                "mean_error_m": 0.03655
+              },
+              {
+                "edge": "186713422#0",
+                "lane": 2,
+                "mean_error_m": 3.172019
+              }
+            ]
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "58",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "59",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          }
+        ],
+        "ordered_groups": [
+          {
+            "approach": "4",
+            "role": "ingress",
+            "edge_id": "24483344#1",
+            "bindings": {
+              "51": [
+                "24483344#1",
+                0
+              ],
+              "50": [
+                "24483344#1",
+                1
+              ]
+            },
+            "basis": "equal_lane_count_and_consistent_common_section_order",
+            "maximum_lane_error_m": 2.815873
+          }
+        ]
+      },
+      "egress": {
+        "bindings": {
+          "12": [
+            "486864294",
+            1
+          ],
+          "13": [
+            "486864294",
+            0
+          ],
+          "41": [
+            "199230912#0",
+            0
+          ],
+          "5": [
+            "79014037#1",
+            1
+          ],
+          "55": [
+            "363112756#1",
+            2
+          ],
+          "56": [
+            "363112756#1",
+            1
+          ],
+          "57": [
+            "363112756#1",
+            0
+          ],
+          "6": [
+            "79014037#1",
+            0
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "12",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486864294",
+                "lane": 1,
+                "mean_error_m": 1.548918
+              },
+              {
+                "edge": "486864294",
+                "lane": 0,
+                "mean_error_m": 4.750089
+              }
+            ]
+          },
+          {
+            "lane_id": "13",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486864294",
+                "lane": 0,
+                "mean_error_m": 1.290874
+              },
+              {
+                "edge": "486864294",
+                "lane": 1,
+                "mean_error_m": 1.909369
+              }
+            ]
+          },
+          {
+            "lane_id": "26",
+            "role": "egress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "27",
+            "role": "egress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "41",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "199230912#0",
+                "lane": 0,
+                "mean_error_m": 0.081069
+              },
+              {
+                "edge": "199230912#0",
+                "lane": 1,
+                "mean_error_m": 2.993128
+              }
+            ]
+          },
+          {
+            "lane_id": "5",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "79014037#1",
+                "lane": 1,
+                "mean_error_m": 0.866005
+              },
+              {
+                "edge": "79014037#1",
+                "lane": 0,
+                "mean_error_m": 4.122606
+              }
+            ]
+          },
+          {
+            "lane_id": "55",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "363112756#1",
+                "lane": 2,
+                "mean_error_m": 1.327484
+              },
+              {
+                "edge": "363112756#1",
+                "lane": 1,
+                "mean_error_m": 1.876453
+              }
+            ]
+          },
+          {
+            "lane_id": "56",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "363112756#1",
+                "lane": 1,
+                "mean_error_m": 1.118478
+              },
+              {
+                "edge": "363112756#1",
+                "lane": 0,
+                "mean_error_m": 2.081298
+              }
+            ]
+          },
+          {
+            "lane_id": "57",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "363112756#1",
+                "lane": 0,
+                "mean_error_m": 0.958537
+              },
+              {
+                "edge": "363112756#1",
+                "lane": 1,
+                "mean_error_m": 4.158325
+              }
+            ]
+          },
+          {
+            "lane_id": "6",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "79014037#1",
+                "lane": 0,
+                "mean_error_m": 0.426702
+              },
+              {
+                "edge": "79014037#1",
+                "lane": 1,
+                "mean_error_m": 3.639565
+              }
+            ]
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "26",
+            "role": "egress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "27",
+            "role": "egress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          }
+        ],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "0",
+      "junction_id": "LSA200_part0",
+      "ingress": {
+        "bindings": {
+          "1": [
+            "368989705",
+            4
+          ],
+          "11": [
+            "186713403#0",
+            1
+          ],
+          "12": [
+            "186713403#0",
+            0
+          ],
+          "13": [
+            "186713404#0",
+            1
+          ],
+          "14": [
+            "186713404#0",
+            0
+          ],
+          "19": [
+            "551303410",
+            4
+          ],
+          "2": [
+            "368989705",
+            3
+          ],
+          "3": [
+            "368989705",
+            2
+          ],
+          "34": [
+            "486870074#0",
+            0
+          ],
+          "36": [
+            "142944325#0",
+            1
+          ],
+          "37": [
+            "142944325#0",
+            0
+          ],
+          "4": [
+            "368989705",
+            1
+          ],
+          "33": [
+            "486870074#0",
+            1
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "1",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "368989705",
+                "lane": 4,
+                "mean_error_m": 0.610109
+              },
+              {
+                "edge": "368989705",
+                "lane": 3,
+                "mean_error_m": 2.591647
+              }
+            ]
+          },
+          {
+            "lane_id": "11",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713403#0",
+                "lane": 1,
+                "mean_error_m": 0.382626
+              },
+              {
+                "edge": "186713403#0",
+                "lane": 0,
+                "mean_error_m": 3.709745
+              }
+            ]
+          },
+          {
+            "lane_id": "12",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713403#0",
+                "lane": 0,
+                "mean_error_m": 0.368933
+              },
+              {
+                "edge": "186713403#0",
+                "lane": 1,
+                "mean_error_m": 2.953287
+              }
+            ]
+          },
+          {
+            "lane_id": "13",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713404#0",
+                "lane": 1,
+                "mean_error_m": 0.661549
+              },
+              {
+                "edge": "186713404#0",
+                "lane": 0,
+                "mean_error_m": 3.838333
+              }
+            ]
+          },
+          {
+            "lane_id": "14",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186713404#0",
+                "lane": 0,
+                "mean_error_m": 0.578295
+              },
+              {
+                "edge": "186713404#0",
+                "lane": 1,
+                "mean_error_m": 2.599189
+              }
+            ]
+          },
+          {
+            "lane_id": "19",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303410",
+                "lane": 4,
+                "mean_error_m": 0.573911
+              },
+              {
+                "edge": "551303410",
+                "lane": 3,
+                "mean_error_m": 3.693084
+              }
+            ]
+          },
+          {
+            "lane_id": "2",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "368989705",
+                "lane": 3,
+                "mean_error_m": 0.646923
+              },
+              {
+                "edge": "368989705",
+                "lane": 2,
+                "mean_error_m": 2.55361
+              }
+            ]
+          },
+          {
+            "lane_id": "20",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "21",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "22",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "24",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "29",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "3",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "368989705",
+                "lane": 2,
+                "mean_error_m": 0.688129
+              },
+              {
+                "edge": "368989705",
+                "lane": 1,
+                "mean_error_m": 2.514389
+              }
+            ]
+          },
+          {
+            "lane_id": "30",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "31",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "32",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486870074#0",
+                "lane": 1,
+                "mean_error_m": 5.085463
+              },
+              {
+                "edge": "486870074#0",
+                "lane": 0,
+                "mean_error_m": 8.358757
+              }
+            ]
+          },
+          {
+            "lane_id": "33",
+            "role": "ingress",
+            "reason": "mutual_unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486870074#0",
+                "lane": 1,
+                "mean_error_m": 0.725717
+              },
+              {
+                "edge": "486870074#0",
+                "lane": 0,
+                "mean_error_m": 3.946098
+              }
+            ],
+            "reverse_match_margin_m": 2.326263
+          },
+          {
+            "lane_id": "34",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486870074#0",
+                "lane": 0,
+                "mean_error_m": 0.715194
+              },
+              {
+                "edge": "486870074#0",
+                "lane": 1,
+                "mean_error_m": 3.05198
+              }
+            ]
+          },
+          {
+            "lane_id": "36",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944325#0",
+                "lane": 1,
+                "mean_error_m": 0.234027
+              },
+              {
+                "edge": "142944325#0",
+                "lane": 0,
+                "mean_error_m": 3.433343
+              }
+            ]
+          },
+          {
+            "lane_id": "37",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944325#0",
+                "lane": 0,
+                "mean_error_m": 0.175277
+              },
+              {
+                "edge": "142944325#0",
+                "lane": 1,
+                "mean_error_m": 3.024745
+              }
+            ]
+          },
+          {
+            "lane_id": "4",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "368989705",
+                "lane": 1,
+                "mean_error_m": 0.710973
+              },
+              {
+                "edge": "368989705",
+                "lane": 2,
+                "mean_error_m": 3.915029
+              }
+            ]
+          },
+          {
+            "lane_id": "78",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "20",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "21",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "22",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "24",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "29",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "30",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "31",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "78",
+            "role": "ingress",
+            "reason": "official_anchor_inside_join",
+            "candidates": []
+          },
+          {
+            "lane_id": "32",
+            "role": "ingress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "486870074#0",
+              1
+            ]
+          }
+        ],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "25": [
+            "142944399#2",
+            3
+          ],
+          "26": [
+            "142944399#2",
+            2
+          ],
+          "27": [
+            "142944399#2",
+            1
+          ],
+          "6": [
+            "551303417",
+            5
+          ],
+          "7": [
+            "551303417",
+            4
+          ],
+          "8": [
+            "551303417",
+            3
+          ],
+          "9": [
+            "551303417",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "16",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551284796#0",
+                "lane": 1,
+                "mean_error_m": 1.584568
+              }
+            ]
+          },
+          {
+            "lane_id": "17",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551284796#0",
+                "lane": 1,
+                "mean_error_m": 1.588051
+              }
+            ]
+          },
+          {
+            "lane_id": "25",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944399#2",
+                "lane": 3,
+                "mean_error_m": 0.971752
+              },
+              {
+                "edge": "142944399#2",
+                "lane": 2,
+                "mean_error_m": 2.228175
+              }
+            ]
+          },
+          {
+            "lane_id": "26",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944399#2",
+                "lane": 2,
+                "mean_error_m": 0.778024
+              },
+              {
+                "edge": "142944399#2",
+                "lane": 1,
+                "mean_error_m": 2.425088
+              }
+            ]
+          },
+          {
+            "lane_id": "27",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944399#2",
+                "lane": 1,
+                "mean_error_m": 0.572905
+              },
+              {
+                "edge": "142944399#2",
+                "lane": 2,
+                "mean_error_m": 3.776022
+              }
+            ]
+          },
+          {
+            "lane_id": "38",
+            "role": "egress",
+            "reason": "no_directed_lane_within_limit",
+            "candidates": []
+          },
+          {
+            "lane_id": "39",
+            "role": "egress",
+            "reason": "no_directed_lane_within_limit",
+            "candidates": []
+          },
+          {
+            "lane_id": "6",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303417",
+                "lane": 5,
+                "mean_error_m": 0.494428
+              },
+              {
+                "edge": "551303417",
+                "lane": 4,
+                "mean_error_m": 3.697535
+              }
+            ]
+          },
+          {
+            "lane_id": "7",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303417",
+                "lane": 4,
+                "mean_error_m": 0.608866
+              },
+              {
+                "edge": "551303417",
+                "lane": 5,
+                "mean_error_m": 2.594188
+              }
+            ]
+          },
+          {
+            "lane_id": "8",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303417",
+                "lane": 3,
+                "mean_error_m": 0.336556
+              },
+              {
+                "edge": "551303417",
+                "lane": 4,
+                "mean_error_m": 2.86173
+              }
+            ]
+          },
+          {
+            "lane_id": "9",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303417",
+                "lane": 2,
+                "mean_error_m": 0.430912
+              },
+              {
+                "edge": "551303417",
+                "lane": 3,
+                "mean_error_m": 2.766811
+              }
+            ]
+          }
+        ],
+        "ambiguous": [
+          {
+            "lane_id": "38",
+            "role": "egress",
+            "reason": "no_directed_lane_within_limit",
+            "candidates": []
+          },
+          {
+            "lane_id": "39",
+            "role": "egress",
+            "reason": "no_directed_lane_within_limit",
+            "candidates": []
+          },
+          {
+            "lane_id": "16",
+            "role": "egress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "551284796#0",
+              1
+            ]
+          },
+          {
+            "lane_id": "17",
+            "role": "egress",
+            "reason": "multiple_official_lanes_share_sumo_lane",
+            "sumo_lane": [
+              "551284796#0",
+              1
+            ]
+          }
+        ],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "1",
+      "junction_id": "LSA200_part1",
+      "ingress": {
+        "bindings": {
+          "41": [
+            "480873120#0",
+            0
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "41",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "480873120#0",
+                "lane": 0,
+                "mean_error_m": 0.453566
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "42": [
+            "142944325#0",
+            1
+          ],
+          "43": [
+            "142944325#0",
+            0
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "42",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944325#0",
+                "lane": 1,
+                "mean_error_m": 0.228759
+              },
+              {
+                "edge": "142944325#0",
+                "lane": 0,
+                "mean_error_m": 3.436383
+              }
+            ]
+          },
+          {
+            "lane_id": "43",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944325#0",
+                "lane": 0,
+                "mean_error_m": 0.191688
+              },
+              {
+                "edge": "142944325#0",
+                "lane": 1,
+                "mean_error_m": 3.01585
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "2",
+      "junction_id": "LSA200_part2",
+      "ingress": {
+        "bindings": {
+          "44": [
+            "551303422",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "44",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303422",
+                "lane": 2,
+                "mean_error_m": 1.472947
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "45": [
+            "43292244",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "45",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "43292244",
+                "lane": 2,
+                "mean_error_m": 1.076499
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "200",
+      "intersection_part": "3",
+      "junction_id": "LSA200_part3",
+      "ingress": {
+        "bindings": {
+          "46": [
+            "551303418",
+            2
+          ],
+          "47": [
+            "551303418",
+            1
+          ],
+          "48": [
+            "551303418",
+            0
+          ],
+          "49": [
+            "486864288",
+            2
+          ],
+          "50": [
+            "486864288",
+            1
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "46",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303418",
+                "lane": 2,
+                "mean_error_m": 1.262634
+              },
+              {
+                "edge": "551303418",
+                "lane": 1,
+                "mean_error_m": 1.937686
+              }
+            ]
+          },
+          {
+            "lane_id": "47",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303418",
+                "lane": 1,
+                "mean_error_m": 1.324616
+              },
+              {
+                "edge": "551303418",
+                "lane": 0,
+                "mean_error_m": 1.872289
+              }
+            ]
+          },
+          {
+            "lane_id": "48",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303418",
+                "lane": 0,
+                "mean_error_m": 1.410504
+              },
+              {
+                "edge": "486864288",
+                "lane": 2,
+                "mean_error_m": 4.068685
+              }
+            ]
+          },
+          {
+            "lane_id": "49",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486864288",
+                "lane": 2,
+                "mean_error_m": 0.820323
+              },
+              {
+                "edge": "486864288",
+                "lane": 1,
+                "mean_error_m": 2.38213
+              }
+            ]
+          },
+          {
+            "lane_id": "50",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "486864288",
+                "lane": 1,
+                "mean_error_m": 0.878077
+              },
+              {
+                "edge": "486864288",
+                "lane": 2,
+                "mean_error_m": 4.081038
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "56": [
+            "503043835",
+            2
+          ],
+          "57": [
+            "503043835",
+            1
+          ],
+          "58": [
+            "503043835",
+            0
+          ],
+          "59": [
+            "551303422",
+            2
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "56",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "503043835",
+                "lane": 2,
+                "mean_error_m": 0.989701
+              },
+              {
+                "edge": "503043835",
+                "lane": 1,
+                "mean_error_m": 2.207788
+              }
+            ]
+          },
+          {
+            "lane_id": "57",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "503043835",
+                "lane": 1,
+                "mean_error_m": 1.054211
+              },
+              {
+                "edge": "503043835",
+                "lane": 0,
+                "mean_error_m": 2.149076
+              }
+            ]
+          },
+          {
+            "lane_id": "58",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "503043835",
+                "lane": 0,
+                "mean_error_m": 1.097998
+              },
+              {
+                "edge": "503043835",
+                "lane": 1,
+                "mean_error_m": 4.30126
+              }
+            ]
+          },
+          {
+            "lane_id": "59",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "551303422",
+                "lane": 2,
+                "mean_error_m": 1.21682
+              },
+              {
+                "edge": "503043835",
+                "lane": 0,
+                "mean_error_m": 10.851103
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      }
+    },
+    {
+      "node_id": "535",
+      "intersection_part": "0",
+      "junction_id": "LSA535_part0",
+      "ingress": {
+        "bindings": {
+          "1": [
+            "186821027#0",
+            5
+          ],
+          "10": [
+            "186821035#0",
+            0
+          ],
+          "13": [
+            "2963460#1",
+            1
+          ],
+          "14": [
+            "2963460#1",
+            0
+          ],
+          "16": [
+            "186821034#0",
+            5
+          ],
+          "17": [
+            "186821034#0",
+            4
+          ],
+          "18": [
+            "186821034#0",
+            3
+          ],
+          "19": [
+            "186821034#0",
+            2
+          ],
+          "2": [
+            "186821027#0",
+            4
+          ],
+          "3": [
+            "186821027#0",
+            3
+          ],
+          "4": [
+            "186821027#0",
+            2
+          ],
+          "7": [
+            "186821035#0",
+            3
+          ],
+          "8": [
+            "186821035#0",
+            2
+          ],
+          "9": [
+            "186821035#0",
+            1
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "1",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821027#0",
+                "lane": 5,
+                "mean_error_m": 0.48431
+              },
+              {
+                "edge": "186821027#0",
+                "lane": 4,
+                "mean_error_m": 2.716616
+              }
+            ]
+          },
+          {
+            "lane_id": "10",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821035#0",
+                "lane": 0,
+                "mean_error_m": 0.989127
+              },
+              {
+                "edge": "186821035#0",
+                "lane": 1,
+                "mean_error_m": 2.950506
+              }
+            ]
+          },
+          {
+            "lane_id": "13",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "2963460#1",
+                "lane": 1,
+                "mean_error_m": 0.717784
+              },
+              {
+                "edge": "2963460#1",
+                "lane": 0,
+                "mean_error_m": 3.682683
+              }
+            ]
+          },
+          {
+            "lane_id": "14",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "2963460#1",
+                "lane": 0,
+                "mean_error_m": 0.963986
+              },
+              {
+                "edge": "2963460#1",
+                "lane": 1,
+                "mean_error_m": 2.292678
+              }
+            ]
+          },
+          {
+            "lane_id": "16",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821034#0",
+                "lane": 5,
+                "mean_error_m": 1.125381
+              },
+              {
+                "edge": "186821034#0",
+                "lane": 4,
+                "mean_error_m": 4.317592
+              }
+            ]
+          },
+          {
+            "lane_id": "17",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821034#0",
+                "lane": 4,
+                "mean_error_m": 1.029657
+              },
+              {
+                "edge": "186821034#0",
+                "lane": 5,
+                "mean_error_m": 2.160979
+              }
+            ]
+          },
+          {
+            "lane_id": "18",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821034#0",
+                "lane": 3,
+                "mean_error_m": 0.733358
+              },
+              {
+                "edge": "186821034#0",
+                "lane": 4,
+                "mean_error_m": 2.457175
+              }
+            ]
+          },
+          {
+            "lane_id": "19",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821034#0",
+                "lane": 2,
+                "mean_error_m": 0.518853
+              },
+              {
+                "edge": "186821034#0",
+                "lane": 3,
+                "mean_error_m": 2.690288
+              }
+            ]
+          },
+          {
+            "lane_id": "2",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821027#0",
+                "lane": 4,
+                "mean_error_m": 0.542449
+              },
+              {
+                "edge": "186821027#0",
+                "lane": 3,
+                "mean_error_m": 2.664251
+              }
+            ]
+          },
+          {
+            "lane_id": "3",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821027#0",
+                "lane": 3,
+                "mean_error_m": 0.751649
+              },
+              {
+                "edge": "186821027#0",
+                "lane": 2,
+                "mean_error_m": 2.454127
+              }
+            ]
+          },
+          {
+            "lane_id": "4",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821027#0",
+                "lane": 2,
+                "mean_error_m": 0.790481
+              },
+              {
+                "edge": "186821027#0",
+                "lane": 3,
+                "mean_error_m": 4.012345
+              }
+            ]
+          },
+          {
+            "lane_id": "7",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821035#0",
+                "lane": 3,
+                "mean_error_m": 0.740519
+              },
+              {
+                "edge": "186821035#0",
+                "lane": 2,
+                "mean_error_m": 2.458763
+              }
+            ]
+          },
+          {
+            "lane_id": "8",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821035#0",
+                "lane": 2,
+                "mean_error_m": 0.649128
+              },
+              {
+                "edge": "186821035#0",
+                "lane": 1,
+                "mean_error_m": 2.54958
+              }
+            ]
+          },
+          {
+            "lane_id": "9",
+            "role": "ingress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821035#0",
+                "lane": 1,
+                "mean_error_m": 0.781538
+              },
+              {
+                "edge": "186821035#0",
+                "lane": 0,
+                "mean_error_m": 2.422073
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": []
+      },
+      "egress": {
+        "bindings": {
+          "11": [
+            "186821036#1",
+            1
+          ],
+          "22": [
+            "142944337#1",
+            1
+          ],
+          "23": [
+            "142944337#1",
+            0
+          ],
+          "5": [
+            "186821029#1",
+            3
+          ],
+          "6": [
+            "186821029#1",
+            2
+          ],
+          "12": [
+            "186821036#1",
+            0
+          ],
+          "15": [
+            "43305966#1",
+            0
+          ]
+        },
+        "records": [
+          {
+            "lane_id": "11",
+            "role": "egress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821036#1",
+                "lane": 1,
+                "mean_error_m": 1.516521
+              },
+              {
+                "edge": "186821036#1",
+                "lane": 0,
+                "mean_error_m": 4.719488
+              }
+            ]
+          },
+          {
+            "lane_id": "12",
+            "role": "egress",
+            "reason": "ordered_same_approach_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821036#1",
+                "lane": 0,
+                "mean_error_m": 1.47033
+              },
+              {
+                "edge": "186821036#1",
+                "lane": 1,
+                "mean_error_m": 1.732791
+              }
+            ]
+          },
+          {
+            "lane_id": "15",
+            "role": "egress",
+            "reason": "preserved_source_boundary_lane_identity",
+            "candidates": [
+              {
+                "edge": "43305966#1",
+                "lane": 0,
+                "mean_error_m": 1.455403
+              },
+              {
+                "edge": "43305966#1",
+                "lane": 1,
+                "mean_error_m": 1.749659
+              }
+            ],
+            "source_boundary_identity": {
+              "lane_id": "15",
+              "source_lane_id": "43305966#1_0",
+              "junction_endpoint_network": [
+                1562.0620524880942,
+                274.5990949254483
+              ],
+              "sumo_lane": [
+                "43305966#1",
+                0
+              ],
+              "basis": "unchanged_source_lane_identity"
+            }
+          },
+          {
+            "lane_id": "22",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944337#1",
+                "lane": 1,
+                "mean_error_m": 0.850291
+              },
+              {
+                "edge": "142944337#1",
+                "lane": 0,
+                "mean_error_m": 2.352515
+              }
+            ]
+          },
+          {
+            "lane_id": "23",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "142944337#1",
+                "lane": 0,
+                "mean_error_m": 0.900082
+              },
+              {
+                "edge": "142944337#1",
+                "lane": 1,
+                "mean_error_m": 4.102415
+              }
+            ]
+          },
+          {
+            "lane_id": "5",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821029#1",
+                "lane": 3,
+                "mean_error_m": 0.515632
+              },
+              {
+                "edge": "186821029#1",
+                "lane": 2,
+                "mean_error_m": 3.716087
+              }
+            ]
+          },
+          {
+            "lane_id": "6",
+            "role": "egress",
+            "reason": "unique_directed_official_lane_fit",
+            "candidates": [
+              {
+                "edge": "186821029#1",
+                "lane": 2,
+                "mean_error_m": 0.45647
+              },
+              {
+                "edge": "186821029#1",
+                "lane": 3,
+                "mean_error_m": 2.744286
+              }
+            ]
+          }
+        ],
+        "ambiguous": [],
+        "ordered_groups": [
+          {
+            "approach": "2",
+            "role": "egress",
+            "edge_id": "186821036#1",
+            "bindings": {
+              "12": [
+                "186821036#1",
+                0
+              ],
+              "11": [
+                "186821036#1",
+                1
+              ]
+            },
+            "basis": "equal_lane_count_and_consistent_common_section_order",
+            "maximum_lane_error_m": 1.516521
+          }
+        ]
+      }
+    }
+  ],
+  "unexplained_extra_connections": [
+    [
+      "186821027#0",
+      5,
+      "186821029#1",
+      3
+    ],
+    [
+      "186821034#0",
+      4,
+      "186821029#1",
+      2
+    ],
+    [
+      "368989705",
+      4,
+      "142944399#2",
+      3
+    ],
+    [
+      "626677498",
+      0,
+      "551303417",
+      2
+    ]
+  ],
+  "composed_boundary_path_review_count": 0,
+  "failed_before_contour_preservation": {
+    "construction": {
+      "path": "outputs/ring1-all-official-movements-20261020-v2/result.json",
+      "sha256": "005e1f5286c81531326eabdb00368eba9388314b6a649d2b9b6dfbcfea1c57d9"
+    },
+    "probes": {
+      "path": "outputs/ring1-all-movement-probes-20261020-v1/runs/summary.json",
+      "sha256": "8b37cb9ac5eccbdc935704ee40dab4217d3d449638ceb0223a244bd15e95af6b"
+    },
+    "passed": 89,
+    "mapped": 91,
+    "official_total": 114,
+    "reason": "Automatic contour recomputation clipped ordinary endpoints before their restoration, leaving four internal endpoint gaps."
+  },
+  "contour_preserving_replay_before_lane_addition": {
+    "construction": {
+      "path": "outputs/ring1-all-official-movements-20261020-v4/result.json",
+      "sha256": "00e8e83ba1a7f1f149a40f531fe4ea93b2c99c7ccea942c95179b8aaac1dcf96"
+    },
+    "probes": {
+      "path": "outputs/ring1-all-movement-probes-20261020-v2/runs/summary.json",
+      "sha256": "8130f952ee7128829c43fc4b1f0f0a23881784fc826b804083b3b77a813cdfde"
+    },
+    "passed": 91,
+    "mapped": 91,
+    "official_total": 114
+  },
+  "lane_count_edit": {
+    "runner": {
+      "path": "outputs/add_ring1_119_missing_lane_20261020_v8.py",
+      "sha256": "a17279fc4ecba7fb3cdae8721bca7db3934fe0b88decf557d2016d7748d1de33"
+    },
+    "operation": {
+      "path": "outputs/ring1-119-added-lane-20261020-v8/operation.json",
+      "sha256": "06dfc50f561198db865cfde0c50354322a38c397d9112ce92d43fbf7a10e63c3"
+    },
+    "result": {
+      "path": "outputs/ring1-119-added-lane-20261020-v8/result.json",
+      "sha256": "2e4d641b18e8421620a0c92a9e108bf0b476b2f60eec25626e28dac0c81ba5fe"
+    },
+    "new_lane_service": "pass",
+    "nonmotor_access": "pass",
+    "neighboring_lane_attribute_changes": {
+      "shape": 1,
+      "length": 0,
+      "width": 0
+    },
+    "max_neighboring_shape_displacement_xy_m": 0.9092989935604339,
+    "neighboring_geometry_accepted": false,
+    "normal_requested_lane_driving": {
+      "path": "outputs/ring1-119-added-lane-normal-driving-20261020-v3/result.json",
+      "sha256": "665c1a90b21fc8e2a95aeb6508950179755adeb30a98ed0875dda15cc10a26a3"
+    }
+  },
+  "field_bindings": {
+    "path": "outputs/ring1-kml-field-bindings-20261020-v7/detector-binding.manifest.json",
+    "sha256": "ffa2918e4534ca2cfc08994a6894a18f2f00999534126cf783b224297e163bd0"
+  },
+  "active_fields": 13,
+  "shared_lane_stream_groups": [],
+  "field_loop_layout": {
+    "path": "outputs/ring1-field-loop-layout-20261020-v1/result.json",
+    "sha256": "b32248ae05f7ccd3f7cf2526579c65d5f7a2ad509a1da855bd447ee3b6aab881"
+  },
+  "loaded_e1_fields": 13,
+  "station_groups": [
+    {
+      "station_stream_id": 35822,
+      "composition": [
+        "0119-Z.13",
+        "0119-Z.11",
+        "0119-Z.12"
+      ],
+      "member_stream_ids": [
+        34018,
+        28853,
+        31546
+      ],
+      "detector_ids": [
+        "hh_0119_Z_13_34018",
+        "hh_0119_Z_11_28853",
+        "hh_0119_Z_12_31546"
+      ]
+    },
+    {
+      "station_stream_id": 33023,
+      "composition": [
+        "0119-Z.5",
+        "0119-Z.4",
+        "0119-Z.15"
+      ],
+      "member_stream_ids": [
+        30494,
+        29437,
+        29375
+      ],
+      "detector_ids": [
+        "hh_0119_Z_5_30494",
+        "hh_0119_Z_4_29437",
+        "hh_0119_Z_15_29375"
+      ]
+    },
+    {
+      "station_stream_id": 30666,
+      "composition": [
+        "0535-Z.6",
+        "0535-Z.7",
+        "0535-Z.8",
+        "0535-Z.5"
+      ],
+      "member_stream_ids": [
+        33855,
+        29316,
+        34287,
+        30894
+      ],
+      "detector_ids": [
+        "hh_0535_Z_6_33855",
+        "hh_0535_Z_7_29316",
+        "hh_0535_Z_8_34287",
+        "hh_0535_Z_5_30894"
+      ]
+    },
+    {
+      "station_stream_id": 26585,
+      "composition": [
+        "0535-Z.14",
+        "0535-Z.4",
+        "0535-Z.9"
+      ],
+      "member_stream_ids": [
+        31892,
+        33055,
+        29038
+      ],
+      "detector_ids": [
+        "hh_0535_Z_14_31892",
+        "hh_0535_Z_4_33055",
+        "hh_0535_Z_9_29038"
+      ]
+    }
+  ],
+  "count_attribute": "nVehContrib",
+  "native_regression": {
+    "input": {
+      "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/movement-contour-input.json",
+      "sha256": "fca088bd39cdeadc0b6726413e4a849e7cec71491a38d13f57ef08f4b119a685"
+    },
+    "negative": {
+      "path": "outputs/movement-contour-negative-20261020-v1.xml",
+      "sha256": "d30023ff8fd23a7adf46945df0f1585c53e72eccf76a0c3745d4228fd132c357"
+    },
+    "repaired": {
+      "path": "outputs/movement-contour-fix-20261020-v1.xml",
+      "sha256": "bf45c22fb7e8756fa4dc2283b3c17b6833f17c41d275907d6aaab3389396bcb0"
+    },
+    "focused_passed": 58
+  },
+  "claim_boundary": "All five nodes are constructed on the new scope. Only 92 of 114 official motor movements have driving proof. Published-point detector placement is an assumption. Diagnostic runners still depend on local outputs. No field timing, calibrated demand, count fit, whole-corridor capacity or independent prediction claim.",
+  "structural_audit": {
+    "path": "outputs/ring1-all-official-movements-20261020-v5/connection-audit.json",
+    "sha256": "10cea551f66db09fdb1d8840a7aa7de9ee8895971861c3c8348b09c340265214"
+  },
+  "structural_failure_count": 0
+}

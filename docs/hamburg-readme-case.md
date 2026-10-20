@@ -147,6 +147,29 @@ Two pre-existing movements have no effective permitted vehicle class. Their expl
 The resulting intermediate network has zero structural path failures. Its full official movement inventory and driving still need verification.
 These diagnostic runners depend on local outputs. They do not yet make stages 3 and 4 reproducible from the committed example.
 
+The [latest five-node driving check](../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) also applies the explicit missing-lane correction at 119.
+It verifies 92 of the 114 official motor movements on the new scope. All 92 matched movements pass their inlet/internal/outlet probes.
+
+| Node | Verified movements | Official total |
+|---|---:|---:|
+| 104 | 13 | 14 |
+| 118 | 17 | 26 |
+| 119 | 16 | 16 |
+| 200 | 27 | 39 |
+| 535 | 19 | 19 |
+
+The other 22 movements remain unresolved. The report retains their lane reviews, unexplained extra connections, and composed-boundary reviews.
+Some unresolved references are bus-only or revocable lanes. Adding ordinary motor lanes is not a general correction for them.
+An earlier movement-only conversion left four endpoint gaps after it recalculated automatic contours and restored the ordinary roads.
+Contour-preservation mode now fixes existing contours as well as ordinary roads. A four-road native regression reproduces the failure and checks both repaired movements by driving.
+The lane-count edit still changes one neighboring lane shape by up to 0.91 m. This change remains unaccepted.
+A normal passenger vehicle completes a requested stop on the added lane and arrives without collision or teleport.
+
+All 13 count-field associations are active on this five-node candidate, with no shared lane assignments.
+Thirteen E1 loops load in SUMO, and their membership reproduces the four published station groups.
+The one-second layout load has no traffic demand. It supplies no count-fit result and does not select the experiment window.
+The committed example still lacks the complete construction-to-detector runner, signal treatment, and fitting stages.
+
 ### Road importance and retained roads
 
 The first version uses three coarse tiers: major roads, collector roads, and local roads.
