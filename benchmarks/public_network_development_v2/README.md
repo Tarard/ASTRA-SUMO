@@ -172,3 +172,7 @@ complete Windows suites for 1ad8919, including 38 executed critical native cases
 The [complete standalone CI receipt](legacy-standalone-ci-20261020-v1.md)
 records both 3,722-pass Windows suites for 84c7e6a and retains the remaining
 conversion, source-topology and OD limits.
+The [local-addition follow-up](local-additive-conversion-20261020-v1.md)
+extends scoped native conversion to roads, sidewalks, ramps and crossings.
+Four full-Hamburg controls preserve original access and signal programs while
+retaining unapproved facility increases as blocked release results.
