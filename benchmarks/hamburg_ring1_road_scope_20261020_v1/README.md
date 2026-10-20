@@ -39,6 +39,13 @@ Run the [offline example](../../examples/06_hamburg_ring1_demo/README.md) to reb
 [Separate junction diagnostics](junction-diagnostic-evidence-v1.json) record 34 passing isolated movements out of 35 official movements at 119 and 535.
 One movement, two extra 535 connections, and final sensor correspondence remain unresolved. The full junction-stage replay is incomplete.
 
+`lane-count-input.net.xml.gz` freezes a 12-road conversion context from the unaccepted LSA119 prototype.
+`lane-count-input.json` records its identity and the earlier conversion's adjacent geometry changes.
+`lane-count-operation.json` adds a motor lane with explicit connections and retains bicycle access.
+The native regression verifies source preservation, source-derived geometry hints, loading, and compatible service for the added lane.
+It checks that neighboring geometry changes decrease relative to the recorded conversion without hints.
+Remaining changes stay measured. This fixture does not establish field geometry, complete junction reconstruction, or count accuracy.
+
 Data attribution: © OpenStreetMap contributors.
 Data license: [Open Database License 1.0](https://www.openstreetmap.org/copyright).
 ASTRA-generated files retain this source attribution. Code follows the repository license.

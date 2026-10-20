@@ -520,7 +520,7 @@ def validate_local_conversion(record, source_file, *, command=None):
     from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
     source_root = ET.parse(source_file).getroot()
     if record.get("status") == "full_network" and record.get("preserve_loaded_turn_permissions") is True:
-        expected = ET.tostring(with_loaded_turn_permissions(source_root), encoding="utf-8", xml_declaration=True)
+        expected = _expected_conversion_input(record, with_loaded_turn_permissions(source_root))
         input_file = Path(record["input"]["path"])
         if file_sha256(input_file) != record["input"]["sha256"] or input_file.read_bytes() != expected:
             raise ValueError("Full conversion input differs from its source-derived permissions.")
@@ -557,7 +557,7 @@ def _validate_local_artifacts(record, source_root, subset, expected):
         raise ValueError("Local conversion scope differs from the source operation.")
     input_file = Path(record["input"]["path"])
     if (file_sha256(input_file) != record["input"]["sha256"]
-            or input_file.read_bytes() != ET.tostring(subset, encoding="utf-8", xml_declaration=True)):
+            or input_file.read_bytes() != _expected_conversion_input(record, subset)):
         raise ValueError("Local conversion input differs from its source-derived subset.")
     raw = Path(record["native_output"]["path"])
     merged = Path(record["merged_proposal"]["path"])
@@ -567,6 +567,29 @@ def _validate_local_artifacts(record, source_root, subset, expected):
     if merged.read_bytes() != ET.tostring(root, encoding="utf-8", xml_declaration=True):
         raise ValueError("The merged proposal differs from its source and native result.")
     return input_file
+
+
+def _expected_conversion_input(record, root):
+    """Reconstruct optional lane-count geometry hints without trusting their saved output."""
+    expected = ET.tostring(root, encoding="utf-8", xml_declaration=True)
+    frozen = record.get("geometry_frozen_input")
+    if frozen is None:
+        return expected
+    operation = record["operation"]
+    original = record["unfrozen_input"]
+    path = Path(original["path"])
+    if (operation["operation"] != "set_lane_count" or frozen["source"] != original
+            or frozen["frozen_input"] != record["input"]
+            or file_sha256(path) != original["sha256"] or path.read_bytes() != expected):
+        raise ValueError("Frozen geometry input does not match its source-derived lane-count input.")
+    from .network_geometry_freeze import _freeze_geometry_hints
+    root = deepcopy(root)
+    automatic = frozenset(j.get("id") for j in root.findall("junction")
+        if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
+    hints = _freeze_geometry_hints(root, frozenset({operation["params"]["edge_id"]}), automatic)
+    if any(frozen.get(key) != value for key, value in hints.items()):
+        raise ValueError("Frozen geometry hints differ from the declared lane-count operation.")
+    return ET.tostring(root, encoding="utf-8", xml_declaration=True)
 
 
 def validate_join_boundary_conversion(report, source_file):

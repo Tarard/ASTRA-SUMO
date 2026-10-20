@@ -20,6 +20,18 @@ def prepare_geometry_frozen_input(*, source_file: Path, output_file: Path,
     before = file_sha256(source)
     tree = ET.parse(source)
     root = tree.getroot()
+    hints = _freeze_geometry_hints(root, mutable_edge_ids, mutable_junction_ids)
+    if file_sha256(source) != before:
+        raise ValueError("Source changed during geometry freeze.")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_bytes(ET.tostring(root, encoding="utf-8", xml_declaration=True))
+    return {"status": "pass", "source": {"path": str(source), "sha256": before},
+            "frozen_input": {"path": str(target), "sha256": file_sha256(target)}, **hints,
+            "claim_boundary": "Frozen import geometry still requires a post-rebuild comparison. Internal paths, pedestrian facilities and control are not certified here."}
+
+
+def _freeze_geometry_hints(root, mutable_edge_ids, mutable_junction_ids):
+    """Apply the same source-derived hints for writing and independent reconstruction."""
     edge_ids = {e.get("id") for e in root.findall("edge") if not e.get("function")}
     junction_ids = {j.get("id") for j in root.findall("junction") if j.get("type") != "internal"}
     if mutable_edge_ids - edge_ids or mutable_junction_ids - junction_ids:
@@ -50,17 +62,10 @@ def prepare_geometry_frozen_input(*, source_file: Path, output_file: Path,
             if attribute in road_type.attrib:
                 removed_defaults.append({"type_id": road_type.get("id"), "attribute": attribute,
                                          "value": road_type.attrib.pop(attribute)})
-    if file_sha256(source) != before:
-        raise ValueError("Source changed during geometry freeze.")
-    target.parent.mkdir(parents=True, exist_ok=True)
-    tree.write(target, encoding="utf-8", xml_declaration=True)
-    return {"status": "pass", "source": {"path": str(source), "sha256": before},
-            "frozen_input": {"path": str(target), "sha256": file_sha256(target)},
-            "frozen_lane_ids": sorted(frozen_lanes), "frozen_junction_ids": sorted(frozen_junctions),
+    return {"frozen_lane_ids": sorted(frozen_lanes), "frozen_junction_ids": sorted(frozen_junctions),
             "mutable_edge_ids": sorted(mutable_edge_ids), "mutable_junction_ids": sorted(mutable_junction_ids),
             "pinned_operational_length_edge_ids": sorted(pinned_lengths),
-            "removed_lane_synthesis_defaults": removed_defaults,
-            "claim_boundary": "Frozen import geometry still requires a post-rebuild comparison. Internal paths, pedestrian facilities and control are not certified here."}
+            "removed_lane_synthesis_defaults": removed_defaults}
 
 
 def compare_frozen_geometry(*, source_file: Path, candidate_file: Path,

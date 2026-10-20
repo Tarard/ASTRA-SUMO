@@ -31,6 +31,7 @@ REQUIRED = {
     "test_native_ring1_road_selection": 1,
     "test_native_ring1_official_approach_demo": 1,
     "test_native_ring1_approach_generation_from_frozen_sources": 1,
+    "test_native_ring1_lane_count_geometry_uses_declared_source_hints": 1,
 }
 
 

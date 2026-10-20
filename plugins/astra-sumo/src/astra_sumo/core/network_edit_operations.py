@@ -789,7 +789,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
         plan["local_conversion"] = local
         changed_permissions = ET.tostring(root) != ET.tostring(ET.parse(source_file).getroot())
-        if subset is not None or changed_permissions:
+        if subset is not None or changed_permissions or kind == "set_lane_count":
             local = plan["local_conversion"]
             local_file = output_dir / f"{prefix}.{'local' if subset is not None else 'full'}-input.net.xml"
             if local_file.resolve() == candidate_file.resolve():
@@ -799,6 +799,21 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             local.update(input={"path": str(local_file.resolve()), "sha256": file_sha256(local_file)},
                          operation=operation, preserve_loaded_turn_permissions=True)
             command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
+        if kind == "set_lane_count":
+            from .network_geometry_freeze import prepare_geometry_frozen_input
+            slot = command.index("--sumo-net-file") + 1
+            import_root = ET.parse(command[slot]).getroot()
+            automatic_contours = frozenset(j.get("id") for j in import_root.findall("junction")
+                if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
+            frozen = prepare_geometry_frozen_input(source_file=Path(command[slot]),
+                output_file=output_dir / f"{prefix}.geometry-frozen-input.net.xml",
+                mutable_edge_ids=frozenset({params["edge_id"]}), mutable_junction_ids=automatic_contours)
+            plan["geometry_frozen_input"] = frozen
+            command[slot] = frozen["frozen_input"]["path"]
+            if local.get("input"):
+                local["unfrozen_input"] = local["input"]
+                local["input"] = frozen["frozen_input"]
+                local["geometry_frozen_input"] = frozen
     for name, flag in (("nodes", "--node-files"), ("edges", "--edge-files"),
                        ("connections", "--connection-files"), ("tllogics", "--tllogic-files")):
         if not len(patches[name]):
@@ -862,6 +877,11 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges, expand_mutable_edge_endpoints=False)
     geometry = compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
+    neighboring_geometry = (compare_frozen_geometry(source_file=source, candidate_file=candidate_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids={params["edge_id"]})
+        if kind == "set_lane_count" else None)
+    if neighboring_geometry is not None:
+        neighboring_geometry.update(source_geometry_preserved=neighboring_geometry["status"] == "pass", status="measured")
     before, after = ET.parse(source).getroot(), ET.parse(candidate_file).getroot()
     restored_speeds = []
     if kind not in {"set_lane_permissions", "set_speed"}:
@@ -1082,6 +1102,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     if movements["lost"]:
         warnings.append("Source road-to-road movements were lost for the listed vehicle classes. Inspect road_movement_preservation before reusing source routes.")
     warnings.extend(load_warning_messages(link_preservation))
+    if neighboring_geometry is not None and not neighboring_geometry["source_geometry_preserved"]:
+        warnings.append("Neighboring road geometry changed during lane-count conversion. Inspect neighboring_road_geometry and affected lane coordinates before placing sensors.")
     contour_changes = {}
     if kind == "set_junction_shape":
         from .junction_contour_control import geometry_delta
@@ -1102,6 +1124,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "contour_geometry_changes": contour_changes,
             "connectivity_review_required": bool(added_modes), "newly_allowed_vehicle_classes": added_modes,
             "requested_effect_applied": effect, "geometry_preservation": geometry, "restoration": rebuild,
+            "neighboring_road_geometry": neighboring_geometry,
             "geometry_before_restoration": before_restore,
             "lane_layout_preserved": not changed_lane_layout, "other_lane_permissions_preserved": unchanged_permissions,
             "connection_inventory_preserved": connections_preserved,

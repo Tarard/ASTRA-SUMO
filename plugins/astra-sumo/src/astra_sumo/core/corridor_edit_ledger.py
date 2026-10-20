@@ -841,6 +841,8 @@ def materialize_corridor_edit_variant(
         additional_plan_files = [(Path(item["path"]), "scoped_plain_input") for item in scoped_plan["patches"].values()]
         if "input" in scoped_plan.get("local_conversion", {}):
             additional_plan_files.append((Path(scoped_plan["local_conversion"]["input"]["path"]), "local_conversion_input"))
+        if "unfrozen_input" in scoped_plan.get("local_conversion", {}):
+            additional_plan_files.append((Path(scoped_plan["local_conversion"]["unfrozen_input"]["path"]), "local_conversion_unfrozen_input"))
         plan_description = "source_bound_scoped_plain_xml"
     elif operation_family == "merge_edges":
         keep_ids = sorted(set(edges) - set(target_ids))

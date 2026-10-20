@@ -1,0 +1,151 @@
+{
+  "schema": "astra.ring1-signal-history-screen/v1",
+  "status": "partial",
+  "retrieval_date_utc": "2026-10-20",
+  "api_base": "https://tld.iot.hamburg.de/v1.0/",
+  "official_sources": {
+    "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json",
+    "sha256": "e8cac2a3d012f517225500424722e0813a577c0876f15ac2cebf834a67fc88df"
+  },
+  "metadata_snapshot": {
+    "path": "outputs/ring1-signal-history-discovery-20261020-v1/primary_signal-raw.json",
+    "sha256": "afe20be75b137ef8c4e4394efc850fc34a54edadccfc49c8a9da2fc27601b09b"
+  },
+  "node_identity_and_metadata": {
+    "104": {
+      "official_motor_movements": 14,
+      "published_motor_primary_streams": 9,
+      "exact_connection_and_lane_identity_matches": 9,
+      "latest_published_metadata_end_utc": "2026-10-20T15:18:16Z"
+    },
+    "118": {
+      "official_motor_movements": 26,
+      "published_motor_primary_streams": 16,
+      "exact_connection_and_lane_identity_matches": 16,
+      "latest_published_metadata_end_utc": "2026-10-20T15:18:17Z"
+    },
+    "119": {
+      "official_motor_movements": 16,
+      "published_motor_primary_streams": 30,
+      "exact_connection_and_lane_identity_matches": 0,
+      "latest_published_metadata_end_utc": "2024-07-17T05:05:33Z"
+    },
+    "200": {
+      "official_motor_movements": 39,
+      "published_motor_primary_streams": 39,
+      "exact_connection_and_lane_identity_matches": 39,
+      "latest_published_metadata_end_utc": "2026-10-20T15:18:18Z"
+    },
+    "535": {
+      "official_motor_movements": 19,
+      "published_motor_primary_streams": 22,
+      "exact_connection_and_lane_identity_matches": 0,
+      "latest_published_metadata_end_utc": "2024-02-05T23:10:24Z"
+    }
+  },
+  "probe_window": {
+    "begin_utc": "2026-10-19T06:00:00Z",
+    "end_utc": "2026-10-19T08:00:00Z",
+    "role": "history-access screen only, not a chosen fitting window"
+  },
+  "pilot_streams": [
+    {
+      "stream_id": 71064,
+      "node_id": "104",
+      "connection_id": "1",
+      "signal_group": "K1",
+      "status": "present",
+      "strategy": "bounded_window",
+      "observation_count": 1,
+      "attempts": 1,
+      "retry_errors": [],
+      "request_urls": [
+        "https://tld.iot.hamburg.de/v1.0/Datastreams(71064)/Observations?%24top=1&%24orderby=phenomenonTime+asc&%24filter=phenomenonTime+ge+2026-10-19T06%3A00%3A00Z+and+phenomenonTime+lt+2026-10-19T08%3A00%3A00Z"
+      ],
+      "first_phenomenon_time_utc": "2026-10-19T06:00:07Z"
+    },
+    {
+      "stream_id": 1930,
+      "node_id": "118",
+      "connection_id": "1",
+      "signal_group": "K1",
+      "status": "present",
+      "strategy": "bounded_window",
+      "observation_count": 1,
+      "attempts": 1,
+      "retry_errors": [],
+      "request_urls": [
+        "https://tld.iot.hamburg.de/v1.0/Datastreams(1930)/Observations?%24top=1&%24orderby=phenomenonTime+asc&%24filter=phenomenonTime+ge+2026-10-19T06%3A00%3A00Z+and+phenomenonTime+lt+2026-10-19T08%3A00%3A00Z"
+      ],
+      "first_phenomenon_time_utc": "2026-10-19T06:00:05Z"
+    },
+    {
+      "stream_id": 11929,
+      "node_id": "200",
+      "connection_id": "10",
+      "signal_group": "K1",
+      "status": "present",
+      "strategy": "bounded_window",
+      "observation_count": 1,
+      "attempts": 1,
+      "retry_errors": [],
+      "request_urls": [
+        "https://tld.iot.hamburg.de/v1.0/Datastreams(11929)/Observations?%24top=1&%24orderby=phenomenonTime+asc&%24filter=phenomenonTime+ge+2026-10-19T06%3A00%3A00Z+and+phenomenonTime+lt+2026-10-19T08%3A00%3A00Z"
+      ],
+      "first_phenomenon_time_utc": "2026-10-19T06:00:28Z"
+    },
+    {
+      "stream_id": 1932,
+      "node_id": "119",
+      "connection_id": "1",
+      "signal_group": "K6",
+      "status": "empty",
+      "strategy": "bounded_window",
+      "observation_count": 0,
+      "attempts": 1,
+      "retry_errors": [],
+      "request_urls": [
+        "https://tld.iot.hamburg.de/v1.0/Datastreams(1932)/Observations?%24top=1&%24orderby=phenomenonTime+asc&%24filter=phenomenonTime+ge+2026-10-19T06%3A00%3A00Z+and+phenomenonTime+lt+2026-10-19T08%3A00%3A00Z"
+      ]
+    },
+    {
+      "stream_id": 12690,
+      "node_id": "535",
+      "connection_id": "1",
+      "signal_group": "K6",
+      "status": "empty",
+      "strategy": "bounded_window",
+      "observation_count": 0,
+      "attempts": 1,
+      "retry_errors": [],
+      "request_urls": [
+        "https://tld.iot.hamburg.de/v1.0/Datastreams(12690)/Observations?%24top=1&%24orderby=phenomenonTime+asc&%24filter=phenomenonTime+ge+2026-10-19T06%3A00%3A00Z+and+phenomenonTime+lt+2026-10-19T08%3A00%3A00Z"
+      ]
+    }
+  ],
+  "pilot_present_nodes": [
+    "104",
+    "118",
+    "200"
+  ],
+  "pilot_empty_nodes": [
+    "119",
+    "535"
+  ],
+  "reports": [
+    {
+      "path": "outputs/ring1-signal-history-window-probe-20261020-v1/report.json",
+      "sha256": "01ff442314d8e3cae62b11b8e78a03ed8ca48f78d9b1b7df4ca1568d0fec0978"
+    },
+    {
+      "path": "outputs/ring1-signal-history-window-probe-20261020-v2/report.json",
+      "sha256": "a130144891b8fb2d07d652ad0028a497330ec011f002752aab25832fd6dcbace"
+    }
+  ],
+  "limits": [
+    "Only one primary stream per node was probed. Three positive replies do not prove complete histories or initial states.",
+    "The 119 and 535 pilot streams returned no observations in the queried interval. This is not a survey of every possible provider or stream.",
+    "Published metadata at 119 and 535 has older lane identities than the frozen current MAP inputs. No live signal binding is claimed.",
+    "Official static OCIT programs remain available, but their actual use during the count window is not established."
+  ]
+}

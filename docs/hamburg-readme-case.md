@@ -30,6 +30,18 @@ The service records each interval's final second as `hh:14:59`, `hh:29:59`, `hh:
 These input checks do not establish sensor accuracy, lane correspondence, or calibrated simulation accuracy.
 The acquisition range is not a selected fitting or validation split.
 
+## Signal observation availability
+
+The [2026-10-20 signal screen](../benchmarks/hamburg_ring1_road_scope_20261020_v1/signal-history-screen-v1.json) records the current metadata and five bounded observation queries.
+One primary stream at each of 104, 118, and 200 returned an event between 06:00 and 08:00 UTC on 2026-10-19.
+The sampled streams at 119 and 535 returned no event in that interval.
+Their published motor-stream metadata ends in July 2024 and February 2024 respectively.
+Their lane pairs also differ from the frozen current MAP inputs. They are not current signal bindings.
+The screen does not establish complete histories, initial states, or availability across every possible stream.
+It does not select a fitting window.
+The frozen OCIT files contain static signal programs. Their actual use during the count window still needs evidence.
+Any use of static programs must remain distinct from same-window signal replay in the report.
+
 The local raw responses, request URLs, retrieval times, and hashes are under
 `outputs/hamburg-readme-case-20261020-v1/counts-discovery-v1/`.
 The official service has a rolling observation range. A later query can return different coverage or revised records.

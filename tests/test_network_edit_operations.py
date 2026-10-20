@@ -85,6 +85,7 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
     fixture = Path(__file__).parents[1] / "benchmarks/hamburg_loaded_links_20261018_v1/candidate.net.xml.gz"
     source = tmp_path / "source.net.xml"
     source.write_bytes(gzip.decompress(fixture.read_bytes()))
+    original_bytes = source.read_bytes()
     root = ET.parse(source).getroot()
     output = tmp_path / "edit"
     output.mkdir()
@@ -100,6 +101,70 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
     assert [(row.tag, row.attrib, (row.text or "").strip()) for row in retained.iter()] == [
         (row.tag, row.attrib, (row.text or "").strip()) for row in original.iter()]
     assert "--tllogic-files" in plan["command"]
+    frozen = plan["geometry_frozen_input"]
+    actual_input = Path(plan["command"][plan["command"].index("--sumo-net-file") + 1])
+    assert str(actual_input) == frozen["frozen_input"]["path"]
+    assert file_sha256(actual_input) == frozen["frozen_input"]["sha256"]
+    assert frozen["mutable_edge_ids"] == ["554713076#0"]
+    original_input = ET.parse(frozen["source"]["path"]).getroot()
+    assert frozen["mutable_junction_ids"] == sorted(j.get("id") for j in original_input.findall("junction")
+        if j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
+    current = ET.parse(actual_input).getroot()
+    frozen_lanes = set(frozen["frozen_lane_ids"])
+    assert all(lane.get("customShape") == "true" for edge in current.findall("edge")
+               for lane in edge.findall("lane") if lane.get("id") in frozen_lanes)
+    assert source.read_bytes() == original_bytes
+    from copy import deepcopy
+    from astra_sumo.core.local_network_conversion import _expected_conversion_input
+    record = plan["local_conversion"]
+    assert _expected_conversion_input(record, original_input) == actual_input.read_bytes()
+    forged = deepcopy(record)
+    forged["geometry_frozen_input"]["mutable_edge_ids"].append("another-road")
+    with pytest.raises(ValueError, match="hints differ"):
+        _expected_conversion_input(forged, original_input)
+    forged = deepcopy(record)
+    altered = deepcopy(original_input)
+    altered.find("edge/lane").set("speed", "999")
+    altered_path = output / "altered-input.net.xml"
+    ET.ElementTree(altered).write(altered_path, encoding="utf-8", xml_declaration=True)
+    forged["unfrozen_input"] = {"path": str(altered_path), "sha256": file_sha256(altered_path)}
+    forged["geometry_frozen_input"]["source"] = forged["unfrozen_input"]
+    with pytest.raises(ValueError, match="source-derived"):
+        _expected_conversion_input(forged, original_input)
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path):
+    from astra_sumo.core.command_runner import run_command
+    from astra_sumo.core.local_network_conversion import validate_local_conversion
+    from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
+    metadata = json.loads((fixture / "lane-count-input.json").read_text(encoding="utf-8"))
+    assert file_sha256(fixture / metadata["file"]) == metadata["compressed_sha256"]
+    assert file_sha256(fixture / metadata["operation_file"]) == metadata["operation_sha256"]
+    source = tmp_path / "source.net.xml"
+    source.write_bytes(gzip.decompress((fixture / metadata["file"]).read_bytes()))
+    assert file_sha256(source) == metadata["uncompressed_sha256"]
+    original = source.read_bytes()
+    operation = json.loads((fixture / metadata["operation_file"]).read_text(encoding="utf-8"))
+    output = tmp_path / "edit"
+    output.mkdir()
+    candidate = output / "candidate.net.xml"
+    executable = shutil.which("netconvert")
+    plan = write_scoped_edit_plan(root=ET.parse(source).getroot(), operation=operation, source_file=source,
+        candidate_file=candidate, output_dir=output, prefix="count", netconvert_binary=executable, mode="explore")
+    executed = run_command(plan["command"], cwd=output, timeout_seconds=60)
+    assert executed.returncode == 0, executed.to_dict()
+    report = check_scoped_edit(plan=plan, candidate_file=candidate, output_dir=output,
+        netconvert_binary=executable, timeout_seconds=60, command_runner=run_command, mode="explore")
+    assert report["status"] == "measured" and report["requested_effect_applied"], report
+    assert report["sumo_load"]["status"] == report["new_lane_service"]["status"] == "pass"
+    assert report["nonmotor_access_preservation"]["status"] == "pass"
+    assert validate_local_conversion(report["local_conversion"], source).is_file()
+    neighboring = report["neighboring_road_geometry"]
+    assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
+    assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]
+    assert report["source_immutable"] and source.read_bytes() == original
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
@@ -288,6 +353,9 @@ def test_typed_edit_materializes_with_source_bound_review_and_geometry(tmp_path,
     assert loaded["inputs"]["candidate"]["sha256"] == file_sha256(Path(result["candidate_net_file"]))
     artifacts = json.loads(Path(result["manifest_file"]).read_text())["artifacts"]
     assert {"loaded_link_preservation", "loaded_link_request", "loaded_link_observations"} <= {row["kind"] for row in artifacts}
+    if kind == "set_lane_count":
+        assert "local_conversion_unfrozen_input" in {row["kind"] for row in artifacts}
+        assert result["semantic_validation"]["neighboring_road_geometry"]["status"] == "measured"
     assert file_sha256(source) == digest
     if kind == "set_edge_shape":
         before = source.read_bytes()
