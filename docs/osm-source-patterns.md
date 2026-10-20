@@ -51,6 +51,8 @@ The visual profile requires SUMO's OSM, bicycle, and pedestrian type maps.
 ASTRA first uses an explicit `sumo_home` or `SUMO_HOME` when supplied.
 Otherwise it searches the selected executable's installation and the installed `sumo` Python package without importing that package.
 A missing required type map returns an input error. ASTRA does not silently build a different visual profile.
+The build result and provenance manifest record the paths and SHA-256 hashes of all selected type maps, including generated overlays.
+Different configured and binary installation directories produce a version-check warning without stopping the build.
 
 1. Build the current ASTRA OSM net.
 2. Rebuild with one borrowed profile variant.

@@ -1,5 +1,6 @@
 import csv
 import gzip
+import hashlib
 import json
 import shutil
 from pathlib import Path
@@ -1572,6 +1573,27 @@ def test_build_osm_network_reference_visual_detail_profile_imports_pedestrian_tl
     service_type_text = service_type_file.read_text(encoding="utf-8")
     assert 'id="highway.service"' in service_type_text
     assert 'disallow="pedestrian' in service_type_text
+    manifest = json.loads(Path(report["build_manifest_file"]).read_text(encoding="utf-8"))
+    expected_inputs = [{"path": str((tmp_path / "build" / value).resolve()),
+                        "sha256": hashlib.sha256((tmp_path / "build" / value).read_bytes()).hexdigest()}
+                       for value in type_files]
+    assert report["netconvert_type_map_inputs"] == manifest["netconvert"]["type_map_inputs"] == expected_inputs
+
+
+@pytest.mark.parametrize("layout", ["data/typemap", "share/sumo/data/typemap"])
+def test_visual_profile_warns_when_configured_type_maps_differ_from_binary(tmp_path, layout):
+    from astra_sumo.core import osm_network
+    configured = tmp_path / "configured"
+    adjacent = tmp_path / "binary" / layout
+    adjacent.mkdir(parents=True)
+    chosen = configured / "data/typemap"
+    chosen.mkdir(parents=True)
+    for name in osm_network.REFERENCE_VISUAL_SUMO_TYPEMAPS:
+        (chosen / name).write_text("<types/>", encoding="utf-8")
+    options, warnings = osm_network._reference_visual_type_options(tmp_path, tmp_path, "different",
+        explicit_sumo_home=configured, netconvert_binary=str(tmp_path / "binary/bin/netconvert"))
+    assert options[0] == "--type-files" and len(warnings) == 1
+    assert "differ from the selected binary" in warnings[0]
 
 
 def test_build_osm_network_passes_explicit_left_hand_traffic_to_netconvert(

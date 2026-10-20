@@ -665,7 +665,12 @@ def _reference_visual_type_options(
     service_type_file = logs_dir / f"{prefix}_service_no_pedestrian.typ.xml"
     _write_text(service_type_file, REFERENCE_VISUAL_SERVICE_TYPE_XML)
     type_files = [*base_type_files, service_type_file]
-    return ["--type-files", ",".join(_command_path(path, root) for path in type_files)], []
+    executable = Path(shutil.which(str(netconvert_binary)) or netconvert_binary).resolve()
+    adjacent = next((path for path in (executable.parent.parent / "data" / "typemap",
+        executable.parent.parent / "share" / "sumo" / "data" / "typemap") if path.is_dir()), None)
+    warnings = ([f"Configured SUMO type maps differ from the selected binary installation: {typemap_dir}; binary type maps: {adjacent}. Check their versions."]
+                if adjacent is not None and adjacent.resolve() != typemap_dir.resolve() else [])
+    return ["--type-files", ",".join(_command_path(path, root) for path in type_files)], warnings
 
 
 def _forced_construction_type_options(
@@ -958,6 +963,11 @@ def build_osm_network(
                 type_options,
                 construction_type_options,
             )
+        type_map_inputs = []
+        for filename in (type_options[1].split(",") if type_options else []):
+            path = Path(filename)
+            path = path if path.is_absolute() else root / path
+            type_map_inputs.append({"path": str(path.resolve()), "sha256": _file_sha256(path)})
         from .local_network_conversion import with_geometry_precision
 
         command = with_geometry_precision([
@@ -1144,6 +1154,7 @@ def build_osm_network(
             "profile": normalized_profile,
             "profile_options": profile_options,
             "type_options": type_options,
+            "type_map_inputs": type_map_inputs,
             "output_original_names": origin_name_output,
         },
         "osm_access_correction": access_correction,
@@ -1201,6 +1212,7 @@ def build_osm_network(
         "netconvert_profile": normalized_profile,
         "netconvert_precision": effective_precision,
         "netconvert_profile_options": profile_options,
+        "netconvert_type_map_inputs": type_map_inputs,
         "netconvert_output_original_names": origin_name_output,
         "osm_access_correction": access_correction,
         "tls_reference_cleanup": tls_cleanup,
