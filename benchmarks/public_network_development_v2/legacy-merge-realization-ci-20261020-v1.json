@@ -1,0 +1,69 @@
+{
+  "code_commit": "1ad8919a85d5e034794ec1ee89489c9dcac1c5e2",
+  "critical_native_cases_executed_per_run": 38,
+  "limitation": "This receipt qualifies 1ad8919. The standalone-entry follow-up 84c7e6a has separate local evidence and a separate full CI run.",
+  "passed_per_run": 3719,
+  "runs": [
+    {
+      "artifacts": [
+        {
+          "path": "outputs/ci-1ad8919-pr-artifacts-20261020/test-results.xml",
+          "sha256": "39c14788ea6417eb162256b748aac5dfceee3cefd4fdf789ef8b13c914f7ed3f"
+        },
+        {
+          "path": "outputs/ci-1ad8919-pr-20261020-v1.log",
+          "sha256": "18583d8328ecbc9d5d75b11da3b43365f48311a121e0534aa4475908939aaf1f"
+        }
+      ],
+      "junit": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 24,
+        "tests": 3743
+      },
+      "native_execution": {
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20
+      },
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39366160794"
+    },
+    {
+      "artifacts": [
+        {
+          "path": "outputs/ci-1ad8919-push-artifacts-20261020/test-results.xml",
+          "sha256": "565a13dc6ed77627bc63f56a85b07733c7f9eba2e4398922fa0c6c73624e60d3"
+        },
+        {
+          "path": "outputs/ci-1ad8919-push-20261020-v1.log",
+          "sha256": "81181ce9c07e139f0b5d3b02b9d973f2312782ad118cc8b915919cdc3da7123c"
+        }
+      ],
+      "junit": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 24,
+        "tests": 3743
+      },
+      "native_execution": {
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20
+      },
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39366157108"
+    }
+  ],
+  "skipped_per_run": 24
+}

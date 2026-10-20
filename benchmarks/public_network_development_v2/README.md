@@ -166,3 +166,6 @@ access and retains a bus-only interior counterexample.
 The [merge-realization follow-up](legacy-merge-realization-20261020-v1.md)
 rejects successful native commands that merge no declared roads, compares a
 real Hamburg pair with full conversion, and requires critical native CI cases.
+The [standalone-entry follow-up](legacy-standalone-realization-20261020-v1.md)
+extends realization checks to the independent simplifier and records both
+complete Windows suites for 1ad8919, including 38 executed critical native cases.
