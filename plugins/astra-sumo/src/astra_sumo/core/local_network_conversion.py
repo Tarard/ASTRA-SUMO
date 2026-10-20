@@ -245,7 +245,8 @@ def local_conversion_input(root, mutable_nodes, mutable_edges, *, join_groups=No
         if connection.get("tl"):
             controllers.setdefault(connection.get("tl"), set()).add(_owner(connection, index))
     shared = sorted(key for key, owners in controllers.items()
-                    if (owners & native_nodes or key in (join_groups or {})) and owners - native_nodes)
+                    if ((owners & mutable_nodes or key in (join_groups or {})) and owners - mutable_nodes)
+                    or (owners & native_nodes and owners - native_nodes))
     if shared:
         return None, {"status": "full_network", "reason": "controller_spans_edit_boundary", "controller_ids": shared}
     selected = native_edges - created

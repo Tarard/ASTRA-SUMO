@@ -13,6 +13,7 @@ from astra_sumo.core.local_network_conversion import (
     legacy_additive_edit_scope,
     validate_local_conversion,
     loaded_turn_permissions,
+    local_conversion_input,
 )
 from astra_sumo.core.sumo_commands import run_sumo_load_audit
 
@@ -33,6 +34,20 @@ def test_crossing_scope_requires_incident_roads(tmp_path):
     patch.write_text('<connections><crossing node="c" edges="old"/></connections>', encoding="utf-8")
     with pytest.raises(ValueError, match="meet the declared junction"):
         legacy_additive_edit_scope(root, ["netconvert", "--connection-files", str(patch)])
+
+
+def test_wider_native_context_does_not_expand_shared_controller_adoption_scope():
+    root = ET.fromstring("""<net version="1.20"><location netOffset="0,0" projParameter="!"/>
+      <edge id="in" from="w" to="a"><lane id="in_0" index="0" allow="passenger"/></edge>
+      <edge id="middle" from="a" to="b"><lane id="middle_0" index="0" allow="passenger"/></edge>
+      <edge id="out" from="b" to="e"><lane id="out_0" index="0" allow="passenger"/></edge>
+      <junction id="w"/><junction id="a"/><junction id="b"/><junction id="e"/>
+      <tlLogic id="shared" type="static" programID="0"><phase duration="30" state="GG"/></tlLogic>
+      <connection from="in" to="middle" fromLane="0" toLane="0" tl="shared" linkIndex="0"/>
+      <connection from="middle" to="out" fromLane="0" toLane="0" tl="shared" linkIndex="1"/></net>""")
+    subset, record = local_conversion_input(root, {"a"}, {"in", "middle"}, rebuild_adjacent_junctions=True)
+    assert subset is None and record["status"] == "full_network"
+    assert record["reason"] == "controller_spans_edit_boundary" and record["controller_ids"] == ["shared"]
 
 
 def _source(folder):
