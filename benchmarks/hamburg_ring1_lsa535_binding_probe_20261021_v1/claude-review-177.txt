@@ -1,0 +1,44 @@
+I’m treating this as read-only and starting nothing.
+
+Reading the failed check
+
+I agree it’s invalid and shouldn’t be adopted. I’d also say it couldn’t discriminate.
+
+667 of the 1,270 routes pass through the 535 core more than once.
+Moving the turnaround to lane 5 sent every such loop through the single left lane (the Z.8 lane). The U-turn at 1975693623 then sends those vehicles straight back into the same 26.6 m approach, where they again need lane 5.
+That feedback loop alone can produce the early standstill (6,709.9 s, 97 of 97 halted) without any defect in the binding itself.
+
+So the result says more about the inherited demand than about lane binding. The binding question stays open until the demand is plausible. My paired-test design didn’t anticipate this confound.
+
+Two corrections to what I said earlier:
+
+My intermediate-node explanation is not established, since node 13879907 is both the way’s end and the divergence point. I withdraw it.
+A remaining lead, unverified: with sidewalk and cycle lane added, the SUMO edge has 6 lanes while OSM says lanes=4. netconvert may ignore turn:lanes when lane counts don’t match. A grep of the import log for a turn-lane warning on way 186821027 would settle it.
+
+The empty saved state of actuated controller 7709833318 is one more practical reason to move non-official controllers to declared static programs later. Nothing to do about it now.
+
+Excluding repeated-core tours
+
+Proposed declared rule: a route may pass through each physical junction core at most once. It works at the level of junction clusters (LSA535_part0 and the like), not roads or directions.
+
+What it keeps. A U-turn performed as one pass through a core (in → core → out) remains allowed. Driving the opposite direction of a road remains allowed. There is no detour cap.
+What it excludes. In → core → out → turnaround elsewhere → back into the same core. That is exactly the pattern in your 667 routes.
+It also covers detector repeats. Every field sits on an approach into a core, so passing a field twice requires entering its core twice. The rule therefore implies “each field at most once per vehicle”, so no separate rule is needed.
+
+Exception, to avoid excluding legitimate behaviour. For each repeated-core route, splice out the loop: keep the first entry into the core and the last exit from it.
+
+If that single-pass movement exists as a legal connection, the loop is unnecessary for boundary-to-boundary traffic. Exclude the route.
+If it doesn’t exist, the loop stands in for a prohibited turn (going round the block). Keep the route, but flag it and report its share.
+
+Keep this in the route-pool builder. The network stays unchanged.
+
+Offline checks before any simulation:
+
+Field coverage. Every one of the 13 fields must still be reachable by a single-pass boundary-to-boundary route. List any field that loses all coverage. That would be a finding about the scope or the boundaries, not a reason to relax the rule.
+Lane-level response rank with the restricted pool, compared with the old 13. The 8 lane-split fields still depend on lane choice, so report rank with and without declared lane intent.
+A vehicle-count lower bound. Single-pass routes can count at most one field per core, so at most two fields per vehicle (one at 119, one at 535). The 6,687 field passages then need at least 3,344 vehicles, and realistically many more.
+The old tour solution needed far fewer, so expect much more insertion pressure.
+That makes the entry-allocation work, such as the 44532531 prefix, the next constraint to watch.
+Reporting. Repeated-core routes excluded, spliced-route exceptions kept, and passages per vehicle.
+
+The 535 lane binding can be revisited only after this demand repair, with the same paired design, once the cohort contains no repeated-core tours.

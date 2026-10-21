@@ -173,6 +173,15 @@ A separate 5,498-vehicle demand proposal changes 3,628 upstream route sections w
 It has not completed a full-window replay. Measured-road agreement does not establish lane-level count agreement.
 These checks use temporary generated control programs and do not establish an exact count fit or true OD.
 
+The [535 lane-binding check](../benchmarks/hamburg_ring1_lsa535_binding_probe_20261021_v1/README.md) retains a failed bounded candidate.
+Its reference completes 1,270 vehicles with one collision and one teleport.
+The candidate retains the turnaround but moves it to lane 5 and removes the supplemental lane-4 left turn.
+It stops at 6,709.9 s after all 97 running vehicles remain stationary for 300 s. Only 136 vehicles arrive.
+All 130 field and 40 station rows remain in its diagnostic tables, including 91 missing field rows and 28 missing station rows.
+Formal error metrics remain unavailable for both invalid runs. The candidate is not adopted.
+The shared demand contains 667 routes that revisit the same 535 core without repeating a directed road.
+This identifies remaining tour candidates, not a proven sole cause of the standstill or a zero-error infeasibility result.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 

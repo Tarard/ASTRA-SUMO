@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+    "-m",
+    "astra_sumo.core.simulation_stall",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\native-request.json"
+  ],
+  "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound",
+  "status": "pass",
+  "returncode": 0,
+  "stdout": "***Starting server on port 3329 ***\nLoading net-file from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\network.net.xml' ... done (196ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\e1.add.xml' ... done (3ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\instant.add.xml' ... done (3ms).\nLoading route-files incrementally from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\demand.rou.xml'\nLoading done.\nSimulation version 1.27.1 started with time: 0.000.\nSimulation ended at time: 6709.900.\nReason: TraCI requested termination.\nPerformance:\n Duration: 66.872s\n TraCI-Duration: 34.912s\n Real time factor: 100.339\n UPS: 23725.595167\nVehicles:\n Inserted: 233 (Loaded: 407)\n Running: 97\n Waiting: 154\n Emergency Braking: 1\nStatistics (avg of 233):\n RouteLength: 457.277398079844\n Speed: 3.076355452563\n Duration: 680.934000000000\n WaitingTime: 625.157000000000\n TimeLoss: 646.792000000000\n DepartDelay: 0.049000000000\n DepartDelayWaiting: 711.860000000000\n",
+  "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\nWarning: Vehicle 'fit_b0_p254_v3' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=3669.100.\n",
+  "error": ""
+}

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+    "-m",
+    "astra_sumo.core.simulation_stall",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\native-request.json"
+  ],
+  "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference",
+  "status": "pass",
+  "returncode": 0,
+  "stdout": "***Starting server on port 1744 ***\nLoading net-file from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\network.net.xml' ... done (193ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\e1.add.xml' ... done (3ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\instant.add.xml' ... done (2ms).\nLoading route-files incrementally from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\demand.rou.xml'\nLoading done.\nSimulation version 1.27.1 started with time: 0.000.\nSimulation ended at time: 14400.000.\nReason: TraCI requested termination.\nPerformance:\n Duration: 106.596s\n TraCI-Duration: 58.655s\n Real time factor: 135.089\n UPS: 15654.827573\nVehicles:\n Inserted: 1270\n Running: 0\n Waiting: 0\n Teleports: 1 (Collisions: 1)\n Emergency Braking: 3\nStatistics (avg of 1270):\n RouteLength: 703.881173087406\n Speed: 5.250413058752\n Duration: 131.397000000000\n WaitingTime: 47.642000000000\n TimeLoss: 78.826000000000\n DepartDelay: 0.338000000000\n DepartDelayWaiting: 0.000000000000\n",
+  "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\nWarning: Vehicle 'fit_b0_p254_v3' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=3669.100.\nWarning: Vehicle 'fit_b2_p286_v11' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=6168.100.\nWarning: Vehicle 'fit_b4_p254_v24' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=7703.100.\nWarning: Teleporting vehicle 'fit_b9_p267_v12'; junction collision with vehicle 'fit_b9_p267_v11', lane=':LSA535_part0_7_0', gap=-1.000000000000, time=12114.700, stage=move.\nWarning: Vehicle 'fit_b9_p267_v12' ends teleporting on edge '186821036#1', time=12114.700.\n",
+  "error": ""
+}
