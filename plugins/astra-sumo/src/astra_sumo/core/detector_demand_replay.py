@@ -10,6 +10,55 @@ from .command_runner import run_command
 from .detector_demand import audit_expected_to_e1_strict, compare_expected_to_e1_strict, read_csv_rows, summarize_comparison, write_csv
 
 
+def recover_point_detector_measurements(*, detector_xml: Path, expected_counts_csv: Path, output_dir: Path) -> dict:
+    """Retain completed, strictly validated E1 records as diagnostics after a failed run."""
+    sources = [Path(p).resolve(strict=True) for p in (detector_xml, expected_counts_csv)]
+    output = Path(output_dir).resolve()
+    if output.exists() or any(path.is_relative_to(output) for path in sources):
+        raise ValueError("Use a new diagnostic directory separate from its inputs.")
+    expected = read_csv_rows(sources[1])
+    comparisons = compare_expected_to_e1_strict(expected, {}, count_attribute="nVehContrib")
+    if not comparisons:
+        raise ValueError("Provide at least one expected detector interval.")
+    inputs = [{"path": str(path), "sha256": file_sha256(path)} for path in sources]
+    output.mkdir(parents=True)
+    comparison_file = output / "field-comparison.csv"
+    write_csv(comparison_file, comparisons, list(comparisons[0]))
+    report = {"schema": "astra.partial-point-detector-measurements/v1", "status": "invalid",
+              "formal_result": False, "native_completion_established": False,
+              "inputs": inputs, "errors": [], "source_parse_error": None, "completed_records": 0,
+              "expected_field_bins": len(comparisons), "recovered_field_bins": 0,
+              "missing_field_bins": len(comparisons), "exact_field_bins": 0,
+              "field_metrics": None, "exact_count_fit": False, "field_comparison": str(comparison_file)}
+    root = ET.Element("detector")
+    try:
+        try:
+            for _, element in ET.iterparse(sources[0], events=("end",)):
+                if element.tag == "interval":
+                    root.append(ET.Element("interval", dict(element.attrib)))
+                element.clear()
+        except ET.ParseError as error:
+            report["source_parse_error"] = str(error)
+        recovered = output / "completed-e1-records.xml"
+        ET.ElementTree(root).write(recovered, encoding="utf-8", xml_declaration=True)
+        report["completed_records"] = len(root)
+        report["completed_records_file"] = str(recovered)
+        # Recovery does not relax count, identifier, or duplicate-interval validation.
+        comparisons = audit_expected_to_e1_strict(expected, recovered, count_attribute="nVehContrib")
+        present = sum(row["measured_nVehContrib"] is not None for row in comparisons)
+        write_csv(comparison_file, comparisons, list(comparisons[0]))
+        report.update(status="measured" if present else "no_effect", recovered_field_bins=present,
+                      missing_field_bins=len(comparisons)-present,
+                      exact_field_bins=sum(row["diff_nVehContrib_minus_expected"] == 0 for row in comparisons))
+    except (OSError, ValueError, KeyError) as error:
+        report["errors"].append(str(error))
+    report["inputs_unchanged"] = all(file_sha256(Path(row["path"])) == row["sha256"] for row in inputs)
+    report["claim_boundary"] = "Completed E1 records only. The native run remains unverified. No accepted fit metric or exact calibration result is supplied."
+    report["report_file"] = str(output / "report.json")
+    write_json_atomic(output / "report.json", report)
+    return report
+
+
 def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional_file: Path,
                               expected_counts_csv: Path, output_dir: Path, end_s: float,
                               sumo_binary: str = "sumo", step_length: float = .1,
@@ -113,6 +162,16 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
             field_comparison=str(output_dir / "field-comparison.csv"))
     except (OSError, ValueError, KeyError, IndexError, ET.ParseError) as error:
         report["errors"].append(str(error))
+        try:
+            partial = recover_point_detector_measurements(detector_xml=output_dir / "field-counts.xml",
+                expected_counts_csv=output_dir / "expected-counts.csv", output_dir=output_dir / "partial-measurements")
+            report["partial_measurements"] = partial
+            if partial["status"] in {"measured", "no_effect"}:
+                copy_file_atomic(Path(partial["field_comparison"]), output_dir / "field-comparison.csv")
+                report.update(missing_field_bins=partial["missing_field_bins"], exact_field_bins=partial["exact_field_bins"],
+                    observer_complete=partial["missing_field_bins"] == 0)
+        except (OSError, ValueError) as recovery_error:
+            report["errors"].append(f"Detector recovery: {recovery_error}")
     report["inputs_unchanged"] = all(file_sha256(Path(row["path"])) == row["sha256"] for row in inputs)
     report["claim_boundary"] = "Native completion and all declared detector bins under the supplied model. No field timing, surveyed detector truth, or prediction accuracy is established."
     write_json_atomic(output_dir / "run.json", report)

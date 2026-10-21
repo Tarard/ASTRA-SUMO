@@ -3,7 +3,7 @@ import subprocess
 
 import pytest
 
-from astra_sumo.core.detector_demand_replay import run_point_detector_demand
+from astra_sumo.core.detector_demand_replay import run_point_detector_demand, recover_point_detector_measurements
 from astra_sumo.core.route_sensor_matrix import read_contributing_e1_passages
 
 
@@ -64,3 +64,69 @@ def test_backend_failure_keeps_all_expected_bins_as_missing(tmp_path, monkeypatc
     assert result["field_metrics"] is None and not result["exact_count_fit"]
     rows = read_csv_rows(tmp_path / "failed/field-comparison.csv")
     assert len(rows) == 2 and all(row["measured_nVehContrib"] == "" for row in rows)
+
+
+def test_truncated_detector_recovery_keeps_zero_separate_from_a_missing_record(tmp_path):
+    from astra_sumo.core.detector_demand import read_csv_rows
+
+    raw, expected = tmp_path / "detectors.xml", tmp_path / "expected.csv"
+    raw.write_text('<detector><interval id="field" begin="0" end="30" nVehContrib="0"/>'
+                   '<interval id="field" begin="30" end="60" nVehContrib="', encoding="utf-8")
+    expected.write_text('detector_id,begin,end,expected_total\nfield,0,30,2\nfield,30,60,3\n', encoding="utf-8")
+    original = raw.read_bytes()
+    result = recover_point_detector_measurements(detector_xml=raw, expected_counts_csv=expected, output_dir=tmp_path / "recovered")
+    rows = read_csv_rows(tmp_path / "recovered/field-comparison.csv")
+    assert result["status"] == "measured" and result["source_parse_error"]
+    assert result["completed_records"] == result["recovered_field_bins"] == result["missing_field_bins"] == 1
+    assert rows[0]["measured_nVehContrib"] == "0" and rows[1]["measured_nVehContrib"] == ""
+    assert result["field_metrics"] is None and not result["exact_count_fit"]
+    assert not result["native_completion_established"] and raw.read_bytes() == original
+
+
+@pytest.mark.parametrize("record", [
+    '<interval id="field" begin="0" end="30" nVehContrib="2"/>',
+    '<interval id="field" begin="30" end="60" nVehContrib="1.5"/>',
+    '<interval id="field" begin="30" end="60"/>',
+])
+def test_recovery_keeps_strict_count_and_duplicate_checks(tmp_path, record):
+    raw, expected = tmp_path / "detectors.xml", tmp_path / "expected.csv"
+    raw.write_text('<detector><interval id="field" begin="0" end="30" nVehContrib="2"/>' + record, encoding="utf-8")
+    expected.write_text('detector_id,begin,end,expected_total\nfield,0,30,2\nfield,30,60,3\n', encoding="utf-8")
+    result = recover_point_detector_measurements(detector_xml=raw, expected_counts_csv=expected, output_dir=tmp_path / "invalid")
+    assert result["status"] == "invalid" and result["errors"]
+    assert result["recovered_field_bins"] == 0 and result["missing_field_bins"] == 2
+    assert result["field_metrics"] is None and not result["exact_count_fit"]
+
+
+def test_complete_detector_records_alone_do_not_establish_native_validity(tmp_path):
+    raw, expected = tmp_path / "detectors.xml", tmp_path / "expected.csv"
+    raw.write_text('<detector><interval id="field" begin="0" end="30" nVehContrib="2"/></detector>', encoding="utf-8")
+    expected.write_text('detector_id,begin,end,expected_total\nfield,0,30,2\n', encoding="utf-8")
+    result = recover_point_detector_measurements(detector_xml=raw, expected_counts_csv=expected, output_dir=tmp_path / "diagnostic")
+    assert result["exact_field_bins"] == 1 and result["source_parse_error"] is None
+    assert not result["exact_count_fit"] and not result["formal_result"] and result["field_metrics"] is None
+
+
+def test_timeout_reports_completed_field_bins_without_accepting_a_fit(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    import astra_sumo.core.detector_demand_replay as replay
+
+    network, routes, loops, expected = [tmp_path / name for name in ("net.xml", "routes.xml", "loops.xml", "counts.csv")]
+    network.write_text('<net/>', encoding="utf-8")
+    routes.write_text('<routes><vehicle id="v" depart="0"><route edges="a"/></vehicle></routes>', encoding="utf-8")
+    loops.write_text('<additional><inductionLoop id="field" lane="a_0" pos="1" period="30" file="unused"/></additional>', encoding="utf-8")
+    expected.write_text('detector_id,begin,end,expected_total\nfield,0,30,2\nfield,30,60,3\n', encoding="utf-8")
+
+    def timeout(command, *, cwd, timeout_seconds):
+        (cwd / "summary.xml").write_text('<summary><step', encoding="utf-8")
+        (cwd / "field-counts.xml").write_text('<detector><interval id="field" begin="0" end="30" nVehContrib="2"/><interval', encoding="utf-8")
+        return SimpleNamespace(status="timeout", returncode=None, to_dict=lambda: {"status": "timeout", "returncode": None})
+
+    monkeypatch.setattr(replay, "run_command", timeout)
+    result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
+        expected_counts_csv=expected, output_dir=tmp_path / "timed-out", end_s=60)
+    assert result["status"] == "invalid" and result["native_status"] == "timeout"
+    assert result["missing_field_bins"] == result["exact_field_bins"] == 1
+    assert result["partial_measurements"]["recovered_field_bins"] == 1
+    assert not result["observer_complete"] and not result["exact_count_fit"] and result["field_metrics"] is None
+    assert replay.read_csv_rows(tmp_path / "timed-out/field-comparison.csv")[0]["measured_nVehContrib"] == "2"
