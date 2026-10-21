@@ -100,7 +100,16 @@ The [marker and precision repair replay](../../benchmarks/hamburg_ring1_road_sco
 Its complete Windows replay removes all three temporary lane markers and restores the three upstream lane shapes and lengths exactly.
 All thirteen native detector positions match the preceding model exactly. The three local vehicle-class probes still complete.
 All four b09ece9 CI checks passed, with 3,883 tests passed, 24 skipped, and all 72 required native cases.
-The changed model's independent Linux replay remains pending. No count fit has run.
+The independent Linux replay of fc4f92a subsequently reproduces both changed model digests. Count fitting remains incomplete.
+
+The subsequent [native count probe](../../benchmarks/hamburg_ring1_count_probe_20261021_v1/README.md) verifies a 500-vehicle unfitted cohort.
+All vehicles arrive without collision or teleport. All 13 fields record complete passages.
+Every one of the 130 requested field intervals and 40 station intervals has a comparison value. None of the field values matches exactly.
+This demand is a diagnostic route pool, not a calibrated traffic volume.
+Its measured field responses distinguish all 13 fields, while road-only incidence distinguishes eight.
+The resulting integer equations admit exact source-count vectors, but their first 4,494-vehicle native replay fails.
+The retained ten-vehicle reproduction has insertion collisions on a 0.35 m entry road with either departure-position policy.
+The count fit remains unfinished. Invalid runs do not supply accepted calibration metrics.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.
