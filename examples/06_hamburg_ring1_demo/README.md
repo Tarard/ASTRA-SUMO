@@ -95,6 +95,12 @@ The complete Windows and independent Linux replays have identical canonical netw
 The review also found three temporary lane-shape markers and rounded lengths on three upstream lanes. These repairs remain pending.
 The new full CI remains pending in this record.
 No simulated count fitting has run. The exact target includes every declared field and station bin.
+
+The [marker and precision repair replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v7.json) retains the same movement and detector coverage.
+Its complete Windows replay removes all three temporary lane markers and restores the three upstream lane shapes and lengths exactly.
+All thirteen native detector positions match the preceding model exactly. The three local vehicle-class probes still complete.
+All four b09ece9 CI checks passed, with 3,883 tests passed, 24 skipped, and all 72 required native cases.
+The changed model's independent Linux replay remains pending. No count fit has run.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.

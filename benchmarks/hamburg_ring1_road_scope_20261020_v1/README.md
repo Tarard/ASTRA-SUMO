@@ -113,6 +113,10 @@ The complete Windows replay preserves 92 passing movements and 13 loops, with ze
 Its local passenger, bus, and bicycle transition probes complete without collision or teleport.
 All declared native detector coordinates remain within 0.00236 m of the preceding model.
 Count fitting remains unrun. The latest record retains the previous surface defect and all unresolved movements.
+
+The [complete marker and precision replay](public-replay-evidence-v7.json) removes the temporary lane hints and retains exact upstream shapes and logical lengths.
+It preserves 92 passing movements and 13 loops, with unchanged native field coordinates and successful local transition probes.
+The record includes the passing b09ece9 CI result. Its independent Linux replay and count fitting remain unfinished.
 Its local passenger, bus, and bicycle checks preserve complete requested lane chains without collision or teleport.
 Native sensor-coordinate checks retain all thirteen declared fields, with maximum model-to-model displacement of 0.00236 m.
 
