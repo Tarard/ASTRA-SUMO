@@ -279,8 +279,17 @@ def prepare_hamburg_readme_run(*, repository, output_dir):
     return report
 
 
-def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary, hold_observed_lanes=False):
+def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary, hold_observed_lanes=False, hold_junction_body=False):
+    if hold_junction_body and not hold_observed_lanes:
+        raise ValueError("Use the junction-body hold with the declared observation-lane hold.")
     p = Path(prepared_dir).resolve(strict=True)
+    body_nodes = None
+    if hold_junction_body:
+        scenario = p / "scenario.json"
+        if scenario.exists():
+            body_nodes = json.loads(scenario.read_bytes()).get("junction_body_hold_nodes")
+        elif scenario.with_name("scenario.json.gz").exists():
+            body_nodes = json.loads(gzip.decompress(scenario.with_name("scenario.json.gz").read_bytes())).get("junction_body_hold_nodes")
     names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "expected-counts.csv", "control.add.xml")
     if hold_observed_lanes:
         names += ("lane-intentions.json",)
@@ -308,8 +317,11 @@ def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary, hold_o
         step_length=0.1,
         seed=104,
         timeout_seconds=2400 if hold_observed_lanes else 1800,
+        state_times_s=(14399.9,) if hold_observed_lanes else (),
         all_stopped_timeout_s=300,
         signal_program_file=p / "control.add.xml",
         monitor_interval_s=None if hold_observed_lanes else 1,
         lane_intentions_file=p / "lane-intentions.json" if hold_observed_lanes else None,
+        junction_body_hold=hold_junction_body,
+        junction_body_hold_nodes=tuple(body_nodes) if body_nodes is not None else None,
     )

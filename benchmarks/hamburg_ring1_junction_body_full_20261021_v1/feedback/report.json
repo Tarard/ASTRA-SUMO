@@ -1,0 +1,57 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "native_run_valid": false,
+  "native_exact_count_fit": false,
+  "new_simulations": 0,
+  "field_rows": 130,
+  "sampled_plan_departure_cells": 333,
+  "requested_time_resolution_s": 0.001,
+  "first_observation_begin_s": 3600.0,
+  "requested_before_first_observation": 1953,
+  "totals": {
+    "requested_vehicles": 8640,
+    "inserted_vehicles": 5869,
+    "not_inserted_vehicles": 2771,
+    "inserted_without_complete_passage": 296,
+    "vehicles_with_observed_window_passage": 3445,
+    "vehicles_with_only_outside_window_passage": 2128,
+    "observed_window_passages": 3445,
+    "outside_window_passages": 2128
+  },
+  "integer_reconstruction_verified": true,
+  "derivative_established": false,
+  "reuse_under_changed_demand_established": false,
+  "claim_boundary": "Same-replay accounting only. Requested vehicles form the denominator. Outside-window passages are not zero observations. Unsampled cells and causal effects of changed demand remain unknown.",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\inputs\\demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\inputs\\lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\native\\tripinfo.xml.gz",
+      "sha256": "2e6cac243e2dc40d9f430adf70a42f10c20381008179f5aac88e72eac125010d"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\passage-reconciliation.json.gz",
+      "sha256": "6eb4c33e125b6352dbc33b36931c3cde8aa15166d0d7a70fb273a6b97dccba78"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\field-comparison.csv",
+      "sha256": "1824120ff79c943f3ec82576afce826f50bc902adf5c12706147f65a614af744"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\native\\field-counts.xml",
+      "sha256": "753920a39d520f054465bea7ffe23bd13027f256cc9c714d13a00d58e101d0fc"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_full_20261021_v1\\native\\run.json.gz",
+      "sha256": "a70d7cdce23acc88809cf43b3151844e4961f666d2ba643b8a15988861b7866f"
+    }
+  ],
+  "inputs_unchanged": true
+}

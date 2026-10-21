@@ -69,7 +69,9 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
                               all_stopped_timeout_s: float = 300,
                               signal_program_file: Path | None = None,
                               monitor_interval_s: float | None = None,
-                              lane_intentions_file: Path | None = None) -> dict:
+                              lane_intentions_file: Path | None = None,
+                              junction_body_hold: bool = False,
+                              junction_body_hold_nodes: tuple[str, ...] | None = None) -> dict:
     """Measure every declared field bin without requiring historical signal events.
 
     The network supplies control. Instantaneous identities are simulator
@@ -81,6 +83,10 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     if (len(set(state_times_s)) != len(state_times_s)
             or any(not math.isfinite(value) or value < 0 or value >= end_s for value in state_times_s)):
         raise ValueError("State times must be unique, finite, and inside the simulation period.")
+    if junction_body_hold and lane_intentions_file is None:
+        raise ValueError("Provide lane intentions for the junction-body hold.")
+    if junction_body_hold_nodes is not None and (not junction_body_hold or not junction_body_hold_nodes):
+        raise ValueError("Use a nonempty node scope with an enabled junction-body hold.")
     paths = [Path(path).resolve(strict=True) for path in (net_file, route_file, e1_additional_file, expected_counts_csv)]
     names = ["network.net.xml", "demand.rou.xml", "source-e1.add.xml", "expected-counts.csv"]
     if signal_program_file is not None:
@@ -165,6 +171,9 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
         "exact_field_bins": 0, "exact_count_fit": False, "field_metrics": None,
         "field_comparison": str(output_dir / "field-comparison.csv")}
     report.update(state_times_s=sorted(state_times_s), state_snapshots=[])
+    if junction_body_hold:
+        report["driver_treatment"] = "local_observation_and_junction_body_hold"
+        report["junction_body_hold_nodes"] = junction_body_hold_nodes
     write_csv(output_dir / "field-comparison.csv", missing, list(missing[0]))
     write_json_atomic(output_dir / "run.json", report)
     monitor_file = output_dir / "stall-monitor.json"
@@ -173,7 +182,9 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
         "all_stopped_timeout_s": all_stopped_timeout_s, "monitor_file": str(monitor_file),
         "monitor_interval_s": monitor_interval_s,
         "lane_intentions_file": str(output_dir / names[-1]) if lane_intentions_file is not None else None,
-        "route_file": str(output_dir / "demand.rou.xml"), "e1_file": str(output_dir / "source-e1.add.xml")})
+        "route_file": str(output_dir / "demand.rou.xml"), "e1_file": str(output_dir / "source-e1.add.xml"),
+        **({"junction_body_hold": True} if junction_body_hold else {}),
+        **({"junction_body_hold_nodes": list(junction_body_hold_nodes)} if junction_body_hold_nodes is not None else {})})
     executed = run_command([sys.executable, "-m", "astra_sumo.core.simulation_stall", str(request_file)],
         cwd=output_dir, timeout_seconds=timeout_seconds)
     write_json_atomic(output_dir / "command.json", executed.to_dict())

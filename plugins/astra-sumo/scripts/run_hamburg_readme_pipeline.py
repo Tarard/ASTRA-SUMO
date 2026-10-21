@@ -16,9 +16,12 @@ def main():
     parser.add_argument("source", type=Path)
     parser.add_argument("output_dir", type=Path)
     parser.add_argument("--hold-observed-lanes", action="store_true")
+    parser.add_argument("--hold-junction-body", action="store_true")
     args = parser.parse_args()
     if args.hold_observed_lanes and args.action != "run":
         parser.error("Use --hold-observed-lanes with run.")
+    if args.hold_junction_body and (args.action != "run" or not args.hold_observed_lanes):
+        parser.error("Use --hold-junction-body with run and --hold-observed-lanes.")
     if args.action == "prepare":
         result = prepare_hamburg_readme_run(repository=args.source, output_dir=args.output_dir)
     elif args.action == "local-lanes":
@@ -26,7 +29,10 @@ def main():
     else:
         binary = Path(sumo.__file__).parent / "bin" / ("sumo.exe" if sys.platform == "win32" else "sumo")
         result = run_hamburg_readme_prepared(prepared_dir=args.source, output_dir=args.output_dir, sumo_binary=binary,
-                                           hold_observed_lanes=args.hold_observed_lanes)
+                                           hold_observed_lanes=args.hold_observed_lanes, hold_junction_body=args.hold_junction_body)
+    if args.action == "run":
+        result = {key: result.get(key) for key in ("status", "healthy", "native_status", "completion", "expected_field_bins", "missing_field_bins", "exact_field_bins", "exact_count_fit", "field_metrics")}
+        result["full_record"] = str(args.output_dir / "run.json")
     print(json.dumps(result))
 
 

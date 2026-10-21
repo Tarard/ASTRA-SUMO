@@ -63,8 +63,13 @@ def monitor_sumo(request):
         internal_lengths = None
         if request.get("junction_body_hold", False):
             network = ET.parse(request["command"][request["command"].index("--net-file") + 1]).getroot()
+            nodes = request.get("junction_body_hold_nodes")
+            if nodes is not None and (not nodes or not set(nodes) <= {j.get("id") for j in network.findall("junction")}):
+                raise ValueError("Use existing junction IDs for the declared body-hold scope.")
             internal_lengths = {lane.get("id"): float(lane.get("length"))
-                for edge in network.findall("edge") if edge.get("function") == "internal" for lane in edge.findall("lane")}
+                for edge in network.findall("edge") if edge.get("function") == "internal"
+                and (nodes is None or any(edge.get("id").startswith(":" + node + "_") for node in nodes))
+                for lane in edge.findall("lane")}
         driver = LaneSectionHold(read_lane_intentions(request["lane_intentions_file"], request["e1_file"], identities),
                                  junction_lane_lengths=internal_lengths)
         if interval is not None:
@@ -78,6 +83,8 @@ def monitor_sumo(request):
     report = {"status": "running", "all_stopped_timeout_s": limit, "speed_tolerance_m_s": 1e-6,
         "command": command, "traci_module": traci.__file__, "stop": None,
         "monitor_interval_s": interval, "position_changes_reset_standstill": interval is not None or driver is not None}
+    if request.get("junction_body_hold_nodes") is not None:
+        report["junction_body_hold_nodes"] = request["junction_body_hold_nodes"]
     write_json_atomic(output, report)
     process = subprocess.Popen(command, stdin=subprocess.DEVNULL, start_new_session=os.name != "nt",
         creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)

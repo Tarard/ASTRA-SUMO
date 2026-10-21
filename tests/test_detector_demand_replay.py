@@ -12,8 +12,8 @@ from astra_sumo.core.route_sensor_matrix import read_contributing_e1_passages
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
-@pytest.mark.parametrize("monitor_interval,local_hold",[(None,False),(1,False),(None,True)])
-def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,monitor_interval,local_hold):
+@pytest.mark.parametrize("monitor_interval,local_hold,body_hold,body_nodes",[(None,False,False,None),(1,False,False,None),(None,True,False,None),(None,True,True,None),(None,True,True,("b",))])
+def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,monitor_interval,local_hold,body_hold,body_nodes):
     nodes, edges, network, routes, loops, expected = [tmp_path / name for name in
         ("nodes.xml", "edges.xml", "network.xml", "routes.xml", "loops.xml", "expected.csv")]
     nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/><node id="c" x="200" y="0"/></nodes>', encoding="utf-8")
@@ -31,13 +31,20 @@ def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,mo
     output = tmp_path / "replay"
     result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
         expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"), state_times_s=(5,),
-        monitor_interval_s=monitor_interval, lane_intentions_file=intentions if local_hold else None)
+        monitor_interval_s=monitor_interval, lane_intentions_file=intentions if local_hold else None,
+        junction_body_hold=body_hold, junction_body_hold_nodes=body_nodes)
     assert result["status"] == "measured" and result["healthy"] and result["observer_complete"], result
     assert result["exact_count_fit"] and result["exact_field_bins"] == 2
     assert result["field_metrics"]["MAE"] == result["field_metrics"]["max_abs_error"] == 0
     assert not result["formal_result"] and result["inputs_unchanged"]
     assert result["stall_monitor"]["status"] == "completed"
     assert "SUMO" in result["stall_monitor"]["native_version"][1]
+    if body_hold:
+        assert result["driver_treatment"] == "local_observation_and_junction_body_hold"
+        assert json.loads((output / "native-request.json").read_bytes())["junction_body_hold"] is True
+        assert "junction_body_hold" in result["stall_monitor"]["lane_section_hold"]
+        if body_nodes is not None:
+            assert result["stall_monitor"]["junction_body_hold_nodes"] == list(body_nodes)
     if local_hold:
         hold = result["stall_monitor"]["lane_section_hold"]
         assert hold["released_vehicles"] == 1 and hold["left_before_release"] == 0 and not hold["still_held"]

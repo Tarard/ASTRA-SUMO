@@ -1,0 +1,19 @@
+{
+  "formal_result": false,
+  "end_s": 6000,
+  "junction_body_hold_nodes": [
+    "14398547",
+    "205069138"
+  ],
+  "change": "Localize the existing driver guard to the two recorded collision sites; restore native behavior on other junctions, including the witnessed short connector.",
+  "fixed": "Every vehicle, route, request time, target field, network, lane permission and signal input retained.",
+  "source_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "206413edc6d67ca910d3f81eb29eb21d0cf5fb0e925c96b933fe1c9ae1844b7d",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "952174ff67cd1028ff3e9e7de8f0db90d68fb411697c78860106de70a70e6d08"
+  },
+  "evaluation": "Check no collision/teleport in this prefix, continued North entry after 5299.7, completion of readme_f0_b0_p169_v6, and all original collision participants reaching their target junctions. Keep all original 130/40 targets, with unmeasured later rows unknown. This is not a main-window calibration result."
+}

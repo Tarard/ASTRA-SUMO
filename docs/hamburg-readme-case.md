@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [full global junction-body-hold run](../benchmarks/hamburg_ring1_junction_body_full_20261021_v1/README.md) completes the planned duration with all 130/40 count rows available.
+It has no collisions or teleports, but remains invalid: 2,771 vehicles never enter and 329 remain running. Diagnostic field MAE is 25.077, with maximum error 154.
+Native records and an isolated suffix test identify a hold-release conflict on a 2.10 m connector. The global driver candidate is rejected.
+The [localized 6000 s candidate](../benchmarks/hamburg_ring1_localized_junction_body_20261021_v1/README.md) releases that blockage and retains zero collisions in its prefix.
+It preserves all targets with later rows unknown. Full-window safety, count correction and zero-error calibration remain unfinished.
+
 The [junction-body lane-hold candidate](../benchmarks/hamburg_ring1_junction_body_hold_20261021_v1/README.md) keeps all traffic inputs fixed.
 Its initialization hour has no collisions or teleports. All four original collision participants clear their target junctions.
 All 52 count rows remain available, with 33 exact, diagnostic MAE 6.577 and maximum absolute error 43.
