@@ -18,7 +18,7 @@ def _source(tmp_path, *, start="10", end="40", release="30", constant=None):
         <ZulaessigeSignalbilder><Frei><Standard>{release}</Standard></Frei><Gesperrt><Standard>03</Standard></Gesperrt></ZulaessigeSignalbilder>
         <AnwurfUebergang><Uebergangselement><Signalbild>0F</Signalbild><Zeitdauer>1</Zeitdauer></Uebergangselement></AnwurfUebergang>
         <AbwurfUebergang><Uebergangselement><Signalbild>0C</Signalbild><Zeitdauer>3</Zeitdauer></Uebergangselement></AbwurfUebergang>
-      </Signalgruppe><Signalprogramm><BezeichnungKurz>morning</BezeichnungKurz><OCITOutstationNr>1</OCITOutstationNr>
+      </Signalgruppe><Signalprogramm><BezeichnungKurz>1</BezeichnungKurz><OCITOutstationNr>7</OCITOutstationNr>
         <SPKopfzeile><TU>90</TU><SignalzeitenVersatz>7</SignalzeitenVersatz></SPKopfzeile>
         <SPZeile><Signalgruppe>K1</Signalgruppe>{switch}</SPZeile></Signalprogramm></OIVD>''')
     path = tmp_path / "source.xml"
@@ -36,11 +36,11 @@ def test_program_times_start_transitions_and_keep_native_clock_offset_separate(t
     digest = file_sha256(source)
     result = read_ocit_fixed_program(source, "1")
     assert result["source_unchanged"] and file_sha256(source) == digest
-    assert result["program_name"] == "morning" and result["signal_times_offset_native"] == "7"
+    assert result["program_name"] == "1" and result["program_number"] == "7" and result["signal_times_offset_native"] == "7"
     assert _intervals(result) == [(0, 10, "03", False), (10, 11, "0F", True), (11, 40, "30", False),
                                   (40, 43, "0C", True), (43, 90, "03", False)]
-    with pytest.raises(ValueError, match="outstation number"):
-        read_ocit_fixed_program(source, "morning")
+    with pytest.raises(ValueError, match="reference name"):
+        read_ocit_fixed_program(source, "7")
 
 
 def test_wrapped_transition_retains_previous_cycle_yellow_at_time_zero(tmp_path):
@@ -102,7 +102,8 @@ def test_invalid_or_overlapping_group_commands_remain_reported(tmp_path, start, 
     assert result["groups"][0]["intervals"] == [] and result["groups"][0]["source_rows_xml"]
 
 
-@pytest.mark.parametrize("node,program", [("104", "5"), ("118", "5"), ("119", "1"), ("200", "5"), ("535", "1")])
+@pytest.mark.parametrize("node,program", [("104", "5"), ("104", "1"), ("118", "5"), ("119", "1"),
+                                        ("200", "5"), ("535", "1"), ("535", "10")])
 def test_frozen_ring1_programs_expand_motor_transitions_without_inventing_missing_rows(tmp_path, node, program):
     package = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_official_sources_20261020_v1"
     manifest = json.loads((package / "manifest.json").read_text(encoding="utf-8"))
@@ -126,3 +127,5 @@ def test_frozen_ring1_programs_expand_motor_transitions_without_inventing_missin
         assert groups["R6"]["status"] == "measured"
         assert groups["K3"]["status"] == groups["K7"]["status"] == "unresolved"
         assert groups["K3"]["allowed_image_securing_states"]["00"] == ["release", "stop"]
+    if node == "535" and program == "10":
+        assert result["program_number"] == "4"

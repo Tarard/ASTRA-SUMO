@@ -104,7 +104,7 @@ def _group_timeline(group, row, cycle):
     return result
 
 
-def read_ocit_fixed_program(path: str | Path, program_number: str) -> dict:
+def read_ocit_fixed_program(path: str | Path, program_reference: str) -> dict:
     """Expand standard group transitions in one source-relative repeating cycle.
 
     The result retains native image codes. It neither selects a dated program
@@ -113,11 +113,11 @@ def read_ocit_fixed_program(path: str | Path, program_number: str) -> dict:
     path = Path(path).resolve(strict=True)
     digest = file_sha256(path)
     root = ET.parse(path).getroot()
-    number = str(program_number).strip()
+    reference = str(program_reference).strip()
     programs = [p for p in _descendants(root, "Signalprogramm")
-                if _text(_child(p, "OCITOutstationNr")) == number]
-    if not number or len(programs) != 1:
-        raise ValueError("Select one unique OCIT program by its outstation number.")
+                if _text(_child(p, "BezeichnungKurz")) == reference]
+    if not reference or len(programs) != 1:
+        raise ValueError("Select one unique OCIT program by its source reference name.")
     program = programs[0]
     cycle = _seconds(_text(_child(_child(program, "SPKopfzeile"), "TU")), positive=True)
     definitions = {}
@@ -154,7 +154,8 @@ def read_ocit_fixed_program(path: str | Path, program_number: str) -> dict:
     return {"schema": "astra.ocit-fixed-program-timeline/v1", "status": "measured",
         "source": {"path": str(path), "sha256": digest}, "source_unchanged": file_sha256(path) == digest,
         "node_id": _text(_child(next(_descendants(root, "Kopfdaten"), None), "Kurzbezeichnung")),
-        "program_number": number, "program_name": _text(_child(program, "BezeichnungKurz")),
+        "program_reference": reference, "program_number": _text(_child(program, "OCITOutstationNr")),
+        "program_name": _text(_child(program, "BezeichnungKurz")),
         "cycle_s": float(cycle), "signal_times_offset_native": offset,
         "time_basis": "raw_SPZeile_cycle_times_before_clock_alignment_or_SignalzeitenVersatz",
         "groups": records, "measured_groups": measured, "unresolved_groups": unresolved,
