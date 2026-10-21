@@ -1,0 +1,27 @@
+{
+  "same_all_vehicle_route_exit_times": true,
+  "event0": {
+    "collider_internal_change": ":14398547_3_0 -> :14398547_3_1",
+    "victim_lane": ":14398547_3_2",
+    "front_separation_m": 0.6945741796392354,
+    "native_width_m": 1.8,
+    "collider_front_matches_target_lane_shape": true
+  },
+  "event1": {
+    "victim_front_lane": "189775480_4",
+    "victim_front_position_m": 4.300945290361,
+    "vehicle_length_m": 5.0,
+    "rear_still_on_internal_lane": ":205069138_0_1",
+    "predicted_rear_xy": [
+      1509.2162770847392,
+      344.02949315763783
+    ],
+    "native_rear_xy": [
+      1509.216277084739,
+      344.029493157638
+    ],
+    "rear_position_error_m": 2.8421709430404007e-13,
+    "front_back_straight_distance_m": 8.167785050659548
+  },
+  "claim_boundary": "Native graph and observation correspondence only. Instantaneous lateral lane changes while the body straddles an internal lane explain the observed vehicle placement. This does not identify a unique SUMO source defect or establish road geometry or driving behavior in the field."
+}

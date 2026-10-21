@@ -1,0 +1,16 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "checks": {
+    "same_native_collisions": true,
+    "same_periodic_E1_intervals": true,
+    "same_completion": true,
+    "same_lane_hold_events": true,
+    "same_native_version": true,
+    "completed": true
+  },
+  "reproduction_matched": true,
+  "collisions": 2,
+  "run_valid": false,
+  "claim_boundary": "Matching reproduction verifies trace correspondence only. Collisions remain unsafe and their cause needs trajectory and connection analysis."
+}

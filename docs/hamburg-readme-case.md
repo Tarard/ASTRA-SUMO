@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [native collision reproduction](../benchmarks/hamburg_ring1_collision_trace_20261021_v1/README.md) matches all preceding-hour E1 intervals, completion counts and vehicle route exit times.
+It identifies an internal urgent lane change and two exit lane changes while a vehicle's rear still occupies the turning connection.
+The relevant runtime conflicts already exist. A missing XML conflict bit is not an established cause.
+No network or driver repair has been validated. The unsafe candidate and all residuals remain retained.
+
 The [through-route coverage check](../benchmarks/hamburg_ring1_through_route_coverage_20261021_v1/README.md) corrects an excessive one-observed-road restriction.
 Both artificial 40-vehicle cases finish safely with only their assigned complete E1 passages.
 The larger initialization run has two collisions and two teleports. It is invalid despite lower diagnostic residuals.
