@@ -42,6 +42,16 @@ def test_geometry_refresh_keeps_native_coupled_bidirectional_lengths():
     assert [lane.get("length") for lane in edge.findall("lane")] == ["90", "90"]
 
 
+def test_endpoint_blending_preserves_unchanged_local_port_and_explicit_length_precision():
+    anchor = ET.fromstring('''<edge id="a"><lane id="a_0" index="0" length="35.351140"
+        shape="904.690817,771.137424 893.601710,737.570554"/></edge>''')
+    replay = ET.fromstring('''<edge id="a" length="35.351140"><lane id="a_0" index="0" length="35.351140"
+        shape="904.690817,771.137425 893.601710,737.570554"/></edge>''')
+    assert _blend_geometry_anchor_at_endpoint(replay, anchor, target_at_start=False)
+    assert replay.find("lane").get("shape") == anchor.find("lane").get("shape")
+    assert replay.find("lane").get("length") == "35.351140"
+
+
 def test_endpoint_blending_recomputes_one_normal_edge_length():
     anchor = ET.fromstring('''<edge id="a" shape="0,0 10,0"><lane id="a_0" index="0" length="10" shape="0,0 10,0"/>
         <lane id="a_1" index="1" length="10" shape="0,3 10,3"/></edge>''')

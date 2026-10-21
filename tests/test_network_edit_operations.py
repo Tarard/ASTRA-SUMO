@@ -250,6 +250,13 @@ def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path, m
     assert neighboring["ordinary_lane_attribute_changes"]["width"] == 0
     assert report["structural_failure_count"] == 0
     assert not report["driving_integrity"]["endpoint_gap_movements"]
+    before_lanes = {lane.get("id"): lane for edge in ET.parse(source).getroot().findall("edge")
+                    if not edge.get("function") and edge.get("id") != operation["params"]["edge_id"]
+                    for lane in edge.findall("lane")}
+    for edge in ET.parse(candidate).getroot().findall("edge"):
+        for lane in edge.findall("lane"):
+            if lane.get("id") in before_lanes:
+                assert lane.get("customShape") == before_lanes[lane.get("id")].get("customShape")
     if "unfrozen_baseline" in metadata:
         assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
         assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]

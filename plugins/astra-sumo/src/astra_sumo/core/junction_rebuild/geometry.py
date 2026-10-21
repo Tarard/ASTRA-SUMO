@@ -327,6 +327,8 @@ def _warp_anchor_shape_to_teacher_endpoint(
         if target_at_start:
             source.reverse()
             cut.reverse()
+        if source[-1] == cut[-1]:
+            return anchor_shape
         if 2 <= len(cut) <= len(source) and cut[:-1] == source[:len(cut) - 1]:
             a, b = source[len(cut) - 2:len(cut)]
             delta = tuple(y - x for x, y in zip(a, b))
@@ -470,6 +472,11 @@ def _set_edge_lengths_from_shapes(edge: ET.Element) -> None:
             return
         lengths = [common] * len(lanes)
     for lane, length in zip(lanes, lengths):
+        try:
+            if float(lane.get("length")) == max(0.1, length):
+                continue
+        except ValueError:
+            pass
         lane.set("length", f"{max(0.1, length):.2f}")
 
 

@@ -906,6 +906,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     after = ET.parse(candidate_file).getroot()
     restored_speeds = []
     restored_junction_markers = []
+    restored_lane_markers = []
     if kind not in {"set_lane_permissions", "set_speed"}:
         source_speeds = {lane.get("id"): lane.get("speed") for edge in before.findall("edge")
                          if not edge.get("function") for lane in edge.findall("lane")}
@@ -926,6 +927,19 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             # Native conversion can quantize coordinates before computing junction geometry.
             after.find(f"junction[@id='{params['node_id']}']").set("shape", _shape(params["shape"]))
         if kind in _CONNECTION_EDITS or kind == "set_lane_count":
+            source_lanes = {lane.get("id"): lane for edge in before.findall("edge") if not edge.get("function")
+                            for lane in edge.findall("lane")}
+            for edge in after.findall("edge"):
+                if edge.get("function") or kind == "set_lane_count" and edge.get("id") == params["edge_id"]:
+                    continue
+                for lane in edge.findall("lane"):
+                    original = source_lanes.get(lane.get("id"))
+                    if original is not None and lane.get("customShape") != original.get("customShape"):
+                        restored_lane_markers.append(lane.get("id"))
+                        if "customShape" in original.attrib:
+                            lane.set("customShape", original.get("customShape"))
+                        else:
+                            lane.attrib.pop("customShape", None)
             source_junctions = {row.get("id"): row for row in before.findall("junction")}
             for junction in after.findall("junction"):
                 original = source_junctions.get(junction.get("id"))
@@ -937,7 +951,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                         junction.set("customShape", original.get("customShape"))
                     else:
                         junction.attrib.pop("customShape", None)
-        if restored_speeds or restored_junction_markers or kind == "set_junction_shape":
+        if restored_speeds or restored_junction_markers or restored_lane_markers or kind == "set_junction_shape":
             ET.ElementTree(after).write(candidate_file, encoding="utf-8", xml_declaration=True)
     old_edges, _, old_connections = _inventory(before)
     _, nodes, connections = _inventory(after)
@@ -1179,6 +1193,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
                                           "removed": [list(pair) for pair in sorted(old_pairs - new_pairs)]},
             "restored_external_speed_ids": sorted(restored_speeds),
             "restored_junction_custom_shape_marker_ids": sorted(restored_junction_markers),
+            "restored_lane_custom_shape_marker_ids": sorted(restored_lane_markers),
             "shape_coordinate_precision": 12 if kind == "set_junction_shape" else None,
             "declared_junction_shape_restored": kind == "set_junction_shape",
             "other_connection_permissions_preserved": connection_permissions_preserved,
