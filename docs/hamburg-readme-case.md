@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [junction-body lane-hold candidate](../benchmarks/hamburg_ring1_junction_body_hold_20261021_v1/README.md) keeps all traffic inputs fixed.
+Its initialization hour has no collisions or teleports. All four original collision participants clear their target junctions.
+All 52 count rows remain available, with 33 exact, diagnostic MAE 6.577 and maximum absolute error 43.
+There are still 147 uninserted and 145 running vehicles. First-entry-step lane changes and the existing 0.1 m terminal boundary remain declared limits.
+This is an exploratory driver assumption. No new main-window result or accepted calibration is established.
+
 The [native collision reproduction](../benchmarks/hamburg_ring1_collision_trace_20261021_v1/README.md) matches all preceding-hour E1 intervals, completion counts and vehicle route exit times.
 It identifies an internal urgent lane change and two exit lane changes while a vehicle's rear still occupies the turning connection.
 The relevant runtime conflicts already exist. A missing XML conflict bit is not an established cause.

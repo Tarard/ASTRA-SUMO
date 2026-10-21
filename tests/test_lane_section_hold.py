@@ -54,3 +54,69 @@ def test_intention_reader_requires_one_known_field_per_vehicle(tmp_path):
     intentions.write_text(json.dumps({"vehicles": [row, row]}), encoding="utf-8")
     with pytest.raises(ValueError, match="one existing detector"):
         read_lane_intentions(intentions, loops, {"v"})
+
+
+class Modes:
+    def __init__(self):
+        self.mode = 1621
+        self.changes = []
+
+    def getLength(self, identity):
+        return 5
+
+    def getLaneChangeMode(self, identity):
+        return self.mode
+
+    def setLaneChangeMode(self, identity, mode):
+        self.mode = mode
+        self.changes.append((identity, mode))
+
+
+def body_sample(lane, position, distance):
+    return {"v": {tc.VAR_LANE_ID: lane, tc.VAR_LANEPOSITION: position, tc.VAR_DISTANCE: distance}}
+
+
+def test_detector_release_waits_for_junction_rear_clearance():
+    vehicle = Modes()
+    driver = LaneSectionHold({"v": ("in_0", 29.9)}, junction_lane_lengths={":j_0_0": 10})
+    driver.step(vehicle, body_sample("in_0", 20, 110), 0)
+    driver.step(vehicle, body_sample(":j_0_0", .2, 120.2), 1)
+    driver.step(vehicle, body_sample(":j_0_0", 4.91, 124.91), 2)
+    assert vehicle.changes == [("v", 512)] and "v" in driver.finished
+    assert driver.events[-1]["restored_mode"] is None and driver.events[-1]["pending_restore_mode"] == 1621
+    driver.step(vehicle, body_sample("out_0", 4.3, 134.3), 3)
+    assert vehicle.mode == 512
+    driver.step(vehicle, body_sample("out_0", 5.01, 135.01), 4)
+    assert vehicle.changes == [("v", 512), ("v", 1621)]
+    assert not driver.junction_held and not driver.previous_modes
+
+
+def test_junction_release_waits_for_detector_rear_clearance():
+    vehicle = Modes()
+    driver = LaneSectionHold({"v": ("out_0", 1)}, junction_lane_lengths={":j_0_0": 10})
+    driver.step(vehicle, body_sample(":j_0_0", 9, 29), 0)
+    driver.step(vehicle, body_sample("out_0", .1, 30.1), 1)
+    driver.step(vehicle, body_sample("out_0", 5.01, 35.01), 2)
+    assert not driver.junction_held and "v" in driver.held and vehicle.mode == 512
+    driver.step(vehicle, body_sample("out_0", 6.01, 36.01), 3)
+    assert vehicle.changes == [("v", 512), ("v", 1621)] and not driver.previous_modes
+
+
+def test_successive_internal_lanes_extend_hold_and_missing_vehicles_clear_both_reasons():
+    vehicle = Modes()
+    driver = LaneSectionHold({"v": ("field_0", 9.9)}, junction_lane_lengths={":a_0_0": 2, ":b_0_0": 10})
+    driver.step(vehicle, body_sample(":a_0_0", 1, 11), 0)
+    driver.step(vehicle, body_sample(":b_0_0", 9, 21), 1)
+    driver.step(vehicle, body_sample("field_0", 4.3, 26.3), 2)
+    assert vehicle.mode == 512 and "v" in driver.held
+    driver.step(vehicle, {}, 3)
+    assert not driver.held and not driver.junction_held and not driver.previous_modes
+    assert vehicle.changes == [("v", 512)]
+    assert driver.report()["junction_body_hold"]["events"][-1]["event"] == "left_before_release"
+
+
+def test_junction_hold_request_cannot_silently_run_without_a_driver():
+    from astra_sumo.core.simulation_stall import monitor_sumo
+
+    with pytest.raises(ValueError, match="Provide lane intentions"):
+        monitor_sumo({"all_stopped_timeout_s": 300, "junction_body_hold": True})

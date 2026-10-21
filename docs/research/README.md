@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Ring1 declared junction-body lane hold and collision-free initialization candidate, 2026-10-21](ring1-junction-body-hold-2026-10-21.md)
 - [Ring1 native collision reproduction and junction-spanning lane changes, 2026-10-21](ring1-collision-trace-2026-10-21.md)
 - [Ring1 through-route coverage correction and unsafe initialization evidence, 2026-10-21](ring1-through-route-coverage-2026-10-21.md)
 - [Ring1 119 destination prior and paired initialization evidence, 2026-10-21](ring1-primary-exit-prior-2026-10-21.md)

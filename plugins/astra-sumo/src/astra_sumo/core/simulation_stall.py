@@ -54,11 +54,19 @@ def monitor_sumo(request):
     limit = request["all_stopped_timeout_s"]
     interval = request.get("monitor_interval_s")
     driver = None
+    if request.get("junction_body_hold") and not request.get("lane_intentions_file"):
+        raise ValueError("Provide lane intentions for the junction-body hold.")
     if request.get("lane_intentions_file"):
         from .lane_section_hold import LaneSectionHold, read_lane_intentions
         import xml.etree.ElementTree as ET
         identities = {r.get("id") for r in ET.parse(request["route_file"]).getroot().findall("vehicle")}
-        driver = LaneSectionHold(read_lane_intentions(request["lane_intentions_file"], request["e1_file"], identities))
+        internal_lengths = None
+        if request.get("junction_body_hold", False):
+            network = ET.parse(request["command"][request["command"].index("--net-file") + 1]).getroot()
+            internal_lengths = {lane.get("id"): float(lane.get("length"))
+                for edge in network.findall("edge") if edge.get("function") == "internal" for lane in edge.findall("lane")}
+        driver = LaneSectionHold(read_lane_intentions(request["lane_intentions_file"], request["e1_file"], identities),
+                                 junction_lane_lengths=internal_lengths)
         if interval is not None:
             raise ValueError("Use every native simulation step for a lane-section hold.")
     if interval is not None and (not math.isfinite(interval) or interval <= 0 or interval > limit):
