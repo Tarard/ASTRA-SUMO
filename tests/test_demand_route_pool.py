@@ -12,7 +12,7 @@ import numpy as np
 
 from astra_sumo.core.demand_route_pool import boundary_route_pool, ideal_lane_profiles, junction_visit_audit, lane_change_reachability
 from astra_sumo.core.detector_demand import EdgeInfo
-from astra_sumo.core.hamburg_readme_demand import _capture_lanes, _internal_paths, profile_free_flow, timed_columns, vehicle_lower_bound_certificate
+from astra_sumo.core.hamburg_readme_demand import _capture_lanes, _internal_paths, entry_rate_vph, profile_free_flow, timed_columns, vehicle_lower_bound_certificate
 
 
 def test_tour_filter_keeps_single_pass_turnarounds_and_flags_required_indirect_turns():
@@ -114,3 +114,11 @@ def test_vehicle_lower_bound_remains_valid_after_rationalizing_and_scaling_duals
     field = [Fraction(*v) for v in cert['field_dual']]
     assert all(sum(int(response[r, c]) * field[r] for r in range(3)) <= 1 for c in range(3))
     assert cert['integer_vehicle_lower_bound'] == 2
+
+
+def test_entry_prior_uses_highway_class_without_counting_a_cycleway_tag_as_motor_capacity():
+    edge = ET.Element('edge', type='cycleway.lane|highway.residential')
+    assert entry_rate_vph(edge, {'entry_vph_per_lane': 900}) == 900
+    assert entry_rate_vph(edge, {'entry_vph_by_highway': {'residential': 200}}) == 200
+    with pytest.raises(ValueError, match='Declare an inflow prior'):
+        entry_rate_vph(edge, {'entry_vph_by_highway': {'service': 100}})

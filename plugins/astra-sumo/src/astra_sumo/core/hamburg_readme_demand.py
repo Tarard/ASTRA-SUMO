@@ -25,6 +25,21 @@ from .road_scope import road_hierarchy_tier
 from .route_sensor_matrix import solve_nonnegative_integer_route_flows
 
 
+def entry_rate_vph(edge, request):
+    """Read the declared entry prior without treating road class as an observed capacity."""
+    rates = request.get("entry_vph_by_highway")
+    if rates is None:
+        return request["entry_vph_per_lane"]
+    highway = [value.removeprefix("highway.") for value in edge.get("type", "").split("|")
+               if value.startswith("highway.")]
+    if len(highway) != 1 or highway[0] not in rates:
+        raise ValueError(f"Declare an inflow prior for entry road type {edge.get('type')}.")
+    value = rates[highway[0]]
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+        raise ValueError("Entry class priors must be finite nonnegative numbers.")
+    return value
+
+
 def _capture_lanes(request, output):
     import traci
     from sumolib.miscutils import getFreeSocketPort
@@ -245,7 +260,7 @@ def build_hamburg_readme_demand(*, request_file, output_dir, sumo_binary):
     allowed_sources = [edge for edge in sources if entry_lanes[edge]]
     entry_inventory = [{"entry": edge, "motor_lanes": len(lane_edges[edge]), "eligible_lanes": len(entry_lanes[edge]),
         "minimum_native_lane_length_m": min(r["length"] for r in lane_edges[edge]),
-        "maximum_inflow_veh_per_h": len(entry_lanes[edge]) * request["entry_vph_per_lane"],
+        "maximum_inflow_veh_per_h": len(entry_lanes[edge]) * entry_rate_vph(root.find(f"edge[@id='{edge}']"), request),
         "short_entry_excluded": not entry_lanes[edge]} for edge in sources]
     write_csv(output / "entry-inventory.csv", entry_inventory, list(entry_inventory[0]))
     groups = json.loads(inputs["junction_groups"].read_text(encoding="utf-8"))["groups"]
@@ -291,7 +306,7 @@ def build_hamburg_readme_demand(*, request_file, output_dir, sumo_binary):
     for col, row in enumerate(columns):
         response[row["field_rows"], col] = 1
         entry_matrix[row_indices[row["entry"], row["departure_bin"]], col] = 1
-    capacities = np.asarray([math.floor(len(entry_lanes[edge]) * request["entry_vph_per_lane"] * interval / 3600)
+    capacities = np.asarray([math.floor(len(entry_lanes[edge]) * entry_rate_vph(root.find(f"edge[@id='{edge}']"), request) * interval / 3600)
                              for edge, b in entry_rows], dtype=np.int64)
     np.savez_compressed(output / "provisional-system.npz", response=response, observations=observations,
                         entry_matrix=entry_matrix, entry_capacities=capacities)
@@ -320,7 +335,8 @@ def build_hamburg_readme_demand(*, request_file, output_dir, sumo_binary):
         "maximum_fields_per_vehicle_in_pool": max((len(p["field_offsets_s"]) for p in profiles), default=0),
         "vehicle_count_lower_bound_within_declared_pool": lower,
         "integer_status": proposal["status"], "integer_equations_exact": proposal["status"] == "pass",
-        "entry_vph_per_lane_assumption": request["entry_vph_per_lane"],
+        "entry_vph_per_lane_assumption": request["entry_vph_per_lane"] if "entry_vph_by_highway" not in request else None,
+        "entry_vph_by_highway_assumption": request.get("entry_vph_by_highway"),
         "entry_alternatives": request.get("entry_alternatives", []),
         "entry_inventory": entry_inventory,
         "distance_basis": "Selected native ordinary and internal lane lengths, minus the explicit departure front position.",
@@ -375,7 +391,8 @@ def _write_proposal(output, request, pool, profiles, columns, proposal, entry_ro
         periods = sorted({b for e, b in entry_rows if e == edge}) or [0]
         for period in periods:
             count = entry_loads[edge, period]
-            cap = entry_caps.get((edge, period), math.floor(len(entry_lanes[edge]) * request["entry_vph_per_lane"]
+            rate = entry_rate_vph(root.find(f"edge[@id='{edge}']"), request)
+            cap = entry_caps.get((edge, period), math.floor(len(entry_lanes[edge]) * rate
                                                           * request["interval_s"] / 3600))
             assert count <= cap
             rows.append({"entry": edge, "begin_s": period * request["interval_s"],
@@ -383,7 +400,7 @@ def _write_proposal(output, request, pool, profiles, columns, proposal, entry_ro
                 "eligible_lanes": len(entry_lanes[edge]), "minimum_native_lane_length_m": min(r["length"] for r in lane_edges[edge]),
                 "road_tier": road_hierarchy_tier(root.find(f"edge[@id='{edge}']").get("type", "")),
                 "assigned_vehicles": count, "ceiling_vehicles": cap, "binding": cap > 0 and count == cap,
-                "source": "declared_inflow_prior", "vph_per_lane_assumption": request["entry_vph_per_lane"],
+                "source": "declared_inflow_prior", "vph_per_lane_assumption": rate,
                 "short_entry_excluded": not entry_lanes[edge]})
     write_csv(output / "entry-loads.csv", rows, list(rows[0]))
     loads = [{"junction": node, "entry_road": edge, "lane_index": lane, "begin_s": b * request["interval_s"],
