@@ -98,7 +98,7 @@ $env:PYTHONUTF8 = '1'
 
 - 执行：[入口](../../plugins/astra-sumo/scripts/prepare_hamburg_readme_initialization.py)、[替换与原生运行](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_initialization.py)。
 - 分析：[逐车分析](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py)、[核对时分析记录](analysis-at-verification.py)、[独立核对](analysis/independent-checks.json)、[判断](analysis/decision.json)。
-- 参数及输入：[完整输入](inputs/)、[场景声明](inputs/scenario.json)、[单项替换声明](inputs/entry-alternative-proposal.json)。
+- 参数及输入：[完整输入](inputs/)、[场景声明](inputs/scenario.json)、[单项替换声明](inputs/entry-alternative-proposal.json.gz)。
 - 原始结果：[原生文件](native/)、[本小时结果](native/initialization-check.json)、[基准与本次比较](analysis/comparison.json)。
 - 检查：[测试记录](tests.xml)、[实现校验值](implementation-sha256.json)、[完整清单](manifest.json)。
 
