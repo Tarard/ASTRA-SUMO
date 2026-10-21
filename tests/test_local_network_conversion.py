@@ -15,6 +15,26 @@ from astra_sumo.core.local_network_conversion import local_conversion_input, val
 from astra_sumo.core.network_edit_operations import write_scoped_edit_plan, check_scoped_edit
 
 
+@pytest.mark.parametrize("candidate_length", ["999", "35.35114"])
+def test_off_scope_restore_keeps_explicit_edge_length_and_its_precision(tmp_path, candidate_length):
+    from astra_sumo.core.junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    source, candidate = tmp_path / "source.xml", tmp_path / "candidate.xml"
+    root = ET.fromstring('''<net version="1.27"><location netOffset="0,0" projParameter="!" convBoundary="0,0,50,0"/>
+      <edge id="road" from="a" to="b" length="35.351140000"><lane id="road_0" index="0" length="35.351140" shape="0,0 50,0"/></edge>
+      <junction id="a" type="dead_end" x="0" y="0" incLanes="" intLanes="" shape="0,0"/>
+      <junction id="b" type="dead_end" x="50" y="0" incLanes="road_0" intLanes="" shape="50,0"/></net>''')
+    ET.ElementTree(root).write(source, encoding="utf-8", xml_declaration=True)
+    changed = deepcopy(root)
+    changed.find("edge").set("length", candidate_length)
+    ET.ElementTree(changed).write(candidate, encoding="utf-8", xml_declaration=True)
+    source_bytes = source.read_bytes()
+    result = restore_off_scope_netconvert_artifacts(source_file=source, target_file=candidate,
+        mutable_junction_ids=set(), mutable_edge_ids=set())
+    assert result["status"] == "pass", result
+    assert ET.parse(candidate).getroot().find("edge").get("length") == "35.351140000"
+    assert result["restored_external_edge_ids"] == ["road"] and source.read_bytes() == source_bytes
+
+
 @pytest.mark.parametrize("precision", [[], ["--precision", "2"], ["--precision=8"]])
 def test_shared_geometry_precision_keeps_explicit_recipe_values_and_caller_command(precision):
     from astra_sumo.core.local_network_conversion import with_geometry_precision

@@ -1,7 +1,9 @@
 """Run explicit demand with fixed network control and strict point-detector comparisons."""
 
 from pathlib import Path
+import json
 import math
+import sys
 import xml.etree.ElementTree as ET
 
 from .artifact_io import copy_file_atomic, write_json_atomic
@@ -62,15 +64,20 @@ def recover_point_detector_measurements(*, detector_xml: Path, expected_counts_c
 def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional_file: Path,
                               expected_counts_csv: Path, output_dir: Path, end_s: float,
                               sumo_binary: str = "sumo", step_length: float = .1,
-                              seed: int = 104, timeout_seconds: float = 240) -> dict:
+                              seed: int = 104, timeout_seconds: float = 240,
+                              state_times_s: tuple[float, ...] = (),
+                              all_stopped_timeout_s: float = 300) -> dict:
     """Measure every declared field bin without requiring historical signal events.
 
     The network supplies control. Instantaneous identities are simulator
     instrumentation for offline proposals, not information from field sensors.
     """
-    if (not all(math.isfinite(value) and value > 0 for value in (end_s, step_length, timeout_seconds))
+    if (not all(math.isfinite(value) and value > 0 for value in (end_s, step_length, timeout_seconds, all_stopped_timeout_s))
             or not isinstance(seed, int) or isinstance(seed, bool) or seed < 0):
         raise ValueError("Use positive finite simulation limits and a nonnegative integer seed.")
+    if (len(set(state_times_s)) != len(state_times_s)
+            or any(not math.isfinite(value) or value < 0 or value >= end_s for value in state_times_s)):
+        raise ValueError("State times must be unique, finite, and inside the simulation period.")
     paths = [Path(path).resolve(strict=True) for path in (net_file, route_file, e1_additional_file, expected_counts_csv)]
     output_dir = Path(output_dir).resolve()
     if output_dir.exists() or any(path.is_relative_to(output_dir) for path in paths):
@@ -121,6 +128,11 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
         "--vehroute-output", str(output_dir / "vehicle-routes.xml"), "--vehroute-output.exit-times", "true",
         "--collision-output", str(output_dir / "collisions.xml"), "--log", str(output_dir / "sumo.log"),
         "--error-log", str(output_dir / "sumo-errors.log"), "--duration-log.statistics", "true", "--no-step-log", "true"]
+    if state_times_s:
+        (output_dir / "states").mkdir()
+        command.extend(["--save-state.times", ",".join(f"{t:g}" for t in sorted(state_times_s)),
+            "--save-state.prefix", str(output_dir / "states/state"), "--save-state.suffix", ".xml.gz",
+            "--save-state.rng", "true", "--save-state.precision", "12"])
     report = {"schema": "astra.point-detector-demand-replay/v1", "status": "running", "inputs": inputs,
         "snapshots": snapshots, "seed": seed, "step_length_s": step_length, "end_s": end_s,
         "vehicle_count": len(vehicles), "measurement_attribute": "nVehContrib", "instant_to_periodic_ids": mapping,
@@ -128,21 +140,34 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
         "expected_field_bins": len(expected), "observer_complete": False, "missing_field_bins": len(expected),
         "exact_field_bins": 0, "exact_count_fit": False, "field_metrics": None,
         "field_comparison": str(output_dir / "field-comparison.csv")}
+    report.update(state_times_s=sorted(state_times_s), state_snapshots=[])
     write_csv(output_dir / "field-comparison.csv", missing, list(missing[0]))
     write_json_atomic(output_dir / "run.json", report)
-    executed = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
+    monitor_file = output_dir / "stall-monitor.json"
+    request_file = output_dir / "native-request.json"
+    write_json_atomic(request_file, {"command": command, "end_s": end_s,
+        "all_stopped_timeout_s": all_stopped_timeout_s, "monitor_file": str(monitor_file)})
+    executed = run_command([sys.executable, "-m", "astra_sumo.core.simulation_stall", str(request_file)],
+        cwd=output_dir, timeout_seconds=timeout_seconds)
     write_json_atomic(output_dir / "command.json", executed.to_dict())
     report["status"] = "invalid"
     report["native_status"] = executed.status
     report["native_returncode"] = executed.returncode
+    report["state_snapshots"] = [{"path": str(path), "sha256": file_sha256(path)}
+                                 for path in sorted((output_dir / "states").glob("*.xml.gz"))]
     if executed.status != "pass":
         report["errors"].append(f"Native execution ended with status {executed.status}. Inspect command.json.")
+    report["stall_monitor"] = json.loads(monitor_file.read_text(encoding="utf-8")) if monitor_file.is_file() else None
+    if report["stall_monitor"] and report["stall_monitor"]["status"] == "all_stopped":
+        report["errors"].append("All running vehicles exceeded the standstill limit. Inspect stall-monitor.json.")
     try:
         final = ET.parse(output_dir / "summary.xml").getroot()[-1]
         completion = {key: int(final.get(key, "0")) for key in
                       ("loaded", "inserted", "arrived", "running", "waiting", "teleports", "collisions", "discarded")}
         trips = ET.parse(output_dir / "tripinfo.xml").getroot().findall("tripinfo")
-        healthy = (executed.returncode == 0 and all(completion[key] == len(vehicles) for key in ("loaded", "inserted", "arrived"))
+        healthy = (executed.status == "pass" and report["stall_monitor"] is not None
+            and report["stall_monitor"]["status"] == "completed"
+            and all(completion[key] == len(vehicles) for key in ("loaded", "inserted", "arrived"))
             and not any(completion[key] for key in ("running", "waiting", "teleports", "collisions", "discarded"))
             and len(trips) == len(vehicles) and {row.get("id") for row in trips} == identities
             and all(row.get("vaporized", "") == "" for row in trips))

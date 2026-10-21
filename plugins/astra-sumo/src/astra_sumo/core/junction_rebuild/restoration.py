@@ -754,12 +754,15 @@ def restore_off_scope_netconvert_artifacts(
             }
             for lane_index, target_lane in target_lanes.items()
         }
+        before_edge_length = target_edge.get("length")
         _restore_existing_edge_geometry(target_edge, source_edge, target_root)
+        if "length" in source_edge.attrib:
+            target_edge.set("length", source_edge.get("length"))
         if "shape" not in source_edge.attrib:
             target_edge.attrib.pop("shape", None)
         if before_edge_shape != target_edge.attrib.get("shape"):
             restored_edge_centerline_ids.append(edge_id)
-        edge_changed = False
+        edge_changed = "length" in source_edge.attrib and before_edge_length != target_edge.get("length")
         for lane_index, source_lane in source_lanes.items():
             target_lane = target_lanes[lane_index]
             for attr in GEOMETRY_RESTORE_LANE_ATTRS:
@@ -789,7 +792,7 @@ def restore_off_scope_netconvert_artifacts(
             for edge_id in undeleted_declared_absorbed_edge_ids
         )
 
-    if restored_lane_count or restored_edge_centerline_ids or boundary_geometry_reports:
+    if restored_lane_count or restored_edge_ids or restored_edge_centerline_ids or boundary_geometry_reports:
         ET.indent(target_root, space="    ")
         target_tree.write(target_file, encoding="utf-8", xml_declaration=True)
 

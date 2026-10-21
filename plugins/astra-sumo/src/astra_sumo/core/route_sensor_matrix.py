@@ -84,6 +84,7 @@ def solve_nonnegative_integer_route_flows(
     observations: np.ndarray,
     *,
     prior: np.ndarray | None = None,
+    route_costs: np.ndarray | None = None,
     time_limit_seconds: float = 60.0,
 ) -> dict[str, object]:
     """Find one exact integer route-flow vector for a sensor response matrix.
@@ -91,7 +92,9 @@ def solve_nonnegative_integer_route_flows(
     ``response_matrix[s, r]`` is the number of contributions made by one
     vehicle on route ``r`` to sensor group ``s``.  When a prior is supplied,
     the solver minimizes the L1 change from that prior; otherwise it minimizes
-    the number of vehicles.  The function deliberately returns ``blocked``
+    the number of vehicles. Positive route costs can weight either objective.
+    For example, route lengths give a vehicle-distance objective without a prior.
+    The function deliberately returns ``blocked``
     rather than weakening an infeasible equality into an undocumented fit.
     """
 
@@ -111,12 +114,20 @@ def solve_nonnegative_integer_route_flows(
     counts = counts_integer.astype(np.float64)
 
     route_count = matrix.shape[1]
+    costs = np.ones(route_count, dtype=np.float64)
+    if route_costs is not None:
+        values = np.asarray(route_costs)
+        if (values.ndim != 1 or values.shape[0] != route_count
+                or not np.issubdtype(values.dtype, np.number) or np.issubdtype(values.dtype, np.complexfloating)
+                or np.any(~np.isfinite(values)) or np.any(values <= 0)):
+            raise ValueError("route_costs must contain one positive finite number per route column")
+        costs = values.astype(np.float64)
     sensor_constraint = LinearConstraint(matrix, counts, counts)
     if prior is None:
-        objective = np.ones(route_count, dtype=np.float64)
+        objective = costs
         constraints = [sensor_constraint]
         variable_count = route_count
-        objective_name = "minimum_vehicle_count"
+        objective_name = "minimum_vehicle_count" if route_costs is None else "minimum_route_cost"
     else:
         prior_integer = _exact_nonnegative_integer_array(prior, "prior")
         if prior_integer.ndim != 1 or prior_integer.shape[0] != route_count:
@@ -125,7 +136,7 @@ def solve_nonnegative_integer_route_flows(
         # z = (x, positive deviation, negative deviation), with
         # x - positive + negative = prior.
         objective = np.concatenate(
-            [np.zeros(route_count), np.ones(route_count * 2)]
+            [np.zeros(route_count), costs, costs]
         )
         sensor_constraint = LinearConstraint(
             np.column_stack([matrix, np.zeros((matrix.shape[0], route_count * 2))]),
@@ -142,7 +153,7 @@ def solve_nonnegative_integer_route_flows(
         integrality = np.concatenate(
             [np.ones(route_count), np.zeros(route_count * 2)]
         )
-        objective_name = "minimum_l1_change_from_prior"
+        objective_name = "minimum_l1_change_from_prior" if route_costs is None else "minimum_weighted_l1_change_from_prior"
 
     if prior is None:
         integrality = np.ones(variable_count)
@@ -168,6 +179,7 @@ def solve_nonnegative_integer_route_flows(
             "solver_status": int(result.status),
             "solver_message": str(result.message),
             "solution": None,
+            **({"route_costs": costs.tolist()} if route_costs is not None else {}),
         }
 
     solution = np.rint(result.x[:route_count]).astype(np.int64)
@@ -189,6 +201,7 @@ def solve_nonnegative_integer_route_flows(
         "residual": residual.tolist(),
         "rank": int(np.linalg.matrix_rank(matrix)),
         "nullity": int(route_count - np.linalg.matrix_rank(matrix)),
+        **({"route_costs": costs.tolist()} if route_costs is not None else {}),
     }
 
 

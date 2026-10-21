@@ -2,6 +2,7 @@ import shutil
 import subprocess
 import gzip
 import json
+import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
@@ -26,15 +27,86 @@ def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path):
     originals = {path: path.read_bytes() for path in (network, routes, loops, expected)}
     output = tmp_path / "replay"
     result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
-        expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"))
+        expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"), state_times_s=(5,))
     assert result["status"] == "measured" and result["healthy"] and result["observer_complete"], result
     assert result["exact_count_fit"] and result["exact_field_bins"] == 2
     assert result["field_metrics"]["MAE"] == result["field_metrics"]["max_abs_error"] == 0
     assert not result["formal_result"] and result["inputs_unchanged"]
+    assert result["stall_monitor"]["status"] == "completed"
+    assert "SUMO" in result["stall_monitor"]["native_version"][1]
     response = read_contributing_e1_passages(instant_file=output / "instant-e1.xml", periodic_file=output / "field-counts.xml",
         detector_ids=result["instant_to_periodic_ids"], step_length=.1)
     assert response["reconciled"] and len(response["passages"]) == 2
     assert all(path.read_bytes() == raw for path, raw in originals.items())
+    snapshot = Path(result["state_snapshots"][0]["path"])
+    state = ET.fromstring(gzip.decompress(snapshot.read_bytes()))
+    assert float(state.get("time")) == 5 and state.find("vehicle[@id='v']") is not None
+
+
+@pytest.mark.parametrize("times", [(-1,), (60,), (float("nan"),), (5, 5)])
+def test_state_snapshots_require_distinct_times_within_the_run(tmp_path, times):
+    with pytest.raises(ValueError, match="State times"):
+        run_point_detector_demand(net_file=tmp_path / "unused", route_file=tmp_path / "unused",
+            e1_additional_file=tmp_path / "unused", expected_counts_csv=tmp_path / "unused",
+            output_dir=tmp_path / "out", end_s=60, state_times_s=times)
+
+
+@pytest.mark.parametrize("limit", [0, -1, float("nan"), float("inf")])
+def test_standstill_limit_must_be_positive_and_finite(tmp_path, limit):
+    with pytest.raises(ValueError, match="positive finite"):
+        run_point_detector_demand(net_file=tmp_path / "unused", route_file=tmp_path / "unused",
+            e1_additional_file=tmp_path / "unused", expected_counts_csv=tmp_path / "unused",
+            output_dir=tmp_path / "out", end_s=60, all_stopped_timeout_s=limit)
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
+@pytest.mark.parametrize("stop_duration", [2, 100])
+def test_native_all_stopped_limit_retains_diagnostics_and_does_not_accept_a_fit(tmp_path, stop_duration):
+    nodes, edges, network, routes, loops, expected = [tmp_path / name for name in
+        ("nodes.xml", "edges.xml", "network.xml", "routes.xml", "loops.xml", "expected.csv")]
+    nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/></nodes>', encoding="utf-8")
+    edges.write_text('<edges><edge id="in" from="a" to="b"/></edges>', encoding="utf-8")
+    subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(edges), "-o", str(network)],
+        capture_output=True, text=True, timeout=30, check=True)
+    routes.write_text(f'''<routes><vehicle id="v" depart="10"><route edges="in"/>
+      <stop lane="in_0" endPos="40" duration="{stop_duration}"/></vehicle></routes>''', encoding="utf-8")
+    loops.write_text('<additional><inductionLoop id="field" lane="in_0" pos="80" period="30" file="unused"/></additional>', encoding="utf-8")
+    expected.write_text('detector_id,begin,end,expected_total\nfield,0,30,1\nfield,30,60,0\n', encoding="utf-8")
+    output = tmp_path / "replay"
+    result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
+        expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"),
+        all_stopped_timeout_s=3)
+    monitor = result["stall_monitor"]
+    if stop_duration == 2:
+        assert result["healthy"] and monitor["status"] == "completed", result
+        assert result["completion"]["arrived"] == 1
+    else:
+        assert result["status"] == "invalid" and not result["healthy"], result
+        assert not result["exact_count_fit"] and result["field_metrics"] is None
+        assert monitor["status"] == "all_stopped" and monitor["simulation_time_s"] < 60
+        assert monitor["stop"]["duration_s"] == pytest.approx(3)
+        assert monitor["stop"]["blocked_lanes"] == ["in_0"]
+        assert monitor["stop"]["candidate_wait_cycles"] == []
+        assert monitor["stop"]["vehicles"]["v"]["speed_m_s"] == 0
+        assert result["completion"]["collisions"] == result["completion"]["teleports"] == 0
+        state = ET.fromstring(gzip.decompress(Path(monitor["stop"]["state"]["path"]).read_bytes()))
+        assert state.find("vehicle[@id='v']") is not None
+        assert result["missing_field_bins"] > 0 and result["inputs_unchanged"]
+
+
+def test_stopped_vehicle_report_keeps_cycles_separate_from_unrelated_queues():
+    from types import SimpleNamespace
+    from astra_sumo.core.simulation_stall import stopped_vehicle_report
+
+    vehicle = SimpleNamespace(getLeader=lambda identity, distance: ("b", 0) if identity == "a" else None,
+        getJunctionFoes=lambda identity, distance: [("a", 0, 0, 0, 0, "b_0", "a_0", True, False)] if identity == "b" else [],
+        getLaneID=lambda identity: f"{identity}_0", getLanePosition=lambda identity: 10,
+        getSpeed=lambda identity: 0, getMinGap=lambda identity: 2.5,
+        getNextLinks=lambda identity: [], getNextTLS=lambda identity: [])
+    report = stopped_vehicle_report(SimpleNamespace(vehicle=vehicle), ["b", "c", "a"])
+    assert report["blocked_lanes"] == ["a_0", "b_0", "c_0"]
+    assert report["candidate_wait_cycles"] == [{"vehicles": ["a", "b"], "lanes": ["a_0", "b_0"]}]
+    assert {row["kind"] for row in report["waiting_relations"]} == {"near_leader", "junction_yield"}
 
 
 def test_replay_rejects_an_existing_destination_without_modifying_inputs(tmp_path):
