@@ -1,0 +1,62 @@
+{
+  "schema_version": "sumo-research-manifest-v1",
+  "experiment_id": "ring1-major-entry-probe-20261021-v1",
+  "runs": [
+    {
+      "run_id": "short_local_entry",
+      "method": "short_entry",
+      "scenario": "residential_prefix",
+      "seed": 104,
+      "pair_id": "residential_prefix/seed104",
+      "expected_vehicles": 20,
+      "tripinfo": "../short_local_entry/tripinfo.xml",
+      "summary": "../short_local_entry/summary.xml.gz",
+      "validity": {
+        "entry_mechanism": true,
+        "formal_count_fit": false
+      }
+    },
+    {
+      "run_id": "major_entry",
+      "method": "major_entry",
+      "scenario": "residential_prefix",
+      "seed": 104,
+      "pair_id": "residential_prefix/seed104",
+      "expected_vehicles": 20,
+      "tripinfo": "../major_entry/tripinfo.xml",
+      "summary": "../major_entry/summary.xml.gz",
+      "validity": {
+        "entry_mechanism": true,
+        "formal_count_fit": false
+      }
+    },
+    {
+      "run_id": "short_service_entry",
+      "method": "short_entry",
+      "scenario": "service_prefix",
+      "seed": 104,
+      "pair_id": "service_prefix/seed104",
+      "expected_vehicles": 20,
+      "tripinfo": "../short_service_entry/tripinfo.xml",
+      "summary": "../short_service_entry/summary.xml.gz",
+      "validity": {
+        "entry_mechanism": true,
+        "formal_count_fit": false
+      }
+    },
+    {
+      "run_id": "major_service_replacement",
+      "method": "major_entry",
+      "scenario": "service_prefix",
+      "seed": 104,
+      "pair_id": "service_prefix/seed104",
+      "expected_vehicles": 20,
+      "tripinfo": "../major_service_replacement/tripinfo.xml",
+      "summary": "../major_service_replacement/summary.xml.gz",
+      "validity": {
+        "entry_mechanism": true,
+        "formal_count_fit": false
+      }
+    }
+  ]
+}

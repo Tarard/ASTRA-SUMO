@@ -165,6 +165,14 @@ The larger replay still records collisions inside LSA119. Thus, the zero-error t
 The later clearance diagnostic above removes those four collisions within its 6,000 s horizon. Full-window count calibration remains unfinished.
 Signal treatment, unresolved movements, and demand plausibility still need work before a valid full-demand fit.
 
+The [entry checks](../benchmarks/hamburg_ring1_entry_probe_20261021_v1/README.md) compare two short entries with declared main-road alternatives.
+Each of the four runs inserts and completes 20 passenger vehicles without collision or teleport.
+For the residential entry, the main-road alternative reduces mean insertion delay from 153.035 s to 3.800 s.
+The service-road alternative extends travel time and remains a candidate.
+A separate 5,498-vehicle demand proposal changes 3,628 upstream route sections without changing departure times or measured-road sequences.
+It has not completed a full-window replay. Measured-road agreement does not establish lane-level count agreement.
+These checks use temporary generated control programs and do not establish an exact count fit or true OD.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 
