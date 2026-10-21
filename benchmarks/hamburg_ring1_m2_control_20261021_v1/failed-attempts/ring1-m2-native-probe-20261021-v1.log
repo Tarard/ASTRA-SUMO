@@ -1,0 +1,13 @@
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Traceback (most recent call last):
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\plugins\astra-sumo\scripts\probe_hamburg_readme_control.py", line 22, in <module>
+    main()
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\plugins\astra-sumo\scripts\probe_hamburg_readme_control.py", line 18, in main
+    print(json.dumps(probe_hamburg_readme_control(**vars(parser.parse_args()), sumo_binary=binary)))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\plugins\astra-sumo\src\astra_sumo\core\hamburg_control_probe.py", line 110, in probe_hamburg_readme_control
+    assert any((*lanes[a], *lanes[b]) == key and via == row["via"] for a, b, via in links)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

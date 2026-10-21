@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T12:19:51.533825+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\inputs\network.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\control-A.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\e1.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="3600"/>
+        <end value="5400"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\errors.log"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="cohort_0" type="m1_passenger" depart="3600.000" departLane="1" departPos="5.100000000000" departSpeed="5.880115714286" speedFactor="1.000000000000" arrival="3734.800">
+        <route edges="25866659#1 25866659#2 25866655#0 25866655#1 73474902#0 73474902#1 24483192 1068722010 37413814#0 199230912#0 199230912#1 1257937836#0" exitTimes="3660.400 3660.600 3665.300 3690.800 3693.400 3693.800 3697.600 3698.200 3713.800 3723.200 3726.200 3734.800"/>
+    </vehicle>
+
+    <vehicle id="cohort_6" type="m1_passenger" depart="3720.000" departLane="1" departPos="5.100000000000" departSpeed="8.8945000000" speedFactor="1.000000000000" arrival="3783.900">
+        <route edges="26623877 2963460#0 2963460#1 186821029#1 28665128#0" exitTimes="3721.300 3723.100 3767.800 3780.800 3783.900"/>
+    </vehicle>
+
+    <vehicle id="cohort_4" type="m1_passenger" depart="3680.000" departLane="0" departPos="5.100000000000" departSpeed="5.5600000000" speedFactor="1.000000000000" arrival="3786.400">
+        <route edges="31106387 24483344#0 24483344#1 79014037#1 186713429 141050975 141050980#0 141050980#1 603103444 73474895 27064186#0" exitTimes="3680.900 3689.000 3765.800 3773.300 3774.000 3776.200 3780.800 3782.200 3782.400 3784.700 3786.400"/>
+    </vehicle>
+
+    <vehicle id="cohort_5" type="m1_passenger" depart="3700.000" departLane="0" departPos="5.100000000000" departSpeed="5.5600000000" speedFactor="1.000000000000" arrival="3787.700">
+        <route edges="31106387 24483344#0 24483344#1 79014037#1 186713429 141050975 141050980#0 141050980#1 603103444 73474895 27064186#0" exitTimes="3700.900 3709.000 3768.000 3774.700 3775.400 3777.800 3783.200 3783.900 3784.000 3785.900 3787.700"/>
+    </vehicle>
+
+    <vehicle id="cohort_1" type="m1_passenger" depart="3661.600" departLane="1" departPos="5.100000000000" departSpeed="1.720245377614" speedFactor="1.000000000000" arrival="3797.800">
+        <route edges="25866659#1 25866659#2 25866655#0 25866655#1 73474902#0 73474902#1 24483192 43866090#0 486864294 -186713423 -186713425 -142770551 -142770548 -186713427 186713428 551303409 551303410 551303417 186722706 19728446#0" exitTimes="3662.900 3662.900 3692.800 3693.000 3694.700 3695.100 3698.800 3700.400 3709.700 3710.100 3713.300 3720.000 3724.400 3731.100 3734.100 3735.500 3778.800 3788.600 3790.900 3797.800"/>
+    </vehicle>
+
+    <vehicle id="cohort_3" type="m1_passenger" depart="3660.000" departLane="1" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3803.600">
+        <route edges="543550497#0 543550497#1 543550497#2 186714394 186714395 186713403#0 142944399#2 186713420 186713427 142770548 142770551 186713425 186713423 186713426 603103445#0 603103445#1 603103445#2 186713429 141050975 141050980#0 141050980#1 603103444 73474895 27064186#0" exitTimes="3663.100 3664.200 3690.800 3695.800 3697.000 3725.800 3738.300 3738.500 3747.300 3751.700 3757.900 3761.200 3762.100 3765.500 3791.800 3793.000 3794.100 3795.400 3797.800 3799.800 3800.200 3800.300 3801.900 3803.600"/>
+    </vehicle>
+
+    <vehicle id="cohort_7" type="m1_passenger" depart="3740.000" departLane="1" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3838.600">
+        <route edges="771709146#0 771709146#1 189775480 186821034#0 186821029#1 28665128#0" exitTimes="3745.800 3780.800 3786.100 3825.800 3836.100 3838.600"/>
+    </vehicle>
+
+    <vehicle id="cohort_10" type="m1_passenger" depart="3800.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3867.600">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 43305966#1 551303415#0" exitTimes="3801.500 3802.000 3803.400 3856.800 3864.300 3867.600"/>
+    </vehicle>
+
+    <vehicle id="cohort_11" type="m1_passenger" depart="3820.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3877.500">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3821.500 3822.000 3823.400 3859.000 3873.200 3873.600 3877.500"/>
+    </vehicle>
+
+    <vehicle id="cohort_2" type="m1_passenger" depart="3663.500" departLane="1" departPos="5.100000000000" departSpeed="3.358123380074" speedFactor="1.000000000000" arrival="3887.800">
+        <route edges="25866659#1 25866659#2 25866655#0 25866655#1 73474902#0 73474902#1 24483192 43866090#0 486864294 -186713423 -186713425 -142770551 -142770548 -186713427 186713428 551303409 551303410 551303417 186722706 19728446#0" exitTimes="3750.600 3750.800 3755.400 3780.800 3783.400 3783.800 3787.600 3789.200 3798.600 3798.900 3802.100 3808.800 3813.200 3819.900 3822.900 3824.400 3868.800 3878.600 3880.900 3887.800"/>
+    </vehicle>
+
+    <vehicle id="cohort_12" type="m1_passenger" depart="3840.000" departLane="0" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3898.100">
+        <route edges="142944473#0 142944473#1 142944333 186821032 186821035#0 186821029#1 28665128#0" exitTimes="3847.400 3847.900 3851.400 3852.900 3888.800 3895.600 3898.100"/>
+    </vehicle>
+
+    <vehicle id="cohort_8" type="m1_passenger" depart="3760.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3912.100">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 142944337#1 486864288 551303422 43292244" exitTimes="3761.800 3780.800 3783.500 3833.800 3839.800 3901.800 3907.300 3912.100"/>
+    </vehicle>
+
+    <vehicle id="cohort_9" type="m1_passenger" depart="3780.000" departLane="2" departPos="5.100000000000" departSpeed="9.293985333333" speedFactor="1.000000000000" arrival="3913.500">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 142944337#1 486864288 551303422 43292244" exitTimes="3782.600 3783.500 3785.000 3836.000 3841.200 3904.000 3908.700 3913.500"/>
+    </vehicle>
+
+</routes>

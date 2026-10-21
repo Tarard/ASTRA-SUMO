@@ -195,6 +195,10 @@ All 13 fields retain coverage. Base, half, and double local-entry ceilings each 
 All 130 integer equations and 40 derived station equations hold. A rational dual certificate gives the matching finite-pool vehicle lower bound of 6,297.
 These remain offline proposals. Native E1 counts, lane response, and installed control are not yet verified.
 
+The [M2 control package](../benchmarks/hamburg_ring1_m2_control_20261021_v1/README.md) adds fixed OCIT-based programs without changing the network.
+Native readback verifies all 68 active static programs and 76 bound intergreen pairs. A 13-vehicle cohort completes without collisions or teleports at begin 0 and 3,600, with identical relative trips and E1 integer counts.
+Its unmatched motor links still need explicit state correction before a full-window run. The original `O` fallback is retained as a candidate, not accepted final control.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 

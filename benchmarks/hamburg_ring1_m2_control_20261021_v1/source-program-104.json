@@ -1,0 +1,1958 @@
+{
+  "schema": "astra.ocit-fixed-program-timeline/v1",
+  "status": "measured",
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m2-control-20261021-v4\\inputs\\ocit_104.xml",
+    "sha256": "20bec90a1c6e90284b2d2d961e97afeb95ea4a8f98224ddd4cfaebb0d7dd52c9"
+  },
+  "source_unchanged": true,
+  "node_id": "104",
+  "program_reference": "5",
+  "program_number": "5",
+  "program_name": "5",
+  "cycle_s": 90.0,
+  "signal_times_offset_native": "0",
+  "time_basis": "raw_SPZeile_cycle_times_before_clock_alignment_or_SignalzeitenVersatz",
+  "groups": [
+    {
+      "group_id": "AV10",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "24",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV10</Signalgruppe><Schaltzeit><Schaltzeitpunkt>16</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 16.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 16.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV11",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "25",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV11</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV12",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "26",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV12</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>46</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 46.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 46.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV13",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "27",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV13</Signalgruppe><Schaltzeit><Schaltzeitpunkt>9</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>51</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 9.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 9.0,
+          "end_s": 51.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 51.0,
+          "end_s": 90.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV4",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "18",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV4</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>39</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 39.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 39.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV5",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "19",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV5</Signalgruppe><Schaltzeit><Schaltzeitpunkt>16</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 16.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 16.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV6",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "20",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV6</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV7",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "21",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV7</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>44</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 44.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 44.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV8",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "22",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV8</Signalgruppe><Schaltzeit><Schaltzeitpunkt>9</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>55</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 9.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 9.0,
+          "end_s": 55.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 55.0,
+          "end_s": 90.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "AV9",
+      "traffic_class_native": "Blinde",
+      "ocit_outstation_number": "23",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>AV9</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>44</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 44.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 44.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F10",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "13",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F10</Signalgruppe><Schaltzeit><Schaltzeitpunkt>16</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 16.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 16.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F11",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "14",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F11</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F12",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "15",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F12</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>46</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 46.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 46.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F13",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "16",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F13</Signalgruppe><Schaltzeit><Schaltzeitpunkt>9</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>51</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 9.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 9.0,
+          "end_s": 51.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 51.0,
+          "end_s": 90.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F4",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "6",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F4</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>39</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 39.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 39.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F5",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "7",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F5</Signalgruppe><Schaltzeit><Schaltzeitpunkt>16</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 16.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 16.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F6",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "8",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F6</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>31</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 31.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 31.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F7",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "9",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F7</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>44</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 44.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 44.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F8",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "10",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F8</Signalgruppe><Schaltzeit><Schaltzeitpunkt>9</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>55</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 9.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 9.0,
+          "end_s": 55.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 55.0,
+          "end_s": 90.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "F9",
+      "traffic_class_native": "Fussgaenger",
+      "ocit_outstation_number": "12",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>F9</Signalgruppe><Schaltzeit><Schaltzeitpunkt>18</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>44</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 18.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 18.0,
+          "end_s": 44.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 44.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "H13",
+      "traffic_class_native": "Kfz",
+      "ocit_outstation_number": "17",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>H13</Signalgruppe><Schaltzeit><Schaltzeitpunkt>20</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>51</Schaltzeitpunkt><Signalbild>08</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "08": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 20.0,
+          "signal_image": "08",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 20.0,
+          "end_s": 51.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 51.0,
+          "end_s": 90.0,
+          "signal_image": "08",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "H8",
+      "traffic_class_native": "Kfz",
+      "ocit_outstation_number": "11",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>H8</Signalgruppe><Schaltzeit><Schaltzeitpunkt>21</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>55</Schaltzeitpunkt><Signalbild>08</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "08": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 21.0,
+          "signal_image": "08",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 21.0,
+          "end_s": 55.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 55.0,
+          "end_s": 90.0,
+          "signal_image": "08",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "K1",
+      "traffic_class_native": "Kfz",
+      "ocit_outstation_number": "1",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>K1</Signalgruppe><Schaltzeit><Schaltzeitpunkt>9</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>56</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "release"
+        ],
+        "08": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "0C": [
+          "stop"
+        ],
+        "0F": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 9.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 9.0,
+          "end_s": 12.0,
+          "signal_image": "0C",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 12.0,
+          "end_s": 56.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 56.0,
+          "end_s": 57.0,
+          "signal_image": "0F",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 57.0,
+          "end_s": 90.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "K2",
+      "traffic_class_native": "Kfz",
+      "ocit_outstation_number": "2",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>K2</Signalgruppe><Schaltzeit><Schaltzeitpunkt>9</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>56</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "release"
+        ],
+        "08": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "0C": [
+          "stop"
+        ],
+        "0F": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 9.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 9.0,
+          "end_s": 12.0,
+          "signal_image": "0C",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 12.0,
+          "end_s": 56.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 56.0,
+          "end_s": 57.0,
+          "signal_image": "0F",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 57.0,
+          "end_s": 90.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "K3",
+      "traffic_class_native": "Kfz",
+      "ocit_outstation_number": "3",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>K3</Signalgruppe><Schaltzeit><Schaltzeitpunkt>19</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>46</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "00": [
+          "stop"
+        ],
+        "0C": [
+          "stop"
+        ],
+        "0F": [
+          "stop"
+        ],
+        "08": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 19.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 19.0,
+          "end_s": 20.0,
+          "signal_image": "0F",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 20.0,
+          "end_s": 46.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 46.0,
+          "end_s": 49.0,
+          "signal_image": "0C",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 49.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "RA3",
+      "traffic_class_native": "Rad",
+      "ocit_outstation_number": "4",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>RA3</Signalgruppe><Schaltzeit><Schaltzeitpunkt>15</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>48</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "00": [
+          "release"
+        ],
+        "03": [
+          "stop"
+        ],
+        "0F": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 15.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 15.0,
+          "end_s": 16.0,
+          "signal_image": "0F",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": true
+        },
+        {
+          "begin_s": 16.0,
+          "end_s": 48.0,
+          "signal_image": "00",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 48.0,
+          "end_s": 90.0,
+          "signal_image": "03",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    },
+    {
+      "group_id": "RB3",
+      "traffic_class_native": "Rad",
+      "ocit_outstation_number": "5",
+      "source_rows_xml": [
+        "<SPZeile><Signalgruppe>RB3</Signalgruppe><Schaltzeit><Schaltzeitpunkt>16</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>21</Schaltzeitpunkt><Signalbild>00</Signalbild></Schaltzeit></SPZeile>"
+      ],
+      "allowed_image_securing_states": {
+        "30": [
+          "release"
+        ],
+        "00": [
+          "stop"
+        ]
+      },
+      "status": "measured",
+      "intervals": [
+        {
+          "begin_s": 0.0,
+          "end_s": 16.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 16.0,
+          "end_s": 21.0,
+          "signal_image": "30",
+          "securing_states": [
+            "release"
+          ],
+          "in_transition": false
+        },
+        {
+          "begin_s": 21.0,
+          "end_s": 90.0,
+          "signal_image": "00",
+          "securing_states": [
+            "stop"
+          ],
+          "in_transition": false
+        }
+      ]
+    }
+  ],
+  "measured_groups": [
+    "AV10",
+    "AV11",
+    "AV12",
+    "AV13",
+    "AV4",
+    "AV5",
+    "AV6",
+    "AV7",
+    "AV8",
+    "AV9",
+    "F10",
+    "F11",
+    "F12",
+    "F13",
+    "F4",
+    "F5",
+    "F6",
+    "F7",
+    "F8",
+    "F9",
+    "H13",
+    "H8",
+    "K1",
+    "K2",
+    "K3",
+    "RA3",
+    "RB3"
+  ],
+  "unresolved_groups": [],
+  "safety_intergreens": {
+    "status": "measured",
+    "matrix_name": "Matrix1",
+    "rows": [
+      {
+        "clearing_group": "K3",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 3.0
+      },
+      {
+        "clearing_group": "RA3",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 1.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 8.0
+      },
+      {
+        "clearing_group": "RB3",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 1.0,
+        "minimum_intergreen_s": 36.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 35.0
+      },
+      {
+        "clearing_group": "F4",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 10.0,
+        "minimum_intergreen_s": 18.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 8.0
+      },
+      {
+        "clearing_group": "F5",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 10.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 16.0
+      },
+      {
+        "clearing_group": "F6",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 6.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 20.0
+      },
+      {
+        "clearing_group": "F11",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 4.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 22.0
+      },
+      {
+        "clearing_group": "F12",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 4.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 7.0
+      },
+      {
+        "clearing_group": "AV4",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 10.0,
+        "minimum_intergreen_s": 18.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 8.0
+      },
+      {
+        "clearing_group": "AV5",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 10.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 16.0
+      },
+      {
+        "clearing_group": "AV11",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 4.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 22.0
+      },
+      {
+        "clearing_group": "AV12",
+        "entering_group": "K1",
+        "status": "satisfied",
+        "required_s": 4.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 7.0
+      },
+      {
+        "clearing_group": "K3",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 11.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "RA3",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "RB3",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 36.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 27.0
+      },
+      {
+        "clearing_group": "F6",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 2.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 24.0
+      },
+      {
+        "clearing_group": "F7",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 2.0,
+        "minimum_intergreen_s": 13.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 11.0
+      },
+      {
+        "clearing_group": "F9",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 13.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 5.0
+      },
+      {
+        "clearing_group": "F10",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 18.0
+      },
+      {
+        "clearing_group": "AV6",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 2.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 24.0
+      },
+      {
+        "clearing_group": "AV7",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 2.0,
+        "minimum_intergreen_s": 13.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 11.0
+      },
+      {
+        "clearing_group": "AV9",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 13.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 5.0
+      },
+      {
+        "clearing_group": "AV10",
+        "entering_group": "K2",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 26.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 18.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "K3",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 3.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "K3",
+        "status": "satisfied",
+        "required_s": 11.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "F8",
+        "entering_group": "K3",
+        "status": "satisfied",
+        "required_s": 8.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 3.0
+      },
+      {
+        "clearing_group": "F13",
+        "entering_group": "K3",
+        "status": "satisfied",
+        "required_s": 11.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "AV8",
+        "entering_group": "K3",
+        "status": "satisfied",
+        "required_s": 7.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 4.0
+      },
+      {
+        "clearing_group": "AV13",
+        "entering_group": "K3",
+        "status": "satisfied",
+        "required_s": 11.0,
+        "minimum_intergreen_s": 11.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "RA3",
+        "status": "satisfied",
+        "required_s": 7.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "RA3",
+        "status": "satisfied",
+        "required_s": 6.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 1.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "RB3",
+        "status": "satisfied",
+        "required_s": 7.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "RB3",
+        "status": "satisfied",
+        "required_s": 6.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 1.0
+      },
+      {
+        "clearing_group": "F8",
+        "entering_group": "RB3",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 2.0
+      },
+      {
+        "clearing_group": "AV8",
+        "entering_group": "RB3",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 2.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "F4",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 4.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "F5",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 2.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "F6",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 4.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "F6",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "F7",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K3",
+        "entering_group": "F8",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "RB3",
+        "entering_group": "F8",
+        "status": "satisfied",
+        "required_s": 11.0,
+        "minimum_intergreen_s": 34.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 23.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "F9",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 4.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "F10",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 2.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "F11",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "F12",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K3",
+        "entering_group": "F13",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 5.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "AV4",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 4.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "AV5",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 2.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "AV6",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "AV7",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K3",
+        "entering_group": "AV8",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "RB3",
+        "entering_group": "AV8",
+        "status": "satisfied",
+        "required_s": 11.0,
+        "minimum_intergreen_s": 34.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 23.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "AV9",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 4.0
+      },
+      {
+        "clearing_group": "K2",
+        "entering_group": "AV10",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 7.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 2.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "AV11",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K1",
+        "entering_group": "AV12",
+        "status": "satisfied",
+        "required_s": 9.0,
+        "minimum_intergreen_s": 9.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      },
+      {
+        "clearing_group": "K3",
+        "entering_group": "AV13",
+        "status": "satisfied",
+        "required_s": 5.0,
+        "minimum_intergreen_s": 5.0,
+        "release_overlap_s": 0.0,
+        "slack_s": 0.0
+      }
+    ],
+    "violated_pair_count": 0,
+    "unresolved_pair_count": 0,
+    "time_basis": "End of the clearing release to start of the entering release, on the repeating source cycle.",
+    "claim_boundary": "Source timeline consistency only. No SUMO binding, field program selection, or vehicle clearance is established."
+  },
+  "assumptions": [
+    "Repeat the listed cycle and hold each destination image until its next listed transition."
+  ],
+  "claim_boundary": "Source program timeline only. No actual program selection, field timing, detector correspondence, or SUMO signal-state mapping."
+}

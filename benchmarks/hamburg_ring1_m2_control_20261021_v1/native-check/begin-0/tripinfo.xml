@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T12:19:49.673029+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\inputs\network.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\control-A.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\e1.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="1800"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\errors.log"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="cohort_0" depart="0.000" departLane="25866659#1_1" departPos="5.100000000000" departSpeed="5.880115714286" departDelay="0.000" arrival="134.800" arrivalLane="1257937836#0_0" arrivalPos="43.420000000000" arrivalSpeed="5.555556000000" duration="134.800" routeLength="261.888685000000" waitingTime="95.200" waitingCount="3" stopTime="0.000" timeLoss="106.119" rerouteNo="0" devices="vehroute_cohort_0 tripinfo_cohort_0" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_6" depart="120.000" departLane="26623877_1" departPos="5.100000000000" departSpeed="8.894500000000" departDelay="0.000" arrival="183.900" arrivalLane="28665128#0_0" arrivalPos="6.760000000000" arrivalSpeed="5.560000000000" duration="63.900" routeLength="186.063015000000" waitingTime="40.000" waitingCount="2" stopTime="0.000" timeLoss="48.219" rerouteNo="0" devices="vehroute_cohort_6 tripinfo_cohort_6" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_4" depart="80.000" departLane="31106387_0" departPos="5.100000000000" departSpeed="5.560000000000" departDelay="0.000" arrival="186.400" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="106.400" routeLength="396.579946000000" waitingTime="67.500" waitingCount="2" stopTime="0.000" timeLoss="76.542" rerouteNo="0" devices="vehroute_cohort_4 tripinfo_cohort_4" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_5" depart="100.000" departLane="31106387_0" departPos="5.100000000000" departSpeed="5.560000000000" departDelay="0.000" arrival="187.700" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="87.700" routeLength="396.579946000000" waitingTime="44.500" waitingCount="1" stopTime="0.000" timeLoss="57.809" rerouteNo="0" devices="vehroute_cohort_5 tripinfo_cohort_5" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_1" depart="61.600" departLane="25866659#1_1" departPos="5.100000000000" departSpeed="1.720245377614" departDelay="41.600" arrival="197.800" arrivalLane="19728446#0_1" arrivalPos="65.700000000000" arrivalSpeed="13.888889000000" duration="136.200" routeLength="851.748529000000" waitingTime="59.600" waitingCount="2" stopTime="0.000" timeLoss="74.105" rerouteNo="0" devices="vehroute_cohort_1 tripinfo_cohort_1" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_3" depart="60.000" departLane="543550497#0_1" departPos="5.100000000000" departSpeed="13.888889000000" departDelay="0.000" arrival="203.600" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="143.600" routeLength="806.212835000000" waitingTime="72.600" waitingCount="3" stopTime="0.000" timeLoss="84.480" rerouteNo="0" devices="vehroute_cohort_3 tripinfo_cohort_3" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_7" depart="140.000" departLane="771709146#0_1" departPos="5.100000000000" departSpeed="13.888889000000" departDelay="0.000" arrival="238.600" arrivalLane="28665128#0_0" arrivalPos="6.760000000000" arrivalSpeed="5.560000000000" duration="98.600" routeLength="268.545616000000" waitingTime="68.200" waitingCount="2" stopTime="0.000" timeLoss="77.107" rerouteNo="0" devices="vehroute_cohort_7 tripinfo_cohort_7" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_10" depart="200.000" departLane="-142944318_2" departPos="5.100000000000" departSpeed="13.888889000000" departDelay="0.000" arrival="267.600" arrivalLane="551303415#0_0" arrivalPos="38.180000000000" arrivalSpeed="13.888889000000" duration="67.600" routeLength="200.572788000000" waitingTime="47.900" waitingCount="1" stopTime="0.000" timeLoss="53.142" rerouteNo="0" devices="vehroute_cohort_10 tripinfo_cohort_10" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_11" depart="220.000" departLane="-142944318_2" departPos="5.100000000000" departSpeed="13.888889000000" departDelay="0.000" arrival="277.500" arrivalLane="142944477_1" arrivalPos="46.763264000000" arrivalSpeed="13.888889000000" duration="57.500" routeLength="321.685478000000" waitingTime="25.800" waitingCount="1" stopTime="0.000" timeLoss="34.307" rerouteNo="0" devices="vehroute_cohort_11 tripinfo_cohort_11" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_2" depart="63.500" departLane="25866659#1_1" departPos="5.100000000000" departSpeed="3.358123380074" departDelay="23.500" arrival="287.800" arrivalLane="19728446#0_1" arrivalPos="65.700000000000" arrivalSpeed="13.888889000000" duration="224.300" routeLength="851.748529000000" waitingTime="149.500" waitingCount="3" stopTime="0.000" timeLoss="162.205" rerouteNo="0" devices="vehroute_cohort_2 tripinfo_cohort_2" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_12" depart="240.000" departLane="142944473#0_0" departPos="5.100000000000" departSpeed="13.888889000000" departDelay="0.000" arrival="298.100" arrivalLane="28665128#0_0" arrivalPos="6.760000000000" arrivalSpeed="5.560000000000" duration="58.100" routeLength="322.228663000000" waitingTime="28.600" waitingCount="1" stopTime="0.000" timeLoss="32.881" rerouteNo="0" devices="vehroute_cohort_12 tripinfo_cohort_12" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_8" depart="160.000" departLane="-142944318_2" departPos="5.100000000000" departSpeed="13.888889000000" departDelay="0.000" arrival="312.100" arrivalLane="43292244_2" arrivalPos="49.440000000000" arrivalSpeed="13.888889000000" duration="152.100" routeLength="337.623720000000" waitingTime="115.300" waitingCount="3" stopTime="0.000" timeLoss="127.729" rerouteNo="0" devices="vehroute_cohort_8 tripinfo_cohort_8" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="cohort_9" depart="180.000" departLane="-142944318_2" departPos="5.100000000000" departSpeed="9.293985333333" departDelay="0.000" arrival="313.500" arrivalLane="43292244_2" arrivalPos="49.440000000000" arrivalSpeed="13.888889000000" duration="133.500" routeLength="337.623720000000" waitingTime="90.800" waitingCount="2" stopTime="0.000" timeLoss="109.179" rerouteNo="0" devices="vehroute_cohort_9 tripinfo_cohort_9" vType="m1_passenger" speedFactor="1.000000000000" vaporized=""/>
+</tripinfos>
