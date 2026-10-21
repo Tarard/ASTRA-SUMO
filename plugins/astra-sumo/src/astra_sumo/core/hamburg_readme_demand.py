@@ -268,7 +268,7 @@ def build_hamburg_readme_demand(*, request_file, output_dir, sumo_binary):
     pool, excluded = boundary_route_pool(edges, connections, allowed_sources, sinks,
         {r["edge_id"] for r in fields}, junction_groups, request.get("entry_alternatives", ()))
     write_json_atomic(output / "route-pool.json", {"routes": pool, "excluded": excluded,
-        "multipart_rule": "Different consecutive official parts form one traversal. Revisiting a part starts a new traversal. Ordinary junctions are also checked."})
+        "multipart_rule": "Consecutive different official parts form one traversal. An ordinary junction or a revisited part starts a new traversal. Every repeated junction is excluded."})
     access = loaded_turn_permissions(root)
     lane_connections = defaultdict(set)
     for (a, la, b, lb), modes in access.items():

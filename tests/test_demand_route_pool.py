@@ -15,7 +15,7 @@ from astra_sumo.core.detector_demand import EdgeInfo
 from astra_sumo.core.hamburg_readme_demand import _capture_lanes, _internal_paths, entry_rate_vph, profile_free_flow, timed_columns, vehicle_lower_bound_certificate
 
 
-def test_tour_filter_keeps_single_pass_turnarounds_and_flags_required_indirect_turns():
+def test_tour_filter_keeps_single_pass_turnarounds_and_rejects_indirect_tours():
     edges = {name: EdgeInfo(name, a, b, True, 20) for name, a, b in
              [('in', 'boundary', 'J'), ('around', 'J', 'K'), ('back', 'K', 'J'), ('out', 'J', 'exit')]}
     connections = {'in': {'around', 'out'}, 'around': {'back'}, 'back': {'out'}}
@@ -24,7 +24,7 @@ def test_tour_filter_keeps_single_pass_turnarounds_and_flags_required_indirect_t
     assert junction_visit_audit(['in', 'out'], edges, connections, {})['allowed']
     connections['in'].remove('out')
     flagged = junction_visit_audit(loop, edges, connections, {})
-    assert flagged['allowed'] and flagged['repeats'][0]['classification'] == 'flagged_indirect_turn'
+    assert not flagged['allowed'] and flagged['repeats'][0]['classification'] == 'flagged_indirect_turn'
 
 
 def test_boundary_pool_filters_anchored_tours_before_reporting_their_missing_coverage():
@@ -33,7 +33,7 @@ def test_boundary_pool_filters_anchored_tours_before_reporting_their_missing_cov
     pool, excluded = boundary_route_pool(edges, {'in': {'around', 'out'}, 'around': {'back'}, 'back': {'out'}, 'out': set()},
         ['in'], ['out'], ['around'], {})
     assert [row['edges'] for row in pool] == [('in', 'out')]
-    assert excluded[0]['junction_audit']['reason'] == 'avoidable_tour'
+    assert excluded[0]['junction_audit']['reason'] == 'repeated_junction'
     assert len({r['route_id'] for r in pool + excluded}) == len(pool) + len(excluded)
 
 
@@ -44,6 +44,14 @@ def test_different_multipart_sections_are_one_pass_but_returning_to_a_part_is_no
     groups = {'p0': 'LSA200', 'p3': 'LSA200'}
     assert junction_visit_audit(['a', 'b', 'c'], edges, connections, groups)['allowed']
     result = junction_visit_audit(['a', 'b', 'c', 'd', 'e'], edges, connections, groups)
+    assert not result['allowed'] and result['repeats'][0]['junction'] == 'LSA200'
+
+
+def test_leaving_an_official_junction_and_entering_another_part_is_a_repeat():
+    edges = {name: EdgeInfo(name, a, b, True, 20) for name, a, b in
+             [('a', 'start', 'p0'), ('b', 'p0', 'outside'), ('c', 'outside', 'p1'), ('d', 'p1', 'end')]}
+    result = junction_visit_audit(['a', 'b', 'c', 'd'], edges,
+        {'a': {'b'}, 'b': {'c'}, 'c': {'d'}}, {'p0': 'LSA200', 'p1': 'LSA200'})
     assert not result['allowed'] and result['repeats'][0]['junction'] == 'LSA200'
 
 

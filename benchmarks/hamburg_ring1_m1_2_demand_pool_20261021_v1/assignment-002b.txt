@@ -1,0 +1,126 @@
+My hypothesis was wrong. Before deciding, I’ll check one structural question read-only: which entries can supply the 535 Ernst-Merck-Straße approach (186821027#0, fields Z.5–Z.8) without passing 535 itself.
+
+Found supply paths to the 535 Ernst-Merck-Straße approach
+
+Found supply paths to the 535 Ernst-Merck-Straße approach
+Assessment
+
+The class-based ceilings worked as intended. The primary road 44532531 now carries the Z.12/Z.13 supply (2,232 vehicles), and the residential and service stubs sit at their declared ceilings. The vehicle count is stable at 5,324–5,334 across half and double ceilings, against a lower bound of 4,825.
+
+My explanation for the indirect routes was wrong, and the flaw is in my own rule.
+
+Why the 452 vehicles loop. Each selected splice joins two counted 535 fields with one vehicle:
+2963460#1 (Z.14) → 142944337#1 (Z.5/Z.6);
+186821034#0 (535 Z.4) → 142944337#1;
+2963460#1 → 43305966#1 (Z.7).
+
+The vehicle crosses 535, turns at 1975693623 and comes back in on 186821027#0. One vehicle then covers two 535 fields, which saves the trip-end distance of a second vehicle, so a vehicle-km objective rewards the loop.
+
+It isn’t a supply shortage. Read-only check on the entry-context network: 186821027#0 can be fed without passing 535 from -142944318 (tertiary, 2 motor lanes, 67 m path, ceiling 300 per bin). The Z.5–Z.8 peak is 148 per bin, so direct supply is sufficient.
+My splice exception let the exploit back in. “Keep the loop if the direct movement is absent” turned source absence into permission for a tour. Your attribution shows 5,280 of the 5,581 repeat events are of exactly that kind, and the 18 grounded events (unresolved MAP hypotheses) aren’t among the selected routes.
+Correction (Assignment 2b, small, offline)
+Remove the splice exception. No route may pass any junction more than once, with official multi-part controllers counted as one junction. Turnarounds performed within a single pass stay allowed. The network, including the 1975693623 turnaround, stays unchanged.
+Re-run the M1.1 base solve and both ceiling variants.
+Report:
+field coverage under the strict rule;
+vehicles, vehicle-km and passages per vehicle;
+the lower-bound certificate;
+assigned volume per entry, especially -142944318 and 28665128#2;
+confirmation that no selected route repeats any junction.
+If the solve becomes infeasible, report the certificate. That would mean some field-bin targets can only be met with tours, which is a substantive finding in its own right.
+Freeze it as part of the M1.1 package, or as m1_2.
+
+Acceptance:
+
+zero repeated junctions in selected routes;
+all 130 equations hold within the class ceilings, or an infeasibility certificate is given.
+Then continue with Assignment 3 (M2 control), as specified
+
+No changes, except one confirmation: because sim 0 is 06:30 CEST, 535 runs SP1 from sim 0. Any warm-up before sim 0 needs SP10.
+
+Once the strict solve passes, start M2 without waiting for me. Report both together.
+
+
+
+
+just now
+Environment
+
+
+Default
+
+ASTRA-SUMO
+
+
+
+codex/claude-network-c
+leaning-v1
+
+Context
+
+67% used
+673.2k / 1M
+Messages
+608.1k
+60.8%
+System tools
+26.7k
+2.7%
+System prompt
+11.4k
+1.1%
+Skills
+5.6k
+0.6%
+Manage skills
+Since last update
+21.4k
+2.1%
+Autocompact buffer
+33k
+3.3%
+Free space
+293.8k
+29.4%
+System tools (deferred)
+20.9k
+—
+290k until auto-compact
+Compact session
+Outputs
+
+
+overlay_movements.png
+
+egress_zoom_map.png
+
+ring1-91254d6-linux-official.net.xml
+
+ring1-91254d6-linux-official.net.xml.gz
+Changes
+
+
+Enable exploratory road calibration and preserve scoped network edits
+
+#1
+76,643 additions, 6 deletions
++76,643
+−6
+3/4
+Mark ready
+
+
+On pace to hit your weekly limit early
+51% used · Resets Mon, Oct 26, 1:00 AM
+
+Type / for commands
+
+
+
+
+
+
+Auto
+Opus 5.5 High
+Fast mode off
+Arrow keys move the tile. Perpendicular arrows preview a split; press Enter to commit or Escape to cancel.

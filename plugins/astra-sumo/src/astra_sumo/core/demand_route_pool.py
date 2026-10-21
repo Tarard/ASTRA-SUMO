@@ -7,7 +7,7 @@ from .road_hierarchy import _path, _paths
 
 
 def junction_visit_audit(route, edges, connections, junction_groups):
-    """Separate avoidable tours from flagged indirect turns without changing the network."""
+    """Reject repeated junction visits without changing the network or its turnarounds."""
     if not route or len(route) != len(set(route)):
         return {"allowed": False, "reason": "repeated_directed_road", "repeats": [], "passes": []}
     ordinary, official = [], []
@@ -21,6 +21,7 @@ def junction_visit_audit(route, edges, connections, junction_groups):
                  "inlet": first, "outlet": last}
         if owner is None:
             ordinary.append(event)
+            previous_owner, visited_parts = None, set()
         elif owner == previous_owner and node not in visited_parts:
             official[-1].update(last_index=index, outlet=last)
             official[-1]["parts"].append(node)
@@ -41,8 +42,8 @@ def junction_visit_audit(route, edges, connections, junction_groups):
         repeats.append({"junction": node, "visits": len(rows), "first_inlet": first, "last_outlet": last,
                         "direct_shortcut_exists": shortcut,
                         "classification": "avoidable_tour" if shortcut else "flagged_indirect_turn"})
-    return {"allowed": not any(row["direct_shortcut_exists"] for row in repeats),
-            "reason": "avoidable_tour" if any(row["direct_shortcut_exists"] for row in repeats) else "retained",
+    return {"allowed": not repeats,
+            "reason": "repeated_junction" if repeats else "retained",
             "repeats": repeats, "passes": passes}
 
 

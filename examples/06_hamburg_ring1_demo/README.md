@@ -258,14 +258,14 @@ See the [case and six-stage design](../../docs/hamburg-readme-case.md) and [road
 
 ## Offline demand preparation
 
-The [M1 package](../../benchmarks/hamburg_ring1_m1_demand_pool_20261021_v1/README.md) supplies frozen inputs for a provisional demand calculation.
-It keeps all 13 fields and reports tour exclusions, flagged indirect turns, lane intentions, and entry limits.
+The [M1.2 package](../../benchmarks/hamburg_ring1_m1_2_demand_pool_20261021_v1/README.md) supplies the current provisional demand calculation.
+It keeps all 13 fields, excludes repeated junctions, and applies declared entry limits by road class.
 It does not supply native count calibration or execute its intermediate lane intentions.
 
 ```powershell
-.venv/Scripts/python.exe plugins/astra-sumo/scripts/build_hamburg_readme_demand.py benchmarks/hamburg_ring1_m1_demand_pool_20261021_v1/replay-request.json outputs/ring1-demand-pool
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/build_hamburg_readme_demand.py benchmarks/hamburg_ring1_m1_2_demand_pool_20261021_v1/replay-base.json outputs/ring1-demand-pool
 ```
 
 The output directory must be new. The native inspection loads SUMO 1.27.1 without advancing traffic.
-The integer proposal uses free-flow times and a declared entry prior of 900 vehicles/hour per motor lane.
+The integer proposal uses free-flow times and declared entry priors of 100–900 vehicles/hour per eligible motor lane.
 These assumptions still require control installation and native validation.

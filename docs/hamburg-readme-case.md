@@ -188,6 +188,13 @@ The distance objective includes ordinary and internal roads. These are free-flow
 The 8.91 m entry still receives 2,250 vehicles and reaches its assumed limit in ten intervals.
 The 452 selected indirect-turn vehicles remain explicit. Entry plausibility, control, and native lane realization still need verification.
 
+The [M1.1 attribution and entry check](../benchmarks/hamburg_ring1_m1_1_demand_pool_20261021_v1/README.md) reduces local-road inflow under declared road-class ceilings.
+None of its 452 selected indirect vehicles matches an unresolved official movement. The proposal still exploits turnarounds and is retained as rejected demand evidence.
+The [M1.2 single-pass proposal](../benchmarks/hamburg_ring1_m1_2_demand_pool_20261021_v1/README.md) removes the source-absence exception and excludes every repeated junction.
+All 13 fields retain coverage. Base, half, and double local-entry ceilings each admit 6,297 vehicles with no selected turnaround or repeated junction.
+All 130 integer equations and 40 derived station equations hold. A rational dual certificate gives the matching finite-pool vehicle lower bound of 6,297.
+These remain offline proposals. Native E1 counts, lane response, and installed control are not yet verified.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 
