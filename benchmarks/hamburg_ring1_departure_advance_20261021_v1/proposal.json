@@ -1,0 +1,29 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "entry": "44532531",
+  "advance_s": 900,
+  "simulation_end_s": 3600,
+  "cases": [
+    {
+      "case": "baseline",
+      "full_vehicles": 6687,
+      "full_field_rows": 130,
+      "requests_before_observation": 0,
+      "unchanged_network_sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+      "unchanged_control_sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+      "unchanged_full_targets_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "case": "advance900",
+      "full_vehicles": 6687,
+      "full_field_rows": 130,
+      "requests_before_observation": 227,
+      "unchanged_network_sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+      "unchanged_control_sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+      "unchanged_full_targets_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    }
+  ],
+  "baseline_native_pre_window_passages": 0,
+  "claim_boundary": "Pre-window feasibility check of one demand perturbation. Both full 130-row inputs remain intact. No global fit or derivative is claimed."
+}

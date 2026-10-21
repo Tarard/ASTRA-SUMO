@@ -16,6 +16,11 @@ The [full lane-hold run](../benchmarks/hamburg_ring1_lane_section_hold_full_2026
 It still fails calibration: 1,593 vehicles never inserted, 322 remained in the network, and only 29 of 130 field bins match.
 All 40 derived station bins are available, with 6 exact. Diagnostic field MAE is 19.154 and maximum absolute error is 96.
 
+A [single-entry departure advance](../benchmarks/hamburg_ring1_departure_advance_20261021_v1/README.md) is rejected under its fixed one-field-per-car population model.
+Its native pre-window run records 206 complete passages. The remaining population cannot supply the required 6,687 window passages.
+The [official preceding-hour counts](../benchmarks/hamburg_ring1_initialization_counts_20261021_v1/README.md) now provide 52 complete initialization field bins, totaling 1,953 field passages.
+The original 130 comparison values remain unchanged. Initialization demand and independent vehicle totals still require a declared model.
+
 ## Site identity
 
 The two `torii-v1-*` README figures depict the Binnenalster / Ring1 corridor, including LSA118.
