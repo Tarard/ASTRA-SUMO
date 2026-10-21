@@ -1,0 +1,30 @@
+{
+  "schema": "astra.partial-point-detector-measurements/v1",
+  "status": "measured",
+  "formal_result": false,
+  "native_completion_established": false,
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\field-counts.xml",
+      "sha256": "63cd7dcc893b138c6cff613612c01897f5ddeee4f7498ec0fba8b9f55e061d5f"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    }
+  ],
+  "errors": [],
+  "source_parse_error": "unclosed token: line 241, column 4",
+  "completed_records": 188,
+  "expected_field_bins": 130,
+  "recovered_field_bins": 130,
+  "missing_field_bins": 0,
+  "exact_field_bins": 32,
+  "field_metrics": null,
+  "exact_count_fit": false,
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\partial-measurements\\field-comparison.csv",
+  "completed_records_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\partial-measurements\\completed-e1-records.xml",
+  "inputs_unchanged": true,
+  "claim_boundary": "Completed E1 records only. The native run remains unverified. No accepted fit metric or exact calibration result is supplied.",
+  "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\partial-measurements\\report.json"
+}

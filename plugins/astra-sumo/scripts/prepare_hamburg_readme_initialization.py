@@ -8,11 +8,12 @@ import sys
 import sumo
 
 from astra_sumo.core.hamburg_initialization import prepare_hamburg_entry_alternative, prepare_hamburg_initialization, run_hamburg_initialization
+from astra_sumo.core.hamburg_z15_routes import prepare_z15_k2_routes, probe_z15_k2_routes
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("action", choices=["prepare", "entry-alternative", "run"])
+    parser.add_argument("action", choices=["prepare", "entry-alternative", "z15-k2", "probe-z15-k2", "run"])
     parser.add_argument("source", type=Path)
     parser.add_argument("output_dir", type=Path)
     parser.add_argument("--counts-file", type=Path)
@@ -26,9 +27,16 @@ def main():
         if args.profiles_file is None:
             parser.error("Provide --profiles-file for the entry alternative.")
         result = prepare_hamburg_entry_alternative(case_dir=args.source, profiles_file=args.profiles_file, output_dir=args.output_dir)
+    elif args.action == "z15-k2":
+        if args.profiles_file is None:
+            parser.error("Provide --profiles-file for the Z15 route candidate.")
+        root = Path(__file__).resolve().parents[3]
+        result = prepare_z15_k2_routes(case_dir=args.source, profiles_file=args.profiles_file, output_dir=args.output_dir,
+            bindings_file=root / "benchmarks/hamburg_ring1_m2_control_20261021_v1/link-bindings.json.gz")
     else:
         binary = Path(sumo.__file__).parent / "bin" / ("sumo.exe" if sys.platform == "win32" else "sumo")
-        result = run_hamburg_initialization(prepared_dir=args.source, output_dir=args.output_dir, sumo_binary=binary)
+        run = probe_z15_k2_routes if args.action == "probe-z15-k2" else run_hamburg_initialization
+        result = run(prepared_dir=args.source, output_dir=args.output_dir, sumo_binary=binary)
     print(json.dumps(result))
 
 

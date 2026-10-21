@@ -25,6 +25,19 @@ STATIONS = {
 }
 
 
+def last_complete_summary_snapshot(path):
+    """Read the last complete step without treating a truncated run as complete."""
+    last, error = {}, None
+    try:
+        for _, row in ET.iterparse(path, events=("end",)):
+            if row.tag == "step":
+                last = dict(row.attrib)
+            row.clear()
+    except (OSError, ET.ParseError) as exc:
+        error = str(exc)
+    return {"step": last, "parse_error": error, "native_completion_established": False}
+
+
 def vehicle_field_passage_rows(intentions, passage_report):
     """Keep population roles and native interval labels in vehicle diagnostics."""
     by_vehicle = defaultdict(list)
@@ -41,7 +54,7 @@ def vehicle_field_passage_rows(intentions, passage_report):
             "actual_native_field_passages": len(found) if passage_report["status"] == "measured" else None,
             "actual_native_time_s": actual, "planned_bin": planned_bin, "actual_bin": actual_bin,
             "bin_shift": actual_bin - planned_bin if actual_bin is not None else None,
-            "all_native_field_passages": len(by_vehicle[wanted["vehicle_id"]])})
+            "all_native_field_passages": len(by_vehicle[wanted["vehicle_id"]]) if passage_report["status"] == "measured" else None})
     return rows
 
 
@@ -305,11 +318,13 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
     write_csv(out / "sensor-positions.csv", sensor_rows, list(sensor_rows[0]))
     planned = {v.get("id"): v for v in ET.parse(p / "demand.rou.xml").getroot().findall("vehicle")}
     trip_rows = []
+    trip_records_complete = False
     if (native / "tripinfo.xml").exists():
         try:
             for _, element in ET.iterparse(native / "tripinfo.xml", events=["end"]):
                 if element.tag == "tripinfo":
                     trip_rows.append(element)
+            trip_records_complete = True
         except ET.ParseError:
             pass
     delay_by_entry = defaultdict(list)
@@ -328,6 +343,8 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
             "planned_vehicles": count,
             "recorded_inserted_vehicles": len(delay_by_entry[entry]),
             "not_recorded_inserted": count - len(delay_by_entry[entry]),
+            "trip_records_complete": trip_records_complete,
+            "unrecorded_vehicle_state": "not_inserted" if trip_records_complete else "unknown",
             "max_depart_delay_s": max(delay_by_entry[entry], default=None),
             "p95_depart_delay_s": float(np.quantile(delay_by_entry[entry], 0.95)) if delay_by_entry[entry] else None,
             "above_30_s": bool(delay_by_entry[entry] and max(delay_by_entry[entry]) > 30),
@@ -351,6 +368,7 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
     stats = {
         "schema": "astra.hamburg-readme-final-results/v1",
         "native_status": run["status"],
+        "execution_status": run.get("native_status"),
         "valid_run": run.get("healthy", False),
         "exact_count_fit": run.get("exact_count_fit", False),
         "formal_field_metrics": run.get("field_metrics"),
@@ -373,10 +391,24 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
         "scenario": scenario,
         "claim_boundary": "End-to-end workflow evidence. An invalid native run supplies diagnostics only and cannot establish accepted calibration.",
     }
+    snapshot = last_complete_summary_snapshot(native / "summary.xml") if not run.get("completion") else None
+    stats["last_complete_summary_snapshot"] = snapshot
     write_json_atomic(out / "results.json", stats)
     completion = run.get("completion", {})
+    completion_note = ""
+    running_label = "结束时仍在路网"
+    if not completion and snapshot and snapshot["step"]:
+        step = snapshot["step"]
+        completion = {k: int(step[k]) for k in ("loaded", "inserted", "arrived", "running", "waiting", "collisions", "teleports")}
+        completion_note = f"原生执行未完成，执行状态为 {run.get('native_status')}。下表车辆数量来自 {step['time']} 秒的最后完整快照，均非计划结束时的最终数量。"
+        running_label = "快照时仍在路网"
     formal_display = str(run["field_metrics"]) if run.get("healthy") else "未计算（原生运行无效）"
     verdict = "有效，且全部计数一致" if stats["valid_run"] and stats["exact_count_fit"] else "未通过标定验收"
+    monitor_step_s = (run.get("stall_monitor") or {}).get("monitor_interval_s") or run["step_length_s"]
+    population_note = (f"本次模型人口包含初始化 {scenario['initialization_vehicles']} 辆、主窗 {scenario['main_vehicles']} 辆。该人口不识别现场独立车辆总量。"
+                       if scenario.get("initialization_vehicles") else "模型人口不识别现场独立车辆总量。")
+    proposal_note = ("初始整数候选的全部目标行等式成立，仍须用原生 E1 验证。" if scenario.get("all_integer_rows_exact") is True
+                     else "本次按已声明的路线份额和请求时刻构造需求，保留全部目标行。原生 E1 提供拟合结果。")
     text = f"""# 汉堡 README 走廊：完整流程与原生计数结果
 
 **{verdict}。** 原始 OSM → 道路重要性剪枝 → 物理路口汇聚 → 传感器 → 需求与信号 → 原生仿真 → 同时段计数对比均已有输出。
@@ -384,14 +416,15 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
 
 范围为 Binnenalster/Ring1，LSA 104、118、119、200、535。固定图像范围为 9.9815,53.5525,10.0065,53.5598。
 真实观察窗为 2026-10-19 05:30–08:00 UTC，即 07:30–10:00 CEST。
-SUMO 1.27.1，步长 0.1 秒，seed 104，仿真 0 对应当地 06:30，结束 14400 秒。停止检查每 1 秒比较全部在途车辆的速度与位置，静止上限 300 秒。
+SUMO 1.27.1，步长 0.1 秒，seed 104，仿真 0 对应当地 06:30，计划结束 14400 秒。停止检查每 {monitor_step_s:g} 秒比较全部在途车辆的速度与位置，静止上限 300 秒。
+{completion_note}
 
 | 原生运行检查 | 数值 |
 |---|---:|
 | 计划车辆 | {scenario["vehicles"]} |
 | 实际进入 | {completion.get("inserted")} |
 | 到达 | {completion.get("arrived")} |
-| 结束时仍在路网 | {completion.get("running")} |
+| {running_label} | {completion.get("running")} |
 | 尚未进入 | {completion.get("waiting")} |
 | 碰撞 | {completion.get("collisions")} |
 | 传送 | {completion.get("teleports")} |
@@ -426,8 +459,9 @@ NetEdit 补充图来自真实 NetEdit 1.27.1，使用相同航拍、中心与缩
 
 ## 已声明的模型
 
-需求只使用一次通过路口的路线，每车对应一个被观测字段；没有背景交通、重复道路、绕圈、掉头需求或客户道路通行。网络中的合法转向及掉头保留。
-入口沿用真实边界与道路等级上限，完整整数等式在仿真前成立，但不作为仿真成功的证据。
+需求只使用一次通过路口的路线，每车对应一个被观测字段；没有额外未观测背景车流、重复道路、绕圈、掉头需求或客户道路通行。网络中的合法转向及掉头保留。
+{population_note}
+入口沿用已声明的道路范围边界和道路等级先验上限。{proposal_note}
 车道意图按输入 `lane-intentions.json` 中记录的机制执行。这是声明的驾驶意图，不是已验证的自然驾驶行为。当前设置见本报告 `results.json` 的 scenario。
 官方路口采用 M2 的 OCIT 固定方案；Z.15 为带标签的 K9 备选。58 个其余 OSM 信号保留原生感应控制，起始时刻与 seed 固定。它们仍是占位控制，没有现场时序验证。
 535 采用已有原生扇出曲线候选，普通道路、显式长度和合法通行权限保持原样。原生曲线不等于官方参考折线或航拍测绘路径。
@@ -438,7 +472,7 @@ NetEdit 补充图来自真实 NetEdit 1.27.1，使用相同航拍、中心与缩
 
 此前试跑因入口积压或碰撞失败，原始输出保留，不能混入有效结果。当前报告仅覆盖所声明的本次原生运行。
 本轮不再继续无上限校正。尚未满足的残差与进入压力直接保留，后续再讨论控制、车道意图和需求可实现性。
-入口实际延误及未进入数量见 [逐入口表](entry-delays.csv)。未进入车辆没有被当作零延误。
+逐入口表保留已写出的进入延误及缺少行程记录的车辆数，见 [逐入口表](entry-delays.csv)。原始行程输出不完整时，缺少记录的车辆状态保持未知。
 原生瞬时与周期检测器的对应见 [核对结果](passage-reconciliation.json)，逐车字段记录见 [明细](vehicle-field-passages.csv)。
 即使同一窗口精确匹配，也只代表声明模型下的标定拟合，不代表独立预测、真实 OD 或现场信号控制已恢复。
 

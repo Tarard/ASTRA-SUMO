@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The latest [initialization and K31/K2 main-window attempt](../benchmarks/hamburg_ring1_z15_k2_full_20261021_v1/README.md) retains all 130 field rows and 40 derived station rows.
+Only 32 field rows and 7 station rows match. Diagnostic field MAE is 19.885, with maximum absolute error 86.
+It timed out during the tail. Its last complete snapshot at 13,645 s records 2,373 uninserted and 390 running vehicles.
+These are snapshot counts, not final completion. The run remains invalid and exact calibration remains unfinished.
+The [preceding-hour paired check](../benchmarks/hamburg_ring1_z15_k2_routes_20261021_v1/README.md) improved Z15 counts but did not establish main-window success.
+
 The [end-to-end workflow trial](../benchmarks/hamburg_ring1_end_to_end_20261021_v1/README.md) supplies the complete artifact chain, fixed-aerial before/after figures, actual NetEdit captures, and every field/station comparison.
 Its full-window native run is invalid: 50 collisions, 50 teleports, and 2,242 vehicles never inserted. Calibration remains incomplete; all 130 field rows and 40 derived station rows are retained.
 

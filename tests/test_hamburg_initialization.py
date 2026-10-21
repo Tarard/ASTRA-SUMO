@@ -70,6 +70,7 @@ def test_passage_diagnostics_separate_initialization_from_legacy_main_bins():
     assert rows[1]["actual_bin"] is rows[1]["actual_native_time_s"] is None
     assert rows[1]["actual_native_field_passages"] == 0
     assert vehicle_field_passage_rows(intentions, {"status": "unavailable"})[0]["actual_native_field_passages"] is None
+    assert vehicle_field_passage_rows(intentions, {"status": "unavailable"})[0]["all_native_field_passages"] is None
 
 
 def test_frozen_hamburg_population_retains_all_targets_and_driving_inputs(tmp_path):
