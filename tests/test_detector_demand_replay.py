@@ -12,7 +12,8 @@ from astra_sumo.core.route_sensor_matrix import read_contributing_e1_passages
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
-def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path):
+@pytest.mark.parametrize("monitor_interval",[None,1])
+def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,monitor_interval):
     nodes, edges, network, routes, loops, expected = [tmp_path / name for name in
         ("nodes.xml", "edges.xml", "network.xml", "routes.xml", "loops.xml", "expected.csv")]
     nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/><node id="c" x="200" y="0"/></nodes>', encoding="utf-8")
@@ -27,7 +28,8 @@ def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path):
     originals = {path: path.read_bytes() for path in (network, routes, loops, expected)}
     output = tmp_path / "replay"
     result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
-        expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"), state_times_s=(5,))
+        expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"), state_times_s=(5,),
+        monitor_interval_s=monitor_interval)
     assert result["status"] == "measured" and result["healthy"] and result["observer_complete"], result
     assert result["exact_count_fit"] and result["exact_field_bins"] == 2
     assert result["field_metrics"]["MAE"] == result["field_metrics"]["max_abs_error"] == 0

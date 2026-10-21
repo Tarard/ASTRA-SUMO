@@ -27,6 +27,12 @@ from .route_sensor_matrix import solve_nonnegative_integer_route_flows
 
 def entry_rate_vph(edge, request):
     """Read the declared entry prior without treating road class as an observed capacity."""
+    exclude_customers = request.get("exclude_customer_entries", False)
+    if not isinstance(exclude_customers, bool):
+        raise ValueError("Declare customer-entry exclusion as a boolean.")
+    access = edge.find("param[@key='access']")
+    if exclude_customers and access is not None and access.get("value") == "customers":
+        return 0
     rates = request.get("entry_vph_by_highway")
     if rates is None:
         return request["entry_vph_per_lane"]
@@ -337,6 +343,7 @@ def build_hamburg_readme_demand(*, request_file, output_dir, sumo_binary):
         "integer_status": proposal["status"], "integer_equations_exact": proposal["status"] == "pass",
         "entry_vph_per_lane_assumption": request["entry_vph_per_lane"] if "entry_vph_by_highway" not in request else None,
         "entry_vph_by_highway_assumption": request.get("entry_vph_by_highway"),
+        "exclude_customer_entries_assumption": request.get("exclude_customer_entries", False),
         "entry_alternatives": request.get("entry_alternatives", []),
         "entry_inventory": entry_inventory,
         "distance_basis": "Selected native ordinary and internal lane lengths, minus the explicit departure front position.",

@@ -1,6 +1,6 @@
 """Read back installed programs and compare a small cohort at two absolute start times."""
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 from copy import deepcopy
 import gzip
 import json
@@ -113,16 +113,7 @@ def compare_clock_outputs(first, second):
     }
 
 
-def probe_hamburg_readme_control(*, control_dir, demand_dir, field_loops, output_dir, sumo_binary):
-    control_dir, demand_dir = Path(control_dir).resolve(strict=True), Path(demand_dir).resolve(strict=True)
-    field_loops = Path(field_loops).resolve(strict=True)
-    output = Path(output_dir).resolve()
-    if output.exists():
-        raise ValueError("Use a new control-check directory.")
-    output.mkdir(parents=True)
-    network, control = control_dir / "inputs/network.xml", control_dir / "control-A.add.xml"
-    readback = _readback(network, control, sumo_binary, output)
-    write_json_atomic(output / "native-programs.json", readback)
+def _native_intergreens(control_dir, network, readback):
     bindings = json.loads((control_dir / "link-bindings.json").read_bytes())["rows"]
     lanes = {
         lane.get("id"): (edge.get("id"), int(lane.get("index")))
@@ -155,7 +146,7 @@ def probe_hamburg_readme_control(*, control_dir, demand_dir, field_loops, output
             intervals = []
             for begin, end in zip(sorted(boundaries), sorted(boundaries)[1:]):
                 release = any(
-                    _state(readback["programs"][tls]["phases"], begin)[index] in "GgO" for tls, index in members
+                    _state(readback["programs"][tls]["phases"], begin)[index] in "GgOo" for tls, index in members
                 )
                 intervals.append(
                     {"begin_s": begin, "end_s": end, "securing_states": ["release" if release else "stop"]}
@@ -167,6 +158,54 @@ def probe_hamburg_readme_control(*, control_dir, demand_dir, field_loops, output
             r for r in result["rows"] if r["clearing_group"] in bound_groups and r["entering_group"] in bound_groups
         ]
         pair_results[node] = result
+    return pair_results
+
+
+def inspect_hamburg_control(*, control_dir, reference_control_dir, output_dir, sumo_binary):
+    control_dir, reference = Path(control_dir).resolve(strict=True), Path(reference_control_dir).resolve(strict=True)
+    output = Path(output_dir).resolve()
+    if output.exists():
+        raise ValueError("Use a new control-inspection directory.")
+    output.mkdir(parents=True)
+    network, control = control_dir / "inputs/network.xml", control_dir / "control-A.add.xml"
+    readback = _readback(network, control, sumo_binary, output)
+    write_json_atomic(output / "native-programs.json", readback)
+    intergreens = _native_intergreens(control_dir, network, readback)
+    write_json_atomic(output / "native-intergreens.json", intergreens)
+
+    def warnings(path):
+        return {line for line in path.read_text(encoding="utf-8").splitlines() if line.startswith("Warning:")}
+
+    result = {
+        "schema": "astra.hamburg-control-inspection/v1",
+        "status": "measured",
+        "formal_result": False,
+        "simulation_steps": 0,
+        "native_version": readback["native_version"],
+        "active_static_programs": len(readback["programs"]),
+        "network_sha256": file_sha256(network),
+        "control_sha256": file_sha256(control),
+        "bound_intergreen_statuses": dict(
+            Counter(row["status"] for group in intergreens.values() for row in group["bound_rows"])
+        ),
+        "new_warnings": sorted(warnings(output / "readback.log") - warnings(reference / "inputs/network.load.log")),
+        "claim_boundary": "Zero-step native control readback and bound source intergreens only. No traffic validity or count fit.",
+    }
+    write_json_atomic(output / "report.json", result)
+    return result
+
+
+def probe_hamburg_readme_control(*, control_dir, demand_dir, field_loops, output_dir, sumo_binary):
+    control_dir, demand_dir = Path(control_dir).resolve(strict=True), Path(demand_dir).resolve(strict=True)
+    field_loops = Path(field_loops).resolve(strict=True)
+    output = Path(output_dir).resolve()
+    if output.exists():
+        raise ValueError("Use a new control-check directory.")
+    output.mkdir(parents=True)
+    network, control = control_dir / "inputs/network.xml", control_dir / "control-A.add.xml"
+    readback = _readback(network, control, sumo_binary, output)
+    write_json_atomic(output / "native-programs.json", readback)
+    pair_results = _native_intergreens(control_dir, network, readback)
     write_json_atomic(output / "native-intergreens.json", pair_results)
     profiles = json.loads(gzip.decompress((demand_dir / "ideal-lane-profiles.json.gz").read_bytes()))["profiles"]
     prototype = ET.fromstring(gzip.decompress((demand_dir / "provisional-demand.rou.xml.gz").read_bytes()))

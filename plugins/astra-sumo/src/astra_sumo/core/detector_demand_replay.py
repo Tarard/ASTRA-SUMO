@@ -66,7 +66,9 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
                               sumo_binary: str = "sumo", step_length: float = .1,
                               seed: int = 104, timeout_seconds: float = 240,
                               state_times_s: tuple[float, ...] = (),
-                              all_stopped_timeout_s: float = 300) -> dict:
+                              all_stopped_timeout_s: float = 300,
+                              signal_program_file: Path | None = None,
+                              monitor_interval_s: float | None = None) -> dict:
     """Measure every declared field bin without requiring historical signal events.
 
     The network supplies control. Instantaneous identities are simulator
@@ -79,6 +81,12 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
             or any(not math.isfinite(value) or value < 0 or value >= end_s for value in state_times_s)):
         raise ValueError("State times must be unique, finite, and inside the simulation period.")
     paths = [Path(path).resolve(strict=True) for path in (net_file, route_file, e1_additional_file, expected_counts_csv)]
+    if signal_program_file is not None:
+        control = Path(signal_program_file).resolve(strict=True)
+        program_root = ET.parse(control).getroot()
+        if program_root.tag != "additional" or not len(program_root) or any(row.tag != "tlLogic" for row in program_root):
+            raise ValueError("Provide an additional file containing signal programs only.")
+        paths.append(control)
     output_dir = Path(output_dir).resolve()
     if output_dir.exists() or any(path.is_relative_to(output_dir) for path in paths):
         raise ValueError("Use a new replay directory separate from its inputs.")
@@ -102,7 +110,7 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     inputs = [{"path": str(path), "sha256": file_sha256(path)} for path in paths]
     output_dir.mkdir(parents=True)
     snapshots = []
-    for path, name in zip(paths, ("network.net.xml", "demand.rou.xml", "source-e1.add.xml", "expected-counts.csv")):
+    for path, name in zip(paths, ("network.net.xml", "demand.rou.xml", "source-e1.add.xml", "expected-counts.csv", "signal-programs.add.xml")):
         target = output_dir / name
         copy_file_atomic(path, target)
         snapshots.append({"path": str(target), "sha256": file_sha256(target)})
@@ -120,13 +128,17 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
         ET.SubElement(instant, "instantInductionLoop", id=trace_id, file=str(output_dir / "instant-e1.xml"), **attrs)
     ET.ElementTree(e1).write(output_dir / "e1.add.xml", encoding="utf-8", xml_declaration=True)
     ET.ElementTree(instant).write(output_dir / "instant.add.xml", encoding="utf-8", xml_declaration=True)
+    additional = [output_dir / 'e1.add.xml', output_dir / 'instant.add.xml']
+    if signal_program_file is not None:
+        additional.insert(0, output_dir / 'signal-programs.add.xml')
     command = [str(sumo_binary), "--net-file", str(output_dir / "network.net.xml"), "--route-files", str(output_dir / "demand.rou.xml"),
-        "--additional-files", f"{output_dir / 'e1.add.xml'},{output_dir / 'instant.add.xml'}", "--end", f"{end_s:g}",
+        "--additional-files", ",".join(str(path) for path in additional), "--end", f"{end_s:g}",
         "--step-length", f"{step_length:g}", "--seed", str(seed), "--precision", "12", "--time-to-teleport", "-1",
         "--collision.check-junctions", "true", "--summary-output", str(output_dir / "summary.xml"),
         "--tripinfo-output", str(output_dir / "tripinfo.xml"), "--tripinfo-output.write-unfinished", "true",
         "--vehroute-output", str(output_dir / "vehicle-routes.xml"), "--vehroute-output.exit-times", "true",
         "--collision-output", str(output_dir / "collisions.xml"), "--log", str(output_dir / "sumo.log"),
+        "--queue-output", str(output_dir / "queues.xml"), "--queue-output.period", "1",
         "--error-log", str(output_dir / "sumo-errors.log"), "--duration-log.statistics", "true", "--no-step-log", "true"]
     if state_times_s:
         (output_dir / "states").mkdir()
@@ -136,7 +148,7 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     report = {"schema": "astra.point-detector-demand-replay/v1", "status": "running", "inputs": inputs,
         "snapshots": snapshots, "seed": seed, "step_length_s": step_length, "end_s": end_s,
         "vehicle_count": len(vehicles), "measurement_attribute": "nVehContrib", "instant_to_periodic_ids": mapping,
-        "signal_treatment": "network_programs_unchanged", "formal_result": False, "errors": [],
+        "signal_treatment": "declared_additional_programs" if signal_program_file is not None else "network_programs_unchanged", "formal_result": False, "errors": [],
         "expected_field_bins": len(expected), "observer_complete": False, "missing_field_bins": len(expected),
         "exact_field_bins": 0, "exact_count_fit": False, "field_metrics": None,
         "field_comparison": str(output_dir / "field-comparison.csv")}
@@ -146,7 +158,8 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     monitor_file = output_dir / "stall-monitor.json"
     request_file = output_dir / "native-request.json"
     write_json_atomic(request_file, {"command": command, "end_s": end_s,
-        "all_stopped_timeout_s": all_stopped_timeout_s, "monitor_file": str(monitor_file)})
+        "all_stopped_timeout_s": all_stopped_timeout_s, "monitor_file": str(monitor_file),
+        "monitor_interval_s": monitor_interval_s})
     executed = run_command([sys.executable, "-m", "astra_sumo.core.simulation_stall", str(request_file)],
         cwd=output_dir, timeout_seconds=timeout_seconds)
     write_json_atomic(output_dir / "command.json", executed.to_dict())

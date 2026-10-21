@@ -269,3 +269,17 @@ It does not supply native count calibration or execute its intermediate lane int
 The output directory must be new. The native inspection loads SUMO 1.27.1 without advancing traffic.
 The integer proposal uses free-flow times and declared entry priors of 100–900 vehicles/hour per eligible motor lane.
 These assumptions still require control installation and native validation.
+
+## End-to-end workflow trial
+
+The [illustrated trial report](../../benchmarks/hamburg_ring1_end_to_end_20261021_v1/README.md) connects the original OSM model, pruning, consolidated junctions, E1 placement, declared demand/control, and native count comparisons.
+It includes fixed-range aerial before/after images and real NetEdit supplements. All 130 field and 40 derived station comparisons remain available.
+The run has collisions, teleports, and insertion backlog, so count calibration remains incomplete.
+
+Replay the frozen native inputs with SUMO 1.27.1 and the repository environment:
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/run_hamburg_readme_pipeline.py run benchmarks/hamburg_ring1_end_to_end_20261021_v1/inputs outputs/ring1-end-to-end-replay
+```
+
+The output directory and its sibling input-staging directory must be new. Use the `reports` optional dependency for the plot/report command.

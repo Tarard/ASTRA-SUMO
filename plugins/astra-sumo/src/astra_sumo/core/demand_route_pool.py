@@ -106,6 +106,29 @@ def lane_change_reachability(lanes):
     return closure
 
 
+def lane_feasible_connections(route, lanes_by_edge, lane_connections, *, allowed_departure_lanes=None):
+    """Find every connection on a complete permitted lane path, including alternative lane choices."""
+    closures = [lane_change_reachability(lanes_by_edge[edge]) for edge in route]
+    incoming = [set(closures[0]) if allowed_departure_lanes is None else set(allowed_departure_lanes)]
+    outgoing = []
+    for i, edge in enumerate(route):
+        outgoing.append(set().union(*(closures[i][lane] for lane in incoming[i])))
+        if i + 1 < len(route):
+            incoming.append({target for lane in outgoing[i]
+                for target in lane_connections.get((edge,lane,route[i+1]),())})
+    if not incoming[-1]:
+        return set()
+    possible = set(closures[-1])
+    result = set()
+    for i in range(len(route)-2,-1,-1):
+        pairs = {(lane,target) for lane in outgoing[i]
+            for target in lane_connections.get((route[i],lane,route[i+1]),()) if target in possible}
+        result.update((route[i],lane,route[i+1],target) for lane,target in pairs)
+        exits = {lane for lane,target in pairs}
+        possible = {lane for lane,reachable in closures[i].items() if reachable & exits}
+    return result
+
+
 def ideal_lane_profiles(route, lanes_by_edge, lane_connections, fields, *, allow_changes=True, allowed_departure_lanes=None):
     """Return one permitted lane witness per field signature, allowing instantaneous ordinary-road changes.
 

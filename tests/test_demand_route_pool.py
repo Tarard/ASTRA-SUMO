@@ -10,7 +10,7 @@ import xml.etree.ElementTree as ET
 import pytest
 import numpy as np
 
-from astra_sumo.core.demand_route_pool import boundary_route_pool, ideal_lane_profiles, junction_visit_audit, lane_change_reachability
+from astra_sumo.core.demand_route_pool import boundary_route_pool, ideal_lane_profiles, junction_visit_audit, lane_change_reachability, lane_feasible_connections
 from astra_sumo.core.detector_demand import EdgeInfo
 from astra_sumo.core.hamburg_readme_demand import _capture_lanes, _internal_paths, entry_rate_vph, profile_free_flow, timed_columns, vehicle_lower_bound_certificate
 
@@ -73,6 +73,16 @@ def test_ideal_lane_intention_respects_restricted_changes_and_unique_field_passa
     assert {p['field_mask'] for p in ideal_lane_profiles(route, lanes, links, fields)} == {1}
 
 
+def test_lane_feasibility_excludes_a_reachable_lane_that_cannot_finish_the_route():
+    lanes = {'a':_lanes('a',2),'b':_lanes('b',2),'c':_lanes('c',1)}
+    for edge in lanes.values():
+        for lane in edge:
+            lane['change_left'] = lane['change_right'] = []
+    links = {('a',0,'b'):{0},('a',1,'b'):{1},('b',0,'c'):{0}}
+    assert lane_feasible_connections(['a','b','c'],lanes,links) == {('a',0,'b',0),('b',0,'c',0)}
+    assert not lane_feasible_connections(['a','b','c'],lanes,links,allowed_departure_lanes={1})
+
+
 def test_free_flow_rear_clearance_uses_internal_speed_and_can_cross_a_bin_boundary():
     lanes = {'a_0': {'id': 'a_0', 'length': 100, 'speed': 10},
              ':j_0': {'length': 20, 'speed': 5}, 'b_0': {'id': 'b_0', 'length': 100, 'speed': 10}}
@@ -130,3 +140,11 @@ def test_entry_prior_uses_highway_class_without_counting_a_cycleway_tag_as_motor
     assert entry_rate_vph(edge, {'entry_vph_by_highway': {'residential': 200}}) == 200
     with pytest.raises(ValueError, match='Declare an inflow prior'):
         entry_rate_vph(edge, {'entry_vph_by_highway': {'service': 100}})
+
+
+def test_customer_entry_exclusion_sets_only_tagged_entry_caps_to_zero():
+    edge = ET.fromstring('<edge type="highway.service"><param key="access" value="customers"/></edge>')
+    request = {'entry_vph_by_highway':{'service':100},'exclude_customer_entries':True}
+    assert entry_rate_vph(edge,request) == 0
+    edge.find('param').set('value','destination')
+    assert entry_rate_vph(edge,request) == 100

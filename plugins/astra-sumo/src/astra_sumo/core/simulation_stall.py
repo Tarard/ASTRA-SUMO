@@ -46,18 +46,22 @@ def stopped_vehicle_report(connection, identities):
 
 
 def monitor_sumo(request):
-    """Observe speed at every SUMO step without changing vehicle or signal control."""
+    """Observe running vehicles without changing their motion or signal control."""
     import traci
     from traci import constants as tc
     from sumolib.miscutils import getFreeSocketPort
 
     limit = request["all_stopped_timeout_s"]
+    interval = request.get("monitor_interval_s")
+    if interval is not None and (not math.isfinite(interval) or interval <= 0 or interval > limit):
+        raise ValueError("Use a positive monitoring interval within the standstill limit.")
     if not math.isfinite(limit) or limit <= 0:
         raise ValueError("Use a positive finite standstill limit.")
     output = Path(request["monitor_file"])
     command = [*request["command"], "--remote-port", str(getFreeSocketPort())]
     report = {"status": "running", "all_stopped_timeout_s": limit, "speed_tolerance_m_s": 1e-6,
-        "command": command, "traci_module": traci.__file__, "stop": None}
+        "command": command, "traci_module": traci.__file__, "stop": None,
+        "monitor_interval_s": interval, "position_changes_reset_standstill": interval is not None}
     write_json_atomic(output, report)
     process = subprocess.Popen(command, stdin=subprocess.DEVNULL, start_new_session=os.name != "nt",
         creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
@@ -68,18 +72,25 @@ def monitor_sumo(request):
         connection.simulation.subscribe([tc.VAR_TIME, tc.VAR_DEPARTED_VEHICLES_IDS])
         now = connection.simulation.getTime()
         stopped_since = None
+        previous_positions = {}
         while now < request["end_s"]:
-            connection.simulationStep()
+            connection.simulationStep(min(request["end_s"], now + interval) if interval is not None else 0)
             simulation = connection.simulation.getSubscriptionResults()
             now = simulation[tc.VAR_TIME]
             departed = simulation[tc.VAR_DEPARTED_VEHICLES_IDS]
+            if interval is not None:
+                departed = set(connection.vehicle.getIDList()) - previous_positions.keys()
             for identity in departed:
-                connection.vehicle.subscribe(identity, [tc.VAR_SPEED])
+                connection.vehicle.subscribe(identity, [tc.VAR_SPEED, tc.VAR_LANE_ID, tc.VAR_LANEPOSITION]
+                    if interval is not None else [tc.VAR_SPEED])
             speeds = connection.vehicle.getAllSubscriptionResults()
-            if departed or not speeds or any(row[tc.VAR_SPEED] > 1e-6 for row in speeds.values()):
+            positions = ({identity: (row[tc.VAR_LANE_ID], row[tc.VAR_LANEPOSITION]) for identity, row in speeds.items()}
+                         if interval is not None else previous_positions)
+            if departed or positions != previous_positions or not speeds or any(row[tc.VAR_SPEED] > 1e-6 for row in speeds.values()):
                 stopped_since = None
             elif stopped_since is None:
                 stopped_since = now
+            previous_positions = positions
             if stopped_since is not None and now - stopped_since >= limit - 1e-9:
                 state = output.with_name("all-stopped-state.xml.gz")
                 connection.simulation.saveState(str(state))

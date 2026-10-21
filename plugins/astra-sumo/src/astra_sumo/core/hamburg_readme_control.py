@@ -42,8 +42,14 @@ def group_state(group, time_s):
         raise ValueError(f"The source group timeline is unresolved: {group['group_id']}.")
     span = next(row for row in group["intervals"] if row["begin_s"] <= time_s < row["end_s"])
     image = span["signal_image"]
-    if image in {"00", "0F", "0C"}:
-        return {"00": "O", "0F": "u", "0C": "y"}[image]
+    if image == "00":
+        if span["securing_states"] == ["release"] or set(group.get("allowed_image_securing_states", {})) == {"00"}:
+            return "O"
+        if span["securing_states"] == ["stop"]:
+            return "r"
+        raise ValueError("A dark image has ambiguous securing states.")
+    if image in {"0F", "0C"}:
+        return {"0F": "u", "0C": "y"}[image]
     if span["securing_states"] == ["release"]:
         return "G"
     if span["securing_states"] == ["stop"]:
