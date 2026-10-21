@@ -11,7 +11,10 @@ The [capacity diagnosis](../benchmarks/hamburg_ring1_capacity_screen_20261021_v1
 
 The [local lane-hold probe](../benchmarks/hamburg_ring1_lane_section_hold_probe_20261021_v1/README.md) tests ten vehicles for each of the 13 fields.
 All 130 test vehicles pass their assigned field once, restore normal lane choice, and arrive without collisions or teleports.
-Its artificial 13-row count target is separate from the real 130-row calibration target. Full-window calibration remains unverified for this driver setting.
+Its artificial 13-row count target is separate from the real 130-row calibration target.
+The [full lane-hold run](../benchmarks/hamburg_ring1_lane_section_hold_full_20261021_v1/README.md) records 4,902 complete field passages, all at the assigned field.
+It still fails calibration: 1,593 vehicles never inserted, 322 remained in the network, and only 29 of 130 field bins match.
+All 40 derived station bins are available, with 6 exact. Diagnostic field MAE is 19.154 and maximum absolute error is 96.
 
 ## Site identity
 

@@ -1,0 +1,184 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "a72325b0f69e1aad3a3dd7206b9cbc35b856f8b12084737c70430a77c2755203"
+    },
+    {
+      "path": "change-comparison.json",
+      "sha256": "15b27ad946a2039cb4a853b86add0c1b806589a431bb39afc5078d9add7ac412"
+    },
+    {
+      "path": "entry-delays.csv",
+      "sha256": "a70f033b0624f7bd853a37b86e25a83014ccf08ab9de1d85ea9f72c97a30f9c9"
+    },
+    {
+      "path": "field-comparison.csv",
+      "sha256": "7f55ac77644c9e720e207c456ed39cc6b6aa9f89c63b2e8238e5f831eed96b09"
+    },
+    {
+      "path": "figures/01-osm-to-pruned.png",
+      "sha256": "1531942634e245000007e83193474d3dbe8720861d7b1c5d0789efe2c18edbce"
+    },
+    {
+      "path": "figures/02-pruned-to-junctions.png",
+      "sha256": "773d14866a67ffb5f196f05d8bc886b9460dfe548a179784b471ddfe143ad65a"
+    },
+    {
+      "path": "figures/03-lsa118-before-after.png",
+      "sha256": "b5e884a306f307081242c93cd0134e0457ca46b76a658b891e37fdf18fbed3bd"
+    },
+    {
+      "path": "figures/04-sensors.png",
+      "sha256": "ed8460b4355e501990066673b3425bcd315b415529e56000eb9644247396b637"
+    },
+    {
+      "path": "figures/field-counts.png",
+      "sha256": "a963e1c56cf332ef9141ed1638f4f928b312b8c206ac62744d89ca9f643fe15f"
+    },
+    {
+      "path": "figures/netedit-after.png",
+      "sha256": "4893f1a95b7904985bdc39d3b40c5e71a53bd22fa2f7a84aa5695face14fafc7"
+    },
+    {
+      "path": "figures/netedit-before.png",
+      "sha256": "25a05f99ee125df206d77a826b183e30c444b5c0522237a5779b6d7620dca70d"
+    },
+    {
+      "path": "figures/station-counts.png",
+      "sha256": "38e86c394182b1590cd4d690885f895a9ec1881d619624c789f9d33cefeb935b"
+    },
+    {
+      "path": "independent-checks.json",
+      "sha256": "5e8bfae0dea95c21bd0263eac9b426a989f36b6b4dd411632005851c0ba2afbc"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "30e7b6c040a43e3e2a706f2ec77197d5bae089f8e8855d9a5d890becaa6783ff"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "a46829a49236a6c38bf8174018f2216c8a4657fe8ccfbb5f45b81e4894ce726a"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "d23db9529e0c5ca0edd107303413f792b97a9dfcef2fbb2cf671c5b52ff3e734"
+    },
+    {
+      "path": "lane-realization-diagnostics.json",
+      "sha256": "e02b6f866b1dca5cee2a7b43dde560b712b059582d7f78693d007e53237c8bc3"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "937359f1b979106d68661469872503d13a21cb617bcbee92a675aca27dd91bd1"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "d79d972cb425200619dd97525bc313c39984c27a26b7cd9cd7dee77c447c1f98"
+    },
+    {
+      "path": "native/driver-source.py",
+      "sha256": "a30b2cb63055e2b8aed9de204fff0554aa43a51d023cb351a7ee0157dfd777b9"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "9aa048330b104da23369a157050540fe76e7e0e3f6aa43ff775eb69ab3576be8"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "a1fe78915eb20136e5961ba0062748522b8f193370b976a7260e0917e94fce6d"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "7256f2239514f2e895ba5c9448558c1facce6c6039c89dda1485350946027231"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "47e4a6985a5e42bb36389141fd3ba71f7af705a900af52283b50c71c0bce701d"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "eaa77c3ea7b35e1c4ba0c95e70ff7643ab64b1a3903c4b39d3420750ed6b0b47"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "0f1ceddd552c5037c0972f512ff5d03758cdfe7197a128a209ee00f02eb44f6d"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "179ee43bf9566b5ddafb6b4fa14e5d023769f75ce06d59c817477100c3d8c0d8"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "47f3aec1f9b34afe049f70e7c6c222a841e864935d382cb21f6097ae8197e91f"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "0bc06c9ca6d5ede5022a4335f9b7860e48c3fe78b2ec64d6add3a2746a717b2f"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "aeb17de8b56ad043ea1fcb99fb89c5947796f8ddbefd600df0f0f2a339b4898a"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "c177ab3e23c7bf9cec01660a191f99b70c1db66cd4dd67685b0562dfe9355703"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "8c303e1010d42b365e9eee96ed0aa9df28067d077277fae3efec104fb50a2214"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "6a0e22c4612f19eeaa00dff1ac3a779bb0ac5d80671f1d8f0c0f442e7ce95d74"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "ac751cb662e22dbbc226ca8323ac604824d26a27fd10f40d4b9292ec3f872003"
+    },
+    {
+      "path": "passage-reconciliation.json",
+      "sha256": "8f71a65e5684fa27e1cd06f588ddbbed4c38f47808b5ce8aa08a3ef8fd6d9ea8"
+    },
+    {
+      "path": "README.md",
+      "sha256": "f8ed66d70d7259df2998d427344acad539eee67c48fbad31d2ee04aeeb6d1b3d"
+    },
+    {
+      "path": "report.html",
+      "sha256": "4a14932b8b9bb07f1b368199a43d46975d027682da06b3747fe0f3aac8f80b40"
+    },
+    {
+      "path": "results.json",
+      "sha256": "99b572a32ec0d2ec66ed90e87a5a699df44e32cb787d4ab606751078fb68b4c8"
+    },
+    {
+      "path": "sensor-positions.csv",
+      "sha256": "bb66a0aa0a5adc26c8b28959f58b89b6d44444912944b78b105c12f071622beb"
+    },
+    {
+      "path": "station-comparison.csv",
+      "sha256": "b86e78f3719f268d0bb2f499c2c6f11caac529ecf7f6ff28d7733446e87e02b5"
+    },
+    {
+      "path": "vehicle-field-passages.csv",
+      "sha256": "0ea2d049d176bf777e86025a522aecba9457d0718b665ba047d9419c48f4fed7"
+    }
+  ]
+}
