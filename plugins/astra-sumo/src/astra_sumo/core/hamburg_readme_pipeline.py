@@ -279,9 +279,11 @@ def prepare_hamburg_readme_run(*, repository, output_dir):
     return report
 
 
-def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary):
+def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary, hold_observed_lanes=False):
     p = Path(prepared_dir).resolve(strict=True)
     names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "expected-counts.csv", "control.add.xml")
+    if hold_observed_lanes:
+        names += ("lane-intentions.json",)
     if any(not (p / name).is_file() for name in names):
         staged = Path(output_dir).resolve().with_name(Path(output_dir).name + "-inputs")
         if staged.exists():
@@ -305,8 +307,9 @@ def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary):
         sumo_binary=str(sumo_binary),
         step_length=0.1,
         seed=104,
-        timeout_seconds=1800,
+        timeout_seconds=2400 if hold_observed_lanes else 1800,
         all_stopped_timeout_s=300,
         signal_program_file=p / "control.add.xml",
-        monitor_interval_s=1,
+        monitor_interval_s=None if hold_observed_lanes else 1,
+        lane_intentions_file=p / "lane-intentions.json" if hold_observed_lanes else None,
     )

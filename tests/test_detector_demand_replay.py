@@ -12,8 +12,8 @@ from astra_sumo.core.route_sensor_matrix import read_contributing_e1_passages
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
-@pytest.mark.parametrize("monitor_interval",[None,1])
-def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,monitor_interval):
+@pytest.mark.parametrize("monitor_interval,local_hold",[(None,False),(1,False),(None,True)])
+def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,monitor_interval,local_hold):
     nodes, edges, network, routes, loops, expected = [tmp_path / name for name in
         ("nodes.xml", "edges.xml", "network.xml", "routes.xml", "loops.xml", "expected.csv")]
     nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/><node id="c" x="200" y="0"/></nodes>', encoding="utf-8")
@@ -26,16 +26,25 @@ def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,mo
       <inductionLoop id="second" lane="out_0" pos="30" period="30" file="unused.xml"/></additional>''', encoding="utf-8")
     expected.write_text('detector_id,begin,end,expected_total\nfirst,0,30,1\nsecond,0,30,1\n', encoding="utf-8")
     originals = {path: path.read_bytes() for path in (network, routes, loops, expected)}
+    intentions = tmp_path / "intentions.json"
+    intentions.write_text(json.dumps({"vehicles": [{"vehicle_id": "v", "field_id": "first"}]}), encoding="utf-8")
     output = tmp_path / "replay"
     result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
         expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"), state_times_s=(5,),
-        monitor_interval_s=monitor_interval)
+        monitor_interval_s=monitor_interval, lane_intentions_file=intentions if local_hold else None)
     assert result["status"] == "measured" and result["healthy"] and result["observer_complete"], result
     assert result["exact_count_fit"] and result["exact_field_bins"] == 2
     assert result["field_metrics"]["MAE"] == result["field_metrics"]["max_abs_error"] == 0
     assert not result["formal_result"] and result["inputs_unchanged"]
     assert result["stall_monitor"]["status"] == "completed"
     assert "SUMO" in result["stall_monitor"]["native_version"][1]
+    if local_hold:
+        hold = result["stall_monitor"]["lane_section_hold"]
+        assert hold["released_vehicles"] == 1 and hold["left_before_release"] == 0 and not hold["still_held"]
+        assert [row["event"] for row in hold["events"]] == ["held", "released"]
+        assert hold["events"][-1]["restored_mode"] == 1621
+        assert (output / "lane-intentions.json").read_bytes() == intentions.read_bytes()
+        assert not (output / "signal-programs.add.xml").exists()
     response = read_contributing_e1_passages(instant_file=output / "instant-e1.xml", periodic_file=output / "field-counts.xml",
         detector_ids=result["instant_to_periodic_ids"], step_length=.1)
     assert response["reconciled"] and len(response["passages"]) == 2

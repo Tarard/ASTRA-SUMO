@@ -9,6 +9,10 @@ All observation rows are available. Only 31 of 130 field rows and 8 of 40 derive
 Its diagnostic field MAE is 20.154, with maximum absolute error 91. These are not accepted calibration metrics.
 The [capacity diagnosis](../benchmarks/hamburg_ring1_capacity_screen_20261021_v1/README.md) concerns a finite fixed-lane planning model, not physical infeasibility of SUMO or field traffic.
 
+The [local lane-hold probe](../benchmarks/hamburg_ring1_lane_section_hold_probe_20261021_v1/README.md) tests ten vehicles for each of the 13 fields.
+All 130 test vehicles pass their assigned field once, restore normal lane choice, and arrive without collisions or teleports.
+Its artificial 13-row count target is separate from the real 130-row calibration target. Full-window calibration remains unverified for this driver setting.
+
 ## Site identity
 
 The two `torii-v1-*` README figures depict the Binnenalster / Ring1 corridor, including LSA118.

@@ -46,13 +46,21 @@ def stopped_vehicle_report(connection, identities):
 
 
 def monitor_sumo(request):
-    """Observe running vehicles without changing their motion or signal control."""
+    """Monitor standstill and apply any explicitly declared local lane holds."""
     import traci
     from traci import constants as tc
     from sumolib.miscutils import getFreeSocketPort
 
     limit = request["all_stopped_timeout_s"]
     interval = request.get("monitor_interval_s")
+    driver = None
+    if request.get("lane_intentions_file"):
+        from .lane_section_hold import LaneSectionHold, read_lane_intentions
+        import xml.etree.ElementTree as ET
+        identities = {r.get("id") for r in ET.parse(request["route_file"]).getroot().findall("vehicle")}
+        driver = LaneSectionHold(read_lane_intentions(request["lane_intentions_file"], request["e1_file"], identities))
+        if interval is not None:
+            raise ValueError("Use every native simulation step for a lane-section hold.")
     if interval is not None and (not math.isfinite(interval) or interval <= 0 or interval > limit):
         raise ValueError("Use a positive monitoring interval within the standstill limit.")
     if not math.isfinite(limit) or limit <= 0:
@@ -61,7 +69,7 @@ def monitor_sumo(request):
     command = [*request["command"], "--remote-port", str(getFreeSocketPort())]
     report = {"status": "running", "all_stopped_timeout_s": limit, "speed_tolerance_m_s": 1e-6,
         "command": command, "traci_module": traci.__file__, "stop": None,
-        "monitor_interval_s": interval, "position_changes_reset_standstill": interval is not None}
+        "monitor_interval_s": interval, "position_changes_reset_standstill": interval is not None or driver is not None}
     write_json_atomic(output, report)
     process = subprocess.Popen(command, stdin=subprocess.DEVNULL, start_new_session=os.name != "nt",
         creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
@@ -81,11 +89,14 @@ def monitor_sumo(request):
             if interval is not None:
                 departed = set(connection.vehicle.getIDList()) - previous_positions.keys()
             for identity in departed:
-                connection.vehicle.subscribe(identity, [tc.VAR_SPEED, tc.VAR_LANE_ID, tc.VAR_LANEPOSITION]
-                    if interval is not None else [tc.VAR_SPEED])
+                variables = ([tc.VAR_SPEED, tc.VAR_LANE_ID, tc.VAR_LANEPOSITION, tc.VAR_DISTANCE] if driver else
+                             [tc.VAR_SPEED, tc.VAR_LANE_ID, tc.VAR_LANEPOSITION] if interval is not None else [tc.VAR_SPEED])
+                connection.vehicle.subscribe(identity, variables)
             speeds = connection.vehicle.getAllSubscriptionResults()
+            if driver:
+                driver.step(connection.vehicle, speeds, now)
             positions = ({identity: (row[tc.VAR_LANE_ID], row[tc.VAR_LANEPOSITION]) for identity, row in speeds.items()}
-                         if interval is not None else previous_positions)
+                         if interval is not None or driver else previous_positions)
             if departed or positions != previous_positions or not speeds or any(row[tc.VAR_SPEED] > 1e-6 for row in speeds.values()):
                 stopped_since = None
             elif stopped_since is None:
@@ -115,6 +126,8 @@ def monitor_sumo(request):
             except subprocess.TimeoutExpired:
                 _terminate_process_tree(process)
             report["native_returncode"] = process.returncode
+            if driver:
+                report["lane_section_hold"] = driver.report()
             write_json_atomic(output, report)
     if process.returncode != 0:
         raise RuntimeError(f"SUMO exited with code {process.returncode}.")

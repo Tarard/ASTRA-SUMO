@@ -1,0 +1,137 @@
+{
+  "status": "all_stopped",
+  "all_stopped_timeout_s": 300,
+  "speed_tolerance_m_s": 1e-06,
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+    "--net-file",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\network.net.xml",
+    "--route-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\demand.rou.xml",
+    "--additional-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\signal-programs.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\instant.add.xml",
+    "--end",
+    "5400",
+    "--step-length",
+    "0.1",
+    "--seed",
+    "104",
+    "--precision",
+    "12",
+    "--time-to-teleport",
+    "-1",
+    "--collision.check-junctions",
+    "true",
+    "--summary-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\summary.xml",
+    "--tripinfo-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\tripinfo.xml",
+    "--tripinfo-output.write-unfinished",
+    "true",
+    "--vehroute-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\vehicle-routes.xml",
+    "--vehroute-output.exit-times",
+    "true",
+    "--collision-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\collisions.xml",
+    "--log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\sumo.log",
+    "--queue-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\queues.xml",
+    "--queue-output.period",
+    "1",
+    "--error-log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\sumo-errors.log",
+    "--duration-log.statistics",
+    "true",
+    "--no-step-log",
+    "true",
+    "--remote-port",
+    "1333"
+  ],
+  "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+  "stop": {
+    "time_s": 4509.1,
+    "stopped_since_s": 4209.1,
+    "duration_s": 300.0,
+    "state": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-probe-20261021-v1\\baseline\\all-stopped-state.xml.gz",
+      "sha256": "8b6d0c4a416e4b7c41ab716948f077c96b0c88baf0c8115bd5fb01261c3f4f48"
+    },
+    "vehicles": {
+      "hold_probe_f11_v9": {
+        "lane": "186821027#0_4",
+        "position_m": 25.619,
+        "speed_m_s": 0.0,
+        "leader": null,
+        "junction_foes": [],
+        "next_links": [
+          [
+            "186821036#1_1",
+            false,
+            false,
+            false,
+            ":LSA535_part0_5_0",
+            "r",
+            "l",
+            29.398903
+          ],
+          [
+            "186821036#2_1",
+            false,
+            true,
+            false,
+            ":264996267_0_1",
+            "y",
+            "s",
+            0.1
+          ],
+          [
+            "142944477_1",
+            false,
+            true,
+            false,
+            ":1564056277_0_1",
+            "y",
+            "s",
+            8.162112
+          ]
+        ],
+        "next_signals": [
+          [
+            "LSA535_part0",
+            5,
+            1.0010000000000012,
+            "r"
+          ],
+          [
+            "264996267",
+            1,
+            186.869617,
+            "y"
+          ],
+          [
+            "1564056277",
+            1,
+            192.057205,
+            "y"
+          ]
+        ]
+      }
+    },
+    "blocked_lanes": [
+      "186821027#0_4"
+    ],
+    "waiting_relations": [],
+    "candidate_wait_cycles": [],
+    "cycle_claim": "Native near-leader and yield relations suggest cycles. They do not prove the cause of standstill."
+  },
+  "monitor_interval_s": null,
+  "position_changes_reset_standstill": false,
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "simulation_time_s": 4509.1,
+  "native_returncode": 0
+}
