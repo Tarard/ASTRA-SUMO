@@ -35,6 +35,7 @@ REQUIRED = {
     "test_native_detector_position_roundtrip_uses_logical_scale": 1,
     "test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints": 1,
     "test_native_point_detector_demand_replay_keeps_inputs_and_counts": 1,
+    "test_native_real_entry_context_supports_stopped_vehicle_bodies": 1,
 }
 
 

@@ -98,6 +98,86 @@ def test_hierarchy_keeps_detector_road_and_approaches_without_return_loops():
     assert all(row.get("priority") == "99" for row in root.findall("edge"))
 
 
+def test_short_entry_keeps_real_upstream_context_without_promoting_a_new_core():
+    root = ET.Element("net", version="1.27")
+    definitions = [("source", "a", "b", 16, "residential"), ("fragment", "b", "c", .2, "residential"),
+                   ("entry", "c", "d", .35, "residential"), ("main", "d", "e", 100, "primary")]
+    for key, first, last, length, kind in definitions:
+        edge = ET.SubElement(root, "edge", id=key, **{"from": first, "to": last}, type="highway." + kind)
+        ET.SubElement(edge, "lane", id=key + "_0", index="0", allow="passenger", length=str(length))
+        for node in (first, last):
+            if root.find(f"junction[@id='{node}']") is None:
+                ET.SubElement(root, "junction", id=node)
+    for first, last in (("source", "fragment"), ("fragment", "entry"), ("entry", "main")):
+        ET.SubElement(root, "connection", **{"from": first, "to": last}, fromLane="0", toLane="0")
+    original = ET.tostring(root)
+    baseline = select_road_hierarchy(root)
+    assert set(baseline["selected_edge_ids"]) == {"entry", "main"}
+    buffered = select_road_hierarchy(root, entry_min_lane_length_m=7.5)
+    assert set(buffered["selected_edge_ids"]) == {"source", "fragment", "entry", "main"}
+    assert buffered["entry_insertion_context"]["extensions"][0]["source_path"] == ["source", "fragment", "entry"]
+    assert not buffered["entry_insertion_context"]["unresolved_entries"]
+    assert {key for zone in buffered["boundaries"] for key in zone["entry_edges"]} == {"source"}
+    assert next(r for r in buffered["roads"] if r["edge_id"] == "source")["reasons"] == ["entry_insertion_context"]
+    assert ET.tostring(root) == original
+    unavailable = select_road_hierarchy(root, entry_min_lane_length_m=20)
+    assert set(unavailable["selected_edge_ids"]) == {"entry", "main"}
+    assert unavailable["entry_insertion_context"]["unresolved_entries"][0]["edge_id"] == "entry"
+
+
+def test_entry_context_does_not_use_a_source_turnaround():
+    root = _network()
+    root.find("edge[@id='side-1']/lane").set("length", ".35")
+    # This side road would require turning back from the removed road to become an entry.
+    root.find("connection[@from='side-1']").set("from", "side-2")
+    root.find("connection[@to='side-2']").set("to", "side-1")
+    root.find("connection[@from='side-2'][@to='side-1']").set("dir", "t")
+    report = select_road_hierarchy(root, entry_min_lane_length_m=7.5)
+    assert not report["entry_insertion_context"]["extensions"]
+    assert "side-2" not in report["selected_edge_ids"]
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_native_real_entry_context_supports_stopped_vehicle_bodies(tmp_path):
+    from astra_sumo.core.detector_demand_replay import run_point_detector_demand
+    nodes, roads, source = [tmp_path / name for name in ("nodes.xml", "roads.xml", "source.net.xml")]
+    nodes.write_text('''<nodes><node id="a" x="0" y="0"/><node id="b" x="20" y="0"/>
+      <node id="j" x="20.35" y="0" type="traffic_light"/><node id="z" x="120.35" y="0"/></nodes>''', encoding="utf-8")
+    roads.write_text('''<edges><type id="highway.primary"/><type id="highway.residential"/>
+      <edge id="source" from="a" to="b" type="highway.residential"/>
+      <edge id="stub" from="b" to="j" type="highway.residential"/>
+      <edge id="main" from="j" to="z" type="highway.primary"/></edges>''', encoding="utf-8")
+    compiled = subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(roads), "-o", str(source)],
+        capture_output=True, text=True, timeout=30)
+    assert compiled.returncode == 0, compiled.stderr
+    tree = ET.parse(source)
+    program = tree.getroot().find("tlLogic[@id='j']")
+    for phase in list(program):
+        program.remove(phase)
+    ET.SubElement(program, "phase", duration="60", state="r")
+    ET.SubElement(program, "phase", duration="60", state="G")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    original = source.read_bytes()
+    unbuffered = select_road_hierarchy(tree.getroot())
+    assert "source" not in unbuffered["selected_edge_ids"]
+    buffered = build_road_hierarchy_variant(net_file=source, output_dir=tmp_path / "scope", entry_min_lane_length_m=7.5)
+    assert buffered["status"] == "no_effect", buffered
+    plan = json.loads((tmp_path / "scope/selection.json").read_text(encoding="utf-8"))
+    assert plan["entry_insertion_context"]["extensions"][0]["added_edges"] == ["source"]
+    routes, loops, expected = [tmp_path / name for name in ("demand.xml", "loops.xml", "counts.csv")]
+    demand = ET.Element("routes")
+    for index in range(10):
+        vehicle = ET.SubElement(demand, "vehicle", id=str(index), depart=str(index * 3), departSpeed="max")
+        ET.SubElement(vehicle, "route", edges="source stub main")
+    ET.ElementTree(demand).write(routes, encoding="utf-8", xml_declaration=True)
+    loops.write_text('<additional><inductionLoop id="field" lane="main_0" pos="30" period="180" file="unused.xml"/></additional>', encoding="utf-8")
+    expected.write_text('detector_id,begin,end,expected_total\nfield,0,180,10\n', encoding="utf-8")
+    result = run_point_detector_demand(net_file=source, route_file=routes, e1_additional_file=loops,
+        expected_counts_csv=expected, output_dir=tmp_path / "traffic", end_s=180, sumo_binary=shutil.which("sumo"))
+    assert result["healthy"] and result["exact_count_fit"], result
+    assert source.read_bytes() == original
+
+
 @pytest.mark.parametrize("turnaround", [False, True])
 def test_missing_directed_connection_is_repaired_from_source_only(turnaround):
     root = _network()

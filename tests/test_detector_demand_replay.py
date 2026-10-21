@@ -55,10 +55,11 @@ def test_backend_failure_keeps_all_expected_bins_as_missing(tmp_path, monkeypatc
     loops.write_text('<additional><inductionLoop id="field" lane="a_0" pos="1" period="30" file="unused"/></additional>', encoding="utf-8")
     expected.write_text('detector_id,begin,end,expected_total\nfield,0,30,2\nfield,30,60,3\n', encoding="utf-8")
     monkeypatch.setattr(replay, "run_command", lambda *args, **kwargs:
-        SimpleNamespace(returncode=1, to_dict=lambda: {"status": "fail", "returncode": 1}))
+        SimpleNamespace(status="fail", returncode=1, to_dict=lambda: {"status": "fail", "returncode": 1}))
     result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
         expected_counts_csv=expected, output_dir=tmp_path / "failed", end_s=60)
     assert result["status"] == "invalid" and result["errors"]
+    assert result["native_status"] == "fail" and result["native_returncode"] == 1
     assert result["expected_field_bins"] == result["missing_field_bins"] == 2
     assert result["field_metrics"] is None and not result["exact_count_fit"]
     rows = read_csv_rows(tmp_path / "failed/field-comparison.csv")

@@ -84,6 +84,10 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     executed = run_command(command, cwd=output_dir, timeout_seconds=timeout_seconds)
     write_json_atomic(output_dir / "command.json", executed.to_dict())
     report["status"] = "invalid"
+    report["native_status"] = executed.status
+    report["native_returncode"] = executed.returncode
+    if executed.status != "pass":
+        report["errors"].append(f"Native execution ended with status {executed.status}. Inspect command.json.")
     try:
         final = ET.parse(output_dir / "summary.xml").getroot()[-1]
         completion = {key: int(final.get(key, "0")) for key in

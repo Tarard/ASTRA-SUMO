@@ -82,6 +82,52 @@ def _boundaries(root, edges, graph, selected):
     return [zones[key] for key in sorted(zones)]
 
 
+def _extend_entry_context(root, edges, graph, lengths, selected, reasons, minimum, vehicle_class):
+    reverse = {key: set() for key in graph}
+    turnarounds = {(row.get("from"), row.get("to")) for row in root.findall("connection") if row.get("dir") == "t"}
+    for first, targets in graph.items():
+        for last in targets:
+            if (first, last) not in turnarounds:
+                reverse[last].add(first)
+    available = {key: min(float(lane.get("length", "0")) for lane in edges[key].findall("lane")
+                         if vehicle_class in _permission_set(lane.attrib, network_version=root.get("version", "0.0")))
+                 for key in graph}
+    extensions = []
+    while True:
+        before = set(selected)
+        entries = {key for row in _boundaries(root, edges, graph, selected) for key in row["entry_edges"]}
+        for entry in sorted(key for key in entries if available[key] < minimum):
+            for predecessor in sorted(reverse[entry] - selected):
+                if predecessor in selected:
+                    continue
+                distances, previous = _paths(reverse, lengths, predecessor, set(graph) - selected)
+                candidates = []
+                for key in distances:
+                    if available[key] < minimum:
+                        continue
+                    path = _path(previous, predecessor, key) + [entry]
+                    if any(value.startswith("-") and value[1:] in path for value in path):
+                        continue
+                    candidates.append(key)
+                if not candidates:
+                    continue
+                first = min(candidates, key=lambda key: (distances[key], key))
+                path = list(reversed(_path(previous, predecessor, first)))
+                extensions.append({"entry_edge": entry, "source_path": path + [entry],
+                                   "added_edges": path, "new_entry_lane_length_m": available[first]})
+                for key in path:
+                    selected.add(key)
+                    reasons[key] = ["entry_insertion_context"]
+        if selected == before:
+            break
+    entries = {key for row in _boundaries(root, edges, graph, selected) for key in row["entry_edges"]}
+    unresolved = [{"edge_id": key, "minimum_lane_length_m": available[key],
+                   "reason": "no_remaining_source_path_to_a_sufficiently_long_entry"}
+                  for key in sorted(entries) if available[key] < minimum]
+    return {"minimum_lane_length_m": minimum, "extensions": extensions, "unresolved_entries": unresolved,
+            "claim_boundary": "Retained upstream source context only. Lane length does not certify queue storage, insertion throughput, or field demand."}
+
+
 def _signal_scope_changes(source, candidate, comparison):
     edges = {row.get("id"): row for row in source.findall("edge") if not row.get("function")}
     nodes = {row.get("id"): row for row in candidate.findall("junction")}
@@ -108,11 +154,14 @@ def _signal_scope_changes(source, candidate, comparison):
 
 
 def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), protected_way_ids=(),
-                          vehicle_class="passenger", required_movements=None, protected_edge_evidence=None):
+                          vehicle_class="passenger", required_movements=None, protected_edge_evidence=None,
+                          entry_min_lane_length_m=None):
     if keep_tier not in ROAD_HIERARCHY_TIERS:
         raise ValueError("Choose major, collector, or local roads.")
     if not isinstance(vehicle_class, str) or _permission_set({"allow": vehicle_class}) != {vehicle_class}:
         raise ValueError("Choose one supported vehicle class.")
+    if entry_min_lane_length_m is not None and (not math.isfinite(entry_min_lane_length_m) or entry_min_lane_length_m <= 0):
+        raise ValueError("The entry lane-length requirement must be positive and finite.")
     edges, graph, lengths = _network(root, vehicle_class)
     protected = set(protected_edge_ids)
     declared_edges = set(protected)
@@ -206,6 +255,11 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
                     reasons[key] = ["required_connection"]
                 selected.update(added)
                 distances, _ = _paths(graph, lengths, start, selected)
+    entry_context = None
+    if entry_min_lane_length_m is not None:
+        entry_context = _extend_entry_context(root, edges, graph, lengths, selected, reasons,
+                                              entry_min_lane_length_m, vehicle_class)
+        boundaries = _boundaries(root, edges, graph, selected)
     movements = []
     for start in sorted({pair[0] for pair in pairs}):
         distances, previous = _paths(graph, lengths, start, selected)
@@ -229,6 +283,7 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
                    "selected": key in selected, "reasons": reasons.get(key, ["below_selected_tier"]),
                    **({"protection_evidence": protection[key]} if key in protection else {})} for key, edge in sorted(edges.items())],
         "boundaries": boundaries, "final_cut_attachments": _boundaries(root, edges, graph, selected),
+        "entry_insertion_context": entry_context,
         "unserved_source_boundaries": unserved, "connection_repairs": repairs, "movements": movements, "worst_detour": worst,
         "movement_basis": "explicit" if explicit else "fixed main-road boundary pairs and retained local turns",
         "length_basis": "ordinary-road logical lengths; internal junction paths are excluded",
@@ -236,7 +291,8 @@ def select_road_hierarchy(root, *, keep_tier="major", protected_edge_ids=(), pro
 
 
 def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", protected_edge_ids=(), protected_way_ids=(),
-                                 vehicle_class="passenger", netconvert_binary="netconvert", sumo_binary="sumo", protected_edge_evidence=None):
+                                 vehicle_class="passenger", netconvert_binary="netconvert", sumo_binary="sumo", protected_edge_evidence=None,
+                                 entry_min_lane_length_m=None):
     source = Path(net_file).resolve(strict=True)
     output = Path(output_dir).resolve()
     if output.exists() or source.is_relative_to(output):
@@ -244,7 +300,8 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
     before_hash = file_sha256(source)
     root = ET.parse(source).getroot()
     plan = select_road_hierarchy(root, keep_tier=keep_tier, protected_edge_ids=protected_edge_ids,
-        protected_way_ids=protected_way_ids, vehicle_class=vehicle_class, protected_edge_evidence=protected_edge_evidence)
+        protected_way_ids=protected_way_ids, vehicle_class=vehicle_class, protected_edge_evidence=protected_edge_evidence,
+        entry_min_lane_length_m=entry_min_lane_length_m)
     output.mkdir(parents=True)
     write_json_atomic(output / "selection.json", plan)
     write_json_atomic(output / "boundaries.json", {"zones": plan["boundaries"], "traffic_rates": "not_assigned"})
@@ -354,6 +411,18 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
             report["warnings"].append("Some side approaches serve only retained local turns and have no retained core access. Inspect their boundary roles before assigning traffic.")
         if local_turns["added"]:
             report["warnings"].append("Scope extraction added local turns. Inspect their legality before calibration.")
+        if entry_min_lane_length_m is not None:
+            entry_ids = {key for zone in plan["boundaries"] for key in zone["entry_edges"]}
+            inventory = []
+            for key in sorted(entry_ids):
+                lane_lengths = [float(lane.get("length")) for lane in edges[key].findall("lane")
+                    if vehicle_class in _permission_set(lane.attrib, network_version=after.get("version", "0.0"))]
+                minimum = min(lane_lengths, default=None)
+                inventory.append({"edge_id": key, "minimum_lane_length_m": minimum,
+                    "meets_requested_length": minimum is not None and minimum >= entry_min_lane_length_m})
+            report["entry_insertion_geometry"] = inventory
+            if any(not row["meets_requested_length"] for row in inventory):
+                report["warnings"].append("Some retained entries remain below the requested lane length. Inspect entry_insertion_geometry before assigning demand.")
     report["report_file"] = str(output / "report.json")
     report["source_unchanged"] = file_sha256(source) == before_hash
     if not candidate.is_file():

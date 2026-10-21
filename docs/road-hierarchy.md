@@ -48,6 +48,21 @@ It assigns no traffic rates. Demand fitting must define how traffic enters and l
 A cut boundary is a simulation choice, not evidence that a street is absent in reality.
 Source-model dead ends are not observed traffic origins.
 
+### Entry vehicle storage
+
+Use `--entry-min-lane-length METRES` when preparing traffic injection.
+The selector retains real upstream source roads until the entry lanes meet that length, where source context permits.
+For the current passenger cohort, 7.5 m represents a 5 m vehicle and its 2.5 m minimum gap.
+The option has no default length. Existing selection recipes remain unchanged.
+
+The additional roads receive the reason `entry_insertion_context`.
+They do not become new main-road cores or create distant route obligations.
+The extension avoids source turnarounds and driving the same signed source road in both directions.
+`boundaries.json` then records the effective interfaces after this extension.
+Missing upstream context remains listed. `entry_insertion_geometry` reports the realized lane lengths after native extraction.
+The length rule does not establish queue storage, insertion throughput, or observed demand.
+Use native demand tests before accepting traffic injected at these boundaries.
+
 `selection.json` records every source tier, selection reason, excluded road, connector repair, and boundary movement.
 It also records the largest detour, added length in meters, and source/selected turnaround flags.
 Selection lengths sum source ordinary-road logical lengths before native extraction and exclude internal junction paths.

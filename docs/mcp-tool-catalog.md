@@ -216,6 +216,7 @@ These tools construct and assess detector-constrained demand. Their output is a 
 
 `sumo_detector_route_support` accepts `boundary_zones_file` from road-scope selection.
 Declared entries and exits remain available when retained roads also meet their boundary junction.
+The CLI road-selection option `--entry-min-lane-length` can retain upstream source context for traffic injection.
 The report lists missing or changed boundary references and roads excluded from the passenger model.
 Without this file, the tool uses terminal roads available to passenger vehicles.
 Loaded SUMO turns use endpoint and internal lane permissions. Connection import directives do not replace loaded access.

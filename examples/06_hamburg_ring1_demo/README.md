@@ -18,6 +18,15 @@ Use the repository's declared environment from the repository root:
 Use a new output directory. The installed SUMO package supplies the native binaries.
 The [fixture](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/fixture.json) records the bbox, source date, classes, and study anchors.
 
+For demand preparation with a 5 m passenger vehicle and 2.5 m gap, request upstream entry context:
+
+```powershell
+.venv/Scripts/python.exe examples/06_hamburg_ring1_demo/run_road_selection.py outputs/ring1-entry-context --entry-min-lane-length 7.5
+```
+
+This uses real source roads. It changes the scope recipe and retains the older unbuffered reference.
+Inspect unresolved entries and realized native lane lengths. This option alone does not certify higher-demand insertion or count fitting.
+
 ## Continue through junctions and detectors
 
 Regenerate the official inputs, then continue the road-scope run above:

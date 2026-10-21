@@ -233,6 +233,7 @@ def _build_parser() -> argparse.ArgumentParser:
     road_selection.add_argument("--protect-edge-id", action="append", default=[])
     road_selection.add_argument("--protect-way-id", action="append", default=[])
     road_selection.add_argument("--vehicle-class", default="passenger")
+    road_selection.add_argument("--entry-min-lane-length", type=float, default=None)
     road_selection.add_argument("--netconvert-binary", default="netconvert")
     road_selection.add_argument("--sumo-binary", default="sumo")
     _add_output_argument(road_selection)
@@ -539,7 +540,8 @@ def _dispatch(args: argparse.Namespace) -> int:
 
         return _emit(build_road_hierarchy_variant(net_file=args.net_file, output_dir=args.output_dir,
             keep_tier=args.keep_tier, protected_edge_ids=args.protect_edge_id, protected_way_ids=args.protect_way_id,
-            vehicle_class=args.vehicle_class, netconvert_binary=args.netconvert_binary, sumo_binary=args.sumo_binary),
+            vehicle_class=args.vehicle_class, netconvert_binary=args.netconvert_binary, sumo_binary=args.sumo_binary,
+            entry_min_lane_length_m=args.entry_min_lane_length),
             json_output=json_output)
     if args.command == "network" and args.network_command == "review-effects":
         from .core.traffic_effect_review import build_network_traffic_effect_review

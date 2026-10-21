@@ -1,6 +1,7 @@
 """Rebuild the frozen Ring1 OSM import and select its main-road study scope offline."""
 import hashlib
 import json
+import argparse
 from pathlib import Path
 import sys
 import xml.etree.ElementTree as ET
@@ -13,13 +14,16 @@ from astra_sumo.core.osm_network import build_osm_network
 from astra_sumo.core.road_hierarchy import build_road_hierarchy_variant
 
 
-def run(output_dir):
+def run(output_dir, *, entry_min_lane_length_m=None):
     output = Path(output_dir).resolve()
     output.mkdir(parents=True, exist_ok=False)
     root = Path(__file__).resolve().parents[2]
     fixture_dir = root / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
     config_bytes = (fixture_dir / "fixture.json").read_bytes()
     fixture = json.loads(config_bytes)
+    if entry_min_lane_length_m is not None:
+        fixture["entry_min_lane_length_m"] = entry_min_lane_length_m
+        config_bytes = (json.dumps(fixture, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
     anchor_file = fixture_dir / fixture["official_approach_anchors_file"]
     anchors = json.loads(anchor_file.read_text(encoding="utf-8"))
     effective_config = output / "case-input.json"
@@ -53,6 +57,7 @@ def run(output_dir):
                 keep_tier=fixture["keep_tier"], vehicle_class=fixture["vehicle_class"],
                 protected_way_ids=fixture["protected_way_ids"], protected_edge_ids=anchors["protected_edge_ids"], netconvert_binary=netconvert,
                 protected_edge_evidence=anchors.get("edge_evidence"),
+                entry_min_lane_length_m=fixture.get("entry_min_lane_length_m"),
                 sumo_binary=str(binary_dir / f"sumo{suffix}"))
             case.update(status=selected["status"], raw_native_import={"path": str(raw), "sha256": file_sha256(raw)},
                 selection_input={"path": str(prepared_full), "sha256": file_sha256(prepared_full)},
@@ -82,6 +87,10 @@ def run(output_dir):
                 "signal_changes_by_scope": {key: len(values) for key, values in selected.get("signal_scope_changes", {}).items()},
                 "warnings": selected.get("warnings", [])}
             case["reproduction"]["status"] = "matches_fixture" if all(case["reproduction"]["checks"].values()) else "different_input"
+            if fixture.get("entry_min_lane_length_m") is not None and all(value for key, value in case["reproduction"]["checks"].items()
+                                                                         if key != "selected_road_count_matches"):
+                case["reproduction"]["status"] = "different_scope_profile"
+                case["reproduction"]["reference_profile"] = "original unbuffered source selection"
             if case["reproduction"]["status"] == "different_input":
                 case["review"]["warnings"].append("The run differs from the frozen example expectations. Inspect the reproduction checks.")
             if not case["official_approach_protection"]["source_content_matches"]:
@@ -93,4 +102,8 @@ def run(output_dir):
 
 
 if __name__ == "__main__":
-    raise SystemExit(run(sys.argv[1]))
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("output_dir")
+    parser.add_argument("--entry-min-lane-length", type=float, default=None)
+    args = parser.parse_args()
+    raise SystemExit(run(args.output_dir, entry_min_lane_length_m=args.entry_min_lane_length))
