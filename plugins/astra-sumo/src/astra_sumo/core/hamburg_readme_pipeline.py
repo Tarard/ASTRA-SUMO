@@ -15,6 +15,65 @@ from .detector_demand_replay import run_point_detector_demand
 from .route_sensor_matrix import solve_nonnegative_integer_route_flows
 
 
+def localize_hamburg_lane_waypoints(*, prepared_dir, output_dir):
+    """Keep lane intentions only upstream of the assigned observation section."""
+    source, output = Path(prepared_dir).resolve(strict=True), Path(output_dir).resolve()
+    if output.exists() or source.is_relative_to(output):
+        raise ValueError("Use a new preparation directory separate from its source.")
+
+    def content(name):
+        path = source / name
+        return path.read_bytes() if path.is_file() else gzip.decompress((source / (name + ".gz")).read_bytes())
+
+    names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "expected-counts.csv", "control.add.xml", "lane-intentions.json", "scenario.json")
+    inputs = {name: content(name) for name in names}
+    root = ET.fromstring(inputs["network.net.xml"])
+    lanes = {lane.get("id"): lane for edge in root.findall("edge") for lane in edge.findall("lane")}
+    lane_counts = {lane.get("id"): len(edge.findall("lane")) for edge in root.findall("edge") for lane in edge.findall("lane")}
+    loops = {loop.get("id"): loop for loop in ET.fromstring(inputs["field-loops.add.xml"])}
+    intentions = json.loads(inputs["lane-intentions.json"])
+    assigned = {row["vehicle_id"]: row["field_id"] for row in intentions["vehicles"]}
+    demand = ET.fromstring(inputs["demand.rou.xml"])
+    vehicles = demand.findall("vehicle")
+    if set(assigned) != {v.get("id") for v in vehicles}:
+        raise ValueError("Supply exactly one observation intention for every vehicle.")
+    for kind in demand.findall("vType"):
+        kind.attrib.pop("lcKeepRight", None)
+        kind.attrib.pop("lcSpeedGain", None)
+    removed, added = 0, 0
+    for vehicle in vehicles:
+        for stop in vehicle.findall("stop"):
+            vehicle.remove(stop)
+            removed += 1
+        loop = loops[assigned[vehicle.get("id")]]
+        lane = lanes[loop.get("lane")]
+        length = float(lane.get("length"))
+        # Short single-lane sections need no lane choice; retain their native driving.
+        if length <= 7.5:
+            if lane_counts[lane.get("id")] > 1:
+                raise ValueError("A short observed section needs an explicit lane-choice treatment.")
+            continue
+        ET.SubElement(vehicle, "stop", lane=lane.get("id"), endPos=f"{length - 7.5:.6f}", speed=lane.get("speed"))
+        added += 1
+    output.mkdir(parents=True)
+    for name, data in inputs.items():
+        (output / name).write_bytes(data)
+    ET.ElementTree(demand).write(output / "demand.rou.xml", encoding="utf-8", xml_declaration=True)
+    intentions["mechanism"] = "One moving lane waypoint 7.5 m before the assigned detector road ends; native lane choice elsewhere. Short single-lane sections need no waypoint."
+    intentions["claim_boundary"] = "Declared lane intention. Real driver behaviour and native count fit remain unverified."
+    write_json_atomic(output / "lane-intentions.json", intentions)
+    scenario = json.loads(inputs["scenario.json"])
+    scenario["lane_intention_assumptions"] = intentions["mechanism"]
+    scenario["demand_sha256"] = file_sha256(output / "demand.rou.xml")
+    write_json_atomic(output / "scenario.json", scenario)
+    report = {"status": "prepared", "formal_result": False, "vehicles": len(vehicles),
+        "removed_waypoints": removed, "added_waypoints": added,
+        "source_directory": str(source), "input_sha256": {name: file_sha256(output / name) for name in names},
+        "unchanged": [name for name in names if name not in {"demand.rou.xml", "lane-intentions.json", "scenario.json"}]}
+    write_json_atomic(output / "local-lane-treatment.json", report)
+    return report
+
+
 def prepare_hamburg_readme_run(*, repository, output_dir):
     repository, output = Path(repository).resolve(strict=True), Path(output_dir).resolve()
     if output.exists():

@@ -1,0 +1,22 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "vehicles": 6687,
+  "removed_waypoints": 11091,
+  "added_waypoints": 5791,
+  "source_directory": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_end_to_end_20261021_v1\\inputs",
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "6554bd935aa5aaaefaeb88576828492c2f601b2c45ac16e26fc816e1a50d7fb4",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "95fb5189574c64d7f43fd5eb21e2e8f4b639c895a8b7bc54dcba191e30fed456"
+  },
+  "unchanged": [
+    "network.net.xml",
+    "field-loops.add.xml",
+    "expected-counts.csv",
+    "control.add.xml"
+  ]
+}

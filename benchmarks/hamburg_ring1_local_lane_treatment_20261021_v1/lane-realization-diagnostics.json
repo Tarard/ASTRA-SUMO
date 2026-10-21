@@ -1,0 +1,79 @@
+{
+  "all_vehicles": 6687,
+  "native_passages_reconciled": true,
+  "disjoint_vehicle_categories": {
+    "assigned_field_same_bin": 1633,
+    "assigned_field_other_bin": 3034,
+    "no_complete_field_passage": 1877,
+    "other_field_only": 143
+  },
+  "by_assigned_field": {
+    "hh_0535_Z_5_30894": {
+      "assigned_field_same_bin": 59,
+      "assigned_field_other_bin": 140,
+      "no_complete_field_passage": 1
+    },
+    "hh_0535_Z_6_33855": {
+      "assigned_field_same_bin": 74,
+      "other_field_only": 77,
+      "assigned_field_other_bin": 158,
+      "no_complete_field_passage": 2
+    },
+    "hh_0535_Z_7_29316": {
+      "assigned_field_same_bin": 105,
+      "assigned_field_other_bin": 221,
+      "no_complete_field_passage": 2
+    },
+    "hh_0535_Z_8_34287": {
+      "assigned_field_same_bin": 116,
+      "assigned_field_other_bin": 271,
+      "no_complete_field_passage": 1
+    },
+    "hh_0535_Z_4_33055": {
+      "no_complete_field_passage": 7,
+      "assigned_field_same_bin": 379,
+      "assigned_field_other_bin": 4
+    },
+    "hh_0119_Z_4_29437": {
+      "assigned_field_other_bin": 232,
+      "no_complete_field_passage": 225,
+      "assigned_field_same_bin": 143
+    },
+    "hh_0119_Z_5_30494": {
+      "assigned_field_same_bin": 154,
+      "other_field_only": 32,
+      "assigned_field_other_bin": 172,
+      "no_complete_field_passage": 164
+    },
+    "hh_0535_Z_9_29038": {
+      "assigned_field_same_bin": 255
+    },
+    "hh_0119_Z_12_31546": {
+      "assigned_field_same_bin": 86,
+      "assigned_field_other_bin": 548,
+      "no_complete_field_passage": 525,
+      "other_field_only": 1
+    },
+    "hh_0535_Z_14_31892": {
+      "assigned_field_same_bin": 65
+    },
+    "hh_0119_Z_11_28853": {
+      "no_complete_field_passage": 155,
+      "assigned_field_same_bin": 4,
+      "assigned_field_other_bin": 67
+    },
+    "hh_0119_Z_13_34018": {
+      "assigned_field_same_bin": 139,
+      "other_field_only": 33,
+      "assigned_field_other_bin": 630,
+      "no_complete_field_passage": 544
+    },
+    "hh_0119_Z_15_29375": {
+      "assigned_field_same_bin": 54,
+      "assigned_field_other_bin": 591,
+      "no_complete_field_passage": 251
+    }
+  },
+  "vehicles_with_multiple_native_field_passages": 0,
+  "claim_boundary": "Full-run rear-clear passages. Out-of-window passages remain recorded. Category counts are not field-bin residuals or independent station evidence."
+}

@@ -3,6 +3,12 @@
 The [end-to-end workflow trial](../benchmarks/hamburg_ring1_end_to_end_20261021_v1/README.md) supplies the complete artifact chain, fixed-aerial before/after figures, actual NetEdit captures, and every field/station comparison.
 Its full-window native run is invalid: 50 collisions, 50 teleports, and 2,242 vehicles never inserted. Calibration remains incomplete; all 130 field rows and 40 derived station rows are retained.
 
+The subsequent [local lane-guidance trial](../benchmarks/hamburg_ring1_local_lane_treatment_20261021_v1/README.md) keeps the same roads, signals, observations, vehicle routes, and departure times.
+It has zero collisions and teleports, with 5,100 vehicles inserted. It remains invalid: 1,587 vehicles never inserted and 342 remained in the network.
+All observation rows are available. Only 31 of 130 field rows and 8 of 40 derived station rows match exactly.
+Its diagnostic field MAE is 20.154, with maximum absolute error 91. These are not accepted calibration metrics.
+The [capacity diagnosis](../benchmarks/hamburg_ring1_capacity_screen_20261021_v1/README.md) concerns a finite fixed-lane planning model, not physical infeasibility of SUMO or field traffic.
+
 ## Site identity
 
 The two `torii-v1-*` README figures depict the Binnenalster / Ring1 corridor, including LSA118.
