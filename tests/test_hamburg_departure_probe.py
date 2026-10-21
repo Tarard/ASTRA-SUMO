@@ -41,6 +41,30 @@ def test_single_pass_bound_needs_unique_lanes_near_the_end_and_no_route_return()
     assert not single_pass_structure(network, routes, loops)["structural_conditions_satisfied"]
 
 
+def test_different_observed_roads_can_have_only_one_route_compatible_complete_passage():
+    net = ET.fromstring('<net><edge id="a"><lane id="a_0" length="30"/></edge><edge id="b"><lane id="b_0" length="30"/><lane id="b_1" length="30"/></edge><edge id="c"><lane id="c_0" length="30"/></edge><connection from="a" fromLane="0" to="b" toLane="0"/><connection from="b" fromLane="0" to="c" toLane="0"/></net>')
+    demand = ET.fromstring('<routes><vType id="car" length="5"/><vehicle id="v" type="car"><route edges="a b c"/></vehicle></routes>')
+    loops = ET.fromstring('<additional><inductionLoop id="f" lane="a_0" pos="29.9"/><inductionLoop id="g" lane="b_1" pos="29.9"/></additional>')
+    result = single_pass_structure(net, demand, loops)
+    assert not result["one_observed_road_per_route"] and result["structural_conditions_satisfied"]
+    ET.SubElement(net, "connection", attrib={"from": "b", "fromLane": "1", "to": "c", "toLane": "0"})
+    assert not single_pass_structure(net, demand, loops)["structural_conditions_satisfied"]
+
+
+def test_route_exit_bound_does_not_apply_to_detectors_far_from_the_road_end():
+    net = ET.fromstring('<net><edge id="a"><lane id="a_0" length="30"/></edge><edge id="b"><lane id="b_0" length="30"/></edge></net>')
+    demand = ET.fromstring('<routes><vType id="car" length="5"/><vehicle id="v" type="car"><route edges="a b"/></vehicle></routes>')
+    loops = ET.fromstring('<additional><inductionLoop id="f" lane="a_0" pos="20"/></additional>')
+    assert not single_pass_structure(net, demand, loops)["structural_conditions_satisfied"]
+
+
+def test_route_exit_bound_reads_lane_indices_instead_of_parsing_lane_names():
+    net = ET.fromstring('<net><edge id="a"><lane id="first_detector" index="0" length="30"/></edge><edge id="b"><lane id="second_detector" index="0" length="30"/></edge><edge id="c"><lane id="sink" index="0" length="30"/></edge><connection from="a" fromLane="0" to="b" toLane="0"/><connection from="b" fromLane="0" to="c" toLane="0"/></net>')
+    demand = ET.fromstring('<routes><vType id="car" length="5"/><vehicle id="v" type="car"><route edges="a b c"/></vehicle></routes>')
+    loops = ET.fromstring('<additional><inductionLoop id="f" lane="first_detector" pos="29.9"/><inductionLoop id="g" lane="second_detector" pos="29.9"/></additional>')
+    assert not single_pass_structure(net, demand, loops)["structural_conditions_satisfied"]
+
+
 def test_frozen_early_native_passages_rule_out_only_the_fixed_population_advance():
     case = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_departure_advance_20261021_v1"
     report = json.loads((case / "native/warmup-check/warmup-check.json").read_bytes())

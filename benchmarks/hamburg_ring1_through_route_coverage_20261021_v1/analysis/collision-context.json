@@ -1,0 +1,60 @@
+{
+  "events": [
+    {
+      "time": "1881.100",
+      "type": "side",
+      "lane": ":14398547_3_1",
+      "pos": "7.952129758798",
+      "collider": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+      "victim": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+      "colliderType": "readme_lane_intent",
+      "victimType": "readme_lane_intent",
+      "colliderSpeed": "4.861889299103",
+      "victimSpeed": "0.000288885300",
+      "colliderFront": "1274.851948319107,548.550049874803",
+      "colliderBack": "1270.493440631476,551.052438237165",
+      "victimFront": "1275.032728189264,549.220685341780",
+      "victimBack": "1270.357857816829,551.216268303494",
+      "junction_id": "14398547",
+      "planned_profiles": {
+        "collider": {
+          "profile_index": 183,
+          "assigned_field": "hh_0119_Z_13_34018"
+        },
+        "victim": {
+          "profile_index": 177,
+          "assigned_field": "hh_0119_Z_13_34018"
+        }
+      }
+    },
+    {
+      "time": "2401.100",
+      "type": "junction",
+      "lane": ":205069138_2_2",
+      "pos": "11.883822581954",
+      "collider": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+      "victim": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+      "colliderType": "readme_lane_intent",
+      "victimType": "readme_lane_intent",
+      "colliderSpeed": "5.801466286425",
+      "victimSpeed": "0.084913494838",
+      "colliderFront": "1512.498667194158,345.284933719773",
+      "colliderBack": "1508.984144075482,348.864280929778",
+      "victimFront": "1517.343036686616,344.847106151100",
+      "victimBack": "1509.216277084739,344.029493157638",
+      "junction_id": "205069138",
+      "planned_profiles": {
+        "collider": {
+          "profile_index": 106,
+          "assigned_field": "hh_0119_Z_12_31546"
+        },
+        "victim": {
+          "profile_index": 281,
+          "assigned_field": "hh_0535_Z_4_33055"
+        }
+      }
+    }
+  ],
+  "cause_verified": false,
+  "claim_boundary": "Native event locations and planned profiles only. The check stage and the planned route do not identify each vehicle's actual maneuver or a unique collision cause."
+}

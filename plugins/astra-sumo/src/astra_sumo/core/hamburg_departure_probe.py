@@ -21,23 +21,34 @@ ADVANCE_S = 900
 
 def single_pass_structure(network, routes, loops):
     """Check the structural basis of this declared one-field-per-car model."""
-    lanes = {lane.get("id"): (edge.get("id"), float(lane.get("length")))
-             for edge in network.findall("edge") for lane in edge.findall("lane")}
+    lanes = {lane.get("id"): (edge.get("id"), float(lane.get("length")), lane.get("index", str(i)))
+             for edge in network.findall("edge") for i, lane in enumerate(edge.findall("lane"))}
     field_roads = {lanes[r.get("lane")][0] for r in loops}
     kinds = {r.get("id"): r for r in routes.findall("vType")}
     minimum_length = min(float(kinds[v.get("type")].get("length")) for v in routes.findall("vehicle"))
     road_routes = [v.find("route").get("edges").split() for v in routes.findall("vehicle")]
+    exits = {(c.get("from"), c.get("fromLane"), c.get("to")) for c in network.findall("connection")}
+    countable_roads = []
+    for edges in road_routes:
+        following = {edge: edges[i + 1] if i + 1 < len(edges) else None for i, edge in enumerate(edges)}
+        possible = set()
+        for loop in loops:
+            road = lanes[loop.get("lane")][0]
+            if road in following and (following[road] is None or (road, lanes[loop.get("lane")][2], following[road]) in exits):
+                possible.add(road)
+        countable_roads.append(possible)
     checks = {
-        "one_observed_road_per_route": all(len(field_roads & set(edges)) == 1 for edges in road_routes),
+        "at_most_one_countable_detector_road_per_route": all(len(roads) <= 1 for roads in countable_roads),
         "no_repeated_roads": all(len(set(edges)) == len(edges) for edges in road_routes),
         "one_detector_per_lane": len({r.get("lane") for r in loops}) == len(loops),
         "detectors_nearer_to_road_end_than_vehicle_length": all(
             0 <= lanes[r.get("lane")][1] - float(r.get("pos")) < minimum_length for r in loops),
         "standard_instantaneous_lane_change_model": all(k.get("laneChangeModel", "LC2013") == "LC2013" for k in kinds.values()),
     }
-    return {**checks, "structural_conditions_satisfied": all(checks.values()),
+    return {"one_observed_road_per_route": all(len(field_roads & set(edges)) == 1 for edges in road_routes),
+        **checks, "structural_conditions_satisfied": all(checks.values()),
         "minimum_vehicle_length_m": minimum_length,
-        "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation."}
+        "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation. Near-end complete E1 passages require an exit from the detector lane to the route's next road. Different observed roads alone do not imply repeated or multiple detector contributions."}
 
 
 def run_departure_warmup_check(*, full_inputs, output_dir, sumo_binary):

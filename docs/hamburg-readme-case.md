@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [through-route coverage check](../benchmarks/hamburg_ring1_through_route_coverage_20261021_v1/README.md) corrects an excessive one-observed-road restriction.
+Both artificial 40-vehicle cases finish safely with only their assigned complete E1 passages.
+The larger initialization run has two collisions and two teleports. It is invalid despite lower diagnostic residuals.
+All 52 initialization comparisons remain available. Collision causes at ordinary junctions `14398547` and `205069138` remain unresolved.
+No new main-window run was performed. The latest 130/40-row result below remains unchanged.
+
 The latest [initialization and K31/K2 main-window attempt](../benchmarks/hamburg_ring1_z15_k2_full_20261021_v1/README.md) retains all 130 field rows and 40 derived station rows.
 Only 32 field rows and 7 station rows match. Diagnostic field MAE is 19.885, with maximum absolute error 86.
 It timed out during the tail. Its last complete snapshot at 13,645 s records 2,373 uninserted and 390 running vehicles.
