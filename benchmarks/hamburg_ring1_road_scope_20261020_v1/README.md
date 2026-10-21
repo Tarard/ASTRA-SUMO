@@ -132,3 +132,9 @@ ASTRA-generated files retain this source attribution. Code follows the repositor
 The KML regression checks separate field-to-reference and reference-to-SUMO associations without treating field numbers as lane indices.
 The [published-point check](published-field-point-evidence-v1.json) records their proximity to the first official lane anchor.
 This does not establish independently surveyed sensor cross-sections or discharge counting.
+
+The [clearance diagnostic](signal-clearance-evidence-v1.json) retains the source intergreen checks and the 6,000 s control comparison.
+The [longer replay record](clearance-timeout-evidence-v1.json) retains the subsequent timeout and partial detector recovery.
+Its demand fixture is the failed static-response proposal. It does not represent calibrated field demand.
+The truncated E1 fixture contains 137 complete records, including 85 requested field bins. The remaining 45 requested bins stay missing.
+Its seven exact field pairs supply no accepted fit metric because the native run remains invalid.

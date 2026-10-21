@@ -141,6 +141,13 @@ These are control diagnostics, not accepted calibration results. Other signal bi
 The shared source and transition checks pass 41 focused tests.
 All four `b5dc47a` CI checks pass, with 3,923 tests passed, 24 skipped, and all 74 required native cases.
 
+The [full-demand follow-up](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/clearance-timeout-evidence-v1.json) still fails to complete.
+It reaches the 900 s wall-clock limit. Its last complete snapshot has 628 running vehicles, all halting, and no recorded collision or teleport.
+The truncated output retains 85 available field pairs and 26 station pairs. All 130 field rows and 40 station rows remain in the comparisons.
+Missing records remain missing. The recovery function retains strict count and duplicate checks and supplies no accepted fit metric.
+The original failed run stays unchanged. Its [demand file](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/lsa119-stress-demand-v1.rou.xml.gz) and truncated E1 packet are frozen for independent inspection.
+All four `754b718` CI checks pass, with 3,936 tests passed, 24 skipped, and all 74 required native cases.
+
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.

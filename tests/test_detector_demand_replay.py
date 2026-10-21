@@ -1,5 +1,8 @@
 import shutil
 import subprocess
+import gzip
+import json
+from pathlib import Path
 
 import pytest
 
@@ -130,3 +133,25 @@ def test_timeout_reports_completed_field_bins_without_accepting_a_fit(tmp_path, 
     assert result["partial_measurements"]["recovered_field_bins"] == 1
     assert not result["observer_complete"] and not result["exact_count_fit"] and result["field_metrics"] is None
     assert replay.read_csv_rows(tmp_path / "timed-out/field-comparison.csv")[0]["measured_nVehContrib"] == "2"
+
+
+def test_frozen_timed_out_ring1_retains_completed_field_counts(tmp_path):
+    from astra_sumo.core.candidate_contracts import file_sha256
+    from astra_sumo.core.detector_demand import read_csv_rows, write_csv
+
+    root = Path(__file__).parents[1]
+    package = root / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
+    evidence = json.loads((package / "clearance-timeout-evidence-v1.json").read_text(encoding="utf-8"))
+    fixture = evidence["files"]["truncated_e1"]
+    raw = tmp_path / "native-e1.xml"
+    raw.write_bytes(gzip.decompress((root / fixture["compressed"]["path"]).read_bytes()))
+    assert file_sha256(raw) == fixture["uncompressed_sha256"]
+    rows = read_csv_rows(root / "benchmarks/hamburg_ring1_count_window_20261020_v1/field-counts-15min.csv")
+    shifted = [{**r, "begin": str(int(r["begin"])+3600), "end": str(int(r["end"])+3600)} for r in rows]
+    expected = tmp_path / "counts.csv"
+    write_csv(expected, shifted, list(shifted[0]))
+    result = recover_point_detector_measurements(detector_xml=raw, expected_counts_csv=expected, output_dir=tmp_path / "recovered")
+    assert result["completed_records"] == 137
+    assert result["recovered_field_bins"] == 85 and result["missing_field_bins"] == 45
+    assert result["exact_field_bins"] == 7 and len(read_csv_rows(tmp_path / "recovered/field-comparison.csv")) == 130
+    assert result["field_metrics"] is None and not result["exact_count_fit"] and result["inputs_unchanged"]

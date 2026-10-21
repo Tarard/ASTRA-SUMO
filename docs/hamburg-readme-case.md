@@ -101,6 +101,17 @@ The six declared K2/K3/K6 intergreen constraints then hold. This is still a temp
 The scheduled demand contains 4,494 vehicles. These partial trials do not establish their complete arrival or an exact count fit.
 Existing protected-green findings and crossings between paths from the same approach still need separate assessment.
 
+The [longer replay](../benchmarks/hamburg_ring1_road_scope_20261020_v1/clearance-timeout-evidence-v1.json) reaches its 900 s wall-clock limit before the requested 14,400 s simulation end.
+Its last complete snapshot is at 10,607.0 s: 671 arrivals and 628 running vehicles, all halting, with zero recorded collisions or teleports.
+These are partial snapshot counts, not final trip totals. The run remains invalid.
+
+The shared recovery function reads completed E1 records from the truncated output and retains the original file.
+It keeps strict checks on count values, identifiers, and duplicate intervals.
+This run supplies 85 of 130 field comparisons and 26 of 40 station comparisons. The other entries remain missing.
+Seven available field pairs happen to match exactly. They do not establish an accepted fit, and no aggregate fit metric is reported.
+The record also freezes the failed [4,494-vehicle demand proposal](../benchmarks/hamburg_ring1_road_scope_20261020_v1/lsa119-stress-demand-v1.rou.xml.gz) for independent checks.
+That demand is a diagnostic input, not calibrated traffic.
+
 The local raw responses, request URLs, retrieval times, and hashes are under
 `outputs/hamburg-readme-case-20261020-v1/counts-discovery-v1/`.
 The official service has a rolling observation range. A later query can return different coverage or revised records.
