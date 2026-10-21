@@ -112,6 +112,30 @@ def test_route_costs_can_weight_changes_from_a_declared_prior():
     assert result["residual"] == [0]
 
 
+@pytest.mark.parametrize("prior", [None, np.asarray([4, 0])])
+def test_entry_capacity_moves_flow_to_another_route_without_relaxing_counts(prior):
+    result = solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([4]),
+        route_costs=np.asarray([1., 2.]), prior=prior,
+        entry_matrix=np.eye(2, dtype=int), entry_capacities=np.asarray([1, 4]))
+    assert result["solution"] == [1, 3] and result["residual"] == [0]
+    assert result["entry_counts"] == [1, 3]
+
+
+def test_infeasible_entry_capacity_does_not_supply_an_approximate_count_fit():
+    result = solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([4]),
+        entry_matrix=np.eye(2, dtype=int), entry_capacities=np.asarray([1, 2]))
+    assert result["failure_kind"] == "infeasible" and result["solution"] is None
+
+
+@pytest.mark.parametrize("matrix, capacities", [(None, [1]), ([[1, 0]], None), ([[1]], [1]),
+    ([[1, 0]], [1, 2]), ([[1, 0]], [-1]), ([[1, 0]], [1.5])])
+def test_entry_limits_reject_missing_misaligned_or_noninteger_data(matrix, capacities):
+    with pytest.raises(ValueError):
+        solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([4]),
+            entry_matrix=None if matrix is None else np.asarray(matrix),
+            entry_capacities=None if capacities is None else np.asarray(capacities))
+
+
 @pytest.mark.parametrize("costs", [[1], [1, 0], [1, -1], [1, np.nan], [1, 2j], [[1, 2]], ["one", "two"]])
 def test_route_costs_reject_invalid_or_misaligned_weights(costs):
     with pytest.raises(ValueError, match="route_costs"):

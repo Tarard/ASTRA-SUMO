@@ -247,7 +247,7 @@ These measurements do not establish independent field accuracy or final detector
 3. Fit against the frozen observations and retain all field-level residuals.
 4. Compare observed and simulated counts in the same window, with separate independent validation.
 
-The intended presentation uses actual matched NetEdit screenshots over one Google background.
+The intended presentation uses `astra review render` with fixed aerial bounds and matched NetEdit before/after supplements.
 Those figures and the count curves are not produced by this partial runner yet.
 The [official source package](../../benchmarks/hamburg_ring1_official_sources_20261020_v1/README.md) supplies the next junction stage offline.
 The [source-count package](../../benchmarks/hamburg_ring1_count_window_20261020_v1/README.md) checks official field-to-station aggregation offline.
@@ -255,3 +255,17 @@ It contains no simulated or fitted counts.
 The [earlier five-node driving evidence](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/full-movement-driving-evidence-v1.json) retains the diagnostic construction before this shared replay command.
 Its local runner references remain historical. The commands above replace those scripts for the construction and detector steps.
 See the [case and six-stage design](../../docs/hamburg-readme-case.md) and [road-selection behavior](../../docs/road-hierarchy.md).
+
+## Offline demand preparation
+
+The [M1 package](../../benchmarks/hamburg_ring1_m1_demand_pool_20261021_v1/README.md) supplies frozen inputs for a provisional demand calculation.
+It keeps all 13 fields and reports tour exclusions, flagged indirect turns, lane intentions, and entry limits.
+It does not supply native count calibration or execute its intermediate lane intentions.
+
+```powershell
+.venv/Scripts/python.exe plugins/astra-sumo/scripts/build_hamburg_readme_demand.py benchmarks/hamburg_ring1_m1_demand_pool_20261021_v1/replay-request.json outputs/ring1-demand-pool
+```
+
+The output directory must be new. The native inspection loads SUMO 1.27.1 without advancing traffic.
+The integer proposal uses free-flow times and a declared entry prior of 900 vehicles/hour per motor lane.
+These assumptions still require control installation and native validation.

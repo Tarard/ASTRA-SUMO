@@ -1,0 +1,78 @@
+I’ll lead from here. It took a short read of d8f20eb (the entry-probe and 535-binding packages); the plan below rests on everything established so far in this conversation.
+
+Where we stand
+Part of the README case	Status
+Stages 1–4: OSM → pruning → junction construction → 13 sensors	Verified. Reproducible on Windows and Linux.
+Entry mechanism	Candidate. The primary-road prefix (44532531) works in small tests.
+Signal control	Placeholder. Generated programs at the official junctions, 59 actuated OSM defaults elsewhere. The OCIT reader is validated, but no OCIT program is installed.
+Demand	Blocking. 667 of 1,270 routes at 535 pass the same junction twice; earlier proposals were tours.
+535 lane binding	Open. Can’t be judged until the demand is free of tours.
+Exact E1 fit	Not started in any valid run.
+Reports and images	Not started for the new build.
+
+The critical path is: plausible demand pool → real control → measured responses → integer correction loop to zero → reports and images. Geometry fixes come in only where a valid run shows they’re needed.
+
+Milestones
+#	Milestone	Done when
+M1	Demand pool and entry allocation (offline)	Route pool passes the structural checks; a first integer proposal has plausible loads
+M2	Control installation	OCIT SP1 at 119/535, fixed-time stand-ins at 104/118/200, static programs for the 59 non-official controllers; intergreens verified natively; results independent of begin time
+M3	Native validation of the pool under M2	A full-window run with no deadlock, collision, teleport or insertion backlog; any blocking is attributed and fixed (535 binding, same-approach crossings, LSA119 composed links)
+M4	Lane intent and responses	A declared lane-intent mechanism for the 8 lane-split fields; lane-level responses re-measured
+M5	Exact fit	Integer correction loop on native E1 until all 130 + 40 residuals are 0, reproduced on Windows and Linux, with integrity counters at zero — or an honest residual report naming the assumption that blocks it
+M6	Reports and images	astra review render corridor and LSA118 four-stage figures, NetEdit before/after, real vs SUMO count tables, README update
+Assignment 1: build the M1 route pool, offline only
+
+No full-window simulation in this assignment.
+
+1. Route rule
+
+Each route passes each junction at most once.
+
+An official multi-part controller (e.g. LSA200_part0–part3) counts as one junction. Consecutive parts within one traversal count as a single pass.
+Turnarounds made within a single pass stay allowed. Opposite directions of a road stay allowed. No detour cap.
+Splice exception. For a route that passes a junction twice, test the direct movement from its first entry approach to its last exit approach.
+If that movement exists as a legal connection, exclude the route.
+If it doesn’t, keep the route as a flagged round-the-block route.
+Routes start and end only at declared boundaries.
+2. Entries
+No injection from the five entries still shorter than 7.5 m natively. Report them with zero assigned demand.
+Add the primary-road prefix substitution (25866659#1 → 44532531) as a declared alternative entry. Keep the service prefix 963776077#0 as a labelled candidate.
+Give each entry a declared inflow ceiling as a parameter, initially 900 veh/h per motor lane. Report which ceilings bind. This stops the solver from filling short side roads.
+3. Structural checks
+
+Report all of these:
+
+per-field coverage: does each of the 13 fields keep at least one single-pass route?
+lane-level response rank, with and without lane intent;
+the vehicle-count lower bound (at most one field per junction per vehicle);
+the number of routes excluded, flagged round-the-block routes, and remaining turnaround use per junction.
+4. First integer proposal
+Objective: minimize total vehicle-km, not vehicle count.
+Constraints:
+exact field-bin equations, using free-flow travel-time offsets for bin placement, labelled provisional;
+entry ceilings;
+single-pass routes.
+Report:
+vehicles;
+vehicle-km;
+passages per vehicle;
+assigned load per entry and per official approach lane, as veh/15 min against a nominal 1,800 veh/h per lane;
+any lane above that nominal value.
+5. Freeze and report back
+
+Freeze the pool, proposal and checks as a new benchmark package with hashes. Then send me:
+
+coverage and rank;
+the lower bound and the proposal size;
+which entry ceilings bind and which lanes are overloaded;
+any field that lost coverage.
+
+Acceptance:
+
+every field is covered, or each exception is explained;
+no route passes any junction twice except flagged round-the-block routes;
+no injection from sub-7.5 m entries;
+the proposal satisfies the equations exactly under its declared constraints, or the report shows why not.
+Next, after your report
+
+Assignment 2 is M2, control installation. I’ll specify the OCIT binding, group types, the treatment of Z.15 and composed links, and the native intergreen check once I see Assignment 1’s lane loads. Overloaded approaches will tell us where control correspondence matters most.

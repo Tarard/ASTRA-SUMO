@@ -182,6 +182,12 @@ Formal error metrics remain unavailable for both invalid runs. The candidate is 
 The shared demand contains 667 routes that revisit the same 535 core without repeating a directed road.
 This identifies remaining tour candidates, not a proven sole cause of the standstill or a zero-error infeasibility result.
 
+The [M1 offline demand package](../benchmarks/hamburg_ring1_m1_demand_pool_20261021_v1/README.md) retains 1,809 routes and 2,515 ideal lane intentions.
+All 13 fields retain single-pass witnesses. Its provisional integer proposal has 5,334 vehicles and satisfies all 130 field equations.
+The distance objective includes ordinary and internal roads. These are free-flow calculations, with no traffic simulation or native count-fit result.
+The 8.91 m entry still receives 2,250 vehicles and reaches its assumed limit in ten intervals.
+The 452 selected indirect-turn vehicles remain explicit. Entry plausibility, control, and native lane realization still need verification.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 

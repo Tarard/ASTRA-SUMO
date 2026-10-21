@@ -85,6 +85,8 @@ def solve_nonnegative_integer_route_flows(
     *,
     prior: np.ndarray | None = None,
     route_costs: np.ndarray | None = None,
+    entry_matrix: np.ndarray | None = None,
+    entry_capacities: np.ndarray | None = None,
     time_limit_seconds: float = 60.0,
 ) -> dict[str, object]:
     """Find one exact integer route-flow vector for a sensor response matrix.
@@ -94,6 +96,7 @@ def solve_nonnegative_integer_route_flows(
     the solver minimizes the L1 change from that prior; otherwise it minimizes
     the number of vehicles. Positive route costs can weight either objective.
     For example, route lengths give a vehicle-distance objective without a prior.
+    Optional entry rows impose upper flow limits without relaxing sensor equalities.
     The function deliberately returns ``blocked``
     rather than weakening an infeasible equality into an undocumented fit.
     """
@@ -114,6 +117,15 @@ def solve_nonnegative_integer_route_flows(
     counts = counts_integer.astype(np.float64)
 
     route_count = matrix.shape[1]
+    entry = capacities = None
+    if (entry_matrix is None) != (entry_capacities is None):
+        raise ValueError("Provide both entry_matrix and entry_capacities.")
+    if entry_matrix is not None:
+        entry = _exact_nonnegative_integer_array(entry_matrix, "entry_matrix")
+        capacities = _exact_nonnegative_integer_array(entry_capacities, "entry_capacities")
+        if (entry.ndim != 2 or entry.shape[0] == 0 or entry.shape[1] != route_count
+                or capacities.ndim != 1 or len(capacities) != entry.shape[0]):
+            raise ValueError("Entry capacities must match entry rows and route columns.")
     costs = np.ones(route_count, dtype=np.float64)
     if route_costs is not None:
         values = np.asarray(route_costs)
@@ -157,6 +169,9 @@ def solve_nonnegative_integer_route_flows(
 
     if prior is None:
         integrality = np.ones(variable_count)
+    if entry is not None:
+        bounded = entry if prior is None else np.column_stack([entry, np.zeros((len(entry), route_count * 2))])
+        constraints.append(LinearConstraint(bounded, np.zeros(len(entry)), capacities))
 
     result = milp(
         c=objective,
@@ -188,6 +203,8 @@ def solve_nonnegative_integer_route_flows(
     residual = measured - expected
     if np.any(residual != 0):
         raise RuntimeError("integer solver returned a non-exact sensor solution")
+    if entry is not None and np.any(entry @ solution > capacities):
+        raise RuntimeError("integer solver exceeded an entry capacity")
     return {
         "status": "pass",
         "objective": objective_name,
@@ -202,6 +219,8 @@ def solve_nonnegative_integer_route_flows(
         "rank": int(np.linalg.matrix_rank(matrix)),
         "nullity": int(route_count - np.linalg.matrix_rank(matrix)),
         **({"route_costs": costs.tolist()} if route_costs is not None else {}),
+        **({"entry_counts": (entry @ solution).tolist(), "entry_capacities": capacities.tolist()}
+           if entry is not None else {}),
     }
 
 
