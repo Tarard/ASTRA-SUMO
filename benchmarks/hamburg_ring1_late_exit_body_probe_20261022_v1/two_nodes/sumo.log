@@ -1,0 +1,35 @@
+***Starting server on port 8312 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-late-exit-body-hold-probe-20261022-v1\two_nodes\network.net.xml' ... done (207ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-late-exit-body-hold-probe-20261022-v1\two_nodes\signal-programs.add.xml' ... done (5ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-late-exit-body-hold-probe-20261022-v1\two_nodes\e1.add.xml' ... done (3ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-late-exit-body-hold-probe-20261022-v1\two_nodes\instant.add.xml' ... done (3ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading route-files incrementally from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-late-exit-body-hold-probe-20261022-v1\two_nodes\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.000.
+Simulation ended at time: 900.000.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 10.328s
+ TraCI-Duration: 5.839s
+ Real time factor: 87.1418
+ UPS: 12002.807901
+Vehicles:
+ Inserted: 40
+ Running: 0
+ Waiting: 0
+Statistics (avg of 40):
+ RouteLength: 946.651813000000
+ Speed: 3.371514872645
+ Duration: 309.912000000000
+ WaitingTime: 159.717000000000
+ TimeLoss: 240.214000000000
+ DepartDelay: 5.417000000000
+ DepartDelayWaiting: 0.000000000000

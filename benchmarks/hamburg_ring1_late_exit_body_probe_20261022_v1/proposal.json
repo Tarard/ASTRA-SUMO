@@ -1,0 +1,10 @@
+{
+  "formal_result": false,
+  "source_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_localized_junction_body_full_20261021_v1",
+  "vehicles": 40,
+  "purpose": "Test the original two whole-route profiles under a sparse artificial cohort. This is not the original collision or whole-demand reproduction.",
+  "fixed_between_cases": "Network, roads, lane permissions, signals, vehicle type, 40 routes, request times, detector intentions and artificial count targets.",
+  "change": "Add only node 18653534 to the existing body-hold scope at 14398547 and 205069138.",
+  "evaluation": "Native completion and E1 20 per assigned field, no collisions/teleports/standstill, actual exit lane-change positions and absence of lane changes during active body holds.",
+  "claim_boundary": "Artificial mechanism and route-clearance test only. All original 130/40 real targets stay in the source case and are not replaced by these 13 artificial rows."
+}

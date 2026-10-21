@@ -8,6 +8,12 @@ It confirms an exit lane change at node `18653534` while the vehicle rear still 
 The full residual decomposition retains every request and separates time-bin transfers, uninserted demand and incomplete field passages.
 No demand correction or third-node driver repair has yet been validated.
 
+The subsequent [paired 40-vehicle exit test](../benchmarks/hamburg_ring1_late_exit_body_probe_20261022_v1/README.md) retains both original whole-route profiles and native lane permissions.
+Both cases finish safely, with 20 complete E1 passages per assigned field and one assigned passage per vehicle.
+Adding only node `18653534` delays every tested exit lane change until rear clearance. The earlier sparse case has eight changes before clearance.
+The passenger permission check leaves only outlet lane 2 for the next road. Lane 1 is bicycle-only and remains restricted.
+This artificial maneuver test does not replace any real count target. The complete three-node candidate is under native evaluation.
+
 The [full global junction-body-hold run](../benchmarks/hamburg_ring1_junction_body_full_20261021_v1/README.md) completes the planned duration with all 130/40 count rows available.
 It has no collisions or teleports, but remains invalid: 2,771 vehicles never enter and 329 remain running. Diagnostic field MAE is 25.077, with maximum error 154.
 Native records and an isolated suffix test identify a hold-release conflict on a 2.10 m connector. The global driver candidate is rejected.
