@@ -97,11 +97,12 @@ A vehicle can pass several stations, so the sum of station counts is not the num
 
 ### Exact count-fit target
 
-The requested calibration target is exact integer agreement at every declared station and 15-minute bin in the fitting window.
+The requested calibration target is exact integer agreement at every declared field, station, and 15-minute bin in the fitting window.
 Both MAE and maximum absolute count error must equal zero. An average error of 0.15 does not meet this target.
 The comparison must use actual SUMO detector output with fixed observations, declared detector sections, count definitions, and time boundaries.
 The comparison will also report all 130 field-level fifteen-minute residuals before their aggregation into the 40 station totals.
 This prevents errors in different fields or directions from cancelling within a station total.
+A station total cannot pass while a declared constituent field has a nonzero residual.
 Any initialization period precedes the declared comparison window. Declared first-bin observations remain in the result.
 The report must retain every declared station and bin, including residuals that remain nonzero.
 It must record demand variables, signal treatment, vehicle insertion, unfinished traffic, collisions, and teleports.

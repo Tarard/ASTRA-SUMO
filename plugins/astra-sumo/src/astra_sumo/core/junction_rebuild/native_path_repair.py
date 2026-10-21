@@ -52,6 +52,8 @@ def rebuild_custom_path_endpoints(*, plan, candidate_file, output_dir, command_r
         from ..network_geometry_freeze import _lane_count_mutable_geometry_edges
         geometry_edges = _lane_count_mutable_geometry_edges(source_root, plan["operation"]["params"]["edge_id"],
                                                           nodes, set(plan["mutable_edge_ids"]))
+        if plan.get("lane_count_scope_policy") == "overlap_connector_closure":
+            geometry_edges = set(plan["mutable_edge_ids"])
 
     def endpoint_view(root):
         if not count_edit:

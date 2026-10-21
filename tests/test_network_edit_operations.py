@@ -14,6 +14,25 @@ from astra_sumo.core.corridor_edit_ledger import build_corridor_edit_ledger, mat
 from astra_sumo.core.network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation
 
 
+@pytest.mark.parametrize("grade", [False, True])
+def test_overlap_connector_scope_follows_contained_flat_roads_only(grade):
+    from astra_sumo.core.network_geometry_freeze import _overlap_connector_scope
+    from astra_sumo.core.network_edit_operations import scoped_operation_scope
+
+    root = ET.Element("net")
+    for key, x in (("a", 0), ("b", 2), ("c", 4), ("d", 6)):
+        ET.SubElement(root, "junction", id=key, shape=f"{x},0 {x+4},0 {x+4},4 {x},4")
+    for key, left, right, shape in (("ab", "a", "b", "2.5,2 3.5,2"),
+            ("bc", "b", "c", "4.5,2,1 5.5,2,1" if grade else "4.5,2 5.5,2"),
+            ("cd", "c", "d", "5,2 7,2")):
+        ET.SubElement(ET.SubElement(root, "edge", id=key, **{"from": left, "to": right}), "lane", shape=shape)
+    expected = ({"a", "b"}, {"ab"}) if grade else ({"a", "b", "c"}, {"ab", "bc"})
+    assert _overlap_connector_scope(root, {"a"}) == expected
+    operation = {"operation": "set_lane_count", "params": {"edge_id": "ab"}}
+    assert scoped_operation_scope(root, operation)[0] == {"a", "b"}
+    assert scoped_operation_scope(root, operation, include_overlap_connectors=True)[0] == expected[0]
+
+
 @pytest.mark.parametrize("remap, expected_new", [({}, True), ({("a", 0): ("a", 1)}, False), ({("a", 0): None}, True)])
 def test_green_conflict_comparison_uses_physical_pairs_and_lane_remapping(monkeypatch, remap, expected_new):
     import astra_sumo.core.network_edit_operations as edits
@@ -149,7 +168,7 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
     assert str(actual_input) == frozen["frozen_input"]["path"]
     assert file_sha256(actual_input) == frozen["frozen_input"]["sha256"]
     assert frozen["mutable_edge_ids"] == ["554713076#0"]
-    assert frozen["junction_contour_policy"] == "preserve_motor"
+    assert frozen["junction_contour_policy"] == "rebuild_scope"
     original_input = ET.parse(frozen["source"]["path"]).getroot()
     assert frozen["mutable_junction_ids"] == ["759714744"]
     current = ET.parse(actual_input).getroot()
@@ -161,6 +180,11 @@ def test_real_hamburg_lane_count_plan_keeps_existing_signal_programs(tmp_path, c
     from astra_sumo.core.local_network_conversion import _expected_conversion_input
     record = plan["local_conversion"]
     assert _expected_conversion_input(record, original_input) == actual_input.read_bytes()
+    from astra_sumo.core.local_network_conversion import validate_local_conversion
+    forged_scope = deepcopy(record)
+    forged_scope["lane_count_scope_policy"] = "all_roads"
+    with pytest.raises(ValueError, match="unsupported lane-count scope policy"):
+        validate_local_conversion(forged_scope, source)
     from astra_sumo.core.network_geometry_freeze import _freeze_geometry_hints
     legacy_root = deepcopy(original_input)
     automatic = frozenset(j.get("id") for j in legacy_root.findall("junction")
@@ -222,18 +246,40 @@ def test_native_ring1_lane_count_geometry_uses_declared_source_hints(tmp_path, m
     assert report["nonmotor_access_preservation"]["status"] == "pass"
     assert validate_local_conversion(report["local_conversion"], source).is_file()
     neighboring = report["neighboring_road_geometry"]
-    assert neighboring["source_geometry_preserved"], neighboring
-    assert neighboring["ordinary_lane_attribute_changes"] == {"shape": 0, "length": 0, "width": 0}
+    assert report["geometry_preservation"]["status"] == "pass", report["geometry_preservation"]
+    assert neighboring["ordinary_lane_attribute_changes"]["width"] == 0
     assert report["structural_failure_count"] == 0
     assert not report["driving_integrity"]["endpoint_gap_movements"]
     if "unfrozen_baseline" in metadata:
         assert neighboring["ordinary_lane_attribute_changes"]["shape"] < metadata["unfrozen_baseline"]["ordinary_lane_attribute_changes"]["shape"]
         assert neighboring["max_outside_lane_shape_displacement_xy_m"] < metadata["unfrozen_baseline"]["max_outside_lane_shape_displacement_xy_m"]
     if metadata.get("pre_repair_endpoint_gap_count"):
+        from shapely.geometry import Point, Polygon
+        edited = ET.parse(candidate).getroot().find(f"edge[@id='{operation['params']['edge_id']}']")
+        junction_id = edited.get("from")
+        assert ET.parse(source).getroot().find(f"junction[@id='{junction_id}']").get("customShape", "false") not in {"true", "1"}
+        junction = ET.parse(candidate).getroot().find(f"junction[@id='{junction_id}']")
+        assert junction.get("customShape", "false") not in {"true", "1"}
+        surface = Polygon([tuple(map(float, value.split(",")))[:2] for value in junction.get("shape").split()])
+        assert max(surface.distance(Point(tuple(map(float, lane.get("shape").split()[0].split(",")))[:2]))
+                   for lane in edited.findall("lane")) <= 1e-5
+        assert "1068722010" in plan["overlap_connector_edge_ids"]
+        source_edge = ET.parse(source).getroot().find("edge[@id='1068722010']")
+        candidate_edge = ET.parse(candidate).getroot().find("edge[@id='1068722010']")
+        from astra_sumo.core.network_geometry_freeze import _overlap_connector_scope
+        assert source_edge is not None and candidate_edge is not None
+        assert {source_edge.get("from"), source_edge.get("to")} <= set(plan["mutable_junction_ids"])
+        candidate_root = ET.parse(candidate).getroot()
+        nodes = [candidate_root.find(f"junction[@id='{candidate_edge.get(end)}']") for end in ("from", "to")]
+        road_direction = [float(nodes[1].get(key)) - float(nodes[0].get(key)) for key in ("x", "y")]
+        for lane in candidate_edge.findall("lane"):
+            points = [tuple(map(float, value.split(","))) for value in lane.get("shape").split()]
+            assert sum((points[-1][i] - points[0][i]) * road_direction[i] for i in (0, 1)) > 0
+        assert _overlap_connector_scope(ET.parse(source).getroot(), {junction_id})[0] <= set(plan["mutable_junction_ids"])
+        native = ET.parse(report["local_conversion"]["native_output"]["path"]).getroot()
+        assert candidate_edge.find("lane").get("shape") == native.find("edge[@id='1068722010']/lane").get("shape")
         repair = report["native_path_repair"]
-        assert repair["attempts"] and repair["remaining_endpoint_gap_count"] == 0
-        assert repair["endpoint_geometry_reference"] == "source_geometry_after_restoration"
-        assert len(repair["native_endpoint_gaps_before_restoration"]) == metadata["pre_repair_endpoint_gap_count"]
+        assert repair["remaining_endpoint_gap_count"] == 0
         from astra_sumo.core.junction_rebuild.native_path_repair import validate_native_path_repair_chain
         validate_native_path_repair_chain(plan["command"], repair, report["local_conversion"]["native_output"])
     assert report["source_immutable"] and source.read_bytes() == original

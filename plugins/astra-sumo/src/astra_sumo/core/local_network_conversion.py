@@ -519,6 +519,9 @@ def validate_local_conversion(record, source_file, *, command=None):
     """Rebuild the local input and merged proposal from saved source and native files."""
     from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
     source_root = ET.parse(source_file).getroot()
+    policy = record.get("lane_count_scope_policy")
+    if policy not in {None, "overlap_connector_closure"} or policy and record.get("operation", {}).get("operation") != "set_lane_count":
+        raise ValueError("Local conversion has an unsupported lane-count scope policy.")
     if record.get("status") == "full_network" and record.get("preserve_loaded_turn_permissions") is True:
         expected = _expected_conversion_input(record, with_loaded_turn_permissions(source_root))
         input_file = Path(record["input"]["path"])
@@ -543,7 +546,7 @@ def validate_local_conversion(record, source_file, *, command=None):
         return _validate_local_artifacts(record, source_root, subset, expected)
     if validate_scoped_operation(operation, source_root):
         raise ValueError("Local conversion has an invalid scoped operation.")
-    nodes, edges = scoped_operation_scope(source_root, operation)
+    nodes, edges = scoped_operation_scope(source_root, operation, include_overlap_connectors=policy is not None)
     params = operation["params"]
     groups = {params["join_id"]: params["node_ids"]} if operation["operation"] in {"join_junctions", "absorb_reciprocal_fragment"} else None
     subset, expected = local_conversion_input(source_root, nodes, edges, join_groups=groups,
@@ -587,7 +590,8 @@ def _expected_conversion_input(record, root):
     from .network_geometry_freeze import _freeze_geometry_hints, _lane_count_automatic_pedestrian_nodes
     root = deepcopy(root)
     policy = frozen.get("junction_contour_policy")
-    if policy not in {None, "preserve", "preserve_motor"} or kind != "set_lane_count" and policy == "preserve_motor":
+    if policy not in {None, "preserve", "preserve_motor", "rebuild_scope"} or (
+            kind != "set_lane_count" and policy in {"preserve_motor", "rebuild_scope"}):
         raise ValueError("Frozen geometry input has an unsupported junction contour policy.")
     # Legacy count plans allowed automatic contours. Their saved inputs remain reproducible.
     automatic = (frozenset(j.get("id") for j in root.findall("junction")
@@ -595,6 +599,11 @@ def _expected_conversion_input(record, root):
         if kind == "set_lane_count" and policy is None else frozenset())
     if policy == "preserve_motor":
         automatic = _lane_count_automatic_pedestrian_nodes(root)
+    if policy == "rebuild_scope":
+        from .network_edit_operations import scoped_operation_scope
+        nodes, _ = scoped_operation_scope(root, operation, include_overlap_connectors=True)
+        automatic = frozenset(j.get("id") for j in root.findall("junction") if j.get("id") in nodes
+            and j.get("type") != "internal" and j.get("customShape", "false") not in {"true", "1"})
     edges = frozenset({operation["params"]["edge_id"]}) if kind == "set_lane_count" else frozenset()
     hints = _freeze_geometry_hints(root, edges, automatic)
     if any(frozen.get(key) != value for key, value in hints.items()):

@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 import math
 import xml.etree.ElementTree as ET
-from shapely.geometry import LineString
+from shapely.geometry import LineString, Polygon
 
 from .candidate_contracts import file_sha256
 
@@ -26,6 +26,35 @@ def _lane_count_mutable_geometry_edges(root, edge_id, mutable_nodes, context_edg
     pedestrian_nodes = _lane_count_automatic_pedestrian_nodes(root) & set(mutable_nodes)
     return {edge_id} | {edge.get("id") for edge in root.findall("edge") if edge.get("id") in context_edges
                        and pedestrian_nodes & {edge.get("from"), edge.get("to")}}
+
+
+def _overlap_connector_scope(root, initial_nodes):
+    """Keep both ends of flat roads contained in overlapping junction surfaces."""
+    def points(element):
+        return [tuple(map(float, value.split(","))) for value in element.get("shape", "").split()]
+
+    junctions = {j.get("id"): j for j in root.findall("junction") if j.get("type") != "internal"}
+    polygons = {key: Polygon([p[:2] for p in points(junction)]) for key, junction in junctions.items()
+                if len(points(junction)) >= 3}
+    connectors = {}
+    for edge in root.findall("edge"):
+        ends = {edge.get("from"), edge.get("to")}
+        if edge.get("function") or len(ends) != 2 or not ends <= polygons.keys():
+            continue
+        if any(not polygons[key].is_valid or polygons[key].area == 0 for key in ends):
+            continue
+        heights = {float(junctions[key].get("z", "0")) for key in ends}
+        lanes = [points(lane) for lane in edge.findall("lane")]
+        heights.update(p[2] if len(p) > 2 else 0.0 for lane in lanes for p in lane)
+        if len(heights) == 1 and lanes and all(len(lane) >= 2 and all(
+                polygons[key].covers(LineString([p[:2] for p in lane])) for key in ends) for lane in lanes):
+            connectors[edge.get("id")] = ends
+    nodes = set(initial_nodes)
+    while True:
+        expanded = nodes | {node for ends in connectors.values() if ends & nodes for node in ends}
+        if expanded == nodes:
+            return nodes, {key for key, ends in connectors.items() if ends <= nodes}
+        nodes = expanded
 
 
 def prepare_geometry_frozen_input(*, source_file: Path, output_file: Path,

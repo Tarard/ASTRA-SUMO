@@ -1903,7 +1903,10 @@ def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
         from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
         if validate_scoped_operation(plan["operation"], source_root):
             return {}
-        nodes, edges = scoped_operation_scope(source_root, plan["operation"])
+        policy = plan.get("lane_count_scope_policy")
+        if policy not in {None, "overlap_connector_closure"} or policy and plan["operation"]["operation"] != "set_lane_count":
+            return {}
+        nodes, edges = scoped_operation_scope(source_root, plan["operation"], include_overlap_connectors=policy is not None)
         if set(plan["mutable_junction_ids"]) != nodes or set(plan["mutable_edge_ids"]) != edges:
             return {}
         return plan

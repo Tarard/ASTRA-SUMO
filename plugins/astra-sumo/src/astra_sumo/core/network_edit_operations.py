@@ -652,7 +652,7 @@ def validate_scoped_operation(operation: dict, root: ET.Element | None = None) -
     return errors
 
 
-def scoped_operation_scope(root, operation):
+def scoped_operation_scope(root, operation, *, include_overlap_connectors=False):
     edges, _, _ = _inventory(root)
     kind, params = operation["operation"], operation["params"]
     if kind in _CONNECTION_EDITS:
@@ -669,6 +669,9 @@ def scoped_operation_scope(root, operation):
         edge = edges[params["edge_id"]] if kind in {"set_edge_shape", "set_lane_count"} else next(
             edge for edge in edges.values() if any(lane.get("id") == params["lane_id"] for lane in edge.findall("lane")))
         nodes = {edge.get("from"), edge.get("to")}
+    if kind == "set_lane_count" and include_overlap_connectors:
+        from .network_geometry_freeze import _overlap_connector_scope
+        nodes, _ = _overlap_connector_scope(root, nodes)
     return nodes, {key for key, edge in edges.items() if edge.get("from") in nodes or edge.get("to") in nodes}
 
 
@@ -704,7 +707,7 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
     edges, nodes, connections = _inventory(root)
     patches = {"nodes": ET.Element("nodes"), "edges": ET.Element("edges"),
                "connections": ET.Element("connections"), "tllogics": ET.Element("tlLogics")}
-    mutable, mutable_edges = scoped_operation_scope(root, operation)
+    mutable, mutable_edges = scoped_operation_scope(root, operation, include_overlap_connectors=True)
     if kind in _CONNECTION_EDITS:
         attrs = {k: str(params[k]) for k in ("from", "fromLane", "to", "toLane", "allow", "disallow") if k in params}
         ET.SubElement(patches["connections"], "connection" if kind == "add_lane_connection" else "delete", attrs)
@@ -772,6 +775,9 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
             "evidence_sources": evidence_sources,
             "source": {"path": str(source_file), "sha256": file_sha256(source_file)}, "patches": {}}
     if kind == "set_lane_count":
+        from .network_geometry_freeze import _overlap_connector_scope
+        _, connectors = _overlap_connector_scope(root, mutable)
+        plan.update(lane_count_scope_policy="overlap_connector_closure", overlap_connector_edge_ids=sorted(connectors))
         plan["lane_index_mapping"] = {str(old): new for old, new in _lane_count_layout(params, edges[params["edge_id"]], root.get("version", "0.0")).items()}
         plan["lane_template_index"] = template
         plan["requested_connections"] = requested_connections
@@ -787,6 +793,8 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
         from .local_network_conversion import local_conversion_input
         groups = {params["join_id"]: params["node_ids"]} if kind in _JOIN_EDITS else None
         subset, local = local_conversion_input(root, mutable, mutable_edges, join_groups=groups)
+        if kind == "set_lane_count":
+            local["lane_count_scope_policy"] = plan["lane_count_scope_policy"]
         plan["local_conversion"] = local
         changed_permissions = ET.tostring(root) != ET.tostring(ET.parse(source_file).getroot())
         if subset is not None or changed_permissions or kind == "set_lane_count" or kind in _CONNECTION_EDITS:
@@ -800,15 +808,19 @@ def write_scoped_edit_plan(*, root: ET.Element, operation: dict, source_file: Pa
                          operation=operation, preserve_loaded_turn_permissions=True)
             command[command.index("--sumo-net-file") + 1] = str(local_file.resolve())
         if kind == "set_lane_count" or kind in _CONNECTION_EDITS:
-            from .network_geometry_freeze import prepare_geometry_frozen_input, _lane_count_automatic_pedestrian_nodes
+            from .network_geometry_freeze import prepare_geometry_frozen_input
             slot = command.index("--sumo-net-file") + 1
-            automatic = (_lane_count_automatic_pedestrian_nodes(ET.parse(command[slot]).getroot())
-                         if kind == "set_lane_count" else frozenset())
+            automatic = frozenset()
+            if kind == "set_lane_count":
+                input_root = ET.parse(command[slot]).getroot()
+                automatic = frozenset(j.get("id") for j in input_root.findall("junction")
+                    if j.get("id") in mutable and j.get("type") != "internal"
+                    and j.get("customShape", "false") not in {"true", "1"})
             frozen = prepare_geometry_frozen_input(source_file=Path(command[slot]),
                 output_file=output_dir / f"{prefix}.geometry-frozen-input.net.xml",
                 mutable_edge_ids=frozenset({params["edge_id"]}) if kind == "set_lane_count" else frozenset(),
                 mutable_junction_ids=automatic)
-            frozen["junction_contour_policy"] = "preserve_motor" if kind == "set_lane_count" else "preserve"
+            frozen["junction_contour_policy"] = "rebuild_scope" if kind == "set_lane_count" else "preserve"
             plan["geometry_frozen_input"] = frozen
             command[slot] = frozen["frozen_input"]["path"]
             if local.get("input"):
@@ -862,7 +874,8 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
     geometry_edges = {params["edge_id"]} if kind == "set_lane_count" else set() if kind in _CONNECTION_EDITS else mutable_edges
     if kind == "set_lane_count":
         from .network_geometry_freeze import _lane_count_mutable_geometry_edges
-        geometry_edges = _lane_count_mutable_geometry_edges(before, params["edge_id"], mutable_nodes, mutable_edges)
+        geometry_edges = (mutable_edges if plan.get("lane_count_scope_policy") == "overlap_connector_closure" else
+                          _lane_count_mutable_geometry_edges(before, params["edge_id"], mutable_nodes, mutable_edges))
     before_restore = compare_frozen_geometry(source_file=source, candidate_file=proposal,
         mutable_junction_ids=mutable_nodes, mutable_edge_ids=geometry_edges)
     if plan["materialization_method"] != "netconvert":
@@ -892,6 +905,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         neighboring_geometry.update(source_geometry_preserved=neighboring_geometry["status"] == "pass", status="measured")
     after = ET.parse(candidate_file).getroot()
     restored_speeds = []
+    restored_junction_markers = []
     if kind not in {"set_lane_permissions", "set_speed"}:
         source_speeds = {lane.get("id"): lane.get("speed") for edge in before.findall("edge")
                          if not edge.get("function") for lane in edge.findall("lane")}
@@ -911,7 +925,19 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
         if kind == "set_junction_shape":
             # Native conversion can quantize coordinates before computing junction geometry.
             after.find(f"junction[@id='{params['node_id']}']").set("shape", _shape(params["shape"]))
-        if restored_speeds or kind == "set_junction_shape":
+        if kind in _CONNECTION_EDITS or kind == "set_lane_count":
+            source_junctions = {row.get("id"): row for row in before.findall("junction")}
+            for junction in after.findall("junction"):
+                original = source_junctions.get(junction.get("id"))
+                if junction.get("id") not in mutable_nodes or original is None:
+                    continue
+                if junction.get("customShape") != original.get("customShape"):
+                    restored_junction_markers.append(junction.get("id"))
+                    if "customShape" in original.attrib:
+                        junction.set("customShape", original.get("customShape"))
+                    else:
+                        junction.attrib.pop("customShape", None)
+        if restored_speeds or restored_junction_markers or kind == "set_junction_shape":
             ET.ElementTree(after).write(candidate_file, encoding="utf-8", xml_declaration=True)
     old_edges, _, old_connections = _inventory(before)
     _, nodes, connections = _inventory(after)
@@ -1152,6 +1178,7 @@ def check_scoped_edit(*, plan: dict, candidate_file: Path, output_dir: Path,
             "target_connection_changes": {"added": [list(pair) for pair in sorted(new_pairs - old_pairs)],
                                           "removed": [list(pair) for pair in sorted(old_pairs - new_pairs)]},
             "restored_external_speed_ids": sorted(restored_speeds),
+            "restored_junction_custom_shape_marker_ids": sorted(restored_junction_markers),
             "shape_coordinate_precision": 12 if kind == "set_junction_shape" else None,
             "declared_junction_shape_restored": kind == "set_junction_shape",
             "other_connection_permissions_preserved": connection_permissions_preserved,

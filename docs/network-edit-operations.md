@@ -222,6 +222,10 @@ Road-shape and lane-count edits clear custom shapes on the retained target lanes
 
 Lane-count edits add source geometry hints for all other ordinary lanes and their saved logical lengths.
 They retain existing custom junction contours. Automatically generated contours can adapt, including their walking connections.
+The edit includes flat connector roads whose complete lane shapes lie inside both endpoint junction surfaces.
+It follows these connectors until both ends remain inside the edit. It records their IDs without deleting or merging roads.
+Incident road mouths can adapt inside this scope. Exterior roads and the remote ends of boundary roads retain their source geometry.
+Height changes and roads outside either junction surface do not extend this scope.
 The plan records both the original conversion input and the input with geometry hints, with separate hashes.
 The materialization manifest includes both files. Verification reconstructs the hints from the source rather than trusting their saved contents.
 

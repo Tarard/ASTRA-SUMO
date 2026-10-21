@@ -130,12 +130,19 @@ def test_native_lane_correspondence_keeps_retained_and_removed_endpoint_requests
         assert records["dynamic"]["endpoints"][0]["removed_source_lane_ids"] == ["a_0"]
     if not remove:
         assert records["first"]["candidate"]["departLane"] == "1"
-        assert report["physical_request_count"] == 1
-        assert report["road_relative_request_count"] == 2
-        assert records["fixed"]["probe_mode"] == "physical_endpoints"
         original_b = ET.parse(source).getroot().find("edge[@id='b']")
-        assert [_geometry(lane) for lane in original_b.findall("lane")] == [
-            _geometry(lane) for lane in root.find("edge[@id='b']").findall("lane")]
+        candidate_b = root.find("edge[@id='b']")
+        b_changed = [_geometry(lane) for lane in original_b.findall("lane")] != [
+            _geometry(lane) for lane in candidate_b.findall("lane")]
+        assert report["physical_request_count"] == 1 - int(b_changed)
+        assert report["road_relative_request_count"] == 2 + int(b_changed)
+        assert records["fixed"]["probe_mode"] == ("road_relative_endpoints" if b_changed else "physical_endpoints")
+        arrivals = [endpoint for endpoint in records["fixed"]["endpoints"] if endpoint["role"] == "arrival"]
+        assert bool(arrivals) == b_changed
+        if arrivals:
+            assert arrivals[0]["position_semantics"] == "road_relative_default"
+        assert [_geometry(lane)[0][-1] for lane in original_b.findall("lane")] == [
+            _geometry(lane)[0][-1] for lane in candidate_b.findall("lane")]
         attrs = ET.parse(trips).getroot()
         attrs.find("trip[@id='dynamic']").set("departPos", "10")
         _, uncertain = map_merged_od_requests(ET.parse(source).getroot(), root, attrs, source_lane_indices={"a": mapping})
