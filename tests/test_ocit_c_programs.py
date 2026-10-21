@@ -7,6 +7,7 @@ import pytest
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.ocit_c_programs import read_ocit_fixed_program
+from copy import deepcopy
 
 
 def _source(tmp_path, *, start="10", end="40", release="30", constant=None):
@@ -39,8 +40,84 @@ def test_program_times_start_transitions_and_keep_native_clock_offset_separate(t
     assert result["program_name"] == "1" and result["program_number"] == "7" and result["signal_times_offset_native"] == "7"
     assert _intervals(result) == [(0, 10, "03", False), (10, 11, "0F", True), (11, 40, "30", False),
                                   (40, 43, "0C", True), (43, 90, "03", False)]
+    assert result["safety_intergreens"]["status"] == "unavailable"
     with pytest.raises(ValueError, match="reference name"):
         read_ocit_fixed_program(source, "7")
+
+
+def _matrix_source(tmp_path, *, first_start="10", first_end="40", second_start="44", second_end="70"):
+    source = _source(tmp_path, start=first_start, end=first_end)
+    tree = ET.parse(source)
+    root = tree.getroot()
+    group = deepcopy(root.find("{*}Signalgruppe"))
+    group.find("{*}BezeichnungKurz").text = "K2"
+    root.append(group)
+    program = root.find("{*}Signalprogramm")
+    row = deepcopy(program.find("{*}SPZeile"))
+    row.find("{*}Signalgruppe").text = "K2"
+    row.findall("{*}Schaltzeit/{*}Schaltzeitpunkt")[0].text = second_start
+    row.findall("{*}Schaltzeit/{*}Schaltzeitpunkt")[1].text = second_end
+    program.append(row)
+    matrix = ET.SubElement(root, "{urn:ocit}SicherheitsrelevanteZwischenzeitenmatrix")
+    ET.SubElement(matrix, "{urn:ocit}BezeichnungKurz").text = "source matrix"
+    for first, second, seconds in [("K1", "K2", "5"), ("K2", "K1", "32")]:
+        pair = ET.SubElement(matrix, "{urn:ocit}ZwiZt")
+        for tag, value in [("Raeumer", first), ("Einfahrer", second), ("T", seconds)]:
+            ET.SubElement(pair, "{urn:ocit}"+tag).text = value
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    return source
+
+
+def test_intergreens_measure_direction_and_cycle_wrap_without_changing_source(tmp_path):
+    source = _matrix_source(tmp_path)
+    before = source.read_bytes()
+    report = read_ocit_fixed_program(source, "1")["safety_intergreens"]
+    first, second = report["rows"]
+    assert first["minimum_intergreen_s"] == 5 and first["slack_s"] == 0 and first["status"] == "satisfied"
+    assert second["minimum_intergreen_s"] == 31 and second["slack_s"] == -1 and second["status"] == "violated"
+    assert report["violated_pair_count"] == 1 and source.read_bytes() == before
+    wrapped = read_ocit_fixed_program(_matrix_source(tmp_path, first_start="80", first_end="10", second_start="14", second_end="40"), "1")
+    assert wrapped["safety_intergreens"]["rows"][0]["minimum_intergreen_s"] == 5
+
+
+def test_intergreens_report_overlap_and_keep_other_measurements_when_a_row_is_bad(tmp_path):
+    source = _matrix_source(tmp_path, second_start="20", second_end="60")
+    report = read_ocit_fixed_program(source, "1")["safety_intergreens"]
+    assert report["rows"][0]["release_overlap_s"] == 19 and report["rows"][0]["status"] == "violated"
+    tree = ET.parse(source)
+    tree.getroot().find(".//{*}ZwiZt/{*}T").text = "-1"
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    report = read_ocit_fixed_program(source, "1")
+    assert report["groups"][0]["status"] == "measured"
+    assert report["safety_intergreens"]["rows"][0]["status"] == "unresolved"
+    assert report["safety_intergreens"]["rows"][1]["status"] == "violated"
+
+
+def test_repeated_intergreen_pair_is_unresolved_without_selecting_one_requirement(tmp_path):
+    source = _matrix_source(tmp_path)
+    tree = ET.parse(source)
+    matrix = tree.getroot().find(".//{*}SicherheitsrelevanteZwischenzeitenmatrix")
+    matrix.append(deepcopy(matrix.find("{*}ZwiZt")))
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    report = read_ocit_fixed_program(source, "1")["safety_intergreens"]
+    assert [row["status"] for row in report["rows"]] == ["unresolved", "violated", "unresolved"]
+
+
+@pytest.mark.parametrize("ambiguous", [False, True])
+def test_constant_and_ambiguous_groups_do_not_supply_false_intergreen_passes(tmp_path, ambiguous):
+    source = _matrix_source(tmp_path)
+    tree = ET.parse(source)
+    root = tree.getroot()
+    row = root.find(".//{*}SPZeile")
+    for child in list(row):
+        if child.tag.rsplit("}", 1)[-1] != "Signalgruppe":
+            row.remove(child)
+    ET.SubElement(row, "{urn:ocit}DauerSignalbild").text = "30" if ambiguous else "03"
+    if ambiguous:
+        root.find(".//{*}Signalgruppe/{*}ZulaessigeSignalbilder/{*}Gesperrt/{*}Standard").text = "30"
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    report = read_ocit_fixed_program(source, "1")["safety_intergreens"]
+    assert all(row["status"] == ("unresolved" if ambiguous else "not_applicable") for row in report["rows"])
 
 
 def test_wrapped_transition_retains_previous_cycle_yellow_at_time_zero(tmp_path):
@@ -113,6 +190,9 @@ def test_frozen_ring1_programs_expand_motor_transitions_without_inventing_missin
     assert file_sha256(source) == record["sha256"]
     result = read_ocit_fixed_program(source, program)
     assert result["cycle_s"] == 90 and result["source_unchanged"]
+    intergreens = result["safety_intergreens"]
+    assert intergreens["status"] == "measured" and intergreens["violated_pair_count"] == intergreens["unresolved_pair_count"] == 0
+    assert len(intergreens["rows"]) == {"104": 58, "118": 260, "119": 98, "200": 140, "535": 118}[node]
     groups = {row["group_id"]: row for row in result["groups"]}
     assert groups["K1"]["status"] == "measured"
     for group in result["groups"]:
@@ -123,6 +203,9 @@ def test_frozen_ring1_programs_expand_motor_transitions_without_inventing_missin
     if node == "119":
         assert groups["K7"]["allowed_image_securing_states"]["00"] == ["release"]
         assert groups["K8"]["allowed_image_securing_states"]["00"] == ["release"]
+        pairs = {(r["clearing_group"], r["entering_group"]): r for r in intergreens["rows"]}
+        assert pairs["K6", "K3"]["required_s"] == 4 and pairs["K6", "K3"]["minimum_intergreen_s"] == 8
+        assert pairs["K3", "K6"]["required_s"] == 7 and pairs["K3", "K6"]["minimum_intergreen_s"] == 25
     if node == "200":
         assert groups["R6"]["status"] == "measured"
         assert groups["K3"]["status"] == groups["K7"]["status"] == "unresolved"

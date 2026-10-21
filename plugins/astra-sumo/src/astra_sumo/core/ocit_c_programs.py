@@ -104,6 +104,68 @@ def _group_timeline(group, row, cycle):
     return result
 
 
+def _intergreen_checks(root, groups, cycle):
+    matrices = list(_descendants(root, "SicherheitsrelevanteZwischenzeitenmatrix"))
+    if len(matrices) != 1:
+        return {"status": "unavailable" if not matrices else "unresolved", "rows": [],
+                "reason": "The source must identify one safety intergreen matrix."}
+    matrix = matrices[0]
+    definitions = {row["group_id"]: row for row in groups}
+    pairs, records = set(), []
+    for row in _children(matrix, "ZwiZt"):
+        first, second = (_normalize_group_label(_text(_child(row, name))) for name in ("Raeumer", "Einfahrer"))
+        record = {"clearing_group": first, "entering_group": second, "status": "unresolved",
+                  "required_s": None, "minimum_intergreen_s": None, "release_overlap_s": None, "slack_s": None}
+        records.append(record)
+        try:
+            required = float(_seconds(_text(_child(row, "T"))))
+            record["required_s"] = required
+            if not first or not second or first == second or (first, second) in pairs:
+                raise ValueError("The source intergreen pair is empty, self-referential, or duplicated.")
+            pairs.add((first, second))
+            schedules = []
+            for key in (first, second):
+                group = definitions.get(key)
+                if group is None or group["status"] != "measured":
+                    raise ValueError(f"The source timeline for {key} is unresolved.")
+                if any(len(span["securing_states"]) > 1 for span in group["intervals"]):
+                    raise ValueError(f"The source securing state for {key} is ambiguous.")
+                schedules.append(group["intervals"])
+            clearing, entering = schedules
+            active_a, active_b = [[span for span in schedule if span["securing_states"] == ["release"]]
+                                  for schedule in schedules]
+            overlap = sum(max(0.0, min(a["end_s"], b["end_s"]) - max(a["begin_s"], b["begin_s"]))
+                          for a in active_a for b in active_b)
+            record["release_overlap_s"] = overlap
+            if not active_a or not active_b:
+                record.update(status="not_applicable", reason="One group has no release in this program.")
+            elif overlap > 1e-9:
+                record.update(status="violated", reason="The declared pair has overlapping releases.")
+            else:
+                ends = [span["begin_s"] for i, span in enumerate(clearing)
+                        if span["securing_states"] != ["release"] and clearing[i-1]["securing_states"] == ["release"]]
+                starts = [span["begin_s"] for i, span in enumerate(entering)
+                          if span["securing_states"] == ["release"] and entering[i-1]["securing_states"] != ["release"]]
+                gap = min((start - end) % float(cycle) for start in starts for end in ends)
+                record.update(status="satisfied" if gap + 1e-9 >= required else "violated",
+                              minimum_intergreen_s=gap, slack_s=gap-required)
+        except ValueError as error:
+            record["reason"] = str(error)
+    # Repeated declarations do not identify one authoritative requirement.
+    counts = {}
+    for record in records:
+        key = (record["clearing_group"], record["entering_group"])
+        counts[key] = counts.get(key, 0) + 1
+    for record in records:
+        if counts[(record["clearing_group"], record["entering_group"])] > 1:
+            record.update(status="unresolved", reason="The source repeats this intergreen pair.")
+    return {"status": "measured", "matrix_name": _text(_child(matrix, "BezeichnungKurz")),
+            "rows": records, "violated_pair_count": sum(row["status"] == "violated" for row in records),
+            "unresolved_pair_count": sum(row["status"] == "unresolved" for row in records),
+            "time_basis": "End of the clearing release to start of the entering release, on the repeating source cycle.",
+            "claim_boundary": "Source timeline consistency only. No SUMO binding, field program selection, or vehicle clearance is established."}
+
+
 def read_ocit_fixed_program(path: str | Path, program_reference: str) -> dict:
     """Expand standard group transitions in one source-relative repeating cycle.
 
@@ -159,5 +221,6 @@ def read_ocit_fixed_program(path: str | Path, program_reference: str) -> dict:
         "cycle_s": float(cycle), "signal_times_offset_native": offset,
         "time_basis": "raw_SPZeile_cycle_times_before_clock_alignment_or_SignalzeitenVersatz",
         "groups": records, "measured_groups": measured, "unresolved_groups": unresolved,
+        "safety_intergreens": _intergreen_checks(root, records, cycle),
         "assumptions": ["Repeat the listed cycle and hold each destination image until its next listed transition."],
         "claim_boundary": "Source program timeline only. No actual program selection, field timing, detector correspondence, or SUMO signal-state mapping."}
