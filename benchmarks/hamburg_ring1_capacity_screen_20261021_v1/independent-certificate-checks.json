@@ -1,0 +1,20 @@
+{
+  "rows": [
+    {
+      "case": "main",
+      "columns_verified": 430,
+      "minimum_dual_coverage": "1",
+      "upper_bound": "4396",
+      "target": 6687,
+      "strict_infeasibility_for_declared_model": true
+    },
+    {
+      "case": "no_margin_sensitivity",
+      "columns_verified": 430,
+      "minimum_dual_coverage": "1",
+      "upper_bound": "4956",
+      "target": 6687,
+      "strict_infeasibility_for_declared_model": true
+    }
+  ]
+}

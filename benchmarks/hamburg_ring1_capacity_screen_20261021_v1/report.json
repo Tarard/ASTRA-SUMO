@@ -1,0 +1,57 @@
+{
+  "schema": "astra.hamburg-capacity-screen/v1",
+  "status": "measured",
+  "formal_result": false,
+  "native_simulation_performed": false,
+  "field_rows_retained": 130,
+  "station_rows_derived_from_fields": 40,
+  "columns": 430,
+  "resource_rows": 1500,
+  "cases": [
+    {
+      "case": "main",
+      "factor": "4/5",
+      "integer_status": "blocked",
+      "failure_kind": "infeasible",
+      "maximum_simultaneous_LP_service": 4396.0,
+      "certified_integer_service_upper_bound": 4396,
+      "target_passages": 6687,
+      "individually_limited_field_bins": 26,
+      "infeasibility_certified": true
+    },
+    {
+      "case": "no_margin_sensitivity",
+      "factor": "1",
+      "integer_status": "blocked",
+      "failure_kind": "infeasible",
+      "maximum_simultaneous_LP_service": 4956.0,
+      "certified_integer_service_upper_bound": 4956,
+      "target_passages": 6687,
+      "individually_limited_field_bins": 1,
+      "infeasibility_certified": true
+    }
+  ],
+  "saturation_flow_assumption_veh_per_h_per_lane": 1800,
+  "main_margin_factor": "4/5",
+  "actuated_limit": "Nominal duration shares only; these are not hard bounds on realized actuated throughput.",
+  "time_limit": "Resource bins use free-flow offsets, not queued native passage times.",
+  "claim_boundary": "A rational certificate concerns this finite planning model with added nominal capacity priors. It does not prove that the original SUMO model or field traffic cannot reach the targets.",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_end_to_end_20261021_v1\\inputs\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_end_to_end_20261021_v1\\inputs\\control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_end_to_end_20261021_v1\\inputs\\system.npz",
+      "sha256": "df907c5fcc561c6336cd607fe58b59b42b4444238ca64ad2ef386f453c183661"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_2_demand_pool_20261021_v1\\base\\ideal-lane-profiles.json.gz",
+      "sha256": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a"
+    }
+  ]
+}
