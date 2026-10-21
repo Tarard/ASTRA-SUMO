@@ -32,6 +32,11 @@ Every request time and count target remains fixed. All 52 preceding-hour native 
 Eight more vehicles enter but remain in the network. Arrival and complete field-passage totals do not increase.
 The candidate is not promoted as a count improvement. The common post-merge constraints still need diagnosis before another demand change.
 
+The [shared-route diagnosis](../benchmarks/hamburg_ring1_z15_K8_diagnosis_20261021_v1/README.md) retains all 309 Z15 initialization requests, including running and uninserted vehicles.
+Both entry routes use LSA200 K8. Its installed source SP5 gives 5 s green per 90 s, with six native road-front exits in each of 38 successive cycles.
+Those 230 road-front exits remain separate from the 222 native E1 complete passages.
+This identifies a constrained approach under the declared route and control model. It does not establish field capacity or justify changing the signal program.
+
 ## Site identity
 
 The two `torii-v1-*` README figures depict the Binnenalster / Ring1 corridor, including LSA118.

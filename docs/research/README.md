@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Ring1 Z15 shared K8 approach and censored route-time diagnosis, 2026-10-21](ring1-z15-k8-route-delay-2026-10-21.md)
 - [Ring1 single-entry prefix test and unchanged native counts, 2026-10-21](ring1-entry-prefix-test-2026-10-21.md)
 - [Ring1 initialization population and native preceding-hour check, 2026-10-21 V2](ring1-initialization-demand-2026-10-21-v2.md)
 - [Ring1 initialization demand and bounded departure perturbation, 2026-10-21](ring1-initialization-demand-2026-10-21.md)

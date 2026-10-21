@@ -1,0 +1,37 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "new_simulations": 0,
+  "snapshot_s": 3599.9,
+  "selected_field": "hh_0119_Z_15_29375",
+  "requested_initialization_vehicles": 309,
+  "population_status": {
+    "arrived": 211,
+    "running": 54,
+    "not_inserted": 44
+  },
+  "K8_cycle_s": 90.0,
+  "K8_green_s": 5.0,
+  "K8_front_exits": 230,
+  "native_E1_count_0_3600": 222,
+  "complete_field_passages_at_snapshot": 222,
+  "after_K8_before_complete_field_passage": 8,
+  "K8_exit_cycle_phase_min_s": 35.799999999999955,
+  "K8_exit_cycle_phase_max_s": 39.700000000000045,
+  "inserted_without_K8_front_exit": 35,
+  "source_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\inputs\\demand.rou.xml.gz": "0ccb1b2d409ee6a5fb6baa31365f69921bb2de48e79a1bce41cc6b51c3cc7b86",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\inputs\\lane-intentions.json.gz": "8da2cea5441afca013f3a93a6e2fdc43d36cfa94de9f8d5173f766b81e1001d5",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\native\\states\\state_3599.900.xml.gz": "eb84fe306157687f19d36058995e23612f17ffdee85cb63ed69f93a5138ede59",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\native\\vehicle-routes.xml.gz": "c167bf14da1f0056f17ce6f1e98b1c4f93f95e4676e4dd95ff8bb88bcd71d8a5",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\native\\tripinfo.xml.gz": "c97a1c8f63e82dbb6356b4b13bf6de00605bade82ea8dce48fc0402346e720f8",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\inputs\\control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\inputs\\network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\native\\passage-reconciliation.json.gz": "bf2e4f9ad3995fa53b41efb0ccf154b15b4afa87a4703c621cfbf616556e20d4",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_ballindamm_entry_probe_20261021_v1\\native\\field-counts.xml": "a1cd574f5bfeae0acb4b9741de25f89c6a858396f06e54918a21b076fff95404",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m2_control_20261021_v1\\link-bindings.json.gz": "e37d1c79eb9756d387db6b987acd4b1dbc1a9fe08405b66bdbc581ec63e03f17",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m2_control_20261021_v1\\inputs\\ocit_200.xml": "ba3c4713f5a3f48a0e6c50c5d70caddb23a651fabb0eb2c0d7bc6d6758ac4d14"
+  },
+  "sources_unchanged": true,
+  "claim_boundary": "Observed route intervals and elapsed lower bounds at one native snapshot. Intervals include the incoming internal connection and the ordinary road. Completed medians are conditional. Front exits are diagnostics, not native E1 counts or field observations. A fixed green duration is not a proven capacity bound or field timing. Main calibration remains incomplete."
+}
