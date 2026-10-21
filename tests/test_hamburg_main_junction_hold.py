@@ -80,3 +80,29 @@ def test_frozen_local_prefix_keeps_every_unmeasured_main_row_unknown():
     fields = read_csv_rows(root / "analysis/all-130-main-rows.csv")
     assert len(fields) == 130 and sum(r["measurement_status"] == "missing" for r in fields) == 104
     assert all(r["measured_nVehContrib"] == "" for r in fields if r["measurement_status"] == "missing")
+
+
+def test_complete_localized_run_keeps_every_residual_and_remains_invalid():
+    root = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_localized_junction_body_full_20261021_v1"
+    result = json.loads(read_trace_source(root, "results.json"))
+    assert result["field_rows"] == 130 and result["station_rows"] == 40
+    assert result["missing_field_rows"] == result["missing_station_rows"] == 0
+    assert result["exact_field_rows"] == 29 and result["exact_station_rows"] == 6
+    assert result["diagnostic_field_MAE"] == pytest.approx(1805/130) and result["diagnostic_max_abs_error"] == 59
+    assert not result["valid_run"] and not result["exact_count_fit"] and result["formal_field_metrics"] is None
+    assert result["completion"] == {"loaded": 8640, "inserted": 7273, "arrived": 6782,
+        "running": 491, "waiting": 1367, "teleports": 1, "collisions": 1, "discarded": 0}
+    fields = read_csv_rows(root / "data-analysis/row-decomposition.csv")
+    assert len(fields) == 130
+    for row in fields:
+        incoming = sum(int(row[k]) for k in ("in_from_initialization", "in_from_other_main_bins"))
+        outgoing = sum(int(row[k]) for k in (
+            "out_before_main_window", "out_after_main_window", "out_to_other_main_bins",
+            "not_entered_by_native_end", "entered_without_complete_field_passage_by_native_end"))
+        assert incoming - outgoing == int(row["diff_nVehContrib_minus_expected"])
+    assert sum(int(r["ontime_planned"]) for r in fields) == 1311
+    assert sum(int(r["out_to_other_main_bins"]) for r in fields) == 3301
+    assert sum(int(r["not_entered_by_native_end"]) for r in fields) == 1367
+    outcome = json.loads(read_trace_source(root, "execution-outcome.json"))
+    assert outcome["native_reached_planned_end"] and not outcome["timeout"]
+    assert not outcome["all_vehicle_requests_completed"] and not outcome["formal_result"]

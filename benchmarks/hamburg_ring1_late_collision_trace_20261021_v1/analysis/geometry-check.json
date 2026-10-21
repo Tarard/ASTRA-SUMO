@@ -1,0 +1,75 @@
+{
+  "formal_result": false,
+  "reproduction_matched": true,
+  "native_event": {
+    "time": "9402.600",
+    "type": "side",
+    "lane": ":18653534_0_1",
+    "pos": "10.087337305396",
+    "collider": "readme_f5_b4_p56_v25",
+    "victim": "readme_f4_b4_p208_v5",
+    "colliderType": "readme_lane_intent",
+    "victimType": "readme_lane_intent",
+    "colliderSpeed": "0.000000000000",
+    "victimSpeed": "0.222928397512",
+    "colliderFront": "287.354496082340,622.094503477297",
+    "colliderBack": "291.275346522643,619.378102017250",
+    "victimFront": "287.067561378256,622.684986911721",
+    "victimBack": "285.071172992058,616.745544591301"
+  },
+  "observed_lane_changes": [
+    {
+      "id": "readme_f4_b4_p208_v5",
+      "type": "readme_lane_intent",
+      "time": "9402.600",
+      "from": "139083723#0_3",
+      "to": "139083723#0_2",
+      "dir": "-1",
+      "speed": "0.222928397512",
+      "pos": "0.179410725939",
+      "reason": "strategic|urgent",
+      "leaderGap": "2.730011822803",
+      "leaderSecureGap": "0.222928397512",
+      "leaderSpeed": "0.327171462475",
+      "followerGap": "2.500000000000",
+      "followerSecureGap": "0.000000000000",
+      "followerSpeed": "0.000000000000",
+      "origLeaderGap": "2.902126334761",
+      "origLeaderSecureGap": "0.222928397512",
+      "origLeaderSpeed": "0.118000068469"
+    }
+  ],
+  "victim_last_internal_lane": ":18653534_29_1",
+  "victim_front_position_m": 0.179410725939,
+  "vehicle_length_m": 5.0,
+  "victim_rear_still_internal": true,
+  "reconstructed_rear_xy": [
+    285.07117299205754,
+    616.7455445913008
+  ],
+  "native_rear_xy": [
+    285.071172992058,
+    616.745544591301
+  ],
+  "rear_position_error_m": 5.084229945850415e-13,
+  "front_back_straight_distance_m": 6.265982897051516,
+  "outlet_route_audit": {
+    "readme_f4_b4_p208_v5": {
+      "next_road": "234423652#1",
+      "outlet_lane_length_m": 38.38,
+      "route_compatible_exit_lanes": [
+        "1",
+        "2"
+      ]
+    },
+    "readme_f5_b4_p56_v25": {
+      "next_road": "234423652#1",
+      "outlet_lane_length_m": 38.38,
+      "route_compatible_exit_lanes": [
+        "1",
+        "2"
+      ]
+    }
+  },
+  "claim_boundary": "Exact trace correspondence and actual exit lane change with the rear still internal are verified. The collider label does not identify which car changed lane. No unique SUMO source defect, field geometry, or repaired full-traffic safety is established."
+}

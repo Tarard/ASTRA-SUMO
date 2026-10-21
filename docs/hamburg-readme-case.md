@@ -1,10 +1,18 @@
 # Hamburg case shown in the README
 
+The [complete localized driver run](../benchmarks/hamburg_ring1_localized_junction_body_full_20261021_v1/README.md) reaches 14400 s without timeout and retains all 130 field rows and 40 derived station rows.
+It is invalid: 1 collision, 1 teleport, 1367 uninserted vehicles and 491 still running. Only 29 field rows and 6 station rows match.
+Diagnostic field MAE is 13.885 and maximum absolute error is 59. These are not accepted calibration metrics.
+The [late-event trace](../benchmarks/hamburg_ring1_late_collision_trace_20261021_v1/README.md) matches every closed E1 interval, collision, completion count, hold event and arrived vehicle route record before 9420 s.
+It confirms an exit lane change at node `18653534` while the vehicle rear still occupies its turning connection.
+The full residual decomposition retains every request and separates time-bin transfers, uninserted demand and incomplete field passages.
+No demand correction or third-node driver repair has yet been validated.
+
 The [full global junction-body-hold run](../benchmarks/hamburg_ring1_junction_body_full_20261021_v1/README.md) completes the planned duration with all 130/40 count rows available.
 It has no collisions or teleports, but remains invalid: 2,771 vehicles never enter and 329 remain running. Diagnostic field MAE is 25.077, with maximum error 154.
 Native records and an isolated suffix test identify a hold-release conflict on a 2.10 m connector. The global driver candidate is rejected.
 The [localized 6000 s candidate](../benchmarks/hamburg_ring1_localized_junction_body_20261021_v1/README.md) releases that blockage and retains zero collisions in its prefix.
-It preserves all targets with later rows unknown. Full-window safety, count correction and zero-error calibration remain unfinished.
+It preserves all targets with later rows unknown. Its subsequent complete run is reported above; count correction and zero-error calibration remain unfinished.
 
 The [junction-body lane-hold candidate](../benchmarks/hamburg_ring1_junction_body_hold_20261021_v1/README.md) keeps all traffic inputs fixed.
 Its initialization hour has no collisions or teleports. All four original collision participants clear their target junctions.
