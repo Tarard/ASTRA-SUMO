@@ -27,6 +27,11 @@ Its preceding-hour native run has zero collisions and teleports, but 420 initial
 All 52 initialization field bins are available, with 32 exact. The main observation window was not rerun.
 Entry allocation and departure pressure remain unresolved. This trial does not establish calibrated initialization or real distinct-vehicle totals.
 
+The [single-entry prefix test](../benchmarks/hamburg_ring1_ballindamm_entry_probe_20261021_v1/README.md) replaces the Z15 Brandsende entry with an existing Ballindamm route.
+Every request time and count target remains fixed. All 52 preceding-hour native counts remain identical.
+Eight more vehicles enter but remain in the network. Arrival and complete field-passage totals do not increase.
+The candidate is not promoted as a count improvement. The common post-merge constraints still need diagnosis before another demand change.
+
 ## Site identity
 
 The two `torii-v1-*` README figures depict the Binnenalster / Ring1 corridor, including LSA118.

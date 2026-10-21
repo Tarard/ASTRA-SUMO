@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from astra_sumo.core.detector_demand import read_csv_rows
-from astra_sumo.core.hamburg_initialization import add_initialization_population, prepare_hamburg_initialization
+from astra_sumo.core.hamburg_initialization import add_initialization_population, prepare_hamburg_entry_alternative, prepare_hamburg_initialization
 from astra_sumo.core.hamburg_readme_results import vehicle_field_passage_rows
 
 
@@ -95,3 +95,55 @@ def test_frozen_hamburg_population_retains_all_targets_and_driving_inputs(tmp_pa
     assert json.loads((out / "scenario.json").read_bytes())["all_integer_rows_exact"] is None
     with pytest.raises(ValueError, match="new initialization"):
         prepare_hamburg_initialization(case_dir=case, counts_file=counts, output_dir=out)
+
+
+def test_entry_alternative_changes_only_the_declared_prefix_and_retains_all_requests(tmp_path):
+    root = Path(__file__).parents[1]
+    case = root / "benchmarks/hamburg_ring1_initialization_population_20261021_v1"
+    profile_file = root / "benchmarks/hamburg_ring1_m1_2_demand_pool_20261021_v1/base/ideal-lane-profiles.json.gz"
+    out = tmp_path / "alternative"
+    report = prepare_hamburg_entry_alternative(case_dir=case, profiles_file=profile_file, output_dir=out)
+    assert report["changed_by_population"] == {"main": 890, "initialization": 307}
+    assert report["source_files_unchanged"]
+    for name in ("network.net.xml", "control.add.xml", "field-loops.add.xml", "expected-counts.csv", "initialization-counts.csv"):
+        assert (out / name).read_bytes() == (case / "inputs" / name).read_bytes()
+    source = ET.fromstring(gzip.decompress((case / "inputs/demand.rou.xml.gz").read_bytes()))
+    target = ET.parse(out / "demand.rou.xml").getroot()
+    old = {v.get("id"): v for v in source.findall("vehicle")}
+    new = {v.get("id"): v for v in target.findall("vehicle")}
+    assert old.keys() == new.keys() and len(new) == 8640
+    changed = 0
+    for key, a in old.items():
+        b = deepcopy(new[key])
+        assert a.attrib == b.attrib
+        if a.find("route").get("edges") != b.find("route").get("edges"):
+            changed += 1
+            assert a.find("route").get("edges").split()[0] == "543550497#0"
+            assert b.find("route").get("edges").split()[0] == "551288837#2"
+            b.find("route").set("edges", a.find("route").get("edges"))
+        assert ET.tostring(a) == ET.tostring(b)
+    assert changed == 1197
+    before = json.loads(gzip.decompress((case / "inputs/lane-intentions.json.gz").read_bytes()))["vehicles"]
+    after = json.loads((out / "lane-intentions.json").read_bytes())["vehicles"]
+    for a, b in zip(before, after):
+        assert {k: v for k, v in a.items() if k not in {"profile_index", "free_flow_field_offset_s"}} == {k: v for k, v in b.items() if k not in {"profile_index", "free_flow_field_offset_s"}}
+    with pytest.raises(ValueError, match="new entry-alternative"):
+        prepare_hamburg_entry_alternative(case_dir=case, profiles_file=profile_file, output_dir=out)
+
+
+def test_frozen_entry_replacement_has_no_native_count_gain_and_keeps_failure_visible():
+    root = Path(__file__).parents[1] / "benchmarks"
+    baseline = root / "hamburg_ring1_initialization_population_20261021_v1"
+    candidate = root / "hamburg_ring1_ballindamm_entry_probe_20261021_v1"
+    before, after = [read_csv_rows(p / "native/field-comparison.csv") for p in (baseline, candidate)]
+    def values(rows):
+        return {(r["detector_id"], float(r["begin"]), float(r["end"])):
+                (int(r["expected_total"]), int(r["measured_nVehContrib"])) for r in rows}
+    assert len(before) == len(after) == 52 and values(before) == values(after)
+    native = ET.parse(candidate / "native/field-counts.xml").getroot().findall("interval")
+    assert sum(int(r.get("nVehContrib")) for r in native) == 1431
+    report = json.loads((candidate / "native/initialization-check.json").read_bytes())
+    assert report["completion"]["waiting"] == 412 and report["completion"]["running"] == 233
+    assert report["completion"]["arrived"] == 1308 and report["exact_initialization_bins"] == 32
+    assert report["completion"]["collisions"] == report["completion"]["teleports"] == 0
+    assert not report["main_window_run"] and not report["exact_calibration_established"]

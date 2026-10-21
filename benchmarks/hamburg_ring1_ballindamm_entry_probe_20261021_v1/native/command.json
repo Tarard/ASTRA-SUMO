@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+    "-m",
+    "astra_sumo.core.simulation_stall",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\native-request.json"
+  ],
+  "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1",
+  "status": "pass",
+  "returncode": 0,
+  "stdout": "***Starting server on port 1235 ***\nLoading net-file from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\network.net.xml' ... done (194ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\signal-programs.add.xml' ... done (5ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\e1.add.xml' ... done (17ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\instant.add.xml' ... done (3ms).\nLoading route-files incrementally from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\demand.rou.xml'\nLoading done.\nSimulation version 1.27.1 started with time: 0.000.\nSimulation ended at time: 3600.000.\nReason: TraCI requested termination.\nPerformance:\n Duration: 389.469s\n TraCI-Duration: 231.298s\n Real time factor: 9.24335\n UPS: 20464.943295\nVehicles:\n Inserted: 1541 (Loaded: 1954)\n Running: 233\n Waiting: 412\n Emergency Braking: 1\nStatistics (avg of 1541):\n RouteLength: 696.221904202400\n Speed: 2.336629354545\n Duration: 517.226000000000\n WaitingTime: 301.828000000000\n TimeLoss: 464.757000000000\n DepartDelay: 170.196000000000\n DepartDelayWaiting: 671.534000000000\n",
+  "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\nWarning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2\nWarning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.\nWarning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.\nWarning: Vehicle 'initialization_hh_0535_Z_8_34287_b3_p3_v9' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=3096.700.\n",
+  "error": ""
+}

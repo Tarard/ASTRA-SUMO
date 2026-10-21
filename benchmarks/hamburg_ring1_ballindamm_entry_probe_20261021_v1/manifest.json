@@ -1,0 +1,192 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/comparison.json",
+      "sha256": "8ee7666712d75e545793d91d9a0754171a52fe7630d5a51053f5ebd698ff4b14"
+    },
+    {
+      "path": "analysis/decision.json",
+      "sha256": "09c95edbcedcb5034c846afbe0f21112b537b0da747df58b5c9348f46148a784"
+    },
+    {
+      "path": "analysis/entry-delays.csv",
+      "sha256": "b74639952170777c75b54582b40acd3d21fef20d43d5dd742f91ccb31c64d264"
+    },
+    {
+      "path": "analysis/field-change.csv",
+      "sha256": "8482ef0855c927fd8ef3b691918ca015f4aa92382c75535bb7ada501a3d5fd24"
+    },
+    {
+      "path": "analysis/finite-profile-entry-review.json",
+      "sha256": "8e1a52fe2258b484f8d5b50bb96b5858addac908c1be6976a3dc2f07ad33d2a0"
+    },
+    {
+      "path": "analysis/independent-checks.json",
+      "sha256": "755c113e783eedd65333c8b10a16a1ca2c45ad2273b72b7860c4adabea895eb8"
+    },
+    {
+      "path": "analysis/vehicle-field-passages.csv.gz",
+      "sha256": "4afad49584b5cc9a3bdcc6efefbc53be9b2e64b139e0f013acbdcc43b05785eb"
+    },
+    {
+      "path": "analysis/Z15-stock-lanes.json",
+      "sha256": "ecc3d1f753c645ffe7d110788e86ef899a2fe621f7289805fea50c98155c76b1"
+    },
+    {
+      "path": "analysis-at-verification.py",
+      "sha256": "7de20dee3f719d23798ee7ce5906cbe6649b6f5b8eb1b8f6d145aa88dec543ec"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "8cf3682c8979be371ebbe677db2dab7f40d513f8bab8e805f82c97cb71922b76"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "0ccb1b2d409ee6a5fb6baa31365f69921bb2de48e79a1bce41cc6b51c3cc7b86"
+    },
+    {
+      "path": "inputs/entry-alternative-proposal.json.gz",
+      "sha256": "cd1cb69b609d965f03b22cd895c83a4ac8ca3cab5a516b57f5faa4105811f623"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "8da2cea5441afca013f3a93a6e2fdc43d36cfa94de9f8d5173f766b81e1001d5"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "85f8cdc47cd185d8d71cfd116d9b8f64e6a2200b9b17da36ce8426cb87b882c1"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "690550e9b26b222bc5e916bed977038b899cf9b398fcad2be9c3167c97ead684"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "a439d4a8e36e7634646b2abe14dad8063d63e6a8f95706c7fd4f36ea1730059e"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "0ccb1b2d409ee6a5fb6baa31365f69921bb2de48e79a1bce41cc6b51c3cc7b86"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "126ee216f3610c2c5a0d0b262a5c35572e6ff07d37a7de27ddbcf1d3c9f3f074"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "a2474fb2477cc77e06550601496c208bed64189af13c8e62dcbf6d2813092aa9"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "a1cd574f5bfeae0acb4b9741de25f89c6a858396f06e54918a21b076fff95404"
+    },
+    {
+      "path": "native/initialization-check.json",
+      "sha256": "7dd6861404d70c50ebca46fca436b4e33b4971742d66341dccc55c0f0f6f64f9"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "69d88a6f7bbace65f28ef2103127b227325700120ece64b45fa26d37d3cf0edc"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "8cc445addb1102caf7dd00ec5f69adb8a4928dbab9daa86e0820573bcd33cf45"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "8da2cea5441afca013f3a93a6e2fdc43d36cfa94de9f8d5173f766b81e1001d5"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "701ca9ce6590a765376ebbbe565c10df3db7bf1e8061d7a70c173111b5ed9956"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/passage-reconciliation.json.gz",
+      "sha256": "bf2e4f9ad3995fa53b41efb0ccf154b15b4afa87a4703c621cfbf616556e20d4"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "ee96a2ce1fff8ac345bce4852da8013a50426fbd7ca3a98055e26e8237eaf65f"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "a2ea596321e4ff6f660cca23554f96edebc5fc1997e09ad4fe3c7c3df663114b"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "88f2fae378caa07b6f676b21e1b68961ad4e24d2e7b4d69de5be97cbc5b10854"
+    },
+    {
+      "path": "native/states/state_3599.900.xml.gz",
+      "sha256": "eb84fe306157687f19d36058995e23612f17ffdee85cb63ed69f93a5138ede59"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "704d2a7b77f60e4675820dce7f725bce09f74bfdbf861afe853309f547dbbf8a"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "c8ae47e2a1ac2da815122f01a1201c661c1bf5c41ef61db2d6088068d0f7b288"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "287a3fcef748d55fd009475ff22a1964762bc1b87bf0c074903d23dd8a36abd2"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "c97a1c8f63e82dbb6356b4b13bf6de00605bade82ea8dce48fc0402346e720f8"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "c167bf14da1f0056f17ce6f1e98b1c4f93f95e4676e4dd95ff8bb88bcd71d8a5"
+    },
+    {
+      "path": "README.md",
+      "sha256": "873480102d2458838b888feaa7acd83d6b6f5b210fb2bb8bcef1dddadab4c06a"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "6ada1ba50c3e425dea810f4db335954db613196f6d90b900a920e15bc8fe0b99"
+    }
+  ]
+}

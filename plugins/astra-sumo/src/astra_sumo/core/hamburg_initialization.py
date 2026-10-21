@@ -130,6 +130,88 @@ def prepare_hamburg_initialization(*, case_dir, counts_file, output_dir):
     return report
 
 
+def prepare_hamburg_entry_alternative(*, case_dir, profiles_file, output_dir):
+    """Test the existing Ballindamm prefix for Z15 while retaining every request time."""
+    from .demand_route_pool import junction_visit_audit
+    from .detector_demand import read_net
+    from .local_network_conversion import loaded_turn_permissions
+
+    case, profile_path, out = Path(case_dir).resolve(strict=True), Path(profiles_file).resolve(strict=True), Path(output_dir).resolve()
+    if out.exists() or case.is_relative_to(out) or profile_path.is_relative_to(out):
+        raise ValueError("Use a new entry-alternative directory separate from its sources.")
+    names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "expected-counts.csv",
+             "control.add.xml", "lane-intentions.json", "scenario.json", "initialization-counts.csv")
+    raw, sources = {}, {}
+    for name in names:
+        path = case / "inputs" / name
+        if not path.is_file():
+            path = path.with_name(name + ".gz")
+        sources[str(path)] = file_sha256(path)
+        raw[name] = gzip.decompress(path.read_bytes()) if path.suffix == ".gz" else path.read_bytes()
+    data = profile_path.read_bytes()
+    profiles = json.loads(gzip.decompress(data) if profile_path.suffix == ".gz" else data)["profiles"]
+    old, new = profiles[240], profiles[246]
+    merge = "186714394"
+    if (old["source_edge"] != "543550497#0" or new["source_edge"] != "551288837#2"
+            or old["field_mask"] != new["field_mask"] or new["field_mask"] != 8
+            or old["edges"][old["edges"].index(merge):] != new["edges"][new["edges"].index(merge):]):
+        raise ValueError("Use the declared Z15 profiles with their identical post-merge road route.")
+    network = ET.fromstring(raw["network.net.xml"])
+    edges, connections = read_net(case / "inputs/network.net.xml")
+    owners = {j.get("id"): j.get("id").rsplit("_part", 1)[0]
+              for j in network.findall("junction") if j.get("id", "").startswith("LSA")}
+    audit = junction_visit_audit(new["edges"], edges, connections, owners)
+    permissions = loaded_turn_permissions(network)
+    native_connections = {(c.get("from"), int(c.get("fromLane")), c.get("to"), int(c.get("toLane"))): c
+                          for c in network.findall("connection")}
+    planned_turns = [(a, new["exit_lanes"][i], b, new["entry_lanes"][i + 1])
+                     for i, (a, b) in enumerate(zip(new["edges"], new["edges"][1:]))]
+    if (not audit["allowed"] or any("passenger" not in permissions.get(k, ())
+            or native_connections[k].get("dir") in {"t", "T"} for k in planned_turns)):
+        raise ValueError("Retain passenger permissions and a route without turnarounds or repeated junctions.")
+    boundary_path = profile_path.parent / "boundary-declarations.json"
+    boundaries = json.loads(boundary_path.read_bytes())["zones"]
+    declaration = [z for z in boundaries if new["source_edge"] in z["entry_edges"]]
+    if len(declaration) != 1:
+        raise ValueError("The replacement entry needs one existing road-scope boundary declaration.")
+    demand, intentions = ET.fromstring(raw["demand.rou.xml"]), json.loads(raw["lane-intentions.json"])
+    vehicles = {v.get("id"): v for v in demand.findall("vehicle")}
+    changed = []
+    for row in intentions["vehicles"]:
+        if row["profile_index"] != 240:
+            continue
+        vehicle = vehicles[row["vehicle_id"]]
+        if vehicle.find("route").get("edges").split() != old["edges"]:
+            raise ValueError("The source vehicle must retain the declared Brandsende profile.")
+        vehicle.find("route").set("edges", " ".join(new["edges"]))
+        row.update(profile_index=246, free_flow_field_offset_s=new["field_offsets_s"]["3"])
+        changed.append({"vehicle_id": row["vehicle_id"], "population_role": row["population_role"]})
+    changed_roles = Counter(r["population_role"] for r in changed)
+    if len(vehicles) != 8640 or changed_roles != {"main": 890, "initialization": 307}:
+        raise ValueError("Use the frozen 8640-vehicle initialization case and all 1197 Brandsende requests.")
+    out.mkdir(parents=True)
+    for name, data in raw.items():
+        (out / name).write_bytes(data)
+    ET.ElementTree(demand).write(out / "demand.rou.xml", encoding="utf-8", xml_declaration=True)
+    write_json_atomic(out / "lane-intentions.json", intentions)
+    scenario = json.loads(raw["scenario.json"])
+    scenario.update(demand_sha256=file_sha256(out / "demand.rou.xml"),
+        time_prior="All original main and initialization request times retained. No free-flow time correction after replacing the entry. Target field bins stay fixed.",
+        demand_prior="One field per model vehicle. Move profile 240 requests from Brandsende to the existing Ballindamm profile 246. All 8640 vehicle IDs, request times, roles, target fields and target bins remain unchanged. No measured OD is inferred.")
+    write_json_atomic(out / "scenario.json", scenario)
+    sources.update({str(profile_path): file_sha256(profile_path), str(boundary_path): file_sha256(boundary_path)})
+    report = {"status": "prepared", "formal_result": False, "source_profile": 240, "replacement_profile": 246,
+        "source_entry": old["source_edge"], "replacement_entry": new["source_edge"], "merge_road": merge,
+        "changed_by_population": dict(changed_roles), "changed_vehicles": changed,
+        "replacement_boundary": declaration[0], "route_audit": audit,
+        "simulation_end_s": 3600, "main_window_run": False,
+        "source_sha256": sources, "input_sha256": {name: file_sha256(out / name) for name in names},
+        "source_files_unchanged": all(file_sha256(Path(p)) == h for p, h in sources.items()),
+        "claim_boundary": "One declared entry-prefix perturbation. Road class and boundary support do not establish real OD or capacity. All counts still require native measurement."}
+    write_json_atomic(out / "entry-alternative-proposal.json", report)
+    return {k: v for k, v in report.items() if k not in {"changed_vehicles", "source_sha256", "route_audit", "replacement_boundary"}}
+
+
 def run_hamburg_initialization(*, prepared_dir, output_dir, sumo_binary):
     """Measure only the preceding hour while retaining the full future demand file."""
     p, out = Path(prepared_dir).resolve(strict=True), Path(output_dir).resolve()
