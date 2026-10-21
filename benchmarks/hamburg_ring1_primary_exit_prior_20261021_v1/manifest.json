@@ -1,0 +1,412 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/baseline-primary-road-intervals.csv",
+      "sha256": "bf25d435eb271d82726a49b8f1371939918c677e8adda247a65ecf7d724932de"
+    },
+    {
+      "path": "analysis/candidate-primary-road-intervals.csv",
+      "sha256": "65120674cd7dd106a1f1180819b9f95f1c47642b2f8ec2be0d077faf27f70e9e"
+    },
+    {
+      "path": "analysis/comparison.json",
+      "sha256": "d358413439b39ec917599098e954472768bdd471474cacaeaf654bbf995d61e2"
+    },
+    {
+      "path": "analysis/entry-delays.csv",
+      "sha256": "45c26315b1d357b2bf8f5eaf988b212b681e42dae90ec0c633c8f9375e9e6712"
+    },
+    {
+      "path": "analysis/field-change.csv",
+      "sha256": "27d6130df506c648775efb766e011a40e5de27e575ef3174c748d98f3f5d690f"
+    },
+    {
+      "path": "analysis/independent-checks.json",
+      "sha256": "784b5a7f0e2dc040b4d81248aeafd99fa131e7af3edb991627f4408afda52acb"
+    },
+    {
+      "path": "analysis/lane-hold-check.json",
+      "sha256": "567e1f7e958c6adca189d8ecb38b646512c6f275a106161b7b3182f3f5c2b53f"
+    },
+    {
+      "path": "analysis/paired-probe-summary.json",
+      "sha256": "316f011fa5fad779bba6b2b6c8c78ccd9764a02a4ee46e5e7449628c40e778a0"
+    },
+    {
+      "path": "analysis/primary-diagnosis.json",
+      "sha256": "941b4df785b1435a8ad38356285f0344e30f5432cc1452883a5cc0ede1a3f617"
+    },
+    {
+      "path": "analysis/queue-sample-summary.json",
+      "sha256": "0062ac8f34992a188f1dcbb4c9404ab0b15f153c63aba71cd89a552d8dc23702"
+    },
+    {
+      "path": "analysis-at-verification.py",
+      "sha256": "fcbf92b39a08f7bff02c587847b4195c901fcca0a0047805cceede49ce06a5ac"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "000f036f97389653c6ad86f386fc6b96587d4dc287fcdcf0fd8d3de5051e21aa"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "accbf20ce40b06c34153e555a4bdd5967377812b9cf818c638707d66ea234c90"
+    },
+    {
+      "path": "inputs/destination-prior.json",
+      "sha256": "a0a4009617fcdad00d375d49891d5398c043860196bfc7032ffa7a32ba00c580"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "a2769cdd6dfe508894eed6d621d6bd09a9d3c8eca267c165e25ecaf5c858575b"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "69a4a58841771acf807438d34f7b25b5a44c74c769daa71406a1a71e05cc33c2"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "d1f3da1b7795a89a8a46e9101e3c6b4829e6ddd79b89ea3e6f346daf04d1b285"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "9615f7cb2e9d594704ae400ac6167436ae771cd65304621f4da01b19b59b5bd8"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "accbf20ce40b06c34153e555a4bdd5967377812b9cf818c638707d66ea234c90"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "6e9bf19d7f4fb78c0e7ed39f012f24116b4fb01b212e7d3ec366631712483bd3"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "85b9f12bde4f5f44b44baf42be6c3db48ee27e6fc6190274336326961e07086d"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "6b7b1cf646265316448d3ea49d3aca65cecebedfeffe155bb05009ce70790c22"
+    },
+    {
+      "path": "native/initialization-check.json",
+      "sha256": "7d19ba9e180f031ea68275bd978462805ec22f5d8e925f0b9c0f8347d3e37200"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "86c1af8c5094182db544b80d81ce17329512ac03f696ad31c3cee750d149af0c"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "0a60d58e2c229295680a260cdfc7dc4a8ea0783ba95d94ced455e36dc394d298"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "a2769cdd6dfe508894eed6d621d6bd09a9d3c8eca267c165e25ecaf5c858575b"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "2de81f3ae5b4bcd9f4948921a9564c474141a86dc021b1cdfa82efccbad4aed3"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/passage-reconciliation.json.gz",
+      "sha256": "a86f21328a89f0acccbc36f6d471ae495a99351f4ebe354378a0913570ab1c81"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "9f477e3148a7f0eb02e3360570c45780c205547fa6825612cb39cafd22e85ed3"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "6c26660db59bafd7a4a7918b13c9c3ab83261a6baa287fd196370a64f9c4fe2e"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "9ff764c1a05f8728efed020b7761d1bf7dd9dd98d676ec8abbcc1bcb703665b3"
+    },
+    {
+      "path": "native/states/state_3599.900.xml.gz",
+      "sha256": "b75ec7429b7dbf3facbe3854205adf90afc0fb7c06af359de3fae7902f19e6cd"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "e55ca1fe997f3bcd9d92d891ab527e375f88dd91a1432c94c4b0633f467e76ca"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "f9afe6d10577df6f23912025264f9c5994c5c159517eed890a693a47be4f3bfb"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "eb1fef60c8c1b855b0fc9c35e7eed31c8aa77a0fb78c762a71899fd74c07d3e0"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "26af04c6c3430b0332b383cafaa5d1104a52567f29783f437e4bd1c3065488a3"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "04bccf654473a80901ae56511903813ab2b6f5d14f0f2b75b96d75154ea30801"
+    },
+    {
+      "path": "paired-probe/baseline/demand.rou.xml",
+      "sha256": "76fc264954853c9ede0f9527b650266ceca9118544f9c2f904fbb1a295ddc58e"
+    },
+    {
+      "path": "paired-probe/baseline/expected.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/baseline/intentions.json",
+      "sha256": "9202d83f3d0241775c2027a911675059c6a62da2700dbe0b703c310cbecc9849"
+    },
+    {
+      "path": "paired-probe/baseline/native/collisions.xml",
+      "sha256": "40ca36d80941c0c003928490b80f6502a24d7bb878c28a85fae22ff35adb51cd"
+    },
+    {
+      "path": "paired-probe/baseline/native/command.json",
+      "sha256": "0bb811acb96cf12cb1162d62135cbe3ad72c91ec38498ff2f62b65a1eb4aa697"
+    },
+    {
+      "path": "paired-probe/baseline/native/demand.rou.xml",
+      "sha256": "76fc264954853c9ede0f9527b650266ceca9118544f9c2f904fbb1a295ddc58e"
+    },
+    {
+      "path": "paired-probe/baseline/native/e1.add.xml",
+      "sha256": "eff9ad591e18b63aba1722e624f385b6a82702cb372705b5df426fc69af09e4f"
+    },
+    {
+      "path": "paired-probe/baseline/native/expected-counts.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/baseline/native/field-comparison.csv",
+      "sha256": "85fa8b9f8fdb71adc8c2b32ea26ad5527d2c84a300800105dbf4cacde2faf8e2"
+    },
+    {
+      "path": "paired-probe/baseline/native/field-counts.xml",
+      "sha256": "e90bed3bf817dc1e207e33050b6a367a8c40a77ae169144f618f584651a23f95"
+    },
+    {
+      "path": "paired-probe/baseline/native/instant-e1.xml",
+      "sha256": "a9f7ecab4c21c3e552b16bfcd00ec200caf225d6a4834d733b6803bbbae35ab6"
+    },
+    {
+      "path": "paired-probe/baseline/native/instant.add.xml",
+      "sha256": "b48c889749b4e30c37eea0bca51aac1c752af7f2edf86d4e60bb7b0904da6326"
+    },
+    {
+      "path": "paired-probe/baseline/native/lane-intentions.json",
+      "sha256": "9202d83f3d0241775c2027a911675059c6a62da2700dbe0b703c310cbecc9849"
+    },
+    {
+      "path": "paired-probe/baseline/native/native-request.json",
+      "sha256": "d141e5b48d43b524728628aa9c4b7725bf22879ef3d7378b9652b0454a889dfc"
+    },
+    {
+      "path": "paired-probe/baseline/native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "paired-probe/baseline/native/queues.xml.gz",
+      "sha256": "e858249df6c55dd82bba76b078d6cac3fa2fa01d6d6d3942102e8c8bceee6e8a"
+    },
+    {
+      "path": "paired-probe/baseline/native/run.json",
+      "sha256": "d760f11ab548faf557651b4cd199e3b95a17f17b030b8fda872e75c37bc4bd33"
+    },
+    {
+      "path": "paired-probe/baseline/native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "paired-probe/baseline/native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "paired-probe/baseline/native/stall-monitor.json",
+      "sha256": "47cf5bea38c6aec9dd96f140ee338d59c7c7d28adda043aa2500f27aa5d2a37a"
+    },
+    {
+      "path": "paired-probe/baseline/native/summary.xml.gz",
+      "sha256": "314b61126fa78737691675bdf9da6b8a75f5aae2a8089e59326c7af553a5fe24"
+    },
+    {
+      "path": "paired-probe/baseline/native/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "paired-probe/baseline/native/sumo.log",
+      "sha256": "a9f1fbec58776c8359215f183d4c74b74215bd82bcbd8a9c148bb5eb10063296"
+    },
+    {
+      "path": "paired-probe/baseline/native/tripinfo.xml",
+      "sha256": "da98d7c3593f4b987f2b82e48c66807195d15cd7df77cc1e261c94df93fa5c01"
+    },
+    {
+      "path": "paired-probe/baseline/native/vehicle-routes.xml",
+      "sha256": "6c6586426de5de47f482d5323b2b70852697ffaf33b60d773137d41a0c7b7fd7"
+    },
+    {
+      "path": "paired-probe/baseline/passage-reconciliation.json",
+      "sha256": "a3136888e43b0370061327adc3d63f9ce385206e73db9732470380b482bb91b1"
+    },
+    {
+      "path": "paired-probe/candidate/demand.rou.xml",
+      "sha256": "c4355e453c5e92cd30bab0b7dd50115217964f1e5102148c2b67941a8e1908e4"
+    },
+    {
+      "path": "paired-probe/candidate/expected.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/candidate/intentions.json",
+      "sha256": "9b9866492550b8c6aac92c5ca6f50a6ef2a5cc3d0d002852b2c33e54d2c6d41d"
+    },
+    {
+      "path": "paired-probe/candidate/native/collisions.xml",
+      "sha256": "a3e01e6dafedd0f176e6bedfa8b04f99b2e0a4cb97f5471f6dc0bf5f0db27568"
+    },
+    {
+      "path": "paired-probe/candidate/native/command.json",
+      "sha256": "53885194290bbb8c54cb3581c5264e43aa016ebfce4dd2b2c5dee338fa234be0"
+    },
+    {
+      "path": "paired-probe/candidate/native/demand.rou.xml",
+      "sha256": "c4355e453c5e92cd30bab0b7dd50115217964f1e5102148c2b67941a8e1908e4"
+    },
+    {
+      "path": "paired-probe/candidate/native/e1.add.xml",
+      "sha256": "a1c04a11002bcbb4e2a9c5365d9fcc759c6e56da2b28d6930406a80117d806d0"
+    },
+    {
+      "path": "paired-probe/candidate/native/expected-counts.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/candidate/native/field-comparison.csv",
+      "sha256": "85fa8b9f8fdb71adc8c2b32ea26ad5527d2c84a300800105dbf4cacde2faf8e2"
+    },
+    {
+      "path": "paired-probe/candidate/native/field-counts.xml",
+      "sha256": "58b8678ab84cec0beb66289a038f2694162cfc23aa7b08c85dda20bfd39df69d"
+    },
+    {
+      "path": "paired-probe/candidate/native/instant-e1.xml",
+      "sha256": "5847a29f15b6438d8178ee11fc4e0abea170ed4490b6af3c6e1c50da100bdc16"
+    },
+    {
+      "path": "paired-probe/candidate/native/instant.add.xml",
+      "sha256": "ccefba22da3cead4fe9442058c0a39f49317bda512d1ccc76ea25f712d0b7d77"
+    },
+    {
+      "path": "paired-probe/candidate/native/lane-intentions.json",
+      "sha256": "9b9866492550b8c6aac92c5ca6f50a6ef2a5cc3d0d002852b2c33e54d2c6d41d"
+    },
+    {
+      "path": "paired-probe/candidate/native/native-request.json",
+      "sha256": "fc5582072b31f3b7d1a99d1475750f5f8aeb080c3418325ad614be9352990537"
+    },
+    {
+      "path": "paired-probe/candidate/native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "paired-probe/candidate/native/queues.xml.gz",
+      "sha256": "ab1f3ea4db838afa1e3515eb6a922716ac3f7fa2790a4e90983516124d92d002"
+    },
+    {
+      "path": "paired-probe/candidate/native/run.json",
+      "sha256": "a246d389c1420b5f88346102343373e81dac04fcbeaf55ddfe8120fe866a88d4"
+    },
+    {
+      "path": "paired-probe/candidate/native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "paired-probe/candidate/native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "paired-probe/candidate/native/stall-monitor.json",
+      "sha256": "09730ceb67ba9bc42a51610ed76c0b315039c3e5f70a5ea819440310a48f28f5"
+    },
+    {
+      "path": "paired-probe/candidate/native/summary.xml.gz",
+      "sha256": "6380a6d271c755aeff0bae1487bc41860efc058003bb56fd1b21c31e00af08cf"
+    },
+    {
+      "path": "paired-probe/candidate/native/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "paired-probe/candidate/native/sumo.log",
+      "sha256": "5a22ba1852f6847bef3e07d1ea7e93f3900201cc2cc85907bb0d6e4d9d4218f0"
+    },
+    {
+      "path": "paired-probe/candidate/native/tripinfo.xml",
+      "sha256": "4aecd5b9330d0aee9d0aed14db16585600dbef426342fa42449c00ce5aea8cce"
+    },
+    {
+      "path": "paired-probe/candidate/native/vehicle-routes.xml",
+      "sha256": "23c65d444fbc8eccd02113b5b66c4de2e695c5f4c8c66fc0a80807dc029c76c4"
+    },
+    {
+      "path": "paired-probe/candidate/passage-reconciliation.json",
+      "sha256": "d210b2297ae0396e78b270b3ed294ae8d24f745a9a422727d7af38e22e921335"
+    },
+    {
+      "path": "paired-probe/probe-check.json",
+      "sha256": "903e20dfd1e8a77adb164e7af5f9977899484985b9fabb55134f727959490f30"
+    },
+    {
+      "path": "README.md",
+      "sha256": "66eb8d94ef19dbdbc27b357f958977862e97a2344b3e7df689ffc8b6a787f1d7"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "f90a7e1ae978326d1fa079931077fba7df02c2ee72bb10b677e6f6bc42844598"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Ring1 119 destination prior and paired initialization evidence, 2026-10-21](ring1-primary-exit-prior-2026-10-21.md)
 - [Ring1 Z15 existing K31/K2 route allocation and native initialization check, 2026-10-21](ring1-z15-k2-routes-2026-10-21.md)
 - [Ring1 Z15 shared K8 approach and censored route-time diagnosis, 2026-10-21](ring1-z15-k8-route-delay-2026-10-21.md)
 - [Ring1 single-entry prefix test and unchanged native counts, 2026-10-21](ring1-entry-prefix-test-2026-10-21.md)

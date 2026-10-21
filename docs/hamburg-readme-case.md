@@ -6,6 +6,11 @@ It timed out during the tail. Its last complete snapshot at 13,645 s records 2,3
 These are snapshot counts, not final completion. The run remains invalid and exact calibration remains unfinished.
 The [preceding-hour paired check](../benchmarks/hamburg_ring1_z15_k2_routes_20261021_v1/README.md) improved Z15 counts but did not establish main-window success.
 
+The subsequent [119 destination-prior check](../benchmarks/hamburg_ring1_primary_exit_prior_20261021_v1/README.md) retains every request time and count target.
+Its paired artificial cases complete all 40 vehicles. Its initialization hour has 226 uninserted vehicles, down from 364.
+All 52 initialization field rows remain available, with 33 exact. Diagnostic MAE is 7.788 and maximum absolute error 61.
+Other directions lose passages. No new main-window run was performed, so the main 130/40-row result above remains unchanged.
+
 The [end-to-end workflow trial](../benchmarks/hamburg_ring1_end_to_end_20261021_v1/README.md) supplies the complete artifact chain, fixed-aerial before/after figures, actual NetEdit captures, and every field/station comparison.
 Its full-window native run is invalid: 50 collisions, 50 teleports, and 2,242 vehicles never inserted. Calibration remains incomplete; all 130 field rows and 40 derived station rows are retained.
 
