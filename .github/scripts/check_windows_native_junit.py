@@ -34,6 +34,7 @@ REQUIRED = {
     "test_native_ring1_lane_count_geometry_uses_declared_source_hints": 2,
     "test_native_detector_position_roundtrip_uses_logical_scale": 1,
     "test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints": 1,
+    "test_native_point_detector_demand_replay_keeps_inputs_and_counts": 1,
 }
 
 
