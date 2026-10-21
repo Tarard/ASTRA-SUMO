@@ -85,13 +85,13 @@ Neither lane carries one of the 13 count loops. Lane-change service remains unve
 At 535, the Z.8 lane now retains left-turn exits, while Z.7 retains its source-backed turnaround.
 These route restrictions must remain explicit in later fitting reports.
 
-The [latest complete replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v5.json) repairs the failed narrow-scope count conversion.
+The [earlier complete replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v5.json) repairs the failed narrow-scope count conversion.
 It retains 92 passing movements and 13 loops, with zero structural failures and exact neighboring road geometry.
 The record also retains the failed predecessor with three entry gaps at the 0.2 m inlet road.
 Native curve repair now uses the endpoints that remain after exterior restoration.
 All thirteen declared field loops have native coordinates within 0.00236 m of the previous model. Only Z.11 changes.
 Automatic controller loops remain separate from the published count-field inventory.
-Ten inherited protected-green foe findings and 22 unresolved movements remain. No count calibration has run.
+Ten inherited protected-green foe findings and 22 unresolved movements remain. That construction replay contains no count calibration.
 A later surface check found a widened bicycle-lane start 1.298 m outside that model's retained junction contour.
 The [current complete replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v6.json) rebuilds the automatic surface and its contained flat connector together.
 The three lane starts meet the contour within 0.000001 m of coordinate rounding. The connector retains its complete native shape and forward direction.
@@ -101,9 +101,8 @@ The complete case still verifies 92 of 114 official movements and loads 13 loops
 Passenger, bus, and bicycle requests complete the repaired local transition without collision or teleport.
 Native detector positions differ from the preceding model by at most 0.00236 m. Only Z.11 changes.
 The complete Windows and independent Linux replays have identical canonical network and field-loop XML contents.
-The review also found three temporary lane-shape markers and rounded lengths on three upstream lanes. These repairs remain pending.
-The new full CI remains pending in this record.
-No simulated count fitting has run. The exact target includes every declared field and station bin.
+The review also found three temporary lane-shape markers and rounded lengths on three upstream lanes. The v7 replay below records their repair.
+The construction replay supplies no simulated count fit. The exact target includes every declared field and station bin.
 
 The [marker and precision repair replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v7.json) retains the same movement and detector coverage.
 Its complete Windows replay removes all three temporary lane markers and restores the three upstream lane shapes and lengths exactly.
@@ -119,6 +118,16 @@ Its measured field responses distinguish all 13 fields, while road-only incidenc
 The resulting integer equations admit exact source-count vectors, but their first 4,494-vehicle native replay fails.
 The retained ten-vehicle reproduction has insertion collisions on a 0.35 m entry road with either departure-position policy.
 The count fit remains unfinished. Invalid runs do not supply accepted calibration metrics.
+
+The [real entry-context check](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/entry-context-evidence-v1.json) retains 26 additional upstream source roads, for 493 selected roads.
+It adds no synthetic roads. The complete construction still verifies 92 of 114 movements and loads the same 13 loops.
+All 13 native detector coordinates remain unchanged. Five entry roads remain below the requested 7.5 m native length.
+The ten-vehicle reproduction now completes without collision or teleport after starting on the retained 8.91 m source road.
+Its maximum departure delay is 23.35 s. This is an insertion diagnostic, not a count fit.
+The larger 4,494-vehicle replay still records four collision teleports inside LSA119 before its 240 s wall-clock limit.
+It supplies no accepted calibration metrics. The demand proposal was not re-estimated for the extended network.
+The 59 focused tests pass. Full CI for the preceding `c51c788` commit passes with 3,920 tests and 24 skips.
+
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.

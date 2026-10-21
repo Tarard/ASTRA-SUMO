@@ -1,0 +1,385 @@
+{
+  "schema": "astra.ring1-entry-context-evidence/v1",
+  "status": "partial",
+  "promotion_authority": false,
+  "implementation_commit": "1874d902e2e3117baa7addf0a6dc26a635694baf",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/road_hierarchy.py",
+      "sha256": "018c52bc65d7b4b31b4a14192d9d852d5b95422617a44a542188c050bda5879b"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "7ba2693a9084964389ce2887fb1b92927d68a0414170b8a965bda994092a222d"
+    },
+    {
+      "path": "examples/06_hamburg_ring1_demo/run_road_selection.py",
+      "sha256": "61336bf69f550f6a4641dca5309b635fd5bbdb71a652b12578f9539f0ae96b3f"
+    }
+  ],
+  "road_case": {
+    "path": "outputs/ring1-road-demo-20261021-v17/case.json",
+    "sha256": "e6692036e55067afccf5704bb7bdfe9199d12812fe83f4c48622dc1b91fa6593"
+  },
+  "source_road_count": 1156,
+  "unbuffered_selected_roads": 467,
+  "selected_roads_with_real_entry_context": 493,
+  "minimum_requested_entry_lane_length_m": 7.5,
+  "new_synthetic_roads": 0,
+  "road_checks": {
+    "source_unchanged": true,
+    "selected_roads_realized": true,
+    "required_movements_kept": true,
+    "retained_lane_permissions": true,
+    "retained_local_turns": true,
+    "retained_road_priorities": true,
+    "sumo_load": true
+  },
+  "entry_context": {
+    "minimum_lane_length_m": 7.5,
+    "extensions": [
+      {
+        "entry_edge": "-56754916",
+        "source_path": [
+          "-56754917",
+          "-56754916"
+        ],
+        "added_edges": [
+          "-56754917"
+        ],
+        "new_entry_lane_length_m": 15.602187
+      },
+      {
+        "entry_edge": "-722793862",
+        "source_path": [
+          "-722793861",
+          "-722793862"
+        ],
+        "added_edges": [
+          "-722793861"
+        ],
+        "new_entry_lane_length_m": 17.412973
+      },
+      {
+        "entry_edge": "1108556913",
+        "source_path": [
+          "189764301",
+          "62091589#0",
+          "62091589#1",
+          "1108556913"
+        ],
+        "added_edges": [
+          "189764301",
+          "62091589#0",
+          "62091589#1"
+        ],
+        "new_entry_lane_length_m": 29.249707
+      },
+      {
+        "entry_edge": "1189704921",
+        "source_path": [
+          "722791971",
+          "1189704921"
+        ],
+        "added_edges": [
+          "722791971"
+        ],
+        "new_entry_lane_length_m": 164.519581
+      },
+      {
+        "entry_edge": "1345098540",
+        "source_path": [
+          "199799715",
+          "1108564797",
+          "1073054122#0",
+          "1073054122#1",
+          "1345098540"
+        ],
+        "added_edges": [
+          "199799715",
+          "1108564797",
+          "1073054122#0",
+          "1073054122#1"
+        ],
+        "new_entry_lane_length_m": 11.614265
+      },
+      {
+        "entry_edge": "22125651",
+        "source_path": [
+          "4917574#1",
+          "1360406653",
+          "-23489785",
+          "22125651"
+        ],
+        "added_edges": [
+          "4917574#1",
+          "1360406653",
+          "-23489785"
+        ],
+        "new_entry_lane_length_m": 115.334214
+      },
+      {
+        "entry_edge": "22125651",
+        "source_path": [
+          "251397514",
+          "22125651"
+        ],
+        "added_edges": [
+          "251397514"
+        ],
+        "new_entry_lane_length_m": 21.350614
+      },
+      {
+        "entry_edge": "25866659#2",
+        "source_path": [
+          "25866659#1",
+          "25866659#2"
+        ],
+        "added_edges": [
+          "25866659#1"
+        ],
+        "new_entry_lane_length_m": 8.803683
+      },
+      {
+        "entry_edge": "27470423#1",
+        "source_path": [
+          "27470423#0",
+          "27470423#1"
+        ],
+        "added_edges": [
+          "27470423#0"
+        ],
+        "new_entry_lane_length_m": 14.449761
+      },
+      {
+        "entry_edge": "28665128#3",
+        "source_path": [
+          "28665128#2",
+          "28665128#3"
+        ],
+        "added_edges": [
+          "28665128#2"
+        ],
+        "new_entry_lane_length_m": 48.763452
+      },
+      {
+        "entry_edge": "321703980#3",
+        "source_path": [
+          "321703980#2",
+          "321703980#3"
+        ],
+        "added_edges": [
+          "321703980#2"
+        ],
+        "new_entry_lane_length_m": 25.700405
+      },
+      {
+        "entry_edge": "4935468#2",
+        "source_path": [
+          "-457963489",
+          "-457963490",
+          "4935468#1",
+          "4935468#2"
+        ],
+        "added_edges": [
+          "-457963489",
+          "-457963490",
+          "4935468#1"
+        ],
+        "new_entry_lane_length_m": 15.681563
+      },
+      {
+        "entry_edge": "543550497#2",
+        "source_path": [
+          "543550497#0",
+          "543550497#1",
+          "543550497#2"
+        ],
+        "added_edges": [
+          "543550497#0",
+          "543550497#1"
+        ],
+        "new_entry_lane_length_m": 45.918964
+      },
+      {
+        "entry_edge": "771709146#1",
+        "source_path": [
+          "771709146#0",
+          "771709146#1"
+        ],
+        "added_edges": [
+          "771709146#0"
+        ],
+        "new_entry_lane_length_m": 68.188694
+      },
+      {
+        "entry_edge": "4935468#1",
+        "source_path": [
+          "4935468#0",
+          "4935468#1"
+        ],
+        "added_edges": [
+          "4935468#0"
+        ],
+        "new_entry_lane_length_m": 80.177812
+      },
+      {
+        "entry_edge": "62091589#0",
+        "source_path": [
+          "61578529#1",
+          "62091589#0"
+        ],
+        "added_edges": [
+          "61578529#1"
+        ],
+        "new_entry_lane_length_m": 59.909973
+      }
+    ],
+    "unresolved_entries": [
+      {
+        "edge_id": "-23489785",
+        "minimum_lane_length_m": 0.2,
+        "reason": "no_remaining_source_path_to_a_sufficiently_long_entry"
+      },
+      {
+        "edge_id": "-56754916",
+        "minimum_lane_length_m": 0.2,
+        "reason": "no_remaining_source_path_to_a_sufficiently_long_entry"
+      },
+      {
+        "edge_id": "1360406653",
+        "minimum_lane_length_m": 2.55069,
+        "reason": "no_remaining_source_path_to_a_sufficiently_long_entry"
+      },
+      {
+        "edge_id": "1491809365",
+        "minimum_lane_length_m": 0.903046,
+        "reason": "no_remaining_source_path_to_a_sufficiently_long_entry"
+      },
+      {
+        "edge_id": "186713410#0",
+        "minimum_lane_length_m": 5.152433,
+        "reason": "no_remaining_source_path_to_a_sufficiently_long_entry"
+      }
+    ],
+    "claim_boundary": "Retained upstream source context only. Lane length does not certify queue storage, insertion throughput, or field demand."
+  },
+  "native_short_entries": [
+    {
+      "edge_id": "-23489785",
+      "minimum_lane_length_m": 0.2,
+      "meets_requested_length": false
+    },
+    {
+      "edge_id": "-56754916",
+      "minimum_lane_length_m": 4.22,
+      "meets_requested_length": false
+    },
+    {
+      "edge_id": "1360406653",
+      "minimum_lane_length_m": 7.19295,
+      "meets_requested_length": false
+    },
+    {
+      "edge_id": "1491809365",
+      "minimum_lane_length_m": 1.05,
+      "meets_requested_length": false
+    },
+    {
+      "edge_id": "186713410#0",
+      "minimum_lane_length_m": 5.152433,
+      "meets_requested_length": false
+    }
+  ],
+  "complete_construction_run": {
+    "path": "outputs/ring1-public-junction-demo-20261021-v9/run.json",
+    "sha256": "ad1affbc6291b05556734a0f705296768f65380998a38a0f7de6f1af79d4631f"
+  },
+  "content_hashes": {
+    "network_content_sha256": "7f35e12ca9006eaa763f499b961930216ede347d016ffff58b9d49c2536ca8b8",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+  },
+  "movement_coverage": {
+    "official": 114,
+    "passed": 92,
+    "unmapped": 22,
+    "unexplained_extra_connections": []
+  },
+  "protected_green_foe_findings": 10,
+  "native_detector_comparison": {
+    "record": {
+      "path": "outputs/ring1-native-sensor-positions-20261021-v5/result.json",
+      "sha256": "60981a35bacc5b7c9f0070eebdbcac26a5cd2ee8cfda7af2e858c3c805f161cd"
+    },
+    "detector_count": 13,
+    "max_native_xy_displacement_m": 0.0
+  },
+  "short_entry_probe": {
+    "runner": {
+      "path": "outputs/probe-ring1-real-entry-context-20261021-v1.py",
+      "sha256": "a9ce90bcd4700192e67cdcdedb450c842351eb9bdc9855af5a4cfe0a9e7f9331"
+    },
+    "result": {
+      "path": "outputs/ring1-real-entry-context-probe-20261021-v1/result.json",
+      "sha256": "ae8cb80ab90f2b0386e875fa86a0ed3ef16a1b38f14d29af5a005d796291aa9d"
+    },
+    "native_record": {
+      "path": "outputs/ring1-real-entry-context-probe-20261021-v1/replay/run.json",
+      "sha256": "7a454a718ec17fd2e4e75b8cd26068aaa9f835d815713892181d8a34b191ef80"
+    },
+    "source_prefix": [
+      "25866659#1"
+    ],
+    "native_entry_lane_length_m": 8.91,
+    "completion": {
+      "loaded": 10,
+      "inserted": 10,
+      "arrived": 10,
+      "running": 0,
+      "waiting": 0,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "max_departure_delay_s": 23.35,
+    "role": "ten_vehicle_insertion_diagnostic_not_count_calibration"
+  },
+  "larger_replay": {
+    "runner": {
+      "path": "outputs/run-ring1-buffered-integer-replay-20261021-v1.py",
+      "sha256": "bfc7613ef689e3d98aa46fe0c2082cf72a2704728703594a8d509e5e1d4d6c1b"
+    },
+    "command_record": {
+      "path": "outputs/ring1-buffered-integer-replay-20261021-v1/replay/command.json",
+      "sha256": "0e8b43e4d4dc2a426b53bcb98d3f9eb7567b9d95a37d320c2363329681f69893"
+    },
+    "vehicle_count": 4494,
+    "status": "invalid",
+    "native_status": "timeout",
+    "wall_clock_limit_s": 240,
+    "collision_teleport_warnings_observed": 4,
+    "locations": [
+      ":LSA119_part0_0_1",
+      ":LSA119_part0_2_2"
+    ],
+    "accepted_fit_metrics": null,
+    "demand_basis": "Original response proposal reused on the extended model, not re-estimated."
+  },
+  "focused_tests": {
+    "record": {
+      "path": "outputs/entry-context-and-count-forward-tests-20261021-v1.xml",
+      "sha256": "1d88f061171f7d38aecce0514e2ec9d229e7fb7b1bb95722753719f2dc9f3a89"
+    },
+    "passed": 59,
+    "failed": 0
+  },
+  "calibration": {
+    "status": "not_achieved",
+    "target_field_bins": 130,
+    "target_station_bins": 40,
+    "required_MAE": 0,
+    "required_max_abs_error": 0,
+    "accepted_full_demand_fit": false
+  },
+  "claim_boundary": "Real upstream source retention repairs the isolated short-entry collision reproduction. Five entries remain below the requested native length. The larger replay has junction collisions and no accepted count-fit result. Field control, all official movements, demand plausibility, and prediction accuracy remain unresolved."
+}

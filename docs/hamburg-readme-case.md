@@ -110,6 +110,22 @@ Exact agreement is not achieved or established as feasible for the current recon
 If constraints prevent exact agreement, the report must identify the remaining residuals and their causes.
 An exact fitting-window result does not establish independent prediction accuracy or exact field geometry.
 
+### Current reconstruction and fitting status
+
+The current construction has independent Windows and Linux replays with identical canonical network and detector XML contents.
+The [v7 record](../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v7.json) records the repaired model recipe.
+This reproducibility result does not reproduce the historical README images or establish count calibration.
+
+The [native count probe](../benchmarks/hamburg_ring1_count_probe_20261021_v1/README.md) runs 500 unfitted vehicles to completion without collision or teleport.
+It supplies all 130 field and 40 station comparisons. None of the field intervals matches the source exactly.
+Its measured responses admit exact integer source-count vectors, but the first larger native replay is invalid.
+An exact response equation does not establish an exact SUMO count fit under changed traffic conditions.
+
+The [entry-context repair](../benchmarks/hamburg_ring1_road_scope_20261020_v1/entry-context-evidence-v1.json) retains real upstream roads before vehicle injection.
+The ten-vehicle short-entry reproduction then completes without collision or teleport. All 13 native detector coordinates remain unchanged.
+The larger replay still records collisions inside LSA119. Thus, the zero-error target remains unachieved.
+Signal treatment, unresolved movements, and demand plausibility still need work before a valid full-demand fit.
+
 The existing figures remain illustrations of the earlier reconstruction.
 Their source networks, calibration inputs, and dated aerial registration need a new reproducible case package before paper use.
 
