@@ -1,0 +1,354 @@
+{
+  "schema": "astra.ring1-public-replay-evidence/v6",
+  "status": "partial",
+  "promotion_authority": false,
+  "implementation_commit": "3f828cf582efd2c24ca7dade9fbac15ee9911c86",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/workflow.py",
+      "sha256": "c7e720eddac2b3b4af5fe72e58e68461cd0841efe93ab0940c110618c8da6d93"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/groups.py",
+      "sha256": "97da92fb697fa2f6f7e7689ca6fee7e7d061fa4c33f24c784498ef4929c05650"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/movements.py",
+      "sha256": "b992faee12c83c38544ab7c56bd07e62e1b2042d638bd05a18f5831b442a12b2"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+      "sha256": "20dd0f0ec80f589cc470ef746f97354ed819cc08f3df58f2fe58516f70ecd6ab"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/local_network_conversion.py",
+      "sha256": "bbaa8b16551c8349f3b96351161ce590964183ea27854c15d005eef739504d83"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_geometry_freeze.py",
+      "sha256": "852c9d902586f89fc81b96f52fd0bd6948dd3abbf01c5c8f309b45c37f0f4dfa"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/junction_rebuild/native_path_repair.py",
+      "sha256": "63e711c292a293956442a0d0e8453ef1fdb849c76ea4edb65da6b367c1d7bcb7"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_count_reachability.py",
+      "sha256": "bf3dd0e836ff9fd12c648af0e3031f34750f3af0e1d634810a6a93fd08649082"
+    }
+  ],
+  "run": {
+    "path": "outputs/ring1-public-junction-demo-20261021-v7/run.json",
+    "sha256": "ca9b101329a4b1e034d95d39c0a5674f5671bd707609bffd817c0da3175376f6"
+  },
+  "source_road_case": {
+    "path": "outputs/ring1-road-demo-20261021-v14/case.json",
+    "sha256": "9ab28773bc30a4899eeac3dd2a895569e880c5c3733ee17c05310fff7d1a5475"
+  },
+  "inputs_unchanged": true,
+  "implementation_unchanged": true,
+  "implementation_hashes_match_git_blobs": true,
+  "content_hashes": {
+    "network_content_sha256": "23cca70d27892ae9accfa1752a236d8b304b08879359f020bcadd57956f55ccb",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+  },
+  "movement_coverage": {
+    "official": 114,
+    "passed": 92,
+    "unmapped": 22,
+    "unexplained_extra_connections": []
+  },
+  "field_loop_count": 13,
+  "station_group_count": 4,
+  "structural_failure_count": 0,
+  "lane_count_stage": {
+    "plan": {
+      "path": "outputs/ring1-public-junction-demo-20261021-v7/lane-edit-0/edit.scoped-plan.json",
+      "sha256": "f211ed3bbb72567c3d8dc93b96492e2d334e81ab1e4e1354e8f38b7f1a71a7bf"
+    },
+    "verification": {
+      "path": "outputs/ring1-public-junction-demo-20261021-v7/lane-edit-0/verification.json",
+      "sha256": "f218045fbc0201dcbf0fd1da705c5e333d4faa5f9f18b06fac22f271d73a6773"
+    },
+    "scope_policy": "overlap_connector_closure",
+    "overlap_connector_edge_ids": [
+      "1068722010"
+    ],
+    "mutable_junction_ids": [
+      "263002865",
+      "9810392490",
+      "LSA119_part0"
+    ],
+    "converted_normal_edge_count": 13,
+    "source_normal_edge_count": 334,
+    "native_repair_attempt_count": 0,
+    "outside_edit_scope_geometry": {
+      "status": "pass",
+      "coordinate_frame_preserved": true,
+      "mutable_junction_ids": [
+        "263002865",
+        "9810392490",
+        "LSA119_part0"
+      ],
+      "mutable_edge_ids": [
+        "-24483344#1",
+        "1068722010",
+        "186713422#0",
+        "199230909#0",
+        "199230912#0",
+        "24483192",
+        "24483344#1",
+        "363112756#1",
+        "37413814#0",
+        "43866090#0",
+        "486864294",
+        "79014037#1",
+        "977482749"
+      ],
+      "ordinary_lane_attribute_changes": {
+        "shape": 0,
+        "length": 0,
+        "width": 0
+      },
+      "max_lane_endpoint_offset_xy_m": 0.0,
+      "max_geometric_lane_length_change_xy_m": 0.0,
+      "max_lane_endpoint_offset_xyz_m": 0.0,
+      "max_geometric_lane_length_change_xyz_m": 0.0,
+      "outside_lane_count_with_shape_changes": 0,
+      "shape_displacement_metric": "xy_hausdorff",
+      "outside_lane_count_moved_over_0_01_m": 0,
+      "max_outside_lane_shape_displacement_xy_m": 0.0,
+      "fixed_boundary_failures": [],
+      "boundary_edge_map": {},
+      "outside_scope_geometry": {
+        "lanes": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        },
+        "junctions": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        },
+        "edges": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        }
+      }
+    },
+    "other_road_changes_including_inside_edit_scope": {
+      "status": "measured",
+      "coordinate_frame_preserved": true,
+      "mutable_junction_ids": [
+        "263002865",
+        "9810392490",
+        "LSA119_part0"
+      ],
+      "mutable_edge_ids": [
+        "37413814#0"
+      ],
+      "ordinary_lane_attribute_changes": {
+        "shape": 4,
+        "length": 3,
+        "width": 0
+      },
+      "max_lane_endpoint_offset_xy_m": 1.108138726595252,
+      "max_geometric_lane_length_change_xy_m": 0.005860280784728555,
+      "max_lane_endpoint_offset_xyz_m": 1.108138726595252,
+      "max_geometric_lane_length_change_xyz_m": 0.005860280784728555,
+      "outside_lane_count_with_shape_changes": 4,
+      "shape_displacement_metric": "xy_hausdorff",
+      "outside_lane_count_moved_over_0_01_m": 1,
+      "max_outside_lane_shape_displacement_xy_m": 1.1081387265952518,
+      "fixed_boundary_failures": [],
+      "boundary_edge_map": {},
+      "outside_scope_geometry": {
+        "lanes": {
+          "missing": [],
+          "added": [],
+          "changed": [
+            "1068722010_0",
+            "199230909#0_3",
+            "24483192_0",
+            "24483192_1",
+            "24483192_2",
+            "79014037#1_1"
+          ]
+        },
+        "junctions": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        },
+        "edges": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        }
+      },
+      "source_geometry_preserved": false
+    },
+    "endpoint_gap_movements": [],
+    "previous_mouth": {
+      "candidate": {
+        "path": "outputs/ring1-public-junction-demo-20261021-v6/lane-edit-0/candidate.net.xml",
+        "sha256": "6c2d2cf5cebee9013a6ad0eef6c1a73f52fe6c39f7802d38af8b84eebd3fdcea"
+      },
+      "junction_id": "9810392490",
+      "lane_start_distance_outside_surface_m": {
+        "37413814#0_0": 1.2983587039792495,
+        "37413814#0_1": 0.0,
+        "37413814#0_2": 0.0
+      }
+    },
+    "repaired_mouth": {
+      "candidate": {
+        "path": "outputs/ring1-public-junction-demo-20261021-v7/lane-edit-0/candidate.net.xml",
+        "sha256": "579aff9cd24f40d303aaf4044a6fee85c5140947988a9a3190cba445da40ed6b"
+      },
+      "junction_id": "9810392490",
+      "lane_start_distance_outside_surface_m": {
+        "37413814#0_0": 5.685903074605554e-07,
+        "37413814#0_1": 6.215595169205194e-07,
+        "37413814#0_2": 2.0718649300443274e-07
+      }
+    },
+    "connector_lane_shape": "893.679903,730.592107 893.596887,730.410150",
+    "connector_shape_matches_native": true,
+    "connector_forward_dot_product": 1.8709063162568298
+  },
+  "native_detector_coordinates": {
+    "runner": {
+      "path": "outputs/verify-ring1-native-sensor-positions-20261021-v3.py",
+      "sha256": "ac194fdfb9f27c13bc844747a31ff97c543af1de4877d452b204751e7648b064"
+    },
+    "result": {
+      "path": "outputs/ring1-native-sensor-positions-20261021-v3/result.json",
+      "sha256": "0b35d72043d9134afd3723adf7e84b54745f931e47cfd0ec023d53582bdf1852"
+    },
+    "declared_loop_count": 13,
+    "maximum_change_from_a040db9_m": 0.0023581921223175856,
+    "changed_field_ids": [
+      "hh_0119_Z_11_28853"
+    ],
+    "inputs_unchanged": true
+  },
+  "local_transition_driving": {
+    "runner": {
+      "path": "outputs/verify-ring1-transition-driving-20261021-v3.py",
+      "sha256": "d22b04851da6a4fcca1c9c919beee5b80b1f51879240a98fce791e97b997ae70"
+    },
+    "result": {
+      "path": "outputs/ring1-transition-driving-20261021-v3/result.json",
+      "sha256": "213249de9f47f72ac6d8361a91349a740e348e0787383be82146739c91c8de7a"
+    },
+    "exact_lane_chain_count": 3,
+    "completed_without_collision_or_teleport": true,
+    "claim_boundary": "Declared local transition service, not field demand or capacity. Car and bus enter through the upstream road. The bicycle starts on the local inlet; upstream bicycle access is not established."
+  },
+  "checks": [
+    {
+      "junit": {
+        "path": "outputs/overlap-scope-domain-tests-20261021-v2.xml",
+        "sha256": "5cd06300d011b49bead40909d071a0252eef1230ad6108187ab10106ecbedd3c"
+      },
+      "passed": 210
+    },
+    {
+      "junit": {
+        "path": "outputs/overlap-scope-binding-tests-20261021-v1.xml",
+        "sha256": "73b0131e276807e7d3553668846c53083d454e312656c6456f9bc058a9ca5f2a"
+      },
+      "passed": 7,
+      "overlaps_previous_group": true
+    }
+  ],
+  "independent_linux_replay": {
+    "status": "measured",
+    "implementation_commit": "3f828cf582efd2c24ca7dade9fbac15ee9911c86",
+    "reviewer": "Claude Code subscription session",
+    "basis": "Full native digests and terminal replay output read from the review tool result. Linux raw files remain in the remote scratch directory.",
+    "scratch_directory": "/tmp/claude-0/-home-user-ASTRA-SUMO/37f5a0d0-cf5b-5b2a-8e59-e477bb850e9f/scratchpad/j6/",
+    "reported_elapsed_s": 402.116,
+    "content_hashes": {
+      "network_content_sha256": "23cca70d27892ae9accfa1752a236d8b304b08879359f020bcadd57956f55ccb",
+      "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+    },
+    "network_content_matches_windows": true,
+    "loop_content_matches_windows": true,
+    "movement_coverage": {
+      "official": 114,
+      "passed": 92,
+      "unmapped": 22,
+      "unexplained_extra_connections": []
+    },
+    "field_loop_count": 13,
+    "inputs_unchanged": true,
+    "screenshot": {
+      "path": "outputs/claude-3f828cf-linux-hash-match-20261021.png",
+      "sha256": "1dc653eec6b3f3fac8ef31af31ef3154cffe85fb8faa2f8bc32d598c1a8d082e"
+    }
+  },
+  "calibration": {
+    "status": "not_run"
+  },
+  "control_review": {
+    "protected_green_foe_conflict_count": 10,
+    "controller_ids": [
+      "LSA104_part0",
+      "LSA119_part0",
+      "LSA535_part0"
+    ],
+    "claim_boundary": "Static protected-green foe relations, not observed collisions or validated field control."
+  },
+  "remaining": [
+    "22 official motor movements remain unresolved.",
+    "Inherited signal conflicts and actual control timing remain unresolved.",
+    "Published-point detector projections are not surveyed field cross-sections.",
+    "No count-fitting run or exact-fit feasibility result exists yet.",
+    "The retained v1 output reference differs.",
+    "The new full CI is pending.",
+    "Temporary ordinary-lane customShape hints remain on three retained lanes.",
+    "Boundary blending rounds three upstream logical lengths from 35.351140 to 35.35 m."
+  ],
+  "claim_boundary": "Official geometry, partial movement driving and published-point field-loop layout. No field timing, calibrated demand, count fit or independent geometry validation.",
+  "follow_up_findings": {
+    "temporary_lane_custom_shape_markers": [
+      {
+        "lane_id": "43866090#0_0",
+        "source": null,
+        "candidate": "1"
+      },
+      {
+        "lane_id": "43866090#0_1",
+        "source": null,
+        "candidate": "1"
+      },
+      {
+        "lane_id": "1068722010_0",
+        "source": null,
+        "candidate": "1"
+      }
+    ],
+    "boundary_logical_length_rounding": [
+      {
+        "lane_id": "24483192_0",
+        "source_length_m": "35.351140",
+        "candidate_length_m": "35.35"
+      },
+      {
+        "lane_id": "24483192_1",
+        "source_length_m": "35.351140",
+        "candidate_length_m": "35.35"
+      },
+      {
+        "lane_id": "24483192_2",
+        "source_length_m": "35.351140",
+        "candidate_length_m": "35.35"
+      }
+    ],
+    "claim_boundary": "Reproducible model side effects. Neither establishes field geometry or count accuracy."
+  }
+}

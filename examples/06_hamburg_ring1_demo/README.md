@@ -83,7 +83,18 @@ Native curve repair now uses the endpoints that remain after exterior restoratio
 All thirteen declared field loops have native coordinates within 0.00236 m of the previous model. Only Z.11 changes.
 Automatic controller loops remain separate from the published count-field inventory.
 Ten inherited protected-green foe findings and 22 unresolved movements remain. No count calibration has run.
-The lane-count stage also has a neighboring geometry change under review.
+A later surface check found a widened bicycle-lane start 1.298 m outside that model's retained junction contour.
+The [current complete replay](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v6.json) rebuilds the automatic surface and its contained flat connector together.
+The three lane starts meet the contour within 0.000001 m of coordinate rounding. The connector retains its complete native shape and forward direction.
+This stage converts 13 of 334 ordinary roads in one native pass. Four neighboring lane shapes and three logical lengths adapt inside the edit.
+Exterior geometry and remote boundary endpoints remain exact. The report retains all local changes.
+The complete case still verifies 92 of 114 official movements and loads 13 loops, with zero structural failures.
+Passenger, bus, and bicycle requests complete the repaired local transition without collision or teleport.
+Native detector positions differ from the preceding model by at most 0.00236 m. Only Z.11 changes.
+The complete Windows and independent Linux replays have identical canonical network and field-loop XML contents.
+The review also found three temporary lane-shape markers and rounded lengths on three upstream lanes. These repairs remain pending.
+The new full CI remains pending in this record.
+No simulated count fitting has run. The exact target includes every declared field and station bin.
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.

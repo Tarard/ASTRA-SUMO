@@ -100,10 +100,19 @@ Remaining changes stay measured. This fixture does not establish field geometry,
 `lane-count-short-context-input.net.xml.gz` retains the later real context with a 0.2 m inlet road.
 Its metadata and operation are in `lane-count-short-context-input.json` and `lane-count-short-context-operation.json`.
 Native import shifts that short lane before exterior restoration. Restoring the road without recompiling its connections left three entry gaps.
-The new regression requires native curves anchored to the retained road endpoints, zero final structural failures, and exact neighboring geometry.
+The regression requires native curves anchored to retained road endpoints, zero final structural failures, and exact exterior geometry.
+It also checks the widened road mouth and the contained connector's complete native shape and forward direction.
 Temporary native gaps remain recorded before restoration. They do not replace the final endpoint-continuity check.
 The required Windows native inventory includes both lane-count contexts.
 The [repaired complete replay](public-replay-evidence-v5.json) retains the failed full case and verifies the repaired result with 92 passing movements and 13 loops.
+
+The [current scope repair](public-replay-evidence-v6.json) also fixes the preceding model's incomplete automatic junction surface.
+It includes the flat connector and both endpoint junctions in the lane-count edit.
+Local road mouths can adapt. Exterior roads and remote boundary endpoints retain their exact source geometry.
+The complete Windows replay preserves 92 passing movements and 13 loops, with zero structural failures.
+Its local passenger, bus, and bicycle transition probes complete without collision or teleport.
+All declared native detector coordinates remain within 0.00236 m of the preceding model.
+Count fitting remains unrun. The latest record retains the previous surface defect and all unresolved movements.
 Its local passenger, bus, and bicycle checks preserve complete requested lane chains without collision or teleport.
 Native sensor-coordinate checks retain all thirteen declared fields, with maximum model-to-model displacement of 0.00236 m.
 
