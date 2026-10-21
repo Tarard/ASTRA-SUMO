@@ -128,6 +128,19 @@ The larger 4,494-vehicle replay still records four collision teleports inside LS
 It supplies no accepted calibration metrics. The demand proposal was not re-estimated for the extended network.
 The 59 focused tests pass. Full CI for the preceding `c51c788` commit passes with 3,920 tests and 24 skips.
 
+The subsequent [signal-clearance diagnostic](../../benchmarks/hamburg_ring1_road_scope_20261020_v1/signal-clearance-evidence-v1.json) isolates the LSA119 timing problem.
+Its temporary program supplies 3 s for K2→K6, where the source requires 7 s, and 3 s for K6→K3, where it requires 4 s.
+The program reader now measures directional source intergreens without suppressing other results when a source row remains unresolved.
+Seven frozen source programs satisfy all 850 declared matrix entries. Their actual use in the count window is unverified.
+
+Adding 4 s and 1 s of red clearance preserves continuing greens and all original phase records.
+The cycle becomes 95 s. Geometry, connections, routes, departures, and other programs remain unchanged.
+At 6,000 s, the original program has four collisions and four teleports with 583 arrivals.
+The clearance candidate has neither, with 601 arrivals. Both runs stop before the full demand and comparison window end.
+These are control diagnostics, not accepted calibration results. Other signal bindings and same-approach path crossings remain unresolved.
+The shared source and transition checks pass 41 focused tests.
+All four `b5dc47a` CI checks pass, with 3,923 tests passed, 24 skipped, and all 74 required native cases.
+
 Every declared official movement remains in the denominator.
 Field points are published reference locations. Their projections do not establish surveyed detector cross-sections.
 The one-second layout load has no traffic demand or fitted counts.

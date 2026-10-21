@@ -74,6 +74,33 @@ Its generated actuated program is separate from `LSA119_part0`. Thus, importing 
 The official group correspondence for this section remains unresolved. An assumed discharge headway cannot establish its signal group.
 Other retained OSM controllers also need an explicit treatment before interpreting a traffic-count fit.
 
+### Source intergreens and the LSA119 collision diagnostic
+
+The program reader now reports `safety_intergreens`: required gaps, measured gaps, release overlap, slack, and unresolved source rows.
+The safety matrix is directional. Its reverse entry can have a different requirement, as defined in [OCIT-C section 3.4.18](https://www.ocit.org/media/ocit-c_lsa_versorgungsdaten_v2.0_a01.pdf#page=56).
+Seven selected source programs contain 850 matrix entries. Their expanded source timelines satisfy all 850 entries.
+These checks do not establish which program operated during the count window.
+
+The [clearance diagnostic](../benchmarks/hamburg_ring1_road_scope_20261020_v1/signal-clearance-evidence-v1.json) identifies two short gaps in the generated LSA119 program.
+K2→K6 has 3 s against a required 7 s. K6→K3 has 3 s against a required 4 s.
+Only K2, K3, and K6 are assessed in this comparison. Other control correspondences remain unresolved.
+
+All three native trials use the same road geometry, routes, departures, seed, and 0.1 s step.
+They stop at 6,000 s. Only the LSA119 program changes.
+
+| Temporary control | Cycle | Collisions / teleports | Arrived by 6,000 s |
+|---|---:|---:|---:|
+| Original generated program | 90 s | 4 / 4 | 583 |
+| Protected diagnostic stages | 155 s | 0 / 0 | 530 |
+| Two clearance extensions, with continuing greens retained | 95 s | 0 / 0 | 601 |
+
+The shared clearance function adds 4 s and 1 s after the two existing yellow transitions.
+It turns closing yellow links red and preserves greens that continue across each transition.
+All original phase records, other programs, geometry, and connections remain unchanged.
+The six declared K2/K3/K6 intergreen constraints then hold. This is still a temporary control candidate, not imported field timing.
+The scheduled demand contains 4,494 vehicles. These partial trials do not establish their complete arrival or an exact count fit.
+Existing protected-green findings and crossings between paths from the same approach still need separate assessment.
+
 The local raw responses, request URLs, retrieval times, and hashes are under
 `outputs/hamburg-readme-case-20261020-v1/counts-discovery-v1/`.
 The official service has a rolling observation range. A later query can return different coverage or revised records.
@@ -124,6 +151,7 @@ An exact response equation does not establish an exact SUMO count fit under chan
 The [entry-context repair](../benchmarks/hamburg_ring1_road_scope_20261020_v1/entry-context-evidence-v1.json) retains real upstream roads before vehicle injection.
 The ten-vehicle short-entry reproduction then completes without collision or teleport. All 13 native detector coordinates remain unchanged.
 The larger replay still records collisions inside LSA119. Thus, the zero-error target remains unachieved.
+The later clearance diagnostic above removes those four collisions within its 6,000 s horizon. Full-window count calibration remains unfinished.
 Signal treatment, unresolved movements, and demand plausibility still need work before a valid full-demand fit.
 
 The existing figures remain illustrations of the earlier reconstruction.
