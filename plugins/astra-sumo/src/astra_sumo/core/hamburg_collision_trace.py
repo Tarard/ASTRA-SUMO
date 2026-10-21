@@ -86,16 +86,25 @@ def run_collision_trace(*, case_dir, prepared_dir):
     write_json_atomic(out / "command.json", executed.to_dict())
     if executed.status != "pass":
         raise RuntimeError("Collision tracing did not finish. Retain command.json and native outputs.")
+    report = compare_collision_trace(case_dir=case, prepared_dir=out)
+    write_json_atomic(out / "trace-check.json", report)
+    return report
+
+
+def compare_collision_trace(*, case_dir, prepared_dir):
+    """Compare saved observations without running SUMO or changing its records."""
+    case, out = Path(case_dir).resolve(strict=True), Path(prepared_dir).resolve(strict=True)
+    end = json.loads(read_trace_source(out, "native-request.json"))["end_s"]
     source = case / "native"
     before = json.loads(read_trace_source(source, "stall-monitor.json"))
-    after = json.loads((out / "stall-monitor.json").read_bytes())
-    collisions = ET.parse(out / "collisions.xml").getroot().findall("collision")
+    after = json.loads(read_trace_source(out, "stall-monitor.json"))
+    collisions = ET.fromstring(read_trace_source(out, "collisions.xml")).findall("collision")
     original = [r for r in ET.fromstring(read_trace_source(source, "collisions.xml")).findall("collision") if float(r.get("time")) < end]
     def counts(data):
         return {(r.get("id"), float(r.get("begin")), float(r.get("end"))): r.attrib
                 for r in ET.fromstring(data).findall("interval") if float(r.get("end")) <= end}
     source_counts = counts(read_trace_source(source, "field-counts.xml"))
-    traced_counts = {k: v for k, v in counts((out / "field-counts.xml").read_bytes()).items() if k in source_counts}
+    traced_counts = {k: v for k, v in counts(read_trace_source(out, "field-counts.xml")).items() if k in source_counts}
     old_summary = None
     for _, row in ET.iterparse(BytesIO(read_trace_source(source, "summary.xml"))):
         if row.tag == "step" and float(row.get("time")) < end:
@@ -103,7 +112,7 @@ def run_collision_trace(*, case_dir, prepared_dir):
         row.clear()
     if old_summary is None:
         raise ValueError("Retain a complete source summary step before the trace end.")
-    new_summary = ET.parse(out / "summary.xml").getroot().findall("step")[-1]
+    new_summary = ET.fromstring(read_trace_source(out, "summary.xml")).findall("step")[-1]
     completion_names = ("time", "loaded", "inserted", "running", "waiting", "ended", "arrived", "collisions", "teleports")
     def events_through(hold):
         return [r for r in hold.get("events", []) if r["time_s"] <= end]
@@ -112,7 +121,7 @@ def run_collision_trace(*, case_dir, prepared_dir):
                   events_through(source_hold) == events_through(trace_hold) and
                   events_through(source_hold.get("junction_body_hold", {})) == events_through(trace_hold.get("junction_body_hold", {})))
     source_routes = {v.get("id"): ET.tostring(v).rstrip() for v in ET.fromstring(read_trace_source(source, "vehicle-routes.xml")).findall("vehicle") if float(v.get("arrival")) < end}
-    trace_routes = {v.get("id"): ET.tostring(v).rstrip() for v in ET.parse(out / "vehicle-routes.xml").getroot().findall("vehicle")}
+    trace_routes = {v.get("id"): ET.tostring(v).rstrip() for v in ET.fromstring(read_trace_source(out, "vehicle-routes.xml")).findall("vehicle")}
     checks = {
         "same_native_collisions": [r.attrib for r in collisions] == [r.attrib for r in original],
         "same_periodic_E1_intervals": traced_counts == source_counts,
@@ -128,5 +137,4 @@ def run_collision_trace(*, case_dir, prepared_dir):
               "source_target_rows_available": sum((r["detector_id"], float(r["begin"]), float(r["end"])) in source_counts for r in read_csv_rows(out / "expected-counts.csv")),
               "reproduction_matched": all(checks.values()), "collisions": len(collisions), "run_valid": False,
               "claim_boundary": "Matching reproduction verifies trace correspondence only. Collisions remain unsafe and their cause needs trajectory and connection analysis."}
-    write_json_atomic(out / "trace-check.json", report)
     return report

@@ -1,0 +1,31 @@
+{
+  "affected_case": "hamburg_ring1_late_collision_trace_20261021_v1",
+  "original_wrapper_summary_retained": false,
+  "reason": "The preceding after-the-fact comparison replaced command.json with a non-execution placeholder. That original wrapper summary is unavailable. The placeholder remains preserved, not reconstructed as an original run record.",
+  "actual_native_command_preserved_in": "native/stall-monitor.json",
+  "native_input_request_preserved_in": "native/native-request.json",
+  "native_counts_and_outputs_overwritten": false,
+  "read_only_recomparison": {
+    "status": "measured",
+    "formal_result": false,
+    "checks": {
+      "same_native_collisions": true,
+      "same_periodic_E1_intervals": true,
+      "same_completion": true,
+      "same_lane_hold_events": true,
+      "same_vehicle_route_exit_times": true,
+      "same_native_version": true,
+      "completed": true
+    },
+    "trace_end_s": 9420.0,
+    "compared_E1_intervals": 130,
+    "source_target_rows_total": 130,
+    "source_target_rows_available": 78,
+    "reproduction_matched": true,
+    "collisions": 1,
+    "run_valid": false,
+    "claim_boundary": "Matching reproduction verifies trace correspondence only. Collisions remain unsafe and their cause needs trajectory and connection analysis."
+  },
+  "fix": "Saved-observation comparison no longer runs the wrapper or writes any files.",
+  "placeholder_sha256": "0792911f3818388b27baa116c93ea922649b518124f83b9ebc9d25713cdfd521"
+}

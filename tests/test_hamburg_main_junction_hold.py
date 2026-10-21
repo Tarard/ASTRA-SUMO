@@ -106,3 +106,30 @@ def test_complete_localized_run_keeps_every_residual_and_remains_invalid():
     outcome = json.loads(read_trace_source(root, "execution-outcome.json"))
     assert outcome["native_reached_planned_end"] and not outcome["timeout"]
     assert not outcome["all_vehicle_requests_completed"] and not outcome["formal_result"]
+
+
+def test_three_node_full_measurement_proves_participant_clearance_but_not_calibration():
+    import xml.etree.ElementTree as ET
+
+    root = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_three_node_body_full_20261022_v1"
+    result = json.loads(read_trace_source(root, "results.json"))
+    assert not result["valid_run"] and not result["exact_count_fit"] and result["formal_field_metrics"] is None
+    assert result["field_rows"] == 130 and result["station_rows"] == 40
+    assert result["missing_field_rows"] == result["missing_station_rows"] == 0
+    assert result["exact_field_rows"] == 32 and result["exact_station_rows"] == 6
+    assert result["completion"]["collisions"] == result["completion"]["teleports"] == 0
+    assert result["completion"]["waiting"] == 984 and result["completion"]["running"] == 314
+    assert result["diagnostic_field_MAE"] == pytest.approx(1775/130) and result["diagnostic_max_abs_error"] == 61
+    measured = ET.fromstring(read_trace_source(root / "native", "field-counts.xml"))
+    counts = {(v.get("id"), float(v.get("begin")), float(v.get("end"))): int(v.get("nVehContrib")) for v in measured}
+    fields = read_csv_rows(root / "field-comparison.csv")
+    assert len(fields) == 130
+    assert all(counts[r["detector_id"], float(r["begin"]), float(r["end"])] == int(r["measured_nVehContrib"]) for r in fields)
+    driver = json.loads(read_trace_source(root / "analysis", "driver-and-participant-check.json"))
+    assert driver["all_six_rear_cleared"] and driver["all_six_arrived"] and len(driver["original_participants"]) == 6
+    assert not driver["changes_during_active_body_hold"] and not driver["target_exit_changes_before_rear_clear"]
+    assert driver["observed_target_exit_changes"] == 412
+    assert driver["nodes"] == ["14398547", "205069138", "18653534"] and not driver["formal_result"]
+    note = json.loads(read_trace_source(root / "analysis", "trace-command-record-note.json"))
+    assert not note["original_wrapper_summary_retained"] and not note["native_counts_and_outputs_overwritten"]
+    assert note["read_only_recomparison"]["reproduction_matched"]

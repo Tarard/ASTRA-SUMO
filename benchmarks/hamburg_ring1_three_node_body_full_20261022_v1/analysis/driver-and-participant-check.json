@@ -1,0 +1,211 @@
+{
+  "formal_result": false,
+  "nodes": [
+    "14398547",
+    "205069138",
+    "18653534"
+  ],
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "original_participants": {
+    "initialization_hh_0119_Z_13_34018_b1_p175_v113": {
+      "node": "14398547",
+      "outlet": "186713428",
+      "first_target_internal_sample": {
+        "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+        "x": "1268.350516309586",
+        "y": "552.054515190193",
+        "angle": "113.175173414300",
+        "type": "readme_lane_intent",
+        "speed": "10.405190228179",
+        "pos": "0.599811483509",
+        "lane": ":14398547_3_1",
+        "slope": "0.000000000000",
+        "time_s": 1953.0
+      },
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+        "x": "1295.789711793598",
+        "y": "531.898783020465",
+        "angle": "128.060361993634",
+        "type": "readme_lane_intent",
+        "speed": "3.712270160170",
+        "pos": "5.280533221166",
+        "lane": "186713428_1",
+        "slope": "0.000000000000",
+        "time_s": 1984.4
+      },
+      "native_arrival_s": 2033.7
+    },
+    "initialization_hh_0119_Z_13_34018_b1_p175_v118": {
+      "node": "14398547",
+      "outlet": "186713428",
+      "first_target_internal_sample": {
+        "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+        "x": "1268.681554128280",
+        "y": "551.922543626533",
+        "angle": "113.078113323970",
+        "type": "readme_lane_intent",
+        "speed": "12.496254608409",
+        "pos": "0.943852992543",
+        "lane": ":14398547_3_2",
+        "slope": "0.000000000000",
+        "time_s": 1942.9
+      },
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+        "x": "1297.774972821944",
+        "y": "534.408562777133",
+        "angle": "128.060364734327",
+        "type": "readme_lane_intent",
+        "speed": "9.500183120440",
+        "pos": "5.296394341612",
+        "lane": "186713428_2",
+        "slope": "0.000000000000",
+        "time_s": 1945.8
+      },
+      "native_arrival_s": 2024.1
+    },
+    "initialization_hh_0119_Z_12_31546_b1_p98_v16": {
+      "node": "205069138",
+      "outlet": "189775480",
+      "first_target_internal_sample": {
+        "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+        "x": "1504.426961542746",
+        "y": "353.486353427909",
+        "angle": "134.770263465338",
+        "type": "readme_lane_intent",
+        "speed": "9.108827451613",
+        "pos": "0.414820783871",
+        "lane": ":205069138_2_2",
+        "slope": "0.000000000000",
+        "time_s": 2717.7
+      },
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+        "x": "1516.179625908522",
+        "y": "341.432678154337",
+        "angle": "136.302617342963",
+        "type": "readme_lane_intent",
+        "speed": "13.008827451613",
+        "pos": "5.974950961290",
+        "lane": "189775480_3",
+        "slope": "0.000000000000",
+        "time_s": 2719.2
+      },
+      "native_arrival_s": 2745.6
+    },
+    "initialization_hh_0535_Z_4_33055_b2_p281_v28": {
+      "node": "205069138",
+      "outlet": "189775480",
+      "first_target_internal_sample": {
+        "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+        "x": "1500.955364476494",
+        "y": "342.837521732514",
+        "angle": "24.456733425862",
+        "type": "readme_lane_intent",
+        "speed": "7.217584000000",
+        "pos": "0.721758400000",
+        "lane": ":205069138_0_1",
+        "slope": "0.000000000000",
+        "time_s": 2391.9
+      },
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+        "x": "1513.292542162045",
+        "y": "339.822135560003",
+        "angle": "136.302618329517",
+        "type": "readme_lane_intent",
+        "speed": "8.777584000000",
+        "pos": "5.163172400000",
+        "lane": "189775480_2",
+        "slope": "0.000000000000",
+        "time_s": 2393.9
+      },
+      "native_arrival_s": 2515.0
+    },
+    "readme_f5_b4_p56_v25": {
+      "node": "18653534",
+      "outlet": "139083723#0",
+      "first_target_internal_sample": {
+        "id": "readme_f5_b4_p56_v25",
+        "x": "296.056380600894",
+        "y": "620.506932568936",
+        "angle": "244.827562919757",
+        "type": "readme_lane_intent",
+        "speed": "2.080000000000",
+        "pos": "0.123000000000",
+        "lane": ":18653534_0_1",
+        "slope": "0.000000000000",
+        "time_s": 9038.5
+      },
+      "first_rear_clear_sample": {
+        "id": "readme_f5_b4_p56_v25",
+        "x": "285.042864595269",
+        "y": "627.096293592104",
+        "angle": "335.345874623578",
+        "type": "readme_lane_intent",
+        "speed": "2.161814754608",
+        "pos": "5.047660067040",
+        "lane": "139083723#0_2",
+        "slope": "0.000000000000",
+        "time_s": 9042.7
+      },
+      "native_arrival_s": 9991.5
+    },
+    "readme_f4_b4_p208_v5": {
+      "node": "18653534",
+      "outlet": "139083723#0",
+      "first_target_internal_sample": {
+        "id": "readme_f4_b4_p208_v5",
+        "x": "277.571208705386",
+        "y": "607.874404494131",
+        "angle": "62.484269168472",
+        "type": "readme_lane_intent",
+        "speed": "6.104988993982",
+        "pos": "0.578291213239",
+        "lane": ":18653534_14_1",
+        "slope": "0.000000000000",
+        "time_s": 9761.7
+      },
+      "first_rear_clear_sample": {
+        "id": "readme_f4_b4_p208_v5",
+        "x": "282.067012544698",
+        "y": "625.907824212487",
+        "angle": "335.341848144122",
+        "type": "readme_lane_intent",
+        "speed": "6.510524417103",
+        "pos": "5.009544426009",
+        "lane": "139083723#0_3",
+        "slope": "0.000000000000",
+        "time_s": 9767.4
+      },
+      "native_arrival_s": 13186.2
+    }
+  },
+  "all_six_rear_cleared": true,
+  "all_six_arrived": true,
+  "changes_during_active_body_hold": [],
+  "observed_target_exit_changes": 412,
+  "target_exit_changes_before_rear_clear": [],
+  "hold_intervals_by_node": {
+    "18653534": 728,
+    "14398547": 4017,
+    "205069138": 1790
+  },
+  "still_held": 10,
+  "left_before_release": 0,
+  "completion": {
+    "loaded": 8640,
+    "inserted": 7656,
+    "arrived": 7342,
+    "running": 314,
+    "waiting": 984,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "claim_boundary": "One complete fixed-seed replay under declared driver and control assumptions. Zero collisions alone does not establish valid demand, natural driving, other-seed safety or exact calibration."
+}

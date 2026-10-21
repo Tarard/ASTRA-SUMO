@@ -1,18 +1,25 @@
 # Hamburg case shown in the README
 
+The [complete three-node driver run](../benchmarks/hamburg_ring1_three_node_body_full_20261022_v1/README.md) reaches 14400 s with zero collisions and teleports.
+All six original collision participants rear-clear their junctions and arrive. All 412 observed exit changes at the third site occur after rear clearance.
+It remains invalid: 984 vehicles never enter and 314 remain running. All 130/40 rows are available, with 32/6 exact.
+Diagnostic field MAE is 13.654 and maximum error is 61. Derived station MAE is 43.225 and maximum error is 130.
+The next problem is realistic entry allocation. No departure-time, signal or integer-demand correction is included in this run.
+The report also discloses the earlier trace wrapper-summary overwrite. Native commands and measurements remain retained, and saved-observation comparison is now read-only.
+
 The [complete localized driver run](../benchmarks/hamburg_ring1_localized_junction_body_full_20261021_v1/README.md) reaches 14400 s without timeout and retains all 130 field rows and 40 derived station rows.
 It is invalid: 1 collision, 1 teleport, 1367 uninserted vehicles and 491 still running. Only 29 field rows and 6 station rows match.
 Diagnostic field MAE is 13.885 and maximum absolute error is 59. These are not accepted calibration metrics.
 The [late-event trace](../benchmarks/hamburg_ring1_late_collision_trace_20261021_v1/README.md) matches every closed E1 interval, collision, completion count, hold event and arrived vehicle route record before 9420 s.
 It confirms an exit lane change at node `18653534` while the vehicle rear still occupies its turning connection.
 The full residual decomposition retains every request and separates time-bin transfers, uninserted demand and incomplete field passages.
-No demand correction or third-node driver repair has yet been validated.
+That earlier two-node run includes no demand correction. The subsequent three-node measurement is reported above.
 
 The subsequent [paired 40-vehicle exit test](../benchmarks/hamburg_ring1_late_exit_body_probe_20261022_v1/README.md) retains both original whole-route profiles and native lane permissions.
 Both cases finish safely, with 20 complete E1 passages per assigned field and one assigned passage per vehicle.
 Adding only node `18653534` delays every tested exit lane change until rear clearance. The earlier sparse case has eight changes before clearance.
 The passenger permission check leaves only outlet lane 2 for the next road. Lane 1 is bicycle-only and remains restricted.
-This artificial maneuver test does not replace any real count target. The complete three-node candidate is under native evaluation.
+This artificial maneuver test does not replace any real count target. Its subsequent complete measurement is reported above.
 
 The [full global junction-body-hold run](../benchmarks/hamburg_ring1_junction_body_full_20261021_v1/README.md) completes the planned duration with all 130/40 count rows available.
 It has no collisions or teleports, but remains invalid: 2,771 vehicles never enter and 329 remain running. Diagnostic field MAE is 25.077, with maximum error 154.

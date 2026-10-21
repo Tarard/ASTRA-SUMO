@@ -1,10 +1,11 @@
+import gzip
 import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
 import pytest
 
-from astra_sumo.core.hamburg_collision_trace import prepare_collision_trace, read_trace_source, run_collision_trace
+from astra_sumo.core.hamburg_collision_trace import compare_collision_trace, prepare_collision_trace, read_trace_source, run_collision_trace
 
 
 ROOT = Path(__file__).parents[1]
@@ -79,6 +80,30 @@ def test_prefix_trace_preserves_all_source_targets_and_only_shortens_output_hori
     assert (out / "demand.rou.xml").read_bytes() == read_trace_source(CASE / "native", "demand.rou.xml")
     with pytest.raises(ValueError, match="native-step-aligned"):
         prepare_collision_trace(case_dir=CASE, output_dir=tmp_path / "off-step", sumo_binary=executable, end_s=2000.05)
+
+
+@pytest.mark.parametrize("compressed", [False, True])
+def test_saved_observations_compare_without_running_sumo_or_overwriting_records(tmp_path, monkeypatch, compressed):
+    from astra_sumo.core import hamburg_collision_trace
+
+    source = ROOT / "benchmarks/hamburg_ring1_collision_trace_20261021_v1/native"
+    for name in ("native-request.json", "expected-counts.csv", "stall-monitor.json", "collisions.xml", "field-counts.xml", "summary.xml", "vehicle-routes.xml", "command.json"):
+        (tmp_path / name).write_bytes(read_trace_source(source, name))
+    if compressed:
+        for name in ("stall-monitor.json", "collisions.xml", "field-counts.xml", "summary.xml", "vehicle-routes.xml"):
+            original = tmp_path / name
+            original.with_name(name + ".gz").write_bytes(gzip.compress(original.read_bytes(), mtime=0))
+            original.unlink()
+    (tmp_path / "trace-check.json").write_bytes(b"keep the preceding comparison")
+    before = {p.name: p.read_bytes() for p in tmp_path.iterdir()}
+
+    def unexpected_execution(*args, **kwargs):
+        raise AssertionError("A saved-observation comparison must not run SUMO.")
+
+    monkeypatch.setattr(hamburg_collision_trace, "run_command", unexpected_execution)
+    report = compare_collision_trace(case_dir=CASE, prepared_dir=tmp_path)
+    assert report["reproduction_matched"] and not report["run_valid"]
+    assert {p.name: p.read_bytes() for p in tmp_path.iterdir()} == before
 
 
 def test_prefix_comparison_ignores_partial_interval_and_future_events_without_filling_zeros(tmp_path, monkeypatch):
