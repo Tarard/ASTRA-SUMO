@@ -214,6 +214,13 @@ This read-only specialist hashes and parses one frozen OCIT-C supply snapshot, t
 
 These tools construct and assess detector-constrained demand. Their output is a plausible count-matched route set, not a uniquely identified true OD matrix.
 
+`sumo_detector_route_support` accepts `boundary_zones_file` from road-scope selection.
+Declared entries and exits remain available when retained roads also meet their boundary junction.
+The report lists missing or changed boundary references and roads excluded from the passenger model.
+Without this file, the tool uses terminal roads available to passenger vehicles.
+Loaded SUMO turns use endpoint and internal lane permissions. Connection import directives do not replace loaded access.
+Route incidence here measures road traversal. It cannot distinguish separate detector lanes on the same road or establish actual E1 contributions.
+
 ## Hamburg Corridor Digital Twin
 
 Road construction and traffic-count calibration have separate entry points.

@@ -14,6 +14,7 @@ from astra_sumo.core.detector_demand import (
     merge_routes,
     read_csv_rows,
     read_detector_mapping,
+    read_declared_boundaries,
     read_net,
     route_detector_incidence,
     route_rows,
@@ -33,7 +34,9 @@ def sumo_detector_route_support(
     max_routes: int = 500,
     max_hops: int = 80,
     min_edges: int = 2,
+    boundary_zones_file: str | None = None,
 ) -> dict[str, Any]:
+    """Build passenger route support, optionally using declared road-scope boundary zones."""
     try:
         net_path = _existing_file(net_file, "net_file")
         mapping_path = _existing_file(detector_mapping_csv, "detector_mapping_csv")
@@ -42,6 +45,10 @@ def sumo_detector_route_support(
 
         edges, connections = read_net(net_path)
         sources, sinks = boundary_edges(edges, connections)
+        boundary_selection = {"basis": "graph_terminal_roads"}
+        if boundary_zones_file is not None:
+            sources, sinks, boundary_selection = read_declared_boundaries(
+                _existing_file(boundary_zones_file, "boundary_zones_file"), edges)
         detectors = active_detectors(read_detector_mapping(mapping_path))
         detector_routes = build_detector_anchored_routes(
             detectors,
@@ -65,10 +72,17 @@ def sumo_detector_route_support(
         source_sink_file = out_dir / f"{clean_prefix}_source_sink_manifest.csv"
         route_candidate_file = out_dir / f"{clean_prefix}_route_candidate_manifest.csv"
         incidence_file = out_dir / f"{clean_prefix}_route_detector_incidence.csv"
+        inputs = [net_path, mapping_path] + ([Path(boundary_zones_file).resolve()] if boundary_zones_file else [])
+        for target in (source_sink_file, route_candidate_file, incidence_file):
+            if any(target.resolve() == source.resolve() or target.exists() and target.samefile(source) for source in inputs):
+                raise ValueError("Route-support output must not replace a source input.")
 
+        boundary_rows = source_sink_rows(edges, sources, sinks)
+        if boundary_zones_file is not None:
+            boundary_rows = [{**row, "reason": "declared_scope_boundary"} for row in boundary_rows]
         write_csv(
             source_sink_file,
-            source_sink_rows(edges, sources, sinks),
+            boundary_rows,
             ["role", "edge_id", "from_node", "to_node", "length", "reason"],
         )
         write_csv(
@@ -91,6 +105,8 @@ def sumo_detector_route_support(
         )
 
         warnings: list[str] = []
+        if boundary_selection.get("unresolved") or boundary_selection.get("source_unchanged") is False:
+            warnings.append("Some declared boundaries are unresolved or their source changed. Inspect boundary_selection.")
         if not detectors:
             status = "fail"
             warnings.append("no active detectors in detector mapping")
@@ -105,6 +121,7 @@ def sumo_detector_route_support(
             "source_count": len(sources),
             "sink_count": len(sinks),
             "route_count": len(routes),
+            "boundary_selection": boundary_selection,
             "active_detector_count": len(detectors),
             "covered_detector_count": len(covered_detector_ids),
             "source_sink_manifest": str(source_sink_file),
