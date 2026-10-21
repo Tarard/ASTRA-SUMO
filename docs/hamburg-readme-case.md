@@ -7,6 +7,12 @@ Diagnostic field MAE is 13.654 and maximum error is 61. Derived station MAE is 4
 The next problem is realistic entry allocation. No departure-time, signal or integer-demand correction is included in this run.
 The report also discloses the earlier trace wrapper-summary overwrite. Native commands and measurements remain retained, and saved-observation comparison is now read-only.
 
+The subsequent [primary-entry prefix](../benchmarks/hamburg_ring1_primary_entry_prefix_20261022_v1/README.md) moves 73 initialization and 221 future-main Z12 requests to an existing primary-road prefix.
+All requests, times, targets, destinations and post-merge routes remain fixed. The declared 3:1 passenger-lane proxy is not measured OD or capacity.
+In the initialization hour, uninserted demand falls from 187 to 120 and complete E1 passages rise from 1638 to 1716, with no collisions or teleports.
+Z4 loses three passages and maximum bin error rises from 48 to 50. These losses remain reported.
+All 130 main field targets and 40 derived station targets stay unknown in that prefix. Its complete-window evaluation is separate.
+
 The [complete localized driver run](../benchmarks/hamburg_ring1_localized_junction_body_full_20261021_v1/README.md) reaches 14400 s without timeout and retains all 130 field rows and 40 derived station rows.
 It is invalid: 1 collision, 1 teleport, 1367 uninserted vehicles and 491 still running. Only 29 field rows and 6 station rows match.
 Diagnostic field MAE is 13.885 and maximum absolute error is 59. These are not accepted calibration metrics.
