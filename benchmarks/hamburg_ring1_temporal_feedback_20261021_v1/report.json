@@ -1,0 +1,57 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "native_run_valid": false,
+  "native_exact_count_fit": false,
+  "new_simulations": 0,
+  "field_rows": 130,
+  "sampled_plan_departure_cells": 162,
+  "requested_time_resolution_s": 0.001,
+  "first_observation_begin_s": 3600.0,
+  "requested_before_first_observation": 0,
+  "totals": {
+    "requested_vehicles": 6687,
+    "inserted_vehicles": 5094,
+    "not_inserted_vehicles": 1593,
+    "inserted_without_complete_passage": 192,
+    "vehicles_with_observed_window_passage": 4223,
+    "vehicles_with_only_outside_window_passage": 679,
+    "observed_window_passages": 4223,
+    "outside_window_passages": 679
+  },
+  "integer_reconstruction_verified": true,
+  "derivative_established": false,
+  "reuse_under_changed_demand_established": false,
+  "claim_boundary": "Same-replay accounting only. Requested vehicles form the denominator. Outside-window passages are not zero observations. Unsampled cells and causal effects of changed demand remain unknown.",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\demand.rou.xml.gz",
+      "sha256": "30e7b6c040a43e3e2a706f2ec77197d5bae089f8e8855d9a5d890becaa6783ff"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\lane-intentions.json.gz",
+      "sha256": "a46829a49236a6c38bf8174018f2216c8a4657fe8ccfbb5f45b81e4894ce726a"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\native\\tripinfo.xml.gz",
+      "sha256": "6a0e22c4612f19eeaa00dff1ac3a779bb0ac5d80671f1d8f0c0f442e7ce95d74"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\passage-reconciliation.json",
+      "sha256": "8f71a65e5684fa27e1cd06f588ddbbed4c38f47808b5ce8aa08a3ef8fd6d9ea8"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\field-comparison.csv",
+      "sha256": "7f55ac77644c9e720e207c456ed39cc6b6aa9f89c63b2e8238e5f831eed96b09"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\native\\field-counts.xml",
+      "sha256": "7256f2239514f2e895ba5c9448558c1facce6c6039c89dda1485350946027231"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\native\\run.json.gz",
+      "sha256": "47f3aec1f9b34afe049f70e7c6c222a841e864935d382cb21f6097ae8197e91f"
+    }
+  ],
+  "inputs_unchanged": true
+}

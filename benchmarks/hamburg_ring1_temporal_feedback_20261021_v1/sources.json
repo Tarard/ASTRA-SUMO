@@ -1,0 +1,74 @@
+{
+  "checked_date": "2026-10-21",
+  "sources": [
+    {
+      "key": "Balakrishna2007",
+      "doi": "10.3141/1999-21",
+      "publication": "Transportation Research Record 1999(1), 198-207 (2007)",
+      "read_url": "https://www.researchgate.net/publication/277402098_Calibration_of_Microscopic_Traffic_Simulation_Models_Methods_and_Application",
+      "read_version": "Author-posted final submission dated 3 April 2007; publication record checked at author institution.",
+      "read_sections": [
+        "Problem definition, equations 1-3",
+        "Solution approaches",
+        "Lower Westchester case study"
+      ],
+      "assessment": [
+        "T2-method",
+        "E2-limited-transfer"
+      ],
+      "role": "Native simulation evaluation, priors and bounds. No claim of exact Hamburg feasibility."
+    },
+    {
+      "key": "Flotterod2011",
+      "doi": "10.1287/trsc.1100.0367",
+      "publication": "Transportation Science 45(4), 541-561 (2011)",
+      "read_url": "https://svn.vsp.tu-berlin.de/repos/public-svn/publications/vspwp/2008/08-19/FloeBierNage_TranspScience_subm1_5jan2010.pdf",
+      "read_version": "Public 2010 technical report TRANSP-OR 100105, linked to the verified 2011 journal publication.",
+      "read_sections": [
+        "Sections 3-4, algorithms 2-3",
+        "Section 4.1 congestion limitation",
+        "Illustrative and MATSim study sections"
+      ],
+      "assessment": [
+        "T2-method",
+        "E2-limited-transfer"
+      ],
+      "role": "Plan-level prior and iterative loading. Proportional loading is not treated as an exact congested model."
+    },
+    {
+      "key": "Antoniou2015",
+      "doi": "10.1016/j.trc.2015.04.030",
+      "publication": "Transportation Research Part C 59, 129-146 (2015)",
+      "read_url": "https://web.mit.edu/cami/Public/CLA_WSPSAinPractice_ISTTT_2015_preprint.pdf",
+      "read_version": "Public ISTTT author manuscript; journal metadata and publisher method excerpts checked. Final journal full text not obtained or compared page by page.",
+      "duplicate_proceedings_doi": "10.1016/j.trpro.2015.06.013",
+      "read_sections": [
+        "Equations 1-8",
+        "Section 4.3 dynamic weights",
+        "Singapore and microscopic case methods/results"
+      ],
+      "assessment": [
+        "T2-method",
+        "E2-limited-transfer"
+      ],
+      "role": "Time-dependent demand-to-measurement relationships; no full W-SPSA implementation or Jacobian claim."
+    },
+    {
+      "key": "HollanderLiu2008",
+      "doi": "10.1007/s11116-007-9156-2",
+      "publication": "Transportation 35, 347-362 (2008)",
+      "read_url": "https://www.researchgate.net/publication/5159104_The_principles_of_calibrating_traffic_microsimulation_models",
+      "read_version": "Author-posted full text; Springer publication metadata checked.",
+      "read_sections": [
+        "Calibration scope and fit measures",
+        "Validation of chosen parameter set",
+        "Table 3"
+      ],
+      "assessment": [
+        "T2-review-guidance"
+      ],
+      "role": "Consistent pairing, parameter scope and distinction between calibration and independent validation."
+    }
+  ],
+  "not_a_paper_algorithm_reproduction": true
+}

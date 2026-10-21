@@ -2,6 +2,7 @@
 
 from collections import defaultdict, Counter
 from datetime import datetime, timedelta
+import gzip
 import html
 import json
 from pathlib import Path
@@ -22,6 +23,80 @@ STATIONS = {
     "30666": ("0535", {"Z.5", "Z.6", "Z.7", "Z.8"}),
     "26585": ("0535", {"Z.4", "Z.9", "Z.14"}),
 }
+
+
+def write_hamburg_temporal_feedback(*, case_dir, output_dir):
+    """Write same-replay departure/count correspondence without running SUMO."""
+    from .native_temporal_feedback import native_temporal_feedback
+
+    case, out = Path(case_dir).resolve(strict=True), Path(output_dir).resolve()
+    if out.exists() or case.is_relative_to(out):
+        raise ValueError("Use a new feedback directory separate from its source.")
+    inputs = {}
+
+    def read(relative):
+        path = case / relative
+        if not path.is_file():
+            path = path.with_name(path.name + ".gz")
+        inputs[path] = file_sha256(path)
+        raw = path.read_bytes()
+        return gzip.decompress(raw) if path.suffix == ".gz" else raw
+
+    source_vehicles = ET.fromstring(read("inputs/demand.rou.xml")).findall("vehicle")
+    intentions = json.loads(read("inputs/lane-intentions.json"))["vehicles"]
+    intent = {r["vehicle_id"]: r for r in intentions}
+    if len(intent) != len(intentions) or set(intent) != {v.get("id") for v in source_vehicles}:
+        raise ValueError("Match each explicit vehicle to one declared lane intention.")
+    requests, plans = [], {}
+    for vehicle in source_vehicles:
+        row = intent[vehicle.get("id")]
+        plan = f"profile_{row['profile_index']}:{row['field_id']}"
+        edges = vehicle.find("route").get("edges").split()
+        description = {"edges": edges, "entry": edges[0], "target_field": row["field_id"]}
+        if plan in plans and plans[plan] != description:
+            raise ValueError("A plan identifier must retain its road route and target field.")
+        plans[plan] = description
+        requests.append({"vehicle_id": vehicle.get("id"), "plan_id": plan,
+                         "requested_depart_s": float(vehicle.get("depart"))})
+    trips = [{"vehicle_id": row.get("id"), "actual_depart_s": float(row.get("depart"))}
+             for row in ET.fromstring(read("native/tripinfo.xml")).findall("tripinfo")]
+    reconciliation = json.loads(read("passage-reconciliation.json"))
+    if reconciliation["status"] != "measured" or not reconciliation["reconciled"]:
+        raise ValueError("Reconcile native E1 identities before estimating temporal correspondence.")
+    fields_file = case / "field-comparison.csv"
+    inputs[fields_file] = file_sha256(fields_file)
+    fields = read_csv_rows(fields_file)
+    periodic = ET.fromstring(read("native/field-counts.xml")).findall("interval")
+    counts = {(r.get("id"), float(r.get("begin")), float(r.get("end"))): int(r.get("nVehContrib")) for r in periodic}
+    passage_counts = Counter((r["detector_id"], float(r["interval_begin_s"]), float(r["interval_end_s"]))
+                             for r in reconciliation["passages"])
+    if (len(counts) != len(periodic) or passage_counts.keys() - counts.keys()
+            or any(passage_counts[key] != value for key, value in counts.items()) or any(
+        str(counts.get((r["detector_id"], float(r["begin"]), float(r["end"])))) != r["measured_nVehContrib"]
+        for r in fields
+    )):
+        raise ValueError("Every feedback row must match native periodic nVehContrib.")
+    result = native_temporal_feedback(requests=requests, trips=trips,
+        passages=reconciliation["passages"], measurements=fields)
+    run = json.loads(read("native/run.json"))
+    out.mkdir(parents=True)
+    np.savez_compressed(out / "response.npz", numerators=result["numerators"],
+        denominators=result["denominators"], fractions=result["fractions"], measured_counts=result["measured_counts"])
+    write_json_atomic(out / "rows.json", {"rows": fields})
+    write_json_atomic(out / "columns.json", {"columns": result["columns"], "plans": plans})
+    report = {"status": "measured", "formal_result": False, "native_run_valid": run.get("healthy", False),
+        "native_exact_count_fit": run["exact_count_fit"], "new_simulations": 0,
+        "field_rows": len(fields), "sampled_plan_departure_cells": len(result["columns"]),
+        "requested_time_resolution_s": result["requested_time_resolution_s"],
+        "first_observation_begin_s": result["first_observation_begin_s"],
+        "requested_before_first_observation": result["requested_before_first_observation"],
+        "totals": result["totals"], "integer_reconstruction_verified": True,
+        "derivative_established": False, "reuse_under_changed_demand_established": False,
+        "claim_boundary": result["claim_boundary"],
+        "inputs": [{"path": str(path), "sha256": digest} for path, digest in inputs.items()],
+        "inputs_unchanged": all(file_sha256(path) == digest for path, digest in inputs.items())}
+    write_json_atomic(out / "report.json", report)
+    return report
 
 
 def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir, output_dir):
