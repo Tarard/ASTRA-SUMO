@@ -1,0 +1,31 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "vehicles": 8640,
+  "main_vehicles_unchanged": 6687,
+  "initialization_vehicles": 1953,
+  "main_target_rows": 130,
+  "initialization_target_rows": 52,
+  "profile_allocation": "Largest remainder of each field's original main-window profile frequencies. Ties use ascending profile index.",
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "57eeb68f7c136625877316f996af44be84a936f0a5d22fad298e53e1a36a07c0",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "c8f8f82c04be5c3f90c35e107b444a8e3b6834a1e34b0d1c2cdc9860a62b95be",
+    "scenario.json": "5570abf856a9c598832f0e54a945639366e630046dde56f987812c03022595e8"
+  },
+  "source_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\demand.rou.xml.gz": "30e7b6c040a43e3e2a706f2ec77197d5bae089f8e8855d9a5d890becaa6783ff",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\lane-intentions.json.gz": "a46829a49236a6c38bf8174018f2216c8a4657fe8ccfbb5f45b81e4894ce726a",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_lane_section_hold_full_20261021_v1\\inputs\\scenario.json": "d23db9529e0c5ca0edd107303413f792b97a9dfcef2fbb2cf671c5b52ff3e734",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_counts_20261021_v1\\initialization-counts-15min.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  },
+  "source_files_unchanged": true,
+  "claim_boundary": "Source-informed model population, not real distinct vehicles or identified OD. No native fit or useful initial state is established."
+}

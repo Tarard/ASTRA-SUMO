@@ -19,7 +19,13 @@ All 40 derived station bins are available, with 6 exact. Diagnostic field MAE is
 A [single-entry departure advance](../benchmarks/hamburg_ring1_departure_advance_20261021_v1/README.md) is rejected under its fixed one-field-per-car population model.
 Its native pre-window run records 206 complete passages. The remaining population cannot supply the required 6,687 window passages.
 The [official preceding-hour counts](../benchmarks/hamburg_ring1_initialization_counts_20261021_v1/README.md) now provide 52 complete initialization field bins, totaling 1,953 field passages.
-The original 130 comparison values remain unchanged. Initialization demand and independent vehicle totals still require a declared model.
+The original 130 comparison values remain unchanged. Independent vehicle totals remain unidentified.
+
+The [separate initialization-population trial](../benchmarks/hamburg_ring1_initialization_population_20261021_v1/README.md) adds 1,953 model vehicles using those source counts and inherited field/route shares.
+All 6,687 main-window vehicles and the original targets remain unchanged.
+Its preceding-hour native run has zero collisions and teleports, but 420 initialization vehicles never inserted.
+All 52 initialization field bins are available, with 32 exact. The main observation window was not rerun.
+Entry allocation and departure pressure remain unresolved. This trial does not establish calibrated initialization or real distinct-vehicle totals.
 
 ## Site identity
 

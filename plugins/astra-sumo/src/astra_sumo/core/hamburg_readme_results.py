@@ -25,6 +25,26 @@ STATIONS = {
 }
 
 
+def vehicle_field_passage_rows(intentions, passage_report):
+    """Keep population roles and native interval labels in vehicle diagnostics."""
+    by_vehicle = defaultdict(list)
+    for row in passage_report.get("passages", []):
+        by_vehicle[row["vehicle_id"]].append(row)
+    rows = []
+    for wanted in intentions:
+        found = [r for r in by_vehicle[wanted["vehicle_id"]] if r["detector_id"] == wanted["field_id"]]
+        actual = found[0].get("time_s") if len(found) == 1 else None
+        planned_bin = (int((wanted["target_begin_s"] - 3600) // 900) if "target_begin_s" in wanted
+                       else wanted["field_row"] // 13)
+        actual_bin = int((found[0]["interval_begin_s"] - 3600) // 900) if len(found) == 1 else None
+        rows.append({**wanted, "population_role": wanted.get("population_role", "main"),
+            "actual_native_field_passages": len(found) if passage_report["status"] == "measured" else None,
+            "actual_native_time_s": actual, "planned_bin": planned_bin, "actual_bin": actual_bin,
+            "bin_shift": actual_bin - planned_bin if actual_bin is not None else None,
+            "all_native_field_passages": len(by_vehicle[wanted["vehicle_id"]])})
+    return rows
+
+
 def write_hamburg_temporal_feedback(*, case_dir, output_dir):
     """Write same-replay departure/count correspondence without running SUMO."""
     from .native_temporal_feedback import native_temporal_feedback
@@ -326,25 +346,7 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
         passage_report = {"status": "unavailable", "reconciled": False, "reason": str(error), "passages": []}
     write_json_atomic(out / "passage-reconciliation.json", passage_report)
     intentions = json.loads((p / "lane-intentions.json").read_bytes())["vehicles"]
-    by_vehicle = defaultdict(list)
-    for row in passage_report.get("passages", []):
-        by_vehicle[row["vehicle_id"]].append(row)
-    passage_rows = []
-    for wanted in intentions:
-        found = [r for r in by_vehicle[wanted["vehicle_id"]] if r["detector_id"] == wanted["field_id"]]
-        actual = found[0].get("time_s") if len(found) == 1 else None
-        # Preserve native reconciliation records; an unavailable planned passage stays missing.
-        passage_rows.append(
-            {
-                **wanted,
-                "actual_native_field_passages": len(found) if passage_report["status"] == "measured" else None,
-                "actual_native_time_s": actual,
-                "planned_bin": wanted["field_row"] // 13,
-                "actual_bin": int((actual - 3600) // 900) if actual is not None else None,
-                "bin_shift": int((actual - 3600) // 900) - wanted["field_row"] // 13 if actual is not None else None,
-                "all_native_field_passages": len(by_vehicle[wanted["vehicle_id"]]),
-            }
-        )
+    passage_rows = vehicle_field_passage_rows(intentions, passage_report)
     write_csv(out / "vehicle-field-passages.csv", passage_rows, list(passage_rows[0]))
     stats = {
         "schema": "astra.hamburg-readme-final-results/v1",

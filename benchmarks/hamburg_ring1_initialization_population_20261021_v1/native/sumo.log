@@ -1,0 +1,37 @@
+***Starting server on port 7982 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-initialization-population-native-20261021-v1\network.net.xml' ... done (206ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-initialization-population-native-20261021-v1\signal-programs.add.xml' ... done (5ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-initialization-population-native-20261021-v1\e1.add.xml' ... done (17ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-initialization-population-native-20261021-v1\instant.add.xml' ... done (3ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading route-files incrementally from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-initialization-population-native-20261021-v1\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.000.
+Warning: Vehicle 'initialization_hh_0535_Z_8_34287_b3_p3_v9' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=3096.700.
+Simulation ended at time: 3600.000.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 393.013s
+ TraCI-Duration: 233.187s
+ Real time factor: 9.16
+ UPS: 19723.688529
+Vehicles:
+ Inserted: 1533 (Loaded: 1954)
+ Running: 225
+ Waiting: 420
+ Emergency Braking: 1
+Statistics (avg of 1533):
+ RouteLength: 682.900933130202
+ Speed: 2.340257218139
+ Duration: 505.653000000000
+ WaitingTime: 297.764000000000
+ TimeLoss: 454.013000000000
+ DepartDelay: 182.575000000000
+ DepartDelayWaiting: 668.894000000000

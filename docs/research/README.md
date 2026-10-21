@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Ring1 initialization population and native preceding-hour check, 2026-10-21 V2](ring1-initialization-demand-2026-10-21-v2.md)
 - [Ring1 initialization demand and bounded departure perturbation, 2026-10-21](ring1-initialization-demand-2026-10-21.md)
 - [Ring1 count-fit literature and native temporal feedback, 2026-10-21 V2](ring1-count-fit-basis-2026-10-21-v2.md)
 - [Source-relative OCIT program timelines, 2026-10-21](ocit-program-timelines-2026-10-21.md)
