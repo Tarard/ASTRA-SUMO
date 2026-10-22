@@ -1,5 +1,9 @@
 # Hamburg case shown in the README
 
+The [18-source pruning review and road inventory](research/hamburg-pruning-literature-2026-10-22-v1.md) separates corridor selection, peripheral demand, and junction simplification.
+The current executed network has 360 normal roads, including 343 passenger-permitted roads. Explicit demand uses 116.
+The 227 passenger-permitted roads without planned traffic are not automatically deletion candidates. No pruning change or new pruning simulation is made.
+
 The [control-domain source check and revised independent review](../benchmarks/hamburg_ring1_control_domain_sources_20261022_v1/README.md) leaves four candidate signal bindings unresolved.
 Three candidates are nearer the separately registered LSA209. Proximity does not establish any binding.
 No signal is removed or rebound. The unrun free-flow offset prototype is archived and excluded from the active code.

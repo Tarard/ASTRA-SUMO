@@ -1,0 +1,50 @@
+{
+  "reference_case_source_commit": "83a906c95b4b2934a28e070d15dbae8fce2d8c92",
+  "sumolib_version": "1.27.1",
+  "inputs": [
+    {
+      "path": "benchmarks/hamburg_ring1_primary_entry_full_20261022_v1/inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_primary_entry_full_20261022_v1/inputs/demand.rou.xml.gz",
+      "sha256": "65aefbcb51e7f1bb6498810ac270bd321210701fffc5d69096e292fe19194e3e"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_primary_entry_full_20261022_v1/inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    }
+  ],
+  "sumo_edge_functions": {
+    "internal": 632,
+    "crossing": 91,
+    "walkingarea": 147,
+    "normal": 360
+  },
+  "normal_roads": 360,
+  "passenger_roads": 343,
+  "planned_roads": 116,
+  "normal_roads_without_planned_traffic": 244,
+  "passenger_roads_without_planned_traffic": 227,
+  "unused_normal_types": {
+    "cycleway.lane|highway.primary": 1,
+    "cycleway.lane|highway.residential": 1,
+    "cycleway.lane|highway.secondary": 16,
+    "cycleway.lane|highway.tertiary": 24,
+    "cycleway.lane|highway.tertiary_link": 1,
+    "cycleway.track|highway.secondary": 2,
+    "cycleway.track|highway.tertiary": 6,
+    "highway.living_street": 6,
+    "highway.primary": 56,
+    "highway.residential": 30,
+    "highway.secondary": 29,
+    "highway.secondary_link": 2,
+    "highway.service": 41,
+    "highway.tertiary": 15,
+    "highway.unclassified": 14
+  },
+  "network_signal_programs": 68,
+  "network_changed": false,
+  "new_simulations": 0,
+  "claim_boundary": "Normal roads exclude internal paths, walking areas and crossings. Planned route usage is not measured field volume and does not justify deletion. Official-node adjacency is a geometry marker, not full official movement correspondence. Every deletion decision remains unassessed."
+}

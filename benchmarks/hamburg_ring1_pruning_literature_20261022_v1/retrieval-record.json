@@ -1,0 +1,204 @@
+{
+  "retrieval_date": "2026-10-22",
+  "purpose": "Network scope and pruning methods, not calibration implementation",
+  "records": [
+    {
+      "id": "munich-2023",
+      "url": "https://d-nb.info/1297415906/34",
+      "final_url": "https://d-nb.info/1297415906/34",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\munich-2023.pdf",
+      "bytes": 1444362,
+      "sha256": "14cb1b375867ba83149c0af62e45775eab27ba4d7c4a3a60f1cf5aef0e1836ac",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "initial-retrieval.json"
+    },
+    {
+      "id": "hats-2025",
+      "url": "https://d-nb.info/137248096X/34",
+      "final_url": "https://d-nb.info/137248096X/34",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\hats-2025.pdf",
+      "bytes": 3748572,
+      "sha256": "db1b145eadc1d4b454f30de06967165060ed0e6bab48192e042b5b7b505e8349",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "initial-retrieval.json"
+    },
+    {
+      "id": "realtwin-2025",
+      "url": "https://www.osti.gov/pages/servlets/purl/2584498",
+      "final_url": "https://www.osti.gov/pages/servlets/purl/2584498",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\realtwin-2025.pdf",
+      "bytes": 3003648,
+      "sha256": "709d44430c146cd0753ad25f4012c37004e1839e12ef96152e0704d18e1bc450",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "initial-retrieval.json"
+    },
+    {
+      "id": "tib-munich-page",
+      "url": "https://www.tib-op.org/ojs/index.php/scp/article/view/153-163",
+      "final_url": "https://www.tib-op.org/ojs/index.php/scp/article/view/153-163",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\tib-munich-page.html",
+      "bytes": 119799,
+      "sha256": "bf6516e90bffb92548112da3f8496a4c6cb8deb9a0574110b491c78ee25f2a38",
+      "pdf_urls": [
+        "https://www.tib-op.org/ojs/index.php/scp/article/download/153-163/427"
+      ],
+      "status": "retrieved",
+      "retrieval_record": "initial-retrieval.json"
+    },
+    {
+      "id": "tsmm-2022",
+      "url": "https://www.cms-labs.org/bib/meng2022topologypreserving/meng2022topologypreserving.pdf",
+      "final_url": "https://www.cms-labs.org/bib/meng2022topologypreserving/meng2022topologypreserving.pdf",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\tsmm-2022.pdf",
+      "bytes": 1472547,
+      "sha256": "32a34fcd5138ea681830e565d6963711e7fb6a638ff836267a841b20132ee15d",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "intAS-2021",
+      "url": "https://eclipse.dev/sumo/documents/2020/SUMO2020_paper_24.pdf",
+      "final_url": "https://eclipse.dev/sumo/documents/2020/SUMO2020_paper_24.pdf",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\intAS-2021.pdf",
+      "bytes": 7343543,
+      "sha256": "3abcab08b572e763a58519d257e0cb90aeca2da4aa3fdb88e275d947969c38d1",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "most-2017",
+      "url": "https://www.eurecom.fr/publication/5350/download/comsys-publi-5350.pdf",
+      "status": "failed",
+      "error": "429 Client Error: Too Many Requests for url: https://www.eurecom.fr/publication/5350/download/comsys-publi-5350.pdf",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "lust-2015",
+      "url": "https://publications.uni.lu/bitstream/10993/23011/1/LC_LuSTScenario.pdf",
+      "status": "failed",
+      "error": "HTTPSConnectionPool(host='publications.uni.lu', port=443): Max retries exceeded with url: /bitstream/10993/23011/1/LC_LuSTScenario.pdf (Caused by ConnectTimeoutError(<HTTPSConnection(host='publications.uni.lu', port=443) at 0x25efdf52540>, 'Connection to publications.uni.lu timed out. (connect timeout=30)'))",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "bologna-ringway-2015",
+      "url": "https://www.eurecom.eu/publication/4658/download/comsys-publi-4658.pdf",
+      "status": "failed",
+      "error": "429 Client Error: Too Many Requests for url: https://www.eurecom.eu/publication/4658/download/comsys-publi-4658.pdf",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "tust-2019",
+      "url": "https://iris.polito.it/bitstream/11583/2761005/3/TuST_postPrint.pdf",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://iris.polito.it/bitstream/11583/2761005/3/TuST_postPrint.pdf",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "tust-2022",
+      "url": "https://iris.polito.it/retrieve/e384c433-57f3-d4b2-e053-9f05fe0a1d67/TuST_accepted.pdf",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://iris.polito.it/retrieve/e384c433-57f3-d4b2-e053-9f05fe0a1d67/TuST_accepted.pdf",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "harth-2022",
+      "url": "https://d-nb.info/1273787307/34",
+      "final_url": "https://d-nb.info/1273787307/34",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\harth-2022.pdf",
+      "bytes": 4981426,
+      "sha256": "6b0e320b66ead6c0f421afdff7ef88bb5f73dda1707ee4b9ca9e99d45549e254",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "greForo-unknown",
+      "url": "https://par.nsf.gov/servlets/purl/10466142",
+      "final_url": "https://par.nsf.gov/servlets/purl/10466142",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\greForo-unknown.pdf",
+      "bytes": 334053,
+      "sha256": "b4eac962a32a7caab79e9ac256eb366089d66f6a27e6c5133757aa5fb6752fba",
+      "pdf_urls": [],
+      "status": "retrieved",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "bologna-2021-page",
+      "url": "https://www.mdpi.com/2220-9964/10/3/165",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://www.mdpi.com/2220-9964/10/3/165",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "barcelona-2022-page",
+      "url": "https://www.mdpi.com/2220-9964/11/1/24",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://www.mdpi.com/2220-9964/11/1/24",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "bologna-2024-page",
+      "url": "https://www.mdpi.com/2220-9964/13/3/77",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://www.mdpi.com/2220-9964/13/3/77",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "odcalibrator-2025-page",
+      "url": "https://www.mdpi.com/2076-3417/15/18/10246",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://www.mdpi.com/2076-3417/15/18/10246",
+      "retrieval_record": "additional-retrieval.json"
+    },
+    {
+      "id": "bologna-2014",
+      "url": "https://elib.dlr.de/89354/1/SUMO2014_scenarios.pdf",
+      "final_url": "https://elib.dlr.de/89354/1/SUMO2014_scenarios.pdf",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\bologna-2014.pdf",
+      "bytes": 598390,
+      "sha256": "b290aa11bab536d5115ea226c6099c2de3eb92f7bf0c7d01a4b2f838f2b07f74",
+      "status": "retrieved",
+      "retrieval_record": "institutional-retrieval.json"
+    },
+    {
+      "id": "barcelona-2022",
+      "url": "https://www.research-collection.ethz.ch/server/api/core/bitstreams/792fa8e2-2c6d-444a-8747-6b579047f37f/content",
+      "status": "failed",
+      "error": "429 Client Error: Too Many Requests for url: https://www.research-collection.ethz.ch/server/api/core/bitstreams/792fa8e2-2c6d-444a-8747-6b579047f37f/content",
+      "retrieval_record": "institutional-retrieval.json"
+    },
+    {
+      "id": "bologna-2024",
+      "url": "https://cris.unibo.it/bitstream/11585/970014/1/ijgi-13-00077.pdf",
+      "status": "failed",
+      "error": "403 Client Error: Forbidden for url: https://cris.unibo.it/bitstream/11585/970014/1/ijgi-13-00077.pdf",
+      "retrieval_record": "institutional-retrieval.json"
+    },
+    {
+      "id": "beijing-2019",
+      "url": "https://ira.lib.polyu.edu.hk/bitstream/10397/100693/1/Zhuge_Agent-_Activity-Based_Large-Scale.pdf",
+      "final_url": "https://ira.lib.polyu.edu.hk/bitstream/10397/100693/1/Zhuge_Agent-_Activity-Based_Large-Scale.pdf",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\beijing-2019.pdf",
+      "bytes": 2615861,
+      "sha256": "9ce8f3acd8c901ac3e0e45e4c3c07afbfcc2615d1f45d0642fd386381e20a7e6",
+      "status": "retrieved",
+      "retrieval_record": "institutional-retrieval.json"
+    },
+    {
+      "id": "alicante-2021",
+      "url": "https://dspace.umh.es/bitstream/11000/38106/1/Alicante-Murcia_Freeway_Scenario_A_High-Accuracy_and_Large-Scale_Traffic_Simulation_Scenario_Generated_Using.pdf",
+      "final_url": "https://dspace.umh.es/server/api/core/bitstreams/6fca5d4d-aad7-4470-97ef-2bfde8f654a3/content",
+      "path": "outputs\\hamburg-pruning-literature-20261022-v1\\alicante-2021.pdf",
+      "bytes": 2092362,
+      "sha256": "5f1bb5206b5a773fcdfa4fa68eac15d68e97a4adf6fba83c6dd3e2a9ff907052",
+      "status": "retrieved",
+      "retrieval_record": "institutional-retrieval.json"
+    }
+  ],
+  "redistributed_full_papers": false
+}
