@@ -1,7 +1,8 @@
 import numpy as np
 import pytest
 from pathlib import Path
-import shutil
+import importlib.util
+import os
 import subprocess
 import xml.etree.ElementTree as ET
 
@@ -45,6 +46,25 @@ def test_projected_perturbations_keep_the_published_denominator():
     assert saved == result["history"]
 
 
+@pytest.mark.parametrize("stability", [0, 3])
+def test_initial_move_gain_uses_the_first_pair_without_extra_evaluations(stability):
+    calls = []
+
+    def loss(theta, name):
+        calls.append(name)
+        return float(np.sum((theta - [30, 65]) ** 2))
+
+    result = calibrate_spsa(loss, [60, 40], lower=[0, 0], upper=[200, 200], a=None,
+                            initial_step=1, A=stability, c=2, alpha=.602, gamma=.101, iterations=1, seed=104)
+    assert len(calls) == result["loss_evaluations"] == 2
+    row = result["history"][0]
+    assert np.allclose(np.abs(np.array(row["next_theta"]) - row["theta"]), 1)
+    assert result["a"] == pytest.approx((stability + 1) ** .602 / max(map(abs, row["gradient"])))
+    with pytest.raises(ValueError, match="first SPSA gradient is zero"):
+        calibrate_spsa(lambda theta, name: 1, [5], lower=[0], upper=[20], a=None,
+                       initial_step=1, A=3, c=2, alpha=.602, gamma=.101, iterations=1, seed=104)
+
+
 def test_failed_loss_and_invalid_initial_vector_are_not_zero():
     settings = dict(lower=[0], upper=[np.inf], a=.1, A=1, c=1,
                     alpha=.602, gamma=.101, iterations=1, seed=104)
@@ -54,12 +74,19 @@ def test_failed_loss_and_invalid_initial_vector_are_not_zero():
         calibrate_spsa(lambda theta, name: 0, [-1], **settings)
 
 
-@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
+@pytest.mark.skipif(importlib.util.find_spec("sumo") is None, reason="Repository SUMO runtime required")
 def test_spsa_loss_from_native_e1_and_zero_od_demand(tmp_path):
+    import sumo
+    from importlib.metadata import version
+
+    assert version("eclipse-sumo") == version("traci") == version("sumolib") == "1.27.1"
+    binaries = Path(sumo.__file__).parent / "bin"
+    suffix = ".exe" if os.name == "nt" else ""
+    netconvert, binary = binaries / ("netconvert" + suffix), binaries / ("sumo" + suffix)
     nodes, edges, net = [tmp_path / n for n in ("nodes.xml", "edges.xml", "net.xml")]
     nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/><node id="c" x="200" y="0"/></nodes>')
     edges.write_text('<edges><edge id="in" from="a" to="b"/><edge id="out" from="b" to="c"/></edges>')
-    subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(edges), "-o", str(net)],
+    subprocess.run([str(netconvert), "-n", str(nodes), "-e", str(edges), "-o", str(net)],
                    capture_output=True, check=True, timeout=30)
     loops, expected = tmp_path / "loops.xml", tmp_path / "expected.csv"
     loops.write_text('<additional><inductionLoop id="first" lane="in_0" pos="20" period="60" file="unused.xml"/><inductionLoop id="second" lane="out_0" pos="20" period="60" file="unused.xml"/></additional>')
@@ -74,15 +101,16 @@ def test_spsa_loss_from_native_e1_and_zero_od_demand(tmp_path):
         route = tmp_path / f"{name}.rou.xml"
         ET.ElementTree(demand).write(route, encoding="utf-8")
         result = run_point_detector_demand(net_file=net, route_file=route, e1_additional_file=loops,
-            expected_counts_csv=expected, output_dir=tmp_path / name, end_s=60, sumo_binary=shutil.which("sumo"))
+            expected_counts_csv=expected, output_dir=tmp_path / name, end_s=60, sumo_binary=str(binary))
         assert result["healthy"] and result["observer_complete"]
+        assert result["stall_monitor"]["native_version"] == [22, "SUMO 1.27.1"]
         periodic = ET.parse(Path(tmp_path / name / "field-counts.xml")).getroot().findall("interval")
         counts = [int(row.get("nVehContrib")) for row in periodic]
         assert counts == [int(np.floor(theta[0] + .5))] * 2
         evaluated.append(result)
         return sum((n - 10) ** 2 for n in counts)
 
-    result = calibrate_spsa(native_loss, [6], lower=[0], upper=[100], a=.25, A=0, c=2,
+    result = calibrate_spsa(native_loss, [9], lower=[0], upper=[100], a=None, initial_step=1, A=0, c=2,
                             alpha=.602, gamma=.101, iterations=1, seed=104)
     assert result["loss_evaluations"] == 2 and len(evaluated) == 2
     assert native_loss(result["theta"], "final") == 0

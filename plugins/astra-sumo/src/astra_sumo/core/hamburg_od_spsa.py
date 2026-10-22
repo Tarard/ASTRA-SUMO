@@ -16,7 +16,7 @@ from .detector_demand import read_net, read_csv_rows, write_csv
 from .detector_demand_replay import run_point_detector_demand
 from .hamburg_readme_results import STATIONS
 from .road_hierarchy import _path, _paths
-from .spsa import calibrate_spsa
+from .spsa import InitialSPSAGainUnavailable, calibrate_spsa
 
 
 def prepare_hamburg_od_baseline(*, case_dir, audit_dir, output_dir):
@@ -161,7 +161,7 @@ def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary):
     return result
 
 
-def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings):
+def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, initial_evaluation_dir=None):
     """Evaluate only complete native E1 vectors; record unsafe runs as diagnostic losses."""
     prepared, out = Path(prepared_dir).resolve(strict=True), Path(output_dir).resolve()
     if out.exists() or prepared.is_relative_to(out):
@@ -170,19 +170,82 @@ def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings):
     initial = json.loads((prepared / "initial-od-vector.json").read_bytes())["values"]
     write_json_atomic(out / "settings.json", settings)
     evaluations = []
+    history = []
 
-    def objective(theta, name):
-        evaluation = measure_hamburg_od(prepared_dir=prepared, values=theta, output_dir=out / name, sumo_binary=sumo_binary)
+    class ExactNativeFit(Exception):
+        def __init__(self, theta, name):
+            self.theta, self.name = theta.tolist(), name
+
+    def completed(theta, name, evaluation):
         evaluations.append({"name": name, **evaluation})
         write_json_atomic(out / "evaluations.json", evaluations)
+        write_json_atomic(out / "progress.json", {"stage": "native_evaluation_completed", "evaluation": name,
+                                                   "completed_iterations": len(history), **evaluation})
+        if evaluation["exact_count_fit"]:
+            raise ExactNativeFit(theta, name)
         return evaluation["loss"]
 
-    objective(np.asarray(initial, dtype=float), "initial")
-    result = calibrate_spsa(objective, initial, lower=np.zeros(len(initial)), upper=np.full(len(initial), np.inf),
-                            **settings, on_iteration=lambda row: write_json_atomic(out / f"iteration-{row['iteration']:04d}.json", row))
-    objective(np.asarray(result["theta"]), "final")
-    result.update(final_vector_remeasured=True, formal_result=evaluations[-1]["exact_count_fit"],
+    def objective(theta, name):
+        write_json_atomic(out / "progress.json", {"stage": "native_evaluation_running", "evaluation": name,
+                                                   "completed_iterations": len(history)})
+        evaluation = measure_hamburg_od(prepared_dir=prepared, values=theta, output_dir=out / name, sumo_binary=sumo_binary)
+        return completed(theta, name, evaluation)
+
+    def iteration(row):
+        history.append(row)
+        write_json_atomic(out / f"iteration-{row['iteration']:04d}.json", row)
+        write_json_atomic(out / "progress.json", {"stage": "iteration_completed", "completed_iterations": len(history),
+                                                   "a": row["a"], "theta": row["next_theta"]})
+
+    try:
+        if initial_evaluation_dir is None:
+            objective(np.asarray(initial, dtype=float), "initial")
+        else:
+            from .hamburg_od_reuse import reuse_hamburg_od_initial
+            proposed = write_hamburg_od_demand(model_file=prepared / "od-model.json", values=initial, output_dir=out / "initial")
+            evaluation, provenance = reuse_hamburg_od_initial(prepared_dir=prepared, proposal_dir=proposed,
+                                                              cached_dir=initial_evaluation_dir)
+            write_json_atomic(out / "initial-reuse.json", provenance)
+            completed(np.asarray(initial, dtype=float), "initial", {**evaluation, "reused": True})
+        result = calibrate_spsa(objective, initial, lower=np.zeros(len(initial)), upper=np.full(len(initial), np.inf),
+                                **settings, on_iteration=iteration)
+        objective(np.asarray(result["theta"]), "final")
+        result.update(final_vector_remeasured=True, selected_evaluation="final")
+    except ExactNativeFit as reached:
+        result = {"theta": reached.theta, "history": history, "stopping_reason": "healthy_native_zero_residual",
+                  "final_vector_remeasured": False, "selected_evaluation": reached.name,
+                  "claim": "The selected vector already has a complete, healthy native evaluation. No extra replay is needed."}
+    except InitialSPSAGainUnavailable as error:
+        result = {"theta": initial, "history": history, "stopping_reason": "initial_gain_not_identified",
+                  "error": str(error), "final_vector_remeasured": False, "selected_evaluation": "initial"}
+    except Exception as error:
+        write_json_atomic(out / "failure.json", {"status": "failed", "error": f"{type(error).__name__}: {error}",
+                           "completed_iterations": len(history), "completed_native_evaluations": len(evaluations),
+                           "formal_result": False, "claim": "Preserve all partial native outputs. This is not evidence of infeasibility."})
+        raise
+    selected = next(row for row in evaluations if row["name"] == result["selected_evaluation"])
+    result.update(formal_result=selected["exact_count_fit"], completed_iterations=len(history),
                   native_evaluations=len(evaluations), evaluations=evaluations,
-                  claim_boundary="Unsafe or backlogged loss evaluations are diagnostic. Only a complete healthy final native replay with all 130 exact fields can be accepted. Station values are derived, not independent observations.")
+                  new_native_evaluations=sum(not row.get("reused", False) for row in evaluations),
+                  claim_boundary="Unsafe or backlogged loss evaluations are diagnostic. Only a complete healthy selected native evaluation with all 130 exact fields can be accepted. Station values are derived, not independent observations.")
     write_json_atomic(out / "result.json", result)
+    write_json_atomic(out / "progress.json", {"stage": "completed", "completed_iterations": len(history),
+                                               "stopping_reason": result["stopping_reason"], "formal_result": result["formal_result"]})
+    lines = ["# Hamburg ordinary SPSA", "", f"Accepted exact calibration: {result['formal_result']}.",
+             f"Stopping reason: {result['stopping_reason']}. Completed updates: {len(history)}.",
+             "", "Counts use native E1 nVehContrib. All 130 fields and 40 derived station rows are retained.",
+             "Unsafe results have diagnostic errors only. Fixed route/lane/time templates remain priors.",
+             "", "[Settings](settings.json), [evaluations](evaluations.json), [result](result.json).",
+             "", f"Runner: plugins/astra-sumo/scripts/run_hamburg_od_spsa.py. Scenario: {prepared}.",
+             f"Analysis: plugins/astra-sumo/src/astra_sumo/core/hamburg_od_spsa.py. Raw results: {out}.",
+             "", "| Evaluation | Diagnostic MAE | Max error | Collisions | Teleports | Waiting | In network | Healthy |",
+             "|---|---:|---:|---:|---:|---:|---:|---|"]
+    for row in evaluations:
+        state = row["completion"]
+        lines.append(f"| {row['name']} | {row['MAE']:.6f} | {row['max_abs_error']} | {state['collisions']} | "
+                     f"{state['teleports']} | {state['waiting']} | {state['running']} | {row['healthy']} |")
+    if initial_evaluation_dir is not None:
+        lines += ["", f"Initial native evidence reused from: {Path(initial_evaluation_dir).resolve()}.",
+                  "[Input and native correspondence](initial-reuse.json)."]
+    (out / "README.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
     return result

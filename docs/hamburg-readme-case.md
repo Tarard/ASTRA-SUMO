@@ -1,5 +1,9 @@
 # Hamburg case shown in the README
 
+The [standard ordinary SPSA study](../benchmarks/hamburg_ring1_od_spsa_standard_20261022_v1/README.md) fixes the user-authorized corridor settings.
+The user selected one update and a complete native remeasurement. It derives the initial gain from its first perturbation pair and retains the zero-error acceptance condition.
+Both [completed spillback control trials](../benchmarks/hamburg_ring1_spillback_repair_complete_20261022_v2/README.md) remain invalid, with all 130 field and 40 station residuals retained.
+
 The [Antoniou literature and standard SPSA method check](research/hamburg-spsa-od-method-2026-10-22-v1.md) identifies the missing joint time-dependent OD estimation.
 The standard update has passed known-solution and native E1 checks. The user selected the inherited 21-OD, 14-departure-interval baseline.
 The baseline retains all 8640 initial requests and departure times while extending 2589 internal trip ends to a model exit. No Hamburg SPSA iteration result is claimed.

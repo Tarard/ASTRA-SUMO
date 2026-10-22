@@ -18,6 +18,7 @@ if __name__ == "__main__":
     parser.add_argument("--prepared-dir", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--settings", type=Path)
+    parser.add_argument("--initial-evaluation-dir", type=Path)
     options = parser.parse_args()
     repository = Path(__file__).resolve().parents[3]
     assert Path(sys.executable).resolve() == (repository / ".venv/Scripts/python.exe").resolve()
@@ -32,7 +33,7 @@ if __name__ == "__main__":
     shutil.copyfile(__file__, record / "run.py")
     sys.path.insert(0, str(snapshot))
     os.environ["PYTHONPATH"] = str(snapshot)
-    metadata = {"python": sys.executable, "versions": versions,
+    metadata = {"python": sys.executable, "versions": versions, "numpy_version": version("numpy"),
                 "source_commit": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=repository, text=True).strip(),
                 "sumo_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
                 "implementation_sha256": {str(p.relative_to(snapshot)): hashlib.sha256(p.read_bytes()).hexdigest()
@@ -42,7 +43,8 @@ if __name__ == "__main__":
     if options.settings:
         settings = json.loads(options.settings.read_bytes())
         result = run_hamburg_od_spsa(prepared_dir=options.prepared_dir, output_dir=options.output_dir,
-                                     sumo_binary=binary, settings=settings)
+                                     sumo_binary=binary, settings=settings,
+                                     initial_evaluation_dir=options.initial_evaluation_dir)
     else:
         initial = json.loads((options.prepared_dir / "initial-od-vector.json").read_bytes())["values"]
         result = measure_hamburg_od(prepared_dir=options.prepared_dir, values=initial,
