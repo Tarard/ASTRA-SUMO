@@ -91,7 +91,7 @@ def audit(repository, output):
     }
     assert result["sumolib_version"] == "1.27.1"
     output.mkdir(parents=True, exist_ok=False)
-    (output / "source-check.json").write_text(json.dumps(result, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    (output / "source-check.json").write_bytes((json.dumps(result, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
     print(json.dumps({"nodes": len(rows), "unresolved": len(rows), "new_simulations": 0, "model_changed": False}))
 
 
