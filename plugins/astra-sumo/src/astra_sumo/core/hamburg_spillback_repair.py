@@ -74,7 +74,7 @@ def prepare_hamburg_pruned_phase_repair(*, case_dir, source_control, output_dir)
     return report
 
 
-def prepare_hamburg_merge_coordination(*, case_dir, output_dir):
+def prepare_hamburg_merge_coordination(*, case_dir, output_dir, preclear_receivers=False):
     """Coordinate the one merge with upstream releases and measured short transit times."""
     case, out = Path(case_dir).resolve(strict=True), Path(output_dir).resolve()
     if out.exists() or case.is_relative_to(out) or out.is_relative_to(case):
@@ -124,6 +124,10 @@ def prepare_hamburg_merge_coordination(*, case_dir, output_dir):
     d_b = [fastest[field]['transit_s'] for field in ('hh_0119_Z_4_29437','hh_0119_Z_5_30494')]
     start_a,end_a = math.floor(a[0]+d_a),math.ceil(a[1]+d_a)
     start_b,end_b = math.floor(b[0]+min(d_b)),math.ceil(b[1]+max(d_b))
+    if preclear_receivers:
+        # Clear the short receiving lanes before the next upstream platoon arrives.
+        start_b = int(b[0])
+        end_a = int(a[1])
     assert 0<start_a<end_a and end_a+3<=start_b<90<end_b and end_b-90+3<=start_a
     identity = 'GS_266199063'
     current = control.find(f"tlLogic[@id='{identity}']")
@@ -145,13 +149,16 @@ def prepare_hamburg_merge_coordination(*, case_dir, output_dir):
         (out/name).write_bytes(data)
     ET.ElementTree(control).write(out/'control.add.xml',encoding='utf-8',xml_declaration=True)
     scenario=json.loads(raw['scenario.json'])
-    scenario.update(control_sha256=file_sha256(out/'control.add.xml'),control_variant='native_transit_merge_coordination',
-        control_assumptions=scenario['control_assumptions']+' GS_266199063 alone uses a declared 90 s coordinated placeholder: the same two exclusive vehicle service states and 3 s yellows, with additional all-red clearance. Green windows follow the existing upstream K9-A and K2 releases shifted by pre-collision native minimum transit. No real control-domain binding or field SPaT is asserted.')
+    scenario.update(control_sha256=file_sha256(out/'control.add.xml'),
+        control_variant='native_transit_merge_preclear' if preclear_receivers else 'native_transit_merge_coordination',
+        control_assumptions=scenario['control_assumptions']+' GS_266199063 alone uses a declared 90 s coordinated placeholder: the same two exclusive vehicle service states and 3 s yellows, with additional all-red clearance. Windows use the upstream K9-A and K2 releases and pre-collision native minimum transit.'
+        + (' The K2 receiving lanes start green with the upstream K2 release so existing queues clear before the platoon arrives; the preceding merge green ends with its source upstream green.' if preclear_receivers else '')
+        + ' No real control-domain binding or field SPaT is asserted.')
     write_json_atomic(out/'scenario.json',scenario)
     report={'formal_result':False,'native_verified':False,'changed_controller':identity,'first_source_collision_s':first_collision,
         'native_fastest_transit':fastest,'upstream_windows_s':{'A':a,'B':b},
         'coordinated_green_windows_s':{'A':(start_a,end_a),'B':(start_b,end_b)},
-        'phases':spans,'other_programs_byte_identical':True,'network_demand_targets_and_driver_unchanged':True,
+        'phases':spans,'preclear_receivers':preclear_receivers,'other_programs_byte_identical':True,'network_demand_targets_and_driver_unchanged':True,
         'claim_boundary':'A local coordinated placeholder candidate, not source-confirmed real signal timing or binding. The native minimum transit is a proposal input, not a prediction under changed control. A new native comparison is required.'}
     write_json_atomic(out/'merge-coordination-proposal.json',report)
     return report

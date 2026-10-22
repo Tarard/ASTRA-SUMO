@@ -29,10 +29,11 @@ def test_does_not_remove_original_clearance_or_alter_existing_service():
         remove_deleted_service_stage(program,program)
 
 
-def test_real_local_coordination_keeps_every_request_target_and_other_program(tmp_path):
+@pytest.mark.parametrize('preclear',[False,True])
+def test_real_local_coordination_keeps_every_request_target_and_other_program(tmp_path,preclear):
     case=Path(__file__).parents[1]/'benchmarks/hamburg_ring1_munich_corridor_20261022_v1'
-    result=prepare_hamburg_merge_coordination(case_dir=case,output_dir=tmp_path/'candidate')
-    assert result['coordinated_green_windows_s']=={'A':(12,73),'B':(80,96)}
+    result=prepare_hamburg_merge_coordination(case_dir=case,output_dir=tmp_path/'candidate',preclear_receivers=preclear)
+    assert result['coordinated_green_windows_s']==({'A':(12,71),'B':(75,96)} if preclear else {'A':(12,73),'B':(80,96)})
     assert result['other_programs_byte_identical']
     for name in ('network.net.xml','demand.rou.xml','lane-intentions.json','field-loops.add.xml','expected-counts.csv','initialization-counts.csv'):
         assert (tmp_path/'candidate'/name).read_bytes()==read_trace_source(case/'inputs',name)
