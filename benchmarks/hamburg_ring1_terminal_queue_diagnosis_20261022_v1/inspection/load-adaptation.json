@@ -1,0 +1,16 @@
+{
+  "source_snapshot_sha256": "794b4d491cdf4c504e465cc66270a2b502cfedc078333cdb8be259678cd0c33d",
+  "inspection_snapshot_sha256": "829bfe81597ad1fae070acc7867dd57a63b88b388278d59e7af747e76980a0eb",
+  "omitted_empty_optional_attributes": [
+    {
+      "id": "7709833318",
+      "programID": "0"
+    },
+    {
+      "id": "7709833318",
+      "programID": "readme_fixed_A"
+    }
+  ],
+  "source_reference": "https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/microsim/MSStateHandler.cpp#L474-L475",
+  "scope": "Private inspection copy only. Keep all vehicle and route records, lane membership, phase, program and time attributes. No simulation steps or source-file changes."
+}

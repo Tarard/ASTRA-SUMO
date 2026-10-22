@@ -1,0 +1,35 @@
+***Starting server on port 10507 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-field-route-probe-20261022-v1\native\network.net.xml' ... done (192ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-field-route-probe-20261022-v1\native\signal-programs.add.xml' ... done (4ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-field-route-probe-20261022-v1\native\e1.add.xml' ... done (4ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-field-route-probe-20261022-v1\native\instant.add.xml' ... done (3ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading route-files incrementally from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-field-route-probe-20261022-v1\native\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.000.
+Simulation ended at time: 1800.000.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 14.438s
+ TraCI-Duration: 9.287s
+ Real time factor: 124.671
+ UPS: 10921.457266
+Vehicles:
+ Inserted: 40
+ Running: 0
+ Waiting: 0
+Statistics (avg of 40):
+ RouteLength: 1296.492921000000
+ Speed: 3.534661006489
+ Duration: 394.210000000000
+ WaitingTime: 213.065000000000
+ TimeLoss: 299.254000000000
+ DepartDelay: 0.000000000000
+ DepartDelayWaiting: 0.000000000000

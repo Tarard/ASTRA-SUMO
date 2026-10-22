@@ -1,0 +1,19 @@
+Traceback (most recent call last):
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\outputs\query-primary-entry-terminal-state-20261022-v1.py", line 63, in <module>
+    before = connection.simulation.getTime()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\.venv\Lib\site-packages\traci\_simulation.py", line 257, in getTime
+    return self._getUniversal(tc.VAR_TIME)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\.venv\Lib\site-packages\traci\domain.py", line 152, in _getUniversal
+    return _parse(self._retValFunc, varID, self._getCmd(varID, objectID, format, *values))
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\.venv\Lib\site-packages\traci\domain.py", line 157, in _getCmd
+    r = self._connection._sendCmd(self._cmdGetID, varID, objID, format, *values)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\.venv\Lib\site-packages\traci\connection.py", line 232, in _sendCmd
+    return self._sendExact()
+           ^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\.venv\Lib\site-packages\traci\connection.py", line 137, in _sendExact
+    raise FatalTraCIError("Connection closed by SUMO.")
+traci.exceptions.FatalTraCIError: Connection closed by SUMO.

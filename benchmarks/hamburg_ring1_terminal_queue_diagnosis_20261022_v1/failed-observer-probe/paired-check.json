@@ -1,0 +1,151 @@
+{
+  "formal_result": false,
+  "results": {
+    "baseline": {
+      "completion": {
+        "loaded": 40,
+        "inserted": 40,
+        "arrived": 40,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ],
+      "native_E1_reconciled": true,
+      "field_passages": 40,
+      "every_vehicle_once_at_assigned_field": true,
+      "first_buffer_entry_lanes": {
+        "142944325#0_0": 40
+      },
+      "buffer_exit_lanes": {
+        "142944325#0_0": 37,
+        "142944325#0_1": 3
+      },
+      "buffer_exit_times_s": {
+        "artificial_z15_buffer_2": 160.6,
+        "artificial_z15_buffer_1": 162.9,
+        "artificial_z15_buffer_4": 165.0,
+        "artificial_z15_buffer_5": 167.1,
+        "artificial_z15_buffer_7": 169.1,
+        "artificial_z15_buffer_8": 236.7,
+        "artificial_z15_buffer_10": 238.5,
+        "artificial_z15_buffer_11": 239.4,
+        "artificial_z15_buffer_13": 241.0,
+        "artificial_z15_buffer_6": 243.0,
+        "artificial_z15_buffer_14": 244.8,
+        "artificial_z15_buffer_31": 246.6,
+        "artificial_z15_buffer_16": 248.4,
+        "artificial_z15_buffer_32": 250.2,
+        "artificial_z15_buffer_17": 252.0,
+        "artificial_z15_buffer_9": 253.9,
+        "artificial_z15_buffer_19": 255.8,
+        "artificial_z15_buffer_20": 257.7,
+        "artificial_z15_buffer_22": 259.6,
+        "artificial_z15_buffer_35": 261.3,
+        "artificial_z15_buffer_23": 263.1,
+        "artificial_z15_buffer_0": 326.8,
+        "artificial_z15_buffer_34": 326.8,
+        "artificial_z15_buffer_25": 329.1,
+        "artificial_z15_buffer_26": 330.8,
+        "artificial_z15_buffer_3": 332.3,
+        "artificial_z15_buffer_28": 333.9,
+        "artificial_z15_buffer_29": 335.4,
+        "artificial_z15_buffer_37": 337.0,
+        "artificial_z15_buffer_38": 338.6,
+        "artificial_z15_buffer_39": 340.4,
+        "artificial_z15_buffer_12": 342.2,
+        "artificial_z15_buffer_15": 344.0,
+        "artificial_z15_buffer_18": 345.9,
+        "artificial_z15_buffer_21": 347.8,
+        "artificial_z15_buffer_24": 349.7,
+        "artificial_z15_buffer_27": 351.6,
+        "artificial_z15_buffer_30": 416.8,
+        "artificial_z15_buffer_33": 416.8,
+        "artificial_z15_buffer_36": 419.0
+      },
+      "last_buffer_exit_s": 419.0,
+      "last_native_arrival_s": 680.2,
+      "sum_native_stop_time_s": 0.0
+    },
+    "two_lane_intent": {
+      "completion": {
+        "loaded": 40,
+        "inserted": 40,
+        "arrived": 40,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ],
+      "native_E1_reconciled": true,
+      "field_passages": 40,
+      "every_vehicle_once_at_assigned_field": true,
+      "first_buffer_entry_lanes": {
+        "142944325#0_1": 20,
+        "142944325#0_0": 20
+      },
+      "buffer_exit_lanes": {
+        "142944325#0_1": 19,
+        "142944325#0_0": 21
+      },
+      "buffer_exit_times_s": {
+        "artificial_z15_buffer_2": 161.3,
+        "artificial_z15_buffer_1": 162.9,
+        "artificial_z15_buffer_4": 165.6,
+        "artificial_z15_buffer_5": 167.1,
+        "artificial_z15_buffer_7": 169.1,
+        "artificial_z15_buffer_8": 236.8,
+        "artificial_z15_buffer_10": 238.6,
+        "artificial_z15_buffer_11": 239.0,
+        "artificial_z15_buffer_13": 240.7,
+        "artificial_z15_buffer_6": 243.5,
+        "artificial_z15_buffer_14": 245.7,
+        "artificial_z15_buffer_31": 246.4,
+        "artificial_z15_buffer_16": 248.9,
+        "artificial_z15_buffer_32": 251.1,
+        "artificial_z15_buffer_17": 251.8,
+        "artificial_z15_buffer_9": 253.8,
+        "artificial_z15_buffer_19": 255.8,
+        "artificial_z15_buffer_20": 258.2,
+        "artificial_z15_buffer_22": 260.4,
+        "artificial_z15_buffer_35": 261.1,
+        "artificial_z15_buffer_23": 263.1,
+        "artificial_z15_buffer_0": 326.2,
+        "artificial_z15_buffer_34": 326.2,
+        "artificial_z15_buffer_25": 329.0,
+        "artificial_z15_buffer_26": 329.3,
+        "artificial_z15_buffer_3": 330.8,
+        "artificial_z15_buffer_28": 332.0,
+        "artificial_z15_buffer_29": 332.9,
+        "artificial_z15_buffer_37": 334.7,
+        "artificial_z15_buffer_38": 337.0,
+        "artificial_z15_buffer_39": 338.3,
+        "artificial_z15_buffer_12": 340.8,
+        "artificial_z15_buffer_15": 342.1,
+        "artificial_z15_buffer_18": 344.6,
+        "artificial_z15_buffer_21": 345.8,
+        "artificial_z15_buffer_24": 348.4,
+        "artificial_z15_buffer_27": 349.8,
+        "artificial_z15_buffer_30": 352.3,
+        "artificial_z15_buffer_36": 416.2,
+        "artificial_z15_buffer_33": 416.8
+      },
+      "last_buffer_exit_s": 416.8,
+      "last_native_arrival_s": 680.2,
+      "sum_native_stop_time_s": 0.1
+    }
+  },
+  "claim_boundary": "Compare actual buffer use and native safety before considering a larger demand test. Sparse results cannot establish the cause of the original queue or main-window count fit."
+}

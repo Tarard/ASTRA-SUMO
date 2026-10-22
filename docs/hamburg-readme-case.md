@@ -6,7 +6,15 @@ Uninserted demand falls from 984 to 644, but the run remains invalid, with 306 v
 All 130/40 rows are available, with 31/7 exact. Diagnostic field MAE is 12.962 and maximum error is 59.
 Derived station MAE is 39.725, while maximum error rises to 150. All losses and residuals remain reported.
 The initialization hour reproduces all 52 prefix intervals exactly. This supports correspondence only, not exact calibration.
-The next check concerns terminal vehicle and signal states behind the remaining entry queues. No request-time, signal or vehicle-count correction is included.
+That complete measurement includes no request-time, signal or vehicle-count correction. Its subsequent terminal and route checks are reported below.
+
+The subsequent [terminal query and buffer-lane check](../benchmarks/hamburg_ring1_terminal_queue_diagnosis_20261022_v1/README.md) retains all source files and advances no snapshot time.
+Vehicle positions and active signal phases correspond, but 24 loaded lane-change modes differ from the recorded controller. The loaded pending API also does not represent the original 644 queued requests.
+The sparse buffer-lane alternative changes lane use without additional E1 contributions or an earlier final E1 passage. It is not promoted as a capacity fix.
+
+The [distinct-field shared-route probe](../benchmarks/hamburg_ring1_shared_field_probe_20261022_v1/README.md) completes 40 vehicles and 80 native E1 contributions safely.
+Each vehicle contributes once to an upstream 119 field and once to 535 Z4 on one of four supported simple routes.
+The existing first-field driver suffices for this test. A larger shared-population model remains untested, and the real 130/40-row result above is unchanged.
 
 The [complete three-node driver run](../benchmarks/hamburg_ring1_three_node_body_full_20261022_v1/README.md) reaches 14400 s with zero collisions and teleports.
 All six original collision participants rear-clear their junctions and arrive. All 412 observed exit changes at the third site occur after rear clearance.
