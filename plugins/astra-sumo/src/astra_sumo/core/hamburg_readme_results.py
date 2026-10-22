@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 import gzip
 import html
 import json
+import os
 from pathlib import Path
 import shutil
 import xml.etree.ElementTree as ET
@@ -165,10 +166,22 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
     if out.exists():
         raise ValueError("Use a new report directory.")
     out.mkdir(parents=True)
+    def relative_link(path):
+        return Path(os.path.relpath(path, out)).as_posix()
+
     figures = out / "figures"
     figures.mkdir()
     run = json.loads((native / "run.json").read_bytes())
     scenario = json.loads((p / "scenario.json").read_bytes())
+    corridor_scope = bool(scenario.get("pruning_treatment"))
+    osm_figure_label = "原始 OSM 与本次最终走廊（含已有路口重建）" if corridor_scope else "原始 OSM 与重要性剪枝"
+    junction_figure_label = "原参考路口保留与走廊裁剪" if corridor_scope else "物理路口汇聚前后"
+    scope_note = ("本轮在既有五路口重建结果上裁剪范围。原始 OSM 总览图同时展示此前的路口重建和本轮剪枝。"
+                  if corridor_scope else "")
+    actuated_count = sum(program.get("type") == "actuated" and not program.get("id", "").startswith("LSA")
+                         for program in ET.parse(p / "control.add.xml").getroot().findall("tlLogic"))
+    netedit_framing = ("相同航拍和中心，并按初始路网范围调整缩放百分比以保持相同物理宽度"
+                      if corridor_scope else "相同航拍、中心与缩放")
     field_rows = read_csv_rows(native / "field-comparison.csv")
     assert len(field_rows) == 130
 
@@ -460,8 +473,10 @@ SUMO 1.27.1，步长 0.1 秒，seed 104，仿真 0 对应当地 06:30，计划�
 
 ## 走廊与图像
 
-![原始 OSM 与重要性剪枝](figures/01-osm-to-pruned.png)
-![物理路口汇聚前后](figures/02-pruned-to-junctions.png)
+{scope_note}
+
+![{osm_figure_label}](figures/01-osm-to-pruned.png)
+![{junction_figure_label}](figures/02-pruned-to-junctions.png)
 ![LSA118 固定范围细节](figures/03-lsa118-before-after.png)
 ![模型中的 13 个原生 E1 字段](figures/04-sensors.png)
 
@@ -472,7 +487,7 @@ SUMO 1.27.1，步长 0.1 秒，seed 104，仿真 0 对应当地 06:30，计划�
 ![NetEdit before](figures/netedit-before.png)
 ![NetEdit after](figures/netedit-after.png)
 
-NetEdit 补充图来自真实 NetEdit 1.27.1，使用相同航拍、中心与缩放；after 在 Inspect 模式选中 LSA118。
+NetEdit 补充图来自真实 NetEdit 1.27.1，使用{netedit_framing}；after 在 Inspect 模式选中 LSA118。
 
 ## 同时段真实计数与 SUMO 计数
 
@@ -485,7 +500,7 @@ NetEdit 补充图来自真实 NetEdit 1.27.1，使用相同航拍、中心与缩
 {population_note}
 入口沿用已声明的道路范围边界和道路等级先验上限。{proposal_note}
 车道意图按输入 `lane-intentions.json` 中记录的机制执行。这是声明的驾驶意图，不是已验证的自然驾驶行为。当前设置见本报告 `results.json` 的 scenario。
-官方路口采用 M2 的 OCIT 固定方案；Z.15 为带标签的 K9 备选。58 个其余 OSM 信号保留原生感应控制，起始时刻与 seed 固定。它们仍是占位控制，没有现场时序验证。
+官方路口采用 M2 的 OCIT 固定方案；Z.15 为带标签的 K9 备选。{actuated_count} 个其余 OSM 信号保留原生感应控制，起始时刻与 seed 固定。它们仍是占位控制，没有现场时序验证。
 535 采用已有原生扇出曲线候选，普通道路、显式长度和合法通行权限保持原样。原生曲线不等于官方参考折线或航拍测绘路径。
 104、535 两个不符合车道箭头的附加转向声明为红灯；相应道路对仍有其他车道承载。
 200 进口施工阶段与 MAP 的不一致、Z.15 官方组未知及其他几何与转向对应限制仍保留。
@@ -500,18 +515,18 @@ NetEdit 补充图来自真实 NetEdit 1.27.1，使用相同航拍、中心与缩
 
 ## 复现位置
 
-- 执行：[run_hamburg_readme_pipeline.py](../../plugins/astra-sumo/scripts/run_hamburg_readme_pipeline.py)。
-- 需求构造：[hamburg_readme_pipeline.py](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_pipeline.py)。
-- 计数与有效性：[detector_demand_replay.py](../../plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py)。
-- 分析与图像：[hamburg_readme_results.py](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py)。
-- 参数与输入：[inputs](inputs/)、原生结果：[native](native/)、各项校验值：[manifest.json](manifest.json)。
+- 执行：[run_hamburg_readme_pipeline.py]({relative_link(root / 'plugins/astra-sumo/scripts/run_hamburg_readme_pipeline.py')})。
+- 需求构造：[hamburg_readme_pipeline.py]({relative_link(root / 'plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_pipeline.py')})。
+- 计数与有效性：[detector_demand_replay.py]({relative_link(root / 'plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py')})。
+- 分析与图像：[hamburg_readme_results.py]({relative_link(root / 'plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py')})。
+- 参数与输入：[inputs]({relative_link(p)}/)、原生结果：[native]({relative_link(native)}/)、执行记录：[run.json]({relative_link(native / 'run.json')})。
 """
     write_text_atomic(out / "README.md", text)
     document = '<!doctype html><meta charset="utf-8"><title>Hamburg Ring1 workflow</title><style>body{font:16px system-ui;max-width:1300px;margin:30px auto;padding:0 25px;line-height:1.6}img{max-width:100%}pre{white-space:pre-wrap;background:#f4f4f4;padding:20px}.bad{color:#b71c1c}</style>'
     document += f'<h1>汉堡 Ring1 完整流程</h1><h2 class="bad">{html.escape(verdict)}</h2><p>所有原生计数和运行有效性均保留。流程输出不等于零误差标定已完成。</p>'
     for label, name in [
-        ("原始 OSM → 剪枝", "01-osm-to-pruned.png"),
-        ("物理路口汇聚", "02-pruned-to-junctions.png"),
+        (osm_figure_label, "01-osm-to-pruned.png"),
+        (junction_figure_label, "02-pruned-to-junctions.png"),
         ("传感器", "04-sensors.png"),
         ("真实计数与 SUMO", "field-counts.png"),
         ("派生站点", "station-counts.png"),

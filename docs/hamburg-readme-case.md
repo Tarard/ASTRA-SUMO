@@ -5,7 +5,11 @@ The [new five-junction corridor](../benchmarks/hamburg_ring1_munich_corridor_202
 It retains the existing complete arms of LSA104, 118, 119, 200 and 535, all 13 detector fields, and all 130 main-window targets.
 The fixed-aerial before/after was rendered and shown before the new native count run started.
 Road geometry, lane permissions, retained turn permissions and the nine official programs remain unchanged.
-Entry shares are refit from existing native route templates and declared road-class priors. The new continuous native run is in progress; no new calibration result is established yet.
+Entry shares are refit from existing native route templates and declared road-class priors.
+The new continuous run completes 14400 s with all 130/40 rows available, but has one collision and one teleport at LSA104, 621 uninserted vehicles and 394 still running.
+Diagnostic field MAE is 12.753846 and maximum error is 52, with 22/130 exact fields and 0/40 exact derived stations.
+The run is invalid; bounded count correction is not started. All residuals, raw native records and the [new illustrated report](../benchmarks/hamburg_ring1_munich_corridor_20261022_v1/seed/report.html) remain retained.
+The combined uninserted and running total rises from 950 to 1015. The new corridor is not accepted as a calibration improvement.
 
 The previous network had 343 passenger-permitted roads, of which explicit demand used 116.
 The 227 passenger-permitted roads without planned traffic were not automatically deletion candidates. The new selection records each retained road and its reason.
