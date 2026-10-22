@@ -16,6 +16,13 @@ The [distinct-field shared-route probe](../benchmarks/hamburg_ring1_shared_field
 Each vehicle contributes once to an upstream 119 field and once to 535 Z4 on one of four supported simple routes.
 The existing first-field driver suffices for this test. A larger shared-population model remains untested, and the real 130/40-row result above is unchanged.
 
+The subsequent [shared-population initialization check](../benchmarks/hamburg_ring1_shared_population_prefix_20261022_v1/README.md) conserves all 182 initialization/main field quotas.
+It uses 8185 model vehicles for the same 8640 observation targets, retaining unmatched independent requests.
+In the initialization hour, 105 vehicles contribute to both declared fields, with no collisions, teleports, repeated fields or reversed field order.
+E1 contributions rise from 1716 to 1735, while diagnostic MAE falls from 4.635 to 4.385 and maximum error falls from 50 to 37.
+Exact initialization rows fall from 34 to 32; other-field losses remain reported. All 130/40 main rows stay unknown in that prefix.
+Its complete-window measurement is separate. The native target ledger and route response do not identify real OD or unique vehicle totals.
+
 The [complete three-node driver run](../benchmarks/hamburg_ring1_three_node_body_full_20261022_v1/README.md) reaches 14400 s with zero collisions and teleports.
 All six original collision participants rear-clear their junctions and arrive. All 412 observed exit changes at the third site occur after rear clearance.
 It remains invalid: 984 vehicles never enter and 314 remain running. All 130/40 rows are available, with 32/6 exact.

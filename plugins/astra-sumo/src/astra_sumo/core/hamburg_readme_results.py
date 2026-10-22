@@ -44,7 +44,23 @@ def vehicle_field_passage_rows(intentions, passage_report):
     for row in passage_report.get("passages", []):
         by_vehicle[row["vehicle_id"]].append(row)
     rows = []
-    for wanted in intentions:
+    expanded = []
+    for vehicle in intentions:
+        targets = vehicle.get("target_observations")
+        if targets is None:
+            expanded.append(vehicle)
+            continue
+        if (not isinstance(targets, list) or not targets
+                or any(not isinstance(r, dict) or not isinstance(r.get("field_id"), str) or not r["field_id"] for r in targets)
+                or targets[0]["field_id"] != vehicle["field_id"]
+                or len({r["field_id"] for r in targets}) != len(targets)):
+            raise ValueError("Declare distinct fields with the driver intention first.")
+        for index, target in enumerate(targets):
+            wanted = {key: value for key, value in vehicle.items() if key != "target_observations"}
+            wanted.update(target, vehicle_population_role=vehicle.get("population_role", "main"),
+                          target_kind="first" if index == 0 else "secondary")
+            expanded.append(wanted)
+    for wanted in expanded:
         found = [r for r in by_vehicle[wanted["vehicle_id"]] if r["detector_id"] == wanted["field_id"]]
         actual = found[0].get("time_s") if len(found) == 1 else None
         planned_bin = (int((wanted["target_begin_s"] - 3600) // 900) if "target_begin_s" in wanted
@@ -364,7 +380,7 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
     write_json_atomic(out / "passage-reconciliation.json", passage_report)
     intentions = json.loads((p / "lane-intentions.json").read_bytes())["vehicles"]
     passage_rows = vehicle_field_passage_rows(intentions, passage_report)
-    write_csv(out / "vehicle-field-passages.csv", passage_rows, list(passage_rows[0]))
+    write_csv(out / "vehicle-field-passages.csv", passage_rows, list(dict.fromkeys(key for row in passage_rows for key in row)))
     stats = {
         "schema": "astra.hamburg-readme-final-results/v1",
         "native_status": run["status"],
@@ -407,6 +423,12 @@ def summarize_hamburg_readme(*, repository, prepared_dir, native_dir, figure_dir
     monitor_step_s = (run.get("stall_monitor") or {}).get("monitor_interval_s") or run["step_length_s"]
     population_note = (f"本次模型人口包含初始化 {scenario['initialization_vehicles']} 辆、主窗 {scenario['main_vehicles']} 辆。该人口不识别现场独立车辆总量。"
                        if scenario.get("initialization_vehicles") else "模型人口不识别现场独立车辆总量。")
+    journey_note = "需求只使用一次通过路口的路线，每车对应一个被观测字段；没有额外未观测背景车流、重复道路、绕圈、掉头需求或客户道路通行。网络中的合法转向及掉头保留。"
+    if scenario.get("shared_vehicle_pairs"):
+        observations = scenario["field_observation_totals"]
+        journey_note = f"需求使用简单合法路线，其中 {scenario['shared_vehicle_pairs']} 辆模型车依次对应两个不同字段，各贡献一次。其余模型车对应一个字段。没有额外背景车流、重复道路、绕圈、掉头需求或客户专用道路通行。网络中的合法转向及掉头保留。"
+        population_note = (f"模型车辆共 {scenario['vehicles']} 辆，按首次目标分为初始化 {scenario['initialization_vehicles']} 辆和主窗 {scenario['main_vehicles']} 辆。"
+                           f"字段观测配额仍为初始化 {observations['initialization']} 次和主窗 {observations['main']} 次。部分初始化车辆还承担主窗的第二字段目标。模型车辆数不识别现场独立车辆总量或真实 OD。")
     proposal_note = ("初始整数候选的全部目标行等式成立，仍须用原生 E1 验证。" if scenario.get("all_integer_rows_exact") is True
                      else "本次按已声明的路线份额和请求时刻构造需求，保留全部目标行。原生 E1 提供拟合结果。")
     text = f"""# 汉堡 README 走廊：完整流程与原生计数结果
@@ -459,7 +481,7 @@ NetEdit 补充图来自真实 NetEdit 1.27.1，使用相同航拍、中心与缩
 
 ## 已声明的模型
 
-需求只使用一次通过路口的路线，每车对应一个被观测字段；没有额外未观测背景车流、重复道路、绕圈、掉头需求或客户道路通行。网络中的合法转向及掉头保留。
+{journey_note}
 {population_note}
 入口沿用已声明的道路范围边界和道路等级先验上限。{proposal_note}
 车道意图按输入 `lane-intentions.json` 中记录的机制执行。这是声明的驾驶意图，不是已验证的自然驾驶行为。当前设置见本报告 `results.json` 的 scenario。
