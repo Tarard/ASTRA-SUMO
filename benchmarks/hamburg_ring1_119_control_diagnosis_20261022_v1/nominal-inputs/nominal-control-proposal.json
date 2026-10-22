@@ -1,0 +1,1626 @@
+{
+  "formal_result": false,
+  "native_verified": false,
+  "control_variant": "A_nominal_OSM",
+  "changed_programs": [
+    {
+      "tls": "13879893",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "GGgrrrrGggrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GGgrrrrGggrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyrrrryyyrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrgGGGrrrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrgGGGrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrryyyyrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "1561370987",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "GgGgrrrrrgGGgrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GgGgrrrrrgGGgrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrrrryyyyrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrrggggGrrrrGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrggggGrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryyyyyrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "1562406613",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "Grrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yrrr"
+        },
+        {
+          "duration": "42",
+          "state": "rGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "ryyy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "1564056277",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "1564056280",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "18653534",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "rrrrrgGgGGggrrrrrgGggGrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+        },
+        {
+          "duration": "37",
+          "state": "ggGggrrrrrrrgGgggrrrrrGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "18653570",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "rrrrgGgGgGggGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrgGgGgGggrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryyyyyyyyrrr"
+        },
+        {
+          "duration": "37",
+          "state": "gggGrrrrrrrrrGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "gggGrrrrrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrrrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "1966837175",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "1975693623",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "63",
+          "state": "GGgggGgGGGrGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GGgggGgGGGrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "GGggyyyyyyrrrr"
+        },
+        {
+          "duration": "6",
+          "state": "GGGGrrrrrrrrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrrrrrrrrr"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrGGGG"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "205068090",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rryy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "205068512",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "gGgGrrrrGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "gGgGrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrrrrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrrGggGrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrGggrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryyyrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "205069138",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGrrrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrGGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrGGGGr"
+        },
+        {
+          "duration": "3",
+          "state": "rryyyyr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "205069905",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "rrGGgGrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrGGgrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rryyyrrrr"
+        },
+        {
+          "duration": "37",
+          "state": "gGrrrrGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "gGrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "244203524",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "244203525",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rryyy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "244203534",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "244203536",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "258684376",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "264996267",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "266197525",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "27",
+          "state": "rrrrrGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrrrryyy"
+        },
+        {
+          "duration": "27",
+          "state": "rrGGGrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rryyyrrr"
+        },
+        {
+          "duration": "27",
+          "state": "GGrrrrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "266197536",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrrrGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "297641708",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "297641711",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "315029332",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "GGGGgrrrrrGGGgrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GGGGgrrrrrGGGgrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyyrrrrryyyyrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrrrgggggrrrrGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrgggggrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrrrryyyyyrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "32206478",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "72",
+          "state": "gGgGGgGGggrrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "gGgGGgGGggrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyyyyyyyrrr"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrGGG"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "32206482",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "GGrrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GGrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrGGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rryyr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "32509935",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "GgGgrrrrgGgrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GgGgrrrrgGgrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrrryyyrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrrgggGrrrGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrgggGrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryyyyrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "343633360",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "3479240233",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "3479240327",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "3479240438",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "3479240441",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "77",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "10",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "3673603285",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "gggGGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "8",
+          "state": "gggGGGGr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "4031208903",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "433301165",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "4532610442",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "77",
+          "state": "gGgGr",
+          "minDur": "5",
+          "maxDur": "50",
+          "next": "0 1"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyr"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrG"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "5324041447",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "77",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "10",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "5324041448",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "5324041449",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "548816044",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "rrrGgGGgGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrGgGGgrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrryyyyyrrr"
+        },
+        {
+          "duration": "37",
+          "state": "gggrrrrrrGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "gggrrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "611615351",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "6390683111",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "6390683112",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "ggGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "6390683113",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "6390683114",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyy"
+        },
+        {
+          "duration": "5",
+          "state": "rrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "6390683115",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "7709833318",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "32",
+          "state": "GGrrrGgGrrrGr"
+        },
+        {
+          "duration": "5",
+          "state": "GGrrrGgGrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrryyyrrrrr"
+        },
+        {
+          "duration": "32",
+          "state": "rrGggrrrGrGrr"
+        },
+        {
+          "duration": "5",
+          "state": "rrGggrrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "rryyyrrrrrrrr"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrGGGGG"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "7900688747",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "rrrrrGGgGgGGggrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrrrryyyyyyyyyrrr"
+        },
+        {
+          "duration": "32",
+          "state": "GGggGrrrrrrrrrrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "GGggGrrrrrrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyyrrrrrrrrrrrr"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrrrrrGGG"
+        },
+        {
+          "duration": "5",
+          "state": "rrrrrrrrrrrrrrrrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "8913236635",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGGrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrrrGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryyy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "9844196556",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "G",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "y"
+        },
+        {
+          "duration": "5",
+          "state": "r"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "9844196560",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "82",
+          "state": "GG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yy"
+        },
+        {
+          "duration": "5",
+          "state": "rr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_1561539020",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGGGrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyyrrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrrrrGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrrrryyy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_1561539025",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGrrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyrrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrGGGr"
+        },
+        {
+          "duration": "3",
+          "state": "rrryyyr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_1561539027",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "GGyyrr"
+        },
+        {
+          "duration": "42",
+          "state": "GGrrGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "GGrryy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_205068087",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "37",
+          "state": "ggGrrrrrrGr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "ggGrrrrrrrr"
+        },
+        {
+          "duration": "3",
+          "state": "yyyrrrrrrrr"
+        },
+        {
+          "duration": "37",
+          "state": "rrrgGGGGGrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "5",
+          "state": "rrrgGGGGGrr"
+        },
+        {
+          "duration": "3",
+          "state": "rrryyyyyyrr"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_257590811",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGGrrrG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyyrrrG"
+        },
+        {
+          "duration": "42",
+          "state": "rrrrGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrrryyyG"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_26084079",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGGrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyyrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrrGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rrryy"
+        }
+      ],
+      "offset_s": 0.0
+    },
+    {
+      "tls": "GS_266199063",
+      "source_type": "actuated",
+      "candidate_type": "static",
+      "source_phases": [
+        {
+          "duration": "42",
+          "state": "GGrrrr",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "yyrrrr"
+        },
+        {
+          "duration": "42",
+          "state": "rrGGGG",
+          "minDur": "5",
+          "maxDur": "50"
+        },
+        {
+          "duration": "3",
+          "state": "rryyyy"
+        }
+      ],
+      "offset_s": 0.0
+    }
+  ],
+  "original_fixed_programs_retained": [
+    "6390683126",
+    "LSA104_part0",
+    "LSA118_part0",
+    "LSA118_part1",
+    "LSA119_part0",
+    "LSA200_part0",
+    "LSA200_part1",
+    "LSA200_part2",
+    "LSA200_part3",
+    "LSA535_part0"
+  ],
+  "phase_states_durations_xml_order_and_offsets_retained": true,
+  "removed_actuation_attributes": [
+    "minDur",
+    "maxDur",
+    "next"
+  ],
+  "demand_network_permissions_and_driver_unchanged": true,
+  "source_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1",
+  "source_manifest_sha256": "99c428a64286226202a5a93ca12cb678fe5307804cc880b0f098f0aea28ed171",
+  "source_control_sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+  "candidate_control_sha256": "4a2971d841cfa2abbacf4071953df27a8fde1978dd3de8b387187d026429046c",
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "991f0074be47e2ea39beaa5f66cada4ca968c84c24ac87c45bd59b6e077ae3c4",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "control.add.xml": "4a2971d841cfa2abbacf4071953df27a8fde1978dd3de8b387187d026429046c",
+    "lane-intentions.json": "5d17c65680720ae696ffc6171c82f6259a4678f4052d763815cfd3456c9af87c",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "scenario.json": "0a984d9070fc7a7866376846c131f8c7a35bbb1eee56d090a97c6f40a89d5778"
+  },
+  "claim_boundary": "A declared fixed-control sensitivity. Actual actuated green histories are not equivalent to nominal phase durations. No new greens, source OCIT edits or count-based timing optimization. Native safety, residuals and field correspondence remain unverified."
+}

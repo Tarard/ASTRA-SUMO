@@ -3,6 +3,7 @@
 from collections import Counter, defaultdict
 from copy import deepcopy
 import gzip
+import hashlib
 import json
 from pathlib import Path
 import xml.etree.ElementTree as ET
@@ -12,6 +13,57 @@ from .candidate_contracts import file_sha256
 from .network_link_semantics import _capture
 from .ocit_c import _child, _descendants, _normalize_group_label, _text, _vt_references
 from .ocit_c_programs import read_ocit_fixed_program
+
+
+def prepare_nominal_osm_control(*, case_dir, output_dir):
+    """Declare a fixed-cycle alternative without changing source phase states or demand."""
+    from .hamburg_collision_trace import read_trace_source
+
+    case, out = Path(case_dir).resolve(strict=True), Path(output_dir).resolve()
+    if out.exists() or case.is_relative_to(out) or out.is_relative_to(case):
+        raise ValueError("Use a new nominal-control directory separate from its source.")
+    names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "control.add.xml",
+             "lane-intentions.json", "initialization-counts.csv", "expected-counts.csv", "scenario.json")
+    raw = {name: read_trace_source(case / "inputs", name) for name in names}
+    control = ET.fromstring(raw["control.add.xml"])
+    static_before = {r.get("id"): ET.tostring(r) for r in control if r.get("type") == "static"}
+    changed = []
+    for logic in control:
+        if logic.get("type") != "actuated":
+            continue
+        if logic.get("id").startswith("LSA"):
+            raise ValueError("Retain the official fixed-control programs.")
+        phases = [dict(p.attrib) for p in logic.findall("phase")]
+        if sum(float(p["duration"]) for p in phases) != 90:
+            raise ValueError("Reassess the nominal-control alternative when a source cycle changes.")
+        logic.set("type", "static")
+        for phase in logic.findall("phase"):
+            for key in ("minDur", "maxDur", "next"):
+                phase.attrib.pop(key, None)
+        changed.append({"tls": logic.get("id"), "source_type": "actuated", "candidate_type": "static",
+            "source_phases": phases, "offset_s": float(logic.get("offset", "0"))})
+    if len(changed) != 58 or static_before != {r.get("id"): ET.tostring(r) for r in control if r.get("id") in static_before}:
+        raise ValueError("Retain all ten original fixed programs and exactly 58 OSM alternatives.")
+    out.mkdir(parents=True)
+    for name, content in raw.items():
+        (out / name).write_bytes(content)
+    ET.ElementTree(control).write(out / "control.add.xml", encoding="utf-8", xml_declaration=True)
+    scenario = json.loads(raw["scenario.json"])
+    scenario.update(control_sha256=file_sha256(out / "control.add.xml"), control_variant="A_nominal_OSM",
+        control_assumptions="A_nominal_OSM: keep all official M2 fixed programs and Z15 K9 alternative A. Run the 58 remaining OSM programs as static 90 s sequences using their existing states, nominal durations, XML order and offsets. Remove actuation limits and conditional next-phase selection. This is a reproducible control assumption, not measured field SPaT.")
+    write_json_atomic(out / "scenario.json", scenario)
+    report = {"formal_result": False, "native_verified": False, "control_variant": "A_nominal_OSM",
+        "changed_programs": changed, "original_fixed_programs_retained": sorted(static_before),
+        "phase_states_durations_xml_order_and_offsets_retained": True,
+        "removed_actuation_attributes": ["minDur", "maxDur", "next"],
+        "demand_network_permissions_and_driver_unchanged": True,
+        "source_case": str(case), "source_manifest_sha256": file_sha256(case / "manifest.json"),
+        "source_control_sha256": hashlib.sha256(raw["control.add.xml"]).hexdigest(),
+        "candidate_control_sha256": file_sha256(out / "control.add.xml"),
+        "input_sha256": {name: file_sha256(out / name) for name in names},
+        "claim_boundary": "A declared fixed-control sensitivity. Actual actuated green histories are not equivalent to nominal phase durations. No new greens, source OCIT edits or count-based timing optimization. Native safety, residuals and field correspondence remain unverified."}
+    write_json_atomic(out / "nominal-control-proposal.json", report)
+    return report
 
 
 def embedded_group_bridge(root):

@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [119 green-service diagnosis and nominal-control comparison](../benchmarks/hamburg_ring1_119_control_diagnosis_20261022_v1/README.md) retains the same demand and all targets.
+Read-only snapshots show a green 119 K2 followed by a red downstream signal and stopped vehicles. All 1778 E1 events through 3780 s match the reference.
+The sampled lane head has no remaining waypoint. The unrun waypoint-retirement prototype was reverted after checking the speed-upper-bound semantics.
+Fixing all 58 remaining OSM programs to their nominal sequences worsens initialization MAE from 4.635 to 10.885 and leaves 473 vehicles uninserted.
+That combination is not promoted. Main-window measurements remain unknown in its prefix; the complete primary-entry reference remains unchanged.
+
 The [complete western-entry test](../benchmarks/hamburg_ring1_western_entry_full_20261022_v1/README.md) is not promoted.
 All 130/40 rows are available with zero collisions and teleports, but 934 vehicles never enter and 410 remain running.
 Diagnostic field MAE rises from 12.962 to 14.369, maximum error from 59 to 62, and derived station MAE from 39.725 to 45.500.

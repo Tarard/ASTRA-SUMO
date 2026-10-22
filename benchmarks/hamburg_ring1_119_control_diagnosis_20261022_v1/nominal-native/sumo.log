@@ -1,0 +1,33 @@
+***Starting server on port 13285 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-nominal-osm-control-prefix-native-20261022-v1\network.net.xml' ... done (192ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-nominal-osm-control-prefix-native-20261022-v1\signal-programs.add.xml' ... done (4ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-nominal-osm-control-prefix-native-20261022-v1\e1.add.xml' ... done (17ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-nominal-osm-control-prefix-native-20261022-v1\instant.add.xml' ... done (4ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading route-files incrementally from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-nominal-osm-control-prefix-native-20261022-v1\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.000.
+Simulation ended at time: 3600.000.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 240.437s
+ TraCI-Duration: 144.913s
+ Real time factor: 14.9727
+ UPS: 18556.736276
+Vehicles:
+ Inserted: 1480 (Loaded: 1954)
+ Running: 109
+ Waiting: 473
+Statistics (avg of 1480):
+ RouteLength: 853.058845292116
+ Speed: 3.326685935110
+ Duration: 301.467000000000
+ WaitingTime: 185.936000000000
+ TimeLoss: 237.894000000000
+ DepartDelay: 244.621000000000
+ DepartDelayWaiting: 819.603000000000

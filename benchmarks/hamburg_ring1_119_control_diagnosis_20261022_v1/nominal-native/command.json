@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\observe-nominal-osm-installation-20261022-v1.py",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1\\native-request.json"
+  ],
+  "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1",
+  "status": "pass",
+  "returncode": 0,
+  "stdout": "***Starting server on port 13285 ***\nLoading net-file from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1\\network.net.xml' ... done (192ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1\\signal-programs.add.xml' ... done (4ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1\\e1.add.xml' ... done (17ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1\\instant.add.xml' ... done (4ms).\nLoading route-files incrementally from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-nominal-osm-control-prefix-native-20261022-v1\\demand.rou.xml'\nLoading done.\nSimulation version 1.27.1 started with time: 0.000.\nSimulation ended at time: 3600.000.\nReason: TraCI requested termination.\nPerformance:\n Duration: 240.437s\n TraCI-Duration: 144.913s\n Real time factor: 14.9727\n UPS: 18556.736276\nVehicles:\n Inserted: 1480 (Loaded: 1954)\n Running: 109\n Waiting: 473\nStatistics (avg of 1480):\n RouteLength: 853.058845292116\n Speed: 3.326685935110\n Duration: 301.467000000000\n WaitingTime: 185.936000000000\n TimeLoss: 237.894000000000\n DepartDelay: 244.621000000000\n DepartDelayWaiting: 819.603000000000\n",
+  "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\nWarning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2\nWarning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.\nWarning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.\n",
+  "error": ""
+}

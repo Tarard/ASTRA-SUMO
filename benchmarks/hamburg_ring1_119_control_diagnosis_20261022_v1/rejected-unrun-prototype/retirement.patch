@@ -1,0 +1,166 @@
+diff --git a/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py b/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py
+index 747196a..0e10334 100644
+--- a/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py
++++ b/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py
+@@ -71,7 +71,8 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
+                               monitor_interval_s: float | None = None,
+                               lane_intentions_file: Path | None = None,
+                               junction_body_hold: bool = False,
+-                              junction_body_hold_nodes: tuple[str, ...] | None = None) -> dict:
++                              junction_body_hold_nodes: tuple[str, ...] | None = None,
++                              retire_field_waypoint: bool = False) -> dict:
+     """Measure every declared field bin without requiring historical signal events.
+ 
+     The network supplies control. Instantaneous identities are simulator
+@@ -85,6 +86,8 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
+         raise ValueError("State times must be unique, finite, and inside the simulation period.")
+     if junction_body_hold and lane_intentions_file is None:
+         raise ValueError("Provide lane intentions for the junction-body hold.")
++    if not isinstance(retire_field_waypoint, bool) or retire_field_waypoint and lane_intentions_file is None:
++        raise ValueError("Enable field-waypoint retirement only with lane intentions.")
+     if junction_body_hold_nodes is not None and (not junction_body_hold or not junction_body_hold_nodes):
+         raise ValueError("Use a nonempty node scope with an enabled junction-body hold.")
+     paths = [Path(path).resolve(strict=True) for path in (net_file, route_file, e1_additional_file, expected_counts_csv)]
+@@ -174,6 +177,8 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
+     if junction_body_hold:
+         report["driver_treatment"] = "local_observation_and_junction_body_hold"
+         report["junction_body_hold_nodes"] = junction_body_hold_nodes
++    if retire_field_waypoint:
++        report["retire_field_waypoint"] = True
+     write_csv(output_dir / "field-comparison.csv", missing, list(missing[0]))
+     write_json_atomic(output_dir / "run.json", report)
+     monitor_file = output_dir / "stall-monitor.json"
+@@ -184,6 +189,7 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
+         "lane_intentions_file": str(output_dir / names[-1]) if lane_intentions_file is not None else None,
+         "route_file": str(output_dir / "demand.rou.xml"), "e1_file": str(output_dir / "source-e1.add.xml"),
+         **({"junction_body_hold": True} if junction_body_hold else {}),
++        **({"retire_field_waypoint": True} if retire_field_waypoint else {}),
+         **({"junction_body_hold_nodes": list(junction_body_hold_nodes)} if junction_body_hold_nodes is not None else {})})
+     executed = run_command([sys.executable, "-m", "astra_sumo.core.simulation_stall", str(request_file)],
+         cwd=output_dir, timeout_seconds=timeout_seconds)
+diff --git a/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py b/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py
+index 6ee064c..42f4233 100644
+--- a/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py
++++ b/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py
+@@ -26,7 +26,9 @@ def read_lane_intentions(intentions_file, e1_file, vehicle_ids):
+ class LaneSectionHold:
+     """Use native mode 512 locally, then restore each vehicle's previous mode."""
+ 
+-    def __init__(self, assignments, *, junction_lane_lengths=None):
++    def __init__(self, assignments, *, junction_lane_lengths=None, retire_field_waypoint=False):
++        if not isinstance(retire_field_waypoint, bool):
++            raise ValueError("Declare waypoint retirement as true or false.")
+         self.assignments = assignments
+         self.held = {}
+         self.finished = set()
+@@ -37,6 +39,8 @@ class LaneSectionHold:
+         self.junction_events = []
+         # shortcut: Replay vehicle lengths are fixed; refresh this cache if runtime type changes are added.
+         self.lengths = {}
++        self.retire_field_waypoint = retire_field_waypoint
++        self.waypoint_events = []
+ 
+     def _hold_mode(self, vehicle, identity):
+         if identity not in self.previous_modes:
+@@ -102,6 +106,15 @@ class LaneSectionHold:
+             self.events.append({"vehicle_id": identity, "event": "held", "time_s": now,
+                                 "lane": lane, "position_m": position, "previous_mode": previous,
+                                 "clear_distance_m": clear})
++            if self.retire_field_waypoint:
++                stops = vehicle.getStops(identity, 1)
++                if stops:
++                    stop = stops[0]
++                    if (stop.lane == lane and 0 <= stop.endPos < point and stop.speed > 0
++                            and not stop.stopFlags and not stop.stoppingPlaceID):
++                        vehicle.replaceStop(identity, 0, "", teleport=0)
++                        self.waypoint_events.append({"vehicle_id": identity, "time_s": now, "lane": lane,
++                            "waypoint_end_pos_m": stop.endPos, "waypoint_speed_m_s": stop.speed})
+ 
+     def report(self):
+         report = {"mechanism": "Native laneChangeMode=512 after reaching the assigned detector lane; restore the prior mode after rear clearance. No lane, position, speed, route or signal commands.",
+@@ -117,4 +130,9 @@ class LaneSectionHold:
+                 "events": self.junction_events, "still_held": self.junction_held,
+                 "pending_original_modes": self.previous_modes,
+                 "claim_boundary": "Declared exploratory driver assumption on all internal lanes, not measured natural behavior or a network repair."}
++        if self.retire_field_waypoint:
++            report["waypoint_retirement"] = {
++                "mechanism": "Remove the next positive-speed waypoint on the assigned lane after mode 512 holds that lane. Keep the route and rear-clear hold. No speed, position or signal command.",
++                "events": self.waypoint_events,
++                "claim_boundary": "An explicit driver alternative. Counts and safety require a new native measurement; natural behavior is unverified."}
+         return report
+diff --git a/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py b/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py
+index 7356c36..0aea5a5 100644
+--- a/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py
++++ b/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py
+@@ -56,6 +56,8 @@ def monitor_sumo(request):
+     driver = None
+     if request.get("junction_body_hold") and not request.get("lane_intentions_file"):
+         raise ValueError("Provide lane intentions for the junction-body hold.")
++    if request.get("retire_field_waypoint") and not request.get("lane_intentions_file"):
++        raise ValueError("Provide lane intentions for field-waypoint retirement.")
+     if request.get("lane_intentions_file"):
+         from .lane_section_hold import LaneSectionHold, read_lane_intentions
+         import xml.etree.ElementTree as ET
+@@ -71,7 +73,8 @@ def monitor_sumo(request):
+                 and (nodes is None or any(edge.get("id").startswith(":" + node + "_") for node in nodes))
+                 for lane in edge.findall("lane")}
+         driver = LaneSectionHold(read_lane_intentions(request["lane_intentions_file"], request["e1_file"], identities),
+-                                 junction_lane_lengths=internal_lengths)
++                                 junction_lane_lengths=internal_lengths,
++                                 retire_field_waypoint=request.get("retire_field_waypoint", False))
+         if interval is not None:
+             raise ValueError("Use every native simulation step for a lane-section hold.")
+     if interval is not None and (not math.isfinite(interval) or interval <= 0 or interval > limit):
+diff --git a/tests/test_lane_section_hold.py b/tests/test_lane_section_hold.py
+index f347ec4..b002a1d 100644
+--- a/tests/test_lane_section_hold.py
++++ b/tests/test_lane_section_hold.py
+@@ -120,3 +120,48 @@ def test_junction_hold_request_cannot_silently_run_without_a_driver():
+ 
+     with pytest.raises(ValueError, match="Provide lane intentions"):
+         monitor_sumo({"all_stopped_timeout_s": 300, "junction_body_hold": True})
++
++
++def test_waypoint_retirement_keeps_the_lane_hold_and_does_not_remove_real_stops():
++    from types import SimpleNamespace
++
++    class WaypointVehicle(Modes):
++        def __init__(self, stop):
++            super().__init__()
++            self.stop = stop
++            self.removed = []
++
++        def getStops(self, identity, limit):
++            assert limit == 1
++            return [self.stop]
++
++        def replaceStop(self, identity, index, edge, *, teleport):
++            self.removed.append((identity, index, edge, teleport))
++
++    def stop(**changes):
++        return SimpleNamespace(**({'lane': 'field_0', 'endPos': 22.4, 'speed': 13.89,
++            'stopFlags': 0, 'stoppingPlaceID': ''} | changes))
++
++    vehicle = WaypointVehicle(stop())
++    driver = LaneSectionHold({'v': ('field_0', 29.9)}, retire_field_waypoint=True)
++    driver.step(vehicle, body_sample('field_0', 2, 100), 0)
++    assert vehicle.removed == [('v', 0, '', 0)] and vehicle.mode == 512
++    driver.step(vehicle, body_sample('field_0', 23, 121), 1)
++    assert len(vehicle.removed) == 1
++    driver.step(vehicle, body_sample(':out_0', 4.91, 132.91), 2)
++    assert vehicle.mode == 1621 and driver.report()['released_vehicles'] == 1
++    assert len(driver.report()['waypoint_retirement']['events']) == 1
++    for changes in ({'speed': 0}, {'lane': 'another_0'}, {'stopFlags': 1}, {'stoppingPlaceID': 'bus'}, {'endPos': 30}):
++        other = WaypointVehicle(stop(**changes))
++        held = LaneSectionHold({'v': ('field_0', 29.9)}, retire_field_waypoint=True)
++        held.step(other, body_sample('field_0', 2, 100), 0)
++        assert not other.removed and other.mode == 512
++
++
++def test_waypoint_retirement_requires_an_explicit_driver():
++    from astra_sumo.core.simulation_stall import monitor_sumo
++
++    with pytest.raises(ValueError, match="Provide lane intentions"):
++        monitor_sumo({'all_stopped_timeout_s': 300, 'retire_field_waypoint': True})
++    with pytest.raises(ValueError, match="true or false"):
++        LaneSectionHold({}, retire_field_waypoint='true')
