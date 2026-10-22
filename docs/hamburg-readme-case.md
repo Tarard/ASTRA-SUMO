@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [completed spillback check](../benchmarks/hamburg_ring1_spillback_diagnosis_20261022_v1/README.md) uses the existing 236-road run without new simulation or model changes.
+It finds reported receiving queues reaching lane starts while upstream queues face declared static green at 119 Z15, Z4 and Z5, including before the first collision.
+Pre-collision examples have 60, 14 and 14 consecutive one-second samples and no complete native E1 contribution in the corresponding intervals.
+All 13 fields, 130 target rows and 40 derived station rows remain retained. These observations support model spillback; they do not establish excess unique demand, causal residual shares or real signal timing.
+
 The [18-source pruning review and road inventory](research/hamburg-pruning-literature-2026-10-22-v1.md) separates corridor selection, peripheral demand, and junction simplification.
 The [new five-junction corridor](../benchmarks/hamburg_ring1_munich_corridor_20261022_v1/README.md) reduces the previous 360 normal roads to 236.
 It retains the existing complete arms of LSA104, 118, 119, 200 and 535, all 13 detector fields, and all 130 main-window targets.

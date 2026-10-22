@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg receiving-queue spillback diagnosis from the completed corridor run, 2026-10-22](../../benchmarks/hamburg_ring1_spillback_diagnosis_20261022_v1/README.md)
 - [Hamburg corridor pruning: 18-source review and current road inventory, 2026-10-22](hamburg-pruning-literature-2026-10-22-v1.md)
 - [Ring1 data-led residual decomposition and localized driver correction, 2026-10-21](ring1-data-led-driver-scope-2026-10-21.md)
 - [Ring1 declared junction-body lane hold and collision-free initialization candidate, 2026-10-21](ring1-junction-body-hold-2026-10-21.md)

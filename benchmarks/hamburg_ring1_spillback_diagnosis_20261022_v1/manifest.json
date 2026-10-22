@@ -1,0 +1,74 @@
+{
+  "native_source_commit": "8fcbde9ef16d3636f6a7c7ec9d70865129d59eef",
+  "source_case_commit": "0bbee8429701a9262ec3e637d7779ec40d50eeca",
+  "new_simulations": 0,
+  "formal_result": false,
+  "analysis_file": "plugins/astra-sumo/src/astra_sumo/core/hamburg_spillback.py",
+  "analysis_sha256": "aa13e5391ca807147b256b92be3c55ff3a82fcc6817b72c9119206ac3d813c0e",
+  "files": [
+    {
+      "path": "analysis/all-130-bin-evidence.csv",
+      "sha256": "66c6205244585df7160d92ffc1026a43578064da550e556da4dc73f37f6849ff"
+    },
+    {
+      "path": "analysis/episodes.csv",
+      "sha256": "4b3a59421d83b7dc489be7b2fca41f990f0457f5cef60fff66505efc1d5a30f6"
+    },
+    {
+      "path": "analysis/field-summary.csv",
+      "sha256": "32c2766e64195bd562d5d96528a4d0d7923e38e97a5b3d16a6d7d5c0e4067660"
+    },
+    {
+      "path": "analysis/plot-selection.json",
+      "sha256": "58118751c87abd5d9ece1844e20de2e75c2fa64f4570012b4e7d0edf5cd90032"
+    },
+    {
+      "path": "analysis/queue-evidence.csv.gz",
+      "sha256": "28dcda2b789c18f5c072b1a5d49463f14e02e7574a1c85dca9cce5ea8952ca90"
+    },
+    {
+      "path": "analysis/receiving-lanes.csv",
+      "sha256": "823ef35927ae286a7e75ecce81f8c40db61131ea29a671c67d330ed62bd51623"
+    },
+    {
+      "path": "analysis/report.json",
+      "sha256": "206893272dc5425f3b6481d9ac6341d9fea0c5c123b5a055ead21794a3a5aa0e"
+    },
+    {
+      "path": "analysis/spillback-examples.png",
+      "sha256": "0e3bdb181f4fbb73fa3f68d66aa565001574fe7792c84db06b31c26bff15e9ce"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b71031d285ea7401f41e37a32f89fd6e1fb1f468235a3f54d6a3957833d55626"
+    },
+    {
+      "path": "reference-field-comparison.csv",
+      "sha256": "7e7d4b38ac457358f47fe38a2638bae7a7f486e7eaee7af6ded3b76c529159b1"
+    },
+    {
+      "path": "reference-station-comparison.csv",
+      "sha256": "40cdb16745e906f03a46e9d03549ac54c39fd50ac3d3f8a589267a6119d72c0b"
+    },
+    {
+      "path": "reproduction.log",
+      "sha256": "73fcfb4c989a67c82c08693dd963bf520b0b78de5788d5e13eada3ba2defc632"
+    },
+    {
+      "path": "run-analysis.py",
+      "sha256": "67cc9454898a518c4d22bcc3bf12b019a6bec0759f3361585b448aea3711ff6c"
+    },
+    {
+      "path": "source-field-comparison.csv",
+      "sha256": "acb7b705db63af14e925afc64a52a066207bdf28ff539922e88ff6ec1904a717"
+    },
+    {
+      "path": "source-queues.xml.gz",
+      "sha256": "0cc50a097861a31b42be4b8af49e2556cf7659d8f2b65dc390c813dcd807848b"
+    },
+    {
+      "path": "tests.log",
+      "sha256": "134aed562f3af6c2ffcffe0ef91ba062580dc31e1bdfd81cc6eb9ec7ef5a58bc"
+    }
+  ]
+}
