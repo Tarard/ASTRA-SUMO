@@ -1,0 +1,35 @@
+{
+  "formal_result": false,
+  "source_prefix": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-entry-prior-inputs-20261022-v2",
+  "change": "Only the tested 3:1 Z12 entry prior: 73 initialization and 221 main requests use the existing primary route prefix.",
+  "fixed": "All 8640 identities, request times, target fields, destinations and post-merge paths. Same network, lane permissions, control inputs and three-node driver.",
+  "end_s": 14400,
+  "window_s": [
+    3600,
+    12600
+  ],
+  "timeout_seconds": 3600,
+  "from_empty_initialization": true,
+  "restart_validated": false,
+  "observed_vehicles": [
+    "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+    "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+    "readme_f4_b4_p208_v5",
+    "readme_f5_b4_p56_v25"
+  ],
+  "known_prefix_tradeoff": "Z4 loses 3 passages, and maximum initialization-bin error rises 48 to 50. All other field effects are retained in initialization-prefix-check.json.",
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "991f0074be47e2ea39beaa5f66cada4ca968c84c24ac87c45bd59b6e077ae3c4",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "5d17c65680720ae696ffc6171c82f6259a4678f4052d763815cfd3456c9af87c",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "scenario.json": "f563677e330e526203c8b4098967830b2f04dd1eb5a27be0428886af56564b90",
+    "entry-prior.json": "c3235be39d2208a79a7e10919762e1688254bcd45ed6d3de53d313473fefb6f2"
+  },
+  "claim_boundary": "The initialization result does not establish main-window safety, insertion, count improvement or exact calibration. Preserve every real target and all residuals."
+}

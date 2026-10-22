@@ -85,3 +85,27 @@ def test_frozen_entry_prefix_retains_other_field_losses_and_every_future_target(
     stations = read_csv_rows(case / "analysis/all-40-main-stations.csv")
     assert len(fields) == 130 and all(r["measured_nVehContrib"] == "" for r in fields)
     assert len(stations) == 40 and all(r["measured_nVehContrib"] == "" for r in stations)
+
+
+def test_complete_entry_measurement_retains_native_counts_and_worse_station_peak():
+    from astra_sumo.core.detector_demand import read_csv_rows
+
+    case = ROOT / "benchmarks/hamburg_ring1_primary_entry_full_20261022_v1"
+    result = json.loads(read_trace_source(case, "results.json"))
+    assert not result["valid_run"] and not result["exact_count_fit"] and result["formal_field_metrics"] is None
+    assert result["field_rows"] == 130 and result["station_rows"] == 40
+    assert result["missing_field_rows"] == result["missing_station_rows"] == 0
+    assert result["exact_field_rows"] == 31 and result["exact_station_rows"] == 7
+    assert result["diagnostic_field_MAE"] == pytest.approx(1685 / 130) and result["diagnostic_max_abs_error"] == 59
+    assert result["diagnostic_station_max_abs_error"] == 150
+    assert result["completion"]["collisions"] == result["completion"]["teleports"] == 0
+    assert result["completion"]["waiting"] == 644 and result["completion"]["running"] == 306
+    native = ET.fromstring(read_trace_source(case / "native", "field-counts.xml"))
+    counts = {(row.get("id"), float(row.get("begin")), float(row.get("end"))): int(row.get("nVehContrib")) for row in native}
+    rows = read_csv_rows(case / "field-comparison.csv")
+    assert len(rows) == 130
+    assert all(counts[row["detector_id"], float(row["begin"]), float(row["end"])] == int(row["measured_nVehContrib"]) for row in rows)
+    prefix = json.loads(read_trace_source(case / "analysis", "prefix-reproduction-check.json"))
+    assert prefix["all_initialization_intervals_match"] and prefix["compared_intervals"] == 52
+    witnesses = json.loads(read_trace_source(case / "analysis", "original-participant-check.json"))
+    assert witnesses["all_six_rear_cleared"] and witnesses["all_six_arrived"]

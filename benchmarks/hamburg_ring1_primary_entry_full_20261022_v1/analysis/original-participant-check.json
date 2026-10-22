@@ -1,0 +1,110 @@
+{
+  "formal_result": false,
+  "vehicles": {
+    "initialization_hh_0119_Z_13_34018_b1_p175_v113": {
+      "node": "14398547",
+      "outlet": "186713428",
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+        "x": "1294.233291962221",
+        "y": "529.053228741944",
+        "angle": "128.060364734327",
+        "type": "readme_lane_intent",
+        "speed": "11.585870954046",
+        "pos": "5.809327803607",
+        "lane": "186713428_0",
+        "slope": "0.000000000000",
+        "time_s": 1948.7
+      },
+      "native_arrival_s": 2109.9
+    },
+    "initialization_hh_0119_Z_13_34018_b1_p175_v118": {
+      "node": "14398547",
+      "outlet": "186713428",
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+        "x": "1297.906676725801",
+        "y": "534.305440768381",
+        "angle": "128.060364734327",
+        "type": "readme_lane_intent",
+        "speed": "12.596542645846",
+        "pos": "5.463666779609",
+        "lane": "186713428_2",
+        "slope": "0.000000000000",
+        "time_s": 1992.2
+      },
+      "native_arrival_s": 2036.6
+    },
+    "initialization_hh_0119_Z_12_31546_b1_p98_v16": {
+      "node": "205069138",
+      "outlet": "189775480",
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+        "x": "1517.892607344972",
+        "y": "344.271960677979",
+        "angle": "136.302618884781",
+        "type": "readme_lane_intent",
+        "speed": "9.360000000000",
+        "pos": "5.091889000000",
+        "lane": "189775480_4",
+        "slope": "0.000000000000",
+        "time_s": 1555.5
+      },
+      "native_arrival_s": 1582.5
+    },
+    "initialization_hh_0535_Z_4_33055_b2_p281_v28": {
+      "node": "205069138",
+      "outlet": "189775480",
+      "first_rear_clear_sample": {
+        "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+        "x": "1513.407093908737",
+        "y": "339.702253036678",
+        "angle": "136.302618329517",
+        "type": "readme_lane_intent",
+        "speed": "8.777584000000",
+        "pos": "5.329071600000",
+        "lane": "189775480_2",
+        "slope": "0.000000000000",
+        "time_s": 2406.5
+      },
+      "native_arrival_s": 2512.9
+    },
+    "readme_f5_b4_p56_v25": {
+      "node": "18653534",
+      "outlet": "139083723#0",
+      "first_rear_clear_sample": {
+        "id": "readme_f5_b4_p56_v25",
+        "x": "284.816968792189",
+        "y": "627.588463912899",
+        "angle": "335.345874623578",
+        "type": "readme_lane_intent",
+        "speed": "6.121431754198",
+        "pos": "5.590811566930",
+        "lane": "139083723#0_2",
+        "slope": "0.000000000000",
+        "time_s": 10836.3
+      },
+      "native_arrival_s": 11320.6
+    },
+    "readme_f4_b4_p208_v5": {
+      "node": "18653534",
+      "outlet": "139083723#0",
+      "first_rear_clear_sample": {
+        "id": "readme_f4_b4_p208_v5",
+        "x": "281.974466470882",
+        "y": "626.109421534458",
+        "angle": "335.341848144122",
+        "type": "readme_lane_intent",
+        "speed": "8.364347377474",
+        "pos": "5.234524525265",
+        "lane": "139083723#0_3",
+        "slope": "0.000000000000",
+        "time_s": 11037.0
+      },
+      "native_arrival_s": 14357.2
+    }
+  },
+  "all_six_rear_cleared": true,
+  "all_six_arrived": true,
+  "claim_boundary": "Native participant clearance and arrivals under this complete entry-prior replay. No field driving or other-seed safety is established."
+}

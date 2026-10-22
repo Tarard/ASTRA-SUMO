@@ -1,10 +1,18 @@
 # Hamburg case shown in the README
 
+The [complete primary-entry measurement](../benchmarks/hamburg_ring1_primary_entry_full_20261022_v1/README.md) retains every request and count target while moving 294 Z12 requests to the existing primary-road prefix.
+It completes 14400 s with zero collisions and teleports. All six original collision participants rear-clear and arrive.
+Uninserted demand falls from 984 to 644, but the run remains invalid, with 306 vehicles still running.
+All 130/40 rows are available, with 31/7 exact. Diagnostic field MAE is 12.962 and maximum error is 59.
+Derived station MAE is 39.725, while maximum error rises to 150. All losses and residuals remain reported.
+The initialization hour reproduces all 52 prefix intervals exactly. This supports correspondence only, not exact calibration.
+The next check concerns terminal vehicle and signal states behind the remaining entry queues. No request-time, signal or vehicle-count correction is included.
+
 The [complete three-node driver run](../benchmarks/hamburg_ring1_three_node_body_full_20261022_v1/README.md) reaches 14400 s with zero collisions and teleports.
 All six original collision participants rear-clear their junctions and arrive. All 412 observed exit changes at the third site occur after rear clearance.
 It remains invalid: 984 vehicles never enter and 314 remain running. All 130/40 rows are available, with 32/6 exact.
 Diagnostic field MAE is 13.654 and maximum error is 61. Derived station MAE is 43.225 and maximum error is 130.
-The next problem is realistic entry allocation. No departure-time, signal or integer-demand correction is included in this run.
+That run includes no entry, departure-time, signal or integer-demand correction. The later entry measurement is reported above.
 The report also discloses the earlier trace wrapper-summary overwrite. Native commands and measurements remain retained, and saved-observation comparison is now read-only.
 
 The subsequent [primary-entry prefix](../benchmarks/hamburg_ring1_primary_entry_prefix_20261022_v1/README.md) moves 73 initialization and 221 future-main Z12 requests to an existing primary-road prefix.
