@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-from astra_sumo.core.hamburg_spillback import queue_episodes, read_queue_series, spillback_mask, static_green
+from astra_sumo.core.hamburg_spillback import plot_hamburg_spillback, queue_episodes, read_queue_series, spillback_mask, static_green
 
 
 def test_spillback_requires_green_upstream_queue_and_every_planned_receiver():
@@ -28,3 +28,9 @@ def test_static_green_uses_phase_boundaries_and_does_not_call_dark_green():
                             '<phase duration="3" state="GO"/></tlLogic>')
     assert static_green(program, [0], np.array([0., 1., 3.9, 4.])).tolist() == [False, True, True, False]
     assert not static_green(program, [1], np.arange(5.)).any()
+
+
+def test_no_spillback_episodes_need_no_example_plot(tmp_path):
+    (tmp_path/'report.json').write_text('{"fields": [], "first_collision_s": 14400}')
+    assert plot_hamburg_spillback(tmp_path) is None
+    assert not (tmp_path/'spillback-examples.png').exists()

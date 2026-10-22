@@ -37,6 +37,8 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg OD definition and standard SPSA method check, 2026-10-22](hamburg-spsa-od-method-2026-10-22-v1.md)
+
 Frozen benchmark inputs and adjudication artifacts live under [`benchmarks/`](../../benchmarks/). Research documents may describe a historical state, while benchmark manifests and hashes identify the exact evaluation artifacts used at that point.
 
 ## Interpretation Rule

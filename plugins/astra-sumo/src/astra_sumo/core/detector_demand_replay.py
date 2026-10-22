@@ -102,7 +102,7 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     routes = ET.parse(paths[1]).getroot()
     vehicles = routes.findall("vehicle")
     identities = {row.get("id") for row in vehicles}
-    if (routes.tag != "routes" or not vehicles or None in identities or "" in identities
+    if (routes.tag != "routes" or None in identities or "" in identities
             or len(identities) != len(vehicles) or any(row.tag in {"flow", "trip", "person", "personFlow"} for row in routes)):
         raise ValueError("Provide a frozen explicit-vehicle demand without other traffic generators.")
     expected = read_csv_rows(paths[3])

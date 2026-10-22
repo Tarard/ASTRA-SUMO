@@ -201,6 +201,8 @@ def plot_hamburg_spillback(output_dir):
     if (out / 'spillback-examples.png').exists():
         raise ValueError('Keep the existing figure and use a new analysis directory.')
     report = json.loads((out / 'report.json').read_bytes())
+    if not (out / 'episodes.csv').is_file():
+        return None
     episodes = read_csv_rows(out / 'episodes.csv')
     data = read_csv_rows(out / 'queue-evidence.csv')
     receivers = read_csv_rows(out / 'receiving-lanes.csv')

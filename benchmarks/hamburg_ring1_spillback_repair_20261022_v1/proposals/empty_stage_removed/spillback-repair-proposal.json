@@ -1,0 +1,19 @@
+{
+  "formal_result": false,
+  "native_verified": false,
+  "changed_controller": "266197525",
+  "removed_stages": [
+    {
+      "source_phase_index": 2,
+      "source_state": "rrGGGrrr",
+      "projected_state": "rrrrrr",
+      "duration_s": 27.0
+    }
+  ],
+  "other_programs_byte_identical": true,
+  "all_yellow_and_all_red_clearance_retained": true,
+  "network_demand_targets_and_driver_unchanged": true,
+  "source_control_sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+  "candidate_control_sha256": "2b03359f0972fbf721441d2f65467e15d26fe5ef2170abdf68c6e3a6b18a015d",
+  "claim_boundary": "Local correction of a newly empty service stage after pruning. Native spillback, all-field effects and safety require a new paired measurement. No source-supported field binding is inferred."
+}

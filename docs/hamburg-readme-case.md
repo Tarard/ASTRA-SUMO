@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [Antoniou literature and standard SPSA method check](research/hamburg-spsa-od-method-2026-10-22-v1.md) identifies the missing joint time-dependent OD estimation.
+The standard update has passed known-solution and native E1 checks. The user selected the inherited 21-OD, 14-departure-interval baseline.
+The baseline retains all 8640 initial requests and departure times while extending 2589 internal trip ends to a model exit. No Hamburg SPSA iteration result is claimed.
+The read-only OD audit identifies 2589 source requests ending on an internal road. All 130 targets remain unchanged.
+
 The [completed spillback check](../benchmarks/hamburg_ring1_spillback_diagnosis_20261022_v1/README.md) uses the existing 236-road run without new simulation or model changes.
 It finds reported receiving queues reaching lane starts while upstream queues face declared static green at 119 Z15, Z4 and Z5, including before the first collision.
 Pre-collision examples have 60, 14 and 14 consecutive one-second samples and no complete native E1 contribution in the corresponding intervals.
