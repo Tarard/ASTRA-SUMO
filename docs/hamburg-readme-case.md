@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [control-domain source check and revised independent review](../benchmarks/hamburg_ring1_control_domain_sources_20261022_v1/README.md) leaves four candidate signal bindings unresolved.
+Three candidates are nearer the separately registered LSA209. Proximity does not establish any binding.
+No signal is removed or rebound. The unrun free-flow offset prototype is archived and excluded from the active code.
+Native count feedback remains unfinished. Saved-state restart is not validated, and a queued replay does not prove infeasibility.
+
 The [119 green-service diagnosis and nominal-control comparison](../benchmarks/hamburg_ring1_119_control_diagnosis_20261022_v1/README.md) retains the same demand and all targets.
 Read-only snapshots show a green 119 K2 followed by a red downstream signal and stopped vehicles. All 1778 E1 events through 3780 s match the reference.
 The sampled lane head has no remaining waypoint. The unrun waypoint-retirement prototype was reverted after checking the speed-upper-bound semantics.

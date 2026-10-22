@@ -6,6 +6,95 @@ import math
 import numpy as np
 
 
+def propose_native_count_retiming(*, requests, passages, measurements, max_moves_per_field=8,
+                                 max_shift_s=900, margin_s=30, step_s=.1):
+    """Move a bounded number of observed surplus passages toward deficient bins.
+
+    This is a proposal from one replay. A new native run must measure its effect.
+    Missing passages are not assigned a time or a zero response.
+    """
+    if (not isinstance(max_moves_per_field, int) or isinstance(max_moves_per_field, bool)
+            or max_moves_per_field < 1 or not all(math.isfinite(v) and v > 0
+            for v in (max_shift_s, margin_s, step_s))):
+        raise ValueError("Use positive finite limits and an integer move limit.")
+    requested = {row["vehicle_id"]: row for row in requests}
+    if (not requested or len(requested) != len(requests)
+            or any(not identity or not row["detector_id"] for identity, row in requested.items())):
+        raise ValueError("Use distinct explicit vehicle requests.")
+    if any(not math.isfinite(row["requested_depart_s"]) or row["requested_depart_s"] < 0
+           for row in requests):
+        raise ValueError("Use finite nonnegative requested departures.")
+    bins = {}
+    for row in measurements:
+        field, begin, end = row["detector_id"], float(row["begin"]), float(row["end"])
+        wanted, measured = row["expected_total"], row["measured_nVehContrib"]
+        key = field, begin, end
+        if (key in bins or not math.isfinite(begin) or not math.isfinite(end)
+                or not 0 <= begin < end or 2 * margin_s >= end - begin
+                or any(value is None or value == "" or not math.isfinite(float(value))
+                       or float(value) < 0 or int(float(value)) != float(value)
+                       for value in (wanted, measured))):
+            raise ValueError("Retain unique complete native E1 intervals and integer targets.")
+        bins[key] = int(float(wanted)) - int(float(measured))
+    if not bins:
+        raise ValueError("Retain every measured target interval.")
+    begin_window, end_window = min(key[1] for key in bins), max(key[2] for key in bins)
+    observed, events, seen = Counter(), [], set()
+    for row in passages:
+        identity, field = row["vehicle_id"], row["detector_id"]
+        time = float(row["notification_time_s"])
+        key = field, float(row["interval_begin_s"]), float(row["interval_end_s"])
+        if (identity not in requested or (identity, field) in seen or not math.isfinite(time)
+                or time < requested[identity]["requested_depart_s"] or not key[1] <= time < key[2]
+                or field != requested[identity]["detector_id"]):
+            raise ValueError("Match distinct native notifications to their declared vehicle and field.")
+        seen.add((identity, field))
+        if key in bins:
+            observed[key] += 1
+        elif begin_window <= time < end_window:
+            raise ValueError("A passage inside the fitting window has no target interval.")
+        events.append((identity, field, time, key))
+    if any(observed[key] != int(float(row["measured_nVehContrib"]))
+           for row in measurements
+           for key in [(row["detector_id"], float(row["begin"]), float(row["end"]))]):
+        raise ValueError("Reconcile all native identities with nVehContrib before proposing changes.")
+    proposals, moved = [], set()
+    # Keep the initialization requests fixed. Unobserved vehicles remain unchanged.
+    for field in sorted({key[0] for key in bins}):
+        for _ in range(max_moves_per_field):
+            candidates = []
+            for identity, event_field, time, source_key in events:
+                depart = requested[identity]["requested_depart_s"]
+                if (event_field != field or identity in moved or depart < begin_window
+                        or time < begin_window or (source_key in bins and bins[source_key] >= 0)):
+                    continue
+                for key, deficit in bins.items():
+                    if key[0] != field or deficit <= 0:
+                        continue
+                    wanted = min(max(time, key[1] + margin_s), key[2] - margin_s)
+                    shift = round((wanted - time) / step_s) * step_s
+                    proposed = round(depart + shift, 9)
+                    if (not shift or abs(shift) > max_shift_s + 1e-8 or proposed < begin_window
+                            or not key[1] <= time + shift < key[2]):
+                        continue
+                    candidates.append((abs(shift), key[1], identity, proposed, shift, source_key, key))
+            if not candidates:
+                break
+            _, _, identity, proposed, shift, source_key, target_key = min(candidates)
+            moved.add(identity)
+            bins[target_key] -= 1
+            if source_key in bins:
+                bins[source_key] += 1
+            proposals.append({"vehicle_id": identity, "detector_id": field,
+                              "source_depart_s": requested[identity]["requested_depart_s"],
+                              "proposed_depart_s": proposed, "shift_s": shift,
+                              "source_interval": list(source_key), "target_interval": list(target_key)})
+    return {"proposals": proposals, "changed_vehicles": len(proposals),
+            "max_moves_per_field": max_moves_per_field, "max_shift_s": max_shift_s,
+            "formal_result": False, "new_simulations": 0,
+            "claim_boundary": "Bounded proposal from measured surplus and later native passages. Old notification lags do not predict changed queues. Missing passages stay unknown. Measure every target again and reject non-improving or unsafe candidates."}
+
+
 def native_departure_windows(*, requests, passages, max_shift_s=900, guard_s=90, step_s=.1):
     """Intersect target windows under frozen native passage lags.
 

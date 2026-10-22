@@ -1,0 +1,139 @@
+"""Prepare a route-weighted, fixed-cycle offset alternative for the Hamburg case."""
+
+from collections import Counter
+import gzip
+import hashlib
+import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
+
+import numpy as np
+
+from .artifact_io import write_json_atomic
+from .candidate_contracts import file_sha256
+from .connection_mode_audit import audit_network_connection_mode
+from .hamburg_collision_trace import read_trace_source
+
+
+def coordinate_offsets(pairs, offsets, fixed, *, cycle_s=90, max_sweeps=10):
+    """Reduce a finite pairwise planning cost; no global optimum is claimed."""
+    if not fixed <= offsets.keys() or any(not isinstance(v, int) or not 0 <= v < cycle_s for v in offsets.values()):
+        raise ValueError("Use existing fixed signals and integer offsets inside the cycle.")
+    if any(p['upstream'] not in offsets or p['downstream'] not in offsets
+           or len(p['cost']) != cycle_s or any(not isinstance(v, int) or v < 0 for v in p['cost']) for p in pairs):
+        raise ValueError("Use nonnegative integer planning costs for every relative offset.")
+    result = dict(offsets)
+
+    def objective():
+        return sum(p['cost'][(result[p['downstream']] - result[p['upstream']]) % cycle_s] for p in pairs)
+
+    trace = [objective()]
+    candidates = np.arange(cycle_s)
+    for _ in range(max_sweeps):
+        changed = False
+        for signal in sorted(result.keys() - fixed):
+            scores = np.zeros(cycle_s, dtype=np.int64)
+            for p in pairs:
+                costs = np.asarray(p['cost'], dtype=np.int64)
+                if p['upstream'] == signal and p['downstream'] != signal:
+                    scores += costs[(result[p['downstream']] - candidates) % cycle_s]
+                elif p['downstream'] == signal and p['upstream'] != signal:
+                    scores += costs[(candidates - result[p['upstream']]) % cycle_s]
+            best = int(scores.argmin())
+            if scores[best] < scores[result[signal]]:
+                result[signal] = best
+                changed = True
+        trace.append(objective())
+        assert trace[-1] <= trace[-2]
+        if not changed:
+            break
+    return result, trace
+
+
+def _allowed(logic, link_index, times):
+    phases = logic.findall('phase')
+    ends = np.cumsum([float(p.get('duration')) for p in phases])
+    states = np.asarray([p.get('state')[link_index] in 'GgOo' for p in phases])
+    return states[np.searchsorted(ends, np.asarray(times) % ends[-1], side='right')]
+
+
+def prepare_coordinated_offsets(*, repository, prepared_dir, output_dir):
+    root, source, out = [Path(p).resolve() for p in (repository, prepared_dir, output_dir)]
+    if out.exists() or source.is_relative_to(out) or out.is_relative_to(source):
+        raise ValueError("Use a new offset directory separate from its source.")
+    names = ('network.net.xml', 'demand.rou.xml', 'field-loops.add.xml', 'control.add.xml',
+             'lane-intentions.json', 'initialization-counts.csv', 'expected-counts.csv', 'scenario.json')
+    raw = {name: read_trace_source(source, name) for name in names}
+    network, control, demand = [ET.fromstring(raw[name]) for name in ('network.net.xml', 'control.add.xml', 'demand.rou.xml')]
+    programs = {p.get('id'): p for p in control}
+    if any(p.get('type') != 'static' or sum(float(q.get('duration')) for q in p.findall('phase')) != 90 for p in control):
+        raise ValueError("Use the declared static 90 second programs for offset coordination.")
+    fixed = {key for key in programs if key.startswith('LSA') or key == '6390683126'}
+    if len(fixed) != 10 or len(programs) != 68:
+        raise ValueError("Retain all ten official/Z15 anchors and 58 OSM signals.")
+    fixed_xml = {key: ET.tostring(programs[key]) for key in fixed}
+    profile_file = root / 'benchmarks/hamburg_ring1_m1_2_demand_pool_20261021_v1/base/ideal-lane-profiles.json.gz'
+    profiles = json.loads(gzip.decompress(profile_file.read_bytes()))['profiles']
+    intentions = json.loads(raw['lane-intentions.json'])['vehicles']
+    planned = {v.get('id'): v for v in demand.findall('vehicle')}
+    if len(planned) != 8640 or set(planned) != {r['vehicle_id'] for r in intentions}:
+        raise ValueError("Retain every explicit reference vehicle and field intention.")
+    counts = Counter(r['profile_index'] for r in intentions)
+    if any(planned[r['vehicle_id']].find('route').get('edges').split() != profiles[r['profile_index']]['edges'] for r in intentions):
+        raise ValueError("Use the recorded reference route for each planning profile.")
+    audit = audit_network_connection_mode(network, endpoint_tolerance_m=.1)
+    paths = {(m['from'], int(m['fromLane']), m['to'], int(m['toLane'])): m['internal_path']['internal_lane_chain']
+             for j in audit['junctions'] for m in j['connection_mode_audit']['movement_checks'] if m['internal_path']['status'] == 'pass'}
+    lanes = {lane.get('id'): lane for edge in network.findall('edge') for lane in edge.findall('lane')}
+    links = {(c.get('from'), int(c.get('fromLane')), c.get('to'), int(c.get('toLane'))): c for c in network.findall('connection')}
+    pair_weights = Counter()
+    for index, count in counts.items():
+        profile, elapsed, events = profiles[index], 0., []
+        for i, (first, second) in enumerate(zip(profile['edges'], profile['edges'][1:])):
+            lane = lanes[f"{first}_{profile['exit_lanes'][i]}"]
+            elapsed += float(lane.get('length')) / float(lane.get('speed'))
+            key = first, profile['exit_lanes'][i], second, profile['entry_lanes'][i + 1]
+            if key not in paths:
+                raise ValueError(f"Retain a verified internal chain for the planned movement: {key}")
+            link = links[key]
+            if link.get('tl'):
+                signal, ordinal = link.get('tl'), int(link.get('linkIndex'))
+                allowed = _allowed(programs[signal], ordinal, np.arange(90) + .5)
+                if not allowed.any():
+                    raise ValueError(f"A planned lane movement has no permissive phase: {key}")
+                if not allowed.all():
+                    events.append((signal, ordinal, elapsed))
+            elapsed += sum(float(lanes[l].get('length')) / float(lanes[l].get('speed')) for l in paths[key])
+        for a, b in zip(events, events[1:]):
+            if a[0] != b[0]:
+                pair_weights[a[0], a[1], b[0], b[1], round((b[2] - a[2]) / .8, 3)] += count
+    pairs = []
+    samples = np.arange(90) + .5
+    for (upstream, up_link, downstream, down_link, travel), weight in sorted(pair_weights.items()):
+        upstream_green = _allowed(programs[upstream], up_link, samples)
+        costs = [int(weight * np.count_nonzero(upstream_green & ~_allowed(programs[downstream], down_link, samples + travel - delta))) for delta in range(90)]
+        pairs.append({'upstream': upstream, 'upstream_link': up_link, 'downstream': downstream,
+            'downstream_link': down_link, 'travel_time_s': travel, 'weight_model_vehicles': weight, 'cost': costs})
+    original = {key: int(float(p.get('offset', '0'))) % 90 for key, p in programs.items()}
+    offsets, trace = coordinate_offsets(pairs, original, fixed)
+    for key, offset in offsets.items():
+        if key not in fixed:
+            programs[key].set('offset', str(offset))
+    assert all(ET.tostring(programs[key]) == value for key, value in fixed_xml.items())
+    out.mkdir(parents=True)
+    for name, content in raw.items():
+        (out / name).write_bytes(content)
+    ET.ElementTree(control).write(out / 'control.add.xml', encoding='utf-8', xml_declaration=True)
+    scenario = json.loads(raw['scenario.json'])
+    scenario.update(control_variant='A_nominal_OSM_coordinated', control_sha256=file_sha256(out / 'control.add.xml'),
+        control_assumptions='A_nominal_OSM_coordinated: static 90 s OSM sequences with route-weighted offset coordination. All official and Z15 programs retain their source offsets. States, durations and XML phase order remain. No field SPaT truth or native count fit is established.')
+    write_json_atomic(out / 'scenario.json', scenario)
+    report = {'formal_result': False, 'native_verified': False, 'original_offsets_s': original, 'candidate_offsets_s': offsets,
+        'fixed_programs': sorted(fixed), 'planning_objective_trace': trace, 'pairs': pairs, 'source_profile_sha256': file_sha256(profile_file),
+        'source_input_sha256': {name: hashlib.sha256(value).hexdigest() for name, value in raw.items()},
+        'input_sha256': {name: file_sha256(out / name) for name in names},
+        'planning_assumptions': 'One-second offset/sample grid, 0.5 s sample centers, 0.8 of free-flow lane speeds, current ordinary and internal lane lengths, 1 ms travel rounding, declared lane profiles and model vehicle weights. Ten deterministic coordinate sweeps at most; keep the current offset on ties.',
+        'objective_unit': 'Model vehicles times missed permissive arrival samples; not vehicle counts or a physical capacity bound.',
+        'claim_boundary': 'Planning proxy only. No global optimum, queued travel prediction, natural lane choice, field timing or count calibration is established. All real targets and traffic inputs remain unchanged.'}
+    write_json_atomic(out / 'offset-coordination.json', report)
+    return report

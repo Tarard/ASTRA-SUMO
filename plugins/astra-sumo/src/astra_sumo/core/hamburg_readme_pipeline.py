@@ -325,3 +325,76 @@ def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary, hold_o
         junction_body_hold=hold_junction_body,
         junction_body_hold_nodes=tuple(body_nodes) if body_nodes is not None else None,
     )
+
+
+def calibrate_hamburg_native_counts(*, repository, reference_case, output_dir, sumo_binary):
+    """Measure at most two count corrections without restarting saved states."""
+    from .hamburg_departure_probe import prepare_hamburg_count_retiming
+    from .hamburg_readme_results import summarize_hamburg_readme
+
+    root, reference = [Path(path).resolve(strict=True) for path in (repository, reference_case)]
+    out = Path(output_dir).resolve()
+    if out.exists() or any(path.is_relative_to(out) for path in (root, reference)):
+        raise ValueError("Use a new feedback directory separate from its source.")
+    baseline_rows = read_csv_rows(reference / "field-comparison.csv")
+    if len(baseline_rows) != 130 or any(row["measured_nVehContrib"] in (None, "", "None") for row in baseline_rows):
+        raise ValueError("Retain all 130 measured reference field intervals.")
+    run_path = reference / "native/run.json"
+    baseline = json.loads(run_path.read_bytes() if run_path.is_file()
+                          else gzip.decompress(run_path.with_name("run.json.gz").read_bytes()))
+    current_error = sum(abs(int(row["measured_nVehContrib"]) - int(row["expected_total"])) for row in baseline_rows)
+    current_completion = baseline["completion"]
+    prepared, measured = reference / "inputs", reference
+    out.mkdir(parents=True)
+    history, selected, scale = [], str(reference), 1
+    for attempt in range(1, 3):
+        trial = out / f"trial-{attempt}"
+        proposal = prepare_hamburg_count_retiming(
+            prepared_dir=prepared, measurement_dir=measured, output_dir=trial / "inputs", scale=scale)
+        if not proposal["changed_vehicles"]:
+            history.append({"trial": attempt, "decision": "no_observed_donor_within_limits", "new_simulation": False})
+            break
+        print(json.dumps({"trial": attempt, "stage": "native_start", "changed_vehicles": proposal["changed_vehicles"],
+                          "scale": scale, "end_s": 14400}), flush=True)
+        native = run_point_detector_demand(
+            net_file=trial / "inputs/network.net.xml", route_file=trial / "inputs/demand.rou.xml",
+            e1_additional_file=trial / "inputs/field-loops.add.xml", expected_counts_csv=trial / "inputs/expected-counts.csv",
+            output_dir=trial / "native", end_s=14400, sumo_binary=str(sumo_binary), timeout_seconds=4800,
+            signal_program_file=trial / "inputs/control.add.xml", lane_intentions_file=trial / "inputs/lane-intentions.json",
+            junction_body_hold=True, junction_body_hold_nodes=("14398547", "205069138", "18653534"))
+        stats = summarize_hamburg_readme(repository=root, prepared_dir=trial / "inputs", native_dir=trial / "native",
+            figure_dir=root / "outputs/ring1-readme-end-to-end-figures-20261021-v1", output_dir=trial / "report")
+        rows = read_csv_rows(trial / "native/field-comparison.csv")
+        complete = len(rows) == 130 and all(row["measured_nVehContrib"] not in (None, "", "None") for row in rows)
+        error = sum(abs(int(row["measured_nVehContrib"]) - int(row["expected_total"])) for row in rows) if complete else None
+        completion = native.get("completion", {})
+        reconciliation = json.loads((trial / "report/passage-reconciliation.json").read_bytes())
+        safe = (native.get("native_status") == "pass" and (native.get("stall_monitor") or {}).get("status") == "completed"
+                and complete and reconciliation.get("reconciled")
+                and not any(completion.get(key, 1) for key in ("collisions", "teleports", "discarded")))
+        no_more_backlog = safe and completion["waiting"] <= current_completion["waiting"] and (
+            completion["waiting"] + completion["running"] <= current_completion["waiting"] + current_completion["running"])
+        retain = bool(no_more_backlog and error < current_error)
+        row = {"trial": attempt, "scale": scale, "changed_vehicles": proposal["changed_vehicles"],
+               "total_absolute_error": error, "diagnostic_MAE": stats["diagnostic_field_MAE"],
+               "diagnostic_max_absolute_error": stats["diagnostic_max_abs_error"], "completion": completion,
+               "safe_complete_measurement": bool(safe), "retained_for_next_proposal": retain,
+               "formal_result": bool(native.get("exact_count_fit")), "new_simulation": True}
+        history.append(row)
+        print(json.dumps({"stage": "native_done", **row}), flush=True)
+        if retain:
+            prepared, measured = trial / "inputs", trial / "report"
+            current_error, current_completion, selected = error, completion, str(trial)
+            scale = 1
+        else:
+            scale = .5
+        write_json_atomic(out / "history.json", {"trials": history, "selected": selected, "maximum_native_trials": 2})
+        if not safe or native.get("exact_count_fit"):
+            break
+    assert len(history) <= 2
+    result = {"schema": "astra.hamburg-bounded-native-count-feedback/v1", "history": history,
+              "selected_case": selected, "maximum_native_trials": 2,
+              "formal_result": any(row.get("formal_result") for row in history),
+              "claim_boundary": "All 130 fields are measured again in each uninterrupted native run. Station counts are derived sums. A retained diagnostic candidate is not a valid calibration while backlog or residuals remain. The attempt limit does not prove infeasibility."}
+    write_json_atomic(out / "feedback-result.json", result)
+    return result

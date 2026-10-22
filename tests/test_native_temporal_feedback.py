@@ -3,7 +3,11 @@ import pytest
 from pathlib import Path
 
 from astra_sumo.core.hamburg_readme_results import write_hamburg_temporal_feedback
-from astra_sumo.core.native_temporal_feedback import native_departure_windows, native_temporal_feedback
+from astra_sumo.core.native_temporal_feedback import (
+    native_departure_windows,
+    native_temporal_feedback,
+    propose_native_count_retiming,
+)
 
 
 def fixture():
@@ -17,6 +21,80 @@ def fixture():
                      {"vehicle_id": "v1", "detector_id": "f", "notification_time_s": 1900,
                       "interval_begin_s": 1800, "interval_end_s": 2700}],
     }
+
+
+def retiming_fixture():
+    return {
+        "requests": [{"vehicle_id": identity, "detector_id": "f", "requested_depart_s": depart}
+                     for identity, depart in (("warmup", 100), ("surplus", 1200), ("late", 2200), ("unknown", 1000))],
+        "measurements": [
+            {"detector_id": "f", "begin": 900, "end": 1800, "expected_total": 1, "measured_nVehContrib": 2},
+            {"detector_id": "f", "begin": 1800, "end": 2700, "expected_total": 2, "measured_nVehContrib": 0}],
+        "passages": [
+            {"vehicle_id": "warmup", "detector_id": "f", "notification_time_s": 950,
+             "interval_begin_s": 900, "interval_end_s": 1800},
+            {"vehicle_id": "surplus", "detector_id": "f", "notification_time_s": 1750,
+             "interval_begin_s": 900, "interval_end_s": 1800},
+            {"vehicle_id": "late", "detector_id": "f", "notification_time_s": 2750,
+             "interval_begin_s": 2700, "interval_end_s": 3600}],
+    }
+
+
+def test_native_residual_moves_keep_warmup_and_unobserved_requests_fixed():
+    result = propose_native_count_retiming(**retiming_fixture())
+    changes = {row["vehicle_id"]: row for row in result["proposals"]}
+    assert set(changes) == {"surplus", "late"}
+    assert changes["surplus"]["shift_s"] == 80
+    assert changes["late"]["shift_s"] == -80
+    limited = propose_native_count_retiming(**retiming_fixture(), max_moves_per_field=1)
+    assert limited["changed_vehicles"] == 1
+
+
+def test_native_residual_feedback_rejects_missing_and_unreconciled_counts():
+    from copy import deepcopy
+
+    source = retiming_fixture()
+    for value in (None, "", "nan", -1, 1.5):
+        data = deepcopy(source)
+        data["measurements"][0]["measured_nVehContrib"] = value
+        with pytest.raises(ValueError):
+            propose_native_count_retiming(**data)
+    source["passages"].pop()
+    source["measurements"][0]["measured_nVehContrib"] = 3
+    with pytest.raises(ValueError, match="Reconcile"):
+        propose_native_count_retiming(**source)
+
+
+def test_frozen_hamburg_feedback_changes_only_bounded_main_departures(tmp_path):
+    import gzip
+    import json
+    import xml.etree.ElementTree as ET
+    from astra_sumo.core.hamburg_departure_probe import prepare_hamburg_count_retiming
+
+    source = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_primary_entry_full_20261022_v1"
+    out = tmp_path / "proposal"
+    result = prepare_hamburg_count_retiming(prepared_dir=source / "inputs", measurement_dir=source, output_dir=out)
+    assert 0 < result["changed_vehicles"] <= 13 * 8
+    before = ET.fromstring(gzip.decompress((source / "inputs/demand.rou.xml.gz").read_bytes()))
+    after = ET.parse(out / "demand.rou.xml").getroot()
+    original = {row.get("id"): row for row in before.findall("vehicle")}
+    actual = {row.get("id"): row for row in after.findall("vehicle")}
+    assert set(original) == set(actual) and len(actual) == 8640
+    changes = {row["vehicle_id"]: row for row in result["proposals"]}
+    intentions = json.loads((out / "lane-intentions.json").read_bytes())
+    assert len(intentions["vehicles"]) == 8640
+    for identity, row in actual.items():
+        old = original[identity]
+        if identity in changes:
+            assert float(old.get("depart")) >= 3600 and float(row.get("depart")) >= 3600
+            assert abs(float(old.get("depart")) - float(row.get("depart"))) <= 900 + 1e-8
+        else:
+            assert float(row.get("depart")) == float(old.get("depart"))
+        row.set("depart", old.get("depart"))
+        assert ET.tostring(row) == ET.tostring(old)
+    for name in ("network.net.xml", "control.add.xml", "expected-counts.csv", "initialization-counts.csv"):
+        assert (out / name).read_bytes() == (source / "inputs" / name).read_bytes()
+    assert result["input_bytes_unchanged"]
 
 
 def test_requested_denominator_retains_queue_censoring_and_cross_bin_passages():

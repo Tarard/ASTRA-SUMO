@@ -1,7 +1,9 @@
 """Test one measured departure-time perturbation before another full calibration run."""
 
 from copy import deepcopy
+import csv
 import gzip
+import io
 import json
 import math
 from pathlib import Path
@@ -17,6 +19,76 @@ from .route_sensor_matrix import read_contributing_e1_passages
 
 ENTRY = "44532531"
 ADVANCE_S = 900
+
+
+def prepare_hamburg_count_retiming(*, prepared_dir, measurement_dir, output_dir, scale=1):
+    """Prepare bounded timing feedback from reconciled native E1 measurements."""
+    from .native_temporal_feedback import propose_native_count_retiming
+
+    source, measured = [Path(path).resolve(strict=True) for path in (prepared_dir, measurement_dir)]
+    out = Path(output_dir).resolve()
+    if out.exists() or any(path.is_relative_to(out) for path in (source, measured)) or scale not in (1, .5):
+        raise ValueError("Use separate new outputs and a full or half correction.")
+    inputs = {}
+
+    def read(folder, name):
+        path = folder / name
+        if not path.is_file():
+            path = path.with_name(path.name + ".gz")
+        inputs[str(path)] = file_sha256(path)
+        raw = path.read_bytes()
+        return gzip.decompress(raw) if path.suffix == ".gz" else raw
+
+    names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "expected-counts.csv",
+             "initialization-counts.csv", "control.add.xml", "lane-intentions.json", "scenario.json")
+    raw = {name: read(source, name) for name in names}
+    reconciliation = json.loads(read(measured, "passage-reconciliation.json"))
+    if reconciliation["status"] != "measured" or not reconciliation["reconciled"]:
+        raise ValueError("Reconcile native E1 identities before proposing a correction.")
+    routes, intentions = ET.fromstring(raw["demand.rou.xml"]), json.loads(raw["lane-intentions.json"])
+    vehicles = {vehicle.get("id"): vehicle for vehicle in routes.findall("vehicle")}
+    intent = {row["vehicle_id"]: row for row in intentions["vehicles"]}
+    if (len(vehicles) != len(routes.findall("vehicle")) or len(intent) != len(intentions["vehicles"])
+            or set(vehicles) != set(intent)):
+        raise ValueError("Match every distinct vehicle to one declared lane intention.")
+    requests = [{"vehicle_id": identity, "detector_id": intent[identity]["field_id"],
+                 "requested_depart_s": float(vehicle.get("depart"))} for identity, vehicle in vehicles.items()]
+    measurements = list(csv.DictReader(io.StringIO(read(measured, "field-comparison.csv").decode("utf-8"))))
+    targets = list(csv.DictReader(io.StringIO(raw["expected-counts.csv"].decode("utf-8"))))
+    def key(row):
+        return row["detector_id"], float(row["begin"]), float(row["end"])
+    if (len(measurements) != 130 or len(targets) != 130 or len({row["detector_id"] for row in targets}) != 13
+            or {key(row): int(row["expected_total"]) for row in measurements}
+            != {key(row): int(row["expected_total"]) for row in targets}):
+        raise ValueError("Retain all 130 Hamburg field targets with their original identities and values.")
+    passages = reconciliation["passages"]
+    proposal = propose_native_count_retiming(requests=requests, passages=passages, measurements=measurements)
+    for change in proposal["proposals"]:
+        identity = change["vehicle_id"]
+        shift = round(change["shift_s"] * scale / .1) * .1
+        depart = round(change["source_depart_s"] + shift, 9)
+        vehicles[identity].set("depart", f"{depart:.9f}")
+        intent[identity]["depart_s"] = depart
+        change.update(applied_shift_s=shift, applied_depart_s=depart)
+    for vehicle in vehicles.values():
+        routes.remove(vehicle)
+    routes.extend(sorted(vehicles.values(), key=lambda vehicle: (float(vehicle.get("depart")), vehicle.get("id"))))
+    out.mkdir(parents=True)
+    for name, content in raw.items():
+        (out / name).write_bytes(content)
+    ET.ElementTree(routes).write(out / "demand.rou.xml", encoding="utf-8", xml_declaration=True)
+    write_json_atomic(out / "lane-intentions.json", intentions)
+    scenario = json.loads(raw["scenario.json"])
+    scenario.update(time_prior="Bounded corrections from surplus native E1 bins and later observed passages. Initialization requests, routes and target rows stay fixed. New native measurement required.",
+                    demand_sha256=file_sha256(out / "demand.rou.xml"), native_feedback_scale=scale)
+    write_json_atomic(out / "scenario.json", scenario)
+    proposal.update(scale=scale, inputs=inputs, input_bytes_unchanged=all(
+        file_sha256(Path(path)) == digest for path, digest in inputs.items()),
+        unchanged_network_sha256=file_sha256(out / "network.net.xml"),
+        unchanged_control_sha256=file_sha256(out / "control.add.xml"),
+        unchanged_targets_sha256=file_sha256(out / "expected-counts.csv"))
+    write_json_atomic(out / "native-count-feedback-proposal.json", proposal)
+    return proposal
 
 
 def single_pass_structure(network, routes, loops):
