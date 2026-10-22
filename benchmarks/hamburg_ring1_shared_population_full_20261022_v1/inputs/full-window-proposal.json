@@ -1,0 +1,65 @@
+{
+  "formal_result": false,
+  "end_s": 14400,
+  "window_s": [
+    3600,
+    12600
+  ],
+  "model_vehicles": 8185,
+  "shared_pairs": 455,
+  "target_field_contributions": {
+    "initialization": 1953,
+    "main": 6687
+  },
+  "timeout_seconds": 3600,
+  "from_empty_initialization": true,
+  "restart_validated": false,
+  "change": "Only the tested distinct-field shared demand. Keep all real observation rows and every retained vehicle request time, road prefix through the second observed road and first-field waypoint. Shared trips adopt their second target destination.",
+  "fixed": "Network, legal permissions and turnarounds, control inputs, vehicle type, native E1 locations, three-node body hold and absolute count window.",
+  "known_prefix_tradeoff": "119 Z4 loses four contributions and 535 Z6 loses one; exact initialization rows fall 34 to 32. All losses retained in initialization-prefix-check.json.",
+  "observed_vehicles": [
+    "initialization_hh_0119_Z_12_31546_b0_p174_v1",
+    "initialization_hh_0119_Z_12_31546_b1_p174_v3",
+    "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+    "initialization_hh_0119_Z_12_31546_b2_p174_v4",
+    "initialization_hh_0119_Z_12_31546_b3_p174_v3",
+    "initialization_hh_0119_Z_13_34018_b0_p175_v2",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v1",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+    "initialization_hh_0119_Z_13_34018_b2_p175_v1",
+    "initialization_hh_0119_Z_13_34018_b3_p175_v3",
+    "readme_f1_b0_p174_v11",
+    "readme_f1_b1_p174_v1",
+    "readme_f1_b2_p174_v3",
+    "readme_f1_b3_p174_v23",
+    "readme_f1_b4_p174_v7",
+    "readme_f1_b5_p98_v1",
+    "readme_f1_b6_p174_v10",
+    "readme_f2_b0_p175_v19",
+    "readme_f2_b1_p175_v1",
+    "readme_f2_b2_p175_v2",
+    "readme_f2_b3_p175_v35",
+    "readme_f2_b4_p175_v2",
+    "readme_f2_b5_p175_v17",
+    "readme_f2_b6_p175_v20",
+    "readme_f4_b4_p208_v5",
+    "readme_f5_b4_p56_v25"
+  ],
+  "historical_removed_model_ids_target_mapping": {
+    "initialization_hh_0535_Z_4_33055_b2_p281_v28": "initialization_hh_0119_Z_13_34018_b2_p175_v28"
+  },
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "fdd75b4e198e489947a038e3b9451ddfd896b2ae37ecde365dcf1b4ec06a98ed",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "b2570bbe77cd0a738cc004fe2ffd0beac06d571e83ff332371baffdafc598282",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "scenario.json": "d7011bccef74eda9826467e71d722364baab4bd594a1a44d443ee60672854d5f",
+    "shared-population.json": "8d30d3b0131dabba3bc0e094464315d34967725d9e74570894731ea5edc6e9b7",
+    "target-ledger.csv": "dfa99a0e6f6d513933abe16f8c2106b132426b5fc727d26f9ac30d28a870efd1"
+  },
+  "claim_boundary": "Exact target-ledger conservation and the initialization prefix are insufficient for main-window calibration. Synthetic source IDs removed by pairing keep their observation targets; they are not real identified vehicles. All new native counts, safety and insertion must be measured."
+}

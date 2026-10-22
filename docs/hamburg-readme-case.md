@@ -1,5 +1,12 @@
 # Hamburg case shown in the README
 
+The [complete shared-population alternative](../benchmarks/hamburg_ring1_shared_population_full_20261022_v1/README.md) is not promoted.
+It retains all 130/40 rows and has zero collisions and teleports, but 882 model vehicles never enter, compared with 644 in the primary-entry reference.
+Diagnostic field MAE rises from 12.962 to 14.331 and maximum error rises from 59 to 71. All losses remain reported.
+All 455 shared vehicles realize their two distinct fields. Target-ledger and route-signature correspondence do not establish useful demand timing or correct OD.
+Its frozen-time check finds 333 declared pairs without a common uniform shift into both target windows with a 90 s margin. This is not physical infeasibility.
+The primary-entry measurement below remains the reference, and remains uncalibrated. Further correction must use native time responses and consistent joint target windows.
+
 The [complete primary-entry measurement](../benchmarks/hamburg_ring1_primary_entry_full_20261022_v1/README.md) retains every request and count target while moving 294 Z12 requests to the existing primary-road prefix.
 It completes 14400 s with zero collisions and teleports. All six original collision participants rear-clear and arrive.
 Uninserted demand falls from 984 to 644, but the run remains invalid, with 306 vehicles still running.
@@ -14,14 +21,14 @@ The sparse buffer-lane alternative changes lane use without additional E1 contri
 
 The [distinct-field shared-route probe](../benchmarks/hamburg_ring1_shared_field_probe_20261022_v1/README.md) completes 40 vehicles and 80 native E1 contributions safely.
 Each vehicle contributes once to an upstream 119 field and once to 535 Z4 on one of four supported simple routes.
-The existing first-field driver suffices for this test. A larger shared-population model remains untested, and the real 130/40-row result above is unchanged.
+The existing first-field driver suffices for that route test. It does not establish larger-demand performance; the subsequent complete alternative is reported above.
 
 The subsequent [shared-population initialization check](../benchmarks/hamburg_ring1_shared_population_prefix_20261022_v1/README.md) conserves all 182 initialization/main field quotas.
 It uses 8185 model vehicles for the same 8640 observation targets, retaining unmatched independent requests.
 In the initialization hour, 105 vehicles contribute to both declared fields, with no collisions, teleports, repeated fields or reversed field order.
 E1 contributions rise from 1716 to 1735, while diagnostic MAE falls from 4.635 to 4.385 and maximum error falls from 50 to 37.
 Exact initialization rows fall from 34 to 32; other-field losses remain reported. All 130/40 main rows stay unknown in that prefix.
-Its complete-window measurement is separate. The native target ledger and route response do not identify real OD or unique vehicle totals.
+Its [complete-window alternative](../benchmarks/hamburg_ring1_shared_population_full_20261022_v1/README.md) is reported separately and is not promoted. The target ledger and route response do not identify real OD or unique vehicle totals.
 
 The [complete three-node driver run](../benchmarks/hamburg_ring1_three_node_body_full_20261022_v1/README.md) reaches 14400 s with zero collisions and teleports.
 All six original collision participants rear-clear their junctions and arrive. All 412 observed exit changes at the third site occur after rear clearance.

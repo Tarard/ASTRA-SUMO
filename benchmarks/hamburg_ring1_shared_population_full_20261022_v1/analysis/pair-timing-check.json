@@ -1,0 +1,29 @@
+{
+  "formal_result": false,
+  "pairs": 455,
+  "second_prediction_error_s": {
+    "min": -322.8285330168219,
+    "median": 33.15380740891305,
+    "max": 470.91578597292755
+  },
+  "first_response_change_s": {
+    "min": -268.63633777270024,
+    "median": 68.10153207847998,
+    "max": 468.662391017142
+  },
+  "actual_transfer_s": {
+    "min": 91.09746314206996,
+    "median": 139.43635335555064,
+    "max": 662.7335850715899
+  },
+  "pairs_first_within_own_target": 77,
+  "pairs_second_within_own_target": 454,
+  "frozen_uniform_shift_incompatible_pairs": 333,
+  "baseline_retained_ids_inserted": 7544,
+  "candidate_retained_ids_inserted": 7303,
+  "baseline_retained_ids_arrived": 7238,
+  "candidate_retained_ids_arrived": 7011,
+  "removed_synthetic_ids_baseline_inserted": 452,
+  "removed_synthetic_ids_baseline_arrived": 452,
+  "claim_boundary": "Timing errors describe this replay. Uniform-shift incompatibility holds only for frozen measured times and a 90 s margin. Synthetic target associations are not observed vehicle identities; this is not physical infeasibility or a proof against changed schedules."
+}

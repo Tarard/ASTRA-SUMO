@@ -111,3 +111,30 @@ def test_shared_prefix_keeps_unique_vehicle_counts_separate_from_field_visits():
     stations = read_csv_rows(case / "analysis/all-40-main-stations.csv")
     assert len(fields) == 130 and all(row["measured_nVehContrib"] == "" for row in fields)
     assert len(stations) == 40 and all(row["measured_nVehContrib"] == "" for row in stations)
+
+
+def test_shared_full_run_keeps_native_visits_and_does_not_promote_worse_timing():
+    from astra_sumo.core.detector_demand import read_csv_rows
+
+    case = ROOT / "benchmarks/hamburg_ring1_shared_population_full_20261022_v1"
+    result = json.loads(read_trace_source(case, "results.json"))
+    assert result["field_rows"] == 130 and result["station_rows"] == 40
+    assert result["missing_field_rows"] == result["missing_station_rows"] == 0
+    assert result["exact_field_rows"] == 32 and result["exact_station_rows"] == 8
+    assert result["diagnostic_field_MAE"] == pytest.approx(1863 / 130) and result["diagnostic_max_abs_error"] == 71
+    assert result["completion"]["waiting"] == 882 and result["completion"]["running"] == 292
+    assert result["completion"]["collisions"] == result["completion"]["teleports"] == 0
+    assert not result["valid_run"] and not result["exact_count_fit"] and result["formal_field_metrics"] is None
+    native = ET.fromstring(read_trace_source(case / "native", "field-counts.xml"))
+    counts = {(r.get("id"), float(r.get("begin")), float(r.get("end"))): int(r.get("nVehContrib")) for r in native}
+    rows = read_csv_rows(case / "field-comparison.csv")
+    assert len(rows) == 130 and sum(int(r["measured_nVehContrib"]) for r in rows) == 4896
+    assert all(counts[r["detector_id"], float(r["begin"]), float(r["end"])] == int(r["measured_nVehContrib"]) for r in rows)
+    signature = json.loads(read_trace_source(case / "analysis", "native-signature-check.json"))
+    assert signature["shared_vehicles_observed_at_both_fields"] == 455
+    assert not any(signature[k] for k in ("repeated_same_field", "unexpected_fields", "arrived_missing_declared_fields", "wrong_field_order", "second_without_first"))
+    decomposition = json.loads(read_trace_source(case / "analysis", "target-visit-decomposition.json"))
+    assert decomposition["all_130_native_residual_identities_verified"] and decomposition["main_target_visits"] == 6687
+    timing = json.loads(read_trace_source(case / "analysis", "pair-timing-check.json"))
+    assert timing["frozen_uniform_shift_incompatible_pairs"] == 333 and not timing["formal_result"]
+    assert timing["pairs_first_within_own_target"] == 77 and timing["pairs_second_within_own_target"] == 454
