@@ -1,6 +1,6 @@
 # 汉堡五路口走廊剪枝与重新标定
 
-范围已生成并检查，航拍before/after已先展示。新计数标定尚无完成结果。
+范围已生成并检查，航拍before/after已先展示。新计数标定已启动，尚无完成结果。
 本次仍是README的Binnenalster/Ring1，LSA104、118、119、200、535及原固定bbox。
 采用[已核查文献中的走廊和边界处理](../../docs/research/hamburg-pruning-literature-2026-10-22-v1.md)，没有搬用慕尼黑研究筛除检测数据的做法。
 
@@ -87,6 +87,21 @@ before复用同一参考哈希的原截图，after重新捕获本候选。
 - 测量：[detector_demand_replay.py](../../plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py)。分析：[hamburg_readme_results.py](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py)。
 - 当前本地候选：`outputs/ring1-munich-corridor-20261022-v3/`。计数运行目录：`outputs/ring1-munich-corridor-calibration-20261022-v1/`。
 - 早期转换候选和未运行的准备文件仍保留在旧版outputs，不作为本次原生结果。
+
+在仓库根目录的PowerShell中执行，输出目录须尚不存在：
+
+```powershell
+$env:PYTHONPATH="$PWD/plugins/astra-sumo/src"
+$env:SUMO_HOME="$PWD/.venv/Lib/site-packages/sumo"
+$env:PATH="$env:SUMO_HOME/bin;$PWD/.venv/Scripts;$env:PATH"
+$env:PYTHONUTF8='1'
+./.venv/Scripts/python.exe benchmarks/hamburg_ring1_munich_corridor_20261022_v1/run-build.py --output-dir outputs/ring1-corridor-rebuild
+./.venv/Scripts/python.exe -u benchmarks/hamburg_ring1_munich_corridor_20261022_v1/run-calibration.py --prepared-dir outputs/ring1-corridor-rebuild/calibration-inputs --figure-dir benchmarks/hamburg_ring1_munich_corridor_20261022_v1/figure-sources --output-dir outputs/ring1-corridor-replay
+```
+
+[重新构建](run-build.py)不运行交通，只生成范围、控制和需求，并逐字节检查七份执行输入与本项冻结内容相同。
+该检查已通过，见[复现记录](reproduction-check.log)。也可直接把`--prepared-dir`指向本项压缩的`inputs`。
+完整固定图像、航拍和NetEdit补充图保存在[figure-sources](figure-sources/)，不依赖旧本地outputs目录。
 
 底图：Freie und Hansestadt Hamburg, LGV，Datenlizenz Deutschland Namensnennung 2.0。
 原道路数据：© OpenStreetMap contributors，[ODbL](https://www.openstreetmap.org/copyright)。

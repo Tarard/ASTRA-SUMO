@@ -1,13 +1,23 @@
 # Hamburg case shown in the README
 
 The [18-source pruning review and road inventory](research/hamburg-pruning-literature-2026-10-22-v1.md) separates corridor selection, peripheral demand, and junction simplification.
-The current executed network has 360 normal roads, including 343 passenger-permitted roads. Explicit demand uses 116.
-The 227 passenger-permitted roads without planned traffic are not automatically deletion candidates. No pruning change or new pruning simulation is made.
+The [new five-junction corridor](../benchmarks/hamburg_ring1_munich_corridor_20261022_v1/README.md) reduces the previous 360 normal roads to 236.
+It retains the existing complete arms of LSA104, 118, 119, 200 and 535, all 13 detector fields, and all 130 main-window targets.
+The fixed-aerial before/after was rendered and shown before the new native count run started.
+Road geometry, lane permissions, retained turn permissions and the nine official programs remain unchanged.
+Entry shares are refit from existing native route templates and declared road-class priors. The new continuous native run is in progress; no new calibration result is established yet.
+
+The previous network had 343 passenger-permitted roads, of which explicit demand used 116.
+The 227 passenger-permitted roads without planned traffic were not automatically deletion candidates. The new selection records each retained road and its reason.
+
+The [earlier bounded timing feedback](../benchmarks/hamburg_ring1_native_count_feedback_20261022_v1/README.md) is complete.
+Both complete native trials are rejected: field total absolute errors are 1681 and 1691 against 1685 in the reference, while uninserted demand rises from 644 to 796 and 758.
+All 130/40 residual rows remain available. That finite timing rule does not establish infeasibility and is not promoted.
 
 The [control-domain source check and revised independent review](../benchmarks/hamburg_ring1_control_domain_sources_20261022_v1/README.md) leaves four candidate signal bindings unresolved.
 Three candidates are nearer the separately registered LSA209. Proximity does not establish any binding.
 No signal is removed or rebound. The unrun free-flow offset prototype is archived and excluded from the active code.
-Native count feedback remains unfinished. Saved-state restart is not validated, and a queued replay does not prove infeasibility.
+Exact count calibration remains unfinished. Saved-state restart is not validated, and a queued replay does not prove infeasibility.
 
 The [119 green-service diagnosis and nominal-control comparison](../benchmarks/hamburg_ring1_119_control_diagnosis_20261022_v1/README.md) retains the same demand and all targets.
 Read-only snapshots show a green 119 K2 followed by a red downstream signal and stopped vehicles. All 1778 E1 events through 3780 s match the reference.

@@ -1,6 +1,10 @@
 {
   "files": [
     {
+      "path": "README.md",
+      "sha256": "269f6a313881369bb86b3c619957bb58e926aa2d6a101cdb7f12c2381cf6644d"
+    },
+    {
       "path": "aerial-review-report.json",
       "sha256": "627191ee4fef1a1f3101eceb50bf038955ade23f32e8b49efc75e0cdce44a0c8"
     },
@@ -15,6 +19,34 @@
     {
       "path": "corridor-result.json",
       "sha256": "890db674b609fa173ee79bdb748d25210f4e86d74d535d282d0804f41347afac"
+    },
+    {
+      "path": "figure-sources/aerial-2026.png",
+      "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902"
+    },
+    {
+      "path": "figure-sources/junctions-final/corridor-comparison.png",
+      "sha256": "bd73b7db297f2fdfdd04cdd7aabdfaaca8223c1b5043386793affad6f83ff903"
+    },
+    {
+      "path": "figure-sources/junctions-final/lsa118-comparison.png",
+      "sha256": "32952a0e3a06d515ace38efe6d0a2d3343ecaf766b6f3d0486190b115455cea3"
+    },
+    {
+      "path": "figure-sources/netedit-after/direct-LSA118_par-8adb1de57e-inspect.png",
+      "sha256": "f047ffd233ba39c586a75332eff355fe784b739f390de2d42f61909c9cc4d161"
+    },
+    {
+      "path": "figure-sources/netedit-before/direct-LSA118_par-8adb1de57e-inspect.png",
+      "sha256": "4893f1a95b7904985bdc39d3b40c5e71a53bd22fa2f7a84aa5695face14fafc7"
+    },
+    {
+      "path": "figure-sources/pruning/corridor-comparison.png",
+      "sha256": "86fa347e0611e28527d493e35c45c7c175afaa45d409e925e3346af2bae6a2c3"
+    },
+    {
+      "path": "figure-sources/source.json",
+      "sha256": "6cf97aa9c9325e39ebd4a13ad43fd9ba052d6c9b2ffae03b94bdf6bc978bd661"
     },
     {
       "path": "figures/corridor-comparison.png",
@@ -85,16 +117,20 @@
       "sha256": "1c6aae38e4f4e44d0b0b7778044e5cb06f872aee2489e3ed1d403d6cdf3a894f"
     },
     {
-      "path": "README.md",
-      "sha256": "269f6a313881369bb86b3c619957bb58e926aa2d6a101cdb7f12c2381cf6644d"
-    },
-    {
       "path": "report.json",
       "sha256": "a45945a627c783ecde87cd6c701a24d608544bfe3723d0992dbe225e73942673"
     },
     {
+      "path": "reproduction-check.log",
+      "sha256": "e8054ba68bc3503aa2722bba55332d7dfb631010aa6daa21148dbc11d777e119"
+    },
+    {
       "path": "review-request.json",
       "sha256": "c7362cecc0a9cc14c16ee9d9516067c102ac2683fe5209185fea0cab554363f5"
+    },
+    {
+      "path": "run-build.py",
+      "sha256": "c896775ffd20500b40d861076ad6db9add1e4350b0fa5b3cea3386840478677a"
     },
     {
       "path": "run-calibration.py",
