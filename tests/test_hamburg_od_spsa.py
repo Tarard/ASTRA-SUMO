@@ -1,5 +1,6 @@
 from collections import Counter
 import json
+import gzip
 from pathlib import Path
 import xml.etree.ElementTree as ET
 
@@ -82,3 +83,31 @@ def test_native_zero_target_stops_only_when_health_is_also_established(tmp_path,
         settings=dict(a=None, initial_step=1, A=3, c=2, alpha=.602, gamma=.101, iterations=30, seed=104))
     assert result["formal_result"] and result["native_evaluations"] == 1
     assert result["stopping_reason"] == "healthy_native_zero_residual"
+
+
+def test_real_hamburg_decimal_metadata_times_join_integer_native_times(tmp_path, monkeypatch):
+    root = Path(__file__).resolve().parents[1]
+    original = root / "benchmarks/hamburg_ring1_munich_corridor_20261022_v1"
+    measured_case = root / "benchmarks/hamburg_ring1_spillback_repair_complete_20261022_v2"
+    prepared, proposal = tmp_path / "prepared", tmp_path / "proposal"
+    prepared.mkdir()
+    proposal.mkdir()
+    (prepared / "expected-counts.csv").write_bytes(gzip.decompress((original / "inputs/expected-counts.csv.gz").read_bytes()))
+    assert b"3600.0,4500.0" in (prepared / "expected-counts.csv").read_bytes()
+
+    def native(**kwargs):
+        out = kwargs["output_dir"]
+        out.mkdir()
+        (out / "field-comparison.csv").write_bytes((measured_case / "field-comparison.csv").read_bytes())
+        run = json.loads(gzip.decompress((measured_case / "run.json.gz").read_bytes()))
+        assert ",3600,4500," in (out / "field-comparison.csv").read_text(encoding="utf-8")
+        return run
+
+    monkeypatch.setattr(workflow, "write_hamburg_od_demand", lambda **kwargs: proposal)
+    monkeypatch.setattr(workflow, "run_point_detector_demand", native)
+    result = workflow.measure_hamburg_od(prepared_dir=prepared, values=[], output_dir=proposal, sumo_binary="unused")
+    known = json.loads((measured_case / "results.json").read_bytes())
+    assert result["MAE"] == known["diagnostic_field_MAE"]
+    assert result["station_MAE"] == known["diagnostic_station_MAE"]
+    assert result["field_rows"] == 130 and result["derived_station_rows"] == 40
+    assert not result["healthy"] and not result["exact_count_fit"]

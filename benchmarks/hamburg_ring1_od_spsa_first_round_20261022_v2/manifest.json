@@ -1,0 +1,105 @@
+{
+  "files": [
+    {
+      "path": "failed-v1-launch.json",
+      "sha256": "3ec46bc63635692ef1f89a3055ca87315480a2e82a8ade2ef542bc3f82fc303f",
+      "bytes": 491
+    },
+    {
+      "path": "implementation.json",
+      "sha256": "146546acd5c5b8ea8671f9919f9c4c39df459cc21a27cd7d8fcf056ff1d21200",
+      "bytes": 650
+    },
+    {
+      "path": "initial-analysis/all-130-field-comparison.csv",
+      "sha256": "57a289dd200563607564ab45faf99c905e83b382554492e5c5710d71b95d6058",
+      "bytes": 9073
+    },
+    {
+      "path": "initial-analysis/all-40-station-comparison.csv",
+      "sha256": "1ac200aecc8a67611b915bbb052bf313e973f9797e7a3b86c35147e68033f70f",
+      "bytes": 1442
+    },
+    {
+      "path": "initial-analysis/analyze.py",
+      "sha256": "b8acce847acf1a095152635dcdd93646711166a7f8563419a9a5221b235b22e8",
+      "bytes": 6281
+    },
+    {
+      "path": "initial-analysis/metrics.json",
+      "sha256": "78f8081ee8549b5918f5d7150d53baa0f04f26a6c2fb5411c60b7fb6c32922d4",
+      "bytes": 768
+    },
+    {
+      "path": "initial-analysis/provenance.json",
+      "sha256": "f310e3458ed87ddda122d4dad3933c9bc1a0027f2c53c9f10002f5bd9e0327e2",
+      "bytes": 4020
+    },
+    {
+      "path": "initial-native/collisions.xml.gz",
+      "sha256": "745baf7f0cc930a434868de7b3845ed27896e8be7f96cb98333e3109650773db",
+      "bytes": 1249
+    },
+    {
+      "path": "initial-native/command.json.gz",
+      "sha256": "f67b7200900b356134ab1bcd02d2a0beef215ef422e48ae3e929bef27f5b9bbe",
+      "bytes": 1458
+    },
+    {
+      "path": "initial-native/field-counts.xml.gz",
+      "sha256": "0fa736ac960cc8e8b4ca621ecb0b772a910bd9cdec9c6cda92ecba17060664ec",
+      "bytes": 8927
+    },
+    {
+      "path": "initial-native/run.json.gz",
+      "sha256": "0031f71f7e64c6fe5f717dd65d6e08eaddbde38af09ae4c76cdc03e951c676b5",
+      "bytes": 274646
+    },
+    {
+      "path": "initial-native/summary.xml.gz",
+      "sha256": "5cc8809dfb6d114d55715155acdd3351d0d117e00cc665d9b4accf06e9e0b1d0",
+      "bytes": 3385881
+    },
+    {
+      "path": "initial-native/tripinfo.xml.gz",
+      "sha256": "1f2320a2fda9d96d565a3617d61721d01beb83ddfadb8338bcfebb8380aac89b",
+      "bytes": 381502
+    },
+    {
+      "path": "initial-wrapper-error.log",
+      "sha256": "8651318750b6cc00bd76738e91fdf97e9de8560fa09099899b4d69ed1bf85eac",
+      "bytes": 541
+    },
+    {
+      "path": "README.md",
+      "sha256": "440a35a812590dec3c0680ac7269b0eb2056bab778e04fae9cea476050c69eb5",
+      "bytes": 3071
+    },
+    {
+      "path": "recovery-tests.log",
+      "sha256": "0d86480c74f08e442914f2ba0307e056c431dbc27cd74d7d9c0e46cac799ab95",
+      "bytes": 100
+    },
+    {
+      "path": "recovery-tests.xml",
+      "sha256": "0c7cc1071b764cb0c51f5cf2df37b5bf81c2e421b8c48db3a04b1999bbdfe483",
+      "bytes": 2258
+    },
+    {
+      "path": "reuse-verification.json",
+      "sha256": "c786a5001bcb89ee7c226b9f5037723f4e1ec610ee0bfb065aaf9c52941dc5dd",
+      "bytes": 4168
+    },
+    {
+      "path": "run-study.ps1",
+      "sha256": "0288845d528f3227b124478b554f11882cda575ebef70c0e9289beeb427b5b4d",
+      "bytes": 3079
+    },
+    {
+      "path": "settings.json",
+      "sha256": "e40bf55282f6c6b749328efaa5311d6b35ddecba9785db13e678e4a1b95e3008",
+      "bytes": 133
+    }
+  ],
+  "formal_result": false
+}

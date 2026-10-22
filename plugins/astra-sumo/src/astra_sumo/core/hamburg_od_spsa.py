@@ -136,13 +136,14 @@ def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary):
             or (native.get("stall_monitor") or {}).get("status") != "completed"):
         raise ValueError("The native evaluation is incomplete. Preserve all rows and raw simulation outputs.")
     residuals = [int(r["diff_nVehContrib_minus_expected"]) for r in rows]
-    source = {(r["detector_id"], r["begin"], r["end"]): r for r in read_csv_rows(prepared / "expected-counts.csv")}
+    source = {(r["detector_id"], float(r["begin"]), float(r["end"])): r
+              for r in read_csv_rows(prepared / "expected-counts.csv")}
     station_groups = defaultdict(list)
     for row in rows:
-        metadata = source[row["detector_id"], row["begin"], row["end"]]
+        metadata = source[row["detector_id"], float(row["begin"]), float(row["end"])]
         for station, (node, assets) in STATIONS.items():
             if metadata["node_id"] == node and metadata["asset_id"] in assets:
-                station_groups[station, row["begin"], row["end"]].append(row)
+                station_groups[station, float(row["begin"]), float(row["end"])].append(row)
     stations = [{"station_stream_id": station, "begin": begin, "end": end,
                  "expected_total": sum(int(r["expected_total"]) for r in group),
                  "measured_nVehContrib": sum(int(r["measured_nVehContrib"]) for r in group),

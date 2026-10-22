@@ -1,5 +1,9 @@
 # Hamburg case shown in the README
 
+The [SPSA first-round V2](../benchmarks/hamburg_ring1_od_spsa_first_round_20261022_v2/README.md) fixes a numeric-time metadata join and reuses the complete initial native replay.
+Its initial 130/40 comparisons remain unaccepted: field MAE 14.923077, three collisions, three teleports and 976 waiting vehicles.
+The confirmed one-update settings and zero-error acceptance condition remain unchanged.
+
 The [standard ordinary SPSA study](../benchmarks/hamburg_ring1_od_spsa_standard_20261022_v1/README.md) fixes the user-authorized corridor settings.
 The user selected one update and a complete native remeasurement. It derives the initial gain from its first perturbation pair and retains the zero-error acceptance condition.
 Both [completed spillback control trials](../benchmarks/hamburg_ring1_spillback_repair_complete_20261022_v2/README.md) remain invalid, with all 130 field and 40 station residuals retained.

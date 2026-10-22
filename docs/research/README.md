@@ -39,6 +39,7 @@ This index separates research evidence from current product documentation. The l
 
 - [Hamburg OD definition and standard SPSA method check, 2026-10-22](hamburg-spsa-od-method-2026-10-22-v1.md)
 - [Hamburg standard SPSA settings and native run, 2026-10-22](../../benchmarks/hamburg_ring1_od_spsa_standard_20261022_v1/README.md)
+- [Hamburg SPSA first-round V2 and complete initial native counts](../../benchmarks/hamburg_ring1_od_spsa_first_round_20261022_v2/README.md)
 
 Frozen benchmark inputs and adjudication artifacts live under [`benchmarks/`](../../benchmarks/). Research documents may describe a historical state, while benchmark manifests and hashes identify the exact evaluation artifacts used at that point.
 

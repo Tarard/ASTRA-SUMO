@@ -164,3 +164,21 @@ def test_stale_metrics_and_changed_frozen_implementation_are_rejected(cached_ini
         stream.write(b"\n")
     with pytest.raises(ValueError, match="implementation hash differs"):
         reuse_hamburg_od_initial(**cached_initial)
+
+
+def test_metadata_format_fix_can_reuse_native_but_native_command_change_cannot(cached_initial):
+    execution = cached_initial["cached_dir"].with_name(cached_initial["cached_dir"].name + "-execution")
+    frozen = execution / "implementation/astra_sumo/core/hamburg_od_spsa.py"
+    record = json.loads((execution / "execution.json").read_bytes())
+    text = frozen.read_text(encoding="utf-8")
+    text = text.replace('float(r["begin"])', 'r["begin"]').replace('float(r["end"])', 'r["end"]')
+    frozen.write_text(text, encoding="utf-8")
+    record["implementation_sha256"]["astra_sumo\\core\\hamburg_od_spsa.py"] = file_sha256(frozen)
+    _write(execution / "execution.json", record)
+    assert reuse_hamburg_od_initial(**cached_initial)[0]["loss"] == 4
+    frozen.write_text(text.replace('output_dir=proposal / "native", end_s=14400',
+                                   'output_dir=proposal / "native", end_s=14401'), encoding="utf-8")
+    record["implementation_sha256"]["astra_sumo\\core\\hamburg_od_spsa.py"] = file_sha256(frozen)
+    _write(execution / "execution.json", record)
+    with pytest.raises(ValueError, match="native OD command changed"):
+        reuse_hamburg_od_initial(**cached_initial)

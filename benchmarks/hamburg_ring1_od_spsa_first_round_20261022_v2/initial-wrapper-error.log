@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\plugins\astra-sumo\scripts\run_hamburg_od_spsa.py", line 48, in <module>
+    else:
+         
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\outputs\hamburg-od-initial-native-20261022-v1-execution\implementation\astra_sumo\core\hamburg_od_spsa.py", line 142, in measure_hamburg_od
+    metadata = source[row["detector_id"], row["begin"], row["end"]]
+               ~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyError: ('hh_0119_Z_11_28853', '3600', '4500')

@@ -29,6 +29,16 @@ def _function_ast(path, name):
                          if isinstance(node, ast.FunctionDef) and node.name == name))
 
 
+def _native_call_ast(path):
+    function = next(node for node in ast.parse(path.read_text(encoding="utf-8")).body
+                    if isinstance(node, ast.FunctionDef) and node.name == "measure_hamburg_od")
+    calls = [node for node in ast.walk(function) if isinstance(node, ast.Call)
+             and isinstance(node.func, ast.Name) and node.func.id == "run_point_detector_demand"]
+    if len(calls) != 1:
+        raise ValueError("Use one unchanged native OD command when reusing its measurement.")
+    return ast.dump(calls[0])
+
+
 def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
     """Return fresh E1 metrics and reuse provenance without changing cached evidence."""
     import sumo
@@ -105,9 +115,10 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
         if recorded.get(f"astra_sumo/core/{name}") != digest:
             raise ValueError(f"The frozen native implementation hash differs: {name}.")
         if name == "hamburg_od_spsa.py":
-            if any(_function_ast(frozen, fn) != _function_ast(source_dir / name, fn)
-                   for fn in ("write_hamburg_od_demand", "measure_hamburg_od")):
-                raise ValueError("The OD generation or native objective changed after the cached replay.")
+            if _function_ast(frozen, "write_hamburg_od_demand") != _function_ast(source_dir / name, "write_hamburg_od_demand"):
+                raise ValueError("The OD generation changed after the cached replay.")
+            if _native_call_ast(frozen) != _native_call_ast(source_dir / name):
+                raise ValueError("The native OD command changed after the cached replay.")
         elif file_sha256(source_dir / name) != digest:
             raise ValueError(f"The native implementation changed after the cached replay: {name}.")
         implementation_hashes[name] = digest
@@ -152,6 +163,8 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
     provenance = {"cached_dir": str(cached), "initial_loss_recomputed_from_native_e1": True,
                   "healthy": healthy, "input_sha256": input_hashes,
                   "native_implementation_sha256": implementation_hashes,
-                  "od_functions_compared_as_ast": ["write_hamburg_od_demand", "measure_hamburg_od"],
+                  "od_functions_compared_as_ast": ["write_hamburg_od_demand"],
+                  "native_call_compared_as_ast": "measure_hamburg_od:run_point_detector_demand",
+                  "postprocessing": "Metrics are recomputed from raw native E1; metadata formatting changes do not require another simulation.",
                   "evidence_sha256": {str(path): file_sha256(path) for path in evidence}}
     return evaluation, provenance
