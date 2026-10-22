@@ -67,8 +67,8 @@
     },
     {
       "path": "initial-wrapper-error.log",
-      "sha256": "8651318750b6cc00bd76738e91fdf97e9de8560fa09099899b4d69ed1bf85eac",
-      "bytes": 541
+      "sha256": "064f6fe611f6c9befb4476601f2adc644f32eafb4d5189acc5313ce1a36ec51e",
+      "bytes": 532
     },
     {
       "path": "README.md",
@@ -101,5 +101,6 @@
       "bytes": 133
     }
   ],
-  "formal_result": false
+  "formal_result": false,
+  "trace_copy_normalization": "LF and trailing whitespace only. The original wrapper error remains unchanged in outputs/hamburg-od-initial-native-20261022-v1.log."
 }
