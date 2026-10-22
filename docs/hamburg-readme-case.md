@@ -1,5 +1,12 @@
 # Hamburg case shown in the README
 
+The [bounded native-lag timing check](../benchmarks/hamburg_ring1_native_departure_windows_20261022_v1/README.md) is not promoted.
+It retains every vehicle, route and count target, and advances 2094 requests by at most 900 s using frozen native passage lags.
+One initialization trial has zero collisions and teleports, but E1 contributions fall from 1716 to 1656 and diagnostic MAE rises from 4.635 to 6.019.
+The original initialization cohort has 114 uninserted vehicles, compared with 120. Another 145 advanced main-window requests do not enter.
+No main-window trial follows this failed timing rule. All 130/40 main rows stay unknown in that prefix.
+The complete primary-entry measurement remains the reference below. Calibration is unfinished.
+
 The [complete shared-population alternative](../benchmarks/hamburg_ring1_shared_population_full_20261022_v1/README.md) is not promoted.
 It retains all 130/40 rows and has zero collisions and teleports, but 882 model vehicles never enter, compared with 644 in the primary-entry reference.
 Diagnostic field MAE rises from 12.962 to 14.331 and maximum error rises from 59 to 71. All losses remain reported.

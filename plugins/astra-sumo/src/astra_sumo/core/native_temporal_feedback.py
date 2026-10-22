@@ -1,9 +1,85 @@
 """Account for departure-to-detector lags in one completed native replay."""
 
-from collections import defaultdict
+from collections import Counter, defaultdict
 import math
 
 import numpy as np
+
+
+def native_departure_windows(*, requests, passages, max_shift_s=900, guard_s=90, step_s=.1):
+    """Intersect target windows under frozen native passage lags.
+
+    This proposes request times only. Changed queues require another native run.
+    """
+    if (not math.isfinite(max_shift_s) or max_shift_s < 0
+            or not math.isfinite(guard_s) or guard_s < 0):
+        raise ValueError("Use finite nonnegative shift and margin limits.")
+    if (not math.isfinite(step_s) or step_s < .001
+            or abs(step_s * 1000 - round(step_s * 1000)) > 1e-6):
+        raise ValueError("Use a positive simulation step in whole milliseconds.")
+    step_ms = round(step_s * 1000)
+    wanted = {}
+    for request in requests:
+        identity, depart, targets = (request[k] for k in ("vehicle_id", "requested_depart_s", "targets"))
+        if (not isinstance(identity, str) or not identity or identity in wanted
+                or not math.isfinite(depart) or depart < 0 or not targets):
+            raise ValueError("Use unique vehicles, finite nonnegative departures and explicit targets.")
+        fields = set()
+        for target in targets:
+            field, begin, end = (target[k] for k in ("detector_id", "begin_s", "end_s"))
+            if (not isinstance(field, str) or not field or field in fields
+                    or not math.isfinite(begin) or not math.isfinite(end)
+                    or not 0 <= begin < end or 2 * guard_s >= end - begin):
+                raise ValueError("Use distinct fields and finite target windows wider than both margins.")
+            fields.add(field)
+        wanted[identity] = request
+    if not wanted:
+        raise ValueError("Retain explicit requested vehicles.")
+    observed = {}
+    for passage in passages:
+        identity, field, time = (passage[k] for k in ("vehicle_id", "detector_id", "notification_time_s"))
+        key = identity, field
+        if (identity not in wanted or field not in {t["detector_id"] for t in wanted[identity]["targets"]}
+                or key in observed or not math.isfinite(time)
+                or time < math.floor(wanted[identity]["requested_depart_s"] * 1000 + .5) / 1000 - 1e-6):
+            raise ValueError("Use one native notification per declared vehicle and field after its request.")
+        observed[key] = time
+    rows = []
+    budget_steps = math.floor(max_shift_s / step_s + 1e-9)
+    for identity, request in wanted.items():
+        depart_ms = math.floor(request["requested_depart_s"] * 1000 + .5)
+        missing = [t["detector_id"] for t in request["targets"] if (identity, t["detector_id"]) not in observed]
+        row = {**request, "native_requested_depart_s": depart_ms / 1000,
+            "observed_target_passages": len(request["targets"]) - len(missing),
+            "missing_fields": missing, "joint_depart_min_s": None, "joint_depart_max_s": None,
+            "proposed_depart_s": None, "proposed_shift_s": None}
+        if missing:
+            row["status"] = "missing_native_passage"
+        else:
+            # Whole-step shifts retain the source request's phase within a simulation step.
+            lower = max(math.ceil((t["begin_s"] + guard_s - observed[identity, t["detector_id"]]) / step_s - 1e-8)
+                        for t in request["targets"])
+            upper = min(math.ceil((t["end_s"] - guard_s - observed[identity, t["detector_id"]]) / step_s - 1e-8) - 1
+                        for t in request["targets"])
+            row.update(joint_depart_min_s=(depart_ms + lower * step_ms) / 1000,
+                       joint_depart_max_s=(depart_ms + upper * step_ms) / 1000)
+            start, stop = max(lower, math.ceil(-depart_ms / step_ms), -budget_steps), min(upper, budget_steps)
+            if lower > upper:
+                row["status"] = "incompatible_target_windows"
+            elif depart_ms + upper * step_ms < 0:
+                row["status"] = "before_simulation_start"
+            elif start > stop:
+                row["status"] = "shift_budget_exceeded"
+            else:
+                shift_ms = min(max(0, start), stop) * step_ms
+                row.update(status="feasible_frozen_lags", proposed_depart_s=(depart_ms + shift_ms) / 1000,
+                           proposed_shift_s=shift_ms / 1000)
+        rows.append(row)
+    return {"rows": rows, "status_counts": dict(Counter(r["status"] for r in rows)),
+        "model_vehicles": len(rows), "target_field_visits": sum(len(r["targets"]) for r in rows),
+        "observed_target_passages": len(observed), "max_shift_s": max_shift_s, "guard_s": guard_s, "step_s": step_s,
+        "formal_result": False, "new_simulations": 0, "changed_demand_response_verified": False,
+        "claim_boundary": "Frozen native notification lags only. Missing passages stay unknown. Shared vehicles must satisfy all declared target windows. These intervals do not prove feasibility or infeasibility after queues, insertion or lane choices change."}
 
 
 def native_temporal_feedback(*, requests, trips, passages, measurements, bin_seconds=900):
