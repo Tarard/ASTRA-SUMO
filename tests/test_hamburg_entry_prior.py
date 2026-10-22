@@ -6,7 +6,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from astra_sumo.core.hamburg_collision_trace import read_trace_source
-from astra_sumo.core.hamburg_entry_prior import FIELD, MERGE, PRIMARY, SHORT, prepare_primary_entry_prior
+from astra_sumo.core.hamburg_entry_prior import FIELD, MERGE, PRIMARY, SHORT, prepare_primary_entry_prior, prepare_western_entry_prior
 
 
 ROOT = Path(__file__).parents[1]
@@ -109,3 +109,79 @@ def test_complete_entry_measurement_retains_native_counts_and_worse_station_peak
     assert prefix["all_initialization_intervals_match"] and prefix["compared_intervals"] == 52
     witnesses = json.loads(read_trace_source(case / "analysis", "original-participant-check.json"))
     assert witnesses["all_six_rear_cleared"] and witnesses["all_six_arrived"]
+
+
+def test_western_prior_changes_only_supported_entry_prefixes_and_keeps_local_requests(tmp_path):
+    source = ROOT / "benchmarks/hamburg_ring1_primary_entry_full_20261022_v1"
+    probe = ROOT / "benchmarks/hamburg_ring1_western_entry_prefix_20261022_v1/route-probe"
+    names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "expected-counts.csv",
+             "control.add.xml", "lane-intentions.json", "scenario.json", "initialization-counts.csv")
+    before = {name: read_trace_source(source / "inputs", name) for name in names}
+    out = tmp_path / "western"
+    result = prepare_western_entry_prior(repository=ROOT, case_dir=source, probe_dir=probe, output_dir=out)
+    assert not result["formal_result"] and result["sources_unchanged"]
+    assert result["changed_by_population"] == {"initialization": 95, "main": 427}
+    assert result["entry"] == "963776077#0" and result["passenger_lanes"] == 3
+    assert result["minimum_passenger_lane_length_m"] == pytest.approx(323.23)
+    assert result["boundary"]["basis"] == ["source_model_boundary"]
+    assert result["structure"]["structural_conditions_satisfied"]
+    old = {v.get("id"): v for v in ET.fromstring(before["demand.rou.xml"]).findall("vehicle")}
+    new = {v.get("id"): v for v in ET.parse(out / "demand.rou.xml").getroot().findall("vehicle")}
+    assert old.keys() == new.keys() and len(new) == 8640
+    changed = {r["vehicle_id"] for r in result["changed_vehicles"]}
+    for identity, vehicle in new.items():
+        previous = old[identity]
+        assert vehicle.attrib == previous.attrib
+        assert [ET.tostring(r) for r in vehicle.findall("stop")] == [ET.tostring(r) for r in previous.findall("stop")]
+        a, b = (v.find("route").get("edges").split() for v in (previous, vehicle))
+        if identity in changed:
+            assert a[0] in {"-983227468#1", "448511533#3"} and b[0] == "963776077#0"
+            assert a[a.index("234423652#1"):] == b[b.index("234423652#1"):]
+        else:
+            assert a == b
+    old_intent = json.loads(before["lane-intentions.json"])["vehicles"]
+    new_intent = json.loads((out / "lane-intentions.json").read_bytes())["vehicles"]
+    keys = ("vehicle_id", "field_id", "population_role", "target_begin_s", "target_end_s", "depart_s")
+    assert [tuple(r[k] for k in keys) for r in old_intent] == [tuple(r[k] for k in keys) for r in new_intent]
+    assert all((out / name).read_bytes() == before[name] for name in names if name not in {"demand.rou.xml", "lane-intentions.json", "scenario.json"})
+    assert all(read_trace_source(source / "inputs", name) == raw for name, raw in before.items())
+    with pytest.raises(ValueError, match="new western-entry"):
+        prepare_western_entry_prior(repository=ROOT, case_dir=source, probe_dir=probe, output_dir=out)
+
+
+def test_western_prior_requires_native_route_proof_before_writing(tmp_path):
+    probe = tmp_path / "probe"
+    probe.mkdir()
+    reference = ROOT / "benchmarks/hamburg_ring1_western_entry_prefix_20261022_v1/route-probe/route-response-check.json"
+    report = json.loads(reference.read_bytes())
+    report["vehicle_signatures_matched"] = False
+    (probe / reference.name).write_text(json.dumps(report), encoding="utf-8")
+    out = tmp_path / "candidate"
+    with pytest.raises(ValueError, match="verified western-entry"):
+        prepare_western_entry_prior(repository=ROOT, case_dir=CASE, probe_dir=probe, output_dir=out)
+    assert not out.exists()
+
+
+def test_western_prefix_reports_losses_without_claiming_main_window_effects():
+    from astra_sumo.core.detector_demand import read_csv_rows
+
+    case = ROOT / "benchmarks/hamburg_ring1_western_entry_prefix_20261022_v1"
+    sparse = json.loads(read_trace_source(case / "route-probe", "route-response-check.json"))
+    assert sparse["healthy"] and sparse["vehicle_signatures_matched"] and sparse["native_E1_reconciled"]
+    assert sparse["completion"]["arrived"] == 40 and sparse["native_contributions"] == 40
+    assert sparse["sum_native_stop_time_s"] == 0
+    report = json.loads(read_trace_source(case / "analysis", "prefix-check.json"))
+    assert not report["formal_result"] and not report["main_window_completed"]
+    assert report["requests_due"] == 1953 and report["future_requests_retained"] == 6687
+    assert report["changed_initialization_requests"] == 95
+    assert report["candidate_completion"]["waiting"] == 118 and report["candidate_completion"]["running"] == 210
+    assert report["candidate_completion"]["collisions"] == report["candidate_completion"]["teleports"] == 0
+    assert report["candidate_E1_total"] == 1670 and report["baseline_E1_total"] == 1716
+    assert report["candidate_diagnostic_MAE"] == pytest.approx(343 / 52)
+    assert report["candidate_exact_initialization_rows"] == 27 and report["candidate_max_abs"] == 59
+    z15 = next(r for r in report["field_totals"] if r["detector_id"] == "hh_0119_Z_15_29375")
+    assert z15["change"] == -31
+    fields = read_csv_rows(case / "analysis/all-130-main-rows.csv")
+    stations = read_csv_rows(case / "analysis/all-40-main-stations.csv")
+    assert len(fields) == 130 and all(r["measured_nVehContrib"] == "" for r in fields)
+    assert len(stations) == 40 and all(r["measured_nVehContrib"] == "" for r in stations)

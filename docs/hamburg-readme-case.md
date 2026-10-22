@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [western primary-entry prefix](../benchmarks/hamburg_ring1_western_entry_prefix_20261022_v1/README.md) retains all requests and times while changing 95 initialization and 427 future-main road prefixes.
+The existing Ring 1 boundary routes pass a sparse 40-vehicle native check. The short service driveway receives no extra demand.
+The initialization hour has zero collisions and teleports, but E1 contributions fall from 1716 to 1670 and diagnostic MAE rises from 4.635 to 6.596.
+All other-field losses remain reported. Main-window effects are unestablished; all 130/40 main rows stay unknown in that prefix.
+The complete primary-entry measurement remains the reference below. The western share requires its own complete-window measurement.
+
 The [bounded native-lag timing check](../benchmarks/hamburg_ring1_native_departure_windows_20261022_v1/README.md) is not promoted.
 It retains every vehicle, route and count target, and advances 2094 requests by at most 900 s using frozen native passage lags.
 One initialization trial has zero collisions and teleports, but E1 contributions fall from 1716 to 1656 and diagnostic MAE rises from 4.635 to 6.019.
