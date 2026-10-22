@@ -327,12 +327,13 @@ def run_hamburg_readme_prepared(*, prepared_dir, output_dir, sumo_binary, hold_o
     )
 
 
-def calibrate_hamburg_native_counts(*, repository, reference_case, output_dir, sumo_binary):
+def calibrate_hamburg_native_counts(*, repository, reference_case, output_dir, sumo_binary, figure_dir=None):
     """Measure at most two count corrections without restarting saved states."""
     from .hamburg_departure_probe import prepare_hamburg_count_retiming
     from .hamburg_readme_results import summarize_hamburg_readme
 
     root, reference = [Path(path).resolve(strict=True) for path in (repository, reference_case)]
+    figure_source = Path(figure_dir) if figure_dir is not None else root / "outputs/ring1-readme-end-to-end-figures-20261021-v1"
     out = Path(output_dir).resolve()
     if out.exists() or any(path.is_relative_to(out) for path in (root, reference)):
         raise ValueError("Use a new feedback directory separate from its source.")
@@ -363,7 +364,7 @@ def calibrate_hamburg_native_counts(*, repository, reference_case, output_dir, s
             signal_program_file=trial / "inputs/control.add.xml", lane_intentions_file=trial / "inputs/lane-intentions.json",
             junction_body_hold=True, junction_body_hold_nodes=("14398547", "205069138", "18653534"))
         stats = summarize_hamburg_readme(repository=root, prepared_dir=trial / "inputs", native_dir=trial / "native",
-            figure_dir=root / "outputs/ring1-readme-end-to-end-figures-20261021-v1", output_dir=trial / "report")
+            figure_dir=figure_source, output_dir=trial / "report")
         rows = read_csv_rows(trial / "native/field-comparison.csv")
         complete = len(rows) == 130 and all(row["measured_nVehContrib"] not in (None, "", "None") for row in rows)
         error = sum(abs(int(row["measured_nVehContrib"]) - int(row["expected_total"])) for row in rows) if complete else None

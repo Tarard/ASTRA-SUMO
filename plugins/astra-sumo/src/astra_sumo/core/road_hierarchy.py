@@ -297,11 +297,30 @@ def build_road_hierarchy_variant(*, net_file, output_dir, keep_tier="major", pro
     output = Path(output_dir).resolve()
     if output.exists() or source.is_relative_to(output):
         raise ValueError("Use a new output directory separate from the source network.")
-    before_hash = file_sha256(source)
     root = ET.parse(source).getroot()
     plan = select_road_hierarchy(root, keep_tier=keep_tier, protected_edge_ids=protected_edge_ids,
         protected_way_ids=protected_way_ids, vehicle_class=vehicle_class, protected_edge_evidence=protected_edge_evidence,
         entry_min_lane_length_m=entry_min_lane_length_m)
+    return materialize_road_selection(net_file=source, output_dir=output, selection=plan,
+        vehicle_class=vehicle_class, netconvert_binary=netconvert_binary, sumo_binary=sumo_binary,
+        entry_min_lane_length_m=entry_min_lane_length_m)
+
+
+def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class="passenger",
+                               netconvert_binary="netconvert", sumo_binary="sumo", entry_min_lane_length_m=None):
+    """Use the existing native extraction and restoration for an explicit road selection."""
+    source, output = Path(net_file).resolve(strict=True), Path(output_dir).resolve()
+    if output.exists() or source.is_relative_to(output):
+        raise ValueError("Use a new output directory separate from the source network.")
+    before_hash = file_sha256(source)
+    root = ET.parse(source).getroot()
+    old_ids = {edge.get("id") for edge in root.findall("edge") if not edge.get("function")}
+    plan = selection
+    selected, excluded = set(plan["selected_edge_ids"]), set(plan["excluded_edge_ids"])
+    if (selected & excluded or selected | excluded != old_ids
+            or len(selected) != len(plan["selected_edge_ids"]) or len(excluded) != len(plan["excluded_edge_ids"])
+            or plan["source_road_count"] != len(old_ids) or plan["selected_road_count"] != len(selected)):
+        raise ValueError("Partition the complete source road inventory without duplicates.")
     output.mkdir(parents=True)
     write_json_atomic(output / "selection.json", plan)
     write_json_atomic(output / "boundaries.json", {"zones": plan["boundaries"], "traffic_rates": "not_assigned"})
