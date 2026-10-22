@@ -193,6 +193,7 @@ def prepare_western_entry_prior(*, repository, case_dir, probe_dir, output_dir):
     write_json_atomic(out / "lane-intentions.json", intentions)
     scenario = json.loads(raw["scenario.json"])
     scenario.update(demand_sha256=file_sha256(out / "demand.rou.xml"),
+        profiles_used=len({row["profile_index"] for row in intentions["vehicles"]}),
         demand_prior="Western entry sensitivity: move half of each original residential/unclassified profile, population and target bin to the existing Ring 1 boundary route. Round down and spread changes across original request times. Retain service and tertiary entries. This share is not measured OD or capacity.",
         time_prior="Every vehicle request time, target interval and downstream road suffix remains fixed. No frozen-delay time correction.")
     write_json_atomic(out / "scenario.json", scenario)

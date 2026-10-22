@@ -1,0 +1,7 @@
+{
+  "formal_result": false,
+  "native_execution": "inputs/implementation-at-execution and inputs/executed-implementation-sha256.json",
+  "current_preparation_and_verification": "implementation and implementation-sha256.json",
+  "difference": "After native execution and analysis, future preparation metadata was corrected from the inherited 27 profiles to the actual 29. No executed native input or runtime driver changed.",
+  "executed_scenario_retained": true
+}

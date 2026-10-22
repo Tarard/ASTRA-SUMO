@@ -1,0 +1,134 @@
+{
+  "formal_result": false,
+  "main_window_completed": false,
+  "native_end_s": 3600,
+  "baseline_completion": {
+    "loaded": 1954,
+    "inserted": 1833,
+    "arrived": 1685,
+    "running": 148,
+    "waiting": 120,
+    "collisions": 0,
+    "teleports": 0
+  },
+  "candidate_completion": {
+    "loaded": 1954,
+    "inserted": 1835,
+    "arrived": 1625,
+    "running": 210,
+    "waiting": 118,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "requests_due": 1953,
+  "future_requests_retained": 6687,
+  "changed_initialization_requests": 95,
+  "available_initialization_rows": 52,
+  "field_totals": [
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "expected_total": 32,
+      "baseline_nVehContrib": 25,
+      "candidate_nVehContrib": 25,
+      "change": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "expected_total": 392,
+      "baseline_nVehContrib": 320,
+      "candidate_nVehContrib": 320,
+      "change": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "expected_total": 554,
+      "baseline_nVehContrib": 452,
+      "candidate_nVehContrib": 457,
+      "change": 5
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "expected_total": 309,
+      "baseline_nVehContrib": 273,
+      "candidate_nVehContrib": 242,
+      "change": -31
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "expected_total": 160,
+      "baseline_nVehContrib": 140,
+      "candidate_nVehContrib": 127,
+      "change": -13
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "expected_total": 102,
+      "baseline_nVehContrib": 102,
+      "candidate_nVehContrib": 102,
+      "change": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "expected_total": 9,
+      "baseline_nVehContrib": 9,
+      "candidate_nVehContrib": 9,
+      "change": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "expected_total": 105,
+      "baseline_nVehContrib": 105,
+      "candidate_nVehContrib": 105,
+      "change": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "expected_total": 51,
+      "baseline_nVehContrib": 51,
+      "candidate_nVehContrib": 49,
+      "change": -2
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "expected_total": 62,
+      "baseline_nVehContrib": 62,
+      "candidate_nVehContrib": 60,
+      "change": -2
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "expected_total": 57,
+      "baseline_nVehContrib": 57,
+      "candidate_nVehContrib": 56,
+      "change": -1
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "expected_total": 62,
+      "baseline_nVehContrib": 62,
+      "candidate_nVehContrib": 60,
+      "change": -2
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "expected_total": 58,
+      "baseline_nVehContrib": 58,
+      "candidate_nVehContrib": 58,
+      "change": 0
+    }
+  ],
+  "baseline_E1_total": 1716,
+  "candidate_E1_total": 1670,
+  "baseline_diagnostic_MAE": 4.634615384615385,
+  "candidate_diagnostic_MAE": 6.596153846153846,
+  "baseline_max_abs": 50,
+  "candidate_max_abs": 59,
+  "baseline_exact_initialization_rows": 34,
+  "candidate_exact_initialization_rows": 27,
+  "main_field_rows_retained_unknown": 130,
+  "derived_station_rows_retained_unknown": 40,
+  "native_E1_reconciled": true,
+  "all_observed_vehicles_once_at_assigned_field": true,
+  "claim_boundary": "Complete initialization-prefix comparison only. No main-window count improvement, measured OD, field capacity, full-demand safety or exact calibration is established. All unentered vehicles remain censored, and all future real targets remain unknown."
+}

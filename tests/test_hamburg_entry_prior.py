@@ -125,6 +125,7 @@ def test_western_prior_changes_only_supported_entry_prefixes_and_keeps_local_req
     assert result["minimum_passenger_lane_length_m"] == pytest.approx(323.23)
     assert result["boundary"]["basis"] == ["source_model_boundary"]
     assert result["structure"]["structural_conditions_satisfied"]
+    assert json.loads((out / "scenario.json").read_bytes())["profiles_used"] == 29
     old = {v.get("id"): v for v in ET.fromstring(before["demand.rou.xml"]).findall("vehicle")}
     new = {v.get("id"): v for v in ET.parse(out / "demand.rou.xml").getroot().findall("vehicle")}
     assert old.keys() == new.keys() and len(new) == 8640
@@ -185,3 +186,32 @@ def test_western_prefix_reports_losses_without_claiming_main_window_effects():
     stations = read_csv_rows(case / "analysis/all-40-main-stations.csv")
     assert len(fields) == 130 and all(r["measured_nVehContrib"] == "" for r in fields)
     assert len(stations) == 40 and all(r["measured_nVehContrib"] == "" for r in stations)
+
+
+def test_western_full_run_keeps_every_native_residual_and_rejects_the_share():
+    from astra_sumo.core.detector_demand import read_csv_rows
+
+    case = ROOT / "benchmarks/hamburg_ring1_western_entry_full_20261022_v1"
+    result = json.loads((case / "results.json").read_bytes())
+    assert result["field_rows"] == 130 and result["station_rows"] == 40
+    assert result["missing_field_rows"] == result["missing_station_rows"] == 0
+    assert not result["valid_run"] and not result["exact_count_fit"] and result["formal_field_metrics"] is None
+    assert result["diagnostic_field_MAE"] == pytest.approx(1868 / 130) and result["diagnostic_max_abs_error"] == 62
+    assert result["diagnostic_station_MAE"] == 45.5 and result["diagnostic_station_max_abs_error"] == 152
+    assert result["exact_field_rows"] == 31 and result["exact_station_rows"] == 7
+    assert result["completion"]["waiting"] == 934 and result["completion"]["running"] == 410
+    assert result["completion"]["collisions"] == result["completion"]["teleports"] == 0
+    fields = read_csv_rows(case / "field-comparison.csv")
+    native = ET.fromstring(read_trace_source(case / "native", "field-counts.xml"))
+    counts = {(r.get("id"), float(r.get("begin")), float(r.get("end"))): int(r.get("nVehContrib")) for r in native}
+    assert len(fields) == 130 and sum(int(r["measured_nVehContrib"]) for r in fields) == 4887
+    assert all(counts[r["detector_id"], float(r["begin"]), float(r["end"])] == int(r["measured_nVehContrib"]) for r in fields)
+    decomposition = json.loads((case / "data-analysis/decomposition.json").read_bytes())
+    assert decomposition["all_130_residual_identities_verified"] and not decomposition["arrivals_without_complete_assigned_passage"]
+    assert decomposition["totals"]["not_entered_by_native_end"] == 934
+    prefix = json.loads((case / "analysis/prefix-reproduction-check.json").read_bytes())
+    assert prefix["compared_intervals"] == 52 and prefix["all_initialization_intervals_match"]
+    participants = json.loads((case / "analysis/original-participant-route-correspondence.json").read_bytes())
+    assert participants["applicable_original_sites"] == 5 and participants["bypassed_original_sites"] == 1
+    assert sum(r["native_arrival_s"] >= 0 for r in participants["vehicles"]) == 5
+    assert json.loads((case / "decision.json").read_bytes())["decision"] == "not_promoted"
