@@ -198,3 +198,102 @@ def test_metadata_format_fix_can_reuse_native_but_native_command_change_cannot(c
     _write(execution / "execution.json", record)
     with pytest.raises(ValueError, match="native OD command changed"):
         reuse_hamburg_od_initial(**cached_initial)
+
+
+def _configure_execution(cached_initial, *, backend, layout):
+    cached = cached_initial["cached_dir"]
+    native = cached / "native"
+    legacy = cached.with_name(cached.name + "-execution")
+    execution_dir = legacy
+    if layout == "parent":
+        execution_dir = cached.parent
+        shutil.copytree(legacy / "implementation", execution_dir / "implementation")
+        shutil.copyfile(legacy / "execution.json", execution_dir / "execution.json")
+        (legacy / "execution.json").rename(legacy / "execution.legacy-disabled.json")
+    execution = json.loads((execution_dir / "execution.json").read_bytes())
+    execution["backend"] = backend
+    for filename in ("run.json", "native-request.json", "stall-monitor.json"):
+        record = json.loads((native / filename).read_bytes())
+        record["backend"] = backend
+        _write(native / filename, record)
+    if backend == "libsumo":
+        library = pytest.importorskip("libsumo._libsumo")
+        digest = file_sha256(Path(library.__file__))
+        execution["versions"]["libsumo"] = "1.27.1"
+        execution["libsumo_sha256"] = digest
+        monitor = json.loads((native / "stall-monitor.json").read_bytes())
+        request = json.loads((native / "native-request.json").read_bytes())
+        monitor.update(command=request["command"], native_returncode=None, library_completed=True,
+                       native_library={"path": library.__file__, "sha256": digest})
+        _write(native / "stall-monitor.json", monitor)
+    _write(execution_dir / "execution.json", execution)
+    return execution_dir
+
+
+@pytest.mark.parametrize("backend", ["traci", "libsumo"])
+@pytest.mark.parametrize("layout", ["legacy", "parent"])
+def test_reuse_supports_declared_backends_and_real_execution_layouts(cached_initial, backend, layout):
+    execution_dir = _configure_execution(cached_initial, backend=backend, layout=layout)
+    evidence_before = {p: p.read_bytes() for p in cached_initial["cached_dir"].rglob("*") if p.is_file()}
+    evaluation, provenance = reuse_hamburg_od_initial(**cached_initial)
+    assert evaluation["loss"] == 4 and evaluation["field_rows"] == 130
+    assert evaluation["derived_station_rows"] == 40
+    assert provenance["backend"] == backend
+    assert provenance["execution_file"] == str(execution_dir / "execution.json")
+    assert len(provenance["input_sha256"]) == 6
+    if backend == "libsumo":
+        assert provenance["native_library"]["sha256"] == json.loads(
+            (execution_dir / "execution.json").read_bytes())["libsumo_sha256"]
+    assert all(p.read_bytes() == raw for p, raw in evidence_before.items())
+    assert not (cached_initial["cached_dir"] / "evaluation-execution").exists()
+
+
+@pytest.mark.parametrize("kind", ["command", "returncode", "completion", "backend", "library_hash"])
+def test_libsumo_rejects_wrong_monitor_completion_or_runtime(cached_initial, kind):
+    _configure_execution(cached_initial, backend="libsumo", layout="parent")
+    path = cached_initial["cached_dir"] / "native/stall-monitor.json"
+    record = json.loads(path.read_bytes())
+    if kind == "command":
+        record["command"] += ["--remote-port", "1234"]
+    elif kind == "returncode":
+        record["native_returncode"] = 0
+    elif kind == "completion":
+        record["library_completed"] = False
+    elif kind == "backend":
+        record["backend"] = "traci"
+    else:
+        record["native_library"]["sha256"] = "0" * 64
+    _write(path, record)
+    with pytest.raises(ValueError, match="native monitor|Libsumo"):
+        reuse_hamburg_od_initial(**cached_initial)
+
+
+@pytest.mark.parametrize("kind", ["missing_library_hash", "library_hash", "version", "backend", "frozen_code"])
+def test_parent_libsumo_execution_rejects_stale_or_incompatible_evidence(cached_initial, kind):
+    execution_dir = _configure_execution(cached_initial, backend="libsumo", layout="parent")
+    path = execution_dir / "execution.json"
+    record = json.loads(path.read_bytes())
+    if kind == "missing_library_hash":
+        record.pop("libsumo_sha256")
+    elif kind == "library_hash":
+        record["libsumo_sha256"] = "0" * 64
+    elif kind == "version":
+        record["versions"]["libsumo"] = "1.26.0"
+    elif kind == "backend":
+        record["backend"] = "traci"
+    else:
+        frozen = execution_dir / "implementation/astra_sumo/core/lane_section_hold.py"
+        frozen.write_bytes(frozen.read_bytes() + b"\n")
+    _write(path, record)
+    with pytest.raises(ValueError, match="Libsumo|1.27.1|backend|implementation hash"):
+        reuse_hamburg_od_initial(**cached_initial)
+
+
+def test_parent_layout_does_not_relax_selected_initial_vector_identity(cached_initial):
+    _configure_execution(cached_initial, backend="libsumo", layout="parent")
+    path = cached_initial["prepared_dir"] / "initial-od-vector.json"
+    initial = json.loads(path.read_bytes())
+    initial["values"][125] = 0
+    _write(path, initial)
+    with pytest.raises(ValueError, match="cached OD vector differs"):
+        reuse_hamburg_od_initial(**cached_initial)

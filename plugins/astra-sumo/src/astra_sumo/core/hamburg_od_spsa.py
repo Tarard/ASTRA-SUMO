@@ -1,6 +1,7 @@
 """Materialize the approved empirical OD baseline and native SPSA loss calls."""
 
 from collections import defaultdict
+from concurrent.futures import ThreadPoolExecutor
 import gzip
 import json
 import math
@@ -315,9 +316,11 @@ def summarize_hamburg_od_measurement(*, prepared_dir, proposal_dir, native):
 
 
 def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, initial_evaluation_dir=None,
-                        stop_on_unsafe=False):
+                        stop_on_unsafe=False, backend="traci", parallel_pair=False):
     """Evaluate only complete native E1 vectors; record unsafe runs as diagnostic losses."""
     prepared, out = Path(prepared_dir).resolve(strict=True), Path(output_dir).resolve()
+    if backend not in {"traci", "libsumo"} or not isinstance(parallel_pair, bool):
+        raise ValueError("Use the traci or libsumo backend and a boolean parallel_pair option.")
     if out.exists() or prepared.is_relative_to(out):
         raise ValueError("Use a new SPSA directory separate from its inputs.")
     out.mkdir(parents=True)
@@ -334,22 +337,56 @@ def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, init
         def __init__(self, theta, name):
             self.theta, self.name = theta.tolist(), name
 
-    def completed(theta, name, evaluation):
+    def check_stopping(rows):
+        for theta, name, evaluation in rows:
+            if stop_on_unsafe and any(evaluation["completion"].get(key, 0) for key in ("collisions", "teleports", "discarded")):
+                raise UnsafeNativeEvaluation(theta, name)
+        for theta, name, evaluation in rows:
+            if evaluation["exact_count_fit"]:
+                raise ExactNativeFit(theta, name)
+
+    def completed(theta, name, evaluation, *, check=True):
         evaluations.append({"name": name, **evaluation})
         write_json_atomic(out / "evaluations.json", evaluations)
         write_json_atomic(out / "progress.json", {"stage": "native_evaluation_completed", "evaluation": name,
                                                    "completed_iterations": len(history), **evaluation})
-        if stop_on_unsafe and any(evaluation["completion"].get(key, 0) for key in ("collisions", "teleports", "discarded")):
-            raise UnsafeNativeEvaluation(theta, name)
-        if evaluation["exact_count_fit"]:
-            raise ExactNativeFit(theta, name)
+        if check:
+            check_stopping([(theta, name, evaluation)])
         return evaluation["loss"]
+
+    def measure(theta, name):
+        return measure_hamburg_od(prepared_dir=prepared, values=theta, output_dir=out / name,
+                                  sumo_binary=sumo_binary, backend=backend)
 
     def objective(theta, name):
         write_json_atomic(out / "progress.json", {"stage": "native_evaluation_running", "evaluation": name,
                                                    "completed_iterations": len(history)})
-        evaluation = measure_hamburg_od(prepared_dir=prepared, values=theta, output_dir=out / name, sumo_binary=sumo_binary)
+        evaluation = measure(theta, name)
         return completed(theta, name, evaluation)
+
+    def paired(plus, minus):
+        jobs, successful, failed = (plus, minus), [], []
+        write_json_atomic(out / "progress.json", {"stage": "native_pair_running",
+            "evaluations": [job[1] for job in jobs], "completed_iterations": len(history)})
+        # Every measurement launches its own simulation_stall process, including with Libsumo.
+        with ThreadPoolExecutor(max_workers=2) as executor:
+            futures = [executor.submit(measure, *job) for job in jobs]
+            for (theta, name), future in zip(jobs, futures):
+                try:
+                    evaluation = future.result()
+                except Exception as error:
+                    failed.append((name, error))
+                else:
+                    completed(theta, name, evaluation, check=False)
+                    successful.append((theta, name, evaluation))
+        if failed:
+            write_json_atomic(out / "pair-failure.json", {
+                "failed_evaluations": [{"name": name, "error": f"{type(error).__name__}: {error}"} for name, error in failed],
+                "completed_evaluations": [name for _, name, _ in successful],
+                "completed_iterations": len(history), "formal_result": False})
+            raise failed[0][1]
+        check_stopping(successful)
+        return tuple(evaluation["loss"] for _, _, evaluation in successful)
 
     def iteration(row):
         history.append(row)
@@ -365,10 +402,12 @@ def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, init
             proposed = write_hamburg_od_demand(model_file=prepared / "od-model.json", values=initial, output_dir=out / "initial")
             evaluation, provenance = reuse_hamburg_od_initial(prepared_dir=prepared, proposal_dir=proposed,
                                                               cached_dir=initial_evaluation_dir)
+            if provenance.get("backend", "traci") != backend:
+                raise ValueError("The cached native backend differs from the requested SPSA backend.")
             write_json_atomic(out / "initial-reuse.json", provenance)
             completed(np.asarray(initial, dtype=float), "initial", {**evaluation, "reused": True})
         result = calibrate_spsa(objective, initial, lower=np.zeros(len(initial)), upper=np.full(len(initial), np.inf),
-                                **settings, on_iteration=iteration)
+                                **settings, on_iteration=iteration, evaluate_pair=paired if parallel_pair else None)
         objective(np.asarray(result["theta"]), "final")
         result.update(final_vector_remeasured=True, selected_evaluation="final")
     except ExactNativeFit as reached:

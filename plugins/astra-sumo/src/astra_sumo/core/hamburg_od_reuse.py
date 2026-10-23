@@ -6,6 +6,7 @@ from importlib.metadata import version
 import json
 import math
 from pathlib import Path
+import sys
 import xml.etree.ElementTree as ET
 
 from .candidate_contracts import file_sha256
@@ -49,6 +50,10 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
     native = cached / "native"
     run = _read(native / "run.json")
     monitor = _read(native / "stall-monitor.json")
+    request = _read(native / "native-request.json")
+    backend = request.get("backend", "traci")
+    if backend not in {"traci", "libsumo"}:
+        raise ValueError("Reuse requires a declared traci or libsumo backend.")
     if (run.get("native_status") != "pass" or not run.get("observer_complete")
             or run.get("missing_field_bins") != 0 or run.get("expected_field_bins") != 130
             or not run.get("inputs_unchanged") or monitor.get("status") != "completed"
@@ -58,9 +63,9 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
             or run.get("measurement_attribute") != "nVehContrib"
             or run.get("driver_treatment") != "local_observation_and_junction_body_hold"
             or run.get("signal_treatment") != "declared_additional_programs"
-            or run.get("junction_body_hold_nodes") != body_nodes or run.get("state_times_s") != []):
+            or run.get("junction_body_hold_nodes") != body_nodes or run.get("state_times_s") != []
+            or run.get("backend", "traci") != backend):
         raise ValueError("The cached native settings differ from the OD objective.")
-    request = _read(native / "native-request.json")
     if (request.get("end_s") != 14400 or request.get("all_stopped_timeout_s") != 300
             or request.get("monitor_interval_s") is not None or request.get("junction_body_hold") is not True
             or request.get("junction_body_hold_nodes") != body_nodes):
@@ -70,7 +75,14 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
                            ("--time-to-teleport", "-1"), ("--collision.check-junctions", "true")):
         if command.count(flag) != 1 or command[command.index(flag) + 1] != expected:
             raise ValueError("The cached SUMO command differs from the OD objective.")
-    if (monitor.get("command", [])[:-2] != command or monitor.get("native_returncode") != 0
+    monitor_command = monitor.get("command", [])
+    if backend == "traci":
+        completed = (len(monitor_command) == len(command) + 2 and monitor_command[:-2] == command
+            and monitor_command[-2] == "--remote-port" and monitor.get("native_returncode") == 0)
+    else:
+        completed = (monitor_command == command and monitor.get("native_returncode") is None
+            and monitor.get("library_completed") is True)
+    if (not completed or monitor.get("backend", "traci") != backend
             or monitor.get("simulation_time_s") != 14400
             or monitor.get("native_version") != [22, "SUMO 1.27.1"]):
         raise ValueError("The native monitor does not confirm the declared command and SUMO completion.")
@@ -99,13 +111,36 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
         raise ValueError("The cached OD vector differs from the generated initial vector.")
 
     execution_dir = cached.with_name(cached.name + "-execution")
+    if not (execution_dir / "execution.json").is_file():
+        execution_dir = cached.parent
+    if not (execution_dir / "execution.json").is_file():
+        raise ValueError("Reuse requires an existing execution record and frozen implementation.")
     execution = _read(execution_dir / "execution.json")
     binary = Path(sumo.__file__).parent / "bin/sumo.exe"
-    if (execution.get("versions") != {name: "1.27.1" for name in ("eclipse-sumo", "sumolib", "traci")}
-            or any(version(name) != "1.27.1" for name in ("eclipse-sumo", "sumolib", "traci"))
+    supported_versions = {"eclipse-sumo", "sumolib", "traci", "libsumo"}
+    required_versions = {"eclipse-sumo", "sumolib", "traci"} | ({"libsumo"} if backend == "libsumo" else set())
+    recorded_versions = execution.get("versions", {})
+    if execution.get("backend", "traci") != backend:
+        raise ValueError("The execution backend differs from the native request.")
+    if (not required_versions <= recorded_versions.keys() or recorded_versions.keys() - supported_versions
+            or any(value != "1.27.1" or version(name) != "1.27.1" for name, value in recorded_versions.items())
             or execution.get("sumo_sha256") != file_sha256(binary)
             or file_sha256(Path(command[0])) != file_sha256(binary)):
-        raise ValueError("Reuse requires matching SUMO, traci and sumolib 1.27.1.")
+        raise ValueError("Reuse requires matching SUMO, traci, sumolib and declared Libsumo 1.27.1.")
+    native_library = None
+    if backend == "libsumo":
+        import libsumo
+        from libsumo import _libsumo
+
+        library = Path(_libsumo.__file__).resolve(strict=True)
+        digest = file_sha256(library)
+        recorded_library = monitor.get("native_library", {})
+        if (not library.is_relative_to(Path(sys.prefix).resolve()) or libsumo.__version__ != "1.27.1"
+                or execution.get("libsumo_sha256") != digest or recorded_library.get("sha256") != digest
+                or not Path(recorded_library.get("path", "")).is_file()
+                or file_sha256(Path(recorded_library["path"])) != digest):
+            raise ValueError("The Libsumo native library differs from its recorded hash or project runtime.")
+        native_library = {"path": str(library), "sha256": digest}
     recorded = {key.replace("\\", "/"): value for key, value in execution["implementation_sha256"].items()}
     source_dir = Path(__file__).parent
     frozen_dir = execution_dir / "implementation/astra_sumo/core"
@@ -162,6 +197,8 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
                                            "field-counts.xml", "summary.xml", "tripinfo.xml")]
     evidence += [cached / "od-vector.json", execution_dir / "execution.json"]
     provenance = {"cached_dir": str(cached), "initial_loss_recomputed_from_native_e1": True,
+                  "backend": backend, "execution_file": str(execution_dir / "execution.json"),
+                  "native_library": native_library,
                   "healthy": healthy, "input_sha256": input_hashes,
                   "native_implementation_sha256": implementation_hashes,
                   "od_functions_compared_as_ast": ["write_hamburg_od_demand"],

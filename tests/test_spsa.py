@@ -74,6 +74,108 @@ def test_failed_loss_and_invalid_initial_vector_are_not_zero():
         calibrate_spsa(lambda theta, name: 0, [-1], **settings)
 
 
+@pytest.mark.parametrize("automatic_gain", [False, True])
+def test_pair_callback_preserves_serial_rng_clipping_losses_history_and_theta(automatic_gain):
+    assignment = np.array([[1., 2., 0.], [0., 1., 1.], [2., 0., 1.]])
+    target = np.array([18., 9., 12.])
+    calls = {"serial": [], "paired": []}
+
+    def loss(theta, name, *, mode):
+        calls[mode].append((theta.tolist(), name))
+        value = float(np.sum((assignment @ theta - target) ** 2))
+        theta[:] = -999  # Both interfaces must isolate the algorithm from callback mutation.
+        return value
+
+    def pair(plus, minus):
+        return loss(*plus, mode="paired"), loss(*minus, mode="paired")
+
+    settings = dict(lower=[0, 0, 0], upper=[12, 12, 12], a=None if automatic_gain else .1,
+                    initial_step=.7 if automatic_gain else None, A=3, c=3,
+                    alpha=.602, gamma=.101, iterations=5, seed=104)
+    saved_serial, saved_pair = [], []
+    serial = calibrate_spsa(lambda theta, name: loss(theta, name, mode="serial"), [0, 12, 5],
+                            on_iteration=saved_serial.append, **settings)
+    paired = calibrate_spsa(lambda *args: pytest.fail("Pair evaluation must replace objective calls."),
+                            [0, 12, 5], evaluate_pair=pair, on_iteration=saved_pair.append, **settings)
+    assert paired == serial and saved_pair == saved_serial == serial["history"]
+    assert calls["paired"] == calls["serial"] and len(calls["paired"]) == paired["loss_evaluations"] == 10
+    assert calls["paired"][0][1:] == ("iteration-0001-plus",)
+    assert calls["paired"][1][1:] == ("iteration-0001-minus",)
+
+
+def test_pair_callback_automatic_gain_uses_its_actual_first_two_losses():
+    calls = []
+
+    def pair(plus, minus):
+        calls.append((plus[1], minus[1]))
+        return 1000., 916.
+
+    result = calibrate_spsa(lambda *args: pytest.fail("No serial loss call is allowed."), [5, 6],
+        lower=[0, 0], upper=[20, 20], a=None, initial_step=.75, A=3, c=2,
+        alpha=.602, gamma=.101, iterations=1, seed=104, evaluate_pair=pair)
+    row = result["history"][0]
+    assert (row["loss_plus"], row["loss_minus"]) == (1000, 916)
+    assert max(map(abs, row["gradient"])) == 21
+    assert row["a"] == pytest.approx(.75 * 4 ** .602 / 21)
+    assert np.allclose(np.abs(np.asarray(row["next_theta"]) - row["theta"]), .75)
+    assert len(calls) == 1 and result["loss_evaluations"] == 2
+
+
+@pytest.mark.parametrize("returned", [None, [], [1], [1, 2, 3], 1.0])
+def test_pair_callback_rejects_wrong_return_length_without_update(returned):
+    calls, updates = [], []
+
+    def pair(plus, minus):
+        calls.append((plus[1], minus[1]))
+        return returned
+
+    with pytest.raises(ValueError, match="exactly two losses"):
+        calibrate_spsa(lambda *args: pytest.fail("No serial fallback is allowed."), [5],
+            lower=[0], upper=[20], a=.1, A=0, c=1, alpha=.602, gamma=.101,
+            iterations=3, seed=104, evaluate_pair=pair, on_iteration=updates.append)
+    assert len(calls) == 1 and updates == []
+
+
+@pytest.mark.parametrize("losses", [(float("nan"), 1), (1, float("inf")), (-float("inf"), 1)])
+def test_pair_callback_rejects_nonfinite_loss_without_update(losses):
+    updates = []
+    with pytest.raises(ValueError, match="losses must be finite"):
+        calibrate_spsa(lambda *args: pytest.fail("No serial fallback is allowed."), [5],
+            lower=[0], upper=[20], a=.1, A=0, c=1, alpha=.602, gamma=.101,
+            iterations=3, seed=104, evaluate_pair=lambda *args: losses, on_iteration=updates.append)
+    assert updates == []
+
+
+def test_pair_callback_failure_after_completed_update_does_not_continue():
+    calls, updates = [], []
+    initial = np.array([5.])
+
+    def pair(plus, minus):
+        calls.append((plus[1], minus[1]))
+        if len(calls) == 2:
+            raise RuntimeError("native pair failed; preserve both outputs")
+        return 2., 1.
+
+    with pytest.raises(RuntimeError, match="native pair failed"):
+        calibrate_spsa(lambda *args: pytest.fail("No serial fallback is allowed."), initial,
+            lower=[0], upper=[20], a=.1, A=0, c=1, alpha=.602, gamma=.101,
+            iterations=3, seed=104, evaluate_pair=pair, on_iteration=updates.append)
+    assert len(calls) == 2 and len(updates) == 1
+    assert calls[-1] == ("iteration-0002-plus", "iteration-0002-minus")
+    assert initial.tolist() == [5.]
+
+
+def test_pair_callback_zero_first_gradient_preserves_gain_failure():
+    from astra_sumo.core.spsa import InitialSPSAGainUnavailable
+
+    updates = []
+    with pytest.raises(InitialSPSAGainUnavailable, match="first SPSA gradient is zero"):
+        calibrate_spsa(lambda *args: pytest.fail("No serial fallback is allowed."), [5],
+            lower=[0], upper=[20], a=None, initial_step=1, A=3, c=1, alpha=.602, gamma=.101,
+            iterations=3, seed=104, evaluate_pair=lambda *args: (3., 3.), on_iteration=updates.append)
+    assert updates == []
+
+
 @pytest.mark.skipif(importlib.util.find_spec("sumo") is None, reason="Repository SUMO runtime required")
 def test_spsa_loss_from_native_e1_and_zero_od_demand(tmp_path):
     import sumo

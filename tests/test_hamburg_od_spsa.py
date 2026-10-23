@@ -1,7 +1,12 @@
 from collections import Counter
 import json
 import gzip
+import hashlib
+import os
 from pathlib import Path
+import runpy
+import sys
+from threading import Barrier, Lock
 import xml.etree.ElementTree as ET
 
 import numpy as np
@@ -230,3 +235,161 @@ def test_explicit_od_native_measurement_reuses_full_count_validation(tmp_path):
     native = json.loads(gzip.decompress((source / "run.json.gz").read_bytes()))
     result = summarize_hamburg_od_measurement(prepared_dir=prepared, proposal_dir=proposal, native=native)
     assert result == json.loads((source / "evaluation.json").read_bytes())
+
+
+def _pair_workflow_fixture(tmp_path):
+    prepared = tmp_path / "prepared"
+    prepared.mkdir()
+    (prepared / "initial-od-vector.json").write_text(json.dumps({"values": [8]}), encoding="utf-8")
+    settings = dict(a=.1, A=0, c=2, alpha=.602, gamma=.101, iterations=1, seed=104)
+    return prepared, settings
+
+
+def _pair_evaluation(value, *, collision=0, exact=False):
+    loss = float((value - 12) ** 2)
+    return {"loss": loss, "MAE": loss, "max_abs_error": loss, "healthy": exact,
+            "exact_count_fit": exact,
+            "completion": dict(collisions=collision, teleports=0, discarded=0, waiting=0, running=0)}
+
+
+@pytest.mark.parametrize("backend", ["traci", "libsumo"])
+@pytest.mark.parametrize("parallel", [False, True])
+def test_workflow_forwards_backend_and_pairs_really_overlap(tmp_path, monkeypatch, backend, parallel):
+    prepared, settings = _pair_workflow_fixture(tmp_path)
+    barrier, lock = Barrier(2), Lock()
+    calls, active, peak = [], 0, 0
+
+    def measured(**kwargs):
+        nonlocal active, peak
+        name = Path(kwargs["output_dir"]).name
+        assert kwargs["backend"] == backend
+        calls.append(name)
+        if parallel and name.startswith("iteration-"):
+            with lock:
+                active += 1
+                peak = max(peak, active)
+            barrier.wait(timeout=5)
+            with lock:
+                active -= 1
+        return _pair_evaluation(float(kwargs["values"][0]))
+
+    monkeypatch.setattr(workflow, "measure_hamburg_od", measured)
+    result = workflow.run_hamburg_od_spsa(prepared_dir=prepared, output_dir=tmp_path / "study", sumo_binary="unused",
+        settings=settings, backend=backend, parallel_pair=parallel)
+    assert peak == (2 if parallel else 0)
+    assert len(calls) == 4 and calls[0] == "initial" and calls[-1] == "final"
+    assert [r["name"] for r in result["evaluations"]] == ["initial", "iteration-0001-plus", "iteration-0001-minus", "final"]
+    assert result["completed_iterations"] == 1 and result["native_evaluations"] == 4
+
+
+@pytest.mark.parametrize("failed_suffix", ["plus", "minus"])
+def test_parallel_pair_retains_successful_partner_before_failure(tmp_path, monkeypatch, failed_suffix):
+    prepared, settings = _pair_workflow_fixture(tmp_path)
+    barrier = Barrier(2)
+    calls = []
+
+    def measured(**kwargs):
+        out = Path(kwargs["output_dir"])
+        calls.append(out.name)
+        out.mkdir()
+        if out.name.startswith("iteration-"):
+            barrier.wait(timeout=5)
+            if out.name.endswith(failed_suffix):
+                raise RuntimeError("failed native partner")
+        (out / "completed.json").write_text("{}", encoding="utf-8")
+        return _pair_evaluation(float(kwargs["values"][0]))
+
+    monkeypatch.setattr(workflow, "measure_hamburg_od", measured)
+    out = tmp_path / "failed"
+    with pytest.raises(RuntimeError, match="failed native partner"):
+        workflow.run_hamburg_od_spsa(prepared_dir=prepared, output_dir=out, sumo_binary="unused", settings=settings,
+            backend="libsumo", parallel_pair=True)
+    partner = "iteration-0001-" + ("minus" if failed_suffix == "plus" else "plus")
+    assert [r["name"] for r in json.loads((out / "evaluations.json").read_bytes())] == ["initial", partner]
+    assert (out / partner / "completed.json").exists()
+    failure = json.loads((out / "failure.json").read_bytes())
+    assert failure["completed_iterations"] == 0 and failure["completed_native_evaluations"] == 2
+    assert json.loads((out / "pair-failure.json").read_bytes())["completed_evaluations"] == [partner]
+    assert len(calls) == 3 and "final" not in calls and not (out / "iteration-0001.json").exists()
+
+
+@pytest.mark.parametrize("exact_partner", [False, True])
+def test_parallel_unsafe_pair_records_both_and_checks_safety_before_zero(tmp_path, monkeypatch, exact_partner):
+    prepared, settings = _pair_workflow_fixture(tmp_path)
+    barrier = Barrier(2)
+
+    def measured(**kwargs):
+        name = Path(kwargs["output_dir"]).name
+        if name.startswith("iteration-"):
+            barrier.wait(timeout=5)
+        return _pair_evaluation(float(kwargs["values"][0]), collision=int(name.endswith("-minus")),
+                                exact=exact_partner and name.endswith("-plus"))
+
+    monkeypatch.setattr(workflow, "measure_hamburg_od", measured)
+    out = tmp_path / "unsafe"
+    result = workflow.run_hamburg_od_spsa(prepared_dir=prepared, output_dir=out, sumo_binary="unused", settings=settings,
+        backend="libsumo", parallel_pair=True, stop_on_unsafe=True)
+    assert [r["name"] for r in result["evaluations"]] == ["initial", "iteration-0001-plus", "iteration-0001-minus"]
+    assert result["stopping_reason"] == "unsafe_native_evaluation" and result["completed_iterations"] == 0
+    assert result["selected_evaluation"] == "iteration-0001-minus" and not result["formal_result"]
+    assert not (out / "iteration-0001.json").exists()
+
+
+def test_workflow_rejects_reused_backend_mismatch_before_any_native_call(tmp_path, monkeypatch):
+    from astra_sumo.core import hamburg_od_reuse
+
+    prepared, settings = _pair_workflow_fixture(tmp_path)
+
+    def generate(**kwargs):
+        kwargs["output_dir"].mkdir()
+        return kwargs["output_dir"]
+
+    monkeypatch.setattr(workflow, "write_hamburg_od_demand", generate)
+    monkeypatch.setattr(hamburg_od_reuse, "reuse_hamburg_od_initial",
+                        lambda **kwargs: (_pair_evaluation(8), {"backend": "libsumo"}))
+    monkeypatch.setattr(workflow, "measure_hamburg_od", lambda **kwargs: pytest.fail("No native call is allowed."))
+    out = tmp_path / "mismatch"
+    with pytest.raises(ValueError, match="cached native backend"):
+        workflow.run_hamburg_od_spsa(prepared_dir=prepared, output_dir=out, sumo_binary="unused", settings=settings,
+            backend="traci", initial_evaluation_dir=tmp_path / "cached")
+    assert json.loads((out / "failure.json").read_bytes())["completed_native_evaluations"] == 0
+
+
+@pytest.mark.parametrize("backend,parallel", [("traci", False), ("libsumo", True)])
+def test_cli_forwards_runtime_options_and_freezes_actual_library_metadata(tmp_path, monkeypatch, backend, parallel):
+    import sumo
+
+    prepared, settings = _pair_workflow_fixture(tmp_path)
+    settings_path = tmp_path / "settings.json"
+    settings_path.write_text(json.dumps(settings), encoding="utf-8")
+    script = Path(__file__).parents[1] / "plugins/astra-sumo/scripts/run_hamburg_od_spsa.py"
+    output = tmp_path / "study"
+    calls = []
+
+    def recorded(**kwargs):
+        calls.append(kwargs)
+        return {"fake_measurement": True}
+
+    monkeypatch.setattr(workflow, "run_hamburg_od_spsa", recorded)
+    monkeypatch.setattr(workflow, "measure_hamburg_od", recorded)
+    monkeypatch.syspath_prepend(str(tmp_path))
+    monkeypatch.setenv("PYTHONPATH", os.environ.get("PYTHONPATH", ""))
+    argv = [str(script), "--prepared-dir", str(prepared), "--output-dir", str(output)]
+    if parallel:
+        argv += ["--settings", str(settings_path), "--backend", backend, "--parallel-pair"]
+    monkeypatch.setattr(sys, "argv", argv)
+    runpy.run_path(str(script), run_name="__main__")
+    assert len(calls) == 1 and calls[0]["backend"] == backend
+    if parallel:
+        assert calls[0]["parallel_pair"] is True
+    execution = output.with_name("study-execution")
+    metadata = json.loads((execution / "execution.json").read_bytes())
+    assert metadata["backend"] == backend and metadata["parallel_pair"] is parallel
+    assert metadata["runtime"]["PYTHONPATH"] == str(execution / "implementation")
+    assert (execution / "run.py").read_bytes() == script.read_bytes()
+    if backend == "libsumo":
+        library = Path(sumo.__file__).parent.parent / "libsumo/_libsumo.pyd"
+        assert metadata["versions"]["libsumo"] == "1.27.1"
+        assert metadata["libsumo_sha256"] == hashlib.sha256(library.read_bytes()).hexdigest()
+    else:
+        assert set(metadata["versions"]) == {"eclipse-sumo", "traci", "sumolib"}
