@@ -1,0 +1,71 @@
+{
+  "native_only": {
+    "field_metrics": {
+      "rows": 130,
+      "diagnostic_MAE": 17.83076923076923,
+      "max_absolute_error": 61,
+      "SSE": 78756,
+      "exact_rows": 3
+    },
+    "derived_station_metrics": {
+      "rows": 40,
+      "diagnostic_MAE": 56.1,
+      "max_absolute_error": 131,
+      "SSE": 182650,
+      "exact_rows": 0
+    },
+    "completion": {
+      "loaded": 8622,
+      "inserted": 7064,
+      "arrived": 6663,
+      "running": 401,
+      "waiting": 1558,
+      "teleports": 1,
+      "collisions": 1,
+      "discarded": 0
+    },
+    "healthy": false,
+    "exact_count_fit": false,
+    "unchanged_nonnetwork_input_hashes": true,
+    "junction_body_hold_nodes": [
+      "14398547",
+      "205069138",
+      "18653534"
+    ]
+  },
+  "body_hold": {
+    "field_metrics": {
+      "rows": 130,
+      "diagnostic_MAE": 17.76153846153846,
+      "max_absolute_error": 71,
+      "SSE": 87009,
+      "exact_rows": 5
+    },
+    "derived_station_metrics": {
+      "rows": 40,
+      "diagnostic_MAE": 56.775,
+      "max_absolute_error": 122,
+      "SSE": 198725,
+      "exact_rows": 0
+    },
+    "completion": {
+      "loaded": 8622,
+      "inserted": 7140,
+      "arrived": 6746,
+      "running": 394,
+      "waiting": 1482,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "healthy": false,
+    "exact_count_fit": false,
+    "unchanged_nonnetwork_input_hashes": true,
+    "junction_body_hold_nodes": [
+      "14398547",
+      "205069138",
+      "18653534",
+      "LSA104_part0"
+    ]
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "astra.partial-point-detector-measurements/v1",
+  "status": "measured",
+  "formal_result": false,
+  "native_completion_established": false,
+  "inputs": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-collision-diagnosis-20261023\\104-body-prefix\\field-counts.xml",
+      "sha256": "c19f57c82126ce3535f7d8c60c2541b11a3342f58632446030f8311223399f14"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-collision-diagnosis-20261023\\104-body-prefix\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    }
+  ],
+  "errors": [],
+  "source_parse_error": null,
+  "completed_records": 65,
+  "expected_field_bins": 130,
+  "recovered_field_bins": 13,
+  "missing_field_bins": 117,
+  "exact_field_bins": 2,
+  "field_metrics": null,
+  "exact_count_fit": false,
+  "field_comparison": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-collision-diagnosis-20261023\\104-body-prefix\\all-130-targets\\field-comparison.csv",
+  "completed_records_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-collision-diagnosis-20261023\\104-body-prefix\\all-130-targets\\completed-e1-records.xml",
+  "inputs_unchanged": true,
+  "claim_boundary": "Completed E1 records only. The native run remains unverified. No accepted fit metric or exact calibration result is supplied.",
+  "report_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-collision-diagnosis-20261023\\104-body-prefix\\all-130-targets\\report.json"
+}

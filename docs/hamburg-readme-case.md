@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [LSA104 split-fanout diagnosis and complete-window check](../benchmarks/hamburg_ring1_104_split_fanout_20261023_v1/README.md) reproduces a collision with two vehicles.
+An explicit native complete-path candidate retains all roads, turns, curves and signal programs.
+With the declared LSA104 junction-body hold, the same final OD completes the 14400-second run with zero collisions and teleports.
+It remains invalid: 1482 requests never enter, 394 vehicles remain running, and diagnostic field MAE is 17.761538, with only 5/130 exact rows.
+All 130 field and 40 derived station rows are retained. Neither this result nor the native-only predecessor is accepted as calibrated.
+
 The [completed first SPSA round, V3](../benchmarks/hamburg_ring1_od_spsa_completed_20261023_v3/README.md) retains all four native evaluations and every 130/40 comparison.
 One update and its full remeasurement are complete. The final diagnostic field MAE is 15.646154 against 14.923077 initially, with six collisions, six teleports and 1212 waiting vehicles.
 All evaluations remain invalid. The thirteen collisions in the perturbation and final runs occur on `:LSA104_part0_12_0`. No exact calibration or convergence claim is made.
