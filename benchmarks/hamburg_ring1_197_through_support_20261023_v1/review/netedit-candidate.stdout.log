@@ -1,0 +1,671 @@
+{
+  "schema": "torii.netedit-background-review.direct/v1",
+  "status": "review_material_ready",
+  "review_scope": "single-hash-bound-candidate-junction",
+  "candidate_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml",
+  "candidate_sha256_before": "68d2f6d2e8630c23f2135202ed906fb47943587cd986ac055c8d99279d582e5c",
+  "candidate_sha256_after": "68d2f6d2e8630c23f2135202ed906fb47943587cd986ac055c8d99279d582e5c",
+  "candidate_unchanged": true,
+  "aerial_background": {
+    "image": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_munich_corridor_20261022_v1\\figure-sources\\aerial-2026.png",
+      "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902",
+      "size_pixels": [
+        4096,
+        2052
+      ]
+    },
+    "image_crs": "EPSG:25832",
+    "bbox": [
+      565012.777442586,
+      5934182.48968876,
+      566680.15997914,
+      5935017.70874934
+    ],
+    "bbox_epsg25832": [
+      565012.777442586,
+      5934182.48968876,
+      566680.15997914,
+      5935017.70874934
+    ],
+    "orientation": "caller_declared_north_up",
+    "network_projection": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+    "network_offset": [
+      -564907.515104,
+      -5934081.485621
+    ],
+    "rectangle_fit_error_m": 1.8662795822463695e-09,
+    "rectangle_fit_limit_m": 0.1,
+    "decal": {
+      "file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_munich_corridor_20261022_v1\\figure-sources\\aerial-2026.png",
+      "centerX": "938.953606162",
+      "centerY": "518.613722174",
+      "width": "1667.38253654",
+      "height": "835.219060581",
+      "rotation": "0",
+      "layer": "-100",
+      "screenRelative": "false"
+    },
+    "claim_boundary": "The declared projected bounds locate the original pixels. Image orientation and surveyed alignment remain caller-supplied evidence.",
+    "image_sha256_after": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902",
+    "image_unchanged": true
+  },
+  "netedit_binary": ".venv/Lib/site-packages/sumo/bin\\netedit.exe",
+  "target_junction": {
+    "id": "1975693623",
+    "type": "traffic_light",
+    "x": 1642.494274,
+    "y": 317.748206,
+    "incoming_lanes": [
+      "-186821028_0",
+      "-186821028_1",
+      "-186821028_2",
+      "-186821028_3",
+      "-186821028_4",
+      "186821029#1_0",
+      "186821029#1_1",
+      "186821029#1_2",
+      "186821029#1_3",
+      ":1975693623_w1_0",
+      ":1975693623_w2_0",
+      ":1975693623_w3_0",
+      ":1975693623_w0_0"
+    ]
+  },
+  "view_center": [
+    1632.5540815,
+    313.9263005
+  ],
+  "zoom": 1870.388468957207,
+  "viewport_fit": {
+    "center": [
+      1632.5540815,
+      313.9263005
+    ],
+    "zoom": 1870.388468957207,
+    "basis": "conservative_world_span_fit",
+    "zoom_unit": "percent_of_initial_network_view",
+    "reference_bounds": [
+      0.0,
+      55.577919,
+      1734.896781,
+      980.726775
+    ],
+    "reference_bounds_basis": "convBoundary_estimate",
+    "runtime_grid_measured": false,
+    "target_bounds": [
+      1605.83,
+      291.667984,
+      1659.278163,
+      336.184617
+    ],
+    "connected_lane_context_m": 30.0,
+    "content_fraction": 0.9,
+    "limitation": "Initial NetEdit grid bounds are estimated, not measured. Check the actual Connection-mode image; explicit zoom can adjust its framing."
+  },
+  "neutral_overview_view": null,
+  "window_size": "1600,1000",
+  "mode_delivery": "target-window WM_KEYDOWN/WM_KEYUP",
+  "capture_delivery": "target-window PrintWindow(PW_RENDERFULLCONTENT)",
+  "selection_delivery": "NetEdit --selection-file",
+  "inspect_object_delivery": "junction selection only; Net: junction attribute pane remains unverified",
+  "inspect_object_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml#junction[1975693623]",
+  "capture_session_count": 3,
+  "expected_capture_session_count": 3,
+  "requested_capture_modes": [
+    "inspect",
+    "tls",
+    "connection"
+  ],
+  "inspect_selection": "junction",
+  "global_keyboard_or_mouse_input_used": false,
+  "foreground_context_restored": true,
+  "keyboard_layout_context": {
+    "status": "pass",
+    "is_chinese": false,
+    "foreground_hwnd": 67482,
+    "target_hwnd": 67482,
+    "thread_id": 19948,
+    "hkl": "0x4090409",
+    "lang_id": "0x0409",
+    "primary_language_id": 9,
+    "layout_name": "00000804",
+    "changed_by_torii": true,
+    "before": {
+      "status": "blocked",
+      "is_chinese": true,
+      "foreground_hwnd": 67482,
+      "target_hwnd": 67482,
+      "thread_id": 19948,
+      "hkl": "0x8040804",
+      "lang_id": "0x0804",
+      "primary_language_id": 4,
+      "layout_name": "00000804"
+    }
+  },
+  "mode_images_distinct": true,
+  "captures": [
+    {
+      "name": "direct-1975693623-6044aaa74d-inspect",
+      "mode": "inspect",
+      "selection_type": "junction",
+      "selection_id": "1975693623",
+      "command": [
+        ".venv/Lib/site-packages/sumo/bin\\netedit.exe",
+        "-s",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml",
+        "-g",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-inspect.view.xml",
+        "--selection-file",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-inspect.selection.txt",
+        "--registry-viewport",
+        "false",
+        "--window-size",
+        "1600,1000",
+        "--window-pos",
+        "20,20"
+      ],
+      "pid": 17244,
+      "window_title": "network.net.xml - netedit 1.27.1",
+      "view_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-inspect.view.xml",
+      "selection_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-inspect.selection.txt",
+      "preselection_applied": true,
+      "screenshot_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-inspect.png",
+      "mode_delivery": {
+        "status": "pass",
+        "mode": "inspect",
+        "virtual_keys": [
+          67,
+          73
+        ],
+        "target_hwnd": 77002,
+        "target_class": "FXGLCanvas",
+        "foreground_before": {
+          "hwnd": 196796,
+          "process_id": 10504
+        },
+        "foreground_after": {
+          "hwnd": 196796,
+          "process_id": 10504
+        },
+        "foreground_context_unchanged": true
+      },
+      "inspect_delivery": {
+        "status": "unverified",
+        "object_type": "junction",
+        "delivery": "NetEdit junction selection file; attribute-pane inspection not claimed",
+        "foreground_context_unchanged": true
+      },
+      "foreground_before": 196796,
+      "foreground_after": 196796,
+      "foreground_context_before": {
+        "hwnd": 196796,
+        "process_id": 10504
+      },
+      "foreground_context_after": {
+        "hwnd": 196796,
+        "process_id": 10504
+      },
+      "foreground_context_restored": true,
+      "foreground_restore_events": [
+        {
+          "observed": {
+            "hwnd": 67482,
+            "process_id": 17244
+          },
+          "restore_attempted": true,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        }
+      ],
+      "foreground_samples": [
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796
+      ],
+      "foreground_unchanged": true,
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "bright_pixel_fraction": 0.3970379841976938
+        }
+      ],
+      "window_presentation": {
+        "status": "pass",
+        "window_state": "maximized"
+      },
+      "dpi_awareness": {
+        "status": "pass",
+        "context": "per-monitor-v2",
+        "already_enabled": false
+      },
+      "keyboard_layout": {
+        "status": "pass",
+        "is_chinese": false,
+        "foreground_hwnd": 67482,
+        "target_hwnd": 67482,
+        "thread_id": 19948,
+        "hkl": "0x4090409",
+        "lang_id": "0x0409",
+        "primary_language_id": 9,
+        "layout_name": "00000804",
+        "changed_by_torii": true,
+        "before": {
+          "status": "blocked",
+          "is_chinese": true,
+          "foreground_hwnd": 67482,
+          "target_hwnd": 67482,
+          "thread_id": 19948,
+          "hkl": "0x8040804",
+          "lang_id": "0x0804",
+          "primary_language_id": 4,
+          "layout_name": "00000804"
+        }
+      },
+      "print_window_result": 1,
+      "width": 2210,
+      "height": 1202,
+      "bright_pixel_fraction": 0.3970379841976938,
+      "sha256": "df4803e6e709c768dbf160ff12e74ef7137b751aebadc6ac0ae03a70ebac862e",
+      "render_quality": "pass"
+    },
+    {
+      "name": "direct-1975693623-6044aaa74d-tls",
+      "mode": "tls",
+      "selection_type": "junction",
+      "selection_id": "1975693623",
+      "command": [
+        ".venv/Lib/site-packages/sumo/bin\\netedit.exe",
+        "-s",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml",
+        "-g",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-tls.view.xml",
+        "--selection-file",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-tls.selection.txt",
+        "--registry-viewport",
+        "false",
+        "--window-size",
+        "1600,1000",
+        "--window-pos",
+        "20,20"
+      ],
+      "pid": 21768,
+      "window_title": "network.net.xml - netedit 1.27.1",
+      "view_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-tls.view.xml",
+      "selection_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-tls.selection.txt",
+      "preselection_applied": true,
+      "screenshot_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-tls.png",
+      "mode_delivery": {
+        "status": "pass",
+        "mode": "tls",
+        "virtual_keys": [
+          84
+        ],
+        "target_hwnd": 134290,
+        "target_class": "FXGLCanvas",
+        "foreground_before": {
+          "hwnd": 196796,
+          "process_id": 10504
+        },
+        "foreground_after": {
+          "hwnd": 196796,
+          "process_id": 10504
+        },
+        "foreground_context_unchanged": true
+      },
+      "inspect_delivery": {
+        "status": "not_required",
+        "object_type": null,
+        "delivery": "NetEdit junction selection file; attribute-pane inspection not claimed",
+        "foreground_context_unchanged": true
+      },
+      "foreground_before": 196796,
+      "foreground_after": 196796,
+      "foreground_context_before": {
+        "hwnd": 196796,
+        "process_id": 10504
+      },
+      "foreground_context_after": {
+        "hwnd": 196796,
+        "process_id": 10504
+      },
+      "foreground_context_restored": true,
+      "foreground_restore_events": [
+        {
+          "observed": {
+            "hwnd": 134114,
+            "process_id": 21768
+          },
+          "restore_attempted": true,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        }
+      ],
+      "foreground_samples": [
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796
+      ],
+      "foreground_unchanged": true,
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "bright_pixel_fraction": 0.3776554107316358
+        }
+      ],
+      "window_presentation": {
+        "status": "pass",
+        "window_state": "maximized"
+      },
+      "dpi_awareness": {
+        "status": "pass",
+        "context": "per-monitor-v2",
+        "already_enabled": false
+      },
+      "keyboard_layout": {
+        "status": "pass",
+        "is_chinese": false,
+        "foreground_hwnd": 134114,
+        "target_hwnd": 134114,
+        "thread_id": 13932,
+        "hkl": "0x4090409",
+        "lang_id": "0x0409",
+        "primary_language_id": 9,
+        "layout_name": "00000804",
+        "changed_by_torii": false
+      },
+      "print_window_result": 1,
+      "width": 2210,
+      "height": 1202,
+      "bright_pixel_fraction": 0.3776554107316358,
+      "sha256": "1f4915704940fbefdd544f1f4634465c054bd324587409aa56a772d2d42c1d16",
+      "render_quality": "pass"
+    },
+    {
+      "name": "direct-1975693623-6044aaa74d-connection",
+      "mode": "connection",
+      "selection_type": "junction",
+      "selection_id": "1975693623",
+      "command": [
+        ".venv/Lib/site-packages/sumo/bin\\netedit.exe",
+        "-s",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml",
+        "-g",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-connection.view.xml",
+        "--selection-file",
+        "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-connection.selection.txt",
+        "--registry-viewport",
+        "false",
+        "--window-size",
+        "1600,1000",
+        "--window-pos",
+        "20,20"
+      ],
+      "pid": 14524,
+      "window_title": "network.net.xml - netedit 1.27.1",
+      "view_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-connection.view.xml",
+      "selection_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-connection.selection.txt",
+      "preselection_applied": true,
+      "screenshot_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\direct-1975693623-6044aaa74d-connection.png",
+      "mode_delivery": {
+        "status": "pass",
+        "mode": "connection",
+        "virtual_keys": [
+          67
+        ],
+        "target_hwnd": 198686,
+        "target_class": "FXGLCanvas",
+        "foreground_before": {
+          "hwnd": 196796,
+          "process_id": 10504
+        },
+        "foreground_after": {
+          "hwnd": 196796,
+          "process_id": 10504
+        },
+        "foreground_context_unchanged": true
+      },
+      "inspect_delivery": {
+        "status": "not_required",
+        "object_type": null,
+        "delivery": "NetEdit junction selection file; attribute-pane inspection not claimed",
+        "foreground_context_unchanged": true
+      },
+      "foreground_before": 196796,
+      "foreground_after": 196796,
+      "foreground_context_before": {
+        "hwnd": 196796,
+        "process_id": 10504
+      },
+      "foreground_context_after": {
+        "hwnd": 196796,
+        "process_id": 10504
+      },
+      "foreground_context_restored": true,
+      "foreground_restore_events": [
+        {
+          "observed": {
+            "hwnd": 198620,
+            "process_id": 14524
+          },
+          "restore_attempted": true,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 196796,
+            "process_id": 10504
+          },
+          "context_restored": true
+        }
+      ],
+      "foreground_samples": [
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796,
+        196796
+      ],
+      "foreground_unchanged": true,
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "bright_pixel_fraction": 0.38956901134759575
+        }
+      ],
+      "window_presentation": {
+        "status": "pass",
+        "window_state": "maximized"
+      },
+      "dpi_awareness": {
+        "status": "pass",
+        "context": "per-monitor-v2",
+        "already_enabled": false
+      },
+      "keyboard_layout": {
+        "status": "pass",
+        "is_chinese": false,
+        "foreground_hwnd": 198620,
+        "target_hwnd": 198748,
+        "thread_id": 14120,
+        "hkl": "0x4090409",
+        "lang_id": "0x0409",
+        "primary_language_id": 9,
+        "layout_name": "00000804",
+        "changed_by_torii": false
+      },
+      "print_window_result": 1,
+      "width": 2210,
+      "height": 1202,
+      "bright_pixel_fraction": 0.38956901134759575,
+      "sha256": "b743bca26aa14d2f5ec9c8482878ea6831725e752da76ab57c627c7d9bf57f37",
+      "render_quality": "pass"
+    }
+  ],
+  "claim_boundary": "These images provide background NetEdit context for one immutable candidate junction owner. They do not prove official TLS correctness, do not constitute human validation, and do not authorize promotion.",
+  "automatic_promotion_gate": "blocked",
+  "report_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\review\\netedit-candidate\\review-6044aaa74d.json"
+}

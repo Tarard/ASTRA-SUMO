@@ -28,6 +28,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Reproducible Protocols
 
+- [Hamburg 535 approach: restored through connections and full native comparison, 2026-10-23](../../benchmarks/hamburg_ring1_197_through_support_20261023_v1/README.md)
 - [Hamburg joint OD SPSA: five completed rounds and native results, 2026-10-23](../../benchmarks/hamburg_ring1_joint_od_spsa_20261023_v1/README.md)
 - [Hamburg two-field boundary routes: native support check, 2026-10-23](../../benchmarks/hamburg_ring1_multifield_native_support_20261023_v1/README.md)
 - [Hamburg two-field trip substitutions under full demand, 2026-10-23](../../benchmarks/hamburg_ring1_multifield_substitution_20261023_v1/README.md)
