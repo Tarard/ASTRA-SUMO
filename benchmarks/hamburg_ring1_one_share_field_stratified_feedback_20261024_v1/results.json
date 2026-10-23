@@ -1,0 +1,189 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "search_reference_MAE": 3.9384615384615387,
+    "global_best_comparison_MAE": 3.7153846153846155,
+    "source_assignment": {
+      "C_shape": [
+        182,
+        406
+      ],
+      "groups": 29,
+      "all_prior_positive": true,
+      "minimum_prior": 1,
+      "rank130": 130,
+      "rank182": 182,
+      "source_events": 8640,
+      "tail_without_real_targets": 241,
+      "direction_L1": 32,
+      "changed_columns": 19,
+      "predicted_main_TAE": {
+        "plus": 480.00000000000006,
+        "minus": 544.0
+      },
+      "prediction_is_not_native": true,
+      "rank_is_not_zero_feasibility": true
+    },
+    "cases": {
+      "plus": {
+        "raw_verdict": "rejected",
+        "full": {
+          "main130": {
+            "SSE": 13133,
+            "TAE": 663,
+            "MAE": 5.1,
+            "max_abs_error": 45
+          },
+          "initial52": {
+            "SSE": 1005,
+            "TAE": 105,
+            "MAE": 2.019230769230769,
+            "max_abs_error": 15
+          },
+          "all182": {
+            "SSE": 14138,
+            "TAE": 768,
+            "MAE": 4.21978021978022,
+            "max_abs_error": 45
+          },
+          "station40_MAE": 14.475,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8631,
+            "arrived": 8542,
+            "waiting": 9,
+            "running": 89,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": false,
+          "safe": true,
+          "event_count": 8557,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 32
+        },
+        "search_gates": {
+          "safe": true,
+          "healthy": false,
+          "all53556_zero": true,
+          "no_repeated_vehicle_fields": true,
+          "no_contributions_outside_primary_intention": true,
+          "main130_MAE_improves": false,
+          "main130_SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "global_best_gates": {
+          "safe": true,
+          "healthy": false,
+          "all53556_zero": true,
+          "no_repeated_vehicle_fields": true,
+          "no_contributions_outside_primary_intention": true,
+          "main130_MAE_improves": false,
+          "main130_SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "scope": {
+          "departures_changed": 16,
+          "other8624_XML_intent_order_fixed": true,
+          "initial1953_fixed": true,
+          "OD_field29_totals_fixed": true,
+          "OD21_field13_totals_fixed": true,
+          "metadata294_and_vector406_separate": true,
+          "new_Z5_donor_not_reset": true,
+          "zero_target406": 1
+        }
+      },
+      "minus": {
+        "raw_verdict": "rejected",
+        "full": {
+          "main130": {
+            "SSE": 11631,
+            "TAE": 667,
+            "MAE": 5.130769230769231,
+            "max_abs_error": 35
+          },
+          "initial52": {
+            "SSE": 1005,
+            "TAE": 105,
+            "MAE": 2.019230769230769,
+            "max_abs_error": 15
+          },
+          "all182": {
+            "SSE": 12636,
+            "TAE": 772,
+            "MAE": 4.241758241758242,
+            "max_abs_error": 35
+          },
+          "station40_MAE": 14.725,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8543,
+            "waiting": 0,
+            "running": 97,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": false,
+          "safe": true,
+          "event_count": 8573,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 35
+        },
+        "search_gates": {
+          "safe": true,
+          "healthy": false,
+          "all53556_zero": true,
+          "no_repeated_vehicle_fields": true,
+          "no_contributions_outside_primary_intention": true,
+          "main130_MAE_improves": false,
+          "main130_SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "global_best_gates": {
+          "safe": true,
+          "healthy": false,
+          "all53556_zero": true,
+          "no_repeated_vehicle_fields": true,
+          "no_contributions_outside_primary_intention": true,
+          "main130_MAE_improves": false,
+          "main130_SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "scope": {
+          "departures_changed": 16,
+          "other8624_XML_intent_order_fixed": true,
+          "initial1953_fixed": true,
+          "OD_field29_totals_fixed": true,
+          "OD21_field13_totals_fixed": true,
+          "metadata294_and_vector406_separate": true,
+          "new_Z5_donor_not_reset": true,
+          "zero_target406": 0
+        }
+      }
+    },
+    "claim_boundary": "C/q and its full row rank are descriptive. Both native direction signs and two reference gates are retained. Improving3.938 does not imply improving3.715, zero fit, true OD or field control."
+  }
+}

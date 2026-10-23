@@ -1,0 +1,269 @@
+{
+  "bindings": [
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\contributing-passages.json.gz",
+      "sha256": "bfdcfd9433518e20a663566234a4df5c0f3b018497bd90dbf0ae102b3a28db08",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/contributing-passages.json.gz"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\od-model.json",
+      "sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_classical_od_response_20261023_v1/prepared/od-model.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\direction.json",
+      "sha256": "365fb200bc9faa8fcb8153b4975b643cc73819ed2495136ad138507a7b4bec7c",
+      "scope": "packet",
+      "target": "study-source/direction.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\solver-inputs406.npz",
+      "sha256": "6902d21149bc76476c9069b48c14aa7d873dccf138ceb4a54e8ed2f9e42e6e5b",
+      "scope": "packet",
+      "target": "study-source/solver-inputs406.npz"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\columns406.json",
+      "sha256": "5de6b2836f3bbd88c886920970b2a76835f0b440909dfe6debb6d3e11d55300f",
+      "scope": "packet",
+      "target": "study-source/columns406.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\prepare.py",
+      "sha256": "44cdf0d91dd0d18c3adf4c80663d32e25b4093ef03056010cc39223c9d06080e",
+      "scope": "packet",
+      "target": "study-source/prepare.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\od_assignment_feedback.py",
+      "sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc",
+      "scope": "packet",
+      "target": "minus/implementation/od_assignment_feedback.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\od_assignment_feedback.py",
+      "sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc",
+      "scope": "packet",
+      "target": "minus/implementation/od_assignment_feedback.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\od_stable_realization.py",
+      "sha256": "56ca5f4fabbe00ef796959a969f293afdd96b409fc18398f08ccc3c9e973a392",
+      "scope": "packet",
+      "target": "minus/implementation/od_stable_realization.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\od_stable_realization.py",
+      "sha256": "56ca5f4fabbe00ef796959a969f293afdd96b409fc18398f08ccc3c9e973a392",
+      "scope": "packet",
+      "target": "minus/implementation/od_stable_realization.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "packet",
+      "target": "minus/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "packet",
+      "target": "minus/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+      "scope": "packet",
+      "target": "minus/implementation/route_sensor_matrix.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+      "scope": "packet",
+      "target": "minus/implementation/route_sensor_matrix.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\contributing-passages.json.gz",
+      "sha256": "bfdcfd9433518e20a663566234a4df5c0f3b018497bd90dbf0ae102b3a28db08",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/contributing-passages.json.gz"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\od-model.json",
+      "sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_classical_od_response_20261023_v1/prepared/od-model.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\direction.json",
+      "sha256": "365fb200bc9faa8fcb8153b4975b643cc73819ed2495136ad138507a7b4bec7c",
+      "scope": "packet",
+      "target": "study-source/direction.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\solver-inputs406.npz",
+      "sha256": "6902d21149bc76476c9069b48c14aa7d873dccf138ceb4a54e8ed2f9e42e6e5b",
+      "scope": "packet",
+      "target": "study-source/solver-inputs406.npz"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\columns406.json",
+      "sha256": "5de6b2836f3bbd88c886920970b2a76835f0b440909dfe6debb6d3e11d55300f",
+      "scope": "packet",
+      "target": "study-source/columns406.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\prepare.py",
+      "sha256": "44cdf0d91dd0d18c3adf4c80663d32e25b4093ef03056010cc39223c9d06080e",
+      "scope": "packet",
+      "target": "study-source/prepare.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\od_assignment_feedback.py",
+      "sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc",
+      "scope": "packet",
+      "target": "minus/implementation/od_assignment_feedback.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\od_assignment_feedback.py",
+      "sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc",
+      "scope": "packet",
+      "target": "minus/implementation/od_assignment_feedback.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\od_stable_realization.py",
+      "sha256": "56ca5f4fabbe00ef796959a969f293afdd96b409fc18398f08ccc3c9e973a392",
+      "scope": "packet",
+      "target": "minus/implementation/od_stable_realization.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\od_stable_realization.py",
+      "sha256": "56ca5f4fabbe00ef796959a969f293afdd96b409fc18398f08ccc3c9e973a392",
+      "scope": "packet",
+      "target": "minus/implementation/od_stable_realization.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "packet",
+      "target": "minus/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "packet",
+      "target": "minus/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+      "scope": "packet",
+      "target": "minus/implementation/route_sensor_matrix.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+      "scope": "packet",
+      "target": "minus/implementation/route_sensor_matrix.py"
+    }
+  ],
+  "original_hashes_unchanged": true
+}
