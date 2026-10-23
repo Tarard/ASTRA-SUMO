@@ -1,0 +1,23 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "source_case": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-spsa-five-rounds-20261023\\study\\iteration-0001-plus",
+  "source_end_s": 14400,
+  "trace_end_s": 4131.0,
+  "observed_vehicles": [
+    "od_0078_v00053",
+    "od_0088_v00009"
+  ],
+  "input_sha256": {
+    "network.net.xml": "b293f592f7718626a3cdfc046d9b0fbbd0600d8d88f977258d7bca5f1f16fef7",
+    "demand.rou.xml": "2c2c3ec9e624f86193405e0d14b003850a910b93b9ec45d769dcc78427c04910",
+    "signal-programs.add.xml": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d",
+    "e1.add.xml": "b2db88fff330e54925a3659cf31046aa63f0079d671bb67d4702ebb5f2cfa0ba",
+    "instant.add.xml": "bc818144eccbfb912c695794d5079b7119cc4bc145b4b18d507ba2d29abeeaee",
+    "source-e1.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "lane-intentions.json": "0b142847c59748b37df5125ec166f6ce9f7ac5dceb3c705f55512fb68bac9d6a",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+  },
+  "change": "Native FCD on collision participants and lane-change output only. No traffic input or controller change.",
+  "claim_boundary": "Instrumented reproduction. Observation neutrality must be checked against native counts, collisions, completion and lane-hold events."
+}

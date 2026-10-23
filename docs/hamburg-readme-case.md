@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [LSA119 straight-curve repair](../benchmarks/hamburg_ring1_119_straight_order_20261023_v1/README.md) matches the recorded collision and isolates it with two vehicles.
+Ordering two explicitly selected straight curves removes long internal returns while retaining ordinary roads, turns, signals and other movement curves.
+The same 8603-request full evaluation has zero collisions and teleports, field diagnostic MAE 16.730769 and maximum error 58.
+It remains unaccepted: 1381 vehicles never enter and 409 remain running. All 130 field and 40 derived station rows remain available.
+
 The [authorized five-round extension](../benchmarks/hamburg_ring1_od_spsa_five_rounds_20261023_v1/README.md) stopped after two complete native evaluations and zero updates.
 Its first positive perturbation reduced diagnostic field MAE from 17.761538 to 17.2, but caused one junction collision and teleport at `:LSA119_part0_10_1`.
 The safety guard prevented the negative perturbation and later rounds. Neither evaluation is accepted.

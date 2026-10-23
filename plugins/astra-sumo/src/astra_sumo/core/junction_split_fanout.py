@@ -60,13 +60,33 @@ def materialize_unsplit_fanout(*, source_file, junction_id, connection_keys, out
                 and c.get("to") == row.get("to") and c.get("toLane") == row.get("toLane")
                 and c.get("via") in lanes for c in before.findall("connection")):
             raise ValueError("Select split internal movements with complete saved curves.")
-    original_hash = file_sha256(source)
-    out.mkdir(parents=True)
     patch = ET.Element("connections")
     for row in selected:
         attrs = {key: value for key, value in row.attrib.items() if key not in {"via", "dir", "state"}}
         attrs["contPos"] = "0"
         ET.SubElement(patch, "connection", attrs)
+    report = _compile_connection_patch(source, junction_id, patch, out, netconvert_binary)
+    after = ET.parse(report["candidate_file"]).getroot()
+    new_connections = {_key(c): c for c in after.findall("connection") if c.get("from") in ordinary}
+    curves = {str(key): _curve(before, connections[key]).hausdorff_distance(_curve(after, new_connections[key])) for key in keys}
+    if max(curves.values()) > 1e-4:
+        raise ValueError("Fanout compilation changed protected curves.")
+    report.update(connection_keys=keys, maximum_curve_offset_m=max(curves.values()), curve_offsets_m=curves,
+        claim_boundary="Native internal waiting representation only. Candidate needs paired driving and physical review; no count-calibration or field-timing claim.")
+    write_json_atomic(out / "manifest.json", report)
+    return report
+
+
+def _compile_connection_patch(source, junction_id, patch, out, netconvert_binary):
+    """Compile one junction patch while protecting roads, access and control programs."""
+    source, out = Path(source).resolve(strict=True), Path(out).resolve()
+    if out.exists() or source.is_relative_to(out):
+        raise ValueError("Use a new output directory separate from the source.")
+    before = ET.parse(source).getroot()
+    ordinary = {e.get("id"): e for e in before.findall("edge") if not e.get("function")}
+    connections = {_key(c): c for c in before.findall("connection") if c.get("from") in ordinary}
+    original_hash = file_sha256(source)
+    out.mkdir(parents=True)
     patch_file = out / "connections.con.xml"
     ET.ElementTree(patch).write(patch_file, encoding="utf-8", xml_declaration=True)
     frozen = out / "geometry-input.net.xml"
@@ -106,14 +126,10 @@ def materialize_unsplit_fanout(*, source_file, junction_id, connection_keys, out
     new_ordinary = {e.get("id"): e for e in after.findall("edge") if not e.get("function")}
     unchanged = ordinary.keys() == new_ordinary.keys() and all(_canonical(row) == _canonical(new_ordinary[key]) for key, row in ordinary.items())
     access = loaded_turn_permissions(before) == loaded_turn_permissions(after)
-    curves = {str(key): _curve(before, connections[key]).hausdorff_distance(_curve(after, new_connections[key])) for key in keys}
-    if not unchanged or not access or max(curves.values()) > 1e-4 or file_sha256(source) != original_hash:
-        raise ValueError("Fanout compilation changed protected roads, permissions, curves or source bytes.")
+    if not unchanged or not access or file_sha256(source) != original_hash:
+        raise ValueError("Connection compilation changed protected roads, permissions or source bytes.")
     report = {"status": "review_required", "source_file": str(source), "source_sha256": original_hash,
         "candidate_file": str(candidate), "candidate_sha256": file_sha256(candidate), "junction_id": junction_id,
-        "connection_keys": keys, "ordinary_roads_unchanged": unchanged, "turn_permissions_unchanged": access,
-        "signal_bindings_unchanged": True, "signal_programs_unchanged": True,
-        "maximum_curve_offset_m": max(curves.values()), "curve_offsets_m": curves,
-        "claim_boundary": "Native internal waiting representation only. Candidate needs paired driving and physical review; no count-calibration or field-timing claim."}
-    write_json_atomic(out / "manifest.json", report)
+        "ordinary_roads_unchanged": unchanged, "turn_permissions_unchanged": access,
+        "signal_bindings_unchanged": True, "signal_programs_unchanged": True}
     return report

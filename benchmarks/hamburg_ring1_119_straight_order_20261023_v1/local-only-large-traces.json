@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/paired-full/native/instant-e1.xml",
+      "bytes": 58600265,
+      "sha256": "aeb5e9cbb1b03ad022c8e600bfea3b7e7f7ee5f3b7c849652811e5502e1d790b"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/paired-full/native/queues.xml",
+      "bytes": 163338946,
+      "sha256": "a422703f91660d7ddde38f53cd745608e5d17d627267ba9b622e9446b34de1ea"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/trace-prefix/instant-e1.xml",
+      "bytes": 13048758,
+      "sha256": "d120bfcec4ecb96abbe2d0a5574e2a1beef805bcffef5970cb355e2604b3e4a1"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/trace-prefix/queues.xml",
+      "bytes": 33509432,
+      "sha256": "0df9ad553025cb7ed26ad85ed92fe0768d029c74d1e2939b06c24162c3f4049c"
+    }
+  ],
+  "render_note": "Only the corridor and LSA119 comparison images are curated here. Other renderer artifacts remain in the generated local aerial-review directory; aerial-review-report.json retains their hashes."
+}
