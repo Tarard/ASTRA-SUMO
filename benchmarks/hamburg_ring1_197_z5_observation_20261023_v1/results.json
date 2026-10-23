@@ -1,0 +1,36 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "observation_runs": 1,
+  "new_calibration_candidates": 0,
+  "family_commit": "13f59de",
+  "family_manifest_sha256": "aedae5c95df674ca52c0d0c50c6f859b3be64547fdb4cc1a06d7b8ac57d9e11a",
+  "observer_helper_sha256": "d5b91bbb89a756140746d56e40e42728b2ee96c132ccb12d0acad89179a99ba8",
+  "relocation_helper_sha256": "673c7300b4844e3c179942340be768a1ba545ad73f5113ed37d0731fc849468f",
+  "parity": {
+    "status": "pass",
+    "parity_checks": 12,
+    "E1_rows": 208,
+    "summary_steps": 144000,
+    "arrived_routes": 8606,
+    "instant": {
+      "events": 154367,
+      "attribute_sha256": "5f9397e6675b7e85601dc35b3f161418d7d075b23a4515ee5457f6a0d1a5e4a0"
+    }
+  },
+  "analysis": {
+    "cohort54": 54,
+    "source_bin_controls32": 32,
+    "delayed20": 20,
+    "unchanged12": 12,
+    "additional_cross_bin8": 8,
+    "preexisting_target_deficit27": 27,
+    "target59": 59,
+    "reference32": 32,
+    "candidate24": 24,
+    "terminal34_moving": 29,
+    "terminal34_stopped": 5,
+    "all_five_stopped_lane": "538341584_2",
+    "observed_FCD_samples": 105297
+  }
+}

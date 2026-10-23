@@ -1,0 +1,365 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\actual-stopline-stopped-under-green.csv",
+      "snapshot": "z5-observation/analysis/actual-stopline-stopped-under-green.csv.gz",
+      "raw_bytes": 10072,
+      "raw_sha256": "1ec013832c80d87c84bcee03723b896dd7a55afea5ffe942e73efabde7a054cd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\analyze_verified_trace.py",
+      "snapshot": "z5-observation/analysis/analyze_verified_trace.py.gz",
+      "raw_bytes": 11675,
+      "raw_sha256": "c163d5027e3a9b82d01c9bb42c421329fed345f44b5a3da775df67c6263bb23d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\cohort-lanechanges.json",
+      "snapshot": "z5-observation/analysis/cohort-lanechanges.json.gz",
+      "raw_bytes": 134653,
+      "raw_sha256": "33b5b5ecf2fb4680e6e777fa5f01c036c650b7590e6e3ed1338550a3058028d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\compare_early_routes.py",
+      "snapshot": "z5-observation/analysis/compare_early_routes.py.gz",
+      "raw_bytes": 6576,
+      "raw_sha256": "452a778869fc20bc3bbe626bb9430be7988d9b2d7725218ad6d94860c0fd5010"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\diagnosis.json",
+      "snapshot": "z5-observation/analysis/diagnosis.json.gz",
+      "raw_bytes": 2866,
+      "raw_sha256": "daa5f8b095bbae33c769a4e599327368a12d5eb702359b063aa7c9a2c4e3aa8a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\early-actual-signal-intervals.csv",
+      "snapshot": "z5-observation/analysis/early-actual-signal-intervals.csv.gz",
+      "raw_bytes": 33900,
+      "raw_sha256": "1ea57c067b0adacce09895f8fbf35f7e5a994bfc9326e53743d9602e252df734"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\early20-edge-exit-times.csv",
+      "snapshot": "z5-observation/analysis/early20-edge-exit-times.csv.gz",
+      "raw_bytes": 28957,
+      "raw_sha256": "0fb1597a27a4d241ad27ec26457ed591c735cfc6f69b917c4d288c583424adf5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\early20-representative-scenes.json",
+      "snapshot": "z5-observation/analysis/early20-representative-scenes.json.gz",
+      "raw_bytes": 44569,
+      "raw_sha256": "8426d599c29132b94b477bf7d25434fa6c91a1f3c49606dcf35ee848bb31c281"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\early20-route-delay-summary.csv",
+      "snapshot": "z5-observation/analysis/early20-route-delay-summary.csv.gz",
+      "raw_bytes": 4106,
+      "raw_sha256": "44881ef25121dd2e291674264daac6ea1155d15579053edc28c4ced34337777d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\early20-route-proof.json",
+      "snapshot": "z5-observation/analysis/early20-route-proof.json.gz",
+      "raw_bytes": 1662,
+      "raw_sha256": "7b2377c7fe71ccc4051129c28cc1c7bff2794e72bc2685db9877c6b3010d0d3f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\eight-cross-bin-route-differences.csv",
+      "snapshot": "z5-observation/analysis/eight-cross-bin-route-differences.csv.gz",
+      "raw_bytes": 1921,
+      "raw_sha256": "d7bf7f916e16303e32bc2078c8bb2c89b69070f5c1952bdc9a55d39b51f003e7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\explain_receiving_context.py",
+      "snapshot": "z5-observation/analysis/explain_receiving_context.py.gz",
+      "raw_bytes": 7749,
+      "raw_sha256": "6ea88fb63f4f170e682fbf2c6714990bbc28b22e30e3c1411c1f5c47f97858cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\lane-sample-summary.csv",
+      "snapshot": "z5-observation/analysis/lane-sample-summary.csv.gz",
+      "raw_bytes": 2680,
+      "raw_sha256": "90615e13f4855341087432d9e701a87aab5d47ac7cc7993f9df962bb2d76788e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\lane-stay-segments.csv",
+      "snapshot": "z5-observation/analysis/lane-stay-segments.csv.gz",
+      "raw_bytes": 82351,
+      "raw_sha256": "276a15d1515b9cf29782701b8a4d4f7164dfde18e49e78cb29b7b71d5ad2f55f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\README.md",
+      "snapshot": "z5-observation/analysis/README.md.gz",
+      "raw_bytes": 4316,
+      "raw_sha256": "4ef7220dc5868cb5073cdebcb6161e5e6eb79374c0b2b6e08ac60709ceab686d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\receiving-context.json",
+      "snapshot": "z5-observation/analysis/receiving-context.json.gz",
+      "raw_bytes": 4508,
+      "raw_sha256": "7995ef16696388389e79d27738fe912663482e534350f85bca5955597406263e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\receiving-queue-frames.csv",
+      "snapshot": "z5-observation/analysis/receiving-queue-frames.csv.gz",
+      "raw_bytes": 12643,
+      "raw_sha256": "9f277890c6eb9fbaa89cb1698bf01a52700e7f7a8d32ea1b130ce48d50dd31e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\stopped-segments.csv",
+      "snapshot": "z5-observation/analysis/stopped-segments.csv.gz",
+      "raw_bytes": 423726,
+      "raw_sha256": "e1f6c13abef8fcde34965280c932b3d16ea848f41db7df58d1b24185008a04e5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\summarize_observation.py",
+      "snapshot": "z5-observation/analysis/summarize_observation.py.gz",
+      "raw_bytes": 5715,
+      "raw_sha256": "e659fabe18a4599a5dc6ca60540213e411d1b460ed6ab84c43f4325a84238037"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\terminal34-final-scenes.json",
+      "snapshot": "z5-observation/analysis/terminal34-final-scenes.json.gz",
+      "raw_bytes": 62777,
+      "raw_sha256": "20986ae79140457e641c4598081f6c37556fbf2018beeb269c322abc96907098"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\terminal34-last-observed.csv",
+      "snapshot": "z5-observation/analysis/terminal34-last-observed.csv.gz",
+      "raw_bytes": 6133,
+      "raw_sha256": "5a5a7f0e2c2bb88ceec0820a5f9b40cbbb1dce865a3a627c2ae69dff7dbaeef9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\trace-proof.json",
+      "snapshot": "z5-observation/analysis/trace-proof.json.gz",
+      "raw_bytes": 4369,
+      "raw_sha256": "fb4ee987372036a87e315cc5e2d6ef2ccd6bdad291891fe42ea928535cb2d18b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\analysis\\manifest.json",
+      "snapshot": "z5-observation/analysis/manifest.json.gz",
+      "raw_bytes": 3874,
+      "raw_sha256": "2757d6844caa8482283bb3441064dd8f179e27136999ffc05fa60faab48ee89e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\next-observation-cohort\\basis.json",
+      "snapshot": "next-observation-cohort/basis.json.gz",
+      "raw_bytes": 6763,
+      "raw_sha256": "f5821818952203553b45840f907073f7927d77a085c536c8502f373237f979c0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\next-observation-cohort\\build_cohort.py",
+      "snapshot": "next-observation-cohort/build_cohort.py.gz",
+      "raw_bytes": 8898,
+      "raw_sha256": "ffed2443f1553bd418ae1f9f74afdd4e3b2090c96a7e4be57e025eff6782efa9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\next-observation-cohort\\cohort.csv",
+      "snapshot": "next-observation-cohort/cohort.csv.gz",
+      "raw_bytes": 27063,
+      "raw_sha256": "c0dd02846b7c0056585e247e328ba4c16635cb79ea0298a91bb5eda3c03463c6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\next-observation-cohort\\README.md",
+      "snapshot": "next-observation-cohort/README.md.gz",
+      "raw_bytes": 2073,
+      "raw_sha256": "5bfb7e5b00bad336e331b3ef564774088f5454f23d3edb5a052b9e8b86a99c48"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\next-observation-cohort\\source-bin-all32.csv",
+      "snapshot": "next-observation-cohort/source-bin-all32.csv.gz",
+      "raw_bytes": 16524,
+      "raw_sha256": "f0ebac9b2152b6a80b2a39daa51d337e33e86e3f88757788bad7fe8bc8659e13"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\next-observation-cohort\\manifest.json",
+      "snapshot": "next-observation-cohort/manifest.json.gz",
+      "raw_bytes": 901,
+      "raw_sha256": "e38af7520f1b9ec3f06f0fdd2ca6116a7b592b2490cb3348f03cea8c3c28f640"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\record_z5.py",
+      "snapshot": "z5-observation/record_z5.py.gz",
+      "raw_bytes": 10456,
+      "raw_sha256": "dc6b73114d40e58cfa11819a21caef7a847897e20a86449ca0ec6f074201ffcf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\preparation.json",
+      "snapshot": "z5-observation/preparation.json.gz",
+      "raw_bytes": 1589,
+      "raw_sha256": "d877737d311e3d7fd7521f26cce30268fe0b2ae773219e6c72aaa3828ed2b0fc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\launch.json",
+      "snapshot": "z5-observation/launch.json.gz",
+      "raw_bytes": 283,
+      "raw_sha256": "c4e86f1d49b842d44746737437269868bc121db59d6a905147a8fa83e9823fb7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\stdout.log",
+      "snapshot": "z5-observation/stdout.log.gz",
+      "raw_bytes": 2313,
+      "raw_sha256": "cad91c98595be4c06e4435c3124622f7a71a70ae03bcfc7856ea338f3b879ea1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\stderr.log",
+      "snapshot": "z5-observation/stderr.log.gz",
+      "raw_bytes": 3101,
+      "raw_sha256": "c984aa67037fb17309665eb949b22e97f551321fe7eed1afa84b97fc8d23908a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\collisions.xml",
+      "snapshot": "z5-observation/baseline/collisions.xml.gz",
+      "raw_bytes": 4769,
+      "raw_sha256": "c132fc5cbec55763931ba24c0ce750d633fb3427d10bbe312d2dfeaa49d814cd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\demand.rou.xml",
+      "snapshot": "z5-observation/baseline/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\e1.add.xml",
+      "snapshot": "z5-observation/baseline/e1.add.xml.gz",
+      "raw_bytes": 3576,
+      "raw_sha256": "77adfa0ef354edf89f107ee9d32401dee059b452db7bf64f37dbbd1f69b679d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\expected-counts.csv",
+      "snapshot": "z5-observation/baseline/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\field-counts.xml",
+      "snapshot": "z5-observation/baseline/field-counts.xml.gz",
+      "raw_bytes": 54593,
+      "raw_sha256": "ccada3c289cc749abfec0a275a47242d2973f23c421f45a964b644ac4173e676"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\instant-e1.xml",
+      "snapshot": "z5-observation/baseline/instant-e1.xml.gz",
+      "raw_bytes": 27075484,
+      "raw_sha256": "2da961aab708c176cbaac44aaf351e5d257ab9c169bf943fe3a9a2b407562281"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\instant.add.xml",
+      "snapshot": "z5-observation/baseline/instant.add.xml.gz",
+      "raw_bytes": 3052,
+      "raw_sha256": "ca7e87f1ed59bc62f60d626f6a709954c9397ebff6945ac66c26bd6b1345d555"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\lane-intentions.json",
+      "snapshot": "z5-observation/baseline/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\lanechanges.xml",
+      "snapshot": "z5-observation/baseline/lanechanges.xml.gz",
+      "raw_bytes": 7548755,
+      "raw_sha256": "641d4c9353fe30e74ee98385e2a08a79e9ab6f90b81bd1ce53ba2b685ec77bdb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\native-request.json",
+      "snapshot": "z5-observation/baseline/native-request.json.gz",
+      "raw_bytes": 5297,
+      "raw_sha256": "2cd6a14481a8c3574b17195f78b19907a5e2397c5564ab99eca6196e3ad90315"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\network.net.xml",
+      "snapshot": "z5-observation/baseline/network.net.xml.gz",
+      "raw_bytes": 1362368,
+      "raw_sha256": "68d2f6d2e8630c23f2135202ed906fb47943587cd986ac055c8d99279d582e5c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\observed-vehicle-ids.json",
+      "snapshot": "z5-observation/baseline/observed-vehicle-ids.json.gz",
+      "raw_bytes": 1519,
+      "raw_sha256": "19cf0ed3fd4d543a594c6174698e09cbd810a9f88c5d7c3e7a8174fe838bb62c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\preflight.json",
+      "snapshot": "z5-observation/baseline/preflight.json.gz",
+      "raw_bytes": 1505,
+      "raw_sha256": "cddde5299321056ca72ebdfee627a1f7d3e1e0fbe6c56674046a71981bc511bd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\record-result.json",
+      "snapshot": "z5-observation/baseline/record-result.json.gz",
+      "raw_bytes": 4830,
+      "raw_sha256": "00f71b184ab49484f80dc46e88c4fbe4344dbdb89df222ce83897c63b039b3ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\record_tls.snapshot.py",
+      "snapshot": "z5-observation/baseline/record_tls.snapshot.py.gz",
+      "raw_bytes": 10456,
+      "raw_sha256": "dc6b73114d40e58cfa11819a21caef7a847897e20a86449ca0ec6f074201ffcf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\signal-programs.add.xml",
+      "snapshot": "z5-observation/baseline/signal-programs.add.xml.gz",
+      "raw_bytes": 22266,
+      "raw_sha256": "f9adfb5cceb734a533082f8be1edf907fd43ef88f717f514286850528aac2fc4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\source-e1.add.xml",
+      "snapshot": "z5-observation/baseline/source-e1.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\stall-monitor.json",
+      "snapshot": "z5-observation/baseline/stall-monitor.json.gz",
+      "raw_bytes": 5847579,
+      "raw_sha256": "37f73a7e454886658b72e3fd654855d0786f2a2352ed0a1260807125b396c16d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\summary.xml",
+      "snapshot": "z5-observation/baseline/summary.xml.gz",
+      "raw_bytes": 46709893,
+      "raw_sha256": "cd8e0b73b186ed427db3945951f75032bdd986a3ee170bda00fdf70888339026"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\sumo-errors.log",
+      "snapshot": "z5-observation/baseline/sumo-errors.log.gz",
+      "raw_bytes": 3130,
+      "raw_sha256": "28c73d49fd1836fbbae7191727bad0a7c5732d46a19343823fd62aca8df3384d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\sumo.log",
+      "snapshot": "z5-observation/baseline/sumo.log.gz",
+      "raw_bytes": 4867,
+      "raw_sha256": "ed8fdc87c0e91e39696c1ebfc34557a344380348f95668407eef16a8f7616a52"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\tls-observer.add.xml",
+      "snapshot": "z5-observation/baseline/tls-observer.add.xml.gz",
+      "raw_bytes": 472,
+      "raw_sha256": "8a2f14856cfb810205056827cef445f26da9305ca0e4925cc1bab7ae078835a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\tripinfo.xml",
+      "snapshot": "z5-observation/baseline/tripinfo.xml.gz",
+      "raw_bytes": 4576705,
+      "raw_sha256": "26052beb757d67473b2ae421476cbbf72b496447d195af82e98fe99c1858de94"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\z5-observation\\baseline\\vehicle-routes.xml",
+      "snapshot": "z5-observation/baseline/vehicle-routes.xml.gz",
+      "raw_bytes": 6514284,
+      "raw_sha256": "10a5d99fd44726162a4c2f1bfe470d0fbc5213ef90e488f49c6efb32f6f2dc7c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\simulation_stall.py",
+      "snapshot": "code-source/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_section_hold.py",
+      "snapshot": "code-source/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    }
+  ],
+  "later119_prefix_excluded": true
+}

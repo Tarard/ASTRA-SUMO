@@ -1,0 +1,15 @@
+{
+  "native_runs_during_freeze": 0,
+  "offline_test_passed": 1,
+  "ruff": "pass",
+  "reproduce_help": "pass",
+  "raw_parity_precheck": "pass",
+  "source54_and_all32_precheck": "pass",
+  "implementation_sha256": {
+    "freeze_evidence.py": "d3755d383b648a96b572c7578a36dddf6869208151edf5749a9fb72958e7f2c5",
+    "reproduce.py": "f874288f3a6c598e96cf8c804462b70951bd05673e677786a9c301a2997040c9",
+    "test_freeze_evidence.py": "16591ed1ed1a1e36faf049385ce3d7e76c80abd220157bedfaae6993d06ec411"
+  },
+  "all32_original_and_candidate_native_notification_bindings": "pass",
+  "offline_clock_binding_failure_preserved": true
+}
