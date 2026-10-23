@@ -40,4 +40,6 @@ with plt.rc_context({'font.size': 10, 'axes.spines.top': False, 'axes.spines.rig
     fig.suptitle('LSA119 curve-order diagnostic | fixed endpoints and source-derived vertices\nModel geometry, not an official MAP reference line or a measured vehicle trajectory')
     fig.savefig(out / 'curve-order.png', dpi=180)
     fig.savefig(out / 'curve-order.svg')
+    svg = out / 'curve-order.svg'
+    svg.write_text('\n'.join(line.rstrip() for line in svg.read_text(encoding='utf-8').splitlines()) + '\n', encoding='utf-8', newline='\n')
     plt.close(fig)
