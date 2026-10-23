@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg same-OD stable-request realization and conditional field-total bound, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/README.md)
 - [Hamburg bounded joint OD proposal and rejected native response, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_joint_od_feedback_20261024_v1/README.md)
 - [Hamburg fixed simulated-history reference and one-car comparison, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_z4_fixed_history_20261024_v1/README.md)
 - [Hamburg healthy reference and one-car control-history comparison, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_z4_control_response_20261024_v1/README.md)
