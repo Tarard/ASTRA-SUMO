@@ -1,0 +1,365 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 86,
+      "sha256": "3d4eb11c39904b9ccac344568c0ec94bbd59de7ae49ba31403044196f78daa61"
+    },
+    {
+      "path": "code-source/reused-compare-tls.py.gz",
+      "bytes": 2683,
+      "sha256": "eba93f66adbc1c599725966c1def0f1a4f5a3d008be078a726929fa3d3c33512"
+    },
+    {
+      "path": "control-inventory/inventory-summary.json.gz",
+      "bytes": 1264,
+      "sha256": "3916edc8794fe19012a07a8e762bb8985086d5d3b221181fe1154a7265040988"
+    },
+    {
+      "path": "control-inventory/manifest.json.gz",
+      "bytes": 373,
+      "sha256": "592d097e91cce341ce82ecc7063bb2f3e62332e59e0fe4e9c85994eb21492fde"
+    },
+    {
+      "path": "control-inventory/README.md.gz",
+      "bytes": 1438,
+      "sha256": "a88e405bf2bf2f84dac59c21777ba644b207ccc1d10b2ca65236c489e20addfa"
+    },
+    {
+      "path": "control-inventory/source-hashes.json.gz",
+      "bytes": 1520,
+      "sha256": "4fd97ffa336c9251346740629bec540a6f4f57d23e040e11f18faec26065acfd"
+    },
+    {
+      "path": "control-inventory/tls-inventory.csv.gz",
+      "bytes": 1270,
+      "sha256": "9055e4ce9b6e4bb72fabb370c9a0fede6e1ff6d440a294c63e409425e694f74a"
+    },
+    {
+      "path": "external-input-references.json",
+      "bytes": 3491,
+      "sha256": "f1a23272a026bda8d98c89baa323cdce6199b18c4d19f57f594288e4b57417c7"
+    },
+    {
+      "path": "freeze_evidence.py",
+      "bytes": 17446,
+      "sha256": "b567cd9425427642b81a3dabba33c73ae594e39119337bdc0c5b613c79daf43a"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 1571,
+      "sha256": "b85e0cf9e0c32df58da93fdb501e12d4f741379338b7b7c52ac0e28ff71dcf80"
+    },
+    {
+      "path": "one-car/collisions.xml.gz",
+      "bytes": 737,
+      "sha256": "55076f31ec9607dded1dc3987a492643bcb54abcf301e57e2e3530ebdc3cebaa"
+    },
+    {
+      "path": "one-car/e1.add.xml.gz",
+      "bytes": 477,
+      "sha256": "f1f19b23613796b8ca9ceb84fa695a856b707787f9cb8816a7ebb6576678b58f"
+    },
+    {
+      "path": "one-car/field-counts.xml.gz",
+      "bytes": 8516,
+      "sha256": "4f34aafc12479cfdb82f5094c2a3b5eb342d5d3999ce44eac9b315ad1ffac9ee"
+    },
+    {
+      "path": "one-car/instant.add.xml.gz",
+      "bytes": 391,
+      "sha256": "f79dcc34c2ff69622b28658b93faefa31390edbff95451679808015d87a68935"
+    },
+    {
+      "path": "one-car/native-request.json.gz",
+      "bytes": 683,
+      "sha256": "15f085e976e82ae7ef9a2427ab19a01ff7cd973081f208f4e5562976b82dc2df"
+    },
+    {
+      "path": "one-car/preflight.json.gz",
+      "bytes": 1590,
+      "sha256": "05b163783c35e015a1a97c7aa53fbbc3b9a3ac0d507f004b75184e17bc3769bd"
+    },
+    {
+      "path": "one-car/record-result.json.gz",
+      "bytes": 1901,
+      "sha256": "fdbb0f1f69b0f03af40d332b7c80df7bdd183c3eac266218a23996743891a4a8"
+    },
+    {
+      "path": "one-car/record_tls.snapshot.py.gz",
+      "bytes": 4048,
+      "sha256": "420443ba844e6bd354d39d96364c23faa47c45cfe7ecacbc63498c70ffe07f67"
+    },
+    {
+      "path": "one-car/stall-monitor.json.gz",
+      "bytes": 343307,
+      "sha256": "13aa45e229431d2e31d83c2e40d66180e9158f25f9e6402dab0a5b7e751c66cc"
+    },
+    {
+      "path": "one-car/summary.xml.gz",
+      "bytes": 3329979,
+      "sha256": "1b0856252dffa9fba69e72446c719fdc826e3cd00a295d63abad0f6218fa7600"
+    },
+    {
+      "path": "one-car/sumo-errors.log.gz",
+      "bytes": 532,
+      "sha256": "3323b6618e001664d39d43667e2bcbb1d9b40b192a2428bd0c5310a2f7a19a6d"
+    },
+    {
+      "path": "one-car/sumo.log.gz",
+      "bytes": 1036,
+      "sha256": "cdd3723164fe9abb905d0f0474ac20e27b98ecf4c10d1bf758a10e55cc681488"
+    },
+    {
+      "path": "one-car/tls-observer.add.xml.gz",
+      "bytes": 249,
+      "sha256": "f4d3029b98f6f6828154692d22d970a9fea7c63bf3cbadd8e228bdb14332eeb8"
+    },
+    {
+      "path": "one-car/tls-recorded-programs.add.xml.gz",
+      "bytes": 51964,
+      "sha256": "82fd056393c0e62915110da087a379fce7ca6d4cd3a977825b5a5b1ec80889c7"
+    },
+    {
+      "path": "one-car/tls-switch-states.xml.gz",
+      "bytes": 676336,
+      "sha256": "4c66f3274717ae04b81155caf4cbc89e52246a956aa1a17045466a9caba2af4b"
+    },
+    {
+      "path": "one-car/tripinfo.xml.gz",
+      "bytes": 402663,
+      "sha256": "1ad8e8368950753e421e325e6df74ac95105900e884781da276dfdc30df67c8f"
+    },
+    {
+      "path": "one-car/vehicle-routes.xml.gz",
+      "bytes": 707937,
+      "sha256": "17d0b78cad2fc24d9e986e1b3ec04a96ca8e611bd713c1313afe56e8ed6eae14"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2276,
+      "sha256": "f5322eb0c35682299fca17030e3c40e97bb3ccc594abfd2363ec33a7c365f3f7"
+    },
+    {
+      "path": "reference/collisions.xml.gz",
+      "bytes": 736,
+      "sha256": "b0d0427c5ea0b35dfba3723eb41b03b470f091b8c905f9a26e749b81b7d663be"
+    },
+    {
+      "path": "reference/e1.add.xml.gz",
+      "bytes": 478,
+      "sha256": "06a5b08a60395e43563c926d759bf56d4ae724838fecb170c60ca02cc3911774"
+    },
+    {
+      "path": "reference/field-counts.xml.gz",
+      "bytes": 8601,
+      "sha256": "7353e3ab04a57e48d606968720f32f710825d6ab02cd1c8049e7294df7905c79"
+    },
+    {
+      "path": "reference/instant.add.xml.gz",
+      "bytes": 392,
+      "sha256": "0da53b8c00c7b0d8d343647eee6d4f8a62a5476790680812985c9869c3b8a7d8"
+    },
+    {
+      "path": "reference/native-request.json.gz",
+      "bytes": 684,
+      "sha256": "f0797f91c827dd0cb3344e10103992f7fc7a613fd7dd1999e192edc20cc5893f"
+    },
+    {
+      "path": "reference/preflight.json.gz",
+      "bytes": 1599,
+      "sha256": "446b454c7dbc325677760aca1b6994f753748a80bc556c8e5d3a5fada75867fc"
+    },
+    {
+      "path": "reference/record-result.json.gz",
+      "bytes": 1876,
+      "sha256": "1c967ddd83cfd2fde767df3df08a601dff60470ee479634afb5d8a358fb783b7"
+    },
+    {
+      "path": "reference/record_tls.snapshot.py.gz",
+      "bytes": 4048,
+      "sha256": "420443ba844e6bd354d39d96364c23faa47c45cfe7ecacbc63498c70ffe07f67"
+    },
+    {
+      "path": "reference/stall-monitor.json.gz",
+      "bytes": 343361,
+      "sha256": "f78142c3c3add8090f655f1e8b87b1bf515ca07874aca7e7247ac994d632fc52"
+    },
+    {
+      "path": "reference/summary.xml.gz",
+      "bytes": 3290021,
+      "sha256": "637d388f0eb798636a12c1b2a0072d26411e1ab91474eed4a45c5ecd77444d83"
+    },
+    {
+      "path": "reference/sumo-errors.log.gz",
+      "bytes": 500,
+      "sha256": "8912f3a2ec3921fa74129ec471bb9a0198079e4cc30c1757329943366a3fc2d8"
+    },
+    {
+      "path": "reference/sumo.log.gz",
+      "bytes": 1004,
+      "sha256": "bb308df509cb98e03b5bd2149df1007bf2ad5d94e04fca1e232d689ebb867582"
+    },
+    {
+      "path": "reference/tls-observer.add.xml.gz",
+      "bytes": 251,
+      "sha256": "4cd005d11f6b029e7b3bd89023a10639dc823bd062e0367de2c1887a3d84703d"
+    },
+    {
+      "path": "reference/tls-recorded-programs.add.xml.gz",
+      "bytes": 52041,
+      "sha256": "1bfd9c87a13733bd31b6b3b06781418f5b117dc823674f4f54c272e3d2887c16"
+    },
+    {
+      "path": "reference/tls-switch-states.xml.gz",
+      "bytes": 676399,
+      "sha256": "9ebfb429ddd835691c68e158328da05c640f40dbfe10e077865cfb0e043f00ea"
+    },
+    {
+      "path": "reference/tripinfo.xml.gz",
+      "bytes": 402884,
+      "sha256": "6b56eed0019f58a293f484a760259ba22940abc1c2f493a4042165d64efc3b8b"
+    },
+    {
+      "path": "reference/vehicle-routes.xml.gz",
+      "bytes": 708280,
+      "sha256": "e0627594476753f291ec54bd5f71c430eb372e38e31157abf43372e621084004"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 768,
+      "sha256": "d78749eb5d0667f8228b99c9760bc040cd283e8330da09079e3362bccb233f68"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1316,
+      "sha256": "866be112df6a09f91b68efc8ea8867c9a85ebaee3e0e6cf69532171c6737e1c6"
+    },
+    {
+      "path": "source-manifests.json",
+      "bytes": 419,
+      "sha256": "7a157e2bec3b8df1de9bb37f8feae195679ebfbdf90b856316b3739853e850a2"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 21611,
+      "sha256": "f8c6bfc599590ba9c1e582d3a479043bc0e87d0d7c8ac4ad9eb3f08adb8c4e73"
+    },
+    {
+      "path": "source-references.json",
+      "bytes": 409,
+      "sha256": "9b57c6863e551d2203c18cd028e320527c757bb117482918d0661d30f835050c"
+    },
+    {
+      "path": "study-source/common-emit-phase-differences.csv.gz",
+      "bytes": 12735,
+      "sha256": "ed62b588bf389ff340360d63c3d5310573b555b772491f33716835a2dbaaf8c9"
+    },
+    {
+      "path": "study-source/compare_tls.py.gz",
+      "bytes": 3149,
+      "sha256": "a7409bbb8ad59881b3c5270b80234b6d8c2800998a606fc39b6cf2790b29fdb0"
+    },
+    {
+      "path": "study-source/comparison.json.gz",
+      "bytes": 2696,
+      "sha256": "4e6f468a7c5871d85a3857ae0c8f858cc934e0d07d7f54bacea2559ef0d4e8ea"
+    },
+    {
+      "path": "study-source/different-color-intervals.csv.gz",
+      "bytes": 153455,
+      "sha256": "139ff628d1b01722f73d96a816e8257950f282b0c70de03020b326d8548f3a03"
+    },
+    {
+      "path": "study-source/initial-selfcheck-failure.json.gz",
+      "bytes": 171,
+      "sha256": "cff6841fbd2b22e90b8a327b83fc70a7d80e5102c9e0d0598e9a62ac3779d849"
+    },
+    {
+      "path": "study-source/manifest.json.gz",
+      "bytes": 3755,
+      "sha256": "f4291fd7ad0e8074b78ef4921f965e296e7c97d0c1f16862fb4c5a9badf8c750"
+    },
+    {
+      "path": "study-source/one-car.prepare-only-attempt.stdout.log.gz",
+      "bytes": 77,
+      "sha256": "593c88f8b32f7c211d27cdea1d4ac5bb7632fa0f334a157f1a2e5cd31e60c399"
+    },
+    {
+      "path": "study-source/one-car.stderr.log.gz",
+      "bytes": 532,
+      "sha256": "3323b6618e001664d39d43667e2bcbb1d9b40b192a2428bd0c5310a2f7a19a6d"
+    },
+    {
+      "path": "study-source/one-car.stdout.log.gz",
+      "bytes": 910,
+      "sha256": "d834e47d45d8ac591ae8fe15f5aa49b1bfbbeb147dcf875beecdd12c6a6d3552"
+    },
+    {
+      "path": "study-source/per-tls-900s-bins.csv.gz",
+      "bytes": 3225,
+      "sha256": "04d87e6ebe7421a2da8dac7c1f326ed59ff65b17a0bd76dffe06479e2fe0b59e"
+    },
+    {
+      "path": "study-source/per-tls.csv.gz",
+      "bytes": 738,
+      "sha256": "3d5cdbac544ddfa1f3b801188f09c01e043cc79cadb772a65cd945cd679e0070"
+    },
+    {
+      "path": "study-source/plan.json.gz",
+      "bytes": 951,
+      "sha256": "1264704569f97644dd527e11edd2d452ece3855390443fb55f4690a47b1aaef2"
+    },
+    {
+      "path": "study-source/README.md.gz",
+      "bytes": 1564,
+      "sha256": "e101e6da0b72d75476c1f968b02b7051ad28d1f8d5f26a1c811b8f6663457ee1"
+    },
+    {
+      "path": "study-source/record_tls.pre-run-flag-fix.py.txt.gz",
+      "bytes": 4038,
+      "sha256": "c8dcdfd8f6184fdfe1ca3145c0d2c0653030f7072686dcecfd756f10a7f43e73"
+    },
+    {
+      "path": "study-source/record_tls.py.gz",
+      "bytes": 4048,
+      "sha256": "420443ba844e6bd354d39d96364c23faa47c45cfe7ecacbc63498c70ffe07f67"
+    },
+    {
+      "path": "study-source/reference.prepare-only-attempt.stdout.log.gz",
+      "bytes": 79,
+      "sha256": "6cd19a8cd82234b6063599d65da80212b13d4b6291b6c0546e8a4914dd85ae8a"
+    },
+    {
+      "path": "study-source/reference.stderr.log.gz",
+      "bytes": 500,
+      "sha256": "8912f3a2ec3921fa74129ec471bb9a0198079e4cc30c1757329943366a3fc2d8"
+    },
+    {
+      "path": "study-source/reference.stdout.log.gz",
+      "bytes": 913,
+      "sha256": "796ca682bdda0d31a2e91acf9a8d0993dd70f41873e29c1a37681d5508ececaa"
+    },
+    {
+      "path": "study-source/results.json.gz",
+      "bytes": 1638,
+      "sha256": "d0e56df1c9923e72c187577145987b8f064a330089786550ed9d66c60bc3dec1"
+    },
+    {
+      "path": "study-source/reused-record-tls.py.txt.gz",
+      "bytes": 2930,
+      "sha256": "732411deccd4f8c64e62f39d3ab4feb710ee05697796e15829174011a8eb93a2"
+    },
+    {
+      "path": "study-source/test_tls_audit.py.gz",
+      "bytes": 712,
+      "sha256": "76021d2f2ee7a564ab2b7a9cffa4664af29a951a0fe6defebb947f1be15f9a25"
+    },
+    {
+      "path": "test_freeze_evidence.py",
+      "bytes": 1896,
+      "sha256": "a1ea9172c59a51326d2930e5f8e5d8d45b09c9320dfdbd079d009619cf7d7493"
+    }
+  ]
+}

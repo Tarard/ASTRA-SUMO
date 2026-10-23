@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "source_relative": "one-car/demand.rou.xml",
+      "reference": "benchmarks/hamburg_ring1_healthy_z4_feedback_20261023_v1/batch-1/evaluation/native/demand.rou.xml",
+      "sha256": "be7bcd2f3b95eee5d056d0296f18d0272652ffe3caa04605808e25d86f5b120c"
+    },
+    {
+      "source_relative": "one-car/expected-counts.csv",
+      "reference": "benchmarks/hamburg_ring1_healthy_z4_feedback_20261023_v1/batch-1/evaluation/native/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source_relative": "one-car/lane-intentions.json",
+      "reference": "benchmarks/hamburg_ring1_healthy_z4_feedback_20261023_v1/batch-1/evaluation/native/lane-intentions.json",
+      "sha256": "5c28006d353e97b5287550bb7c5828a1fb2f381f0881237d60aee884dbd101d3"
+    },
+    {
+      "source_relative": "one-car/network.net.xml",
+      "reference": "benchmarks/hamburg_ring1_healthy_z4_feedback_20261023_v1/batch-1/evaluation/native/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source_relative": "one-car/signal-programs.add.xml",
+      "reference": "benchmarks/hamburg_ring1_healthy_z4_feedback_20261023_v1/batch-1/evaluation/native/signal-programs.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source_relative": "one-car/source-e1.add.xml",
+      "reference": "benchmarks/hamburg_ring1_healthy_z4_feedback_20261023_v1/batch-1/evaluation/native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source_relative": "reference/demand.rou.xml",
+      "reference": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/demand.rou.xml",
+      "sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source_relative": "reference/expected-counts.csv",
+      "reference": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source_relative": "reference/lane-intentions.json",
+      "reference": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/lane-intentions.json",
+      "sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source_relative": "reference/network.net.xml",
+      "reference": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source_relative": "reference/signal-programs.add.xml",
+      "reference": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/signal-programs.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source_relative": "reference/source-e1.add.xml",
+      "reference": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    }
+  ],
+  "source_inputs_not_duplicated": true
+}
