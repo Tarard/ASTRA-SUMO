@@ -1,0 +1,22 @@
+{
+  "changed_controllers": [
+    "GS_266199063"
+  ],
+  "frozen_control_sha256": "db386c5eb92d9060ba4b9ece5cc5d79fb9dce727b432e4064689010f9664f17f",
+  "protected_sha256": {
+    "network.net.xml": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "od-model.json": "714356c3f706e000ca635cfa6f67ece513bcc12e7adfd2a1e7c993eb7a3137ed"
+  },
+  "demand_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa119-collision-diagnosis-20261023\\libsumo-baseline",
+  "backend": "libsumo",
+  "formal_result": false,
+  "driver_sha256": {
+    "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+    "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+    "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "hamburg_od_spsa.py": "c64cbe5d62aa08c8feea5a386ac8158e6d5c20c020d8537e0ae8ce153c9fca95",
+    "hamburg_spillback_repair.py": "f7d9a26293a3bab7a860032359bc8bbe968e9ece3a54e1f126492320c95ba987"
+  }
+}

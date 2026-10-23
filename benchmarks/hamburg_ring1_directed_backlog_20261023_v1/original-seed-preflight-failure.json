@@ -1,0 +1,16 @@
+{
+  "status": "preflight_failed",
+  "native_run_started": false,
+  "requested_vehicle_count": 8622,
+  "required_original_seed_vehicle_count": 8640,
+  "native_evaluation": null,
+  "completion": null,
+  "field_metrics": null,
+  "formal_result": false,
+  "reason": "initial-od-vector.json contains a modified 8622-request vector. The worker assertion failed before demand generation or native execution.",
+  "input_hashes": {
+    "original-seed-initial-od-vector.json.gz": "d6ef9b09ce504e595ab1abf0e7cfbfea840ddb25562363d97a53c962aaa9093b",
+    "seed-od-model.json.gz": "714356c3f706e000ca635cfa6f67ece513bcc12e7adfd2a1e7c993eb7a3137ed"
+  },
+  "claim_boundary": "No native result exists. Missing counts and completion remain null."
+}

@@ -1,0 +1,57 @@
+{
+  "scope": "Same V1 inputs, binary and environment. Only declared settings or count interpretation change.",
+  "code_identity": [
+    {
+      "file": "plugins/astra-sumo/src/astra_sumo/core/hamburg_event_retiming.py",
+      "old_blob": "d87b308eb62823607bcbeb7fec3ab702e8cad49d",
+      "new_blob": "d87b308eb62823607bcbeb7fec3ab702e8cad49d",
+      "identical": true
+    },
+    {
+      "file": "plugins/astra-sumo/src/astra_sumo/core/hamburg_sensor_twin.py",
+      "old_blob": "4deeb3311e0141ab886d871c416c9a0461e4bb0f",
+      "new_blob": "4deeb3311e0141ab886d871c416c9a0461e4bb0f",
+      "identical": true
+    },
+    {
+      "file": "plugins/astra-sumo/src/astra_sumo/core/cached_detector_demand.py",
+      "old_blob": "13d1efbee8f8c7914443a0431413c9ba0336f8ed",
+      "new_blob": "13d1efbee8f8c7914443a0431413c9ba0336f8ed",
+      "identical": true
+    }
+  ],
+  "cases": {
+    "old_code_correct_settings": {
+      "mae": 0.15,
+      "exact_bins": 34,
+      "total_absolute_error": 6,
+      "max_absolute_error": 1
+    },
+    "new_code_correct_settings": {
+      "mae": 0.15,
+      "exact_bins": 34,
+      "total_absolute_error": 6,
+      "max_absolute_error": 1
+    },
+    "new_code_without_step_alignment": {
+      "mae": 0.15,
+      "exact_bins": 34,
+      "total_absolute_error": 6,
+      "max_absolute_error": 1
+    },
+    "new_code_without_warmup_offset": {
+      "mae": 37.65,
+      "exact_bins": 0,
+      "total_absolute_error": 1506,
+      "max_absolute_error": 209
+    },
+    "new_code_step_0.1": {
+      "mae": 0.3,
+      "exact_bins": 30,
+      "total_absolute_error": 12,
+      "max_absolute_error": 2
+    }
+  },
+  "old_new_all_40_rows_identical": true,
+  "old_new_completion_identical": true
+}

@@ -1,0 +1,38 @@
+{
+  "inputs": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\retiming-prepared\\network.net.xml",
+      "sha256": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+      "snapshot": "network.net.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\retiming-evaluation\\demand.rou.xml",
+      "sha256": "7cfb3ba70124cd48f25bd83667ab947d113b551e6e772ec355fc00bff1d38f73",
+      "snapshot": "demand.rou.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\retiming-prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "snapshot": "source-e1.add.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\retiming-prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "snapshot": "expected-counts.csv.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\retiming-prepared\\control.add.xml",
+      "sha256": "8bdea33ced680acaa13485f867779b49194db157d838905fc2cc357a3a751ca8",
+      "snapshot": "signal-programs.add.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\retiming-evaluation\\lane-intentions.json",
+      "sha256": "eb642c1a6d123c021c9d32bedabcffcfe7fd612cdb877924b36561c33e814031",
+      "snapshot": "lane-intentions.json.gz"
+    }
+  ],
+  "initialization_targets": {
+    "snapshot": "../initialization-counts.csv.gz",
+    "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  }
+}

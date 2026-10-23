@@ -1,0 +1,21 @@
+{
+  "changed_vehicle_requests": 345,
+  "only_departures_changed": true,
+  "detector_lane_assignments_unchanged": true,
+  "all182_real_observations_in_proposal": true,
+  "protected_sha256": {
+    "network.net.xml": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+    "control.add.xml": "8bdea33ced680acaa13485f867779b49194db157d838905fc2cc357a3a751ca8",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  },
+  "driver_sha256": {
+    "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+    "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+    "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "hamburg_od_spsa.py": "7f8d630e9fbda9c1bd2d37d3c7b8d460bfa02f94652a71cdb075ecda1aaeb71b",
+    "hamburg_departure_probe.py": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+    "native_temporal_feedback.py": "90d73273aaed47bd18c5ecad8f29a5e8953d2d1312a3c7d49843ed445c2a4b1e"
+  }
+}

@@ -21,6 +21,28 @@ ENTRY = "44532531"
 ADVANCE_S = 900
 
 
+def apply_native_count_retiming(routes, proposals):
+    """Apply measured identity-specific departure changes without resampling routes."""
+    result = deepcopy(routes)
+    vehicles = {v.get('id'): v for v in result.findall('vehicle')}
+    changed = set()
+    if len(vehicles) != len(result.findall('vehicle')):
+        raise ValueError('Retain distinct explicit vehicle identities.')
+    for row in proposals:
+        identity = row['vehicle_id']
+        old, new = row['source_depart_s'], row['proposed_depart_s']
+        if (identity not in vehicles or identity in changed or not math.isfinite(old)
+                or not math.isfinite(new) or new < 0
+                or abs(float(vehicles[identity].get('depart')) - old) > 1e-8):
+            raise ValueError('Match each changed departure to one source vehicle and a finite nonnegative time.')
+        vehicles[identity].set('depart', f'{new:.9f}')
+        changed.add(identity)
+    for vehicle in vehicles.values():
+        result.remove(vehicle)
+    result.extend(sorted(vehicles.values(), key=lambda v: (float(v.get('depart')), v.get('id'))))
+    return result
+
+
 def prepare_hamburg_count_retiming(*, prepared_dir, measurement_dir, output_dir, scale=1):
     """Prepare bounded timing feedback from reconciled native E1 measurements."""
     from .native_temporal_feedback import propose_native_count_retiming
@@ -67,12 +89,10 @@ def prepare_hamburg_count_retiming(*, prepared_dir, measurement_dir, output_dir,
         identity = change["vehicle_id"]
         shift = round(change["shift_s"] * scale / .1) * .1
         depart = round(change["source_depart_s"] + shift, 9)
-        vehicles[identity].set("depart", f"{depart:.9f}")
         intent[identity]["depart_s"] = depart
         change.update(applied_shift_s=shift, applied_depart_s=depart)
-    for vehicle in vehicles.values():
-        routes.remove(vehicle)
-    routes.extend(sorted(vehicles.values(), key=lambda vehicle: (float(vehicle.get("depart")), vehicle.get("id"))))
+    routes = apply_native_count_retiming(routes, [{**change, "proposed_depart_s": change["applied_depart_s"]}
+                                                 for change in proposal["proposals"]])
     out.mkdir(parents=True)
     for name, content in raw.items():
         (out / name).write_bytes(content)

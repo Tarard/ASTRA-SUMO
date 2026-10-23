@@ -1,0 +1,5882 @@
+{
+  "proposals": [
+    {
+      "vehicle_id": "od_0055_v00006",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 2434.836159735286,
+      "proposed_depart_s": 2379.836159735,
+      "shift_s": -55.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0139_v00020",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 5815.788540687954,
+      "proposed_depart_s": 5760.788540688,
+      "shift_s": -55.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        5400.0,
+        6300.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0202_v00005",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 8290.468027867328,
+      "proposed_depart_s": 8235.468027867,
+      "shift_s": -55.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        9000.0,
+        9900.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0244_v00004",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 10056.62187402105,
+      "proposed_depart_s": 10001.621874021,
+      "shift_s": -55.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0139_v00021",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 5832.455207354318,
+      "proposed_depart_s": 5775.755207354,
+      "shift_s": -56.7,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        5400.0,
+        6300.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0202_v00006",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 8311.62187402075,
+      "proposed_depart_s": 8254.921874021,
+      "shift_s": -56.7,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        9000.0,
+        9900.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0139_v00022",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 5849.121874020681,
+      "proposed_depart_s": 5790.821874021,
+      "shift_s": -58.300000000000004,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        5400.0,
+        6300.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0013_v00009",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 599.121874021,
+      "proposed_depart_s": 694.121874021,
+      "shift_s": 95.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0013_v00008",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 549.121874021,
+      "proposed_depart_s": 734.121874021,
+      "shift_s": 185.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0244_v00005",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 10074.9552073545,
+      "proposed_depart_s": 8218.255207354,
+      "shift_s": -1856.7,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0244_v00006",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 10093.288540687501,
+      "proposed_depart_s": 8148.288540688,
+      "shift_s": -1945.0,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0244_v00007",
+      "detector_id": "hh_0119_Z_11_28853",
+      "source_depart_s": 10111.62187402075,
+      "proposed_depart_s": 8164.921874021,
+      "shift_s": -1946.7,
+      "source_interval": [
+        "hh_0119_Z_11_28853",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_11_28853",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00064",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 1488.193487589615,
+      "proposed_depart_s": 1450.19348759,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0099_v00064",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 4106.562227521006,
+      "proposed_depart_s": 4068.562227521,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        4500.0,
+        5400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0203_v00016",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 8290.986837993767,
+      "proposed_depart_s": 8252.986837994,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        9000.0,
+        9900.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0247_v00008",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 10031.830728391116,
+      "proposed_depart_s": 9993.830728391,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00079",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11403.66466604306,
+      "proposed_depart_s": 11365.664666043,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00065",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 1494.113407222308,
+      "proposed_depart_s": 1454.413407222,
+      "shift_s": -39.7,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0266_v00073",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11412.331600648342,
+      "proposed_depart_s": 11372.631600648,
+      "shift_s": -39.7,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0035_v00059",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 1494.4346168098,
+      "proposed_depart_s": 1453.33461681,
+      "shift_s": -41.1,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00080",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11413.284531718784,
+      "proposed_depart_s": 11372.184531719,
+      "shift_s": -41.1,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0037_v00067",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 1504.793737791327,
+      "proposed_depart_s": 1462.293737791,
+      "shift_s": -42.5,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0267_v00075",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11420.386288423888,
+      "proposed_depart_s": 11377.886288424,
+      "shift_s": -42.5,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00067",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 1509.15226787075,
+      "proposed_depart_s": 1465.252267871,
+      "shift_s": -43.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0266_v00075",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11424.23079725579,
+      "proposed_depart_s": 9580.330797256,
+      "shift_s": -1843.9,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00082",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11435.273099778,
+      "proposed_depart_s": 9589.873099778,
+      "shift_s": -1845.4,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0289_v00001",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11780.632731786236,
+      "proposed_depart_s": 9933.732731786,
+      "shift_s": -1846.9,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0288_v00001",
+      "detector_id": "hh_0119_Z_12_31546",
+      "source_depart_s": 11791.426961095784,
+      "proposed_depart_s": 9942.926961096,
+      "shift_s": -1848.5,
+      "source_interval": [
+        "hh_0119_Z_12_31546",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_12_31546",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0035_v00053",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1444.522866040114,
+      "proposed_depart_s": 1406.52286604,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0078_v00067",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 3256.774295840983,
+      "proposed_depart_s": 3218.774295841,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0245_v00007",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10030.930167704384,
+      "proposed_depart_s": 9992.930167704,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00081",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11414.585525175868,
+      "proposed_depart_s": 11376.585525176,
+      "shift_s": -38.0,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0035_v00054",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1456.622230000836,
+      "proposed_depart_s": 1416.922230001,
+      "shift_s": -39.7,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0077_v00061",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 3252.789993157389,
+      "proposed_depart_s": 3213.089993157,
+      "shift_s": -39.7,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0246_v00007",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10030.683514671631,
+      "proposed_depart_s": 9990.983514672,
+      "shift_s": -39.7,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0267_v00074",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11417.005697863007,
+      "proposed_depart_s": 11377.305697863,
+      "shift_s": -39.7,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00060",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1460.047630799962,
+      "proposed_depart_s": 1418.9476308,
+      "shift_s": -41.1,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0077_v00057",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 3219.394531867667,
+      "proposed_depart_s": 3178.294531868,
+      "shift_s": -41.1,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0245_v00009",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10043.412160549371,
+      "proposed_depart_s": 10002.312160549,
+      "shift_s": -41.1,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0266_v00074",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11421.57099167256,
+      "proposed_depart_s": 11380.470991673,
+      "shift_s": -41.1,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00058",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1446.047386296,
+      "proposed_depart_s": 1403.547386296,
+      "shift_s": -42.5,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0079_v00063",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 3257.419223225074,
+      "proposed_depart_s": 3214.919223225,
+      "shift_s": -42.5,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0246_v00009",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10044.877570444874,
+      "proposed_depart_s": 10002.377570445,
+      "shift_s": -42.5,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0289_v00000",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11776.715211388624,
+      "proposed_depart_s": 11734.215211389,
+      "shift_s": -42.5,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0035_v00056",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1470.604758167021,
+      "proposed_depart_s": 1426.704758167,
+      "shift_s": -43.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0245_v00011",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10055.673848248627,
+      "proposed_depart_s": 10011.773848249,
+      "shift_s": -43.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0287_v00000",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11786.195635662956,
+      "proposed_depart_s": 11742.295635663,
+      "shift_s": -43.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0035_v00061",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1510.311778620029,
+      "proposed_depart_s": 1464.91177862,
+      "shift_s": -45.400000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0247_v00011",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10054.56441250967,
+      "proposed_depart_s": 10009.16441251,
+      "shift_s": -45.400000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0288_v00000",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11781.52425222591,
+      "proposed_depart_s": 11736.124252226,
+      "shift_s": -45.400000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0037_v00063",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1476.515239338365,
+      "proposed_depart_s": 1429.615239338,
+      "shift_s": -46.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0289_v00002",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11791.921569355118,
+      "proposed_depart_s": 11745.021569355,
+      "shift_s": -46.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00066",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1502.682745822827,
+      "proposed_depart_s": 1454.282745823,
+      "shift_s": -48.400000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0287_v00002",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11801.475903515791,
+      "proposed_depart_s": 11752.875903516,
+      "shift_s": -48.6,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0036_v00068",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 1515.192047604846,
+      "proposed_depart_s": 1465.292047605,
+      "shift_s": -49.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0289_v00004",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11807.321663046676,
+      "proposed_depart_s": 11757.221663047,
+      "shift_s": -50.1,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0288_v00005",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11823.639514723269,
+      "proposed_depart_s": 11771.939514723,
+      "shift_s": -51.7,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0288_v00002",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 11796.62862807112,
+      "proposed_depart_s": 11743.428628071,
+      "shift_s": -53.2,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00013",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10961.77167292345,
+      "proposed_depart_s": 11045.471672923,
+      "shift_s": 83.7,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0267_v00010",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10950.196619710336,
+      "proposed_depart_s": 11035.39661971,
+      "shift_s": 85.2,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0266_v00010",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10955.497448261027,
+      "proposed_depart_s": 11042.097448261,
+      "shift_s": 86.60000000000001,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00012",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10953.35249371291,
+      "proposed_depart_s": 11041.452493713,
+      "shift_s": 88.10000000000001,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0268_v00010",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10941.282725181205,
+      "proposed_depart_s": 11030.882725181,
+      "shift_s": 89.60000000000001,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0266_v00008",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10941.06117840775,
+      "proposed_depart_s": 11032.161178408,
+      "shift_s": 91.10000000000001,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0267_v00008",
+      "detector_id": "hh_0119_Z_13_34018",
+      "source_depart_s": 10935.600376852473,
+      "proposed_depart_s": 11028.100376852,
+      "shift_s": 92.5,
+      "source_interval": [
+        "hh_0119_Z_13_34018",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_13_34018",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0196_v00012",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 8274.923641897287,
+      "proposed_depart_s": 8330.423641897,
+      "shift_s": 55.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0217_v00030",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 9338.953873518207,
+      "proposed_depart_s": 9278.053873518,
+      "shift_s": -60.900000000000006,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0238_v00021",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 10154.749594828232,
+      "proposed_depart_s": 10218.049594828,
+      "shift_s": 63.300000000000004,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0238_v00022",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 10166.71868650244,
+      "proposed_depart_s": 10102.018686502,
+      "shift_s": -64.7,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0238_v00048",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 10410.263682297189,
+      "proposed_depart_s": 10477.863682297,
+      "shift_s": 67.60000000000001,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00031",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11194.78253656224,
+      "proposed_depart_s": 11114.382536562,
+      "shift_s": -80.4,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00042",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11317.7319036508,
+      "proposed_depart_s": 11234.731903651,
+      "shift_s": -83.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00032",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11208.77620744835,
+      "proposed_depart_s": 11123.276207448,
+      "shift_s": -85.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00040",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11296.01038466331,
+      "proposed_depart_s": 11208.110384663,
+      "shift_s": -87.9,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00036",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11252.56734668904,
+      "proposed_depart_s": 11162.367346689,
+      "shift_s": -90.2,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00044",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11339.453422638391,
+      "proposed_depart_s": 11247.053422638,
+      "shift_s": -92.4,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00048",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11382.89646061256,
+      "proposed_depart_s": 11288.296460613,
+      "shift_s": -94.60000000000001,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00027",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11151.3394985874,
+      "proposed_depart_s": 11054.639498587,
+      "shift_s": -96.7,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0165_v00031",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 6860.047351706882,
+      "proposed_depart_s": 6761.247351707,
+      "shift_s": -98.80000000000001,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00012",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 10990.168612511749,
+      "proposed_depart_s": 10889.268612512,
+      "shift_s": -100.9,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00049",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11397.02937200501,
+      "proposed_depart_s": 11264.029372005,
+      "shift_s": -133.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00016",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11035.282536562669,
+      "proposed_depart_s": 10899.282536563,
+      "shift_s": -136.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0165_v00033",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 6891.960714878,
+      "proposed_depart_s": 6718.760714878,
+      "shift_s": -173.20000000000002,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00019",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11065.63696694161,
+      "proposed_depart_s": 10890.136966942,
+      "shift_s": -175.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00047",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11374.472409980051,
+      "proposed_depart_s": 11196.97240998,
+      "shift_s": -177.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00034",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11230.84582770119,
+      "proposed_depart_s": 11051.245827701,
+      "shift_s": -179.60000000000002,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00020",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11078.795194789911,
+      "proposed_depart_s": 10897.09519479,
+      "shift_s": -181.70000000000002,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0165_v00032",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 6876.399653496662,
+      "proposed_depart_s": 6692.599653497,
+      "shift_s": -183.8,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00006",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7383.335513590222,
+      "proposed_depart_s": 7197.43551359,
+      "shift_s": -185.9,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00007",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7403.7058839605,
+      "proposed_depart_s": 7215.70588396,
+      "shift_s": -188.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00021",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11088.19392896757,
+      "proposed_depart_s": 10898.093928968,
+      "shift_s": -190.10000000000002,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00008",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7424.0762543305,
+      "proposed_depart_s": 7231.97625433,
+      "shift_s": -192.10000000000002,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00009",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7444.4466247015,
+      "proposed_depart_s": 7221.446624701,
+      "shift_s": -223.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00001",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7281.4836617385,
+      "proposed_depart_s": 7036.783661739,
+      "shift_s": -244.70000000000002,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00010",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7464.8169950715,
+      "proposed_depart_s": 7204.416995072,
+      "shift_s": -260.40000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00000",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7261.113291367556,
+      "proposed_depart_s": 6998.113291368,
+      "shift_s": -263.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00004",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7342.594772849499,
+      "proposed_depart_s": 7077.094772849,
+      "shift_s": -265.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00003",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11783.073932587782,
+      "proposed_depart_s": 11515.173932588,
+      "shift_s": -267.90000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0217_v00011",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 9160.292448736793,
+      "proposed_depart_s": 8890.092448737,
+      "shift_s": -270.2,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00025",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11129.61797960048,
+      "proposed_depart_s": 10857.2179796,
+      "shift_s": -272.40000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00039",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11284.24456187884,
+      "proposed_depart_s": 11009.644561879,
+      "shift_s": -274.6,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00005",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7362.9651432195,
+      "proposed_depart_s": 7086.265143219,
+      "shift_s": -276.7,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00045",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11351.91544795509,
+      "proposed_depart_s": 11073.115447955,
+      "shift_s": -278.8,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00046",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11361.17494162564,
+      "proposed_depart_s": 11080.274941626,
+      "shift_s": -280.90000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00003",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7322.224402478889,
+      "proposed_depart_s": 7009.224402479,
+      "shift_s": -313.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00041",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11306.80152390417,
+      "proposed_depart_s": 10990.801523904,
+      "shift_s": -316.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00002",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11772.145266142403,
+      "proposed_depart_s": 11418.945266142,
+      "shift_s": -353.20000000000005,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0259_v00043",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11329.35848592913,
+      "proposed_depart_s": 10973.858485929,
+      "shift_s": -355.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00001",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11765.51490365462,
+      "proposed_depart_s": 11408.014903655,
+      "shift_s": -357.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00002",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7301.8540321085,
+      "proposed_depart_s": 5142.254032108,
+      "shift_s": -2159.6,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00008",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11826.46851190237,
+      "proposed_depart_s": 9664.768511902,
+      "shift_s": -2161.7000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00009",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11835.751019385265,
+      "proposed_depart_s": 9671.951019385,
+      "shift_s": -2163.8,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00000",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11754.037517556057,
+      "proposed_depart_s": 9588.137517556,
+      "shift_s": -2165.9,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00010",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11844.576260489186,
+      "proposed_depart_s": 9676.576260489,
+      "shift_s": -2168.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00004",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11790.253014729507,
+      "proposed_depart_s": 9620.15301473,
+      "shift_s": -2170.1,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00012",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11862.684009076016,
+      "proposed_depart_s": 9690.584009076,
+      "shift_s": -2172.1,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00006",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11808.36076331605,
+      "proposed_depart_s": 9605.360763316,
+      "shift_s": -2203.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00013",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11870.869077249936,
+      "proposed_depart_s": 9646.16907725,
+      "shift_s": -2224.7000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00011",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11853.310048317428,
+      "proposed_depart_s": 9612.910048317,
+      "shift_s": -2240.4,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00016",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11898.899506248863,
+      "proposed_depart_s": 9655.899506249,
+      "shift_s": -2243.0,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0238_v00011",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 10060.326760514086,
+      "proposed_depart_s": 7814.826760514,
+      "shift_s": -2245.5,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0186_v00011",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 7485.187365441778,
+      "proposed_depart_s": 5237.287365442,
+      "shift_s": -2247.9,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00015",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11888.42810618275,
+      "proposed_depart_s": 9638.228106183,
+      "shift_s": -2250.2000000000003,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00005",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11800.632961519943,
+      "proposed_depart_s": 9548.23296152,
+      "shift_s": -2252.4,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0280_v00022",
+      "detector_id": "hh_0119_Z_15_29375",
+      "source_depart_s": 11952.719758992314,
+      "proposed_depart_s": 9698.119758992,
+      "shift_s": -2254.6,
+      "source_interval": [
+        "hh_0119_Z_15_29375",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_15_29375",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0110_v00000",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 4599.982766436,
+      "proposed_depart_s": 4487.882766436,
+      "shift_s": -112.10000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00043",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6592.489314561959,
+      "proposed_depart_s": 6478.689314562,
+      "shift_s": -113.80000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00006",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5494.513993678444,
+      "proposed_depart_s": 5379.313993678,
+      "shift_s": -115.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00007",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6392.879559580005,
+      "proposed_depart_s": 6276.27955958,
+      "shift_s": -116.60000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0125_v00032",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 4794.647392072792,
+      "proposed_depart_s": 4676.647392073,
+      "shift_s": -118.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00011",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6411.754584169908,
+      "proposed_depart_s": 6209.65458417,
+      "shift_s": -202.10000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00004",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6368.220923625468,
+      "proposed_depart_s": 6164.420923625,
+      "shift_s": -203.8,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00038",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5701.729218469019,
+      "proposed_depart_s": 5496.529218469,
+      "shift_s": -205.20000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00056",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5835.026541919852,
+      "proposed_depart_s": 5628.42654192,
+      "shift_s": -206.60000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0285_v00000",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 11883.582766436,
+      "proposed_depart_s": 11675.582766436,
+      "shift_s": -208.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00012",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6415.498261827041,
+      "proposed_depart_s": 6205.898261827,
+      "shift_s": -209.60000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0285_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 11886.666349198857,
+      "proposed_depart_s": 11594.566349199,
+      "shift_s": -292.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00027",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6517.037330316185,
+      "proposed_depart_s": 6223.237330316,
+      "shift_s": -293.8,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0083_v00047",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 3307.638734427858,
+      "proposed_depart_s": 3012.438734428,
+      "shift_s": -295.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00037",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6570.101830839526,
+      "proposed_depart_s": 6273.50183084,
+      "shift_s": -296.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0104_v00000",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 3651.840578936,
+      "proposed_depart_s": 3353.840578936,
+      "shift_s": -298.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00048",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5790.428089140167,
+      "proposed_depart_s": 5408.32808914,
+      "shift_s": -382.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00021",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6476.003974895531,
+      "proposed_depart_s": 6092.203974896,
+      "shift_s": -383.8,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0143_v00005",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5776.441115067833,
+      "proposed_depart_s": 5391.241115068,
+      "shift_s": -385.20000000000005,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00023",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6488.903827367088,
+      "proposed_depart_s": 6102.303827367,
+      "shift_s": -386.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0143_v00007",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5916.870809914,
+      "proposed_depart_s": 5528.870809914,
+      "shift_s": -388.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00035",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6560.167469696406,
+      "proposed_depart_s": 6170.567469696,
+      "shift_s": -389.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0143_v00008",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5927.332766436,
+      "proposed_depart_s": 5455.232766436,
+      "shift_s": -472.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00058",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5847.011680977834,
+      "proposed_depart_s": 5373.211680978,
+      "shift_s": -473.8,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00053",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6659.598471087995,
+      "proposed_depart_s": 6184.398471088,
+      "shift_s": -475.20000000000005,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00059",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6695.571214781789,
+      "proposed_depart_s": 6218.971214782,
+      "shift_s": -476.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00062",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5875.220032204389,
+      "proposed_depart_s": 5397.220032204,
+      "shift_s": -478.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0164_v00000",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6445.479982069,
+      "proposed_depart_s": 5883.379982069,
+      "shift_s": -562.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0087_v00006",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 4075.000433402334,
+      "proposed_depart_s": 3511.200433402,
+      "shift_s": -563.8000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00046",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5782.687342613722,
+      "proposed_depart_s": 5217.487342614,
+      "shift_s": -565.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0164_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6629.085767335,
+      "proposed_depart_s": 6062.485767335,
+      "shift_s": -566.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00022",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5605.489941847333,
+      "proposed_depart_s": 5037.489941847,
+      "shift_s": -568.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0104_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 3662.74363285014,
+      "proposed_depart_s": 3093.14363285,
+      "shift_s": -569.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00073",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5958.449118430667,
+      "proposed_depart_s": 5306.349118431,
+      "shift_s": -652.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0164_v00002",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6816.6168798365,
+      "proposed_depart_s": 6162.816879836,
+      "shift_s": -653.8000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00034",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6546.372527379154,
+      "proposed_depart_s": 5891.172527379,
+      "shift_s": -655.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00075",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6783.099792890392,
+      "proposed_depart_s": 6126.49979289,
+      "shift_s": -656.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0185_v00000",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 7344.0972039425,
+      "proposed_depart_s": 6686.097203942,
+      "shift_s": -658.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00042",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6590.558293841356,
+      "proposed_depart_s": 5848.458293841,
+      "shift_s": -742.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0185_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 7529.085767335,
+      "proposed_depart_s": 6785.285767335,
+      "shift_s": -743.8000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0185_v00002",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 7708.5658266815,
+      "proposed_depart_s": 6963.365826682,
+      "shift_s": -745.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00081",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6814.484074383288,
+      "proposed_depart_s": 6067.884074383,
+      "shift_s": -746.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00042",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5760.725100801537,
+      "proposed_depart_s": 5012.725100802,
+      "shift_s": -748.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0104_v00003",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 3686.306407355984,
+      "proposed_depart_s": 2936.706407356,
+      "shift_s": -749.6,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00095",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6902.109386790701,
+      "proposed_depart_s": 6070.009386791,
+      "shift_s": -832.1,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0188_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 7252.347659512172,
+      "proposed_depart_s": 6418.547659512,
+      "shift_s": -833.8000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0188_v00008",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 7293.962900750469,
+      "proposed_depart_s": 6458.76290075,
+      "shift_s": -835.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0206_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 8247.196052434,
+      "proposed_depart_s": 6510.596052434,
+      "shift_s": -1736.6000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0206_v00002",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 8277.389049985999,
+      "proposed_depart_s": 6539.389049986,
+      "shift_s": -1738.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00093",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6880.0250834425,
+      "proposed_depart_s": 5057.925083442,
+      "shift_s": -1822.1000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0206_v00003",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 8396.744023146,
+      "proposed_depart_s": 6572.944023146,
+      "shift_s": -1823.8000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0188_v00013",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 7323.826225738359,
+      "proposed_depart_s": 5498.626225738,
+      "shift_s": -1825.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00052",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6653.926763490556,
+      "proposed_depart_s": 4827.326763491,
+      "shift_s": -1826.6000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0104_v00017",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 3803.606203936,
+      "proposed_depart_s": 1975.606203936,
+      "shift_s": -1828.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00033",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5670.171461843037,
+      "proposed_depart_s": 3840.571461843,
+      "shift_s": -1829.6000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0110_v00001",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 4711.082766436,
+      "proposed_depart_s": 2798.982766436,
+      "shift_s": -1912.1000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00070",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6746.578473321449,
+      "proposed_depart_s": 4832.778473321,
+      "shift_s": -1913.8000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0206_v00006",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 8584.014322291334,
+      "proposed_depart_s": 6668.814322291,
+      "shift_s": -1915.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0125_v00065",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5057.212816697834,
+      "proposed_depart_s": 3140.612816698,
+      "shift_s": -1916.6000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0110_v00002",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 4821.082766436,
+      "proposed_depart_s": 2903.082766436,
+      "shift_s": -1918.0,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0227_v00000",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 9149.564958711,
+      "proposed_depart_s": 7147.464958711,
+      "shift_s": -2002.1000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0146_v00018",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 5583.244286186481,
+      "proposed_depart_s": 3579.444286186,
+      "shift_s": -2003.8000000000002,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0167_v00066",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 6724.865245939046,
+      "proposed_depart_s": 4719.665245939,
+      "shift_s": -2005.2,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0110_v00003",
+      "detector_id": "hh_0119_Z_4_29437",
+      "source_depart_s": 4932.182766436001,
+      "proposed_depart_s": 2925.582766436,
+      "shift_s": -2006.6000000000001,
+      "source_interval": [
+        "hh_0119_Z_4_29437",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_4_29437",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0062_v00039",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 2366.369057003398,
+      "proposed_depart_s": 2396.669057003,
+      "shift_s": 30.3,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0188_v00084",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 7744.209325345953,
+      "proposed_depart_s": 7774.709325346,
+      "shift_s": 30.5,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        8100.0,
+        9000.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        9000.0,
+        9900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0188_v00082",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 7732.414598199782,
+      "proposed_depart_s": 7764.4145982,
+      "shift_s": 32.0,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        8100.0,
+        9000.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        9000.0,
+        9900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0188_v00080",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 7720.714566135641,
+      "proposed_depart_s": 7754.114566136,
+      "shift_s": 33.4,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        8100.0,
+        9000.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        9000.0,
+        9900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00059",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11214.757866465967,
+      "proposed_depart_s": 11100.757866466,
+      "shift_s": -114.0,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00061",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11225.5580665259,
+      "proposed_depart_s": 11109.858066526,
+      "shift_s": -115.7,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00063",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11236.199792360834,
+      "proposed_depart_s": 11119.099792361,
+      "shift_s": -117.10000000000001,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00065",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11247.492200098966,
+      "proposed_depart_s": 11128.992200099,
+      "shift_s": -118.5,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0206_v00007",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 8616.544100668501,
+      "proposed_depart_s": 8496.644100669,
+      "shift_s": -119.9,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00067",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11256.08155214775,
+      "proposed_depart_s": 11052.081552148,
+      "shift_s": -204.0,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00068",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11266.466099769334,
+      "proposed_depart_s": 11060.766099769,
+      "shift_s": -205.70000000000002,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00070",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11280.07551087705,
+      "proposed_depart_s": 11072.975510877,
+      "shift_s": -207.10000000000002,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00072",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11291.376933851834,
+      "proposed_depart_s": 11082.876933852,
+      "shift_s": -208.5,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00076",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11329.3104672451,
+      "proposed_depart_s": 11119.410467245,
+      "shift_s": -209.9,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00078",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11339.799433102668,
+      "proposed_depart_s": 11045.799433103,
+      "shift_s": -294.0,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00079",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11349.711621988201,
+      "proposed_depart_s": 11054.011621988,
+      "shift_s": -295.7,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0045_v00006",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 2328.225623579,
+      "proposed_depart_s": 3259.825623579,
+      "shift_s": 931.6,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00082",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11360.332766436,
+      "proposed_depart_s": 10163.232766436,
+      "shift_s": -1197.1000000000001,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00083",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11369.0631955345,
+      "proposed_depart_s": 10170.563195534,
+      "shift_s": -1198.5,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00086",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11380.866099769333,
+      "proposed_depart_s": 10180.966099769,
+      "shift_s": -1199.9,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0041_v00059",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 1527.135817574333,
+      "proposed_depart_s": 3448.435817574,
+      "shift_s": 1921.3000000000002,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0041_v00061",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 1539.892339662928,
+      "proposed_depart_s": 3462.792339663,
+      "shift_s": 1922.9,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0272_v00087",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11391.458266585834,
+      "proposed_depart_s": 9207.458266586,
+      "shift_s": -2184.0,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0293_v00000",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11749.216798172,
+      "proposed_depart_s": 9563.516798172,
+      "shift_s": -2185.7000000000003,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0293_v00002",
+      "detector_id": "hh_0119_Z_5_30494",
+      "source_depart_s": 11759.622713419523,
+      "proposed_depart_s": 9572.52271342,
+      "shift_s": -2187.1,
+      "source_interval": [
+        "hh_0119_Z_5_30494",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0119_Z_5_30494",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0095_v00000",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 3761.631606333,
+      "proposed_depart_s": 3552.131606333,
+      "shift_s": -209.5,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0095_v00001",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 3810.738749190143,
+      "proposed_depart_s": 3521.93874919,
+      "shift_s": -288.8,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0158_v00010",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 6908.506606333,
+      "proposed_depart_s": 7213.006606333,
+      "shift_s": 304.5,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        7200.0,
+        8100.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0158_v00009",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 6867.881606333,
+      "proposed_depart_s": 7179.081606333,
+      "shift_s": 311.20000000000005,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        7200.0,
+        8100.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0095_v00002",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 3889.310177761572,
+      "proposed_depart_s": 3502.810177762,
+      "shift_s": -386.5,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        3600.0,
+        4500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        2700.0,
+        3600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0158_v00008",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 6817.881606333,
+      "proposed_depart_s": 7217.281606333,
+      "shift_s": 399.40000000000003,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        7200.0,
+        8100.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0011_v00003",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 417.881606333,
+      "proposed_depart_s": 903.981606333,
+      "shift_s": 486.1,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0011_v00002",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 417.881606333,
+      "proposed_depart_s": 1805.681606333,
+      "shift_s": 1387.8000000000002,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0011_v00001",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 417.881606333,
+      "proposed_depart_s": 1807.381606333,
+      "shift_s": 1389.5,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0116_v00000",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 4647.881606333,
+      "proposed_depart_s": 2649.081606333,
+      "shift_s": -1998.8000000000002,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        4500.0,
+        5400.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0137_v00007",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 5987.881606333,
+      "proposed_depart_s": 8097.381606333,
+      "shift_s": 2109.5,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        5400.0,
+        6300.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0137_v00006",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 5939.756606333,
+      "proposed_depart_s": 8050.956606333,
+      "shift_s": 2111.2000000000003,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        5400.0,
+        6300.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0137_v00005",
+      "detector_id": "hh_0535_Z_14_31892",
+      "source_depart_s": 5871.006606333,
+      "proposed_depart_s": 8072.206606333,
+      "shift_s": 2201.2000000000003,
+      "source_interval": [
+        "hh_0535_Z_14_31892",
+        5400.0,
+        6300.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_14_31892",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0088_v00018",
+      "detector_id": "hh_0535_Z_4_33055",
+      "source_depart_s": 4188.656342232824,
+      "proposed_depart_s": 3662.356342233,
+      "shift_s": -526.3000000000001,
+      "source_interval": [
+        "hh_0535_Z_4_33055",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_4_33055",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0088_v00019",
+      "detector_id": "hh_0535_Z_4_33055",
+      "source_depart_s": 4213.729871645,
+      "proposed_depart_s": 3685.429871645,
+      "shift_s": -528.3000000000001,
+      "source_interval": [
+        "hh_0535_Z_4_33055",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_4_33055",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0109_v00000",
+      "detector_id": "hh_0535_Z_4_33055",
+      "source_depart_s": 4597.534547360794,
+      "proposed_depart_s": 3970.934547361,
+      "shift_s": -626.6,
+      "source_interval": [
+        "hh_0535_Z_4_33055",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_4_33055",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0109_v00001",
+      "detector_id": "hh_0535_Z_4_33055",
+      "source_depart_s": 4630.717051131383,
+      "proposed_depart_s": 3924.417051131,
+      "shift_s": -706.3000000000001,
+      "source_interval": [
+        "hh_0535_Z_4_33055",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_4_33055",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00025",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10290.600301206883,
+      "proposed_depart_s": 10205.600301207,
+      "shift_s": -85.0,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00027",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10316.75505661733,
+      "proposed_depart_s": 10230.055056617,
+      "shift_s": -86.7,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00030",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10346.585480330277,
+      "proposed_depart_s": 10258.48548033,
+      "shift_s": -88.10000000000001,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0064_v00034",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 3375.1996990645,
+      "proposed_depart_s": 3520.299699064,
+      "shift_s": 145.1,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00032",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10375.26569491517,
+      "proposed_depart_s": 10197.565694915,
+      "shift_s": -177.70000000000002,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0064_v00001",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 2863.1931201165,
+      "proposed_depart_s": 2595.093120116,
+      "shift_s": -268.1,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00034",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10402.420632176096,
+      "proposed_depart_s": 10134.320632176,
+      "shift_s": -268.1,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00037",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10433.551292296277,
+      "proposed_depart_s": 10078.551292296,
+      "shift_s": -355.0,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00040",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10468.782698006786,
+      "proposed_depart_s": 9930.782698007,
+      "shift_s": -538.0,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00043",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10501.513649088522,
+      "proposed_depart_s": 9061.913649089,
+      "shift_s": -1439.6000000000001,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00045",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10529.368713646074,
+      "proposed_depart_s": 9001.668713646,
+      "shift_s": -1527.7,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00001",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10905.473821871343,
+      "proposed_depart_s": 8390.473821871,
+      "shift_s": -2515.0,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00003",
+      "detector_id": "hh_0535_Z_5_30894",
+      "source_depart_s": 10927.304962221579,
+      "proposed_depart_s": 8407.504962222,
+      "shift_s": -2519.8,
+      "source_interval": [
+        "hh_0535_Z_5_30894",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_5_30894",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0064_v00035",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 3379.72272538,
+      "proposed_depart_s": 3444.72272538,
+      "shift_s": 65.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00026",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10305.277969874054,
+      "proposed_depart_s": 10220.277969874,
+      "shift_s": -85.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00028",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10325.906720556042,
+      "proposed_depart_s": 10239.206720556,
+      "shift_s": -86.7,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00029",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10343.509921138042,
+      "proposed_depart_s": 10255.409921138,
+      "shift_s": -88.10000000000001,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0001_v00030",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 674.553552448,
+      "proposed_depart_s": 829.553552448,
+      "shift_s": 155.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00031",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10364.188680912745,
+      "proposed_depart_s": 10189.188680913,
+      "shift_s": -175.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00033",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10384.24232703034,
+      "proposed_depart_s": 10119.24232703,
+      "shift_s": -265.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00035",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10406.69640959,
+      "proposed_depart_s": 10138.59640959,
+      "shift_s": -268.1,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00036",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10420.873987331512,
+      "proposed_depart_s": 10066.073987332,
+      "shift_s": -354.8,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00038",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10443.628124447618,
+      "proposed_depart_s": 9998.628124448,
+      "shift_s": -445.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00039",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10458.005738559488,
+      "proposed_depart_s": 9923.005738559,
+      "shift_s": -535.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00041",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10477.584298297554,
+      "proposed_depart_s": 9939.584298298,
+      "shift_s": -538.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00042",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10493.33716245469,
+      "proposed_depart_s": 9954.037162455,
+      "shift_s": -539.3000000000001,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00044",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10515.091117719521,
+      "proposed_depart_s": 9890.09111772,
+      "shift_s": -625.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0232_v00046",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10533.619486514,
+      "proposed_depart_s": 9899.219486514,
+      "shift_s": -634.4000000000001,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00000",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10903.363076257,
+      "proposed_depart_s": 10188.363076257,
+      "shift_s": -715.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00002",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10919.585663976053,
+      "proposed_depart_s": 10202.885663976,
+      "shift_s": -716.7,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00004",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10937.315927134368,
+      "proposed_depart_s": 10132.515927134,
+      "shift_s": -804.8000000000001,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00006",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10956.01110257279,
+      "proposed_depart_s": 10149.411102573,
+      "shift_s": -806.6,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00008",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10975.671190292052,
+      "proposed_depart_s": 9267.671190292,
+      "shift_s": -1708.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00009",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10985.863076257,
+      "proposed_depart_s": 9274.463076257,
+      "shift_s": -1711.4,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00010",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 10996.054962221948,
+      "proposed_depart_s": 9201.254962222,
+      "shift_s": -1794.8000000000002,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00012",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 11015.71504994121,
+      "proposed_depart_s": 9218.315049941,
+      "shift_s": -1797.4,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00014",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 11034.410225379632,
+      "proposed_depart_s": 9149.41022538,
+      "shift_s": -1885.0,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0253_v00016",
+      "detector_id": "hh_0535_Z_6_33855",
+      "source_depart_s": 11052.140488537947,
+      "proposed_depart_s": 9165.440488538,
+      "shift_s": -1886.7,
+      "source_interval": [
+        "hh_0535_Z_6_33855",
+        13500.0,
+        14400.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_6_33855",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0212_v00003",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 9149.1964095903,
+      "proposed_depart_s": 9118.29640959,
+      "shift_s": -30.900000000000002,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0212_v00031",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 9589.1964095907,
+      "proposed_depart_s": 9622.196409591,
+      "shift_s": 33.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0212_v00030",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 9573.482123876285,
+      "proposed_depart_s": 9608.582123876,
+      "shift_s": 35.1,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0212_v00029",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 9557.7678381621,
+      "proposed_depart_s": 9599.767838162,
+      "shift_s": 42.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0212_v00004",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 9164.910695304714,
+      "proposed_depart_s": 9056.910695305,
+      "shift_s": -108.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00021",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10332.053552447143,
+      "proposed_depart_s": 10224.053552447,
+      "shift_s": -108.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00022",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10347.76783816143,
+      "proposed_depart_s": 10237.367838161,
+      "shift_s": -110.4,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00023",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10363.482123875714,
+      "proposed_depart_s": 10249.782123876,
+      "shift_s": -113.7,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0023_v00016",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 1574.553552448,
+      "proposed_depart_s": 1706.753552448,
+      "shift_s": 132.20000000000002,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00024",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10379.19640959,
+      "proposed_depart_s": 10181.19640959,
+      "shift_s": -198.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0023_v00000",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 1063.839266733,
+      "proposed_depart_s": 858.439266733,
+      "shift_s": -205.4,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        0.0,
+        900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0023_v00015",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 1545.666997825941,
+      "proposed_depart_s": 1764.166997826,
+      "shift_s": 218.5,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        1800.0,
+        2700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00025",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10394.910695304286,
+      "proposed_depart_s": 10107.110695304,
+      "shift_s": -287.8,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00026",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10410.62498101857,
+      "proposed_depart_s": 10032.624981019,
+      "shift_s": -378.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00027",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10426.339266732857,
+      "proposed_depart_s": 10045.539266733,
+      "shift_s": -380.8,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00028",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10442.053552447143,
+      "proposed_depart_s": 10058.953552447,
+      "shift_s": -383.1,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00029",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10457.76783816143,
+      "proposed_depart_s": 9989.767838161,
+      "shift_s": -468.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00030",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10473.482123875714,
+      "proposed_depart_s": 10002.382123876,
+      "shift_s": -471.1,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00031",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10489.19640959,
+      "proposed_depart_s": 10006.59640959,
+      "shift_s": -482.6,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00032",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10504.910695304286,
+      "proposed_depart_s": 9944.410695304,
+      "shift_s": -560.5,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00033",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10520.62498101857,
+      "proposed_depart_s": 8072.624981019,
+      "shift_s": -2448.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0233_v00034",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10535.60265959,
+      "proposed_depart_s": 8085.20265959,
+      "shift_s": -2450.4,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0254_v00000",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10905.654742924,
+      "proposed_depart_s": 8446.754742924,
+      "shift_s": -2458.9,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0254_v00001",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10924.751965145666,
+      "proposed_depart_s": 8386.751965146,
+      "shift_s": -2538.0,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0254_v00002",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10945.122335516166,
+      "proposed_depart_s": 8402.522335516,
+      "shift_s": -2542.6000000000004,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0254_v00003",
+      "detector_id": "hh_0535_Z_7_29316",
+      "source_depart_s": 10965.492705886832,
+      "proposed_depart_s": 8419.992705887,
+      "shift_s": -2545.5,
+      "source_interval": [
+        "hh_0535_Z_7_29316",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_7_29316",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00027",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10323.000757416532,
+      "proposed_depart_s": 10291.200757417,
+      "shift_s": -31.8,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0063_v00023",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 3381.101171495,
+      "proposed_depart_s": 3423.101171495,
+      "shift_s": 42.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00028",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10334.957279156064,
+      "proposed_depart_s": 10226.957279156,
+      "shift_s": -108.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00029",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10346.913800894803,
+      "proposed_depart_s": 10237.213800895,
+      "shift_s": -109.7,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00030",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10358.870322633555,
+      "proposed_depart_s": 10246.370322634,
+      "shift_s": -112.5,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0063_v00022",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 3359.821409590625,
+      "proposed_depart_s": 3487.321409591,
+      "shift_s": 127.5,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0063_v00021",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 3336.904742923688,
+      "proposed_depart_s": 3466.704742924,
+      "shift_s": 129.8,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00031",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10370.826844373229,
+      "proposed_depart_s": 10172.826844373,
+      "shift_s": -198.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00032",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10382.783366112022,
+      "proposed_depart_s": 10182.383366112,
+      "shift_s": -200.4,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0042_v00000",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 1965.350255744,
+      "proposed_depart_s": 1753.050255744,
+      "shift_s": -212.3,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0000_v00015",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 673.042563437,
+      "proposed_depart_s": 893.342563437,
+      "shift_s": 220.3,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0000_v00014",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 642.633909590625,
+      "proposed_depart_s": 864.633909591,
+      "shift_s": 222.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        0.0,
+        900.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        900.0,
+        1800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00033",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10394.739887851576,
+      "proposed_depart_s": 10106.739887852,
+      "shift_s": -288.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00034",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10406.6964095905,
+      "proposed_depart_s": 10116.296409591,
+      "shift_s": -290.40000000000003,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        11700.0,
+        12600.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00035",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10418.65293132924,
+      "proposed_depart_s": 9226.052931329,
+      "shift_s": -1192.6000000000001,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00036",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10430.609453068597,
+      "proposed_depart_s": 9150.809453069,
+      "shift_s": -1279.8000000000002,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00037",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10442.565974807716,
+      "proposed_depart_s": 9158.165974808,
+      "shift_s": -1284.4,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00038",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10454.522496546944,
+      "proposed_depart_s": 9084.522496547,
+      "shift_s": -1370.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        10800.0,
+        11700.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0042_v00015",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 2473.042563437,
+      "proposed_depart_s": 4493.342563437,
+      "shift_s": 2020.3000000000002,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        4500.0,
+        5400.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0042_v00014",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 2442.633909590625,
+      "proposed_depart_s": 4464.633909591,
+      "shift_s": 2022.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        1800.0,
+        2700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        4500.0,
+        5400.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00040",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10478.435540025293,
+      "proposed_depart_s": 8197.635540025,
+      "shift_s": -2280.8,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00041",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10490.392061764675,
+      "proposed_depart_s": 8132.392061765,
+      "shift_s": -2358.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00039",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10466.479018286196,
+      "proposed_depart_s": 8106.079018286,
+      "shift_s": -2360.4,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00042",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10502.348583503413,
+      "proposed_depart_s": 8139.748583503,
+      "shift_s": -2362.6,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00043",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10514.305105242314,
+      "proposed_depart_s": 8149.405105242,
+      "shift_s": -2364.9,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00044",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10526.261626981892,
+      "proposed_depart_s": 8159.561626982,
+      "shift_s": -2366.7000000000003,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0231_v00045",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10537.801060753,
+      "proposed_depart_s": 8084.301060753,
+      "shift_s": -2453.5,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0252_v00000",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10900.591758428,
+      "proposed_depart_s": 8445.491758428,
+      "shift_s": -2455.1,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0252_v00001",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10912.131192199107,
+      "proposed_depart_s": 8451.531192199,
+      "shift_s": -2460.6000000000004,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0252_v00003",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10936.04423567736,
+      "proposed_depart_s": 8398.044235677,
+      "shift_s": -2538.0,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0252_v00002",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10924.087713937848,
+      "proposed_depart_s": 8383.687713938,
+      "shift_s": -2540.4,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0252_v00004",
+      "detector_id": "hh_0535_Z_8_34287",
+      "source_depart_s": 10948.000757416326,
+      "proposed_depart_s": 8403.100757416,
+      "shift_s": -2544.9,
+      "source_interval": [
+        "hh_0535_Z_8_34287",
+        12600.0,
+        13500.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_8_34287",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0258_v00000",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 10888.913846804,
+      "proposed_depart_s": 10749.513846804,
+      "shift_s": -139.4,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0111_v00000",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 4594.177004698,
+      "proposed_depart_s": 4450.677004698,
+      "shift_s": -143.5,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        4500.0,
+        5400.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0258_v00001",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 10901.79895591778,
+      "proposed_depart_s": 10749.398955918,
+      "shift_s": -152.4,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0069_v00018",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 3364.489504698,
+      "proposed_depart_s": 3554.489504698,
+      "shift_s": 190.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        2700.0,
+        3600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0027_v00000",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 1054.593671365,
+      "proposed_depart_s": 824.593671365,
+      "shift_s": -230.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        0.0,
+        900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0111_v00001",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 4614.677004698,
+      "proposed_depart_s": 4384.677004698,
+      "shift_s": -230.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        4500.0,
+        5400.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        3600.0,
+        4500.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0258_v00002",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 10915.213590064452,
+      "proposed_depart_s": 10685.213590064,
+      "shift_s": -230.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        10800.0,
+        11700.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        9900.0,
+        10800.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0027_v00001",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 1086.6770046981,
+      "proposed_depart_s": 850.677004698,
+      "shift_s": -236.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        0.0,
+        900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0153_v00022",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 6917.927004698,
+      "proposed_depart_s": 7194.627004698,
+      "shift_s": 276.7,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        7200.0,
+        8100.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0153_v00021",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 6895.807439480609,
+      "proposed_depart_s": 7174.107439481,
+      "shift_s": 278.3,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        7200.0,
+        8100.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0153_v00020",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 6871.894396002348,
+      "proposed_depart_s": 7151.894396002,
+      "shift_s": 280.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        6300.0,
+        7200.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        7200.0,
+        8100.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0027_v00002",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 1123.343671365,
+      "proposed_depart_s": 803.343671365,
+      "shift_s": -320.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        900.0,
+        1800.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        0.0,
+        900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0279_v00000",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 11792.677004698,
+      "proposed_depart_s": 9841.977004698,
+      "shift_s": -1950.7,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        11700.0,
+        12600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        9000.0,
+        9900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0279_v00001",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 11811.141290412286,
+      "proposed_depart_s": 9781.141290412,
+      "shift_s": -2030.0,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        11700.0,
+        12600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        9000.0,
+        9900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0279_v00002",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 11830.784147555143,
+      "proposed_depart_s": 9799.084147555,
+      "shift_s": -2031.7,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        11700.0,
+        12600.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        9000.0,
+        9900.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0132_v00019",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 6015.50053411,
+      "proposed_depart_s": 8092.30053411,
+      "shift_s": 2076.8,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        5400.0,
+        6300.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0132_v00018",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 5990.4270046986,
+      "proposed_depart_s": 8068.827004699,
+      "shift_s": 2078.4,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        5400.0,
+        6300.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        8100.0,
+        9000.0
+      ]
+    },
+    {
+      "vehicle_id": "od_0132_v00017",
+      "detector_id": "hh_0535_Z_9_29038",
+      "source_depart_s": 5962.927004698375,
+      "proposed_depart_s": 8043.027004698,
+      "shift_s": 2080.1,
+      "source_interval": [
+        "hh_0535_Z_9_29038",
+        5400.0,
+        6300.0
+      ],
+      "target_interval": [
+        "hh_0535_Z_9_29038",
+        8100.0,
+        9000.0
+      ]
+    }
+  ],
+  "changed_vehicles": 345,
+  "max_moves_per_field": 64,
+  "max_shift_s": 2700,
+  "formal_result": false,
+  "new_simulations": 0,
+  "claim_boundary": "Bounded proposal from measured surplus and later native passages. Old notification lags do not predict changed queues. Missing passages stay unknown. Measure every target again and reject non-improving or unsafe candidates.",
+  "calibration_rows": 182,
+  "main_rows": 130,
+  "initialization_rows": 52,
+  "initialization_requests_changed": 48,
+  "before_all182_TAE": 1883,
+  "predicted_all182_TAE": 1430,
+  "predicted_main130_TAE": 1222
+}

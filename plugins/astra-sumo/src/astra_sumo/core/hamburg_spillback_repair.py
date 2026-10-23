@@ -11,6 +11,45 @@ from .candidate_contracts import file_sha256
 from .hamburg_collision_trace import read_trace_source
 
 
+def replay_frozen_merge_program(current_control, frozen_control):
+    """Recheck the one historical coordination assumption on a repaired network."""
+    identity = 'GS_266199063'
+    source = current_control.findall(f"tlLogic[@id='{identity}']")
+    frozen = frozen_control.findall(f"tlLogic[@id='{identity}']")
+    if len(source) != 1 or len(frozen) != 1:
+        raise ValueError('Retain one merge controller in each control file.')
+    old, new = source[0], frozen[0]
+    expected = [(6., 'rrGGGG'), (3., 'rryyyy'), (3., 'rrrrrr'), (61., 'GGrrrr'),
+                (3., 'yyrrrr'), (4., 'rrrrrr'), (10., 'rrGGGG')]
+    if (old.get('type') != 'actuated' or [p.get('state') for p in old.findall('phase')] !=
+            ['GGrrrr', 'yyrrrr', 'rrGGGG', 'rryyyy'] or new.get('type') != 'static'
+            or new.get('programID') != old.get('programID') or new.get('offset') != '0'
+            or [(float(p.get('duration')), p.get('state')) for p in new.findall('phase')] != expected
+            or any(p.get('next') for p in new.findall('phase'))):
+        raise ValueError('Recheck the source merge and the exact frozen 90-second coordination candidate.')
+    candidate = deepcopy(current_control)
+    position = list(current_control).index(old)
+    candidate.remove(candidate[position])
+    candidate.insert(position, deepcopy(new))
+    return candidate
+
+
+def extend_merge_tail(control, extension_s):
+    """Move one green handover, retaining the cycle and every clearance duration."""
+    program = control.find("tlLogic[@id='GS_266199063']")
+    expected = [(6., 'rrGGGG'), (3., 'rryyyy'), (3., 'rrrrrr'), (61., 'GGrrrr'),
+                (3., 'yyrrrr'), (4., 'rrrrrr'), (10., 'rrGGGG')]
+    if (not math.isfinite(extension_s) or not 0 < extension_s < 61 or program is None
+            or program.get('type') != 'static'
+            or [(float(p.get('duration')), p.get('state')) for p in program.findall('phase')] != expected):
+        raise ValueError('Use the frozen merge program and a positive extension below its first-source green.')
+    candidate = deepcopy(control)
+    phases = candidate.find("tlLogic[@id='GS_266199063']").findall('phase')
+    phases[0].set('duration', f'{6 + extension_s:g}')
+    phases[3].set('duration', f'{61 - extension_s:g}')
+    return candidate
+
+
 def remove_deleted_service_stage(source_program, projected_program):
     """Retain yellow and all-red clearance while dropping newly empty green service."""
     if source_program.get('id') != projected_program.get('id') or projected_program.get('type') != 'actuated':

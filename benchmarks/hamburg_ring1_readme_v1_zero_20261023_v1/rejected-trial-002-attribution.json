@@ -1,0 +1,60 @@
+{
+  "before_total_absolute_error": 2,
+  "after_total_absolute_error": 4,
+  "changes": [
+    {
+      "vehicle_id": "sensor_schedule_1802",
+      "before": [
+        [
+          30666,
+          5131
+        ],
+        [
+          33023,
+          5403
+        ]
+      ],
+      "after": [
+        [
+          30666,
+          5131
+        ],
+        [
+          33023,
+          5292
+        ]
+      ]
+    },
+    {
+      "vehicle_id": "sensor_schedule_3465",
+      "before": [
+        [
+          33023,
+          8041
+        ]
+      ],
+      "after": [
+        [
+          33023,
+          8112
+        ]
+      ]
+    },
+    {
+      "vehicle_id": "sensor_schedule_930",
+      "before": [
+        [
+          33023,
+          3599
+        ]
+      ],
+      "after": [
+        [
+          33023,
+          3602
+        ]
+      ]
+    }
+  ],
+  "note": "Vehicle 930 crosses its intended boundary; other vehicles create new residuals. Native time responses are not independent departure translations."
+}

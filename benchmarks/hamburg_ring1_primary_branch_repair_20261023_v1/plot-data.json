@@ -1,0 +1,1178 @@
+{
+  "source_csv_sha256": {
+    "outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\field-comparison.csv": "acee7e4d42d87bc2b9f620e2e3d676280b7ead9c33d87ac100c436b1b85a9e06",
+    "outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\field-comparison.csv": "8eb976c8cd097fb457203da5dc31762e3fd79c5465cca3854058e3d4d8160412"
+  },
+  "rows": [
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 13,
+      "before": 12,
+      "after": 11,
+      "residual": -2
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 119,
+      "before": 114,
+      "after": 99,
+      "residual": -20
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 145,
+      "before": 141,
+      "after": 115,
+      "residual": -30
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 93,
+      "before": 67,
+      "after": 100,
+      "residual": 7
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 50,
+      "before": 14,
+      "after": 33,
+      "residual": -17
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 38,
+      "before": 27,
+      "after": 16,
+      "residual": -22
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 4,
+      "before": 4,
+      "after": 4,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 34,
+      "before": 25,
+      "after": 35,
+      "residual": 1
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 17,
+      "before": 17,
+      "after": 17,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 26,
+      "before": 25,
+      "after": 25,
+      "residual": -1
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 24,
+      "before": 24,
+      "after": 24,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 29,
+      "before": 29,
+      "after": 29,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 3600.0,
+      "local_start": "07:30",
+      "observed": 18,
+      "before": 18,
+      "after": 18,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 18,
+      "before": 16,
+      "after": 13,
+      "residual": -5
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 118,
+      "before": 113,
+      "after": 107,
+      "residual": -11
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 137,
+      "before": 132,
+      "after": 140,
+      "residual": 3
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 78,
+      "before": 81,
+      "after": 90,
+      "residual": 12
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 53,
+      "before": 15,
+      "after": 62,
+      "residual": 9
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 44,
+      "before": 18,
+      "after": 29,
+      "residual": -15
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 5,
+      "before": 5,
+      "after": 5,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 39,
+      "before": 19,
+      "after": 39,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 15,
+      "before": 10,
+      "after": 10,
+      "residual": -5
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 33,
+      "before": 23,
+      "after": 23,
+      "residual": -10
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 35,
+      "before": 24,
+      "after": 25,
+      "residual": -10
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 36,
+      "before": 25,
+      "after": 26,
+      "residual": -10
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 4500.0,
+      "local_start": "07:45",
+      "observed": 22,
+      "before": 22,
+      "after": 22,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 30,
+      "before": 22,
+      "after": 16,
+      "residual": -14
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 117,
+      "before": 93,
+      "after": 96,
+      "residual": -21
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 144,
+      "before": 101,
+      "after": 112,
+      "residual": -32
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 106,
+      "before": 48,
+      "after": 106,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 55,
+      "before": 21,
+      "after": 38,
+      "residual": -17
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 46,
+      "before": 26,
+      "after": 20,
+      "residual": -26
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 5,
+      "before": 5,
+      "after": 5,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 28,
+      "before": 16,
+      "after": 28,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 17,
+      "before": 14,
+      "after": 14,
+      "residual": -3
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 29,
+      "before": 26,
+      "after": 26,
+      "residual": -3
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 28,
+      "before": 27,
+      "after": 26,
+      "residual": -2
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 34,
+      "before": 29,
+      "after": 28,
+      "residual": -6
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 5400.0,
+      "local_start": "08:00",
+      "observed": 17,
+      "before": 17,
+      "after": 17,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 31,
+      "before": 14,
+      "after": 28,
+      "residual": -3
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 124,
+      "before": 69,
+      "after": 113,
+      "residual": -11
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 154,
+      "before": 88,
+      "after": 135,
+      "residual": -19
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 92,
+      "before": 100,
+      "after": 83,
+      "residual": -9
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 62,
+      "before": 17,
+      "after": 34,
+      "residual": -28
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 59,
+      "before": 50,
+      "after": 21,
+      "residual": -38
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 8,
+      "before": 8,
+      "after": 8,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 35,
+      "before": 17,
+      "after": 27,
+      "residual": -8
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 20,
+      "before": 16,
+      "after": 16,
+      "residual": -4
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 32,
+      "before": 27,
+      "after": 27,
+      "residual": -5
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 32,
+      "before": 25,
+      "after": 25,
+      "residual": -7
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 34,
+      "before": 30,
+      "after": 30,
+      "residual": -4
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 6300.0,
+      "local_start": "08:15",
+      "observed": 20,
+      "before": 20,
+      "after": 20,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 26,
+      "before": 30,
+      "after": 29,
+      "residual": 3
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 129,
+      "before": 116,
+      "after": 115,
+      "residual": -14
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 136,
+      "before": 146,
+      "after": 144,
+      "residual": 8
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 90,
+      "before": 63,
+      "after": 79,
+      "residual": -11
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 68,
+      "before": 29,
+      "after": 37,
+      "residual": -31
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 53,
+      "before": 20,
+      "after": 12,
+      "residual": -41
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 6,
+      "before": 6,
+      "after": 6,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 40,
+      "before": 22,
+      "after": 24,
+      "residual": -16
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 22,
+      "before": 14,
+      "after": 14,
+      "residual": -8
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 36,
+      "before": 23,
+      "after": 23,
+      "residual": -13
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 39,
+      "before": 24,
+      "after": 24,
+      "residual": -15
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 40,
+      "before": 25,
+      "after": 25,
+      "residual": -15
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 7200.0,
+      "local_start": "08:30",
+      "observed": 19,
+      "before": 19,
+      "after": 19,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 29,
+      "before": 17,
+      "after": 25,
+      "residual": -4
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 121,
+      "before": 91,
+      "after": 123,
+      "residual": 2
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 132,
+      "before": 94,
+      "after": 130,
+      "residual": -2
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 88,
+      "before": 52,
+      "after": 108,
+      "residual": 20
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 63,
+      "before": 11,
+      "after": 43,
+      "residual": -20
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 52,
+      "before": 52,
+      "after": 19,
+      "residual": -33
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 8,
+      "before": 8,
+      "after": 8,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 39,
+      "before": 21,
+      "after": 25,
+      "residual": -14
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 21,
+      "before": 13,
+      "after": 13,
+      "residual": -8
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 31,
+      "before": 20,
+      "after": 20,
+      "residual": -11
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 37,
+      "before": 22,
+      "after": 23,
+      "residual": -14
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 45,
+      "before": 22,
+      "after": 22,
+      "residual": -23
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 8100.0,
+      "local_start": "08:45",
+      "observed": 34,
+      "before": 34,
+      "after": 34,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 23,
+      "before": 24,
+      "after": 27,
+      "residual": 4
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 103,
+      "before": 106,
+      "after": 111,
+      "residual": 8
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 118,
+      "before": 113,
+      "after": 122,
+      "residual": 4
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 91,
+      "before": 48,
+      "after": 91,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 62,
+      "before": 8,
+      "after": 43,
+      "residual": -19
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 54,
+      "before": 54,
+      "after": 22,
+      "residual": -32
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 11,
+      "before": 11,
+      "after": 11,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 39,
+      "before": 20,
+      "after": 41,
+      "residual": 2
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 26,
+      "before": 15,
+      "after": 17,
+      "residual": -9
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 30,
+      "before": 23,
+      "after": 27,
+      "residual": -3
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 38,
+      "before": 27,
+      "after": 31,
+      "residual": -7
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 45,
+      "before": 31,
+      "after": 37,
+      "residual": -8
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 9000.0,
+      "local_start": "09:00",
+      "observed": 35,
+      "before": 35,
+      "after": 35,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 27,
+      "before": 26,
+      "after": 27,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 109,
+      "before": 110,
+      "after": 121,
+      "residual": 12
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 136,
+      "before": 123,
+      "after": 138,
+      "residual": 2
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 82,
+      "before": 47,
+      "after": 74,
+      "residual": -8
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 56,
+      "before": 11,
+      "after": 44,
+      "residual": -12
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 58,
+      "before": 38,
+      "after": 17,
+      "residual": -41
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 5,
+      "before": 5,
+      "after": 5,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 35,
+      "before": 17,
+      "after": 51,
+      "residual": 16
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 18,
+      "before": 13,
+      "after": 18,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 26,
+      "before": 20,
+      "after": 24,
+      "residual": -2
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 32,
+      "before": 24,
+      "after": 28,
+      "residual": -4
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 43,
+      "before": 30,
+      "after": 34,
+      "residual": -9
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 9900.0,
+      "local_start": "09:15",
+      "observed": 27,
+      "before": 27,
+      "after": 27,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 15,
+      "before": 27,
+      "after": 27,
+      "residual": 12
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 121,
+      "before": 117,
+      "after": 99,
+      "residual": -22
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 126,
+      "before": 139,
+      "after": 129,
+      "residual": 3
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 79,
+      "before": 75,
+      "after": 78,
+      "residual": -1
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 61,
+      "before": 7,
+      "after": 45,
+      "residual": -16
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 52,
+      "before": 52,
+      "after": 12,
+      "residual": -40
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 5,
+      "before": 5,
+      "after": 5,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 57,
+      "before": 29,
+      "after": 42,
+      "residual": -15
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 24,
+      "before": 24,
+      "after": 20,
+      "residual": -4
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 30,
+      "before": 28,
+      "after": 23,
+      "residual": -7
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 24,
+      "before": 35,
+      "after": 29,
+      "residual": 5
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 43,
+      "before": 41,
+      "after": 35,
+      "residual": -8
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 10800.0,
+      "local_start": "09:30",
+      "observed": 38,
+      "before": 38,
+      "after": 38,
+      "residual": 0
+    },
+    {
+      "field": "hh_0119_Z_11_28853",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 14,
+      "before": 15,
+      "after": 13,
+      "residual": -1
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 99,
+      "before": 72,
+      "after": 117,
+      "residual": 18
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 118,
+      "before": 82,
+      "after": 120,
+      "residual": 2
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 97,
+      "before": 47,
+      "after": 106,
+      "residual": 9
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 70,
+      "before": 11,
+      "after": 41,
+      "residual": -29
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 66,
+      "before": 48,
+      "after": 19,
+      "residual": -47
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 8,
+      "before": 8,
+      "after": 8,
+      "residual": 0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 44,
+      "before": 27,
+      "after": 25,
+      "residual": -19
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 20,
+      "before": 16,
+      "after": 13,
+      "residual": -7
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 38,
+      "before": 22,
+      "after": 20,
+      "residual": -18
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 39,
+      "before": 26,
+      "after": 26,
+      "residual": -13
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 39,
+      "before": 35,
+      "after": 34,
+      "residual": -5
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "begin": 11700.0,
+      "local_start": "09:45",
+      "observed": 25,
+      "before": 25,
+      "after": 25,
+      "residual": 0
+    }
+  ]
+}

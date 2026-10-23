@@ -1,5 +1,29 @@
 # Hamburg case shown in the README
 
+The [historical README V1 replay](../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md) now matches all 40 station bins: MAE and maximum error are zero.
+All 5037 vehicles arrive without collisions, teleports, discarded requests or insertion backlog.
+Four departure times change by at most 14 seconds. Observations, routes, network and detector positions remain unchanged.
+This July case counts unique station entry notifications. Its native `nVehContrib` comparison still has MAE 12.825.
+It does not establish zero error for the October case's 130 native field bins or resolve the inherited detector and signal limitations.
+All 22 complete native search runs, including rejected candidates, remain frozen.
+
+The [Alsterglacis branch repair](../benchmarks/hamburg_ring1_primary_branch_repair_20261023_v1/README.md) restores two source primary roads omitted by corridor selection.
+The selector previously counted ordinary road lengths but omitted internal junction paths. The corrected cost selects the shorter complete primary path.
+The candidate retains all 236 existing roads and 683 lane turns. It restores two roads and eight source turns at three declared nodes.
+The paired 8640-request native run reduces October field MAE from 14.030769 to 9.838462 and maximum error from 66 to 47.
+Waiting requests fall from 744 to 178, with 227 vehicles still running. Collisions, teleports and discarded requests remain zero.
+All 130 field bins and 40 derived station bins are present. The latter have MAE 27.575 and provide no independent evidence.
+This meets the declared intermediate MAE and backlog limits. It remains uncalibrated, with nonzero residuals, unfinished traffic and unverified field control.
+The 2589 post-detector tail changes represent a declared route prior, not a measured branch split.
+The native warnings, including LSA535's missing green phase and emergency braking, remain retained.
+LSA119 Z5 worsens: its ten-bin absolute error rises from 137 to 335 despite the aggregate improvement.
+The [illustrated report](../benchmarks/hamburg_ring1_primary_branch_repair_20261023_v1/report.html) shows every field and the fixed-aerial comparison.
+
+The [six preceding backlog trials](../benchmarks/hamburg_ring1_directed_backlog_20261023_v1/README.md) remain diagnostic and preserve all rejected results.
+Control-only changes and frozen-lag departure adjustments did not reach the intermediate limits.
+The original-seed check uses 8640 requests; the other five trials use the inherited 8603-request vector.
+The failed preflight that selected 8622 requests did not start a native evaluation and has no measured count result.
+
 The [complete Libsumo correspondence check](../benchmarks/hamburg_ring1_libsumo_parity_20261023_v1/README.md) reduces native duration from 958.258 to 547.051 seconds at the same 0.1-second step.
 All 130 field counts, 40 derived station values and per-vehicle traffic records agree. Same-step records for different vehicles can have a different list order.
 This single pair measures a 1.75-fold speed increase. Diagnostic MAE remains 16.730769, with 1381 waiting and 409 running vehicles, so calibration is still incomplete.

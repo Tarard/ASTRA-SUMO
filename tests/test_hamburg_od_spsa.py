@@ -143,3 +143,16 @@ def test_new_study_can_stop_on_unsafe_native_evaluation_without_an_update(tmp_pa
     assert calls == ["initial"] and result["completed_iterations"] == 0
     assert result["stopping_reason"] == "unsafe_native_evaluation"
     assert not result["formal_result"]
+
+
+def test_explicit_od_native_measurement_reuses_full_count_validation(tmp_path):
+    from astra_sumo.core.hamburg_od_spsa import summarize_hamburg_od_measurement
+    source = Path(__file__).resolve().parents[1] / "benchmarks/hamburg_ring1_directed_backlog_20261023_v1/merge-evaluation"
+    prepared, proposal = tmp_path / "prepared", tmp_path / "proposal"
+    prepared.mkdir()
+    (proposal / "native").mkdir(parents=True)
+    (prepared / "expected-counts.csv").write_bytes(gzip.decompress((source / "expected-counts.csv.gz").read_bytes()))
+    (proposal / "native/field-comparison.csv").write_bytes((source / "field-comparison.csv").read_bytes())
+    native = json.loads(gzip.decompress((source / "run.json.gz").read_bytes()))
+    result = summarize_hamburg_od_measurement(prepared_dir=prepared, proposal_dir=proposal, native=native)
+    assert result == json.loads((source / "evaluation.json").read_bytes())

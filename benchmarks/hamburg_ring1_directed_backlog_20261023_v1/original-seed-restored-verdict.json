@@ -1,0 +1,53 @@
+{
+  "status": "rejected",
+  "safe": true,
+  "milestone_met": false,
+  "formal_result": false,
+  "before": {
+    "loss": 41062,
+    "MAE": 12.246153846153845,
+    "max_abs_error": 64,
+    "healthy": false,
+    "station_MAE": 37.25,
+    "station_max_abs_error": 109,
+    "completion": {
+      "loaded": 8603,
+      "inserted": 8087,
+      "arrived": 7855,
+      "running": 232,
+      "waiting": 516,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  "after": {
+    "loss": 58754,
+    "MAE": 14.03076923076923,
+    "max_abs_error": 66,
+    "healthy": false,
+    "station_MAE": 43.7,
+    "station_max_abs_error": 138,
+    "completion": {
+      "loaded": 8640,
+      "inserted": 7896,
+      "arrived": 7586,
+      "running": 310,
+      "waiting": 744,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  "after_all182_TAE": 2113,
+  "elapsed_seconds": 483.795127899999,
+  "claim_boundary": "Original field-count integer seed restored, rather than the SPSA plus perturbation. Vehicle populations differ by37 requests, so arrived totals are not fixed-demand performance evidence. All real observations retained; native fit and completion remain required."
+}

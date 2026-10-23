@@ -50,6 +50,25 @@ def test_native_residual_moves_keep_warmup_and_unobserved_requests_fixed():
     assert limited["changed_vehicles"] == 1
 
 
+def test_explicit_vehicle_retiming_preserves_every_other_attribute():
+    import xml.etree.ElementTree as ET
+    from astra_sumo.core.hamburg_departure_probe import apply_native_count_retiming
+
+    routes = ET.fromstring('<routes><vType id="p"/><vehicle id="a" depart="10"><route edges="x y"/></vehicle>'
+                          '<vehicle id="b" depart="20"><route edges="x z"/></vehicle></routes>')
+    before = ET.tostring(routes)
+    proposal = [{"vehicle_id": "b", "source_depart_s": 20., "proposed_depart_s": 5.}]
+    result = apply_native_count_retiming(routes, proposal)
+    assert ET.tostring(routes) == before
+    assert [v.get("id") for v in result.findall("vehicle")] == ["b", "a"]
+    result.find("vehicle[@id='b']").set("depart", "20")
+    assert {v.get("id"): ET.tostring(v) for v in result} == {v.get("id"): ET.tostring(v) for v in routes}
+    for bad in ([proposal[0], proposal[0]], [{**proposal[0], "source_depart_s": 19.}],
+                [{**proposal[0], "proposed_depart_s": -1.}], [{**proposal[0], "vehicle_id": "missing"}]):
+        with pytest.raises(ValueError):
+            apply_native_count_retiming(routes, bad)
+
+
 def test_native_residual_feedback_rejects_missing_and_unreconciled_counts():
     from copy import deepcopy
 

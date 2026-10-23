@@ -39,7 +39,39 @@ def _network(root, vehicle_class):
     return edges, graph, lengths
 
 
-def _paths(graph, lengths, start, allowed):
+def _internal_transition_lengths(root, vehicle_class):
+    """Measure complete native internal-lane chains between ordinary roads."""
+    lanes = {lane.get('id'): lane for edge in root.findall('edge') for lane in edge.findall('lane')}
+    ordinary = {edge.get('id') for edge in root.findall('edge') if not edge.get('function')}
+    connections = {(c.get('from'), c.get('fromLane'), c.get('to'), c.get('toLane')): c
+                   for c in root.findall('connection')}
+    permissions = loaded_turn_permissions(root)
+    costs = {}
+    for key, row in connections.items():
+        first, from_lane, last, to_lane = key
+        if (first not in ordinary or last not in ordinary
+                or vehicle_class not in permissions.get((first, int(from_lane), last, int(to_lane)), ())):
+            continue
+        distance, seen, via = 0., set(), row.get('via')
+        while via:
+            if via in seen or via not in lanes:
+                raise ValueError('Internal transition has a missing lane or a cycle.')
+            seen.add(via)
+            length = float(lanes[via].get('length'))
+            if not math.isfinite(length) or length < 0:
+                raise ValueError('Internal transition lengths must be finite and nonnegative.')
+            distance += length
+            edge, index = via.rsplit('_', 1)
+            following = connections.get((edge, index, last, to_lane))
+            if following is None:
+                raise ValueError('Internal transition does not reach its declared ordinary road.')
+            via = following.get('via')
+        pair = first, last
+        costs[pair] = min(costs.get(pair, math.inf), distance)
+    return costs
+
+
+def _paths(graph, lengths, start, allowed, *, transition_costs=None):
     distances, previous = {start: lengths[start]}, {}
     pending = [(lengths[start], start)]
     while pending:
@@ -47,7 +79,7 @@ def _paths(graph, lengths, start, allowed):
         if distance != distances[key]:
             continue
         for target in sorted(graph[key] & allowed):
-            candidate = distance + lengths[target]
+            candidate = distance + lengths[target] + (transition_costs or {}).get((key, target), 0.)
             if candidate < distances.get(target, math.inf):
                 distances[target], previous[target] = candidate, key
                 heapq.heappush(pending, (candidate, target))

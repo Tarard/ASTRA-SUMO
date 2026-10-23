@@ -13,7 +13,7 @@ import numpy as np
 
 from .artifact_io import write_json_atomic
 from .candidate_contracts import file_sha256
-from .road_hierarchy import _boundaries, _network, _path, _paths, materialize_road_selection
+from .road_hierarchy import _boundaries, _internal_transition_lengths, _network, _path, _paths, materialize_road_selection
 from .road_scope import road_hierarchy_tier
 from .network_geometry_freeze import prepare_geometry_frozen_input
 from .route_sensor_matrix import solve_nonnegative_integer_route_flows
@@ -55,6 +55,8 @@ def select_ring1_corridor(*, net_file, route_file, detector_file):
     for first, targets in forward.items():
         for last in targets:
             reverse[last].add(first)
+    transition_costs = _internal_transition_lengths(root, 'passenger')
+    reverse_costs = {(last, first): value for (first, last), value in transition_costs.items()}
     original_boundaries = _boundaries(root, roads, graph, set(roads))
     entries = {key for zone in original_boundaries for key in zone["entry_edges"]}
     exits = {key for zone in original_boundaries for key in zone["exit_edges"]}
@@ -68,7 +70,8 @@ def select_ring1_corridor(*, net_file, route_file, detector_file):
                 continue
             if roads[identity].get("to" if direction == "entry" else "from") not in official_nodes:
                 continue
-            distance, previous = _paths(network, lengths, identity, set(graph))
+            distance, previous = _paths(network, lengths, identity, set(graph),
+                transition_costs=reverse_costs if direction == 'entry' else transition_costs)
             choices = endpoints & distance.keys()
             if not choices:
                 extensions.append({"arm": identity, "direction": direction, "status": "source_path_unresolved"})

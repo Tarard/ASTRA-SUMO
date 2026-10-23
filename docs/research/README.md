@@ -37,6 +37,9 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Historical Hamburg README V1: 40 station entry bins at zero error, with native-count contrast and retained limitations, 2026-10-23](../../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md)
+- [Hamburg directed backlog trials and complete native feedback, 2026-10-23](../../benchmarks/hamburg_ring1_directed_backlog_20261023_v1/README.md)
+- [Hamburg source-backed Alsterglacis branch restoration: sparse probes and complete 130-field native comparison, 2026-10-23](../../benchmarks/hamburg_ring1_primary_branch_repair_20261023_v1/README.md)
 - [Hamburg complete Libsumo correspondence and measured speed at the same step, 2026-10-23](../../benchmarks/hamburg_ring1_libsumo_parity_20261023_v1/README.md)
 - [Hamburg two rejected directed OD timing checks and native execution costs, 2026-10-23](../../benchmarks/hamburg_ring1_directed_od_time_20261023_v1/README.md)
 - [Hamburg LSA119 straight-curve return diagnosis, paired two-car repair and complete native check, 2026-10-23](../../benchmarks/hamburg_ring1_119_straight_order_20261023_v1/README.md)

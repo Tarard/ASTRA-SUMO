@@ -149,6 +149,12 @@ def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary, backend
         output_dir=proposal / "native", end_s=14400, sumo_binary=str(sumo_binary), timeout_seconds=4800,
         signal_program_file=prepared / "control.add.xml", lane_intentions_file=proposal / "lane-intentions.json",
         junction_body_hold=True, junction_body_hold_nodes=body_nodes, seed=104, backend=backend)
+    return summarize_hamburg_od_measurement(prepared_dir=prepared, proposal_dir=proposal, native=native)
+
+
+def summarize_hamburg_od_measurement(*, prepared_dir, proposal_dir, native):
+    """Validate and summarize an explicit native demand without regenerating it."""
+    prepared, proposal = Path(prepared_dir), Path(proposal_dir)
     rows = read_csv_rows(proposal / "native/field-comparison.csv")
     if (not native["observer_complete"] or len(rows) != 130 or native.get("native_status") != "pass"
             or (native.get("stall_monitor") or {}).get("status") != "completed"):

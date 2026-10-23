@@ -1,0 +1,1803 @@
+{
+  "status": "exact_historical_station_fit",
+  "claim_status": "diagnostic-demo",
+  "formal_result": false,
+  "october_130_field_acceptance": false,
+  "historical_count_definition": "Unique vehicle enter events per station and 900-second bin, aligned to 1-second SUMO notification boundaries.",
+  "native_comparison_count_definition": "Native periodic E1 nVehContrib summed over the same historical station detector bank.",
+  "observation_date": "2026-07-11",
+  "normal_roads": 144,
+  "loops": 12,
+  "source_official_fields": 13,
+  "station_bins": 40,
+  "vehicles": 5037,
+  "reproduction": {
+    "comparisons": [
+      {
+        "station_stream_id": 26585,
+        "begin": 0,
+        "end": 900,
+        "target": 120,
+        "measured": 120,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 900,
+        "end": 1800,
+        "target": 98,
+        "measured": 98,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 1800,
+        "end": 2700,
+        "target": 127,
+        "measured": 127,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 2700,
+        "end": 3600,
+        "target": 104,
+        "measured": 104,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 3600,
+        "end": 4500,
+        "target": 147,
+        "measured": 147,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 4500,
+        "end": 5400,
+        "target": 122,
+        "measured": 122,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 5400,
+        "end": 6300,
+        "target": 162,
+        "measured": 162,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 6300,
+        "end": 7200,
+        "target": 140,
+        "measured": 140,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 7200,
+        "end": 8100,
+        "target": 128,
+        "measured": 128,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 8100,
+        "end": 9000,
+        "target": 145,
+        "measured": 145,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 0,
+        "end": 900,
+        "target": 101,
+        "measured": 101,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 900,
+        "end": 1800,
+        "target": 67,
+        "measured": 67,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 1800,
+        "end": 2700,
+        "target": 68,
+        "measured": 68,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 2700,
+        "end": 3600,
+        "target": 77,
+        "measured": 77,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 3600,
+        "end": 4500,
+        "target": 89,
+        "measured": 89,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 4500,
+        "end": 5400,
+        "target": 89,
+        "measured": 89,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 5400,
+        "end": 6300,
+        "target": 87,
+        "measured": 87,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 6300,
+        "end": 7200,
+        "target": 79,
+        "measured": 79,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 7200,
+        "end": 8100,
+        "target": 77,
+        "measured": 77,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 8100,
+        "end": 9000,
+        "target": 83,
+        "measured": 83,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 0,
+        "end": 900,
+        "target": 209,
+        "measured": 209,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 900,
+        "end": 1800,
+        "target": 194,
+        "measured": 195,
+        "error": 1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 1800,
+        "end": 2700,
+        "target": 210,
+        "measured": 209,
+        "error": -1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 2700,
+        "end": 3600,
+        "target": 218,
+        "measured": 219,
+        "error": 1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 3600,
+        "end": 4500,
+        "target": 185,
+        "measured": 184,
+        "error": -1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 4500,
+        "end": 5400,
+        "target": 194,
+        "measured": 194,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 5400,
+        "end": 6300,
+        "target": 208,
+        "measured": 207,
+        "error": -1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 6300,
+        "end": 7200,
+        "target": 208,
+        "measured": 209,
+        "error": 1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 7200,
+        "end": 8100,
+        "target": 187,
+        "measured": 187,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 8100,
+        "end": 9000,
+        "target": 176,
+        "measured": 176,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 0,
+        "end": 900,
+        "target": 120,
+        "measured": 120,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 900,
+        "end": 1800,
+        "target": 109,
+        "measured": 109,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 1800,
+        "end": 2700,
+        "target": 136,
+        "measured": 136,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 2700,
+        "end": 3600,
+        "target": 133,
+        "measured": 133,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 3600,
+        "end": 4500,
+        "target": 133,
+        "measured": 133,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 4500,
+        "end": 5400,
+        "target": 138,
+        "measured": 138,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 5400,
+        "end": 6300,
+        "target": 118,
+        "measured": 118,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 6300,
+        "end": 7200,
+        "target": 145,
+        "measured": 145,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 7200,
+        "end": 8100,
+        "target": 134,
+        "measured": 134,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 8100,
+        "end": 9000,
+        "target": 132,
+        "measured": 132,
+        "error": 0,
+        "absolute_error": 0
+      }
+    ],
+    "total_absolute_error": 6,
+    "station_absolute_error": {
+      "26585": 0,
+      "30666": 0,
+      "33023": 6,
+      "35822": 0
+    },
+    "mae": 0.15,
+    "exact_bins": 34,
+    "max_absolute_error": 1,
+    "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\v1-reproduction",
+    "completion": {
+      "loaded": 5037,
+      "inserted": 5037,
+      "arrived": 5037,
+      "running": 0,
+      "waiting": 0,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "healthy": true
+  },
+  "greedy_best": {
+    "comparisons": [
+      {
+        "station_stream_id": 26585,
+        "begin": 0,
+        "end": 900,
+        "target": 120,
+        "measured": 120,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 900,
+        "end": 1800,
+        "target": 98,
+        "measured": 98,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 1800,
+        "end": 2700,
+        "target": 127,
+        "measured": 127,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 2700,
+        "end": 3600,
+        "target": 104,
+        "measured": 104,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 3600,
+        "end": 4500,
+        "target": 147,
+        "measured": 147,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 4500,
+        "end": 5400,
+        "target": 122,
+        "measured": 122,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 5400,
+        "end": 6300,
+        "target": 162,
+        "measured": 162,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 6300,
+        "end": 7200,
+        "target": 140,
+        "measured": 140,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 7200,
+        "end": 8100,
+        "target": 128,
+        "measured": 128,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 8100,
+        "end": 9000,
+        "target": 145,
+        "measured": 145,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 0,
+        "end": 900,
+        "target": 101,
+        "measured": 101,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 900,
+        "end": 1800,
+        "target": 67,
+        "measured": 67,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 1800,
+        "end": 2700,
+        "target": 68,
+        "measured": 68,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 2700,
+        "end": 3600,
+        "target": 77,
+        "measured": 77,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 3600,
+        "end": 4500,
+        "target": 89,
+        "measured": 89,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 4500,
+        "end": 5400,
+        "target": 89,
+        "measured": 89,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 5400,
+        "end": 6300,
+        "target": 87,
+        "measured": 87,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 6300,
+        "end": 7200,
+        "target": 79,
+        "measured": 79,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 7200,
+        "end": 8100,
+        "target": 77,
+        "measured": 77,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 8100,
+        "end": 9000,
+        "target": 83,
+        "measured": 83,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 0,
+        "end": 900,
+        "target": 209,
+        "measured": 209,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 900,
+        "end": 1800,
+        "target": 194,
+        "measured": 195,
+        "error": 1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 1800,
+        "end": 2700,
+        "target": 210,
+        "measured": 209,
+        "error": -1,
+        "absolute_error": 1
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 2700,
+        "end": 3600,
+        "target": 218,
+        "measured": 218,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 3600,
+        "end": 4500,
+        "target": 185,
+        "measured": 185,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 4500,
+        "end": 5400,
+        "target": 194,
+        "measured": 194,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 5400,
+        "end": 6300,
+        "target": 208,
+        "measured": 208,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 6300,
+        "end": 7200,
+        "target": 208,
+        "measured": 208,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 7200,
+        "end": 8100,
+        "target": 187,
+        "measured": 187,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 8100,
+        "end": 9000,
+        "target": 176,
+        "measured": 176,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 0,
+        "end": 900,
+        "target": 120,
+        "measured": 120,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 900,
+        "end": 1800,
+        "target": 109,
+        "measured": 109,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 1800,
+        "end": 2700,
+        "target": 136,
+        "measured": 136,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 2700,
+        "end": 3600,
+        "target": 133,
+        "measured": 133,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 3600,
+        "end": 4500,
+        "target": 133,
+        "measured": 133,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 4500,
+        "end": 5400,
+        "target": 138,
+        "measured": 138,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 5400,
+        "end": 6300,
+        "target": 118,
+        "measured": 118,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 6300,
+        "end": 7200,
+        "target": 145,
+        "measured": 145,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 7200,
+        "end": 8100,
+        "target": 134,
+        "measured": 134,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 8100,
+        "end": 9000,
+        "target": 132,
+        "measured": 132,
+        "error": 0,
+        "absolute_error": 0
+      }
+    ],
+    "total_absolute_error": 2,
+    "station_absolute_error": {
+      "26585": 0,
+      "30666": 0,
+      "33023": 2,
+      "35822": 0
+    },
+    "mae": 0.05,
+    "exact_bins": 38,
+    "max_absolute_error": 1,
+    "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-001",
+    "completion": {
+      "loaded": 5037,
+      "inserted": 5037,
+      "arrived": 5037,
+      "running": 0,
+      "waiting": 0,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "healthy": true
+  },
+  "best": {
+    "comparisons": [
+      {
+        "station_stream_id": 26585,
+        "begin": 0,
+        "end": 900,
+        "target": 120,
+        "measured": 120,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 900,
+        "end": 1800,
+        "target": 98,
+        "measured": 98,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 1800,
+        "end": 2700,
+        "target": 127,
+        "measured": 127,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 2700,
+        "end": 3600,
+        "target": 104,
+        "measured": 104,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 3600,
+        "end": 4500,
+        "target": 147,
+        "measured": 147,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 4500,
+        "end": 5400,
+        "target": 122,
+        "measured": 122,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 5400,
+        "end": 6300,
+        "target": 162,
+        "measured": 162,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 6300,
+        "end": 7200,
+        "target": 140,
+        "measured": 140,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 7200,
+        "end": 8100,
+        "target": 128,
+        "measured": 128,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 26585,
+        "begin": 8100,
+        "end": 9000,
+        "target": 145,
+        "measured": 145,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 0,
+        "end": 900,
+        "target": 101,
+        "measured": 101,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 900,
+        "end": 1800,
+        "target": 67,
+        "measured": 67,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 1800,
+        "end": 2700,
+        "target": 68,
+        "measured": 68,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 2700,
+        "end": 3600,
+        "target": 77,
+        "measured": 77,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 3600,
+        "end": 4500,
+        "target": 89,
+        "measured": 89,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 4500,
+        "end": 5400,
+        "target": 89,
+        "measured": 89,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 5400,
+        "end": 6300,
+        "target": 87,
+        "measured": 87,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 6300,
+        "end": 7200,
+        "target": 79,
+        "measured": 79,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 7200,
+        "end": 8100,
+        "target": 77,
+        "measured": 77,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 30666,
+        "begin": 8100,
+        "end": 9000,
+        "target": 83,
+        "measured": 83,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 0,
+        "end": 900,
+        "target": 209,
+        "measured": 209,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 900,
+        "end": 1800,
+        "target": 194,
+        "measured": 194,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 1800,
+        "end": 2700,
+        "target": 210,
+        "measured": 210,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 2700,
+        "end": 3600,
+        "target": 218,
+        "measured": 218,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 3600,
+        "end": 4500,
+        "target": 185,
+        "measured": 185,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 4500,
+        "end": 5400,
+        "target": 194,
+        "measured": 194,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 5400,
+        "end": 6300,
+        "target": 208,
+        "measured": 208,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 6300,
+        "end": 7200,
+        "target": 208,
+        "measured": 208,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 7200,
+        "end": 8100,
+        "target": 187,
+        "measured": 187,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 33023,
+        "begin": 8100,
+        "end": 9000,
+        "target": 176,
+        "measured": 176,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 0,
+        "end": 900,
+        "target": 120,
+        "measured": 120,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 900,
+        "end": 1800,
+        "target": 109,
+        "measured": 109,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 1800,
+        "end": 2700,
+        "target": 136,
+        "measured": 136,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 2700,
+        "end": 3600,
+        "target": 133,
+        "measured": 133,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 3600,
+        "end": 4500,
+        "target": 133,
+        "measured": 133,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 4500,
+        "end": 5400,
+        "target": 138,
+        "measured": 138,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 5400,
+        "end": 6300,
+        "target": 118,
+        "measured": 118,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 6300,
+        "end": 7200,
+        "target": 145,
+        "measured": 145,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 7200,
+        "end": 8100,
+        "target": 134,
+        "measured": 134,
+        "error": 0,
+        "absolute_error": 0
+      },
+      {
+        "station_stream_id": 35822,
+        "begin": 8100,
+        "end": 9000,
+        "target": 132,
+        "measured": 132,
+        "error": 0,
+        "absolute_error": 0
+      }
+    ],
+    "total_absolute_error": 0,
+    "station_absolute_error": {
+      "26585": 0,
+      "30666": 0,
+      "33023": 0,
+      "35822": 0
+    },
+    "mae": 0.0,
+    "exact_bins": 40,
+    "max_absolute_error": 0,
+    "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-branch\\trial-004",
+    "completion": {
+      "loaded": 5037,
+      "inserted": 5037,
+      "arrived": 5037,
+      "running": 0,
+      "waiting": 0,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "healthy": true
+  },
+  "source_hashes": {
+    "network.net.xml": "6c538bc3c837ea559cc1f72e9e7c8567535eb01ceecf66153eabcf531956a2be",
+    "e1.add.xml": "bba08cf9c68efb4313be90ddffa65951dee551f3143b51d6466c7da762b3a2af",
+    "instant.add.xml": "6307b4bba43f2d02e9da44c64ae06e7bf6291229e9f7d444319f8b64b612f580",
+    "station-detector-bank.json": "3e38a6ff82b4a6ab8ae1330a882884f1aee429a8fcd5ab7e3afc1be2169f6835",
+    "demand.rou.xml": "455302cd76956ac63340174e254af690c7ece8cbb0a059e9b2a84bdccffcd1ef"
+  },
+  "canonical_counts": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-code-comparison-20261023\\portable\\data\\counts.simulation.15min.csv",
+    "sha256": "73400b0620e019dc142b174d10a7b4db211a30751122d031f47bea98257986e7"
+  },
+  "limitations": [
+    "LSA535 adds two diagnostic one-to-one links and extends the existing 120-second program by the same-approach phase; official signal groups 2 and 7 are not replayed.",
+    "Station 35822 uses a 0.01 m entry probe on a 0.20 m SUMO edge because the mapped field coordinates lie outside the simplified edge.",
+    "Station 26585 includes one low-confidence field projection inherited from the missing official approach geometry."
+  ],
+  "searches": {
+    "two-trial": {
+      "status": "bounded_search_complete",
+      "source_run": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-code-comparison-20261023\\portable\\data",
+      "max_trials": 2,
+      "max_shift_from_baseline_seconds": 120.0,
+      "trials": [
+        {
+          "trial": 1,
+          "vehicle_id": "sensor_schedule_1438",
+          "shift_seconds": 3,
+          "accepted": true,
+          "total_absolute_error": 2,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023\\trial-001"
+        },
+        {
+          "trial": 2,
+          "vehicle_id": "sensor_schedule_930",
+          "shift_seconds": 3,
+          "accepted": false,
+          "total_absolute_error": 4,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023\\trial-002"
+        }
+      ]
+    },
+    "ten-trial": {
+      "status": "bounded_search_complete",
+      "source_run": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-code-comparison-20261023\\portable\\data",
+      "max_trials": 10,
+      "max_shift_from_baseline_seconds": 120.0,
+      "trials": [
+        {
+          "trial": 1,
+          "vehicle_id": "sensor_schedule_1438",
+          "shift_seconds": 3,
+          "accepted": true,
+          "total_absolute_error": 2,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-001"
+        },
+        {
+          "trial": 2,
+          "vehicle_id": "sensor_schedule_930",
+          "shift_seconds": 3,
+          "accepted": false,
+          "total_absolute_error": 4,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-002"
+        },
+        {
+          "trial": 3,
+          "vehicle_id": "sensor_schedule_930",
+          "shift_seconds": 6,
+          "accepted": false,
+          "total_absolute_error": 4,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-003"
+        },
+        {
+          "trial": 4,
+          "vehicle_id": "sensor_schedule_930",
+          "shift_seconds": 11,
+          "accepted": false,
+          "total_absolute_error": 2,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-004"
+        },
+        {
+          "trial": 5,
+          "vehicle_id": "sensor_schedule_925",
+          "shift_seconds": 12,
+          "accepted": false,
+          "total_absolute_error": 6,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-005"
+        },
+        {
+          "trial": 6,
+          "vehicle_id": "sensor_schedule_925",
+          "shift_seconds": 15,
+          "accepted": false,
+          "total_absolute_error": 6,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-006"
+        },
+        {
+          "trial": 7,
+          "vehicle_id": "sensor_schedule_925",
+          "shift_seconds": 20,
+          "accepted": false,
+          "total_absolute_error": 4,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-007"
+        },
+        {
+          "trial": 8,
+          "vehicle_id": "sensor_schedule_922",
+          "shift_seconds": 21,
+          "accepted": false,
+          "total_absolute_error": 6,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-008"
+        },
+        {
+          "trial": 9,
+          "vehicle_id": "sensor_schedule_922",
+          "shift_seconds": 24,
+          "accepted": false,
+          "total_absolute_error": 6,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-009"
+        },
+        {
+          "trial": 10,
+          "vehicle_id": "sensor_schedule_919",
+          "shift_seconds": 29,
+          "accepted": false,
+          "total_absolute_error": 4,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-010"
+        }
+      ]
+    },
+    "branch": {
+      "status": "exact_fit",
+      "source_run": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-branch-source",
+      "max_trials": 10,
+      "max_shift_from_baseline_seconds": 117.0,
+      "trials": [
+        {
+          "trial": 1,
+          "vehicle_id": "sensor_schedule_1941",
+          "shift_seconds": 6,
+          "accepted": false,
+          "total_absolute_error": 6,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-branch\\trial-001"
+        },
+        {
+          "trial": 2,
+          "vehicle_id": "sensor_schedule_1941",
+          "shift_seconds": 9,
+          "accepted": false,
+          "total_absolute_error": 4,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-branch\\trial-002"
+        },
+        {
+          "trial": 3,
+          "vehicle_id": "sensor_schedule_1941",
+          "shift_seconds": 14,
+          "accepted": true,
+          "total_absolute_error": 2,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-branch\\trial-003"
+        },
+        {
+          "trial": 4,
+          "vehicle_id": "sensor_schedule_3465",
+          "shift_seconds": -14,
+          "accepted": true,
+          "total_absolute_error": 0,
+          "healthy": true,
+          "rejection_reason": null,
+          "run_directory": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-branch\\trial-004"
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "name": "two-trial/v1-reproduction",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 34,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.275
+    },
+    {
+      "name": "two-trial/fixed-speed-baseline",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 34,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.275
+    },
+    {
+      "name": "two-trial/trial-001",
+      "mae": 0.05,
+      "total_absolute_error": 2,
+      "exact_bins": 38,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.1
+    },
+    {
+      "name": "two-trial/trial-002",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.0
+    },
+    {
+      "name": "ten-trial/v1-reproduction",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 34,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.275
+    },
+    {
+      "name": "ten-trial/fixed-speed-baseline",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 34,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.275
+    },
+    {
+      "name": "ten-trial/trial-001",
+      "mae": 0.05,
+      "total_absolute_error": 2,
+      "exact_bins": 38,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.1
+    },
+    {
+      "name": "ten-trial/trial-002",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.0
+    },
+    {
+      "name": "ten-trial/trial-003",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 37,
+      "max_absolute_error": 2,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.125
+    },
+    {
+      "name": "ten-trial/trial-004",
+      "mae": 0.05,
+      "total_absolute_error": 2,
+      "exact_bins": 38,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.1
+    },
+    {
+      "name": "ten-trial/trial-005",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 34,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 12.775
+    },
+    {
+      "name": "ten-trial/trial-006",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 35,
+      "max_absolute_error": 2,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.125
+    },
+    {
+      "name": "ten-trial/trial-007",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.125
+    },
+    {
+      "name": "ten-trial/trial-008",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 34,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.375
+    },
+    {
+      "name": "ten-trial/trial-009",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 35,
+      "max_absolute_error": 2,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.3
+    },
+    {
+      "name": "ten-trial/trial-010",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.075
+    },
+    {
+      "name": "branch/v1-reproduction",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.0
+    },
+    {
+      "name": "branch/fixed-speed-baseline",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.0
+    },
+    {
+      "name": "branch/trial-001",
+      "mae": 0.15,
+      "total_absolute_error": 6,
+      "exact_bins": 35,
+      "max_absolute_error": 2,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 13.05
+    },
+    {
+      "name": "branch/trial-002",
+      "mae": 0.1,
+      "total_absolute_error": 4,
+      "exact_bins": 36,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 12.925
+    },
+    {
+      "name": "branch/trial-003",
+      "mae": 0.05,
+      "total_absolute_error": 2,
+      "exact_bins": 38,
+      "max_absolute_error": 1,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 12.8
+    },
+    {
+      "name": "branch/trial-004",
+      "mae": 0.0,
+      "total_absolute_error": 0,
+      "exact_bins": 40,
+      "max_absolute_error": 0,
+      "healthy": true,
+      "completion": {
+        "loaded": 5037,
+        "inserted": 5037,
+        "arrived": 5037,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_contrib_mae": 12.825
+    }
+  ],
+  "branch_source": "branch-source/source-adaptation.json",
+  "best_native_records": "native/branch/trial-004",
+  "allowed_claim": "The historical diagnostic scenario matches all 40 station/bin unique-enter targets in the fitting window, with all 5037 vehicles arriving and no collisions or teleports.",
+  "prohibited_claims": [
+    "Do not report zero native nVehContrib error.",
+    "Do not report October 130-field acceptance.",
+    "Do not call this a fully physical digital twin.",
+    "Do not infer real OD, independent prediction, or field-correct signals from this fitting-window result."
+  ]
+}
