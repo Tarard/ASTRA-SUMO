@@ -1,5 +1,13 @@
 # Hamburg case shown in the README
 
+The [four OD response probes](../benchmarks/hamburg_ring1_classical_od_response_20261023_v1/README.md) follow the [classical-method reassessment](research/hamburg-classic-calibration-2026-10-23.md).
+The rebuilt 294-cell prior preserves the repaired network and all 8640 initial explicit requests. Four fresh native evaluations test one OD's adjacent departure periods at integer amplitudes of 6 and 1; these are directional measurements, not SPSA iterations.
+The selected `probe-minus1` reduces field MAE from 5.961538 to 5.092308, SSE from 10749 to 6898 and maximum error from 32 to 27.
+Waiting requests fall from 68 to 7, with 14 vehicles still running. Collisions, teleports and discarded requests are zero. Its derived station MAE is 14.8.
+All 130 main observations and 52 initialization observations remain intact. The initialization counts are unchanged, while Z12/Z13 field errors worsen despite the overall improvement.
+The existing quantile generator changes 151 departure times and 56 lane-template assignments for this two-cell count adjustment. The two cells' Z4/Z5 intentions change from 77/76 to 78/75. This is a joint empirical-prior response, not a pure single-vehicle time shift or an identified real OD.
+The selected vector remains a diagnostic candidate. The goal of 130 exact native fields and valid completion is still unmet; all three rejected probes are retained.
+
 The [LSA119 single-connection regression](../benchmarks/hamburg_ring1_119_single_split_20261023_v1/README.md) reproduces two collisions with four vehicles and a measured leader speed boundary.
 Only the Z4 lane-0 left movement changes to a complete native internal path. The paired candidate has no collisions.
 The candidate preserves all ordinary roads, legal turns, complete curves, signal programs and exterior elements.

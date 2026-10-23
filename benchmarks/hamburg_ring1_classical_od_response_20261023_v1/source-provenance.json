@@ -1,0 +1,1810 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\network.net.xml",
+      "snapshot": "prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\demand.rou.xml",
+      "snapshot": "prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726635,
+      "raw_sha256": "901c051aec8e3cfc7af068e40fb29345e88ca22c595b9fc82f12fe64cc6c56be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\field-loops.add.xml",
+      "snapshot": "prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\control.add.xml",
+      "snapshot": "prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\expected-counts.csv",
+      "snapshot": "prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\lane-intentions.json",
+      "snapshot": "prepared/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initialization-counts.csv",
+      "snapshot": "prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\scenario.json",
+      "snapshot": "prepared/scenario.json.gz",
+      "raw_bytes": 3779,
+      "raw_sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\od-model.json",
+      "snapshot": "prepared/od-model.json.gz",
+      "raw_bytes": 5653304,
+      "raw_sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initial-od-vector.json",
+      "snapshot": "prepared/initial-od-vector.json.gz",
+      "raw_bytes": 2353,
+      "raw_sha256": "aa22a8bd4dd66d9e2d3e0c0b2f83a9e165efe174a3f4799ac6772e7e85578116"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initial-equivalence.json",
+      "snapshot": "prepared/initial-equivalence.json.gz",
+      "raw_bytes": 3286,
+      "raw_sha256": "0ad79b8a206d895aaa22dbf95c1539d4c43d8795522ec29473e73512eb38654c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\preparation-request.json",
+      "snapshot": "prepared/preparation-request.json.gz",
+      "raw_bytes": 1385,
+      "raw_sha256": "bd815138e99cc0225f9c3de1994606ab785f4742b58e99005fdfa26bdabcf09a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initial\\demand.rou.xml",
+      "snapshot": "prepared/initial/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "988c89ccfe0bcec57f774ab66e4ea8dbb7dd0b98537b2086b5b8de039a0c76a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initial\\lane-intentions.json",
+      "snapshot": "prepared/initial/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initial\\od-vector.json",
+      "snapshot": "prepared/initial/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "677d6dbf3f73436eae5def3e9484bfbb37fd029bb1383d420d4d4eee0302377d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\adjacent-period-transfer-screen.csv",
+      "snapshot": "assignment-audit/adjacent-period-transfer-screen.csv.gz",
+      "raw_bytes": 79246,
+      "raw_sha256": "a6bde85c41ac122ca72743e6cb3195154eb8ef343465637418da5ade1352ac83"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\allocation-nonzero.csv",
+      "snapshot": "assignment-audit/allocation-nonzero.csv.gz",
+      "raw_bytes": 32538,
+      "raw_sha256": "c12fde8fd71c1694b096a2b9756357466afb835ae3f220a779dab17f7abdb1f9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\allocation.npz",
+      "snapshot": "assignment-audit/allocation.npz.gz",
+      "raw_bytes": 16680,
+      "raw_sha256": "7453368e6a6e9dfd55fd7e2ebaee6912d1fcd9280154eb5d67509ed66013216e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\analyze.py",
+      "snapshot": "assignment-audit/analyze.py.gz",
+      "raw_bytes": 20088,
+      "raw_sha256": "8bcad6a4b5d9bcb611894a603595cf41193fab9c4e73e1cf5ad80cf4c33bd149"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\audit.json",
+      "snapshot": "assignment-audit/audit.json.gz",
+      "raw_bytes": 39686,
+      "raw_sha256": "bf3eb8271af11eecbf473faf5b71c5bbcfe3d352634df57a1118e4095d8bc913"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\columns-294.csv",
+      "snapshot": "assignment-audit/columns-294.csv.gz",
+      "raw_bytes": 115341,
+      "raw_sha256": "be22ffa802e49578a45a3cf928ff7a2bb0d39c3a415f897a206a7254ae5c4ec6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\compare_probes.py",
+      "snapshot": "assignment-audit/compare_probes.py.gz",
+      "raw_bytes": 19586,
+      "raw_sha256": "18df808b032853216c7aff6666a15662836338642fa9694962ca0c6c0ec45294"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\comparison-tool-versions.json",
+      "snapshot": "assignment-audit/comparison-tool-versions.json.gz",
+      "raw_bytes": 828,
+      "raw_sha256": "bdd18f100a01c6178aa8472eb23ffa341560e1587a92fb8da103d855ba9b3bd3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\execution-summary.txt",
+      "snapshot": "assignment-audit/execution-summary.txt.gz",
+      "raw_bytes": 4941,
+      "raw_sha256": "3509f8897be2f08186ab5813b51bc7418461f19a6fd5a4952bc88180fdd03ae4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\field-residuals.csv",
+      "snapshot": "assignment-audit/field-residuals.csv.gz",
+      "raw_bytes": 607,
+      "raw_sha256": "bf832d9220c8f621643d88e38c6b9e1725dee126fa627354111e1bcf680ae691"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\frozen-ols-orthogonal-residual.csv",
+      "snapshot": "assignment-audit/frozen-ols-orthogonal-residual.csv.gz",
+      "raw_bytes": 17855,
+      "raw_sha256": "eb80afcf0208be75a6921d891d11b5da91b9da82727b2323639219f267cad42b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\group-residual-associations.csv",
+      "snapshot": "assignment-audit/group-residual-associations.csv.gz",
+      "raw_bytes": 20683,
+      "raw_sha256": "e4bee401638ca0952c5d48c97d5a2fa2d4db94bda026b61edf395e8570a35c23"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\manifest.json",
+      "snapshot": "assignment-audit/manifest.json.gz",
+      "raw_bytes": 6067,
+      "raw_sha256": "31d52ae062120f4be46c9ce60d5a523ed6916046d1a0a05a3338418eb4538b7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\compare_probes.executed.py",
+      "snapshot": "assignment-audit/probe-comparison/compare_probes.executed.py.gz",
+      "raw_bytes": 18774,
+      "raw_sha256": "e91e7210a65893696a0ab5b81f36765436aab0639b86f6f7b0f1aa2840770100"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\comparison.json",
+      "snapshot": "assignment-audit/probe-comparison/comparison.json.gz",
+      "raw_bytes": 34577,
+      "raw_sha256": "74106b1c5af8c87737caa6e2d6a6c855985027d2720413df122368309d350a66"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\execution-summary.txt",
+      "snapshot": "assignment-audit/probe-comparison/execution-summary.txt.gz",
+      "raw_bytes": 2641,
+      "raw_sha256": "7844829a66347e016662e8d1e4d478fe02a9726a0a3c442c529d35cc22fa4978"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\field-totals.csv",
+      "snapshot": "assignment-audit/probe-comparison/field-totals.csv.gz",
+      "raw_bytes": 4108,
+      "raw_sha256": "e20bdd26447292ddf7bcdf5318098e20af155611d1df1410580e8c4f85603976"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\initialization52-vectors.csv",
+      "snapshot": "assignment-audit/probe-comparison/initialization52-vectors.csv.gz",
+      "raw_bytes": 5623,
+      "raw_sha256": "b0c94a618a5854c7b5e67b669bc05c7fccf30d3c193d7ad3cc4eef19ddc24e68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\main130-vectors.csv",
+      "snapshot": "assignment-audit/probe-comparison/main130-vectors.csv.gz",
+      "raw_bytes": 16371,
+      "raw_sha256": "01f9eb339b9d1b596acb6467ffce7b79bc73b0d2f821b85b44e0da9a7cec9fa2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\native-vectors-208.csv",
+      "snapshot": "assignment-audit/probe-comparison/native-vectors-208.csv.gz",
+      "raw_bytes": 24636,
+      "raw_sha256": "aedb2ff7eb13ec7c76f996774aeb71e70b15b6c45022be0cf605ae86e7942f16"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\README.md",
+      "snapshot": "assignment-audit/probe-comparison/README.md.gz",
+      "raw_bytes": 2913,
+      "raw_sha256": "104a4954c7e801923bbda656d775cdb559bc4fb15324fdddfd1d81444f61e32d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-comparison\\tail26-vectors.csv",
+      "snapshot": "assignment-audit/probe-comparison/tail26-vectors.csv.gz",
+      "raw_bytes": 3290,
+      "raw_sha256": "76d3d45c06153e1dfe7313f3e1bba162e248c27c3387c02346dea42a2bd4d427"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\compare_probes.executed.py",
+      "snapshot": "assignment-audit/probe-small-comparison/compare_probes.executed.py.gz",
+      "raw_bytes": 19586,
+      "raw_sha256": "18df808b032853216c7aff6666a15662836338642fa9694962ca0c6c0ec45294"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\comparison.json",
+      "snapshot": "assignment-audit/probe-small-comparison/comparison.json.gz",
+      "raw_bytes": 34721,
+      "raw_sha256": "c97bff7f2b06b9de41d5bd9984ca97498ef0f916748ad7d1072172bae8cd3e1b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\field-main-shifts.csv",
+      "snapshot": "assignment-audit/probe-small-comparison/field-main-shifts.csv.gz",
+      "raw_bytes": 1254,
+      "raw_sha256": "24d87a4ad269f182a758b53afd85c7c5d7b307d4ea2c919a3d7c3b4749772eec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\field-totals.csv",
+      "snapshot": "assignment-audit/probe-small-comparison/field-totals.csv.gz",
+      "raw_bytes": 4137,
+      "raw_sha256": "0979bbdbab58cd0b1487a431872db7bbe17fe7eb2b29c3dc95125c7b4d772798"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\initialization52-vectors.csv",
+      "snapshot": "assignment-audit/probe-small-comparison/initialization52-vectors.csv.gz",
+      "raw_bytes": 5623,
+      "raw_sha256": "b0c94a618a5854c7b5e67b669bc05c7fccf30d3c193d7ad3cc4eef19ddc24e68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\main130-vectors.csv",
+      "snapshot": "assignment-audit/probe-small-comparison/main130-vectors.csv.gz",
+      "raw_bytes": 13385,
+      "raw_sha256": "0955a06cf91f90a24a464c2b98c5ca294f77b7c55965a9fdb8c770bd04a098a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\native-vectors-208.csv",
+      "snapshot": "assignment-audit/probe-small-comparison/native-vectors-208.csv.gz",
+      "raw_bytes": 21057,
+      "raw_sha256": "d199e1a4f78aca1dfcb25013dec31833f4f7d6da6571da099ceae897f75e1ab3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\README.md",
+      "snapshot": "assignment-audit/probe-small-comparison/README.md.gz",
+      "raw_bytes": 3380,
+      "raw_sha256": "b65199d324f483bab4749294de0155f948bd5d4924c2dae05c04fc3a9333994d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-small-comparison\\tail26-vectors.csv",
+      "snapshot": "assignment-audit/probe-small-comparison/tail26-vectors.csv.gz",
+      "raw_bytes": 2697,
+      "raw_sha256": "af900fe0536b92c84ba8a66ce87c1f3a8481f32bf26b3620789a5594410de7e7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\probe-suggestions.json",
+      "snapshot": "assignment-audit/probe-suggestions.json.gz",
+      "raw_bytes": 6845,
+      "raw_sha256": "8400505d2650673ae17ad860e8949fb6d0b130e0c60f9fb0a1c9aab471c936eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\README.md",
+      "snapshot": "assignment-audit/README.md.gz",
+      "raw_bytes": 5402,
+      "raw_sha256": "b4b3a96b4cf63d0365404a84667c6953bffc44a64baf4df6c1189afd9a7bcb69"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\rows-208.csv",
+      "snapshot": "assignment-audit/rows-208.csv.gz",
+      "raw_bytes": 11311,
+      "raw_sha256": "4baa801b268aa3252d8892ce808689d7cfda88a07220ddc933d91a7a0c2c9ba2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\structural-limits.md",
+      "snapshot": "assignment-audit/structural-limits.md.gz",
+      "raw_bytes": 5856,
+      "raw_sha256": "1c4e0120697b0c8f642642964e14ae8e82b709ed8ef19f32e8b2981236547b9c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\assignment-audit\\vehicle-outcomes.csv",
+      "snapshot": "assignment-audit/vehicle-outcomes.csv.gz",
+      "raw_bytes": 1171017,
+      "raw_sha256": "29bb4db722ea4cc9802bab2729026dd0eb4bcaaa0ceee25a4e70cf5752329f89"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\response-protocol.md",
+      "snapshot": "response-protocol.md.gz",
+      "raw_bytes": 9539,
+      "raw_sha256": "0b60159a88fca710f40f5facf0db6da92f40605b34ed4135c5387fdbaeeae57a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\measure_probe.py",
+      "snapshot": "measure_probe.py.gz",
+      "raw_bytes": 13129,
+      "raw_sha256": "9a3306c62df8ddf99b5c776f5d3292e0d2c8af4a1189d00242bb91ed3d123858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\offline-selfchecks.json",
+      "snapshot": "offline-selfchecks.json.gz",
+      "raw_bytes": 2440,
+      "raw_sha256": "9eb1c9216e74e8dc00b5f97c9ae74e19f58db07c0152ed3a60230bf60ff42af3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\smaller-amplitude-decision.json",
+      "snapshot": "smaller-amplitude-decision.json.gz",
+      "raw_bytes": 1613,
+      "raw_sha256": "7d05088b9d8a07f853735d4bac6c20e75be3b8f43414c6c98161e1b3e5579d40"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\response-audit.json",
+      "snapshot": "response-audit.json.gz",
+      "raw_bytes": 3146,
+      "raw_sha256": "e763e12c2f3334207fb9478b14845fba394effc9af73e333b561487032641d69"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\reproduce-selfchecks.json",
+      "snapshot": "reproduce-selfchecks.json.gz",
+      "raw_bytes": 602,
+      "raw_sha256": "e93488a7283896e84df904a8688a70d0ee7cf7a0902fabdc8b34ef6db1cab1d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\network.net.xml",
+      "snapshot": "probe-plus6/prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\demand.rou.xml",
+      "snapshot": "probe-plus6/prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726635,
+      "raw_sha256": "901c051aec8e3cfc7af068e40fb29345e88ca22c595b9fc82f12fe64cc6c56be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\field-loops.add.xml",
+      "snapshot": "probe-plus6/prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\control.add.xml",
+      "snapshot": "probe-plus6/prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\expected-counts.csv",
+      "snapshot": "probe-plus6/prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\lane-intentions.json",
+      "snapshot": "probe-plus6/prepared/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\initialization-counts.csv",
+      "snapshot": "probe-plus6/prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\scenario.json",
+      "snapshot": "probe-plus6/prepared/scenario.json.gz",
+      "raw_bytes": 3779,
+      "raw_sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\od-model.json",
+      "snapshot": "probe-plus6/prepared/od-model.json.gz",
+      "raw_bytes": 5653304,
+      "raw_sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\initial-od-vector.json",
+      "snapshot": "probe-plus6/prepared/initial-od-vector.json.gz",
+      "raw_bytes": 2353,
+      "raw_sha256": "aa22a8bd4dd66d9e2d3e0c0b2f83a9e165efe174a3f4799ac6772e7e85578116"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\initial-equivalence.json",
+      "snapshot": "probe-plus6/prepared/initial-equivalence.json.gz",
+      "raw_bytes": 3286,
+      "raw_sha256": "0ad79b8a206d895aaa22dbf95c1539d4c43d8795522ec29473e73512eb38654c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\prepared\\preparation-request.json",
+      "snapshot": "probe-plus6/prepared/preparation-request.json.gz",
+      "raw_bytes": 1385,
+      "raw_sha256": "bd815138e99cc0225f9c3de1994606ab785f4742b58e99005fdfa26bdabcf09a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\baseline-field-counts.xml",
+      "snapshot": "probe-plus6/baseline-field-counts.xml.gz",
+      "raw_bytes": 53262,
+      "raw_sha256": "c7d8f60795001cd265ab30114ab07c96b019f368e43fd02178c516928013d344"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\source\\baseline-evaluation.json",
+      "snapshot": "probe-plus6/baseline-evaluation.json.gz",
+      "raw_bytes": 457,
+      "raw_sha256": "1216eeaed56a2e7c5dbb43e295166715bfd238e078acb8fd4427bc0c781d2b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\network.net.xml",
+      "snapshot": "probe-plus6/native/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\demand.rou.xml",
+      "snapshot": "probe-plus6/native/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "190f3fa0e980c4a7357f62868c9247744bd6d19f47501d1a4f8cf960776b391a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\source-e1.add.xml",
+      "snapshot": "probe-plus6/native/source-e1.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\signal-programs.add.xml",
+      "snapshot": "probe-plus6/native/signal-programs.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\lane-intentions.json",
+      "snapshot": "probe-plus6/native/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "ef1d6d5cde65387f3005c314ab45d81028f83bcee2aca7821e3ef19a8278dd9c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\expected-counts.csv",
+      "snapshot": "probe-plus6/native/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\e1.add.xml",
+      "snapshot": "probe-plus6/native/e1.add.xml.gz",
+      "raw_bytes": 3719,
+      "raw_sha256": "0eb90148fdc10d1b07f38de7a6a62667eee39335b70dc160e7e69fa452c85fb0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\instant.add.xml",
+      "snapshot": "probe-plus6/native/instant.add.xml.gz",
+      "raw_bytes": 3195,
+      "raw_sha256": "318d8c3362f44f4fd1308cb6ed2cac83e3c1696665e97924aea16f65038cb205"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\field-counts.xml",
+      "snapshot": "probe-plus6/native/field-counts.xml.gz",
+      "raw_bytes": 53217,
+      "raw_sha256": "5d12d8d5ede7272b953876fe84dbcee68fe938f70190d2cc92ba6bdd1230b5ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\field-comparison.csv",
+      "snapshot": "probe-plus6/native/field-comparison.csv.gz",
+      "raw_bytes": 7933,
+      "raw_sha256": "0ec731f2af5427a2ae580037474158f41e47dd96a3d94cbf3d8ed325431dd675"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\summary.xml",
+      "snapshot": "probe-plus6/native/summary.xml.gz",
+      "raw_bytes": 46895971,
+      "raw_sha256": "143d0a09bebe19487058ac143b1e071e968434cd19fb47a5402598912826be4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\tripinfo.xml",
+      "snapshot": "probe-plus6/native/tripinfo.xml.gz",
+      "raw_bytes": 4552862,
+      "raw_sha256": "c9df2fc9530bb7f9756b8995a16c24cb1c1586756111c7579a6a48c75a143bdb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\vehicle-routes.xml",
+      "snapshot": "probe-plus6/native/vehicle-routes.xml.gz",
+      "raw_bytes": 6510449,
+      "raw_sha256": "3cd47d5b86b82f83f1818c11e5c55de6baeb4a62c7707cf91e8ebae5dd876205"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\collisions.xml",
+      "snapshot": "probe-plus6/native/collisions.xml.gz",
+      "raw_bytes": 3355,
+      "raw_sha256": "177a27fc2bef5eb39347bac80295266b77207aa2a4ae4cdaae4fd098b1872dff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\run.json",
+      "snapshot": "probe-plus6/native/run.json.gz",
+      "raw_bytes": 6279098,
+      "raw_sha256": "ee0a3421e1929984a9c8a807cf924c80ae70df2243a346bbe6b28dbca2a0bd6b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\native-request.json",
+      "snapshot": "probe-plus6/native/native-request.json.gz",
+      "raw_bytes": 3898,
+      "raw_sha256": "5672b6c3b36c599ed14151f0e28941200e8827564ef9b549a242197bf50c7a39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\command.json",
+      "snapshot": "probe-plus6/native/command.json.gz",
+      "raw_bytes": 4876,
+      "raw_sha256": "8f9b5e47d96d2ecc0213eeae981d67dbf3c980ea579ed403253f79b4cd98a3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\stall-monitor.json",
+      "snapshot": "probe-plus6/native/stall-monitor.json.gz",
+      "raw_bytes": 5825258,
+      "raw_sha256": "f0693a64422a81dea42fa934d24e9206b5eea0faf60f8dcfd1a086d297a41a1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\sumo.log",
+      "snapshot": "probe-plus6/native/sumo.log.gz",
+      "raw_bytes": 4210,
+      "raw_sha256": "10e3d47befe6efff5b19aeab7fd763403c00fcae1b082f988e092ab644fdcbaf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\native\\sumo-errors.log",
+      "snapshot": "probe-plus6/native/sumo-errors.log.gz",
+      "raw_bytes": 2601,
+      "raw_sha256": "30fb062d3efa28f31ea17ed4dcb248517c9cead4ae631391478c9597eaa6c037"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\demand.rou.xml",
+      "snapshot": "probe-plus6/evaluation/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "190f3fa0e980c4a7357f62868c9247744bd6d19f47501d1a4f8cf960776b391a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\lane-intentions.json",
+      "snapshot": "probe-plus6/evaluation/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "ef1d6d5cde65387f3005c314ab45d81028f83bcee2aca7821e3ef19a8278dd9c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\od-vector.json",
+      "snapshot": "probe-plus6/evaluation/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "b31eacc0c2f84f6126ebf93490459686f2007a04707b108719acdbd818af74b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\evaluation.json",
+      "snapshot": "probe-plus6/evaluation/evaluation.json.gz",
+      "raw_bytes": 456,
+      "raw_sha256": "3014f208055171facc9f6f808a37b8fdb22f2ab3ea5bed180d9a86f4bdf34cb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\station-comparison.csv",
+      "snapshot": "probe-plus6/evaluation/station-comparison.csv.gz",
+      "raw_bytes": 1621,
+      "raw_sha256": "b756d41ce14e31a0d95893730b270073aa6d1c4a513aa528d63b279ae4e5ac44"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\initialization52-comparison.csv",
+      "snapshot": "probe-plus6/evaluation/initialization52-comparison.csv.gz",
+      "raw_bytes": 3123,
+      "raw_sha256": "ca16670fc0ee7e4740f77d2ade2b2539502043aff60c6139842344532eee5d9d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\evaluation\\all182-comparison.csv",
+      "snapshot": "probe-plus6/evaluation/all182-comparison.csv.gz",
+      "raw_bytes": 10916,
+      "raw_sha256": "e0e755afcb1f49b51fab8c0ac14060d5f5c585f605a6a1e8e2de8ee2391daa17"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\preview\\audit.json",
+      "snapshot": "probe-plus6/preview/audit.json.gz",
+      "raw_bytes": 676,
+      "raw_sha256": "396634dedb34d6dc9ef94cda445c48d6bf98ae4da9e4dd55ddef6952be4060ac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\preview\\demand.rou.xml",
+      "snapshot": "probe-plus6/preview/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "190f3fa0e980c4a7357f62868c9247744bd6d19f47501d1a4f8cf960776b391a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\preview\\lane-intentions.json",
+      "snapshot": "probe-plus6/preview/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "ef1d6d5cde65387f3005c314ab45d81028f83bcee2aca7821e3ef19a8278dd9c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\preview\\od-vector.json",
+      "snapshot": "probe-plus6/preview/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "b31eacc0c2f84f6126ebf93490459686f2007a04707b108719acdbd818af74b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\preview\\vehicle-changes.csv",
+      "snapshot": "probe-plus6/preview/vehicle-changes.csv.gz",
+      "raw_bytes": 1112282,
+      "raw_sha256": "83791034eaddbc6868a75037054e3f194d23e815d16bf3a5611b4f4dd45aa354"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\execution.json",
+      "snapshot": "probe-plus6/execution.json.gz",
+      "raw_bytes": 52608,
+      "raw_sha256": "d99cd6e9c78a22720b43065a98a7f7e71abc67278195236986f1941195527fa4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\verdict.json",
+      "snapshot": "probe-plus6/verdict.json.gz",
+      "raw_bytes": 1473,
+      "raw_sha256": "87878a6ea6d9ddd6008d1327ffca8899f6b4645dce31aa8e2fb0a5256f256a6e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\progress.json",
+      "snapshot": "probe-plus6/progress.json.gz",
+      "raw_bytes": 55,
+      "raw_sha256": "fca7600209f0bae17c09678425594136cf8f423a3c233d9524feb0c01a37b02b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\measure_probe.snapshot.py",
+      "snapshot": "probe-plus6/measure_probe.snapshot.py.gz",
+      "raw_bytes": 13129,
+      "raw_sha256": "9a3306c62df8ddf99b5c776f5d3292e0d2c8af4a1189d00242bb91ed3d123858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\artifact_io.py",
+      "snapshot": "probe-plus6/code-source/artifact_io.py.gz",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\candidate_contracts.py",
+      "snapshot": "probe-plus6/code-source/candidate_contracts.py.gz",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\command_runner.py",
+      "snapshot": "probe-plus6/code-source/command_runner.py.gz",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\detector_demand.py",
+      "snapshot": "probe-plus6/code-source/detector_demand.py.gz",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\detector_demand_replay.py",
+      "snapshot": "probe-plus6/code-source/detector_demand_replay.py.gz",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "snapshot": "probe-plus6/code-source/hamburg_od_spsa.py.gz",
+      "raw_bytes": 29846,
+      "raw_sha256": "98194d214d0073b0c6b6bc908a1a3e50c63537fc4fa2d8df53098793c610e77d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\lane_section_hold.py",
+      "snapshot": "probe-plus6/code-source/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6\\implementation\\astra_sumo\\core\\simulation_stall.py",
+      "snapshot": "probe-plus6/code-source/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6-launch.json",
+      "snapshot": "probe-plus6/probe-plus6-launch.json.gz",
+      "raw_bytes": 493,
+      "raw_sha256": "f189e39fdf928aee202e0026ba27e53146cc729ea8c6eb67cca10ebb18ae0852"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6.stdout.log",
+      "snapshot": "probe-plus6/probe-plus6.stdout.log.gz",
+      "raw_bytes": 1791,
+      "raw_sha256": "78d7d5b77ab56763922b632dd94de62d5306162f0babf1dc4d7a49654b88f973"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus6.stderr.log",
+      "snapshot": "probe-plus6/probe-plus6.stderr.log.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\network.net.xml",
+      "snapshot": "probe-minus6/prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\demand.rou.xml",
+      "snapshot": "probe-minus6/prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726635,
+      "raw_sha256": "901c051aec8e3cfc7af068e40fb29345e88ca22c595b9fc82f12fe64cc6c56be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\field-loops.add.xml",
+      "snapshot": "probe-minus6/prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\control.add.xml",
+      "snapshot": "probe-minus6/prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\expected-counts.csv",
+      "snapshot": "probe-minus6/prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\lane-intentions.json",
+      "snapshot": "probe-minus6/prepared/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\initialization-counts.csv",
+      "snapshot": "probe-minus6/prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\scenario.json",
+      "snapshot": "probe-minus6/prepared/scenario.json.gz",
+      "raw_bytes": 3779,
+      "raw_sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\od-model.json",
+      "snapshot": "probe-minus6/prepared/od-model.json.gz",
+      "raw_bytes": 5653304,
+      "raw_sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\initial-od-vector.json",
+      "snapshot": "probe-minus6/prepared/initial-od-vector.json.gz",
+      "raw_bytes": 2353,
+      "raw_sha256": "aa22a8bd4dd66d9e2d3e0c0b2f83a9e165efe174a3f4799ac6772e7e85578116"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\initial-equivalence.json",
+      "snapshot": "probe-minus6/prepared/initial-equivalence.json.gz",
+      "raw_bytes": 3286,
+      "raw_sha256": "0ad79b8a206d895aaa22dbf95c1539d4c43d8795522ec29473e73512eb38654c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\prepared\\preparation-request.json",
+      "snapshot": "probe-minus6/prepared/preparation-request.json.gz",
+      "raw_bytes": 1385,
+      "raw_sha256": "bd815138e99cc0225f9c3de1994606ab785f4742b58e99005fdfa26bdabcf09a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\baseline-field-counts.xml",
+      "snapshot": "probe-minus6/baseline-field-counts.xml.gz",
+      "raw_bytes": 53262,
+      "raw_sha256": "c7d8f60795001cd265ab30114ab07c96b019f368e43fd02178c516928013d344"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\source\\baseline-evaluation.json",
+      "snapshot": "probe-minus6/baseline-evaluation.json.gz",
+      "raw_bytes": 457,
+      "raw_sha256": "1216eeaed56a2e7c5dbb43e295166715bfd238e078acb8fd4427bc0c781d2b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\network.net.xml",
+      "snapshot": "probe-minus6/native/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\demand.rou.xml",
+      "snapshot": "probe-minus6/native/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "3b50af67372cc161330c05c9cea3816773a0c4f8bd2dd612632b6ec3e1fe63ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\source-e1.add.xml",
+      "snapshot": "probe-minus6/native/source-e1.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\signal-programs.add.xml",
+      "snapshot": "probe-minus6/native/signal-programs.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\lane-intentions.json",
+      "snapshot": "probe-minus6/native/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "d37b6978788bba3d322641e3993150bca14b037b7fbc408620496899231eb216"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\expected-counts.csv",
+      "snapshot": "probe-minus6/native/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\e1.add.xml",
+      "snapshot": "probe-minus6/native/e1.add.xml.gz",
+      "raw_bytes": 3732,
+      "raw_sha256": "b888fedc10dab42946f0ef9a2beafd5c5d5787fa1ad9e9fdf80e4ccb5ef7c95b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\instant.add.xml",
+      "snapshot": "probe-minus6/native/instant.add.xml.gz",
+      "raw_bytes": 3208,
+      "raw_sha256": "c717c11f7726ed071820b547600c96953ddf5ad9fdcba9c0d3cbf3dfea792884"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\field-counts.xml",
+      "snapshot": "probe-minus6/native/field-counts.xml.gz",
+      "raw_bytes": 53222,
+      "raw_sha256": "5fae3f0dd8ea963f08874a7fb09e20ffbc2ff9b6d25c6d884bcab0e1d2f28842"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\field-comparison.csv",
+      "snapshot": "probe-minus6/native/field-comparison.csv.gz",
+      "raw_bytes": 7933,
+      "raw_sha256": "5caa57ae8848641bcad56d1deffad8aa8ab2416d83e2e27fb64d645324d55b68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\summary.xml",
+      "snapshot": "probe-minus6/native/summary.xml.gz",
+      "raw_bytes": 46884269,
+      "raw_sha256": "0e079c9f3e34162d48ecb44e1845e30a4c2cf3475fd6640243cf4185c40ec0db"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\tripinfo.xml",
+      "snapshot": "probe-minus6/native/tripinfo.xml.gz",
+      "raw_bytes": 4549939,
+      "raw_sha256": "0181124060eb2f0c3074e17df1626f102f5d5943f1eb76ae66c0a60a75714d1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\vehicle-routes.xml",
+      "snapshot": "probe-minus6/native/vehicle-routes.xml.gz",
+      "raw_bytes": 6500340,
+      "raw_sha256": "13aa7a57a2b2341a4c88602db6735f07cd3e6aadadd732b3be660b118bf660f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\collisions.xml",
+      "snapshot": "probe-minus6/native/collisions.xml.gz",
+      "raw_bytes": 3367,
+      "raw_sha256": "63f206054aa63dc985fa223b76d4cab466640b805bb79f0fed09c8af9450f338"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\run.json",
+      "snapshot": "probe-minus6/native/run.json.gz",
+      "raw_bytes": 6276687,
+      "raw_sha256": "1039f976b5047cc8771d4d33780af5c07b2c510fb5122826abc8e8e46df1d595"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\native-request.json",
+      "snapshot": "probe-minus6/native/native-request.json.gz",
+      "raw_bytes": 3914,
+      "raw_sha256": "d79bfe5015d842cab6db6ec6766dec0c8ceca8e588eb570b6ee4b93fd2b9b790"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\command.json",
+      "snapshot": "probe-minus6/native/command.json.gz",
+      "raw_bytes": 4888,
+      "raw_sha256": "ad9136489cbb40095bc5faf039c892cc56ec5240257cc11af10b903af223b1f3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\stall-monitor.json",
+      "snapshot": "probe-minus6/native/stall-monitor.json.gz",
+      "raw_bytes": 5822986,
+      "raw_sha256": "a38f3ffe6095f1f3e33e1f0f98e05dfbe98443cb0b2cd1dfd9a21f1cd01ff23f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\sumo.log",
+      "snapshot": "probe-minus6/native/sumo.log.gz",
+      "raw_bytes": 4220,
+      "raw_sha256": "6ed9c33ae099172d723bcc93d5a5d0fd1c6c0ab674613a6156410069f66359fe"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\native\\sumo-errors.log",
+      "snapshot": "probe-minus6/native/sumo-errors.log.gz",
+      "raw_bytes": 2605,
+      "raw_sha256": "3397b3ef93005ac10587f9e813975b96cdf84486f8ccf314eb94942676bd01c5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\demand.rou.xml",
+      "snapshot": "probe-minus6/evaluation/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "3b50af67372cc161330c05c9cea3816773a0c4f8bd2dd612632b6ec3e1fe63ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\lane-intentions.json",
+      "snapshot": "probe-minus6/evaluation/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "d37b6978788bba3d322641e3993150bca14b037b7fbc408620496899231eb216"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\od-vector.json",
+      "snapshot": "probe-minus6/evaluation/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "f652c9538d7881cf4dd5225a51ea412f933901d35a62fcd792190cc478b1f6cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\evaluation.json",
+      "snapshot": "probe-minus6/evaluation/evaluation.json.gz",
+      "raw_bytes": 455,
+      "raw_sha256": "88544ff16dc67d6482a61520416068c853bf733bd29bb922b0514c29d9085513"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\station-comparison.csv",
+      "snapshot": "probe-minus6/evaluation/station-comparison.csv.gz",
+      "raw_bytes": 1623,
+      "raw_sha256": "b8315aa92c3520740fe03bf38692d626c31794223b34f9fe690cf3738f01b813"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\initialization52-comparison.csv",
+      "snapshot": "probe-minus6/evaluation/initialization52-comparison.csv.gz",
+      "raw_bytes": 3123,
+      "raw_sha256": "ca16670fc0ee7e4740f77d2ade2b2539502043aff60c6139842344532eee5d9d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\evaluation\\all182-comparison.csv",
+      "snapshot": "probe-minus6/evaluation/all182-comparison.csv.gz",
+      "raw_bytes": 10916,
+      "raw_sha256": "d8f50310d1c852cf848661415e9cfb29067007630b6ea1ad2022791aae58800c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\preview\\audit.json",
+      "snapshot": "probe-minus6/preview/audit.json.gz",
+      "raw_bytes": 676,
+      "raw_sha256": "d21507cbd9f0bf39bf1bc434f4221786adb29d904617d5e0e5caae6e756e8751"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\preview\\demand.rou.xml",
+      "snapshot": "probe-minus6/preview/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "3b50af67372cc161330c05c9cea3816773a0c4f8bd2dd612632b6ec3e1fe63ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\preview\\lane-intentions.json",
+      "snapshot": "probe-minus6/preview/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "d37b6978788bba3d322641e3993150bca14b037b7fbc408620496899231eb216"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\preview\\od-vector.json",
+      "snapshot": "probe-minus6/preview/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "f652c9538d7881cf4dd5225a51ea412f933901d35a62fcd792190cc478b1f6cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\preview\\vehicle-changes.csv",
+      "snapshot": "probe-minus6/preview/vehicle-changes.csv.gz",
+      "raw_bytes": 1112562,
+      "raw_sha256": "43c2192871b47702214a8e4d058728a9157d0ede614abf265189ba68938ba6c6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\execution.json",
+      "snapshot": "probe-minus6/execution.json.gz",
+      "raw_bytes": 52610,
+      "raw_sha256": "309f749fee3448dad9af9430ab362b752fb32641214711819fd0f08e40c057a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\verdict.json",
+      "snapshot": "probe-minus6/verdict.json.gz",
+      "raw_bytes": 1472,
+      "raw_sha256": "315e5c72a1aff7f00b2043a0f042b70cf7255b624c673c29526db96596a98d1f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\progress.json",
+      "snapshot": "probe-minus6/progress.json.gz",
+      "raw_bytes": 55,
+      "raw_sha256": "fca7600209f0bae17c09678425594136cf8f423a3c233d9524feb0c01a37b02b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\measure_probe.snapshot.py",
+      "snapshot": "probe-minus6/measure_probe.snapshot.py.gz",
+      "raw_bytes": 13129,
+      "raw_sha256": "9a3306c62df8ddf99b5c776f5d3292e0d2c8af4a1189d00242bb91ed3d123858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\artifact_io.py",
+      "snapshot": "probe-minus6/code-source/artifact_io.py.gz",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\candidate_contracts.py",
+      "snapshot": "probe-minus6/code-source/candidate_contracts.py.gz",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\command_runner.py",
+      "snapshot": "probe-minus6/code-source/command_runner.py.gz",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\detector_demand.py",
+      "snapshot": "probe-minus6/code-source/detector_demand.py.gz",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\detector_demand_replay.py",
+      "snapshot": "probe-minus6/code-source/detector_demand_replay.py.gz",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "snapshot": "probe-minus6/code-source/hamburg_od_spsa.py.gz",
+      "raw_bytes": 29846,
+      "raw_sha256": "98194d214d0073b0c6b6bc908a1a3e50c63537fc4fa2d8df53098793c610e77d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\lane_section_hold.py",
+      "snapshot": "probe-minus6/code-source/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6\\implementation\\astra_sumo\\core\\simulation_stall.py",
+      "snapshot": "probe-minus6/code-source/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6-launch.json",
+      "snapshot": "probe-minus6/probe-minus6-launch.json.gz",
+      "raw_bytes": 495,
+      "raw_sha256": "f152f44b91fd2491e81ca632b6485aaccd97e47a0408fe74d6d04c1b8052671b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6.stdout.log",
+      "snapshot": "probe-minus6/probe-minus6.stdout.log.gz",
+      "raw_bytes": 1790,
+      "raw_sha256": "b0ea302f29785d7d6b5c2e6035ac799e337263fbeb3942c2c76ef27fd0bdbac9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus6.stderr.log",
+      "snapshot": "probe-minus6/probe-minus6.stderr.log.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\network.net.xml",
+      "snapshot": "probe-plus1/prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\demand.rou.xml",
+      "snapshot": "probe-plus1/prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726635,
+      "raw_sha256": "901c051aec8e3cfc7af068e40fb29345e88ca22c595b9fc82f12fe64cc6c56be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\field-loops.add.xml",
+      "snapshot": "probe-plus1/prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\control.add.xml",
+      "snapshot": "probe-plus1/prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\expected-counts.csv",
+      "snapshot": "probe-plus1/prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\lane-intentions.json",
+      "snapshot": "probe-plus1/prepared/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\initialization-counts.csv",
+      "snapshot": "probe-plus1/prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\scenario.json",
+      "snapshot": "probe-plus1/prepared/scenario.json.gz",
+      "raw_bytes": 3779,
+      "raw_sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\od-model.json",
+      "snapshot": "probe-plus1/prepared/od-model.json.gz",
+      "raw_bytes": 5653304,
+      "raw_sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\initial-od-vector.json",
+      "snapshot": "probe-plus1/prepared/initial-od-vector.json.gz",
+      "raw_bytes": 2353,
+      "raw_sha256": "aa22a8bd4dd66d9e2d3e0c0b2f83a9e165efe174a3f4799ac6772e7e85578116"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\initial-equivalence.json",
+      "snapshot": "probe-plus1/prepared/initial-equivalence.json.gz",
+      "raw_bytes": 3286,
+      "raw_sha256": "0ad79b8a206d895aaa22dbf95c1539d4c43d8795522ec29473e73512eb38654c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\prepared\\preparation-request.json",
+      "snapshot": "probe-plus1/prepared/preparation-request.json.gz",
+      "raw_bytes": 1385,
+      "raw_sha256": "bd815138e99cc0225f9c3de1994606ab785f4742b58e99005fdfa26bdabcf09a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\baseline-field-counts.xml",
+      "snapshot": "probe-plus1/baseline-field-counts.xml.gz",
+      "raw_bytes": 53262,
+      "raw_sha256": "c7d8f60795001cd265ab30114ab07c96b019f368e43fd02178c516928013d344"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\source\\baseline-evaluation.json",
+      "snapshot": "probe-plus1/baseline-evaluation.json.gz",
+      "raw_bytes": 457,
+      "raw_sha256": "1216eeaed56a2e7c5dbb43e295166715bfd238e078acb8fd4427bc0c781d2b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\network.net.xml",
+      "snapshot": "probe-plus1/native/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\demand.rou.xml",
+      "snapshot": "probe-plus1/native/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "3b8ec4b0d4412480f3fc071c19ca5b06fd7f28f64b9112b23788d3f943303858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\source-e1.add.xml",
+      "snapshot": "probe-plus1/native/source-e1.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\signal-programs.add.xml",
+      "snapshot": "probe-plus1/native/signal-programs.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\lane-intentions.json",
+      "snapshot": "probe-plus1/native/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "473f6dcdfeeca7a4a730f06024f692bf9625dc5d5367df3965aedfdfed682b20"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\expected-counts.csv",
+      "snapshot": "probe-plus1/native/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\e1.add.xml",
+      "snapshot": "probe-plus1/native/e1.add.xml.gz",
+      "raw_bytes": 3719,
+      "raw_sha256": "7bf5cbed2256914637e89dcff9dc74b17cbe81a5e50a84bbae74a4f542d78432"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\instant.add.xml",
+      "snapshot": "probe-plus1/native/instant.add.xml.gz",
+      "raw_bytes": 3195,
+      "raw_sha256": "c424ab31cab9d44b415a8aa0d5ba43051916a60df62db4b7caa25425cc834e32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\field-counts.xml",
+      "snapshot": "probe-plus1/native/field-counts.xml.gz",
+      "raw_bytes": 53207,
+      "raw_sha256": "667d59764844ed1ef75065f3a396ae6c49f88e177216ee6d6d3884a0a79738c6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\field-comparison.csv",
+      "snapshot": "probe-plus1/native/field-comparison.csv.gz",
+      "raw_bytes": 7925,
+      "raw_sha256": "01c238089b5b08b1ec3a709d6d86984def1db2da3a3342bed71a5281aeabbb33"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\summary.xml",
+      "snapshot": "probe-plus1/native/summary.xml.gz",
+      "raw_bytes": 46881158,
+      "raw_sha256": "4fe5d10b61f40adb07c7a1facae18aca50d84b3febf74dfbc06d7fef1b27bea8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\tripinfo.xml",
+      "snapshot": "probe-plus1/native/tripinfo.xml.gz",
+      "raw_bytes": 4541902,
+      "raw_sha256": "9f6284e568926841cc732fa5fc359267d6c5eee72f2d5a28753a41e095b4c00e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\vehicle-routes.xml",
+      "snapshot": "probe-plus1/native/vehicle-routes.xml.gz",
+      "raw_bytes": 6480560,
+      "raw_sha256": "6425a74829571b2d31030b1f8cba86c37876c33a43ac88f0f71b2ddbc5263e49"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\collisions.xml",
+      "snapshot": "probe-plus1/native/collisions.xml.gz",
+      "raw_bytes": 3355,
+      "raw_sha256": "a562acf5c688ec4692bb29b240c61c6860cc9ba9356e9eeeb43ca7f400356909"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\run.json",
+      "snapshot": "probe-plus1/native/run.json.gz",
+      "raw_bytes": 6268423,
+      "raw_sha256": "260d2e290fe00f103792aeb5c870ab2424db18e705ee51a6b1e1c1267fac2420"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\native-request.json",
+      "snapshot": "probe-plus1/native/native-request.json.gz",
+      "raw_bytes": 3898,
+      "raw_sha256": "bb42ce01986ac06153abe3d1633ba758b57bee7d28cad7648a72d4af868cbf52"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\command.json",
+      "snapshot": "probe-plus1/native/command.json.gz",
+      "raw_bytes": 5052,
+      "raw_sha256": "d72f2518941d8728d039056f8a4bf513eada58cb5b24d75d37f76a2d5c7756d0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\stall-monitor.json",
+      "snapshot": "probe-plus1/native/stall-monitor.json.gz",
+      "raw_bytes": 5815353,
+      "raw_sha256": "faed48771ada9d10d0ac95ab422128d5e8b1bbc9f3bd63b0f9576d9985f9fbf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\sumo.log",
+      "snapshot": "probe-plus1/native/sumo.log.gz",
+      "raw_bytes": 4386,
+      "raw_sha256": "e22980befa73b0ca5ca6bd0b8c98c76a463009e0465fab5fd5a7bb66cf012b69"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\native\\sumo-errors.log",
+      "snapshot": "probe-plus1/native/sumo-errors.log.gz",
+      "raw_bytes": 2776,
+      "raw_sha256": "847aaac73886221c3aa3900e32637d19990d9e75da26782cbff68e688ed360fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\demand.rou.xml",
+      "snapshot": "probe-plus1/evaluation/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "3b8ec4b0d4412480f3fc071c19ca5b06fd7f28f64b9112b23788d3f943303858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\lane-intentions.json",
+      "snapshot": "probe-plus1/evaluation/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "473f6dcdfeeca7a4a730f06024f692bf9625dc5d5367df3965aedfdfed682b20"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\od-vector.json",
+      "snapshot": "probe-plus1/evaluation/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "c463d22fa9af4092e54710cc9f4ea2c49795cdfd10b82348b1cf19237d3f6e1a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\evaluation.json",
+      "snapshot": "probe-plus1/evaluation/evaluation.json.gz",
+      "raw_bytes": 457,
+      "raw_sha256": "3040991398ab4ce953421352fdb43ed3f1fa22f23ae4ec5ec4041192e76e8911"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\station-comparison.csv",
+      "snapshot": "probe-plus1/evaluation/station-comparison.csv.gz",
+      "raw_bytes": 1616,
+      "raw_sha256": "8afe380bc54de1d394887ffbe05606fb1e9c0839c1d48b4b78d25cc5b0aceab9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\initialization52-comparison.csv",
+      "snapshot": "probe-plus1/evaluation/initialization52-comparison.csv.gz",
+      "raw_bytes": 3123,
+      "raw_sha256": "ca16670fc0ee7e4740f77d2ade2b2539502043aff60c6139842344532eee5d9d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\evaluation\\all182-comparison.csv",
+      "snapshot": "probe-plus1/evaluation/all182-comparison.csv.gz",
+      "raw_bytes": 10908,
+      "raw_sha256": "f861a78b72f75d62574c85eeb0d499083374cab8b64987e7bf7850f5e985348f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\preview\\audit.json",
+      "snapshot": "probe-plus1/preview/audit.json.gz",
+      "raw_bytes": 676,
+      "raw_sha256": "2b7e000c7b35d2aff55bffa7b309d40b223eb751a47f3f432922d77c06bad04a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\preview\\demand.rou.xml",
+      "snapshot": "probe-plus1/preview/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "3b8ec4b0d4412480f3fc071c19ca5b06fd7f28f64b9112b23788d3f943303858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\preview\\lane-intentions.json",
+      "snapshot": "probe-plus1/preview/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "473f6dcdfeeca7a4a730f06024f692bf9625dc5d5367df3965aedfdfed682b20"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\preview\\od-vector.json",
+      "snapshot": "probe-plus1/preview/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "c463d22fa9af4092e54710cc9f4ea2c49795cdfd10b82348b1cf19237d3f6e1a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\preview\\vehicle-changes.csv",
+      "snapshot": "probe-plus1/preview/vehicle-changes.csv.gz",
+      "raw_bytes": 1111814,
+      "raw_sha256": "8a19fa98c5aa84761f0e4d937077c40eda305d7f7e448e881976c2ba85285348"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\execution.json",
+      "snapshot": "probe-plus1/execution.json.gz",
+      "raw_bytes": 52608,
+      "raw_sha256": "290b6c6f108ea8c7d5a271bdccb7d720073e0644e904e2faa77e542b6de12aa9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\verdict.json",
+      "snapshot": "probe-plus1/verdict.json.gz",
+      "raw_bytes": 1474,
+      "raw_sha256": "f0ca76f79a78d745031260bb2d22a14b9485c414863667576cf2de75accc7f70"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\progress.json",
+      "snapshot": "probe-plus1/progress.json.gz",
+      "raw_bytes": 55,
+      "raw_sha256": "fca7600209f0bae17c09678425594136cf8f423a3c233d9524feb0c01a37b02b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\measure_probe.snapshot.py",
+      "snapshot": "probe-plus1/measure_probe.snapshot.py.gz",
+      "raw_bytes": 13129,
+      "raw_sha256": "9a3306c62df8ddf99b5c776f5d3292e0d2c8af4a1189d00242bb91ed3d123858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\artifact_io.py",
+      "snapshot": "probe-plus1/code-source/artifact_io.py.gz",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\candidate_contracts.py",
+      "snapshot": "probe-plus1/code-source/candidate_contracts.py.gz",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\command_runner.py",
+      "snapshot": "probe-plus1/code-source/command_runner.py.gz",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\detector_demand.py",
+      "snapshot": "probe-plus1/code-source/detector_demand.py.gz",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\detector_demand_replay.py",
+      "snapshot": "probe-plus1/code-source/detector_demand_replay.py.gz",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "snapshot": "probe-plus1/code-source/hamburg_od_spsa.py.gz",
+      "raw_bytes": 29846,
+      "raw_sha256": "98194d214d0073b0c6b6bc908a1a3e50c63537fc4fa2d8df53098793c610e77d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\lane_section_hold.py",
+      "snapshot": "probe-plus1/code-source/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1\\implementation\\astra_sumo\\core\\simulation_stall.py",
+      "snapshot": "probe-plus1/code-source/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1-launch.json",
+      "snapshot": "probe-plus1/probe-plus1-launch.json.gz",
+      "raw_bytes": 493,
+      "raw_sha256": "eba0412e16705d99682fb2a6e32638ae1924b2d085cc5552aa999c7ba6732bae"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1.stdout.log",
+      "snapshot": "probe-plus1/probe-plus1.stdout.log.gz",
+      "raw_bytes": 1792,
+      "raw_sha256": "4caaa64a9f33e713c6fa01e86574905157b100ca19e639f6065f6a7d7fa78491"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-plus1.stderr.log",
+      "snapshot": "probe-plus1/probe-plus1.stderr.log.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\network.net.xml",
+      "snapshot": "probe-minus1/prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\demand.rou.xml",
+      "snapshot": "probe-minus1/prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726635,
+      "raw_sha256": "901c051aec8e3cfc7af068e40fb29345e88ca22c595b9fc82f12fe64cc6c56be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\field-loops.add.xml",
+      "snapshot": "probe-minus1/prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\control.add.xml",
+      "snapshot": "probe-minus1/prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\expected-counts.csv",
+      "snapshot": "probe-minus1/prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\lane-intentions.json",
+      "snapshot": "probe-minus1/prepared/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\initialization-counts.csv",
+      "snapshot": "probe-minus1/prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\scenario.json",
+      "snapshot": "probe-minus1/prepared/scenario.json.gz",
+      "raw_bytes": 3779,
+      "raw_sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\od-model.json",
+      "snapshot": "probe-minus1/prepared/od-model.json.gz",
+      "raw_bytes": 5653304,
+      "raw_sha256": "256472ed0c48f759787e3b76dd58317a4efb0cc965ca27e45ede250cbe244c7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\initial-od-vector.json",
+      "snapshot": "probe-minus1/prepared/initial-od-vector.json.gz",
+      "raw_bytes": 2353,
+      "raw_sha256": "aa22a8bd4dd66d9e2d3e0c0b2f83a9e165efe174a3f4799ac6772e7e85578116"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\initial-equivalence.json",
+      "snapshot": "probe-minus1/prepared/initial-equivalence.json.gz",
+      "raw_bytes": 3286,
+      "raw_sha256": "0ad79b8a206d895aaa22dbf95c1539d4c43d8795522ec29473e73512eb38654c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\prepared\\preparation-request.json",
+      "snapshot": "probe-minus1/prepared/preparation-request.json.gz",
+      "raw_bytes": 1385,
+      "raw_sha256": "bd815138e99cc0225f9c3de1994606ab785f4742b58e99005fdfa26bdabcf09a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\baseline-field-counts.xml",
+      "snapshot": "probe-minus1/baseline-field-counts.xml.gz",
+      "raw_bytes": 53262,
+      "raw_sha256": "c7d8f60795001cd265ab30114ab07c96b019f368e43fd02178c516928013d344"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\source\\baseline-evaluation.json",
+      "snapshot": "probe-minus1/baseline-evaluation.json.gz",
+      "raw_bytes": 457,
+      "raw_sha256": "1216eeaed56a2e7c5dbb43e295166715bfd238e078acb8fd4427bc0c781d2b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\network.net.xml",
+      "snapshot": "probe-minus1/native/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\demand.rou.xml",
+      "snapshot": "probe-minus1/native/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\source-e1.add.xml",
+      "snapshot": "probe-minus1/native/source-e1.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\signal-programs.add.xml",
+      "snapshot": "probe-minus1/native/signal-programs.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\lane-intentions.json",
+      "snapshot": "probe-minus1/native/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\expected-counts.csv",
+      "snapshot": "probe-minus1/native/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\e1.add.xml",
+      "snapshot": "probe-minus1/native/e1.add.xml.gz",
+      "raw_bytes": 3732,
+      "raw_sha256": "22160427a4f267ba791f03f0b8cb676b49232aabb7ce37283e9f27102373491c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\instant.add.xml",
+      "snapshot": "probe-minus1/native/instant.add.xml.gz",
+      "raw_bytes": 3208,
+      "raw_sha256": "e2e377f434df920b020e43dbb413ee8a51f72c17210237cfd7e3307250a326d3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\field-counts.xml",
+      "snapshot": "probe-minus1/native/field-counts.xml.gz",
+      "raw_bytes": 53232,
+      "raw_sha256": "0e5e47bc58f82431d4134163f05268399dccb45e0ac2861bce1d7e0684b50a63"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\field-comparison.csv",
+      "snapshot": "probe-minus1/native/field-comparison.csv.gz",
+      "raw_bytes": 7919,
+      "raw_sha256": "18216f2735880045719bdf8ab635948668dac98c6d795027c2a19d61264bdc01"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\summary.xml",
+      "snapshot": "probe-minus1/native/summary.xml.gz",
+      "raw_bytes": 46868626,
+      "raw_sha256": "e232181edc71c0641879e4d633ba1c3dafe796b5c1ce8a1aaac247420906a7d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\tripinfo.xml",
+      "snapshot": "probe-minus1/native/tripinfo.xml.gz",
+      "raw_bytes": 4573964,
+      "raw_sha256": "aafb18242c125ef0c2dda7f5add9dec4111278746be37562fd758201c2b5864b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\vehicle-routes.xml",
+      "snapshot": "probe-minus1/native/vehicle-routes.xml.gz",
+      "raw_bytes": 6530828,
+      "raw_sha256": "22ae3b7cd95c9cc31ed3457cd96a6c0f07e6cf41d184b04f50cff5c4ecfffcdd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\collisions.xml",
+      "snapshot": "probe-minus1/native/collisions.xml.gz",
+      "raw_bytes": 3367,
+      "raw_sha256": "26c7b97cfc34263f8d6bc6d15bc24f2d763846bee0355d2e021fa0606f5c9862"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\run.json",
+      "snapshot": "probe-minus1/native/run.json.gz",
+      "raw_bytes": 6296387,
+      "raw_sha256": "921896b6f8a258edaf209edc86e8d318205dcf113317113ac5f2607fd6d5c9e9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\native-request.json",
+      "snapshot": "probe-minus1/native/native-request.json.gz",
+      "raw_bytes": 3914,
+      "raw_sha256": "1cf54fb20782ae7d554cfca22f34e1506c08a9d3ecf935751e78667fedde825e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\command.json",
+      "snapshot": "probe-minus1/native/command.json.gz",
+      "raw_bytes": 5065,
+      "raw_sha256": "a55dbd3b3e879aa42dc9fab426ba43022576343ea9b81eafd2cbd1ccd8dee55f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\stall-monitor.json",
+      "snapshot": "probe-minus1/native/stall-monitor.json.gz",
+      "raw_bytes": 5841273,
+      "raw_sha256": "803238a4a2cecb1574a549740d3ed7eb43598616ebeaa03e718a0e87b331a4d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\sumo.log",
+      "snapshot": "probe-minus1/native/sumo.log.gz",
+      "raw_bytes": 4397,
+      "raw_sha256": "54b7f906a34dc0652bf1815fb067571cc04ec609d60ddefd0cb9d25785a5edc5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\native\\sumo-errors.log",
+      "snapshot": "probe-minus1/native/sumo-errors.log.gz",
+      "raw_bytes": 2783,
+      "raw_sha256": "73a17900b5d851249e3800d45eb97f071de344b9283d62a0645c8b10503ddd7a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\demand.rou.xml",
+      "snapshot": "probe-minus1/evaluation/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\lane-intentions.json",
+      "snapshot": "probe-minus1/evaluation/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\od-vector.json",
+      "snapshot": "probe-minus1/evaluation/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "de93ac09f4564481e0febe3644cfa8c2c88123eb59eb040e474bab044d29b893"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\evaluation.json",
+      "snapshot": "probe-minus1/evaluation/evaluation.json.gz",
+      "raw_bytes": 453,
+      "raw_sha256": "174c823eb2fded1b7b9902155396c751752358cd837f14fe1daf69a8b02a736f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\station-comparison.csv",
+      "snapshot": "probe-minus1/evaluation/station-comparison.csv.gz",
+      "raw_bytes": 1621,
+      "raw_sha256": "66cf53198a77b130f6de761eb64bc80af44ac02abbd06a6e1bdb11a0b94b9de5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\initialization52-comparison.csv",
+      "snapshot": "probe-minus1/evaluation/initialization52-comparison.csv.gz",
+      "raw_bytes": 3123,
+      "raw_sha256": "ca16670fc0ee7e4740f77d2ade2b2539502043aff60c6139842344532eee5d9d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\all182-comparison.csv",
+      "snapshot": "probe-minus1/evaluation/all182-comparison.csv.gz",
+      "raw_bytes": 10902,
+      "raw_sha256": "354766d4dd47dcafe1e55d8a80da7e31cee19d4aaf27534a378a34499f87734b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\preview\\audit.json",
+      "snapshot": "probe-minus1/preview/audit.json.gz",
+      "raw_bytes": 676,
+      "raw_sha256": "9759509561ad25db46eac383848b3a1c2f005b62473c57c114bb3d028a370356"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\preview\\demand.rou.xml",
+      "snapshot": "probe-minus1/preview/demand.rou.xml.gz",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\preview\\lane-intentions.json",
+      "snapshot": "probe-minus1/preview/lane-intentions.json.gz",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\preview\\od-vector.json",
+      "snapshot": "probe-minus1/preview/od-vector.json.gz",
+      "raw_bytes": 5238,
+      "raw_sha256": "de93ac09f4564481e0febe3644cfa8c2c88123eb59eb040e474bab044d29b893"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\preview\\vehicle-changes.csv",
+      "snapshot": "probe-minus1/preview/vehicle-changes.csv.gz",
+      "raw_bytes": 1111814,
+      "raw_sha256": "cf057b24762c7ee087fe58d200df33ffd19cc7234c808558734732001d92dcd1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\execution.json",
+      "snapshot": "probe-minus1/execution.json.gz",
+      "raw_bytes": 52610,
+      "raw_sha256": "cf0b84c60836481847803419613a8f9ed70afae5a09a591aec76ebc9925dde77"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\verdict.json",
+      "snapshot": "probe-minus1/verdict.json.gz",
+      "raw_bytes": 1479,
+      "raw_sha256": "e6ba5d5bda7bd2e0cb8e0d6f5329c4eb58a78d82af2f561fa5c8f5fc61deda4f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\progress.json",
+      "snapshot": "probe-minus1/progress.json.gz",
+      "raw_bytes": 67,
+      "raw_sha256": "b1a20336f96da4b2e2865ddf16910ef1bbd024965cd6560dc1c29e36d150adbf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\measure_probe.snapshot.py",
+      "snapshot": "probe-minus1/measure_probe.snapshot.py.gz",
+      "raw_bytes": 13129,
+      "raw_sha256": "9a3306c62df8ddf99b5c776f5d3292e0d2c8af4a1189d00242bb91ed3d123858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\artifact_io.py",
+      "snapshot": "probe-minus1/code-source/artifact_io.py.gz",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\candidate_contracts.py",
+      "snapshot": "probe-minus1/code-source/candidate_contracts.py.gz",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\command_runner.py",
+      "snapshot": "probe-minus1/code-source/command_runner.py.gz",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\detector_demand.py",
+      "snapshot": "probe-minus1/code-source/detector_demand.py.gz",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\detector_demand_replay.py",
+      "snapshot": "probe-minus1/code-source/detector_demand_replay.py.gz",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "snapshot": "probe-minus1/code-source/hamburg_od_spsa.py.gz",
+      "raw_bytes": 29846,
+      "raw_sha256": "98194d214d0073b0c6b6bc908a1a3e50c63537fc4fa2d8df53098793c610e77d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\lane_section_hold.py",
+      "snapshot": "probe-minus1/code-source/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\implementation\\astra_sumo\\core\\simulation_stall.py",
+      "snapshot": "probe-minus1/code-source/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1-launch.json",
+      "snapshot": "probe-minus1/probe-minus1-launch.json.gz",
+      "raw_bytes": 495,
+      "raw_sha256": "a18975ecb5e25e05067d9639e97c2df76bac307c957ae7bc6f20db5457a8d321"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1.stdout.log",
+      "snapshot": "probe-minus1/probe-minus1.stdout.log.gz",
+      "raw_bytes": 1797,
+      "raw_sha256": "39c17e6d89da0f72a1c22e78cc27c0e24e7c5faa55a2b34f15497817becb7e80"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1.stderr.log",
+      "snapshot": "probe-minus1/probe-minus1.stderr.log.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

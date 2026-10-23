@@ -38,6 +38,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg current OD prior, assignment audit and four native direction probes, 2026-10-23](../../benchmarks/hamburg_ring1_classical_od_response_20261023_v1/README.md)
 - [Hamburg route splits, single-connection full replay and four rejected native timing batches, 2026-10-23](../../benchmarks/hamburg_ring1_route_timing_feedback_20261023_v1/README.md)
 - [Hamburg LSA119 single internal waiting connection: four-vehicle collision reproduction and paired repair, 2026-10-23](../../benchmarks/hamburg_ring1_119_single_split_20261023_v1/README.md)
 - [Historical Hamburg README V1: 40 station entry bins at zero error, with native-count contrast and retained limitations, 2026-10-23](../../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md)
