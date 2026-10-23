@@ -12,6 +12,10 @@ The [full-demand substitution tests](../benchmarks/hamburg_ring1_multifield_subs
 Every substituted vehicle completes both fields, with no collision, teleport, discard or repeated field contribution. One pair leaves MAE unchanged at 5.092308 but raises SSE to 6964 and waiting/running counts to 27/16. Twenty pairs raise MAE to 6.5 and SSE to 12123, with 29 waiting and 76 running.
 Both fail the declared count-and-backlog rule. The legal additional routes are now tested under full traffic, but these two allocations do not improve the selected reference and do not establish real OD shares.
 
+The [matching observation replay](../benchmarks/hamburg_ring1_multifield_delay_trace_20261023_v1/README.md) preserves all 208 E1 intervals, 144000 traffic-summary steps, 235746 instantaneous events and 8596 arrived routes from the one-pair case.
+It shows that the substituted vehicle already follows a legal early lane path and waits behind an unchanged 535 Z4 vehicle. Its through-route exit time did not predict its position in the left-turn service queue. No additional lane waypoint is justified by this observation.
+The receiving-control source check also finds that node `1975693623` is a priority junction in the legacy network, while the current network inherits an automatically inferred actuated controller. The original OSM node has no signal tag; official 535 approach geometry and a nearby signal point are retained as evidence. The controller's independent field status and possible duplication remain `review_required`; no control removal is accepted.
+
 The [Z5 upstream delay record and paired lane-prior tests](../benchmarks/hamburg_ring1_z5_upstream_delay_20261023_v1/README.md) retain a matching observer replay and two new complete evaluations.
 The observer adds vehicle positions, leaders, lane changes and signal states. All 208 native E1 intervals, 144000 traffic-summary steps and 8619 arrived routes match the selected OD case.
 The focal long delay follows a stopped leader on `234423652#1_2` after the LSA104 body hold has ended. Actual LSA104/118 states match the declared programs; they are not field SPaT.

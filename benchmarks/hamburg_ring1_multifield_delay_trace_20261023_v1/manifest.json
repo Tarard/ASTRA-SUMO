@@ -1,0 +1,400 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 86,
+      "sha256": "3d4eb11c39904b9ccac344568c0ec94bbd59de7ae49ba31403044196f78daa61"
+    },
+    {
+      "path": "code-source/lane_section_hold.py.gz",
+      "bytes": 2012,
+      "sha256": "8e8e29d7f0c97e3a1d491b692cf9af589b34bcb994cc0679ee1565c49815b8c2"
+    },
+    {
+      "path": "code-source/simulation_stall.py.gz",
+      "bytes": 3160,
+      "sha256": "29db062eccd51cd1fa672406329cc51621eb47d6959b6128c207aaed727285b6"
+    },
+    {
+      "path": "failed-preparation/launch.json.gz",
+      "bytes": 229,
+      "sha256": "9f125d36fbf8a75d44a8d4295829385f593ac3daf5f01c074e3b67836cb14799"
+    },
+    {
+      "path": "failed-preparation/preparation-failure.json.gz",
+      "bytes": 277,
+      "sha256": "1bae3cf5b08fb5e28aeb232ce584d3d08373d4b5bb1e651a7c9d70ea481d38d1"
+    },
+    {
+      "path": "failed-preparation/stderr.log.gz",
+      "bytes": 231,
+      "sha256": "a5f8339518e5c99238d720cdf06a0e8c177e5b3dd62d9e252d6f58d808f0537a"
+    },
+    {
+      "path": "failed-preparation/stdout.log.gz",
+      "bytes": 20,
+      "sha256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e"
+    },
+    {
+      "path": "freeze_evidence.py",
+      "bytes": 16522,
+      "sha256": "d5b91bbb89a756140746d56e40e42728b2ee96c132ccb12d0acad89179a99ba8"
+    },
+    {
+      "path": "instant-parity-proof.json",
+      "bytes": 519,
+      "sha256": "80a18531c69ef2d9bf2a4cd6fa36779d3996d2bdb25333dc6ee444b8061eb637"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 319,
+      "sha256": "86bfa222951cbb1e9b6be91825467cf0d5268587927c00047984142b821dbfd7"
+    },
+    {
+      "path": "next-diagnosis/audit.py.gz",
+      "bytes": 3661,
+      "sha256": "177142ee59a68d2d2eaf414938a35f5d99cb5fff8cab11cdcd99a3e5c2e4ee41"
+    },
+    {
+      "path": "next-diagnosis/lane-control-path.json.gz",
+      "bytes": 2549,
+      "sha256": "4df7305962a6155f244ef92ddc74ebac05f69b3e916fe208dbc4dae8aadb2925"
+    },
+    {
+      "path": "next-diagnosis/manifest.json.gz",
+      "bytes": 670,
+      "sha256": "fa627136284ec51d442ce57dd02cc5aa61c3e0c82dd4c00d9d9a59a6737093cc"
+    },
+    {
+      "path": "next-diagnosis/paired-native-events.json.gz",
+      "bytes": 304,
+      "sha256": "18696df420db2d6b7520b674176ea1325fbbeb97f76a30c9cab18bd462c26566"
+    },
+    {
+      "path": "next-diagnosis/queue-extents.json.gz",
+      "bytes": 892,
+      "sha256": "fa5b4ac1efcd1c8b3cd317b08886c4034fbe949c2398edeae8ee8303c96bf9bf"
+    },
+    {
+      "path": "next-diagnosis/README.md.gz",
+      "bytes": 2513,
+      "sha256": "9e170fe6b2e34b6d34b1be902baa9a7a8bf6342e140aeb5dc3a6d8448ec28183"
+    },
+    {
+      "path": "next-diagnosis/retained-edge-exits.json.gz",
+      "bytes": 863,
+      "sha256": "53ef8716fead588ec83c939fe9d14a9d0117679cf1b91ab47ec814b75edffbb0"
+    },
+    {
+      "path": "next-diagnosis/source-hashes.json.gz",
+      "bytes": 1295,
+      "sha256": "4dfd832b185546ee81ac8d452627c40eda9b4a053a6388a7f6df88b6175d1ea8"
+    },
+    {
+      "path": "next-diagnosis/terminal-backlog.csv.gz",
+      "bytes": 661,
+      "sha256": "0e557ec20a1b76cb3ff74211d32b6f2c689948b9a175ddd51239eb3f35cd7b3b"
+    },
+    {
+      "path": "next-diagnosis/terminal-backlog.json.gz",
+      "bytes": 555,
+      "sha256": "85f65653a9bb3013863b18f640e2adb4d188c27cdfab845088535b9d7de744b1"
+    },
+    {
+      "path": "pre-freeze-selfchecks.json",
+      "bytes": 416,
+      "sha256": "7f005ce0347220ea4e60f8dd624fadd755d06b37b9d65d3263cb3a2d5c0598b3"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2914,
+      "sha256": "78cb5ff22b27a461c14706746a29dab10c1910dc9a50dee0dcc92cf99fae73f4"
+    },
+    {
+      "path": "receiving-control-source-audit/audit_sources.py.gz",
+      "bytes": 4506,
+      "sha256": "56852e9d77442442974b30c1ad76d55a06261add7782a392ca0b9a4624423eec"
+    },
+    {
+      "path": "receiving-control-source-audit/current-original-legacy-controls.json.gz",
+      "bytes": 1787,
+      "sha256": "09c6b2d86b607b702aa799c90afde2a06473bd8d84be9df71d4d16188d09fac1"
+    },
+    {
+      "path": "receiving-control-source-audit/existing-aerial-relation.json.gz",
+      "bytes": 2016,
+      "sha256": "70ed42ea34f156d57c4b604b768dd90245f994e3fe3745ab152d513bbf595d04"
+    },
+    {
+      "path": "receiving-control-source-audit/existing-trace-crosscheck.json.gz",
+      "bytes": 1259,
+      "sha256": "24b8fe7eaa4216ad10778d2129033c9067f9a296c6e84402d83c9588e8799202"
+    },
+    {
+      "path": "receiving-control-source-audit/manifest.json.gz",
+      "bytes": 705,
+      "sha256": "8e2f91b91b8e57ceba2d2c9173dfc190a98243297cc0f68a1bcd597892b58c9d"
+    },
+    {
+      "path": "receiving-control-source-audit/official535-spatial-evidence.json.gz",
+      "bytes": 4339,
+      "sha256": "582920e1136d45eaf7f9e46f7aa0a77962a5f2521cb94a3f1b2bc33d0f7c5f26"
+    },
+    {
+      "path": "receiving-control-source-audit/original-netconvert-configuration.xml.gz",
+      "bytes": 608,
+      "sha256": "dadce47a97a1e768b41b1f2091f90dee0419493eb75a565b4e5af34a2703204e"
+    },
+    {
+      "path": "receiving-control-source-audit/OSM-nodes-and-ways.json.gz",
+      "bytes": 1007,
+      "sha256": "d915d534a23126f2ce94b1a8dd7926a5db116b7ca5b15788eb33136054548d8d"
+    },
+    {
+      "path": "receiving-control-source-audit/README.md.gz",
+      "bytes": 3393,
+      "sha256": "50000c0dc033322108ed3c9428d68e950e34c8a7373e018c0bc671f1fdc3ffce"
+    },
+    {
+      "path": "receiving-control-source-audit/report.json.gz",
+      "bytes": 1766,
+      "sha256": "298b8c880f5fd291813973f78fd10bb35bb51eeed8ad0d248cfa28cc5d72d58c"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 3800,
+      "sha256": "673c7300b4844e3c179942340be768a1ba545ad73f5113ed37d0731fc849468f"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1508,
+      "sha256": "fab3562ae0fa13a2d58149dfa1a651fd86987f30916c16806fb2dce8ce167a62"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 25885,
+      "sha256": "a7aaa3606e370538d6514ccbc410472cb4e5d5902a8964e64a426dc6bcd403bf"
+    },
+    {
+      "path": "test_freeze_evidence.py",
+      "bytes": 1320,
+      "sha256": "41bcfcb9daab8f53fbacfb5713e54f7c048f765661c4b6dec35a6c0cde5ff571"
+    },
+    {
+      "path": "trace-v2/baseline/cohort-fcd.xml.gz",
+      "bytes": 88080,
+      "sha256": "bf7630be6b4e4d5ba53df6670efb7e8ebf9551e2c4087081fda7e67ea7c9ce31"
+    },
+    {
+      "path": "trace-v2/baseline/collisions.xml.gz",
+      "bytes": 969,
+      "sha256": "7e547ea2fe0cf9172f74f6f6e8bf749d57ba0f88d0e7b207c0f0111ddb321450"
+    },
+    {
+      "path": "trace-v2/baseline/demand.rou.xml.gz",
+      "bytes": 122413,
+      "sha256": "a7e5b00eca65dbf0b1fe419596a894d2ce44f71c7e140967292a4533b48c6492"
+    },
+    {
+      "path": "trace-v2/baseline/e1.add.xml.gz",
+      "bytes": 478,
+      "sha256": "e3a2cfd800b4184691bb773c42165193575b82ac888f2f05f361e29bc1c7b290"
+    },
+    {
+      "path": "trace-v2/baseline/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "trace-v2/baseline/field-counts.xml.gz",
+      "bytes": 9125,
+      "sha256": "9b37761458703829422e6d2f311e8fa166d3ffb9b612deaf7fd944e2476808cf"
+    },
+    {
+      "path": "trace-v2/baseline/instant-e1.xml.gz",
+      "bytes": 1776076,
+      "sha256": "ca71f8983a20d7fea528727076395362bf74c193da39d5bfbb48f79d7fa4f38e"
+    },
+    {
+      "path": "trace-v2/baseline/instant.add.xml.gz",
+      "bytes": 392,
+      "sha256": "761fc8aa9ba5ee0826bc84e75987fe832c7d9c465878a8ffb061ec38c3f75729"
+    },
+    {
+      "path": "trace-v2/baseline/lane-intentions.json.gz",
+      "bytes": 26181,
+      "sha256": "8dbdec1042239714a48b1b9ffe369234ad2cfdb3c65a3e9f03443dd72bb7478e"
+    },
+    {
+      "path": "trace-v2/baseline/lanechanges.xml.gz",
+      "bytes": 1292873,
+      "sha256": "b016d94c0abcd5ffa637d527256f4a78cad5fe6bc4bdb32438f6150c3fc7f621"
+    },
+    {
+      "path": "trace-v2/baseline/native-request.json.gz",
+      "bytes": 896,
+      "sha256": "44bd5f0a809d264fe2136b72feca83d01665a8616faeae5f83a986db8dd88f1c"
+    },
+    {
+      "path": "trace-v2/baseline/network.net.xml.gz",
+      "bytes": 236278,
+      "sha256": "aec705d340e8c460b37a57a9d881ea609741756bd1f2dc2899eb58a33ba8f4eb"
+    },
+    {
+      "path": "trace-v2/baseline/observed-vehicle-ids.json.gz",
+      "bytes": 356,
+      "sha256": "62723bf9767e752b89386b0ab5a5e0290c911e0406d1e1d089a90b94ecca42b9"
+    },
+    {
+      "path": "trace-v2/baseline/preflight.json.gz",
+      "bytes": 904,
+      "sha256": "aed1991b88f60ccb632ae5aa47b1c5c1c2362ec642db4731f9d05ef9d2448887"
+    },
+    {
+      "path": "trace-v2/baseline/record-result.json.gz",
+      "bytes": 1849,
+      "sha256": "99de233a8028aede0c9af0fd4b16daa1dfc679fed6056363afa9bf6cf9fb0474"
+    },
+    {
+      "path": "trace-v2/baseline/record_tls.snapshot.py.gz",
+      "bytes": 3380,
+      "sha256": "ac92d6b8788d87063edca7d93e4675a30d74c8109f6cc6201d78a2543864e5e8"
+    },
+    {
+      "path": "trace-v2/baseline/signal-programs.add.xml.gz",
+      "bytes": 1968,
+      "sha256": "99fa69a3d1eb17920e8171a68d49149109f1a9e8c491335153c249f7cbd342df"
+    },
+    {
+      "path": "trace-v2/baseline/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "trace-v2/baseline/stall-monitor.json.gz",
+      "bytes": 341118,
+      "sha256": "2574fb79db4cc55038a479d07c295cb8df5de3a194491b04158fd3083f57bb27"
+    },
+    {
+      "path": "trace-v2/baseline/summary.xml.gz",
+      "bytes": 3335257,
+      "sha256": "312f37958c7f24203d493b48706377cb33a9f1bc2264d65d79edb719ea6fe93a"
+    },
+    {
+      "path": "trace-v2/baseline/sumo-errors.log.gz",
+      "bytes": 458,
+      "sha256": "6a968164a8fde4d4620bb98349bd9597d8511744d86d53242bbcbc1b3ed9a931"
+    },
+    {
+      "path": "trace-v2/baseline/sumo.log.gz",
+      "bytes": 976,
+      "sha256": "ddc1488ef5452c3659a24bf6dd806ca0e6dca6e4dd8b5ca657c2467f4017ddd7"
+    },
+    {
+      "path": "trace-v2/baseline/tls-observer.add.xml.gz",
+      "bytes": 252,
+      "sha256": "a19de46aba5ee4ad8cfcc8e32f77510d7ce941574b47cae5964f6d5911aab2fd"
+    },
+    {
+      "path": "trace-v2/baseline/tls-recorded-programs.add.xml.gz",
+      "bytes": 52578,
+      "sha256": "e5d0829059e8e435731dd4eb5e68ebe9f0d8ca4ecfd786d524354de97292eb8b"
+    },
+    {
+      "path": "trace-v2/baseline/tls-switch-states.xml.gz",
+      "bytes": 686646,
+      "sha256": "6de957f0c5f9be5596fcc4be05cd33b440fbe6a746dbe3f0e7b17c4184ac200d"
+    },
+    {
+      "path": "trace-v2/baseline/tripinfo.xml.gz",
+      "bytes": 410762,
+      "sha256": "8472d0de51dc225a9fcbbdb7454cc50fb4d7138020c821522eef7e4c5ef91a30"
+    },
+    {
+      "path": "trace-v2/baseline/vehicle-routes.xml.gz",
+      "bytes": 717458,
+      "sha256": "a60a2d5e7cee7c5118ed252985a73519a2dec89393edaff25524d575c17fa64d"
+    },
+    {
+      "path": "trace-v2/independent-analysis/actual-tls-comparison.json.gz",
+      "bytes": 1730,
+      "sha256": "842ed223965f7738854e5725cf3513dc1790fe232b9ec06e7034a0f78410c4d2"
+    },
+    {
+      "path": "trace-v2/independent-analysis/analyze.py.gz",
+      "bytes": 3194,
+      "sha256": "6d6caffbc58c0a61e416f4b52207eef8601206a2b17890f337f40802077a0068"
+    },
+    {
+      "path": "trace-v2/independent-analysis/focal-changes-holds.json.gz",
+      "bytes": 972,
+      "sha256": "4b324122c0412869e74c7ad41bb18390f7626ca3cce0b8c7433ed755665d13d2"
+    },
+    {
+      "path": "trace-v2/independent-analysis/focal-fcd.csv.gz",
+      "bytes": 11001,
+      "sha256": "30d0cdf9a898f213908d1412bf5da3d69fee81055f44660f26de84b0a212cf27"
+    },
+    {
+      "path": "trace-v2/independent-analysis/lane-segments.json.gz",
+      "bytes": 1725,
+      "sha256": "0c2dbc6dbc68f48cd591689ddcd0e3d17863f89845bbe47b6d3179651d8a4474"
+    },
+    {
+      "path": "trace-v2/independent-analysis/leader-equivalence.json.gz",
+      "bytes": 802,
+      "sha256": "7151e908642395539a1598f40cd5c4af960d48e345cca34a60a42677021e59bb"
+    },
+    {
+      "path": "trace-v2/independent-analysis/left-turn-windows.json.gz",
+      "bytes": 4789,
+      "sha256": "baff3103fc3cd9c4eb4543945a0f8cb834ae7f874af6d34bd10e845fa40fd96b"
+    },
+    {
+      "path": "trace-v2/independent-analysis/manifest.json.gz",
+      "bytes": 679,
+      "sha256": "238a7628440bd2be200ffa31f7fc278e88befdff255c7a3a3137ccf9d78bb47a"
+    },
+    {
+      "path": "trace-v2/independent-analysis/README.md.gz",
+      "bytes": 2606,
+      "sha256": "983c2ecf94fafce9ffb3174fa6d30715393098d9a4c7b5f62de8b8165ccbf0b7"
+    },
+    {
+      "path": "trace-v2/independent-analysis/source-hashes.json.gz",
+      "bytes": 1175,
+      "sha256": "a288531845f8ea61dacedc0118139d1c4442e54ef041841bd2362d19c24777ec"
+    },
+    {
+      "path": "trace-v2/launch.json.gz",
+      "bytes": 229,
+      "sha256": "af085b7bd0d21e5b8deff61c3a14bef8943005ea600aca565904ab53adb6f96e"
+    },
+    {
+      "path": "trace-v2/observed-vehicles.csv.gz",
+      "bytes": 148,
+      "sha256": "a833e188acd10a0816cdf1400025bf898ee5765941e8f9ae1a81c319960e8b43"
+    },
+    {
+      "path": "trace-v2/preparation.json.gz",
+      "bytes": 728,
+      "sha256": "f2ba9cbbb6700bcebaab1a3c01f10d36b701c795e13b92655ca43798c640b0ba"
+    },
+    {
+      "path": "trace-v2/record_substitution.py.gz",
+      "bytes": 3380,
+      "sha256": "ac92d6b8788d87063edca7d93e4675a30d74c8109f6cc6201d78a2543864e5e8"
+    },
+    {
+      "path": "trace-v2/stderr.log.gz",
+      "bytes": 455,
+      "sha256": "93fa727c9155e531503584d82677ad5c8fe12a38c93ab1c7f01e978de8455052"
+    },
+    {
+      "path": "trace-v2/stdout.log.gz",
+      "bytes": 828,
+      "sha256": "a76e0abac61c45e23e9ee9bf6c33bd47de297d4aff548c29effbfa3798604367"
+    }
+  ]
+}
