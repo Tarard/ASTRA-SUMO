@@ -1,0 +1,196 @@
+{
+  "status": "pass",
+  "formal_count_calibration": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 86,
+      "sha256": "3d4eb11c39904b9ccac344568c0ec94bbd59de7ae49ba31403044196f78daa61"
+    },
+    {
+      "path": "demand.rou.xml.gz",
+      "bytes": 440,
+      "sha256": "07f51413c1eaf4347d4272c710cfe8642e2ca380990a40f275b1ad790d2e12a3"
+    },
+    {
+      "path": "environment.json",
+      "bytes": 792,
+      "sha256": "4e373e3f25b5b840a119cc01a49946d44a848349bd4a16476bdc5c29d4f0d5bb"
+    },
+    {
+      "path": "independent-audit.json",
+      "bytes": 1277,
+      "sha256": "aaa6082532013f6f1bc58265f5c9b902272766874dcb4353606752971c5d64a4"
+    },
+    {
+      "path": "lane-intentions.json.gz",
+      "bytes": 190,
+      "sha256": "2e4018fb441898c4ef3ea83e5c3bdb122a3c1136e36c7470aed36163acc0ba96"
+    },
+    {
+      "path": "native/collisions.xml.gz",
+      "bytes": 722,
+      "sha256": "3f904064d03f3a8ea3bd985147f4b3fcec82de867b916d41d30a8ff34acba06c"
+    },
+    {
+      "path": "native/command.json.gz",
+      "bytes": 916,
+      "sha256": "37bbd1714f9fd2f2ecee2ec9d969e432e6b739b8a2f230962f977d42896522ef"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "bytes": 440,
+      "sha256": "07f51413c1eaf4347d4272c710cfe8642e2ca380990a40f275b1ad790d2e12a3"
+    },
+    {
+      "path": "native/e1.add.xml.gz",
+      "bytes": 471,
+      "sha256": "92189c8470bb3a088e43fcd436acd737f28d2e00a994dca8f9c1f9d0030b391d"
+    },
+    {
+      "path": "native/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "native/field-comparison.csv.gz",
+      "bytes": 1086,
+      "sha256": "c807c02abf9793f46d0ded8933d452c654c51fdafe3a5c96417f8f44e31eb00d"
+    },
+    {
+      "path": "native/field-counts.xml.gz",
+      "bytes": 1978,
+      "sha256": "145778197fe832f9e4c464ccffff184bc29c899348ce8c042855775b4976d7a8"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "bytes": 1266,
+      "sha256": "1d01652614e9d02d98bddb34d3286851396abc0b63b0ac066f2845ae7c9edd94"
+    },
+    {
+      "path": "native/instant.add.xml.gz",
+      "bytes": 385,
+      "sha256": "5d8698a6d16b707b0666dca5bcdcf7c0379c8773f2ced79b33c527671432b7ce"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "bytes": 190,
+      "sha256": "2e4018fb441898c4ef3ea83e5c3bdb122a3c1136e36c7470aed36163acc0ba96"
+    },
+    {
+      "path": "native/native-request.json.gz",
+      "bytes": 660,
+      "sha256": "217626bf534905e64d7ce4142ab6ab7d430187e27e271a966d24ee6711179021"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "bytes": 236278,
+      "sha256": "aec705d340e8c460b37a57a9d881ea609741756bd1f2dc2899eb58a33ba8f4eb"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "bytes": 38829,
+      "sha256": "b7492b88c24fc2c2edb14291c5e3560f3de2e302a73d99c98084e522c323f2dd"
+    },
+    {
+      "path": "native/run.json.gz",
+      "bytes": 2785,
+      "sha256": "7ce2f5eb88cf9c5bb0618f6c408b220a1a3a5108adc9f4f607d0b5b556d90a28"
+    },
+    {
+      "path": "native/signal-programs.add.xml.gz",
+      "bytes": 1968,
+      "sha256": "99fa69a3d1eb17920e8171a68d49149109f1a9e8c491335153c249f7cbd342df"
+    },
+    {
+      "path": "native/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "bytes": 1609,
+      "sha256": "d50c3b95c78ce75f834f55cf67fe5ce656d63ae3717dc352c8481a84321b03bf"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "bytes": 494233,
+      "sha256": "bc6cf6ef17227a54852fa2608263e467b391cbce7bf365f6061f1af7be58b81a"
+    },
+    {
+      "path": "native/sumo-errors.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "native/sumo.log.gz",
+      "bytes": 781,
+      "sha256": "5dbdf38fbbd0775a2b059b1676b53f32b2ecaaaf8aca361027d1b1aefab8ddd4"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "bytes": 1046,
+      "sha256": "553a35adb5e20be7b14a30e78becee9d38fc09a9cfc8e9ab949eb98a7ea4c92a"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "bytes": 1288,
+      "sha256": "cf1e7a1c54a77b2f9e1587dd67f7fb9d185bf63d0243566d3cb2cc789b31e78a"
+    },
+    {
+      "path": "probe.py.gz",
+      "bytes": 2102,
+      "sha256": "664d726d988e66090b63c279be7e628e051ef645c337d4f30ce3b0d7046c38f9"
+    },
+    {
+      "path": "protocol.json.gz",
+      "bytes": 893,
+      "sha256": "0c1b3c8961bcc031ec554c9396993c0ed39182347e7121f07dd2fc21b74f5a07"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2230,
+      "sha256": "2251321efe4aad39a1bae8b6647762a530c6a055e315a19a5026e3e286366a7c"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 2745,
+      "sha256": "039c18cfc952d2f849b5cb7ca31d840460874e6714bfb7e5ab399e7d53b72934"
+    },
+    {
+      "path": "reproduction-selfchecks.json",
+      "bytes": 252,
+      "sha256": "c888e9bff4d649d92d52917b941f5056e53794b78ce645a72d8663fa8cd67e70"
+    },
+    {
+      "path": "result.json.gz",
+      "bytes": 2119,
+      "sha256": "b014ccf99e28661e446c35f4be75087d529b02a478ad2e086775251e6413626b"
+    },
+    {
+      "path": "source-inputs/initialization-counts.csv.gz",
+      "bytes": 912,
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 12875,
+      "sha256": "d95975e79a13170cd5e5f26f1434e2ff67d339c1c12ca6f57360ade3f0629d82"
+    },
+    {
+      "path": "test_evidence.py",
+      "bytes": 1152,
+      "sha256": "150fa130dbea13b4f6007543f18d0492762464db8bcb771928fab56662a762dc"
+    },
+    {
+      "path": "validate.py",
+      "bytes": 4906,
+      "sha256": "2798307460f5237ba3ecbadc5c57d98ab9959312b4592f804513c189cc442b28"
+    },
+    {
+      "path": "witnesses.json.gz",
+      "bytes": 6408,
+      "sha256": "2aa5c95fb222302cf24afdc1704f44da3e74e1282064714190ea3aa017cde9d5"
+    }
+  ]
+}

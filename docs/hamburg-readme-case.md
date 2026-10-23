@@ -1,5 +1,17 @@
 # Hamburg case shown in the README
 
+The [five-round joint OD study](../benchmarks/hamburg_ring1_joint_od_spsa_20261023_v1/README.md) has ended. It reuses the verified 5.092308 initial evaluation and adds ten native perturbation evaluations and one final replay.
+The final replay has MAE 6.2, SSE 9692, maximum error 29, 45 vehicles waiting to enter and 19 still running. All eleven new runs have zero collisions, teleports and discards, but none improves the initial count fit. The 5.092308 reference remains selected; calibration is incomplete.
+Independent checks reproduce all five updates, integer demand generation and all native 130-field and 40-derived-station results. Updates three and four change real-valued parameters without changing the generated integer demand. Five completed updates do not establish convergence.
+
+The [two-vehicle route-support check](../benchmarks/hamburg_ring1_multifield_native_support_20261023_v1/README.md) tests a limitation of that fixed OD prior.
+The selected 8640-request run produces 8626 complete contributions from 8626 distinct vehicles, each at one field. The fixed 21-OD model cannot generate two legal boundary-to-boundary routes that connect 119 Z12 and 535 Z4.
+Both routes pass the native check on the unchanged network and control: each vehicle completes both E1 contributions and reaches its exit, with no collision, teleport, discard or unfinished trip.
+This establishes isolated route support under the declared driver assumptions. It does not establish real route shares or zero count error.
+The [full-demand substitution tests](../benchmarks/hamburg_ring1_multifield_substitution_20261023_v1/README.md) then replace one and twenty pairs of separate trips with these two-field trips. All retained departures and planned field totals per departure period stay unchanged; network, control and observations retain their original bytes.
+Every substituted vehicle completes both fields, with no collision, teleport, discard or repeated field contribution. One pair leaves MAE unchanged at 5.092308 but raises SSE to 6964 and waiting/running counts to 27/16. Twenty pairs raise MAE to 6.5 and SSE to 12123, with 29 waiting and 76 running.
+Both fail the declared count-and-backlog rule. The legal additional routes are now tested under full traffic, but these two allocations do not improve the selected reference and do not establish real OD shares.
+
 The [Z5 upstream delay record and paired lane-prior tests](../benchmarks/hamburg_ring1_z5_upstream_delay_20261023_v1/README.md) retain a matching observer replay and two new complete evaluations.
 The observer adds vehicle positions, leaders, lane changes and signal states. All 208 native E1 intervals, 144000 traffic-summary steps and 8619 arrived routes match the selected OD case.
 The focal long delay follows a stopped leader on `234423652#1_2` after the LSA104 body hold has ended. Actual LSA104/118 states match the declared programs; they are not field SPaT.

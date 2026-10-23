@@ -1,0 +1,136 @@
+{
+  "substitute-1pair": [
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\network.net.xml",
+      "snapshot": "baseline/prepared/network.net.xml",
+      "sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\control.add.xml",
+      "snapshot": "baseline/prepared/control.add.xml",
+      "sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\field-loops.add.xml",
+      "snapshot": "baseline/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\expected-counts.csv",
+      "snapshot": "baseline/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initialization-counts.csv",
+      "snapshot": "baseline/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\scenario.json",
+      "snapshot": "baseline/prepared/scenario.json",
+      "sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\demand.rou.xml",
+      "snapshot": "baseline/evaluation/demand.rou.xml",
+      "sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\lane-intentions.json",
+      "snapshot": "baseline/evaluation/lane-intentions.json",
+      "sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\od-vector.json",
+      "snapshot": "baseline/evaluation/od-vector.json",
+      "sha256": "de93ac09f4564481e0febe3644cfa8c2c88123eb59eb040e474bab044d29b893"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\evaluation.json",
+      "snapshot": "baseline/evaluation/evaluation.json",
+      "sha256": "174c823eb2fded1b7b9902155396c751752358cd837f14fe1daf69a8b02a736f"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\proposal\\plan.json",
+      "snapshot": "proposal/plan.json",
+      "sha256": "b6f0449aa1013b1f353435288db5c494ee836037d40408ebca77484f6abac403"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-joint-od-spsa-20261023-v1\\support-audit\\multi-field-witnesses.json",
+      "snapshot": "proposal/source-witnesses.json",
+      "sha256": "2327481119746b52bfa1fa8aeae9b93eae865ad9ddc00fab4bb17d5bba943dcc"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\measure.py",
+      "snapshot": "measure.py",
+      "sha256": "53be62c72e8fc923744aa32c440fb1ac72f5db09b7b95e234e2055bafe78afe4"
+    }
+  ],
+  "substitute-20pair": [
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\network.net.xml",
+      "snapshot": "baseline/prepared/network.net.xml",
+      "sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\control.add.xml",
+      "snapshot": "baseline/prepared/control.add.xml",
+      "sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\field-loops.add.xml",
+      "snapshot": "baseline/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\expected-counts.csv",
+      "snapshot": "baseline/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\initialization-counts.csv",
+      "snapshot": "baseline/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\scenario.json",
+      "snapshot": "baseline/prepared/scenario.json",
+      "sha256": "568fb0e459406a635ea2be75f2f0885de2ff116c66d029674f41ae51de975fd4"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\demand.rou.xml",
+      "snapshot": "baseline/evaluation/demand.rou.xml",
+      "sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\lane-intentions.json",
+      "snapshot": "baseline/evaluation/lane-intentions.json",
+      "sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\od-vector.json",
+      "snapshot": "baseline/evaluation/od-vector.json",
+      "sha256": "de93ac09f4564481e0febe3644cfa8c2c88123eb59eb040e474bab044d29b893"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\probe-minus1\\evaluation\\evaluation.json",
+      "snapshot": "baseline/evaluation/evaluation.json",
+      "sha256": "174c823eb2fded1b7b9902155396c751752358cd837f14fe1daf69a8b02a736f"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\proposal\\plan.json",
+      "snapshot": "proposal/plan.json",
+      "sha256": "b6f0449aa1013b1f353435288db5c494ee836037d40408ebca77484f6abac403"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-joint-od-spsa-20261023-v1\\support-audit\\multi-field-witnesses.json",
+      "snapshot": "proposal/source-witnesses.json",
+      "sha256": "2327481119746b52bfa1fa8aeae9b93eae865ad9ddc00fab4bb17d5bba943dcc"
+    },
+    {
+      "historical_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\measure.py",
+      "snapshot": "measure.py",
+      "sha256": "53be62c72e8fc923744aa32c440fb1ac72f5db09b7b95e234e2055bafe78afe4"
+    }
+  ]
+}

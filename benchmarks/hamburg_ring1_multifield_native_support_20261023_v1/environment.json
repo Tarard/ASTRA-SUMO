@@ -1,0 +1,26 @@
+{
+  "python": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe",
+  "packages": {
+    "eclipse-sumo": "1.27.1",
+    "libsumo": "1.27.1",
+    "traci": "1.27.1",
+    "sumolib": "1.27.1"
+  },
+  "recorded_native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "recorded_native_library": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\_libsumo.pyd",
+    "sha256": "b7fec284bf60e07fd6b10d2b58547530f13a83e34ff39aa0facb20a4bad6036e"
+  },
+  "current_library_matches_recorded_hash": true,
+  "backend": "libsumo",
+  "junction_body_hold_nodes": [
+    "14398547",
+    "205069138",
+    "18653534",
+    "LSA104_part0"
+  ],
+  "no_new_simulation_during_freeze": true
+}
