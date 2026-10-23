@@ -1,0 +1,157 @@
+{
+  "formal_result": false,
+  "family_manifest_sha256": "690703b4e9b6daf298257675d9c4309be01cfc3753130101e21ad3232ff478a0",
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "reference": {
+      "main130": {
+        "SSE": 6709,
+        "TAE": 483,
+        "MAE": 3.7153846153846155,
+        "max_abs_error": 27
+      },
+      "initial52": {
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "all182": {
+        "SSE": 7714,
+        "TAE": 588,
+        "MAE": 3.230769230769231,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 10.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "waiting": 0,
+        "running": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "safe": true,
+      "event_count": 8640,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 29
+    },
+    "cases": {
+      "batch-1": {
+        "raw_verdict": "rejected",
+        "formal_result": false,
+        "actual_changes": 1,
+        "requested_cap": 1,
+        "measurement": {
+          "main130": {
+            "SSE": 8814,
+            "TAE": 532,
+            "MAE": 4.092307692307692,
+            "max_abs_error": 41
+          },
+          "initial52": {
+            "SSE": 1005,
+            "TAE": 105,
+            "MAE": 2.019230769230769,
+            "max_abs_error": 15
+          },
+          "all182": {
+            "SSE": 9819,
+            "TAE": 637,
+            "MAE": 3.5,
+            "max_abs_error": 41
+          },
+          "station40_MAE": 12.2,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8634,
+            "waiting": 0,
+            "running": 6,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": false,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 32
+        },
+        "gates": {
+          "safe": true,
+          "healthy": false,
+          "all53556_zero": true,
+          "no_repeated_vehicle_fields": true,
+          "no_contributions_outside_primary_intention": true,
+          "main130_MAE_improves": false,
+          "main130_SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "all53556_TAE": 0
+      },
+      "batch-4": {
+        "raw_verdict": "rejected",
+        "formal_result": false,
+        "actual_changes": 3,
+        "requested_cap": 4,
+        "measurement": {
+          "main130": {
+            "SSE": 10923,
+            "TAE": 595,
+            "MAE": 4.576923076923077,
+            "max_abs_error": 38
+          },
+          "initial52": {
+            "SSE": 1005,
+            "TAE": 105,
+            "MAE": 2.019230769230769,
+            "max_abs_error": 15
+          },
+          "all182": {
+            "SSE": 11928,
+            "TAE": 700,
+            "MAE": 3.8461538461538463,
+            "max_abs_error": 38
+          },
+          "station40_MAE": 13.175,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8620,
+            "arrived": 8540,
+            "waiting": 20,
+            "running": 80,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": false,
+          "safe": true,
+          "event_count": 8552,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 31
+        },
+        "gates": {
+          "safe": true,
+          "healthy": false,
+          "all53556_zero": true,
+          "no_repeated_vehicle_fields": true,
+          "no_contributions_outside_primary_intention": true,
+          "main130_MAE_improves": false,
+          "main130_SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "all53556_TAE": 0
+      }
+    },
+    "selection_decision": "not_adopted",
+    "claim_boundary": "Bounded explicit Z4 departure changes, actual1 and3 vehicles. Projection is not native prediction; no quantile regeneration. All fields/windows and completion retained. Diagnostic fit does not identify trueOD or validate field control."
+  }
+}
