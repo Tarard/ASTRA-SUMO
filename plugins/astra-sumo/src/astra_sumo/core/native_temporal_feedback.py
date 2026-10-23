@@ -95,6 +95,86 @@ def propose_native_count_retiming(*, requests, passages, measurements, max_moves
             "claim_boundary": "Bounded proposal from measured surplus and later native passages. Old notification lags do not predict changed queues. Missing passages stay unknown. Measure every target again and reject non-improving or unsafe candidates."}
 
 
+def propose_native_count_retiming_batch(*, requests, passages, measurements, objective_window,
+                                      max_total, per_field, per_source_bin, max_shift_s,
+                                      margin_s=30, step_s=.1):
+    """Select a bounded subset of existing moves and verify its unrun projection.
+
+    The measurement start defines the request lower bound, not a fixed warmup
+    policy. Reduce max_total to shrink a batch; keep each selected move intact.
+    """
+    if any(not isinstance(n, int) or isinstance(n, bool) or n < 1
+           for n in (max_total, per_field, per_source_bin)):
+        raise ValueError("Use positive integer batch and group limits.")
+    begin, end = objective_window
+    if not all(math.isfinite(t) for t in (begin, end)) or not 0 <= begin < end:
+        raise ValueError("Use a finite ordered objective window.")
+    if (not math.isfinite(step_s) or step_s < .001
+            or abs(step_s * 1000 - round(step_s * 1000)) > 1e-6):
+        raise ValueError("Use a positive simulation step in whole milliseconds.")
+    # Apply group caps after objective filtering, so initialization-only moves do not consume them.
+    pool = propose_native_count_retiming(requests=requests, passages=passages, measurements=measurements,
+        max_moves_per_field=max(1, len(passages)), max_shift_s=max_shift_s, margin_s=margin_s, step_s=step_s)
+    keys = [(r["detector_id"], float(r["begin"]), float(r["end"])) for r in measurements]
+    objective = {k for k in keys if begin <= k[1] and k[2] <= end}
+    if not objective or any(k not in objective and k[1] < end and k[2] > begin for k in keys):
+        raise ValueError("The objective must contain complete measured intervals.")
+    targets = {k: int(float(r["expected_total"])) for k, r in zip(keys, measurements)}
+    counts = {k: int(float(r["measured_nVehContrib"])) for k, r in zip(keys, measurements)}
+    outside = Counter((r["detector_id"], float(r["interval_begin_s"]), float(r["interval_end_s"]))
+                      for r in passages)
+    counts.update({k: n for k, n in outside.items() if k not in counts})
+    events = {r["vehicle_id"]: r for r in passages}
+    selected, field_moves, source_moves = [], Counter(), Counter()
+    projected = dict(counts)
+    step_ms = round(step_s * 1000)
+
+    def l1(values, selected_keys):
+        return sum(abs(values[k] - targets[k]) for k in selected_keys)
+
+    for move in sorted(pool["proposals"], key=lambda r: (abs(r["shift_s"]), r["vehicle_id"])):
+        if len(selected) == max_total:
+            break
+        source, target = tuple(move["source_interval"]), tuple(move["target_interval"])
+        field = move["detector_id"]
+        if field_moves[field] >= per_field or source_moves[source] >= per_source_bin:
+            continue
+        native_shift_ms = (math.floor(move["proposed_depart_s"] * 1000 + .5)
+                           - math.floor(move["source_depart_s"] * 1000 + .5))
+        event = events[move["vehicle_id"]]
+        notification_ms = round(event["notification_time_s"] * 1000) + native_shift_ms
+        # The projection uses periodic notification steps, not interpolated entry times.
+        notification_ms = -(-notification_ms // step_ms) * step_ms
+        notification = notification_ms / 1000
+        if (abs(native_shift_ms) > max_shift_s * 1000 + 1e-6
+                or not target[1] <= notification < target[2] or projected[source] <= 0):
+            continue
+        candidate = dict(projected)
+        candidate[source] -= 1
+        candidate[target] += 1
+        if l1(candidate, objective) >= l1(projected, objective):
+            continue
+        assert all(value >= 0 for value in candidate.values())
+        projected = candidate
+        field_moves[field] += 1
+        source_moves[source] += 1
+        selected.append({**move, "native_shift_s": native_shift_ms / 1000,
+                         "projected_notification_time_s": notification})
+    projection = [{"detector_id": k[0], "begin": k[1], "end": k[2], "expected_total": targets[k],
+                   "measured_nVehContrib": counts[k], "projected_nVehContrib": projected[k]}
+                  for k in keys]
+    return {"proposals": selected, "changed_vehicles": len(selected), "projection": projection,
+            "objective_window": [begin, end], "before_objective_l1": l1(counts, objective),
+            "projected_objective_l1": l1(projected, objective),
+            "before_all_l1": l1(counts, keys), "projected_all_l1": l1(projected, keys),
+            "projection_improves": l1(projected, objective) < l1(counts, objective),
+            "max_total": max_total, "per_field": per_field, "per_source_bin": per_source_bin,
+            "max_shift_s": max_shift_s, "new_simulations": 0, "formal_result": False,
+            "native_response_verified": False,
+            "claim_boundary": "Unverified same-replay notification translation only. Batch limits are search bounds. "
+                              "Changed queues, insertion, and other vehicles require a fresh native measurement."}
+
+
 def native_departure_windows(*, requests, passages, max_shift_s=900, guard_s=90, step_s=.1):
     """Intersect target windows under frozen native passage lags.
 

@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "formal_result": false,
+  "tdd_status": "red-green",
+  "red": "5 new single-connection tests failed before the entry existed.",
+  "green": {
+    "command": "python -m pytest tests/test_junction_split_fanout.py tests/test_junction_straight_geometry.py -q",
+    "passed": 16,
+    "elapsed_seconds": 18.52
+  },
+  "native_micro_regression": {
+    "baseline_collision_count": 2,
+    "unsplit_collision_count": 0,
+    "samples_per_run": 271,
+    "speed_mode_all_vehicles": 31,
+    "leader_max_speed_error_m_s": 0,
+    "leader_xy_error_upper_bound_m": 1e-06,
+    "boundary": "Measured leader desired speeds, not a natural four-car queue history."
+  },
+  "ruff": "pass for core, tests and frozen runner",
+  "git_diff_check": "pass",
+  "full_run_started_by_this_agent": false,
+  "source_code_sha256": "ef032053de8ec4085c61e8cf334c92d646d80ca5f86855a78ca70973f920d508"
+}

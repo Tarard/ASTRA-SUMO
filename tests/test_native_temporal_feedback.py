@@ -284,3 +284,113 @@ def test_bounded_timing_prefix_keeps_failed_native_response_and_unknown_main_row
     assert len(main) == 130 and all(r["measured_nVehContrib"] == "" for r in main)
     assert len(stations) == 40 and all(r["measured_nVehContrib"] == "" for r in stations)
     assert json.loads((case / "decision.json").read_bytes())["new_full_window_runs"] == 0
+
+
+def batch_fixture():
+    return {
+        "requests": [{"vehicle_id": v, "detector_id": f, "requested_depart_s": d}
+                     for v, f, d in [("a", "f", 100), ("b", "f", 200),
+                                     ("c", "g", 100), ("missing", "f", 250)]],
+        "passages": [{"vehicle_id": v, "detector_id": f, "notification_time_s": t,
+                      "interval_begin_s": 0, "interval_end_s": 900}
+                     for v, f, t in [("a", "f", 850), ("b", "f", 860), ("c", "g", 870)]],
+        "measurements": [{"detector_id": f, "begin": begin, "end": begin + 900,
+                          "expected_total": count if begin else 0,
+                          "measured_nVehContrib": 0 if begin else count}
+                         for f, count in [("f", 2), ("g", 1)] for begin in (0, 900)],
+    }
+
+
+def test_retiming_batch_limits_native_subset_and_keeps_initialization_estimable():
+    from copy import deepcopy
+    from astra_sumo.core.native_temporal_feedback import propose_native_count_retiming_batch
+
+    data = batch_fixture()
+    original = deepcopy(data)
+    result = propose_native_count_retiming_batch(**data, objective_window=(900, 1800),
+        max_total=2, per_field=2, per_source_bin=1, max_shift_s=900)
+    assert data == original
+    assert result["changed_vehicles"] == 2
+    assert {p["vehicle_id"] for p in result["proposals"]} == {"b", "c"}
+    assert all(p["source_depart_s"] < 900 for p in result["proposals"])
+    assert result["before_objective_l1"] == 3 and result["projected_objective_l1"] == 1
+    assert result["before_all_l1"] == 6 and result["projected_all_l1"] == 2
+    assert len(result["projection"]) == 4
+    assert all(r["projected_nVehContrib"] >= 0 for r in result["projection"])
+    assert result["projection_improves"] and not result["native_response_verified"]
+    assert not result["formal_result"] and result["new_simulations"] == 0
+    limited = propose_native_count_retiming_batch(**data, objective_window=(900, 1800),
+        max_total=3, per_field=1, per_source_bin=3, max_shift_s=900)
+    assert limited["changed_vehicles"] == 2
+
+
+def test_smaller_retiming_batch_keeps_full_shifts_instead_of_scaling_them():
+    from astra_sumo.core.native_temporal_feedback import propose_native_count_retiming_batch
+
+    options = dict(objective_window=(900, 1800), per_field=2, per_source_bin=2, max_shift_s=900)
+    full = propose_native_count_retiming_batch(**batch_fixture(), max_total=3, **options)
+    smaller = propose_native_count_retiming_batch(**batch_fixture(), max_total=2, **options)
+    assert full["changed_vehicles"] == 3 and full["projected_objective_l1"] == 0
+    assert smaller["proposals"] == full["proposals"][:2]
+    moved = next(p for p in smaller["proposals"] if p["vehicle_id"] == "b")
+    assert moved["shift_s"] == 70 and moved["projected_notification_time_s"] == 930
+    assert 860 + moved["shift_s"] / 2 < 900
+
+
+def test_retiming_batch_projects_native_millisecond_departures_on_step_boundaries():
+    from astra_sumo.core.native_temporal_feedback import propose_native_count_retiming_batch
+
+    result = propose_native_count_retiming_batch(
+        requests=[{"vehicle_id": "v", "detector_id": "f", "requested_depart_s": .1004999999}],
+        passages=[{"vehicle_id": "v", "detector_id": "f", "notification_time_s": .9,
+                   "interval_begin_s": 0, "interval_end_s": 1}],
+        measurements=[{"detector_id": "f", "begin": begin, "end": begin + 1,
+                       "expected_total": begin, "measured_nVehContrib": 1 - begin} for begin in (0, 1)],
+        objective_window=(0, 2), max_total=1, per_field=1, per_source_bin=1,
+        max_shift_s=.2, margin_s=.0005, step_s=.1)
+    proposal = result["proposals"][0]
+    assert proposal["shift_s"] == .1 and proposal["native_shift_s"] == .101
+    assert proposal["projected_notification_time_s"] == 1.1
+    assert result["projected_objective_l1"] == 0
+
+
+def test_retiming_batch_does_not_accept_improvement_outside_the_objective():
+    from astra_sumo.core.native_temporal_feedback import propose_native_count_retiming_batch
+
+    data = batch_fixture()
+    data["measurements"].append({"detector_id": "f", "begin": 1800, "end": 2700,
+                                 "expected_total": 0, "measured_nVehContrib": 0})
+    result = propose_native_count_retiming_batch(**data, objective_window=(1800, 2700),
+        max_total=3, per_field=2, per_source_bin=2, max_shift_s=900)
+    assert not result["proposals"] and not result["projection_improves"]
+    assert result["projected_all_l1"] == result["before_all_l1"]
+
+
+def test_retiming_batch_field_cap_applies_after_filtering_the_main_objective():
+    from astra_sumo.core.native_temporal_feedback import propose_native_count_retiming_batch
+
+    result = propose_native_count_retiming_batch(
+        requests=[{"vehicle_id": v, "detector_id": "f", "requested_depart_s": d}
+                  for v, d in [("early", 100), ("late", 2000)]],
+        passages=[{"vehicle_id": v, "detector_id": "f", "notification_time_s": t,
+                   "interval_begin_s": b, "interval_end_s": b + 900}
+                  for v, t, b in [("early", 890, 0), ("late", 2710, 2700)]],
+        measurements=[{"detector_id": "f", "begin": b, "end": b + 900,
+                       "expected_total": target, "measured_nVehContrib": actual}
+                      for b, target, actual in [(0, 0, 1), (900, 1, 0), (1800, 1, 0), (2700, 0, 1)]],
+        objective_window=(1800, 2700), max_total=1, per_field=1, per_source_bin=1, max_shift_s=900)
+    assert [r["vehicle_id"] for r in result["proposals"]] == ["late"]
+    assert result["projected_objective_l1"] == 0
+
+
+@pytest.mark.parametrize("invalid", [{"max_total": 0}, {"max_total": True}, {"per_field": 0},
+    {"per_source_bin": 1.5}, {"max_shift_s": 0}, {"step_s": .0001},
+    {"objective_window": (float("nan"), 1800)}, {"objective_window": (900, 900)},
+    {"objective_window": (450, 1800)}])
+def test_retiming_batch_rejects_invalid_limits_and_partial_objective_bins(invalid):
+    from astra_sumo.core.native_temporal_feedback import propose_native_count_retiming_batch
+
+    options = dict(objective_window=(900, 1800), max_total=3, per_field=2,
+                   per_source_bin=2, max_shift_s=900)
+    with pytest.raises(ValueError):
+        propose_native_count_retiming_batch(**batch_fixture(), **(options | invalid))

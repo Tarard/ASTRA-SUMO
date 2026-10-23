@@ -38,6 +38,8 @@ REQUIRED = {
     "test_native_libsumo_matches_socket_replay_with_lane_holds": 1,
     "test_native_real_entry_context_supports_stopped_vehicle_bodies": 1,
     "test_native_hamburg_split_sibling_continuations_reproduce_then_clear_without_road_changes": 1,
+    "test_native_single_unsplit_preserves_all_other_curves_and_exterior": 1,
+    "test_four_vehicle_measured_leader_boundary_reproduces_then_clears_with_native_safety": 1,
     "test_native_hamburg_stopped_left_turn_reproduces_then_clears_with_forward_straights": 1,
 }
 

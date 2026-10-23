@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The [LSA119 single-connection regression](../benchmarks/hamburg_ring1_119_single_split_20261023_v1/README.md) reproduces two collisions with four vehicles and a measured leader speed boundary.
+Only the Z4 lane-0 left movement changes to a complete native internal path. The paired candidate has no collisions.
+The candidate preserves all ordinary roads, legal turns, complete curves, signal programs and exterior elements.
+The regression retains native speed safety checks. Its measured leader boundary does not establish natural four-vehicle queue formation or field control.
+Count calibration remains incomplete. Intermediate MAE reductions and the historical V1 metric do not satisfy the current 130-field zero-residual goal.
+
 The [historical README V1 replay](../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md) now matches all 40 station bins: MAE and maximum error are zero.
 All 5037 vehicles arrive without collisions, teleports, discarded requests or insertion backlog.
 Four departure times change by at most 14 seconds. Observations, routes, network and detector positions remain unchanged.

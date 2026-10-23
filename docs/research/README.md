@@ -37,6 +37,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg LSA119 single internal waiting connection: four-vehicle collision reproduction and paired repair, 2026-10-23](../../benchmarks/hamburg_ring1_119_single_split_20261023_v1/README.md)
 - [Historical Hamburg README V1: 40 station entry bins at zero error, with native-count contrast and retained limitations, 2026-10-23](../../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md)
 - [Hamburg directed backlog trials and complete native feedback, 2026-10-23](../../benchmarks/hamburg_ring1_directed_backlog_20261023_v1/README.md)
 - [Hamburg source-backed Alsterglacis branch restoration: sparse probes and complete 130-field native comparison, 2026-10-23](../../benchmarks/hamburg_ring1_primary_branch_repair_20261023_v1/README.md)
