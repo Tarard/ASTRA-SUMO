@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [two directed OD timing checks](../benchmarks/hamburg_ring1_directed_od_time_20261023_v1/README.md) are complete and rejected.
+Their native field MAEs are 16.923077 and 17.046154 against the retained repaired baseline's 16.730769.
+Both have zero collisions and teleports, but remain backlogged. All 130 field and 40 derived station rows, including other-field losses, are retained.
+No count calibration or zero-residual claim follows from these local response proposals.
+
 The [LSA119 straight-curve repair](../benchmarks/hamburg_ring1_119_straight_order_20261023_v1/README.md) matches the recorded collision and isolates it with two vehicles.
 Ordering two explicitly selected straight curves removes long internal returns while retaining ordinary roads, turns, signals and other movement curves.
 The same 8603-request full evaluation has zero collisions and teleports, field diagnostic MAE 16.730769 and maximum error 58.

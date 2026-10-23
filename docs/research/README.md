@@ -37,6 +37,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg two rejected directed OD timing checks and native execution costs, 2026-10-23](../../benchmarks/hamburg_ring1_directed_od_time_20261023_v1/README.md)
 - [Hamburg LSA119 straight-curve return diagnosis, paired two-car repair and complete native check, 2026-10-23](../../benchmarks/hamburg_ring1_119_straight_order_20261023_v1/README.md)
 - [Hamburg authorized five-round extension: LSA119 safety stop after two evaluations, 2026-10-23](../../benchmarks/hamburg_ring1_od_spsa_five_rounds_20261023_v1/README.md)
 - [Hamburg LSA104 split-fanout collision diagnosis and complete-window comparison, 2026-10-23](../../benchmarks/hamburg_ring1_104_split_fanout_20261023_v1/README.md)

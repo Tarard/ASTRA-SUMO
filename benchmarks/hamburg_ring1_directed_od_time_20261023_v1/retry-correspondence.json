@@ -1,0 +1,14 @@
+{
+  "identical_six_traffic_inputs": {
+    "network.net.xml": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+    "demand.rou.xml": "929c62c8ee04abfa4c717a75366a8f510c3fff39f7d3c4ac8bfb6c0d0ceeb5f3",
+    "lane-intentions.json": "e97deb902668e19878e867d19cbea56b0ed86ee3dba315d5f9e274b5cf6a7871",
+    "source-e1.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "signal-programs.add.xml": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+  },
+  "complete_intervals_compared": 154,
+  "all_compared_native_attributes_equal": true,
+  "interrupted_parse_error": "unclosed token: line 207, column 4",
+  "claim_boundary": "Only complete interval elements from the interrupted file are compared. Missing intervals stay unknown; no full loss is inferred from the partial attempt."
+}
