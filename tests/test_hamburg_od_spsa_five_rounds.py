@@ -29,6 +29,16 @@ def test_five_round_extension_retains_early_stop_and_all_file_hashes():
     assert {p.name for p in (CASE / "evaluations").iterdir()} == {"initial", "iteration-0001-plus"}
 
 
+def test_baseline_field_population_partitions_every_request_and_reconciles_native_counts():
+    rows = list(csv.DictReader((CASE / "baseline-attribution/field-population.csv").open(encoding="utf-8")))
+    fields = list(csv.DictReader((CASE / "evaluations/initial/field-comparison.csv").open(encoding="utf-8")))
+    assert len(rows) == 13 and sum(int(r["requested"]) for r in rows) == 8622
+    assert sum(int(r["never_inserted"]) for r in rows) == 1482
+    for row in rows:
+        assert int(row["requested"]) == sum(int(row[k]) for k in row if k not in ("field", "requested"))
+        assert int(row["in_window"]) == sum(int(f["measured_nVehContrib"]) for f in fields if f["detector_id"] == row["field"])
+
+
 @pytest.mark.parametrize("label", ["initial", "iteration-0001-plus"])
 def test_five_round_extension_counts_are_native_and_stations_are_derived(tmp_path, label):
     folder = CASE / "evaluations" / label
