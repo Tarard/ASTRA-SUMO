@@ -28,6 +28,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Reproducible Protocols
 
+- [Hamburg 119 lane-level conflict precision: retained conflicts, small tests and rejected full-traffic comparison, 2026-10-23](../../benchmarks/hamburg_ring1_119_lane_foes_20261023_v1/README.md)
 - [Hamburg 119 receiving merge: conditional native priority, complete healthy run and remaining residuals, 2026-10-23](../../benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/README.md)
 - [Hamburg 535 approach: restored through connections and full native comparison, 2026-10-23](../../benchmarks/hamburg_ring1_197_through_support_20261023_v1/README.md)
 - [Hamburg joint OD SPSA: five completed rounds and native results, 2026-10-23](../../benchmarks/hamburg_ring1_joint_od_spsa_20261023_v1/README.md)
