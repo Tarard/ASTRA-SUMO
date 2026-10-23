@@ -1,0 +1,95 @@
+[
+  {
+    "name": "initial",
+    "loss": 61146,
+    "MAE": 14.923076923076923,
+    "max_abs_error": 60,
+    "healthy": false,
+    "station_MAE": 47.45,
+    "station_max_abs_error": 129,
+    "completion": {
+      "loaded": 8640,
+      "inserted": 7664,
+      "arrived": 7240,
+      "running": 424,
+      "waiting": 976,
+      "teleports": 3,
+      "collisions": 3,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40,
+    "reused": true
+  },
+  {
+    "name": "iteration-0001-plus",
+    "loss": 63702,
+    "MAE": 15.615384615384615,
+    "max_abs_error": 72,
+    "healthy": false,
+    "station_MAE": 49.05,
+    "station_max_abs_error": 146,
+    "completion": {
+      "loaded": 8605,
+      "inserted": 7394,
+      "arrived": 7029,
+      "running": 365,
+      "waiting": 1211,
+      "teleports": 5,
+      "collisions": 5,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  {
+    "name": "iteration-0001-minus",
+    "loss": 78894,
+    "MAE": 17.676923076923078,
+    "max_abs_error": 67,
+    "healthy": false,
+    "station_MAE": 55.65,
+    "station_max_abs_error": 130,
+    "completion": {
+      "loaded": 8677,
+      "inserted": 7158,
+      "arrived": 6762,
+      "running": 396,
+      "waiting": 1519,
+      "teleports": 2,
+      "collisions": 2,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  {
+    "name": "final",
+    "loss": 65254,
+    "MAE": 15.646153846153846,
+    "max_abs_error": 62,
+    "healthy": false,
+    "station_MAE": 49.85,
+    "station_max_abs_error": 144,
+    "completion": {
+      "loaded": 8622,
+      "inserted": 7410,
+      "arrived": 7003,
+      "running": 407,
+      "waiting": 1212,
+      "teleports": 6,
+      "collisions": 6,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  }
+]

@@ -1,5 +1,9 @@
 # Hamburg case shown in the README
 
+The [completed first SPSA round, V3](../benchmarks/hamburg_ring1_od_spsa_completed_20261023_v3/README.md) retains all four native evaluations and every 130/40 comparison.
+One update and its full remeasurement are complete. The final diagnostic field MAE is 15.646154 against 14.923077 initially, with six collisions, six teleports and 1212 waiting vehicles.
+All evaluations remain invalid. The thirteen collisions in the perturbation and final runs occur on `:LSA104_part0_12_0`. No exact calibration or convergence claim is made.
+
 The [SPSA first-round V2](../benchmarks/hamburg_ring1_od_spsa_first_round_20261022_v2/README.md) fixes a numeric-time metadata join and reuses the complete initial native replay.
 Its initial 130/40 comparisons remain unaccepted: field MAE 14.923077, three collisions, three teleports and 976 waiting vehicles.
 The confirmed one-update settings and zero-error acceptance condition remain unchanged.
