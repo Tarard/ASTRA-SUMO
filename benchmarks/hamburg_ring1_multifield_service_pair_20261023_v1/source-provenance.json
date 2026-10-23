@@ -1,0 +1,605 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\proposal\\manifest.json",
+      "snapshot": "proposal/manifest.json.gz",
+      "raw_bytes": 861,
+      "raw_sha256": "e3f4c1a26492dda452572a34293c23e3667e279eef9467db4a03844e45040e78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\proposal\\offline-check.json",
+      "snapshot": "proposal/offline-check.json.gz",
+      "raw_bytes": 677,
+      "raw_sha256": "8af597da3f86e4b4b5fe0a0d9bba81430e8b25ae73c04cfc39fe7ad4668c8855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\proposal\\plan.json",
+      "snapshot": "proposal/plan.json.gz",
+      "raw_bytes": 15196,
+      "raw_sha256": "7769fc1071fd3714ac0c67dd9208172c679df78144dc0b59d743f98beb4ff265"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\proposal\\planned-inventory.csv",
+      "snapshot": "proposal/planned-inventory.csv.gz",
+      "raw_bytes": 5130,
+      "raw_sha256": "6fc95bcfa38f8be610a1255f565480b4ec6946b512b56fa0ebffb311de4b537c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\proposal\\README.md",
+      "snapshot": "proposal/README.md.gz",
+      "raw_bytes": 1703,
+      "raw_sha256": "a2e27ab9ce68b91184f0a575cf24e570d047d00bb230a1990ccfe28e0cdb920a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\proposal\\unchanged-leader-proof.json",
+      "snapshot": "proposal/unchanged-leader-proof.json.gz",
+      "raw_bytes": 2098,
+      "raw_sha256": "90e53308fba45274f6b244653edc29a80d96d516e9a2d477b6104afeb300e684"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\audit_service_pair.py",
+      "snapshot": "response-audit/audit_service_pair.py.gz",
+      "raw_bytes": 5563,
+      "raw_sha256": "4daf47ed964d607d06892ae4fecc8d8df812bf9357d28c5ba0d7010a9fede013"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\exact-count-equality-proof.json",
+      "snapshot": "response-audit/complete/exact-count-equality-proof.json.gz",
+      "raw_bytes": 3584,
+      "raw_sha256": "f82e4836e83ccd190c72350843f535c6e7fa27f3bdc517a813f6c44e06cd9f8a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\four-unchanged-event-time-shifts.csv",
+      "snapshot": "response-audit/complete/four-unchanged-event-time-shifts.csv.gz",
+      "raw_bytes": 444,
+      "raw_sha256": "5e8a3dce338319e646ce591a3f6a7c22918cf3c16f5beccdf9f36b22ecd259e7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\manifest.json",
+      "snapshot": "response-audit/complete/manifest.json.gz",
+      "raw_bytes": 2686,
+      "raw_sha256": "c189e2a5ec6f986dd5ca40f7c52a8b65b3f6e704826d6b480856f36987a2f3a2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\previous-1pair-delta208.csv",
+      "snapshot": "response-audit/complete/previous-1pair-delta208.csv.gz",
+      "raw_bytes": 10296,
+      "raw_sha256": "1a935e0189e15f7bd1a3a945e2f3eeb9d008f6d825a5ddd38efeaa04466892f4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\README.md",
+      "snapshot": "response-audit/complete/README.md.gz",
+      "raw_bytes": 3213,
+      "raw_sha256": "0fbe10b2070c0560a2a71b9f8d1e83431304e659b65a1ac31e366eae99a98529"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\scan.json",
+      "snapshot": "response-audit/complete/scan.json.gz",
+      "raw_bytes": 7352,
+      "raw_sha256": "be35ff5eed302b9d97c92b61d0cdfdc46eac7e37b9cc576c40f63c4a5bad7182"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\audit.json",
+      "snapshot": "response-audit/complete/substitute-1pair/audit.json.gz",
+      "raw_bytes": 34674,
+      "raw_sha256": "c944cfde1fc855e1e94baf732020005f3a91da5e47cbcc03665ba82b09f61817"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\cohort-delta208.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/cohort-delta208.csv.gz",
+      "raw_bytes": 14152,
+      "raw_sha256": "95309719dd911198b7fdc0ba82f1dbd560761d11f1d261229036277e93b90094"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\field13-main.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/field13-main.csv.gz",
+      "raw_bytes": 557,
+      "raw_sha256": "4fa12785e820a806c933467037afb87691d2323b472d0eb9550d67f9ac4f35d7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\initial-comparison.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/initial-comparison.csv.gz",
+      "raw_bytes": 3123,
+      "raw_sha256": "ca16670fc0ee7e4740f77d2ade2b2539502043aff60c6139842344532eee5d9d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\main-comparison.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/main-comparison.csv.gz",
+      "raw_bytes": 7919,
+      "raw_sha256": "18216f2735880045719bdf8ab635948668dac98c6d795027c2a19d61264bdc01"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\modified-trips.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/modified-trips.csv.gz",
+      "raw_bytes": 886,
+      "raw_sha256": "f28585202f5b534cbcd53bbebda7fca421076a0aec449a918b894db5c2d497de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\stations-comparison.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/stations-comparison.csv.gz",
+      "raw_bytes": 1621,
+      "raw_sha256": "66cf53198a77b130f6de761eb64bc80af44ac02abbd06a6e1bdb11a0b94b9de5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\substitute-1pair\\unchanged-trip-responses.csv",
+      "snapshot": "response-audit/complete/substitute-1pair/unchanged-trip-responses.csv.gz",
+      "raw_bytes": 1127,
+      "raw_sha256": "90518ebc99cdd00fb37e8084854dcd008c155aedbcd942904a11d8d0d0adde49"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\terminal-reference-candidate-identical.csv",
+      "snapshot": "response-audit/complete/terminal-reference-candidate-identical.csv.gz",
+      "raw_bytes": 1367,
+      "raw_sha256": "dfb64e627072d39647ae62566f8cb263ef5c81c5088dfda0c77bedd9105a3e00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\complete\\terminal-vehicles.csv",
+      "snapshot": "response-audit/complete/terminal-vehicles.csv.gz",
+      "raw_bytes": 2068,
+      "raw_sha256": "4c00a8d8d21dcc6091ce442382cd929d67a5fe138375899e3b3bc48a28eaa9d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\equality.stdout.json",
+      "snapshot": "response-audit/equality.stdout.json.gz",
+      "raw_bytes": 3584,
+      "raw_sha256": "f82e4836e83ccd190c72350843f535c6e7fa27f3bdc517a813f6c44e06cd9f8a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\input-scope-review.json",
+      "snapshot": "response-audit/input-scope-review.json.gz",
+      "raw_bytes": 27970,
+      "raw_sha256": "83410fd7fc0c828c2bd020070eb2c0a3dfb9c8b1dbd61f5fef8fc1ef8239fa6b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\manifest.json",
+      "snapshot": "response-audit/manifest.json.gz",
+      "raw_bytes": 3989,
+      "raw_sha256": "f36f59b9d4a23b10779e1d9b248e354f09021a6f02ab92f2df0ea312646134ea"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\prove_count_equality.py",
+      "snapshot": "response-audit/prove_count_equality.py.gz",
+      "raw_bytes": 7825,
+      "raw_sha256": "3edc605ec6ebebd0bff1f9fd4b2aaed56c7d63c01bd87f596bf5401e3bba0aed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\README.md",
+      "snapshot": "response-audit/README.md.gz",
+      "raw_bytes": 2063,
+      "raw_sha256": "6738bd4a742b05abd10cfb8876dd6a608b54d9af8eb049e4b04baf22b7332867"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\response-audit\\reused-analysis-implementation.json",
+      "snapshot": "response-audit/reused-analysis-implementation.json.gz",
+      "raw_bytes": 850,
+      "raw_sha256": "c0a927d308f3703e8463487b79b70f7cf1b0f8e6fe305b81eb215785f46c4e68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\evaluation\\demand.rou.xml",
+      "snapshot": "offline-substitute-1pair/evaluation/demand.rou.xml.gz",
+      "raw_bytes": 3726394,
+      "raw_sha256": "09479e07068c0424e7d77b8348d5a4acf14b2fd4f1119c64b2f2be1494628730"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\evaluation\\lane-intentions.json",
+      "snapshot": "offline-substitute-1pair/evaluation/lane-intentions.json.gz",
+      "raw_bytes": 1004850,
+      "raw_sha256": "5cc2f802fb43ca2af71b8dc7716954c0d8a6676e600d750a715eecdd03dd025b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\executed-driver.py",
+      "snapshot": "offline-substitute-1pair/executed-driver.py.gz",
+      "raw_bytes": 11385,
+      "raw_sha256": "53be62c72e8fc923744aa32c440fb1ac72f5db09b7b95e234e2055bafe78afe4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\artifact_io.py",
+      "snapshot": "offline-substitute-1pair/implementation/artifact_io.py.gz",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\candidate_contracts.py",
+      "snapshot": "offline-substitute-1pair/implementation/candidate_contracts.py.gz",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\command_runner.py",
+      "snapshot": "offline-substitute-1pair/implementation/command_runner.py.gz",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\detector_demand.py",
+      "snapshot": "offline-substitute-1pair/implementation/detector_demand.py.gz",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\detector_demand_replay.py",
+      "snapshot": "offline-substitute-1pair/implementation/detector_demand_replay.py.gz",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\hamburg_od_spsa.py",
+      "snapshot": "offline-substitute-1pair/implementation/hamburg_od_spsa.py.gz",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\lane_section_hold.py",
+      "snapshot": "offline-substitute-1pair/implementation/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\route_sensor_matrix.py",
+      "snapshot": "offline-substitute-1pair/implementation/route_sensor_matrix.py.gz",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\implementation\\simulation_stall.py",
+      "snapshot": "offline-substitute-1pair/implementation/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\preflight.json",
+      "snapshot": "offline-substitute-1pair/preflight.json.gz",
+      "raw_bytes": 532340,
+      "raw_sha256": "58901e633e6f6120eb90bf9eef490a18cec6a6024929b8db892030142ca38886"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\control.add.xml",
+      "snapshot": "offline-substitute-1pair/prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\demand.rou.xml",
+      "snapshot": "offline-substitute-1pair/prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726394,
+      "raw_sha256": "09479e07068c0424e7d77b8348d5a4acf14b2fd4f1119c64b2f2be1494628730"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\expected-counts.csv",
+      "snapshot": "offline-substitute-1pair/prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\field-loops.add.xml",
+      "snapshot": "offline-substitute-1pair/prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\initialization-counts.csv",
+      "snapshot": "offline-substitute-1pair/prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\lane-intentions.json",
+      "snapshot": "offline-substitute-1pair/prepared/lane-intentions.json.gz",
+      "raw_bytes": 1004850,
+      "raw_sha256": "5cc2f802fb43ca2af71b8dc7716954c0d8a6676e600d750a715eecdd03dd025b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\network.net.xml",
+      "snapshot": "offline-substitute-1pair/prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\offline-substitute-1pair\\prepared\\scenario.json",
+      "snapshot": "offline-substitute-1pair/prepared/scenario.json.gz",
+      "raw_bytes": 3770,
+      "raw_sha256": "df9aa909aa0852dbdf83670e370c99a4ec155901d6d47e1be8ef9923bb0e1e9a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\all182-comparison.csv",
+      "snapshot": "substitute-1pair/evaluation/all182-comparison.csv.gz",
+      "raw_bytes": 10902,
+      "raw_sha256": "25ce462d5931ebaf9b23a9a00106dfa9c26258537351fa50eba20074371ab41c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\contributing-passages.json.gz",
+      "snapshot": "substitute-1pair/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 1965652,
+      "raw_sha256": "822618d1b53f3ad51104bd2a624b5ca73c6e0b79bb68f30c5fd47c1ba343ad68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\demand.rou.xml",
+      "snapshot": "substitute-1pair/evaluation/demand.rou.xml.gz",
+      "raw_bytes": 3726394,
+      "raw_sha256": "09479e07068c0424e7d77b8348d5a4acf14b2fd4f1119c64b2f2be1494628730"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\evaluation.json",
+      "snapshot": "substitute-1pair/evaluation/evaluation.json.gz",
+      "raw_bytes": 453,
+      "raw_sha256": "91197d73251b39c47c705b3101062d1b48c0c3e67a4bc2ffb802c9901705e51e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\lane-intentions.json",
+      "snapshot": "substitute-1pair/evaluation/lane-intentions.json.gz",
+      "raw_bytes": 1004850,
+      "raw_sha256": "5cc2f802fb43ca2af71b8dc7716954c0d8a6676e600d750a715eecdd03dd025b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\collisions.xml",
+      "snapshot": "substitute-1pair/evaluation/native/collisions.xml.gz",
+      "raw_bytes": 3403,
+      "raw_sha256": "bb86fcc949639e5255f697bf8cd4833854c63373ca41a0eb8c815994fafea6fa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\command.json",
+      "snapshot": "substitute-1pair/evaluation/native/command.json.gz",
+      "raw_bytes": 5086,
+      "raw_sha256": "bf8bef0ddb90d120e62dc19f0732965cbc2b4266b64b3f05a94dbc75dd00494e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\demand.rou.xml",
+      "snapshot": "substitute-1pair/evaluation/native/demand.rou.xml.gz",
+      "raw_bytes": 3726394,
+      "raw_sha256": "09479e07068c0424e7d77b8348d5a4acf14b2fd4f1119c64b2f2be1494628730"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\e1.add.xml",
+      "snapshot": "substitute-1pair/evaluation/native/e1.add.xml.gz",
+      "raw_bytes": 3771,
+      "raw_sha256": "bc98b64c7030318f784bf7995f043ad69c51183755495890d8120b2c14379ac2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\expected-counts.csv",
+      "snapshot": "substitute-1pair/evaluation/native/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\field-comparison.csv",
+      "snapshot": "substitute-1pair/evaluation/native/field-comparison.csv.gz",
+      "raw_bytes": 7919,
+      "raw_sha256": "18216f2735880045719bdf8ab635948668dac98c6d795027c2a19d61264bdc01"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\field-counts.xml",
+      "snapshot": "substitute-1pair/evaluation/native/field-counts.xml.gz",
+      "raw_bytes": 53268,
+      "raw_sha256": "69c8b5312796f196647b955ccb867c3ed85c141244d2ef6c74e5b7b445309e1a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\instant.add.xml",
+      "snapshot": "substitute-1pair/evaluation/native/instant.add.xml.gz",
+      "raw_bytes": 3247,
+      "raw_sha256": "19a110c6807df7d30c910600bedb59914421806c7989b83eba23c735b5d30fe8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\lane-intentions.json",
+      "snapshot": "substitute-1pair/evaluation/native/lane-intentions.json.gz",
+      "raw_bytes": 1004850,
+      "raw_sha256": "5cc2f802fb43ca2af71b8dc7716954c0d8a6676e600d750a715eecdd03dd025b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\native-request.json",
+      "snapshot": "substitute-1pair/evaluation/native/native-request.json.gz",
+      "raw_bytes": 3962,
+      "raw_sha256": "a6390ef8b91aaa5bf57cda75d8de394b69a1ffda8f91587b15362e030752342a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\network.net.xml",
+      "snapshot": "substitute-1pair/evaluation/native/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\run.json",
+      "snapshot": "substitute-1pair/evaluation/native/run.json.gz",
+      "raw_bytes": 6295706,
+      "raw_sha256": "2951e986bb8c6b8a4a04d82e99e01b4fd97672303f36fd1e76dafa3f071fadbf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\signal-programs.add.xml",
+      "snapshot": "substitute-1pair/evaluation/native/signal-programs.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\source-e1.add.xml",
+      "snapshot": "substitute-1pair/evaluation/native/source-e1.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\stall-monitor.json",
+      "snapshot": "substitute-1pair/evaluation/native/stall-monitor.json.gz",
+      "raw_bytes": 5840641,
+      "raw_sha256": "eb7d8adadda51065741d3f6415986b7bc03b59edbe68da6a8ee12988fe1eb857"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\summary.xml",
+      "snapshot": "substitute-1pair/evaluation/native/summary.xml.gz",
+      "raw_bytes": 46868680,
+      "raw_sha256": "ec76bf98592a773234c20e93cf5b6aa7cf306c04d85f36ba44ab9f85bb80ac54"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\sumo-errors.log",
+      "snapshot": "substitute-1pair/evaluation/native/sumo-errors.log.gz",
+      "raw_bytes": 2783,
+      "raw_sha256": "73a17900b5d851249e3800d45eb97f071de344b9283d62a0645c8b10503ddd7a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\sumo.log",
+      "snapshot": "substitute-1pair/evaluation/native/sumo.log.gz",
+      "raw_bytes": 4412,
+      "raw_sha256": "813decfac82b4578a077f9f76dada50bc9709b4c907dffd8737cfceb9990b1bf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\tripinfo.xml",
+      "snapshot": "substitute-1pair/evaluation/native/tripinfo.xml.gz",
+      "raw_bytes": 4573470,
+      "raw_sha256": "4f37e4c2abd1679c8f044970ab9eac8574efd2c3938cba70dbb0dd6811842cef"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\native\\vehicle-routes.xml",
+      "snapshot": "substitute-1pair/evaluation/native/vehicle-routes.xml.gz",
+      "raw_bytes": 6530459,
+      "raw_sha256": "1596b59869a65e3f7bda6933342ecf1a52a3fa4251c29c182079ce7b45c43af6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\evaluation\\station-comparison.csv",
+      "snapshot": "substitute-1pair/evaluation/station-comparison.csv.gz",
+      "raw_bytes": 1621,
+      "raw_sha256": "66cf53198a77b130f6de761eb64bc80af44ac02abbd06a6e1bdb11a0b94b9de5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\executed-driver.py",
+      "snapshot": "substitute-1pair/executed-driver.py.gz",
+      "raw_bytes": 11385,
+      "raw_sha256": "53be62c72e8fc923744aa32c440fb1ac72f5db09b7b95e234e2055bafe78afe4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\artifact_io.py",
+      "snapshot": "substitute-1pair/implementation/artifact_io.py.gz",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\candidate_contracts.py",
+      "snapshot": "substitute-1pair/implementation/candidate_contracts.py.gz",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\command_runner.py",
+      "snapshot": "substitute-1pair/implementation/command_runner.py.gz",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\detector_demand.py",
+      "snapshot": "substitute-1pair/implementation/detector_demand.py.gz",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\detector_demand_replay.py",
+      "snapshot": "substitute-1pair/implementation/detector_demand_replay.py.gz",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\hamburg_od_spsa.py",
+      "snapshot": "substitute-1pair/implementation/hamburg_od_spsa.py.gz",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\lane_section_hold.py",
+      "snapshot": "substitute-1pair/implementation/lane_section_hold.py.gz",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\route_sensor_matrix.py",
+      "snapshot": "substitute-1pair/implementation/route_sensor_matrix.py.gz",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\implementation\\simulation_stall.py",
+      "snapshot": "substitute-1pair/implementation/simulation_stall.py.gz",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\preflight.json",
+      "snapshot": "substitute-1pair/preflight.json.gz",
+      "raw_bytes": 532340,
+      "raw_sha256": "58901e633e6f6120eb90bf9eef490a18cec6a6024929b8db892030142ca38886"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\control.add.xml",
+      "snapshot": "substitute-1pair/prepared/control.add.xml.gz",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\demand.rou.xml",
+      "snapshot": "substitute-1pair/prepared/demand.rou.xml.gz",
+      "raw_bytes": 3726394,
+      "raw_sha256": "09479e07068c0424e7d77b8348d5a4acf14b2fd4f1119c64b2f2be1494628730"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\expected-counts.csv",
+      "snapshot": "substitute-1pair/prepared/expected-counts.csv.gz",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\field-loops.add.xml",
+      "snapshot": "substitute-1pair/prepared/field-loops.add.xml.gz",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\initialization-counts.csv",
+      "snapshot": "substitute-1pair/prepared/initialization-counts.csv.gz",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\lane-intentions.json",
+      "snapshot": "substitute-1pair/prepared/lane-intentions.json.gz",
+      "raw_bytes": 1004850,
+      "raw_sha256": "5cc2f802fb43ca2af71b8dc7716954c0d8a6676e600d750a715eecdd03dd025b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\network.net.xml",
+      "snapshot": "substitute-1pair/prepared/network.net.xml.gz",
+      "raw_bytes": 1345817,
+      "raw_sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\prepared\\scenario.json",
+      "snapshot": "substitute-1pair/prepared/scenario.json.gz",
+      "raw_bytes": 3770,
+      "raw_sha256": "df9aa909aa0852dbdf83670e370c99a4ec155901d6d47e1be8ef9923bb0e1e9a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\substitute-1pair\\verdict.json",
+      "snapshot": "substitute-1pair/verdict.json.gz",
+      "raw_bytes": 1485,
+      "raw_sha256": "704984f2b20150d550ce36521e502bad8a041670929c0fade43aa325e6297dba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\launch.json",
+      "snapshot": "launch.json.gz",
+      "raw_bytes": 371,
+      "raw_sha256": "a3cfe9aa5ec580a81a33f9ceabccbfa8dc6e96cad89c99a04ca48bd4d5c83e5c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\measure.py",
+      "snapshot": "measure.py.gz",
+      "raw_bytes": 11385,
+      "raw_sha256": "53be62c72e8fc923744aa32c440fb1ac72f5db09b7b95e234e2055bafe78afe4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\stderr.log",
+      "snapshot": "stderr.log.gz",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-service-pair-20261023-v1\\stdout.log",
+      "snapshot": "stdout.log.gz",
+      "raw_bytes": 1169,
+      "raw_sha256": "30f484da0c213b095b81f67d340a37911704c8de661d3de6c051bde992a79d7c"
+    }
+  ],
+  "historical_paths_are_provenance_only": true
+}

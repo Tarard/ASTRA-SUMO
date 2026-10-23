@@ -32,6 +32,7 @@ This index separates research evidence from current product documentation. The l
 - [Hamburg two-field boundary routes: native support check, 2026-10-23](../../benchmarks/hamburg_ring1_multifield_native_support_20261023_v1/README.md)
 - [Hamburg two-field trip substitutions under full demand, 2026-10-23](../../benchmarks/hamburg_ring1_multifield_substitution_20261023_v1/README.md)
 - [Hamburg left-turn service delay and receiving-control source check, 2026-10-23](../../benchmarks/hamburg_ring1_multifield_delay_trace_20261023_v1/README.md)
+- [Hamburg observed-service pair: fewer trips with the same native counts, 2026-10-23](../../benchmarks/hamburg_ring1_multifield_service_pair_20261023_v1/README.md)
 - [Standard small-network v1](../standard-small-network-v1.md)
 - [Teacher-free OSM signal discovery v2](../teacher-free-osm-signal-discovery-v2.md)
 - [Teacher-free materialization v3](../teacher-free-materialization-v3.md)
