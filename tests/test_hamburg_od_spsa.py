@@ -85,17 +85,21 @@ def test_native_zero_target_stops_only_when_health_is_also_established(tmp_path,
     assert result["stopping_reason"] == "healthy_native_zero_residual"
 
 
-def test_real_hamburg_decimal_metadata_times_join_integer_native_times(tmp_path, monkeypatch):
+@pytest.mark.parametrize("body_nodes", [None, ["14398547", "205069138", "18653534", "LSA104_part0"]])
+def test_real_hamburg_decimal_metadata_times_join_integer_native_times(tmp_path, monkeypatch, body_nodes):
     root = Path(__file__).resolve().parents[1]
     original = root / "benchmarks/hamburg_ring1_munich_corridor_20261022_v1"
     measured_case = root / "benchmarks/hamburg_ring1_spillback_repair_complete_20261022_v2"
     prepared, proposal = tmp_path / "prepared", tmp_path / "proposal"
     prepared.mkdir()
     proposal.mkdir()
+    if body_nodes is not None:
+        (prepared / "scenario.json").write_text(json.dumps({"junction_body_hold_nodes": body_nodes}), encoding="utf-8")
     (prepared / "expected-counts.csv").write_bytes(gzip.decompress((original / "inputs/expected-counts.csv.gz").read_bytes()))
     assert b"3600.0,4500.0" in (prepared / "expected-counts.csv").read_bytes()
 
     def native(**kwargs):
+        assert kwargs["junction_body_hold_nodes"] == tuple(body_nodes or ["14398547", "205069138", "18653534"])
         out = kwargs["output_dir"]
         out.mkdir()
         (out / "field-comparison.csv").write_bytes((measured_case / "field-comparison.csv").read_bytes())
@@ -111,3 +115,31 @@ def test_real_hamburg_decimal_metadata_times_join_integer_native_times(tmp_path,
     assert result["station_MAE"] == known["diagnostic_station_MAE"]
     assert result["field_rows"] == 130 and result["derived_station_rows"] == 40
     assert not result["healthy"] and not result["exact_count_fit"]
+
+
+@pytest.mark.parametrize("nodes", [[], ["LSA104_part0", "LSA104_part0"], "LSA104_part0", [""], None])
+def test_invalid_explicit_body_scope_stops_before_generating_demand(tmp_path, nodes):
+    (tmp_path / "scenario.json").write_text(json.dumps({"junction_body_hold_nodes": nodes}), encoding="utf-8")
+    with pytest.raises(ValueError, match="junction_body_hold_nodes"):
+        workflow.measure_hamburg_od(prepared_dir=tmp_path, values=[], output_dir=tmp_path / "not-generated", sumo_binary="unused")
+    assert not (tmp_path / "not-generated").exists()
+
+
+def test_new_study_can_stop_on_unsafe_native_evaluation_without_an_update(tmp_path, monkeypatch):
+    prepared = tmp_path / "prepared"
+    prepared.mkdir()
+    (prepared / "initial-od-vector.json").write_text(json.dumps({"values": [8]}), encoding="utf-8")
+    calls = []
+
+    def measured(**kwargs):
+        calls.append(Path(kwargs["output_dir"]).name)
+        return {"loss": 1, "MAE": 1, "max_abs_error": 1, "healthy": False, "exact_count_fit": False,
+                "completion": dict(collisions=1, teleports=1, waiting=0, running=0)}
+
+    monkeypatch.setattr(workflow, "measure_hamburg_od", measured)
+    result = workflow.run_hamburg_od_spsa(prepared_dir=prepared, output_dir=tmp_path / "stopped", sumo_binary="unused",
+        settings=dict(a=None, initial_step=1, A=0, c=2, alpha=.602, gamma=.101, iterations=3, seed=104),
+        stop_on_unsafe=True)
+    assert calls == ["initial"] and result["completed_iterations"] == 0
+    assert result["stopping_reason"] == "unsafe_native_evaluation"
+    assert not result["formal_result"]

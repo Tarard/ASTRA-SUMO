@@ -17,6 +17,22 @@ def _write(path, value):
     path.write_text(json.dumps(value), encoding="utf-8")
 
 
+@pytest.mark.parametrize("matching", [False, True])
+def test_reuse_checks_the_declared_body_scope_instead_of_the_old_fixed_nodes(cached_initial, matching):
+    nodes = ["14398547", "205069138", "18653534", "LSA104_part0"]
+    _write(cached_initial["prepared_dir"] / "scenario.json", {"junction_body_hold_nodes": nodes})
+    if matching:
+        for name in ("run.json", "native-request.json"):
+            path = cached_initial["cached_dir"] / "native" / name
+            record = json.loads(path.read_bytes())
+            record["junction_body_hold_nodes"] = nodes
+            _write(path, record)
+        assert reuse_hamburg_od_initial(**cached_initial)[0]["loss"] == 4
+    else:
+        with pytest.raises(ValueError, match="cached native settings differ"):
+            reuse_hamburg_od_initial(**cached_initial)
+
+
 @pytest.fixture
 def cached_initial(tmp_path):
     prepared, proposal, cached = (tmp_path / name for name in ("prepared", "proposal", "cached"))

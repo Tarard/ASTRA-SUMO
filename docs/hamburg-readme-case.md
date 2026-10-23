@@ -1,5 +1,11 @@
 # Hamburg case shown in the README
 
+The OD SPSA runner reads declared `junction_body_hold_nodes` from the prepared `scenario.json` (or `.json.gz`).
+This preserves the LSA104 driver assumption when evaluating a repaired network. Preparations without that field retain the historical three-node default.
+Cached native records must match the declared scope. A changed native call still requires a fresh evaluation rather than edited cache hashes.
+Use `run_hamburg_od_spsa.py --stop-on-unsafe` to stop subsequent SPSA evaluations after a completed evaluation reports collision, teleport or discard.
+Backlogged evaluations remain diagnostic losses; only healthy zero-residual results satisfy calibration acceptance.
+
 The [LSA104 split-fanout diagnosis and complete-window check](../benchmarks/hamburg_ring1_104_split_fanout_20261023_v1/README.md) reproduces a collision with two vehicles.
 An explicit native complete-path candidate retains all roads, turns, curves and signal programs.
 With the declared LSA104 junction-body hold, the same final OD completes the 14400-second run with zero collisions and teleports.

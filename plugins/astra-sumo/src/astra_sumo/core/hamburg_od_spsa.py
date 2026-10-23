@@ -19,6 +19,19 @@ from .road_hierarchy import _path, _paths
 from .spsa import InitialSPSAGainUnavailable, calibrate_spsa
 
 
+def _body_hold_nodes(prepared_dir):
+    path = Path(prepared_dir) / "scenario.json"
+    if not path.exists() and not path.with_name(path.name + ".gz").exists():
+        return ("14398547", "205069138", "18653534")
+    raw = path.read_bytes() if path.exists() else gzip.decompress(path.with_name(path.name + ".gz").read_bytes())
+    scenario = json.loads(raw)
+    nodes = scenario.get("junction_body_hold_nodes", ["14398547", "205069138", "18653534"]) if isinstance(scenario, dict) else None
+    if (not isinstance(nodes, list) or not nodes or any(not isinstance(n, str) or not n or n.strip() != n for n in nodes)
+            or len(set(nodes)) != len(nodes)):
+        raise ValueError("Declare distinct, nonempty junction_body_hold_nodes in scenario.json.")
+    return tuple(nodes)
+
+
 def prepare_hamburg_od_baseline(*, case_dir, audit_dir, output_dir):
     case, audit, out = Path(case_dir).resolve(strict=True), Path(audit_dir).resolve(strict=True), Path(output_dir).resolve()
     if out.exists() or any(p.is_relative_to(out) for p in (case, audit)):
@@ -29,6 +42,10 @@ def prepare_hamburg_od_baseline(*, case_dir, audit_dir, output_dir):
         path = case / "inputs" / name
         raw = path.read_bytes() if path.exists() else gzip.decompress(path.with_name(name + ".gz").read_bytes())
         (out / name).write_bytes(raw)
+    scenario = case / "inputs/scenario.json"
+    if scenario.exists() or scenario.with_name(scenario.name + ".gz").exists():
+        (out / "scenario.json").write_bytes(scenario.read_bytes() if scenario.exists() else
+            gzip.decompress(scenario.with_name(scenario.name + ".gz").read_bytes()))
     checked = json.loads((audit / "audit.json").read_bytes())
     if file_sha256(out / "network.net.xml") != checked["network_sha256"]:
         raise ValueError("The OD audit and baseline network differ.")
@@ -125,12 +142,13 @@ def write_hamburg_od_demand(*, model_file, values, output_dir):
 
 def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary):
     prepared = Path(prepared_dir).resolve(strict=True)
+    body_nodes = _body_hold_nodes(prepared)
     proposal = write_hamburg_od_demand(model_file=prepared / "od-model.json", values=values, output_dir=output_dir)
     native = run_point_detector_demand(net_file=prepared / "network.net.xml", route_file=proposal / "demand.rou.xml",
         e1_additional_file=prepared / "field-loops.add.xml", expected_counts_csv=prepared / "expected-counts.csv",
         output_dir=proposal / "native", end_s=14400, sumo_binary=str(sumo_binary), timeout_seconds=4800,
         signal_program_file=prepared / "control.add.xml", lane_intentions_file=proposal / "lane-intentions.json",
-        junction_body_hold=True, junction_body_hold_nodes=("14398547", "205069138", "18653534"), seed=104)
+        junction_body_hold=True, junction_body_hold_nodes=body_nodes, seed=104)
     rows = read_csv_rows(proposal / "native/field-comparison.csv")
     if (not native["observer_complete"] or len(rows) != 130 or native.get("native_status") != "pass"
             or (native.get("stall_monitor") or {}).get("status") != "completed"):
@@ -162,7 +180,8 @@ def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary):
     return result
 
 
-def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, initial_evaluation_dir=None):
+def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, initial_evaluation_dir=None,
+                        stop_on_unsafe=False):
     """Evaluate only complete native E1 vectors; record unsafe runs as diagnostic losses."""
     prepared, out = Path(prepared_dir).resolve(strict=True), Path(output_dir).resolve()
     if out.exists() or prepared.is_relative_to(out):
@@ -177,11 +196,17 @@ def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, init
         def __init__(self, theta, name):
             self.theta, self.name = theta.tolist(), name
 
+    class UnsafeNativeEvaluation(Exception):
+        def __init__(self, theta, name):
+            self.theta, self.name = theta.tolist(), name
+
     def completed(theta, name, evaluation):
         evaluations.append({"name": name, **evaluation})
         write_json_atomic(out / "evaluations.json", evaluations)
         write_json_atomic(out / "progress.json", {"stage": "native_evaluation_completed", "evaluation": name,
                                                    "completed_iterations": len(history), **evaluation})
+        if stop_on_unsafe and any(evaluation["completion"].get(key, 0) for key in ("collisions", "teleports", "discarded")):
+            raise UnsafeNativeEvaluation(theta, name)
         if evaluation["exact_count_fit"]:
             raise ExactNativeFit(theta, name)
         return evaluation["loss"]
@@ -216,6 +241,10 @@ def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, init
         result = {"theta": reached.theta, "history": history, "stopping_reason": "healthy_native_zero_residual",
                   "final_vector_remeasured": False, "selected_evaluation": reached.name,
                   "claim": "The selected vector already has a complete, healthy native evaluation. No extra replay is needed."}
+    except UnsafeNativeEvaluation as unsafe:
+        result = {"theta": unsafe.theta, "history": history, "stopping_reason": "unsafe_native_evaluation",
+                  "final_vector_remeasured": False, "selected_evaluation": unsafe.name,
+                  "claim": "Stop after a collision, teleport or discard. Preserve all diagnostic losses and raw outputs."}
     except InitialSPSAGainUnavailable as error:
         result = {"theta": initial, "history": history, "stopping_reason": "initial_gain_not_identified",
                   "error": str(error), "final_vector_remeasured": False, "selected_evaluation": "initial"}
@@ -225,7 +254,8 @@ def run_hamburg_od_spsa(*, prepared_dir, output_dir, sumo_binary, settings, init
                            "formal_result": False, "claim": "Preserve all partial native outputs. This is not evidence of infeasibility."})
         raise
     selected = next(row for row in evaluations if row["name"] == result["selected_evaluation"])
-    result.update(formal_result=selected["exact_count_fit"], completed_iterations=len(history),
+    result.update(formal_result=selected["exact_count_fit"] and result["stopping_reason"] != "unsafe_native_evaluation", completed_iterations=len(history),
+                  stop_on_unsafe=stop_on_unsafe,
                   native_evaluations=len(evaluations), evaluations=evaluations,
                   new_native_evaluations=sum(not row.get("reused", False) for row in evaluations),
                   claim_boundary="Unsafe or backlogged loss evaluations are diagnostic. Only a complete healthy selected native evaluation with all 130 exact fields can be accepted. Station values are derived, not independent observations.")

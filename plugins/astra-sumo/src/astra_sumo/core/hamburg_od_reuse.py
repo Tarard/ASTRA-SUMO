@@ -17,7 +17,6 @@ _NATIVE_MODULES = (
     "artifact_io.py", "candidate_contracts.py", "command_runner.py", "detector_demand.py",
     "detector_demand_replay.py", "lane_section_hold.py", "simulation_stall.py",
 )
-_BODY_NODES = ["14398547", "205069138", "18653534"]
 
 
 def _read(path):
@@ -42,9 +41,11 @@ def _native_call_ast(path):
 def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
     """Return fresh E1 metrics and reuse provenance without changing cached evidence."""
     import sumo
+    from .hamburg_od_spsa import _body_hold_nodes
 
     prepared, proposal, cached = (Path(p).resolve(strict=True) for p in
                                    (prepared_dir, proposal_dir, cached_dir))
+    body_nodes = list(_body_hold_nodes(prepared))
     native = cached / "native"
     run = _read(native / "run.json")
     monitor = _read(native / "stall-monitor.json")
@@ -57,12 +58,12 @@ def reuse_hamburg_od_initial(*, prepared_dir, proposal_dir, cached_dir):
             or run.get("measurement_attribute") != "nVehContrib"
             or run.get("driver_treatment") != "local_observation_and_junction_body_hold"
             or run.get("signal_treatment") != "declared_additional_programs"
-            or run.get("junction_body_hold_nodes") != _BODY_NODES or run.get("state_times_s") != []):
+            or run.get("junction_body_hold_nodes") != body_nodes or run.get("state_times_s") != []):
         raise ValueError("The cached native settings differ from the OD objective.")
     request = _read(native / "native-request.json")
     if (request.get("end_s") != 14400 or request.get("all_stopped_timeout_s") != 300
             or request.get("monitor_interval_s") is not None or request.get("junction_body_hold") is not True
-            or request.get("junction_body_hold_nodes") != _BODY_NODES):
+            or request.get("junction_body_hold_nodes") != body_nodes):
         raise ValueError("The cached native driver request differs from the OD objective.")
     command = request["command"]
     for flag, expected in (("--seed", "104"), ("--step-length", "0.1"), ("--end", "14400"),
