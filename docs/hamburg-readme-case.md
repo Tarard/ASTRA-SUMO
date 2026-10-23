@@ -6,6 +6,13 @@ The candidate preserves all ordinary roads, legal turns, complete curves, signal
 The regression retains native speed safety checks. Its measured leader boundary does not establish natural four-vehicle queue formation or field control.
 Count calibration remains incomplete. Intermediate MAE reductions and the historical V1 metric do not satisfy the current 130-field zero-residual goal.
 
+The [complete route and timing comparisons](../benchmarks/hamburg_ring1_route_timing_feedback_20261023_v1/README.md) retain seven native evaluations and all 130/40/182 rows.
+The complete single-connection candidate has field MAE 5.961538, maximum error 32 and zero collisions or teleports.
+It still has 68 waiting and 50 running vehicles. Its derived station MAE is 17.275, so calibration remains incomplete.
+The uncorrected half-route split caused two collisions and is rejected despite its lower error than earlier candidates.
+Four bounded departure batches of 16, 32, 64 and 107 vehicles all worsened native field error and were rejected.
+The unchanged observations, failed candidates and source-bound timing projections remain available. Projection arithmetic alone does not validate traffic response.
+
 The [historical README V1 replay](../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md) now matches all 40 station bins: MAE and maximum error are zero.
 All 5037 vehicles arrive without collisions, teleports, discarded requests or insertion backlog.
 Four departure times change by at most 14 seconds. Observations, routes, network and detector positions remain unchanged.

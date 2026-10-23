@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg calibration: classical sources and method reassessment, 2026-10-23](hamburg-classic-calibration-2026-10-23.md)
 - [Hamburg receiving-queue spillback diagnosis from the completed corridor run, 2026-10-22](../../benchmarks/hamburg_ring1_spillback_diagnosis_20261022_v1/README.md)
 - [Hamburg corridor pruning: 18-source review and current road inventory, 2026-10-22](hamburg-pruning-literature-2026-10-22-v1.md)
 - [Ring1 data-led residual decomposition and localized driver correction, 2026-10-21](ring1-data-led-driver-scope-2026-10-21.md)
@@ -37,6 +38,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg route splits, single-connection full replay and four rejected native timing batches, 2026-10-23](../../benchmarks/hamburg_ring1_route_timing_feedback_20261023_v1/README.md)
 - [Hamburg LSA119 single internal waiting connection: four-vehicle collision reproduction and paired repair, 2026-10-23](../../benchmarks/hamburg_ring1_119_single_split_20261023_v1/README.md)
 - [Historical Hamburg README V1: 40 station entry bins at zero error, with native-count contrast and retained limitations, 2026-10-23](../../benchmarks/hamburg_ring1_readme_v1_zero_20261023_v1/README.md)
 - [Hamburg directed backlog trials and complete native feedback, 2026-10-23](../../benchmarks/hamburg_ring1_directed_backlog_20261023_v1/README.md)

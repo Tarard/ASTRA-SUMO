@@ -1,0 +1,384 @@
+{
+  "formal_result": false,
+  "zero_residual_goal_complete": false,
+  "goal": "All 130 main-window native E1 residuals must equal zero, with safety and completion assessed separately.",
+  "complete_runs": [
+    "z15-residential-full",
+    "z15-half-full",
+    "z15-half-unsplit-full",
+    "timing-01-16",
+    "timing-01-32",
+    "timing-01-64",
+    "timing-01-128"
+  ],
+  "best_safe_diagnostic": "z15-half-unsplit-full",
+  "evaluations": {
+    "z15-residential-full": {
+      "before": {
+        "loss": 27045,
+        "MAE": 9.838461538461539,
+        "max_abs_error": 47,
+        "healthy": false,
+        "station_MAE": 27.575,
+        "station_max_abs_error": 83,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8462,
+          "arrived": 8235,
+          "running": 227,
+          "waiting": 178,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 17306,
+        "MAE": 7.8307692307692305,
+        "max_abs_error": 40,
+        "healthy": false,
+        "station_MAE": 20.7,
+        "station_max_abs_error": 60,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8595,
+          "arrived": 8560,
+          "running": 35,
+          "waiting": 45,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 273.9485360999988,
+      "all182_TAE": 1204,
+      "formal_result": false,
+      "status": "diagnostic_improvement",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Only the 1205 Z15 post-detector tails use the original source residential branch to the same boundary. Z4/Z5 retain the restored primary branch. Route-split sensitivity, not an observed field split."
+    },
+    "z15-half-full": {
+      "before": {
+        "loss": 27045,
+        "MAE": 9.838461538461539,
+        "max_abs_error": 47,
+        "healthy": false,
+        "station_MAE": 27.575,
+        "station_max_abs_error": 83,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8462,
+          "arrived": 8235,
+          "running": 227,
+          "waiting": 178,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 10645,
+        "MAE": 6.2846153846153845,
+        "max_abs_error": 30,
+        "healthy": false,
+        "station_MAE": 18.725,
+        "station_max_abs_error": 51,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8592,
+          "arrived": 8568,
+          "running": 24,
+          "waiting": 48,
+          "teleports": 2,
+          "collisions": 2,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 265.1668343000001,
+      "all182_TAE": 896,
+      "formal_result": false,
+      "status": "rejected",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Only 603 Z15 post-detector tails use the original source residential branch to the same boundary. Other Z15 and all Z4/Z5 retain the restored primary branch. Route-split sensitivity, not an observed field split."
+    },
+    "z15-half-unsplit-full": {
+      "before": {
+        "loss": 10645,
+        "MAE": 6.2846153846153845,
+        "max_abs_error": 30,
+        "healthy": false,
+        "station_MAE": 18.725,
+        "station_max_abs_error": 51,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8592,
+          "arrived": 8568,
+          "running": 24,
+          "waiting": 48,
+          "teleports": 2,
+          "collisions": 2,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 10749,
+        "MAE": 5.961538461538462,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 17.275,
+        "station_max_abs_error": 68,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8572,
+          "arrived": 8522,
+          "running": 50,
+          "waiting": 68,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 261.3473486999992,
+      "all182_TAE": 857,
+      "formal_result": false,
+      "status": "diagnostic_improvement",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Only 603 Z15 post-detector tails use the original source residential branch to the same boundary. Other Z15 and all Z4/Z5 retain the restored primary branch. Route-split sensitivity, not an observed field split."
+    },
+    "timing-01-16": {
+      "before": {
+        "loss": 10749,
+        "MAE": 5.961538461538462,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 17.275,
+        "station_max_abs_error": 68,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8572,
+          "arrived": 8522,
+          "running": 50,
+          "waiting": 68,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 14724,
+        "MAE": 7.276923076923077,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 20.55,
+        "station_max_abs_error": 64,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8553,
+          "arrived": 8533,
+          "running": 20,
+          "waiting": 87,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 297.0795393999997,
+      "all182_TAE": 1028,
+      "formal_result": false,
+      "status": "rejected",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Fresh native evaluation of all130 main fields and40 derived stations. Every52 initialization target is also reported. Count timing proposals do not establish real OD or field SPaT."
+    },
+    "timing-01-32": {
+      "before": {
+        "loss": 10749,
+        "MAE": 5.961538461538462,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 17.275,
+        "station_max_abs_error": 68,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8572,
+          "arrived": 8522,
+          "running": 50,
+          "waiting": 68,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 13030,
+        "MAE": 6.569230769230769,
+        "max_abs_error": 34,
+        "healthy": false,
+        "station_MAE": 18.65,
+        "station_max_abs_error": 60,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8584,
+          "arrived": 8540,
+          "running": 44,
+          "waiting": 56,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 299.2505577000011,
+      "all182_TAE": 936,
+      "formal_result": false,
+      "status": "rejected",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Fresh native evaluation of all130 main fields and40 derived stations. Every52 initialization target is also reported. Count timing proposals do not establish real OD or field SPaT."
+    },
+    "timing-01-64": {
+      "before": {
+        "loss": 10749,
+        "MAE": 5.961538461538462,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 17.275,
+        "station_max_abs_error": 68,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8572,
+          "arrived": 8522,
+          "running": 50,
+          "waiting": 68,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 12397,
+        "MAE": 6.9,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 18.975,
+        "station_max_abs_error": 64,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8549,
+          "arrived": 8477,
+          "running": 72,
+          "waiting": 91,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 315.1617164999989,
+      "all182_TAE": 979,
+      "formal_result": false,
+      "status": "rejected",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Fresh native evaluation of all130 main fields and40 derived stations. Every52 initialization target is also reported. Count timing proposals do not establish real OD or field SPaT."
+    },
+    "timing-01-128": {
+      "before": {
+        "loss": 10749,
+        "MAE": 5.961538461538462,
+        "max_abs_error": 32,
+        "healthy": false,
+        "station_MAE": 17.275,
+        "station_max_abs_error": 68,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8572,
+          "arrived": 8522,
+          "running": 50,
+          "waiting": 68,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 13246,
+        "MAE": 6.723076923076923,
+        "max_abs_error": 30,
+        "healthy": false,
+        "station_MAE": 19.6,
+        "station_max_abs_error": 50,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8605,
+          "arrived": 8542,
+          "running": 63,
+          "waiting": 35,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 321.4644780999988,
+      "all182_TAE": 956,
+      "formal_result": false,
+      "status": "rejected",
+      "zero_residual_goal_complete": false,
+      "claim_boundary": "Fresh native evaluation of all130 main fields and40 derived stations. Every52 initialization target is also reported. Count timing proposals do not establish real OD or field SPaT."
+    }
+  },
+  "primary_reference": "../hamburg_ring1_primary_branch_repair_20261023_v1",
+  "four_vehicle_reference": "../hamburg_ring1_119_single_split_20261023_v1",
+  "claim_boundary": "Route shares are sensitivity inputs. Notification translation scores failed fresh native evaluations. Forty station values are derived."
+}
