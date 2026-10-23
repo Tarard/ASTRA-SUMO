@@ -1,0 +1,182 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "raw_verdict": "rejected",
+    "native_runs_by_freeze": 0,
+    "before": {
+      "metrics130": {
+        "rows": 130,
+        "SSE": 6709,
+        "TAE": 483,
+        "MAE": 3.7153846153846155,
+        "max_abs_error": 27
+      },
+      "metrics52": {
+        "rows": 52,
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "metrics182": {
+        "rows": 182,
+        "SSE": 7714,
+        "TAE": 588,
+        "MAE": 3.230769230769231,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 10.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "safe": true,
+      "healthy": true,
+      "event_count": 8640
+    },
+    "full": {
+      "main130": {
+        "SSE": 8032,
+        "TAE": 512,
+        "MAE": 3.9384615384615387,
+        "max_abs_error": 30
+      },
+      "initial52": {
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "all182": {
+        "SSE": 9037,
+        "TAE": 617,
+        "MAE": 3.39010989010989,
+        "max_abs_error": 30
+      },
+      "station40_MAE": 11.65,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "waiting": 0,
+        "running": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "safe": true,
+      "event_count": 8640,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 31
+    },
+    "all53556": {
+      "rows": 56,
+      "SSE": 0,
+      "TAE": 0,
+      "MAE": 0.0,
+      "max_abs_error": 0
+    },
+    "gates": {
+      "safe": true,
+      "healthy": true,
+      "all53556_zero": true,
+      "no_repeated_vehicle_fields": true,
+      "no_contributions_outside_primary_intention": true,
+      "main130_MAE_improves": false,
+      "main130_SSE_not_worse": false,
+      "all182_TAE_not_worse": false,
+      "changed_vehicle_exactly_one_Z5": true,
+      "changed_vehicle_arrived": true,
+      "changed_vehicle_lane1_hold_and_release": true
+    },
+    "donor_native": {
+      "vehicle_id": "od_0209_v00026",
+      "events": [
+        {
+          "detector_id": "hh_0119_Z_5_30494",
+          "vehicle_id": "od_0209_v00026",
+          "time_s": 9168.660554400429,
+          "notification_time_s": 9168.7,
+          "occupancy_s": 0.68350085414,
+          "interval_begin_s": 9000.0,
+          "interval_end_s": 9900.0
+        }
+      ],
+      "tripinfo": {
+        "id": "od_0209_v00026",
+        "depart": "8327.600",
+        "departLane": "963776077#0_4",
+        "departPos": "5.100000000000",
+        "departSpeed": "13.888889000000",
+        "departDelay": "0.017",
+        "arrival": "9292.400",
+        "arrivalLane": "199500676_1",
+        "arrivalPos": "69.378279000000",
+        "arrivalSpeed": "13.888889000000",
+        "duration": "964.800",
+        "routeLength": "1418.996723000000",
+        "waitingTime": "622.200",
+        "waitingCount": "21",
+        "stopTime": "0.000",
+        "timeLoss": "860.634",
+        "rerouteNo": "0",
+        "devices": "vehroute_od_0209_v00026 tripinfo_od_0209_v00026",
+        "vType": "readme_lane_intent",
+        "speedFactor": "1.000000000000",
+        "vaporized": ""
+      },
+      "lane_section_hold": [
+        {
+          "vehicle_id": "od_0209_v00026",
+          "event": "held",
+          "time_s": 8911.7,
+          "lane": "24483344#1_1",
+          "position_m": 0.06329281689487853,
+          "previous_mode": 1621,
+          "clear_distance_m": 960.5567329999998
+        },
+        {
+          "vehicle_id": "od_0209_v00026",
+          "event": "released",
+          "time_s": 9168.8,
+          "restored_mode": 1621
+        }
+      ]
+    },
+    "scope": {
+      "donor": "od_0209_v00026",
+      "witness": "od_0209_v00027",
+      "only_stop_lane_and_field_changed": true,
+      "unchanged_vehicles": 8639,
+      "all8640_IDs_departures_routes_order_fixed": true,
+      "all294_q_fixed": true,
+      "planned_Z4": 760,
+      "planned_Z5": 624,
+      "route_edges": 19,
+      "legal_lane_chain": 37,
+      "native_candidate_response_not_inferred_from_support": true
+    },
+    "quantity_condition": {
+      "actual_Z4_total": 760,
+      "actual_Z5_total": 624,
+      "actual_Z5_initial": 102,
+      "actual_Z5_main": 450,
+      "actual_Z5_tail": 72,
+      "main_ceiling_with_fixed_initial": 522,
+      "main_target": 522,
+      "ceiling_condition_only": true
+    },
+    "claim_boundary": "One physical stop-lane and field intention variation. Removing a necessary quantity gap does not predict count improvement or identify field lane choice/control. Raw gate verdict is retained; promotion is separate."
+  }
+}

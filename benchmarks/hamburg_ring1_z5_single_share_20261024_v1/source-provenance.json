@@ -1,0 +1,557 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-field-total-bound-20261024-v1\\check_bound.py",
+      "relative": "field-total-bound/check_bound.py",
+      "raw_bytes": 4285,
+      "raw_sha256": "b05ae7c39679d4e30a0dc1df3233c693d2d08a08b7bcfd2f9a349128aaa6050f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-field-total-bound-20261024-v1\\fields13.csv",
+      "relative": "field-total-bound/fields13.csv",
+      "raw_bytes": 749,
+      "raw_sha256": "8aae91c3f9d13534192f5887d6f4a0aa1a86cb23dd30c93cf22fdd2e9583d75a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-field-total-bound-20261024-v1\\manifest.json",
+      "relative": "field-total-bound/manifest.json",
+      "raw_bytes": 502,
+      "raw_sha256": "d9d51057bb60b392c8aab78eef5acf1b8a8024f1c713a0c123f493aa401d8ef7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-field-total-bound-20261024-v1\\results.json",
+      "relative": "field-total-bound/results.json",
+      "raw_bytes": 6788,
+      "raw_sha256": "4ef0575eff46784e7aee6983294f0e2f34c3db437ad4fc40e242173512432901"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-z5-share-support-20261024-v1\\helper-attempt.json",
+      "relative": "helper-failure/helper-attempt.json",
+      "raw_bytes": 1108,
+      "raw_sha256": "265ace9751d31997901766046bbfe3ae513e8a7efde0fb7f1dd41772bc08a186"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-z5-share-support-20261024-v1\\manifest.json",
+      "relative": "helper-failure/manifest.json",
+      "raw_bytes": 182,
+      "raw_sha256": "02ee083390f93df10088b0272f01bdea67b2371e9ec241b9d94761e6f6a6a84f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\after-130.csv",
+      "relative": "independent/after-130.csv",
+      "raw_bytes": 7872,
+      "raw_sha256": "4016becca2c1aea76b10dd67dbe66de493213a9872dd3ef06e51dbd2e9266597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\after-182.csv",
+      "relative": "independent/after-182.csv",
+      "raw_bytes": 10856,
+      "raw_sha256": "cf0853b800dff07034886c424332217aabb2261482ac6da1acce75b1e05a855e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\after-40.csv",
+      "relative": "independent/after-40.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "0045501e01051e62a93c29c8db213e5a40d3f178cae7fb4075c04b5080b45871"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\after-52.csv",
+      "relative": "independent/after-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\audit_completed.py",
+      "relative": "independent/audit_completed.py",
+      "raw_bytes": 9698,
+      "raw_sha256": "09ef1a404a556cbc3620f381dd3f059b690d2379e073e5b2407112a4d5a81829"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\before-130.csv",
+      "relative": "independent/before-130.csv",
+      "raw_bytes": 7876,
+      "raw_sha256": "c64bd971832dbfffd5894e7c6614d15ec08e597008adfe15ddb912611f14b877"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\before-182.csv",
+      "relative": "independent/before-182.csv",
+      "raw_bytes": 10860,
+      "raw_sha256": "305b6e208f238483f61adfb043cb6faf1542e687880e14ffbad4a4a9b16881f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\before-40.csv",
+      "relative": "independent/before-40.csv",
+      "raw_bytes": 1608,
+      "raw_sha256": "52e99db4974fbf05c1ef441db3e638714e3db027c4a09da08eccaee8c833849b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\before-52.csv",
+      "relative": "independent/before-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\changed-vehicle-independent.json",
+      "relative": "independent/changed-vehicle-independent.json",
+      "raw_bytes": 2535,
+      "raw_sha256": "9fab3d95f44dbe6481549570fbe0f538dddf20c7fabc1b56e31ccfc50d7ea9c0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\field13-response.csv",
+      "relative": "independent/field13-response.csv",
+      "raw_bytes": 545,
+      "raw_sha256": "08c8fb7cfa6f6aaca67a42db824c7a4cb04b3af195549d29c0e1802ae4367b03"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\input-scope.json",
+      "relative": "independent/input-scope.json",
+      "raw_bytes": 1744,
+      "raw_sha256": "12187e1ba41eb48e89b601bde7e976af75c1a95e30d76adee98db3152ec32a4f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\inspect_input.py",
+      "relative": "independent/inspect_input.py",
+      "raw_bytes": 6579,
+      "raw_sha256": "25a9e932ccf22d3c83cbc3a525f054747c47a14e10fb3003b650efe8c5cbbf85"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\manifest.json",
+      "relative": "independent/manifest.json",
+      "raw_bytes": 3246,
+      "raw_sha256": "4a39efb6e33424537283adf5c18763283be328a7a7816bdd9daf580146149580"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\native-stop-mechanism.json",
+      "relative": "independent/native-stop-mechanism.json",
+      "raw_bytes": 1841,
+      "raw_sha256": "3ce094e2ba292b6bd16e158aaad3f53d8c51c9b7376af5ef816fd2e4ee1c4bc9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\native208-cohort-accounting.csv",
+      "relative": "independent/native208-cohort-accounting.csv",
+      "raw_bytes": 9596,
+      "raw_sha256": "e042ddc9507b17ff96dcdf17c294d74c9c54aba2418653d68231ae9fef14500a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\README.md",
+      "relative": "independent/README.md",
+      "raw_bytes": 3603,
+      "raw_sha256": "7cadca2a2b6ae6d72a8f181cd438995d25b380b2955fcd8cc824877240cd3803"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\source-support\\manifest.json",
+      "relative": "independent/source-support/manifest.json",
+      "raw_bytes": 220,
+      "raw_sha256": "c5be6bc58bb642a230a606fe643b545d94da72d7ef81862d82dee057bb700353"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\source-support\\source-proof.json",
+      "relative": "independent/source-support/source-proof.json",
+      "raw_bytes": 31525,
+      "raw_sha256": "1431ae3d60836679ad7008a827dd4ffaf08bc5c9ce9c375fd0b7c11394feedaf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\summary.json",
+      "relative": "independent/summary.json",
+      "raw_bytes": 16444,
+      "raw_sha256": "73fd9bcd0774d2b40286eb2be968d72c72c821eef85861025b9b703007bd1255"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\independent\\terminal-unfinished-inputs-and-events.csv",
+      "relative": "independent/terminal-unfinished-inputs-and-events.csv",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\changed-vehicle-native.json",
+      "relative": "one-share/changed-vehicle-native.json",
+      "raw_bytes": 1479,
+      "raw_sha256": "91f91d62e4b5a2a0b49f9e5be766bac87756d58f5c89e7acca93640b843ba90e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\535-all56.csv",
+      "relative": "one-share/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\all182-comparison.csv",
+      "relative": "one-share/evaluation/all182-comparison.csv",
+      "raw_bytes": 10856,
+      "raw_sha256": "cf0853b800dff07034886c424332217aabb2261482ac6da1acce75b1e05a855e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\contributing-passages.json.gz",
+      "relative": "one-share/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 173010,
+      "raw_sha256": "bfdcfd9433518e20a663566234a4df5c0f3b018497bd90dbf0ae102b3a28db08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\demand.rou.xml",
+      "relative": "one-share/evaluation/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\evaluation.json",
+      "relative": "one-share/evaluation/evaluation.json",
+      "raw_bytes": 453,
+      "raw_sha256": "ec4a68e9ca86fbfb46807739080f6232380076d3a180fc39f98c85effefeaa58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\initialization52-comparison.csv",
+      "relative": "one-share/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\lane-intentions.json",
+      "relative": "one-share/evaluation/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\collisions.xml",
+      "relative": "one-share/evaluation/native/collisions.xml",
+      "raw_bytes": 3223,
+      "raw_sha256": "65fc3dfa49fe0db7d5b9d82696af533a7b22c49dc2f16abc3310b8d75136138a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\command.json",
+      "relative": "one-share/evaluation/native/command.json",
+      "raw_bytes": 5665,
+      "raw_sha256": "896ec7d444381c4956110f523b451d063f7b5e5155f3191b79a2606b8d159ab4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\demand.rou.xml",
+      "relative": "one-share/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\e1.add.xml",
+      "relative": "one-share/evaluation/native/e1.add.xml",
+      "raw_bytes": 3576,
+      "raw_sha256": "040991e860e093ed24e55fc289077f4ce6443358d97bdb46923829623face017"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\expected-counts.csv",
+      "relative": "one-share/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\field-comparison.csv",
+      "relative": "one-share/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7872,
+      "raw_sha256": "4016becca2c1aea76b10dd67dbe66de493213a9872dd3ef06e51dbd2e9266597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\field-counts.xml",
+      "relative": "one-share/evaluation/native/field-counts.xml",
+      "raw_bytes": 53042,
+      "raw_sha256": "160261af13aba2463b2889c4bb2e828774cd4717fe31a49d90c927b5502a35e7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\instant.add.xml",
+      "relative": "one-share/evaluation/native/instant.add.xml",
+      "raw_bytes": 3052,
+      "raw_sha256": "8651029aa4fd463aeb485c554b999a582a34214ac889442c94b85b730ba1dd8b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\lane-intentions.json",
+      "relative": "one-share/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\native-request.json",
+      "relative": "one-share/evaluation/native/native-request.json",
+      "raw_bytes": 3722,
+      "raw_sha256": "e3eed792e524f8f3b3dcbefe352046876e08c8579c7b53f8a18c5dce3468577b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\network.net.xml",
+      "relative": "one-share/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\run.json",
+      "relative": "one-share/evaluation/native/run.json",
+      "raw_bytes": 6309289,
+      "raw_sha256": "5276d290dfeff5497d5072a17a0af5dfb3295630a7a172e718892183c16abc4d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "one-share/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\source-e1.add.xml",
+      "relative": "one-share/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\stall-monitor.json",
+      "relative": "one-share/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5853744,
+      "raw_sha256": "2b77511f25cb1a6ca109f4c971d5bb1994f8eae57bffd9f99788956b5a38a7b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\summary.xml",
+      "relative": "one-share/evaluation/native/summary.xml",
+      "raw_bytes": 46723471,
+      "raw_sha256": "df7f71a89b0ff479aecffd7a7deab5d474ee774d3b1df9677acf328a79898d20"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\sumo-errors.log",
+      "relative": "one-share/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3489,
+      "raw_sha256": "ab101004fb3b9096732f14ab93fd96944a986b0365e1fb4bff12ddef6b702789"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\sumo.log",
+      "relative": "one-share/evaluation/native/sumo.log",
+      "raw_bytes": 5021,
+      "raw_sha256": "bc6c5de886a4f11a126efd80bf8a37e116d6af1e75740005c564d2ef01a7c370"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\tripinfo.xml",
+      "relative": "one-share/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4574679,
+      "raw_sha256": "30b821744f156dadf01536c88f8f1c01b4819924f725d2649a46114c6f8c1ff2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "one-share/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6540036,
+      "raw_sha256": "4ee68f81644422811e9632f3eb7651ceb8b6209ce2f3e4aa7379c51bc39e236a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native208-comparison.csv",
+      "relative": "one-share/evaluation/native208-comparison.csv",
+      "raw_bytes": 25158,
+      "raw_sha256": "1a078e990b9fc574c63546b832ad9d7206743577e54893af2ba443bc8fa73200"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\od-vector.json",
+      "relative": "one-share/evaluation/od-vector.json",
+      "raw_bytes": 5254,
+      "raw_sha256": "fe6bf1fe9b0ab372bcc846977100ae25faf0a2baa0fa26ee91ceb2946f3a2b3e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\station-comparison.csv",
+      "relative": "one-share/evaluation/station-comparison.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "0045501e01051e62a93c29c8db213e5a40d3f178cae7fb4075c04b5080b45871"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\executed-driver.py",
+      "relative": "one-share/executed-driver.py",
+      "raw_bytes": 9749,
+      "raw_sha256": "a7200c3c10e4cad3960158227b5ac3ef748941d089a6f796edf3a1b6cfc97c43"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\executed-prepare.py",
+      "relative": "one-share/executed-prepare.py",
+      "raw_bytes": 5487,
+      "raw_sha256": "65f878929ad12957499d1a5affa301a0b34801e1eaae9d39e699d60a6b0553a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\generation-audit.json",
+      "relative": "one-share/generation-audit.json",
+      "raw_bytes": 824,
+      "raw_sha256": "b96af235ddb25ef01b828c7d2c7b8e5e993f385428b4de1c11a6b3e6ed5fc685"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\artifact_io.py",
+      "relative": "one-share/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\candidate_contracts.py",
+      "relative": "one-share/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\command_runner.py",
+      "relative": "one-share/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\detector_demand.py",
+      "relative": "one-share/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\detector_demand_replay.py",
+      "relative": "one-share/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\hamburg_197_through_support.py",
+      "relative": "one-share/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\hamburg_od_spsa.py",
+      "relative": "one-share/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\lane_section_hold.py",
+      "relative": "one-share/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\route_sensor_matrix.py",
+      "relative": "one-share/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\implementation\\simulation_stall.py",
+      "relative": "one-share/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\od-vector.json",
+      "relative": "one-share/od-vector.json",
+      "raw_bytes": 5254,
+      "raw_sha256": "fe6bf1fe9b0ab372bcc846977100ae25faf0a2baa0fa26ee91ceb2946f3a2b3e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\preflight.json",
+      "relative": "one-share/preflight.json",
+      "raw_bytes": 3946,
+      "raw_sha256": "f5694e04803f585aa1a889b44199720dbb7b94564dfdd289fa0efc03a979ea9c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "relative": "one-share/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "relative": "one-share/prepared/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "relative": "one-share/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "relative": "one-share/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "relative": "one-share/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "relative": "one-share/prepared/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "relative": "one-share/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "relative": "one-share/prepared/scenario.json",
+      "raw_bytes": 4157,
+      "raw_sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\scope-proof.json",
+      "relative": "one-share/scope-proof.json",
+      "raw_bytes": 4264,
+      "raw_sha256": "d6bc6344b18219948145a7daedb40c6057d35c9d6e7c1014647bc5613e5427f3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\verdict.json",
+      "relative": "one-share/verdict.json",
+      "raw_bytes": 2666,
+      "raw_sha256": "93e14f74ade152f970fcd98f843cfd84d9e9b91d04bbe1964e7cd3a3a078f4ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z4-z5-stock-lineage-20261024-v1\\check_lineage.py",
+      "relative": "stock-lineage/check_lineage.py",
+      "raw_bytes": 5947,
+      "raw_sha256": "27417fa8dbe2fa09e490c10e848492df117c1b9e708874b6c99eb75dd2e65931"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z4-z5-stock-lineage-20261024-v1\\fields13-lineage.csv",
+      "relative": "stock-lineage/fields13-lineage.csv",
+      "raw_bytes": 649,
+      "raw_sha256": "e29ac051364029fe98bfc269dfd92ca5338ecd6ca71bd096cd03db17dbf4e5b7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z4-z5-stock-lineage-20261024-v1\\lineage.json",
+      "relative": "stock-lineage/lineage.json",
+      "raw_bytes": 11859,
+      "raw_sha256": "e8ea450a57de64fba0758b576c9929e85e4198ecd3c9501b5537e08fbcf81ed0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z4-z5-stock-lineage-20261024-v1\\manifest.json",
+      "relative": "stock-lineage/manifest.json",
+      "raw_bytes": 513,
+      "raw_sha256": "c43437bddc721affd16993ff5122709185e73e1440ec5b8d6a8dea4186ec69a4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\check-only.json",
+      "relative": "study-source/check-only.json",
+      "raw_bytes": 4003,
+      "raw_sha256": "f62462c6ee20b0052c8a7c6c6ddb52025d82e9a70cf7dbb3a99f1272f6693bbb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share.execution.log",
+      "relative": "study-source/one-share.execution.log",
+      "raw_bytes": 2069,
+      "raw_sha256": "199d307884ad22c8db61d864ac42d76446e992b226212bb103f5832027c066b5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\prepare.py",
+      "relative": "study-source/prepare.py",
+      "raw_bytes": 5487,
+      "raw_sha256": "65f878929ad12957499d1a5affa301a0b34801e1eaae9d39e699d60a6b0553a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\run_candidate.py",
+      "relative": "study-source/run_candidate.py",
+      "raw_bytes": 9749,
+      "raw_sha256": "a7200c3c10e4cad3960158227b5ac3ef748941d089a6f796edf3a1b6cfc97c43"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\runner-reuse.json",
+      "relative": "study-source/runner-reuse.json",
+      "raw_bytes": 1312,
+      "raw_sha256": "50141f64a315359810936a92f04d3f5800fa03093c158ca70bd7addfb7257b5e"
+    }
+  ],
+  "source_files_unchanged": true
+}

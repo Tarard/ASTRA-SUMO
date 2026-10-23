@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg single legal Z4-to-Z5 share change, healthy execution and count regression, 2026-10-24](../../benchmarks/hamburg_ring1_z5_single_share_20261024_v1/README.md)
 - [Hamburg same-OD stable-request realization and conditional field-total bound, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/README.md)
 - [Hamburg bounded joint OD proposal and rejected native response, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_joint_od_feedback_20261024_v1/README.md)
 - [Hamburg fixed simulated-history reference and one-car comparison, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_z4_fixed_history_20261024_v1/README.md)
