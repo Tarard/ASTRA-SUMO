@@ -37,6 +37,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg authorized five-round extension: LSA119 safety stop after two evaluations, 2026-10-23](../../benchmarks/hamburg_ring1_od_spsa_five_rounds_20261023_v1/README.md)
 - [Hamburg LSA104 split-fanout collision diagnosis and complete-window comparison, 2026-10-23](../../benchmarks/hamburg_ring1_104_split_fanout_20261023_v1/README.md)
 
 - [Hamburg OD definition and standard SPSA method check, 2026-10-22](hamburg-spsa-od-method-2026-10-22-v1.md)

@@ -1,0 +1,50 @@
+{
+  "settings": {
+    "a": null,
+    "initial_step": 1.0,
+    "A": 0.0,
+    "c": 2.0,
+    "alpha": 0.602,
+    "gamma": 0.101,
+    "iterations": 5,
+    "seed": 104
+  },
+  "initial_vehicle_count": 8622,
+  "baseline_expected_diagnostic_MAE": 17.76153846153846,
+  "baseline_expected_SSE": 87009,
+  "body_nodes": [
+    "14398547",
+    "205069138",
+    "18653534",
+    "LSA104_part0"
+  ],
+  "fixed_inputs": [
+    {
+      "name": "demand.rou.xml",
+      "identical_to_final": true,
+      "sha256": "d30167f7a068ebebe7f9f98a7293e61b61abfb6d6c2687618fb9fa20aaa4f3e0"
+    },
+    {
+      "name": "lane-intentions.json",
+      "identical_to_final": true,
+      "sha256": "e998126cb5eff7ca79529fce94105a721440cf696f094030c4856006f4514cfb"
+    },
+    {
+      "name": "source-e1.add.xml",
+      "identical_to_final": true,
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "name": "signal-programs.add.xml",
+      "identical_to_final": true,
+      "sha256": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d"
+    },
+    {
+      "name": "expected-counts.csv",
+      "identical_to_final": true,
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    }
+  ],
+  "stop_on_unsafe": true,
+  "max_new_evaluations": 12
+}

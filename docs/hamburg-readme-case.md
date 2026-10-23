@@ -1,5 +1,10 @@
 # Hamburg case shown in the README
 
+The [authorized five-round extension](../benchmarks/hamburg_ring1_od_spsa_five_rounds_20261023_v1/README.md) stopped after two complete native evaluations and zero updates.
+Its first positive perturbation reduced diagnostic field MAE from 17.761538 to 17.2, but caused one junction collision and teleport at `:LSA119_part0_10_1`.
+The safety guard prevented the negative perturbation and later rounds. Neither evaluation is accepted.
+All 130 field and 40 derived station rows remain available, together with read-only baseline entry and passage-time attribution.
+
 The OD SPSA runner reads declared `junction_body_hold_nodes` from the prepared `scenario.json` (or `.json.gz`).
 This preserves the LSA104 driver assumption when evaluating a repaired network. Preparations without that field retain the historical three-node default.
 Cached native records must match the declared scope. A changed native call still requires a fresh evaluation rather than edited cache hashes.

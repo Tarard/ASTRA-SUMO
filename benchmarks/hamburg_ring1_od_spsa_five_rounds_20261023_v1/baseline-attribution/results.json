@@ -1,0 +1,95 @@
+{
+  "new_simulations": 0,
+  "counts_reconciled_with_native_E1": true,
+  "all_130_counts_reconstructed": true,
+  "totals": {
+    "requested_vehicles": 8622,
+    "inserted_vehicles": 7140,
+    "not_inserted_vehicles": 1482,
+    "inserted_without_complete_passage": 343,
+    "vehicles_with_observed_window_passage": 4434,
+    "vehicles_with_only_outside_window_passage": 2363,
+    "observed_window_passages": 4434,
+    "outside_window_passages": 2363
+  },
+  "sampled_OD_departure_cells": 293,
+  "zero_observed_response_cells": 130,
+  "field_deficit": 2281,
+  "field_surplus": 28,
+  "maximum_timing_only_absolute_error_reduction_under_frozen_passages": 56,
+  "top_entry_backlogs": [
+    {
+      "entry": "44532531",
+      "requested": 3600,
+      "not_inserted": 529,
+      "arrived_without_any_complete_field_passage": 0
+    },
+    {
+      "entry": "61578529#1",
+      "requested": 393,
+      "not_inserted": 263,
+      "arrived_without_any_complete_field_passage": 0
+    },
+    {
+      "entry": "189764301",
+      "requested": 802,
+      "not_inserted": 201,
+      "arrived_without_any_complete_field_passage": 0
+    },
+    {
+      "entry": "-983227468#1",
+      "requested": 332,
+      "not_inserted": 197,
+      "arrived_without_any_complete_field_passage": 0
+    },
+    {
+      "entry": "963776077#0",
+      "requested": 1069,
+      "not_inserted": 117,
+      "arrived_without_any_complete_field_passage": 0
+    }
+  ],
+  "top_field_deficits": [
+    {
+      "field": "hh_0119_Z_15_29375",
+      "expected": 896,
+      "measured": 376,
+      "deficit": 520,
+      "surplus": 0,
+      "maximum_same_total_timing_correction_under_frozen_passages": 0
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "expected": 1346,
+      "measured": 947,
+      "deficit": 399,
+      "surplus": 0,
+      "maximum_same_total_timing_correction_under_frozen_passages": 0
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "expected": 600,
+      "measured": 224,
+      "deficit": 376,
+      "surplus": 0,
+      "maximum_same_total_timing_correction_under_frozen_passages": 0
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "expected": 1160,
+      "measured": 815,
+      "deficit": 349,
+      "surplus": 4,
+      "maximum_same_total_timing_correction_under_frozen_passages": 8
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "expected": 390,
+      "measured": 230,
+      "deficit": 160,
+      "surplus": 0,
+      "maximum_same_total_timing_correction_under_frozen_passages": 0
+    }
+  ],
+  "claim_boundary": "Same-run attribution, not causal sensitivities. Frozen passages cannot predict changed queues. A guided demand candidate still needs fresh native measurement."
+}

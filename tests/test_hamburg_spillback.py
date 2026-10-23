@@ -1,3 +1,4 @@
+import builtins
 import xml.etree.ElementTree as ET
 
 import numpy as np
@@ -30,7 +31,15 @@ def test_static_green_uses_phase_boundaries_and_does_not_call_dark_green():
     assert not static_green(program, [1], np.arange(5.)).any()
 
 
-def test_no_spillback_episodes_need_no_example_plot(tmp_path):
+def test_no_spillback_episodes_need_no_example_plot(tmp_path, monkeypatch):
+    original_import = builtins.__import__
+
+    def without_plotting(name, *args, **kwargs):
+        if name == 'matplotlib' or name.startswith('matplotlib.'):
+            raise ModuleNotFoundError('Plotting is an optional dependency.')
+        return original_import(name, *args, **kwargs)
+
+    monkeypatch.setattr(builtins, '__import__', without_plotting)
     (tmp_path/'report.json').write_text('{"fields": [], "first_collision_s": 14400}')
     assert plot_hamburg_spillback(tmp_path) is None
     assert not (tmp_path/'spillback-examples.png').exists()

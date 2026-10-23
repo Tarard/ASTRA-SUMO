@@ -193,10 +193,6 @@ def analyze_hamburg_spillback(*, case_dir, output_dir):
 
 def plot_hamburg_spillback(output_dir):
     """Show the longest zero-contribution example before the first collision per affected field."""
-    import matplotlib
-    matplotlib.use('Agg')
-    import matplotlib.pyplot as plt
-
     out = Path(output_dir)
     if (out / 'spillback-examples.png').exists():
         raise ValueError('Keep the existing figure and use a new analysis directory.')
@@ -214,6 +210,10 @@ def plot_hamburg_spillback(output_dir):
             selected.append(max(candidates, key=lambda row: float(row['duration_s'])))
     if not selected:
         return None
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.pyplot as plt
+
     figure, axes = plt.subplots(len(selected), 1, figsize=(12, 3 * len(selected)), squeeze=False, constrained_layout=True)
     for ax, episode in zip(axes.flat, selected):
         field, begin, end = episode['detector_id'], float(episode['begin_s']), float(episode['end_s'])
