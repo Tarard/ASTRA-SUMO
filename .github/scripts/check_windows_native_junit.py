@@ -35,6 +35,7 @@ REQUIRED = {
     "test_native_detector_position_roundtrip_uses_logical_scale": 1,
     "test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints": 1,
     "test_native_point_detector_demand_replay_keeps_inputs_and_counts": 1,
+    "test_native_libsumo_matches_socket_replay_with_lane_holds": 1,
     "test_native_real_entry_context_supports_stopped_vehicle_bodies": 1,
     "test_native_hamburg_split_sibling_continuations_reproduce_then_clear_without_road_changes": 1,
     "test_native_hamburg_stopped_left_turn_reproduces_then_clears_with_forward_straights": 1,

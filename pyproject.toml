@@ -31,7 +31,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-native = ["eclipse-sumo==1.27.1; platform_system == 'Windows'"]
+native = [
+  "eclipse-sumo==1.27.1; platform_system == 'Windows'",
+  "libsumo==1.27.1; platform_system == 'Windows'",
+]
 reports = ["matplotlib>=3.8,<4"]
 dev = [
   "pytest>=8.0",

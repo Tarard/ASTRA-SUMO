@@ -61,6 +61,34 @@ def test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path,mo
     assert float(state.get("time")) == 5 and state.find("vehicle[@id='v']") is not None
 
 
+def test_native_libsumo_matches_socket_replay_with_lane_holds(tmp_path):
+    pytest.importorskip("libsumo")
+    test_native_point_detector_demand_replay_keeps_inputs_and_counts(tmp_path, None, True, True, ("b",))
+    original = tmp_path / "replay"
+    result = run_point_detector_demand(net_file=tmp_path / "network.xml", route_file=tmp_path / "routes.xml",
+        e1_additional_file=tmp_path / "loops.xml", expected_counts_csv=tmp_path / "expected.csv",
+        output_dir=tmp_path / "libsumo", end_s=60, sumo_binary=shutil.which("sumo"),
+        lane_intentions_file=tmp_path / "intentions.json", junction_body_hold=True,
+        junction_body_hold_nodes=("b",), backend="libsumo")
+    assert result["healthy"] and result["exact_count_fit"], result
+    monitor = result["stall_monitor"]
+    assert monitor["backend"] == "libsumo" and Path(monitor["native_library"]["path"]).is_file()
+    assert "--remote-port" not in monitor["command"]
+    assert monitor["lane_section_hold"] == json.loads((original / "stall-monitor.json").read_bytes())["lane_section_hold"]
+    for name, tag in (("field-counts.xml", "interval"), ("vehicle-routes.xml", "vehicle"), ("tripinfo.xml", "tripinfo")):
+        before = [ET.tostring(r) for r in ET.parse(original / name).getroot().findall(tag)]
+        after = [ET.tostring(r) for r in ET.parse(tmp_path / "libsumo" / name).getroot().findall(tag)]
+        assert before == after, name
+
+
+def test_unknown_backend_stops_before_creating_a_replay(tmp_path):
+    with pytest.raises(ValueError, match="traci or libsumo"):
+        run_point_detector_demand(net_file=tmp_path / "unused", route_file=tmp_path / "unused",
+            e1_additional_file=tmp_path / "unused", expected_counts_csv=tmp_path / "unused",
+            output_dir=tmp_path / "out", end_s=60, backend="unknown")
+    assert not (tmp_path / "out").exists()
+
+
 @pytest.mark.parametrize("times", [(-1,), (60,), (float("nan"),), (5, 5)])
 def test_state_snapshots_require_distinct_times_within_the_run(tmp_path, times):
     with pytest.raises(ValueError, match="State times"):
@@ -79,7 +107,10 @@ def test_standstill_limit_must_be_positive_and_finite(tmp_path, limit):
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO programs required")
 @pytest.mark.parametrize("stop_duration", [2, 100])
-def test_native_all_stopped_limit_retains_diagnostics_and_does_not_accept_a_fit(tmp_path, stop_duration):
+@pytest.mark.parametrize("backend", ["traci", "libsumo"])
+def test_native_all_stopped_limit_retains_diagnostics_and_does_not_accept_a_fit(tmp_path, stop_duration, backend):
+    if backend == "libsumo":
+        pytest.importorskip("libsumo")
     nodes, edges, network, routes, loops, expected = [tmp_path / name for name in
         ("nodes.xml", "edges.xml", "network.xml", "routes.xml", "loops.xml", "expected.csv")]
     nodes.write_text('<nodes><node id="a" x="0" y="0"/><node id="b" x="100" y="0"/></nodes>', encoding="utf-8")
@@ -93,7 +124,7 @@ def test_native_all_stopped_limit_retains_diagnostics_and_does_not_accept_a_fit(
     output = tmp_path / "replay"
     result = run_point_detector_demand(net_file=network, route_file=routes, e1_additional_file=loops,
         expected_counts_csv=expected, output_dir=output, end_s=60, sumo_binary=shutil.which("sumo"),
-        all_stopped_timeout_s=3)
+        all_stopped_timeout_s=3, backend=backend)
     monitor = result["stall_monitor"]
     if stop_duration == 2:
         assert result["healthy"] and monitor["status"] == "completed", result

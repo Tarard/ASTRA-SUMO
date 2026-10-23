@@ -1,0 +1,40 @@
+{
+  "python": "3.12.13 (main, Apr 14 2026, 14:31:26) [MSC v.1944 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe",
+  "versions": {
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "eclipse-sumo": "1.27.1",
+    "sumolib": "1.27.1",
+    "traci": "1.27.1",
+    "libsumo": "1.27.1"
+  },
+  "modules": {
+    "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py",
+    "libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\__init__.py",
+    "libsumo._libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\_libsumo.pyd"
+  },
+  "traffic_inputs_sha256": {
+    "network.net.xml": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+    "demand.rou.xml": "2c2c3ec9e624f86193405e0d14b003850a910b93b9ec45d769dcc78427c04910",
+    "source-e1.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "signal-programs.add.xml": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d",
+    "lane-intentions.json": "0b142847c59748b37df5125ec166f6ce9f7ac5dceb3c705f55512fb68bac9d6a"
+  },
+  "driver_sha256": {
+    "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+    "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+    "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "hamburg_od_spsa.py": "c64cbe5d62aa08c8feea5a386ac8158e6d5c20c020d8537e0ae8ce153c9fca95"
+  },
+  "native_library": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\_libsumo.pyd",
+    "sha256": "b7fec284bf60e07fd6b10d2b58547530f13a83e34ff39aa0facb20a4bad6036e"
+  },
+  "sumo_executable_launched": false,
+  "native_engine": "libsumo._libsumo",
+  "case_source_commit": "d2a9d5e3084f34f5ad5f86f636b72e99a0717d4c",
+  "source_driver_modified": true
+}

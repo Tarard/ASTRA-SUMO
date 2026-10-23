@@ -71,12 +71,15 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
                               monitor_interval_s: float | None = None,
                               lane_intentions_file: Path | None = None,
                               junction_body_hold: bool = False,
-                              junction_body_hold_nodes: tuple[str, ...] | None = None) -> dict:
+                              junction_body_hold_nodes: tuple[str, ...] | None = None,
+                              backend: str = "traci") -> dict:
     """Measure every declared field bin without requiring historical signal events.
 
     The network supplies control. Instantaneous identities are simulator
     instrumentation for offline proposals, not information from field sensors.
     """
+    if backend not in {"traci", "libsumo"}:
+        raise ValueError("Use the traci or libsumo backend.")
     if (not all(math.isfinite(value) and value > 0 for value in (end_s, step_length, timeout_seconds, all_stopped_timeout_s))
             or not isinstance(seed, int) or isinstance(seed, bool) or seed < 0):
         raise ValueError("Use positive finite simulation limits and a nonnegative integer seed.")
@@ -163,7 +166,7 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
             "--save-state.prefix", str(output_dir / "states/state"), "--save-state.suffix", ".xml.gz",
             "--save-state.rng", "true", "--save-state.precision", "12"])
     report = {"schema": "astra.point-detector-demand-replay/v1", "status": "running", "inputs": inputs,
-        "snapshots": snapshots, "seed": seed, "step_length_s": step_length, "end_s": end_s,
+        "snapshots": snapshots, "seed": seed, "step_length_s": step_length, "end_s": end_s, "backend": backend,
         "vehicle_count": len(vehicles), "measurement_attribute": "nVehContrib", "instant_to_periodic_ids": mapping,
         "signal_treatment": "declared_additional_programs" if signal_program_file is not None else "network_programs_unchanged", "formal_result": False, "errors": [],
         "driver_treatment": "local_observation_lane_hold" if lane_intentions_file is not None else "route_file_only",
@@ -178,7 +181,7 @@ def run_point_detector_demand(*, net_file: Path, route_file: Path, e1_additional
     write_json_atomic(output_dir / "run.json", report)
     monitor_file = output_dir / "stall-monitor.json"
     request_file = output_dir / "native-request.json"
-    write_json_atomic(request_file, {"command": command, "end_s": end_s,
+    write_json_atomic(request_file, {"command": command, "end_s": end_s, "backend": backend,
         "all_stopped_timeout_s": all_stopped_timeout_s, "monitor_file": str(monitor_file),
         "monitor_interval_s": monitor_interval_s,
         "lane_intentions_file": str(output_dir / names[-1]) if lane_intentions_file is not None else None,

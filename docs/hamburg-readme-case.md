@@ -1,5 +1,9 @@
 # Hamburg case shown in the README
 
+The [complete Libsumo correspondence check](../benchmarks/hamburg_ring1_libsumo_parity_20261023_v1/README.md) reduces native duration from 958.258 to 547.051 seconds at the same 0.1-second step.
+All 130 field counts, 40 derived station values and per-vehicle traffic records agree. Same-step records for different vehicles can have a different list order.
+This single pair measures a 1.75-fold speed increase. Diagnostic MAE remains 16.730769, with 1381 waiting and 409 running vehicles, so calibration is still incomplete.
+
 The [two directed OD timing checks](../benchmarks/hamburg_ring1_directed_od_time_20261023_v1/README.md) are complete and rejected.
 Their native field MAEs are 16.923077 and 17.046154 against the retained repaired baseline's 16.730769.
 Both have zero collisions and teleports, but remain backlogged. All 130 field and 40 derived station rows, including other-field losses, are retained.

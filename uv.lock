@@ -71,6 +71,7 @@ dev = [
 ]
 native = [
     { name = "eclipse-sumo", marker = "sys_platform == 'win32'" },
+    { name = "libsumo", marker = "sys_platform == 'win32'" },
 ]
 reports = [
     { name = "matplotlib" },
@@ -80,6 +81,7 @@ reports = [
 requires-dist = [
     { name = "anyio", specifier = ">=4.0" },
     { name = "eclipse-sumo", marker = "sys_platform == 'win32' and extra == 'native'", specifier = "==1.27.1" },
+    { name = "libsumo", marker = "sys_platform == 'win32' and extra == 'native'", specifier = "==1.27.1" },
     { name = "matplotlib", marker = "extra == 'reports'", specifier = ">=3.8,<4" },
     { name = "mcp", extras = ["cli"], specifier = ">=1.0.0,<2" },
     { name = "numpy", specifier = ">=1.26" },
@@ -842,6 +844,21 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/f4/ce/a7dc71353dd06a4cbe02222773f52d4a28c81e5a452a75797f8ed113dc99/kiwisolver-1.5.1-pp311-pypy311_pp73-manylinux2014_x86_64.manylinux_2_17_x86_64.whl", hash = "sha256:5daa1f19e097050b9c4d9a78fcc9263cb96c9dfae08037ddc1b7c4ad1889f2a2", size = 79891, upload-time = "2026-08-28T10:28:22.936Z" },
     { url = "https://files.pythonhosted.org/packages/10/b1/d61c61a84ff85d1a36a99df2c152b59ffedb1d356c598902aba44abcdb60/kiwisolver-1.5.1-pp311-pypy311_pp73-manylinux_2_24_aarch64.manylinux_2_28_aarch64.whl", hash = "sha256:cdaeeb6c350106df6bf9d873395973e5f066a9713200b72cd64f55d0a3eafab6", size = 77605, upload-time = "2026-08-28T10:28:24.322Z" },
     { url = "https://files.pythonhosted.org/packages/d3/52/5aef56f21a460a6e43ab3cdfc7697d59d7b87deb0ec97a0f7b91aa4a521b/kiwisolver-1.5.1-pp311-pypy311_pp73-win_amd64.whl", hash = "sha256:17851e5dad4484be0cbccbde3b15331deae036de9aebd45eed964487802b172f", size = 98465, upload-time = "2026-08-28T10:28:25.696Z" },
+]
+
+[[package]]
+name = "libsumo"
+version = "1.27.1"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "sumo-data" },
+    { name = "traci" },
+]
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bb/96/7ee8bd29425d51d2da3170b5b6d392222c7cf0d3c269accde258b6dbf0dd/libsumo-1.27.1-cp311-cp311-win_amd64.whl", hash = "sha256:93211b8406df49d4b473f6ddc0687538c8706d896a4392781673bf371f187503", size = 4634183, upload-time = "2026-06-25T09:49:12.705Z" },
+    { url = "https://files.pythonhosted.org/packages/f0/b4/2b5d6f8beb52b0d8191c5d26ed7e13410776c25525327b9efcf70bdd6e87/libsumo-1.27.1-cp312-cp312-win_amd64.whl", hash = "sha256:749835cb74caa2d1b0373f517ed6c91918cb64994dee0f8aa499b0126eafc409", size = 4636296, upload-time = "2026-06-25T09:49:32.574Z" },
+    { url = "https://files.pythonhosted.org/packages/1b/53/b79d12b0ac7ad2f1664df28c3fd6f8ce9a86095a8da6b69f149024be6381/libsumo-1.27.1-cp313-cp313-win_amd64.whl", hash = "sha256:2716fa2bfac554c812973fb34677b88ecac9d4b89ceff478f176baa88905f5b2", size = 4636557, upload-time = "2026-06-30T14:35:57.501Z" },
+    { url = "https://files.pythonhosted.org/packages/62/f2/a1a4ff2489f5fa202126c7a0fcf3d04977c38cd8a29fc4f161e113ca8810/libsumo-1.27.1-cp314-cp314-win_amd64.whl", hash = "sha256:b5fe33f07cf22d67fe23792de270020dfdd475ceb8085de6121638ab7ef7cfdf", size = 4746311, upload-time = "2026-06-30T14:34:51.823Z" },
 ]
 
 [[package]]

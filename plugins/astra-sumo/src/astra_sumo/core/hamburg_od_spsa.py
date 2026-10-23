@@ -140,7 +140,7 @@ def write_hamburg_od_demand(*, model_file, values, output_dir):
     return out
 
 
-def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary):
+def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary, backend="traci"):
     prepared = Path(prepared_dir).resolve(strict=True)
     body_nodes = _body_hold_nodes(prepared)
     proposal = write_hamburg_od_demand(model_file=prepared / "od-model.json", values=values, output_dir=output_dir)
@@ -148,7 +148,7 @@ def measure_hamburg_od(*, prepared_dir, values, output_dir, sumo_binary):
         e1_additional_file=prepared / "field-loops.add.xml", expected_counts_csv=prepared / "expected-counts.csv",
         output_dir=proposal / "native", end_s=14400, sumo_binary=str(sumo_binary), timeout_seconds=4800,
         signal_program_file=prepared / "control.add.xml", lane_intentions_file=proposal / "lane-intentions.json",
-        junction_body_hold=True, junction_body_hold_nodes=body_nodes, seed=104)
+        junction_body_hold=True, junction_body_hold_nodes=body_nodes, seed=104, backend=backend)
     rows = read_csv_rows(proposal / "native/field-comparison.csv")
     if (not native["observer_complete"] or len(rows) != 130 or native.get("native_status") != "pass"
             or (native.get("stall_monitor") or {}).get("status") != "completed"):
