@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg fixed simulated-history reference and one-car comparison, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_z4_fixed_history_20261024_v1/README.md)
 - [Hamburg healthy reference and one-car control-history comparison, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_z4_control_response_20261024_v1/README.md)
 - [Hamburg calibration: classical sources and method reassessment, 2026-10-23](hamburg-classic-calibration-2026-10-23.md)
 - [Hamburg receiving-queue spillback diagnosis from the completed corridor run, 2026-10-22](../../benchmarks/hamburg_ring1_spillback_diagnosis_20261022_v1/README.md)

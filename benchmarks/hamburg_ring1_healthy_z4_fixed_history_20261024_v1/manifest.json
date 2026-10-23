@@ -1,0 +1,746 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 86,
+      "sha256": "3d4eb11c39904b9ccac344568c0ec94bbd59de7ae49ba31403044196f78daa61"
+    },
+    {
+      "path": "freeze_evidence.py",
+      "bytes": 16016,
+      "sha256": "811eee865373181625ed1bb4ed8daeb235755460ca2be596d292405ab2323e80"
+    },
+    {
+      "path": "independent/all50-colour-program-histories.csv.gz",
+      "bytes": 554,
+      "sha256": "8874a3932293efb7b0694faeebd28955d3c4063dafbc9f82906e4d547cef675e"
+    },
+    {
+      "path": "independent/audit_fixed.py.gz",
+      "bytes": 5358,
+      "sha256": "c8ff1b765dcbda94f3e45dd71decff147e77d77d51f1e5cd0bba47d9c3362711"
+    },
+    {
+      "path": "independent/field13-exactness-and-errors.csv.gz",
+      "bytes": 276,
+      "sha256": "511421904c6d18061e956e8ab76d6c5297a7e4d937c756a10baab4393956dd25"
+    },
+    {
+      "path": "independent/manifest.json.gz",
+      "bytes": 873,
+      "sha256": "a6d4246f736cb27db9e75d15b3fafe4fb27f832e2ab3939a67cf3843551f1638"
+    },
+    {
+      "path": "independent/native208-paired-counts.csv.gz",
+      "bytes": 1461,
+      "sha256": "744964a6115338b0bb1c23cf41e10d8babb2de1a13a2dfc101b568b578da893e"
+    },
+    {
+      "path": "independent/one-car-all182.csv.gz",
+      "bytes": 1575,
+      "sha256": "a19dfa01dfa84f7ae7714fca1a76953b8d2be42cb93f75812b19de4c539f88b1"
+    },
+    {
+      "path": "independent/one-car-initial.csv.gz",
+      "bytes": 592,
+      "sha256": "b41a46221f133a044c08cfa5f0c82ad1e23493c12541c381ab75d5819bd40692"
+    },
+    {
+      "path": "independent/one-car-main.csv.gz",
+      "bytes": 1203,
+      "sha256": "35134b682baa858b131bd571d3ec7a4f26d0edeb029c10de5d38dee6196fa229"
+    },
+    {
+      "path": "independent/one-car-stations.csv.gz",
+      "bytes": 482,
+      "sha256": "ec25bc50f1fd782f59f0af059d5c20256a2ae13d6b83ae637f4e59eb2554071d"
+    },
+    {
+      "path": "independent/README.md.gz",
+      "bytes": 1674,
+      "sha256": "ddb2039698f6c01c7bff9af0e26f411f5fd1dd542877c28246925249ad25406e"
+    },
+    {
+      "path": "independent/reference-all182.csv.gz",
+      "bytes": 1579,
+      "sha256": "5f5059878d21afb89e72dc1a85c76d0e63a7fc08952e40e5a0733ff7a0d220a7"
+    },
+    {
+      "path": "independent/reference-initial.csv.gz",
+      "bytes": 592,
+      "sha256": "b41a46221f133a044c08cfa5f0c82ad1e23493c12541c381ab75d5819bd40692"
+    },
+    {
+      "path": "independent/reference-main.csv.gz",
+      "bytes": 1203,
+      "sha256": "90c908d649ef31e488137206220a6d2ca9baccd3c29671142cadb34a21d22aa7"
+    },
+    {
+      "path": "independent/reference-stations.csv.gz",
+      "bytes": 479,
+      "sha256": "51b6163ac1f56aa3ba3d09da04e2b1216671e8b938488d9850373187b56d3642"
+    },
+    {
+      "path": "independent/summary.json.gz",
+      "bytes": 6178,
+      "sha256": "5f9d751e1f50e7265860f301f395de9565c6139e41bb1c25a6e1afc7b421586c"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 1723,
+      "sha256": "27317e2582f2bebaf112b54e3d9956717f2cfda106c54d8d89606323756ef2ed"
+    },
+    {
+      "path": "one-car/evaluation/535-all56-comparison.csv.gz",
+      "bytes": 534,
+      "sha256": "2ffd7f9397f02175aef947e685559bb7566fa1826d66e556d7720eb434939aa1"
+    },
+    {
+      "path": "one-car/evaluation/all182-comparison.csv.gz",
+      "bytes": 1597,
+      "sha256": "fe0612a9ed9d001c190e3e99f5db304b4b7f530fa2d4a899826babce5badf9f6"
+    },
+    {
+      "path": "one-car/evaluation/contributing-passages.json.gz.gz",
+      "bytes": 173365,
+      "sha256": "c7e3608349f0a15c441ac38ec832ad62acdb9c8a0a19fd2747efdfd9dccb95dc"
+    },
+    {
+      "path": "one-car/evaluation/demand.rou.xml.gz",
+      "bytes": 122409,
+      "sha256": "bf5cb19af90568fb2677195bd35f60a748ce77c039b50aedbee609d9508ec7c7"
+    },
+    {
+      "path": "one-car/evaluation/evaluation.json.gz",
+      "bytes": 264,
+      "sha256": "0acd82e2f35eb117ebc6f3123624674fbe434d56c5c16016c3d75e82979b36fd"
+    },
+    {
+      "path": "one-car/evaluation/initialization52-comparison.csv.gz",
+      "bytes": 592,
+      "sha256": "b41a46221f133a044c08cfa5f0c82ad1e23493c12541c381ab75d5819bd40692"
+    },
+    {
+      "path": "one-car/evaluation/lane-intentions.json.gz",
+      "bytes": 26321,
+      "sha256": "8009f6b50bc9615d1637e46b1cdfeefef39e37ebbf023cc4654a624bd3f3771a"
+    },
+    {
+      "path": "one-car/evaluation/native/collisions.xml.gz",
+      "bytes": 747,
+      "sha256": "b6d62a58f4c2e88e02df7a5f9d988104b1e1596be5dafea12937519b9e7c0219"
+    },
+    {
+      "path": "one-car/evaluation/native/command.json.gz",
+      "bytes": 1187,
+      "sha256": "9ae1529e03361f1a6610962a584b1d16d38fd5f8a2fcc2a4c44060662d899e14"
+    },
+    {
+      "path": "one-car/evaluation/native/demand.rou.xml.gz",
+      "bytes": 122409,
+      "sha256": "bf5cb19af90568fb2677195bd35f60a748ce77c039b50aedbee609d9508ec7c7"
+    },
+    {
+      "path": "one-car/evaluation/native/e1.add.xml.gz",
+      "bytes": 488,
+      "sha256": "93a53b29248baf9b23abcbe089fdb329b03c118bf43c416f2b91f68bb3b97a2f"
+    },
+    {
+      "path": "one-car/evaluation/native/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "one-car/evaluation/native/field-comparison.csv.gz",
+      "bytes": 1203,
+      "sha256": "35134b682baa858b131bd571d3ec7a4f26d0edeb029c10de5d38dee6196fa229"
+    },
+    {
+      "path": "one-car/evaluation/native/field-counts.xml.gz",
+      "bytes": 8625,
+      "sha256": "381dc950207ea407e7c8a45da7b9b7b7483f4fd188560c3511cc955df768f7c2"
+    },
+    {
+      "path": "one-car/evaluation/native/instant.add.xml.gz",
+      "bytes": 398,
+      "sha256": "0d055ce25170186ae85cfb55cc3ccf41c782fd645581cc8a5c8e23d5233d0826"
+    },
+    {
+      "path": "one-car/evaluation/native/lane-intentions.json.gz",
+      "bytes": 26321,
+      "sha256": "8009f6b50bc9615d1637e46b1cdfeefef39e37ebbf023cc4654a624bd3f3771a"
+    },
+    {
+      "path": "one-car/evaluation/native/native-request.json.gz",
+      "bytes": 694,
+      "sha256": "eaf68b58bc29987e835c144fb46cb0a556b892cc3fd5de04f7e00dea3de7bd0b"
+    },
+    {
+      "path": "one-car/evaluation/native/network.net.xml.gz",
+      "bytes": 243171,
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "path": "one-car/evaluation/native/run.json.gz",
+      "bytes": 349126,
+      "sha256": "690178a0f3d11a88236614a974c6a0eb2126383f327fb10898aec6a1cfd4ba48"
+    },
+    {
+      "path": "one-car/evaluation/native/signal-programs.add.xml.gz",
+      "bytes": 52041,
+      "sha256": "1bfd9c87a13733bd31b6b3b06781418f5b117dc823674f4f54c272e3d2887c16"
+    },
+    {
+      "path": "one-car/evaluation/native/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "one-car/evaluation/native/stall-monitor.json.gz",
+      "bytes": 343232,
+      "sha256": "0be9a134eccb5c0efde508217fdf2b3bdb0388bfc38927ceceb1163dd085c6c5"
+    },
+    {
+      "path": "one-car/evaluation/native/summary.xml.gz",
+      "bytes": 3291109,
+      "sha256": "f2fec56f17051555c3425324098787316a2d4d848b6b0618e7864d04e8786c12"
+    },
+    {
+      "path": "one-car/evaluation/native/sumo-errors.log.gz",
+      "bytes": 534,
+      "sha256": "a54b80d706937ee79dbc0fb99b447dce22d38853ddc0e4245e1f2ffb6f22e723"
+    },
+    {
+      "path": "one-car/evaluation/native/sumo.log.gz",
+      "bytes": 1055,
+      "sha256": "9687f1278eda3bb788d0c96e82d376272e389d83bc61b88d8be6ef9099e29829"
+    },
+    {
+      "path": "one-car/evaluation/native/tls-observer.add.xml.gz",
+      "bytes": 232,
+      "sha256": "5992d5d205ddde7d8b8a953b320d0d05095cd40f8455f02ab8d2fad88890dc83"
+    },
+    {
+      "path": "one-car/evaluation/native/tls-switch-states.xml.gz",
+      "bytes": 909363,
+      "sha256": "f1dfafdddd721e5443784177dbd27a75b54d20309e3ecc270c76bf3c82effb6c"
+    },
+    {
+      "path": "one-car/evaluation/native/tripinfo.xml.gz",
+      "bytes": 402537,
+      "sha256": "3d4b37756d82ee8ac47b7b9551ee02a9fcfce5f8944c663eef07727cfed76dce"
+    },
+    {
+      "path": "one-car/evaluation/native/vehicle-routes.xml.gz",
+      "bytes": 708138,
+      "sha256": "6b0c96cde9c33e8cc8d2920d434afe95bc4da0eda70d9b1611e5227612367661"
+    },
+    {
+      "path": "one-car/evaluation/station-comparison.csv.gz",
+      "bytes": 482,
+      "sha256": "ec25bc50f1fd782f59f0af059d5c20256a2ae13d6b83ae637f4e59eb2554071d"
+    },
+    {
+      "path": "one-car/executed-run.py.gz",
+      "bytes": 2332,
+      "sha256": "4bb663153fb22d2c14fdf04840fda05d24afcfc3f69e72c1847957640ef1e930"
+    },
+    {
+      "path": "one-car/execution.json.gz",
+      "bytes": 283,
+      "sha256": "1d2860c5530d227779a280f3a0c22c15a8e18373847d84a9ec18f52a196a3cf3"
+    },
+    {
+      "path": "one-car/execution.log.gz",
+      "bytes": 2903,
+      "sha256": "cfbb13e1282d42ceba07e5985fd32d9597f92916ce01205ac37a4564d5057ae2"
+    },
+    {
+      "path": "one-car/implementation/artifact_io.py.gz",
+      "bytes": 1195,
+      "sha256": "0c7681675f7f10357b3aceb32923e1eb5629457928610d2635371204146086a4"
+    },
+    {
+      "path": "one-car/implementation/candidate_contracts.py.gz",
+      "bytes": 7586,
+      "sha256": "5e753c44140abcb4af81ce1fe447d9713ad3071cc2e22362386c514c85be6f6a"
+    },
+    {
+      "path": "one-car/implementation/command_runner.py.gz",
+      "bytes": 1857,
+      "sha256": "beee7b5597eb66bfbe889273ce654c6cbd2228e04059aece46f1d3a7a1ce7d19"
+    },
+    {
+      "path": "one-car/implementation/detector_demand.py.gz",
+      "bytes": 9325,
+      "sha256": "e12ba161328a36235c54e9afd845d8f08e13d5efd5c90e1362f9038caa3c431e"
+    },
+    {
+      "path": "one-car/implementation/detector_demand_replay.py.gz",
+      "bytes": 4897,
+      "sha256": "8e0a7ac50bb64637a770c8abe882a2d9b3e5ee75295ba792aa67cecba2de2a77"
+    },
+    {
+      "path": "one-car/implementation/hamburg_197_through_support.py.gz",
+      "bytes": 7823,
+      "sha256": "f14faf1f821cb0a25725270c9cc3b1aca03481cc0048aaaa9dcd2491a0f84723"
+    },
+    {
+      "path": "one-car/implementation/hamburg_od_spsa.py.gz",
+      "bytes": 8608,
+      "sha256": "70ffc12168932334faedb14e624103d35cd1f8d8077211ac4d8dc36662a0b247"
+    },
+    {
+      "path": "one-car/implementation/lane_section_hold.py.gz",
+      "bytes": 2012,
+      "sha256": "8e8e29d7f0c97e3a1d491b692cf9af589b34bcb994cc0679ee1565c49815b8c2"
+    },
+    {
+      "path": "one-car/implementation/route_sensor_matrix.py.gz",
+      "bytes": 7065,
+      "sha256": "6ed56e60dc04a4bf65f9f9a305ce49b717b9062b67d31f11a9f893ef38ae5ad1"
+    },
+    {
+      "path": "one-car/implementation/simulation_stall.py.gz",
+      "bytes": 3160,
+      "sha256": "29db062eccd51cd1fa672406329cc51621eb47d6959b6128c207aaed727285b6"
+    },
+    {
+      "path": "one-car/native-result.json.gz",
+      "bytes": 270,
+      "sha256": "95371d26b7a5d275532c7e5dc93b1db8bf9a3d0e263bb6897ff017cd02fd9df5"
+    },
+    {
+      "path": "one-car/observer-adapter.json.gz",
+      "bytes": 397,
+      "sha256": "a08450eccba4343ab55f9e3a572417a8b480d893a2f50be961c3f2e052c29414"
+    },
+    {
+      "path": "one-car/parity.json.gz",
+      "bytes": 3098,
+      "sha256": "3d8b9073f733af69defd63a6bc081b69d91d26e27477e228bd4a26f7319e4c50"
+    },
+    {
+      "path": "one-car/planned-native-request.json.gz",
+      "bytes": 694,
+      "sha256": "eaf68b58bc29987e835c144fb46cb0a556b892cc3fd5de04f7e00dea3de7bd0b"
+    },
+    {
+      "path": "one-car/preflight.json.gz",
+      "bytes": 2196,
+      "sha256": "9259338b54c24c1541e06106e0ac97ae4da4bb6fd7e8226fef93acbb8f8f5219"
+    },
+    {
+      "path": "one-car/prepared/control.add.xml.gz",
+      "bytes": 52041,
+      "sha256": "1bfd9c87a13733bd31b6b3b06781418f5b117dc823674f4f54c272e3d2887c16"
+    },
+    {
+      "path": "one-car/prepared/demand.rou.xml.gz",
+      "bytes": 122409,
+      "sha256": "bf5cb19af90568fb2677195bd35f60a748ce77c039b50aedbee609d9508ec7c7"
+    },
+    {
+      "path": "one-car/prepared/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "one-car/prepared/field-loops.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "one-car/prepared/initialization-counts.csv.gz",
+      "bytes": 912,
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "path": "one-car/prepared/lane-intentions.json.gz",
+      "bytes": 26321,
+      "sha256": "8009f6b50bc9615d1637e46b1cdfeefef39e37ebbf023cc4654a624bd3f3771a"
+    },
+    {
+      "path": "one-car/prepared/network.net.xml.gz",
+      "bytes": 243171,
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "path": "one-car/prepared/scenario.json.gz",
+      "bytes": 2309,
+      "sha256": "fb8073f3a9d0879880142d6145fe728967707e9352292403e470d5a55ecc9252"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2608,
+      "sha256": "b226329cb9a0d8332a150d77156f459d78eaf456e251787a3abeb251fc8b1d9a"
+    },
+    {
+      "path": "reference/evaluation/535-all56-comparison.csv.gz",
+      "bytes": 534,
+      "sha256": "2ffd7f9397f02175aef947e685559bb7566fa1826d66e556d7720eb434939aa1"
+    },
+    {
+      "path": "reference/evaluation/all182-comparison.csv.gz",
+      "bytes": 1606,
+      "sha256": "048ae0fa7533cac2cb12548c95b916ea3e70b9ce50662768ac4a2ca7f382e810"
+    },
+    {
+      "path": "reference/evaluation/contributing-passages.json.gz.gz",
+      "bytes": 173255,
+      "sha256": "6c3d7df70d4930c6ca38e12849528bfd6642415f613651919985a669b0dbb025"
+    },
+    {
+      "path": "reference/evaluation/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "reference/evaluation/evaluation.json.gz",
+      "bytes": 265,
+      "sha256": "817a61747341075060fd3fb1376d1f842ff80b90b6a82fa712d028768f7414f7"
+    },
+    {
+      "path": "reference/evaluation/initialization52-comparison.csv.gz",
+      "bytes": 592,
+      "sha256": "b41a46221f133a044c08cfa5f0c82ad1e23493c12541c381ab75d5819bd40692"
+    },
+    {
+      "path": "reference/evaluation/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "reference/evaluation/native/collisions.xml.gz",
+      "bytes": 747,
+      "sha256": "676ac7bbd291e9b6cf56059aa11a16809f883cce4d148abb25c78bb81e0430d5"
+    },
+    {
+      "path": "reference/evaluation/native/command.json.gz",
+      "bytes": 1188,
+      "sha256": "4ec62238a0ab568f9935eb4eafbd0f1dc124df39fa125f1a91a29612eae513e6"
+    },
+    {
+      "path": "reference/evaluation/native/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "reference/evaluation/native/e1.add.xml.gz",
+      "bytes": 489,
+      "sha256": "941ad98025b8252ff6c31db16e2d77420e977d26a4f8a0b0885d75894c4b9c3c"
+    },
+    {
+      "path": "reference/evaluation/native/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "reference/evaluation/native/field-comparison.csv.gz",
+      "bytes": 1203,
+      "sha256": "90c908d649ef31e488137206220a6d2ca9baccd3c29671142cadb34a21d22aa7"
+    },
+    {
+      "path": "reference/evaluation/native/field-counts.xml.gz",
+      "bytes": 8606,
+      "sha256": "35edfebc95636fa3686af119af9ae871968bfa17010e8381c99bc213ee340765"
+    },
+    {
+      "path": "reference/evaluation/native/instant.add.xml.gz",
+      "bytes": 400,
+      "sha256": "f87f426b5799e15f121584fc877cb03b0aa94a5e11bbdb69e94ed5c366b79f26"
+    },
+    {
+      "path": "reference/evaluation/native/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "reference/evaluation/native/native-request.json.gz",
+      "bytes": 696,
+      "sha256": "463cdffbaf8791fb806a9b3cb9755b2880b5c9e79d243d722d742fd5dfce9a1b"
+    },
+    {
+      "path": "reference/evaluation/native/network.net.xml.gz",
+      "bytes": 243171,
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "path": "reference/evaluation/native/run.json.gz",
+      "bytes": 349075,
+      "sha256": "9e32d07a97d1680d6f1f7fa4f3a3f6ca693ef93041b582be284a777074175cd4"
+    },
+    {
+      "path": "reference/evaluation/native/signal-programs.add.xml.gz",
+      "bytes": 52041,
+      "sha256": "1bfd9c87a13733bd31b6b3b06781418f5b117dc823674f4f54c272e3d2887c16"
+    },
+    {
+      "path": "reference/evaluation/native/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "reference/evaluation/native/stall-monitor.json.gz",
+      "bytes": 343374,
+      "sha256": "79f8705c413c8e941d22df3b5d89989d8ec7fc290fcb418c8bd7e034dc3c407f"
+    },
+    {
+      "path": "reference/evaluation/native/summary.xml.gz",
+      "bytes": 3290273,
+      "sha256": "af8c02a7f1107a31761cacb1dd6647ae7f5a033717b6e7302896c59f6cfefe19"
+    },
+    {
+      "path": "reference/evaluation/native/sumo-errors.log.gz",
+      "bytes": 534,
+      "sha256": "a54b80d706937ee79dbc0fb99b447dce22d38853ddc0e4245e1f2ffb6f22e723"
+    },
+    {
+      "path": "reference/evaluation/native/sumo.log.gz",
+      "bytes": 1055,
+      "sha256": "5206af8640ed20bd23d22a69b81a3aae96d94eb0eeca264b00f6bb476a8be70b"
+    },
+    {
+      "path": "reference/evaluation/native/tls-observer.add.xml.gz",
+      "bytes": 232,
+      "sha256": "80fbbbff3f529c4628fa361c051370d079b14d35a3aad947b9944891357bc66c"
+    },
+    {
+      "path": "reference/evaluation/native/tls-switch-states.xml.gz",
+      "bytes": 909364,
+      "sha256": "4f85dbf2df90d4bc083636fb4be539f468e5c066731953047ef02e556ff7eb57"
+    },
+    {
+      "path": "reference/evaluation/native/tripinfo.xml.gz",
+      "bytes": 402892,
+      "sha256": "d715f444b879c3c01eef9a4bddbde91de147f295e478dbd8aeeafe37be64d0b3"
+    },
+    {
+      "path": "reference/evaluation/native/vehicle-routes.xml.gz",
+      "bytes": 708289,
+      "sha256": "7a5afcdb4b7bfb8147197448455944b2346cce40b7c4cce8c29b7486b9ca61a7"
+    },
+    {
+      "path": "reference/evaluation/station-comparison.csv.gz",
+      "bytes": 479,
+      "sha256": "51b6163ac1f56aa3ba3d09da04e2b1216671e8b938488d9850373187b56d3642"
+    },
+    {
+      "path": "reference/executed-run.py.gz",
+      "bytes": 2332,
+      "sha256": "4bb663153fb22d2c14fdf04840fda05d24afcfc3f69e72c1847957640ef1e930"
+    },
+    {
+      "path": "reference/execution.json.gz",
+      "bytes": 283,
+      "sha256": "bf76177579a4a20b85344178c4bcca4dafa059fc776de69172a8e50b8f1cbd6f"
+    },
+    {
+      "path": "reference/execution.log.gz",
+      "bytes": 875,
+      "sha256": "9ad58f30b411449c828b255e0d5937e247caee7d3f4a62ba7c8473a28f80bf8f"
+    },
+    {
+      "path": "reference/implementation/artifact_io.py.gz",
+      "bytes": 1195,
+      "sha256": "0c7681675f7f10357b3aceb32923e1eb5629457928610d2635371204146086a4"
+    },
+    {
+      "path": "reference/implementation/candidate_contracts.py.gz",
+      "bytes": 7586,
+      "sha256": "5e753c44140abcb4af81ce1fe447d9713ad3071cc2e22362386c514c85be6f6a"
+    },
+    {
+      "path": "reference/implementation/command_runner.py.gz",
+      "bytes": 1857,
+      "sha256": "beee7b5597eb66bfbe889273ce654c6cbd2228e04059aece46f1d3a7a1ce7d19"
+    },
+    {
+      "path": "reference/implementation/detector_demand.py.gz",
+      "bytes": 9325,
+      "sha256": "e12ba161328a36235c54e9afd845d8f08e13d5efd5c90e1362f9038caa3c431e"
+    },
+    {
+      "path": "reference/implementation/detector_demand_replay.py.gz",
+      "bytes": 4897,
+      "sha256": "8e0a7ac50bb64637a770c8abe882a2d9b3e5ee75295ba792aa67cecba2de2a77"
+    },
+    {
+      "path": "reference/implementation/hamburg_197_through_support.py.gz",
+      "bytes": 7823,
+      "sha256": "f14faf1f821cb0a25725270c9cc3b1aca03481cc0048aaaa9dcd2491a0f84723"
+    },
+    {
+      "path": "reference/implementation/hamburg_od_spsa.py.gz",
+      "bytes": 8608,
+      "sha256": "70ffc12168932334faedb14e624103d35cd1f8d8077211ac4d8dc36662a0b247"
+    },
+    {
+      "path": "reference/implementation/lane_section_hold.py.gz",
+      "bytes": 2012,
+      "sha256": "8e8e29d7f0c97e3a1d491b692cf9af589b34bcb994cc0679ee1565c49815b8c2"
+    },
+    {
+      "path": "reference/implementation/route_sensor_matrix.py.gz",
+      "bytes": 7065,
+      "sha256": "6ed56e60dc04a4bf65f9f9a305ce49b717b9062b67d31f11a9f893ef38ae5ad1"
+    },
+    {
+      "path": "reference/implementation/simulation_stall.py.gz",
+      "bytes": 3160,
+      "sha256": "29db062eccd51cd1fa672406329cc51621eb47d6959b6128c207aaed727285b6"
+    },
+    {
+      "path": "reference/native-result.json.gz",
+      "bytes": 271,
+      "sha256": "3df326f70c9b877a87d63de5017ff165f30128ae01d806534ddda4b3f34e9af3"
+    },
+    {
+      "path": "reference/observer-adapter.json.gz",
+      "bytes": 397,
+      "sha256": "d93ca7b81168aeac2fa0637897a4df8c38cf345331f1cdc62e8b081441aa88f6"
+    },
+    {
+      "path": "reference/parity.json.gz",
+      "bytes": 945,
+      "sha256": "0479ab91432c46aada616ca03db735445f84a4cb9d2311dac50ffacfe8723dd2"
+    },
+    {
+      "path": "reference/planned-native-request.json.gz",
+      "bytes": 696,
+      "sha256": "463cdffbaf8791fb806a9b3cb9755b2880b5c9e79d243d722d742fd5dfce9a1b"
+    },
+    {
+      "path": "reference/preflight.json.gz",
+      "bytes": 2212,
+      "sha256": "f9647bda5531f17cea3065724bb3fdbd66ba99c523ad07bb8dc566394d316abf"
+    },
+    {
+      "path": "reference/prepared/control.add.xml.gz",
+      "bytes": 52041,
+      "sha256": "1bfd9c87a13733bd31b6b3b06781418f5b117dc823674f4f54c272e3d2887c16"
+    },
+    {
+      "path": "reference/prepared/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "reference/prepared/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "reference/prepared/field-loops.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "reference/prepared/initialization-counts.csv.gz",
+      "bytes": 912,
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "path": "reference/prepared/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "reference/prepared/network.net.xml.gz",
+      "bytes": 243171,
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "path": "reference/prepared/scenario.json.gz",
+      "bytes": 2307,
+      "sha256": "d8d62677a5199ef4f9a804414be34e905fdc70ee7c673207b3b3a632517cd35a"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 743,
+      "sha256": "952be8f2c2558266c07fef24f16d66c3368bcc3e1eba50aa449240073f286bcb"
+    },
+    {
+      "path": "results.json",
+      "bytes": 4455,
+      "sha256": "7f9ad5fd4177f9678b0f61a8f970a8817be731a7a286d22fa10573d09f8906d7"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 51841,
+      "sha256": "fb9cf040662cdb4305f64b0ac69321b49ca1012af0ae63393ff9e780c81ac973"
+    },
+    {
+      "path": "source-references.json",
+      "bytes": 527,
+      "sha256": "051b69f565f1dedba3474e3030d4e9bf71933d7fbff56834f94bcc0b99680f04"
+    },
+    {
+      "path": "study-source/audit.py.gz",
+      "bytes": 2872,
+      "sha256": "5b0b81ebf86715e6d81c0fe84193f6e7e3ceb027ebf25780b0f98e9d11404413"
+    },
+    {
+      "path": "study-source/manifest.json.gz",
+      "bytes": 2233,
+      "sha256": "798329779924638584fd00a02b9770c5cbe28e36668c4cdf94ca9130eed9d52b"
+    },
+    {
+      "path": "study-source/paired-result.json.gz",
+      "bytes": 3846,
+      "sha256": "f65239e22a3a943b14306c876e8efe38a666b7df82230e8b587d8ce6edb72376"
+    },
+    {
+      "path": "study-source/preparation.json.gz",
+      "bytes": 1006,
+      "sha256": "de92714d69b6861242139b657e3bb3edfaf93c93f62289cd0a11e8adbaaf0a4f"
+    },
+    {
+      "path": "study-source/prepare.py.gz",
+      "bytes": 2937,
+      "sha256": "e05728a09bd88445abffd0ea78d7dc384485b8ce0cf03b3fd324c506f817e484"
+    },
+    {
+      "path": "study-source/program-mapping.csv.gz",
+      "bytes": 510,
+      "sha256": "532ff9e8cb11d6b710b83119964e5f01e3ee035098444426c6fe7fd53f243ac8"
+    },
+    {
+      "path": "study-source/program-validation.json.gz",
+      "bytes": 603,
+      "sha256": "4a1eb6d5fc80d51968c4831ba22014b6684422c3d5e47cffd055b2cf64c71331"
+    },
+    {
+      "path": "study-source/README.md.gz",
+      "bytes": 1705,
+      "sha256": "66031a66ab6399731bd5e14e226c20f87a4d06033b128e4ce97ca4f4a0ba8ae2"
+    },
+    {
+      "path": "study-source/reused-audit_frozen_self_replay.py.txt.gz",
+      "bytes": 3778,
+      "sha256": "c0a43e83101b9f32b3dc8e376ebd26d04612f607fba180240c47f00c7bdb118b"
+    },
+    {
+      "path": "study-source/reused-run_frozen_self_replay.py.txt.gz",
+      "bytes": 2441,
+      "sha256": "404e8a3f54c07bd5dcfda62f57c32939b218bfc950d17a1b53dc262090ff0a97"
+    },
+    {
+      "path": "study-source/run.py.gz",
+      "bytes": 2332,
+      "sha256": "4bb663153fb22d2c14fdf04840fda05d24afcfc3f69e72c1847957640ef1e930"
+    },
+    {
+      "path": "study-source/test_preparation.py.gz",
+      "bytes": 1076,
+      "sha256": "4e657bbed7f23f2b44e54a8aa7e19a8b9bdbfc6be5e33703487db52487ba7b00"
+    },
+    {
+      "path": "test_freeze_evidence.py",
+      "bytes": 1896,
+      "sha256": "a1ea9172c59a51326d2930e5f8e5d8d45b09c9320dfdbd079d009619cf7d7493"
+    }
+  ]
+}
