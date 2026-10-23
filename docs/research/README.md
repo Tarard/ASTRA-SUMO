@@ -38,6 +38,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Evidence Assets
 
+- [Hamburg Z5 upstream queues, matching vehicle/signal recording and two paired lane-prior tests, 2026-10-23](../../benchmarks/hamburg_ring1_z5_upstream_delay_20261023_v1/README.md)
 - [Hamburg current OD prior, assignment audit and four native direction probes, 2026-10-23](../../benchmarks/hamburg_ring1_classical_od_response_20261023_v1/README.md)
 - [Hamburg route splits, single-connection full replay and four rejected native timing batches, 2026-10-23](../../benchmarks/hamburg_ring1_route_timing_feedback_20261023_v1/README.md)
 - [Hamburg LSA119 single internal waiting connection: four-vehicle collision reproduction and paired repair, 2026-10-23](../../benchmarks/hamburg_ring1_119_single_split_20261023_v1/README.md)

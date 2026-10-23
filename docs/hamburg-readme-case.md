@@ -1,5 +1,13 @@
 # Hamburg case shown in the README
 
+The [Z5 upstream delay record and paired lane-prior tests](../benchmarks/hamburg_ring1_z5_upstream_delay_20261023_v1/README.md) retain a matching observer replay and two new complete evaluations.
+The observer adds vehicle positions, leaders, lane changes and signal states. All 208 native E1 intervals, 144000 traffic-summary steps and 8619 arrived routes match the selected OD case.
+The focal long delay follows a stopped leader on `234423652#1_2` after the LSA104 body hold has ended. Actual LSA104/118 states match the declared programs; they are not field SPaT.
+Exchanging one pair of Z4/Z5 lane intentions lowers diagnostic MAE to 4.969231 and SSE to 6636, but leaves 10 waiting and 15 running vehicles.
+Its Z4/Z5 absolute errors increase by 7 and 3; the aggregate improvement comes from other fields. The fresh native records also show changes to the affected vehicle's entry lane and passage time.
+Five pairs allow all 8640 vehicles to enter, with 16 still running, but increase MAE to 5.523077 and SSE to 8644. Both evaluations have zero collision, teleport, discard, repeated field contributions and wrong-field contributions.
+These explicit lane-prior variants retain every OD quantity, route, departure and field total per departure period. They are separate from the quantile OD model. Both fail the stated joint count-and-backlog selection rule, so the 5.092308 OD reference remains available and neither variant is formally accepted.
+
 The [four OD response probes](../benchmarks/hamburg_ring1_classical_od_response_20261023_v1/README.md) follow the [classical-method reassessment](research/hamburg-classic-calibration-2026-10-23.md).
 The rebuilt 294-cell prior preserves the repaired network and all 8640 initial explicit requests. Four fresh native evaluations test one OD's adjacent departure periods at integer amplitudes of 6 and 1; these are directional measurements, not SPSA iterations.
 The selected `probe-minus1` reduces field MAE from 5.961538 to 5.092308, SSE from 10749 to 6898 and maximum error from 32 to 27.

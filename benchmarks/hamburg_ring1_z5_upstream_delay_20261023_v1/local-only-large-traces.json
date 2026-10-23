@@ -1,0 +1,40 @@
+{
+  "files": [
+    {
+      "run": "trace/baseline",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-upstream-delay-20261023-v1\\trace\\baseline\\instant-e1.xml",
+      "bytes": 41130708,
+      "sha256": "24dc6fe794db139a838372a25d03c52aa20640eaea4091276adee5f9461d0caa"
+    },
+    {
+      "run": "trace/baseline",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-upstream-delay-20261023-v1\\trace\\baseline\\queues.xml",
+      "bytes": 88126607,
+      "sha256": "bb16a724e08b8df7472842c1037e159f5c9369c81c5fca34d16b90299853f4e6"
+    },
+    {
+      "run": "lane-swap-1pair",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-upstream-delay-20261023-v1\\lane-swap-1pair\\evaluation\\native\\instant-e1.xml",
+      "bytes": 41355645,
+      "sha256": "eaa8db96348e9e4369aa7e060cc7a9aa3935c3f441d9f526a6e78739600049f8"
+    },
+    {
+      "run": "lane-swap-1pair",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-upstream-delay-20261023-v1\\lane-swap-1pair\\evaluation\\native\\queues.xml",
+      "bytes": 88022202,
+      "sha256": "405eba6706d7422f1dafd937ce7b8a6e7c442e956b8a9b764b8e8b1834f9a898"
+    },
+    {
+      "run": "lane-swap-5pair",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-upstream-delay-20261023-v1\\lane-swap-5pair\\evaluation\\native\\instant-e1.xml",
+      "bytes": 40662134,
+      "sha256": "d352db34452b860ff1703bd90d5ed20b994f35280f84c1eb836759c3f69f2e9f"
+    },
+    {
+      "run": "lane-swap-5pair",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-upstream-delay-20261023-v1\\lane-swap-5pair\\evaluation\\native\\queues.xml",
+      "bytes": 91206049,
+      "sha256": "783c49cda557594ecc609f1209eee7d42c400431e4fabcfd6ef4ae08838bab83"
+    }
+  ]
+}
