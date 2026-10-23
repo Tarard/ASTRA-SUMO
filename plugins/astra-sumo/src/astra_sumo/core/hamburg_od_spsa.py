@@ -9,12 +9,13 @@ import xml.etree.ElementTree as ET
 
 import numpy as np
 
-from .artifact_io import write_json_atomic
+from .artifact_io import copy_file_atomic, write_json_atomic
 from .candidate_contracts import file_sha256
 from .demand_route_pool import junction_visit_audit
 from .detector_demand import read_net, read_csv_rows, write_csv
 from .detector_demand_replay import run_point_detector_demand
 from .hamburg_readme_results import STATIONS
+from .lane_section_hold import read_lane_intentions
 from .road_hierarchy import _path, _paths
 from .spsa import InitialSPSAGainUnavailable, calibrate_spsa
 
@@ -101,6 +102,133 @@ def prepare_hamburg_od_baseline(*, case_dir, audit_dir, output_dir):
     initial = [r["initial_flow"] for r in rows]
     write_json_atomic(out / "initial-od-vector.json", {"values": initial, "vehicle_count": sum(initial),
                                                      "ordering": "departure interval, then origin and destination"})
+    return model
+
+
+def prepare_hamburg_od_from_explicit(*, prepared_dir, output_dir):
+    """Rebuild the 294-cell empirical prior without extending or replacing routes."""
+    source, out = Path(prepared_dir).resolve(strict=True), Path(output_dir).resolve()
+    if out.exists() or source.is_relative_to(out):
+        raise ValueError("Use a new OD model directory separate from its explicit inputs.")
+    names = ("network.net.xml", "demand.rou.xml", "field-loops.add.xml", "control.add.xml",
+             "expected-counts.csv", "lane-intentions.json", "initialization-counts.csv", "scenario.json")
+    paths = [(source / name).resolve(strict=True) for name in names]
+    hashes = {name: file_sha256(path) for name, path in zip(names, paths)}
+    _body_hold_nodes(source)
+    demand = ET.parse(source / "demand.rou.xml").getroot()
+    vehicles = demand.findall("vehicle")
+    ids = [v.get("id") for v in vehicles]
+    if (demand.tag != "routes" or demand.attrib or not vehicles or len(set(ids)) != len(ids)
+            or any(not identity for identity in ids)
+            or any(row.tag in {"flow", "trip", "person", "personFlow"} for row in demand)):
+        raise ValueError("Use unique explicit vehicles under an unadorned routes element.")
+    read_lane_intentions(source / "lane-intentions.json", source / "field-loops.add.xml", ids)
+    intentions = json.loads((source / "lane-intentions.json").read_bytes())
+    fields = {r["vehicle_id"]: r["field_id"] for r in intentions["vehicles"]}
+    assignment_prior = intentions.get("mechanism")
+    if not isinstance(assignment_prior, str) or not assignment_prior.strip():
+        raise ValueError("Declare the empirical lane-intention mechanism.")
+    edges, connections = read_net(source / "network.net.xml")
+    active = {e for e in edges if edges[e].allows_passenger}
+    graph = {e: connections.get(e, set()) & active for e in active}
+    network = ET.parse(source / "network.net.xml").getroot()
+    groups = {j.get("id"): j.get("id").split("_")[0] for j in network.findall("junction")
+              if j.get("id", "").startswith(("LSA104_", "LSA118_", "LSA119_", "LSA200_", "LSA535_"))}
+    cells, checked_routes = defaultdict(list), set()
+    for vehicle in vehicles:
+        route_row = vehicle.find("route")
+        if route_row is None or not route_row.get("edges"):
+            raise ValueError("Retain one inline explicit route for every request.")
+        route = tuple(route_row.get("edges").split())
+        if route not in checked_routes:
+            if (not set(route) <= active or not junction_visit_audit(route, edges, graph, groups)["allowed"]):
+                raise ValueError("Retain legal passenger routes without repeated roads or junctions.")
+            checked_routes.add(route)
+        depart = float(vehicle.get("depart", "nan"))
+        if not math.isfinite(depart) or not 0 <= depart < 12600:
+            raise ValueError("Keep departures in the fourteen declared 15-minute intervals.")
+        cells[int(depart // 900), route[0], route[-1]].append({
+            "vehicle_xml": ET.tostring(vehicle, encoding="unicode"), "prior_depart_s": depart,
+            "prior_vehicle_id": vehicle.get("id"), "prior_field_intention": fields[vehicle.get("id")]})
+    pairs = sorted({(o, d) for h, o, d in cells})
+    if len(pairs) != 21 or len(cells) != 294:
+        raise ValueError("Reassess any change to the approved 21-OD, 14-interval support.")
+    rows = [{"origin": o, "destination": d, "begin_s": 900 * h, "end_s": 900 * (h + 1),
+             "initial_flow": len(cells[h, o, d]),
+             "templates": sorted(cells[h, o, d], key=lambda r: (r["prior_depart_s"], r["prior_vehicle_id"]))}
+            for h in range(14) for o, d in pairs]
+    model = {"source_case": str(source), "prepared_dir": str(out), "source_network_sha256": hashes["network.net.xml"],
+             "cells": rows, "exit_extensions": {},
+             "type_definitions": [ET.tostring(r, encoding="unicode") for r in demand if r.tag != "vehicle"],
+             "assignment_prior": assignment_prior,
+             "vehicle_generation": "Round each nonnegative real OD cell to nearest integer, with half rounded upward. Interpolate inherited departure-time quantiles; select the corresponding empirical route and lane template.",
+             "explicit_prior": {"source_hashes": hashes, "route_templates_from_current_explicit_requests": True,
+                 "claim_boundary": "The current route, lane, stop and within-cell departure distribution is an empirical model prior, not measured OD or route shares. Changed counts retain the existing joint quantile resampling, which may change route and lane shares."},
+             "formal_result": False}
+    out.mkdir(parents=True)
+    for name, path in zip(names, paths):
+        copy_file_atomic(path, out / name)
+    write_json_atomic(out / "od-model.json", model)
+    initial = [row["initial_flow"] for row in rows]
+    write_json_atomic(out / "initial-od-vector.json", {"values": initial, "vehicle_count": sum(initial),
+                                                     "ordering": "departure interval, then origin and destination"})
+    proposal = write_hamburg_od_demand(model_file=out / "od-model.json", values=initial, output_dir=out / "initial")
+    generated = ET.parse(proposal / "demand.rou.xml").getroot().findall("vehicle")
+    generated_ids = [v.get("id") for v in generated]
+    old = {v.get("id"): v for v in vehicles}
+    new = {v.get("id"): v for v in generated}
+    common = old.keys() & new.keys()
+    # Match SUMO TIME2STEPS at its native millisecond resolution, not Python round-to-even.
+    def milliseconds(vehicle):
+        return math.floor(float(vehicle.get("depart")) * 1000 + .5)
+
+    different_depart = [i for i in sorted(common) if milliseconds(old[i]) != milliseconds(new[i])]
+    different_attributes = [i for i in sorted(common) if
+        {k: v for k, v in old[i].attrib.items() if k != "depart"} !=
+        {k: v for k, v in new[i].attrib.items() if k != "depart"}]
+    different_children = [i for i in sorted(common) if
+        [ET.canonicalize(ET.tostring(c, encoding="unicode"), strip_text=True) for c in old[i]] !=
+        [ET.canonicalize(ET.tostring(c, encoding="unicode"), strip_text=True) for c in new[i]]]
+    new_intentions = json.loads((proposal / "lane-intentions.json").read_bytes())
+    initial_vector = json.loads((proposal / "od-vector.json").read_bytes())
+    old_xml, new_xml = (path.read_bytes() for path in (source / "demand.rou.xml", proposal / "demand.rou.xml"))
+    expected_cells = {t["prior_vehicle_id"]: column for column, cell in enumerate(rows) for t in cell["templates"]}
+    checks = {"all_source_inputs_unchanged": hashes == {name: file_sha256(path) for name, path in zip(names, paths)},
+        "copied_inputs_rawbytes_identical": all(file_sha256(out / name) == hashes[name] for name in names),
+        "unique_vehicle_ids_identical": len(generated_ids) == len(new) == len(old) and old.keys() == new.keys(),
+        "vehicle_sequence_identical": ids == generated_ids,
+        "departure_native_milliseconds_identical": not different_depart,
+        "all_non_departure_request_attributes_identical": not different_attributes,
+        "all_routes_stops_and_other_children_identical": not different_children,
+        "full_demand_canonical_xml_identical": ET.canonicalize(old_xml.decode("utf-8"), strip_text=True) ==
+            ET.canonicalize(new_xml.decode("utf-8"), strip_text=True),
+        "all_field_intentions_identical": fields == {r["vehicle_id"]: r["field_id"] for r in new_intentions["vehicles"]},
+        "cell_assignment_matches_current_requests": expected_cells == {r["vehicle_id"]: r["od_cell"] for r in new_intentions["vehicles"]},
+        "integer_initial_counts_identical": initial_vector["integer_counts"] == initial and
+            initial_vector["vehicle_count"] == sum(initial) == len(vehicles),
+        "body_hold_scope_identical": _body_hold_nodes(source) == _body_hold_nodes(out)}
+    report = {"schema": "astra.hamburg-explicit-od-initial-equivalence/v1",
+        "status": "pass" if all(checks.values()) else "blocked", "checks": checks,
+        "source_prepared_dir": str(source), "prepared_dir": str(out), "generated_initial_dir": str(proposal),
+        "source_hashes": hashes, "model_sha256": file_sha256(out / "od-model.json"),
+        "generated_hashes": {name: file_sha256(proposal / name) for name in
+            ("demand.rou.xml", "lane-intentions.json", "od-vector.json")},
+        "vehicle_count": len(vehicles), "od_pairs": len(pairs), "departure_bins": 14, "od_cells": len(rows),
+        "different_departure_ids": different_depart, "different_request_attribute_ids": different_attributes,
+        "different_route_or_stop_ids": different_children,
+        "format": {"demand_rawbytes_identical": hashes["demand.rou.xml"] == file_sha256(proposal / "demand.rou.xml"),
+            "intentions_rawbytes_identical": hashes["lane-intentions.json"] == file_sha256(proposal / "lane-intentions.json"),
+            "departure_text_differences": sum(old[i].get("depart") != new[i].get("depart") for i in common),
+            "vehicle_sequence_differences": sum(a != b for a, b in zip(ids, generated_ids)),
+            "demand_body_rawbytes_identical": old_xml.partition(b"?>")[2] == new_xml.partition(b"?>")[2],
+            "source_xml_declaration": old_xml.partition(b"?>")[0].decode("utf-8") + "?>",
+            "generated_xml_declaration": new_xml.partition(b"?>")[0].decode("utf-8") + "?>"},
+        "quantile_resampling_changed": False, "new_native_run": False, "cache_reuse_authorized": False,
+        "formal_result": False,
+        "claim_boundary": "Initial explicit input correspondence only, not a new native run or permission to alter cached evidence. Changed cell counts retain existing empirical quantile resampling. No prior route or stop is replaced by a historical template."}
+    write_json_atomic(out / "initial-equivalence.json", report)
+    if not all(checks.values()):
+        raise ValueError("The rebuilt initial requests differ. Inspect initial-equivalence.json; preserve the candidate.")
     return model
 
 

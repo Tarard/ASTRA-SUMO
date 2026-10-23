@@ -12,6 +12,80 @@ from astra_sumo.core.hamburg_od_definition import audit_hamburg_od_definition
 from astra_sumo.core.hamburg_od_spsa import prepare_hamburg_od_baseline, write_hamburg_od_demand
 
 
+def _mixed_explicit_prior(tmp_path):
+    from astra_sumo.core.hamburg_primary_branch_repair import NEW_TAIL, OLD_TAIL
+
+    frozen = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_primary_branch_repair_20261023_v1/prepared"
+    source = tmp_path / "explicit"
+    source.mkdir()
+    for path in frozen.glob("*.gz"):
+        (source / path.stem).write_bytes(gzip.decompress(path.read_bytes()))
+    intentions = json.loads((source / "lane-intentions.json").read_bytes())
+    assigned = {row["vehicle_id"]: row["field_id"] for row in intentions["vehicles"]}
+    tree = ET.parse(source / "demand.rou.xml")
+    z15 = sorted((v for v in tree.getroot().findall("vehicle") if "Z_15_" in assigned[v.get("id")]),
+                 key=lambda v: (float(v.get("depart")), v.get("id")))
+    assert len(z15) == 1205
+    for vehicle in z15[::2]:
+        route = vehicle.find("route")
+        edges = route.get("edges").split()
+        assert tuple(edges[-len(NEW_TAIL):]) == NEW_TAIL
+        route.set("edges", " ".join(edges[:-len(NEW_TAIL)] + list(OLD_TAIL)))
+    tree.write(source / "demand.rou.xml", encoding="utf-8", xml_declaration=True)
+    return source
+
+
+def test_explicit_od_rebuild_preserves_initial_requests_and_mixed_tail_prior(tmp_path):
+    source = _mixed_explicit_prior(tmp_path)
+    prepared = tmp_path / "prepared"
+    model = workflow.prepare_hamburg_od_from_explicit(prepared_dir=source, output_dir=prepared)
+    assert len(model["cells"]) == 294
+    assert sum(cell["initial_flow"] for cell in model["cells"]) == 8640
+    assert model["exit_extensions"] == {}
+    for path in source.iterdir():
+        assert (prepared / path.name).read_bytes() == path.read_bytes()
+    initial = prepared / "initial"
+    assert (initial / "demand.rou.xml").read_bytes() == (source / "demand.rou.xml").read_bytes()
+    assert (initial / "lane-intentions.json").read_bytes() == (source / "lane-intentions.json").read_bytes()
+    vehicles = ET.parse(initial / "demand.rou.xml").getroot().findall("vehicle")
+    assert sum("27064186#0" in v.find("route").get("edges").split() for v in vehicles) == 603
+    report = json.loads((prepared / "initial-equivalence.json").read_bytes())
+    assert report["status"] == "pass" and all(report["checks"].values())
+    assert not report["new_native_run"] and not report["cache_reuse_authorized"]
+    assert report["vehicle_count"] == 8640 and report["od_cells"] == 294
+    assert report["quantile_resampling_changed"] is False
+
+
+def test_explicit_od_rebuild_rejects_missing_intention_before_writing(tmp_path):
+    source = _mixed_explicit_prior(tmp_path)
+    path = source / "lane-intentions.json"
+    data = json.loads(path.read_bytes())
+    data["vehicles"].pop()
+    path.write_text(json.dumps(data), encoding="utf-8")
+    with pytest.raises(ValueError, match="intention"):
+        workflow.prepare_hamburg_od_from_explicit(prepared_dir=source, output_dir=tmp_path / "rejected")
+    assert not (tmp_path / "rejected").exists()
+
+
+def test_explicit_od_rebuild_retains_failed_initial_identity_check(tmp_path):
+    source = _mixed_explicit_prior(tmp_path)
+    tree = ET.parse(source / "demand.rou.xml")
+    vehicle = tree.getroot().find("vehicle")
+    original_id = vehicle.get("id")
+    vehicle.set("id", "noncanonical-source-id")
+    tree.write(source / "demand.rou.xml", encoding="utf-8", xml_declaration=True)
+    path = source / "lane-intentions.json"
+    intentions = json.loads(path.read_bytes())
+    next(r for r in intentions["vehicles"] if r["vehicle_id"] == original_id)["vehicle_id"] = "noncanonical-source-id"
+    path.write_text(json.dumps(intentions), encoding="utf-8")
+    with pytest.raises(ValueError, match="initial-equivalence.json"):
+        workflow.prepare_hamburg_od_from_explicit(prepared_dir=source, output_dir=tmp_path / "blocked")
+    report = json.loads((tmp_path / "blocked/initial-equivalence.json").read_bytes())
+    assert report["status"] == "blocked" and not report["checks"]["unique_vehicle_ids_identical"]
+    assert report["checks"]["all_source_inputs_unchanged"]
+    assert (tmp_path / "blocked/initial/demand.rou.xml").exists()
+
+
 def test_approved_od_initialization_preserves_requests_and_extends_internal_end(tmp_path):
     source = Path(__file__).resolve().parents[1] / "benchmarks/hamburg_ring1_munich_corridor_20261022_v1"
     audit_hamburg_od_definition(case_dir=source, output_dir=tmp_path / "audit")
