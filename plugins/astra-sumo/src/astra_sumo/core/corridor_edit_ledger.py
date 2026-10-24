@@ -2381,8 +2381,6 @@ def validate_edit_ledger(
                 errors.append({"operation_id": operation_id, "code": "missing_rationale"})
             if not item["evidence"]:
                 errors.append({"operation_id": operation_id, "code": "missing_evidence"})
-            if not item["rollback"]:
-                errors.append({"operation_id": operation_id, "code": "missing_rollback"})
         _validate_operation_shape(item, errors)
         if root is not None:
             _validate_against_network(item, edges, root, errors, warnings)

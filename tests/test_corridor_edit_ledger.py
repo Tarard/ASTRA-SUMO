@@ -205,7 +205,7 @@ def test_normalize_operation_promotes_edit_parameters() -> None:
     }
 
 
-def test_validation_requires_evidence_and_rollback() -> None:
+def test_validation_requires_rationale_and_evidence_but_not_rollback() -> None:
     report = validate_edit_ledger(
         {
             "operations": [
@@ -215,7 +215,17 @@ def test_validation_requires_evidence_and_rollback() -> None:
     )
 
     assert report["status"] == "fail"
-    assert {item["code"] for item in report["errors"]} == {"missing_rationale", "missing_evidence", "missing_rollback"}
+    assert {item["code"] for item in report["errors"]} == {"missing_rationale", "missing_evidence"}
+
+    explained = validate_edit_ledger(
+        {
+            "operations": [
+                {"id": "delete-1", "operation": "delete_edge", "target_ids": ["edge"],
+                 "rationale": "duplicate carriageway", "evidence": ["aerial.png"]}
+            ]
+        }
+    )
+    assert explained["status"] == "pass", explained["errors"]
 
 
 def test_build_writes_review_overlay_manifest_and_rollback(tmp_path: Path) -> None:

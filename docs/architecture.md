@@ -52,7 +52,7 @@ The three decision tiers are explicit:
 2. **Review-required**: review locations are emitted as SUMO
    `additional.xml`; promotion additionally requires an exact, candidate-hash-
    bound decision with structured observed facts, reviewer, timestamp,
-   evidence, rationale, and rollback. Map review is a hard requirement only
+   evidence and rationale. Map review is a hard requirement only
    when the edit explicitly declares it.
 3. **Blocked**: missing/invalid evidence, an unreviewed protected delta, stale
    outputs, source/candidate identity, or a failed runtime gate prevents

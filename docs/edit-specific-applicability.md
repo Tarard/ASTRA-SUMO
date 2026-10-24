@@ -8,7 +8,7 @@ astra network verify-edit ledger.json verification-v1 --netconvert-binary C:/pro
 
 Use a new output directory. The ledger uses the existing
 [scoped edit format](network-edit-operations.md). The source network, accepted
-action, evidence files, and rollback must be explicit. The source SHA-256 and
+action and evidence files must be explicit; a rollback note is optional because the source is never modified. The source SHA-256 and
 every evidence hash must match before construction.
 
 ## Supported profiles
