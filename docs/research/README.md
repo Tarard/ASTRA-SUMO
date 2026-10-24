@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg ordinary-road exit prior: four-car route support and rejected full comparison, 2026-10-24](../../benchmarks/hamburg_ring1_normal_exit_prior_20261024_v1/README.md)
 - [Hamburg field-consistent OD-period direction and two rejected native responses, 2026-10-24](../../benchmarks/hamburg_ring1_one_share_field_stratified_feedback_20261024_v1/README.md)
 - [Hamburg single legal Z4-to-Z5 share change, healthy execution and count regression, 2026-10-24](../../benchmarks/hamburg_ring1_z5_single_share_20261024_v1/README.md)
 - [Hamburg same-OD stable-request realization and conditional field-total bound, 2026-10-24](../../benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/README.md)
