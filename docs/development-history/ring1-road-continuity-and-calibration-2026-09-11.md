@@ -18,11 +18,11 @@
 
 相关实现位于：
 
-- [`hamburg_junctions/movements.py`](../../plugins/torii-sumo/src/torii_sumo/core/hamburg_junctions/movements.py)
-- [`junction_rebuild/restoration.py`](../../plugins/torii-sumo/src/torii_sumo/core/junction_rebuild/restoration.py)
-- [`hamburg_aerial_corridor_candidate.py`](../../plugins/torii-sumo/src/torii_sumo/core/hamburg_aerial_corridor_candidate.py)
-- [`topology_signal_rebuild.py`](../../plugins/torii-sumo/src/torii_sumo/core/topology_signal_rebuild.py)
-- [`hamburg_event_retiming.py`](../../plugins/torii-sumo/src/torii_sumo/core/hamburg_event_retiming.py)
+- [`hamburg_junctions/movements.py`](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/movements.py)
+- [`junction_rebuild/restoration.py`](../../plugins/astra-sumo/src/astra_sumo/core/junction_rebuild/restoration.py)
+- [`hamburg_aerial_corridor_candidate.py`](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py)
+- [`topology_signal_rebuild.py`](../../plugins/astra-sumo/src/astra_sumo/core/topology_signal_rebuild.py)
+- [`hamburg_event_retiming.py`](../../plugins/astra-sumo/src/astra_sumo/core/hamburg_event_retiming.py)
 
 ## 验证结果
 

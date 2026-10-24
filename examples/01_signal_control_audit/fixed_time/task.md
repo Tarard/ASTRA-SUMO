@@ -1,6 +1,6 @@
 # Task: Fixed-Time Signal-Control Audit
 
-Use `$simulation-helper-skill-for-eclipse-sumo` to audit this fixed-time SUMO/TraCI traffic signal control experiment before results are reported.
+Use `$astra-simulate` to audit this fixed-time SUMO/TraCI traffic signal control experiment before results are reported.
 
 ## Claimed Result
 

@@ -92,7 +92,7 @@ This optional stage retains a review decision. Inspect both the image evidence
 and the resulting NetEdit network before judging whether geometry improved.
 
 When the user requests count fitting or demand reconstruction, use
-[hamburg-count-calibration-workflow.md](hamburg-count-calibration-workflow.md)
+[hamburg-count-calibration-workflow.md](../../astra-calibrate/references/hamburg-count-calibration-workflow.md)
 after the road network has been checked and frozen. Do not run calibration
 to decide whether road construction passed. Keep extra OSM side roads when
 official MAP coverage is incomplete.

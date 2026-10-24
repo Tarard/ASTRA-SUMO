@@ -2,7 +2,7 @@
 
 Use this reference when the user asks for traffic-count fitting, demand
 reconstruction, or signal replay. It is separate from
-[road construction](hamburg-five-intersection-aerial-workflow.md).
+[road construction](../../astra-build/references/hamburg-five-intersection-aerial-workflow.md).
 
 Start with `network-handoff.json` from the road workflow. Verify the road
 network and construction manifest against its SHA-256 hashes. Check its

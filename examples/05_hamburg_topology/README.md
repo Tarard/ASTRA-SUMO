@@ -155,7 +155,7 @@ image-only reconstruction or a claim of superiority over the official MAP.
 Finish the road checks and freeze the chosen network hash before binding
 counts, fitting demand, or reconstructing signal operation. Those tasks use
 the existing signal/count/demand commands in a separate directory. Follow the
-[count-calibration workflow](../../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md)
+[count-calibration workflow](../../plugins/astra-sumo/skills/astra-calibrate/references/hamburg-count-calibration-workflow.md)
 for that work. Road construction never requires a calibration result.
 
 ## Replay the reviewed V1 connection correction

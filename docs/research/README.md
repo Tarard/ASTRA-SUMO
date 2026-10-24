@@ -40,7 +40,6 @@ This index separates research evidence from current product documentation. The l
 - [Ring1 count-fit literature and native temporal feedback, 2026-10-21 V2](ring1-count-fit-basis-2026-10-21-v2.md)
 - [Source-relative OCIT program timelines, 2026-10-21](ocit-program-timelines-2026-10-21.md)
 - [Ring1 count-fit method basis, 2026-10-20](ring1-count-fit-basis-2026-10-20.md)
-- [Research Paper Blueprint](../research-paper-blueprint.md)
 - [Corridor human-modeling research plan](../torii-corridor-human-modeling-research-plan.md)
 - [Corridor human-modeling implementation status](../torii-corridor-human-modeling-implementation-status.md)
 - [Corridor research implementation status](../torii-corridor-research-implementation-status.md)

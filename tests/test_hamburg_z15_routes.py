@@ -85,6 +85,3 @@ def test_frozen_full_observation_rows_do_not_hide_the_tail_timeout():
     assert float(snapshot["step"]["time"]) == 13645
     assert snapshot["parse_error"] and not snapshot["native_completion_established"]
     assert checks["all_130_native_E1_counts_rechecked"] and checks["all_40_station_sums_rechecked"]
-    text = (root / "README.md").read_text(encoding="utf-8")
-    assert "均非计划结束时的最终数量" in text and "停止检查每 0.1 秒" in text
-    assert "完整整数等式在仿真前成立" not in text

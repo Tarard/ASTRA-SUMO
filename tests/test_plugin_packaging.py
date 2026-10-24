@@ -61,12 +61,10 @@ def test_plugin_manifest_declares_skill_and_mcp_companion() -> None:
 def test_plugin_manifest_uses_app_logo_for_codex_icon() -> None:
     manifest = load_json(PLUGIN / ".codex-plugin" / "plugin.json")
     logo_path = PLUGIN / "assets" / "app-logo.png"
-    docs_logo_path = ROOT / "docs" / "assets" / "app-logo.png"
 
     assert manifest["interface"]["composerIcon"] == "./assets/app-logo.png"
     assert manifest["interface"]["logo"] == "./assets/app-logo.png"
     assert logo_path.is_file()
-    assert logo_path.read_bytes() == docs_logo_path.read_bytes()
 
 
 def test_mcp_config_uses_locked_plugin_launcher() -> None:

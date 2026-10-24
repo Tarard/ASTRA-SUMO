@@ -410,7 +410,7 @@ These commands are not stages of `build-network`. Bind all later evidence to
 the exact checked network hash and matching `candidate/manifest.json`.
 They retain their existing request formats and do not accept the handoff file
 directly. A road change requires new road checks and new affected bindings. See the
-[count-calibration reference](../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md).
+[count-calibration reference](../plugins/astra-sumo/skills/astra-calibrate/references/hamburg-count-calibration-workflow.md).
 
 The signal-binding command accepts only exact physical movement identities
 and reports frozen MAP/TLD version mismatches. It does not infer timing. The
