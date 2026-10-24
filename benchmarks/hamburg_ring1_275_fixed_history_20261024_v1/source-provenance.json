@@ -1,0 +1,1307 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\audit.py",
+      "relative": "audit.py",
+      "raw_bytes": 6764,
+      "raw_sha256": "7060803c03d6f5196b32f8c989386597a94f7d4cd4c0277f6a0a994d2a447055"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\common.py",
+      "relative": "common.py",
+      "raw_bytes": 5226,
+      "raw_sha256": "315e7d9d548d9198e2744ef76473f4db4785bb7e6d1baeb4fbd355c3ca310ae2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\audit_fixed.py",
+      "relative": "helpers/audit_fixed.py",
+      "raw_bytes": 18078,
+      "raw_sha256": "55f4a2c8472251ac55c184a0c5e0cb77a18d0e60dee107fb53c353e0438b5d1b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\independent.json",
+      "relative": "independent.json",
+      "raw_bytes": 40234,
+      "raw_sha256": "6640da4bad48533239bd7bafa9a16e1a997c6e0475d4626c8e7fb005e7605e8d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\evaluation\\native\\field-counts.xml",
+      "relative": "mixed/h3_counter_add9/evaluation/native/field-counts.xml",
+      "raw_bytes": 53390,
+      "raw_sha256": "e9199ae787332bba2a5ef0954e2a1dfe60b8b07cfd988f41aad07e3ac76d43ba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\executed-driver.py",
+      "relative": "mixed/h3_counter_add9/executed-driver.py",
+      "raw_bytes": 4337,
+      "raw_sha256": "bab4c64e6403ef707d5ecc5671cb442426b3d8e5875ed4fd72968d0725a9fe6f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\executed-prepare.py",
+      "relative": "mixed/h3_counter_add9/executed-prepare.py",
+      "raw_bytes": 11621,
+      "raw_sha256": "5f5d41da8ee255a63a514ab425452b8be8d66b6b97068b29e2ccd77b2fff15af"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\executed-shared-driver.py",
+      "relative": "mixed/h3_counter_add9/executed-shared-driver.py",
+      "raw_bytes": 11581,
+      "raw_sha256": "a64a03b82659b536a8638e27323062b7ebc3c72af07b3d108c6ce816606cba31"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\independent-full.json",
+      "relative": "mixed/h3_counter_add9/independent-full.json",
+      "raw_bytes": 22416,
+      "raw_sha256": "edc504f56ea8f14553e9542a9522c847ddd47cd092daa15bdbee29bcc188a092"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\audit_response.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/audit_response.py",
+      "raw_bytes": 18270,
+      "raw_sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\audit_scope.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/audit_scope.py",
+      "raw_bytes": 7371,
+      "raw_sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\detector_demand.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\detector_demand_replay.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\hamburg_od_spsa.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\hamburg_readme_results.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\lane_section_hold.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\measure_prefix.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/measure_prefix.py",
+      "raw_bytes": 16004,
+      "raw_sha256": "e223be23e9b1555803d264fba813b0913630af5d1ea1fd2462a550f89a87882e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\prepare_warmup9.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/prepare_warmup9.py",
+      "raw_bytes": 11621,
+      "raw_sha256": "5f5d41da8ee255a63a514ab425452b8be8d66b6b97068b29e2ccd77b2fff15af"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\prepare_z11_minus5.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/prepare_z11_minus5.py",
+      "raw_bytes": 7827,
+      "raw_sha256": "d0657f5474df3c7185a8d3526cd0c8b58b3c5217a204aab68bdbf88f132bf3cb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\route_sensor_matrix.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\run_case.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/run_case.py",
+      "raw_bytes": 11581,
+      "raw_sha256": "a64a03b82659b536a8638e27323062b7ebc3c72af07b3d108c6ce816606cba31"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\run_fixture.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/run_fixture.py",
+      "raw_bytes": 17448,
+      "raw_sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\run_full.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/run_full.py",
+      "raw_bytes": 15784,
+      "raw_sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\run_full_candidate.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/run_full_candidate.py",
+      "raw_bytes": 4480,
+      "raw_sha256": "96d245bf7dcc2fecb6cc5609c88b36748049f8f5d720cd51fdd3dc6f64e54f7a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\run_full_saved_case.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/run_full_saved_case.py",
+      "raw_bytes": 4337,
+      "raw_sha256": "bab4c64e6403ef707d5ecc5671cb442426b3d8e5875ed4fd72968d0725a9fe6f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\measurement-implementation\\simulation_stall.py",
+      "relative": "mixed/h3_counter_add9/measurement-implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\od-vector.json",
+      "relative": "mixed/h3_counter_add9/od-vector.json",
+      "raw_bytes": 8963,
+      "raw_sha256": "b561a69cd29f42bbcc1ba0f906727b6c59fdca1f4e3e30aacb87a14109d2032b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\preflight.json",
+      "relative": "mixed/h3_counter_add9/preflight.json",
+      "raw_bytes": 17463,
+      "raw_sha256": "15ccf2d74b59ac56009476fd15aa6ddce0a2594d8907c7f2b795ca1450ef98a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\proposal.json",
+      "relative": "mixed/h3_counter_add9/proposal.json",
+      "raw_bytes": 11377,
+      "raw_sha256": "449c45e82a3d12dad32c68e45744775c05f39d0c84dd690c195efaddb47cd222"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\scope-proof.json",
+      "relative": "mixed/h3_counter_add9/scope-proof.json",
+      "raw_bytes": 6852,
+      "raw_sha256": "ac9bee5e0a892f4b237a218613b80e0f80ac5b8ccd1b1978fd095e5a8c20e92d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h3_counter_add9\\verdict.json",
+      "relative": "mixed/h3_counter_add9/verdict.json",
+      "raw_bytes": 2530,
+      "raw_sha256": "4fdd9a815db8abcb6e1c6486e925fa6603d640ebc37a2a0fb80e05d1ab00113e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\evaluation\\native\\field-counts.xml",
+      "relative": "mixed/h4_counter_fill9/evaluation/native/field-counts.xml",
+      "raw_bytes": 53406,
+      "raw_sha256": "0f81c57bb402484b81406dc8c2103f5f929bb18c202f3a1cfcb5a0fdd8ae7e1c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\executed-driver.py",
+      "relative": "mixed/h4_counter_fill9/executed-driver.py",
+      "raw_bytes": 4337,
+      "raw_sha256": "bab4c64e6403ef707d5ecc5671cb442426b3d8e5875ed4fd72968d0725a9fe6f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\executed-prepare.py",
+      "relative": "mixed/h4_counter_fill9/executed-prepare.py",
+      "raw_bytes": 10234,
+      "raw_sha256": "ece0cc636f975557831831a5c2da53b80f84f0940c37b6860da5f9cfe812cf8b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\executed-shared-driver.py",
+      "relative": "mixed/h4_counter_fill9/executed-shared-driver.py",
+      "raw_bytes": 11581,
+      "raw_sha256": "a64a03b82659b536a8638e27323062b7ebc3c72af07b3d108c6ce816606cba31"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\independent-full.json",
+      "relative": "mixed/h4_counter_fill9/independent-full.json",
+      "raw_bytes": 22474,
+      "raw_sha256": "a2f68777cd6f2fe57a3eec1d8e46d35a27e77a869c78cc4406a2d4ba048993ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\audit_response.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/audit_response.py",
+      "raw_bytes": 18270,
+      "raw_sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\audit_scope.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/audit_scope.py",
+      "raw_bytes": 7371,
+      "raw_sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\detector_demand.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\detector_demand_replay.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\hamburg_od_spsa.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\hamburg_readme_results.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\lane_section_hold.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\measure_prefix.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/measure_prefix.py",
+      "raw_bytes": 16004,
+      "raw_sha256": "e223be23e9b1555803d264fba813b0913630af5d1ea1fd2462a550f89a87882e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\prepare_counter_fill9.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/prepare_counter_fill9.py",
+      "raw_bytes": 10234,
+      "raw_sha256": "ece0cc636f975557831831a5c2da53b80f84f0940c37b6860da5f9cfe812cf8b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\prepare_z11_minus5.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/prepare_z11_minus5.py",
+      "raw_bytes": 7827,
+      "raw_sha256": "d0657f5474df3c7185a8d3526cd0c8b58b3c5217a204aab68bdbf88f132bf3cb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\route_sensor_matrix.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\run_case.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/run_case.py",
+      "raw_bytes": 11581,
+      "raw_sha256": "a64a03b82659b536a8638e27323062b7ebc3c72af07b3d108c6ce816606cba31"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\run_fixture.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/run_fixture.py",
+      "raw_bytes": 17448,
+      "raw_sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\run_full.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/run_full.py",
+      "raw_bytes": 15784,
+      "raw_sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\run_full_candidate.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/run_full_candidate.py",
+      "raw_bytes": 4480,
+      "raw_sha256": "96d245bf7dcc2fecb6cc5609c88b36748049f8f5d720cd51fdd3dc6f64e54f7a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\run_full_saved_case.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/run_full_saved_case.py",
+      "raw_bytes": 4337,
+      "raw_sha256": "bab4c64e6403ef707d5ecc5671cb442426b3d8e5875ed4fd72968d0725a9fe6f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\measurement-implementation\\simulation_stall.py",
+      "relative": "mixed/h4_counter_fill9/measurement-implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\od-vector.json",
+      "relative": "mixed/h4_counter_fill9/od-vector.json",
+      "raw_bytes": 9258,
+      "raw_sha256": "c212d4aea8c58d6665029ed4c97c82c794c1a9e69a03a8a7c93d8a1506e25cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\preflight.json",
+      "relative": "mixed/h4_counter_fill9/preflight.json",
+      "raw_bytes": 17478,
+      "raw_sha256": "f54a84867f30cac633a7e47f0df1a82b0cd0e5823b9c9bc0f12f836ef918b31a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\proposal.json",
+      "relative": "mixed/h4_counter_fill9/proposal.json",
+      "raw_bytes": 14067,
+      "raw_sha256": "5f6925965f8b61795faabefdd6c5f46c489c64cdb5b861844b0303c9a963cf73"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\scope-proof.json",
+      "relative": "mixed/h4_counter_fill9/scope-proof.json",
+      "raw_bytes": 5632,
+      "raw_sha256": "328f4d22f05373741a235ac6dcc59296cd5b7a40920eddf332dc2a875d39a757"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_fill9\\verdict.json",
+      "relative": "mixed/h4_counter_fill9/verdict.json",
+      "raw_bytes": 2531,
+      "raw_sha256": "35880adf586f634ebc21961a8b4381e5584ff50d2541487aa171bf1ece6ef3c0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\pair-audit.log",
+      "relative": "pair-audit.log",
+      "raw_bytes": 24438,
+      "raw_sha256": "c3f6bbb118cf7e168045f3908123c073d597a5a95a66a0233f6196d022333a58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\paired-result.json",
+      "relative": "paired-result.json",
+      "raw_bytes": 41376,
+      "raw_sha256": "2c19dd1a3f1c320bd566b5255fe192d2b872f8b03335b7b20c834f1837b0ea5f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\pre-execution-instant-comparison\\audit.py",
+      "relative": "pre-execution-instant-comparison/audit.py",
+      "raw_bytes": 5779,
+      "raw_sha256": "0fe9ceef91c1047355d5b17a90e280c65dad8163dfe4f3e89d27937432de9bdb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\pre-execution-instant-comparison\\preparation.json",
+      "relative": "pre-execution-instant-comparison/preparation.json",
+      "raw_bytes": 3555,
+      "raw_sha256": "b797489869162e789cba9c1c2ea00abdaf4ec7e093f64beb3e2bc4071da110d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\pre-execution-instant-comparison\\reference\\preflight.json",
+      "relative": "pre-execution-instant-comparison/reference/preflight.json",
+      "raw_bytes": 10842,
+      "raw_sha256": "7bf740674fbd9f4f28f5795d61901df5292481f91746fe8142d0e4d1bbf23ef2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\pre-execution-instant-comparison\\warmup9\\preflight.json",
+      "relative": "pre-execution-instant-comparison/warmup9/preflight.json",
+      "raw_bytes": 10734,
+      "raw_sha256": "2919931f69d4884de31f689f9bfc627ce5e3b876a9f427529711cb7d7b17483f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\pre-execution-instant-correction.json",
+      "relative": "pre-execution-instant-correction.json",
+      "raw_bytes": 2029,
+      "raw_sha256": "8b4cff067ae728929b7ff6ea305539394bab70f0b635324c1d64d26f9388b968"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\preparation.json",
+      "relative": "preparation.json",
+      "raw_bytes": 3555,
+      "raw_sha256": "b797489869162e789cba9c1c2ea00abdaf4ec7e093f64beb3e2bc4071da110d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\prepare.py",
+      "relative": "prepare.py",
+      "raw_bytes": 5962,
+      "raw_sha256": "5a5ee8acbfad91874733ab64844dbf078cfbf3760acd9a3e13d3009116950cd6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\adaptation.json",
+      "relative": "recording/adaptation.json",
+      "raw_bytes": 1647,
+      "raw_sha256": "a84595bbedeca47d5827e44d9769780813a17ff694df8b34f533b543313c7bd7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\offline_postcheck.py",
+      "relative": "recording/offline_postcheck.py",
+      "raw_bytes": 12735,
+      "raw_sha256": "c595c8d232e67a113906a852571d606ed342faa813fb118523bb5bb35e34ff9e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\postcheck-recovery.json",
+      "relative": "recording/postcheck-recovery.json",
+      "raw_bytes": 12864,
+      "raw_sha256": "737d4cc5db2680b8140be9aaa542fc42dd9d0bc86788e29117da5db4b5ae60f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\preparation-v1\\adaptation.json",
+      "relative": "recording/preparation-v1/adaptation.json",
+      "raw_bytes": 1429,
+      "raw_sha256": "7119e7963ecf632546c1a580b86b0aa988024aebef9a8253366d61390ee40d01"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\preparation-v1\\preflight.json",
+      "relative": "recording/preparation-v1/preflight.json",
+      "raw_bytes": 5887,
+      "raw_sha256": "8d5a04c7e295770fc08abe0301bd42076e2685bc0a8f9d73205fc2bcc35e9dfa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\preparation-v1\\record_tls.py",
+      "relative": "recording/preparation-v1/record_tls.py",
+      "raw_bytes": 15248,
+      "raw_sha256": "560e4625ae0eabe6162e240dc1773bf71b8454a26a78b7d8a4c8b0944b399737"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\record_tls.py",
+      "relative": "recording/record_tls.py",
+      "raw_bytes": 17016,
+      "raw_sha256": "9a4725148504aaa7764216776200c3d2ca89e1d53cd591691a1d0ef09bc63cad"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\collisions.xml",
+      "relative": "recording/reference/collisions.xml",
+      "raw_bytes": 3194,
+      "raw_sha256": "d7c47de22a3b41b6a828fe97c035f2193de79963976221e6f7ed001bc4c7bae9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\demand.rou.xml",
+      "relative": "recording/reference/demand.rou.xml",
+      "raw_bytes": 3703682,
+      "raw_sha256": "a9f236136ec5aeb32f4bf00ca9df0883b7b4c68615ea136391b025b5fdcf2e81"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\e1.add.xml",
+      "relative": "recording/reference/e1.add.xml",
+      "raw_bytes": 3394,
+      "raw_sha256": "4db4f4dd90987a0f28f59e0f341e5758286815046835603251f42ee0f2d14674"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\execution.log",
+      "relative": "recording/reference/execution.log",
+      "raw_bytes": 6634,
+      "raw_sha256": "dd9b8496950b2065b437525772b86dbf6bf79f4bb0bb98247f2f4363daad7399"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\expected-counts.csv",
+      "relative": "recording/reference/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\field-counts.xml",
+      "relative": "recording/reference/field-counts.xml",
+      "raw_bytes": 53001,
+      "raw_sha256": "695a312791253c242ad9e9508307f81c43315a3e8e70aead03edf324a69ffc91"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\instant.add.xml",
+      "relative": "recording/reference/instant.add.xml",
+      "raw_bytes": 2870,
+      "raw_sha256": "7fc8c400929dc60891053e069d660d60b97e45197aca9c7b9860084a41dfdc2b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\lane-intentions.json",
+      "relative": "recording/reference/lane-intentions.json",
+      "raw_bytes": 999204,
+      "raw_sha256": "2b1debcd65c70335547f91f722025b0d1969214389d3ddffe87d55b1ebf32b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\native-request.json",
+      "relative": "recording/reference/native-request.json",
+      "raw_bytes": 3678,
+      "raw_sha256": "71a372a64c5c62e176b0d2d19bd3f97cbd7a9b4545a1d01af58bcefcb958acfb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\network.net.xml",
+      "relative": "recording/reference/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\preflight.json",
+      "relative": "recording/reference/preflight.json",
+      "raw_bytes": 7048,
+      "raw_sha256": "a8bdf90bfbedef1d7cba1b8f8529a858398025583e9d28cbfea7f89960ef9be8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\record-result.json",
+      "relative": "recording/reference/record-result.json",
+      "raw_bytes": 5347,
+      "raw_sha256": "58f9735c4ce7238412831b7604a3692ff269cf2acf631cffb4eff29c99a7a0b5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\record_tls.snapshot.py",
+      "relative": "recording/reference/record_tls.snapshot.py",
+      "raw_bytes": 17016,
+      "raw_sha256": "9a4725148504aaa7764216776200c3d2ca89e1d53cd591691a1d0ef09bc63cad"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\signal-programs.add.xml",
+      "relative": "recording/reference/signal-programs.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\source-e1.add.xml",
+      "relative": "recording/reference/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\stall-monitor.json",
+      "relative": "recording/reference/stall-monitor.json",
+      "raw_bytes": 5809946,
+      "raw_sha256": "e5edc75368b8c5db203132b57e6d6efcc6b9888530caf897ea353f35e29ac3fd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\summary.xml",
+      "relative": "recording/reference/summary.xml",
+      "raw_bytes": 46651455,
+      "raw_sha256": "62579e172a191c0d66608c7954606e788783cf53d30791e15be3e994da83c95e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\sumo-errors.log",
+      "relative": "recording/reference/sumo-errors.log",
+      "raw_bytes": 3316,
+      "raw_sha256": "1a6893f5dbb55405549b86d2e5200ab46bdb6903eecd3df0d4ff97f7947aaf9a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\sumo.log",
+      "relative": "recording/reference/sumo.log",
+      "raw_bytes": 4966,
+      "raw_sha256": "5219c47dff5b2c4f1adaa686bb2aca3ab3b6e34e4fa6eb34907fec659b210d1d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\tls-observer.add.xml",
+      "relative": "recording/reference/tls-observer.add.xml",
+      "raw_bytes": 444,
+      "raw_sha256": "46f6778ba45bb0b267a5b104704445f35e7ecabbdc3dbd2afd719dfde343771e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\tls-recorded-programs.add.xml",
+      "relative": "recording/reference/tls-recorded-programs.add.xml",
+      "raw_bytes": 7687273,
+      "raw_sha256": "bfb182f96731086145bb5f8bdd4e3ba614ebd81d0e579f659c827db811fd09e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\tls-switch-states.xml",
+      "relative": "recording/reference/tls-switch-states.xml",
+      "raw_bytes": 12755833,
+      "raw_sha256": "92d609dc9e2a9d219039485ecde74709f825a028c9c16ccbe54c511731f046e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\tripinfo.xml",
+      "relative": "recording/reference/tripinfo.xml",
+      "raw_bytes": 4544184,
+      "raw_sha256": "3621ec8a5dae28b9ddc775a804ee7d980c47845623f239ecc4d9b2d7c4507713"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-control-history-20261024-v1\\reference\\vehicle-routes.xml",
+      "relative": "recording/reference/vehicle-routes.xml",
+      "raw_bytes": 6496956,
+      "raw_sha256": "7cc8c4dbda49dac95be974cc12b3deb0ae4159a53569db68746eda4b8a33192f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\contributing-passages.json.gz",
+      "relative": "reference/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 171753,
+      "raw_sha256": "b4bf0bd4bebf1cff09842f892c34448987e029b8f4c0d12121ecbb9d99badb36"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\demand.rou.xml",
+      "relative": "reference/evaluation/demand.rou.xml",
+      "raw_bytes": 3703682,
+      "raw_sha256": "a9f236136ec5aeb32f4bf00ca9df0883b7b4c68615ea136391b025b5fdcf2e81"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\evaluation.json",
+      "relative": "reference/evaluation/evaluation.json",
+      "raw_bytes": 453,
+      "raw_sha256": "a5f9c5084a35ef5ab7290162c1fbab781e7d0a7eb543d0dc5904fd3e09c70f83"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\lane-intentions.json",
+      "relative": "reference/evaluation/lane-intentions.json",
+      "raw_bytes": 999204,
+      "raw_sha256": "2b1debcd65c70335547f91f722025b0d1969214389d3ddffe87d55b1ebf32b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\collisions.xml",
+      "relative": "reference/evaluation/native/collisions.xml",
+      "raw_bytes": 3402,
+      "raw_sha256": "463c1e7e0820ce6947d0081baebf674c2710ac4ea03b2ff72e2207af1586f387"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\command.json",
+      "relative": "reference/evaluation/native/command.json",
+      "raw_bytes": 5320,
+      "raw_sha256": "361cf1e8b7a7ee5acbdc6f6d2e27a7e6bbc56239e6222eb536ae9b31fed03db3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\demand.rou.xml",
+      "relative": "reference/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3703682,
+      "raw_sha256": "a9f236136ec5aeb32f4bf00ca9df0883b7b4c68615ea136391b025b5fdcf2e81"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\e1.add.xml",
+      "relative": "reference/evaluation/native/e1.add.xml",
+      "raw_bytes": 3602,
+      "raw_sha256": "71d7fa2256a6b62a1119ac37dddc39abc4835ce842bb5e9dcade8798ff69d634"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\expected-counts.csv",
+      "relative": "reference/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\field-comparison.csv",
+      "relative": "reference/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7855,
+      "raw_sha256": "ae24af6b69705a61f412f84e9eea555870acf92576347155017eb5860d8714cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\field-counts.xml",
+      "relative": "reference/evaluation/native/field-counts.xml",
+      "raw_bytes": 53209,
+      "raw_sha256": "ec758b64005f0a95039ab23f872471bbcca87ca4b2b1de29e3b63bdb41c40886"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\instant.add.xml",
+      "relative": "reference/evaluation/native/instant.add.xml",
+      "raw_bytes": 3078,
+      "raw_sha256": "4a59dace32aa0501ff49a5db4c6f36a07c6832f604fc335b0b96ae9654068d00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\lane-intentions.json",
+      "relative": "reference/evaluation/native/lane-intentions.json",
+      "raw_bytes": 999204,
+      "raw_sha256": "2b1debcd65c70335547f91f722025b0d1969214389d3ddffe87d55b1ebf32b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\native-request.json",
+      "relative": "reference/evaluation/native/native-request.json",
+      "raw_bytes": 3984,
+      "raw_sha256": "3ff4355c0b51b8ef00793d06e9d4cb01d549ce7f6c05d39d6f582a40ca77a982"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\network.net.xml",
+      "relative": "reference/evaluation/native/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\run.json",
+      "relative": "reference/evaluation/native/run.json",
+      "raw_bytes": 6262462,
+      "raw_sha256": "21ed47a9c04a434a041c4ee866bc85e366593c22ee15b06317fe0728661c295c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "reference/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 7687273,
+      "raw_sha256": "bfb182f96731086145bb5f8bdd4e3ba614ebd81d0e579f659c827db811fd09e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\source-e1.add.xml",
+      "relative": "reference/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\stall-monitor.json",
+      "relative": "reference/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5810180,
+      "raw_sha256": "0fdd74efacf76f08a515bdfe2aebf1f7562f91f0125e62ae724d463324239828"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\summary.xml",
+      "relative": "reference/evaluation/native/summary.xml",
+      "raw_bytes": 46651662,
+      "raw_sha256": "f7b33b7e2e7710810d82a3fc4002da0c5f574f82e71dd2fc4d42fb5924adf33c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\sumo-errors.log",
+      "relative": "reference/evaluation/native/sumo-errors.log",
+      "raw_bytes": 2910,
+      "raw_sha256": "6a009e80bb71552e4ba109d2ce7a5603ba5ed23ca217a5472554234c22f6cb07"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\sumo.log",
+      "relative": "reference/evaluation/native/sumo.log",
+      "raw_bytes": 4660,
+      "raw_sha256": "19a72bc24916416574a402f55ac724f2125186cb36cf8bf009829d3f31e85995"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\tls-observer.add.xml",
+      "relative": "reference/evaluation/native/tls-observer.add.xml",
+      "raw_bytes": 269,
+      "raw_sha256": "c16df76fdcb6b7b7b95f80c772e6dd70ff4f94991dce464e4ce8641aa4bbe2f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\tls-switch-states.xml",
+      "relative": "reference/evaluation/native/tls-switch-states.xml",
+      "raw_bytes": 13063738,
+      "raw_sha256": "6e97577e9eab2291316756aad90f8639f9a44320447934d00e5af90950038fef"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\tripinfo.xml",
+      "relative": "reference/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4544392,
+      "raw_sha256": "f841d40fc1663011111ac075608d4861f6a70a8a9581b80a75f8bde3c12b9f27"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "reference/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6497164,
+      "raw_sha256": "7d5a6a5ce4e2033e657bb14232351877d2fdefd3d9bf8c284d3772457438e8bd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\station-comparison.csv",
+      "relative": "reference/evaluation/station-comparison.csv",
+      "raw_bytes": 1596,
+      "raw_sha256": "f29c6c00cde1dabe4207caf48ad8b0295b8eab873a336c4b5739fd6e9d88ce3d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\executed-run.py",
+      "relative": "reference/executed-run.py",
+      "raw_bytes": 6499,
+      "raw_sha256": "a5e7c5aeda9675673906321ba3f2347563d09789b611ddeee0880187dd4aa166"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\executed-wrapper.py",
+      "relative": "reference/executed-wrapper.py",
+      "raw_bytes": 1095,
+      "raw_sha256": "046d3df873b57b9e6af746fa3fdc1de26234185a4b09b6d61e7c019ec0f559e4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\execution.json",
+      "relative": "reference/execution.json",
+      "raw_bytes": 513,
+      "raw_sha256": "75453e7191fceaf18a7a9db26a3c0e50ebc5759e8c103f44c2a1a82df80f6598"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\execution.log",
+      "relative": "reference/execution.log",
+      "raw_bytes": 5511,
+      "raw_sha256": "5143ec58f27d8e1019b417f09b7c0cf757f9e9f752d0061e5ea564b9d0f506d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\detector_demand.py",
+      "relative": "reference/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\detector_demand_replay.py",
+      "relative": "reference/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\hamburg_od_spsa.py",
+      "relative": "reference/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\hamburg_readme_results.py",
+      "relative": "reference/implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\lane_section_hold.py",
+      "relative": "reference/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\route_sensor_matrix.py",
+      "relative": "reference/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\implementation\\simulation_stall.py",
+      "relative": "reference/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\native-result.json",
+      "relative": "reference/native-result.json",
+      "raw_bytes": 486,
+      "raw_sha256": "f2a70d7c26bba006181dcb1be6ef1eab782351386fa420ca0daecf5e93342a84"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\observer-adapter.json",
+      "relative": "reference/observer-adapter.json",
+      "raw_bytes": 610,
+      "raw_sha256": "1d58eb8db33f2ebeae58c4d2535b016297243ca93c80403b3a33497f963185e5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\parity.json",
+      "relative": "reference/parity.json",
+      "raw_bytes": 7317,
+      "raw_sha256": "62cbe85a24b224ff606d3651300c68a1decee19d8d0b60bfaad08471c0aeb2e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\planned-native-request.json",
+      "relative": "reference/planned-native-request.json",
+      "raw_bytes": 3984,
+      "raw_sha256": "3ff4355c0b51b8ef00793d06e9d4cb01d549ce7f6c05d39d6f582a40ca77a982"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\preflight.json",
+      "relative": "reference/preflight.json",
+      "raw_bytes": 10842,
+      "raw_sha256": "d05763160e1e36add22cdb12924ddd3c0951434caa97e48c8ccb5430ae936cce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\control.add.xml",
+      "relative": "reference/prepared/control.add.xml",
+      "raw_bytes": 7687273,
+      "raw_sha256": "bfb182f96731086145bb5f8bdd4e3ba614ebd81d0e579f659c827db811fd09e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\demand.rou.xml",
+      "relative": "reference/prepared/demand.rou.xml",
+      "raw_bytes": 3703682,
+      "raw_sha256": "a9f236136ec5aeb32f4bf00ca9df0883b7b4c68615ea136391b025b5fdcf2e81"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\expected-counts.csv",
+      "relative": "reference/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\field-loops.add.xml",
+      "relative": "reference/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\initialization-counts.csv",
+      "relative": "reference/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\lane-intentions.json",
+      "relative": "reference/prepared/lane-intentions.json",
+      "raw_bytes": 999204,
+      "raw_sha256": "2b1debcd65c70335547f91f722025b0d1969214389d3ddffe87d55b1ebf32b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\network.net.xml",
+      "relative": "reference/prepared/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\scenario.json",
+      "relative": "reference/prepared/scenario.json",
+      "raw_bytes": 7797,
+      "raw_sha256": "64949b331e5da9d85a12aeaa470f7f3f1df9febded67e0ac203e81001dab62b3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\run.py",
+      "relative": "run.py",
+      "raw_bytes": 1095,
+      "raw_sha256": "046d3df873b57b9e6af746fa3fdc1de26234185a4b09b6d61e7c019ec0f559e4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\actual-tls-events.csv",
+      "relative": "service-diagnosis/actual-tls-events.csv",
+      "raw_bytes": 2879,
+      "raw_sha256": "0f7fa3119a6d5c47d5f016ac16d012f3ec0ea7aa5f924c732754438c08e8f1df"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\analyze.py",
+      "relative": "service-diagnosis/analyze.py",
+      "raw_bytes": 9414,
+      "raw_sha256": "8e1d6679c47eeafd5dab223beff5c01bd8f550297468432e94221695e5d963da"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\manifest.json",
+      "relative": "service-diagnosis/manifest.json",
+      "raw_bytes": 681,
+      "raw_sha256": "0d84b0aab9ae57e695fcf486c1d15aa261ea58113d381bbca757520cc1114ea9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\queues.csv",
+      "relative": "service-diagnosis/queues.csv",
+      "raw_bytes": 68551,
+      "raw_sha256": "dce607752db378ff864647570fcdf82cbffaf0070ffd380f160f3959593bab26"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\summary.json",
+      "relative": "service-diagnosis/summary.json",
+      "raw_bytes": 14006,
+      "raw_sha256": "714412564df7829dc52f4be5fca34d8184de07e927fe2e78f1a68ba008e7b53f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\test_preparation.py",
+      "relative": "test_preparation.py",
+      "raw_bytes": 2577,
+      "raw_sha256": "bae6ea5c03b6d35821f1ae2e2c84dee87cfb4976f3e179407467b29abd6e5683"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\contributing-passages.json.gz",
+      "relative": "warmup9/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 171701,
+      "raw_sha256": "48b845dcd9eaab053f458b2c42d7ae638e3a25f377f4faf279a4cf7d4712c32e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\demand.rou.xml",
+      "relative": "warmup9/evaluation/demand.rou.xml",
+      "raw_bytes": 3707817,
+      "raw_sha256": "f5fa67de46303ea076c36b51e012bcdb31ce025a14e8db5b53046868e08a25ba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\evaluation.json",
+      "relative": "warmup9/evaluation/evaluation.json",
+      "raw_bytes": 436,
+      "raw_sha256": "24ea5a782adff68155d59ef74181ca64e02a66a880dc5b9e6268384c11182d8d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\lane-intentions.json",
+      "relative": "warmup9/evaluation/lane-intentions.json",
+      "raw_bytes": 1000284,
+      "raw_sha256": "5e39672e8506249c7548e8bcc6e608a863419c34ac8ef0b424105d7fe01879d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\collisions.xml",
+      "relative": "warmup9/evaluation/native/collisions.xml",
+      "raw_bytes": 3376,
+      "raw_sha256": "d48645586ddad23adfe96ad7fd237102772674fa20866ab5006751c0b715560e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\command.json",
+      "relative": "warmup9/evaluation/native/command.json",
+      "raw_bytes": 5303,
+      "raw_sha256": "2d9a3a2f836075a19d0fbb9bbb05c6ae8c31c5c70c6564e62b280abe637a85a9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\demand.rou.xml",
+      "relative": "warmup9/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3707817,
+      "raw_sha256": "f5fa67de46303ea076c36b51e012bcdb31ce025a14e8db5b53046868e08a25ba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\e1.add.xml",
+      "relative": "warmup9/evaluation/native/e1.add.xml",
+      "raw_bytes": 3576,
+      "raw_sha256": "3a8a72a523e746742251c0f6d409dfb3e02b4f6e9df7dd36d83725f3be53908c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\expected-counts.csv",
+      "relative": "warmup9/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\field-comparison.csv",
+      "relative": "warmup9/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7854,
+      "raw_sha256": "c4f366244c810786c4a042a62f09da70db40ddba3e08e39109892f0a5d88a364"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\field-counts.xml",
+      "relative": "warmup9/evaluation/native/field-counts.xml",
+      "raw_bytes": 53181,
+      "raw_sha256": "a49b20cde558a69b20d2eccc4cee6ff4cbf8768a987665af4170c331ec5c30dd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\instant.add.xml",
+      "relative": "warmup9/evaluation/native/instant.add.xml",
+      "raw_bytes": 3052,
+      "raw_sha256": "0b7be770d856fdf14690110eed966355103f6a984b151b65dfe6044d5fe1de63"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\lane-intentions.json",
+      "relative": "warmup9/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1000284,
+      "raw_sha256": "5e39672e8506249c7548e8bcc6e608a863419c34ac8ef0b424105d7fe01879d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\native-request.json",
+      "relative": "warmup9/evaluation/native/native-request.json",
+      "raw_bytes": 3950,
+      "raw_sha256": "6ab23692068f54d350cef0b8b22fa3180826e04c09928ad6c3fb96bb1222e7e4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\network.net.xml",
+      "relative": "warmup9/evaluation/native/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\run.json",
+      "relative": "warmup9/evaluation/native/run.json",
+      "raw_bytes": 6269995,
+      "raw_sha256": "9dceb43108dc24aa76059c3563f9ac613df905faf1436585920d38e3a7a1b44a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "warmup9/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 7687273,
+      "raw_sha256": "bfb182f96731086145bb5f8bdd4e3ba614ebd81d0e579f659c827db811fd09e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\source-e1.add.xml",
+      "relative": "warmup9/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\stall-monitor.json",
+      "relative": "warmup9/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5817220,
+      "raw_sha256": "1c4dbe43c2446cabac8d6396803899f3705d43292aaf32044edda3d07af5bc24"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\summary.xml",
+      "relative": "warmup9/evaluation/native/summary.xml",
+      "raw_bytes": 46653807,
+      "raw_sha256": "87d0ee3fc0c2c48e62b6fbf62e526edcfb86d1bd319a5836ee9b34e03d013d8f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\sumo-errors.log",
+      "relative": "warmup9/evaluation/native/sumo-errors.log",
+      "raw_bytes": 2910,
+      "raw_sha256": "6a009e80bb71552e4ba109d2ce7a5603ba5ed23ca217a5472554234c22f6cb07"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\sumo.log",
+      "relative": "warmup9/evaluation/native/sumo.log",
+      "raw_bytes": 4647,
+      "raw_sha256": "963fef74980775c9f4bd35a361b4078bf468fae67d0efb87e48418145e0509e8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\tls-observer.add.xml",
+      "relative": "warmup9/evaluation/native/tls-observer.add.xml",
+      "raw_bytes": 267,
+      "raw_sha256": "a7a970ddd27e365f27920d88b3a1e441ad88db658a819c743fc5aa57413bed2f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\tls-switch-states.xml",
+      "relative": "warmup9/evaluation/native/tls-switch-states.xml",
+      "raw_bytes": 13063712,
+      "raw_sha256": "84c8c56b4cc740e30e7eae39e9ecc7306e15495b7615541e9bda59aa92f4df5a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\tripinfo.xml",
+      "relative": "warmup9/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4549385,
+      "raw_sha256": "204bc186cfaa9543b595132684955f1fb0d39b86ed22c545fe15a5331a229858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "warmup9/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6504568,
+      "raw_sha256": "9a9a0496b8974ddfec3aed29deb1ded7c44320442ff9ab3131924fced21b9388"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\station-comparison.csv",
+      "relative": "warmup9/evaluation/station-comparison.csv",
+      "raw_bytes": 1596,
+      "raw_sha256": "382753bc73a6e8538e438e829bc91346165055280718c323fa045f7db6e7211c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\executed-run.py",
+      "relative": "warmup9/executed-run.py",
+      "raw_bytes": 6499,
+      "raw_sha256": "a5e7c5aeda9675673906321ba3f2347563d09789b611ddeee0880187dd4aa166"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\executed-wrapper.py",
+      "relative": "warmup9/executed-wrapper.py",
+      "raw_bytes": 1095,
+      "raw_sha256": "046d3df873b57b9e6af746fa3fdc1de26234185a4b09b6d61e7c019ec0f559e4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\execution.json",
+      "relative": "warmup9/execution.json",
+      "raw_bytes": 510,
+      "raw_sha256": "a9a224e3d8ca2d7113c2e8d71220e9a1b3425184e8e781f79514e07a6efd87a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\execution.log",
+      "relative": "warmup9/execution.log",
+      "raw_bytes": 18621,
+      "raw_sha256": "6256bccaaaf39fadf62a2b9cc19f4749832f6dcc3bc34d82c65d3055ddee8c8c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\detector_demand.py",
+      "relative": "warmup9/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\detector_demand_replay.py",
+      "relative": "warmup9/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\hamburg_od_spsa.py",
+      "relative": "warmup9/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\hamburg_readme_results.py",
+      "relative": "warmup9/implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\lane_section_hold.py",
+      "relative": "warmup9/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\route_sensor_matrix.py",
+      "relative": "warmup9/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\implementation\\simulation_stall.py",
+      "relative": "warmup9/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\native-result.json",
+      "relative": "warmup9/native-result.json",
+      "raw_bytes": 485,
+      "raw_sha256": "4ad18e1cc9620ec2f3f4533d1451c70523232bfe7d61043c314cbbdd11c8e4ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\observer-adapter.json",
+      "relative": "warmup9/observer-adapter.json",
+      "raw_bytes": 608,
+      "raw_sha256": "99bf72932652a07f78412727796452b00fb478a6f7643f6661dc644c20ad202d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\parity.json",
+      "relative": "warmup9/parity.json",
+      "raw_bytes": 28757,
+      "raw_sha256": "5b4ef8bd7aa7554ae185722accb434e4c6650da9aef64d9ab32813d06dc4b051"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\planned-native-request.json",
+      "relative": "warmup9/planned-native-request.json",
+      "raw_bytes": 3950,
+      "raw_sha256": "6ab23692068f54d350cef0b8b22fa3180826e04c09928ad6c3fb96bb1222e7e4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\preflight.json",
+      "relative": "warmup9/preflight.json",
+      "raw_bytes": 10734,
+      "raw_sha256": "568541b13b8d0217d6523508a69e02202aa62566f883cdfdee29bb86fe9825ca"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\control.add.xml",
+      "relative": "warmup9/prepared/control.add.xml",
+      "raw_bytes": 7687273,
+      "raw_sha256": "bfb182f96731086145bb5f8bdd4e3ba614ebd81d0e579f659c827db811fd09e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\demand.rou.xml",
+      "relative": "warmup9/prepared/demand.rou.xml",
+      "raw_bytes": 3707817,
+      "raw_sha256": "f5fa67de46303ea076c36b51e012bcdb31ce025a14e8db5b53046868e08a25ba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\expected-counts.csv",
+      "relative": "warmup9/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\field-loops.add.xml",
+      "relative": "warmup9/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\initialization-counts.csv",
+      "relative": "warmup9/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\lane-intentions.json",
+      "relative": "warmup9/prepared/lane-intentions.json",
+      "raw_bytes": 1000284,
+      "raw_sha256": "5e39672e8506249c7548e8bcc6e608a863419c34ac8ef0b424105d7fe01879d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\network.net.xml",
+      "relative": "warmup9/prepared/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\scenario.json",
+      "relative": "warmup9/prepared/scenario.json",
+      "raw_bytes": 18464,
+      "raw_sha256": "2dfa3c8e1ad3084c1f605c3f59fc53795937ee06b3e9c40efabae0d4a44525db"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\demand-side-diagnosis.json",
+      "relative": "bound-dependencies/372cc40da4ed5e4bbb9b77b36aea30fe81e8c02aeaa086e1a88c1ecfa3cd64a1/demand-side-diagnosis.json",
+      "raw_bytes": 36645,
+      "raw_sha256": "372cc40da4ed5e4bbb9b77b36aea30fe81e8c02aeaa086e1a88c1ecfa3cd64a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\verdict.json",
+      "relative": "bound-dependencies/73eb80fc95ee88fd5380991f976f3df723c1b0655001831b134d2a42a5b7c35d/verdict.json",
+      "raw_bytes": 2532,
+      "raw_sha256": "73eb80fc95ee88fd5380991f976f3df723c1b0655001831b134d2a42a5b7c35d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\preflight.json",
+      "relative": "bound-dependencies/502a91e13e0fce7e8d8968f86f3aa3810f34e744e8c5d4375f28f5e684084cae/preflight.json",
+      "raw_bytes": 10743,
+      "raw_sha256": "502a91e13e0fce7e8d8968f86f3aa3810f34e744e8c5d4375f28f5e684084cae"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\evaluation\\native\\native-request.json",
+      "relative": "bound-dependencies/1fc38c027c3aed90a70dc4c12554423526a5c5ad96b398c53de4131bf1f8a484/native-request.json",
+      "raw_bytes": 4138,
+      "raw_sha256": "1fc38c027c3aed90a70dc4c12554423526a5c5ad96b398c53de4131bf1f8a484"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\prepared\\demand.rou.xml",
+      "relative": "bound-dependencies/3be359fe28e31716fcde4d91d68a144979662104c83d241f051b8a8de5aac0e2/demand.rou.xml",
+      "raw_bytes": 3705841,
+      "raw_sha256": "3be359fe28e31716fcde4d91d68a144979662104c83d241f051b8a8de5aac0e2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\prepared\\scenario.json",
+      "relative": "bound-dependencies/81f64c3af4086175a8e28e884271dd44f0700cc855adaa38060564a24f5b5314/scenario.json",
+      "raw_bytes": 5780,
+      "raw_sha256": "81f64c3af4086175a8e28e884271dd44f0700cc855adaa38060564a24f5b5314"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\evaluation\\native\\field-counts.xml",
+      "relative": "bound-dependencies/af08dfd76d12a2c738dd166e819a319859611817be7e2a2c24ba0c17d0a8f947/field-counts.xml",
+      "raw_bytes": 53338,
+      "raw_sha256": "af08dfd76d12a2c738dd166e819a319859611817be7e2a2c24ba0c17d0a8f947"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\evaluation\\native\\summary.xml",
+      "relative": "bound-dependencies/f9c19b006d139328148c96e5323ddd485470c2f6c70eca05d1635d91363025da/summary.xml",
+      "raw_bytes": 46631480,
+      "raw_sha256": "f9c19b006d139328148c96e5323ddd485470c2f6c70eca05d1635d91363025da"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\evaluation\\contributing-passages.json.gz",
+      "relative": "bound-dependencies/62d229dd0f9903957899a5f5542e71ad9c123029a88714f1b7577a04c00df00e/contributing-passages.json.gz",
+      "raw_bytes": 171467,
+      "raw_sha256": "62d229dd0f9903957899a5f5542e71ad9c123029a88714f1b7577a04c00df00e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\audit_full_saved_case.py",
+      "relative": "bound-dependencies/a5514cb504cbce575937f8b1bb9b94d3d31eb03d747c80d5048414b9c7f4c666/audit_full_saved_case.py",
+      "raw_bytes": 8395,
+      "raw_sha256": "a5514cb504cbce575937f8b1bb9b94d3d31eb03d747c80d5048414b9c7f4c666"
+    }
+  ],
+  "source_files_unchanged": true
+}

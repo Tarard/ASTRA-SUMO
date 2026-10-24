@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Current275 simulated-history pair: strict reference replay and a healthy, non-improving warmup9 response, 2026-10-24](../../benchmarks/hamburg_ring1_275_fixed_history_20261024_v1/README.md)
 - [Hamburg chronological OD feedback: complete healthy MAE 2.115384615, 22-pair inputs and retained prefix limits, 2026-10-24](../../benchmarks/hamburg_ring1_chronological_od_feedback_20261024_v1/README.md)
 - [Hamburg761 fan-out: source-supported connection hypothesis, three-car support and two worse full-demand responses, 2026-10-24](../../benchmarks/hamburg_ring1_761_fanout_20261024_v1/README.md)
 - [Hamburg early quantity feedback: two healthy first-window gains with worse full130 errors, 2026-10-24](../../benchmarks/hamburg_ring1_early_quantity_feedback_20261024_v1/README.md)
