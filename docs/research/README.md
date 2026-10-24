@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg second initialization prefix: 26 rows exact, three 1800-second runs and no full validation, 2026-10-24](../../benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/README.md)
 - [Hamburg causal initialization: first 13 rows exact, five prefixes and rejected full validation, 2026-10-24](../../benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/README.md)
 - [Hamburg ordinary-road exit prior: four-car route support and rejected full comparison, 2026-10-24](../../benchmarks/hamburg_ring1_normal_exit_prior_20261024_v1/README.md)
 - [Hamburg field-consistent OD-period direction and two rejected native responses, 2026-10-24](../../benchmarks/hamburg_ring1_one_share_field_stratified_feedback_20261024_v1/README.md)
