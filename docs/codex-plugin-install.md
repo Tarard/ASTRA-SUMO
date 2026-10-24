@@ -15,7 +15,7 @@ PEP 723 metadata and uses the adjacent `run_astra_sumo.py.lock` file. It can run
 from an installed plugin cache without the repository root or a `python` command
 on `PATH`. The retained `scripts/bootstrap_mcp.py` entry point checks the same
 plugin-local runner and lock file. Plugin-launched MCP sessions default to the
-10-tool `default` profile. Set `ASTRA_MCP_PROFILE=legacy` to expose all 73 legacy
+10-tool `default` profile. Set `ASTRA_MCP_PROFILE=legacy` to expose all legacy
 tools, or `ASTRA_MCP_PROFILE=netedit` for only the NetEdit loop.
 
 ## CLI from an installed plugin

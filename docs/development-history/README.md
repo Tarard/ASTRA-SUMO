@@ -12,6 +12,7 @@ boundaries in [Architecture](../architecture.md). Records may get link and typo 
 - [Hamburg calibration follow-up, 2026-10-16](../../benchmarks/network_calibration_followup_20261016_v1/README.md)
 - [Native roundabout reproducibility report, 2026-10-15](../../benchmarks/netconvert_roundabout_repro_v1/README.md)
 - [Ring1 road continuity and calibration correction, 2026-09-11](ring1-road-continuity-and-calibration-2026-09-11.md)
+- [Hamburg README case run log, to 2026-10-24](hamburg-readme-case-log-2026-10-24.md)
 - [Hamburg Sandtorkai execution loop, 2026-07-20](hamburg-sandtorkai-execution-loop-2026-07-20.md)
 - [Architecture audit, 2026-07-13](../architecture-audit-2026-07-13.md)
 - [Hamburg digital-twin development log](../hamburg-digital-twin-development-log.md)
