@@ -1,0 +1,129 @@
+{
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "construction": {
+      "status": "review_required",
+      "v1_retained_blocked_for_native_cont1": true,
+      "v2_explicit_contPos0_preserves_source_cont0": true,
+      "requests_not_hand_overlaid": true,
+      "outside_roads_programs_and_permissions_protected": true,
+      "field_control_or_SPAT_certified": false
+    },
+    "smoke": {
+      "calls": [
+        {
+          "folder": "",
+          "role": "source",
+          "arrived": 16,
+          "unsafe": 0
+        },
+        {
+          "folder": "",
+          "role": "candidate",
+          "arrived": 16,
+          "unsafe": 0
+        },
+        {
+          "folder": "timing-1",
+          "role": "candidate",
+          "arrived": 16,
+          "unsafe": 0
+        },
+        {
+          "folder": "timing-2",
+          "role": "candidate",
+          "arrived": 16,
+          "unsafe": 0
+        },
+        {
+          "folder": "timing-3",
+          "role": "candidate",
+          "arrived": 16,
+          "unsafe": 0
+        },
+        {
+          "folder": "timing-3",
+          "role": "source",
+          "arrived": 16,
+          "unsafe": 0
+        }
+      ],
+      "total_vehicle_runs": 96,
+      "old_review_verdicts_preserved": true,
+      "root_raw_binding_precedes_full": true,
+      "detailed_episode_is_later_explanation": true,
+      "car_and_bicycle_mechanisms_use_different_timetables": true,
+      "universal_safety_claimed": false
+    },
+    "full": {
+      "raw_verdict": "diagnostic_measurement_complete",
+      "measurement": {
+        "main130": {
+          "SSE": 5039,
+          "TAE": 395,
+          "MAE": 3.0384615384615383,
+          "max_abs_error": 26
+        },
+        "initial52": {
+          "SSE": 1117,
+          "TAE": 97,
+          "MAE": 1.8653846153846154,
+          "max_abs_error": 20
+        },
+        "all182": {
+          "SSE": 6156,
+          "TAE": 492,
+          "MAE": 2.7032967032967035,
+          "max_abs_error": 26
+        },
+        "station40_MAE": 9.725,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8640,
+          "arrived": 8640,
+          "waiting": 0,
+          "running": 0,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": true,
+        "safe": true,
+        "event_count": 8640,
+        "unexpected_contributions": 0,
+        "repeated_vehicle_fields": 0,
+        "warning_lines": 34
+      },
+      "all53556": {
+        "rows": 56,
+        "SSE": 0,
+        "TAE": 0,
+        "MAE": 0.0,
+        "max_abs_error": 0
+      },
+      "comparisons": {
+        "offset0_reference": {
+          "main130_TAE_delta": -88,
+          "main130_SSE_delta": -1670,
+          "initial52_TAE_delta": -8,
+          "all182_TAE_delta": -96
+        },
+        "parent_209_full": {
+          "main130_TAE_delta": -26,
+          "main130_SSE_delta": -92,
+          "initial52_TAE_delta": -39,
+          "all182_TAE_delta": -65
+        }
+      }
+    },
+    "native_runs_by_freeze": 0,
+    "traffic_runs_recorded": 7,
+    "scoped_conversions_recorded": 2,
+    "lowest_measured_healthy_main_MAE": 3.0384615384615383,
+    "calibration_complete": false,
+    "maximum_error_regresses_21_to26": true,
+    "new_public_surface": false,
+    "actual_actuated_history_not_assumed_unchanged": true
+  }
+}
