@@ -1,6 +1,9 @@
 # ASTRA Development History
 
-This index contains dated audits, handoff notes, development logs, and superseded repository guidance. These files are retained for traceability and should not be treated as the current product or repository contract.
+Dated audits, handoffs, development logs and superseded guidance, kept for traceability. They are not current
+instructions: the product is described by [`README.md`](../../README.md) and the
+[documentation index](../README.md), contributor rules are in [`AGENTS.md`](../../AGENTS.md) and system
+boundaries in [Architecture](../architecture.md). Records may get link and typo fixes; their conclusions stay as written.
 
 ## Dated Records
 
@@ -8,21 +11,11 @@ This index contains dated audits, handoff notes, development logs, and supersede
 - [First stop-line preservation experiment, 2026-10-16](../../benchmarks/network_stop_line_preservation_20261016_v1/README.md)
 - [Hamburg calibration follow-up, 2026-10-16](../../benchmarks/network_calibration_followup_20261016_v1/README.md)
 - [Native roundabout reproducibility report, 2026-10-15](../../benchmarks/netconvert_roundabout_repro_v1/README.md)
+- [Ring1 road continuity and calibration correction, 2026-09-11](ring1-road-continuity-and-calibration-2026-09-11.md)
+- [Hamburg Sandtorkai execution loop, 2026-07-20](hamburg-sandtorkai-execution-loop-2026-07-20.md)
 - [Architecture audit, 2026-07-13](../architecture-audit-2026-07-13.md)
 - [Hamburg digital-twin development log](../hamburg-digital-twin-development-log.md)
-- [Ring1 road continuity and calibration correction, 2026-09-11](ring1-road-continuity-and-calibration-2026-09-11.md)
 
 ## Superseded Guidance
 
-- [Archived Repository Guide](../repository-guide.md)
-
-The repository guide is kept at its historical path so old links continue to resolve. Current directory ownership and contribution rules live in [`AGENTS.md`](../../AGENTS.md). Current system boundaries live in [Architecture](../architecture.md).
-
-## Current Sources of Truth
-
-1. [`README.md`](../../README.md) — public product entry point.
-2. [Architecture](../architecture.md) — system and claim boundaries.
-3. [`AGENTS.md`](../../AGENTS.md) — repository placement and engineering rules.
-4. [`docs/README.md`](../README.md) — current documentation map.
-
-Historical records should not be silently rewritten to match later behavior. If a historical statement is obsolete, keep the record and update the current source of truth instead.
+- [Archived repository guide](../repository-guide.md)

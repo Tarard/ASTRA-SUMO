@@ -1,6 +1,6 @@
 # Mailing List Announcement Draft
 
-> Draft release material. Use the top-level `README.md` and `ARCHITECTURE.md` for the current product and claim boundary.
+> Draft release material. Use the top-level `README.md` and `docs/architecture.md` for the current product and claim boundary.
 
 Subject:
 

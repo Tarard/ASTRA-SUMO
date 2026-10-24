@@ -1,70 +1,22 @@
 # ASTRA Documentation
 
-This is the current documentation index for ASTRA. Product behavior and claims are defined by the top-level `README.md` and `docs/architecture.md`; research snapshots and historical development records are indexed separately below.
-
-## Start by Goal
+Product behaviour and claims are defined by the top-level [`README.md`](../README.md) and
+[Architecture](architecture.md). Contributor rules are in [`AGENTS.md`](../AGENTS.md).
 
 | Goal | Start here |
 |---|---|
-| Install ASTRA | [Codex Plugin Installation](codex-plugin-install.md) |
-| Understand the system and claim boundary | [Architecture](architecture.md) |
-| Find an MCP tool | [MCP Tool Catalog](mcp-tool-catalog.md) |
-| Understand how skills are selected and invoked | [Skill Integration](skill-integration.md) |
-| Select a workflow from a task and available sources | [Workflow Selection](workflow-selection.md) |
-| Configure a direct MCP host | [MCP Host Configuration](mcp-host-config.md) |
-| Review OSM/SUMO source patterns | [OSM Source Patterns](osm-source-patterns.md) |
-| Diagnose recurring signal-control failures | [Common SUMO Signal-Control Failures](common-sumo-signal-control-failures.md) |
-| Follow the Hamburg digital-twin execution loop | [Hamburg corridor workflow](hamburg-sandtorkai-codex-execution-workflow.md) |
-| Run the one-prompt OSM demonstration | [Ingolstadt example](../examples/02_one_prompt_osm_network/README.md) |
-| Inspect research protocols and evaluation evidence | [Research index](research/README.md) |
-| Inspect dated audits and development handoffs | [Development history](development-history/README.md) |
+| Install ASTRA | [Codex plugin installation](codex-plugin-install.md), [MCP host configuration](mcp-host-config.md), [ASTRA migration from Torii](astra-migration.md) |
+| Understand the system and its claim boundary | [Architecture](architecture.md) |
+| Find a tool or workflow | [MCP tool catalog](mcp-tool-catalog.md), [Workflow selection](workflow-selection.md), [Skill integration](skill-integration.md) |
+| Build a network from OSM | [OSM source patterns](osm-source-patterns.md), [Road hierarchy and selection](road-hierarchy.md), [Parking facilities](parking-facilities.md), [Ingolstadt example](../examples/02_one_prompt_osm_network/README.md) |
+| Edit a network | [Scoped road-network edits](network-edit-operations.md), [Local edit applicability](edit-specific-applicability.md) |
+| Measure and review a network | [Road-network calibration](network-calibration.md), [Traffic-effect review](traffic-effect-review.md), [Network review over aerial imagery](network-aerial-review.md), [Public network references](public-reference-corpus.md) |
+| Diagnose signal control | [Common SUMO signal-control failures](common-sumo-signal-control-failures.md) |
+| Follow the Hamburg case | [Hamburg README case](hamburg-readme-case.md) |
+| Read research protocols and evidence | [Research index](research/README.md) |
+| Read dated audits and development records | [Development history](development-history/README.md) |
 
-## Current Product Documentation
-
-- [Road-network calibration](network-calibration.md) — dated road facts, separate error measures and parent comparisons.
-- [Scoped road-network edits](network-edit-operations.md) — typed edits, source-bound plans, preservation checks and site parameters.
-- [Road hierarchy and selection](road-hierarchy.md) — coarse road tiers, protected study roads, necessary approaches, and traffic boundaries.
-- [Traffic-effect review](traffic-effect-review.md) — ordered findings, original evidence, local access and lane supply changes.
-- [Local edit applicability](edit-specific-applicability.md) — edit profiles, exact boundary paths, and final candidate checks.
-- [Public network references](public-reference-corpus.md) — frozen public models, development targets, and revision comparisons.
-- [Network review over aerial imagery](network-aerial-review.md) — fixed views, all-lane geometry, source comparisons, and reproducible images.
-- [Parking facilities](parking-facilities.md) — building recognition, protected access, and simplified facility overviews with driving paths retained.
-
-- [ASTRA migration](astra-migration.md) — new names, installation, and compatibility with Torii.
-
-- [Architecture](architecture.md) — system boundary, major layers, and allowed claims.
-- [Codex Plugin Installation](codex-plugin-install.md) — installation and first-run setup.
-- [MCP Tool Catalog](mcp-tool-catalog.md) — registered tool surface grouped by user intent.
-- [Skill Integration](skill-integration.md) — skill discovery, reasoning, and execution handoff.
-- [Workflow Selection](workflow-selection.md) — task-to-workflow routing.
-- [MCP Host Configuration](mcp-host-config.md) — direct MCP host setup.
-- [OSM Source Patterns](osm-source-patterns.md) — OSM/SUMO acquisition and conversion patterns.
-- [Common SUMO Signal-Control Failures](common-sumo-signal-control-failures.md) — recurring controller and evidence failures.
-- [Hamburg corridor workflow](hamburg-sandtorkai-codex-execution-workflow.md) — the plan, run, audit, and revision loop for the current digital-twin case.
-- [Hamburg README case](hamburg-readme-case.md) — the separate Binnenalster / Ring1 scope, count-stream identities, and calibration evidence limits.
-
-Runnable examples live under [`examples/`](../examples/). The upstream public snapshot omits the `benchmarks/` datasets required by some historical tests. Command-line experiment entry points live under [`plugins/astra-sumo/scripts/`](../plugins/astra-sumo/scripts/).
-
-## Research and Evaluation
-
-Research plans, frozen protocols, status snapshots, and manuscript planning are indexed in [Research](research/README.md). These documents preserve evidence and experiment history, but they do not override the current public product boundary.
-
-## Development History
-
-Dated architecture audits, handoff notes, development logs, and superseded repository guidance are indexed in [Development History](development-history/README.md). They are retained for traceability rather than treated as current instructions.
-
-## Release Material
-
-Draft public announcements and release-positioning notes live under [`release/`](release/). The current README and architecture document take precedence if a draft becomes stale.
-
-## Documentation Rules
-
-1. Put stable user navigation in this file and the top-level README.
-2. Put system invariants and claim boundaries in `docs/architecture.md`.
-3. Put current installation, tool, skill, and workflow guidance in focused documents under `docs/`.
-4. Index research evidence through `docs/research/README.md`.
-5. Index dated or superseded development records through `docs/development-history/README.md`.
-6. Put runnable demonstrations in `examples/`, not in documentation prose alone.
-7. Put frozen evaluation inputs and adjudication protocols in `benchmarks/` when they are executable evaluation assets.
-8. Keep generated run artifacts out of `docs/`; place them under `outputs/` or an explicit artifact directory.
-9. Do not store internal agent execution plans in public documentation.
+Runnable examples live under [`examples/`](../examples/), command-line entry points under
+[`plugins/astra-sumo/scripts/`](../plugins/astra-sumo/scripts/), and draft release material under
+[`release/`](release/). Research and history documents describe a past state; they do not override the
+README or the architecture document.

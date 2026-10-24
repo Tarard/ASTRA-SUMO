@@ -389,7 +389,7 @@ The registered five-junction preset contains nodes `104`, `118`, `119`, `200`, a
 Its definition is in [hamburg_corridor_candidate.py](../plugins/astra-sumo/src/astra_sumo/core/hamburg_corridor_candidate.py).
 The four displayed station count streams are `35822`, `33023`, `30666`, and `26585`.
 
-This case is separate from the [Am Sandtorkai workflow](hamburg-sandtorkai-codex-execution-workflow.md).
+This case is separate from the [Am Sandtorkai workflow](development-history/hamburg-sandtorkai-execution-loop-2026-07-20.md).
 That named corridor uses nodes `2349`, `2394`, and `2403`.
 Its existing network fixtures do not establish results for the README case.
 
