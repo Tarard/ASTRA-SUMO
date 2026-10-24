@@ -290,8 +290,19 @@ def _tls_gate_value(tls_report: Mapping[str, Any], tls_summary: Mapping[str, Any
     if base_gate != "pass":
         return base_gate
     if tls_summary.get("tls_reality_review_status") != "pass":
-        return "blocked"
+        return "review_required"
     return "pass"
+def _cleanup_outcome(structure_ok: bool, tls_gate: str) -> tuple[str, str]:
+    """Top-level status and claim of a cleanup run.
+
+    The traffic-light map review is a manual step the cleanup cannot finish, so a structurally sound run whose
+    only open item is that review needs review, not a rebuild.
+    """
+    if structure_ok and tls_gate == "pass":
+        return "pass", "diagnostic-demo"
+    if structure_ok and tls_gate == "review_required":
+        return "review_required", "diagnostic-demo"
+    return "fail", "construction-invalid"
 def _routeability_scale_profile(
     connectivity_report: Mapping[str, Any],
     *,

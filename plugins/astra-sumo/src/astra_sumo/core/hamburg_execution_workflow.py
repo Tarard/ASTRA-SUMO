@@ -4,7 +4,7 @@ The domain stages already live in focused modules.  This module is deliberately
 small: it does not rebuild a network or reinterpret official data.  It records
 which stage artifacts are present, verifies their bytes, derives dependency
 readiness, and invalidates downstream stages when an upstream manifest changes.
-That makes the Codex loop (plan -> run -> audit -> revise -> rerun) executable
+That makes the agent loop (plan -> run -> audit -> revise -> rerun) executable
 instead of relying on conversational memory.
 """
 
@@ -57,7 +57,7 @@ STAGE_ORDER = (*STAGE_DEPENDENCIES, "W5")
 _STAGE_INDEX = {stage_id: index for index, stage_id in enumerate(STAGE_ORDER)}
 _STAGE_ID_BY_CASEFOLD = {stage_id.casefold(): stage_id for stage_id in STAGE_ORDER}
 
-# This is the small, stable design contract for the Codex loop.  It tells a
+# This is the small, stable design contract for the agent loop.  It tells a
 # resumed run where to look first and what a stage must verify before adding
 # new code.  The actual artifacts remain caller-supplied and hash-bound.
 STAGE_CONTRACTS: Mapping[str, Mapping[str, tuple[str, ...]]] = {
@@ -1184,7 +1184,7 @@ def _manifest_reason(payload: Mapping[str, Any]) -> str | None:
 
 
 def _manifest_feedback(payload: Mapping[str, Any]) -> dict[str, Any]:
-    """Extract bounded machine feedback for the next Codex re-plan.
+    """Extract bounded machine feedback for the next agent re-plan.
 
     Stage manifests are deliberately not copied wholesale into the ledger:
     large event inventories and source payloads belong beside their stage.  The

@@ -273,11 +273,13 @@ def test_cleanup_uses_permission_candidate_and_keeps_raw_build_identity(tmp_path
 
 
 def test_osm_cleanup_preserves_partial_and_severe_connectivity_classes(tmp_path: Path, monkeypatch) -> None:
+    # Only the traffic-light map review is open in these fixtures, so a partial main component needs review
+    # while a severely fragmented network still fails.
     cases = (
-        (992, 4, "partial-main-component", "partial"),
-        (700, 20, "construction-invalid", "fail"),
+        (992, 4, "partial-main-component", "partial", "review_required", "diagnostic-demo"),
+        (700, 20, "construction-invalid", "fail", "fail", "construction-invalid"),
     )
-    for largest_count, component_count, expected_quality, expected_gate in cases:
+    for largest_count, component_count, expected_quality, expected_gate, expected_status, expected_claim in cases:
         work_dir = tmp_path / expected_gate
         _patch_cleanup_stages(
             monkeypatch,
@@ -304,7 +306,8 @@ def test_osm_cleanup_preserves_partial_and_severe_connectivity_classes(tmp_path:
 
         assert report["network_quality"] == expected_quality
         assert report["gate_status"]["connectivity"] == expected_gate
-        assert report["claim_status"] == "construction-invalid"
+        assert report["gate_status"]["tls_reality_audit"] == "review_required"
+        assert (report["status"], report["claim_status"]) == (expected_status, expected_claim)
 
 
 def test_build_overpass_query_uses_overpass_coordinate_order_and_date() -> None:
