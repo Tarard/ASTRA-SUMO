@@ -1,0 +1,101 @@
+{
+  "bindings": [
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\demand.rou.xml",
+      "sha256": "6aaf77419d14534b2ed14342d797b8f477f67edbe4fde42c8e2d89881c8be866",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/advance-second900-126232/native/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\lane-intentions.json",
+      "sha256": "217ae1d69d739a3c2eff2006583e6a4ea7ae1436927c03e27930305431b6f715",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/advance-second900-126232/native/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\prepared\\scenario.json",
+      "sha256": "cfe5170e38235d230a2cab1ff62a7cbeaf30ea89c3583b6b297933dba2342a96",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/advance-second900-126232/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\record-result.json",
+      "sha256": "ac9dfdbf4c350f96abfd218c2d418a09ac3086c5b583528bef3bca920f094679",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/advance-second900-126232/record-result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-second-prefix-20261024-v1\\advance-second900-126232\\native\\native-request.json",
+      "sha256": "560c7d1ad184a40a00569cc079a6998a82ed679fb3c0f59aed8a5276d25b5779",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/advance-second900-126232/native/native-request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/stable-64/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\prepare_extension.py",
+      "sha256": "77906d75530b2f07fa42bab08ac0debfc8512e7fb6f44dc15f577150f4d0c317",
+      "scope": "packet",
+      "target": "extension/source-snapshot/prepare_extension.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\departure-proposals.json",
+      "sha256": "624fbc3edb24d26c31de612e5707d6b2fe9bb13754f738f1cc3a5cddc7ad869e",
+      "scope": "packet",
+      "target": "extension/departure-proposals.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\manifest.json",
+      "sha256": "2112f7784c71798399c035a34e5185d4f55d3f65002d4291d8c02b609616498a",
+      "scope": "packet",
+      "target": "feasibility/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\summary.json",
+      "sha256": "474a6872c89e19e5513c997bd90d812aadabc1491a1cc8279bb64d422b59b816",
+      "scope": "packet",
+      "target": "feasibility/summary.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\crossing379.csv",
+      "sha256": "835eff85efc30b112af443718e39670c6251549fe9dfe6ee58a8e31934abaa00",
+      "scope": "packet",
+      "target": "feasibility/crossing379.csv"
+    }
+  ],
+  "source_hashes_not_rewritten": true
+}

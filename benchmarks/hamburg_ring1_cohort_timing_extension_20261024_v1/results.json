@@ -1,0 +1,121 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_recorded": 2,
+    "native_runs_by_freeze": 0,
+    "prefix": {
+      "validity_status": "pass",
+      "initial26": {
+        "rows": 26,
+        "TAE": 0,
+        "SSE": 0,
+        "MAE": 0.0,
+        "max_abs_error": 0
+      },
+      "future156_values": null,
+      "complete_unique_events": 901,
+      "executed_runner_sha256": "a1cfe270dd3a024fdc725450cd3504553705c5db63497a8fa9a8312aedaee132",
+      "source_summary_equal_observed": true,
+      "source_summary_equality_is_blanket_gate": false,
+      "input": {
+        "requests": 8640,
+        "inherited_requests_unchanged": 901,
+        "future_departures_changed": 7739,
+        "shifts_s": {
+          "-126": 3253,
+          "-90": 4486
+        },
+        "native_bin_crossing_vehicles": 379,
+        "changed_q_cells": 53,
+        "q_L1": 114,
+        "source_initial_main_requests": [
+          1953,
+          6687
+        ],
+        "candidate_initial_main_requests": [
+          1989,
+          6651
+        ],
+        "routes_stops_fields_and_global21OD_totals_preserved": true,
+        "same_q": false,
+        "quantile_resampling": false
+      }
+    },
+    "selected_full": {
+      "raw_verdict": "rejected",
+      "full": {
+        "main130": {
+          "SSE": 9896,
+          "TAE": 562,
+          "MAE": 4.323076923076923,
+          "max_abs_error": 39
+        },
+        "initial52": {
+          "SSE": 516,
+          "TAE": 42,
+          "MAE": 0.8076923076923077,
+          "max_abs_error": 19
+        },
+        "all182": {
+          "SSE": 10412,
+          "TAE": 604,
+          "MAE": 3.318681318681319,
+          "max_abs_error": 39
+        },
+        "station40_MAE": 13.15,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8640,
+          "arrived": 8605,
+          "waiting": 0,
+          "running": 35,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "safe": true,
+        "event_count": 8622,
+        "unexpected_contributions": 0,
+        "repeated_vehicle_fields": 0,
+        "warning_lines": 28
+      },
+      "initial26_still_exact": true,
+      "own1800_prefix_parity_pass": true,
+      "all53556": {
+        "rows": 56,
+        "SSE": 0,
+        "TAE": 0,
+        "MAE": 0.0,
+        "max_abs_error": 0
+      },
+      "gates": {
+        "safe": true,
+        "healthy": false,
+        "all53556_zero": true,
+        "no_repeated_vehicle_fields": true,
+        "no_contributions_outside_primary_intention": true,
+        "main130_MAE_improves": false,
+        "main130_SSE_not_worse": false,
+        "all182_TAE_not_worse": true
+      },
+      "global_best_gates": {
+        "safe": true,
+        "healthy": false,
+        "all53556_zero": true,
+        "no_repeated_vehicle_fields": true,
+        "no_contributions_outside_primary_intention": true,
+        "main130_MAE_improves": false,
+        "main130_SSE_not_worse": false,
+        "all182_TAE_not_worse": false
+      },
+      "full_stage2_parent_comparison_available": false,
+      "claim_boundary": "Main130 regresses against healthy references. No full stage2 parent exists for an extension-only causal comparison; 35 vehicles remain running."
+    },
+    "best_main_MAE_unchanged": 3.7153846153846155,
+    "later_service_studies_included": false
+  }
+}

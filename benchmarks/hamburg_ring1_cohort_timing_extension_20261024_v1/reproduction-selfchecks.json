@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "checks": {
+    "recorded_implementation_matches_live": true,
+    "recorded_binaries_match_project_runtime": true,
+    "versions_1_27_1": true,
+    "portable_materialized_182_reader_matches": true,
+    "all8_materialized_inputs_exact": true,
+    "four_body_hold_nodes_match_actual_native": true,
+    "all26_attributes": true,
+    "summary18000_except_CPU_duration": true
+  },
+  "tests_passed": 22,
+  "cli_help_pass": true,
+  "native_full_not_executed": true,
+  "claim_boundary": "Offline runtime/input/reader/parity checks only; no extra native reproduction."
+}
