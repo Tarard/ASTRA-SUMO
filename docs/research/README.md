@@ -4,6 +4,8 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg late-demand quantity comparison: three healthy input subsets and measured MAE2.492308, 2026-10-24](../../benchmarks/hamburg_ring1_119_late_demand_thinning_20261024_v1/README.md)
+- [Hamburg535 late departure feedback: five complete responses and healthy measured MAE2.807692, 2026-10-24](../../benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/README.md)
 - [Hamburg525 partial control: preserved yielding, bounded smoke and healthy full MAE3.038462 with a worse maximum, 2026-10-24](../../benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/README.md)
 - [Hamburg209 Z5 departure spread: one healthy full response without main-count improvement, 2026-10-24](../../benchmarks/hamburg_ring1_209_z5_spread_20261024_v1/README.md)
 - [Hamburg209 lane connections: source and observation chain, bounded smoke and healthy full MAE3.238462, 2026-10-24](../../benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/README.md)

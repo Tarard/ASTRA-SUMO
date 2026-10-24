@@ -1,8 +1,18 @@
 # Hamburg case shown in the README
 
-The lowest measured healthy main-window count error is the [525 partial-control comparison](../benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/README.md): MAE **3.038462**, TAE 395 and SSE 5039. All 8640 vehicles enter and arrive, with zero waiting, running, collisions, teleports or discards. All 8640 complete contributions are unique intended-field events, and the 56 values for 535 Z5–Z8 remain exact. Maximum error rises from the 209 parent's 21 to 26. The 130 main-window values are not yet all exact; calibration remains incomplete.
+The lowest measured healthy main-window count error is the [late-demand quantity comparison](../benchmarks/hamburg_ring1_119_late_demand_thinning_20261024_v1/README.md): MAE **2.492308**, TAE 324, SSE 3598 and maximum error 23. All 8597 input vehicles enter and arrive, with zero waiting, running, collisions, teleports or discards. All 8597 complete contributions are unique intended-field events, and the 56 values for 535 Z5–Z8 remain exact. The 130 main-window values are not yet all exact; calibration remains incomplete.
 
-Only four 734 movements lose their independent signal binding at 525. The two counter movements retain their control, and the native conflict-yielding relation stays fixed. Roads, curves, lengths, vehicle permissions, all programs, demand and observations stay fixed. Actual actuated histories can change despite unchanged programs. Initialization TAE falls from 136 to 97, all182 TAE from 557 to 492, and derived station MAE from 9.875 to 9.725. However, Z5 main-window TAE rises from 79 to 108.
+The three nested input subsets contain 8612, 8610 and 8597 requests, compared with the source's 8640. Surviving vehicle XML, intentions, departure times, routes, stops and relative order remain unchanged. Controls, driving rules and real observations stay fixed. Initialization TAE stays 97; the lowest-error case has all182 TAE 421 and derived station MAE 7.95. The 169 equal E1 prefix intervals do not establish identical trajectories. These finite input-prior tests do not identify real OD quantities or establish an optimum.
+
+The preceding [535 late-departure comparison](../benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/README.md) has healthy MAE 2.807692, TAE 365 and SSE 4117, with all 8640 vehicles arriving.
+
+Only 29 existing 535 Z4 requests depart 30 seconds earlier than in the healthy 525 source; the other 8611 requests stay fixed. Routes, fields, controls, driving rules and all observations remain unchanged. Initialization TAE stays 97, all182 TAE falls from 492 to 462, and derived station MAE falls from 9.725 to 8.975.
+
+A failed compression and the +30/−60/−90-second comparisons remain in one package. The two larger advances move one request to the preceding OD period, with actual metadata rebuilt. The five finite responses do not establish monotonicity, convergence, a global optimum or a capacity bound. Their 156 equal E1 prefix rows do not establish identical vehicle trajectories.
+
+The preceding [525 partial-control comparison](../benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/README.md) has healthy MAE 3.038462, TAE 395 and SSE 5039. Only four 734 movements lose their independent signal binding at 525. The two counter movements retain their control, and the native conflict-yielding relation stays fixed. Roads, curves, lengths, vehicle permissions, all programs, demand and observations stay fixed. Actual actuated histories can change despite unchanged programs.
+
+That source comparison lowers initialization TAE from 136 to 97, all182 TAE from 557 to 492, and derived station MAE from 9.875 to 9.725. However, maximum error rises from 21 to 26 and Z5 main-window TAE from 79 to 108.
 
 Six bounded smoke calls retain all 96 arrivals, separate car and bicycle yielding episodes, corrected API decoding and the original review verdicts. The first construction was blocked for new internal waiting segments; the second explicitly preserves the source waiting structure. These results support the declared model comparison, not field control or SPaT certification.
 

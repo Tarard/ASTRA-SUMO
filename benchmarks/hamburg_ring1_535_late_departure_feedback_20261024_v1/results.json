@@ -1,0 +1,294 @@
+{
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "parent_packet": "hamburg_ring1_266197525_partial_control_20261024_v1",
+    "cases": {
+      "compress29": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 5134,
+            "TAE": 400,
+            "MAE": 3.076923076923077,
+            "max_abs_error": 26
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 6251,
+            "TAE": 497,
+            "MAE": 2.730769230769231,
+            "max_abs_error": 26
+          },
+          "station40_MAE": 9.75,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 32
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "changed_departures": 29,
+        "unchanged_routes_fields_and_observations": true,
+        "prefix156_all_native_E1_attributes_equal": true,
+        "actual_cell_crossings": [],
+        "q_L1": 0,
+        "q_may_change_when_actual_departures_cross_bins": true
+      },
+      "minus30": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 4117,
+            "TAE": 365,
+            "MAE": 2.8076923076923075,
+            "max_abs_error": 23
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 5234,
+            "TAE": 462,
+            "MAE": 2.5384615384615383,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 8.975,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "changed_departures": 29,
+        "unchanged_routes_fields_and_observations": true,
+        "prefix156_all_native_E1_attributes_equal": true,
+        "actual_cell_crossings": [],
+        "q_L1": 0,
+        "q_may_change_when_actual_departures_cross_bins": true
+      },
+      "plus30": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 5641,
+            "TAE": 419,
+            "MAE": 3.223076923076923,
+            "max_abs_error": 25
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 6758,
+            "TAE": 516,
+            "MAE": 2.8351648351648353,
+            "max_abs_error": 25
+          },
+          "station40_MAE": 10.225,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 32
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "changed_departures": 29,
+        "unchanged_routes_fields_and_observations": true,
+        "prefix156_all_native_E1_attributes_equal": true,
+        "actual_cell_crossings": [],
+        "q_L1": 0,
+        "q_may_change_when_actual_departures_cross_bins": true
+      },
+      "minus60": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 4245,
+            "TAE": 371,
+            "MAE": 2.853846153846154,
+            "max_abs_error": 23
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 5362,
+            "TAE": 468,
+            "MAE": 2.5714285714285716,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 9.075,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 34
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "changed_departures": 29,
+        "unchanged_routes_fields_and_observations": true,
+        "prefix156_all_native_E1_attributes_equal": true,
+        "actual_cell_crossings": [
+          [
+            "od_0256_v00000",
+            256,
+            235
+          ]
+        ],
+        "q_L1": 2,
+        "q_may_change_when_actual_departures_cross_bins": true
+      },
+      "minus90": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 4195,
+            "TAE": 369,
+            "MAE": 2.8384615384615386,
+            "max_abs_error": 23
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 5312,
+            "TAE": 466,
+            "MAE": 2.5604395604395602,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 9.025,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "changed_departures": 29,
+        "unchanged_routes_fields_and_observations": true,
+        "prefix156_all_native_E1_attributes_equal": true,
+        "actual_cell_crossings": [
+          [
+            "od_0256_v00000",
+            256,
+            235
+          ]
+        ],
+        "q_L1": 2,
+        "q_may_change_when_actual_departures_cross_bins": true
+      }
+    },
+    "lowest_measured_healthy_main_MAE": 2.8076923076923075,
+    "best_measured_case": "minus30",
+    "calibration_complete": false,
+    "traffic_runs_recorded": 5,
+    "response_decomposition_is_not_causal_isolation": true,
+    "residual_diagnosis_is_post_parent_explanation": true,
+    "smoothness_or_capacity_not_inferred": true
+  }
+}

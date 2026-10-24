@@ -1,0 +1,780 @@
+{
+  "aliases": {
+    "cases/remove28/evaluation/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "cases/remove28/evaluation/initialization52-comparison.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "cases/remove28/evaluation/native/demand.rou.xml": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/demand.rou.xml",
+      "sha256": "b83ca8eb5ac6a45642bc2a48056bd9fa24bd4e70773666d4888deb64a3546ff0"
+    },
+    "cases/remove28/evaluation/native/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "cases/remove28/evaluation/native/field-comparison.csv": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/main130-comparison.csv",
+      "sha256": "d0a42b8b28408a49be8c85dfe86d652042fabb0472637632831124529ae961ed"
+    },
+    "cases/remove28/evaluation/native/lane-intentions.json": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/lane-intentions.json",
+      "sha256": "9868000cb4a2b8127bf17911c306a1aede9c9c652ccb8fb23579832a4c31476a"
+    },
+    "cases/remove28/evaluation/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/candidate-v2/candidate.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    "cases/remove28/evaluation/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    "cases/remove28/evaluation/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "cases/remove28/evaluation/native/sumo-errors.log": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/extension/cases/minus90/evaluation/native/sumo-errors.log",
+      "sha256": "c3322d2c11eb1be284598821890d3f12389fccf3ff4fd93d1b8547870126192c"
+    },
+    "cases/remove28/evaluation/station40-comparison.csv": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/station-comparison.csv",
+      "sha256": "cb6ee1a86a296d1c30be9347a608797a9a2cfe390d4366555c193323a3121af3"
+    },
+    "cases/remove28/measurement-implementation/audit_response.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_response.py",
+      "sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    "cases/remove28/measurement-implementation/audit_scope.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_scope.py",
+      "sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    "cases/remove28/measurement-implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "cases/remove28/measurement-implementation/hamburg_od_spsa.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "cases/remove28/measurement-implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "cases/remove28/measurement-implementation/prepare_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-prepare.py",
+      "sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    "cases/remove28/measurement-implementation/route_sensor_matrix.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "cases/remove28/measurement-implementation/run_fixture.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/run_fixture.py",
+      "sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    "cases/remove28/measurement-implementation/run_full.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/executed-driver.py",
+      "sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    "cases/remove28/measurement-implementation/run_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-driver.py",
+      "sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    "cases/remove28/measurement-implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "cases/remove28/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    "cases/remove28/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/demand.rou.xml",
+      "sha256": "b83ca8eb5ac6a45642bc2a48056bd9fa24bd4e70773666d4888deb64a3546ff0"
+    },
+    "cases/remove28/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "cases/remove28/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "cases/remove28/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "cases/remove28/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/lane-intentions.json",
+      "sha256": "9868000cb4a2b8127bf17911c306a1aede9c9c652ccb8fb23579832a4c31476a"
+    },
+    "cases/remove28/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/candidate-v2/candidate.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    "cases/remove30/evaluation/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "cases/remove30/evaluation/initialization52-comparison.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "cases/remove30/evaluation/native/demand.rou.xml": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/demand.rou.xml",
+      "sha256": "95cc3c9a79ccf6c9625ded27338b4f6299def53b9ed1e542c6e1e200fa677aec"
+    },
+    "cases/remove30/evaluation/native/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "cases/remove30/evaluation/native/field-comparison.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/main130-comparison.csv",
+      "sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    "cases/remove30/evaluation/native/lane-intentions.json": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/lane-intentions.json",
+      "sha256": "0c7790a67eee460b6e47cf247b846ac7bcfc02d87bd00c9bebb841d26f04b357"
+    },
+    "cases/remove30/evaluation/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/candidate-v2/candidate.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    "cases/remove30/evaluation/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    "cases/remove30/evaluation/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "cases/remove30/evaluation/native/sumo-errors.log": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/extension/cases/minus90/evaluation/native/sumo-errors.log",
+      "sha256": "c3322d2c11eb1be284598821890d3f12389fccf3ff4fd93d1b8547870126192c"
+    },
+    "cases/remove30/evaluation/prefix169-comparison.json": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/prefix169-comparison.json",
+      "sha256": "8a8e612b19f819ea5c780e33ad58bd656f28574908085533cf2ab6bb4ce9b15d"
+    },
+    "cases/remove30/evaluation/station40-comparison.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/station-comparison.csv",
+      "sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    "cases/remove30/executed-driver.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-driver.py",
+      "sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    "cases/remove30/executed-prepare.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-prepare.py",
+      "sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    "cases/remove30/measurement-implementation/audit_response.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_response.py",
+      "sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    "cases/remove30/measurement-implementation/audit_scope.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_scope.py",
+      "sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    "cases/remove30/measurement-implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "cases/remove28/measurement-implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "cases/remove30/measurement-implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "cases/remove30/measurement-implementation/hamburg_od_spsa.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "cases/remove30/measurement-implementation/hamburg_readme_results.py": {
+      "scope": "packet",
+      "target": "cases/remove28/measurement-implementation/hamburg_readme_results.py",
+      "sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    "cases/remove30/measurement-implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "cases/remove30/measurement-implementation/prepare_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-prepare.py",
+      "sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    "cases/remove30/measurement-implementation/route_sensor_matrix.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "cases/remove30/measurement-implementation/run_fixture.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/run_fixture.py",
+      "sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    "cases/remove30/measurement-implementation/run_full.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/executed-driver.py",
+      "sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    "cases/remove30/measurement-implementation/run_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-driver.py",
+      "sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    "cases/remove30/measurement-implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "cases/remove30/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    "cases/remove30/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/demand.rou.xml",
+      "sha256": "95cc3c9a79ccf6c9625ded27338b4f6299def53b9ed1e542c6e1e200fa677aec"
+    },
+    "cases/remove30/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "cases/remove30/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "cases/remove30/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "cases/remove30/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/lane-intentions.json",
+      "sha256": "0c7790a67eee460b6e47cf247b846ac7bcfc02d87bd00c9bebb841d26f04b357"
+    },
+    "cases/remove30/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/candidate-v2/candidate.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    "cases/remove43/evaluation/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "cases/remove43/evaluation/initialization52-comparison.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "cases/remove43/evaluation/native/demand.rou.xml": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/demand.rou.xml",
+      "sha256": "6fd873321b1e043d11f09d3894f2e27c9ab424c217fae631b93988a6e7f2bc43"
+    },
+    "cases/remove43/evaluation/native/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "cases/remove43/evaluation/native/field-comparison.csv": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/main130-comparison.csv",
+      "sha256": "81756e0e87ddd6a057f29a324cb89d6bb3b889d183f0ee6e7fd330ebe57147c5"
+    },
+    "cases/remove43/evaluation/native/lane-intentions.json": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/lane-intentions.json",
+      "sha256": "1951bef78cdd4657085c3ead700379fd25e2d34c80e3a02855f921e42eb9ec1e"
+    },
+    "cases/remove43/evaluation/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/candidate-v2/candidate.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    "cases/remove43/evaluation/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    "cases/remove43/evaluation/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "cases/remove43/evaluation/native/sumo-errors.log": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/extension/cases/minus90/evaluation/native/sumo-errors.log",
+      "sha256": "c3322d2c11eb1be284598821890d3f12389fccf3ff4fd93d1b8547870126192c"
+    },
+    "cases/remove43/evaluation/prefix169-comparison.json": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/prefix169-comparison.json",
+      "sha256": "8a8e612b19f819ea5c780e33ad58bd656f28574908085533cf2ab6bb4ce9b15d"
+    },
+    "cases/remove43/evaluation/station40-comparison.csv": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/station-comparison.csv",
+      "sha256": "cecd281b7fd44b0be6f5a2325ceb3efdfd3617a223a4d47afc0c55dbd022ef63"
+    },
+    "cases/remove43/executed-shared-driver.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-driver.py",
+      "sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    "cases/remove43/measurement-implementation/audit_response.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_response.py",
+      "sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    "cases/remove43/measurement-implementation/audit_scope.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_scope.py",
+      "sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    "cases/remove43/measurement-implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "cases/remove28/measurement-implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "cases/remove43/measurement-implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "cases/remove43/measurement-implementation/hamburg_od_spsa.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "cases/remove43/measurement-implementation/hamburg_readme_results.py": {
+      "scope": "packet",
+      "target": "cases/remove28/measurement-implementation/hamburg_readme_results.py",
+      "sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    "cases/remove43/measurement-implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "cases/remove43/measurement-implementation/prepare_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-prepare.py",
+      "sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    "cases/remove43/measurement-implementation/route_sensor_matrix.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "cases/remove43/measurement-implementation/run_fixture.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/run_fixture.py",
+      "sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    "cases/remove43/measurement-implementation/run_full.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/executed-driver.py",
+      "sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    "cases/remove43/measurement-implementation/run_refinement.py": {
+      "scope": "packet",
+      "target": "cases/remove43/executed-driver.py",
+      "sha256": "2c53ee60191c647a591df4132b334503d7df7282c63bb4c32010fddd5672555c"
+    },
+    "cases/remove43/measurement-implementation/run_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-driver.py",
+      "sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    "cases/remove43/measurement-implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "cases/remove43/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    "cases/remove43/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/demand.rou.xml",
+      "sha256": "6fd873321b1e043d11f09d3894f2e27c9ab424c217fae631b93988a6e7f2bc43"
+    },
+    "cases/remove43/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "cases/remove43/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "cases/remove43/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "cases/remove43/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/lane-intentions.json",
+      "sha256": "1951bef78cdd4657085c3ead700379fd25e2d34c80e3a02855f921e42eb9ec1e"
+    },
+    "cases/remove43/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/candidate-v2/candidate.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    "independent-refinement/complete/current337/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-refinement/complete/current337/all182.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/all182-comparison.csv",
+      "sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    "independent-refinement/complete/current337/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-refinement/complete/current337/main130.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/main130-comparison.csv",
+      "sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    "independent-refinement/complete/current337/native208.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/native208-comparison.csv",
+      "sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    "independent-refinement/complete/current337/station40.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/station-comparison.csv",
+      "sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    "independent-refinement/complete/remove43/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-refinement/complete/remove43/all182.csv": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/all182-comparison.csv",
+      "sha256": "3f165f9d22cb2e58053d2db72a8cab25145ac250cbbb73377575d358aba81fc9"
+    },
+    "independent-refinement/complete/remove43/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-refinement/complete/remove43/main130.csv": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/main130-comparison.csv",
+      "sha256": "81756e0e87ddd6a057f29a324cb89d6bb3b889d183f0ee6e7fd330ebe57147c5"
+    },
+    "independent-refinement/complete/remove43/native208.csv": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/native208-comparison.csv",
+      "sha256": "0deedf051fb1073653862e907ed723ec8b4dea00debe4c88683ecb5d9fd1a10f"
+    },
+    "independent-refinement/complete/remove43/prefix169-differences.json": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/compression/independent-result/prefix156-differences.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    "independent-refinement/complete/remove43/station40.csv": {
+      "scope": "packet",
+      "target": "cases/remove43/evaluation/station-comparison.csv",
+      "sha256": "cecd281b7fd44b0be6f5a2325ceb3efdfd3617a223a4d47afc0c55dbd022ef63"
+    },
+    "independent-refinement/complete/source365/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-refinement/complete/source365/all182.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/all182-comparison.csv",
+      "sha256": "145e4530fb1ae6837445f07632ecf5d31d8826b891c2d1e3242dc8dc82dcff5f"
+    },
+    "independent-refinement/complete/source365/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-refinement/complete/source365/main130.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/main130-comparison.csv",
+      "sha256": "edd6f69e4ec41eb6440dea00a61c10542b7a8e7fc6c3206cf7f512c9fb6aef23"
+    },
+    "independent-refinement/complete/source365/native208.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/native208-comparison.csv",
+      "sha256": "2722e3fcebaa6fab13584de0fa0ff5b6b4df605a219ebf666303ba0c5b468b32"
+    },
+    "independent-refinement/complete/source365/station40.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/station-comparison.csv",
+      "sha256": "73172b872fdda3977a226f34bac0642edb325d3de7081f7d027aa1ca59c4ff89"
+    },
+    "independent-refinement/current337/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-refinement/current337/all182.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/all182-comparison.csv",
+      "sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    "independent-refinement/current337/audit.json": {
+      "scope": "packet",
+      "target": "independent-refinement/complete/current337/audit.json",
+      "sha256": "efa3c2d049315f8e73c085a673385539a58118550b7471dc66472fa84d7df912"
+    },
+    "independent-refinement/current337/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-refinement/current337/main130.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/main130-comparison.csv",
+      "sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    "independent-refinement/current337/native208.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/native208-comparison.csv",
+      "sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    "independent-refinement/current337/station40.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/station-comparison.csv",
+      "sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    "independent-refinement/source365/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-refinement/source365/all182.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/all182-comparison.csv",
+      "sha256": "145e4530fb1ae6837445f07632ecf5d31d8826b891c2d1e3242dc8dc82dcff5f"
+    },
+    "independent-refinement/source365/audit.json": {
+      "scope": "packet",
+      "target": "independent-refinement/complete/source365/audit.json",
+      "sha256": "a5fc56518768f3748aaffcac46911d84eff601bd01b0190caa1cb570b95452b8"
+    },
+    "independent-refinement/source365/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-refinement/source365/main130.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/main130-comparison.csv",
+      "sha256": "edd6f69e4ec41eb6440dea00a61c10542b7a8e7fc6c3206cf7f512c9fb6aef23"
+    },
+    "independent-refinement/source365/native208.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/native208-comparison.csv",
+      "sha256": "2722e3fcebaa6fab13584de0fa0ff5b6b4df605a219ebf666303ba0c5b468b32"
+    },
+    "independent-refinement/source365/station40.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/station-comparison.csv",
+      "sha256": "73172b872fdda3977a226f34bac0642edb325d3de7081f7d027aa1ca59c4ff89"
+    },
+    "independent-result/remove28/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-result/remove28/all182.csv": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/all182-comparison.csv",
+      "sha256": "65f4de34c239cfe8301d3d7a6dbc466f4668e5ce7bc01a2a0b3c56489ee1df32"
+    },
+    "independent-result/remove28/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-result/remove28/main130.csv": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/main130-comparison.csv",
+      "sha256": "d0a42b8b28408a49be8c85dfe86d652042fabb0472637632831124529ae961ed"
+    },
+    "independent-result/remove28/native208.csv": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/native208-comparison.csv",
+      "sha256": "4747837e5ca8e21889695e2d125b0c9d483c681ab8a40921eb77ab520a93c806"
+    },
+    "independent-result/remove28/prefix169-differences.json": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/compression/independent-result/prefix156-differences.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    "independent-result/remove28/station40.csv": {
+      "scope": "packet",
+      "target": "cases/remove28/evaluation/station-comparison.csv",
+      "sha256": "cb6ee1a86a296d1c30be9347a608797a9a2cfe390d4366555c193323a3121af3"
+    },
+    "independent-result/remove30/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-result/remove30/all182.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/all182-comparison.csv",
+      "sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    "independent-result/remove30/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-result/remove30/main130.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/main130-comparison.csv",
+      "sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    "independent-result/remove30/native208.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/native208-comparison.csv",
+      "sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    "independent-result/remove30/prefix169-differences.json": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/compression/independent-result/prefix156-differences.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    "independent-result/remove30/station40.csv": {
+      "scope": "packet",
+      "target": "cases/remove30/evaluation/station-comparison.csv",
+      "sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    "independent-result/source365/535-all56.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/advance-first900-120225/full-evaluation/535-all56.csv",
+      "sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    "independent-result/source365/all182.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/all182-comparison.csv",
+      "sha256": "145e4530fb1ae6837445f07632ecf5d31d8826b891c2d1e3242dc8dc82dcff5f"
+    },
+    "independent-result/source365/audit.json": {
+      "scope": "packet",
+      "target": "independent-refinement/complete/source365/audit.json",
+      "sha256": "a5fc56518768f3748aaffcac46911d84eff601bd01b0190caa1cb570b95452b8"
+    },
+    "independent-result/source365/initialization52.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/full/evaluation/initialization52-comparison.csv",
+      "sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    "independent-result/source365/main130.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/main130-comparison.csv",
+      "sha256": "edd6f69e4ec41eb6440dea00a61c10542b7a8e7fc6c3206cf7f512c9fb6aef23"
+    },
+    "independent-result/source365/native208.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/native208-comparison.csv",
+      "sha256": "2722e3fcebaa6fab13584de0fa0ff5b6b4df605a219ebf666303ba0c5b468b32"
+    },
+    "independent-result/source365/station40.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/offset/cases/minus30/evaluation/station-comparison.csv",
+      "sha256": "73172b872fdda3977a226f34bac0642edb325d3de7081f7d027aa1ca59c4ff89"
+    },
+    "prepare_refinement.py": {
+      "scope": "packet",
+      "target": "cases/remove43/measurement-implementation/prepare_refinement.py",
+      "sha256": "9284674b5c8df16b3a91bb3adc7f24511897a93535f780fc1b2ca57ddc32c7f1"
+    },
+    "prepare_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-prepare.py",
+      "sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    "run_refinement.py": {
+      "scope": "packet",
+      "target": "cases/remove43/executed-driver.py",
+      "sha256": "2c53ee60191c647a591df4132b334503d7df7282c63bb4c32010fddd5672555c"
+    },
+    "run_thinning.py": {
+      "scope": "packet",
+      "target": "cases/remove28/executed-driver.py",
+      "sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    }
+  },
+  "rule": "Exact raw SHA aliases only."
+}
