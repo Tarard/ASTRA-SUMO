@@ -1,0 +1,915 @@
+{
+  "aliases": {
+    "advance-first900/implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "advance-first900/implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "advance-first900/implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "advance-first900/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance-first900/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance-first900/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance-first900/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance-first900/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "advance-first900/native/demand.rou.xml",
+      "sha256": "80b9f25175c335881787bf3ba348df7e5e0c2bb84556b3a798a4561423236718"
+    },
+    "advance-first900/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "advance-first900/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance-first900/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "advance-first900/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "advance-first900/native/lane-intentions.json",
+      "sha256": "32e7b332188634b11d317ad581f948840b3fd01d0cdf21dfa6efd61a9b46e7d7"
+    },
+    "advance-first900/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance-first900/source-snapshot/control.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v2/control.add.xml.gz",
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    "advance-first900/source-snapshot/demand.rou.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml.gz",
+      "sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    "advance-first900/source-snapshot/expected-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv.gz",
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    "advance-first900/source-snapshot/field-loops.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml.gz",
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    "advance-first900/source-snapshot/initialization-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv.gz",
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    "advance-first900/source-snapshot/lane-intentions.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json.gz",
+      "sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    "advance-first900/source-snapshot/native-request.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json.gz",
+      "sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    "advance-first900/source-snapshot/network.net.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v3/converted.net.xml.gz",
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    "advance-first900/source-snapshot/scenario.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json.gz",
+      "sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    "advance-first900-120225/full-evaluation/executed-prefix-checker.py": {
+      "scope": "packet",
+      "target": "advance-first900-120225/executed-run.py",
+      "sha256": "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471"
+    },
+    "advance-first900-120225/full-evaluation/implementation/artifact_io.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/artifact_io.py",
+      "sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    "advance-first900-120225/full-evaluation/implementation/candidate_contracts.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    "advance-first900-120225/full-evaluation/implementation/command_runner.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/command_runner.py",
+      "sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    "advance-first900-120225/full-evaluation/implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "advance-first900-120225/full-evaluation/implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "advance-first900-120225/full-evaluation/implementation/hamburg_197_through_support.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_197_through_support.py",
+      "sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    "advance-first900-120225/full-evaluation/implementation/hamburg_od_spsa.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "advance-first900-120225/full-evaluation/implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "advance-first900-120225/full-evaluation/implementation/route_sensor_matrix.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "advance-first900-120225/full-evaluation/implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "advance-first900-120225/full-evaluation/native/demand.rou.xml": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/demand.rou.xml",
+      "sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    "advance-first900-120225/full-evaluation/native/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "advance-first900-120225/full-evaluation/native/lane-intentions.json": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/lane-intentions.json",
+      "sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    "advance-first900-120225/full-evaluation/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance-first900-120225/full-evaluation/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance-first900-120225/full-evaluation/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance-first900-120225/full-evaluation/od-vector.json": {
+      "scope": "packet",
+      "target": "advance-first900/od-vector.json",
+      "sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    "advance-first900-120225/implementation/artifact_io.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/artifact_io.py",
+      "sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    "advance-first900-120225/implementation/candidate_contracts.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    "advance-first900-120225/implementation/command_runner.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/command_runner.py",
+      "sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    "advance-first900-120225/implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "advance-first900-120225/implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "advance-first900-120225/implementation/hamburg_197_through_support.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_197_through_support.py",
+      "sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    "advance-first900-120225/implementation/hamburg_od_spsa.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "advance-first900-120225/implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "advance-first900-120225/implementation/route_sensor_matrix.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "advance-first900-120225/implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "advance-first900-120225/native/demand.rou.xml": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/demand.rou.xml",
+      "sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    "advance-first900-120225/native/expected-counts.csv": {
+      "scope": "packet",
+      "target": "advance-first900/native/expected-counts.csv",
+      "sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    "advance-first900-120225/native/lane-intentions.json": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/lane-intentions.json",
+      "sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    "advance-first900-120225/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance-first900-120225/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance-first900-120225/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance-first900-120225/od-vector.json": {
+      "scope": "packet",
+      "target": "advance-first900/od-vector.json",
+      "sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    "advance-first900-120225/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance-first900-120225/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/demand.rou.xml",
+      "sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    "advance-first900-120225/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "advance-first900-120225/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance-first900-120225/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "advance-first900-120225/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/lane-intentions.json",
+      "sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    "advance-first900-120225/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance-first900-120225/source-snapshot/advance-first900-cohort.csv.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/advance-first900-cohort.csv.gz",
+      "sha256": "89df21b9a58244e495e0095e06d14e8bc246df36aa43839a7ff680bc4b0271d8"
+    },
+    "advance-first900-120225/source-snapshot/control.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v2/control.add.xml.gz",
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    "advance-first900-120225/source-snapshot/demand.rou.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml.gz",
+      "sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    "advance-first900-120225/source-snapshot/diagnostic-manifest.json.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/diagnostic-manifest.json.gz",
+      "sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    "advance-first900-120225/source-snapshot/expected-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv.gz",
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    "advance-first900-120225/source-snapshot/field-loops.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml.gz",
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    "advance-first900-120225/source-snapshot/hamburg_departure_probe.py.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/hamburg_departure_probe.py.gz",
+      "sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    "advance-first900-120225/source-snapshot/initialization-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv.gz",
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    "advance-first900-120225/source-snapshot/lane-intentions.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json.gz",
+      "sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    "advance-first900-120225/source-snapshot/native-request.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json.gz",
+      "sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    "advance-first900-120225/source-snapshot/network.net.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v3/converted.net.xml.gz",
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    "advance-first900-120225/source-snapshot/scenario.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json.gz",
+      "sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    "advance22/implementation/artifact_io.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/artifact_io.py",
+      "sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    "advance22/implementation/candidate_contracts.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    "advance22/implementation/command_runner.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/command_runner.py",
+      "sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    "advance22/implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "advance22/implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "advance22/implementation/hamburg_197_through_support.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_197_through_support.py",
+      "sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    "advance22/implementation/hamburg_od_spsa.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "advance22/implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "advance22/implementation/route_sensor_matrix.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "advance22/implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "advance22/native/expected-counts.csv": {
+      "scope": "packet",
+      "target": "advance-first900/native/expected-counts.csv",
+      "sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    "advance22/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance22/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance22/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance22/native/sumo-errors.log": {
+      "scope": "packet",
+      "target": "advance-first900-120225/native/sumo-errors.log",
+      "sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    "advance22/od-vector.json": {
+      "scope": "packet",
+      "target": "advance-first900/od-vector.json",
+      "sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    "advance22/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance22/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "advance22/native/demand.rou.xml",
+      "sha256": "99829ebeb21eb460ad5287294c98d18379c5cacf9f8bdfb9c6f68b80e65a86b2"
+    },
+    "advance22/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "advance22/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance22/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "advance22/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "advance22/native/lane-intentions.json",
+      "sha256": "8f8da7771dfac30f64484a6797b1a78317e2cccd6f1647efad07c501e26ffb58"
+    },
+    "advance22/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance22/source-snapshot/control.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v2/control.add.xml.gz",
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    "advance22/source-snapshot/demand.rou.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml.gz",
+      "sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    "advance22/source-snapshot/diagnostic-manifest.json.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/diagnostic-manifest.json.gz",
+      "sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    "advance22/source-snapshot/expected-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv.gz",
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    "advance22/source-snapshot/field-loops.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml.gz",
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    "advance22/source-snapshot/hamburg_departure_probe.py.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/hamburg_departure_probe.py.gz",
+      "sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    "advance22/source-snapshot/initialization-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv.gz",
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    "advance22/source-snapshot/lane-intentions.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json.gz",
+      "sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    "advance22/source-snapshot/native-request.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json.gz",
+      "sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    "advance22/source-snapshot/network.net.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v3/converted.net.xml.gz",
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    "advance22/source-snapshot/scenario.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json.gz",
+      "sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    "advance225/implementation/artifact_io.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/artifact_io.py",
+      "sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    "advance225/implementation/candidate_contracts.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    "advance225/implementation/command_runner.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/command_runner.py",
+      "sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    "advance225/implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "advance225/implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "advance225/implementation/hamburg_197_through_support.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_197_through_support.py",
+      "sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    "advance225/implementation/hamburg_od_spsa.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "advance225/implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "advance225/implementation/route_sensor_matrix.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "advance225/implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "advance225/native/expected-counts.csv": {
+      "scope": "packet",
+      "target": "advance-first900/native/expected-counts.csv",
+      "sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    "advance225/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance225/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance225/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance225/native/sumo-errors.log": {
+      "scope": "packet",
+      "target": "advance-first900-120225/native/sumo-errors.log",
+      "sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    "advance225/od-vector.json": {
+      "scope": "packet",
+      "target": "advance-first900/od-vector.json",
+      "sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    "advance225/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "advance225/prepared/demand.rou.xml": {
+      "scope": "packet",
+      "target": "advance225/native/demand.rou.xml",
+      "sha256": "98510a23c6f32230a60477aa2b1b373931e2267238b7a41f4e1cd0024893ae71"
+    },
+    "advance225/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "advance225/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "advance225/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "advance225/prepared/lane-intentions.json": {
+      "scope": "packet",
+      "target": "advance225/native/lane-intentions.json",
+      "sha256": "47427097d5643bb1b0329d5c314f47d568d9e11746bd62dfb9a12346df069f32"
+    },
+    "advance225/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "advance225/source-snapshot/control.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v2/control.add.xml.gz",
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    "advance225/source-snapshot/demand.rou.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml.gz",
+      "sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    "advance225/source-snapshot/diagnostic-manifest.json.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/diagnostic-manifest.json.gz",
+      "sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    "advance225/source-snapshot/expected-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv.gz",
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    "advance225/source-snapshot/field-loops.add.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml.gz",
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    "advance225/source-snapshot/hamburg_departure_probe.py.gz": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/hamburg_departure_probe.py.gz",
+      "sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    "advance225/source-snapshot/initialization-counts.csv.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv.gz",
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    "advance225/source-snapshot/lane-intentions.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json.gz",
+      "sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    "advance225/source-snapshot/native-request.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json.gz",
+      "sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    "advance225/source-snapshot/network.net.xml.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/candidate-priority-v3/converted.net.xml.gz",
+      "sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    "advance225/source-snapshot/scenario.json.gz": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json.gz",
+      "sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    "full-independent/after-130.csv": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/native/field-comparison.csv",
+      "sha256": "10ebf55d8aa7d04f036bb9d51fcd2317086b914efcca594e8c5868f97e523ec6"
+    },
+    "full-independent/after-182.csv": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/all182-comparison.csv",
+      "sha256": "fcea5b9b94a9ee236a69fd9539ee74be9d4f30bbaabd7f08dac3fb87edf271f0"
+    },
+    "full-independent/after-40.csv": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/station-comparison.csv",
+      "sha256": "436df9ac31b8bd1cc923a9169c946f0121df8fc81272c08f86527f67b2ce2c94"
+    },
+    "full-independent/after-52.csv": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/initialization52-comparison.csv",
+      "sha256": "4d6458254236722f0e5d63bbd71da057efe779e0e21cd836d46e1f148d0d326c"
+    },
+    "full-independent/reference-52.csv": {
+      "scope": "packet",
+      "target": "full-independent/global-best-52.csv",
+      "sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    "reference/executed-run.py": {
+      "scope": "packet",
+      "target": "advance22/executed-run.py",
+      "sha256": "127b69b9b62ea8898f5f71a64f5aa51d8d03ac26f5725790d30765d157c7a798"
+    },
+    "reference/implementation/artifact_io.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/artifact_io.py",
+      "sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    "reference/implementation/candidate_contracts.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    "reference/implementation/command_runner.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/command_runner.py",
+      "sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    "reference/implementation/detector_demand.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/detector_demand.py",
+      "sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    "reference/implementation/detector_demand_replay.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    "reference/implementation/hamburg_197_through_support.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_197_through_support.py",
+      "sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    "reference/implementation/hamburg_od_spsa.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    "reference/implementation/lane_section_hold.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    "reference/implementation/route_sensor_matrix.py": {
+      "scope": "packet",
+      "target": "advance-first900/implementation/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    "reference/implementation/simulation_stall.py": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    "reference/native/demand.rou.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    "reference/native/expected-counts.csv": {
+      "scope": "packet",
+      "target": "advance-first900/native/expected-counts.csv",
+      "sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    "reference/native/lane-intentions.json": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    "reference/native/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "reference/native/signal-programs.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "reference/native/source-e1.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "reference/native/sumo-errors.log": {
+      "scope": "packet",
+      "target": "advance-first900-120225/native/sumo-errors.log",
+      "sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    "reference/prepared/control.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    "reference/prepared/demand.rou.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    "reference/prepared/expected-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    "reference/prepared/field-loops.add.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "reference/prepared/initialization-counts.csv": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    "reference/prepared/lane-intentions.json": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    "reference/prepared/network.net.xml": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    "reference/prepared/scenario.json": {
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1"
+    },
+    "study-source/prefix13.csv": {
+      "scope": "packet",
+      "target": "advance-first900/native/expected-counts.csv",
+      "sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    "study-source/prepare_advance22.py": {
+      "scope": "packet",
+      "target": "advance22/source-snapshot/prepare_advance22.py",
+      "sha256": "cae2f012949d074dfcaa4a3b4e95a2470d4ec6485e3321e5b85b23d930cd70ee"
+    },
+    "study-source/prepare_advance225.py": {
+      "scope": "packet",
+      "target": "advance225/source-snapshot/prepare_advance225.py",
+      "sha256": "d986a931c7693fe7d471b95e211ceeba2c7b48d9c57aeecd49e70cb284481888"
+    },
+    "study-source/prepare_advance_first900.py": {
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/prepare_advance_first900.py",
+      "sha256": "7b7e08f0980b6c864492ee7c803a4aef563ec05728a84bc63e513134473dacd5"
+    },
+    "study-source/prepare_advance_first900_120225.py": {
+      "scope": "packet",
+      "target": "advance-first900-120225/source-snapshot/prepare_advance_first900_120225.py",
+      "sha256": "12395c70c2299bfafa584f9868a2b51673e31eb700d09271ed0288e9f476778c"
+    },
+    "study-source/run_full.py": {
+      "scope": "packet",
+      "target": "advance-first900-120225/full-evaluation/executed-run_full.py",
+      "sha256": "62e62a3d6dcc4b4f3ae18b7e4b485e56afe795ce113a892b6dacda72d08ef2ec"
+    },
+    "study-source/run_prefix.py": {
+      "scope": "packet",
+      "target": "advance-first900-120225/executed-run.py",
+      "sha256": "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471"
+    }
+  },
+  "rule": "Onlybyte-identicalSHA-boundoldsourceorduplicatefilesreferenced."
+}

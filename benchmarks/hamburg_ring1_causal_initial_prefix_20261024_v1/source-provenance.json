@@ -1,0 +1,2549 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\all182-coverage.json",
+      "relative": "advance-first900/all182-coverage.json",
+      "raw_bytes": 38042,
+      "raw_sha256": "750076d929a392b05f929622756477d8055ec7272789e7b25c3a999535174b8b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\contributing-passages.json.gz",
+      "relative": "advance-first900/contributing-passages.json.gz",
+      "raw_bytes": 9307,
+      "raw_sha256": "33c4474508dee9672a6ed8f16b8c997c43c2ca7b360f79f330bdd63547bc98cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\core-result.json",
+      "relative": "advance-first900/core-result.json",
+      "raw_bytes": 341930,
+      "raw_sha256": "72178a10f0bdcb7fc977b442ebd533d82f93d819bceb6ca74b0fb7a85f704dad"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\departure-proposals.json",
+      "relative": "advance-first900/departure-proposals.json",
+      "raw_bytes": 126796,
+      "raw_sha256": "d8a5f170d3c8d01fe1aa0cad8086eb50bda70f8d92aaf2bf1daf8a076a2f871b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\executed-run.py",
+      "relative": "advance-first900/executed-run.py",
+      "raw_bytes": 19848,
+      "raw_sha256": "cd09d3d9b4a577d911588af46ebe44cbfd8068f337b8da71488b9d53c5ea8aed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\artifact_io.py",
+      "relative": "advance-first900/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\candidate_contracts.py",
+      "relative": "advance-first900/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\command_runner.py",
+      "relative": "advance-first900/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\detector_demand.py",
+      "relative": "advance-first900/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\detector_demand_replay.py",
+      "relative": "advance-first900/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\hamburg_197_through_support.py",
+      "relative": "advance-first900/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\hamburg_od_spsa.py",
+      "relative": "advance-first900/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\lane_section_hold.py",
+      "relative": "advance-first900/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\route_sensor_matrix.py",
+      "relative": "advance-first900/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\implementation\\simulation_stall.py",
+      "relative": "advance-first900/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\metadata-changes.json",
+      "relative": "advance-first900/metadata-changes.json",
+      "raw_bytes": 153023,
+      "raw_sha256": "94f30a1242e2f1ca981ecd0fb2019df550eb18f19afe4df6fa5fb2fcbda14e7d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\collisions.xml",
+      "relative": "advance-first900/native/collisions.xml",
+      "raw_bytes": 3245,
+      "raw_sha256": "d60040555b54ebcb53b2862d731c2877b6a880db61a0b75d3ac61c27471351cd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\command.json",
+      "relative": "advance-first900/native/command.json",
+      "raw_bytes": 4443,
+      "raw_sha256": "acc12cd60378c6fbc5baceaaea0bbd0c5930ac9f006ac9089e1e8fb2d73ca6cd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\demand.rou.xml",
+      "relative": "advance-first900/native/demand.rou.xml",
+      "raw_bytes": 3725282,
+      "raw_sha256": "80b9f25175c335881787bf3ba348df7e5e0c2bb84556b3a798a4561423236718"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\e1.add.xml",
+      "relative": "advance-first900/native/e1.add.xml",
+      "raw_bytes": 3576,
+      "raw_sha256": "1f6164ac0b72ccc3e97e4ca531548643c62ad080dfcfdb2c3f1388dbcfd28888"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\expected-counts.csv",
+      "relative": "advance-first900/native/expected-counts.csv",
+      "raw_bytes": 3016,
+      "raw_sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\field-comparison.csv",
+      "relative": "advance-first900/native/field-comparison.csv",
+      "raw_bytes": 845,
+      "raw_sha256": "a5b8b38958ef8913207ac1ae7a9bb553b840fa4c9a1652443908183e7343c12c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\field-counts.xml",
+      "relative": "advance-first900/native/field-counts.xml",
+      "raw_bytes": 6287,
+      "raw_sha256": "2f5c1560092edddcb0fd84584a0475495185cd25ee23fea52e15b409023f849d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\instant-e1.xml",
+      "relative": "advance-first900/native/instant-e1.xml",
+      "raw_bytes": 884966,
+      "raw_sha256": "adcb09c6517f108e51cec4d6a55bde8db9b2d0bdb6fa03ecc4c620f456ae18eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\instant.add.xml",
+      "relative": "advance-first900/native/instant.add.xml",
+      "raw_bytes": 3078,
+      "raw_sha256": "8de2b499c7af495bedc63b23ce7882f1eb47093aeea6e874f599b49a5b4a2ede"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\lane-intentions.json",
+      "relative": "advance-first900/native/lane-intentions.json",
+      "raw_bytes": 1019620,
+      "raw_sha256": "32e7b332188634b11d317ad581f948840b3fd01d0cdf21dfa6efd61a9b46e7d7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\native-request.json",
+      "relative": "advance-first900/native/native-request.json",
+      "raw_bytes": 3734,
+      "raw_sha256": "8701e9c2933bc13524754417f8d0ac34fe66c228599fb214bbde24a220267023"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\network.net.xml",
+      "relative": "advance-first900/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\run.json",
+      "relative": "advance-first900/native/run.json",
+      "raw_bytes": 330214,
+      "raw_sha256": "71965cce73fd7fc4dff68215936ae9550e1d4dbc172c969efc817c64e8847878"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\signal-programs.add.xml",
+      "relative": "advance-first900/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\source-e1.add.xml",
+      "relative": "advance-first900/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\stall-monitor.json",
+      "relative": "advance-first900/native/stall-monitor.json",
+      "raw_bytes": 301710,
+      "raw_sha256": "a3e70677e15d18e927d8b78de2f98a274f0078d619b59c4d32a2fdf742cf90d1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\summary.xml",
+      "relative": "advance-first900/native/summary.xml",
+      "raw_bytes": 2852258,
+      "raw_sha256": "369cf7b2f4e1d04717238bff61b8d1001af1dce17b3ac07582ece3e7fbac6898"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\sumo-errors.log",
+      "relative": "advance-first900/native/sumo-errors.log",
+      "raw_bytes": 2250,
+      "raw_sha256": "ef1f5b5666ef4b98bbd81a1963d48adc5db432f69690b0adebfb7d4e9b2dba76"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\sumo.log",
+      "relative": "advance-first900/native/sumo.log",
+      "raw_bytes": 3802,
+      "raw_sha256": "17ca715c5674c156ecdb56689a14f9b258c56bc63fee02c6e849b6c11322bbf4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\tripinfo.xml",
+      "relative": "advance-first900/native/tripinfo.xml",
+      "raw_bytes": 231275,
+      "raw_sha256": "74d52bb18af3415d00041eb8fcc0ca112068af668cd9edf5259f2886a9efbcdc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\native\\vehicle-routes.xml",
+      "relative": "advance-first900/native/vehicle-routes.xml",
+      "raw_bytes": 313718,
+      "raw_sha256": "c8d2caacd0dbd8fc374f59a5a420603a9583caeec626d0ce0676c33e89a29701"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\od-vector.json",
+      "relative": "advance-first900/od-vector.json",
+      "raw_bytes": 7876,
+      "raw_sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\preflight.json",
+      "relative": "advance-first900/preflight.json",
+      "raw_bytes": 4349,
+      "raw_sha256": "b1625e2c902b9aefe1e2f564c198c07961c1465f17f553c5434e69a80a06339d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\control.add.xml",
+      "relative": "advance-first900/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\demand.rou.xml",
+      "relative": "advance-first900/prepared/demand.rou.xml",
+      "raw_bytes": 3725282,
+      "raw_sha256": "80b9f25175c335881787bf3ba348df7e5e0c2bb84556b3a798a4561423236718"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\expected-counts.csv",
+      "relative": "advance-first900/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\field-loops.add.xml",
+      "relative": "advance-first900/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\initialization-counts.csv",
+      "relative": "advance-first900/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\lane-intentions.json",
+      "relative": "advance-first900/prepared/lane-intentions.json",
+      "raw_bytes": 1019620,
+      "raw_sha256": "32e7b332188634b11d317ad581f948840b3fd01d0cdf21dfa6efd61a9b46e7d7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\network.net.xml",
+      "relative": "advance-first900/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\prepared\\scenario.json",
+      "relative": "advance-first900/prepared/scenario.json",
+      "raw_bytes": 4271,
+      "raw_sha256": "e07a12f5c6b3f7f25ccd64e588fac26cb464d3f070ddf11e130bf6e84b61a66f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\record-result.json",
+      "relative": "advance-first900/record-result.json",
+      "raw_bytes": 8340,
+      "raw_sha256": "fd88fb9077d8cf0e40c345a93a557e2c2890df4e4e39d319c63175d3f2cb9aca"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\scope-proof.json",
+      "relative": "advance-first900/scope-proof.json",
+      "raw_bytes": 140831,
+      "raw_sha256": "b9dc00b33ab8b89d26ae508b81e53a657540fb7ff7903fc49e584d69567d426c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\selfchecks.json",
+      "relative": "advance-first900/selfchecks.json",
+      "raw_bytes": 10640,
+      "raw_sha256": "c2236ea9cf9d424202be5824c91835adb4db382664c2e1e3e619b67d98876823"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\advance-first900-cohort.csv.gz",
+      "relative": "advance-first900/source-snapshot/advance-first900-cohort.csv.gz",
+      "raw_bytes": 5760,
+      "raw_sha256": "89df21b9a58244e495e0095e06d14e8bc246df36aa43839a7ff680bc4b0271d8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\control.add.xml.gz",
+      "relative": "advance-first900/source-snapshot/control.add.xml.gz",
+      "raw_bytes": 1939,
+      "raw_sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\demand.rou.xml.gz",
+      "relative": "advance-first900/source-snapshot/demand.rou.xml.gz",
+      "raw_bytes": 122416,
+      "raw_sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\diagnostic-manifest.json.gz",
+      "relative": "advance-first900/source-snapshot/diagnostic-manifest.json.gz",
+      "raw_bytes": 531,
+      "raw_sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\expected-counts.csv.gz",
+      "relative": "advance-first900/source-snapshot/expected-counts.csv.gz",
+      "raw_bytes": 1433,
+      "raw_sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\field-loops.add.xml.gz",
+      "relative": "advance-first900/source-snapshot/field-loops.add.xml.gz",
+      "raw_bytes": 358,
+      "raw_sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\hamburg_departure_probe.py.gz",
+      "relative": "advance-first900/source-snapshot/hamburg_departure_probe.py.gz",
+      "raw_bytes": 5747,
+      "raw_sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\initialization-counts.csv.gz",
+      "relative": "advance-first900/source-snapshot/initialization-counts.csv.gz",
+      "raw_bytes": 912,
+      "raw_sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\lane-intentions.json.gz",
+      "relative": "advance-first900/source-snapshot/lane-intentions.json.gz",
+      "raw_bytes": 26182,
+      "raw_sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\native-request.json.gz",
+      "relative": "advance-first900/source-snapshot/native-request.json.gz",
+      "raw_bytes": 667,
+      "raw_sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\network.net.xml.gz",
+      "relative": "advance-first900/source-snapshot/network.net.xml.gz",
+      "raw_bytes": 243171,
+      "raw_sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\prepare_advance_first900.py",
+      "relative": "advance-first900/source-snapshot/prepare_advance_first900.py",
+      "raw_bytes": 11534,
+      "raw_sha256": "7b7e08f0980b6c864492ee7c803a4aef563ec05728a84bc63e513134473dacd5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\source-snapshot\\scenario.json.gz",
+      "relative": "advance-first900/source-snapshot/scenario.json.gz",
+      "raw_bytes": 2073,
+      "raw_sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\all182-coverage.json",
+      "relative": "advance-first900-120225/all182-coverage.json",
+      "raw_bytes": 38042,
+      "raw_sha256": "76c8ef983d5b7bb761926a964f8d0f1a3b6a3962d9eb5f98c93afc896909ea37"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\contributing-passages.json.gz",
+      "relative": "advance-first900-120225/contributing-passages.json.gz",
+      "raw_bytes": 9567,
+      "raw_sha256": "8362a5f9d8caeaa4bd01ca5526ad6abc8a6207e3f46e56ee947d1ea42ed053b2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\core-result.json",
+      "relative": "advance-first900-120225/core-result.json",
+      "raw_bytes": 346752,
+      "raw_sha256": "9a80a5d01570a99b1da27d3b37411240eac6196ca7e0cfeb5751bb7c4e66982e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\departure-proposals.json",
+      "relative": "advance-first900-120225/departure-proposals.json",
+      "raw_bytes": 127138,
+      "raw_sha256": "0ce86346370199f9f81064421d96d7a50a68ec9a7b70f4980e839048b3925376"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\executed-run.py",
+      "relative": "advance-first900-120225/executed-run.py",
+      "raw_bytes": 20137,
+      "raw_sha256": "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\535-all56.csv",
+      "relative": "advance-first900-120225/full-evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\all182-comparison.csv",
+      "relative": "advance-first900-120225/full-evaluation/all182-comparison.csv",
+      "raw_bytes": 10878,
+      "raw_sha256": "fcea5b9b94a9ee236a69fd9539ee74be9d4f30bbaabd7f08dac3fb87edf271f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\contributing-passages.json.gz",
+      "relative": "advance-first900-120225/full-evaluation/contributing-passages.json.gz",
+      "raw_bytes": 170970,
+      "raw_sha256": "6bc20b673057b69671f31bcd9424164634600ddd0e59e3a91033b71094b2e1e8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\core-result.json",
+      "relative": "advance-first900-120225/full-evaluation/core-result.json",
+      "raw_bytes": 6413771,
+      "raw_sha256": "429d54b4b2739ab4c7fe98e05e856561be24410107541c7f5358750560064e57"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\demand.rou.xml",
+      "relative": "advance-first900-120225/full-evaluation/demand.rou.xml",
+      "raw_bytes": 3725268,
+      "raw_sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\evaluation.json",
+      "relative": "advance-first900-120225/full-evaluation/evaluation.json",
+      "raw_bytes": 457,
+      "raw_sha256": "f1aa50ad231745de514f402d061bcb2e4971e9397dcdf5a7997b7cfa9c57b05c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\executed-prefix-checker.py",
+      "relative": "advance-first900-120225/full-evaluation/executed-prefix-checker.py",
+      "raw_bytes": 20137,
+      "raw_sha256": "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\executed-run_full.py",
+      "relative": "advance-first900-120225/full-evaluation/executed-run_full.py",
+      "raw_bytes": 12325,
+      "raw_sha256": "62e62a3d6dcc4b4f3ae18b7e4b485e56afe795ce113a892b6dacda72d08ef2ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\artifact_io.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\candidate_contracts.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\command_runner.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\detector_demand.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\detector_demand_replay.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\hamburg_197_through_support.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\hamburg_od_spsa.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\lane_section_hold.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\route_sensor_matrix.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\implementation\\simulation_stall.py",
+      "relative": "advance-first900-120225/full-evaluation/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\initialization52-comparison.csv",
+      "relative": "advance-first900-120225/full-evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3120,
+      "raw_sha256": "4d6458254236722f0e5d63bbd71da057efe779e0e21cd836d46e1f148d0d326c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\lane-intentions.json",
+      "relative": "advance-first900-120225/full-evaluation/lane-intentions.json",
+      "raw_bytes": 1019606,
+      "raw_sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\collisions.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/collisions.xml",
+      "raw_bytes": 3523,
+      "raw_sha256": "a398211b0492518efb434c5ca31b9f4085d32283aacac66156b0c7a9963ea5f6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\command.json",
+      "relative": "advance-first900-120225/full-evaluation/native/command.json",
+      "raw_bytes": 5682,
+      "raw_sha256": "9c492a4d5f76be648622eb27c84f963692a32a5aec0359e3840c678f699cc8b7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\demand.rou.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/demand.rou.xml",
+      "raw_bytes": 3725268,
+      "raw_sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\e1.add.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/e1.add.xml",
+      "raw_bytes": 3901,
+      "raw_sha256": "b8c44d79e71a295eead620979fd31ac309aca5e0ffa1b0ae0c2d6b6bde92f112"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\expected-counts.csv",
+      "relative": "advance-first900-120225/full-evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\field-comparison.csv",
+      "relative": "advance-first900-120225/full-evaluation/native/field-comparison.csv",
+      "raw_bytes": 7898,
+      "raw_sha256": "10ebf55d8aa7d04f036bb9d51fcd2317086b914efcca594e8c5868f97e523ec6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\field-counts.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/field-counts.xml",
+      "raw_bytes": 53356,
+      "raw_sha256": "2c44cf6648d53a6a76c91da4c9b4d73bcafe767911c92165d7345f850aa3be5b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\instant.add.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/instant.add.xml",
+      "raw_bytes": 3377,
+      "raw_sha256": "fecfe346191d5866d14780799b24d91451536dbfd421d3bde3ac152fcb40b204"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\lane-intentions.json",
+      "relative": "advance-first900-120225/full-evaluation/native/lane-intentions.json",
+      "raw_bytes": 1019606,
+      "raw_sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\native-request.json",
+      "relative": "advance-first900-120225/full-evaluation/native/native-request.json",
+      "raw_bytes": 4122,
+      "raw_sha256": "39232d5979c20774dcb21a7c792ac877c768804a00a2a3ce4629078f08fc2032"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\network.net.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\run.json",
+      "relative": "advance-first900-120225/full-evaluation/native/run.json",
+      "raw_bytes": 6192871,
+      "raw_sha256": "01b404bf039b5b02f11d6dbec60dba4662646b89539c3c8d1b1fae7b27de7433"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\signal-programs.add.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\source-e1.add.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\stall-monitor.json",
+      "relative": "advance-first900-120225/full-evaluation/native/stall-monitor.json",
+      "raw_bytes": 5745747,
+      "raw_sha256": "75320edfb84e26c5f22e5983354086499da45c2563b358ac761cf2aafe3f3736"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\summary.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/summary.xml",
+      "raw_bytes": 46886550,
+      "raw_sha256": "3003f814918b64af66b3b06f34f790462c2d44af13fb5db6919d6b36374ad93b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\sumo-errors.log",
+      "relative": "advance-first900-120225/full-evaluation/native/sumo-errors.log",
+      "raw_bytes": 3309,
+      "raw_sha256": "e2c0bde3d3c7d08fdb2f9aa1c8395e5341d71377dcb374728bdf6e110b3bdff7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\sumo.log",
+      "relative": "advance-first900-120225/full-evaluation/native/sumo.log",
+      "raw_bytes": 4988,
+      "raw_sha256": "f2f965503c122989df2c67a79096e1b33e1c42d4ccc8c8d238d0e19d00aff951"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\tripinfo.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/tripinfo.xml",
+      "raw_bytes": 4551939,
+      "raw_sha256": "7d9414273e0bcd1649a0a8c93815496414fea11871dc708763ba2b85bc6f999a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native\\vehicle-routes.xml",
+      "relative": "advance-first900-120225/full-evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6426501,
+      "raw_sha256": "bf6a8446ab59bec7853a388b6f3b14a7587b565e45fa5918ee6a306d247ee551"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\native208-comparison.csv",
+      "relative": "advance-first900-120225/full-evaluation/native208-comparison.csv",
+      "raw_bytes": 25172,
+      "raw_sha256": "df06beed3171a10030bb8b5bb4e25c96839131fc45ec60f85d080c14a4ba6069"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\od-vector.json",
+      "relative": "advance-first900-120225/full-evaluation/od-vector.json",
+      "raw_bytes": 7876,
+      "raw_sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\prefix-parity.json",
+      "relative": "advance-first900-120225/full-evaluation/prefix-parity.json",
+      "raw_bytes": 716,
+      "raw_sha256": "682c55b0076b9833bde0988b3cc72221861d27a8337cebd2071b4c7d15550a58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\preflight.json",
+      "relative": "advance-first900-120225/full-evaluation/preflight.json",
+      "raw_bytes": 9037,
+      "raw_sha256": "d91eea6e5a8141a1d538cc6ac63177e9f16b58de7fabf57d9ebb394dac1aa322"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\station-comparison.csv",
+      "relative": "advance-first900-120225/full-evaluation/station-comparison.csv",
+      "raw_bytes": 1618,
+      "raw_sha256": "436df9ac31b8bd1cc923a9169c946f0121df8fc81272c08f86527f67b2ce2c94"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\full-evaluation\\verdict.json",
+      "relative": "advance-first900-120225/full-evaluation/verdict.json",
+      "raw_bytes": 3687,
+      "raw_sha256": "46fa6868a81b5e1234c7b4f62029cc55034e70fbac248b0ae8f0aa851e94a9ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\artifact_io.py",
+      "relative": "advance-first900-120225/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\candidate_contracts.py",
+      "relative": "advance-first900-120225/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\command_runner.py",
+      "relative": "advance-first900-120225/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\detector_demand.py",
+      "relative": "advance-first900-120225/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\detector_demand_replay.py",
+      "relative": "advance-first900-120225/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\hamburg_197_through_support.py",
+      "relative": "advance-first900-120225/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\hamburg_od_spsa.py",
+      "relative": "advance-first900-120225/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\lane_section_hold.py",
+      "relative": "advance-first900-120225/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\route_sensor_matrix.py",
+      "relative": "advance-first900-120225/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\implementation\\simulation_stall.py",
+      "relative": "advance-first900-120225/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\metadata-changes.json",
+      "relative": "advance-first900-120225/metadata-changes.json",
+      "raw_bytes": 153009,
+      "raw_sha256": "4ce5d58676a7caf3f3c08921ffde00c943c2a876f3c90122f3383890a14392e2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\collisions.xml",
+      "relative": "advance-first900-120225/native/collisions.xml",
+      "raw_bytes": 3329,
+      "raw_sha256": "f58a27015dde0f74f63988a56400e36f596a60e57c239debbeec373e795ee4f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\command.json",
+      "relative": "advance-first900-120225/native/command.json",
+      "raw_bytes": 4293,
+      "raw_sha256": "3bee7ee86e09dba72b37e9c2e6414cf1d2a75d68ac0df4ae32482ae04dd14e4e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\demand.rou.xml",
+      "relative": "advance-first900-120225/native/demand.rou.xml",
+      "raw_bytes": 3725268,
+      "raw_sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\e1.add.xml",
+      "relative": "advance-first900-120225/native/e1.add.xml",
+      "raw_bytes": 3667,
+      "raw_sha256": "a997edf0ed94a6f76ff771bf9df4aa5ded26db707577651318537a9a4555ab6d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\expected-counts.csv",
+      "relative": "advance-first900-120225/native/expected-counts.csv",
+      "raw_bytes": 3016,
+      "raw_sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\field-comparison.csv",
+      "relative": "advance-first900-120225/native/field-comparison.csv",
+      "raw_bytes": 843,
+      "raw_sha256": "7ca9036dce37b153ff9e64bc6379240fd7d1ab7e29e2f02c3a78d41e3c76d2bd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\field-counts.xml",
+      "relative": "advance-first900-120225/native/field-counts.xml",
+      "raw_bytes": 6371,
+      "raw_sha256": "0c8ac5ab00e0e3803437c826865c0cc2d684cff23ef2a75d4a9a95cd62ddd044"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\instant-e1.xml",
+      "relative": "advance-first900-120225/native/instant-e1.xml",
+      "raw_bytes": 1022430,
+      "raw_sha256": "467122aa76dd86ca4776a5e4fa267f79736e00ca51922541f20aa0e7217fe900"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\instant.add.xml",
+      "relative": "advance-first900-120225/native/instant.add.xml",
+      "raw_bytes": 3169,
+      "raw_sha256": "a35e93f580812f2dcc48a404d7e1fbdff13d8d29ebbd4592561c03627fb1cf1f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\lane-intentions.json",
+      "relative": "advance-first900-120225/native/lane-intentions.json",
+      "raw_bytes": 1019606,
+      "raw_sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\native-request.json",
+      "relative": "advance-first900-120225/native/native-request.json",
+      "raw_bytes": 3846,
+      "raw_sha256": "541a1b62aca98dd5cee84583140f2522e125f57e43ab8d81ba400068f2dae6e6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\network.net.xml",
+      "relative": "advance-first900-120225/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\run.json",
+      "relative": "advance-first900-120225/native/run.json",
+      "raw_bytes": 334868,
+      "raw_sha256": "5acd768d449f8bc954cd5c96525997b78b794964a173d7e77a51c3c514c279aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\signal-programs.add.xml",
+      "relative": "advance-first900-120225/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\source-e1.add.xml",
+      "relative": "advance-first900-120225/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\stall-monitor.json",
+      "relative": "advance-first900-120225/native/stall-monitor.json",
+      "raw_bytes": 305944,
+      "raw_sha256": "ffb55a297ecd5eee9c5ff6a4ea39edbb46092add8c1c23f938dd75b01a7f11f6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\summary.xml",
+      "relative": "advance-first900-120225/native/summary.xml",
+      "raw_bytes": 2854782,
+      "raw_sha256": "020dae245378cc55d2b7906f2741d816952b9d7cc5daeb34be97003b16b5d074"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\sumo-errors.log",
+      "relative": "advance-first900-120225/native/sumo-errors.log",
+      "raw_bytes": 2074,
+      "raw_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\sumo.log",
+      "relative": "advance-first900-120225/native/sumo.log",
+      "raw_bytes": 3638,
+      "raw_sha256": "e230322d1910ecf4812c1452c98f80db274e23fdd86f9fe1777a3756ea5889c8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\tripinfo.xml",
+      "relative": "advance-first900-120225/native/tripinfo.xml",
+      "raw_bytes": 231477,
+      "raw_sha256": "64f40e98042fab9b5cc158b8e421fc3058352aecc6a38a5ee2ee7cbde054353a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\native\\vehicle-routes.xml",
+      "relative": "advance-first900-120225/native/vehicle-routes.xml",
+      "raw_bytes": 321679,
+      "raw_sha256": "a85551ec061d9cae9f6ebb24a4851de66d3641c9b75415d053d57a3c4931615e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\od-vector.json",
+      "relative": "advance-first900-120225/od-vector.json",
+      "raw_bytes": 7876,
+      "raw_sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\preflight.json",
+      "relative": "advance-first900-120225/preflight.json",
+      "raw_bytes": 4349,
+      "raw_sha256": "91fb46099d208ea07f0241fc8f5af5e9161341324e7bf07dd2f7731511ba8c12"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\control.add.xml",
+      "relative": "advance-first900-120225/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\demand.rou.xml",
+      "relative": "advance-first900-120225/prepared/demand.rou.xml",
+      "raw_bytes": 3725268,
+      "raw_sha256": "505d0f07b7afbfac4edd29a1544e4e01fd01791fa1e9f84a7a057b48e07e76b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\expected-counts.csv",
+      "relative": "advance-first900-120225/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\field-loops.add.xml",
+      "relative": "advance-first900-120225/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\initialization-counts.csv",
+      "relative": "advance-first900-120225/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\lane-intentions.json",
+      "relative": "advance-first900-120225/prepared/lane-intentions.json",
+      "raw_bytes": 1019606,
+      "raw_sha256": "c9521904b47a1ac8de05c498b6763fe93307a6e5e85b1d53142f8c4c2c809528"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\network.net.xml",
+      "relative": "advance-first900-120225/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\prepared\\scenario.json",
+      "relative": "advance-first900-120225/prepared/scenario.json",
+      "raw_bytes": 4352,
+      "raw_sha256": "3d05686bd39f0f5aab43195305eb91d883be399c29cfc351b9b6fd13e0a9f4e4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\record-result.json",
+      "relative": "advance-first900-120225/record-result.json",
+      "raw_bytes": 8370,
+      "raw_sha256": "2d3ac61a4299cb186232272113264f91ccae9ec2c65c35f10846be7e99c4a609"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\scope-proof.json",
+      "relative": "advance-first900-120225/scope-proof.json",
+      "raw_bytes": 141256,
+      "raw_sha256": "0d46d8678b8b41785c2a91875a9b358ff33d27b92d8b9a52266f7c63286d71a0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\selfchecks.json",
+      "relative": "advance-first900-120225/selfchecks.json",
+      "raw_bytes": 10640,
+      "raw_sha256": "a7cfbeb439062d9e940f2b4cc82b7d6b6da9f36c28a59258d7655b610cf942c9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\advance-first900-cohort.csv.gz",
+      "relative": "advance-first900-120225/source-snapshot/advance-first900-cohort.csv.gz",
+      "raw_bytes": 5760,
+      "raw_sha256": "89df21b9a58244e495e0095e06d14e8bc246df36aa43839a7ff680bc4b0271d8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\control.add.xml.gz",
+      "relative": "advance-first900-120225/source-snapshot/control.add.xml.gz",
+      "raw_bytes": 1939,
+      "raw_sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\demand.rou.xml.gz",
+      "relative": "advance-first900-120225/source-snapshot/demand.rou.xml.gz",
+      "raw_bytes": 122416,
+      "raw_sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\diagnostic-manifest.json.gz",
+      "relative": "advance-first900-120225/source-snapshot/diagnostic-manifest.json.gz",
+      "raw_bytes": 531,
+      "raw_sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\expected-counts.csv.gz",
+      "relative": "advance-first900-120225/source-snapshot/expected-counts.csv.gz",
+      "raw_bytes": 1433,
+      "raw_sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\field-loops.add.xml.gz",
+      "relative": "advance-first900-120225/source-snapshot/field-loops.add.xml.gz",
+      "raw_bytes": 358,
+      "raw_sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\hamburg_departure_probe.py.gz",
+      "relative": "advance-first900-120225/source-snapshot/hamburg_departure_probe.py.gz",
+      "raw_bytes": 5747,
+      "raw_sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\initialization-counts.csv.gz",
+      "relative": "advance-first900-120225/source-snapshot/initialization-counts.csv.gz",
+      "raw_bytes": 912,
+      "raw_sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\lane-intentions.json.gz",
+      "relative": "advance-first900-120225/source-snapshot/lane-intentions.json.gz",
+      "raw_bytes": 26182,
+      "raw_sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\native-request.json.gz",
+      "relative": "advance-first900-120225/source-snapshot/native-request.json.gz",
+      "raw_bytes": 667,
+      "raw_sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\network.net.xml.gz",
+      "relative": "advance-first900-120225/source-snapshot/network.net.xml.gz",
+      "raw_bytes": 243171,
+      "raw_sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\prepare_advance_first900_120225.py",
+      "relative": "advance-first900-120225/source-snapshot/prepare_advance_first900_120225.py",
+      "raw_bytes": 11902,
+      "raw_sha256": "12395c70c2299bfafa584f9868a2b51673e31eb700d09271ed0288e9f476778c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\source-snapshot\\scenario.json.gz",
+      "relative": "advance-first900-120225/source-snapshot/scenario.json.gz",
+      "raw_bytes": 2073,
+      "raw_sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225-independent\\audit.py",
+      "relative": "advance-first900-120225-independent/audit.py",
+      "raw_bytes": 10730,
+      "raw_sha256": "636d159ba3e14ca91b9b64c92f026596229fb4a267d74f15273b3b5de7661b78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225-independent\\changed434-actual-events.json",
+      "relative": "advance-first900-120225-independent/changed434-actual-events.json",
+      "raw_bytes": 104895,
+      "raw_sha256": "57debbc0015c74c19aaed807bcf5f8ee83a0d3d51e5022e1dafb4d607b89964d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225-independent\\manifest.json",
+      "relative": "advance-first900-120225-independent/manifest.json",
+      "raw_bytes": 717,
+      "raw_sha256": "bd332a4d1f3e986a889071484ec0d3d116cb8e6b7fe8cc21486c6a98fc1b9ed0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225-independent\\source-hashes.json",
+      "relative": "advance-first900-120225-independent/source-hashes.json",
+      "raw_bytes": 1632,
+      "raw_sha256": "31df2a13948eccb5f73fde2c36e26849a4026990c33a70cc32e950ce576c0f59"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225-independent\\summary.json",
+      "relative": "advance-first900-120225-independent/summary.json",
+      "raw_bytes": 6622,
+      "raw_sha256": "8991d4a2f8f6306988e66ead163c2c9c7f7bc70de471a730aaeac590d9cbe3b0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-independent\\audit.py",
+      "relative": "advance-first900-independent/audit.py",
+      "raw_bytes": 10174,
+      "raw_sha256": "bdd292b4f328f4d7a1befa792ae6d1af1dad64ca928e137394f7d42d154cd100"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-independent\\changed434-actual-events.json",
+      "relative": "advance-first900-independent/changed434-actual-events.json",
+      "raw_bytes": 104888,
+      "raw_sha256": "a5d96207a818d33f50ce2db4ac72dd0d1e502dd730ae6e5604636f8b269cdf9a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-independent\\manifest.json",
+      "relative": "advance-first900-independent/manifest.json",
+      "raw_bytes": 717,
+      "raw_sha256": "ae9cbb0e012608a3614d326014f79cb271d96e57dd9a9a66f12984d0e345f8a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-independent\\source-hashes.json",
+      "relative": "advance-first900-independent/source-hashes.json",
+      "raw_bytes": 1590,
+      "raw_sha256": "dd11010bd09fe97cdfcdb3b079248e095b5a90cf188fe77ed7e6031bb7355855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-independent\\summary.json",
+      "relative": "advance-first900-independent/summary.json",
+      "raw_bytes": 6205,
+      "raw_sha256": "91983758b52d5422221a151014241231b13b17f978193efe0373063ab98b97ef"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\all182-coverage.json",
+      "relative": "advance22/all182-coverage.json",
+      "raw_bytes": 38042,
+      "raw_sha256": "ea1101a1eea5754032dc1b7733cc56a6ccfd3c4718ab3c98a6876007b5f37e3a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\contributing-passages.json.gz",
+      "relative": "advance22/contributing-passages.json.gz",
+      "raw_bytes": 9377,
+      "raw_sha256": "f5671f8bc32a9252f607d776dada37577ea51571a88a894a71237a67df068cd9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\core-result.json",
+      "relative": "advance22/core-result.json",
+      "raw_bytes": 327905,
+      "raw_sha256": "0ea761048e35fc4da76a8fd3ced9f23905d1669331380a28ac928ebb44f33437"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\departure-proposals.json",
+      "relative": "advance22/departure-proposals.json",
+      "raw_bytes": 6395,
+      "raw_sha256": "a810e0941483beb667715a5471ea42350a5410db964939c0efb74fb72047a9c7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\executed-run.py",
+      "relative": "advance22/executed-run.py",
+      "raw_bytes": 19204,
+      "raw_sha256": "127b69b9b62ea8898f5f71a64f5aa51d8d03ac26f5725790d30765d157c7a798"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\artifact_io.py",
+      "relative": "advance22/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\candidate_contracts.py",
+      "relative": "advance22/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\command_runner.py",
+      "relative": "advance22/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\detector_demand.py",
+      "relative": "advance22/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\detector_demand_replay.py",
+      "relative": "advance22/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\hamburg_197_through_support.py",
+      "relative": "advance22/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\hamburg_od_spsa.py",
+      "relative": "advance22/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\lane_section_hold.py",
+      "relative": "advance22/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\route_sensor_matrix.py",
+      "relative": "advance22/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\implementation\\simulation_stall.py",
+      "relative": "advance22/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\metadata-changes.json",
+      "relative": "advance22/metadata-changes.json",
+      "raw_bytes": 7791,
+      "raw_sha256": "5f8d9f90227e10c9f0b06cb4df51875cf89624a33b421881afa98b9430b1a2e5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\collisions.xml",
+      "relative": "advance22/native/collisions.xml",
+      "raw_bytes": 3161,
+      "raw_sha256": "6a16e87a051934f56fb59e6b5c3f080620c9d28398d1dd5cdfde8418940b1a9d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\command.json",
+      "relative": "advance22/native/command.json",
+      "raw_bytes": 4195,
+      "raw_sha256": "b6fbd5c28d6089cdc44c2c97746f4ac207add354fe64e0ff715c329af2dc5cf3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\demand.rou.xml",
+      "relative": "advance22/native/demand.rou.xml",
+      "raw_bytes": 3726570,
+      "raw_sha256": "99829ebeb21eb460ad5287294c98d18379c5cacf9f8bdfb9c6f68b80e65a86b2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\e1.add.xml",
+      "relative": "advance22/native/e1.add.xml",
+      "raw_bytes": 3485,
+      "raw_sha256": "8286d46173bfb19a5b9e34568bb5e744382307c2a6feb701767273422a2b75fd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\expected-counts.csv",
+      "relative": "advance22/native/expected-counts.csv",
+      "raw_bytes": 3016,
+      "raw_sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\field-comparison.csv",
+      "relative": "advance22/native/field-comparison.csv",
+      "raw_bytes": 847,
+      "raw_sha256": "3b4f47912ac76d8de2ab6f4a0b359d30b1870f359f28a54b3aa329a67dec6b35"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\field-counts.xml",
+      "relative": "advance22/native/field-counts.xml",
+      "raw_bytes": 6204,
+      "raw_sha256": "a628de08edbd1a30f07c2339dea7c4e982a6860eaf39c9ad730223e3b5fbf320"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\instant-e1.xml",
+      "relative": "advance22/native/instant-e1.xml",
+      "raw_bytes": 1035706,
+      "raw_sha256": "85bc1699be7dd4a05efde34ef635ccc82c1d832355c2999953095fa84d17eae9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\instant.add.xml",
+      "relative": "advance22/native/instant.add.xml",
+      "raw_bytes": 2987,
+      "raw_sha256": "0667151e1ebefc11bc25b033db896c6f7d4ecd3ec6bdf63438e62736d9d9bc8d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\lane-intentions.json",
+      "relative": "advance22/native/lane-intentions.json",
+      "raw_bytes": 1005712,
+      "raw_sha256": "8f8da7771dfac30f64484a6797b1a78317e2cccd6f1647efad07c501e26ffb58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\native-request.json",
+      "relative": "advance22/native/native-request.json",
+      "raw_bytes": 3622,
+      "raw_sha256": "fa487006346d990547081241992e2d245393e7aad3d99f9ab7ea641096f3b577"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\network.net.xml",
+      "relative": "advance22/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\run.json",
+      "relative": "advance22/native/run.json",
+      "raw_bytes": 316681,
+      "raw_sha256": "d0e2f4de9a2b6a01a59413a8c8e148bae726318a9fcbe247bd937751c5e1ee23"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\signal-programs.add.xml",
+      "relative": "advance22/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\source-e1.add.xml",
+      "relative": "advance22/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\stall-monitor.json",
+      "relative": "advance22/native/stall-monitor.json",
+      "raw_bytes": 289245,
+      "raw_sha256": "d4c85ddc892b0342c9d9956ab8ec49a06e8233f03d6ea4fa55f2002e08fe5221"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\summary.xml",
+      "relative": "advance22/native/summary.xml",
+      "raw_bytes": 2844057,
+      "raw_sha256": "48bf0ee680818e9f9a104ce9e530616a4aed65b56089eacda660cd6cf848375b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\sumo-errors.log",
+      "relative": "advance22/native/sumo-errors.log",
+      "raw_bytes": 2074,
+      "raw_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\sumo.log",
+      "relative": "advance22/native/sumo.log",
+      "raw_bytes": 3568,
+      "raw_sha256": "0000df0c2c995e141546b8bd75f9ae1948d4ecc7ef3409749b4a8b5a4a3a8f0c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\tripinfo.xml",
+      "relative": "advance22/native/tripinfo.xml",
+      "raw_bytes": 230822,
+      "raw_sha256": "d57be9af080ed49bce4dccff96cf19561586d368c264fae7f8d02f2a9dd1a582"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\native\\vehicle-routes.xml",
+      "relative": "advance22/native/vehicle-routes.xml",
+      "raw_bytes": 284371,
+      "raw_sha256": "807d378d14bfb3e7aa9c77e7caa20d0bd1edcb5ba01136e8d4eb66bc5e2d1cfe"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\od-vector.json",
+      "relative": "advance22/od-vector.json",
+      "raw_bytes": 7876,
+      "raw_sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\preflight.json",
+      "relative": "advance22/preflight.json",
+      "raw_bytes": 4349,
+      "raw_sha256": "b1621104ec0c5a8d441ae65108836f6ee6b280f18a94ddb8530f162cdbaeeed1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\control.add.xml",
+      "relative": "advance22/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\demand.rou.xml",
+      "relative": "advance22/prepared/demand.rou.xml",
+      "raw_bytes": 3726570,
+      "raw_sha256": "99829ebeb21eb460ad5287294c98d18379c5cacf9f8bdfb9c6f68b80e65a86b2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\expected-counts.csv",
+      "relative": "advance22/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\field-loops.add.xml",
+      "relative": "advance22/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\initialization-counts.csv",
+      "relative": "advance22/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\lane-intentions.json",
+      "relative": "advance22/prepared/lane-intentions.json",
+      "raw_bytes": 1005712,
+      "raw_sha256": "8f8da7771dfac30f64484a6797b1a78317e2cccd6f1647efad07c501e26ffb58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\network.net.xml",
+      "relative": "advance22/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\prepared\\scenario.json",
+      "relative": "advance22/prepared/scenario.json",
+      "raw_bytes": 4248,
+      "raw_sha256": "3f5eb8df442c9ecad85040f76247ee8ad7bb29c980f88bd2f74ebfd29ac3b830"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\record-result.json",
+      "relative": "advance22/record-result.json",
+      "raw_bytes": 8296,
+      "raw_sha256": "63cbf2c92a247e4c327b2555cecac93589b0b4e07d6da2333542d50a45b161eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\scope-proof.json",
+      "relative": "advance22/scope-proof.json",
+      "raw_bytes": 12666,
+      "raw_sha256": "e587af36bb0a8afcd61e41cb45be439123bb26f7ee3ec75b3ec7f7e69d8e6d90"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\selfchecks.json",
+      "relative": "advance22/selfchecks.json",
+      "raw_bytes": 1164,
+      "raw_sha256": "ff8513aa066ee73090be323ee417a2ba2d47fd00f41d7873b0e0c38e21157c71"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\control.add.xml.gz",
+      "relative": "advance22/source-snapshot/control.add.xml.gz",
+      "raw_bytes": 1939,
+      "raw_sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\demand.rou.xml.gz",
+      "relative": "advance22/source-snapshot/demand.rou.xml.gz",
+      "raw_bytes": 122416,
+      "raw_sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\diagnostic-manifest.json.gz",
+      "relative": "advance22/source-snapshot/diagnostic-manifest.json.gz",
+      "raw_bytes": 531,
+      "raw_sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\expected-counts.csv.gz",
+      "relative": "advance22/source-snapshot/expected-counts.csv.gz",
+      "raw_bytes": 1433,
+      "raw_sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\field-loops.add.xml.gz",
+      "relative": "advance22/source-snapshot/field-loops.add.xml.gz",
+      "raw_bytes": 358,
+      "raw_sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\hamburg_departure_probe.py.gz",
+      "relative": "advance22/source-snapshot/hamburg_departure_probe.py.gz",
+      "raw_bytes": 5747,
+      "raw_sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\initialization-counts.csv.gz",
+      "relative": "advance22/source-snapshot/initialization-counts.csv.gz",
+      "raw_bytes": 912,
+      "raw_sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\lane-intentions.json.gz",
+      "relative": "advance22/source-snapshot/lane-intentions.json.gz",
+      "raw_bytes": 26182,
+      "raw_sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\late-first900.csv.gz",
+      "relative": "advance22/source-snapshot/late-first900.csv.gz",
+      "raw_bytes": 1307,
+      "raw_sha256": "cc8e88aeb175f430e4b6df05b6a28d888d75d394de1c141658b6feaf72071c46"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\native-request.json.gz",
+      "relative": "advance22/source-snapshot/native-request.json.gz",
+      "raw_bytes": 667,
+      "raw_sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\network.net.xml.gz",
+      "relative": "advance22/source-snapshot/network.net.xml.gz",
+      "raw_bytes": 243171,
+      "raw_sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\prepare_advance22.py",
+      "relative": "advance22/source-snapshot/prepare_advance22.py",
+      "raw_bytes": 11154,
+      "raw_sha256": "cae2f012949d074dfcaa4a3b4e95a2470d4ec6485e3321e5b85b23d930cd70ee"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\source-snapshot\\scenario.json.gz",
+      "relative": "advance22/source-snapshot/scenario.json.gz",
+      "raw_bytes": 2073,
+      "raw_sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\all182-coverage.json",
+      "relative": "advance225/all182-coverage.json",
+      "raw_bytes": 38042,
+      "raw_sha256": "a7c3bc20fe0413e511f27f2954f32061d4625871e17f8321fa4acd715b843d0f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\contributing-passages.json.gz",
+      "relative": "advance225/contributing-passages.json.gz",
+      "raw_bytes": 9526,
+      "raw_sha256": "cb861848977f36fd385dcb99114a83b4e5c563ffd9e712ca50383581907e4324"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\core-result.json",
+      "relative": "advance225/core-result.json",
+      "raw_bytes": 344409,
+      "raw_sha256": "0f504a8e75c707b33ad10ee7f5caff23a5e27f4082cbc2c5c742b3ba7136b663"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\departure-proposals.json",
+      "relative": "advance225/departure-proposals.json",
+      "raw_bytes": 65813,
+      "raw_sha256": "4dc710f5413e46b23653d827ae6ddb495d5594dfc926f1e09edd4ba38124b698"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\executed-run.py",
+      "relative": "advance225/executed-run.py",
+      "raw_bytes": 19653,
+      "raw_sha256": "577701e068bbd801fcc15d0620dedf193510e75be1d346bc5f27a3d85f79cc74"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\artifact_io.py",
+      "relative": "advance225/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\candidate_contracts.py",
+      "relative": "advance225/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\command_runner.py",
+      "relative": "advance225/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\detector_demand.py",
+      "relative": "advance225/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\detector_demand_replay.py",
+      "relative": "advance225/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\hamburg_197_through_support.py",
+      "relative": "advance225/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\hamburg_od_spsa.py",
+      "relative": "advance225/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\lane_section_hold.py",
+      "relative": "advance225/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\route_sensor_matrix.py",
+      "relative": "advance225/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\implementation\\simulation_stall.py",
+      "relative": "advance225/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\metadata-changes.json",
+      "relative": "advance225/metadata-changes.json",
+      "raw_bytes": 79591,
+      "raw_sha256": "e752dbaf116edb574cecfb71656dd9605781084f48d54aba7a09306e6fcb2f96"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\collisions.xml",
+      "relative": "advance225/native/collisions.xml",
+      "raw_bytes": 3173,
+      "raw_sha256": "168bf66bf8389cc123a903d306b5eadbda4e887ad6deffaa3eaa62a1dc8b4339"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\command.json",
+      "relative": "advance225/native/command.json",
+      "raw_bytes": 4202,
+      "raw_sha256": "dc1f19bc4ab4a6da6f1e1ebb2e088c0a2254a9e82a48a658f4f3c793c8964dfc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\demand.rou.xml",
+      "relative": "advance225/native/demand.rou.xml",
+      "raw_bytes": 3725935,
+      "raw_sha256": "98510a23c6f32230a60477aa2b1b373931e2267238b7a41f4e1cd0024893ae71"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\e1.add.xml",
+      "relative": "advance225/native/e1.add.xml",
+      "raw_bytes": 3498,
+      "raw_sha256": "d2de5e5ecac089b21bff37da3d10e56eb42f7171cdcd9268b9c8189623937533"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\expected-counts.csv",
+      "relative": "advance225/native/expected-counts.csv",
+      "raw_bytes": 3016,
+      "raw_sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\field-comparison.csv",
+      "relative": "advance225/native/field-comparison.csv",
+      "raw_bytes": 846,
+      "raw_sha256": "ae7988f9a85a57e49e694ee71029c1a5040969fccebc4564e5a3583791f85210"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\field-counts.xml",
+      "relative": "advance225/native/field-counts.xml",
+      "raw_bytes": 6216,
+      "raw_sha256": "db4ad614f97e2b6e366bfea5974e39c9b423ce24a11f3d4444a0b345b495e7c7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\instant-e1.xml",
+      "relative": "advance225/native/instant-e1.xml",
+      "raw_bytes": 1062980,
+      "raw_sha256": "413b0faff93f8955afa1534069ce7ce9696ba315238d5cf444c2aa7a4ebb8f74"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\instant.add.xml",
+      "relative": "advance225/native/instant.add.xml",
+      "raw_bytes": 3000,
+      "raw_sha256": "1b88623b0729d3597beb367ec6f47cf3155e4b59732c1b8e0b33bf3f0d6d7ae4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\lane-intentions.json",
+      "relative": "advance225/native/lane-intentions.json",
+      "raw_bytes": 1012560,
+      "raw_sha256": "47427097d5643bb1b0329d5c314f47d568d9e11746bd62dfb9a12346df069f32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\native-request.json",
+      "relative": "advance225/native/native-request.json",
+      "raw_bytes": 3638,
+      "raw_sha256": "8c69aac987e6716e8483140fbd7ef0d1f5b17c037ad206043166602e8825c04a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\network.net.xml",
+      "relative": "advance225/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\run.json",
+      "relative": "advance225/native/run.json",
+      "raw_bytes": 332607,
+      "raw_sha256": "3cf5675178c867af120052998ac8398f9b6259616d3070b2702e947660dafdf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\signal-programs.add.xml",
+      "relative": "advance225/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\source-e1.add.xml",
+      "relative": "advance225/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\stall-monitor.json",
+      "relative": "advance225/native/stall-monitor.json",
+      "raw_bytes": 304003,
+      "raw_sha256": "4781c848cc4c1e17e8a9f69661f207fa011b2271622bea22dd5fb1f54bf4766b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\summary.xml",
+      "relative": "advance225/native/summary.xml",
+      "raw_bytes": 2850236,
+      "raw_sha256": "3df1a0fa0a1bc699acace92a2722bf41aad6e1dedb3a7e33ec3042732b254f47"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\sumo-errors.log",
+      "relative": "advance225/native/sumo-errors.log",
+      "raw_bytes": 2074,
+      "raw_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\sumo.log",
+      "relative": "advance225/native/sumo.log",
+      "raw_bytes": 3573,
+      "raw_sha256": "faaa62668ff84cf3774597c02d91891c87f6ba89ca7a71a5d666660936d7b531"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\tripinfo.xml",
+      "relative": "advance225/native/tripinfo.xml",
+      "raw_bytes": 231048,
+      "raw_sha256": "541812d772a4f20ea3fb32c4ff119203501985350dc08f8bcb9acd77266dd2e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\native\\vehicle-routes.xml",
+      "relative": "advance225/native/vehicle-routes.xml",
+      "raw_bytes": 295528,
+      "raw_sha256": "9c3aa98aa8524d5f44f92fc3abd42db5678cc7a20da70115528580c4fe39efb5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\od-vector.json",
+      "relative": "advance225/od-vector.json",
+      "raw_bytes": 7876,
+      "raw_sha256": "82cc0e2ca9a222b0acfb6db3cb2e07d78ba6328cf41d27519846d8f29042adf6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\preflight.json",
+      "relative": "advance225/preflight.json",
+      "raw_bytes": 4349,
+      "raw_sha256": "d91b5cda865ad0cef7db5e706ce704146d5efb1cfccc3c63f1fc02a5924d0ccc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\control.add.xml",
+      "relative": "advance225/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\demand.rou.xml",
+      "relative": "advance225/prepared/demand.rou.xml",
+      "raw_bytes": 3725935,
+      "raw_sha256": "98510a23c6f32230a60477aa2b1b373931e2267238b7a41f4e1cd0024893ae71"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\expected-counts.csv",
+      "relative": "advance225/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\field-loops.add.xml",
+      "relative": "advance225/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\initialization-counts.csv",
+      "relative": "advance225/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\lane-intentions.json",
+      "relative": "advance225/prepared/lane-intentions.json",
+      "raw_bytes": 1012560,
+      "raw_sha256": "47427097d5643bb1b0329d5c314f47d568d9e11746bd62dfb9a12346df069f32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\network.net.xml",
+      "relative": "advance225/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\prepared\\scenario.json",
+      "relative": "advance225/prepared/scenario.json",
+      "raw_bytes": 4271,
+      "raw_sha256": "e19f2c56175a317d06906ec485c5fe1faa59284b69e496b2c350a433f6322b7a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\record-result.json",
+      "relative": "advance225/record-result.json",
+      "raw_bytes": 8299,
+      "raw_sha256": "786064f490c49dafff44d5e1c33411761035d724e1490332e12acd3e396c7982"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\scope-proof.json",
+      "relative": "advance225/scope-proof.json",
+      "raw_bytes": 75748,
+      "raw_sha256": "cf84bcfb25696fddabff7c511037030980767404fe65276db494b3e8f8423586"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\selfchecks.json",
+      "relative": "advance225/selfchecks.json",
+      "raw_bytes": 5833,
+      "raw_sha256": "db4b9b36ad839b0eb2cb5e8a55da594ba807cb1d8252e646613e7eec2e0ac755"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\advance225-cohort.csv.gz",
+      "relative": "advance225/source-snapshot/advance225-cohort.csv.gz",
+      "raw_bytes": 2630,
+      "raw_sha256": "dedfb360954ed055618bebad802f5cd8176e4a18a23f19c325825fda7bc7fe0f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\control.add.xml.gz",
+      "relative": "advance225/source-snapshot/control.add.xml.gz",
+      "raw_bytes": 1939,
+      "raw_sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\demand.rou.xml.gz",
+      "relative": "advance225/source-snapshot/demand.rou.xml.gz",
+      "raw_bytes": 122416,
+      "raw_sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\diagnostic-manifest.json.gz",
+      "relative": "advance225/source-snapshot/diagnostic-manifest.json.gz",
+      "raw_bytes": 531,
+      "raw_sha256": "3d3844754060c1ffb8a10493feb89525664686a9371fc666a4b4278a01684f78"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\expected-counts.csv.gz",
+      "relative": "advance225/source-snapshot/expected-counts.csv.gz",
+      "raw_bytes": 1433,
+      "raw_sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\field-loops.add.xml.gz",
+      "relative": "advance225/source-snapshot/field-loops.add.xml.gz",
+      "raw_bytes": 358,
+      "raw_sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\hamburg_departure_probe.py.gz",
+      "relative": "advance225/source-snapshot/hamburg_departure_probe.py.gz",
+      "raw_bytes": 5747,
+      "raw_sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\initialization-counts.csv.gz",
+      "relative": "advance225/source-snapshot/initialization-counts.csv.gz",
+      "raw_bytes": 912,
+      "raw_sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\lane-intentions.json.gz",
+      "relative": "advance225/source-snapshot/lane-intentions.json.gz",
+      "raw_bytes": 26182,
+      "raw_sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\native-request.json.gz",
+      "relative": "advance225/source-snapshot/native-request.json.gz",
+      "raw_bytes": 667,
+      "raw_sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\network.net.xml.gz",
+      "relative": "advance225/source-snapshot/network.net.xml.gz",
+      "raw_bytes": 243171,
+      "raw_sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\prepare_advance225.py",
+      "relative": "advance225/source-snapshot/prepare_advance225.py",
+      "raw_bytes": 11498,
+      "raw_sha256": "d986a931c7693fe7d471b95e211ceeba2c7b48d9c57aeecd49e70cb284481888"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\source-snapshot\\scenario.json.gz",
+      "relative": "advance225/source-snapshot/scenario.json.gz",
+      "raw_bytes": 2073,
+      "raw_sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-independent\\audit.py",
+      "relative": "advance225-independent/audit.py",
+      "raw_bytes": 10025,
+      "raw_sha256": "8bb240393ec5d44e41c44d4250917f9ddfd54b9cc4b7e2f8d656a51dc97f7b9f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-independent\\changed225-actual-events.json",
+      "relative": "advance225-independent/changed225-actual-events.json",
+      "raw_bytes": 54561,
+      "raw_sha256": "9d05dba2cd294b16ce65046db1a14f7fef6cfb5c1592b88f411a0ef18b987aed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-independent\\manifest.json",
+      "relative": "advance225-independent/manifest.json",
+      "raw_bytes": 716,
+      "raw_sha256": "5ccda29332bb1077f2a7ee72fe555e827a7caef042e197b6520e152f3ee83ba9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-independent\\source-hashes.json",
+      "relative": "advance225-independent/source-hashes.json",
+      "raw_bytes": 1554,
+      "raw_sha256": "235332a1f2f38a729fcdc7acb677beef69ad559c7a402775839a9f0bcf6e1302"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-independent\\summary.json",
+      "relative": "advance225-independent/summary.json",
+      "raw_bytes": 5979,
+      "raw_sha256": "db5bdba0ec1b607f7fbf5c1dc939c9cb7fb1c718fcefae64f2b3daf454c1425b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\after-130.csv",
+      "relative": "full-independent/after-130.csv",
+      "raw_bytes": 7898,
+      "raw_sha256": "10ebf55d8aa7d04f036bb9d51fcd2317086b914efcca594e8c5868f97e523ec6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\after-182.csv",
+      "relative": "full-independent/after-182.csv",
+      "raw_bytes": 10878,
+      "raw_sha256": "fcea5b9b94a9ee236a69fd9539ee74be9d4f30bbaabd7f08dac3fb87edf271f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\after-40.csv",
+      "relative": "full-independent/after-40.csv",
+      "raw_bytes": 1618,
+      "raw_sha256": "436df9ac31b8bd1cc923a9169c946f0121df8fc81272c08f86527f67b2ce2c94"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\after-52.csv",
+      "relative": "full-independent/after-52.csv",
+      "raw_bytes": 3120,
+      "raw_sha256": "4d6458254236722f0e5d63bbd71da057efe779e0e21cd836d46e1f148d0d326c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\audit.py",
+      "relative": "full-independent/audit.py",
+      "raw_bytes": 14009,
+      "raw_sha256": "69b5fe0425bb3173559071e1ead045c2462cb306774598b692d5990ca17b50b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\field13-main.csv",
+      "relative": "full-independent/field13-main.csv",
+      "raw_bytes": 720,
+      "raw_sha256": "0ca655f449b1c5415598bbc5768ff99a5f1f28bad795047ee92cb3c0aa867caa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\global-best-130.csv",
+      "relative": "full-independent/global-best-130.csv",
+      "raw_bytes": 7876,
+      "raw_sha256": "c64bd971832dbfffd5894e7c6614d15ec08e597008adfe15ddb912611f14b877"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\global-best-182.csv",
+      "relative": "full-independent/global-best-182.csv",
+      "raw_bytes": 10860,
+      "raw_sha256": "305b6e208f238483f61adfb043cb6faf1542e687880e14ffbad4a4a9b16881f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\global-best-40.csv",
+      "relative": "full-independent/global-best-40.csv",
+      "raw_bytes": 1608,
+      "raw_sha256": "52e99db4974fbf05c1ef441db3e638714e3db027c4a09da08eccaee8c833849b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\global-best-52.csv",
+      "relative": "full-independent/global-best-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\initial-cumulative-900-1800-3600.csv",
+      "relative": "full-independent/initial-cumulative-900-1800-3600.csv",
+      "raw_bytes": 4973,
+      "raw_sha256": "27ad92e295bddaf63f6b7c691c5ecbbda4343ddffc8376635b96f9bfe2274261"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\manifest.json",
+      "relative": "full-independent/manifest.json",
+      "raw_bytes": 3161,
+      "raw_sha256": "c39bcc735769548b725bfda68761f152db581c598245fb204d500c5974dbf2ac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\native208-cohort-accounting.csv",
+      "relative": "full-independent/native208-cohort-accounting.csv",
+      "raw_bytes": 9743,
+      "raw_sha256": "bee90dda51d220af2ba8f8cc3d6bbdd11f3149c5fa7254eaf416165f523c2666"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\reference-130.csv",
+      "relative": "full-independent/reference-130.csv",
+      "raw_bytes": 7872,
+      "raw_sha256": "4016becca2c1aea76b10dd67dbe66de493213a9872dd3ef06e51dbd2e9266597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\reference-182.csv",
+      "relative": "full-independent/reference-182.csv",
+      "raw_bytes": 10856,
+      "raw_sha256": "cf0853b800dff07034886c424332217aabb2261482ac6da1acce75b1e05a855e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\reference-40.csv",
+      "relative": "full-independent/reference-40.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "0045501e01051e62a93c29c8db213e5a40d3f178cae7fb4075c04b5080b45871"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\reference-52.csv",
+      "relative": "full-independent/reference-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\source-hashes.json",
+      "relative": "full-independent/source-hashes.json",
+      "raw_bytes": 1730,
+      "raw_sha256": "876fb04653b74f4f92b7320cc1e5db265a62945e2d50b582772da8c032cd358f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\summary.json",
+      "relative": "full-independent/summary.json",
+      "raw_bytes": 18486,
+      "raw_sha256": "3669b15748bdb87bd4847ea2a568868eb0ba9ed5ab5d07332a94661b0ce589e1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-independent\\terminal-unfinished.csv",
+      "relative": "full-independent/terminal-unfinished.csv",
+      "raw_bytes": 30280,
+      "raw_sha256": "d73b56559d9f3ea5bcccb7f343c77a862e35626af391f84bfd7cd1f95b090094"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\independent\\audit_prefix_pair.py",
+      "relative": "independent/audit_prefix_pair.py",
+      "raw_bytes": 14269,
+      "raw_sha256": "464139c9670fa0361504597126f010d234f4471430eb05ecc9e458c0319c5b68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\independent\\changed22-actual-events.json",
+      "relative": "independent/changed22-actual-events.json",
+      "raw_bytes": 8190,
+      "raw_sha256": "b116443aa399634b884b7a3ba88b31122f777364372a1ec6574dc8ec0b979f72"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\independent\\manifest.json",
+      "relative": "independent/manifest.json",
+      "raw_bytes": 727,
+      "raw_sha256": "5d371f95cd54165ea2c9f30fb4f576f4e9d97f2b32d6593a8d4e9c8abbdbd79c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\independent\\source-hashes.json",
+      "relative": "independent/source-hashes.json",
+      "raw_bytes": 3104,
+      "raw_sha256": "095dda25adeb5ea8baee011ae59a9fadfadfb822ea31a6044cbfd1c69bb64bce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\independent\\summary.json",
+      "relative": "independent/summary.json",
+      "raw_bytes": 13832,
+      "raw_sha256": "3137ddebb75fb115d888d7941f09ea4c1effc3887a32eaa39a93a1e1f9e42e48"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\all182-coverage.json",
+      "relative": "reference/all182-coverage.json",
+      "raw_bytes": 38042,
+      "raw_sha256": "315e6caf971d4b4b4c7bfd72ddfd8ebdb6ce79e86d776f446223c6f4f8478181"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\contributing-passages.json.gz",
+      "relative": "reference/contributing-passages.json.gz",
+      "raw_bytes": 9288,
+      "raw_sha256": "90b4756e0c804ab6c1b6954ce7f3615584aee088bfc0383e7e74b338e67782a8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\core-result.json",
+      "relative": "reference/core-result.json",
+      "raw_bytes": 329729,
+      "raw_sha256": "ee12b6b9c566b69530c0611ec349e45c03446b3219a0cb46123de7626197e6a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\departure-proposals.json",
+      "relative": "reference/departure-proposals.json",
+      "raw_bytes": 4,
+      "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\executed-run.py",
+      "relative": "reference/executed-run.py",
+      "raw_bytes": 19204,
+      "raw_sha256": "127b69b9b62ea8898f5f71a64f5aa51d8d03ac26f5725790d30765d157c7a798"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\artifact_io.py",
+      "relative": "reference/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\candidate_contracts.py",
+      "relative": "reference/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\command_runner.py",
+      "relative": "reference/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\detector_demand.py",
+      "relative": "reference/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\detector_demand_replay.py",
+      "relative": "reference/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\hamburg_197_through_support.py",
+      "relative": "reference/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\hamburg_od_spsa.py",
+      "relative": "reference/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\lane_section_hold.py",
+      "relative": "reference/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\route_sensor_matrix.py",
+      "relative": "reference/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\implementation\\simulation_stall.py",
+      "relative": "reference/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\collisions.xml",
+      "relative": "reference/native/collisions.xml",
+      "raw_bytes": 3161,
+      "raw_sha256": "1f9d327a736032ec24f7835aeb2049fa99e07324a20df031892bb80a64735f86"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\command.json",
+      "relative": "reference/native/command.json",
+      "raw_bytes": 4195,
+      "raw_sha256": "53154fb135d7d6cb2a28f30d11208a472a256194a64a7a0f3aabe83b26aeeda0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\demand.rou.xml",
+      "relative": "reference/native/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\e1.add.xml",
+      "relative": "reference/native/e1.add.xml",
+      "raw_bytes": 3485,
+      "raw_sha256": "f024a19152ccaad1815bc77e7f2b79328ed528e8b232de3c51cdfda5c67c1825"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\expected-counts.csv",
+      "relative": "reference/native/expected-counts.csv",
+      "raw_bytes": 3016,
+      "raw_sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\field-comparison.csv",
+      "relative": "reference/native/field-comparison.csv",
+      "raw_bytes": 847,
+      "raw_sha256": "16af4c111006aaab80875b61189c78546b96539e8becb270e32061fb3cbe712f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\field-counts.xml",
+      "relative": "reference/native/field-counts.xml",
+      "raw_bytes": 6204,
+      "raw_sha256": "3c4b272476f2975c469dbaf3051fdfc137e4217133ae83f3955bec7f0d2a60a2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\instant-e1.xml",
+      "relative": "reference/native/instant-e1.xml",
+      "raw_bytes": 1034167,
+      "raw_sha256": "122a699b02fe5f812f4a8f2b40fc4f597185e4f2c504b7f22bd5d7c445b08b7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\instant.add.xml",
+      "relative": "reference/native/instant.add.xml",
+      "raw_bytes": 2987,
+      "raw_sha256": "cbafaf3176588bbed3f92ee850de8aa846a4e571565e6b815d4015c80d832c92"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\lane-intentions.json",
+      "relative": "reference/native/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\native-request.json",
+      "relative": "reference/native/native-request.json",
+      "raw_bytes": 3622,
+      "raw_sha256": "620510e51bbcb9a8a4ecffa7f9adef0f62984dea2102696cdcdf1c6100795c52"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\network.net.xml",
+      "relative": "reference/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\run.json",
+      "relative": "reference/native/run.json",
+      "raw_bytes": 318438,
+      "raw_sha256": "832a989e730238d44e75307a07ab03ca2137bbbaddd4e9723627a0b35c6b3111"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\signal-programs.add.xml",
+      "relative": "reference/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\source-e1.add.xml",
+      "relative": "reference/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\stall-monitor.json",
+      "relative": "reference/native/stall-monitor.json",
+      "raw_bytes": 290868,
+      "raw_sha256": "191cb22ace3e0617a5cf23f9141e857d02a669d9ae5fd6079b369f9a54e7e605"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\summary.xml",
+      "relative": "reference/native/summary.xml",
+      "raw_bytes": 2843905,
+      "raw_sha256": "98eb8aed631613d40da1a0dfcda1a05bd7d9cb73c894cb17f73a7b39dd957174"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\sumo-errors.log",
+      "relative": "reference/native/sumo-errors.log",
+      "raw_bytes": 2074,
+      "raw_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\sumo.log",
+      "relative": "reference/native/sumo.log",
+      "raw_bytes": 3568,
+      "raw_sha256": "d40688652fb28046e99ecf1667d4b8884591d8db26db69c026487d8db2c698f1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\tripinfo.xml",
+      "relative": "reference/native/tripinfo.xml",
+      "raw_bytes": 230863,
+      "raw_sha256": "7e77da41fc4745542d786095a71fc660bf893eba9f258eb12e31dcea8441b4bc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\native\\vehicle-routes.xml",
+      "relative": "reference/native/vehicle-routes.xml",
+      "raw_bytes": 288631,
+      "raw_sha256": "3e32c6b9454dd708f6ddf5ac166a92c980d77567938a9f6bcbf11a9910e6a693"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\preflight.json",
+      "relative": "reference/preflight.json",
+      "raw_bytes": 4349,
+      "raw_sha256": "0b71b7c11c61a6a3742af1267d0eaeaad4a2da677cc92fc8ed34e2fc48d67eaa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\control.add.xml",
+      "relative": "reference/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\demand.rou.xml",
+      "relative": "reference/prepared/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\expected-counts.csv",
+      "relative": "reference/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\field-loops.add.xml",
+      "relative": "reference/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\initialization-counts.csv",
+      "relative": "reference/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\lane-intentions.json",
+      "relative": "reference/prepared/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\network.net.xml",
+      "relative": "reference/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\prepared\\scenario.json",
+      "relative": "reference/prepared/scenario.json",
+      "raw_bytes": 4157,
+      "raw_sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\record-result.json",
+      "relative": "reference/record-result.json",
+      "raw_bytes": 8543,
+      "raw_sha256": "9321c7211bb550a40fdcf5abac7d99a9a8d1d9432fc4d33b258eec35d28fe4a2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\scope-proof.json",
+      "relative": "reference/scope-proof.json",
+      "raw_bytes": 3824,
+      "raw_sha256": "68785d3e66564cdc6fcb711dcd10fed938e7d981866d453600f0ffbc2499043a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\audit.py",
+      "relative": "service-evidence/audit.py",
+      "raw_bytes": 10630,
+      "raw_sha256": "e75e3839eeb579eb7de41587934f08407e8403d12d200478f19f0dd43ada4781"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\cumulative-119.csv",
+      "relative": "service-evidence/cumulative-119.csv",
+      "raw_bytes": 4089,
+      "raw_sha256": "bf820b0f5b1d29c85d18bf5b26c8d938dea931adbd518e067bc836526aeb19c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\late-first900.csv",
+      "relative": "service-evidence/late-first900.csv",
+      "raw_bytes": 3719,
+      "raw_sha256": "107550655ddd240378bf03b3facee50eac5c16baba61e7a756029c44ef21fe96"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\manifest.json",
+      "relative": "service-evidence/manifest.json",
+      "raw_bytes": 1094,
+      "raw_sha256": "b26491d24cf7dc01f7fd0588f032480429cf8c4934030df42feef0202614eacb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\README.md",
+      "relative": "service-evidence/README.md",
+      "raw_bytes": 2997,
+      "raw_sha256": "8f6a0f00f31ac9f2e72bc6810cd78ddae0f41251d6c40c989c699468d84319e3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\shared-road-timing.csv",
+      "relative": "service-evidence/shared-road-timing.csv",
+      "raw_bytes": 1479,
+      "raw_sha256": "0750ac0a52be952b985c6456dfc2b956d3471aeb6c84cb2d1aa0767c2fcb4b5a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\summary.json",
+      "relative": "service-evidence/summary.json",
+      "raw_bytes": 19091,
+      "raw_sha256": "342b768149b3517e8a11f2f4fce90fa3177e97be2e287edd373b88fd05cf8ba9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-first-stock-audit-20261024-v1\\manifest.json",
+      "relative": "stock-evidence/manifest.json",
+      "raw_bytes": 394,
+      "raw_sha256": "a436c3cd10b00e4f3203a67a23bd57dfe097f327d283ba7143ac2982627e9e5b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-first-stock-audit-20261024-v1\\nonzero-departure-stock.csv",
+      "relative": "stock-evidence/nonzero-departure-stock.csv",
+      "raw_bytes": 258,
+      "raw_sha256": "b2ec9caacc1fe47809e803faade98165944743dbce6aae2007ec479363faddda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-first-stock-audit-20261024-v1\\summary.json",
+      "relative": "stock-evidence/summary.json",
+      "raw_bytes": 7322,
+      "raw_sha256": "e2e7e6ceb7e1bf5acdc7f540d671d0358e3af42ed023bafdc0aea9871a96cdcd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225.check-only.json",
+      "relative": "study-source/advance-first900-120225.check-only.json",
+      "raw_bytes": 529,
+      "raw_sha256": "d01b2eddbf836bb123742f7751dfcd979fc360798ab78ba9f7743af6278d66c9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225.execution.log",
+      "relative": "study-source/advance-first900-120225.execution.log",
+      "raw_bytes": 774,
+      "raw_sha256": "dde3e7797b4b4d08b0673e308381718271a12308b6d0f48fe1b3da229ce961c7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225.selfcheck.json",
+      "relative": "study-source/advance-first900-120225.selfcheck.json",
+      "raw_bytes": 583,
+      "raw_sha256": "0743673504774717036e5daa29d706a1bab7bca1e827687d59a6c865279f3f05"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-cohort.csv",
+      "relative": "study-source/advance-first900-cohort.csv",
+      "raw_bytes": 26828,
+      "raw_sha256": "b0f530ed051340d5720c3d0371ce62b7912ee8ddf762b5c951e11ede6b54563f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900.check-only.json",
+      "relative": "study-source/advance-first900.check-only.json",
+      "raw_bytes": 522,
+      "raw_sha256": "0c76e7ac2706caf86d1936fa611f8e2ee4f49a3e239661879b166b3e20be7b1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900.execution.log",
+      "relative": "study-source/advance-first900.execution.log",
+      "raw_bytes": 783,
+      "raw_sha256": "9bf9b53b7350c3c801e1bdedcb29d5ecac24dda50c90c464179d1b7051386e2a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900.selfcheck.json",
+      "relative": "study-source/advance-first900.selfcheck.json",
+      "raw_bytes": 576,
+      "raw_sha256": "a1deb7e7370f4d800a44b8b26c9173ef1791d293773df0c719907e1c944d1dde"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22.check-only.json",
+      "relative": "study-source/advance22.check-only.json",
+      "raw_bytes": 515,
+      "raw_sha256": "f5f3bf1415fe1859276bb969a1ce9a564ce5d0871e5a90b50080b16c564ed38a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22.execution.log",
+      "relative": "study-source/advance22.execution.log",
+      "raw_bytes": 779,
+      "raw_sha256": "29cf0938ac6afb742a0b614b221fe720b06450adeb8a9b4aec463c7350e4f18c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22.selfcheck.json",
+      "relative": "study-source/advance22.selfcheck.json",
+      "raw_bytes": 569,
+      "raw_sha256": "25ea72de04bd0a762e8d5a88cebfc496f7afb3bfc1c5a02b1161ad26f70ee5ac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-cohort.csv",
+      "relative": "study-source/advance225-cohort.csv",
+      "raw_bytes": 14047,
+      "raw_sha256": "8539c83dff732cbf7934c23351e37f6b65fc6b1ae2d23c42cbc2d646983ab940"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225.check-only.json",
+      "relative": "study-source/advance225.check-only.json",
+      "raw_bytes": 516,
+      "raw_sha256": "4c7c7d6f617806b0331a9f0ffdc8643ab36d4e183d88ccb1fa4199ad29b45e0a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225.execution.log",
+      "relative": "study-source/advance225.execution.log",
+      "raw_bytes": 777,
+      "raw_sha256": "b0b0a9bc27a522b013a09e58c0b6abd42b24ca960ac1fc00b1e87d7907b342d3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225.selfcheck.json",
+      "relative": "study-source/advance225.selfcheck.json",
+      "raw_bytes": 570,
+      "raw_sha256": "1f6f1f627568635a6bc61d819af6731e414ba5951db7b509c6239e89abc2777a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\freeze-plan.json",
+      "relative": "study-source/freeze-plan.json",
+      "raw_bytes": 9272,
+      "raw_sha256": "ac22aed04e3339cb6098fb6a58e67b2db721c7715683819165363c493128c4c7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-120225.check-only.json",
+      "relative": "study-source/full-120225.check-only.json",
+      "raw_bytes": 6568,
+      "raw_sha256": "76c614af4a19d7d5c26ffe35f201af298f8fe674c043984630863444b9f609cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\full-120225.execution.log",
+      "relative": "study-source/full-120225.execution.log",
+      "raw_bytes": 2778,
+      "raw_sha256": "9d66f1d447f4568fc55487b402d5b88c46425acdd2c2250ebb1bf8455feae6de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prefix13-provenance.json",
+      "relative": "study-source/prefix13-provenance.json",
+      "raw_bytes": 544,
+      "raw_sha256": "644cedffd9eb5de0fa168875dece497db62738441498a2700926d2082b81cbd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prefix13.csv",
+      "relative": "study-source/prefix13.csv",
+      "raw_bytes": 3016,
+      "raw_sha256": "3462feecd2eb54ccd018d7af96fa68a927013c11c6e3d09cee4d2cf166cb2345"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance22.py",
+      "relative": "study-source/prepare_advance22.py",
+      "raw_bytes": 11154,
+      "raw_sha256": "cae2f012949d074dfcaa4a3b4e95a2470d4ec6485e3321e5b85b23d930cd70ee"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance225.py",
+      "relative": "study-source/prepare_advance225.py",
+      "raw_bytes": 11498,
+      "raw_sha256": "d986a931c7693fe7d471b95e211ceeba2c7b48d9c57aeecd49e70cb284481888"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance_first900.py",
+      "relative": "study-source/prepare_advance_first900.py",
+      "raw_bytes": 11534,
+      "raw_sha256": "7b7e08f0980b6c864492ee7c803a4aef563ec05728a84bc63e513134473dacd5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance_first900_120225.py",
+      "relative": "study-source/prepare_advance_first900_120225.py",
+      "raw_bytes": 11902,
+      "raw_sha256": "12395c70c2299bfafa584f9868a2b51673e31eb700d09271ed0288e9f476778c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_reference.py",
+      "relative": "study-source/prepare_reference.py",
+      "raw_bytes": 3185,
+      "raw_sha256": "a5ca79018112a40fcfc6b044dff6056d02ef172b84c0b477de48c28fa72da1d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference.check-only.json",
+      "relative": "study-source/reference.check-only.json",
+      "raw_bytes": 516,
+      "raw_sha256": "bf0700ea29a0781a1180752b62f052a42d1207fc80737f5ad28bd888a680855e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference.execution.log",
+      "relative": "study-source/reference.execution.log",
+      "raw_bytes": 986,
+      "raw_sha256": "9a3db85452d3bc872f06595ced5f55da195d5ea9312382b8c81a94037fc8085c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference.selfcheck.json",
+      "relative": "study-source/reference.selfcheck.json",
+      "raw_bytes": 570,
+      "raw_sha256": "5eff41c72b2e7b620dfe5fad8e67373109850fa44834e6280fc80b8191216e3e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\run_full.py",
+      "relative": "study-source/run_full.py",
+      "raw_bytes": 12325,
+      "raw_sha256": "62e62a3d6dcc4b4f3ae18b7e4b485e56afe795ce113a892b6dacda72d08ef2ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\run_prefix.py",
+      "relative": "study-source/run_prefix.py",
+      "raw_bytes": 20137,
+      "raw_sha256": "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471"
+    }
+  ],
+  "source_files_unchanged": true
+}
