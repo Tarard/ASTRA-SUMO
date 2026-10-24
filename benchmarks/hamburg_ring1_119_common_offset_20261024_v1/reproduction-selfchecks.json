@@ -1,0 +1,41 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "checks": {
+    "actual_modules_in_project_venv": true,
+    "versions_1_27_1": true
+  },
+  "actual_module_paths": {
+    "libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\__init__.py",
+    "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+  },
+  "cases": {
+    "plus15": {
+      "implementation_matches": true,
+      "binaries_match": true,
+      "portable182_reader_matches": true,
+      "all8_explicit_inputs_exact": true,
+      "actual_body4_match": true
+    },
+    "minus15": {
+      "implementation_matches": true,
+      "binaries_match": true,
+      "portable182_reader_matches": true,
+      "all8_explicit_inputs_exact": true,
+      "actual_body4_match": true
+    },
+    "plus30": {
+      "implementation_matches": true,
+      "binaries_match": true,
+      "portable182_reader_matches": true,
+      "all8_explicit_inputs_exact": true,
+      "actual_body4_match": true
+    }
+  },
+  "native_full_not_executed": true,
+  "claim_boundary": "Configured project environment offline runtime/input/reader checks only; no extra native reproduction.",
+  "tests_passed": 24,
+  "cli_help_and_new_output_guard_pass": true,
+  "all3_frozen_native208_counts_reconciled": true
+}

@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg common119 phase origin: three full responses, lower-main Pareto point and unchanged rejected gates, 2026-10-24](../../benchmarks/hamburg_ring1_119_common_offset_20261024_v1/README.md)
 - [Hamburg whole-period timing extension: 26 initial rows exact and rejected full validation, 2026-10-24](../../benchmarks/hamburg_ring1_cohort_timing_extension_20261024_v1/README.md)
 - [Hamburg second initialization prefix: 26 rows exact, three 1800-second runs and no full validation, 2026-10-24](../../benchmarks/hamburg_ring1_causal_second_prefix_20261024_v1/README.md)
 - [Hamburg causal initialization: first 13 rows exact, five prefixes and rejected full validation, 2026-10-24](../../benchmarks/hamburg_ring1_causal_initial_prefix_20261024_v1/README.md)
