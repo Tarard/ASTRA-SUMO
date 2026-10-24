@@ -1,0 +1,52 @@
+Loading net-file from 'C:\Users\Danial\.codex\worktrees\hamburg-reproduction\Torii\outputs\hamburg-275-fixed-history-20261024-v1\reference\prepared\network.net.xml' ... done (50ms).
+Loading additional-files from 'C:\Users\Danial\.codex\worktrees\hamburg-reproduction\Torii\outputs\hamburg-275-fixed-history-20261024-v1\reference\prepared\control.add.xml' ... done (256ms).
+Loading additional-files from 'C:\Users\Danial\.codex\worktrees\hamburg-reproduction\Torii\outputs\hamburg-275-primary-service-observer-20261024-v1\prepared\e1.add.xml' ... done (1ms).
+Loading additional-files from 'C:\Users\Danial\.codex\worktrees\hamburg-reproduction\Torii\outputs\hamburg-275-primary-service-observer-20261024-v1\prepared\instant.add.xml' ... done (1ms).
+Warning: Unused states in tlLogic '266197525', program '0' in phase 0 after tl-index 1
+Warning: At actuated tlLogic '266197525', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '266197525', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic '18653570', actuated phase 3 has no controlling detector.
+Warning: Unused states in tlLogic '205068090', program '0' in phase 0 after tl-index 1
+Warning: At actuated tlLogic '205068090', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '315029332', actuated phase 3 has no controlling detector.
+Warning: Unused states in tlLogic '32206478', program '0' in phase 0 after tl-index 11
+Warning: Unused states in tlLogic '32206482', program '0' in phase 0 after tl-index 1
+Warning: At actuated tlLogic '32206482', actuated phase 3 has no controlling detector.
+Warning: At actuated tlLogic '8913236635', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic 'GS_1561539025', actuated phase 2 has no controlling detector.
+Warning: At actuated tlLogic 'GS_205068087', actuated phase 0 has no controlling detector.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing yellow phase in tlLogic '13879893', program 'readme_fixed_A' for tl-index 4 when switching to phase 0.
+Warning: Missing yellow phase in tlLogic '205068512', program 'readme_fixed_A' for tl-index 5 when switching to phase 0.
+Warning: Missing yellow phase in tlLogic '205069138', program 'readme_fixed_A' for tl-index 2 when switching to phase 0.
+Warning: Unused states in tlLogic '266197525', program 'readme_fixed_A' in phase 0 after tl-index 1
+Warning: Missing yellow phase in tlLogic 'GS_205068087', program 'readme_fixed_A' for tl-index 3 when switching to phase 0.
+Loading route-files incrementally from 'C:\Users\Danial\.codex\worktrees\hamburg-reproduction\Torii\outputs\hamburg-275-fixed-history-20261024-v1\reference\prepared\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started via libsumo with time: 0.000.
+Warning: Vehicle 'od_0043_v00003' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=2006.100.
+Warning: Vehicle 'od_0043_v00012' performs emergency braking on lane '-142944318_2' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=2163.100.
+Warning: Vehicle 'od_0078_v00013' performs emergency braking on lane '199500674#0_1' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=2957.000.
+Warning: Vehicle 'od_0086_v00016' performs emergency braking on lane '-142944318_3' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=4075.100.
+Simulation ended at time: 4500.000.
+Reason: Libsumo requested termination.
+Performance:
+ Duration: 48.410s
+ Real time factor: 92.956
+ UPS: 106857.074985
+Vehicles:
+ Inserted: 2538 (Loaded: 2556)
+ Running: 70
+ Waiting: 17
+ Emergency Braking: 4
+Statistics (avg of 2538):
+ RouteLength: 1069.259634892936
+ Speed: 5.310451412933
+ Duration: 203.819000000000
+ WaitingTime: 74.340000000000
+ TimeLoss: 124.878000000000
+ DepartDelay: 31.172000000000
+ DepartDelayWaiting: 259.137000000000
+{"status": "pass", "formal_result": false, "checks": {"65_closed_e1_all_attributes_identical": true, "45000_summary_rows_except_duration_identical": true, "all_strict_prefix_instant_events_identical": true, "arrived_routes_exitTimes_identical": true, "arrived_trips_identical": true, "lane_and_body_hold_events_identical": true, "coverage451_and_zero_getter_errors": true, "monitor_completed4500": true, "zero_unsafe": true, "source_hashes_unchanged": true}, "rows_checked": {"field-counts.xml": 65, "summary.xml": 45000, "instant-e1.xml": 27545}, "differences": {"field-counts.xml": [], "summary.xml": [], "instant-e1.xml": []}, "arrived_routes_checked": 2468, "completion": {"time": "4499.900", "loaded": "2556", "inserted": "2538", "running": "70", "waiting": "17", "ended": "2468", "arrived": "2468", "collisions": "0", "teleports": "0", "halting": "33", "stopped": "0", "meanWaitingTime": "31.223483057525", "meanTravelTime": "206.069246353322", "meanSpeed": "1.935418546223", "meanSpeedRelative": "0.139350134213", "discarded": "0", "duration": "0"}, "scope": "Passive4500s prefix only.65 closed field intervals measured; other117 real target rows remain null. Native parity is separate from a mechanism claim."}

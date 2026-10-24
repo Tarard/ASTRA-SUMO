@@ -1,0 +1,52 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "purpose": "Offline handoff correction of execution lineage only; no new mechanism or full-fit claim.",
+  "executed_observer_sha256": "aeebb3cac37d588eb8375810a78231e3382c108ae59984853f6541f2bc6dcb25",
+  "later_unexecuted_source_sha256": "cfa240ccf02aa860a9e0eed59d7ccdda217b4c5fcab1f74e4e7fd5de9345d1d2",
+  "original_plan_sha256": "52ee41e97aaffa8a2d5729fb9c7e4004cd412d350513a0763a60a6f06574f4f2",
+  "checks": {
+    "actual_snapshot_matches_original_bound_source": true,
+    "all_other_original_bound_sources_exact": true,
+    "prepared_inputs_exact": true,
+    "182_real_rows_retained": true,
+    "65_measured_117_unknown": true
+  },
+  "source_checks": {
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\network.net.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\control.add.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\demand.rou.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\field-loops.add.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\expected-counts.csv": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\initialization-counts.csv": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\lane-intentions.json": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\scenario.json": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\native-request.json": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\field-counts.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\summary.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\instant-e1.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\vehicle-routes.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\tripinfo.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\stall-monitor.json": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\e1.add.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\instant.add.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-primary-service-observer-20261024-v1\\record_prefix.py": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-zero-discharge-observer-20261024-v1\\record_prefix.py": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-saturated-service-20261024-v1\\run_fixture.py": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-control-response-20261023-v1\\record_tls.py": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\independent.json": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\summary.json": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\simulation_stall.py": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_section_hold.py": true
+  },
+  "prepared_checks": {
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-primary-service-observer-20261024-v1\\prepared\\e1.add.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-primary-service-observer-20261024-v1\\prepared\\instant.add.xml": true,
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-primary-service-observer-20261024-v1\\prepared\\native-request.json": true
+  },
+  "original_audit_limitation": "The executed audit reread plan.json at completion. A concurrent edit replaced that plan and the script during execution; the original source_hashes_unchanged gate therefore did not bind the launch-time plan. This record instead checks the preserved original plan against the actual executed snapshot and unchanged inputs.",
+  "change_scope": "Only two offline coverage assertions and two report fields were added to the later script. No native driving or getter code changed. The directory named pre-execution-coverage-guard was actually created during the run.",
+  "unmeasured_real_target_rows": 117,
+  "full130_acceptance": false,
+  "script_diff": "--- \n+++ \n@@ -213,9 +213,12 @@\n                 targets.append({\"detector_id\": key[0], \"begin\": row[\"begin\"], \"end\": row[\"end\"],\n                     \"expected_total\": int(row[\"expected_total\"]), \"simulated_count\": value,\n                     \"difference\": value - int(row[\"expected_total\"]) if value is not None else None})\n+    assert len(targets) == 182 and sum(row[\"simulated_count\"] is None for row in targets) == 117\n+    assert sum(row[\"simulated_count\"] is not None for row in targets) == 65\n     save(NATIVE / \"target182-prefix-measurements.json\", targets)\n     report = {\"status\": \"pass\" if all(checks.values()) else \"blocked\", \"formal_result\": False, \"checks\": checks,\n         \"rows_checked\": sizes, \"differences\": differences, \"arrived_routes_checked\": len(route_sets[1]),\n+        \"unmeasured_real_target_rows\": 117, \"full130_acceptance\": False,\n         \"completion\": last, \"scope\": \"Passive4500s prefix only.65 closed field intervals measured; other117 real target rows remain null. Native parity is separate from a mechanism claim.\"}\n     save(NATIVE / \"record-result.json\", report)\n     print(json.dumps(report, ensure_ascii=False))\n"
+}
