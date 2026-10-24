@@ -262,7 +262,7 @@ def test_held_out_corpus_schemas_are_current() -> None:
     }
     for filename, schema in schemas.items():
         expected = json.dumps(schema, indent=2, ensure_ascii=False, sort_keys=True)
-        assert (REPOSITORY_ROOT / "schemas" / filename).read_text(
+        assert (REPOSITORY_ROOT / "schemas" / "research" / "corridor" / filename).read_text(
             encoding="utf-8"
         ) == expected
 

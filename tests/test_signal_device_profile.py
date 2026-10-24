@@ -521,5 +521,5 @@ def test_exported_signal_device_profile_schema_is_current() -> None:
         ensure_ascii=False,
         sort_keys=True,
     )
-    schema_path = REPOSITORY_ROOT / "schemas/torii.signal-device-profile.v1.schema.json"
+    schema_path = REPOSITORY_ROOT / "schemas/product/torii.signal-device-profile.v1.schema.json"
     assert schema_path.read_text(encoding="utf-8") == expected
