@@ -4,6 +4,8 @@ The lowest measured healthy main-window count error is the [late-demand quantity
 
 The three nested input subsets contain 8612, 8610 and 8597 requests, compared with the source's 8640. Surviving vehicle XML, intentions, departure times, routes, stops and relative order remain unchanged. Controls, driving rules and real observations stay fixed. Initialization TAE stays 97; the lowest-error case has all182 TAE 421 and derived station MAE 7.95. The 169 equal E1 prefix intervals do not establish identical trajectories. These finite input-prior tests do not identify real OD quantities or establish an optimum.
 
+Two [early-window quantity responses](../benchmarks/hamburg_ring1_early_quantity_feedback_20261024_v1/README.md) retain healthy completion but worsen full main130 TAE to 356 and 448. The combined case adds ten explicit hypothetical requests and removes three; the independent removal-only case deletes those same three from the 8597-request source. First-main-window TAE falls from 13 to 9 and 10, while initialization counts remain identical. Those local gains do not replace the better full130 result above. Original records, new-ID versus survivor accounting and the post-analysis offset-sign correction remain available.
+
 The preceding [535 late-departure comparison](../benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/README.md) has healthy MAE 2.807692, TAE 365 and SSE 4117, with all 8640 vehicles arriving.
 
 Only 29 existing 535 Z4 requests depart 30 seconds earlier than in the healthy 525 source; the other 8611 requests stay fixed. Routes, fields, controls, driving rules and all observations remain unchanged. Initialization TAE stays 97, all182 TAE falls from 492 to 462, and derived station MAE falls from 9.725 to 8.975.

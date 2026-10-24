@@ -4,6 +4,7 @@ This index separates research evidence from current product documentation. The l
 
 ## Manuscript and Research Direction
 
+- [Hamburg early quantity feedback: two healthy first-window gains with worse full130 errors, 2026-10-24](../../benchmarks/hamburg_ring1_early_quantity_feedback_20261024_v1/README.md)
 - [Hamburg late-demand quantity comparison: three healthy input subsets and measured MAE2.492308, 2026-10-24](../../benchmarks/hamburg_ring1_119_late_demand_thinning_20261024_v1/README.md)
 - [Hamburg535 late departure feedback: five complete responses and healthy measured MAE2.807692, 2026-10-24](../../benchmarks/hamburg_ring1_535_late_departure_feedback_20261024_v1/README.md)
 - [Hamburg525 partial control: preserved yielding, bounded smoke and healthy full MAE3.038462 with a worse maximum, 2026-10-24](../../benchmarks/hamburg_ring1_266197525_partial_control_20261024_v1/README.md)
