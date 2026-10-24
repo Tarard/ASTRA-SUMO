@@ -141,7 +141,9 @@ profile. Resolve a place to a bbox before the call. Its JSON request has seven
 fields: `output_dir`, `bbox`, `profile`, `source_osm_path`, `traffic_layers`,
 `reference_net_file`, and `timeout_seconds`. The `reference_matched` profile is
 audit-only and does not repair the network. `sumo_osm_build_network` remains a
-low-level importer and is not a complete cleanup workflow.
+low-level importer and is not a complete cleanup workflow. New product imports
+use construction precision 6 and record the effective setting. Precision affects
+native geometry computation as well as coordinate output.
 
 ## Structural, Reference, and Regression Audits
 
@@ -212,6 +214,14 @@ This read-only specialist hashes and parses one frozen OCIT-C supply snapshot, t
 
 These tools construct and assess detector-constrained demand. Their output is a plausible count-matched route set, not a uniquely identified true OD matrix.
 
+`sumo_detector_route_support` accepts `boundary_zones_file` from road-scope selection.
+Declared entries and exits remain available when retained roads also meet their boundary junction.
+The CLI road-selection option `--entry-min-lane-length` can retain upstream source context for traffic injection.
+The report lists missing or changed boundary references and roads excluded from the passenger model.
+Without this file, the tool uses terminal roads available to passenger vehicles.
+Loaded SUMO turns use endpoint and internal lane permissions. Connection import directives do not replace loaded access.
+Route incidence here measures road traversal. It cannot distinguish separate detector lanes on the same road or establish actual E1 contributions.
+
 ## Hamburg Corridor Digital Twin
 
 Road construction and traffic-count calibration have separate entry points.
@@ -254,6 +264,12 @@ and `road_names`. Each intersection supplies official MAP XML, matching KML,
 an aerial image, its `bbox_epsg25832`, and `aerial_year`. Source files require
 SHA-256 hashes. Paths may be relative to the request file. An arbitrary
 screenshot without known geographic bounds is not a georeferenced input.
+
+Set `osm_build.output_precision` explicitly in new requests. The current example
+uses 6. The source import of a v1 request without this field retains precision 2.
+The workflow records the resolved setting, whether it was declared, and the
+source network hash. It records the native edit default separately. These
+settings do not pin the software version or every downstream construction step.
 
 An intersection may also supply `road_reference.topology` and
 `road_reference.cross_sections` as hash-bound Hamburg GeoJSON files. The

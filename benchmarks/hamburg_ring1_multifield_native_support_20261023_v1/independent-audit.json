@@ -1,0 +1,45 @@
+{
+  "status": "pass",
+  "formal_count_calibration": false,
+  "routes": [
+    {
+      "vehicle_id": "witness-1",
+      "roads": 25,
+      "distinct_roads": 25,
+      "junction_passes": 24,
+      "junction_repeats": [],
+      "uturns": 0,
+      "actual_route_identical": true,
+      "all_compiled_lane_connections_allow_passenger": true,
+      "verified_lane_connections": 24
+    },
+    {
+      "vehicle_id": "witness-2",
+      "roads": 26,
+      "distinct_roads": 26,
+      "junction_passes": 25,
+      "junction_repeats": [],
+      "uturns": 0,
+      "actual_route_identical": true,
+      "all_compiled_lane_connections_allow_passenger": true,
+      "verified_lane_connections": 25
+    }
+  ],
+  "native_periodic_rows": 208,
+  "complete_positive_occupancy_events": 4,
+  "vehicle_field_repeats": 0,
+  "completion": {
+    "loaded": 2,
+    "inserted": 2,
+    "arrived": 2,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "source_vtype_identical": true,
+  "first_field_hold_only": true,
+  "native_two_moving_stops_each": true,
+  "limitation": "Two sparse isolated trips only. No real OD share, congested route support, natural lane choice, or 130-count exact fit is established."
+}

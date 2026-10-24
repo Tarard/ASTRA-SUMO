@@ -1,0 +1,27 @@
+{
+  "frozen_source_audits": {
+    "receiving-topology-generation-audit": {
+      "benchmarks\\hamburg_ring1_readme_v1_zero_20261023_v1\\inputs\\network.net.xml.gz": "33f993d1d0a72a3958fd12fd1bf157faa0064b9f9febb228605468320302f1eb",
+      "benchmarks\\hamburg_ring1_end_to_end_20261021_v1\\source-stages\\original-osm.net.xml": "beb714f7a4cd02a62e704e79d89b19b0f3e5f95adac97fa598db6d8f0dd5e2fd",
+      "outputs\\hamburg-joint-od-spsa-20261023-v1\\prepared\\network.net.xml": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18",
+      "outputs\\hamburg-multifield-substitution-20261023-v1\\receiving-control-source-audit\\manifest.json": "34617d95273d17eceff9849a4feae62f97eb114fe932f0f37bf4c77c0f651e68",
+      "outputs\\hamburg-multifield-substitution-20261023-v1\\receiving-control-source-audit\\report.json": "fee5d2c97be25130f2bda2a151bce425f92473c5d0a45a1befa0d971fbfa70cc",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_network.py": "d69b03f0afea35f77bb61a30beeb716d815ead995f4b54b94b1cdb84e694667d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\local_network_conversion.py": "bbaa8b16551c8349f3b96351161ce590964183ea27854c15d005eef739504d83",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_geometry_freeze.py": "852c9d902586f89fc81b96f52fd0bd6948dd3abbf01c5c8f309b45c37f0f4dfa",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\tls_aggregation.py": "ef89bd50ebd6cb3b2a7c6f75107d03408c5a4360790c276bb5f89d4cc67e951b"
+    },
+    "receiving-through-source-audit": {
+      "benchmarks\\hamburg_ring1_primary_branch_repair_20261023_v1\\source\\source.osm.xml.gz": "0d2d8313e056bd40f70a029258f8d99599b56f037f7e08b9e97763e3731a6d30",
+      "benchmarks\\hamburg_ring1_official_sources_20261020_v1\\535-map_kml.kml.gz": "d2ba2046abcd6aa048a1074f76cfe4a16c4038316374e952c76ee4bd849ccdb8",
+      "outputs\\hamburg-joint-od-spsa-20261023-v1\\prepared\\network.net.xml": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18",
+      "outputs\\hamburg-joint-od-spsa-20261023-v1\\prepared\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "outputs\\hamburg-multifield-substitution-20261023-v1\\receiving-control-source-audit\\manifest.json": "34617d95273d17eceff9849a4feae62f97eb114fe932f0f37bf4c77c0f651e68",
+      "outputs\\hamburg-multifield-substitution-20261023-v1\\receiving-control-source-audit\\official535-spatial-evidence.json": "5317efa489bd1fdc9a596b001dae5a17c6c80c07e12b1e65b0efeca1507cf2e5",
+      "benchmarks\\hamburg_ring1_lsa535_binding_probe_20261021_v1\\aerial.png": "cdaa2bbf220cf9ec65a7363d78e331c5d973ac032a2ff4120aee37cbb5838b84",
+      "benchmarks\\hamburg_ring1_lsa535_binding_probe_20261021_v1\\aerial-source.json": "c2573de7ee4a13afa873594b205f2dcb6dc0d6f6f40c3f41a7a3094315aee8b9"
+    }
+  },
+  "previous_manifest_sha256": "ad6058c59305a53eb9bde4bcd9ee7ad327f5fe868df9790665751bed162bbe9e",
+  "paths_are_provenance": true
+}

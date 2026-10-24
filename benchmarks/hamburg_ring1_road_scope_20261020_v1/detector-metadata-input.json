@@ -1,0 +1,20 @@
+{
+  "schema": "astra.ring1-detector-metadata-input/v1",
+  "file": "detector-metadata.json.gz",
+  "sha256": "b138cc995af8ae05524b9ae5fb6101dbf764c247b8c875daa05fce1f8f42880d",
+  "publisher": "Freie und Hansestadt Hamburg",
+  "source_service": "https://iot.hamburg.de/v1.1/",
+  "network_fixture": "lane-count-input.net.xml.gz",
+  "official_reference_package": "../hamburg_ring1_official_sources_20261020_v1",
+  "expected_associations": {
+    "29437": {
+      "official_map_lane": "51",
+      "sumo_lane": "24483344#1_0"
+    },
+    "30494": {
+      "official_map_lane": "50",
+      "sumo_lane": "24483344#1_1"
+    }
+  },
+  "claim_boundary": "Regression expectation from published KML proximity and lane order in an unaccepted source model. No independently surveyed detector-to-lane truth or field accuracy claim."
+}

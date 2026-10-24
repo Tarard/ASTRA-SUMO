@@ -1,0 +1,93 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "source_network_sha256": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+  "candidate": {
+    "status": "review_required",
+    "source_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-portable-probe-20261023\\network.net.xml",
+    "source_sha256": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+    "candidate_file": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa104-portable-probe-20261023\\candidate\\candidate.net.xml",
+    "candidate_sha256": "b293f592f7718626a3cdfc046d9b0fbbd0600d8d88f977258d7bca5f1f16fef7",
+    "junction_id": "LSA104_part0",
+    "connection_keys": [
+      [
+        "139083723#0",
+        2,
+        "234423652#1",
+        0
+      ],
+      [
+        "139083723#0",
+        2,
+        "234423652#1",
+        1
+      ]
+    ],
+    "ordinary_roads_unchanged": true,
+    "turn_permissions_unchanged": true,
+    "signal_bindings_unchanged": true,
+    "signal_programs_unchanged": true,
+    "maximum_curve_offset_m": 4.616274754377092e-07,
+    "curve_offsets_m": {
+      "('139083723#0', 2, '234423652#1', 0)": 4.616274754377092e-07,
+      "('139083723#0', 2, '234423652#1', 1)": 7.189840759060254e-08
+    },
+    "claim_boundary": "Native internal waiting representation only. Candidate needs paired driving and physical review; no count-calibration or field-timing claim."
+  },
+  "cases": {
+    "source_different_exits": {
+      "collisions": [
+        {
+          "time": "33.600",
+          "type": "junction",
+          "lane": ":LSA104_part0_12_0",
+          "pos": "2.473721270104",
+          "collider": "fast",
+          "victim": "slow",
+          "colliderType": "fast",
+          "victimType": "slow",
+          "colliderSpeed": "5.714535450173",
+          "victimSpeed": "1.300000000000",
+          "colliderFront": "270.272370803719,659.601196984942",
+          "colliderBack": "272.230675111105,655.010842346629",
+          "victimFront": "268.471653068078,664.079001789635",
+          "victimBack": "270.326685081218,659.435850346469"
+        }
+      ],
+      "completion": {
+        "loaded": 2,
+        "inserted": 2,
+        "arrived": 2,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 1,
+        "teleports": 1
+      }
+    },
+    "source_same_exit": {
+      "collisions": [],
+      "completion": {
+        "loaded": 2,
+        "inserted": 2,
+        "arrived": 2,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0
+      }
+    },
+    "candidate_different_exits": {
+      "collisions": [],
+      "completion": {
+        "loaded": 2,
+        "inserted": 2,
+        "arrived": 2,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0
+      }
+    }
+  },
+  "claim_boundary": "Synthetic slow leader exposes split-sibling overlap. This is not demand fitting or observed driver speed."
+}

@@ -1,0 +1,18 @@
+{
+  "formal_result": false,
+  "all_130_native_residual_identities_verified": true,
+  "main_target_visits": 6687,
+  "totals_in_field_visits": {
+    "on_time_target_visits": 1240,
+    "in_from_initialization_targets": 218,
+    "in_from_other_main_targets": 3438,
+    "in_from_undeclared_fields": 0,
+    "out_before_main_window": 0,
+    "out_after_main_window": 871,
+    "out_to_other_main_bins": 3438,
+    "not_entered_target_visits": 882,
+    "entered_missing_target_visits": 256
+  },
+  "unique_native_unentered_vehicles": 882,
+  "claim_boundary": "Terms are field visits, not unique vehicles. A shared unentered vehicle may represent two missing targets. The arithmetic describes this native replay and does not predict a changed demand."
+}

@@ -1,0 +1,139 @@
+{
+  "schema": "astra.site-parameters/v1",
+  "profile_id": "hamburg_mainline_scope_materializer",
+  "field_acceptance": "legacy_snapshot_only_requires_source_match",
+  "source_module_sha256_before_extraction": "c015a06583f71eb1ca67c745b249a3339f2ce0b5c1d2a646aec49a5055c4e74c",
+  "parameters": {
+    "HAMBURG_V10_SOURCE_SHA256": "99a056171be0f9327e3ddd204adb27758d6a01ae363b1cef8f93cd330aace4c8",
+    "MAINLINE_ROUTE_EDGE_IDS": {
+      "$tuple": [
+        "554713077",
+        "60578487#1",
+        "60578487#2",
+        "60578487#3",
+        "554713076#0",
+        "554713076#1",
+        "554713076#2",
+        "194672083",
+        "127716467#0",
+        "127716467#1",
+        "957130878#0",
+        "957130878#1",
+        "957130878#2",
+        "554713081#0",
+        "554713081#1",
+        "957130880",
+        "554713080",
+        "30390248#0",
+        "30390248#1",
+        "30390248#2",
+        "30390248#3",
+        "30390248#4",
+        "554713082#0",
+        "554713082#1",
+        "554713082#2",
+        "554713083#0",
+        "554713083#1",
+        "4313743#0",
+        "4313743#1",
+        "562205886",
+        "19199901",
+        "30598403",
+        "297888720",
+        "19199492",
+        "1231234769#0",
+        "1231234769#1"
+      ]
+    },
+    "BOUNDARY_EDGE_IDS": {
+      "$tuple": [
+        "60578519",
+        "22649708#0"
+      ]
+    },
+    "EXCLUDED_BRANCH_EDGE_IDS": {
+      "$tuple": [
+        "22649708#1",
+        "74547371#0",
+        "74547371#1",
+        "234561088#0",
+        "234561088#1"
+      ]
+    },
+    "JOIN_GROUPS": {
+      "$tuple": [
+        {
+          "$tuple": [
+            "5353176677",
+            "748827192"
+          ]
+        }
+      ]
+    },
+    "ENTRY_JOIN_GROUPS": {
+      "$tuple": [
+        {
+          "$tuple": [
+            "5353176677",
+            "748827192"
+          ]
+        },
+        {
+          "$tuple": [
+            "25737304",
+            "759714733"
+          ]
+        },
+        {
+          "$tuple": [
+            "739654528",
+            "759714704"
+          ]
+        }
+      ]
+    },
+    "JOIN_CONSUMED_EDGE_IDS": {
+      "$tuple": [
+        "60578487#0"
+      ]
+    },
+    "ENTRY_JOIN_CONSUMED_EDGE_IDS": {
+      "$tuple": [
+        "60578487#0",
+        "59626578",
+        "61649650"
+      ]
+    },
+    "CONTROLLER_IDS": {
+      "$tuple": [
+        "HH_0228",
+        "HH_2421",
+        "HH_2394"
+      ]
+    },
+    "source_binding.001": "retain the official HH_0228 MAP link at the corridor cut boundary",
+    "SHORT_APPROACH_NAMES": {
+      "$tuple": [
+        "Am Kaiserkai",
+        "Am Sandtorpark"
+      ]
+    },
+    "ENTRY_APPROACH_NAMES": {
+      "$tuple": [
+        "Am Sandtorpark",
+        "Großer Grasbrook",
+        "Singapurstraße"
+      ]
+    },
+    "MAINLINE_NAMES": {
+      "$tuple": [
+        "Am Sandtorkai"
+      ]
+    },
+    "EXCLUDED_BRANCH_NAMES": {
+      "$tuple": [
+        "Baumwall"
+      ]
+    }
+  }
+}

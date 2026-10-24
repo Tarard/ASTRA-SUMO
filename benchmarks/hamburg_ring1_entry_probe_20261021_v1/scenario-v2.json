@@ -1,0 +1,109 @@
+{
+  "role": "entry_mechanism_probe_not_calibration",
+  "source_inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-cost-prototype-cohort-20261021-v1\\replay\\network.net.xml",
+      "sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-distance-count-attempt-20261021-v1\\demand.rou.xml",
+      "sha256": "8ae1e81a456a697e4d526a326bbcccee393f1fd3d8ea1e09948f80926d2a8bd0"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-road-demo-20261021-v17\\02-main-roads\\selection.json",
+      "sha256": "ecca00d3e3aad158ea69df646a3718ac491cdeeb67a4c876b65877bb6c77b097"
+    }
+  ],
+  "vehicle_count_per_case": 20,
+  "departure_headway_s": 2,
+  "seed": 104,
+  "end_s": 900,
+  "step_length_s": 0.1,
+  "signal_treatment": "Existing temporary 95 s LSA119 clearance and other generated programs. No historical control claim.",
+  "routes": {
+    "short_local_entry": [
+      "25866659#1",
+      "25866659#2",
+      "25866655#0",
+      "25866655#1",
+      "73474902#0",
+      "73474902#1",
+      "24483192",
+      "43866090#0",
+      "486864294",
+      "-186713423",
+      "-186713425",
+      "-142770551",
+      "-142770548",
+      "-186713427",
+      "186713428",
+      "551303409",
+      "551303410",
+      "551303417",
+      "186722706",
+      "19728446#0"
+    ],
+    "major_entry": [
+      "44532531",
+      "761590046",
+      "199500674#0",
+      "199500674#1",
+      "199500674#2",
+      "24483192",
+      "43866090#0",
+      "486864294",
+      "-186713423",
+      "-186713425",
+      "-142770551",
+      "-142770548",
+      "-186713427",
+      "186713428",
+      "551303409",
+      "551303410",
+      "551303417",
+      "186722706",
+      "19728446#0"
+    ],
+    "short_service_entry": [
+      "31106387",
+      "24483344#0",
+      "24483344#1",
+      "79014037#1",
+      "186713429",
+      "141050975",
+      "141050980#0",
+      "141050980#1",
+      "603103444",
+      "73474895",
+      "27064186#0"
+    ],
+    "major_service_replacement": [
+      "963776077#0",
+      "234423652#1",
+      "538341584",
+      "51214742#1",
+      "37693933#0",
+      "37693933#1",
+      "24483344#0",
+      "24483344#1",
+      "79014037#1",
+      "186713429",
+      "141050975",
+      "141050980#0",
+      "141050980#1",
+      "603103444",
+      "73474895",
+      "27064186#0"
+    ]
+  },
+  "merge_road": "24483192",
+  "measured_road_sequence": [
+    "43866090#0"
+  ],
+  "no_repeated_roads": true,
+  "no_uturns": true,
+  "same_downstream_suffix": true,
+  "native_version_required": "1.27.1",
+  "acceptance": "All 20 inserted and arrived, no running/waiting/discarded vehicles, zero collisions and teleports. No count-fit claim.",
+  "literature_basis": "Reuse detector-constrained route support and explicit-prior limits in docs/hamburg-digital-twin-development-log.md. This 20-vehicle contrast is an engineering mechanism check."
+}

@@ -1,0 +1,64 @@
+{
+  "role": "failed_bounded_lane_binding_candidate",
+  "cases": {
+    "reference": {
+      "status": "invalid",
+      "scheduled_vehicles": 1270,
+      "completion": {
+        "loaded": 1270,
+        "inserted": 1270,
+        "arrived": 1270,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 1,
+        "collisions": 1,
+        "discarded": 0
+      },
+      "missing_field_bins": 0,
+      "available_field_bins": 130,
+      "missing_station_bins": 0,
+      "available_station_bins": 40,
+      "formal_metrics": null,
+      "exact_count_fit": false,
+      "known_collision_vehicle_arrival_ledger": {
+        "fit_b5_p267_v27": true,
+        "fit_b5_p267_v25": true,
+        "fit_b9_p267_v12": true,
+        "fit_b9_p267_v11": true
+      }
+    },
+    "rebound": {
+      "status": "invalid",
+      "scheduled_vehicles": 1270,
+      "completion": {
+        "loaded": 407,
+        "inserted": 233,
+        "arrived": 136,
+        "running": 97,
+        "waiting": 154,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "missing_field_bins": 91,
+      "available_field_bins": 39,
+      "missing_station_bins": 28,
+      "available_station_bins": 12,
+      "formal_metrics": null,
+      "exact_count_fit": false,
+      "known_collision_vehicle_arrival_ledger": {
+        "fit_b5_p267_v27": false,
+        "fit_b5_p267_v25": false,
+        "fit_b9_p267_v12": false,
+        "fit_b9_p267_v11": false
+      }
+    }
+  },
+  "demand_tour_audit": {
+    "cohort": 1270,
+    "repeated_535_core_vehicles": 667
+  },
+  "decision": "Do not adopt the rebound candidate. Its standstill prevents a conservation and safety acceptance. No count-fit or infeasibility conclusion.",
+  "further_runs_this_check": 0,
+  "movement_table_boundary": "Arrival-ledger counts of planned movements only. They are not observed physical movement throughput, particularly after teleport or unfinished trips."
+}

@@ -11,6 +11,11 @@ from astra_sumo.core import source_movement_support as support
 from astra_sumo.core.candidate_contracts import file_sha256
 
 
+def test_motor_path_permissions_use_native_aliases_and_allow_precedence():
+    assert support._modes(ET.Element("lane", allow="public_transport", disallow="all")) == {"bus"}
+    assert support._modes(ET.Element("connection", allow="bus", disallow="bus")) == {"bus"}
+
+
 def _edge(root, edge_id, source=None, target=None, lanes=1, allow="delivery"):
     attrs = {"id": edge_id}
     attrs.update({"from": source, "to": target} if source else {"function": "internal"})

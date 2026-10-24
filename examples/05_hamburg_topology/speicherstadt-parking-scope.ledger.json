@@ -1,0 +1,44 @@
+{
+  "schema": "torii.corridor_edit_ledger.v1",
+  "source_net_file": "outputs/geometry_extended_20261015_v11/full-workflow/candidate/hamburg-five-aerial-combined.net.xml",
+  "source_sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a",
+  "map_review": {"temporal_scope": "current", "target_date": "2026-10-15"},
+  "operations": [{
+    "id": "speicherstadt-interior-exclusion",
+    "operation": "delete_edge",
+    "status": "accepted",
+    "target_ids": [
+      "-174284968#0", "-174284968#1", "-174284968#2",
+      "174284968#0", "174284968#1", "174284968#2",
+      "882966132", "882966133"
+    ],
+    "rationale": "Exclude the reviewed garage interior from the surface corridor model. Retain exterior driveways as parking arrival and departure boundaries.",
+    "evidence": [{
+      "kind": "explicit_site_scope_decision",
+      "site": "Parkhaus Speicherstadt, Am Sandtorkai 6, Hamburg",
+      "operator_url": "https://www.contipark.de/de/parken/hamburg/parkhaus-speicherstadt/",
+      "checked_date": "2026-10-15",
+      "operator_clearance_height_m": 1.95,
+      "operator_clearance_width_m": 2.52,
+      "osm_building_id": "60260768",
+      "osm_way_ids": ["174284968", "882966132", "882966133"],
+      "aerial_source": "Hamburg LGV, 2026 unbelaubt DOP WMS layer",
+      "aerial_sha256": "9613ac7d096f60e6e04c77cb0cf16251840ff3a69b73cb8438348f5bfc3e0955",
+      "field_absence_claim": false,
+      "interpretation": "The operator confirms a real parking facility and its access. Roof imagery does not establish that covered vehicle routes are absent. This is a model-scope decision, not a deletion from OSM."
+    }],
+    "rollback": {
+      "action": "restore_exact_source_network",
+      "sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a"
+    },
+    "constraints": {
+      "preserve_tls": true,
+      "preserve_rail": true,
+      "preserve_bridge": true,
+      "preserve_tunnel": false,
+      "preserve_modal_connectivity": true,
+      "preserve_routeability": true
+    },
+    "location": {"x": 289.55, "y": 253.04}
+  }]
+}

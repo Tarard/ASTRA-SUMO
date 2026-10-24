@@ -1,0 +1,153 @@
+{
+  "status": "failed_inspection_only",
+  "snapshot": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\all-stopped-state.xml.gz",
+    "sha256": "52d61e38e2992690a8576a3fdf83879027091b08c4d0b1c7e4a26dad6d493227"
+  },
+  "native_version": "1.27.1",
+  "error": "Empty saved state attribute for tlLogic 7709833318.",
+  "controlled_link_count": 13,
+  "controlled_links": [
+    {
+      "from": "-219999179",
+      "to": "551319336",
+      "fromLane": "0",
+      "toLane": "3",
+      "via": ":7709833318_2_0",
+      "tl": "7709833318",
+      "linkIndex": "2",
+      "dir": "s",
+      "state": "o"
+    },
+    {
+      "from": "-551319336",
+      "to": "219999172#0",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":7709833318_5_0",
+      "tl": "7709833318",
+      "linkIndex": "5",
+      "dir": "R",
+      "state": "o"
+    },
+    {
+      "from": "-551319336",
+      "to": "219999172#0",
+      "fromLane": "2",
+      "toLane": "2",
+      "via": ":7709833318_5_1",
+      "tl": "7709833318",
+      "linkIndex": "6",
+      "dir": "R",
+      "state": "o"
+    },
+    {
+      "from": "-551319336",
+      "to": "219999179",
+      "fromLane": "2",
+      "toLane": "0",
+      "via": ":7709833318_7_0",
+      "tl": "7709833318",
+      "linkIndex": "7",
+      "dir": "s",
+      "state": "o"
+    },
+    {
+      "from": "251397516",
+      "to": "219999172#0",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":7709833318_3_0",
+      "tl": "7709833318",
+      "linkIndex": "3",
+      "dir": "r",
+      "state": "o"
+    },
+    {
+      "from": "251397516",
+      "to": "219999172#0",
+      "fromLane": "1",
+      "toLane": "2",
+      "via": ":7709833318_3_1",
+      "tl": "7709833318",
+      "linkIndex": "4",
+      "dir": "r",
+      "state": "o"
+    },
+    {
+      "from": "31050638#2",
+      "to": "551319336",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":7709833318_0_0",
+      "tl": "7709833318",
+      "linkIndex": "0",
+      "dir": "s",
+      "state": "o"
+    },
+    {
+      "from": "31050638#2",
+      "to": "551319336",
+      "fromLane": "2",
+      "toLane": "2",
+      "via": ":7709833318_0_1",
+      "tl": "7709833318",
+      "linkIndex": "1",
+      "dir": "s",
+      "state": "o"
+    },
+    {
+      "from": ":7709833318_w0",
+      "to": ":7709833318_c4",
+      "fromLane": "0",
+      "toLane": "0",
+      "tl": "7709833318",
+      "linkIndex": "12",
+      "dir": "s",
+      "state": "M"
+    },
+    {
+      "from": ":7709833318_w1",
+      "to": ":7709833318_c2",
+      "fromLane": "0",
+      "toLane": "0",
+      "tl": "7709833318",
+      "linkIndex": "10",
+      "dir": "s",
+      "state": "M"
+    },
+    {
+      "from": ":7709833318_w2",
+      "to": ":7709833318_c3",
+      "fromLane": "0",
+      "toLane": "0",
+      "tl": "7709833318",
+      "linkIndex": "11",
+      "dir": "s",
+      "state": "M"
+    },
+    {
+      "from": ":7709833318_w3",
+      "to": ":7709833318_c0",
+      "fromLane": "0",
+      "toLane": "0",
+      "tl": "7709833318",
+      "linkIndex": "8",
+      "dir": "s",
+      "state": "M"
+    },
+    {
+      "from": ":7709833318_w4",
+      "to": ":7709833318_c1",
+      "fromLane": "0",
+      "toLane": "0",
+      "tl": "7709833318",
+      "linkIndex": "9",
+      "dir": "s",
+      "state": "M"
+    }
+  ],
+  "attempted_workaround": "Rejected before writing a clone because the controller has active link declarations. No controller or original snapshot was removed.",
+  "simulation_outcome_changed": false,
+  "claim_boundary": "The saved native XML remains evidence. Complete native snapshot restoration on this network is not established."
+}

@@ -1,0 +1,64 @@
+{
+  "implementation": "cd7943e1c223e4705d8b902ddd6b94e2f999bd5b",
+  "status": "paused",
+  "native_version": "1.27.1",
+  "focused_passed": 79,
+  "ci_passed": 3436,
+  "ci_skipped": 24,
+  "duplicate_ci_failure_retained": true,
+  "public_model_loaded_lanes": 38961,
+  "public_model_permission_mismatches": 0,
+  "hamburg_passenger_findings_unchanged": 248,
+  "unresolved": "Geometry-only conversion can widen loaded turn access when connection directives do not preserve internal-lane permissions.",
+  "field_false_alarm_rate": null,
+  "artifacts": [
+    {
+      "path": "outputs/permission_review_20261019_v1/native-probe.py",
+      "sha256": "039af8616e992a434a28686ce73553979859f1918cdc3bd3016bbb96ee138b73"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/native-probe-after-fix.json",
+      "sha256": "f11240e5d6ff2075507c5577c86d1bab08cc7d02aae8b0c9f6f2f7b332ab31b2"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/public-model-controls.py",
+      "sha256": "fb83cc35d3b160e86399df481d4547b6822096aa97a950164a43f27e751881c8"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/public-model-controls.json",
+      "sha256": "97597fba47c786a72867354fbf867f0b2ee9f64096d891ab6c11e0115cc59330"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/loaded-model-controls.py",
+      "sha256": "366f8afacbdaba92eaebc5cf50e6080d44894323d2351540a0d303cee34c67a5"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/loaded-model-controls.json",
+      "sha256": "de6cf297484585cbaf319215fac0d153ac368cdbc1affc931f7e0613aed43769"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/hamburg-passenger-control.json",
+      "sha256": "35c8468d2188035f7772a7e4e8943a449b7d47fe38f2671b11940cfc45ae274e"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/focused-v2.log",
+      "sha256": "0716bce2682d2cbec3af8d35a2d2ab45b4c2b5b375b54caa878a10cb048b959b"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/dormant-control.py",
+      "sha256": "f639c43af126e41441ceda5791d2064fa50efebde28012841ce93b09a19c9651"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/dormant-control/report.json",
+      "sha256": "895831da316f6573f4882874ae34273adb40fba183556a9e2cd1df3aa7606b6a"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/ci-39220361116.log",
+      "sha256": "5a4d9c4d71b089947bafc8a932d8f5f8eb37b8809f1958137fc4a96097d14cb0"
+    },
+    {
+      "path": "outputs/permission_review_20261019_v1/ci-39220366044.log",
+      "sha256": "2ad65a129882a9cd809f217a2d6b9cb9bf46726a0ffb7a3069f0a05549236c5a"
+    }
+  ]
+}

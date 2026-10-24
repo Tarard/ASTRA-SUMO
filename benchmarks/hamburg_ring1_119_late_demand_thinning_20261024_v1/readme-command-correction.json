@@ -1,0 +1,15 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "scope": "One optional reproduction command flag only; all inputs, native outputs and results unchanged.",
+  "old_manifest_sha256": "2bcaeab7e9243d475d09f44da0d348846c45890cf4ecfbf5cfb3e73af8c9697d",
+  "old_README_sha256": "70a0ed411deab8e8370b2561f09a2ee9fa1d61ebb6cdfe9c501b894c4a04f83b",
+  "new_README_sha256": "10f0c8401dfcd4479132a09c11c3442393696a7f0f381dde6c583fec554d94b2",
+  "replacement": {
+    "--native-full": "--mode native-full"
+  },
+  "old_packet_changed_files": [
+    "README.md"
+  ],
+  "results_sha256_unchanged": "a30fb8baf759537c330125e79eefd95945fb52f6b29804397bc374ef6f9e06e2"
+}

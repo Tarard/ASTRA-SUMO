@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "source_relative": "one-car/evaluation/native/instant-e1.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\instant-e1.xml",
+      "bytes": 25125317,
+      "sha256": "aa3adb0c2eff4ae39e4b1a881c3380298f595e15f109ffcc15e8d27da89e7c64"
+    },
+    {
+      "source_relative": "one-car/evaluation/native/queues.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\queues.xml",
+      "bytes": 86977539,
+      "sha256": "d09da6863aaa3317d61cececce43c6ab1f5c202d7330d355b56f480b991768ad"
+    },
+    {
+      "source_relative": "reference/evaluation/native/instant-e1.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\instant-e1.xml",
+      "bytes": 25135258,
+      "sha256": "5acbb21a9b8ceccd1b1ca1f98796d5921418668bbdb71600262c58617e096b69"
+    },
+    {
+      "source_relative": "reference/evaluation/native/queues.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\queues.xml",
+      "bytes": 86934012,
+      "sha256": "c8fa311e741bb72ffa4d175f2cc13be7b090d0ed5b08a037ecc79d9a7831abaf"
+    }
+  ],
+  "limitation": "Raw instant/queues require local files to re-read. Recorded reference14gate includes original strict instant parity; packaged compact full contributions remain available."
+}

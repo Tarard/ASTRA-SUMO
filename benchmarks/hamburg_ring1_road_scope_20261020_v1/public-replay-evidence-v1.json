@@ -1,0 +1,161 @@
+{
+  "schema": "astra.ring1-public-replay-evidence/v1",
+  "status": "partial",
+  "promotion_authority": false,
+  "base_replay_commit": "91254d68bada714213272070fbc880f2bf6deadb",
+  "base_runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_junction_construction.py",
+    "sha256": "6ec274df9e72e7c2f7d8bd83667c7e8dec1664e1e436b330a39c6a5810a750b9"
+  },
+  "base_run": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v2/run.json",
+    "sha256": "7fe91d8f8987b27119a844945e2af56cc7a1ced410362dc8fe64a5ed2041507b"
+  },
+  "inputs_unchanged": true,
+  "implementation_unchanged_during_base_run": true,
+  "base_implementation_hashes_match_commit": true,
+  "official_source_preparer": {
+    "path": "examples/06_hamburg_ring1_demo/prepare_approach_evidence.py",
+    "sha256": "97aa218e2a2c952194844cab8ec5aaa30d8bb64553bf0b476fb632d21b5f6117"
+  },
+  "road_scope_runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_road_selection.py",
+    "sha256": "4e0a3cffe9fb3b07a5e1eed64bacac87bb0c52dd1f426374f11316ee8497cca7"
+  },
+  "road_scope_case": {
+    "path": "outputs/ring1-road-demo-20261020-v11/case.json",
+    "sha256": "c54868cc6f22db3f3f0c9e3cc7640eb935106892f6a236535fc2c5986c5b58da"
+  },
+  "road_scope_candidate_matches": true,
+  "network": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v2/official.net.xml",
+    "sha256": "f9d26e449d5409e03fd4e1cf5bf20ab727add31b17ca81a42e85fd5f6e8892e8"
+  },
+  "source_package": {
+    "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json",
+    "sha256": "e8cac2a3d012f517225500424722e0813a577c0876f15ac2cebf834a67fc88df"
+  },
+  "sumo_version": "Eclipse SUMO sumo 1.27.1",
+  "official_motor_movements": 114,
+  "passed_exact_lane_transition": 92,
+  "unmapped_not_tested": 22,
+  "movement_report": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v2/movement-probes/summary.json",
+    "sha256": "29b6802c10e0e0e92f741ba18437727dbd40962ed9335d3ddfc93a4163536354"
+  },
+  "unexplained_extra_connections": [
+    [
+      "186821027#0",
+      5,
+      "186821029#1",
+      3
+    ],
+    [
+      "186821034#0",
+      4,
+      "186821029#1",
+      2
+    ],
+    [
+      "368989705",
+      4,
+      "142944399#2",
+      3
+    ],
+    [
+      "626677498",
+      0,
+      "551303417",
+      2
+    ]
+  ],
+  "field_layout": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v2/field-layout.json",
+    "sha256": "982dd961fb3e6e244b554ae3ff61cb7038a202cfdea9a621cabd6ab10924f7a1"
+  },
+  "loaded_field_loops": 13,
+  "processed_station_groups": 4,
+  "count_attribute": "nVehContrib",
+  "calibration": {
+    "status": "not_run"
+  },
+  "added_lane_permissions": {
+    "passenger": true,
+    "bus": true,
+    "basis": "source_motor_lane_donor"
+  },
+  "lane_edit_verification": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v2/lane-edit-0/verification.json",
+    "sha256": "0588903461404e54f2439fac94eae52ccb782382bebd21d57831e399e8d37a6a"
+  },
+  "neighboring_geometry": {
+    "status": "measured",
+    "coordinate_frame_preserved": true,
+    "mutable_junction_ids": [
+      "9810392490",
+      "LSA119_part0"
+    ],
+    "mutable_edge_ids": [
+      "37413814#0"
+    ],
+    "ordinary_lane_attribute_changes": {
+      "shape": 3,
+      "length": 0,
+      "width": 0
+    },
+    "max_lane_endpoint_offset_xy_m": 1.1092981783835125,
+    "max_geometric_lane_length_change_xy_m": 0.7092989782979534,
+    "max_lane_endpoint_offset_xyz_m": 1.1092981783835125,
+    "max_geometric_lane_length_change_xyz_m": 0.7092989782979534,
+    "outside_lane_count_with_shape_changes": 3,
+    "shape_displacement_metric": "xy_hausdorff",
+    "outside_lane_count_moved_over_0_01_m": 1,
+    "max_outside_lane_shape_displacement_xy_m": 0.9092989935604339,
+    "fixed_boundary_failures": [],
+    "boundary_edge_map": {},
+    "outside_scope_geometry": {
+      "lanes": {
+        "missing": [],
+        "added": [],
+        "changed": [
+          "1068722010_0",
+          "199230909#0_3",
+          "79014037#1_1"
+        ]
+      },
+      "junctions": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      },
+      "edges": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      }
+    },
+    "source_geometry_preserved": false
+  },
+  "separate_count_influence_diagnostic": {
+    "implementation": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_count_reachability.py",
+      "sha256": "fe4922bbd7ca52876765a9aba2a869026d2806ff5c4acc35e29fa9c925c8ba6a"
+    },
+    "report": {
+      "path": "outputs/ring1-count-reachability-20261020-v2.json",
+      "sha256": "4cf138f91dafe9eab9821f3173fee6b5c450240b4d57c213ae6b09491d795860"
+    },
+    "network_matches_base_run": true,
+    "potential_count_influence": 19,
+    "unknown_outlets": 2,
+    "no_path_in_saved_outlet_hypotheses": 1,
+    "claim_boundary": "Static upper bound using compiled connection permissions and ordinary lane-change permissions. It ignores lane-change space, time, queues and signals. Saved outlet candidates are not exhaustive. Absence of a path is not proof that an unresolved official movement cannot affect counts. This diagnostic neither filters fitting targets nor proves native driving or field legality."
+  },
+  "verification": {
+    "shared_core_tests_passed": 130,
+    "workflow_and_navigation_tests_passed": 9,
+    "groups_overlap": true,
+    "latest_full_ci": "pending_at_recording"
+  },
+  "claim_boundary": "Committed public construction and layout replay with partial movement correspondence. The read-only count-influence diagnostic was added afterward on the same candidate. No calibrated demand, simulated count fit, field timing, surveyed detector location or independent prediction claim."
+}

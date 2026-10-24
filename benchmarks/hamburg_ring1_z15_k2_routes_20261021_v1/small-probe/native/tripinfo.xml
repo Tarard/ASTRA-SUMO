@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T17:48:26.530904+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\collisions.xml"/>
+    </output>
+
+    <time>
+        <end value="900"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="13164"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="z15_k2_probe_0" depart="100.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="220.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="11.180000000000" duration="120.200" routeLength="943.524318000000" waitingTime="22.000" waitingCount="5" stopTime="0.000" timeLoss="49.796" rerouteNo="0" devices="vehroute_z15_k2_probe_0 tripinfo_z15_k2_probe_0" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_1" depart="103.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="221.500" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="12.853437621591" duration="118.500" routeLength="976.803825000000" waitingTime="9.900" waitingCount="2" stopTime="0.000" timeLoss="43.430" rerouteNo="0" devices="vehroute_z15_k2_probe_1 tripinfo_z15_k2_probe_1" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_3" depart="109.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="246.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="11.180000000000" duration="137.200" routeLength="976.803825000000" waitingTime="31.900" waitingCount="4" stopTime="0.000" timeLoss="62.191" rerouteNo="0" devices="vehroute_z15_k2_probe_3 tripinfo_z15_k2_probe_3" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_2" depart="106.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="270.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="11.180000000000" duration="164.200" routeLength="943.524318000000" waitingTime="43.800" waitingCount="7" stopTime="0.000" timeLoss="93.795" rerouteNo="0" devices="vehroute_z15_k2_probe_2 tripinfo_z15_k2_probe_2" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_4" depart="112.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="294.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="11.180000000000" duration="182.200" routeLength="943.524318000000" waitingTime="65.000" waitingCount="8" stopTime="0.000" timeLoss="111.776" rerouteNo="0" devices="vehroute_z15_k2_probe_4 tripinfo_z15_k2_probe_4" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_6" depart="118.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="318.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="11.180000000000" duration="200.200" routeLength="943.524318000000" waitingTime="71.400" waitingCount="11" stopTime="0.000" timeLoss="129.778" rerouteNo="0" devices="vehroute_z15_k2_probe_6 tripinfo_z15_k2_probe_6" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_10" depart="130.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="320.000" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="190.000" routeLength="943.524318000000" waitingTime="89.500" waitingCount="7" stopTime="0.000" timeLoss="119.543" rerouteNo="0" devices="vehroute_z15_k2_probe_10 tripinfo_z15_k2_probe_10" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_12" depart="136.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="322.400" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="186.400" routeLength="950.079183000000" waitingTime="72.400" waitingCount="5" stopTime="0.000" timeLoss="115.656" rerouteNo="0" devices="vehroute_z15_k2_probe_12 tripinfo_z15_k2_probe_12" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_8" depart="124.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="323.600" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="199.600" routeLength="943.524318000000" waitingTime="71.600" waitingCount="5" stopTime="0.000" timeLoss="129.314" rerouteNo="0" devices="vehroute_z15_k2_probe_8 tripinfo_z15_k2_probe_8" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_14" depart="142.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="324.900" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="182.900" routeLength="943.524318000000" waitingTime="56.000" waitingCount="8" stopTime="0.000" timeLoss="112.410" rerouteNo="0" devices="vehroute_z15_k2_probe_14 tripinfo_z15_k2_probe_14" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_18" depart="154.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="6.387827366805" departDelay="0.000" arrival="326.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="172.200" routeLength="943.524318000000" waitingTime="31.000" waitingCount="5" stopTime="0.000" timeLoss="101.845" rerouteNo="0" devices="vehroute_z15_k2_probe_18 tripinfo_z15_k2_probe_18" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_16" depart="148.000" departLane="189764301_2" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="327.500" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="179.500" routeLength="943.524318000000" waitingTime="38.100" waitingCount="5" stopTime="0.000" timeLoss="109.072" rerouteNo="0" devices="vehroute_z15_k2_probe_16 tripinfo_z15_k2_probe_16" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_5" depart="115.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="328.900" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="213.900" routeLength="978.240795000000" waitingTime="78.500" waitingCount="8" stopTime="0.000" timeLoss="138.681" rerouteNo="0" devices="vehroute_z15_k2_probe_5 tripinfo_z15_k2_probe_5" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_7" depart="121.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="330.200" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="209.200" routeLength="976.803825000000" waitingTime="62.200" waitingCount="6" stopTime="0.000" timeLoss="134.068" rerouteNo="0" devices="vehroute_z15_k2_probe_7 tripinfo_z15_k2_probe_7" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_11" depart="133.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="331.600" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="198.600" routeLength="976.803825000000" waitingTime="53.600" waitingCount="6" stopTime="0.000" timeLoss="123.500" rerouteNo="0" devices="vehroute_z15_k2_probe_11 tripinfo_z15_k2_probe_11" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_9" depart="127.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="333.100" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="206.100" routeLength="976.803825000000" waitingTime="77.800" waitingCount="7" stopTime="0.000" timeLoss="130.911" rerouteNo="0" devices="vehroute_z15_k2_probe_9 tripinfo_z15_k2_probe_9" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_13" depart="139.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="384.300" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="245.300" routeLength="976.803825000000" waitingTime="125.600" waitingCount="8" stopTime="0.000" timeLoss="170.150" rerouteNo="0" devices="vehroute_z15_k2_probe_13 tripinfo_z15_k2_probe_13" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_15" depart="145.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="385.800" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="240.800" routeLength="983.358690000000" waitingTime="102.000" waitingCount="6" stopTime="0.000" timeLoss="165.327" rerouteNo="0" devices="vehroute_z15_k2_probe_15 tripinfo_z15_k2_probe_15" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_17" depart="151.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="8.333333000000" departDelay="0.000" arrival="387.300" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="236.300" routeLength="976.803825000000" waitingTime="92.200" waitingCount="7" stopTime="0.000" timeLoss="161.149" rerouteNo="0" devices="vehroute_z15_k2_probe_17 tripinfo_z15_k2_probe_17" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+    <tripinfo id="z15_k2_probe_19" depart="157.000" departLane="61578529#1_1" departPos="5.100000000000" departSpeed="6.499604989318" departDelay="0.000" arrival="388.800" arrivalLane="27064186#0_0" arrivalPos="0.100000000000" arrivalSpeed="13.888889000000" duration="231.800" routeLength="976.803825000000" waitingTime="80.500" waitingCount="5" stopTime="0.000" timeLoss="156.609" rerouteNo="0" devices="vehroute_z15_k2_probe_19 tripinfo_z15_k2_probe_19" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+</tripinfos>

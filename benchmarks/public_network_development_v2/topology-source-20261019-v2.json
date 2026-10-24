@@ -1,0 +1,264 @@
+{
+  "producer_commit": "38c82ff848abf735215025af609e95cbf30a3caa",
+  "source_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+  "candidate_sha256": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+  "release": {
+    "status": "pass",
+    "elapsed_seconds": 371.69646790000115,
+    "gates": {
+      "artifact_identity": "pass",
+      "netconvert": "pass",
+      "review_contract": "pass",
+      "xml_parse": "pass",
+      "tls_modal_rail_bridge_tunnel": "pass",
+      "modal_connectivity": "pass",
+      "edit_applicability": "pass",
+      "sumo_load": "pass",
+      "routeability": "pass",
+      "topology": "pass"
+    },
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "whole_network_review": {
+    "inherited_finding_count": 170,
+    "scope_finding_count": 0,
+    "status": "review_required"
+  },
+  "topology": {
+    "status": "pass",
+    "reason": "no_new_or_worsened_source_topology_findings",
+    "whole_network_status": "review_required",
+    "source_finding_count": 170,
+    "candidate_finding_count": 170,
+    "inherited_finding_count": 170,
+    "scope_findings": [],
+    "new_or_changed_findings": []
+  },
+  "changed_code_sha256": {
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\candidate_contracts.py": "5f044d83e9b7d331cc204ea251c18eb36b9aa9bf797b8a2c49b7d18b5b5073d7",
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\corridor_edit_ledger.py": "845ae920cca3c659861b925b59570595a8c77b5136e2048b7574ad5dab4888d6",
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_applicability.py": "28b05e0f6718fa2e4e805412765d2f81f75a68ee1a7728c371d0bb7358e2f4cf",
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\topology_audit.py": "56ada8ba172b6e59ada5c8cf3defc68a898a91dbda5db5140e43083b33a96b38"
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v3\\run-release.py",
+      "sha256": "58b7244354674442b256a23a6e1384e4a1ab7561e3e0175c88d7c379ebaed6e4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v3\\identity.json",
+      "sha256": "f650dcd0c673cc548347419a1918478ce335495eeea40128344fc23f1b852565"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v3\\summary.json",
+      "sha256": "a5a3df72e321b4a5aa2cd744052e600088f67c3d9b7a8450379c87e3b46fe397"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v3\\verification\\edit-verification.json",
+      "sha256": "c84192fbe76417e27532b63d58d495e06a5fd3a5832d4867beea5f17d50aaa3e"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\confirmed-topology-scope.json",
+      "sha256": "e3176c6bc0b701b1fab5d83d93e2ab303d82dbf11eacda8af0afc6c06f648dc7"
+    }
+  ],
+  "local_checks": {
+    "initial_focused": {
+      "passed": 62,
+      "failed": 1,
+      "failure": "A test block was inserted in the wrong function. The collected test referenced an undefined variable.",
+      "log": "outputs/contour_release_20261019_v2/scoped-topology-final.log"
+    },
+    "corrected_topology_module": {
+      "passed": 10,
+      "failed": 0,
+      "log": "outputs/contour_release_20261019_v2/scoped-topology-unit-corrected.log"
+    },
+    "final_related_checks": {
+      "passed": 77,
+      "failed": 0,
+      "log": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v3\\final-review-outcomes.log"
+    },
+    "ruff": "pass",
+    "diff_check": "pass"
+  },
+  "final_cohort_reassessment": {
+    "producer_commit": "234545e07838194814ff90c0f9951c01a5b60a85",
+    "consumer_commit": "b135e7ab8c7cc9c113099033669f1fb11e7ac8a1",
+    "implementation_unchanged": true,
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml",
+      "sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b"
+    },
+    "reference": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+      "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+    },
+    "selection_policy": {
+      "maximum_inspected": 10,
+      "maximum_materialized": 3,
+      "order": "lexicographic node ID after exact-frame and strict-containment checks",
+      "selection": "preconditions only; no outcome-based replacement",
+      "label_scope": "published_model_geometry_not_field_defect"
+    },
+    "cases": [
+      {
+        "node_id": "132844",
+        "status": "review_required",
+        "reason": "custom_contour_recuts_source_geometry",
+        "elapsed_seconds": 159.85979210000005,
+        "checks": {
+          "local_preconditions": "pass",
+          "boundary_lane_identities": "pass",
+          "all_class_explicit_boundary_paths": "pass",
+          "outside_geometry_and_fixed_ends": "pass",
+          "outside_state": "pass",
+          "protected_counts": "pass",
+          "signal_programs": "pass",
+          "connection_structure": "pass",
+          "pedestrian_facilities": "review_required",
+          "boundary_lane_permissions_width_speed": "pass",
+          "pedestrian_lane_geometry": "review_required",
+          "requested_shape": "pass",
+          "native_contour_identity_control": "review_required",
+          "requested_contour_geometry": "pass",
+          "no_new_independent_safety_findings": "pass",
+          "inputs_unchanged": "pass"
+        },
+        "inputs": {
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\ledger\\corridor_edit_ledger.json": "5625a5343ab1719680a2a056e1ff96325070f549e5e63d28202baf1c3dfe18f1",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\edit\\candidate.net.xml": "5439b15840aefd537e7a93083422ebae64ccf69222b08941628668508b391bd3",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.json": "2a25edde197b37cc15cffacf896ebd6d9545e202f120c86d6a0124596d34d706",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.net.xml": "4b2fa34fe2201749e0292af5d91b0bed7fea57747db020149c09b0ad435890e6"
+        }
+      },
+      {
+        "node_id": "132981",
+        "status": "pass",
+        "reason": null,
+        "elapsed_seconds": 166.98705530000007,
+        "checks": {
+          "local_preconditions": "pass",
+          "boundary_lane_identities": "pass",
+          "all_class_explicit_boundary_paths": "pass",
+          "outside_geometry_and_fixed_ends": "pass",
+          "outside_state": "pass",
+          "protected_counts": "pass",
+          "signal_programs": "pass",
+          "connection_structure": "pass",
+          "pedestrian_facilities": "pass",
+          "boundary_lane_permissions_width_speed": "pass",
+          "pedestrian_lane_geometry": "pass",
+          "requested_shape": "pass",
+          "native_contour_identity_control": "pass",
+          "requested_contour_geometry": "pass",
+          "walking_area_validity": "pass",
+          "no_new_independent_safety_findings": "pass",
+          "inputs_unchanged": "pass"
+        },
+        "inputs": {
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\ledger\\corridor_edit_ledger.json": "09c580ae9035e4fae4be091792d60214139b117db89026fd173378a2cb0ba06e",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\edit\\candidate.net.xml": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.json": "123a9f3f7949e46f473c0e388d451a9c972f0ca468c71a36e174725b26534630",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.net.xml": "53bb53977d2155b96eb5fd61df1320d7962c17f0117262f3bacf517c759068f5"
+        }
+      },
+      {
+        "node_id": "133544",
+        "status": "review_required",
+        "reason": "pedestrian_layout_change_requires_review",
+        "elapsed_seconds": 189.12615089999963,
+        "checks": {
+          "local_preconditions": "pass",
+          "boundary_lane_identities": "pass",
+          "all_class_explicit_boundary_paths": "pass",
+          "outside_geometry_and_fixed_ends": "pass",
+          "outside_state": "pass",
+          "protected_counts": "pass",
+          "signal_programs": "pass",
+          "connection_structure": "pass",
+          "pedestrian_facilities": "review_required",
+          "boundary_lane_permissions_width_speed": "pass",
+          "pedestrian_lane_geometry": "review_required",
+          "requested_shape": "pass",
+          "native_contour_identity_control": "pass",
+          "requested_contour_geometry": "pass",
+          "walking_area_validity": "pass",
+          "no_new_independent_safety_findings": "pass",
+          "inputs_unchanged": "pass"
+        },
+        "inputs": {
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\ledger\\corridor_edit_ledger.json": "15609a8c793e9d37c670eaf8bba3b79c11f22fb9d05e8665ca664c6d39649939",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\edit\\candidate.net.xml": "84051c7cb93233224556cf1e20f3354ff8fdb032903fed671a364f60f95b523a",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.json": "25de17463c3c0d6a6a8a85f162e87c9930b96d3375434c1d4beeba4fd877fe51",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.net.xml": "53ee4a45b65463eba9c722feff03a828917ddaeb56a40cc1a82e8ccf8e242702"
+        }
+      }
+    ],
+    "result_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v3\\final-three-case-rescore\\results.json"
+  },
+  "scope_probes": {
+    "132844": "review_required",
+    "151337": "review_required",
+    "basis": "Read-only source findings at these nodes; no new edit or native release run."
+  },
+  "claim_limits": [
+    "Technical qualification of one declared edit, not a clean whole network.",
+    "The source still has 170 unresolved findings.",
+    "No independent dated field labels or automatic-cleaning precision estimate."
+  ],
+  "ci": {
+    "claim": "The two older test steps completed successfully. Their workflow state is retained as observed. Final b135e7a CI is not claimed complete.",
+    "runs": [
+      {
+        "conclusion": "",
+        "databaseId": 39277071158,
+        "headSha": "38c82ff848abf735215025af609e95cbf30a3caa",
+        "status": "in_progress",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39277071158"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 39277051078,
+        "headSha": "38c82ff848abf735215025af609e95cbf30a3caa",
+        "status": "completed",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39277051078"
+      },
+      {
+        "conclusion": "",
+        "databaseId": 39279910178,
+        "headSha": "b135e7ab8c7cc9c113099033669f1fb11e7ac8a1",
+        "status": "queued",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39279910178"
+      },
+      {
+        "conclusion": "",
+        "databaseId": 39279904579,
+        "headSha": "b135e7ab8c7cc9c113099033669f1fb11e7ac8a1",
+        "status": "queued",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39279904579"
+      }
+    ],
+    "test_step_evidence": [
+      {
+        "run_id": 39277071158,
+        "seconds": 740.14,
+        "passed": 3517,
+        "log": "outputs/contour_release_20261019_v3/ci-38c-pr.log",
+        "skipped": 24
+      },
+      {
+        "run_id": 39277051078,
+        "seconds": 726.42,
+        "passed": 3517,
+        "log": "outputs/contour_release_20261019_v3/ci-38c-push.log",
+        "skipped": 24
+      }
+    ],
+    "observed_at": "2026-10-19T17:48:28.1502825+02:00"
+  }
+}

@@ -4,6 +4,8 @@ from pathlib import Path
 import time
 import xml.etree.ElementTree as ET
 
+import pytest
+
 from astra_sumo.core.junction_rebuild_candidate import (
     _approach_endpoint_rebuild_plan,
     _augment_candidate_edge_map_from_tls_approach_pairs,
@@ -12959,8 +12961,10 @@ def test_restore_replayed_geometry_attrs_keeps_normalized_topology_geometry_loca
     assert report["restored_request_count"] == 1
 
 
+@pytest.mark.parametrize("source_custom_shape", [None, "true", "false"])
 def test_restore_off_scope_netconvert_artifacts_preserves_only_declared_replay_scope(
     tmp_path: Path,
+    source_custom_shape: str | None,
 ) -> None:
     source = tmp_path / "source.net.xml"
     source.write_text(
@@ -12989,6 +12993,11 @@ def test_restore_off_scope_netconvert_artifacts_preserves_only_declared_replay_s
         encoding="utf-8",
     )
 
+    if source_custom_shape is not None:
+        source_tree = ET.parse(source)
+        source_tree.getroot().find("edge[@id='remote']/lane").set("customShape", source_custom_shape)
+        source_tree.write(source, encoding="utf-8")
+    source_before = source.read_bytes()
     report = restore_off_scope_netconvert_artifacts(
         source_file=source,
         target_file=normalized,
@@ -13002,7 +13011,10 @@ def test_restore_off_scope_netconvert_artifacts_preserves_only_declared_replay_s
     assert report["restored_external_edge_centerline_ids"] == ["remote"]
     assert root.find("edge[@id='remote']").attrib["shape"] == "50,0 60,0"
     assert root.find("edge[@id='remote']/lane").attrib["shape"] == "50,0 60,0"
-    assert root.find("edge[@id='remote']/lane").attrib["customShape"] == "1"
+    assert root.find("edge[@id='remote']/lane").get("customShape") == source_custom_shape
+    assert report["native_reload_preservation_audit_required"] is True
+    assert report["restored_lane_shapes_fixed_for_native_reload"] is False
+    assert source.read_bytes() == source_before
     assert root.find("junction[@id='y']").attrib["shape"] == "60,-1 60,1"
     assert root.find("junction[@id='y']").attrib["customShape"] == "true"
     assert root.find("edge[@id='current']/lane").attrib["shape"] == "0,1 12,1"
@@ -14091,8 +14103,8 @@ def test_build_teacher_guided_junction_variant_restores_non_target_internal_arti
     teacher_net = Path("teacher.net.xml")
     teacher_net.write_text(
         """<net>
-  <edge id="teacher_in" from="a" to="j"><lane id="teacher_in_0" index="0"/></edge>
-  <edge id="teacher_out" from="j" to="b"><lane id="teacher_out_0" index="0"/></edge>
+  <edge id="teacher_in" from="a" to="j"><lane id="teacher_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="teacher_out" from="j" to="b"><lane id="teacher_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" incLanes="teacher_in_0" intLanes="">
     <request index="0" response="0" foes="0" cont="0"/>
   </junction>
@@ -14104,8 +14116,8 @@ def test_build_teacher_guided_junction_variant_restores_non_target_internal_arti
     candidate_net = Path("candidate.net.xml")
     candidate_net.write_text(
         """<net>
-  <edge id="cand_in" from="a" to="j"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <edge id="remote_in" from="x" to="other"><lane id="remote_in_0" index="0" shape="50,0 60,0" length="10.00"/></edge>
   <edge id="remote_out" from="other" to="y"><lane id="remote_out_0" index="0"/></edge>
   <edge id=":other_w0" function="walkingarea"><lane id=":other_w0_0" index="0" allow="pedestrian" speed="1.23"/></edge>
@@ -14142,8 +14154,8 @@ def test_build_teacher_guided_junction_variant_restores_non_target_internal_arti
             output = Path(cwd) / command[command.index("--output-file") + 1]
             output.write_text(
                 """<net>
-  <edge id="cand_in" from="a" to="j"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <edge id="remote_in" from="x" to="other"><lane id="remote_in_0" index="0" shape="55,0 55.2,0" length="0.20"/></edge>
   <edge id="remote_out" from="other" to="y"><lane id="remote_out_0" index="0"/></edge>
   <edge id=":other_w0" function="walkingarea"><lane id=":other_w0_0" index="0" allow="pedestrian" speed="9.99"/></edge>
@@ -14657,8 +14669,8 @@ def test_build_teacher_guided_junction_variant_reports_tls_movement_parity(
     teacher_net = Path("teacher.net.xml")
     teacher_net.write_text(
         """<net>
-  <edge id="in" from="a" to="j" type="highway.primary"><lane id="in_0" index="0"/></edge>
-  <edge id="out" from="j" to="b" type="highway.primary"><lane id="out_0" index="0"/></edge>
+  <edge id="in" from="a" to="j" type="highway.primary"><lane id="in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="out" from="j" to="b" type="highway.primary"><lane id="out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="traffic_light" x="0" y="0" incLanes="in_0" intLanes=""/>
   <connection from="in" to="out" fromLane="0" toLane="0" tl="teacher-controller" linkIndex="0" dir="s" state="O"/>
   <tlLogic id="teacher-controller" type="static" programID="0" offset="0"><phase duration="10" state="G"/></tlLogic>
@@ -14669,8 +14681,8 @@ def test_build_teacher_guided_junction_variant_reports_tls_movement_parity(
     candidate_net = Path("candidate.net.xml")
     candidate_net.write_text(
         """<net>
-  <edge id="in" from="a" to="j" type="highway.primary"><lane id="in_0" index="0"/></edge>
-  <edge id="out" from="j" to="b" type="highway.primary"><lane id="out_0" index="0"/></edge>
+  <edge id="in" from="a" to="j" type="highway.primary"><lane id="in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="out" from="j" to="b" type="highway.primary"><lane id="out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="traffic_light" x="0" y="0" incLanes="in_0" intLanes=""/>
 </net>
 """,
@@ -14745,8 +14757,8 @@ def test_build_teacher_guided_junction_variant_normalizes_replay_before_fallback
     teacher_net = Path("teacher.net.xml")
     teacher_net.write_text(
         """<net>
-  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0"/></edge>
-  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0"/></edge>
+  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="teacher_in_0" intLanes=""/>
   <connection from="teacher_in" to="teacher_out" fromLane="0" toLane="0" dir="s" state="M"/>
 </net>
@@ -14756,8 +14768,8 @@ def test_build_teacher_guided_junction_variant_normalizes_replay_before_fallback
     candidate_net = Path("candidate.net.xml")
     candidate_net.write_text(
         """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
 </net>
 """,
@@ -14792,8 +14804,8 @@ def test_build_teacher_guided_junction_variant_normalizes_replay_before_fallback
             connection_file = command_path("--connection-files")
             output_file.write_text(
                 """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
 </net>
 """,
@@ -14857,8 +14869,8 @@ def test_build_teacher_guided_junction_variant_uses_unrestored_normalized_replay
     teacher_net = Path("teacher.net.xml")
     teacher_net.write_text(
         """<net>
-  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0"/></edge>
-  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0"/></edge>
+  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="teacher_in_0" intLanes=""/>
   <connection from="teacher_in" to="teacher_out" fromLane="0" toLane="0" dir="s" state="M"/>
 </net>
@@ -14868,8 +14880,8 @@ def test_build_teacher_guided_junction_variant_uses_unrestored_normalized_replay
     candidate_net = Path("candidate.net.xml")
     candidate_net.write_text(
         """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <edge id="remote_in" from="x" to="other" type="highway.primary"><lane id="remote_in_0" index="0"/></edge>
   <edge id=":other_0" function="internal"><lane id=":other_0_0" index="0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
@@ -14906,8 +14918,8 @@ def test_build_teacher_guided_junction_variant_uses_unrestored_normalized_replay
             connection_file = command_path("--connection-files")
             output_file.write_text(
                 """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <edge id="remote_in" from="x" to="other" type="highway.primary"><lane id="remote_in_0" index="0"/></edge>
   <edge id=":other_0" function="internal"><lane id=":other_0_0" index="0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
@@ -14985,8 +14997,8 @@ def test_build_teacher_guided_junction_variant_normalizes_final_teacher_guided_n
     teacher_net = Path("teacher.net.xml")
     teacher_net.write_text(
         """<net>
-  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0"/></edge>
-  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0"/></edge>
+  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="traffic_light" x="0" y="0" incLanes="teacher_in_0" intLanes=""/>
   <connection from="teacher_in" to="teacher_out" fromLane="0" toLane="0" tl="j" linkIndex="0" dir="s" state="O"/>
   <tlLogic id="j" type="static" programID="0" offset="0"><phase duration="1" state="G"/></tlLogic>
@@ -14997,8 +15009,8 @@ def test_build_teacher_guided_junction_variant_normalizes_final_teacher_guided_n
     candidate_net = Path("candidate.net.xml")
     candidate_net.write_text(
         """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="traffic_light" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
 </net>
 """,
@@ -15033,8 +15045,8 @@ def test_build_teacher_guided_junction_variant_normalizes_final_teacher_guided_n
             connection_file = command_path("--connection-files")
             output_file.write_text(
                 """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="traffic_light" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
 </net>
 """,
@@ -15183,8 +15195,8 @@ def test_build_teacher_guided_junction_variant_falls_back_when_target_internal_r
     teacher_net = Path("teacher.net.xml")
     teacher_net.write_text(
         """<net>
-  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0"/></edge>
-  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0"/></edge>
+  <edge id="teacher_in" from="a" to="j" type="highway.primary"><lane id="teacher_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="teacher_out" from="j" to="b" type="highway.primary"><lane id="teacher_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="teacher_in_0" intLanes=""/>
   <connection from="teacher_in" to="teacher_out" fromLane="0" toLane="0" dir="s" state="M"/>
 </net>
@@ -15194,8 +15206,8 @@ def test_build_teacher_guided_junction_variant_falls_back_when_target_internal_r
     candidate_net = Path("candidate.net.xml")
     candidate_net.write_text(
         """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
 </net>
 """,
@@ -15221,8 +15233,8 @@ def test_build_teacher_guided_junction_variant_falls_back_when_target_internal_r
             connection_file = Path(cwd) / command[command.index("--connection-files") + 1]
             output_file.write_text(
                 """<net>
-  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0"/></edge>
-  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0"/></edge>
+  <edge id="cand_in" from="a" to="j" type="highway.primary"><lane id="cand_in_0" index="0" shape="-10,0 0,0"/></edge>
+  <edge id="cand_out" from="j" to="b" type="highway.primary"><lane id="cand_out_0" index="0" shape="0,0 10,0"/></edge>
   <junction id="j" type="priority" x="0" y="0" incLanes="cand_in_0" intLanes=""/>
 </net>
 """,

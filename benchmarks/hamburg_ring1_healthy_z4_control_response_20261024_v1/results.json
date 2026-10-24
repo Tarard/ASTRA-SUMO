@@ -1,0 +1,78 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "observation_runs": 2,
+  "native_runs_by_freeze": 0,
+  "new_demand_or_control_candidates": 0,
+  "parity": {
+    "reference": {
+      "checks": 20,
+      "E1": 208,
+      "summary_steps": 144000,
+      "instant_events": 143159,
+      "arrived": 8640,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "waiting": 0,
+        "running": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      }
+    },
+    "one-car": {
+      "checks": 20,
+      "E1": 208,
+      "summary_steps": 144000,
+      "instant_events": 143734,
+      "arrived": 8634,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8634,
+        "waiting": 0,
+        "running": 6,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      }
+    }
+  },
+  "comparison": {
+    "first_traffic_s": 8247.6,
+    "colour_later_s": 695.4,
+    "different_actuated_TLS": 18,
+    "static_TLS_equal": 10,
+    "all50_programs_equal": true,
+    "phase": "Emitted events only; no forward filling. First common-emit phase difference8951.0 is not a full-history first phase difference.",
+    "first_full_vector_colour_s": 8943.0
+  },
+  "movement_analysis": {
+    "full_vector_first_s": 8943.0,
+    "full_vector_first_changed_indices": [
+      22,
+      24
+    ],
+    "full_vector_first_role": "ped-only",
+    "first_proven_passenger_s": 8948.0,
+    "first_proven_motor_s": 8948.0,
+    "first_TLS": "18653534",
+    "first_passenger_indices": [
+      1,
+      2,
+      4,
+      12,
+      13,
+      15,
+      16
+    ],
+    "passenger_differing_controllers": 17,
+    "passenger_later_than_traffic_s": 700.4,
+    "taxonomy_unknown": 59,
+    "unbound_or_unresolved_blank_availability": 58,
+    "taxonomy_unknown_but_passenger_true": 1,
+    "claim_boundary": "Loaded model class permissions, not observed vehicle passage or field SPaT. Unknown availability is not false; phase remains emit-only."
+  }
+}

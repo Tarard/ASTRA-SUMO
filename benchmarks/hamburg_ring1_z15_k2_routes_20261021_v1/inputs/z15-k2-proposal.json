@@ -1,0 +1,795 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "changed_field": "hh_0119_Z_15_29375",
+  "changed_by_population": {
+    "main": 896,
+    "initialization": 309
+  },
+  "allocation_prior": "Largest remainder 2:1 by the existing two versus one passenger entry lanes. Spread both routes across each bin's unchanged requests.",
+  "allocations": [
+    {
+      "population_role": "initialization",
+      "target_begin_s": 0.0,
+      "profile_89_vehicles": 56,
+      "profile_252_vehicles": 28
+    },
+    {
+      "population_role": "initialization",
+      "target_begin_s": 900.0,
+      "profile_89_vehicles": 45,
+      "profile_252_vehicles": 22
+    },
+    {
+      "population_role": "initialization",
+      "target_begin_s": 1800.0,
+      "profile_89_vehicles": 43,
+      "profile_252_vehicles": 21
+    },
+    {
+      "population_role": "initialization",
+      "target_begin_s": 2700.0,
+      "profile_89_vehicles": 63,
+      "profile_252_vehicles": 31
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 3600,
+      "profile_89_vehicles": 62,
+      "profile_252_vehicles": 31
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 4500,
+      "profile_89_vehicles": 52,
+      "profile_252_vehicles": 26
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 5400,
+      "profile_89_vehicles": 71,
+      "profile_252_vehicles": 35
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 6300,
+      "profile_89_vehicles": 61,
+      "profile_252_vehicles": 31
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 7200,
+      "profile_89_vehicles": 60,
+      "profile_252_vehicles": 30
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 8100,
+      "profile_89_vehicles": 59,
+      "profile_252_vehicles": 29
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 9000,
+      "profile_89_vehicles": 61,
+      "profile_252_vehicles": 30
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 9900,
+      "profile_89_vehicles": 55,
+      "profile_252_vehicles": 27
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 10800,
+      "profile_89_vehicles": 53,
+      "profile_252_vehicles": 26
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 11700,
+      "profile_89_vehicles": 65,
+      "profile_252_vehicles": 32
+    }
+  ],
+  "route_audits": {
+    "89": {
+      "entry": "189764301",
+      "junction_audit": {
+        "allowed": true,
+        "reason": "retained",
+        "repeats": [],
+        "passes": [
+          {
+            "junction": "259593942",
+            "parts": [
+              "259593942"
+            ],
+            "first_index": 0,
+            "last_index": 0,
+            "inlet": "189764301",
+            "outlet": "62091589#0"
+          },
+          {
+            "junction": "3479240441",
+            "parts": [
+              "3479240441"
+            ],
+            "first_index": 1,
+            "last_index": 1,
+            "inlet": "62091589#0",
+            "outlet": "62091589#1"
+          },
+          {
+            "junction": "512493772",
+            "parts": [
+              "512493772"
+            ],
+            "first_index": 2,
+            "last_index": 2,
+            "inlet": "62091589#1",
+            "outlet": "1108556913"
+          },
+          {
+            "junction": "1561539025",
+            "parts": [
+              "1561539025"
+            ],
+            "first_index": 3,
+            "last_index": 3,
+            "inlet": "1108556913",
+            "outlet": "51200771"
+          },
+          {
+            "junction": "8913236635",
+            "parts": [
+              "8913236635"
+            ],
+            "first_index": 4,
+            "last_index": 4,
+            "inlet": "51200771",
+            "outlet": "23866766#1"
+          },
+          {
+            "junction": "8913236647",
+            "parts": [
+              "8913236647"
+            ],
+            "first_index": 5,
+            "last_index": 5,
+            "inlet": "23866766#1",
+            "outlet": "23866766#2"
+          },
+          {
+            "junction": "1561539027",
+            "parts": [
+              "1561539027"
+            ],
+            "first_index": 6,
+            "last_index": 6,
+            "inlet": "23866766#2",
+            "outlet": "24505980#0"
+          },
+          {
+            "junction": "512493747",
+            "parts": [
+              "512493747"
+            ],
+            "first_index": 7,
+            "last_index": 7,
+            "inlet": "24505980#0",
+            "outlet": "24505980#1"
+          },
+          {
+            "junction": "1561539020",
+            "parts": [
+              "1561539020"
+            ],
+            "first_index": 8,
+            "last_index": 8,
+            "inlet": "24505980#1",
+            "outlet": "23774652#0"
+          },
+          {
+            "junction": "260305244",
+            "parts": [
+              "260305244"
+            ],
+            "first_index": 9,
+            "last_index": 9,
+            "inlet": "23774652#0",
+            "outlet": "23774652#1"
+          },
+          {
+            "junction": "244003480",
+            "parts": [
+              "244003480"
+            ],
+            "first_index": 10,
+            "last_index": 10,
+            "inlet": "23774652#1",
+            "outlet": "158491026"
+          },
+          {
+            "junction": "1974636921",
+            "parts": [
+              "1974636921"
+            ],
+            "first_index": 11,
+            "last_index": 11,
+            "inlet": "158491026",
+            "outlet": "186713411"
+          },
+          {
+            "junction": "244003484",
+            "parts": [
+              "244003484"
+            ],
+            "first_index": 12,
+            "last_index": 12,
+            "inlet": "186713411",
+            "outlet": "480873120#0"
+          },
+          {
+            "junction": "LSA200",
+            "parts": [
+              "LSA200_part1",
+              "LSA200_part0"
+            ],
+            "first_index": 13,
+            "last_index": 14,
+            "inlet": "480873120#0",
+            "outlet": "142944399#2"
+          },
+          {
+            "junction": "1974636910",
+            "parts": [
+              "1974636910"
+            ],
+            "first_index": 15,
+            "last_index": 15,
+            "inlet": "142944399#2",
+            "outlet": "186713420"
+          },
+          {
+            "junction": "14398547",
+            "parts": [
+              "14398547"
+            ],
+            "first_index": 16,
+            "last_index": 16,
+            "inlet": "186713420",
+            "outlet": "186713427"
+          },
+          {
+            "junction": "14398548",
+            "parts": [
+              "14398548"
+            ],
+            "first_index": 17,
+            "last_index": 17,
+            "inlet": "186713427",
+            "outlet": "142770548"
+          },
+          {
+            "junction": "99187952",
+            "parts": [
+              "99187952"
+            ],
+            "first_index": 18,
+            "last_index": 18,
+            "inlet": "142770548",
+            "outlet": "142770551"
+          },
+          {
+            "junction": "1969625489",
+            "parts": [
+              "1969625489"
+            ],
+            "first_index": 19,
+            "last_index": 19,
+            "inlet": "142770551",
+            "outlet": "186713425"
+          },
+          {
+            "junction": "1974636934",
+            "parts": [
+              "1974636934"
+            ],
+            "first_index": 20,
+            "last_index": 20,
+            "inlet": "186713425",
+            "outlet": "186713423"
+          },
+          {
+            "junction": "266199662",
+            "parts": [
+              "266199662"
+            ],
+            "first_index": 21,
+            "last_index": 21,
+            "inlet": "186713423",
+            "outlet": "186713426"
+          },
+          {
+            "junction": "266199061",
+            "parts": [
+              "266199061"
+            ],
+            "first_index": 22,
+            "last_index": 22,
+            "inlet": "186713426",
+            "outlet": "603103445#0"
+          },
+          {
+            "junction": "6390683126",
+            "parts": [
+              "6390683126"
+            ],
+            "first_index": 23,
+            "last_index": 23,
+            "inlet": "603103445#0",
+            "outlet": "603103445#1"
+          },
+          {
+            "junction": "266199062",
+            "parts": [
+              "266199062"
+            ],
+            "first_index": 24,
+            "last_index": 24,
+            "inlet": "603103445#1",
+            "outlet": "603103445#2"
+          },
+          {
+            "junction": "266199063",
+            "parts": [
+              "266199063"
+            ],
+            "first_index": 25,
+            "last_index": 25,
+            "inlet": "603103445#2",
+            "outlet": "186713429"
+          },
+          {
+            "junction": "343633354",
+            "parts": [
+              "343633354"
+            ],
+            "first_index": 26,
+            "last_index": 26,
+            "inlet": "186713429",
+            "outlet": "141050975"
+          },
+          {
+            "junction": "343633357",
+            "parts": [
+              "343633357"
+            ],
+            "first_index": 27,
+            "last_index": 27,
+            "inlet": "141050975",
+            "outlet": "141050980#0"
+          },
+          {
+            "junction": "1966837175",
+            "parts": [
+              "1966837175"
+            ],
+            "first_index": 28,
+            "last_index": 28,
+            "inlet": "141050980#0",
+            "outlet": "141050980#1"
+          },
+          {
+            "junction": "244203534",
+            "parts": [
+              "244203534"
+            ],
+            "first_index": 29,
+            "last_index": 29,
+            "inlet": "141050980#1",
+            "outlet": "603103444"
+          },
+          {
+            "junction": "266197536",
+            "parts": [
+              "266197536"
+            ],
+            "first_index": 30,
+            "last_index": 30,
+            "inlet": "603103444",
+            "outlet": "73474895"
+          },
+          {
+            "junction": "266197525",
+            "parts": [
+              "266197525"
+            ],
+            "first_index": 31,
+            "last_index": 31,
+            "inlet": "73474895",
+            "outlet": "27064186#0"
+          }
+        ]
+      },
+      "official_groups": [
+        [
+          "200",
+          "K2"
+        ],
+        [
+          "200",
+          "K31"
+        ]
+      ]
+    },
+    "252": {
+      "entry": "61578529#1",
+      "junction_audit": {
+        "allowed": true,
+        "reason": "retained",
+        "repeats": [],
+        "passes": [
+          {
+            "junction": "259593942",
+            "parts": [
+              "259593942"
+            ],
+            "first_index": 0,
+            "last_index": 0,
+            "inlet": "61578529#1",
+            "outlet": "62091589#0"
+          },
+          {
+            "junction": "3479240441",
+            "parts": [
+              "3479240441"
+            ],
+            "first_index": 1,
+            "last_index": 1,
+            "inlet": "62091589#0",
+            "outlet": "62091589#1"
+          },
+          {
+            "junction": "512493772",
+            "parts": [
+              "512493772"
+            ],
+            "first_index": 2,
+            "last_index": 2,
+            "inlet": "62091589#1",
+            "outlet": "1108556913"
+          },
+          {
+            "junction": "1561539025",
+            "parts": [
+              "1561539025"
+            ],
+            "first_index": 3,
+            "last_index": 3,
+            "inlet": "1108556913",
+            "outlet": "51200771"
+          },
+          {
+            "junction": "8913236635",
+            "parts": [
+              "8913236635"
+            ],
+            "first_index": 4,
+            "last_index": 4,
+            "inlet": "51200771",
+            "outlet": "23866766#1"
+          },
+          {
+            "junction": "8913236647",
+            "parts": [
+              "8913236647"
+            ],
+            "first_index": 5,
+            "last_index": 5,
+            "inlet": "23866766#1",
+            "outlet": "23866766#2"
+          },
+          {
+            "junction": "1561539027",
+            "parts": [
+              "1561539027"
+            ],
+            "first_index": 6,
+            "last_index": 6,
+            "inlet": "23866766#2",
+            "outlet": "24505980#0"
+          },
+          {
+            "junction": "512493747",
+            "parts": [
+              "512493747"
+            ],
+            "first_index": 7,
+            "last_index": 7,
+            "inlet": "24505980#0",
+            "outlet": "24505980#1"
+          },
+          {
+            "junction": "1561539020",
+            "parts": [
+              "1561539020"
+            ],
+            "first_index": 8,
+            "last_index": 8,
+            "inlet": "24505980#1",
+            "outlet": "23774652#0"
+          },
+          {
+            "junction": "260305244",
+            "parts": [
+              "260305244"
+            ],
+            "first_index": 9,
+            "last_index": 9,
+            "inlet": "23774652#0",
+            "outlet": "23774652#1"
+          },
+          {
+            "junction": "244003480",
+            "parts": [
+              "244003480"
+            ],
+            "first_index": 10,
+            "last_index": 10,
+            "inlet": "23774652#1",
+            "outlet": "158491026"
+          },
+          {
+            "junction": "1974636921",
+            "parts": [
+              "1974636921"
+            ],
+            "first_index": 11,
+            "last_index": 11,
+            "inlet": "158491026",
+            "outlet": "186713411"
+          },
+          {
+            "junction": "244003484",
+            "parts": [
+              "244003484"
+            ],
+            "first_index": 12,
+            "last_index": 12,
+            "inlet": "186713411",
+            "outlet": "480873120#0"
+          },
+          {
+            "junction": "LSA200",
+            "parts": [
+              "LSA200_part1",
+              "LSA200_part0"
+            ],
+            "first_index": 13,
+            "last_index": 14,
+            "inlet": "480873120#0",
+            "outlet": "142944399#2"
+          },
+          {
+            "junction": "1974636910",
+            "parts": [
+              "1974636910"
+            ],
+            "first_index": 15,
+            "last_index": 15,
+            "inlet": "142944399#2",
+            "outlet": "186713420"
+          },
+          {
+            "junction": "14398547",
+            "parts": [
+              "14398547"
+            ],
+            "first_index": 16,
+            "last_index": 16,
+            "inlet": "186713420",
+            "outlet": "186713427"
+          },
+          {
+            "junction": "14398548",
+            "parts": [
+              "14398548"
+            ],
+            "first_index": 17,
+            "last_index": 17,
+            "inlet": "186713427",
+            "outlet": "142770548"
+          },
+          {
+            "junction": "99187952",
+            "parts": [
+              "99187952"
+            ],
+            "first_index": 18,
+            "last_index": 18,
+            "inlet": "142770548",
+            "outlet": "142770551"
+          },
+          {
+            "junction": "1969625489",
+            "parts": [
+              "1969625489"
+            ],
+            "first_index": 19,
+            "last_index": 19,
+            "inlet": "142770551",
+            "outlet": "186713425"
+          },
+          {
+            "junction": "1974636934",
+            "parts": [
+              "1974636934"
+            ],
+            "first_index": 20,
+            "last_index": 20,
+            "inlet": "186713425",
+            "outlet": "186713423"
+          },
+          {
+            "junction": "266199662",
+            "parts": [
+              "266199662"
+            ],
+            "first_index": 21,
+            "last_index": 21,
+            "inlet": "186713423",
+            "outlet": "186713426"
+          },
+          {
+            "junction": "266199061",
+            "parts": [
+              "266199061"
+            ],
+            "first_index": 22,
+            "last_index": 22,
+            "inlet": "186713426",
+            "outlet": "603103445#0"
+          },
+          {
+            "junction": "6390683126",
+            "parts": [
+              "6390683126"
+            ],
+            "first_index": 23,
+            "last_index": 23,
+            "inlet": "603103445#0",
+            "outlet": "603103445#1"
+          },
+          {
+            "junction": "266199062",
+            "parts": [
+              "266199062"
+            ],
+            "first_index": 24,
+            "last_index": 24,
+            "inlet": "603103445#1",
+            "outlet": "603103445#2"
+          },
+          {
+            "junction": "266199063",
+            "parts": [
+              "266199063"
+            ],
+            "first_index": 25,
+            "last_index": 25,
+            "inlet": "603103445#2",
+            "outlet": "186713429"
+          },
+          {
+            "junction": "343633354",
+            "parts": [
+              "343633354"
+            ],
+            "first_index": 26,
+            "last_index": 26,
+            "inlet": "186713429",
+            "outlet": "141050975"
+          },
+          {
+            "junction": "343633357",
+            "parts": [
+              "343633357"
+            ],
+            "first_index": 27,
+            "last_index": 27,
+            "inlet": "141050975",
+            "outlet": "141050980#0"
+          },
+          {
+            "junction": "1966837175",
+            "parts": [
+              "1966837175"
+            ],
+            "first_index": 28,
+            "last_index": 28,
+            "inlet": "141050980#0",
+            "outlet": "141050980#1"
+          },
+          {
+            "junction": "244203534",
+            "parts": [
+              "244203534"
+            ],
+            "first_index": 29,
+            "last_index": 29,
+            "inlet": "141050980#1",
+            "outlet": "603103444"
+          },
+          {
+            "junction": "266197536",
+            "parts": [
+              "266197536"
+            ],
+            "first_index": 30,
+            "last_index": 30,
+            "inlet": "603103444",
+            "outlet": "73474895"
+          },
+          {
+            "junction": "266197525",
+            "parts": [
+              "266197525"
+            ],
+            "first_index": 31,
+            "last_index": 31,
+            "inlet": "73474895",
+            "outlet": "27064186#0"
+          }
+        ]
+      },
+      "official_groups": [
+        [
+          "200",
+          "K2"
+        ],
+        [
+          "200",
+          "K31"
+        ]
+      ]
+    }
+  },
+  "single_pass_structure": {
+    "one_observed_road_per_route": true,
+    "no_repeated_roads": true,
+    "one_detector_per_lane": true,
+    "detectors_nearer_to_road_end_than_vehicle_length": true,
+    "standard_instantaneous_lane_change_model": true,
+    "structural_conditions_satisfied": true,
+    "minimum_vehicle_length_m": 5.0,
+    "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation."
+  },
+  "source_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\demand.rou.xml.gz": "412203db2b57b9380910757a4235a5cdd107ad128afc5a859a291d02e3178ae0",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\lane-intentions.json.gz": "7a49ddf58116a0ffeb3db016b5b329b91d5f5c12721054ff94fcd4ccc11a572f",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\scenario.json": "5570abf856a9c598832f0e54a945639366e630046dde56f987812c03022595e8",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_initialization_population_20261021_v1\\inputs\\initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_2_demand_pool_20261021_v1\\base\\ideal-lane-profiles.json.gz": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m2_control_20261021_v1\\link-bindings.json.gz": "e37d1c79eb9756d387db6b987acd4b1dbc1a9fe08405b66bdbc581ec63e03f17",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_2_demand_pool_20261021_v1\\base\\boundary-declarations.json": "ca162d235b678022cc429c21da841e11e768724a21b4166fe611b46c5a4b150d"
+  },
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "3d18c1b0055db7fb7aa3e90b6fdcea333b91c852e56963bdffa5d77615dda052",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "fbf065419d5174187d243e37aa58a4d1c43861a44a8650e5d5c63803c37e878e",
+    "scenario.json": "5eb669f0e285688f12db0c21be6b4da311984a8f5bc0a028b89044be20916fd3",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  },
+  "sources_unchanged": true,
+  "claim_boundary": "Declared route prior only. Native lane realization, count fit, and capacity require measurement. All original 130 main field bins and 52 initialization bins remain intact."
+}

@@ -686,6 +686,7 @@ def main() -> int:
             max_retries=2,
             retry_pause_seconds=5.0,
             netconvert_profile="reference_visual_detail",
+            output_precision=2,  # Preserve the original teacher-comparison recipe.
             include_railway=True,
             allowed_railways={"rail"},
             netconvert_binary=netconvert,

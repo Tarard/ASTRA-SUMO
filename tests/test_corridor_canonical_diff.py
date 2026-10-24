@@ -21,6 +21,27 @@ from astra_sumo.corridor.scope import BoundaryPort, ScopeSpec
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 
 
+def test_incident_index_retains_roles_and_order_with_one_edge_scan(monkeypatch):
+    from astra_sumo.corridor.canonicalizer import _incident_external_edges_by_junction
+    from astra_sumo.corridor.netxml import RawEdge
+    root = ET.fromstring(_network_xml())
+    ET.SubElement(root, "edge", id="loop", **{"from": "j", "to": "j"})
+    ET.SubElement(root, "edge", id="crossing-without-colon", function="crossing", **{"from": "j", "to": "b"})
+    network = parse_net_xml(root)
+    expected = {node: sorted(
+        [(edge, role) for edge in network.edges.values() if edge.external
+         for endpoint, role in ((edge.to_junction, "incoming"), (edge.from_junction, "outgoing")) if endpoint == node],
+        key=lambda item: (item[0].edge_id, item[1])) for node in network.junctions}
+    reads, original = [], RawEdge.external.fget
+    def external(edge):
+        reads.append(edge.edge_id)
+        return original(edge)
+    monkeypatch.setattr(RawEdge, "external", property(external))
+    index = _incident_external_edges_by_junction(network)
+    assert {node: index.get(node, []) for node in network.junctions} == expected
+    assert len(reads) == len(network.edges)
+
+
 def _network_xml(
     *,
     internal_edge_id: str = ":j_0",

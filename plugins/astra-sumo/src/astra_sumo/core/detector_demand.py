@@ -1,8 +1,10 @@
 from __future__ import annotations
 
 import csv
+import json
 import math
 import re
+from hashlib import sha256
 import xml.etree.ElementTree as ET
 from collections import deque
 from dataclasses import dataclass
@@ -161,15 +163,22 @@ def connection_allows_passenger(connection: ET.Element) -> bool:
 
 
 def read_net(path: Path) -> tuple[dict[str, EdgeInfo], dict[str, set[str]]]:
+    from .local_network_conversion import loaded_turn_permissions
+    from .osm_access import _permission_set
+
     root = ET.parse(path).getroot()
     edges: dict[str, EdgeInfo] = {}
     connections: dict[str, set[str]] = {}
+    version = root.get("version", "0.0")
+    lanes = {edge.get("id"): edge.findall("lane") for edge in root.findall("edge")}
+    loaded = loaded_turn_permissions(root)
 
     for edge in root.findall("edge"):
         edge_id = edge.attrib.get("id", "")
         if not edge_id or edge.attrib.get("function") or edge_id.startswith(":"):
             continue
-        passenger_lanes = [lane for lane in edge.findall("lane") if lane_allows_passenger(lane)]
+        passenger_lanes = [lane for lane in edge.findall("lane")
+                           if "passenger" in _permission_set(lane.attrib, network_version=version)]
         length = max((_float_value(lane.attrib.get("length")) for lane in passenger_lanes), default=0.0)
         edges[edge_id] = EdgeInfo(
             edge_id=edge_id,
@@ -182,13 +191,19 @@ def read_net(path: Path) -> tuple[dict[str, EdgeInfo], dict[str, set[str]]]:
     for connection in root.findall("connection"):
         from_edge = connection.attrib.get("from", "")
         to_edge = connection.attrib.get("to", "")
-        if (
-            from_edge in edges
-            and to_edge in edges
-            and edges[from_edge].allows_passenger
-            and edges[to_edge].allows_passenger
-            and connection_allows_passenger(connection)
-        ):
+        if from_edge not in edges or to_edge not in edges:
+            continue
+        indices = [connection.get(name) for name in ("fromLane", "toLane")]
+        if all(index is not None for index in indices):
+            key = (from_edge, int(indices[0]), to_edge, int(indices[1]))
+            permitted = "passenger" in loaded.get(key, ())
+        else:
+            # Edge-level declarations have no compiled lane path. Keep their explicit lane choices when present.
+            permitted = "passenger" in _permission_set(connection.attrib, network_version=version)
+            for edge_id, index in zip((from_edge, to_edge), indices):
+                candidates = lanes[edge_id] if index is None else lanes[edge_id][int(index):int(index) + 1]
+                permitted &= any("passenger" in _permission_set(lane.attrib, network_version=version) for lane in candidates)
+        if permitted:
             connections.setdefault(from_edge, set()).add(to_edge)
 
     return edges, connections
@@ -232,6 +247,36 @@ def boundary_edges(edges: dict[str, EdgeInfo], connections: dict[str, set[str]])
     sources = sorted(edge_id for edge_id in passenger_edges if not incoming.get(edge_id) and outgoing.get(edge_id))
     sinks = sorted(edge_id for edge_id in passenger_edges if incoming.get(edge_id) and not outgoing.get(edge_id))
     return sources, sinks
+
+
+def read_declared_boundaries(path: Path, edges: dict[str, EdgeInfo]) -> tuple[list[str], list[str], dict]:
+    """Retain declared road-scope entries and exits even when a retained road also meets them."""
+    path = path.resolve(strict=True)
+    raw = path.read_bytes()
+    document = json.loads(raw)
+    if not isinstance(document, dict) or not isinstance(document.get("zones"), list):
+        raise ValueError("Boundary input must contain a zones list.")
+    selected = {"entry_edges": set(), "exit_edges": set()}
+    unresolved, nonpassenger = [], []
+    for zone in document["zones"]:
+        if not isinstance(zone, dict) or not isinstance(zone.get("junction_id"), str) or not zone["junction_id"]:
+            raise ValueError("Each boundary zone must name a junction.")
+        for role, endpoint in (("entry_edges", "from_node"), ("exit_edges", "to_node")):
+            roads = zone.get(role, [])
+            if not isinstance(roads, list) or any(not isinstance(key, str) or not key for key in roads):
+                raise ValueError("Boundary roads must be lists of nonempty road IDs.")
+            for key in roads:
+                row = {"edge_id": key, "junction_id": zone["junction_id"], "role": role}
+                if key not in edges or getattr(edges[key], endpoint) != zone["junction_id"]:
+                    unresolved.append({**row, "reason": "road_missing_or_directed_endpoint_changed"})
+                elif not edges[key].allows_passenger:
+                    nonpassenger.append(row)
+                else:
+                    selected[role].add(key)
+    return sorted(selected["entry_edges"]), sorted(selected["exit_edges"]), {
+        "basis": "declared_scope_boundaries", "source": {"path": str(path), "sha256": sha256(raw).hexdigest()},
+        "source_unchanged": path.read_bytes() == raw, "unresolved": unresolved, "nonpassenger_roads": nonpassenger,
+        "claim_boundary": "Declared traffic boundaries only. No traffic volumes or fixed physical OD positions are inferred."}
 
 
 def reverse_connections(connections: dict[str, set[str]]) -> dict[str, set[str]]:

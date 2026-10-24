@@ -1,0 +1,185 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/event-samples.csv",
+      "sha256": "81ba22cdcf5a5c1f7b0a8981265062e34bdbcebf042165056427182e628c8172"
+    },
+    {
+      "path": "analysis/geometry-check.json",
+      "sha256": "24b284425f99ada1ccf831c83115cd4ada62e557c28791e8adbdda047032cae3"
+    },
+    {
+      "path": "analysis/native-collision-positions.png",
+      "sha256": "4750e4c5975e45c655c33daf61912311184ba3078e32ba146c89271b473ff082"
+    },
+    {
+      "path": "analyze-late-fanout-collision.py",
+      "sha256": "ef06cd66aa64395016c4b27c0c359b62d5a1b81a83e52fd1795ecd7b0c4ddcfa"
+    },
+    {
+      "path": "freeze-late-fanout-collision.py",
+      "sha256": "cd311661b27bfdcbb5aab59bddba83de737805242ad08750f7cc8f1e86aad514"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/scripts/trace_hamburg_collisions.py",
+      "sha256": "53ecc0c00accd8b718e1c78b82c94295adfedb3d8dcf8a013ea53f5c96293ea5"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "177684c946c43fc857d59a7cb580332c89b2942f2f7ea4fc41ab6fa530fe6297"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/hamburg_collision_trace.py",
+      "sha256": "5cf274d09bf3d39ec0b40bb4a5927a72db4e91b909ce6b7900eba7cb49d14764"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_pipeline.py",
+      "sha256": "b4b2120729dbf3b097bb2460f63736eb55fa2b3ab37d0aa434cd3a3707db11df"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py",
+      "sha256": "6c6df7ad373c2fc2a564e2c4f7f63e8bb2b0381d9fe9e0d0816b15584e3c9b91"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py",
+      "sha256": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153"
+    },
+    {
+      "path": "implementation/tests/test_hamburg_collision_trace.py",
+      "sha256": "eb6b18f6bc08e69973e9c943e6706b4cb25fa96ed2c3c3788fc81707913d8d50"
+    },
+    {
+      "path": "implementation/tests/test_hamburg_main_junction_hold.py",
+      "sha256": "840566c8c8b27454f0da404c2de3969e56ad8a7e89a8503968c0d7b0d20427b2"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "28078aa2a505d3a75de2faa96450b2f0db29e98a35dedc782294b701b6f27fc0"
+    },
+    {
+      "path": "native/collision-fcd.xml.gz",
+      "sha256": "252a20337f75f680c0bfa3bc90d2b0667dd9d9a90843bd37efc781233c3f37d9"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "0ccc4a5392919a31741d947bbc954f482f841d14c68b91e57489c9eeca27fccd"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "0792911f3818388b27baa116c93ea922649b518124f83b9ebc9d25713cdfd521"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "b917160e5cf476f5e4015bdd5bbc68da25d3e4c9080e9913df4dba3bae387fd2"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "eb115c831f277ad7fc0b94a81acca9c4c135fba09528f83a1dc1d22923baca87"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "9f804f5db01ff318558fed476a11ed9f6187f42f0e4893a31540f4d60478bda2"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "97eff1b1d87752abddf498e3d339f20aa5a33b125868f4ef7c33e25d35ef84df"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "native/lanechanges.xml.gz",
+      "sha256": "0ee50802fb9d9474db7d3352abf98f1b09d458774c11322d875886d11e8eea0f"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "e59f8f2b8ad146c61d1de1f888f6853602ddb5d1b85857a8d09ce896fd90ad5b"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "9fd5be995adde02bf899858bd87c3deb4b55568af4b757672cd6543073ceb63d"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "22052d38ed8d764211aad0fcea8fa0e8f15bf1b9cd84caed3a1aacd911697d77"
+    },
+    {
+      "path": "native/states/state_9419.900.xml.gz",
+      "sha256": "c7e80ca3aa3674dc3d1256aaf8306025891b7584cc765910c789c63852e1632f"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "0ae0fd7df5df9677e6ac1dff718a1e1d7c970a29bdc4c42c95a1bfaff8ec3ffb"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "0d4bbda9b7147252bfeb8f12e037dd041fa88bb5167f8c56399b672aff5d8bef"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "b11e45cc928b3f7e056d1ad46bff0b24d207814260486fa7e01b007b18670dcd"
+    },
+    {
+      "path": "native/trace-check.json",
+      "sha256": "5ec143e4da1547314748dc6f5c7cf013e78b974b7a606a1f5d8802e9838fe362"
+    },
+    {
+      "path": "native/trace-proposal.json",
+      "sha256": "e2c600198b96f179ee5fc9ab61085642fcec1f36a3063685b677472002ccacf6"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "a1765f28a661a3766cea93ede9f7650b2f2c3da67ddc23e72cd45789456fbe39"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "41574b4c2a80b1c6f2c1ff35f5688f19f2d9288e68b4d7f3a7d11dc69f673cc4"
+    },
+    {
+      "path": "README.md",
+      "sha256": "a5885dded0af02620f6b6e17816405d670a482b34765a889be569f887f85fc9c"
+    },
+    {
+      "path": "seal-localized-full-and-late-trace.py",
+      "sha256": "732e3dd03c96e1f376bc388f9c6f4e70f99d412939f0673d26c687d8fc5a4ed1"
+    },
+    {
+      "path": "tests.log",
+      "sha256": "ea5db21f08b1039d50f9b94115dcc5d7644c173d51bb26fd281f61870f7144c6"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "c6acfcfed65f2ff0c20580c3835794a324bb4aab2f2bcaef56c0439c3e8f4919"
+    }
+  ]
+}

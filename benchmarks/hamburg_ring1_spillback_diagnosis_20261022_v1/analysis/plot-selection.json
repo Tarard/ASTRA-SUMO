@@ -1,0 +1,26 @@
+{
+  "examples": [
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "begin_s": "5231.0",
+      "end_s": "5291.0",
+      "duration_s": "60.0",
+      "native_E1_contributions": "0"
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "begin_s": "3765.0",
+      "end_s": "3779.0",
+      "duration_s": "14.0",
+      "native_E1_contributions": "0"
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "begin_s": "6645.0",
+      "end_s": "6659.0",
+      "duration_s": "14.0",
+      "native_E1_contributions": "0"
+    }
+  ],
+  "selection": "Exploratory longest sampled zero-E1 episode before the first collision for each field with such evidence."
+}

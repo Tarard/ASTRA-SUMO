@@ -1,0 +1,200 @@
+{
+  "schema": "astra.ring1-public-replay-evidence/v5",
+  "status": "partial",
+  "promotion_authority": false,
+  "implementation_base_commit": "0e9f307c5b38e2d4f4cbcdfa44db74556ee40da8",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/workflow.py",
+      "sha256": "c7e720eddac2b3b4af5fe72e58e68461cd0841efe93ab0940c110618c8da6d93"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/groups.py",
+      "sha256": "97da92fb697fa2f6f7e7689ca6fee7e7d061fa4c33f24c784498ef4929c05650"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/movements.py",
+      "sha256": "b992faee12c83c38544ab7c56bd07e62e1b2042d638bd05a18f5831b442a12b2"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+      "sha256": "0531d63b78488ae5596d09ac150047ae60553d8d6ff2bced0763f7bc9de6d8f3"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/local_network_conversion.py",
+      "sha256": "352a2c93330c70cbeee62b64372e300e7256f1651aea798e6238a4b7a1ec43b2"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_geometry_freeze.py",
+      "sha256": "e80c227831fe3f7bcf1f4053a01c054af493206f4df784cd62f651e1d5b4eaa6"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/junction_rebuild/native_path_repair.py",
+      "sha256": "37513546bb089d54f5786e9e1a7623a118b7b7cae02e0ad131c153eedd1ab880"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_count_reachability.py",
+      "sha256": "bf3dd0e836ff9fd12c648af0e3031f34750f3af0e1d634810a6a93fd08649082"
+    }
+  ],
+  "run": {
+    "path": "outputs/ring1-public-junction-demo-20261021-v6/run.json",
+    "sha256": "e3a3068d3efea446d253b03abbc9917148eeb01d60696752ff27d791ad7b81e7"
+  },
+  "source_road_case": {
+    "path": "outputs/ring1-road-demo-20261020-v13/case.json",
+    "sha256": "bac4ec2e33e515ed1610c3494f150e8b779b2a58cde25c32756f0a7f1bfb0d93"
+  },
+  "inputs_unchanged": true,
+  "implementation_unchanged": true,
+  "content_hashes": {
+    "network_content_sha256": "6312601d532d2452c09699f808fe4ce70420a51acf67625ba0b232ea22420229",
+    "field_loops_content_sha256": "70dc00845c65a95bd67b5acddf29f6053d3976d6c601b42a267b87a5ae0713a9"
+  },
+  "movement_coverage": {
+    "official": 114,
+    "passed": 92,
+    "unmapped": 22,
+    "unexplained_extra_connections": []
+  },
+  "field_loop_count": 13,
+  "station_group_count": 4,
+  "structural_failure_count": 0,
+  "retained_failed_predecessor": {
+    "run": {
+      "path": "outputs/ring1-public-junction-demo-20261020-v5/run.json",
+      "sha256": "4780283fc0526f5cdedf6c080fb8a9c4f084ecc4ea547b5643616d6d0f51787c"
+    },
+    "status": "invalid",
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/workflow.py",
+        "sha256": "f5f154853f66f66e3b0e6cc29ebbd63feb9bb298c9e2f9b8294fdeb392118144"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/groups.py",
+        "sha256": "97da92fb697fa2f6f7e7689ca6fee7e7d061fa4c33f24c784498ef4929c05650"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/movements.py",
+        "sha256": "b992faee12c83c38544ab7c56bd07e62e1b2042d638bd05a18f5831b442a12b2"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+        "sha256": "e326c3a851fbc9cfa36b9e5e163024dca9aa83d6dd352be5d243a253f8357883"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/local_network_conversion.py",
+        "sha256": "352a2c93330c70cbeee62b64372e300e7256f1651aea798e6238a4b7a1ec43b2"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_geometry_freeze.py",
+        "sha256": "8c5a35bb16f5706556736c1072db5d8a50bf2b24821d4a0792057423522fc97e"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_count_reachability.py",
+        "sha256": "bf3dd0e836ff9fd12c648af0e3031f34750f3af0e1d634810a6a93fd08649082"
+      }
+    ],
+    "structural_failure_count": 3,
+    "junction_id": "9810392490",
+    "inlet_lane": "1068722010_0",
+    "cause": "Exterior restoration retained the 0.2 m inlet lane while the compiled entries followed temporary native clipping. Graph reachability alone did not detect those endpoint gaps."
+  },
+  "lane_count_repair": {
+    "verification": {
+      "path": "outputs/ring1-public-junction-demo-20261021-v6/lane-edit-0/verification.json",
+      "sha256": "1a8d1967be16913268ad5e81d0539c1bf820d8e61fbcec9df9e95ecf78a9d6f8"
+    },
+    "neighboring_road_changes": {
+      "shape": 0,
+      "length": 0,
+      "width": 0
+    },
+    "endpoint_geometry_reference": "source_geometry_after_restoration",
+    "native_gap_count_before_restoration": 3,
+    "native_repair_count": 2,
+    "final_endpoint_gap_count": 0,
+    "converted_ordinary_roads_per_native_pass": 12,
+    "source_ordinary_road_count": 334
+  },
+  "local_transition_driving": {
+    "result": {
+      "path": "outputs/ring1-transition-driving-20261021-v2/result.json",
+      "sha256": "bd256be691fb1b3f7f76663867890207fa852b356bf0e277745fbdd9b7650506"
+    },
+    "vehicle_classes": [
+      "passenger",
+      "bus",
+      "bicycle"
+    ],
+    "passed_exact_lane_chains": 3,
+    "collisions": 0,
+    "teleports": 0,
+    "scope": "Car and bus enter from the upstream road. The bicycle starts on the local inlet. This is not capacity or field-demand evidence."
+  },
+  "native_field_position_check": {
+    "result": {
+      "path": "outputs/ring1-native-sensor-positions-20261021-v2/result.json",
+      "sha256": "89f7f33b39cea1ac75c2faf616c46f5b036b3ff2cd899f820325e8cca128f050"
+    },
+    "declared_field_count": 13,
+    "maximum_position_change_between_saved_models_m": 0.0023581921223175856,
+    "extra_controller_loop_counts": {
+      "previous": 207,
+      "repaired": 207
+    },
+    "scope": "Every declared field loop is compared using native coordinates. Automatic controller loops are recorded separately. This does not establish surveyed cross-sections."
+  },
+  "tests": {
+    "regressions": {
+      "path": "outputs/restored-endpoint-and-ci-regressions-20261021-v2.xml",
+      "sha256": "8ee1c8dfbda3aa07d1e86c605dae6182961eb05b9f8acdac019ddc62dc30157b"
+    },
+    "affected_domains": {
+      "path": "outputs/restored-endpoint-ocit-and-ci-tests-20261021-v1.xml",
+      "sha256": "25737373dd83ab916851d56947b2372fcd40667f5bf7410b1b3fbaffac27334a"
+    },
+    "passed": 264,
+    "skipped": 2,
+    "required_windows_native_cases": 72
+  },
+  "control_review": {
+    "protected_green_foe_conflict_count": 10,
+    "controller_ids": [
+      "LSA104_part0",
+      "LSA119_part0",
+      "LSA535_part0"
+    ],
+    "claim_boundary": "Static protected-green foe relations, not observed collisions or validated field control."
+  },
+  "terminal_motor_lanes_after_exclusions": [
+    {
+      "sumo_lane": "368989705_4",
+      "official_ingress_identities": [
+        {
+          "node_id": "200",
+          "intersection_part": "0",
+          "lane_id": "1"
+        }
+      ]
+    },
+    {
+      "sumo_lane": "626677498_0",
+      "official_ingress_identities": []
+    }
+  ],
+  "independent_replay": "not_run_for_this_recipe",
+  "calibration": {
+    "status": "not_run"
+  },
+  "remaining": [
+    "22 unresolved official movements and construction-stage uncertainty",
+    "Terminal-lane service",
+    "Ten inherited protected-green foe findings",
+    "Official signal timing and Z.15 correspondence",
+    "Exact count fitting and independent validation",
+    "Matched NetEdit/Google figures"
+  ],
+  "claim_boundary": "One repaired complete Windows replay and local transition checks. No count-fit, historical control, field-geometry or prediction-accuracy claim. The failed predecessor is retained."
+}

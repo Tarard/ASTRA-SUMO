@@ -1,0 +1,25 @@
+{
+  "formal_result": false,
+  "previous_full_case": "hamburg_ring1_lane_section_hold_full_20261021_v1",
+  "old_diagnostic_field_MAE": 19.153846153846153,
+  "new_diagnostic_field_MAE": 19.884615384615383,
+  "old_exact_field_rows": 29,
+  "new_exact_field_rows": 32,
+  "old_exact_station_rows": 6,
+  "new_exact_station_rows": 7,
+  "same_network": true,
+  "same_control_input": true,
+  "unchanged_review_and_netedit_figures": {
+    "01-osm-to-pruned.png": "1531942634e245000007e83193474d3dbe8720861d7b1c5d0789efe2c18edbce",
+    "02-pruned-to-junctions.png": "773d14866a67ffb5f196f05d8bc886b9460dfe548a179784b471ddfe143ad65a",
+    "03-lsa118-before-after.png": "b5e884a306f307081242c93cd0134e0457ca46b76a658b891e37fdf18fbed3bd",
+    "netedit-before.png": "25a05f99ee125df206d77a826b183e30c444b5c0522237a5779b6d7620dca70d",
+    "netedit-after.png": "4893f1a95b7904985bdc39d3b40c5e71a53bd22fa2f7a84aa5695face14fafc7"
+  },
+  "changes": [
+    "1953 modeled initialization vehicles added",
+    "896 main Z15 routes use K31/K2",
+    "original main vehicle IDs, request times, and targets retained"
+  ],
+  "claim_boundary": "The older full case had no injected initialization traffic. This is not a paired single-change causal comparison. Both runs are invalid, and this run also timed out during the tail."
+}

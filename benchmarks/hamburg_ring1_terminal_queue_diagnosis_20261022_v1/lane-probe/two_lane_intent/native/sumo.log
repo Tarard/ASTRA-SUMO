@@ -1,0 +1,35 @@
+***Starting server on port 13209 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-buffer-lane-probe-20261022-v2\two_lane_intent\native\network.net.xml' ... done (190ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-buffer-lane-probe-20261022-v2\two_lane_intent\native\signal-programs.add.xml' ... done (5ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-buffer-lane-probe-20261022-v2\two_lane_intent\native\e1.add.xml' ... done (3ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-buffer-lane-probe-20261022-v2\two_lane_intent\native\instant.add.xml' ... done (3ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading route-files incrementally from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-buffer-lane-probe-20261022-v2\two_lane_intent\native\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.000.
+Simulation ended at time: 1800.000.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 13.116s
+ TraCI-Duration: 7.580s
+ Real time factor: 137.237
+ UPS: 7582.265935
+Vehicles:
+ Inserted: 40
+ Running: 0
+ Waiting: 0
+Statistics (avg of 40):
+ RouteLength: 957.453718650000
+ Speed: 4.798024792945
+ Duration: 248.622000000000
+ WaitingTime: 92.367000000000
+ TimeLoss: 176.394000000000
+ DepartDelay: 1.160000000000
+ DepartDelayWaiting: 0.000000000000

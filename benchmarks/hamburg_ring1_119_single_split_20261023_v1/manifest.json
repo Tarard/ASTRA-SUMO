@@ -1,0 +1,125 @@
+{
+  "schema": "astra.hamburg-single-split-regression/v1",
+  "formal_result": false,
+  "boundary": "Measured leader desired speeds, native speedMode31 retained; not a natural four-car queue history.",
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 72,
+      "sha256": "308a40fa1d89ae5ea4390b4c9b46a0108b09f171f07898f25d451fa0c69c4e9f"
+    },
+    {
+      "path": "fixture/.gitattributes.gz",
+      "bytes": 75,
+      "sha256": "9468cf12b2d3792fedf4eadce6c24efad797f7efc77d563600850d365928ef25",
+      "raw_bytes": 73,
+      "raw_sha256": "2cacd8c5b88d28a6324a5b106d17970ce30df8e32f9b76c87d00d4ca430747a8"
+    },
+    {
+      "path": "fixture/baseline.net.xml.gz",
+      "bytes": 236641,
+      "sha256": "ec0a0cdf6a13ac9d807a5cc1021b1aa3bcd00818dc810eaa8e3512ebeefdd714",
+      "raw_bytes": 1346605,
+      "raw_sha256": "6752c9df76fdace2262c4dc827df295e258bbee69c232de756136be6e094bc1c"
+    },
+    {
+      "path": "fixture/case.json.gz",
+      "bytes": 759,
+      "sha256": "4e9d1ca7cce8d087a0631a0e3dc82bf7e0875b3da7f6c55d9d4777a90fbe1b38",
+      "raw_bytes": 1922,
+      "raw_sha256": "f9ae05060c16ed22911a024c484a38b83cfc0307ac1ea76f4b115eb53046b5dc"
+    },
+    {
+      "path": "fixture/control.add.xml.gz",
+      "bytes": 1968,
+      "sha256": "99fa69a3d1eb17920e8171a68d49149109f1a9e8c491335153c249f7cbd342df",
+      "raw_bytes": 22252,
+      "raw_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d"
+    },
+    {
+      "path": "fixture/demand.rou.xml.gz",
+      "bytes": 505,
+      "sha256": "887e0beab6742fa669d4d0d63ef4f0b09c4c5c96f8b241839aa54b70b7fa8c46",
+      "raw_bytes": 1544,
+      "raw_sha256": "0753e65d24d820328a4f3d59bb4fa1baffb68f8f3a18b0342b6e77ffb21a59b7"
+    },
+    {
+      "path": "fixture/intents.json.gz",
+      "bytes": 293,
+      "sha256": "3498fe8912527dca5f61d817c6a3411a97dda36b2a14206b5f1b3fbebfe86982",
+      "raw_bytes": 694,
+      "raw_sha256": "7f83c22978f8a46a82aceca1641f7a2e4ef8b7a1af26844ec0676a0b1601db41"
+    },
+    {
+      "path": "fixture/leader-speed.csv.gz",
+      "bytes": 3021,
+      "sha256": "9408ad7c7e49e3616a9c4c5c7930587e72b9207c59ad762e313c72764eb391a7",
+      "raw_bytes": 7029,
+      "raw_sha256": "f3814783bba5159905e9980d70027f16a541809714dfdb4199ce719f41dd62d4"
+    },
+    {
+      "path": "fixture/loops.add.xml.gz",
+      "bytes": 212,
+      "sha256": "8042d16ee2e30005a3162e729dcf84050bd8fd57d8861342c6a9b15248eba927",
+      "raw_bytes": 413,
+      "raw_sha256": "56f47453cf79711c3168971b06b94006c9b87c2810d8fa03a709f7853384c006"
+    },
+    {
+      "path": "fixture/manifest.json.gz",
+      "bytes": 843,
+      "sha256": "489073c79ed5c9b9d1f43ea72ca23096cd95d33c2c1d92d46629492c46d7adf0",
+      "raw_bytes": 1913,
+      "raw_sha256": "6177b85655e8b15c4da5b1b0ececb1f5322ef31837fff002ab2007bd0bf59379"
+    },
+    {
+      "path": "fixture/reference-positions.csv.gz",
+      "bytes": 11997,
+      "sha256": "4873c72041c57017944a3d42c21297fc070a49defc263c2db829cd2da13d3f95",
+      "raw_bytes": 31432,
+      "raw_sha256": "6a66d789dc5d49f07e22d5d2e798df0e82eca04841d52da932d15f418558610a"
+    },
+    {
+      "path": "fixture/runner.py",
+      "bytes": 8136,
+      "sha256": "faf930536b42833c12ff0e499abd83afce8e85efaf93aca0943f5956686e93b5"
+    },
+    {
+      "path": "fixture/usage.txt.gz",
+      "bytes": 416,
+      "sha256": "5042b84a4027ac135e3c2997ce7e61573046abe4d8acc811c770a4d799b4fe9d",
+      "raw_bytes": 674,
+      "raw_sha256": "9d6df9cabbbb84a63ace7a4fa5c7eaf1f2b2251542024ec8c811d0f27d4a7fa4"
+    },
+    {
+      "path": "full-source-collisions.xml.gz",
+      "bytes": 1124,
+      "sha256": "27131967c34ab5793eb3998ca6e3077a7ad4c45be3925f7f0de3e38e84728640",
+      "raw_bytes": 4242,
+      "raw_sha256": "83e73beba38508feff9f0d13e4ecb5fcc6e2af3c9bee469537aec0691144a6c2"
+    },
+    {
+      "path": "junction_split_fanout.source.py.gz",
+      "bytes": 3991,
+      "sha256": "454cd5532e732c81d8b771d1a09d76a9df2a9afc0245dd3668279dff9c19fe61",
+      "raw_bytes": 14410,
+      "raw_sha256": "ef032053de8ec4085c61e8cf334c92d646d80ca5f86855a78ca70973f920d508"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1756,
+      "sha256": "dc336016d982597de1b898c0eafdac529c6e75f25eff589b56a5770685efed73"
+    },
+    {
+      "path": "review.json.gz",
+      "bytes": 2158,
+      "sha256": "e00b539af39433a49d7748ef51817bef90c97196fe3706470372764b1f9e087b",
+      "raw_bytes": 10567,
+      "raw_sha256": "dd95ac9a0ee31c97160ddb8c5cc2ca6d3d93cf1557ed4587905795a9be90f0e0"
+    },
+    {
+      "path": "verification.json",
+      "bytes": 909,
+      "sha256": "493b6b0c0da2dd7307626106b351fa30230aad795527f9993889bc0ecb947c9e"
+    }
+  ]
+}

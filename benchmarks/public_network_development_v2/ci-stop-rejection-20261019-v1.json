@@ -1,0 +1,128 @@
+{
+  "implementation": "69c2e32f65b0d0ce599fb173f0b53cb11e80203e",
+  "startup_and_isolation": "e844d2490ec1f89bf62e4189038eecc15635293e",
+  "native_version": "1.27.1",
+  "failed_run": 39227787886,
+  "failed_run_counts": {
+    "failed": 1,
+    "passed": 3452,
+    "skipped": 24
+  },
+  "same_revision_parallel_pass": 39227794902,
+  "fatal_input_timeout_internal_cause": "unconfirmed",
+  "negative_test_predicate": "Native refusal, empty stop list, successful simulation step and normal exit",
+  "native_deadline_seconds": 30,
+  "related_tests_passed": 70,
+  "final_focused_passed": 6,
+  "intentional_capture_failures_verified": 3,
+  "independent_capture_sessions_verified": 2,
+  "artifacts": [
+    {
+      "path": "outputs/ci_failure_20261019_v1/failed-full-suite.log",
+      "sha256": "325574115121fd55b41f81b48134c5ef4b85690149ef275fdae652f62ef2aa40"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/parallel-success.log",
+      "sha256": "e157e2916080f6555bc022cd9f486e23464de3b7c779236ff8ba9a0b33a78d08"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/original-ci-artifact/test-results.xml",
+      "sha256": "81c38d2cc01df40632dcc0233427166d419f05bf5b3359906c25368896f02ed9"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/runtime-stop-probe.py",
+      "sha256": "80cf938d17ced6f2dc39130d6f0b52564f0963b0c7b1ba8d36de251561161b6f"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/runtime-stop-probe.json",
+      "sha256": "ff424848c8e09ef6977b047b8e44426e135aaa1e8858f29c5c68c86689edfefa"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/runtime-stop-probe.log",
+      "sha256": "b51689a7ede09871deb010a5292c23673e33e2edf5bcfba32d2545da83eb0754"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/focused.log",
+      "sha256": "6589a1d92c567897e6bac5081d625f2b35248c6fbf89dc4012f4bf3f669901c4"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/related.log",
+      "sha256": "41952a23772676967c0c9d305e9ba1d5ec0f33af5d03825769b0281f736b2fd2"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/related.xml",
+      "sha256": "1b7985d476695d875dbb2e5ca1e1264b1f8e35f7257d71676517370604aeb910"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/final-focused.log",
+      "sha256": "2e8134e8b87575e37217a99ab954ee5b8e0e7aac91e57d8970bdd2c6501ba1b1"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/final-focused.xml",
+      "sha256": "e5b3dc518bdec21d10131934bdf4007fef705d3f9604d328b11d2ebf3a77458f"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/capture-control.py",
+      "sha256": "f9a013cfe2a71b8e9b5a2d6cc568e693848b8babc62c726362ba797cb30947bc"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/capture-control.json",
+      "sha256": "bcb83b7c4ead3c9ca21110cfb59b58ac639978f3ff0c93563e0f1f6fb4f1579b"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/capture-control-v2.json",
+      "sha256": "fe4f939e855f2f37a2242d6ff645b51b2609a16c6887b2a6d941c7462f66c440"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/capture-control-v3.json",
+      "sha256": "33701989cecb0060985d8f09bc9661d72a40e33d1ad326b053c4e7297a8cc383"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/claude-review.txt",
+      "sha256": "8bbefee84626d31c96f4954861192ef0622bf244655f7288cf9c2b05927491b4"
+    },
+    {
+      "path": "outputs/ci_failure_20261019_v1/claude-review.png",
+      "sha256": "02f800dbce02ad376adaaabf7865418991dda2b0814afe1f6991697e85d79510"
+    },
+    {
+      "path": "outputs\\ci_failure_20261019_v1\\ci-39231007495.log",
+      "sha256": "5552608533b5cbcd191592143597d561ca999731bd147d9628b05c1fe0468da3"
+    },
+    {
+      "path": "outputs\\ci_failure_20261019_v1\\status-39231007495.json",
+      "sha256": "230b531fd74efa7a97d9b035df293546a71c09a046a24e39b117037f62a5219e"
+    },
+    {
+      "path": "outputs\\ci_failure_20261019_v1\\ci-39230998194.log",
+      "sha256": "9615e13925ae529eddf5368f9bb7b7c93ec73e74bcd17e9edf960946a0235f78"
+    },
+    {
+      "path": "outputs\\ci_failure_20261019_v1\\status-39230998194.json",
+      "sha256": "1ef543381f04219e69f6761c7421de2346f08a68a72078b2cafc7023e14f59a8"
+    }
+  ],
+  "full_windows_ci": [
+    {
+      "run": 39231007495,
+      "commit": "e844d2490ec1f89bf62e4189038eecc15635293e",
+      "conclusion": "success",
+      "passed": 3457,
+      "skipped": 24,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39231007495"
+    },
+    {
+      "run": 39230998194,
+      "commit": "e844d2490ec1f89bf62e4189038eecc15635293e",
+      "conclusion": "success",
+      "passed": 3457,
+      "skipped": 24,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39230998194"
+    }
+  ],
+  "independent_review": {
+    "reviewed_commit": "69c2e32f65b0d0ce599fb173f0b53cb11e80203e",
+    "startup_and_isolation_points_addressed_in": "e844d2490ec1f89bf62e4189038eecc15635293e",
+    "subscription_only": true
+  }
+}

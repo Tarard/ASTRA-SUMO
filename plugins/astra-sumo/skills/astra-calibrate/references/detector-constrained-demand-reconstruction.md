@@ -60,7 +60,15 @@ Available ASTRA MCP tools:
 | `sumo_detector_route_sampler_calibrate` | Gate 4 routeSampler baseline executor | generated plausible demand route file, input/script hashes, exact command, and mismatch deficit/overflow evidence |
 | `sumo_digital_twin_replay_validate` | Gates 4-6 detector/TLS replay and completion validation | SUMO E1/E2 outputs, strict `nVehContrib` count comparison, summary/tripinfo completion, and replay manifest |
 
-These tools reduce boilerplate; they do not prove the route volumes are calibrated by themselves. The current tool boundary is:
+These tools reduce boilerplate. They do not prove that route volumes are calibrated.
+
+For a pruned network, supply its `boundaries.json` as `boundary_zones_file` to `sumo_detector_route_support`.
+A declared entry or exit can meet retained roads. Terminal-road inference alone can omit these traffic boundaries.
+Inspect `boundary_selection` for unresolved references. Keep every declared detector target in later comparisons.
+Passenger routes use loaded permissions, including internal paths.
+Its road-incidence table does not distinguish parallel detector lanes. Use actual physical E1 responses before fitting lane counts.
+
+The current tool boundary is:
 
 ```text
 implemented:

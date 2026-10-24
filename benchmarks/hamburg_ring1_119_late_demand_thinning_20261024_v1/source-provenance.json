@@ -1,0 +1,1781 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\535-all56.csv",
+      "relative": "cases/remove28/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\all182-comparison.csv",
+      "relative": "cases/remove28/evaluation/all182-comparison.csv",
+      "raw_bytes": 10839,
+      "raw_sha256": "65f4de34c239cfe8301d3d7a6dbc466f4668e5ce7bc01a2a0b3c56489ee1df32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\contributing-passages.json.gz",
+      "relative": "cases/remove28/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 172523,
+      "raw_sha256": "5643d463eb7ff6e6332f66c63c6a5870d37f950bf3a977f36f673c3ef1c6541f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\demand.rou.xml",
+      "relative": "cases/remove28/evaluation/demand.rou.xml",
+      "raw_bytes": 3713582,
+      "raw_sha256": "b83ca8eb5ac6a45642bc2a48056bd9fa24bd4e70773666d4888deb64a3546ff0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\evaluation.json",
+      "relative": "cases/remove28/evaluation/evaluation.json",
+      "raw_bytes": 453,
+      "raw_sha256": "016f597890171c500f494623f421a9cb97236e62094ec14a0b3e4bdf8df117c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\initialization52-comparison.csv",
+      "relative": "cases/remove28/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\lane-intentions.json",
+      "relative": "cases/remove28/evaluation/lane-intentions.json",
+      "raw_bytes": 1001690,
+      "raw_sha256": "9868000cb4a2b8127bf17911c306a1aede9c9c652ccb8fb23579832a4c31476a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\main130-comparison.csv",
+      "relative": "cases/remove28/evaluation/main130-comparison.csv",
+      "raw_bytes": 7858,
+      "raw_sha256": "d0a42b8b28408a49be8c85dfe86d652042fabb0472637632831124529ae961ed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\collisions.xml",
+      "relative": "cases/remove28/evaluation/native/collisions.xml",
+      "raw_bytes": 3391,
+      "raw_sha256": "fc5af490098fb50a741656c426e4a5498c63b915f29e754332c58d952a673496"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\command.json",
+      "relative": "cases/remove28/evaluation/native/command.json",
+      "raw_bytes": 5778,
+      "raw_sha256": "e35f525b18b51ff3c146fc1e63b52d9522097ab78984cdc57a88774a0067ecd1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\demand.rou.xml",
+      "relative": "cases/remove28/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3713582,
+      "raw_sha256": "b83ca8eb5ac6a45642bc2a48056bd9fa24bd4e70773666d4888deb64a3546ff0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\e1.add.xml",
+      "relative": "cases/remove28/evaluation/native/e1.add.xml",
+      "raw_bytes": 3758,
+      "raw_sha256": "63c513cc030100e93726c3f4f02c160c40c241025e3d90304425840251e31558"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\expected-counts.csv",
+      "relative": "cases/remove28/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\field-comparison.csv",
+      "relative": "cases/remove28/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7858,
+      "raw_sha256": "d0a42b8b28408a49be8c85dfe86d652042fabb0472637632831124529ae961ed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\field-counts.xml",
+      "relative": "cases/remove28/evaluation/native/field-counts.xml",
+      "raw_bytes": 53207,
+      "raw_sha256": "43eddb6349cad122b1326d0470c1a9fffd7fa5ab8cdff29d7f477068ef58949c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\instant.add.xml",
+      "relative": "cases/remove28/evaluation/native/instant.add.xml",
+      "raw_bytes": 3234,
+      "raw_sha256": "402b14543177f3821ce98121b444d672797b0c1fc24c69dc8c4e63e99666b24e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\lane-intentions.json",
+      "relative": "cases/remove28/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1001690,
+      "raw_sha256": "9868000cb4a2b8127bf17911c306a1aede9c9c652ccb8fb23579832a4c31476a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\native-request.json",
+      "relative": "cases/remove28/evaluation/native/native-request.json",
+      "raw_bytes": 3962,
+      "raw_sha256": "a25dd8097b440578ae74de64008bafabcd74490a4d58c05d2608d3ba3a027d99"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\network.net.xml",
+      "relative": "cases/remove28/evaluation/native/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\run.json",
+      "relative": "cases/remove28/evaluation/native/run.json",
+      "raw_bytes": 6285157,
+      "raw_sha256": "0507088e8c5670e6f2eefda458f0d35237fa68f0ff254cc993a4179327b7534b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "cases/remove28/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\source-e1.add.xml",
+      "relative": "cases/remove28/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\stall-monitor.json",
+      "relative": "cases/remove28/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5831109,
+      "raw_sha256": "929857a968adb53a011e8834a2a29d91e653f98bc859a063dffb05ec275b7113"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\summary.xml",
+      "relative": "cases/remove28/evaluation/native/summary.xml",
+      "raw_bytes": 46632065,
+      "raw_sha256": "4b46707e1575f6ad5f10e25855f68598eeb4f4e3744387ff95b03dc165539c2f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\sumo-errors.log",
+      "relative": "cases/remove28/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3498,
+      "raw_sha256": "c3322d2c11eb1be284598821890d3f12389fccf3ff4fd93d1b8547870126192c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\sumo.log",
+      "relative": "cases/remove28/evaluation/native/sumo.log",
+      "raw_bytes": 5099,
+      "raw_sha256": "cc705dc57a9059a852102c579c02f840c3763bc4e5d9f3b65368f8fb5ba4cc03"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\tripinfo.xml",
+      "relative": "cases/remove28/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4555930,
+      "raw_sha256": "eeec003f7f0244d13332d112bd0115508d1310471523470acf377055ac5e3bd7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "cases/remove28/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6514321,
+      "raw_sha256": "8df1a3953273ab7cf08b386191676f75d68b2fc887a0ff2a5564d9262477fe5e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\native208-comparison.csv",
+      "relative": "cases/remove28/evaluation/native208-comparison.csv",
+      "raw_bytes": 25155,
+      "raw_sha256": "4747837e5ca8e21889695e2d125b0c9d483c681ab8a40921eb77ab520a93c806"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\prefix169-comparison.json",
+      "relative": "cases/remove28/evaluation/prefix169-comparison.json",
+      "raw_bytes": 141,
+      "raw_sha256": "8a8e612b19f819ea5c780e33ad58bd656f28574908085533cf2ab6bb4ce9b15d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\station-comparison.csv",
+      "relative": "cases/remove28/evaluation/station-comparison.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "cb6ee1a86a296d1c30be9347a608797a9a2cfe390d4366555c193323a3121af3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\evaluation\\station40-comparison.csv",
+      "relative": "cases/remove28/evaluation/station40-comparison.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "cb6ee1a86a296d1c30be9347a608797a9a2cfe390d4366555c193323a3121af3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\executed-driver.py",
+      "relative": "cases/remove28/executed-driver.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\executed-prepare.py",
+      "relative": "cases/remove28/executed-prepare.py",
+      "raw_bytes": 11355,
+      "raw_sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\execution.log",
+      "relative": "cases/remove28/execution.log",
+      "raw_bytes": 2241,
+      "raw_sha256": "abb154f03115fd98b6b19931ba5cfc92b0fff1ddb680012ef63eab967e509aab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\audit_response.py",
+      "relative": "cases/remove28/measurement-implementation/audit_response.py",
+      "raw_bytes": 18270,
+      "raw_sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\audit_scope.py",
+      "relative": "cases/remove28/measurement-implementation/audit_scope.py",
+      "raw_bytes": 7371,
+      "raw_sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\detector_demand.py",
+      "relative": "cases/remove28/measurement-implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\detector_demand_replay.py",
+      "relative": "cases/remove28/measurement-implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\hamburg_od_spsa.py",
+      "relative": "cases/remove28/measurement-implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\hamburg_readme_results.py",
+      "relative": "cases/remove28/measurement-implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\lane_section_hold.py",
+      "relative": "cases/remove28/measurement-implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\prepare_thinning.py",
+      "relative": "cases/remove28/measurement-implementation/prepare_thinning.py",
+      "raw_bytes": 11355,
+      "raw_sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\route_sensor_matrix.py",
+      "relative": "cases/remove28/measurement-implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\run_fixture.py",
+      "relative": "cases/remove28/measurement-implementation/run_fixture.py",
+      "raw_bytes": 17448,
+      "raw_sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\run_full.py",
+      "relative": "cases/remove28/measurement-implementation/run_full.py",
+      "raw_bytes": 15784,
+      "raw_sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\run_thinning.py",
+      "relative": "cases/remove28/measurement-implementation/run_thinning.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-implementation\\simulation_stall.py",
+      "relative": "cases/remove28/measurement-implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\measurement-plan.json",
+      "relative": "cases/remove28/measurement-plan.json",
+      "raw_bytes": 7406,
+      "raw_sha256": "69bd8109e384603582dfde31371178877dd14ff8ccfc3cc1194616269f057773"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\od-vector.json",
+      "relative": "cases/remove28/od-vector.json",
+      "raw_bytes": 5672,
+      "raw_sha256": "3c217ea9b768cf83d2ccac876097e7647ed3b140716a0cd1058ad5e98c189f54"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\preflight.json",
+      "relative": "cases/remove28/preflight.json",
+      "raw_bytes": 4409,
+      "raw_sha256": "ed7c8fbeaffcbb555b3b39949dfd9bd99eb51647da4c03be664d4da65f454c9a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\control.add.xml",
+      "relative": "cases/remove28/prepared/control.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\demand.rou.xml",
+      "relative": "cases/remove28/prepared/demand.rou.xml",
+      "raw_bytes": 3713582,
+      "raw_sha256": "b83ca8eb5ac6a45642bc2a48056bd9fa24bd4e70773666d4888deb64a3546ff0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\expected-counts.csv",
+      "relative": "cases/remove28/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\field-loops.add.xml",
+      "relative": "cases/remove28/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\initialization-counts.csv",
+      "relative": "cases/remove28/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\lane-intentions.json",
+      "relative": "cases/remove28/prepared/lane-intentions.json",
+      "raw_bytes": 1001690,
+      "raw_sha256": "9868000cb4a2b8127bf17911c306a1aede9c9c652ccb8fb23579832a4c31476a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\network.net.xml",
+      "relative": "cases/remove28/prepared/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\prepared\\scenario.json",
+      "relative": "cases/remove28/prepared/scenario.json",
+      "raw_bytes": 5531,
+      "raw_sha256": "c62b065fc2be57de6c7edc81e65a4c8d3d63973283f1712a8480e63e2dd7e5ac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\proposal.json",
+      "relative": "cases/remove28/proposal.json",
+      "raw_bytes": 26647,
+      "raw_sha256": "014e9c32fe77b37006f60c651529dc87cdb13e5983a58e231729d1e48e26a973"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\removed-requests.csv",
+      "relative": "cases/remove28/removed-requests.csv",
+      "raw_bytes": 1592,
+      "raw_sha256": "254272001ea816cc434cff905d7e3721f0cae8e433d2e5018070cf7783486ad2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\scope-proof.json",
+      "relative": "cases/remove28/scope-proof.json",
+      "raw_bytes": 4614,
+      "raw_sha256": "bb127688e012b1931639932bf70177c0b8db0bf5a509335f851539b7f5a162f4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove28\\verdict.json",
+      "relative": "cases/remove28/verdict.json",
+      "raw_bytes": 2829,
+      "raw_sha256": "e4247b4d686a1268ff5fe0f10f54863adfac1eb11407e28c6179db96a85240f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\535-all56.csv",
+      "relative": "cases/remove30/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\all182-comparison.csv",
+      "relative": "cases/remove30/evaluation/all182-comparison.csv",
+      "raw_bytes": 10838,
+      "raw_sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\contributing-passages.json.gz",
+      "relative": "cases/remove30/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 172424,
+      "raw_sha256": "e79f29fba49143b5504e16472e6c14e0fd24f330f698beb22422fc49083af90b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\demand.rou.xml",
+      "relative": "cases/remove30/evaluation/demand.rou.xml",
+      "raw_bytes": 3712699,
+      "raw_sha256": "95cc3c9a79ccf6c9625ded27338b4f6299def53b9ed1e542c6e1e200fa677aec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\evaluation.json",
+      "relative": "cases/remove30/evaluation/evaluation.json",
+      "raw_bytes": 453,
+      "raw_sha256": "74d55626a08dbaba5d9ed92d29071626169e6cf97bf4146d2f037a685f88687f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\initialization52-comparison.csv",
+      "relative": "cases/remove30/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\lane-intentions.json",
+      "relative": "cases/remove30/evaluation/lane-intentions.json",
+      "raw_bytes": 1001456,
+      "raw_sha256": "0c7790a67eee460b6e47cf247b846ac7bcfc02d87bd00c9bebb841d26f04b357"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\main130-comparison.csv",
+      "relative": "cases/remove30/evaluation/main130-comparison.csv",
+      "raw_bytes": 7857,
+      "raw_sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\collisions.xml",
+      "relative": "cases/remove30/evaluation/native/collisions.xml",
+      "raw_bytes": 3391,
+      "raw_sha256": "80dc2e1d9f168acc379297c5b49c58e94ec74248352c3cdce35a9314215b4b0e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\command.json",
+      "relative": "cases/remove30/evaluation/native/command.json",
+      "raw_bytes": 5779,
+      "raw_sha256": "9848522740a91684bc3b91fac89781c5d8758fb248b5a444469510c6803581d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\demand.rou.xml",
+      "relative": "cases/remove30/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3712699,
+      "raw_sha256": "95cc3c9a79ccf6c9625ded27338b4f6299def53b9ed1e542c6e1e200fa677aec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\e1.add.xml",
+      "relative": "cases/remove30/evaluation/native/e1.add.xml",
+      "raw_bytes": 3758,
+      "raw_sha256": "f8a8fa91f3b67c05605dc62b5e072a2132ae64043e28e23c0f9922dd06b7b809"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\expected-counts.csv",
+      "relative": "cases/remove30/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\field-comparison.csv",
+      "relative": "cases/remove30/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7857,
+      "raw_sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\field-counts.xml",
+      "relative": "cases/remove30/evaluation/native/field-counts.xml",
+      "raw_bytes": 53205,
+      "raw_sha256": "9943245c88c597447b8c5088edade713019fa90aa53a6eac1dbf5a29d196ff22"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\instant.add.xml",
+      "relative": "cases/remove30/evaluation/native/instant.add.xml",
+      "raw_bytes": 3234,
+      "raw_sha256": "2459a63538a4809c9fb2ca854c87d027a51ab4e182d5f3925f2c3a286e97b2dd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\lane-intentions.json",
+      "relative": "cases/remove30/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1001456,
+      "raw_sha256": "0c7790a67eee460b6e47cf247b846ac7bcfc02d87bd00c9bebb841d26f04b357"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\native-request.json",
+      "relative": "cases/remove30/evaluation/native/native-request.json",
+      "raw_bytes": 3962,
+      "raw_sha256": "52feaa217a3513a962415340c5057118d0fc75adefb30c6d22af9d3680287ba9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\network.net.xml",
+      "relative": "cases/remove30/evaluation/native/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\run.json",
+      "relative": "cases/remove30/evaluation/native/run.json",
+      "raw_bytes": 6283687,
+      "raw_sha256": "d58cfe34eb85e0d58247dadf04b8215c243c83fc241a2c36ddb2ba42b725eeb4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "cases/remove30/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\source-e1.add.xml",
+      "relative": "cases/remove30/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\stall-monitor.json",
+      "relative": "cases/remove30/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5829726,
+      "raw_sha256": "d876c2c4c27945406758c07b1bcd4ac0933ca6854f1d324f3f3d08a7fdba41bf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\summary.xml",
+      "relative": "cases/remove30/evaluation/native/summary.xml",
+      "raw_bytes": 46632147,
+      "raw_sha256": "24ebcd1179e30211670d73edc1acc2fc7991270a1444a8c31f694cd5246d3ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\sumo-errors.log",
+      "relative": "cases/remove30/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3498,
+      "raw_sha256": "c3322d2c11eb1be284598821890d3f12389fccf3ff4fd93d1b8547870126192c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\sumo.log",
+      "relative": "cases/remove30/evaluation/native/sumo.log",
+      "raw_bytes": 5100,
+      "raw_sha256": "600d1203f085970cdc225ec342859d57f2bdbfaee3982354fc3266b68dc30e0c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\tripinfo.xml",
+      "relative": "cases/remove30/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4554881,
+      "raw_sha256": "fce13d1293b1ce7214d13d5e54d64a73f5eeb412c9972debaa5344a3b9ba42be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "cases/remove30/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6512754,
+      "raw_sha256": "02abd83c142c68e461832130e8d127199f31e66bc984dd18bae5cb75e4a4ff16"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\native208-comparison.csv",
+      "relative": "cases/remove30/evaluation/native208-comparison.csv",
+      "raw_bytes": 25153,
+      "raw_sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\prefix169-comparison.json",
+      "relative": "cases/remove30/evaluation/prefix169-comparison.json",
+      "raw_bytes": 141,
+      "raw_sha256": "8a8e612b19f819ea5c780e33ad58bd656f28574908085533cf2ab6bb4ce9b15d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\station-comparison.csv",
+      "relative": "cases/remove30/evaluation/station-comparison.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\evaluation\\station40-comparison.csv",
+      "relative": "cases/remove30/evaluation/station40-comparison.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\executed-driver.py",
+      "relative": "cases/remove30/executed-driver.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\executed-prepare.py",
+      "relative": "cases/remove30/executed-prepare.py",
+      "raw_bytes": 11355,
+      "raw_sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\execution.log",
+      "relative": "cases/remove30/execution.log",
+      "raw_bytes": 2241,
+      "raw_sha256": "061a5bb5bbf47ea31e56d69ed83bc5c1e2935220e7d3e6472ce1a765fa28ebab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\audit_response.py",
+      "relative": "cases/remove30/measurement-implementation/audit_response.py",
+      "raw_bytes": 18270,
+      "raw_sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\audit_scope.py",
+      "relative": "cases/remove30/measurement-implementation/audit_scope.py",
+      "raw_bytes": 7371,
+      "raw_sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\detector_demand.py",
+      "relative": "cases/remove30/measurement-implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\detector_demand_replay.py",
+      "relative": "cases/remove30/measurement-implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\hamburg_od_spsa.py",
+      "relative": "cases/remove30/measurement-implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\hamburg_readme_results.py",
+      "relative": "cases/remove30/measurement-implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\lane_section_hold.py",
+      "relative": "cases/remove30/measurement-implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\prepare_thinning.py",
+      "relative": "cases/remove30/measurement-implementation/prepare_thinning.py",
+      "raw_bytes": 11355,
+      "raw_sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\route_sensor_matrix.py",
+      "relative": "cases/remove30/measurement-implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\run_fixture.py",
+      "relative": "cases/remove30/measurement-implementation/run_fixture.py",
+      "raw_bytes": 17448,
+      "raw_sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\run_full.py",
+      "relative": "cases/remove30/measurement-implementation/run_full.py",
+      "raw_bytes": 15784,
+      "raw_sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\run_thinning.py",
+      "relative": "cases/remove30/measurement-implementation/run_thinning.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-implementation\\simulation_stall.py",
+      "relative": "cases/remove30/measurement-implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\measurement-plan.json",
+      "relative": "cases/remove30/measurement-plan.json",
+      "raw_bytes": 7406,
+      "raw_sha256": "243af3dfd0e3e3517edc3c04d7cdf9195973b51f45061cdf31a840362289c034"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\od-vector.json",
+      "relative": "cases/remove30/od-vector.json",
+      "raw_bytes": 5674,
+      "raw_sha256": "6ad45c78e30b681e702f1d1cf3c6adfc800c827ee537aa5fbe7a3265e519809a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\preflight.json",
+      "relative": "cases/remove30/preflight.json",
+      "raw_bytes": 4409,
+      "raw_sha256": "a7127fbc4ecb7302798b97da401b6c7ce4f74230e78ab21b9f398e0f78c2f551"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\control.add.xml",
+      "relative": "cases/remove30/prepared/control.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\demand.rou.xml",
+      "relative": "cases/remove30/prepared/demand.rou.xml",
+      "raw_bytes": 3712699,
+      "raw_sha256": "95cc3c9a79ccf6c9625ded27338b4f6299def53b9ed1e542c6e1e200fa677aec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\expected-counts.csv",
+      "relative": "cases/remove30/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\field-loops.add.xml",
+      "relative": "cases/remove30/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\initialization-counts.csv",
+      "relative": "cases/remove30/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\lane-intentions.json",
+      "relative": "cases/remove30/prepared/lane-intentions.json",
+      "raw_bytes": 1001456,
+      "raw_sha256": "0c7790a67eee460b6e47cf247b846ac7bcfc02d87bd00c9bebb841d26f04b357"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\network.net.xml",
+      "relative": "cases/remove30/prepared/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\prepared\\scenario.json",
+      "relative": "cases/remove30/prepared/scenario.json",
+      "raw_bytes": 5533,
+      "raw_sha256": "aa4b16cbe7aeca221274d052359a1f4930bc239f8117d5ba2c48cc7de74b7cfc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\proposal.json",
+      "relative": "cases/remove30/proposal.json",
+      "raw_bytes": 29077,
+      "raw_sha256": "2d4178fb94d86ac4d7411c9e889522c5f906d58b588d4885de9718009e82d7d3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\removed-requests.csv",
+      "relative": "cases/remove30/removed-requests.csv",
+      "raw_bytes": 1702,
+      "raw_sha256": "b492cecece05aa0bb26b2259aef892a280e97c4fea7b9d842700e6002a040838"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\scope-proof.json",
+      "relative": "cases/remove30/scope-proof.json",
+      "raw_bytes": 4614,
+      "raw_sha256": "adb0575d7cce082bda8014d839b466c79dd1872183eaef8a0a2d4b3316b29de5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove30\\verdict.json",
+      "relative": "cases/remove30/verdict.json",
+      "raw_bytes": 2829,
+      "raw_sha256": "50b415bf8efce598b1dc48548c329efdbaf50a34c65b01f858a17e592cb9e96a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\additional13.csv",
+      "relative": "cases/remove43/additional13.csv",
+      "raw_bytes": 1090,
+      "raw_sha256": "a763218327abe36759d833fa169553459bb76f7f7e1d01fce136020579fac1f1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\535-all56.csv",
+      "relative": "cases/remove43/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\all182-comparison.csv",
+      "relative": "cases/remove43/evaluation/all182-comparison.csv",
+      "raw_bytes": 10837,
+      "raw_sha256": "3f165f9d22cb2e58053d2db72a8cab25145ac250cbbb73377575d358aba81fc9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\contributing-passages.json.gz",
+      "relative": "cases/remove43/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 172252,
+      "raw_sha256": "57c1e32749d034c5700ec694e7763fae0d7049e780a25b4e3e6be8523c9c8fc8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\demand.rou.xml",
+      "relative": "cases/remove43/evaluation/demand.rou.xml",
+      "raw_bytes": 3707252,
+      "raw_sha256": "6fd873321b1e043d11f09d3894f2e27c9ab424c217fae631b93988a6e7f2bc43"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\evaluation.json",
+      "relative": "cases/remove43/evaluation/evaluation.json",
+      "raw_bytes": 452,
+      "raw_sha256": "270de5f46800a7f492edbc1bec4ecbb078ee8a5313bf1d91ff6282f119229163"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\initialization52-comparison.csv",
+      "relative": "cases/remove43/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\lane-intentions.json",
+      "relative": "cases/remove43/evaluation/lane-intentions.json",
+      "raw_bytes": 999946,
+      "raw_sha256": "1951bef78cdd4657085c3ead700379fd25e2d34c80e3a02855f921e42eb9ec1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\main130-comparison.csv",
+      "relative": "cases/remove43/evaluation/main130-comparison.csv",
+      "raw_bytes": 7856,
+      "raw_sha256": "81756e0e87ddd6a057f29a324cb89d6bb3b889d183f0ee6e7fd330ebe57147c5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\collisions.xml",
+      "relative": "cases/remove43/evaluation/native/collisions.xml",
+      "raw_bytes": 3391,
+      "raw_sha256": "d40de5ff64b1443f315391d797d4273489706b2a62493f8ea982b64531c59a93"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\command.json",
+      "relative": "cases/remove43/evaluation/native/command.json",
+      "raw_bytes": 5779,
+      "raw_sha256": "49993c67c8db3a662195d8c410e36d233bef4135c75be68e310d38bbfa4ef195"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\demand.rou.xml",
+      "relative": "cases/remove43/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3707252,
+      "raw_sha256": "6fd873321b1e043d11f09d3894f2e27c9ab424c217fae631b93988a6e7f2bc43"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\e1.add.xml",
+      "relative": "cases/remove43/evaluation/native/e1.add.xml",
+      "raw_bytes": 3758,
+      "raw_sha256": "8d44eb46e2a0126b4de999fa79da82cf9d11a51bee33f1a0c02905832a7657dd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\expected-counts.csv",
+      "relative": "cases/remove43/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\field-comparison.csv",
+      "relative": "cases/remove43/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7856,
+      "raw_sha256": "81756e0e87ddd6a057f29a324cb89d6bb3b889d183f0ee6e7fd330ebe57147c5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\field-counts.xml",
+      "relative": "cases/remove43/evaluation/native/field-counts.xml",
+      "raw_bytes": 53205,
+      "raw_sha256": "240f66bb2fa65586b31c19d1e28edbc9fe252e2cc774ec584bb7eac92cacb19e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\instant.add.xml",
+      "relative": "cases/remove43/evaluation/native/instant.add.xml",
+      "raw_bytes": 3234,
+      "raw_sha256": "1d2a82a66b0faf99ef6a7b96047dc6fa59bdd97ae718c6129283e3dabacf565b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\lane-intentions.json",
+      "relative": "cases/remove43/evaluation/native/lane-intentions.json",
+      "raw_bytes": 999946,
+      "raw_sha256": "1951bef78cdd4657085c3ead700379fd25e2d34c80e3a02855f921e42eb9ec1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\native-request.json",
+      "relative": "cases/remove43/evaluation/native/native-request.json",
+      "raw_bytes": 3962,
+      "raw_sha256": "2501571178ffa5c43717f32bcfce92228019e86bd8924a823c928ca299e759ac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\network.net.xml",
+      "relative": "cases/remove43/evaluation/native/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\run.json",
+      "relative": "cases/remove43/evaluation/native/run.json",
+      "raw_bytes": 6269443,
+      "raw_sha256": "21d616387e9a4dcdbf86ab16b85ef9592dd870265b1ec6ed41f8e5c3375d999c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "cases/remove43/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\source-e1.add.xml",
+      "relative": "cases/remove43/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\stall-monitor.json",
+      "relative": "cases/remove43/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5816509,
+      "raw_sha256": "a1270447711645bd97043ee3f60d5ff7ac3c052d48a31e632da3eb05a961b9fd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\summary.xml",
+      "relative": "cases/remove43/evaluation/native/summary.xml",
+      "raw_bytes": 46631776,
+      "raw_sha256": "b9154d69203ef646e87a4a0e3f54d9e302454938d2b7cfdfc8a3f9bb2375a666"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\sumo-errors.log",
+      "relative": "cases/remove43/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3498,
+      "raw_sha256": "c3322d2c11eb1be284598821890d3f12389fccf3ff4fd93d1b8547870126192c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\sumo.log",
+      "relative": "cases/remove43/evaluation/native/sumo.log",
+      "raw_bytes": 5100,
+      "raw_sha256": "8c25448bd80c3d05ad13b160ae82d82f41208446401efe37232e18d56c010776"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\tripinfo.xml",
+      "relative": "cases/remove43/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4547988,
+      "raw_sha256": "70ad08bc6b2df8b0f868a15683d98a6e599b3b2fb04b9030141785ccd9f5b42a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "cases/remove43/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6503056,
+      "raw_sha256": "3e571ec77f270fb90b3be63f901421e0353818fbf5b70cc8d023fb187af121cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\native208-comparison.csv",
+      "relative": "cases/remove43/evaluation/native208-comparison.csv",
+      "raw_bytes": 25153,
+      "raw_sha256": "0deedf051fb1073653862e907ed723ec8b4dea00debe4c88683ecb5d9fd1a10f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\prefix169-comparison.json",
+      "relative": "cases/remove43/evaluation/prefix169-comparison.json",
+      "raw_bytes": 141,
+      "raw_sha256": "8a8e612b19f819ea5c780e33ad58bd656f28574908085533cf2ab6bb4ce9b15d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\station-comparison.csv",
+      "relative": "cases/remove43/evaluation/station-comparison.csv",
+      "raw_bytes": 1602,
+      "raw_sha256": "cecd281b7fd44b0be6f5a2325ceb3efdfd3617a223a4d47afc0c55dbd022ef63"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\evaluation\\station40-comparison.csv",
+      "relative": "cases/remove43/evaluation/station40-comparison.csv",
+      "raw_bytes": 1602,
+      "raw_sha256": "cecd281b7fd44b0be6f5a2325ceb3efdfd3617a223a4d47afc0c55dbd022ef63"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\executed-driver.py",
+      "relative": "cases/remove43/executed-driver.py",
+      "raw_bytes": 3304,
+      "raw_sha256": "2c53ee60191c647a591df4132b334503d7df7282c63bb4c32010fddd5672555c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\executed-prepare-refinement.py",
+      "relative": "cases/remove43/executed-prepare-refinement.py",
+      "raw_bytes": 10352,
+      "raw_sha256": "df36433c38e627c965dbdf2d342af6401b8a56a7503821873f5ea45cdcaf5403"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\executed-shared-driver.py",
+      "relative": "cases/remove43/executed-shared-driver.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\execution.log",
+      "relative": "cases/remove43/execution.log",
+      "raw_bytes": 3161,
+      "raw_sha256": "852304906bb4c94a0c18da2c18101cfa590ce0a2a7c8fe69d693cfdeabb4e7e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\audit_response.py",
+      "relative": "cases/remove43/measurement-implementation/audit_response.py",
+      "raw_bytes": 18270,
+      "raw_sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\audit_scope.py",
+      "relative": "cases/remove43/measurement-implementation/audit_scope.py",
+      "raw_bytes": 7371,
+      "raw_sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\detector_demand.py",
+      "relative": "cases/remove43/measurement-implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\detector_demand_replay.py",
+      "relative": "cases/remove43/measurement-implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\hamburg_od_spsa.py",
+      "relative": "cases/remove43/measurement-implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\hamburg_readme_results.py",
+      "relative": "cases/remove43/measurement-implementation/hamburg_readme_results.py",
+      "raw_bytes": 31557,
+      "raw_sha256": "b5988b9b77940622ac056155cffd043847e3945e086894a232b49c4d95bab3aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\lane_section_hold.py",
+      "relative": "cases/remove43/measurement-implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\prepare_refinement.py",
+      "relative": "cases/remove43/measurement-implementation/prepare_refinement.py",
+      "raw_bytes": 10541,
+      "raw_sha256": "9284674b5c8df16b3a91bb3adc7f24511897a93535f780fc1b2ca57ddc32c7f1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\prepare_thinning.py",
+      "relative": "cases/remove43/measurement-implementation/prepare_thinning.py",
+      "raw_bytes": 11355,
+      "raw_sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\route_sensor_matrix.py",
+      "relative": "cases/remove43/measurement-implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\run_fixture.py",
+      "relative": "cases/remove43/measurement-implementation/run_fixture.py",
+      "raw_bytes": 17448,
+      "raw_sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\run_full.py",
+      "relative": "cases/remove43/measurement-implementation/run_full.py",
+      "raw_bytes": 15784,
+      "raw_sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\run_refinement.py",
+      "relative": "cases/remove43/measurement-implementation/run_refinement.py",
+      "raw_bytes": 3304,
+      "raw_sha256": "2c53ee60191c647a591df4132b334503d7df7282c63bb4c32010fddd5672555c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\run_thinning.py",
+      "relative": "cases/remove43/measurement-implementation/run_thinning.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-implementation\\simulation_stall.py",
+      "relative": "cases/remove43/measurement-implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\measurement-plan.json",
+      "relative": "cases/remove43/measurement-plan.json",
+      "raw_bytes": 8070,
+      "raw_sha256": "e474d0ae26e5dc0f50e930edaa08584279575f9e432b8bb2ae5da7aa3176b9c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\od-vector.json",
+      "relative": "cases/remove43/od-vector.json",
+      "raw_bytes": 5949,
+      "raw_sha256": "f3cba13ec66f2ffd20c3b4e46c341d08006fa1487235de9da1b14343afba194b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\preflight.json",
+      "relative": "cases/remove43/preflight.json",
+      "raw_bytes": 6147,
+      "raw_sha256": "b583caca0046e9c9e1a2826f252727dabd31236947149001acfd27b279f3919e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\control.add.xml",
+      "relative": "cases/remove43/prepared/control.add.xml",
+      "raw_bytes": 21928,
+      "raw_sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\demand.rou.xml",
+      "relative": "cases/remove43/prepared/demand.rou.xml",
+      "raw_bytes": 3707252,
+      "raw_sha256": "6fd873321b1e043d11f09d3894f2e27c9ab424c217fae631b93988a6e7f2bc43"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\expected-counts.csv",
+      "relative": "cases/remove43/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\field-loops.add.xml",
+      "relative": "cases/remove43/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\initialization-counts.csv",
+      "relative": "cases/remove43/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\lane-intentions.json",
+      "relative": "cases/remove43/prepared/lane-intentions.json",
+      "raw_bytes": 999946,
+      "raw_sha256": "1951bef78cdd4657085c3ead700379fd25e2d34c80e3a02855f921e42eb9ec1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\network.net.xml",
+      "relative": "cases/remove43/prepared/network.net.xml",
+      "raw_bytes": 1378817,
+      "raw_sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\prepared\\scenario.json",
+      "relative": "cases/remove43/prepared/scenario.json",
+      "raw_bytes": 5834,
+      "raw_sha256": "fbb5846adec1eacc7c5be91d141fba12c38fae5d53a61fd4e20e96089bb85557"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\proposal.json",
+      "relative": "cases/remove43/proposal.json",
+      "raw_bytes": 14596,
+      "raw_sha256": "ef0f70dff8937597cbf48aa725c64787dbc1fecb5aa0223803ac9739a5afcc4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\scope-proof.json",
+      "relative": "cases/remove43/scope-proof.json",
+      "raw_bytes": 7800,
+      "raw_sha256": "407540d49a587c8cb2e6b700dc903d644c02419cc2bfe3c61cef4cc9624e15ec"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\cases\\remove43\\verdict.json",
+      "relative": "cases/remove43/verdict.json",
+      "raw_bytes": 4089,
+      "raw_sha256": "1033fbb00b6da08669c770463a3e6e542af6aa9e86e6d9d38b74a7b99b254ea5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\audit-attempt-1-failure.json",
+      "relative": "independent-refinement/audit-attempt-1-failure.json",
+      "raw_bytes": 526,
+      "raw_sha256": "da9ecb3c9d63e9c249b01122daecfecfcc46bfd918837d56252ebebf94394e69"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\audit-attempt-1.py",
+      "relative": "independent-refinement/audit-attempt-1.py",
+      "raw_bytes": 14454,
+      "raw_sha256": "abec707eed7de8a4b84dd94bd45758e876187963b13afe1ff79ef4df6a813f29"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\audit_completed.py",
+      "relative": "independent-refinement/audit_completed.py",
+      "raw_bytes": 14514,
+      "raw_sha256": "e959ac52c3808cb615e2383e41688cc4608243f9cd4e085c381d57a04300a918"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\535-all56.csv",
+      "relative": "independent-refinement/complete/current337/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\all182.csv",
+      "relative": "independent-refinement/complete/current337/all182.csv",
+      "raw_bytes": 10838,
+      "raw_sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\audit.json",
+      "relative": "independent-refinement/complete/current337/audit.json",
+      "raw_bytes": 1028,
+      "raw_sha256": "efa3c2d049315f8e73c085a673385539a58118550b7471dc66472fa84d7df912"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\initialization52.csv",
+      "relative": "independent-refinement/complete/current337/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\main130.csv",
+      "relative": "independent-refinement/complete/current337/main130.csv",
+      "raw_bytes": 7857,
+      "raw_sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\native208.csv",
+      "relative": "independent-refinement/complete/current337/native208.csv",
+      "raw_bytes": 25153,
+      "raw_sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\current337\\station40.csv",
+      "relative": "independent-refinement/complete/current337/station40.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\535-all56.csv",
+      "relative": "independent-refinement/complete/remove43/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\all182.csv",
+      "relative": "independent-refinement/complete/remove43/all182.csv",
+      "raw_bytes": 10837,
+      "raw_sha256": "3f165f9d22cb2e58053d2db72a8cab25145ac250cbbb73377575d358aba81fc9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\audit.json",
+      "relative": "independent-refinement/complete/remove43/audit.json",
+      "raw_bytes": 2358,
+      "raw_sha256": "e9f301b828fd037f7697e9810a95cacd05ed16f39ec3795f59b0abe486ad1d25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\initialization52.csv",
+      "relative": "independent-refinement/complete/remove43/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\main130.csv",
+      "relative": "independent-refinement/complete/remove43/main130.csv",
+      "raw_bytes": 7856,
+      "raw_sha256": "81756e0e87ddd6a057f29a324cb89d6bb3b889d183f0ee6e7fd330ebe57147c5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\native208.csv",
+      "relative": "independent-refinement/complete/remove43/native208.csv",
+      "raw_bytes": 25153,
+      "raw_sha256": "0deedf051fb1073653862e907ed723ec8b4dea00debe4c88683ecb5d9fd1a10f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\prefix169-differences.json",
+      "relative": "independent-refinement/complete/remove43/prefix169-differences.json",
+      "raw_bytes": 4,
+      "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\remove43\\station40.csv",
+      "relative": "independent-refinement/complete/remove43/station40.csv",
+      "raw_bytes": 1602,
+      "raw_sha256": "cecd281b7fd44b0be6f5a2325ceb3efdfd3617a223a4d47afc0c55dbd022ef63"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\535-all56.csv",
+      "relative": "independent-refinement/complete/source365/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\all182.csv",
+      "relative": "independent-refinement/complete/source365/all182.csv",
+      "raw_bytes": 10841,
+      "raw_sha256": "145e4530fb1ae6837445f07632ecf5d31d8826b891c2d1e3242dc8dc82dcff5f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\audit.json",
+      "relative": "independent-refinement/complete/source365/audit.json",
+      "raw_bytes": 1028,
+      "raw_sha256": "a5fc56518768f3748aaffcac46911d84eff601bd01b0190caa1cb570b95452b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\initialization52.csv",
+      "relative": "independent-refinement/complete/source365/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\main130.csv",
+      "relative": "independent-refinement/complete/source365/main130.csv",
+      "raw_bytes": 7860,
+      "raw_sha256": "edd6f69e4ec41eb6440dea00a61c10542b7a8e7fc6c3206cf7f512c9fb6aef23"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\native208.csv",
+      "relative": "independent-refinement/complete/source365/native208.csv",
+      "raw_bytes": 25152,
+      "raw_sha256": "2722e3fcebaa6fab13584de0fa0ff5b6b4df605a219ebf666303ba0c5b468b32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\complete\\source365\\station40.csv",
+      "relative": "independent-refinement/complete/source365/station40.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "73172b872fdda3977a226f34bac0642edb325d3de7081f7d027aa1ca59c4ff89"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\535-all56.csv",
+      "relative": "independent-refinement/current337/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\all182.csv",
+      "relative": "independent-refinement/current337/all182.csv",
+      "raw_bytes": 10838,
+      "raw_sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\audit.json",
+      "relative": "independent-refinement/current337/audit.json",
+      "raw_bytes": 1028,
+      "raw_sha256": "efa3c2d049315f8e73c085a673385539a58118550b7471dc66472fa84d7df912"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\initialization52.csv",
+      "relative": "independent-refinement/current337/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\main130.csv",
+      "relative": "independent-refinement/current337/main130.csv",
+      "raw_bytes": 7857,
+      "raw_sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\native208.csv",
+      "relative": "independent-refinement/current337/native208.csv",
+      "raw_bytes": 25153,
+      "raw_sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\current337\\station40.csv",
+      "relative": "independent-refinement/current337/station40.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\manifest.json",
+      "relative": "independent-refinement/manifest.json",
+      "raw_bytes": 6928,
+      "raw_sha256": "21bc2221cc386fc9047f247aa6dd014c6e8d23de245257ccc86b9d876080d2bf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source-hashes.json",
+      "relative": "independent-refinement/source-hashes.json",
+      "raw_bytes": 19183,
+      "raw_sha256": "543aa0441f085432a837204a43416431609392c84d457c9cd7256de41c6996fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\535-all56.csv",
+      "relative": "independent-refinement/source365/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\all182.csv",
+      "relative": "independent-refinement/source365/all182.csv",
+      "raw_bytes": 10841,
+      "raw_sha256": "145e4530fb1ae6837445f07632ecf5d31d8826b891c2d1e3242dc8dc82dcff5f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\audit.json",
+      "relative": "independent-refinement/source365/audit.json",
+      "raw_bytes": 1028,
+      "raw_sha256": "a5fc56518768f3748aaffcac46911d84eff601bd01b0190caa1cb570b95452b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\initialization52.csv",
+      "relative": "independent-refinement/source365/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\main130.csv",
+      "relative": "independent-refinement/source365/main130.csv",
+      "raw_bytes": 7860,
+      "raw_sha256": "edd6f69e4ec41eb6440dea00a61c10542b7a8e7fc6c3206cf7f512c9fb6aef23"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\native208.csv",
+      "relative": "independent-refinement/source365/native208.csv",
+      "raw_bytes": 25152,
+      "raw_sha256": "2722e3fcebaa6fab13584de0fa0ff5b6b4df605a219ebf666303ba0c5b468b32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\source365\\station40.csv",
+      "relative": "independent-refinement/source365/station40.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "73172b872fdda3977a226f34bac0642edb325d3de7081f7d027aa1ca59c4ff89"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-refinement\\summary.json",
+      "relative": "independent-refinement/summary.json",
+      "raw_bytes": 5907,
+      "raw_sha256": "969eb6eca1545e1804d589fffe542d637f6418fd44ba09a0bbcea82b442cdec9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\audit_completed.py",
+      "relative": "independent-result/audit_completed.py",
+      "raw_bytes": 13365,
+      "raw_sha256": "4ac6d6925e2982038e2bfc8b13df7dbd16b6ce66b12a851b02b32b6a128d0676"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\manifest.json",
+      "relative": "independent-result/manifest.json",
+      "raw_bytes": 4271,
+      "raw_sha256": "410e4e60aaef60b1937b3284ac4d149b77520946f86bdc104db71ac6d70cf3cd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\535-all56.csv",
+      "relative": "independent-result/remove28/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\all182.csv",
+      "relative": "independent-result/remove28/all182.csv",
+      "raw_bytes": 10839,
+      "raw_sha256": "65f4de34c239cfe8301d3d7a6dbc466f4668e5ce7bc01a2a0b3c56489ee1df32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\audit.json",
+      "relative": "independent-result/remove28/audit.json",
+      "raw_bytes": 1970,
+      "raw_sha256": "33d8f300fc6b61af25ad2c83bc42a29cff2e80b59fcdb9eab06b9af23ec46823"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\initialization52.csv",
+      "relative": "independent-result/remove28/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\main130.csv",
+      "relative": "independent-result/remove28/main130.csv",
+      "raw_bytes": 7858,
+      "raw_sha256": "d0a42b8b28408a49be8c85dfe86d652042fabb0472637632831124529ae961ed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\native208.csv",
+      "relative": "independent-result/remove28/native208.csv",
+      "raw_bytes": 25155,
+      "raw_sha256": "4747837e5ca8e21889695e2d125b0c9d483c681ab8a40921eb77ab520a93c806"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\prefix169-differences.json",
+      "relative": "independent-result/remove28/prefix169-differences.json",
+      "raw_bytes": 4,
+      "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove28\\station40.csv",
+      "relative": "independent-result/remove28/station40.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "cb6ee1a86a296d1c30be9347a608797a9a2cfe390d4366555c193323a3121af3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\535-all56.csv",
+      "relative": "independent-result/remove30/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\all182.csv",
+      "relative": "independent-result/remove30/all182.csv",
+      "raw_bytes": 10838,
+      "raw_sha256": "8f23c684a894195cff23127f434079f5075d2a1b30fbe9fc3e3833a5b3b349cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\audit.json",
+      "relative": "independent-result/remove30/audit.json",
+      "raw_bytes": 1970,
+      "raw_sha256": "c805eb435d7784ad9e8bb6aa24565ee1f8e0e2e0b0b3667be9b0c2681824f00d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\initialization52.csv",
+      "relative": "independent-result/remove30/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\main130.csv",
+      "relative": "independent-result/remove30/main130.csv",
+      "raw_bytes": 7857,
+      "raw_sha256": "5f63de897e1e3e9149ed25a49d2be3139af3d7715472cb6f3cc08be382efa0ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\native208.csv",
+      "relative": "independent-result/remove30/native208.csv",
+      "raw_bytes": 25153,
+      "raw_sha256": "4798a2ef1a4488a9308983cf1fa46ed0b60dadef946d0c29c241856224cbe652"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\prefix169-differences.json",
+      "relative": "independent-result/remove30/prefix169-differences.json",
+      "raw_bytes": 4,
+      "raw_sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\remove30\\station40.csv",
+      "relative": "independent-result/remove30/station40.csv",
+      "raw_bytes": 1603,
+      "raw_sha256": "852b67666996e4597212bdfbd7054543cd12fe9058a2d49a32d9a6835f5edb25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source-hashes.json",
+      "relative": "independent-result/source-hashes.json",
+      "raw_bytes": 20088,
+      "raw_sha256": "6951075c20f20a63cc4f7e647cbf97f5a8d9a9bdd55bf8e282e69793747c18a4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\535-all56.csv",
+      "relative": "independent-result/source365/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\all182.csv",
+      "relative": "independent-result/source365/all182.csv",
+      "raw_bytes": 10841,
+      "raw_sha256": "145e4530fb1ae6837445f07632ecf5d31d8826b891c2d1e3242dc8dc82dcff5f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\audit.json",
+      "relative": "independent-result/source365/audit.json",
+      "raw_bytes": 1028,
+      "raw_sha256": "a5fc56518768f3748aaffcac46911d84eff601bd01b0190caa1cb570b95452b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\initialization52.csv",
+      "relative": "independent-result/source365/initialization52.csv",
+      "raw_bytes": 3121,
+      "raw_sha256": "eefe3bd5fa2299747ac9f4143e54dc80b276115d812703a379ed1b63d5eb9e2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\main130.csv",
+      "relative": "independent-result/source365/main130.csv",
+      "raw_bytes": 7860,
+      "raw_sha256": "edd6f69e4ec41eb6440dea00a61c10542b7a8e7fc6c3206cf7f512c9fb6aef23"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\native208.csv",
+      "relative": "independent-result/source365/native208.csv",
+      "raw_bytes": 25152,
+      "raw_sha256": "2722e3fcebaa6fab13584de0fa0ff5b6b4df605a219ebf666303ba0c5b468b32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\source365\\station40.csv",
+      "relative": "independent-result/source365/station40.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "73172b872fdda3977a226f34bac0642edb325d3de7081f7d027aa1ca59c4ff89"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\independent-result\\summary.json",
+      "relative": "independent-result/summary.json",
+      "raw_bytes": 6438,
+      "raw_sha256": "86f06fcde7b17634f94445d6dcd6070700dbaa86d26536c78404a8ab6c7d3ea3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\prepare_refinement.py",
+      "relative": "prepare_refinement.py",
+      "raw_bytes": 10541,
+      "raw_sha256": "9284674b5c8df16b3a91bb3adc7f24511897a93535f780fc1b2ca57ddc32c7f1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\prepare_thinning.py",
+      "relative": "prepare_thinning.py",
+      "raw_bytes": 11355,
+      "raw_sha256": "bed7c2b944c1918c234365ca85f837dea0022beadbc451abb6e87b48a2ab61ff"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\additional13-historical-contributions.csv",
+      "relative": "refinement-response/additional13-historical-contributions.csv",
+      "raw_bytes": 743,
+      "raw_sha256": "26eb8a8bc5d5b50e67d8d2ff6fbb9bb81ca08e96c70b0a4b3a3f8156cd7e4f10"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\analyze.py",
+      "relative": "refinement-response/analyze.py",
+      "raw_bytes": 5979,
+      "raw_sha256": "baa6fab422e304b6b6c4c6ab3cfa4ec034962a96953c30780cbee8774b1ac729"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\final13-vector.csv",
+      "relative": "refinement-response/final13-vector.csv",
+      "raw_bytes": 560,
+      "raw_sha256": "2ba166c81054fdfde24dd793c65a3fa55e22648b108f5ddee8772b7fe5a3db55"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\manifest.json",
+      "relative": "refinement-response/manifest.json",
+      "raw_bytes": 1212,
+      "raw_sha256": "a81c3e6acd15bb2921e5f454ae1bbfdcc7d2af6474b8be9fd15b5dfca0ca8412"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\source-hashes.json",
+      "relative": "refinement-response/source-hashes.json",
+      "raw_bytes": 2060,
+      "raw_sha256": "d203427d2eae4df2fdb77b8a19c4087f2d93d072ead403cca11023b2f311ff2c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\summary.json",
+      "relative": "refinement-response/summary.json",
+      "raw_bytes": 6263,
+      "raw_sha256": "182fc74494b78be849f1de866b48325411f8d5645fda20cee6e7b528f7ffce9b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\survivor-time-response.csv",
+      "relative": "refinement-response/survivor-time-response.csv",
+      "raw_bytes": 11030,
+      "raw_sha256": "cd106f6fc55b204763c7fe16930065e5ddb362b1cceb9e3d79ab4ae499b79f6d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\refinement-response\\tail24-by-ID.csv",
+      "relative": "refinement-response/tail24-by-ID.csv",
+      "raw_bytes": 2487,
+      "raw_sha256": "3180347a464c70b1e01ccf4f0224412692467057a5281088e4fe5deff3293b4e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\analyze.py",
+      "relative": "response-decomposition/analyze.py",
+      "raw_bytes": 8899,
+      "raw_sha256": "f160b856019eb0a6a66ff22a7f230ee9c7808f7934bdae6b3137d498cdf4be3e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\changed208-direct-and-survivor.csv",
+      "relative": "response-decomposition/changed208-direct-and-survivor.csv",
+      "raw_bytes": 487,
+      "raw_sha256": "044ec370b49095122809dfd4249466fae13cb3851b3325084020739fca77674d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\field13-direct-and-survivor.csv",
+      "relative": "response-decomposition/field13-direct-and-survivor.csv",
+      "raw_bytes": 1526,
+      "raw_sha256": "8c0cac817777b246d485c345547c16b086130c407cfd53dbc33e43a6e7f12e83"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\manifest.json",
+      "relative": "response-decomposition/manifest.json",
+      "raw_bytes": 2258,
+      "raw_sha256": "91acff9222a03965ea1dc67a6cf250d1fd93f188592e6c2ec36a7e2f650f73de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\README.md",
+      "relative": "response-decomposition/README.md",
+      "raw_bytes": 1238,
+      "raw_sha256": "6ecdea75608d01eb96c51b6001cc9f21411af8748421a9ec0b2fb86cc4259efc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove28-historical-removed.csv",
+      "relative": "response-decomposition/remove28-historical-removed.csv",
+      "raw_bytes": 2409,
+      "raw_sha256": "2fd4e84bb7e1a405970cbf16a82380622a4562f0769c49ed83b38915ddfd73e6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove28-survivor-bin-response.csv",
+      "relative": "response-decomposition/remove28-survivor-bin-response.csv",
+      "raw_bytes": 306,
+      "raw_sha256": "62dcbeeda0459de1fdea5d28eed90cd3ee35516cb244e071a6ef1ba08e4ae897"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove28-survivor-time-response.csv",
+      "relative": "response-decomposition/remove28-survivor-time-response.csv",
+      "raw_bytes": 18061,
+      "raw_sha256": "b6e293ed4020afb294598920d8b0b2eaea5b8bb4d2a7080158a7ebe177bd8b4e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove28-to-remove30-extra-two.csv",
+      "relative": "response-decomposition/remove28-to-remove30-extra-two.csv",
+      "raw_bytes": 234,
+      "raw_sha256": "261bb67f3ce9bb7af4ea721d82c272f2431dc20d568f4c5a3335754262a3bc90"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove30-historical-removed.csv",
+      "relative": "response-decomposition/remove30-historical-removed.csv",
+      "raw_bytes": 2561,
+      "raw_sha256": "f9ba800724082a4347994fe039245daadeee67c3bdc0c1820858c5b4085f030e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove30-survivor-bin-response.csv",
+      "relative": "response-decomposition/remove30-survivor-bin-response.csv",
+      "raw_bytes": 294,
+      "raw_sha256": "92feef3e1dbb0db537b1478b29ef7fd3c5b11e1d0555caadd59a12d5e8402658"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\remove30-survivor-time-response.csv",
+      "relative": "response-decomposition/remove30-survivor-time-response.csv",
+      "raw_bytes": 16880,
+      "raw_sha256": "26ed8e0ca0aa9eb15f5d2f5390b5923d22cc75c0839ea08598966153e41be87d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\source-hashes.json",
+      "relative": "response-decomposition/source-hashes.json",
+      "raw_bytes": 4016,
+      "raw_sha256": "ae04541db5ecf8afdc640a2aebce2124181c2ad0c1cc13883302e255ac0ea59a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\response-decomposition\\summary.json",
+      "relative": "response-decomposition/summary.json",
+      "raw_bytes": 4465,
+      "raw_sha256": "48e0e69b09e756fdb53bfa8347839648311bf8830d07f754ce9f0d6b707a2edc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\run_refinement.py",
+      "relative": "run_refinement.py",
+      "raw_bytes": 3304,
+      "raw_sha256": "2c53ee60191c647a591df4132b334503d7df7282c63bb4c32010fddd5672555c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-late-demand-thinning-20261024-v1\\run_thinning.py",
+      "relative": "run_thinning.py",
+      "raw_bytes": 14571,
+      "raw_sha256": "17a4debb6f631564cd23ae6cd17b9173d05d65c3d0829cf96992bf03ae4a0eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\actual-last-window-carry30.csv",
+      "relative": "source-support/actual-last-window-carry30.csv",
+      "raw_bytes": 4757,
+      "raw_sha256": "1eece5c0c385d2f5dde55e59d2f3ee8b414ac821b0edf51dbdcb65c38878f9ad"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\analyze.py",
+      "relative": "source-support/analyze.py",
+      "raw_bytes": 9031,
+      "raw_sha256": "aa2e8cc534a24a589c9d7e4d70e35e7232f457382225ff0c3639715d740b8951"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\h13-planned-pool217.csv",
+      "relative": "source-support/h13-planned-pool217.csv",
+      "raw_bytes": 33447,
+      "raw_sha256": "705bcab7ac2456d2915868c38b7f146ea6e1e0d7bd4d989c2045caf615fafb81"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\illustrative-unmaterialized-28-IDs.csv",
+      "relative": "source-support/illustrative-unmaterialized-28-IDs.csv",
+      "raw_bytes": 4841,
+      "raw_sha256": "f17c88d053e26af342e80ce87918042ac24026538fbeef8db22e3a34051b1c66"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\manifest.json",
+      "relative": "source-support/manifest.json",
+      "raw_bytes": 1373,
+      "raw_sha256": "73449128e1830654809255e1785e7df00c5d8b6c417b6a6cb85d34bd74d30fce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\README.md",
+      "relative": "source-support/README.md",
+      "raw_bytes": 1335,
+      "raw_sha256": "ada0f831938502f1ece7e1ef88ecb18e4fea2886a962f9eed6c45383bf67fef6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\route-templates.json",
+      "relative": "source-support/route-templates.json",
+      "raw_bytes": 4450,
+      "raw_sha256": "4bb42379e098573a414af3b2886c4a5f90834c9e6e475860ac4c62106f566e2e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\source-hashes.json",
+      "relative": "source-support/source-hashes.json",
+      "raw_bytes": 1749,
+      "raw_sha256": "31e604777ec4c05ad7172c668fc412d5abb4decd0bdf005f97f314dab4cf5f59"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-h13-count-support-20261024-v1\\summary.json",
+      "relative": "source-support/summary.json",
+      "raw_bytes": 3799,
+      "raw_sha256": "f9c27d6d74ca05b7722b1d104cf0c38149b395fb4ae528dccbf2980ca5dce45c"
+    }
+  ],
+  "source_files_unchanged": true
+}

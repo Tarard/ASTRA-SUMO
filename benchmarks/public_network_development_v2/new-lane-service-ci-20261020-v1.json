@@ -1,0 +1,34 @@
+{
+  "schema": "astra.new-lane-service-ci-followup/v1",
+  "date": "2026-10-20",
+  "production_commit": "bc2efd8",
+  "test_fix_commit": "b960e86",
+  "failed_ci": {
+    "run": 39330275515,
+    "job": 118326623239,
+    "failed": 1,
+    "passed": 3622,
+    "skipped": 24,
+    "seconds": 785.09,
+    "nodeid": "tests/test_local_network_conversion.py::test_legacy_lane_count_checks_inherited_lane_and_connection_permissions[False]"
+  },
+  "cause": "The permission regression still used release_checks_passed. Valid preservation now has a separate construction check; the unserved new lane remains unqualified.",
+  "correction": "Assert construction_checks_passed against permission tampering; assert release qualification remains false and service requires review.",
+  "production_code_changed": false,
+  "local_checks": {
+    "passed": 66,
+    "seconds": 100.85,
+    "files": [
+      "tests/test_local_network_conversion.py",
+      "tests/test_new_lane_service.py",
+      "tests/test_persisted_evidence_json.py"
+    ]
+  },
+  "negative_permission_control": "The altered-permission case still fails other_lane_permissions_preserved and construction_checks_passed.",
+  "artifacts": {
+    "outputs\\new_lane_service_20261019_v1\\ci-bc2efd8-push.log": "a035e87a7829e8e08dd195a57a2576f9d51e770aea8171d351d1803d4c3a0963",
+    "outputs\\new_lane_service_20261019_v1\\legacy-permission-and-service-final.log": "c82c9c5279f281d7a30a1abeb3b02f9b94986990b3319ef6384ac8c71a75ecbe"
+  },
+  "downloaded_ci_artifacts": "outputs/new_lane_service_20261019_v1/ci-bc2efd8-push-artifacts/",
+  "latest_full_ci": "pending at record creation"
+}

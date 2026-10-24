@@ -1,0 +1,838 @@
+{
+  "status": "measured",
+  "new_simulations": 0,
+  "scope": "Frozen finite ideal-profile pool, one field per model vehicle and source-supported planned turns. This does not enumerate all legal road routes.",
+  "fields": {
+    "8": {
+      "profile_count": 2,
+      "entry_choices": [
+        "-142944318",
+        "28665128#2"
+      ],
+      "profiles": [
+        {
+          "profile_index": 0,
+          "entry": "-142944318"
+        },
+        {
+          "profile_index": 138,
+          "entry": "28665128#2"
+        }
+      ]
+    },
+    "9": {
+      "profile_count": 2,
+      "entry_choices": [
+        "-142944318",
+        "28665128#2"
+      ],
+      "profiles": [
+        {
+          "profile_index": 1,
+          "entry": "-142944318"
+        },
+        {
+          "profile_index": 139,
+          "entry": "28665128#2"
+        }
+      ]
+    },
+    "11": {
+      "profile_count": 2,
+      "entry_choices": [
+        "-142944318",
+        "28665128#2"
+      ],
+      "profiles": [
+        {
+          "profile_index": 3,
+          "entry": "-142944318"
+        },
+        {
+          "profile_index": 141,
+          "entry": "28665128#2"
+        }
+      ]
+    },
+    "10": {
+      "profile_count": 2,
+      "entry_choices": [
+        "-142944318",
+        "28665128#2"
+      ],
+      "profiles": [
+        {
+          "profile_index": 4,
+          "entry": "-142944318"
+        },
+        {
+          "profile_index": 142,
+          "entry": "28665128#2"
+        }
+      ]
+    },
+    "7": {
+      "profile_count": 16,
+      "entry_choices": [
+        "-56754917",
+        "-983227468#1",
+        "139083714#0",
+        "31106387",
+        "448511533#3",
+        "722791971",
+        "771709146#0",
+        "963776077#0"
+      ],
+      "profiles": [
+        {
+          "profile_index": 5,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 6,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 33,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 34,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 59,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 60,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 143,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 144,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 186,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 187,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 254,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 255,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 280,
+          "entry": "771709146#0"
+        },
+        {
+          "profile_index": 281,
+          "entry": "771709146#0"
+        },
+        {
+          "profile_index": 282,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 283,
+          "entry": "963776077#0"
+        }
+      ]
+    },
+    "4": {
+      "profile_count": 28,
+      "entry_choices": [
+        "-56754917",
+        "-983227468#1",
+        "139083714#0",
+        "31106387",
+        "448511533#3",
+        "722791971",
+        "963776077#0"
+      ],
+      "profiles": [
+        {
+          "profile_index": 23,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 25,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 27,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 29,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 51,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 53,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 55,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 57,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 77,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 79,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 81,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 83,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 161,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 163,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 165,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 167,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 204,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 206,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 208,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 210,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 272,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 274,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 276,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 278,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 300,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 302,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 304,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 306,
+          "entry": "963776077#0"
+        }
+      ]
+    },
+    "5": {
+      "profile_count": 28,
+      "entry_choices": [
+        "-56754917",
+        "-983227468#1",
+        "139083714#0",
+        "31106387",
+        "448511533#3",
+        "722791971",
+        "963776077#0"
+      ],
+      "profiles": [
+        {
+          "profile_index": 24,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 26,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 28,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 30,
+          "entry": "-56754917"
+        },
+        {
+          "profile_index": 52,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 54,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 56,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 58,
+          "entry": "-983227468#1"
+        },
+        {
+          "profile_index": 78,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 80,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 82,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 84,
+          "entry": "139083714#0"
+        },
+        {
+          "profile_index": 162,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 164,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 166,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 168,
+          "entry": "31106387"
+        },
+        {
+          "profile_index": 205,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 207,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 209,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 211,
+          "entry": "448511533#3"
+        },
+        {
+          "profile_index": 273,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 275,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 277,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 279,
+          "entry": "722791971"
+        },
+        {
+          "profile_index": 301,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 303,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 305,
+          "entry": "963776077#0"
+        },
+        {
+          "profile_index": 307,
+          "entry": "963776077#0"
+        }
+      ]
+    },
+    "12": {
+      "profile_count": 2,
+      "entry_choices": [
+        "142944473#0"
+      ],
+      "profiles": [
+        {
+          "profile_index": 85,
+          "entry": "142944473#0"
+        },
+        {
+          "profile_index": 86,
+          "entry": "142944473#0"
+        }
+      ]
+    },
+    "3": {
+      "profile_count": 12,
+      "entry_choices": [
+        "189764301",
+        "543550497#0",
+        "551288837#2",
+        "61578529#1"
+      ],
+      "profiles": [
+        {
+          "profile_index": 89,
+          "entry": "189764301"
+        },
+        {
+          "profile_index": 90,
+          "entry": "189764301"
+        },
+        {
+          "profile_index": 238,
+          "entry": "543550497#0"
+        },
+        {
+          "profile_index": 239,
+          "entry": "543550497#0"
+        },
+        {
+          "profile_index": 240,
+          "entry": "543550497#0"
+        },
+        {
+          "profile_index": 241,
+          "entry": "543550497#0"
+        },
+        {
+          "profile_index": 244,
+          "entry": "551288837#2"
+        },
+        {
+          "profile_index": 245,
+          "entry": "551288837#2"
+        },
+        {
+          "profile_index": 246,
+          "entry": "551288837#2"
+        },
+        {
+          "profile_index": 247,
+          "entry": "551288837#2"
+        },
+        {
+          "profile_index": 252,
+          "entry": "61578529#1"
+        },
+        {
+          "profile_index": 253,
+          "entry": "61578529#1"
+        }
+      ]
+    },
+    "6": {
+      "profile_count": 4,
+      "entry_choices": [
+        "19409045",
+        "26623877"
+      ],
+      "profiles": [
+        {
+          "profile_index": 91,
+          "entry": "19409045"
+        },
+        {
+          "profile_index": 92,
+          "entry": "19409045"
+        },
+        {
+          "profile_index": 110,
+          "entry": "26623877"
+        },
+        {
+          "profile_index": 111,
+          "entry": "26623877"
+        }
+      ]
+    },
+    "0": {
+      "profile_count": 2,
+      "entry_choices": [
+        "25866659#1",
+        "44532531"
+      ],
+      "profiles": [
+        {
+          "profile_index": 93,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 169,
+          "entry": "44532531"
+        }
+      ]
+    },
+    "1": {
+      "profile_count": 8,
+      "entry_choices": [
+        "25866659#1",
+        "44532531"
+      ],
+      "profiles": [
+        {
+          "profile_index": 98,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 100,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 106,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 108,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 174,
+          "entry": "44532531"
+        },
+        {
+          "profile_index": 176,
+          "entry": "44532531"
+        },
+        {
+          "profile_index": 182,
+          "entry": "44532531"
+        },
+        {
+          "profile_index": 184,
+          "entry": "44532531"
+        }
+      ]
+    },
+    "2": {
+      "profile_count": 8,
+      "entry_choices": [
+        "25866659#1",
+        "44532531"
+      ],
+      "profiles": [
+        {
+          "profile_index": 99,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 101,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 107,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 109,
+          "entry": "25866659#1"
+        },
+        {
+          "profile_index": 175,
+          "entry": "44532531"
+        },
+        {
+          "profile_index": 177,
+          "entry": "44532531"
+        },
+        {
+          "profile_index": 183,
+          "entry": "44532531"
+        },
+        {
+          "profile_index": 185,
+          "entry": "44532531"
+        }
+      ]
+    }
+  },
+  "source_profile": {
+    "field_mask": 8,
+    "entry_lanes": [
+      1,
+      1,
+      1,
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "exit_lanes": [
+      1,
+      1,
+      1,
+      1,
+      3,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "route_id": "route_02675",
+    "source_edge": "543550497#0",
+    "edges": [
+      "543550497#0",
+      "543550497#1",
+      "543550497#2",
+      "186714394",
+      "186714395",
+      "186713403#0",
+      "142944399#2",
+      "186713420",
+      "186713427",
+      "142770548",
+      "142770551",
+      "186713425",
+      "186713423",
+      "186713426",
+      "603103445#0",
+      "603103445#1",
+      "603103445#2",
+      "186713429",
+      "141050975",
+      "141050980#0",
+      "141050980#1",
+      "603103444",
+      "73474895",
+      "27064186#0"
+    ],
+    "distance_m": 799.4078940000002,
+    "field_offsets_s": {
+      "3": 49.07189381748906
+    },
+    "approach_offsets_s": [
+      2.935957296512341,
+      3.4860019401119833,
+      3.760066481919467,
+      7.0855088797880015,
+      8.273278686285842,
+      9.648518203283926,
+      20.26710547833523,
+      20.54311531612715,
+      29.346984725696196,
+      33.71766844273073,
+      39.951557776859616,
+      43.20808830280737,
+      44.126681719458624,
+      47.46110076478327,
+      48.71911232431131,
+      49.05300404164018,
+      49.59922044527045,
+      50.598788300509625,
+      52.806484970848054,
+      54.79446781094419,
+      55.20750696763988,
+      55.30075121489393,
+      56.856406746448684,
+      58.55138422088886
+    ],
+    "flagged_indirect": false
+  },
+  "replacement_profile": {
+    "field_mask": 8,
+    "entry_lanes": [
+      2,
+      2,
+      2,
+      2,
+      1,
+      1,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "exit_lanes": [
+      2,
+      2,
+      2,
+      2,
+      1,
+      3,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    "route_id": "route_02789",
+    "source_edge": "551288837#2",
+    "edges": [
+      "551288837#2",
+      "189775477#0",
+      "189775477#1",
+      "189775477#2",
+      "186714394",
+      "186714395",
+      "186713403#0",
+      "142944399#2",
+      "186713420",
+      "186713427",
+      "142770548",
+      "142770551",
+      "186713425",
+      "186713423",
+      "186713426",
+      "603103445#0",
+      "603103445#1",
+      "603103445#2",
+      "186713429",
+      "141050975",
+      "141050980#0",
+      "141050980#1",
+      "603103444",
+      "73474895",
+      "27064186#0"
+    ],
+    "distance_m": 907.0553240000002,
+    "field_offsets_s": {
+      "3": 56.13604269650381
+    },
+    "approach_offsets_s": [
+      9.65231992278144,
+      10.535579195715364,
+      10.81370223349038,
+      11.05180493558556,
+      14.149657758802737,
+      15.33742756530058,
+      16.712667082298662,
+      27.331254357349962,
+      27.60726419514188,
+      36.411133604710926,
+      40.78181732174546,
+      47.01570665587435,
+      50.2722371818221,
+      51.190830598473354,
+      54.525249643798006,
+      55.78326120332604,
+      56.11715292065491,
+      56.66336932428518,
+      57.662937179524356,
+      59.870633849862784,
+      61.85861668995892,
+      62.27165584665461,
+      62.36490009390866,
+      63.92055562546342,
+      65.6155330999036
+    ],
+    "flagged_indirect": false
+  },
+  "interpretation": "Fields 0,1,2 retain only entries 44532531 and 25866659#1 in this pool. The Z15 prefix replacement tests one available alternative, not a general entry optimum."
+}

@@ -17,6 +17,12 @@ and keeps promotion blocked until the relevant gates pass.
 
 ## Implemented Corridor Contract
 
+Daily road calibration and typed-edit verification default to `explore` mode.
+They retain measurements, tentative correspondence, confidence, and actual file hashes before release evidence is complete.
+Explore candidates remain separate from their sources and have no promotion authority.
+Final publication or promotion uses `release` mode and the contract below.
+See [road calibration](network-calibration.md) and [typed edits](network-edit-operations.md) for the command boundaries.
+
 The first acceptance boundary is corridor-scale human-modeling work, not a
 city-scale automatic-cleanup claim.  An accepted edit is materialized into a
 new candidate network and may be promoted only through this persisted chain:
@@ -59,6 +65,24 @@ or merged geometry is rendered from the source network, added geometry from
 the candidate. The JSON evidence, decision, HTML rendering, overlay, and
 candidate are bound by SHA-256 in the manifests.
 
+[Network review over aerial imagery](network-aerial-review.md) adds a separate
+CLI path for routine visual review. It draws saved lane and junction geometry
+in fixed aerial coordinates, with input and image hashes. It does not invoke
+NetEdit or netconvert and does not replace map-review decisions or candidate gates.
+
+[Parking facilities](parking-facilities.md) uses OSM building footprints and exact
+road correspondence to preserve parking access as a facility. It adds metadata
+without changing the driving network. Aerial overviews show facility boundaries
+and portals while detail views retain full geometry. Parking operations and
+capacity validation remain separate inputs.
+
+[Local edit applicability](edit-specific-applicability.md) provides technical
+profiles for accepted turnaround removal, contour tightening, and reciprocal
+fragment absorption. These profiles check exact vehicle-class boundary paths
+instead of rejecting the intended decrease in road, node, or connection counts.
+They retain all other candidate gates and required review. They do not change
+the frozen whole-intersection certification envelope or establish field accuracy.
+
 The reproducible four-scenario acceptance runner is
 `plugins/astra-sumo/scripts/run_corridor_contract_regression.py`.  It rebuilds
 its source networks from tracked OSM input, the installed SUMO pedestrian
@@ -66,6 +90,12 @@ tutorial, and a sentence-generated five-way scene; it does not depend on old
 ignored `outputs/` artifacts.
 
 ## Ingolstadt Teacher-Corridor Slice
+
+The [public reference corpus](public-reference-corpus.md) provides a separate
+daily development path. It freezes TUM Ingolstadt, LuST, MoST, and InTAS model
+targets. A traceable InTAS revision pair supplies model-relative connection
+checks. Missing raw OSM and unresolved correspondence stay explicit. This path
+does not change the frozen human study or certify field accuracy.
 
 The first same-bbox human-modeling experiment is intentionally one physical
 intersection rather than the whole city. Its executable chain is:

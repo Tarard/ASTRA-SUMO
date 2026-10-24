@@ -1,0 +1,76 @@
+{
+  "parent_source_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+  "upstream_commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+  "label_scope": "native_converter_regression_not_field_defect",
+  "selection": "Selected from independent review after observing the native fold. Not part of the original fixed three-case cohort.",
+  "fixtures": [
+    {
+      "node_id": "140489",
+      "sha256": "29f4baad8701166ba91d089564bd10fe701f1bda76da712006d37ae6dc4affe0",
+      "requested_shape": [
+        [
+          4295.455275176877,
+          3028.8769423151666
+        ],
+        [
+          4303.748400594443,
+          3027.5722049111096
+        ],
+        [
+          4303.641135689269,
+          3026.785595606498
+        ],
+        [
+          4295.305177317363,
+          3027.795202569012
+        ]
+      ],
+      "purpose": "Native self-intersection under a stable identity control despite passing requested geometry limits.",
+      "polygons": {
+        "source": {
+          "valid": true,
+          "area_m2": 3.0801000000005,
+          "wkt": "POLYGON ((4296.23 3027.18, 4294.74 3027.36, 4295.03 3029.45, 4296.51 3029.21, 4296.2 3027.24, 4296.23 3027.18))"
+        },
+        "control": {
+          "valid": true,
+          "area_m2": 3.088746257944517,
+          "wkt": "POLYGON ((4296.22597 3027.179744, 4294.73692 3027.360656, 4295.027883 3029.450167, 4296.509708 3029.217367, 4296.199486 3027.243264, 4296.22597 3027.179744))"
+        },
+        "candidate": {
+          "valid": false,
+          "area_m2": 1.6066879105565255,
+          "wkt": "POLYGON ((4296.286275 3027.676094, 4294.797224 3027.857007, 4294.950283 3028.956225, 4296.432108 3028.723425, 4296.121885 3026.749326, 4296.286275 3027.676094))"
+        }
+      },
+      "extraction_scope": {
+        "status": "local",
+        "mutable_junction_ids": [
+          "140489"
+        ],
+        "mutable_edge_ids": [
+          "-152719",
+          "-152728",
+          "152719",
+          "152728"
+        ],
+        "context_edge_ids": [
+          "-152719",
+          "-152728",
+          "152719",
+          "152728"
+        ],
+        "context_junction_ids": [
+          "132727",
+          "140489",
+          "142754"
+        ],
+        "controller_ids": [],
+        "source_normal_edge_count": 4789,
+        "converted_normal_edge_count": 4,
+        "preserve_loaded_turn_permissions": true
+      },
+      "source_load_status": "pass"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "verified": true,
+  "updates": 1,
+  "gradient_scalar": -3798,
+  "a": 0.0002632964718272775,
+  "final_rule": "max(0, initial - ak * gradient)",
+  "roundoff_vs_simplified_initial_plus_delta": 1.1102230246251565e-16,
+  "integer_counts_match_simplified_rule": true,
+  "native_evaluations": 4,
+  "reused_initial": 1,
+  "new_native_evaluations": 3,
+  "final_loss": 65254,
+  "formal_result": false
+}

@@ -1,0 +1,158 @@
+{
+  "formal_result": false,
+  "family_manifest_sha256": "690703b4e9b6daf298257675d9c4309be01cfc3753130101e21ad3232ff478a0",
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "raw_verdict": "diagnostic_candidate",
+    "selection_decision": "not_adopted",
+    "retained_working_reference": "42a827e/full-priority:healthy-MAE3.7153846153846155",
+    "selection_claim_boundary": "Root rejected this paired full case. Preserve raw diagnostic status; this is not a claim that the physical option is wrong or zero error infeasible.",
+    "reference": {
+      "main130": {
+        "SSE": 6709,
+        "TAE": 483,
+        "MAE": 3.7153846153846155,
+        "max_abs_error": 27
+      },
+      "initial52": {
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "all182": {
+        "SSE": 7714,
+        "TAE": 588,
+        "MAE": 3.230769230769231,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 10.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "waiting": 0,
+        "running": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "safe": true,
+      "event_count": 8640,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 29
+    },
+    "full": {
+      "main130": {
+        "SSE": 14184,
+        "TAE": 772,
+        "MAE": 5.938461538461539,
+        "max_abs_error": 34
+      },
+      "initial52": {
+        "SSE": 525,
+        "TAE": 61,
+        "MAE": 1.1730769230769231,
+        "max_abs_error": 16
+      },
+      "all182": {
+        "SSE": 14709,
+        "TAE": 833,
+        "MAE": 4.576923076923077,
+        "max_abs_error": 34
+      },
+      "station40_MAE": 15.65,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8579,
+        "arrived": 8485,
+        "waiting": 61,
+        "running": 94,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8499,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 34
+    },
+    "all535_real56_TAE": 0,
+    "retained_conflicts": [
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        1,
+        3
+      ]
+    ],
+    "excluded_cross_pairs": [
+      [
+        0,
+        3
+      ],
+      [
+        0,
+        4
+      ],
+      [
+        0,
+        5
+      ],
+      [
+        1,
+        4
+      ],
+      [
+        1,
+        5
+      ]
+    ],
+    "connection_priority_changes": [
+      [
+        "79014037#1",
+        "1",
+        "186713429",
+        "2"
+      ],
+      [
+        "79014037#1",
+        "1",
+        "186713429",
+        "3"
+      ]
+    ],
+    "source_dependencies": [
+      {
+        "path": "benchmarks/hamburg_ring1_197_through_support_20261023_v1/candidate-review/NBRequest.cpp",
+        "raw_sha256": "5cbc9fe76e56bf2eb19fee3b443a86811eef7c6722f230b38de32bf254f8c45a"
+      },
+      {
+        "path": "benchmarks/hamburg_ring1_197_through_support_20261023_v1/import-semantics/NBNode.cpp",
+        "raw_sha256": "c2cc50e838c2d6f4c33e3fac7d3c21e1bba71f94a110e681ab892a14feabeda8"
+      },
+      {
+        "path": "benchmarks/hamburg_ring1_197_through_support_20261023_v1/import-semantics/NBEdge.cpp",
+        "raw_sha256": "ad280ef6fc43943550d423bc190fd322e7a9bff504d4630b4b6a6d836790cef9"
+      },
+      {
+        "path": "native-source/NBFrame.cpp",
+        "raw_sha256": "4e8617bdd42abc0d30a70c3eea84eaf5d86fc4e794be24bda1f03ed71f14db9c"
+      }
+    ],
+    "candidate_network_sha256": "92e524c94c61ae301795887c8762c430884b88cbfbb909a9f7cdd2c034b4bddc",
+    "candidate_control_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+    "claim_boundary": "Single lane-level foe precision factor within the same conditional GS priority model. Physical signal ownership and603-major ROW remain unknown. No keepClear/geometry/control/OD change. Sparse smoke does not establish saturation or reverse-arrival safety; no calibration completion claim."
+  }
+}

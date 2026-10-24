@@ -13,6 +13,8 @@ from typing import Any, Callable, Mapping, Sequence
 from .command_runner import run_command
 from .digital_twin import SignalStream
 from .digital_twin_mapping import MapLaneBinding
+from .local_network_conversion import with_geometry_precision
+from .junction_boundary_rebuild import _signature
 
 
 OFFICIAL_TLS_REBUILD_SCHEMA_ID = "torii.official-tls-rebuild.v1"
@@ -887,7 +889,7 @@ def build_official_tls_rebuild_variant(
         _validate_plan(plan)
         source_signature = edge_lane_signature(source_net_file)
         base_prefix = output_dir / "osm_base"
-        export_command = [
+        export_command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file),
@@ -895,7 +897,7 @@ def build_official_tls_rebuild_variant(
             str(base_prefix),
             "--plain-output.lanes",
             "true",
-        ]
+        ])
         export_result = _result_to_dict(
             command_runner(export_command, cwd=output_dir, timeout_seconds=timeout_seconds)
         )
@@ -924,7 +926,7 @@ def build_official_tls_rebuild_variant(
         )
         report["plain_application"] = application
 
-        rebuild_command = [
+        rebuild_command = with_geometry_precision([
             netconvert_binary,
             "--node-files",
             str(official_paths["nodes"]),
@@ -934,7 +936,7 @@ def build_official_tls_rebuild_variant(
             str(official_paths["connections"]),
             "--tllogic-files",
             str(official_paths["tllogic"]),
-        ]
+        ])
         if official_paths["types"].is_file():
             rebuild_command.extend(["--type-files", str(official_paths["types"])])
         rebuild_command.extend(
@@ -1029,7 +1031,7 @@ def edge_lane_signature(net_file: Path) -> dict[str, Any]:
     A plain-XML round trip may clip lane endpoints at a rebuilt junction, recalculate
     ``length``, and add ``customShape``.  Those geometry fields are audited separately
     with an explicit metric tolerance; every other external edge/lane attribute remains
-    part of this exact hash.
+    part of this hash. Physical numbers use exact decimal values.
     """
 
     root = ET.parse(net_file).getroot()
@@ -1044,7 +1046,7 @@ def edge_lane_signature(net_file: Path) -> dict[str, Any]:
             lanes.append(
                 sorted(
                     (key, value)
-                    for key, value in lane.attrib.items()
+                    for key, value in _signature(lane)[1]
                     if key not in {"shape", "length", "customShape"}
                 )
             )
@@ -1052,7 +1054,7 @@ def edge_lane_signature(net_file: Path) -> dict[str, Any]:
         records.append(
             {
                 "edge": sorted(
-                    (key, value) for key, value in edge.attrib.items() if key != "shape"
+                    (key, value) for key, value in _signature(edge)[1] if key != "shape"
                 ),
                 "lanes": sorted(lanes),
             }

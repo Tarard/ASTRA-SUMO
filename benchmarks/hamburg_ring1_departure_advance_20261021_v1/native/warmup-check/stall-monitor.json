@@ -1,0 +1,3218 @@
+{
+  "status": "completed",
+  "all_stopped_timeout_s": 300,
+  "speed_tolerance_m_s": 1e-06,
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+    "--net-file",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-prepared-20261021-v1\\advance900\\full-inputs\\network.net.xml",
+    "--route-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-prepared-20261021-v1\\advance900\\full-inputs\\demand.rou.xml",
+    "--additional-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-prepared-20261021-v1\\advance900\\full-inputs\\control.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\instant.add.xml",
+    "--end",
+    "3600",
+    "--step-length",
+    "0.1",
+    "--seed",
+    "104",
+    "--precision",
+    "12",
+    "--time-to-teleport",
+    "-1",
+    "--collision.check-junctions",
+    "true",
+    "--summary-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\summary.xml",
+    "--tripinfo-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\tripinfo.xml",
+    "--tripinfo-output.write-unfinished",
+    "true",
+    "--collision-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\collisions.xml",
+    "--error-log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\sumo-errors.log",
+    "--log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\sumo.log",
+    "--no-step-log",
+    "true",
+    "--remote-port",
+    "4328"
+  ],
+  "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+  "stop": null,
+  "monitor_interval_s": null,
+  "position_changes_reset_standstill": true,
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "simulation_time_s": 3600.0,
+  "native_returncode": 0,
+  "lane_section_hold": {
+    "mechanism": "Native laneChangeMode=512 after reaching the assigned detector lane; restore the prior mode after rear clearance. No lane, position, speed, route or signal commands.",
+    "safety_source": "https://sumo.dlr.de/docs/TraCI/Change_Vehicle_State.html#lane-change-mode-0xb6",
+    "claim_boundary": "Declared local driver lane intention. No detector count feedback or measured natural driver behaviour.",
+    "events": [
+      {
+        "vehicle_id": "readme_f2_b0_p175_v0",
+        "event": "held",
+        "time_s": 2801.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.88389112258068,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v0",
+        "event": "released",
+        "time_s": 2802.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v0",
+        "event": "held",
+        "time_s": 2803.2,
+        "lane": "43866090#0_0",
+        "position_m": 1.3591472000003666,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v1",
+        "event": "held",
+        "time_s": 2804.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.5852449000003688,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v0",
+        "event": "released",
+        "time_s": 2804.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v1",
+        "event": "released",
+        "time_s": 2805.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v2",
+        "event": "held",
+        "time_s": 2820.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.3257184999999865,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v1",
+        "event": "held",
+        "time_s": 2820.9,
+        "lane": "43866090#0_0",
+        "position_m": 0.5172003999999859,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v2",
+        "event": "released",
+        "time_s": 2822.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v1",
+        "event": "released",
+        "time_s": 2822.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v3",
+        "event": "held",
+        "time_s": 2822.2,
+        "lane": "43866090#0_1",
+        "position_m": 1.0917947697290629,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v3",
+        "event": "released",
+        "time_s": 2823.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v5",
+        "event": "held",
+        "time_s": 2823.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.9477188387837785,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v4",
+        "event": "held",
+        "time_s": 2825.0,
+        "lane": "43866090#0_1",
+        "position_m": 0.31731862044801495,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v5",
+        "event": "released",
+        "time_s": 2825.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v2",
+        "event": "held",
+        "time_s": 2825.2,
+        "lane": "43866090#0_0",
+        "position_m": 0.2822888116705027,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v0",
+        "event": "held",
+        "time_s": 2825.5,
+        "lane": "37413814#0_2",
+        "position_m": 0.34207583981658907,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v4",
+        "event": "released",
+        "time_s": 2826.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v2",
+        "event": "released",
+        "time_s": 2826.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v6",
+        "event": "held",
+        "time_s": 2826.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.9975436656325272,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v3",
+        "event": "held",
+        "time_s": 2827.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.3126149644564169,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v7",
+        "event": "held",
+        "time_s": 2829.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.07491763268843776,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v4",
+        "event": "held",
+        "time_s": 2836.4,
+        "lane": "43866090#0_0",
+        "position_m": 0.27571514908591865,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v1",
+        "event": "held",
+        "time_s": 2866.1,
+        "lane": "37413814#0_2",
+        "position_m": 0.2508321454457434,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v6",
+        "event": "released",
+        "time_s": 2888.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v3",
+        "event": "released",
+        "time_s": 2888.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v8",
+        "event": "held",
+        "time_s": 2888.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.2425745348850601,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v5",
+        "event": "held",
+        "time_s": 2888.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.2425746322628175,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v7",
+        "event": "released",
+        "time_s": 2889.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v4",
+        "event": "released",
+        "time_s": 2889.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v11",
+        "event": "held",
+        "time_s": 2890.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861516491430088,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v6",
+        "event": "held",
+        "time_s": 2890.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.586151704645431,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v8",
+        "event": "released",
+        "time_s": 2891.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v5",
+        "event": "released",
+        "time_s": 2891.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v9",
+        "event": "held",
+        "time_s": 2892.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.15174706265136706,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999999
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v7",
+        "event": "held",
+        "time_s": 2892.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.15174710235398337,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v11",
+        "event": "released",
+        "time_s": 2892.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v6",
+        "event": "released",
+        "time_s": 2892.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v17",
+        "event": "held",
+        "time_s": 2893.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.8409286484274219,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v9",
+        "event": "released",
+        "time_s": 2894.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v7",
+        "event": "released",
+        "time_s": 2894.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v8",
+        "event": "held",
+        "time_s": 2894.8,
+        "lane": "43866090#0_0",
+        "position_m": 0.238628881491584,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v10",
+        "event": "held",
+        "time_s": 2895.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.3356585761072761,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v17",
+        "event": "released",
+        "time_s": 2895.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v8",
+        "event": "released",
+        "time_s": 2896.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v12",
+        "event": "held",
+        "time_s": 2896.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.693325875876031,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v10",
+        "event": "released",
+        "time_s": 2897.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v18",
+        "event": "held",
+        "time_s": 2898.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.023946551980261077,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v12",
+        "event": "released",
+        "time_s": 2898.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v9",
+        "event": "held",
+        "time_s": 2898.8,
+        "lane": "43866090#0_0",
+        "position_m": 0.8486198135301279,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v14",
+        "event": "held",
+        "time_s": 2899.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.6733516789490093,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v18",
+        "event": "released",
+        "time_s": 2900.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v9",
+        "event": "released",
+        "time_s": 2900.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v13",
+        "event": "held",
+        "time_s": 2901.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.3848996430126892,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v14",
+        "event": "released",
+        "time_s": 2901.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v13",
+        "event": "released",
+        "time_s": 2903.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v0",
+        "event": "released",
+        "time_s": 2905.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v1",
+        "event": "released",
+        "time_s": 2906.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v19",
+        "event": "held",
+        "time_s": 2912.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.3517184999999827,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v19",
+        "event": "released",
+        "time_s": 2914.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v15",
+        "event": "held",
+        "time_s": 2914.2,
+        "lane": "43866090#0_1",
+        "position_m": 1.2341248090305807,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v10",
+        "event": "held",
+        "time_s": 2914.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.26618643019715016,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v15",
+        "event": "released",
+        "time_s": 2915.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v16",
+        "event": "held",
+        "time_s": 2915.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.7586597451205535,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v10",
+        "event": "released",
+        "time_s": 2916.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v21",
+        "event": "held",
+        "time_s": 2918.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.09203010728211858,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v11",
+        "event": "held",
+        "time_s": 2918.9,
+        "lane": "43866090#0_0",
+        "position_m": 0.07187360157898937,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v12",
+        "event": "held",
+        "time_s": 2927.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.2545488528305011,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v2",
+        "event": "held",
+        "time_s": 2929.7,
+        "lane": "37413814#0_2",
+        "position_m": 0.8800057812440798,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.09772999999996
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v16",
+        "event": "released",
+        "time_s": 2978.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v11",
+        "event": "released",
+        "time_s": 2978.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v20",
+        "event": "held",
+        "time_s": 2978.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.24257447413095612,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v14",
+        "event": "held",
+        "time_s": 2978.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.24257471543467624,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v21",
+        "event": "released",
+        "time_s": 2979.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v12",
+        "event": "released",
+        "time_s": 2979.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v23",
+        "event": "held",
+        "time_s": 2980.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861515904083987,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v13",
+        "event": "held",
+        "time_s": 2980.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.5861517825083329,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v20",
+        "event": "released",
+        "time_s": 2981.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v14",
+        "event": "released",
+        "time_s": 2981.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v32",
+        "event": "held",
+        "time_s": 2982.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.9327044377789483,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v23",
+        "event": "released",
+        "time_s": 2982.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v13",
+        "event": "released",
+        "time_s": 2982.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v24",
+        "event": "held",
+        "time_s": 2983.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.2636325990550894,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v15",
+        "event": "held",
+        "time_s": 2983.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.41234903900598674,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v32",
+        "event": "released",
+        "time_s": 2984.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v15",
+        "event": "released",
+        "time_s": 2985.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v22",
+        "event": "held",
+        "time_s": 2985.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.5934776025644783,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v24",
+        "event": "released",
+        "time_s": 2985.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v33",
+        "event": "held",
+        "time_s": 2986.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.8798099346520285,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v22",
+        "event": "released",
+        "time_s": 2987.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v25",
+        "event": "held",
+        "time_s": 2988.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.7519679464627078,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v33",
+        "event": "released",
+        "time_s": 2988.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v34",
+        "event": "held",
+        "time_s": 2989.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.14408016880890528,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v25",
+        "event": "released",
+        "time_s": 2990.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v16",
+        "event": "held",
+        "time_s": 2990.9,
+        "lane": "43866090#0_0",
+        "position_m": 1.043987878100852,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v31",
+        "event": "held",
+        "time_s": 2991.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.44198122893658365,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v34",
+        "event": "released",
+        "time_s": 2991.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v16",
+        "event": "released",
+        "time_s": 2992.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v27",
+        "event": "held",
+        "time_s": 2992.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.7555691583360762,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v31",
+        "event": "released",
+        "time_s": 2993.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v26",
+        "event": "held",
+        "time_s": 2994.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.6182605067480775,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v27",
+        "event": "released",
+        "time_s": 2994.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v2",
+        "event": "released",
+        "time_s": 2995.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v18",
+        "event": "held",
+        "time_s": 2995.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.1290974996472638,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v38",
+        "event": "held",
+        "time_s": 2995.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.6599946386685076,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999998
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v26",
+        "event": "released",
+        "time_s": 2995.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v18",
+        "event": "released",
+        "time_s": 2996.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v28",
+        "event": "held",
+        "time_s": 2997.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.7364418880705568,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v38",
+        "event": "released",
+        "time_s": 2997.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v3",
+        "event": "held",
+        "time_s": 2997.4,
+        "lane": "37413814#0_2",
+        "position_m": 0.2551895952516432,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v17",
+        "event": "held",
+        "time_s": 2997.7,
+        "lane": "43866090#0_0",
+        "position_m": 1.365433900000001,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v35",
+        "event": "held",
+        "time_s": 2998.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.6109878140903042,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v28",
+        "event": "released",
+        "time_s": 2998.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v17",
+        "event": "released",
+        "time_s": 2999.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v3",
+        "event": "released",
+        "time_s": 2999.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v35",
+        "event": "released",
+        "time_s": 3000.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v40",
+        "event": "held",
+        "time_s": 3000.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.7312543525226296,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v19",
+        "event": "held",
+        "time_s": 3001.3,
+        "lane": "43866090#0_0",
+        "position_m": 1.2523898962217732,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v29",
+        "event": "held",
+        "time_s": 3001.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.22016535876120358,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v40",
+        "event": "released",
+        "time_s": 3001.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v19",
+        "event": "released",
+        "time_s": 3002.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v30",
+        "event": "held",
+        "time_s": 3003.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.20578756551003252,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v29",
+        "event": "released",
+        "time_s": 3003.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v37",
+        "event": "held",
+        "time_s": 3004.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.03957421822569884,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v30",
+        "event": "released",
+        "time_s": 3004.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v37",
+        "event": "released",
+        "time_s": 3006.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v39",
+        "event": "held",
+        "time_s": 3006.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.7034476896502042,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v36",
+        "event": "held",
+        "time_s": 3008.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.2703844801304722,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v20",
+        "event": "held",
+        "time_s": 3026.0,
+        "lane": "43866090#0_0",
+        "position_m": 0.5360160096774091,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v21",
+        "event": "held",
+        "time_s": 3029.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.07486418024618935,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v4",
+        "event": "held",
+        "time_s": 3045.4,
+        "lane": "37413814#0_2",
+        "position_m": 0.7791839354838688,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v39",
+        "event": "released",
+        "time_s": 3068.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v20",
+        "event": "released",
+        "time_s": 3068.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v41",
+        "event": "held",
+        "time_s": 3068.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.24257472972754357,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v22",
+        "event": "held",
+        "time_s": 3068.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.2425744750098051,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v36",
+        "event": "released",
+        "time_s": 3069.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v21",
+        "event": "released",
+        "time_s": 3069.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v42",
+        "event": "held",
+        "time_s": 3070.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861517990580243,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v23",
+        "event": "held",
+        "time_s": 3070.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.586151590921995,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v41",
+        "event": "released",
+        "time_s": 3071.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v22",
+        "event": "released",
+        "time_s": 3071.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v43",
+        "event": "held",
+        "time_s": 3072.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.15174720718180978,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v24",
+        "event": "held",
+        "time_s": 3072.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.1517470034545596,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v42",
+        "event": "released",
+        "time_s": 3072.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v23",
+        "event": "released",
+        "time_s": 3072.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v47",
+        "event": "held",
+        "time_s": 3073.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.7591660041484758,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v43",
+        "event": "released",
+        "time_s": 3074.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v24",
+        "event": "released",
+        "time_s": 3074.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v44",
+        "event": "held",
+        "time_s": 3075.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.25877893173246846,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v47",
+        "event": "released",
+        "time_s": 3075.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v52",
+        "event": "held",
+        "time_s": 3076.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.06705252838469455,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v44",
+        "event": "released",
+        "time_s": 3077.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v54",
+        "event": "held",
+        "time_s": 3078.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.6447367511403517,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v52",
+        "event": "released",
+        "time_s": 3078.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v45",
+        "event": "held",
+        "time_s": 3079.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.7827698723657122,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v54",
+        "event": "released",
+        "time_s": 3080.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v46",
+        "event": "held",
+        "time_s": 3081.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.977591585316052,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v45",
+        "event": "released",
+        "time_s": 3081.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v51",
+        "event": "held",
+        "time_s": 3083.0,
+        "lane": "43866090#0_1",
+        "position_m": 0.5189788233006567,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v46",
+        "event": "released",
+        "time_s": 3083.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v51",
+        "event": "released",
+        "time_s": 3084.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v4",
+        "event": "released",
+        "time_s": 3085.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v48",
+        "event": "held",
+        "time_s": 3097.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.39394879354838075,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v25",
+        "event": "held",
+        "time_s": 3098.0,
+        "lane": "43866090#0_0",
+        "position_m": 0.5360160096774091,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v53",
+        "event": "held",
+        "time_s": 3100.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.3303841530091276,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v26",
+        "event": "held",
+        "time_s": 3100.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.18748402873023018,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v5",
+        "event": "held",
+        "time_s": 3111.1,
+        "lane": "37413814#0_2",
+        "position_m": 0.10132921612903267,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v48",
+        "event": "released",
+        "time_s": 3158.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v25",
+        "event": "released",
+        "time_s": 3158.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v57",
+        "event": "held",
+        "time_s": 3158.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.24257443646467536,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v27",
+        "event": "held",
+        "time_s": 3158.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.24257458820656552,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.5527629999998
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v53",
+        "event": "released",
+        "time_s": 3159.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v26",
+        "event": "released",
+        "time_s": 3159.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v56",
+        "event": "held",
+        "time_s": 3160.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861515725575615,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v28",
+        "event": "held",
+        "time_s": 3160.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.5861516838779881,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v57",
+        "event": "released",
+        "time_s": 3161.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v27",
+        "event": "released",
+        "time_s": 3161.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v58",
+        "event": "held",
+        "time_s": 3162.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.15174698328521252,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v29",
+        "event": "held",
+        "time_s": 3162.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.15174709550304577,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v56",
+        "event": "released",
+        "time_s": 3162.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v28",
+        "event": "released",
+        "time_s": 3162.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v49",
+        "event": "held",
+        "time_s": 3163.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.759165790831247,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999998
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v30",
+        "event": "held",
+        "time_s": 3163.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.7591659039360028,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v58",
+        "event": "released",
+        "time_s": 3164.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v29",
+        "event": "released",
+        "time_s": 3164.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v61",
+        "event": "held",
+        "time_s": 3165.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.3143709266870438,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v49",
+        "event": "released",
+        "time_s": 3165.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v30",
+        "event": "released",
+        "time_s": 3165.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v50",
+        "event": "held",
+        "time_s": 3166.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.3118951282229254,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v61",
+        "event": "released",
+        "time_s": 3167.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v60",
+        "event": "held",
+        "time_s": 3168.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.6847590014540241,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v50",
+        "event": "released",
+        "time_s": 3168.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v31",
+        "event": "held",
+        "time_s": 3168.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.20592634381283936,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v64",
+        "event": "held",
+        "time_s": 3169.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.9275812699476145,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v60",
+        "event": "released",
+        "time_s": 3170.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v31",
+        "event": "released",
+        "time_s": 3170.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v55",
+        "event": "held",
+        "time_s": 3171.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.20455129548078155,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v64",
+        "event": "released",
+        "time_s": 3171.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v59",
+        "event": "held",
+        "time_s": 3173.0,
+        "lane": "43866090#0_1",
+        "position_m": 0.47937173662691457,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v55",
+        "event": "released",
+        "time_s": 3173.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v62",
+        "event": "held",
+        "time_s": 3174.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.6648476676486972,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v59",
+        "event": "released",
+        "time_s": 3174.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v5",
+        "event": "released",
+        "time_s": 3175.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v63",
+        "event": "held",
+        "time_s": 3176.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.21909448404194265,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v62",
+        "event": "released",
+        "time_s": 3176.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v67",
+        "event": "held",
+        "time_s": 3177.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.071095511257667,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v63",
+        "event": "released",
+        "time_s": 3177.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v65",
+        "event": "held",
+        "time_s": 3179.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.2975026247018331,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v67",
+        "event": "released",
+        "time_s": 3179.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v32",
+        "event": "held",
+        "time_s": 3179.3,
+        "lane": "43866090#0_0",
+        "position_m": 1.1674705387453503,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v32",
+        "event": "released",
+        "time_s": 3180.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v66",
+        "event": "held",
+        "time_s": 3180.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.35577105053994096,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v65",
+        "event": "released",
+        "time_s": 3180.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v66",
+        "event": "released",
+        "time_s": 3182.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v69",
+        "event": "held",
+        "time_s": 3182.2,
+        "lane": "43866090#0_1",
+        "position_m": 1.116416720473378,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v69",
+        "event": "released",
+        "time_s": 3183.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v68",
+        "event": "held",
+        "time_s": 3183.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.3545053170634258,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v33",
+        "event": "held",
+        "time_s": 3183.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.09558548350919516,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v33",
+        "event": "released",
+        "time_s": 3185.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v68",
+        "event": "released",
+        "time_s": 3185.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v70",
+        "event": "held",
+        "time_s": 3185.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.6506896926159111,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v71",
+        "event": "held",
+        "time_s": 3187.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.27851275929531916,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v6",
+        "event": "held",
+        "time_s": 3187.9,
+        "lane": "37413814#0_2",
+        "position_m": 0.12339147135918349,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v34",
+        "event": "held",
+        "time_s": 3188.4,
+        "lane": "43866090#0_0",
+        "position_m": 0.2524396880163682,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v35",
+        "event": "held",
+        "time_s": 3194.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.30450074820914175,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v7",
+        "event": "held",
+        "time_s": 3236.3,
+        "lane": "37413814#0_2",
+        "position_m": 0.19658364253399796,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v70",
+        "event": "released",
+        "time_s": 3248.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v34",
+        "event": "released",
+        "time_s": 3248.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v72",
+        "event": "held",
+        "time_s": 3248.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.221032617135819,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999998
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v36",
+        "event": "held",
+        "time_s": 3248.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.24257473916315142,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v71",
+        "event": "released",
+        "time_s": 3249.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v35",
+        "event": "released",
+        "time_s": 3249.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v73",
+        "event": "held",
+        "time_s": 3250.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.2036864197531667,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v37",
+        "event": "held",
+        "time_s": 3250.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.5861517984996141,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v72",
+        "event": "released",
+        "time_s": 3251.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v36",
+        "event": "released",
+        "time_s": 3251.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v74",
+        "event": "held",
+        "time_s": 3252.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.4582241072873412,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v38",
+        "event": "held",
+        "time_s": 3252.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.1517472133042279,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v73",
+        "event": "released",
+        "time_s": 3252.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v37",
+        "event": "released",
+        "time_s": 3252.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v75",
+        "event": "held",
+        "time_s": 3253.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.1560479603956466,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v39",
+        "event": "held",
+        "time_s": 3253.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.7164752165462058,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v74",
+        "event": "released",
+        "time_s": 3254.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v38",
+        "event": "released",
+        "time_s": 3254.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v83",
+        "event": "held",
+        "time_s": 3255.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.7360935977028991,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v75",
+        "event": "released",
+        "time_s": 3255.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v39",
+        "event": "released",
+        "time_s": 3255.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v76",
+        "event": "held",
+        "time_s": 3256.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.04938616271849838,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v40",
+        "event": "held",
+        "time_s": 3256.6,
+        "lane": "43866090#0_0",
+        "position_m": 1.1648866861443476,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v83",
+        "event": "released",
+        "time_s": 3257.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v40",
+        "event": "released",
+        "time_s": 3258.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v78",
+        "event": "held",
+        "time_s": 3258.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.578656145730438,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v76",
+        "event": "released",
+        "time_s": 3258.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v82",
+        "event": "held",
+        "time_s": 3259.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.8429172106854121,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v78",
+        "event": "released",
+        "time_s": 3260.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v82",
+        "event": "released",
+        "time_s": 3261.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v77",
+        "event": "held",
+        "time_s": 3261.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.08770418461502771,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v77",
+        "event": "released",
+        "time_s": 3263.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v6",
+        "event": "released",
+        "time_s": 3265.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v7",
+        "event": "released",
+        "time_s": 3266.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v79",
+        "event": "held",
+        "time_s": 3274.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.3257184999999865,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v41",
+        "event": "held",
+        "time_s": 3274.9,
+        "lane": "43866090#0_0",
+        "position_m": 0.5172003999999859,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v79",
+        "event": "released",
+        "time_s": 3276.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v41",
+        "event": "released",
+        "time_s": 3276.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v80",
+        "event": "held",
+        "time_s": 3276.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.31221694894485985,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v87",
+        "event": "held",
+        "time_s": 3279.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.04133959785411889,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v42",
+        "event": "held",
+        "time_s": 3283.0,
+        "lane": "43866090#0_0",
+        "position_m": 0.36813545869077124,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v43",
+        "event": "held",
+        "time_s": 3290.0,
+        "lane": "43866090#0_0",
+        "position_m": 0.0201454824702072,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v8",
+        "event": "held",
+        "time_s": 3295.3,
+        "lane": "37413814#0_2",
+        "position_m": 0.8023902421786957,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v80",
+        "event": "released",
+        "time_s": 3338.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v42",
+        "event": "released",
+        "time_s": 3338.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v81",
+        "event": "held",
+        "time_s": 3338.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.24257442606060664,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v44",
+        "event": "held",
+        "time_s": 3338.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.2425744178376128,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v87",
+        "event": "released",
+        "time_s": 3339.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v43",
+        "event": "released",
+        "time_s": 3339.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v88",
+        "event": "held",
+        "time_s": 3340.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861515230268672,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v81",
+        "event": "released",
+        "time_s": 3341.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v44",
+        "event": "released",
+        "time_s": 3341.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v88",
+        "event": "released",
+        "time_s": 3342.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v94",
+        "event": "held",
+        "time_s": 3342.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.6976472208779931,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v84",
+        "event": "held",
+        "time_s": 3344.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.35202611139074413,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v45",
+        "event": "held",
+        "time_s": 3344.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.29927378852990216,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v94",
+        "event": "released",
+        "time_s": 3344.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v85",
+        "event": "held",
+        "time_s": 3345.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.2713261855110858,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v45",
+        "event": "released",
+        "time_s": 3345.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v84",
+        "event": "released",
+        "time_s": 3345.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v97",
+        "event": "held",
+        "time_s": 3347.2,
+        "lane": "43866090#0_1",
+        "position_m": 0.5186455631218259,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v85",
+        "event": "released",
+        "time_s": 3347.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v46",
+        "event": "held",
+        "time_s": 3348.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.5108545017233652,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v89",
+        "event": "held",
+        "time_s": 3348.7,
+        "lane": "43866090#0_1",
+        "position_m": 1.059165004395794,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999998
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v97",
+        "event": "released",
+        "time_s": 3348.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v46",
+        "event": "released",
+        "time_s": 3349.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v95",
+        "event": "held",
+        "time_s": 3350.1,
+        "lane": "43866090#0_1",
+        "position_m": 1.0281307552830246,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v89",
+        "event": "released",
+        "time_s": 3350.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v96",
+        "event": "held",
+        "time_s": 3351.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.2710994890888472,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v95",
+        "event": "released",
+        "time_s": 3351.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v47",
+        "event": "held",
+        "time_s": 3352.8,
+        "lane": "43866090#0_0",
+        "position_m": 0.43916493488907093,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v98",
+        "event": "held",
+        "time_s": 3353.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.29131258686419415,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v96",
+        "event": "released",
+        "time_s": 3353.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v47",
+        "event": "released",
+        "time_s": 3354.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v98",
+        "event": "released",
+        "time_s": 3354.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v100",
+        "event": "held",
+        "time_s": 3354.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.523392769091199,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v8",
+        "event": "released",
+        "time_s": 3355.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v48",
+        "event": "held",
+        "time_s": 3355.9,
+        "lane": "43866090#0_0",
+        "position_m": 1.3754287353157242,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v90",
+        "event": "held",
+        "time_s": 3356.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.782890144961442,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.3553559999998
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v100",
+        "event": "released",
+        "time_s": 3356.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v48",
+        "event": "released",
+        "time_s": 3357.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v86",
+        "event": "held",
+        "time_s": 3358.0,
+        "lane": "43866090#0_1",
+        "position_m": 0.7893226585075439,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v90",
+        "event": "released",
+        "time_s": 3358.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v101",
+        "event": "held",
+        "time_s": 3359.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.38367349434600406,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v86",
+        "event": "released",
+        "time_s": 3359.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v91",
+        "event": "held",
+        "time_s": 3361.0,
+        "lane": "43866090#0_1",
+        "position_m": 0.31539705749865554,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v101",
+        "event": "released",
+        "time_s": 3361.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v92",
+        "event": "held",
+        "time_s": 3362.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.018897991115398582,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v91",
+        "event": "released",
+        "time_s": 3362.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v92",
+        "event": "released",
+        "time_s": 3364.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v93",
+        "event": "held",
+        "time_s": 3364.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.7641202151288304,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v103",
+        "event": "held",
+        "time_s": 3365.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.7487207928643951,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v93",
+        "event": "released",
+        "time_s": 3365.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v49",
+        "event": "held",
+        "time_s": 3366.2,
+        "lane": "43866090#0_0",
+        "position_m": 0.17159698168318904,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v99",
+        "event": "held",
+        "time_s": 3368.0,
+        "lane": "43866090#0_1",
+        "position_m": 0.1739643400930877,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v9",
+        "event": "held",
+        "time_s": 3370.5,
+        "lane": "37413814#0_2",
+        "position_m": 0.10132921612903267,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v50",
+        "event": "held",
+        "time_s": 3372.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.36724157036205085,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v10",
+        "event": "held",
+        "time_s": 3423.9,
+        "lane": "37413814#0_2",
+        "position_m": 0.043940110398716925,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v103",
+        "event": "released",
+        "time_s": 3428.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v49",
+        "event": "released",
+        "time_s": 3428.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v102",
+        "event": "held",
+        "time_s": 3428.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.24257462366040983,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v51",
+        "event": "held",
+        "time_s": 3428.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.24257439469195496,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v99",
+        "event": "released",
+        "time_s": 3429.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v50",
+        "event": "released",
+        "time_s": 3429.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v105",
+        "event": "held",
+        "time_s": 3430.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861517149381825,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v52",
+        "event": "held",
+        "time_s": 3430.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.5861515318595245,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v102",
+        "event": "released",
+        "time_s": 3431.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v51",
+        "event": "released",
+        "time_s": 3431.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v104",
+        "event": "held",
+        "time_s": 3432.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.15174712834389226,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v53",
+        "event": "held",
+        "time_s": 3432.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.15174464868797166,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v105",
+        "event": "released",
+        "time_s": 3432.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v52",
+        "event": "released",
+        "time_s": 3432.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v106",
+        "event": "held",
+        "time_s": 3433.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.759165934353236,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v104",
+        "event": "released",
+        "time_s": 3434.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v53",
+        "event": "released",
+        "time_s": 3434.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v112",
+        "event": "held",
+        "time_s": 3435.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.962686652862125,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v106",
+        "event": "released",
+        "time_s": 3435.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v54",
+        "event": "held",
+        "time_s": 3436.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.5202494482229731,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v108",
+        "event": "held",
+        "time_s": 3436.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.08679260050393367,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v112",
+        "event": "released",
+        "time_s": 3437.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v54",
+        "event": "released",
+        "time_s": 3437.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v110",
+        "event": "held",
+        "time_s": 3438.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.1992290281138338,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v108",
+        "event": "released",
+        "time_s": 3438.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v110",
+        "event": "released",
+        "time_s": 3440.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v9",
+        "event": "released",
+        "time_s": 3445.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v10",
+        "event": "released",
+        "time_s": 3446.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v107",
+        "event": "held",
+        "time_s": 3448.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.3257184999999865,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v55",
+        "event": "held",
+        "time_s": 3448.9,
+        "lane": "43866090#0_0",
+        "position_m": 0.5172003999999859,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v107",
+        "event": "released",
+        "time_s": 3450.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v55",
+        "event": "released",
+        "time_s": 3450.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v109",
+        "event": "held",
+        "time_s": 3450.2,
+        "lane": "43866090#0_1",
+        "position_m": 1.099610394617402,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v109",
+        "event": "released",
+        "time_s": 3451.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v117",
+        "event": "held",
+        "time_s": 3451.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.9461379454628318,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v117",
+        "event": "released",
+        "time_s": 3453.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v111",
+        "event": "held",
+        "time_s": 3453.4,
+        "lane": "43866090#0_1",
+        "position_m": 0.6493461299471193,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v111",
+        "event": "released",
+        "time_s": 3454.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v118",
+        "event": "held",
+        "time_s": 3455.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.789313610740928,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v118",
+        "event": "released",
+        "time_s": 3456.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v113",
+        "event": "held",
+        "time_s": 3456.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.23648699812063967,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v56",
+        "event": "held",
+        "time_s": 3456.7,
+        "lane": "43866090#0_0",
+        "position_m": 0.39145368676080494,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v114",
+        "event": "held",
+        "time_s": 3459.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.16572660543419637,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v57",
+        "event": "held",
+        "time_s": 3462.9,
+        "lane": "43866090#0_0",
+        "position_m": 0.3454680043638394,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v11",
+        "event": "held",
+        "time_s": 3480.5,
+        "lane": "37413814#0_2",
+        "position_m": 0.7636316167342274,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v113",
+        "event": "released",
+        "time_s": 3518.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v56",
+        "event": "released",
+        "time_s": 3518.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v120",
+        "event": "held",
+        "time_s": 3518.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.24257452598523344,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v58",
+        "event": "held",
+        "time_s": 3518.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.2425743801482909,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v114",
+        "event": "released",
+        "time_s": 3519.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v57",
+        "event": "released",
+        "time_s": 3519.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v119",
+        "event": "held",
+        "time_s": 3520.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.5861516217296163,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v59",
+        "event": "held",
+        "time_s": 3520.6,
+        "lane": "43866090#0_0",
+        "position_m": 0.5861515256316157,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v120",
+        "event": "released",
+        "time_s": 3521.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v58",
+        "event": "released",
+        "time_s": 3521.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v115",
+        "event": "held",
+        "time_s": 3522.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.1517470196408226,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v60",
+        "event": "held",
+        "time_s": 3522.1,
+        "lane": "43866090#0_0",
+        "position_m": 0.1517469307723669,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v119",
+        "event": "released",
+        "time_s": 3522.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v59",
+        "event": "released",
+        "time_s": 3522.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v127",
+        "event": "held",
+        "time_s": 3523.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.842263892820359,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v115",
+        "event": "released",
+        "time_s": 3524.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v60",
+        "event": "released",
+        "time_s": 3524.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v116",
+        "event": "held",
+        "time_s": 3525.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.4252162933504433,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v127",
+        "event": "released",
+        "time_s": 3525.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v128",
+        "event": "held",
+        "time_s": 3526.6,
+        "lane": "43866090#0_1",
+        "position_m": 0.12260022023359696,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v116",
+        "event": "released",
+        "time_s": 3526.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v61",
+        "event": "held",
+        "time_s": 3527.6,
+        "lane": "43866090#0_0",
+        "position_m": 1.3683507401713104,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v121",
+        "event": "held",
+        "time_s": 3528.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.27401917492324124,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v128",
+        "event": "released",
+        "time_s": 3528.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v61",
+        "event": "released",
+        "time_s": 3528.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v126",
+        "event": "held",
+        "time_s": 3529.7,
+        "lane": "43866090#0_1",
+        "position_m": 0.7384271224560344,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v121",
+        "event": "released",
+        "time_s": 3529.9,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v122",
+        "event": "held",
+        "time_s": 3531.3,
+        "lane": "43866090#0_1",
+        "position_m": 0.6170774878616125,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v126",
+        "event": "released",
+        "time_s": 3531.4,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v130",
+        "event": "held",
+        "time_s": 3532.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.8518538564696847,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v62",
+        "event": "held",
+        "time_s": 3532.9,
+        "lane": "43866090#0_0",
+        "position_m": 1.2400943309373265,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v122",
+        "event": "released",
+        "time_s": 3533.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v62",
+        "event": "released",
+        "time_s": 3534.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v123",
+        "event": "held",
+        "time_s": 3534.5,
+        "lane": "43866090#0_1",
+        "position_m": 0.8448324304295003,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v130",
+        "event": "released",
+        "time_s": 3534.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v11",
+        "event": "released",
+        "time_s": 3535.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v132",
+        "event": "held",
+        "time_s": 3536.1,
+        "lane": "43866090#0_1",
+        "position_m": 0.3222244680625792,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v123",
+        "event": "released",
+        "time_s": 3536.3,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v63",
+        "event": "held",
+        "time_s": 3536.4,
+        "lane": "43866090#0_0",
+        "position_m": 1.0988169005318031,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v63",
+        "event": "released",
+        "time_s": 3537.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v124",
+        "event": "held",
+        "time_s": 3537.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.6813786218388032,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v132",
+        "event": "released",
+        "time_s": 3538.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v124",
+        "event": "released",
+        "time_s": 3539.7,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v125",
+        "event": "held",
+        "time_s": 3552.9,
+        "lane": "43866090#0_1",
+        "position_m": 0.39394879354838075,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f2_b0_p175_v134",
+        "event": "held",
+        "time_s": 3555.8,
+        "lane": "43866090#0_1",
+        "position_m": 0.3571577736304459,
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      {
+        "vehicle_id": "readme_f0_b0_p169_v12",
+        "event": "held",
+        "time_s": 3562.6,
+        "lane": "37413814#0_2",
+        "position_m": 0.6557147521369062,
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v64",
+        "event": "held",
+        "time_s": 3563.5,
+        "lane": "43866090#0_0",
+        "position_m": 0.8972837587677969,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      {
+        "vehicle_id": "readme_f1_b0_p174_v65",
+        "event": "held",
+        "time_s": 3566.4,
+        "lane": "43866090#0_0",
+        "position_m": 0.28867230868053007,
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      }
+    ],
+    "still_held": {
+      "readme_f2_b0_p175_v125": {
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      "readme_f2_b0_p175_v134": {
+        "previous_mode": 1621,
+        "clear_distance_m": 346.35535599999986
+      },
+      "readme_f0_b0_p169_v12": {
+        "previous_mode": 1621,
+        "clear_distance_m": 348.0977299999999
+      },
+      "readme_f1_b0_p174_v64": {
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      },
+      "readme_f1_b0_p174_v65": {
+        "previous_mode": 1621,
+        "clear_distance_m": 347.55276299999986
+      }
+    },
+    "released_vehicles": 206,
+    "left_before_release": 0
+  }
+}

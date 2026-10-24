@@ -1,0 +1,176 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/event-0-samples.csv",
+      "sha256": "fd1987931f74eac5d611d7026f93b5f3538feaee64be552cd2aa20a839da6aaf"
+    },
+    {
+      "path": "analysis/event-1-samples.csv",
+      "sha256": "e3814bfb7a46a13027d284de75022bc2dcdca608414ca2135dd6e7ad45e7b7f0"
+    },
+    {
+      "path": "analysis/geometry-check.json",
+      "sha256": "fab671ac3cc6113305d5e09c23baaf80788d8b75e1ccbd1e104bf639bb771c5d"
+    },
+    {
+      "path": "analysis/native-collision-positions.png",
+      "sha256": "75bfd91f68e43cf90d6a0737639716d4b759073f0b78663277c25a924e852753"
+    },
+    {
+      "path": "analysis/trajectory-context.json",
+      "sha256": "c11929c38d3a5f45b1912b6cc5bc390f9bd6d75c0d45e8b471f35135b566fc6d"
+    },
+    {
+      "path": "analyze-through-collision-trace.py",
+      "sha256": "04726d5314d3ec933efbfa803bb4e95ce7a2ad2841a76cad56e102372b372556"
+    },
+    {
+      "path": "check-through-collision-geometry.py",
+      "sha256": "e28d155b4388a9b35f913d2b374325d4f2a1f782ab2dbff71179da601e72beab"
+    },
+    {
+      "path": "freeze-through-collision-trace.py",
+      "sha256": "807c913ad20597f1dfd5d1375e9b59f645d4abf0f14c2cad4f420c492ceba7a8"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "53e8d59dec20e61182e70f4767df6c1b3fb32cff0a4dc0345a3e99940c3607df"
+    },
+    {
+      "path": "inspect-through-collision-links.py",
+      "sha256": "3f4479aa2e5328b7ee95bbd70f0b2640675456d1d8368f7a2902fdbe1a466d25"
+    },
+    {
+      "path": "native/collision-fcd.xml.gz",
+      "sha256": "beb02fbaba8d3179d2f4a3f43f5c7234a0499f953e476cb5daabde93a5749063"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "3372cc254835e2446441f2eb214ac2a47153b0c8feedc30fbea3c2a6aa627e9a"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "85e2636e9934a7f13b9425e6617bc69b0b60d959c679eb03d49b41439a69b5af"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "6e90110a898279a8eaa7507edd9fbd46abdab0f20913e13690c020d836aadb46"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "653a0602b0aa2a9c515dd2358ee57004ba71ce7bb2b4132214336203c573857e"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "ea6ef9c47ee110889859194d07ad5a6a503a29a555a55c7c5612610068f1593b"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "b4c2e70a2d86d024ec9c664946e1640f7640fe4549e91d5bef3e34ba1578276c"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "native/lanechanges.xml.gz",
+      "sha256": "80530d204d268765156d9ffe55f538beebc0025d18932ff0561d7c9374c4fd26"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "5d274e4a9535dc8e7e44df529449d440969d7e05a07cc2cbf64d5b3587a0add6"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "4729c706f3b6fdbcd285bf37e27754b20d562e8d625a791224f44aa980288f44"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "4c5e4198cc46eea31c5e0ed18493629d2dbfffd54fb0cd6983aa85b39ad976fc"
+    },
+    {
+      "path": "native/states/state_3599.900.xml.gz",
+      "sha256": "819e25df58bfb87016c19294e515e21ab7e907c3af22eb9af3551b45e5818736"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "f81b1c84dad723bfb09cff381953bdbb22b4a0268ab4397efeb9f47072d1f436"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "bb0b9b6b4c3fdfc0b2a394df1472bbbe8698e09862938404e4767fe7ec70d8ec"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "70a3f67fc6eba2339bfe747170eb8b7a3d43cbd68c3efd9ac273f2391f93c797"
+    },
+    {
+      "path": "native/trace-check.json",
+      "sha256": "bc3beb5cf67e452b3eb76c9a19ce203addc9167602d89ee8eed122434e49ea40"
+    },
+    {
+      "path": "native/trace-proposal.json",
+      "sha256": "504bacaabee1f2fa3d70a63afd9306963642f6326f067bc89b3c35792a6cc0a3"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "6bb43b44427e40b0d1e657b34437f0ab13ca3850de330a4cf08b5da58d1512a4"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "228fde7e67682c89a039e38b709a1d7c4ab214aee98b73f894edd6d1b3dda8b0"
+    },
+    {
+      "path": "plot-through-collision-trace.py",
+      "sha256": "b9fad1e23f8e055936dc1aac727fab9501ff3b431652e45735b51ad87b6e070d"
+    },
+    {
+      "path": "query-through-collision-foes.py",
+      "sha256": "dc6e6669df6b4e00653530c0432dfc89e7bc7a11a3e612ed0ec4ae6a8c8fc50d"
+    },
+    {
+      "path": "README.md",
+      "sha256": "de7fa63e00de63f29d99acdb8461687a5a4b4efd506137a830d1631a578348ff"
+    },
+    {
+      "path": "runtime-foes/runtime-foes.json",
+      "sha256": "1f550fbb052933927235c1a1364308f78f6f0a189f450cd56f1a27cb7e7bfeb6"
+    },
+    {
+      "path": "runtime-foes/sumo-errors.log",
+      "sha256": "b06a6ad8e35469a9be3c8df06fc244947c0301f1832ee6e4fc06d4a3aee5e804"
+    },
+    {
+      "path": "runtime-foes/sumo.log",
+      "sha256": "42837167d27276696af4fc7bc3926d88814afcd3d21d6e034d67d24b8b2c3b6b"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "4a3f73919cae3782745249104ebfc81fc6c0af8a78fd148befb483b1b9022387"
+    }
+  ]
+}

@@ -1,0 +1,97 @@
+{
+  "status": "pass",
+  "visual_claim_status": "review_required",
+  "render_results": [
+    {
+      "folder": "aerial",
+      "status": "review_required",
+      "render_status": "pass",
+      "input_hashes_unchanged": true,
+      "views": [
+        "global",
+        "junction197-detail"
+      ]
+    },
+    {
+      "folder": "detail197",
+      "status": "review_required",
+      "render_status": "pass",
+      "input_hashes_unchanged": true,
+      "views": [
+        "junction197-tight"
+      ]
+    }
+  ],
+  "netedit_equal_camera": true,
+  "netedit_results": [
+    {
+      "role": "source",
+      "status": "review_material_ready",
+      "network_unchanged": true,
+      "report": "netedit-source/review-6044aaa74d.json",
+      "captures": [
+        {
+          "mode": "inspect",
+          "path": "netedit-source/direct-1975693623-6044aaa74d-inspect.png",
+          "sha256": "db8affbbdadfa26bb17ba30995f9b15171b70a43cea3a3dab639e80426acf50a"
+        },
+        {
+          "mode": "tls",
+          "path": "netedit-source/direct-1975693623-6044aaa74d-tls.png",
+          "sha256": "918fc736a1826599693d7ac14d0f3eaa28a593cad27a7db007940a58c33eda88"
+        },
+        {
+          "mode": "connection",
+          "path": "netedit-source/direct-1975693623-6044aaa74d-connection.png",
+          "sha256": "26051f62cc3112bb232bc7da64b2235cb2d8c1cced9f0bc709e6c2c05ab1023b"
+        }
+      ]
+    },
+    {
+      "role": "candidate",
+      "status": "review_material_ready",
+      "network_unchanged": true,
+      "report": "netedit-candidate/review-6044aaa74d.json",
+      "captures": [
+        {
+          "mode": "inspect",
+          "path": "netedit-candidate/direct-1975693623-6044aaa74d-inspect.png",
+          "sha256": "df4803e6e709c768dbf160ff12e74ef7137b751aebadc6ac0ae03a70ebac862e"
+        },
+        {
+          "mode": "tls",
+          "path": "netedit-candidate/direct-1975693623-6044aaa74d-tls.png",
+          "sha256": "1f4915704940fbefdd544f1f4634465c054bd324587409aa56a772d2d42c1d16"
+        },
+        {
+          "mode": "connection",
+          "path": "netedit-candidate/direct-1975693623-6044aaa74d-connection.png",
+          "sha256": "b743bca26aa14d2f5ec9c8482878ea6831725e752da76ab57c627c7d9bf57f37"
+        }
+      ]
+    }
+  ],
+  "actual_priority_case_changes": [
+    [
+      0,
+      9,
+      "G",
+      "g"
+    ],
+    [
+      1,
+      9,
+      "G",
+      "g"
+    ],
+    [
+      3,
+      2,
+      "G",
+      "g"
+    ]
+  ],
+  "source_candidate_control_aerial_hashes_unchanged": true,
+  "new_traffic_simulations": 0,
+  "core_or_inputs_changed": false
+}

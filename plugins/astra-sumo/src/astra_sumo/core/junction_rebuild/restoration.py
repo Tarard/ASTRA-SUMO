@@ -5,8 +5,9 @@ from __future__ import annotations
 import copy
 import xml.etree.ElementTree as ET
 from pathlib import Path
+from ..internal_ownership import resolve_internal_ownership
 from .artifacts import _failure
-from .boundary_restore import _restore_existing_edge_geometry
+from .boundary_restore import _preserve_mapped_boundary_geometry, _restore_existing_edge_geometry
 from .network import (
     GEOMETRY_RESTORE_LANE_ATTRS,
     _connection_lane_indices_valid,
@@ -18,11 +19,37 @@ from .network import (
 from .tls import _copy_referenced_tllogics
 
 
+def _restore_source_net_metadata(source_root, target_root):
+    """Restore the source format without changing native permission meanings."""
+    from ..osm_access import _translate_permission_declarations
+    before, after = target_root.get("version", "0.0"), source_root.get("version", "0.0")
+    translated = _translate_permission_declarations(target_root, source_version=before, target_version=after)
+    header_changed = target_root.attrib != source_root.attrib
+    target_root.attrib.clear()
+    target_root.attrib.update(source_root.attrib)
+    source_types = {row.get("id"): row for row in source_root.findall("type")}
+    target_types = {row.get("id"): row for row in target_root.findall("type")}
+    signatures = [{identity: ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True)
+                   for identity, row in table.items()} for table in (source_types, target_types)]
+    restored_types = [identity for identity in source_types
+                      if signatures[0][identity] != signatures[1].get(identity)]
+    if restored_types:
+        types = [copy.deepcopy(row) for row in source_types.values()] + [row for identity, row in target_types.items() if identity not in source_types]
+        target_root[:] = [row for row in target_root if row.tag != "type"]
+        at = next((i for i, row in enumerate(target_root) if row.tag != "location"), len(target_root))
+        for offset, row in enumerate(types):
+            target_root.insert(at + offset, row)
+    return {"changed": header_changed or bool(translated) or bool(restored_types),
+            "source_format_version": after, "incoming_format_version": before, "header_restored": header_changed,
+            "translated_permission_declarations": translated, "restored_type_ids": restored_types}
+
+
 def _restore_non_target_internal_artifacts(
     *,
     source_file: Path,
     target_file: Path,
     exclude_junction_ids: set[str],
+    boundary_edge_map: dict[str, str] | None = None,
 ) -> dict[str, object]:
     if not source_file.exists():
         return _failure(f"source net file does not exist: {source_file}")
@@ -30,43 +57,42 @@ def _restore_non_target_internal_artifacts(
         return _failure(f"target net file does not exist: {target_file}")
 
     source_root = ET.parse(source_file).getroot()
+    if boundary_edge_map:
+        lane_map = {}
+        for edge in source_root.findall("edge"):
+            if edge.get("id") in boundary_edge_map:
+                new_id = boundary_edge_map[edge.get("id")]
+                edge.set("id", new_id)
+                for lane in edge.findall("lane"):
+                    lane_map[lane.get("id")] = f"{new_id}_{lane.get('index')}"
+                    lane.set("id", lane_map[lane.get("id")])
+        for connection in source_root.findall("connection"):
+            for key in ("from", "to"):
+                if connection.get(key) in boundary_edge_map:
+                    connection.set(key, boundary_edge_map[connection.get(key)])
+        for junction in source_root.findall("junction"):
+            for key in ("incLanes", "intLanes"):
+                if key in junction.attrib:
+                    junction.set(key, " ".join(lane_map.get(lane, lane) for lane in junction.get(key).split()))
     target_tree = ET.parse(target_file)
     target_root = target_tree.getroot()
+    metadata = _restore_source_net_metadata(source_root, target_root)
     junction_ids = {
         junction.attrib["id"]
         for root in (source_root, target_root)
         for junction in root.findall("junction")
         if junction.attrib.get("id") and not junction.attrib["id"].startswith(":")
     }
-    junction_prefixes = [(f":{junction_id}_", junction_id) for junction_id in sorted(junction_ids, key=len, reverse=True)]
-    owner_cache: dict[str, str] = {}
+    source_owners = resolve_internal_ownership(source_root, extra_junction_ids=junction_ids)
+    target_owners = resolve_internal_ownership(target_root, extra_junction_ids=junction_ids)
 
-    def owner(value: str) -> str:
-        if value in owner_cache:
-            return owner_cache[value]
-        candidates = (value, _via_lane_edge_id(value))
-        if not any(edge_id.startswith(":") for edge_id in candidates):
-            owner_cache[value] = ""
-            return ""
-        internal_owner = next(
-            (
-                junction_id
-                for edge_id in candidates
-                for prefix, junction_id in junction_prefixes
-                if edge_id.startswith(prefix)
-            ),
-            "",
-        )
-        owner_cache[value] = internal_owner
-        return internal_owner
-
-    def is_restored_owner(value: str) -> bool:
-        internal_owner = owner(value)
+    def is_restored_owner(value, kind, owners):
+        internal_owner = owners[kind].get(value)
         return bool(internal_owner and internal_owner not in exclude_junction_ids)
 
-    def connection_restored(connection: ET.Element) -> bool:
+    def connection_restored(connection, owners):
         return any(
-            is_restored_owner(connection.attrib.get(attr, ""))
+            is_restored_owner(connection.attrib.get(attr, ""), "lane" if attr == "via" else "edge", owners)
             for attr in ("from", "to", "via")
         )
 
@@ -77,7 +103,7 @@ def _restore_non_target_internal_artifacts(
     }
 
     def has_valid_normal_endpoints(edge: ET.Element) -> bool:
-        internal_owner = owner(edge.attrib.get("id", ""))
+        internal_owner = source_owners["edge"].get(edge.attrib.get("id", ""))
         if internal_owner and internal_owner not in target_normal_junction_ids:
             return False
         return all(
@@ -88,7 +114,7 @@ def _restore_non_target_internal_artifacts(
     skipped_internal_edges_missing_junctions = []
     source_internal_edges = []
     for edge in source_root.findall("edge"):
-        if not is_restored_owner(edge.attrib.get("id", "")):
+        if not is_restored_owner(edge.attrib.get("id", ""), "edge", source_owners):
             continue
         if not has_valid_normal_endpoints(edge):
             skipped_internal_edges_missing_junctions.append(
@@ -99,7 +125,7 @@ def _restore_non_target_internal_artifacts(
     target_internal_edge_index = None
     removed_internal_edges = 0
     for child in list(target_root):
-        if child.tag == "edge" and is_restored_owner(child.attrib.get("id", "")):
+        if child.tag == "edge" and is_restored_owner(child.attrib.get("id", ""), "edge", target_owners):
             if target_internal_edge_index is None:
                 target_internal_edge_index = list(target_root).index(child)
             target_root.remove(child)
@@ -110,12 +136,13 @@ def _restore_non_target_internal_artifacts(
         target_root.insert(target_internal_edge_index + offset, copy.deepcopy(edge))
 
     source_internal_junctions = [
-        junction for junction in source_root.findall("junction") if is_restored_owner(junction.attrib.get("id", ""))
+        junction for junction in source_root.findall("junction")
+        if is_restored_owner(junction.attrib.get("id", ""), "junction", source_owners)
     ]
     target_internal_junction_index = None
     removed_internal_junctions = 0
     for child in list(target_root):
-        if child.tag == "junction" and is_restored_owner(child.attrib.get("id", "")):
+        if child.tag == "junction" and is_restored_owner(child.attrib.get("id", ""), "junction", target_owners):
             if target_internal_junction_index is None:
                 target_internal_junction_index = list(target_root).index(child)
             target_root.remove(child)
@@ -131,7 +158,7 @@ def _restore_non_target_internal_artifacts(
     removed_connections = 0
     retained_children = []
     for child in list(target_root):
-        if child.tag == "connection" and connection_restored(child):
+        if child.tag == "connection" and connection_restored(child, target_owners):
             removed_connections += 1
             continue
         retained_children.append(child)
@@ -150,7 +177,7 @@ def _restore_non_target_internal_artifacts(
     skipped_invalid_lane_connections = []
     skipped_missing_via_lane_connections = []
     for connection in source_root.findall("connection"):
-        if not connection_restored(connection):
+        if not connection_restored(connection, source_owners):
             continue
         from_edge = connection.attrib.get("from", "")
         to_edge = connection.attrib.get("to", "")
@@ -236,6 +263,11 @@ def _restore_non_target_internal_artifacts(
         for request in requests_to_copy:
             target_junction.append(ET.Element("request", dict(request.attrib)))
             restored_request_count += 1
+        if source_inc_lanes_are_valid and source_matrix_is_valid:
+            # Preserve source child order and metadata with its restored request matrix.
+            target_junction.attrib.clear()
+            target_junction.attrib.update(source_junction.attrib)
+            target_junction[:] = [copy.deepcopy(child) for child in source_junction]
 
     for junction_id, target_junction in target_junctions.items():
         if junction_id in exclude_junction_ids or junction_id in restored_source_normal_junction_ids:
@@ -272,7 +304,8 @@ def _restore_non_target_internal_artifacts(
         restored_normal_junction_attr_count += 1
 
     if (
-        removed_internal_edges
+        metadata["changed"]
+        or removed_internal_edges
         or removed_internal_junctions
         or removed_connections
         or restored_normal_junction_attr_count
@@ -293,6 +326,7 @@ def _restore_non_target_internal_artifacts(
         "skipped_non_target_internal_edge_missing_junction_count": len(skipped_internal_edges_missing_junctions),
         "skipped_non_target_internal_edge_missing_junctions": skipped_internal_edges_missing_junctions,
         "removed_non_target_internal_junction_count": removed_internal_junctions,
+        "source_net_metadata": metadata,
         "restored_non_target_internal_junction_count": len(source_internal_junctions),
         "removed_non_target_internal_connection_count": removed_connections,
         "restored_non_target_internal_connection_count": len(source_connections),
@@ -322,6 +356,13 @@ def _restore_replayed_geometry_attrs(*, source_file: Path, target_file: Path, ju
     source_root = ET.parse(source_file).getroot()
     target_tree = ET.parse(target_file)
     target_root = target_tree.getroot()
+    from ..osm_access import _translate_permission_declarations
+
+    def receiver_copy(element):
+        clone = copy.deepcopy(element)
+        _translate_permission_declarations(clone, source_version=source_root.get("version", "0.0"),
+                                           target_version=target_root.get("version", "0.0"))
+        return clone
     source_internal_edges = [
         edge
         for edge in source_root.findall("edge")
@@ -336,7 +377,7 @@ def _restore_replayed_geometry_attrs(*, source_file: Path, target_file: Path, ju
     if internal_edge_insert_index is None:
         internal_edge_insert_index = _first_junction_index(target_root)
     for offset, edge in enumerate(source_internal_edges):
-        target_root.insert(internal_edge_insert_index + offset, copy.deepcopy(edge))
+        target_root.insert(internal_edge_insert_index + offset, receiver_copy(edge))
 
     source_internal_junctions = [
         junction
@@ -365,7 +406,7 @@ def _restore_replayed_geometry_attrs(*, source_file: Path, target_file: Path, ju
     restored_connection_count = 0
     for connection in source_root.findall("connection"):
         if _touches_target_internal_subgraph(connection, internal_prefix, junction_id):
-            target_root.append(copy.deepcopy(connection))
+            target_root.append(receiver_copy(connection))
             restored_connection_count += 1
 
     restored_edge_ids = {
@@ -454,6 +495,7 @@ def restore_off_scope_netconvert_artifacts(
     expand_mutable_edge_endpoints: bool = True,
     junction_aliases: dict[str, str] | None = None,
     declared_absorbed_edge_ids: set[str] | None = None,
+    boundary_edge_map: dict[str, str] | None = None,
 ) -> dict[str, object]:
     """Restore the network outside one explicitly mutable replay scope.
 
@@ -477,7 +519,8 @@ def restore_off_scope_netconvert_artifacts(
         return _failure(f"target net file does not exist: {target_file}")
 
     source_root = ET.parse(source_file).getroot()
-    target_root = ET.parse(target_file).getroot()
+    target_tree = ET.parse(target_file)
+    target_root = target_tree.getroot()
     source_edges = {
         edge.attrib["id"]: edge
         for edge in source_root.findall("edge")
@@ -488,6 +531,12 @@ def restore_off_scope_netconvert_artifacts(
         for edge in target_root.findall("edge")
         if edge.attrib.get("id") and not edge.attrib["id"].startswith(":")
     }
+    boundary_edge_map = dict(boundary_edge_map or {})
+    if (len(set(boundary_edge_map.values())) != len(boundary_edge_map)
+            or any(a not in source_edges or b not in target_edges
+                   or a not in mutable_edge_ids or b not in mutable_edge_ids
+                   for a, b in boundary_edge_map.items())):
+        return _failure("Boundary correspondence requires distinct existing roads inside the declared scope.")
     normalized_junction_aliases = {
         str(source_id): str(target_id)
         for source_id, target_id in (junction_aliases or {}).items()
@@ -544,10 +593,14 @@ def restore_off_scope_netconvert_artifacts(
                     if value
                 )
 
+    metadata = _restore_source_net_metadata(source_root, target_root)
+    if metadata["changed"]:
+        target_tree.write(target_file, encoding="utf-8", xml_declaration=True)
     internal_report = _restore_non_target_internal_artifacts(
         source_file=source_file,
         target_file=target_file,
         exclude_junction_ids=effective_mutable_junction_ids,
+        boundary_edge_map=boundary_edge_map,
     )
     if internal_report.get("status") != "pass":
         return {
@@ -572,8 +625,51 @@ def restore_off_scope_netconvert_artifacts(
     restored_edge_ids: list[str] = []
     restored_edge_centerline_ids: list[str] = []
     restored_lane_count = 0
+    boundary_geometry_reports = []
     for edge_id, source_edge in sorted(source_edges.items()):
         if edge_id in effective_mutable_edge_ids:
+            local_ends = [source_edge.get(key) in effective_mutable_junction_ids for key in ("from", "to")]
+            if local_ends[0] != local_ends[1]:
+                target_edge = target_edges.get(boundary_edge_map.get(edge_id, edge_id))
+                source_lane_indices = {lane.get("index") for lane in source_edge.findall("lane")}
+                target_lane_indices = ({lane.get("index") for lane in target_edge.findall("lane")}
+                                       if target_edge is not None else set())
+                source_lane_ids = {lane.get("index"): lane.get("id") for lane in source_edge.findall("lane")}
+                target_lane_ids = ({lane.get("index"): lane.get("id") for lane in target_edge.findall("lane")}
+                                   if target_edge is not None else {})
+                if (target_edge is None or source_lane_indices != target_lane_indices
+                        or edge_id not in boundary_edge_map and source_lane_ids != target_lane_ids):
+                    failures.append({"edge_id": edge_id, "reason": "boundary_lane_identity_changed"})
+                    continue
+                boundary = _preserve_mapped_boundary_geometry(target_edge, source_edge,
+                    target_junction_ids=effective_mutable_junction_ids,
+                    source_local_junction_ids=effective_mutable_junction_ids,
+                    preserve_operational_attributes=False)
+                boundary_geometry_reports.append({"edge_id": edge_id, **boundary})
+                if "shape" not in source_edge.attrib:
+                    target_edge.attrib.pop("shape", None)
+                if boundary["status"] != "pass":
+                    failures.append({"edge_id": edge_id, "reason": "fixed_boundary_geometry_not_preserved",
+                                     "detail": boundary})
+                source_lanes_by_index = {lane.get("index"): lane for lane in source_edge.findall("lane")}
+                for after in target_edge.findall("lane"):
+                    before = source_lanes_by_index[after.get("index")]
+                    if "customShape" in before.attrib:
+                        after.set("customShape", before.get("customShape"))
+                    else:
+                        after.attrib.pop("customShape", None)
+                    remote_index = -1 if local_ends[0] else 0
+                    original_points = before.get("shape", "").split()
+                    current_points = after.get("shape", "").split()
+                    if original_points and current_points and boundary["status"] == "pass":
+                        # The blending helper rounds coordinates. Keep the fixed end at source precision.
+                        current_points[remote_index] = original_points[remote_index]
+                        after.set("shape", " ".join(current_points))
+                    if (not original_points or not current_points
+                            or tuple(map(float, original_points[remote_index].split(",")))
+                            != tuple(map(float, current_points[remote_index].split(",")))):
+                        failures.append({"edge_id": edge_id, "lane_id": after.get("id"),
+                                         "reason": "fixed_boundary_endpoint_changed"})
             continue
         target_edge = target_edges.get(edge_id)
         source_endpoints = (
@@ -658,10 +754,15 @@ def restore_off_scope_netconvert_artifacts(
             }
             for lane_index, target_lane in target_lanes.items()
         }
+        before_edge_length = target_edge.get("length")
         _restore_existing_edge_geometry(target_edge, source_edge, target_root)
+        if "length" in source_edge.attrib:
+            target_edge.set("length", source_edge.get("length"))
+        if "shape" not in source_edge.attrib:
+            target_edge.attrib.pop("shape", None)
         if before_edge_shape != target_edge.attrib.get("shape"):
             restored_edge_centerline_ids.append(edge_id)
-        edge_changed = False
+        edge_changed = "length" in source_edge.attrib and before_edge_length != target_edge.get("length")
         for lane_index, source_lane in source_lanes.items():
             target_lane = target_lanes[lane_index]
             for attr in GEOMETRY_RESTORE_LANE_ATTRS:
@@ -669,10 +770,8 @@ def restore_off_scope_netconvert_artifacts(
                     target_lane.set(attr, source_lane.attrib[attr])
                 else:
                     target_lane.attrib.pop(attr, None)
-            if target_lane.get("shape"):
-                # Preserve the restored curve on the next native import too.
-                # Without this marker SUMO rebuilds it from the old edge axis.
-                target_lane.set("customShape", "1")
+            # Copy the source marker exactly. Adding customShape changes future
+            # native clipping and cannot establish lossless reimport.
             after = {attr: target_lane.attrib.get(attr) for attr in GEOMETRY_RESTORE_LANE_ATTRS}
             if before_lanes[lane_index] != after:
                 edge_changed = True
@@ -693,7 +792,7 @@ def restore_off_scope_netconvert_artifacts(
             for edge_id in undeleted_declared_absorbed_edge_ids
         )
 
-    if restored_lane_count or restored_edge_centerline_ids:
+    if restored_lane_count or restored_edge_ids or restored_edge_centerline_ids or boundary_geometry_reports:
         ET.indent(target_root, space="    ")
         target_tree.write(target_file, encoding="utf-8", xml_declaration=True)
 
@@ -715,6 +814,7 @@ def restore_off_scope_netconvert_artifacts(
         "source_file": str(source_file),
         "target_file": str(target_file),
         "mutable_junction_ids": sorted(effective_mutable_junction_ids),
+        "source_net_metadata": metadata,
         "mutable_edge_ids": sorted(effective_mutable_edge_ids),
         "junction_aliases": dict(sorted(normalized_junction_aliases.items())),
         "declared_absorbed_edge_ids": (
@@ -732,7 +832,11 @@ def restore_off_scope_netconvert_artifacts(
         "restored_external_edge_centerline_count": len(restored_edge_centerline_ids),
         "restored_external_edge_centerline_ids": restored_edge_centerline_ids,
         "restored_external_lane_count": restored_lane_count,
-        "restored_lane_shapes_fixed_for_native_reload": True,
+        "source_custom_shape_markers_preserved": True,
+        "restored_lane_shapes_fixed_for_native_reload": False,
+        "native_reload_preservation_audit_required": True,
+        "fixed_boundary_geometry": boundary_geometry_reports,
+        "boundary_edge_map": boundary_edge_map,
         "failure_count": len(failures) + sum(internal_failures.values()),
         "failures": failures,
         "internal_failure_counts": internal_failures,

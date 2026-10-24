@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T14:36:46.921678+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\collisions.xml"/>
+    </output>
+
+    <time>
+        <end value="4800"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-local-lane-treatment-20261021-v1\z8-cohort\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="14171"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/routes_file.xsd">
+    <vehicle id="local_z8_0" type="readme_lane_intent" depart="3600.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3697.400">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3601.800 3614.800 3627.800 3676.800 3693.100 3693.400 3697.400"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3631.600" ended="3631.700"/>
+    </vehicle>
+
+    <vehicle id="local_z8_1" type="readme_lane_intent" depart="3620.000" departLane="2" departPos="5.100000000000" departSpeed="13.7330862500" speedFactor="1.000000000000" arrival="3699.700">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3621.800 3623.000 3630.000 3678.600 3695.400 3695.800 3699.700"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3678.600" ended="3678.600"/>
+    </vehicle>
+
+    <vehicle id="local_z8_2" type="readme_lane_intent" depart="3640.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3702.100">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3641.500 3642.000 3643.100 3681.000 3697.800 3698.200 3702.100"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3681.000" ended="3681.000"/>
+    </vehicle>
+
+    <vehicle id="local_z8_3" type="readme_lane_intent" depart="3660.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3704.500">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3661.800 3666.800 3669.500 3683.400 3700.200 3700.600 3704.500"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3683.400" ended="3683.400"/>
+    </vehicle>
+
+    <vehicle id="local_z8_4" type="readme_lane_intent" depart="3680.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3795.800">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3681.800 3692.800 3695.500 3766.800 3788.800 3790.400 3795.800"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3698.000" ended="3698.100"/>
+    </vehicle>
+
+    <vehicle id="local_z8_5" type="readme_lane_intent" depart="3700.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3795.800">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3701.500 3702.000 3703.100 3768.600 3788.800 3790.400 3795.800"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3768.600" ended="3768.600"/>
+    </vehicle>
+
+    <vehicle id="local_z8_6" type="readme_lane_intent" depart="3720.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3797.100">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3721.500 3722.000 3725.800 3771.900 3791.700 3792.500 3797.100"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3768.700" ended="3769.600"/>
+    </vehicle>
+
+    <vehicle id="local_z8_7" type="readme_lane_intent" depart="3740.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3797.100">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3741.800 3745.800 3756.800 3773.800 3792.000 3792.700 3797.100"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3772.600" ended="3772.700"/>
+    </vehicle>
+
+    <vehicle id="local_z8_8" type="readme_lane_intent" depart="3760.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3798.500">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3761.800 3771.800 3774.500 3777.300 3793.800 3794.300 3798.500"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3776.700" ended="3776.800"/>
+    </vehicle>
+
+    <vehicle id="local_z8_9" type="readme_lane_intent" depart="3780.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3877.200">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3781.500 3782.000 3791.800 3856.800 3872.900 3873.300 3877.200"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3795.600" ended="3795.700"/>
+    </vehicle>
+
+    <vehicle id="local_z8_10" type="readme_lane_intent" depart="3800.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3879.700">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3801.500 3802.000 3803.100 3858.600 3875.400 3875.800 3879.700"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3858.600" ended="3858.600"/>
+    </vehicle>
+
+    <vehicle id="local_z8_11" type="readme_lane_intent" depart="3820.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3882.100">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3821.800 3825.800 3828.500 3861.000 3877.800 3878.200 3882.100"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3861.000" ended="3861.000"/>
+    </vehicle>
+
+    <vehicle id="local_z8_12" type="readme_lane_intent" depart="3840.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3884.500">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3841.800 3851.800 3854.500 3863.400 3880.200 3880.600 3884.500"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3863.400" ended="3863.400"/>
+    </vehicle>
+
+    <vehicle id="local_z8_13" type="readme_lane_intent" depart="3860.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3886.400">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3861.500 3862.000 3863.100 3866.400 3882.100 3882.500 3886.400"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3865.400" ended="3865.500"/>
+    </vehicle>
+
+    <vehicle id="local_z8_15" type="readme_lane_intent" depart="3900.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3967.200">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3901.800 3905.800 3915.800 3946.800 3962.900 3963.300 3967.200"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3919.600" ended="3919.700"/>
+    </vehicle>
+
+    <vehicle id="local_z8_16" type="readme_lane_intent" depart="3920.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="3970.100">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3921.800 3931.800 3946.800 3951.100 3965.800 3966.200 3970.100"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3950.500" ended="3950.600"/>
+    </vehicle>
+
+    <vehicle id="local_z8_17" type="readme_lane_intent" depart="3940.000" departLane="2" departPos="5.100000000000" departSpeed="13.7330862500" speedFactor="1.000000000000" arrival="4060.900">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3941.800 3957.800 3960.500 4038.600 4056.300 4056.800 4060.900"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="4038.600" ended="4038.600"/>
+    </vehicle>
+
+    <vehicle id="local_z8_14" type="readme_lane_intent" depart="3880.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="4062.600">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3881.500 3882.000 3884.400 4036.800 4054.400 4056.800 4062.600"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="3887.700" ended="3887.800"/>
+    </vehicle>
+
+    <vehicle id="local_z8_18" type="readme_lane_intent" depart="3960.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="4062.900">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3961.500 3962.000 3963.100 4041.000 4058.600 4059.000 4062.900"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="4041.000" ended="4041.000"/>
+    </vehicle>
+
+    <vehicle id="local_z8_19" type="readme_lane_intent" depart="3980.000" departLane="2" departPos="5.100000000000" departSpeed="13.8888890000" speedFactor="1.000000000000" arrival="4064.600">
+        <route edges="-142944318 -186821026 -186821028 186821027#0 186821036#1 186821036#2 142944477" exitTimes="3981.800 3985.800 3988.500 4043.400 4060.300 4060.600 4064.600"/>
+        <stop lane="186821027#0_5" endPos="19.120000000000" speed="13.888889000000" started="4043.400" ended="4043.400"/>
+    </vehicle>
+
+</routes>

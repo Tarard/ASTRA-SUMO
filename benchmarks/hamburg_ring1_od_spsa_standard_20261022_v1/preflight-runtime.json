@@ -1,0 +1,22 @@
+{
+  "python": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+  "python_version": "3.12.13 (main, Jun 23 2026, 15:23:43) [MSC v.1944 64 bit (AMD64)]",
+  "versions": {
+    "eclipse-sumo": "1.27.1",
+    "traci": "1.27.1",
+    "sumolib": "1.27.1",
+    "numpy": "2.5.1"
+  },
+  "sumo_binary": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+  "traci_module": "C:\\Program Files (x86)\\Eclipse\\Sumo\\tools\\traci\\__init__.py",
+  "sumolib_module": "C:\\Program Files (x86)\\Eclipse\\Sumo\\tools\\sumolib\\__init__.py",
+  "checks_passed": 51,
+  "native_test_assertion": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "excluded_test_log": {
+    "path": "outputs/hamburg-standard-spsa-unit-tests-20261022-v1.log",
+    "reason": "An earlier small test used the system executable path. It is excluded. Native tests now use the repository runtime directly."
+  }
+}

@@ -16,6 +16,12 @@ from .hamburg_teacher_cell import HamburgOfficialMovementPath
 from .ocit_c import OcitVehicleTopologyMovement
 
 
+from .site_parameters import load_site_parameters
+
+_SITE = load_site_parameters('hamburg_movement_path')
+HAMBURG_MOVEMENT_PATH_PARAMETERS = _SITE["_source"]
+
+
 class HamburgMovementPathError(ValueError):
     """Raised when an official movement cannot be resolved without guessing."""
 
@@ -26,56 +32,56 @@ class HamburgMovementPathError(ValueError):
 # be controlled.
 HAMBURG_SANDTORKAI_CONNECTION_EVIDENCE: tuple[LaneConnectionEvidence, ...] = (
     LaneConnectionEvidence(
-        "22649708#1_0",
-        "74547371#0_0",
+        _SITE['source_binding.001'],
+        _SITE['source_binding.002'],
         "hamburg-map:0228:41->38",
         "official MAP movement 41->38",
     ),
     LaneConnectionEvidence(
-        "1231234769#1_0",
-        "31274978_1",
+        _SITE['source_binding.003'],
+        _SITE['source_binding.004'],
         "hamburg-map:0228:9->7",
         "official MAP movement 9->7",
     ),
     LaneConnectionEvidence(
-        "24732668#1_0",
-        "158068424_0",
+        _SITE['source_binding.005'],
+        _SITE['source_binding.006'],
         "hamburg-map:0228:17->24",
         "official MAP movement 17->24 to Niederbaumbruecke",
     ),
     LaneConnectionEvidence(
-        "30390250#2_1",
-        "9718800_0",
+        _SITE['source_binding.007'],
+        _SITE['source_binding.008'],
         "hamburg-map:2421:3->11",
         "official MAP movement 3->11",
     ),
     LaneConnectionEvidence(
-        "-647842957_0",
-        "-9718800_1",
+        _SITE['source_binding.009'],
+        _SITE['source_binding.010'],
         "hamburg-map:2421:10->6",
         "official MAP movement 10->6",
     ),
     LaneConnectionEvidence(
-        "381540198#2_0",
-        "193847534#0_1",
+        _SITE['source_binding.011'],
+        _SITE['source_binding.012'],
         "hamburg-map:2394:6->5",
         "official MAP movement 6->5",
     ),
     LaneConnectionEvidence(
-        "60578519_1",
-        "193847534#0_0",
+        _SITE['source_binding.013'],
+        _SITE['source_binding.014'],
         "hamburg-map:2394:11->4",
         "official MAP movement 11->4",
     ),
     LaneConnectionEvidence(
-        "60578519_2",
-        "193847534#0_1",
+        _SITE['source_binding.015'],
+        _SITE['source_binding.012'],
         "hamburg-map:2394:12->5",
         "official MAP movement 12->5",
     ),
     LaneConnectionEvidence(
-        "381540198#2_0",
-        "-9702435_0",
+        _SITE['source_binding.011'],
+        _SITE['source_binding.016'],
         "hamburg-map:2394:7->14",
         "official MAP movement 7->14",
     ),

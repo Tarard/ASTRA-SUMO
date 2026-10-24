@@ -1,0 +1,1015 @@
+{
+  "schema": "astra.hamburg.275-fixed-demand-side-diagnosis/v1",
+  "audit_status": "pass",
+  "created_utc": "2026-10-24T08:58:50.670791+00:00",
+  "native_runs_by_analysis": 0,
+  "case_summaries": {
+    "reference": {
+      "primary_445_request_N": 3571,
+      "boundary_gap": {
+        "last_pre3600_actual_entry_ID": "od_0077_v00083",
+        "last_pre3600_request_s": "3384.922035948000",
+        "all_pre3600_primary_inserted_by_s": 3627.1,
+        "first_h4_request_ID": "od_0100_v00000",
+        "first_h4_request_s": 3706.208863393,
+        "first_h4_actual_entry_s": 3706.3,
+        "no_requested_primary_pending_interval_s": [
+          3627.1,
+          3706.208863393
+        ],
+        "no_requested_primary_pending_duration_s": 79.10886339299987
+      },
+      "cohort_stage_stats": {
+        "h3_requests2700_3600": {
+          "N": 263,
+          "by_field": {
+            "hh_0119_Z_13_34018": 150,
+            "hh_0119_Z_12_31546": 102,
+            "hh_0119_Z_11_28853": 11
+          },
+          "stages_s": {
+            "request_to_native_insertion_s": {
+              "N": 263,
+              "min": 0.0008030849999158818,
+              "median": 66.4290278819999,
+              "p90": 199.89285766900002,
+              "max": 251.98221937100016
+            },
+            "insertion_to_445_exit_s": {
+              "N": 263,
+              "min": 13.099999999999909,
+              "median": 56.30000000000018,
+              "p90": 79.79999999999973,
+              "max": 104.40000000000009
+            },
+            "445_exit_to_761_exit_s": {
+              "N": 263,
+              "min": 2.199999999999818,
+              "median": 3.599999999999909,
+              "p90": 33.59999999999991,
+              "max": 49.79999999999973
+            },
+            "761_exit_to_199_0_exit_s": {
+              "N": 263,
+              "min": 3.599999999999909,
+              "median": 22.09999999999991,
+              "p90": 60.80000000000018,
+              "max": 88.30000000000018
+            },
+            "199_0_exit_to_199_1_exit_s": {
+              "N": 263,
+              "min": 0.3999999999996362,
+              "median": 0.6999999999998181,
+              "p90": 10.399999999999636,
+              "max": 62.30000000000018
+            },
+            "199_1_exit_to_199_2_exit_s": {
+              "N": 263,
+              "min": 0.3999999999996362,
+              "median": 0.599999999999909,
+              "p90": 8.0,
+              "max": 64.5
+            },
+            "199_2_exit_to_244_exit_s": {
+              "N": 263,
+              "min": 4.0,
+              "median": 5.599999999999909,
+              "p90": 57.40000000000009,
+              "max": 63.59999999999991
+            },
+            "244_exit_to_E1_notification_s": {
+              "N": 263,
+              "min": 1.900000000000091,
+              "median": 2.800000000000182,
+              "p90": 60.20000000000027,
+              "max": 73.30000000000018
+            }
+          }
+        },
+        "h4_requests3600_4500_passed_before4500": {
+          "N": 202,
+          "by_field": {
+            "hh_0119_Z_13_34018": 109,
+            "hh_0119_Z_12_31546": 83,
+            "hh_0119_Z_11_28853": 10
+          },
+          "stages_s": {
+            "request_to_native_insertion_s": {
+              "N": 202,
+              "min": 0.0014814340001976234,
+              "median": 53.352455947500175,
+              "p90": 166.02690022200022,
+              "max": 214.53596419299993
+            },
+            "insertion_to_445_exit_s": {
+              "N": 202,
+              "min": 13.099999999999909,
+              "median": 55.84999999999991,
+              "p90": 79.39999999999964,
+              "max": 124.30000000000018
+            },
+            "445_exit_to_761_exit_s": {
+              "N": 202,
+              "min": 2.199999999999818,
+              "median": 3.9500000000000455,
+              "p90": 34.90000000000009,
+              "max": 52.5
+            },
+            "761_exit_to_199_0_exit_s": {
+              "N": 202,
+              "min": 3.600000000000364,
+              "median": 16.200000000000045,
+              "p90": 65.59999999999991,
+              "max": 120.10000000000036
+            },
+            "199_0_exit_to_199_1_exit_s": {
+              "N": 202,
+              "min": 0.3999999999996362,
+              "median": 0.7000000000002728,
+              "p90": 12.300000000000182,
+              "max": 55.79999999999973
+            },
+            "199_1_exit_to_199_2_exit_s": {
+              "N": 202,
+              "min": 0.3999999999996362,
+              "median": 0.599999999999909,
+              "p90": 7.0,
+              "max": 59.19999999999982
+            },
+            "199_2_exit_to_244_exit_s": {
+              "N": 202,
+              "min": 3.900000000000091,
+              "median": 5.399999999999864,
+              "p90": 57.30000000000018,
+              "max": 62.80000000000018
+            },
+            "244_exit_to_E1_notification_s": {
+              "N": 202,
+              "min": 1.9000000000005457,
+              "median": 2.800000000000182,
+              "p90": 60.30000000000018,
+              "max": 81.40000000000009
+            }
+          }
+        },
+        "h4_requests3600_4500_passed_at_or_after4500": {
+          "N": 66,
+          "by_field": {
+            "hh_0119_Z_13_34018": 36,
+            "hh_0119_Z_12_31546": 28,
+            "hh_0119_Z_11_28853": 2
+          },
+          "stages_s": {
+            "request_to_native_insertion_s": {
+              "N": 66,
+              "min": 213.02690022200022,
+              "median": 239.88334050499998,
+              "p90": 285.8269002220004,
+              "max": 310.5269002220002
+            },
+            "insertion_to_445_exit_s": {
+              "N": 66,
+              "min": 24.0,
+              "median": 58.100000000000364,
+              "p90": 76.0,
+              "max": 94.10000000000036
+            },
+            "445_exit_to_761_exit_s": {
+              "N": 66,
+              "min": 2.399999999999636,
+              "median": 4.0,
+              "p90": 28.899999999999636,
+              "max": 44.30000000000018
+            },
+            "761_exit_to_199_0_exit_s": {
+              "N": 66,
+              "min": 3.600000000000364,
+              "median": 40.40000000000009,
+              "p90": 63.099999999999454,
+              "max": 69.59999999999945
+            },
+            "199_0_exit_to_199_1_exit_s": {
+              "N": 66,
+              "min": 0.3999999999996362,
+              "median": 0.6999999999998181,
+              "p90": 9.0,
+              "max": 52.600000000000364
+            },
+            "199_1_exit_to_199_2_exit_s": {
+              "N": 66,
+              "min": 0.3999999999996362,
+              "median": 0.5,
+              "p90": 6.0,
+              "max": 53.80000000000018
+            },
+            "199_2_exit_to_244_exit_s": {
+              "N": 66,
+              "min": 4.200000000000728,
+              "median": 5.750000000000455,
+              "p90": 61.30000000000018,
+              "max": 62.80000000000018
+            },
+            "244_exit_to_E1_notification_s": {
+              "N": 66,
+              "min": 1.8999999999996362,
+              "median": 2.850000000000364,
+              "p90": 60.899999999999636,
+              "max": 81.00000000000091
+            }
+          }
+        }
+      }
+    },
+    "warmup9": {
+      "primary_445_request_N": 3571,
+      "boundary_gap": {
+        "last_pre3600_actual_entry_ID": "od_0077_v00083",
+        "last_pre3600_request_s": "3384.922035948000",
+        "all_pre3600_primary_inserted_by_s": 3627.1,
+        "first_h4_request_ID": "od_0100_v00000",
+        "first_h4_request_s": 3706.208863393,
+        "first_h4_actual_entry_s": 3706.3,
+        "no_requested_primary_pending_interval_s": [
+          3627.1,
+          3706.208863393
+        ],
+        "no_requested_primary_pending_duration_s": 79.10886339299987
+      },
+      "cohort_stage_stats": {
+        "h3_requests2700_3600": {
+          "N": 263,
+          "by_field": {
+            "hh_0119_Z_13_34018": 150,
+            "hh_0119_Z_12_31546": 102,
+            "hh_0119_Z_11_28853": 11
+          },
+          "stages_s": {
+            "request_to_native_insertion_s": {
+              "N": 263,
+              "min": 0.0008030849999158818,
+              "median": 66.4290278819999,
+              "p90": 199.89285766900002,
+              "max": 251.98221937100016
+            },
+            "insertion_to_445_exit_s": {
+              "N": 263,
+              "min": 13.099999999999909,
+              "median": 56.30000000000018,
+              "p90": 79.79999999999973,
+              "max": 104.40000000000009
+            },
+            "445_exit_to_761_exit_s": {
+              "N": 263,
+              "min": 2.199999999999818,
+              "median": 3.599999999999909,
+              "p90": 33.59999999999991,
+              "max": 49.79999999999973
+            },
+            "761_exit_to_199_0_exit_s": {
+              "N": 263,
+              "min": 3.599999999999909,
+              "median": 22.09999999999991,
+              "p90": 61.69999999999982,
+              "max": 88.30000000000018
+            },
+            "199_0_exit_to_199_1_exit_s": {
+              "N": 263,
+              "min": 0.3999999999996362,
+              "median": 0.7000000000002728,
+              "p90": 10.399999999999636,
+              "max": 62.30000000000018
+            },
+            "199_1_exit_to_199_2_exit_s": {
+              "N": 263,
+              "min": 0.3999999999996362,
+              "median": 0.599999999999909,
+              "p90": 8.0,
+              "max": 64.5
+            },
+            "199_2_exit_to_244_exit_s": {
+              "N": 263,
+              "min": 4.0,
+              "median": 5.599999999999909,
+              "p90": 57.40000000000009,
+              "max": 63.59999999999991
+            },
+            "244_exit_to_E1_notification_s": {
+              "N": 263,
+              "min": 1.900000000000091,
+              "median": 2.800000000000182,
+              "p90": 60.20000000000027,
+              "max": 73.30000000000018
+            }
+          }
+        },
+        "h4_requests3600_4500_passed_before4500": {
+          "N": 193,
+          "by_field": {
+            "hh_0119_Z_13_34018": 104,
+            "hh_0119_Z_12_31546": 79,
+            "hh_0119_Z_11_28853": 10
+          },
+          "stages_s": {
+            "request_to_native_insertion_s": {
+              "N": 193,
+              "min": 0.0014814340001976234,
+              "median": 60.77044695199993,
+              "p90": 187.07754340300016,
+              "max": 232.52690022200022
+            },
+            "insertion_to_445_exit_s": {
+              "N": 193,
+              "min": 13.099999999999909,
+              "median": 61.0,
+              "p90": 82.5,
+              "max": 129.0
+            },
+            "445_exit_to_761_exit_s": {
+              "N": 193,
+              "min": 2.200000000000273,
+              "median": 3.599999999999909,
+              "p90": 39.599999999999454,
+              "max": 56.79999999999973
+            },
+            "761_exit_to_199_0_exit_s": {
+              "N": 193,
+              "min": 3.5999999999994543,
+              "median": 26.700000000000728,
+              "p90": 67.19999999999982,
+              "max": 90.69999999999982
+            },
+            "199_0_exit_to_199_1_exit_s": {
+              "N": 193,
+              "min": 0.3000000000001819,
+              "median": 0.6999999999998181,
+              "p90": 17.900000000000546,
+              "max": 59.40000000000009
+            },
+            "199_1_exit_to_199_2_exit_s": {
+              "N": 193,
+              "min": 0.3000000000001819,
+              "median": 0.5999999999994543,
+              "p90": 7.0,
+              "max": 60.80000000000018
+            },
+            "199_2_exit_to_244_exit_s": {
+              "N": 193,
+              "min": 3.899999999999636,
+              "median": 5.5,
+              "p90": 56.900000000000546,
+              "max": 63.19999999999982
+            },
+            "244_exit_to_E1_notification_s": {
+              "N": 193,
+              "min": 1.8999999999996362,
+              "median": 2.800000000000182,
+              "p90": 59.600000000000364,
+              "max": 78.5
+            }
+          }
+        },
+        "h4_requests3600_4500_passed_at_or_after4500": {
+          "N": 75,
+          "by_field": {
+            "hh_0119_Z_12_31546": 32,
+            "hh_0119_Z_13_34018": 41,
+            "hh_0119_Z_11_28853": 2
+          },
+          "stages_s": {
+            "request_to_native_insertion_s": {
+              "N": 75,
+              "min": 231.02690022200022,
+              "median": 279.86010212400015,
+              "p90": 329.24421007,
+              "max": 331.91522456300027
+            },
+            "insertion_to_445_exit_s": {
+              "N": 75,
+              "min": 23.899999999999636,
+              "median": 60.69999999999982,
+              "p90": 72.60000000000036,
+              "max": 100.30000000000018
+            },
+            "445_exit_to_761_exit_s": {
+              "N": 75,
+              "min": 2.399999999999636,
+              "median": 4.800000000000182,
+              "p90": 34.600000000000364,
+              "max": 46.0
+            },
+            "761_exit_to_199_0_exit_s": {
+              "N": 75,
+              "min": 3.699999999999818,
+              "median": 26.699999999999818,
+              "p90": 63.5,
+              "max": 77.19999999999982
+            },
+            "199_0_exit_to_199_1_exit_s": {
+              "N": 75,
+              "min": 0.3999999999996362,
+              "median": 0.7000000000007276,
+              "p90": 6.700000000000728,
+              "max": 59.69999999999982
+            },
+            "199_1_exit_to_199_2_exit_s": {
+              "N": 75,
+              "min": 0.3999999999996362,
+              "median": 0.5999999999994543,
+              "p90": 6.0,
+              "max": 59.399999999999636
+            },
+            "199_2_exit_to_244_exit_s": {
+              "N": 75,
+              "min": 4.100000000000364,
+              "median": 5.800000000000182,
+              "p90": 62.600000000000364,
+              "max": 64.30000000000018
+            },
+            "244_exit_to_E1_notification_s": {
+              "N": 75,
+              "min": 1.8999999999996362,
+              "median": 2.800000000000182,
+              "p90": 60.899999999999636,
+              "max": 79.69999999999982
+            }
+          }
+        }
+      }
+    }
+  },
+  "first_window_account": {
+    "reference_all13_total": 601,
+    "warmup_all13_total": 601,
+    "by_field": [
+      {
+        "field": "hh_0119_Z_11_28853",
+        "reference_first_count": 13,
+        "warmup_first_count": 13,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0119_Z_12_31546",
+        "reference_first_count": 114,
+        "warmup_first_count": 115,
+        "direct_new9_first_count": 5,
+        "old_requests_net_change": -4
+      },
+      {
+        "field": "hh_0119_Z_13_34018",
+        "reference_first_count": 141,
+        "warmup_first_count": 140,
+        "direct_new9_first_count": 4,
+        "old_requests_net_change": -5
+      },
+      {
+        "field": "hh_0119_Z_15_29375",
+        "reference_first_count": 93,
+        "warmup_first_count": 93,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0119_Z_4_29437",
+        "reference_first_count": 50,
+        "warmup_first_count": 50,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0119_Z_5_30494",
+        "reference_first_count": 38,
+        "warmup_first_count": 38,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_14_31892",
+        "reference_first_count": 4,
+        "warmup_first_count": 4,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_4_33055",
+        "reference_first_count": 34,
+        "warmup_first_count": 34,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_5_30894",
+        "reference_first_count": 17,
+        "warmup_first_count": 17,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_6_33855",
+        "reference_first_count": 26,
+        "warmup_first_count": 26,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_7_29316",
+        "reference_first_count": 24,
+        "warmup_first_count": 24,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_8_34287",
+        "reference_first_count": 29,
+        "warmup_first_count": 29,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      },
+      {
+        "field": "hh_0535_Z_9_29038",
+        "reference_first_count": 18,
+        "warmup_first_count": 18,
+        "direct_new9_first_count": 0,
+        "old_requests_net_change": 0
+      }
+    ],
+    "new9": [
+      {
+        "vehicle_id": "warmup_counter_000",
+        "request_depart_s": "3580",
+        "actual_entry_s": "3580.000",
+        "field": "hh_0119_Z_13_34018",
+        "E1_notification_s": 3635.2000000000003,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3589.6,
+          "25866659#2": 3590.9,
+          "25866655#0": 3595.1,
+          "25866655#1": 3595.2,
+          "73474902#0": 3596.9,
+          "73474902#1": 3626.9,
+          "24483192": 3632.8,
+          "43866090#0": 3634.8,
+          "486864294": 3644.4,
+          "-186713423": 3644.7,
+          "-186713425": 3648.0,
+          "-142770551": 3654.7,
+          "-142770548": 3659.1,
+          "-186713427": 3665.8,
+          "186713428": 3669.9,
+          "551303409": 3691.1,
+          "551303410": 3695.5,
+          "551303417": 3706.4,
+          "186722706": 3709.8,
+          "19728446#0": 3716.7
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_001",
+        "request_depart_s": "3582",
+        "actual_entry_s": "3592.200",
+        "field": "hh_0119_Z_13_34018",
+        "E1_notification_s": 3803.0,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3614.6,
+          "25866659#2": 3614.8,
+          "25866655#0": 3619.4,
+          "25866655#1": 3627.0,
+          "73474902#0": 3629.7,
+          "73474902#1": 3738.8,
+          "24483192": 3744.3,
+          "43866090#0": 3801.8,
+          "486864294": 3812.6,
+          "-186713423": 3812.9,
+          "-186713425": 3816.1,
+          "-142770551": 3822.8,
+          "-142770548": 3827.2,
+          "-186713427": 3833.9,
+          "186713428": 3836.9,
+          "551303409": 3838.4,
+          "551303410": 3868.8,
+          "551303417": 3878.6,
+          "186722706": 3880.3,
+          "551303416": 3882.4,
+          "186713430": 3885.9,
+          "495246279": 3891.7,
+          "142944538": 3910.6
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_002",
+        "request_depart_s": "3584",
+        "actual_entry_s": "3615.700",
+        "field": "hh_0119_Z_12_31546",
+        "E1_notification_s": 3803.0,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3616.9,
+          "25866659#2": 3617.0,
+          "25866655#0": 3629.0,
+          "25866655#1": 3629.2,
+          "73474902#0": 3631.4,
+          "73474902#1": 3738.8,
+          "24483192": 3744.3,
+          "43866090#0": 3801.8,
+          "486864294": 3813.0,
+          "-186713423": 3813.3,
+          "-186713425": 3816.5,
+          "-142770551": 3823.2,
+          "-142770548": 3828.2,
+          "-186713427": 3835.4,
+          "186713428": 3838.4,
+          "551303409": 3840.0,
+          "551303410": 3871.0,
+          "551303417": 3880.1,
+          "186722706": 3881.8,
+          "551303416": 3883.9,
+          "551303423": 3885.5,
+          "551303424": 3896.8,
+          "189775480": 3902.0,
+          "186821034#0": 3904.2,
+          "186821036#1": 3917.7,
+          "186821036#2": 3918.1,
+          "142944477": 3922.0
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_003",
+        "request_depart_s": "3586",
+        "actual_entry_s": "3617.600",
+        "field": "hh_0119_Z_12_31546",
+        "E1_notification_s": 3804.7000000000003,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3640.6,
+          "25866659#2": 3640.8,
+          "25866655#0": 3644.8,
+          "25866655#1": 3645.0,
+          "73474902#0": 3740.3,
+          "73474902#1": 3741.0,
+          "24483192": 3745.9,
+          "43866090#0": 3804.0,
+          "486864294": 3814.5,
+          "-186713423": 3814.8,
+          "-186713425": 3818.0,
+          "-142770551": 3824.8,
+          "-142770548": 3829.4,
+          "-186713427": 3836.1,
+          "186713428": 3839.2,
+          "551303409": 3840.6,
+          "551303410": 3868.8,
+          "551303417": 3878.6,
+          "186722706": 3880.9,
+          "19728446#0": 3887.8
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_004",
+        "request_depart_s": "3588",
+        "actual_entry_s": "3641.700",
+        "field": "hh_0119_Z_13_34018",
+        "E1_notification_s": 3804.7000000000003,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3709.6,
+          "25866659#2": 3709.8,
+          "25866655#0": 3714.4,
+          "25866655#1": 3738.9,
+          "73474902#0": 3742.1,
+          "73474902#1": 3742.5,
+          "24483192": 3746.9,
+          "43866090#0": 3804.0,
+          "486864294": 3814.0,
+          "-186713423": 3814.4,
+          "-186713425": 3817.6,
+          "-142770551": 3824.4,
+          "-142770548": 3829.7,
+          "-186713427": 3836.9,
+          "186713428": 3840.0,
+          "551303409": 3842.3,
+          "551303410": 3872.6,
+          "551303417": 3881.6,
+          "186722706": 3883.3,
+          "551303416": 3885.4,
+          "551303423": 3887.0,
+          "551303424": 3899.0,
+          "189775480": 3903.3,
+          "186821034#0": 3905.6,
+          "186821036#1": 3919.2,
+          "186821036#2": 3919.6,
+          "142944477": 3923.5
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_005",
+        "request_depart_s": "3590",
+        "actual_entry_s": "3710.700",
+        "field": "hh_0119_Z_13_34018",
+        "E1_notification_s": 3813.6000000000004,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3733.6,
+          "25866659#2": 3733.8,
+          "25866655#0": 3741.5,
+          "25866655#1": 3741.7,
+          "73474902#0": 3743.7,
+          "73474902#1": 3804.6,
+          "24483192": 3811.1,
+          "43866090#0": 3813.1,
+          "486864294": 3823.8,
+          "-186713423": 3824.2,
+          "-186713425": 3828.7,
+          "-142770551": 3837.8,
+          "-142770548": 3844.0,
+          "-186713427": 3852.7,
+          "186713428": 3857.6,
+          "551303409": 3873.5,
+          "551303410": 3877.0,
+          "551303417": 3888.5,
+          "186722706": 3891.9,
+          "19728446#0": 3898.8
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_006",
+        "request_depart_s": "3592",
+        "actual_entry_s": "3734.700",
+        "field": "hh_0119_Z_12_31546",
+        "E1_notification_s": 3816.6000000000004,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3757.6,
+          "25866659#2": 3757.8,
+          "25866655#0": 3762.4,
+          "25866655#1": 3769.8,
+          "73474902#0": 3772.5,
+          "73474902#1": 3807.5,
+          "24483192": 3814.0,
+          "43866090#0": 3816.1,
+          "486864294": 3826.4,
+          "-186713423": 3826.8,
+          "-186713425": 3830.7,
+          "-142770551": 3839.6,
+          "-142770548": 3846.0,
+          "-186713427": 3855.6,
+          "186713428": 3860.9,
+          "551303409": 3873.5,
+          "551303410": 3876.6,
+          "551303417": 3884.8,
+          "186722706": 3886.5,
+          "551303416": 3888.5,
+          "186713430": 3892.1,
+          "495246279": 3897.8,
+          "142944538": 3916.7
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_007",
+        "request_depart_s": "3594",
+        "actual_entry_s": "3758.700",
+        "field": "hh_0119_Z_12_31546",
+        "E1_notification_s": 3818.1000000000004,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3759.9,
+          "25866659#2": 3760.0,
+          "25866655#0": 3771.8,
+          "25866655#1": 3772.0,
+          "73474902#0": 3809.0,
+          "73474902#1": 3809.7,
+          "24483192": 3815.6,
+          "43866090#0": 3817.7,
+          "486864294": 3827.8,
+          "-186713423": 3828.1,
+          "-186713425": 3831.3,
+          "-142770551": 3838.0,
+          "-142770548": 3842.5,
+          "-186713427": 3850.0,
+          "186713428": 3873.9,
+          "551303409": 3876.9,
+          "551303410": 3880.0,
+          "551303417": 3889.2,
+          "186722706": 3891.5,
+          "551303416": 3894.7,
+          "551303423": 3898.1,
+          "551303424": 3903.2,
+          "189775480": 3908.2,
+          "186821034#0": 3910.6,
+          "186821036#1": 3924.4,
+          "186821036#2": 3924.8,
+          "142944477": 3928.7
+        }
+      },
+      {
+        "vehicle_id": "warmup_counter_008",
+        "request_depart_s": "3596",
+        "actual_entry_s": "3760.600",
+        "field": "hh_0119_Z_12_31546",
+        "E1_notification_s": 3819.7000000000003,
+        "E1_bin_begin_s": 3600.0,
+        "exit_times_s": {
+          "25866659#1": 3783.6,
+          "25866659#2": 3783.8,
+          "25866655#0": 3788.6,
+          "25866655#1": 3807.6,
+          "73474902#0": 3811.0,
+          "73474902#1": 3811.6,
+          "24483192": 3817.2,
+          "43866090#0": 3819.3,
+          "486864294": 3829.3,
+          "-186713423": 3829.6,
+          "-186713425": 3832.8,
+          "-142770551": 3839.6,
+          "-142770548": 3844.3,
+          "-186713427": 3851.3,
+          "186713428": 3854.9,
+          "551303409": 3871.1,
+          "551303410": 3875.5,
+          "551303417": 3886.4,
+          "186722706": 3889.8,
+          "19728446#0": 3896.7
+        }
+      }
+    ],
+    "old_requests_lost_from_first_window": [
+      {
+        "vehicle_id": "od_0098_v00060",
+        "field": "hh_0119_Z_13_34018",
+        "request_s": "4100.691622014000",
+        "reference_E1_notification_s": 4443.5,
+        "warmup_E1_notification_s": 4523.0
+      },
+      {
+        "vehicle_id": "od_0098_v00061",
+        "field": "hh_0119_Z_12_31546",
+        "request_s": "4106.848543553000",
+        "reference_E1_notification_s": 4441.900000000001,
+        "warmup_E1_notification_s": 4524.7
+      },
+      {
+        "vehicle_id": "od_0099_v00061",
+        "field": "hh_0119_Z_12_31546",
+        "request_s": "4100.273099778000",
+        "reference_E1_notification_s": 4440.400000000001,
+        "warmup_E1_notification_s": 4523.0
+      },
+      {
+        "vehicle_id": "od_0099_v00062",
+        "field": "hh_0119_Z_13_34018",
+        "request_s": "4108.277828910000",
+        "reference_E1_notification_s": 4448.400000000001,
+        "warmup_E1_notification_s": 4527.5
+      },
+      {
+        "vehicle_id": "od_0099_v00063",
+        "field": "hh_0119_Z_12_31546",
+        "request_s": "4114.819558046000",
+        "reference_E1_notification_s": 4445.1,
+        "warmup_E1_notification_s": 4530.400000000001
+      },
+      {
+        "vehicle_id": "od_0099_v00064",
+        "field": "hh_0119_Z_13_34018",
+        "request_s": "4119.657139255000",
+        "reference_E1_notification_s": 4445.2,
+        "warmup_E1_notification_s": 4533.6
+      },
+      {
+        "vehicle_id": "od_0100_v00062",
+        "field": "hh_0119_Z_13_34018",
+        "request_s": "4104.484725462000",
+        "reference_E1_notification_s": 4441.900000000001,
+        "warmup_E1_notification_s": 4524.7
+      },
+      {
+        "vehicle_id": "od_0100_v00063",
+        "field": "hh_0119_Z_12_31546",
+        "request_s": "4111.273099778000",
+        "reference_E1_notification_s": 4443.6,
+        "warmup_E1_notification_s": 4526.1
+      },
+      {
+        "vehicle_id": "od_0100_v00064",
+        "field": "hh_0119_Z_13_34018",
+        "request_s": "4115.864035807000",
+        "reference_E1_notification_s": 4446.7,
+        "warmup_E1_notification_s": 4531.900000000001
+      }
+    ],
+    "old_requests_newly_in_first_window": []
+  },
+  "example_csv": {
+    "path": "outputs\\hamburg-275-fixed-history-20261024-v1\\primary-boundary-delay-examples.csv",
+    "sha256": "a2a0c22abd2153ab8aa1f9f5ff5ac04ba98045a5c0b4b055cd01ef0306f91cf5",
+    "rows": 38
+  },
+  "source_hashes": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\demand.rou.xml",
+      "sha256": "a9f236136ec5aeb32f4bf00ca9df0883b7b4c68615ea136391b025b5fdcf2e81"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\tripinfo.xml",
+      "sha256": "f841d40fc1663011111ac075608d4861f6a70a8a9581b80a75f8bde3c12b9f27"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\vehicle-routes.xml",
+      "sha256": "7d5a6a5ce4e2033e657bb14232351877d2fdefd3d9bf8c284d3772457438e8bd"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\contributing-passages.json.gz",
+      "sha256": "b4bf0bd4bebf1cff09842f892c34448987e029b8f4c0d12121ecbb9d99badb36"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\prepared\\demand.rou.xml",
+      "sha256": "f5fa67de46303ea076c36b51e012bcdb31ce025a14e8db5b53046868e08a25ba"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\tripinfo.xml",
+      "sha256": "204bc186cfaa9543b595132684955f1fb0d39b86ed22c545fe15a5331a229858"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\vehicle-routes.xml",
+      "sha256": "9a9a0496b8974ddfec3aed29deb1ded7c44320442ff9ab3131924fced21b9388"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\contributing-passages.json.gz",
+      "sha256": "48b845dcd9eaab053f458b2c42d7ae638e3a25f377f4faf279a4cf7d4712c32e"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\paired-result.json",
+      "sha256": "2c19dd1a3f1c320bd566b5255fe192d2b872f8b03335b7b20c834f1837b0ea5f"
+    }
+  ],
+  "interpretation": [
+    "The declared445 request pool has a measured no-pending-request interval after all pre3600 requests insert and before the first h4 request. This concerns the modeled boundary input, not unseen real upstream traffic.",
+    "The delay stages use actual insertion, native ordinary-road exitTimes and E1 notification times. Each exit-to-exit stage includes the intervening internal connection and moving travel; it cannot be called stopped waiting on that ordinary road.",
+    "All nine added counter requests contribute in the first window, while original h4 primary contributions decrease202 to193. This is an observed allocation change under the same recorded colors, not a capacity bound or a marginal assignment matrix.",
+    "No per-vehicle lane-position/FCD timeline is present in these full outputs. Exact stopping position, lane changes, instantaneous leader and the signal responsible for each road interval remain unknown.",
+    "The boundary no-pending-demand interval does appear downstream as41.9s without445 exits and40.9s without761 exits, but no full separation of old/new request cohorts remains at199#0 or244. Buffered old vehicles continue beyond the first h4 vehicle there.",
+    "This is not a claim thatLSA119 has no cars or reaches capacity. The entry request gap and later internal delays are distinct observations; no new timing or demand candidate is generated."
+  ],
+  "boundary_gap_road_exit_propagation": [
+    {
+      "road": "44532531",
+      "last_pre3600_primary_exit_s": 3677.5,
+      "last_pre3600_primary_exit_ID": "od_0077_v00083",
+      "first_h4_primary_exit_s": 3719.4,
+      "first_h4_primary_exit_ID": "od_0100_v00000",
+      "cohort_separation_s_signed": 41.90000000000009,
+      "strict_empty_between_cohort_exits": true,
+      "immediately_preceding_445_primary_exit_s": 3677.5,
+      "immediately_preceding_445_primary_exit_ID": "od_0077_v00083",
+      "gap_before_first_h4_primary_exit_s": 41.90000000000009,
+      "immediately_preceding_any_origin_exit_s": 3677.5,
+      "immediately_preceding_any_origin_exit_ID": "od_0077_v00083",
+      "all_origin_exit_gap_before_first_h4_s": 41.90000000000009
+    },
+    {
+      "road": "761590046",
+      "last_pre3600_primary_exit_s": 3680.9,
+      "last_pre3600_primary_exit_ID": "od_0077_v00083",
+      "first_h4_primary_exit_s": 3721.8,
+      "first_h4_primary_exit_ID": "od_0100_v00000",
+      "cohort_separation_s_signed": 40.90000000000009,
+      "strict_empty_between_cohort_exits": true,
+      "immediately_preceding_445_primary_exit_s": 3680.9,
+      "immediately_preceding_445_primary_exit_ID": "od_0077_v00083",
+      "gap_before_first_h4_primary_exit_s": 40.90000000000009,
+      "immediately_preceding_any_origin_exit_s": 3680.9,
+      "immediately_preceding_any_origin_exit_ID": "od_0077_v00083",
+      "all_origin_exit_gap_before_first_h4_s": 40.90000000000009
+    },
+    {
+      "road": "199500674#0",
+      "last_pre3600_primary_exit_s": 3732.4,
+      "last_pre3600_primary_exit_ID": "od_0077_v00083",
+      "first_h4_primary_exit_s": 3730.1,
+      "first_h4_primary_exit_ID": "od_0100_v00000",
+      "cohort_separation_s_signed": -2.300000000000182,
+      "strict_empty_between_cohort_exits": false,
+      "immediately_preceding_445_primary_exit_s": 3728.9,
+      "immediately_preceding_445_primary_exit_ID": "od_0077_v00082",
+      "gap_before_first_h4_primary_exit_s": 1.199999999999818,
+      "immediately_preceding_any_origin_exit_s": 3728.9,
+      "immediately_preceding_any_origin_exit_ID": "od_0077_v00082",
+      "all_origin_exit_gap_before_first_h4_s": 1.199999999999818
+    },
+    {
+      "road": "24483192",
+      "last_pre3600_primary_exit_s": 3752.1,
+      "last_pre3600_primary_exit_ID": "od_0077_v00083",
+      "first_h4_primary_exit_s": 3735.8,
+      "first_h4_primary_exit_ID": "od_0100_v00000",
+      "cohort_separation_s_signed": -16.299999999999727,
+      "strict_empty_between_cohort_exits": false,
+      "immediately_preceding_445_primary_exit_s": 3735.7,
+      "immediately_preceding_445_primary_exit_ID": "od_0078_v00083",
+      "gap_before_first_h4_primary_exit_s": 0.1000000000003638,
+      "immediately_preceding_any_origin_exit_s": 3735.7,
+      "immediately_preceding_any_origin_exit_ID": "od_0078_v00083",
+      "all_origin_exit_gap_before_first_h4_s": 0.1000000000003638
+    }
+  ]
+}

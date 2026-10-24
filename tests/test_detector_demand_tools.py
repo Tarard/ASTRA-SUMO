@@ -9,6 +9,7 @@ from astra_sumo.core.detector_demand import (
     Detector,
     active_detectors,
     build_detector_anchored_routes,
+    read_net,
 )
 from astra_sumo.tools.demand_tools import (
     sumo_detector_count_audit,
@@ -18,6 +19,28 @@ from astra_sumo.tools.demand_tools import (
 
 
 PRIVATE_MARKERS = ["private_project_name", "private_sensor_vendor", "closed_bridge_name"]
+
+
+def test_passenger_route_graph_uses_actual_endpoint_and_internal_lane_permissions(tmp_path):
+    source = tmp_path / "mixed.net.xml"
+    source.write_text('''<net version="1.27">
+      <edge id="in"><lane id="in_0" allow="bus" length="30"/><lane id="in_1" allow="passenger" length="30"/></edge>
+      <edge id="bus_turn"><lane id="bus_turn_0" allow="passenger" length="30"/></edge>
+      <edge id="internal_bus"><lane id="internal_bus_0" allow="passenger" length="30"/></edge>
+      <edge id="valid"><lane id="valid_0" allow="passenger" length="30"/></edge>
+      <edge id="private"><lane id="private_0" allow="private" length="30"/></edge>
+      <edge id=":j_0" function="internal"><lane id=":j_0_0" allow="bus" length="5"/></edge>
+      <connection from="in" fromLane="0" to="bus_turn" toLane="0"/>
+      <connection from="in" fromLane="1" to="internal_bus" toLane="0" via=":j_0_0"/>
+      <connection from=":j_0" fromLane="0" to="internal_bus" toLane="0"/>
+      <connection from="in" fromLane="1" to="valid" toLane="0" allow="bus"/>
+      <connection from="in" fromLane="1" to="private" toLane="0"/>
+    </net>''', encoding="utf-8")
+    original = source.read_bytes()
+    edges, connections = read_net(source)
+    assert connections == {"in": {"valid"}}
+    assert not edges["private"].allows_passenger
+    assert source.read_bytes() == original
 
 
 def test_active_detectors_excludes_review_only_mappings() -> None:
@@ -157,6 +180,51 @@ def test_route_support_tool_builds_sanitized_detector_anchored_routes(tmp_path: 
     assert "det_northbound" in coverage_file.read_text(encoding="utf-8")
     _assert_outputs_are_sanitized(output_dir)
     json.dumps(report)
+
+
+def test_route_support_uses_declared_cuts_with_retained_incoming_and_outgoing_roads(tmp_path):
+    source, mapping, zones = (tmp_path / name for name in ("network.xml", "mapping.csv", "zones.json"))
+    _write_synthetic_net(source)
+    _write_detector_mapping(mapping)
+    zones.write_text(json.dumps({"zones": [
+        {"junction_id": "n0", "entry_edges": ["entry_a"]},
+        {"junction_id": "n1", "entry_edges": ["detector_edge"]},
+        {"junction_id": "n2", "exit_edges": ["detector_edge"]},
+        {"junction_id": "n3", "exit_edges": ["exit_a"]},
+        {"junction_id": "removed_node", "entry_edges": ["removed_road"]}]}), encoding="utf-8")
+    originals = {path: path.read_bytes() for path in (source, mapping, zones)}
+    result = sumo_detector_route_support(str(source), str(mapping), str(tmp_path / "routes"), boundary_zones_file=str(zones))
+    assert result["status"] == "pass" and result["source_count"] == result["sink_count"] == 2
+    assert result["boundary_selection"]["unresolved"][0]["edge_id"] == "removed_road"
+    assert result["warnings"]
+    with Path(result["source_sink_manifest"]).open(encoding="utf-8", newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    assert {(r["role"], r["edge_id"]) for r in rows} == {
+        ("source", "entry_a"), ("source", "detector_edge"), ("sink", "detector_edge"), ("sink", "exit_a")}
+    assert {r["reason"] for r in rows} == {"declared_scope_boundary"}
+    assert all(path.read_bytes() == raw for path, raw in originals.items())
+
+
+def test_declared_boundary_direction_and_vehicle_class_are_checked(tmp_path):
+    from astra_sumo.core.detector_demand import EdgeInfo, read_declared_boundaries
+    source = tmp_path / "zones.json"
+    source.write_text(json.dumps({"zones": [{"junction_id": "a", "entry_edges": ["car", "bus"],
+                                              "exit_edges": ["car"]}]}), encoding="utf-8")
+    entries, exits, report = read_declared_boundaries(source, {
+        "car": EdgeInfo("car", "a", "b", True, 10), "bus": EdgeInfo("bus", "a", "b", False, 10)})
+    assert entries == ["car"] and exits == []
+    assert report["unresolved"][0]["role"] == "exit_edges"
+    assert report["nonpassenger_roads"][0]["edge_id"] == "bus"
+
+
+def test_route_support_outputs_cannot_replace_a_source_network(tmp_path):
+    source, mapping = tmp_path / "same_route_candidate_manifest.csv", tmp_path / "mapping.csv"
+    _write_synthetic_net(source)
+    _write_detector_mapping(mapping)
+    original = source.read_bytes()
+    result = sumo_detector_route_support(str(source), str(mapping), str(tmp_path), prefix="same")
+    assert result["status"] == "fail" and "replace" in str(result)
+    assert source.read_bytes() == original
 
 
 def test_count_constraint_tool_writes_edge_data_without_private_fields(tmp_path: Path) -> None:

@@ -1,0 +1,915 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 86,
+      "sha256": "3d4eb11c39904b9ccac344568c0ec94bbd59de7ae49ba31403044196f78daa61"
+    },
+    {
+      "path": "build_lane_foes_candidate.py.gz",
+      "bytes": 1202,
+      "sha256": "2a87929d754cc1e3cb21765b6691086a9deebc991d31a321b8fad5930fc947ae"
+    },
+    {
+      "path": "candidate-lane-foes-v1/control.add.xml.gz",
+      "bytes": 1939,
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "path": "candidate-lane-foes-v1/converted.net.xml.gz",
+      "bytes": 243167,
+      "sha256": "691d5d7d896054b15f72db25f04c9b4380e2d4b06775c6738c91685b25ac5990"
+    },
+    {
+      "path": "candidate-lane-foes-v1/frozen-input.net.xml.gz",
+      "bytes": 242557,
+      "sha256": "743bf184e32ddf43e81e397fa055d661f88e8c04e36a965ee8684eda4341a8e8"
+    },
+    {
+      "path": "candidate-lane-foes-v1/frozen-turns.con.xml.gz",
+      "bytes": 642,
+      "sha256": "5ddec60118d1e30682357b9ae63e33efbc1354915acea331402987e827fc6418"
+    },
+    {
+      "path": "candidate-lane-foes-v1/manifest.json.gz",
+      "bytes": 7292,
+      "sha256": "422851fa11c1b3895f09e094424dd97d1ee55b64d0a366502669cc671dc64acc"
+    },
+    {
+      "path": "candidate-lane-foes-v1/network.net.xml.gz",
+      "bytes": 243167,
+      "sha256": "691d5d7d896054b15f72db25f04c9b4380e2d4b06775c6738c91685b25ac5990"
+    },
+    {
+      "path": "candidate-lane-foes-v1/priority.local-input.net.xml.gz",
+      "bytes": 3397,
+      "sha256": "db52d685fbcf4958a8ab5b80411d0db83dae6cdeaa9f5c991c7f207a89c0b6fc"
+    },
+    {
+      "path": "candidate-lane-foes-v1/priority.merged-proposal.net.xml.gz",
+      "bytes": 243302,
+      "sha256": "d9365fbc3a63311d32cf26b56983dd770e853e009da55aa1c75b0984ead1ba33"
+    },
+    {
+      "path": "candidate-lane-foes-v1/priority.native-local-output.net.xml.gz",
+      "bytes": 4474,
+      "sha256": "7d30cd4b7a694cbb4b7fc79f1f1bd16a8fea72bfe58fe375bb984d2a11c82c42"
+    },
+    {
+      "path": "candidate-lane-foes-v1/priority.nod.xml.gz",
+      "bytes": 292,
+      "sha256": "3b75c2bc47e61178e56bf344d4ecd00a0dde0ce13bdc631b821cadfd7aae773a"
+    },
+    {
+      "path": "freeze-whitelist.json",
+      "bytes": 3134,
+      "sha256": "9249a4624d8d82050728f4a5635f0a6af246b153cf77c921484c2fdfe03b1dfb"
+    },
+    {
+      "path": "freeze_evidence.py",
+      "bytes": 16336,
+      "sha256": "d2ae3cab92acca58d0d49a528e2995eb3b32cd911fbe3c4d1ceb22ab5310e5a0"
+    },
+    {
+      "path": "full-lane-foes/audit.py.gz",
+      "bytes": 4382,
+      "sha256": "90273be2b1bf781b3ebf81d2a39c59728859f6e14a64c0b9a656f8e652fd1661"
+    },
+    {
+      "path": "full-lane-foes/evaluation/all182-comparison.csv.gz",
+      "bytes": 1591,
+      "sha256": "a5d5fa6bc81027d5b4e297fe02e60978202fc1372231f96126b1b69a16843f4f"
+    },
+    {
+      "path": "full-lane-foes/evaluation/contributing-passages.json.gz.gz",
+      "bytes": 170858,
+      "sha256": "07a50119234b193ed608f60aade3abd68167ade9b706d40a232c1db115d5fb47"
+    },
+    {
+      "path": "full-lane-foes/evaluation/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "full-lane-foes/evaluation/evaluation.json.gz",
+      "bytes": 272,
+      "sha256": "c37555179a57d47b9844884d05739cdd1cdfbc041aaed608bc500688fea92bc5"
+    },
+    {
+      "path": "full-lane-foes/evaluation/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/collisions.xml.gz",
+      "bytes": 741,
+      "sha256": "44dccc4baccafbbb75c8a9018e100442283b25b35caba5f23a4a1e32986af433"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/command.json.gz",
+      "bytes": 1249,
+      "sha256": "65f0093d935c37aef1e0dc774638540969318d59f6d93f99f988843b1222bb23"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/e1.add.xml.gz",
+      "bytes": 487,
+      "sha256": "2b489b3b006de2dcf7135193a7715775e80f74e445bb7a969f094887e7db34a6"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/field-comparison.csv.gz",
+      "bytes": 1226,
+      "sha256": "9c65eb7f8946a525d43ac2f686c39f103c7642565d592194ae53a5d64f79cdca"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/field-counts.xml.gz",
+      "bytes": 8537,
+      "sha256": "0d2bf7652b31ce67b4431cf75e2d97e5291600ef416f1b405982358f799a1296"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/instant.add.xml.gz",
+      "bytes": 399,
+      "sha256": "e0f7b688fda194bb74b9b05dacac702a7414cd0b494f773fd2869fefd733d87e"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/native-request.json.gz",
+      "bytes": 679,
+      "sha256": "0cfa54d444fae42fb78430db9763a9d3f54753d2c6bb36ac17394276454e68d5"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/network.net.xml.gz",
+      "bytes": 243167,
+      "sha256": "691d5d7d896054b15f72db25f04c9b4380e2d4b06775c6738c91685b25ac5990"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/run.json.gz",
+      "bytes": 341090,
+      "sha256": "b82cc69a93ba9e069d7d38a16c5834f27b33ec3b5df2103f37276a81cc4fb302"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/signal-programs.add.xml.gz",
+      "bytes": 1939,
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/stall-monitor.json.gz",
+      "bytes": 335928,
+      "sha256": "41666f2a34d9b78f2607074d755ca0d7ace07174ede8618b0e7dd6e8a85bc153"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/summary.xml.gz",
+      "bytes": 3323551,
+      "sha256": "16a724fcf1c4c5af5945fa837aec068ec74f6f411f9163a54d953cfe90434a89"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/sumo-errors.log.gz",
+      "bytes": 583,
+      "sha256": "3e77338d0cf445f05b1b61decd51144eb10a425f05ca9ece24abcf7d999d03ec"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/sumo.log.gz",
+      "bytes": 1105,
+      "sha256": "f4324878d24cf87c7d0a86096eade60f4d9005309f0de78a71b330a8360547a1"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/tripinfo.xml.gz",
+      "bytes": 403393,
+      "sha256": "ebb2cab25eb7c023e41152b2497259871497e1c6a55ecb35c1a7fc4fa6999488"
+    },
+    {
+      "path": "full-lane-foes/evaluation/native/vehicle-routes.xml.gz",
+      "bytes": 698877,
+      "sha256": "7a938d2cb347b4372cb165022e6d73b92f1551eded68458309e724ac35a7e63f"
+    },
+    {
+      "path": "full-lane-foes/evaluation/station-comparison.csv.gz",
+      "bytes": 489,
+      "sha256": "cb913a485abd7df52a26c5cd655e179a4ce2762a07bb2fe5225d6ef3044ff768"
+    },
+    {
+      "path": "full-lane-foes/executed-driver.py.gz",
+      "bytes": 2834,
+      "sha256": "3d94705e235b673cf8c6ba040c20dba0caa6f03c131dc8de9cb826ab861c8c96"
+    },
+    {
+      "path": "full-lane-foes/execution.log.gz",
+      "bytes": 2885,
+      "sha256": "a39c135fd5e03cfb93eb0b53d174ba51282f774ae2241c7d4b950d3796a235f3"
+    },
+    {
+      "path": "full-lane-foes/implementation/artifact_io.py.gz",
+      "bytes": 1195,
+      "sha256": "0c7681675f7f10357b3aceb32923e1eb5629457928610d2635371204146086a4"
+    },
+    {
+      "path": "full-lane-foes/implementation/candidate_contracts.py.gz",
+      "bytes": 7586,
+      "sha256": "5e753c44140abcb4af81ce1fe447d9713ad3071cc2e22362386c514c85be6f6a"
+    },
+    {
+      "path": "full-lane-foes/implementation/command_runner.py.gz",
+      "bytes": 1857,
+      "sha256": "beee7b5597eb66bfbe889273ce654c6cbd2228e04059aece46f1d3a7a1ce7d19"
+    },
+    {
+      "path": "full-lane-foes/implementation/detector_demand.py.gz",
+      "bytes": 9325,
+      "sha256": "e12ba161328a36235c54e9afd845d8f08e13d5efd5c90e1362f9038caa3c431e"
+    },
+    {
+      "path": "full-lane-foes/implementation/detector_demand_replay.py.gz",
+      "bytes": 4897,
+      "sha256": "8e0a7ac50bb64637a770c8abe882a2d9b3e5ee75295ba792aa67cecba2de2a77"
+    },
+    {
+      "path": "full-lane-foes/implementation/hamburg_197_through_support.py.gz",
+      "bytes": 7823,
+      "sha256": "f14faf1f821cb0a25725270c9cc3b1aca03481cc0048aaaa9dcd2491a0f84723"
+    },
+    {
+      "path": "full-lane-foes/implementation/hamburg_od_spsa.py.gz",
+      "bytes": 8608,
+      "sha256": "70ffc12168932334faedb14e624103d35cd1f8d8077211ac4d8dc36662a0b247"
+    },
+    {
+      "path": "full-lane-foes/implementation/lane_section_hold.py.gz",
+      "bytes": 2012,
+      "sha256": "8e8e29d7f0c97e3a1d491b692cf9af589b34bcb994cc0679ee1565c49815b8c2"
+    },
+    {
+      "path": "full-lane-foes/implementation/route_sensor_matrix.py.gz",
+      "bytes": 7065,
+      "sha256": "6ed56e60dc04a4bf65f9f9a305ce49b717b9062b67d31f11a9f893ef38ae5ad1"
+    },
+    {
+      "path": "full-lane-foes/implementation/simulation_stall.py.gz",
+      "bytes": 3160,
+      "sha256": "29db062eccd51cd1fa672406329cc51621eb47d6959b6128c207aaed727285b6"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/audit.json.gz",
+      "bytes": 2982,
+      "sha256": "986acfc2c3a2df24161b7c1accf3bd73cdeba28355853aa0ac24b7bade08de08"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/candidate-535-all56.csv.gz",
+      "bytes": 521,
+      "sha256": "32186d22a2d3556b2eccd87459ac74516d5252516424a98dfdee14b05c5b248c"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/field13-main.csv.gz",
+      "bytes": 331,
+      "sha256": "847cc47f45e3dff5a3548b1f520b8172058c4af7f7d60db7495c2f43a4cc8902"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/initial-comparison.csv.gz",
+      "bytes": 582,
+      "sha256": "574cfde5626cf79af5cc99c2980b2d058cbbde231257c0fb303e9c444bcff926"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/main-comparison.csv.gz",
+      "bytes": 1226,
+      "sha256": "9c65eb7f8946a525d43ac2f686c39f103c7642565d592194ae53a5d64f79cdca"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/manifest.json.gz",
+      "bytes": 462,
+      "sha256": "0dfe9ea5d70b6e766240ccc94ce0faee1641dbc059c887686db77f1e53d97113"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/reference-535-all56.csv.gz",
+      "bytes": 521,
+      "sha256": "32186d22a2d3556b2eccd87459ac74516d5252516424a98dfdee14b05c5b248c"
+    },
+    {
+      "path": "full-lane-foes/independent-audit/stations-comparison.csv.gz",
+      "bytes": 489,
+      "sha256": "cb913a485abd7df52a26c5cd655e179a4ce2762a07bb2fe5225d6ef3044ff768"
+    },
+    {
+      "path": "full-lane-foes/input-proof.json.gz",
+      "bytes": 825,
+      "sha256": "abd25173c64a5133d6b65bf2c48f225c43264dfe00cf14bb1f84be5f11a6a3d9"
+    },
+    {
+      "path": "full-lane-foes/offline-check.json.gz",
+      "bytes": 319,
+      "sha256": "9045a2947381efa1eb1ab5d9d18083fc55668d804f5c845871638fdf98c6340a"
+    },
+    {
+      "path": "full-lane-foes/plan.json.gz",
+      "bytes": 2039,
+      "sha256": "2f153b557bdd38ccd98ccfc95164ef5973bdf2c258d1acfb5914eb01dc9be20a"
+    },
+    {
+      "path": "full-lane-foes/preflight.json.gz",
+      "bytes": 2569,
+      "sha256": "b906c7f2b4426267e8c1bd4878124d4affcc4691e3e815d4a30d34ae6af47a03"
+    },
+    {
+      "path": "full-lane-foes/prepared/control.add.xml.gz",
+      "bytes": 1939,
+      "sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "path": "full-lane-foes/prepared/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "full-lane-foes/prepared/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "full-lane-foes/prepared/field-loops.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "full-lane-foes/prepared/initialization-counts.csv.gz",
+      "bytes": 912,
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "path": "full-lane-foes/prepared/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "full-lane-foes/prepared/network.net.xml.gz",
+      "bytes": 243167,
+      "sha256": "691d5d7d896054b15f72db25f04c9b4380e2d4b06775c6738c91685b25ac5990"
+    },
+    {
+      "path": "full-lane-foes/prepared/scenario.json.gz",
+      "bytes": 2281,
+      "sha256": "eba5a88cb376cc13a7e91a5da0e3579bcf09e559b565313f27df938391c7cdbc"
+    },
+    {
+      "path": "full-lane-foes/README.md.gz",
+      "bytes": 1142,
+      "sha256": "bbcb7bb8a16b610036fb46498aa2c3f5f4a4c36a44c6c274645b3bc247f94e9b"
+    },
+    {
+      "path": "full-lane-foes/run.py.gz",
+      "bytes": 2834,
+      "sha256": "3d94705e235b673cf8c6ba040c20dba0caa6f03c131dc8de9cb826ab861c8c96"
+    },
+    {
+      "path": "full-lane-foes/runtime.json.gz",
+      "bytes": 122,
+      "sha256": "81040d2e545d4b3cf70672bcca5d6dd111ddffaf537f5342cd86f233517f7fab"
+    },
+    {
+      "path": "full-lane-foes/verdict.json.gz",
+      "bytes": 3004,
+      "sha256": "c402ea251a486d4cfe7a67296941c09d51f97c3254d996a8d1ffc49bbf87a5c6"
+    },
+    {
+      "path": "full-lane-foes-independent/119Z5-main10-before-after.csv.gz",
+      "bytes": 275,
+      "sha256": "d0576b4487b4e648639eae63cbb77b4eb9fcd46679784ffb28a10bf3acbe2ef1"
+    },
+    {
+      "path": "full-lane-foes-independent/535-all56-before-after.csv.gz",
+      "bytes": 477,
+      "sha256": "5b867cdb9176574d443b515e04d1d9c1691ecfc82880b4d258de32ed09851a44"
+    },
+    {
+      "path": "full-lane-foes-independent/after-terminal-vehicles.csv.gz",
+      "bytes": 883,
+      "sha256": "9efed79d58474148972f1312a073291df3fba4b8b9eba7eb7ca2816576f6ed49"
+    },
+    {
+      "path": "full-lane-foes-independent/all-unfinished-paired-events.csv.gz",
+      "bytes": 3395,
+      "sha256": "4aa21e164d0c0602ec93f5af2c3b8cd747fa5925c16a4a4bd1834e2abfad5d0f"
+    },
+    {
+      "path": "full-lane-foes-independent/audit_complete.py.gz",
+      "bytes": 4240,
+      "sha256": "c654db8398d8d808f401262d95cb78d0aabf79dac669d8428113b1b417708f33"
+    },
+    {
+      "path": "full-lane-foes-independent/before-terminal-vehicles.csv.gz",
+      "bytes": 20,
+      "sha256": "46b50c321b39e89a491b6727a01628c34245605a30beb3e7414c5e01cff90e6e"
+    },
+    {
+      "path": "full-lane-foes-independent/field13-errors-and-regions.csv.gz",
+      "bytes": 539,
+      "sha256": "0b717d5cbe0007fdc7de58d4951106a8152c9d685293e8d0df2c3d50835223ea"
+    },
+    {
+      "path": "full-lane-foes-independent/field13-initialization-errors.csv.gz",
+      "bytes": 169,
+      "sha256": "739f2d1b2b7a7684883d1ae95ba55d2f79076436c12bc398b240f7488f89c88a"
+    },
+    {
+      "path": "full-lane-foes-independent/initial52-before-after.csv.gz",
+      "bytes": 632,
+      "sha256": "58be6577c49b516ce3d6373bd5ef2febd7eb80a774dc7d95eb8ddfed7deaf59b"
+    },
+    {
+      "path": "full-lane-foes-independent/input-proof.json.gz",
+      "bytes": 2868,
+      "sha256": "201502beecdd818be761f2d151163382590c4ec9c3360941cc33e9ec77f1670d"
+    },
+    {
+      "path": "full-lane-foes-independent/largest20-main-residuals.csv.gz",
+      "bytes": 442,
+      "sha256": "4daf8b55f13787ac924f1f0bf337f16cabf9a3c0a2aeee6221dbe2fc5d44f225"
+    },
+    {
+      "path": "full-lane-foes-independent/main130-before-after.csv.gz",
+      "bytes": 1418,
+      "sha256": "149519cbe3f0e65844f46e6159baf236f16c61438c44353c1f12c8436651b8e7"
+    },
+    {
+      "path": "full-lane-foes-independent/manifest.json.gz",
+      "bytes": 1270,
+      "sha256": "393ccc5db4a347adfb6a29eea76df09fd942831e6a0e361eefc5e334def999e1"
+    },
+    {
+      "path": "full-lane-foes-independent/native208-before-after.csv.gz",
+      "bytes": 2065,
+      "sha256": "7f64218a10581de7ffb9310a68da66556a149dcbc954e371096dca179cd410c5"
+    },
+    {
+      "path": "full-lane-foes-independent/README.md.gz",
+      "bytes": 1908,
+      "sha256": "069acbcef4fefe3024a67210d320e6f83dfb6d85168f887570a419b41680942c"
+    },
+    {
+      "path": "full-lane-foes-independent/real182-before-after.csv.gz",
+      "bytes": 1894,
+      "sha256": "11ecaff5dd71935d5f731c717dc35e7b5ed7828f409aaca4e46459ea33772bce"
+    },
+    {
+      "path": "full-lane-foes-independent/selection-decision.json.gz",
+      "bytes": 1670,
+      "sha256": "cb357cd2266f32c8841b406012d382c0a40aa0f278d64d4aa87a2cd410e3bff3"
+    },
+    {
+      "path": "full-lane-foes-independent/station40-before-after.csv.gz",
+      "bytes": 583,
+      "sha256": "1f25701f645e065a95114ba9c0a19e0cee8d59cf1d20733ec7847ef7d0144b19"
+    },
+    {
+      "path": "full-lane-foes-independent/summarize_rejection.py.gz",
+      "bytes": 1529,
+      "sha256": "3acf45c4e6b5ac48023a4ff02f5686b4990c69e220b6cb52fd0a7bf63dca6aa4"
+    },
+    {
+      "path": "full-lane-foes-independent/summary.json.gz",
+      "bytes": 3281,
+      "sha256": "a0060c2c92b21f15a41111ab79f50a278baa11c9d21cd78d4fce4703c199285f"
+    },
+    {
+      "path": "full-lane-foes-independent/terminal-groups.csv.gz",
+      "bytes": 225,
+      "sha256": "9bb584c8e9cb4393cf3cf0b6159f6ff37c41002e36707bbdd711470dca231255"
+    },
+    {
+      "path": "lane-foes-smoke/audit.json.gz",
+      "bytes": 5229,
+      "sha256": "72e6305ce4c976bf30daabac20a1a1bacafdb54c4f017f164b18c2dd95f2ead4"
+    },
+    {
+      "path": "lane-foes-smoke/audit_pairs.py.gz",
+      "bytes": 1497,
+      "sha256": "38022b4dd35dedd5cb63d06f4e52edcb9a46256215c4a887cee4ba2f5bb92030"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/collisions.xml.gz",
+      "bytes": 781,
+      "sha256": "ab590e0c72103002b39c4d9304320d45c13f3271a1b1c12683ce9249f029d22f"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/commands.json.gz",
+      "bytes": 338,
+      "sha256": "316f5f9baa380c573130ef993d81fe140ea7a6795a67d121758e542ff02d2425"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/complete-passages.json.gz",
+      "bytes": 799,
+      "sha256": "482e70b657e9f89887010ef485f18c51920ec39a98f86ddb48a26ad27c421f89"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/driver-holds.json.gz",
+      "bytes": 687,
+      "sha256": "a00c0a4004aa36245f372cec8feab3e805831f5f3af1233edffae31f8fbef724"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/field-counts.xml.gz",
+      "bytes": 1038,
+      "sha256": "e6ee7eb47713ca890052343055a63dc14bda10aaa25fd0ba1fea3f242e48c7da"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/instant.add.xml.gz",
+      "bytes": 456,
+      "sha256": "4bbf203bae05a542b97b0348009a9358e4ecd4764030d5c445cb3ab0a1dd18e5"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/lanechanges.xml.gz",
+      "bytes": 1120,
+      "sha256": "8f53855d42828ea6c34ef9010fbd46e974a7e62ca918324fd1c99b9279bedaa9"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/loops.add.xml.gz",
+      "bytes": 473,
+      "sha256": "79bb2cfc9e73d04883e15b07c5688cb7bb0f88cd618101834c2d9f0f92d1aab5"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/native-version.json.gz",
+      "bytes": 73,
+      "sha256": "025f5a06b2fa795b029d0d5432d54f129a4b3d6a4e5adaa3e957a49b7cbf01c6"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/observer.add.xml.gz",
+      "bytes": 231,
+      "sha256": "9b9dcd5aa10bdbe222c3c029ec6c167259961e3afe4b418b0cb788f6fffab28f"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/request.json.gz",
+      "bytes": 1553,
+      "sha256": "d666d88f4a17193a2e41f6ca8b03429ae5c1c328908faaae459258b1ed4243bc"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/result.json.gz",
+      "bytes": 1757,
+      "sha256": "af2256461cd0c93bf555b7442b7c193e184e3fa10e22e4de46bd9d38ade73a81"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/samples.json.gz",
+      "bytes": 77387,
+      "sha256": "ea3b49e4a3f0f61eda62a01ddccc8386ffe4703765a564ac091eceace796ed73"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/summary.xml.gz",
+      "bytes": 27550,
+      "sha256": "4c9687a5ea0d75b70354e1ed92557b73b00160b447049eb04135300c99e0984b"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/sumo-errors.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/sumo.log.gz",
+      "bytes": 716,
+      "sha256": "95b4560cb73c2ba4c71c2fd0932a0d0dc46aa4ef9dbde2059c222a87191c5570"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/tripinfo.xml.gz",
+      "bytes": 1104,
+      "sha256": "6b65bfe33846819408e837b86a8b8ab90bdbe7b1b123f0ac33820e8520a0cca7"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2/vehicle-routes.xml.gz",
+      "bytes": 1193,
+      "sha256": "7c4a6b269f1d347aa73f97a4bc7d9bae91af6895666590b8294b166e262f496e"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2.stderr.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "lane-foes-smoke/cross-1-2.stdout.log.gz",
+      "bytes": 1757,
+      "sha256": "af2256461cd0c93bf555b7442b7c193e184e3fa10e22e4de46bd9d38ade73a81"
+    },
+    {
+      "path": "lane-foes-smoke/executed-run-pairs.py.gz",
+      "bytes": 2588,
+      "sha256": "5aceb190bf6c1eacb27aa44d1282a703cf149ec78af7be7b404a2dd2084a22a8"
+    },
+    {
+      "path": "lane-foes-smoke/inputs/field-loops.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "lane-foes-smoke/inputs/jobs.json.gz",
+      "bytes": 458,
+      "sha256": "ddcdc20997a35956d0b3663141e79646ca8a8ed448f0606fc344438f3b540dcd"
+    },
+    {
+      "path": "lane-foes-smoke/inputs/routes.rou.xml.gz",
+      "bytes": 398,
+      "sha256": "82d9d109cdfe950889d488a07de54731ab1aa69f587202a5aa5562975e61a91e"
+    },
+    {
+      "path": "lane-foes-smoke/manifest.json.gz",
+      "bytes": 3711,
+      "sha256": "9140c5f20ddbccb0b02f425188806b7e05446d05a02137fcf6a0a3df4b7e5091"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/collisions.xml.gz",
+      "bytes": 784,
+      "sha256": "45eab041fb8e33e619175b0c63985bcf92c65258df5d49d61f16b76d13cb0e21"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/commands.json.gz",
+      "bytes": 340,
+      "sha256": "59d4247e07803d7d85fac7f5dca282ce87e5512c8c5004f296f644945985aa5b"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/complete-passages.json.gz",
+      "bytes": 805,
+      "sha256": "038f8d11f358ad0f5375ebd5191c6fa499abfe43ba889f2b2c5c956567424562"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/driver-holds.json.gz",
+      "bytes": 689,
+      "sha256": "4bc85a0562d2b93196d68446c885ae499895ca73d9c33d876d5e35ba96c75936"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/field-counts.xml.gz",
+      "bytes": 1042,
+      "sha256": "e22a34b3f215e8a2e485622713a0c8c4e36987e3e76deb89e672e644a0a1c6c7"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/instant.add.xml.gz",
+      "bytes": 458,
+      "sha256": "20b4aa38a5ab991bdf95bda79ae568af4f54c4bb35f54b399106959f69bb5780"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/lanechanges.xml.gz",
+      "bytes": 1129,
+      "sha256": "63c8173b0bf75dc923b67c3a078243c773480f8a865f7b1e1fb7b3168690e8c0"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/loops.add.xml.gz",
+      "bytes": 475,
+      "sha256": "aeee346f30a78eed95bdb82b69a3741b781d97fc537f1ae158d8dc761cf916e5"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/native-version.json.gz",
+      "bytes": 73,
+      "sha256": "025f5a06b2fa795b029d0d5432d54f129a4b3d6a4e5adaa3e957a49b7cbf01c6"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/observer.add.xml.gz",
+      "bytes": 234,
+      "sha256": "6e6e99fbc84d56e875a2bed3ba399376b3566a1425f959b67997365635194aab"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/request.json.gz",
+      "bytes": 1551,
+      "sha256": "2acce5a23ca4d3c8fec821b03c083656e64d2281bee9eaba531da73fba4f3df8"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/result.json.gz",
+      "bytes": 1758,
+      "sha256": "42b7c2dc848efd9dd9f9ce731b4946aaec0668738bf6ad8f813f7031d622cccd"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/samples.json.gz",
+      "bytes": 77744,
+      "sha256": "dc61ad72a280b9f97bf5b21b05e5e25841ed2e8d15f2146705757ae334bce27c"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/summary.xml.gz",
+      "bytes": 27460,
+      "sha256": "c1ad97434e2adb1b80d2eb0630413f30abc645abf7f4e3bcd2803e0e62e0b876"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/sumo-errors.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/sumo.log.gz",
+      "bytes": 714,
+      "sha256": "a2c73299f6d7b4f750d9b9c3f0ef83cdebeeb016f44f432133fca3dc78824244"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/tripinfo.xml.gz",
+      "bytes": 1106,
+      "sha256": "15fdc54aa50df3348ee19484e2a0a51f18e0564c4a3069fdfb3ef0d8d71796d7"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3/vehicle-routes.xml.gz",
+      "bytes": 1197,
+      "sha256": "ce1aefffc78764a6d987fbc9885863a3f30434238c9f87f57a21c3fcc5d3a1fc"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3.stderr.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "lane-foes-smoke/parallel-0-3.stdout.log.gz",
+      "bytes": 1758,
+      "sha256": "42b7c2dc848efd9dd9f9ce731b4946aaec0668738bf6ad8f813f7031d622cccd"
+    },
+    {
+      "path": "lane-foes-smoke/plan.json.gz",
+      "bytes": 831,
+      "sha256": "b6a6034c227a1a046a0cb4e8332e73cae786a1e1ec467c9375d08a91063c2ae9"
+    },
+    {
+      "path": "lane-foes-smoke/README.md.gz",
+      "bytes": 1350,
+      "sha256": "39ac67b2cb69cf846daac2fd45785745d1b7a3d436f218b7326139cc284b4f9f"
+    },
+    {
+      "path": "lane-foes-smoke/run_pairs.py.gz",
+      "bytes": 2588,
+      "sha256": "5aceb190bf6c1eacb27aa44d1282a703cf149ec78af7be7b404a2dd2084a22a8"
+    },
+    {
+      "path": "lane-foes-smoke/shared-driver.py.gz",
+      "bytes": 7306,
+      "sha256": "1ef682889273ef6e4729ba447758f47c318fcea923866f05365cfa1e11bb5a0f"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/collisions.xml.gz",
+      "bytes": 781,
+      "sha256": "3882d51030bcd6e2d3bb36d6be702e0a22a17ec4e807b9265f2efaf9513b2309"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/commands.json.gz",
+      "bytes": 337,
+      "sha256": "7a05ef300151f082cb6c360ab94f635479c60aa9e46fc7435e3263f178f21b8b"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/complete-passages.json.gz",
+      "bytes": 806,
+      "sha256": "785e70cfb95ec3c803e85727199098a22e19608208486c39f9fd07d3ad5b110e"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/driver-holds.json.gz",
+      "bytes": 686,
+      "sha256": "220fdfe572ced516a42577cb9962b37929f07e1a798e0238e974faf651b9ce3a"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/field-counts.xml.gz",
+      "bytes": 1041,
+      "sha256": "3a4d34bc4fa95304b100df5a9bfc9ede506f761bf7041507fd1ae205d99f9f6a"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/instant.add.xml.gz",
+      "bytes": 456,
+      "sha256": "aec8d387fcda2c4ba567a252c205f712ebf62a55be049704c4bec6bd26136990"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/lanechanges.xml.gz",
+      "bytes": 995,
+      "sha256": "7ed636dcf43d6c88e4efd09317bdfaedcf2b9eef4cee012db01e43160f9860d2"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/loops.add.xml.gz",
+      "bytes": 473,
+      "sha256": "1e67d92cd1c3f039123c22a35fa83934750c9007b15e2c7eee242a5f3a9f3145"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/native-version.json.gz",
+      "bytes": 73,
+      "sha256": "025f5a06b2fa795b029d0d5432d54f129a4b3d6a4e5adaa3e957a49b7cbf01c6"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/observer.add.xml.gz",
+      "bytes": 231,
+      "sha256": "8a4e013c3bd2aad33f1ec16546c6d6c7b4d67e59abb60316bdfe2cac52644c8b"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/request.json.gz",
+      "bytes": 1551,
+      "sha256": "be7268e55fbd986776739132a9d32aa9d66c49b634f522b8cdc2d5c9e1370d05"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/result.json.gz",
+      "bytes": 1746,
+      "sha256": "f58eee10afb4905dcc8f6ec145b86fb52f955b168245ef401fc06b6c4c8d66b5"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/samples.json.gz",
+      "bytes": 76879,
+      "sha256": "73906f524433662bd643a8c1e646cb4fe268fbee09ce153575b7da8c674ac842"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/summary.xml.gz",
+      "bytes": 27122,
+      "sha256": "37a43d6cce3782a21e1e4772af6c30bb2767c8d99f39a9e17ef59d10d2da8663"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/sumo-errors.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/sumo.log.gz",
+      "bytes": 710,
+      "sha256": "1f8d151fdaec7241d72ae5407e8aa6fbd47defb64000abca46fd55f799c4dbef"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/tripinfo.xml.gz",
+      "bytes": 1105,
+      "sha256": "2e92bfe776c1a9e80fc79b5c6ad6fb1d42671eedc65456d0c9c4d4d832e60662"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4/vehicle-routes.xml.gz",
+      "bytes": 1186,
+      "sha256": "dced1cae8babbcfe6a4c48c8cad1cd6c10f97610d3aebbabd78e64ce9337f607"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4.stderr.log.gz",
+      "bytes": 318,
+      "sha256": "aa02a8b526640d2132facff02a9daacad83bcc672fb01c6a7663e4114671f7bc"
+    },
+    {
+      "path": "lane-foes-smoke/z5-0-4.stdout.log.gz",
+      "bytes": 1746,
+      "sha256": "f58eee10afb4905dcc8f6ec145b86fb52f955b168245ef401fc06b6c4c8d66b5"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 4165,
+      "sha256": "be884c6145a288a7cc56b9a90ad9689ea0d6c3750b37898087ffd64abed315b7"
+    },
+    {
+      "path": "native-source/analyze_lane_foes.py.gz",
+      "bytes": 2094,
+      "sha256": "98ba7e149827809a510b8243e2892d2017fac70914beb700c976ef33fbefc7d9"
+    },
+    {
+      "path": "native-source/lane-foes-analysis.json.gz",
+      "bytes": 2650,
+      "sha256": "127073c32fbcb69526a8ac044e4edcd9892a3e454a8cd671e25f3a788d8e1a39"
+    },
+    {
+      "path": "native-source/lane-foes-analysis.md.gz",
+      "bytes": 2216,
+      "sha256": "5db6dd334be2c11d23cea31393990fc8b3cdf63658be7f71945efaecd54ffdd3"
+    },
+    {
+      "path": "native-source/lane-foes-geometry.csv.gz",
+      "bytes": 816,
+      "sha256": "98279c1e2b9faf4b004fc294e22cc4562e188868df187659eddce8415f4d62f3"
+    },
+    {
+      "path": "native-source/lane-foes-manifest.json.gz",
+      "bytes": 442,
+      "sha256": "e56da56ea7a3837198adc93d6caa27bfbf565afdd6c859cf8b4ee8697a43ec5f"
+    },
+    {
+      "path": "native-source/NBFrame.cpp.gz",
+      "bytes": 10387,
+      "sha256": "6c24b8121b4a44d20483b8d8a634313300fdf2f7525eadf44c288286aae67fcc"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2398,
+      "sha256": "f6954301dda7f159d770418f1b633aa2379ba3e6cd2082cb0a74cea45f4b47f4"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 4960,
+      "sha256": "b257e69b24755a438cf7a3bd5723cadcd70a3c04796a2201026a5d4b7b043ec4"
+    },
+    {
+      "path": "results.json",
+      "bytes": 4349,
+      "sha256": "3c9b72fc01e8aac16e778026bd0a9054c43066738d03f79151e98e220d15361b"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 77284,
+      "sha256": "d90506d16413550bbbc99653706bb008ac67db3f46a168cd3ea8639c12148795"
+    },
+    {
+      "path": "source-references.json",
+      "bytes": 676,
+      "sha256": "3b33101dee9fb0d96bf032a3e3935e1e7a46ccd658e320aa0d5ba4ecd6195d59"
+    },
+    {
+      "path": "test_freeze_evidence.py",
+      "bytes": 1432,
+      "sha256": "3c111da80cfb5f8bb106512e247dbe08b7821822ca908b300dfb983e041b9c37"
+    }
+  ]
+}

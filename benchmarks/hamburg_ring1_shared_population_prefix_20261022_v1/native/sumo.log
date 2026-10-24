@@ -1,0 +1,38 @@
+***Starting server on port 6597 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-population-prefix-20261022-v1\network.net.xml' ... done (188ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-population-prefix-20261022-v1\signal-programs.add.xml' ... done (5ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-population-prefix-20261022-v1\e1.add.xml' ... done (18ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-population-prefix-20261022-v1\instant.add.xml' ... done (2ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading route-files incrementally from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-shared-population-prefix-20261022-v1\demand.rou.xml'
+Loading done.
+Simulation version 1.27.1 started with time: 0.000.
+Warning: Vehicle 'initialization_hh_0119_Z_5_30494_b0_p209_v5' performs emergency braking on lane ':LSA119_part0_12_1' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=825.600.
+Warning: Vehicle 'initialization_hh_0119_Z_5_30494_b0_p56_v7' performs emergency braking on lane ':LSA119_part0_12_1' with decel=9.000000000000, wished=4.500000000000, severity=1.000222222222, time=844.900.
+Simulation ended at time: 3600.000.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 283.841s
+ TraCI-Duration: 172.297s
+ Real time factor: 12.6832
+ UPS: 19110.607699
+Vehicles:
+ Inserted: 1744 (Loaded: 1849)
+ Running: 156
+ Waiting: 104
+ Emergency Braking: 2
+Statistics (avg of 1744):
+ RouteLength: 945.538377756071
+ Speed: 3.679594732879
+ Duration: 311.030000000000
+ WaitingTime: 149.580000000000
+ TimeLoss: 240.743000000000
+ DepartDelay: 75.496000000000
+ DepartDelayWaiting: 330.333000000000

@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "path": "outputs/hamburg-spsa-five-rounds-20261023/study/initial/native/instant-e1.xml",
+      "bytes": 57245234,
+      "sha256": "9b8edb1c27c5426ee9c4da722580499c09912271b0b79010bac65e1332cf8d5f"
+    },
+    {
+      "path": "outputs/hamburg-spsa-five-rounds-20261023/study/initial/native/queues.xml",
+      "bytes": 163280546,
+      "sha256": "74b100b6839b084221e24ce203adb288f3366fd2878ccbbc5e1703f3a618e8cc"
+    },
+    {
+      "path": "outputs/hamburg-spsa-five-rounds-20261023/study/iteration-0001-plus/native/instant-e1.xml",
+      "bytes": 57183051,
+      "sha256": "3ee451a19601f4aeb6f560a5c165fc55d5b499668bb5cb61826a67c795207944"
+    },
+    {
+      "path": "outputs/hamburg-spsa-five-rounds-20261023/study/iteration-0001-plus/native/queues.xml",
+      "bytes": 162397907,
+      "sha256": "2b986b66de9f56f102c82fbcf13e70075ad24122237883e180a31e92b47d5472"
+    },
+    {
+      "path": "outputs/lsa104-collision-diagnosis-20261023/104-body-full-native/instant-e1.xml",
+      "bytes": 57245258,
+      "sha256": "5856255c9f26ae3608407793aad3b56cab082648d81cde8e081cbf10e12e7d8e"
+    },
+    {
+      "path": "outputs/lsa104-collision-diagnosis-20261023/104-body-full-native/queues.xml",
+      "bytes": 163280570,
+      "sha256": "9ac6f5ab508fbca1679bfcce28352893014a38b3f42f7f192f69426529731d20"
+    }
+  ],
+  "note": "Not stored in Git. Native periodic E1, collision, demand, route, trip, summary and execution records are retained. Baseline identity attribution uses the listed local instant trace."
+}

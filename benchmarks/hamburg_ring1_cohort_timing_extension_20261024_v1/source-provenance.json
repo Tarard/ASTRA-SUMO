@@ -1,0 +1,935 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\all182-coverage.json",
+      "relative": "extension/all182-coverage.json",
+      "raw_bytes": 37806,
+      "raw_sha256": "7c9f14466bb47f30212af2c99f5e1aa779411660bf010180b74cf1d6f6dd6f80"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\cells294.json",
+      "relative": "extension/cells294.json",
+      "raw_bytes": 43216,
+      "raw_sha256": "22a979d6abfe59439fa178d8c7c2557a334ffaef82324fa88910386473e04032"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\contributing-passages.json.gz",
+      "relative": "extension/contributing-passages.json.gz",
+      "raw_bytes": 18555,
+      "raw_sha256": "a63246c4b948da39a11324c2b0d11d589b71677936708d9b6c4b510683e3a57e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\core-result.json",
+      "relative": "extension/core-result.json",
+      "raw_bytes": 717580,
+      "raw_sha256": "31ccab7394076df007e2dfffa261bf638192f4336e4671ff7f5e418ce45aa6ca"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\crossing379.csv",
+      "relative": "extension/crossing379.csv",
+      "raw_bytes": 30698,
+      "raw_sha256": "f91ed624f634e35772d3a3bea262559a08ea741c67eaae147b60b4f67d60ea28"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\departure-changes7739.csv",
+      "relative": "extension/departure-changes7739.csv",
+      "raw_bytes": 622077,
+      "raw_sha256": "57283577f2e1528f9505ea374b938aff532f46d2392ab9f13e8f9d201ebffc08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\departure-proposals.json",
+      "relative": "extension/departure-proposals.json",
+      "raw_bytes": 1466151,
+      "raw_sha256": "624fbc3edb24d26c31de612e5707d6b2fe9bb13754f738f1cc3a5cddc7ad869e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\executed-run.py",
+      "relative": "extension/executed-run.py",
+      "raw_bytes": 21228,
+      "raw_sha256": "a1cfe270dd3a024fdc725450cd3504553705c5db63497a8fa9a8312aedaee132"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\field-departure-stocks182.csv",
+      "relative": "extension/field-departure-stocks182.csv",
+      "raw_bytes": 8064,
+      "raw_sha256": "746e4227b0e233aa01815eb436fa7a4215557a03ce4cd5313a4db0e0ec97b5f4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\535-all56.csv",
+      "relative": "extension/full-evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\all182-comparison.csv",
+      "relative": "extension/full-evaluation/all182-comparison.csv",
+      "raw_bytes": 10854,
+      "raw_sha256": "d65743ebd4de1b985891f337efcd607429c2db264901584f186acac0ad8f77ae"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\contributing-passages.json.gz",
+      "relative": "extension/full-evaluation/contributing-passages.json.gz",
+      "raw_bytes": 172432,
+      "raw_sha256": "df25eb115cb515326d9eb9e124842402bb60093a7c22758eeb5779458304f04e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\core-result.json",
+      "relative": "extension/full-evaluation/core-result.json",
+      "raw_bytes": 6530336,
+      "raw_sha256": "31b26313919ed817a2b6a5f8750d1b36ec294c4b302c8e1d60dd047aad2e7193"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\demand.rou.xml",
+      "relative": "extension/full-evaluation/demand.rou.xml",
+      "raw_bytes": 3700453,
+      "raw_sha256": "741f6f2f84d04ea195b559570fd85b7cda8770bb0df389c6fc047843a613bcd7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\evaluation.json",
+      "relative": "extension/full-evaluation/evaluation.json",
+      "raw_bytes": 454,
+      "raw_sha256": "3c9d9c8fce59c935a4579b9e613ab4d11babcab6b5e25335b2fd6656f75afb66"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\executed-prefix-checker.py",
+      "relative": "extension/full-evaluation/executed-prefix-checker.py",
+      "raw_bytes": 21228,
+      "raw_sha256": "a1cfe270dd3a024fdc725450cd3504553705c5db63497a8fa9a8312aedaee132"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\executed-run_full.py",
+      "relative": "extension/full-evaluation/executed-run_full.py",
+      "raw_bytes": 12478,
+      "raw_sha256": "25e8f9f04debd30e84ce1727e385bdcac34f36c4217fe2ccf2d7992bbb29a47e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\artifact_io.py",
+      "relative": "extension/full-evaluation/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\candidate_contracts.py",
+      "relative": "extension/full-evaluation/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\command_runner.py",
+      "relative": "extension/full-evaluation/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\detector_demand.py",
+      "relative": "extension/full-evaluation/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\detector_demand_replay.py",
+      "relative": "extension/full-evaluation/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\hamburg_197_through_support.py",
+      "relative": "extension/full-evaluation/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\hamburg_od_spsa.py",
+      "relative": "extension/full-evaluation/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\lane_section_hold.py",
+      "relative": "extension/full-evaluation/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\route_sensor_matrix.py",
+      "relative": "extension/full-evaluation/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\implementation\\simulation_stall.py",
+      "relative": "extension/full-evaluation/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\initialization52-comparison.csv",
+      "relative": "extension/full-evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3114,
+      "raw_sha256": "8745539f0717c3d3425edc4cfa9d1ca04a5ae8ff97751d7abc5278b6a4fb7dcc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\lane-intentions.json",
+      "relative": "extension/full-evaluation/lane-intentions.json",
+      "raw_bytes": 1307628,
+      "raw_sha256": "daa63afe045b2fb795ff2f18fada8fcdbd532f7d1d1e9f636bd7edbdcbd5dcbb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\collisions.xml",
+      "relative": "extension/full-evaluation/native/collisions.xml",
+      "raw_bytes": 3379,
+      "raw_sha256": "8d932e3021f7f0c1f06cdc9bffc8f0aaea936e21f320fe47f07fa5dff00430cb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\command.json",
+      "relative": "extension/full-evaluation/native/command.json",
+      "raw_bytes": 5225,
+      "raw_sha256": "a17c195b35ab85fbbe48e8bbdc4955e90a085d17b879109e9f81d17c14200d50"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\demand.rou.xml",
+      "relative": "extension/full-evaluation/native/demand.rou.xml",
+      "raw_bytes": 3700453,
+      "raw_sha256": "741f6f2f84d04ea195b559570fd85b7cda8770bb0df389c6fc047843a613bcd7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\e1.add.xml",
+      "relative": "extension/full-evaluation/native/e1.add.xml",
+      "raw_bytes": 3745,
+      "raw_sha256": "8112d6d2f3ba7f077982a7ecb982664628113935c76f1e826ce4be2bb0b816cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\expected-counts.csv",
+      "relative": "extension/full-evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\field-comparison.csv",
+      "relative": "extension/full-evaluation/native/field-comparison.csv",
+      "raw_bytes": 7880,
+      "raw_sha256": "596b6cd4164f9b002c213c59f08b09b89d4a5f78fe5946a38ff680479870841f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\field-counts.xml",
+      "relative": "extension/full-evaluation/native/field-counts.xml",
+      "raw_bytes": 53196,
+      "raw_sha256": "3d1905e7c9795892b11b7c2dec111aa878f6d9361358c18c8a3bd3119f826cc9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\instant.add.xml",
+      "relative": "extension/full-evaluation/native/instant.add.xml",
+      "raw_bytes": 3221,
+      "raw_sha256": "2f8f6f99ed5cd0d82e966d81bfe8cb543084b6514e026576c2a67ba1e92da7ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\lane-intentions.json",
+      "relative": "extension/full-evaluation/native/lane-intentions.json",
+      "raw_bytes": 1307628,
+      "raw_sha256": "daa63afe045b2fb795ff2f18fada8fcdbd532f7d1d1e9f636bd7edbdcbd5dcbb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\native-request.json",
+      "relative": "extension/full-evaluation/native/native-request.json",
+      "raw_bytes": 3930,
+      "raw_sha256": "63e87f24ee683ea3e5f90b711d3b7a9670fcf32cea2991c67751d091eb6e3e96"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\network.net.xml",
+      "relative": "extension/full-evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\run.json",
+      "relative": "extension/full-evaluation/native/run.json",
+      "raw_bytes": 6305351,
+      "raw_sha256": "36cc12731b9961e90961a56432960ba5dd5123aed7cc4354530d0cbe79647885"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\signal-programs.add.xml",
+      "relative": "extension/full-evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\source-e1.add.xml",
+      "relative": "extension/full-evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\stall-monitor.json",
+      "relative": "extension/full-evaluation/native/stall-monitor.json",
+      "raw_bytes": 5850214,
+      "raw_sha256": "0f16f5b97e1f009c1a8c34847a4f34df9cfc8de5ac3dab817a1195760bc764e6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\summary.xml",
+      "relative": "extension/full-evaluation/native/summary.xml",
+      "raw_bytes": 46850290,
+      "raw_sha256": "5a1398d7b78c469daec0a33e4cfc8b8279f80fd5a54e49a98601422cf3be4d08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\sumo-errors.log",
+      "relative": "extension/full-evaluation/native/sumo-errors.log",
+      "raw_bytes": 2955,
+      "raw_sha256": "a823db98f01d22cb7f704735f2de7cf0f47fb7e5c26338d9cc93bfd8b88b76e9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\sumo.log",
+      "relative": "extension/full-evaluation/native/sumo.log",
+      "raw_bytes": 4555,
+      "raw_sha256": "cba1fc934be3b521433ff99e13c7ffe11fdb0a115cbe820b059b72be9fb559d6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\tripinfo.xml",
+      "relative": "extension/full-evaluation/native/tripinfo.xml",
+      "raw_bytes": 4576670,
+      "raw_sha256": "6c554a70652fc5a03497d2e47346069088bf9413adfd8cd06eb961bee53047ee"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native\\vehicle-routes.xml",
+      "relative": "extension/full-evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6513499,
+      "raw_sha256": "24bc8f080b75ef5be8b184db823defab026977337485b0d6a101e5d21a7aa89c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\native208-comparison.csv",
+      "relative": "extension/full-evaluation/native208-comparison.csv",
+      "raw_bytes": 25156,
+      "raw_sha256": "11fbb1ffef537d79d9e534277594da358b0dcfe42a85cb889cf509eec66496b9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\od-vector.json",
+      "relative": "extension/full-evaluation/od-vector.json",
+      "raw_bytes": 7882,
+      "raw_sha256": "90789b4295d813ca69cb9d7968e37951a7df655edf17d4ac213a55a5ae4427b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\prefix-parity.json",
+      "relative": "extension/full-evaluation/prefix-parity.json",
+      "raw_bytes": 695,
+      "raw_sha256": "2f7d725cb2463d0448a823722617cfdd9d9481c085902fb7750bd82834e19102"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\preflight.json",
+      "relative": "extension/full-evaluation/preflight.json",
+      "raw_bytes": 8776,
+      "raw_sha256": "7c65dd0ddb984486ad09583eb2532d14bec4fab37a86abb854bbf33a49dfb1a2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\station-comparison.csv",
+      "relative": "extension/full-evaluation/station-comparison.csv",
+      "raw_bytes": 1612,
+      "raw_sha256": "29994bf01743833da5a37561a22e3fd4ab4c95282434d6f021086438be511e4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\full-evaluation\\verdict.json",
+      "relative": "extension/full-evaluation/verdict.json",
+      "raw_bytes": 3691,
+      "raw_sha256": "c973f0d7f7cacd25d4603c7074b850d99080cedd24355927205d131b352aec9e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\artifact_io.py",
+      "relative": "extension/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\candidate_contracts.py",
+      "relative": "extension/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\command_runner.py",
+      "relative": "extension/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\detector_demand.py",
+      "relative": "extension/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\detector_demand_replay.py",
+      "relative": "extension/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\hamburg_197_through_support.py",
+      "relative": "extension/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\hamburg_od_spsa.py",
+      "relative": "extension/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\lane_section_hold.py",
+      "relative": "extension/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\route_sensor_matrix.py",
+      "relative": "extension/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\implementation\\simulation_stall.py",
+      "relative": "extension/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\collisions.xml",
+      "relative": "extension/native/collisions.xml",
+      "raw_bytes": 3186,
+      "raw_sha256": "c8b948cd9ff93d6c62deb119165d6260bb37d5e1455870ec887987b830f0daa0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\command.json",
+      "relative": "extension/native/command.json",
+      "raw_bytes": 4209,
+      "raw_sha256": "235d8364e05432f0f43358b9e06c492db3dba79d8df3a9a7fa57fb14b29659f4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\demand.rou.xml",
+      "relative": "extension/native/demand.rou.xml",
+      "raw_bytes": 3700453,
+      "raw_sha256": "741f6f2f84d04ea195b559570fd85b7cda8770bb0df389c6fc047843a613bcd7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\e1.add.xml",
+      "relative": "extension/native/e1.add.xml",
+      "raw_bytes": 3524,
+      "raw_sha256": "6de91d859a518c98dacc90046d4145cc864836268767f19f8626dd1bfb659a13"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\expected-counts.csv",
+      "relative": "extension/native/expected-counts.csv",
+      "raw_bytes": 5813,
+      "raw_sha256": "970c07ad1d7a6a6d6047e8e027a5bc92f3d419983f6601982b321728b45e6e2c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\field-comparison.csv",
+      "relative": "extension/native/field-comparison.csv",
+      "raw_bytes": 1585,
+      "raw_sha256": "36e85c85d98de9e219b573329c1ef82a49d67a1ffbdbf345a6d02dc8b91e2456"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\field-counts.xml",
+      "relative": "extension/native/field-counts.xml",
+      "raw_bytes": 9317,
+      "raw_sha256": "a3cf88df7b2050ea8eccfb12802ca15bad92cf50db7ee13ac764f3bb840247be"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\instant-e1.xml",
+      "relative": "extension/native/instant-e1.xml",
+      "raw_bytes": 1858781,
+      "raw_sha256": "85f7f216b4f204d7663dfed3e4ae98ef6801e0926275bd9d0b8370dca85fa093"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\instant.add.xml",
+      "relative": "extension/native/instant.add.xml",
+      "raw_bytes": 3013,
+      "raw_sha256": "e2e7608997e27bddb8ad1ad1b8c05f0d957af58099de37346cf70aaccc7bb048"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\lane-intentions.json",
+      "relative": "extension/native/lane-intentions.json",
+      "raw_bytes": 1307628,
+      "raw_sha256": "daa63afe045b2fb795ff2f18fada8fcdbd532f7d1d1e9f636bd7edbdcbd5dcbb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\native-request.json",
+      "relative": "extension/native/native-request.json",
+      "raw_bytes": 3656,
+      "raw_sha256": "c710e548e7fd00005fcf9f102d4d870576257b1d0421d16c676e600405f01e91"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\network.net.xml",
+      "relative": "extension/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\run.json",
+      "relative": "extension/native/run.json",
+      "raw_bytes": 692861,
+      "raw_sha256": "c681567fadd2d50d3a437016f6e5ae4fe96a59757efd566a64b8f07b89c4777f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\signal-programs.add.xml",
+      "relative": "extension/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\source-e1.add.xml",
+      "relative": "extension/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\stall-monitor.json",
+      "relative": "extension/native/stall-monitor.json",
+      "raw_bytes": 638408,
+      "raw_sha256": "2ab695ac410418f82fb639036767547b8dd94cefc56b2d27abc06c3f0aba3e8f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\summary.xml",
+      "relative": "extension/native/summary.xml",
+      "raw_bytes": 5734865,
+      "raw_sha256": "78415afaef7e26cabec050b951fd3a830355b340fb0e8eadfb066bcbe44574dd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\sumo-errors.log",
+      "relative": "extension/native/sumo-errors.log",
+      "raw_bytes": 2074,
+      "raw_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\sumo.log",
+      "relative": "extension/native/sumo.log",
+      "raw_bytes": 3578,
+      "raw_sha256": "8c3972ed81a24aeb9bf7e9d11d0e7f27491b6f8a53fd5acf596dd2dc731e889d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\tripinfo.xml",
+      "relative": "extension/native/tripinfo.xml",
+      "raw_bytes": 477949,
+      "raw_sha256": "27ed786e2b752541af1098c21b922a27164e35901d1b2dc88d053d7b15d514c6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\native\\vehicle-routes.xml",
+      "relative": "extension/native/vehicle-routes.xml",
+      "raw_bytes": 682038,
+      "raw_sha256": "69809d5fedc42cc05b57f280dccbbbf136c6b081756a88e709710efbc4027caf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\od-cell-deltas.csv",
+      "relative": "extension/od-cell-deltas.csv",
+      "raw_bytes": 2164,
+      "raw_sha256": "82cd2b5884042c32a794403779bc163eeaab18d96b8e1d96f45519d1b40723d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\od-vector.json",
+      "relative": "extension/od-vector.json",
+      "raw_bytes": 7882,
+      "raw_sha256": "90789b4295d813ca69cb9d7968e37951a7df655edf17d4ac213a55a5ae4427b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\preflight.json",
+      "relative": "extension/preflight.json",
+      "raw_bytes": 5108,
+      "raw_sha256": "d0d7ced1c127b915c1f2a46121ecccd5a9b645a7c3de59d477cdc1cdf0d487fa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\control.add.xml",
+      "relative": "extension/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\demand.rou.xml",
+      "relative": "extension/prepared/demand.rou.xml",
+      "raw_bytes": 3700453,
+      "raw_sha256": "741f6f2f84d04ea195b559570fd85b7cda8770bb0df389c6fc047843a613bcd7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\expected-counts.csv",
+      "relative": "extension/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\field-loops.add.xml",
+      "relative": "extension/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\initialization-counts.csv",
+      "relative": "extension/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\lane-intentions.json",
+      "relative": "extension/prepared/lane-intentions.json",
+      "raw_bytes": 1307628,
+      "raw_sha256": "daa63afe045b2fb795ff2f18fada8fcdbd532f7d1d1e9f636bd7edbdcbd5dcbb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\network.net.xml",
+      "relative": "extension/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\scenario.json",
+      "relative": "extension/prepared/scenario.json",
+      "raw_bytes": 4572,
+      "raw_sha256": "4e5ed7498a59222e0fedbb53bad657fc29d11bb30367f5a6879f5ca0fda6cd8c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\record-result.json",
+      "relative": "extension/record-result.json",
+      "raw_bytes": 12689,
+      "raw_sha256": "e9a04be2eb43642399502f6c1bbbd64afaad9779223cb55057c79defacaf1892"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\scope-proof.json",
+      "relative": "extension/scope-proof.json",
+      "raw_bytes": 1580913,
+      "raw_sha256": "58d3ecb95d43d14e6d13990334db4ca377a2ad7af993c16a61a8c8e37f6cf599"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\selfchecks.json",
+      "relative": "extension/selfchecks.json",
+      "raw_bytes": 1039,
+      "raw_sha256": "d1fbb506b1f863d1fe27bf70aec53fcbab95341925b8f6f12f2d2f4b98e5350e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\control.add.xml.gz",
+      "relative": "extension/source-snapshot/control.add.xml.gz",
+      "raw_bytes": 1939,
+      "raw_sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\demand.rou.xml.gz",
+      "relative": "extension/source-snapshot/demand.rou.xml.gz",
+      "raw_bytes": 122379,
+      "raw_sha256": "0762e00177706a7f1d68624ecef9c9bff61bf78d906e66ab6284703eedfaf505"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\expected-counts.csv.gz",
+      "relative": "extension/source-snapshot/expected-counts.csv.gz",
+      "raw_bytes": 1433,
+      "raw_sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\feasibility-crossing379.csv.gz",
+      "relative": "extension/source-snapshot/feasibility-crossing379.csv.gz",
+      "raw_bytes": 8332,
+      "raw_sha256": "9961399021e9158e8abef906d3e7002f4273ec4b90f6ed7d57c34055188a3b1a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\feasibility-manifest.json.gz",
+      "relative": "extension/source-snapshot/feasibility-manifest.json.gz",
+      "raw_bytes": 371,
+      "raw_sha256": "6779b902bf681e17cafd562f0f06f512f12fc956cc653d4cb15d947e97e6858c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\feasibility-summary.json.gz",
+      "relative": "extension/source-snapshot/feasibility-summary.json.gz",
+      "raw_bytes": 1961,
+      "raw_sha256": "b0ce563c304175c966d7b89458dc0978698b4518f3954e66f1c509928e514c88"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\field-loops.add.xml.gz",
+      "relative": "extension/source-snapshot/field-loops.add.xml.gz",
+      "raw_bytes": 358,
+      "raw_sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\hamburg_departure_probe.py.gz",
+      "relative": "extension/source-snapshot/hamburg_departure_probe.py.gz",
+      "raw_bytes": 5747,
+      "raw_sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\initialization-counts.csv.gz",
+      "relative": "extension/source-snapshot/initialization-counts.csv.gz",
+      "raw_bytes": 912,
+      "raw_sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\lane-intentions.json.gz",
+      "relative": "extension/source-snapshot/lane-intentions.json.gz",
+      "raw_bytes": 34262,
+      "raw_sha256": "56345571b3647d4fbcaf85fa818df5acf7091b61b1d35225f01834eaa89ffa1e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\network.net.xml.gz",
+      "relative": "extension/source-snapshot/network.net.xml.gz",
+      "raw_bytes": 243171,
+      "raw_sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\prepare_extension.py",
+      "relative": "extension/source-snapshot/prepare_extension.py",
+      "raw_bytes": 14016,
+      "raw_sha256": "77906d75530b2f07fa42bab08ac0debfc8512e7fb6f44dc15f577150f4d0c317"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\scenario.json.gz",
+      "relative": "extension/source-snapshot/scenario.json.gz",
+      "raw_bytes": 2290,
+      "raw_sha256": "1b8dca084d6eaea60c8dc7b2ee01a78871333637b6ca1c08bca00028e0274c36"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\source-native-request.json.gz",
+      "relative": "extension/source-snapshot/source-native-request.json.gz",
+      "raw_bytes": 680,
+      "raw_sha256": "fe6350ce37bb1e1a28e748e04937d057941caf3e4aa1a341bf80d77ecb8198ea"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\source-snapshot\\source-prefix-record-result.json.gz",
+      "relative": "extension/source-snapshot/source-prefix-record-result.json.gz",
+      "raw_bytes": 2041,
+      "raw_sha256": "663a3e65d291f71f35707e1ee5fc1f00b3c9dacbea79f22c39c8907ea2f9606d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension-independent\\audit.py",
+      "relative": "extension-independent/audit.py",
+      "raw_bytes": 6802,
+      "raw_sha256": "8ba4d8cd35f2c192b9af5eb3a2a6e87f19552cfa427480d6f9f2bdbbde6c5e51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension-independent\\manifest.json",
+      "relative": "extension-independent/manifest.json",
+      "raw_bytes": 541,
+      "raw_sha256": "e22a5ef4c3c5021b33a2d67dc795bc688f30f179655e151a55874f1d5af745a8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension-independent\\source-hashes.json",
+      "relative": "extension-independent/source-hashes.json",
+      "raw_bytes": 1783,
+      "raw_sha256": "8dd0c15ad085d4fb96197d47e3300ec11b652dc99d7a41792bf85ac7fdabc29e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension-independent\\summary.json",
+      "relative": "extension-independent/summary.json",
+      "raw_bytes": 10155,
+      "raw_sha256": "b35413c6e6d23dd2c6bf6a33f6dd7aa1f294302391b53f9a63872a74f2196ea2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\by-field-period.csv",
+      "relative": "feasibility/by-field-period.csv",
+      "raw_bytes": 12674,
+      "raw_sha256": "e50c37f0d49605a55f80605c0aec9736c517352d3a8ee87faf2511e74be6d632"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\conditional-Z5-cumulative.csv",
+      "relative": "feasibility/conditional-Z5-cumulative.csv",
+      "raw_bytes": 392,
+      "raw_sha256": "4657be141b9d1ca94e34165da1eb3e75c4c511a5e0e92d9ff9e95ecb60cf539f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\crossing379.csv",
+      "relative": "feasibility/crossing379.csv",
+      "raw_bytes": 33677,
+      "raw_sha256": "835eff85efc30b112af443718e39670c6251549fe9dfe6ee58a8e31934abaa00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\manifest.json",
+      "relative": "feasibility/manifest.json",
+      "raw_bytes": 708,
+      "raw_sha256": "2112f7784c71798399c035a34e5185d4f55d3f65002d4291d8c02b609616498a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-extension-feasibility-20261024-v1\\summary.json",
+      "relative": "feasibility/summary.json",
+      "raw_bytes": 6089,
+      "raw_sha256": "474a6872c89e19e5513c997bd90d812aadabc1491a1cc8279bb64d422b59b816"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\after-130.csv",
+      "relative": "full-independent/after-130.csv",
+      "raw_bytes": 7880,
+      "raw_sha256": "596b6cd4164f9b002c213c59f08b09b89d4a5f78fe5946a38ff680479870841f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\after-182.csv",
+      "relative": "full-independent/after-182.csv",
+      "raw_bytes": 10854,
+      "raw_sha256": "d65743ebd4de1b985891f337efcd607429c2db264901584f186acac0ad8f77ae"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\after-40.csv",
+      "relative": "full-independent/after-40.csv",
+      "raw_bytes": 1612,
+      "raw_sha256": "29994bf01743833da5a37561a22e3fd4ab4c95282434d6f021086438be511e4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\after-52.csv",
+      "relative": "full-independent/after-52.csv",
+      "raw_bytes": 3114,
+      "raw_sha256": "8745539f0717c3d3425edc4cfa9d1ca04a5ae8ff97751d7abc5278b6a4fb7dcc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\audit.py",
+      "relative": "full-independent/audit.py",
+      "raw_bytes": 15342,
+      "raw_sha256": "21b22404d24af1225bcf098e75d7c942637ff23ea3c93480a65f00e26ea9ff73"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\field13-main.csv",
+      "relative": "full-independent/field13-main.csv",
+      "raw_bytes": 714,
+      "raw_sha256": "bf29dc62df2ff204c3f88e72001b4eebde496cca3051352de1c82d689dfdf71a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\global-best-130.csv",
+      "relative": "full-independent/global-best-130.csv",
+      "raw_bytes": 7876,
+      "raw_sha256": "c64bd971832dbfffd5894e7c6614d15ec08e597008adfe15ddb912611f14b877"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\global-best-182.csv",
+      "relative": "full-independent/global-best-182.csv",
+      "raw_bytes": 10860,
+      "raw_sha256": "305b6e208f238483f61adfb043cb6faf1542e687880e14ffbad4a4a9b16881f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\global-best-40.csv",
+      "relative": "full-independent/global-best-40.csv",
+      "raw_bytes": 1608,
+      "raw_sha256": "52e99db4974fbf05c1ef441db3e638714e3db027c4a09da08eccaee8c833849b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\global-best-52.csv",
+      "relative": "full-independent/global-best-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\initial-cumulative-900-1800-3600.csv",
+      "relative": "full-independent/initial-cumulative-900-1800-3600.csv",
+      "raw_bytes": 4967,
+      "raw_sha256": "d0ddd515e74410ef2ca3e5ca70fea3a949799540fc258b528ee18db37cfd1a13"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\initial-four-periods.csv",
+      "relative": "full-independent/initial-four-periods.csv",
+      "raw_bytes": 742,
+      "raw_sha256": "7c6fc88a6a795cd9b3479bb7ae7d8356adc2371124ec9aece6c69041191633ab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\manifest.json",
+      "relative": "full-independent/manifest.json",
+      "raw_bytes": 3328,
+      "raw_sha256": "3cdc1bb222c6ecfa3f9625addca9037c03f3b608829b408ca6a1bc42e61e20c9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\native208-cohort-accounting.csv",
+      "relative": "full-independent/native208-cohort-accounting.csv",
+      "raw_bytes": 9696,
+      "raw_sha256": "b1fcde24af0b9303b6c9c55ad93e23c70a8f53fd32d075cdde6305525c56819b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\reference-130.csv",
+      "relative": "full-independent/reference-130.csv",
+      "raw_bytes": 7872,
+      "raw_sha256": "4016becca2c1aea76b10dd67dbe66de493213a9872dd3ef06e51dbd2e9266597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\reference-182.csv",
+      "relative": "full-independent/reference-182.csv",
+      "raw_bytes": 10856,
+      "raw_sha256": "cf0853b800dff07034886c424332217aabb2261482ac6da1acce75b1e05a855e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\reference-40.csv",
+      "relative": "full-independent/reference-40.csv",
+      "raw_bytes": 1604,
+      "raw_sha256": "0045501e01051e62a93c29c8db213e5a40d3f178cae7fb4075c04b5080b45871"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\reference-52.csv",
+      "relative": "full-independent/reference-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\source-hashes.json",
+      "relative": "full-independent/source-hashes.json",
+      "raw_bytes": 1660,
+      "raw_sha256": "9ec522c902edd05d348e47002481f7aa17507e92fae5d5be571e2e734f893858"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\summary.json",
+      "relative": "full-independent/summary.json",
+      "raw_bytes": 21605,
+      "raw_sha256": "1ec68e79464f5ced609c24fde4abb027fd2a810bed84542d8069226fb3dd3d62"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-independent\\terminal-unfinished.csv",
+      "relative": "full-independent/terminal-unfinished.csv",
+      "raw_bytes": 9476,
+      "raw_sha256": "d48dd5d2bf3dac67ff5ff490131d7abbd171eff06cdb73c4aa66497753225e3b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension.check-only.json",
+      "relative": "study-source/extension.check-only.json",
+      "raw_bytes": 568,
+      "raw_sha256": "7106d00e4e27dfd990f4e46434b2666f69620e63f06c8ad25640fbb58d06f9db"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension.execution.log",
+      "relative": "study-source/extension.execution.log",
+      "raw_bytes": 872,
+      "raw_sha256": "8f91df12e791789ef78dffa6c1160d93ddf5c229fc19327caa3aadf7b9d1d17b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension.selfcheck.json",
+      "relative": "study-source/extension.selfcheck.json",
+      "raw_bytes": 628,
+      "raw_sha256": "292c9620526abe7c44b19c2b42ffbee2c3c7f6e5ac1847d470aa4c4e72e1bde0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-extension.check-only.json",
+      "relative": "study-source/full-extension.check-only.json",
+      "raw_bytes": 6307,
+      "raw_sha256": "6aad37496b22158af9fec24dc11aeba9c01d872617bc4deb095b46abefb36b84"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\full-extension.execution.log",
+      "relative": "study-source/full-extension.execution.log",
+      "raw_bytes": 2782,
+      "raw_sha256": "d63c993b31f6059098c1fa82ca45c84da157617eeec40e9092fffecec2949733"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\prefix26-provenance.json",
+      "relative": "study-source/prefix26-provenance.json",
+      "raw_bytes": 411,
+      "raw_sha256": "9dd31a51e9d6443572e760022103516d057d71987e0c2c36d22c24b6df868175"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\prefix26.csv",
+      "relative": "study-source/prefix26.csv",
+      "raw_bytes": 5813,
+      "raw_sha256": "970c07ad1d7a6a6d6047e8e027a5bc92f3d419983f6601982b321728b45e6e2c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\prepare_extension.py",
+      "relative": "study-source/prepare_extension.py",
+      "raw_bytes": 14016,
+      "raw_sha256": "77906d75530b2f07fa42bab08ac0debfc8512e7fb6f44dc15f577150f4d0c317"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\run_full.py",
+      "relative": "study-source/run_full.py",
+      "raw_bytes": 12478,
+      "raw_sha256": "25e8f9f04debd30e84ce1727e385bdcac34f36c4217fe2ccf2d7992bbb29a47e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-cohort-timing-extension-20261024-v1\\run_prefix.py",
+      "relative": "study-source/run_prefix.py",
+      "raw_bytes": 21228,
+      "raw_sha256": "a1cfe270dd3a024fdc725450cd3504553705c5db63497a8fa9a8312aedaee132"
+    }
+  ],
+  "source_files_unchanged": true
+}

@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+    "-m",
+    "astra_sumo.core.simulation_stall",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only\\native-request.json"
+  ],
+  "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only",
+  "status": "pass",
+  "returncode": 0,
+  "stdout": "***Starting server on port 14687 ***\nLoading net-file from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only\\network.net.xml' ... done (189ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only\\signal-programs.add.xml' ... done (4ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only\\e1.add.xml' ... done (3ms).\nLoading additional-files from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only\\instant.add.xml' ... done (3ms).\nLoading route-files incrementally from 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\detector_only\\demand.rou.xml'\nLoading done.\nSimulation version 1.27.1 started with time: 0.000.\nSimulation ended at time: 900.000.\nReason: TraCI requested termination.\nPerformance:\n Duration: 2.902s\n TraCI-Duration: 2.038s\n Real time factor: 310.131\n UPS: 42.039972\nVehicles:\n Inserted: 1\n Running: 0\n Waiting: 0\nStatistics (avg of 1):\n RouteLength: 66.244084000000\n Speed: 5.429842950820\n Duration: 12.200000000000\n WaitingTime: 0.000000000000\n TimeLoss: 0.144000000000\n DepartDelay: 0.000000000000\n DepartDelayWaiting: 0.000000000000\n",
+  "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\nWarning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2\nWarning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.\nWarning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.\n",
+  "error": ""
+}

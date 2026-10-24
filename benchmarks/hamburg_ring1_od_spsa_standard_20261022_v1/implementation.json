@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/spsa.py",
+      "sha256": "1284894356d43cad074f1c6209f0d0287d76db28607e7b02c468a7bd6e190417"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_od_spsa.py",
+      "sha256": "d9366b0e84d05206448d0b335eb61bffb8884539ae573e9a4943ee2a490e98b7"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_od_reuse.py",
+      "sha256": "4d14c3465a52867f1067938a1e12142114e3b4d56864d62133ad76074d08e3a3"
+    },
+    {
+      "path": "plugins/astra-sumo/scripts/run_hamburg_od_spsa.py",
+      "sha256": "b251e29206200fd031606eaad523bdce3652b66bae2e83df76c2bbf61a849e91"
+    },
+    {
+      "path": "tests/test_spsa.py",
+      "sha256": "c73d5884a3952901e285bf95e054c15130bc881e39890b33793b8962be43effe"
+    },
+    {
+      "path": "tests/test_hamburg_od_spsa.py",
+      "sha256": "e0fed9ece8b3aa254042edcb1e79dfd7c91b5cda4a41eca71911f8217c94f8f9"
+    },
+    {
+      "path": "tests/test_hamburg_od_reuse.py",
+      "sha256": "1b15e47ab1788f7688d2735aae511dfa896dde9efeff1a2e55bee62126be94b8"
+    }
+  ]
+}

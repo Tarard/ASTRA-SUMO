@@ -1,0 +1,6718 @@
+{
+  "schema": "astra.road-hierarchy-variant/v1",
+  "status": "measured",
+  "promotion_authority": false,
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "sha256": "627d397520de67319b2f47f66e1fbb773e2acddba486fddfa85d2b5c93d3bee3"
+  },
+  "selection_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selection.json",
+  "source_road_count": 360,
+  "selected_road_count": 236,
+  "boundaries_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\boundaries.json",
+  "permission_input": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "sha256": "627d397520de67319b2f47f66e1fbb773e2acddba486fddfa85d2b5c93d3bee3",
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+      "sha256": "627d397520de67319b2f47f66e1fbb773e2acddba486fddfa85d2b5c93d3bee3"
+    },
+    "preparation": "unchanged",
+    "reconciled_connections": []
+  },
+  "command": {
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netconvert.exe",
+      "--sumo-net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+      "--keep-edges.input-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected-roads.txt",
+      "--offset.disable-normalization",
+      "true",
+      "--precision",
+      "6",
+      "--output-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\preload-proposal.net.xml"
+    ],
+    "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3",
+    "status": "pass",
+    "returncode": 0,
+    "stdout": "Success.\n",
+    "stderr": "Warning: Lane '186821027#0_3' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '186821027#0_4' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '551319336_3' is not connected from any incoming edge at junction '7709833318'.\nWarning: Invalid pedestrian topology: crossing ':205068087_c0' across [186714394] has no target.\nWarning: Invalid pedestrian topology at junction '205069905'; crossing ':205069905_c0' starts and ends at walkingarea ':205069905_w0'.\nWarning: Non-static traffic light '7709833318' does not define variable phase length.\nWarning: Speed of straight connection '199500674#2_0->24483192_0' reduced by 5.714052 due to turning radius of 12.150540 (length=10.731756, angle=69.172256).\nWarning: Speed of straight connection '51200771_2->23866766#1_3' reduced by 5.724720 due to turning radius of 12.118846 (length=6.270018, angle=46.738709).\nWarning: Intersecting left turns at junction 'LSA119_part0' from lane '24483344#1_0' and lane '186713422#0_3' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Unused state in tlLogic '13879893', program '0' at tl-index 0\nWarning: Unused state in tlLogic '1562406613', program '0' at tl-index 1\nWarning: Unused state in tlLogic '18653570', program '0' at tl-index 0\nWarning: Unused state in tlLogic '205068090', program '0' at tl-index 2\nWarning: Unused state in tlLogic '205068512', program '0' at tl-index 0\nWarning: 15 total messages of type: Unused state in tlLogic '%', program '%' at tl-index %\n",
+    "error": ""
+  },
+  "native_attempts": [
+    {
+      "command": {
+        "command": [
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netconvert.exe",
+          "--sumo-net-file",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+          "--keep-edges.input-file",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected-roads.txt",
+          "--offset.disable-normalization",
+          "true",
+          "--precision",
+          "6",
+          "--output-file",
+          "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\preload-proposal.net.xml"
+        ],
+        "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3",
+        "status": "pass",
+        "returncode": 0,
+        "stdout": "Success.\n",
+        "stderr": "Warning: Lane '186821027#0_3' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '186821027#0_4' is not connected from any incoming edge at junction '1975693623'.\nWarning: Lane '551319336_3' is not connected from any incoming edge at junction '7709833318'.\nWarning: Invalid pedestrian topology: crossing ':205068087_c0' across [186714394] has no target.\nWarning: Invalid pedestrian topology at junction '205069905'; crossing ':205069905_c0' starts and ends at walkingarea ':205069905_w0'.\nWarning: Non-static traffic light '7709833318' does not define variable phase length.\nWarning: Speed of straight connection '199500674#2_0->24483192_0' reduced by 5.714052 due to turning radius of 12.150540 (length=10.731756, angle=69.172256).\nWarning: Speed of straight connection '51200771_2->23866766#1_3' reduced by 5.724720 due to turning radius of 12.118846 (length=6.270018, angle=46.738709).\nWarning: Intersecting left turns at junction 'LSA119_part0' from lane '24483344#1_0' and lane '186713422#0_3' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Intersecting left turns at junction 'LSA535_part0' from lane '186821035#0_3' and lane '186821034#0_5' (increase junction radius to avoid this).\nWarning: Unused state in tlLogic '13879893', program '0' at tl-index 0\nWarning: Unused state in tlLogic '1562406613', program '0' at tl-index 1\nWarning: Unused state in tlLogic '18653570', program '0' at tl-index 0\nWarning: Unused state in tlLogic '205068090', program '0' at tl-index 2\nWarning: Unused state in tlLogic '205068512', program '0' at tl-index 0\nWarning: 15 total messages of type: Unused state in tlLogic '%', program '%' at tl-index %\n",
+        "error": ""
+      },
+      "output": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\preload-proposal.net.xml",
+        "sha256": "257ba7d45d54caef4320458f43d7ff6d1e32f5338439dfcd10de29140f9f59fc",
+        "status": "complete"
+      }
+    }
+  ],
+  "native_conversion_count": 1,
+  "source_signal_cleanup": {
+    "schema": "torii.tls_reference_cleanup_report.v1",
+    "status": "pass",
+    "claim_status": "identity-safe",
+    "tls_reference_cleanup_status": "no_change",
+    "source_net_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "source_sha256": "627d397520de67319b2f47f66e1fbb773e2acddba486fddfa85d2b5c93d3bee3",
+    "source_network_mutation": false,
+    "effective_net_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "candidate_net_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "candidate_sha256": "627d397520de67319b2f47f66e1fbb773e2acddba486fddfa85d2b5c93d3bee3",
+    "reference_counts": {
+      "connection_count": 2474,
+      "explicit_tllogic_count": 68,
+      "referenced_tls_id_count": 68,
+      "explicit_controlled_connection_count": 535,
+      "implicit_controlled_connection_count": 0,
+      "implicit_controller_id_count": 0,
+      "repairable_reference_count": 0,
+      "blocked_reference_count": 0
+    },
+    "implicit_controller_ids": [],
+    "repairable_references": [],
+    "blocked_references": [],
+    "plan_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\tls-reference-cleanup\\tls_reference_cleanup.plan.json",
+    "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\tls-reference-cleanup\\tls_reference_cleanup.json",
+    "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\tls-reference-cleanup\\tls_reference_cleanup.manifest.json",
+    "source_preservation_status": "pass",
+    "semantic_preservation_status": "pass",
+    "minimal_text_patch_status": "not_needed",
+    "review_overlay_file": "",
+    "warnings": [
+      "No stale TLS reference matched the repair policy; source remains effective"
+    ]
+  },
+  "normalized_full_network": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "sha256": "627d397520de67319b2f47f66e1fbb773e2acddba486fddfa85d2b5c93d3bee3"
+  },
+  "claim_boundary": "Corridor paths are source-supported reference paths, not observed OD. All existing arms of the five official junctions and all thirteen field sections remain. Excluded roads are outside this simulation scope. Boundary rates require recalibration.",
+  "candidate": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected.net.xml",
+    "sha256": "a2995560fe0a98cabaf78aa8d570c2c7fa2267a11bd33a5cd6a07b13d6817e72"
+  },
+  "checks": {
+    "source_unchanged": true,
+    "selected_roads_realized": true,
+    "required_movements_kept": true,
+    "retained_lane_permissions": true,
+    "retained_local_turns": true,
+    "retained_road_priorities": true,
+    "sumo_load": true
+  },
+  "lost_movements": [],
+  "retained_local_turn_changes": {
+    "lost": [],
+    "added": []
+  },
+  "changed_lane_permissions": [],
+  "restoration": {
+    "status": "pass",
+    "claim_status": "diagnostic-demo",
+    "source_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+    "target_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected.net.xml",
+    "mutable_junction_ids": [
+      "11046917042",
+      "11381257965",
+      "1246600402",
+      "12469790427",
+      "12959335183",
+      "13411627662",
+      "13411627663",
+      "13411627664",
+      "13411627665",
+      "13411627683",
+      "13879893",
+      "1524487610",
+      "1561370987",
+      "1561371002",
+      "1561539023",
+      "1561539025",
+      "1561539027",
+      "1561539048",
+      "1562406613",
+      "1759791302",
+      "18653570",
+      "201841968",
+      "205068087",
+      "205068090",
+      "205069905",
+      "2092560607",
+      "238002053",
+      "254375203",
+      "255321993",
+      "257590793",
+      "257590811",
+      "2576224012",
+      "2576224013",
+      "2576224014",
+      "258684376",
+      "258684377",
+      "2589886679",
+      "259235622",
+      "259593938",
+      "260305243",
+      "266197525",
+      "266197546",
+      "274983018",
+      "292744646",
+      "297641708",
+      "297641711",
+      "301624961",
+      "315029331",
+      "315029332",
+      "315029336",
+      "32206478",
+      "32206482",
+      "32509934",
+      "32509935",
+      "32510847",
+      "343633360",
+      "345707698",
+      "3479240315",
+      "3479240327",
+      "3479240343",
+      "3660267912",
+      "3660267913",
+      "433301165",
+      "447620746",
+      "4532610435",
+      "4532610440",
+      "4532610442",
+      "4540201410",
+      "4540201411",
+      "4540201412",
+      "510164674",
+      "512493721",
+      "5324041447",
+      "5324379308",
+      "548816044",
+      "549766972",
+      "549766981",
+      "566333536",
+      "611615351",
+      "6390683111",
+      "6390683112",
+      "6390683113",
+      "648264554",
+      "6779941164",
+      "6779941165",
+      "703147138",
+      "710387245",
+      "710397154",
+      "710397156",
+      "710397161",
+      "710397163",
+      "7119615334",
+      "7580912661",
+      "7580912662",
+      "7709833314",
+      "7709833318",
+      "77900623",
+      "7900688747",
+      "8083334",
+      "8440719613",
+      "8466226874",
+      "890870655",
+      "890870657",
+      "890870712",
+      "8913236633",
+      "8913236635",
+      "9006937209",
+      "9844196555",
+      "9844196556",
+      "9844246374"
+    ],
+    "source_net_metadata": {
+      "changed": true,
+      "source_format_version": "1.20",
+      "incoming_format_version": "1.20",
+      "header_restored": true,
+      "translated_permission_declarations": [],
+      "restored_type_ids": [
+        "cycleway.lane|highway.unclassified",
+        "cycleway.track|highway.residential",
+        "highway.living_street",
+        "highway.primary_link"
+      ]
+    },
+    "mutable_edge_ids": [
+      "-1043781613",
+      "-1108556913",
+      "-1189704921",
+      "-1332144622",
+      "-139083714#0",
+      "-139083714#1",
+      "-1462174529#0",
+      "-1462174529#1",
+      "-1462174530",
+      "-1563483961",
+      "-186821026",
+      "-186821028",
+      "-19409045",
+      "-19728446#0",
+      "-199239120",
+      "-199752604",
+      "-219999179",
+      "-22791190",
+      "-23489785",
+      "-24483344#0",
+      "-24483344#1",
+      "-251397516",
+      "-25218459",
+      "-252843137#0",
+      "-252843137#1",
+      "-26623877",
+      "-27470423#1",
+      "-2956270",
+      "-321703980#3",
+      "-340675955",
+      "-340675956#0",
+      "-340675956#1",
+      "-340675956#2",
+      "-43478106#1",
+      "-43546327",
+      "-457053578",
+      "-457963489",
+      "-457963490",
+      "-4935466#0",
+      "-4935468#2",
+      "-50831791",
+      "-5212898",
+      "-543550497#2",
+      "-551319332",
+      "-551319336",
+      "-56754916",
+      "-56754917",
+      "-660916748#0",
+      "-660916748#1",
+      "-660916748#2",
+      "-722793861",
+      "-722793862",
+      "-75459561",
+      "-75459586",
+      "-762006452",
+      "-810826331",
+      "-941838120#0",
+      "-941838120#1",
+      "-941838120#2",
+      "-983227468#0",
+      "-983227468#1",
+      "1043781613",
+      "1072525532",
+      "1073054122#0",
+      "1073054122#1",
+      "1108556913",
+      "1108564793",
+      "1108564797",
+      "1108564798#0",
+      "1108564798#1",
+      "1164252355",
+      "1164252356",
+      "1189704921",
+      "1265093940",
+      "1265093941",
+      "1332144622",
+      "1345098540",
+      "1345107183#0",
+      "1345107183#1",
+      "1360406653",
+      "1373419478",
+      "139056860#1",
+      "139056860#2",
+      "139083714#0",
+      "139083714#1",
+      "142692911",
+      "1462174529#0",
+      "1462174529#1",
+      "1462174530",
+      "1491809365",
+      "1563483961",
+      "186282281",
+      "186713401",
+      "186713412#0",
+      "186713412#1",
+      "186713418#0",
+      "186713419#0",
+      "186713419#1",
+      "186713419#2",
+      "186714394",
+      "186821026",
+      "186821028",
+      "189775477#2",
+      "19409045",
+      "19728446#0",
+      "199230912#0",
+      "199230912#1",
+      "199239119",
+      "199239120",
+      "199239121#0",
+      "199239121#1",
+      "199752604",
+      "199799715",
+      "219999172#0",
+      "219999172#1",
+      "219999179",
+      "22125651",
+      "22791190",
+      "23866766#0",
+      "23866766#1",
+      "23866766#2",
+      "23947828#0",
+      "23947828#1",
+      "24483197",
+      "24483344#0",
+      "24483344#1",
+      "24505980#0",
+      "251397514",
+      "251397516",
+      "25218459",
+      "252843137#0",
+      "252843137#1",
+      "25866655#0",
+      "25866659#2",
+      "26623877",
+      "27064186#0",
+      "27470423#0",
+      "27470423#1",
+      "284139902",
+      "28665128#2",
+      "28665128#3",
+      "2956270",
+      "2963460#0",
+      "31050638#0",
+      "31050638#2",
+      "321703980#2",
+      "321703980#3",
+      "340675955",
+      "340675956#0",
+      "340675956#1",
+      "340675956#2",
+      "361572881",
+      "363112756#1",
+      "363112756#2",
+      "37693933#0",
+      "37693933#1",
+      "381750335",
+      "40016242#0",
+      "40016242#1",
+      "41676176",
+      "43478106#1",
+      "43546327",
+      "457053578",
+      "480873119",
+      "4917574#1",
+      "4935466#0",
+      "4935468#0",
+      "4935468#1",
+      "4935468#2",
+      "50831791",
+      "51196062",
+      "51200771",
+      "51200772",
+      "5212898",
+      "543550497#0",
+      "543550497#1",
+      "543550497#2",
+      "551284796#1",
+      "551284796#2",
+      "551303411#0",
+      "551319332",
+      "551319336",
+      "56754916",
+      "606141103#0",
+      "606141103#1",
+      "660916748#0",
+      "660916748#1",
+      "660916748#2",
+      "722791971",
+      "722793862",
+      "73474895",
+      "75459561",
+      "75459586",
+      "762006452",
+      "810826331",
+      "8286112#0",
+      "8286112#1",
+      "941838120#0",
+      "941838120#1",
+      "941838120#2",
+      "963590219",
+      "983227468#0",
+      "983227468#1"
+    ],
+    "junction_aliases": {},
+    "declared_absorbed_edge_ids": null,
+    "expanded_mutable_edge_endpoints": false,
+    "authorized_absorbed_external_edge_ids": [],
+    "undeleted_declared_absorbed_edge_ids": [],
+    "restored_join_boundary_edge_count": 0,
+    "restored_join_boundary_edge_ids": [],
+    "restored_external_edge_count": 157,
+    "restored_external_edge_ids": [
+      "-1257937836#0",
+      "-139083714#2",
+      "-139083723#0",
+      "-142692918",
+      "-142770547",
+      "-142770548",
+      "-142770551",
+      "-142944318",
+      "-186713423",
+      "-186713425",
+      "-186713427",
+      "-199752605",
+      "-199753406",
+      "-448511533#3",
+      "-771709146#1",
+      "1068722010",
+      "1108564796",
+      "1164647033",
+      "1217435074",
+      "1227169967",
+      "1227325137",
+      "1257937836#0",
+      "1286645419",
+      "1326490377",
+      "1326490378#0",
+      "1326490379",
+      "1373419479",
+      "139083714#2",
+      "139083720",
+      "139083723#0",
+      "141050972",
+      "141050975",
+      "141050980#0",
+      "141050980#1",
+      "142692918",
+      "142770547",
+      "142770548",
+      "142770551",
+      "142944318",
+      "142944325#0",
+      "142944333",
+      "142944337#1",
+      "142944399#2",
+      "142944473#0",
+      "142944473#1",
+      "142944477",
+      "142944527",
+      "142944538",
+      "158491026",
+      "186713403#0",
+      "186713404#0",
+      "186713411",
+      "186713418#1",
+      "186713418#2",
+      "186713420",
+      "186713422#0",
+      "186713423",
+      "186713425",
+      "186713426",
+      "186713427",
+      "186713428",
+      "186713429",
+      "186713430",
+      "186714395",
+      "186722706",
+      "186821027#0",
+      "186821029#1",
+      "186821032",
+      "186821034#0",
+      "186821035#0",
+      "186821036#1",
+      "186821036#2",
+      "189764301",
+      "189775477#0",
+      "189775477#1",
+      "189775480",
+      "19728366",
+      "199230909#0",
+      "199500674#0",
+      "199500674#1",
+      "199500674#2",
+      "199500676",
+      "199752605",
+      "199753406",
+      "199780796#0",
+      "199780796#1",
+      "220109544",
+      "234421319",
+      "234423652#1",
+      "23774652#0",
+      "23774652#1",
+      "24483192",
+      "24505980#1",
+      "251871172#0",
+      "251871702",
+      "25866655#1",
+      "25866659#1",
+      "28665128#0",
+      "2963460#1",
+      "31050639",
+      "31050642",
+      "31106387",
+      "350033484#0",
+      "368989705",
+      "37413814#0",
+      "381750336",
+      "381750337",
+      "43292244",
+      "43305966#1",
+      "43866090#0",
+      "44532531",
+      "448511533#3",
+      "480873120#0",
+      "486864288",
+      "486864294",
+      "486870074#0",
+      "495246279",
+      "503043835",
+      "51214742#1",
+      "521070807",
+      "538341579#0",
+      "538341584",
+      "551284796#0",
+      "551288834",
+      "551288837#2",
+      "551303409",
+      "551303410",
+      "551303411#1",
+      "551303415#0",
+      "551303416",
+      "551303417",
+      "551303418",
+      "551303422",
+      "551303423",
+      "551303424",
+      "551319351#0",
+      "603103444",
+      "603103445#0",
+      "603103445#1",
+      "603103445#2",
+      "606141102#1",
+      "606141103#0.torii-before-104-0-2",
+      "606141108",
+      "61578529#1",
+      "61684076",
+      "62091589#0",
+      "62091589#1",
+      "626677498",
+      "633585658",
+      "73474902#0",
+      "73474902#1",
+      "761590046",
+      "771709146#0",
+      "771709146#1",
+      "79014037#1",
+      "963776077#0",
+      "977482749"
+    ],
+    "restored_external_edge_centerline_count": 0,
+    "restored_external_edge_centerline_ids": [],
+    "restored_external_lane_count": 439,
+    "source_custom_shape_markers_preserved": true,
+    "restored_lane_shapes_fixed_for_native_reload": false,
+    "native_reload_preservation_audit_required": true,
+    "fixed_boundary_geometry": [
+      {
+        "edge_id": "-1108556913",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "512493772"
+      },
+      {
+        "edge_id": "-1332144622",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "LSA118_part0"
+      },
+      {
+        "edge_id": "-139083714#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "14004682442"
+      },
+      {
+        "edge_id": "-139083714#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "5820063423"
+      },
+      {
+        "edge_id": "-186821026",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "13870881"
+      },
+      {
+        "edge_id": "-186821028",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "1975693623"
+      },
+      {
+        "edge_id": "-19409045",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "13951254"
+      },
+      {
+        "edge_id": "-19728446#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "3673603285"
+      },
+      {
+        "edge_id": "-199239120",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "2903844836"
+      },
+      {
+        "edge_id": "-199752604",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "2097416260"
+      },
+      {
+        "edge_id": "-24483344#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "266199070"
+      },
+      {
+        "edge_id": "-24483344#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "LSA119_part0"
+      },
+      {
+        "edge_id": "-26623877",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "13951251"
+      },
+      {
+        "edge_id": "-27470423#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "301624964"
+      },
+      {
+        "edge_id": "-551319332",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "259215586"
+      },
+      {
+        "edge_id": "-983227468#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "18653534"
+      },
+      {
+        "edge_id": "-983227468#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "2286400550"
+      },
+      {
+        "edge_id": "1073054122#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "9844196552"
+      },
+      {
+        "edge_id": "1108556913",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "512493772"
+      },
+      {
+        "edge_id": "1164252355",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "1561539019"
+      },
+      {
+        "edge_id": "1265093940",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "5324200462"
+      },
+      {
+        "edge_id": "1265093941",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "890870669"
+      },
+      {
+        "edge_id": "1332144622",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "LSA118_part0"
+      },
+      {
+        "edge_id": "1345098540",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "9844196552"
+      },
+      {
+        "edge_id": "1373419478",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "12716414433"
+      },
+      {
+        "edge_id": "139056860#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "LSA104_part0"
+      },
+      {
+        "edge_id": "139056860#2",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "345619504"
+      },
+      {
+        "edge_id": "139083714#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "14004682442"
+      },
+      {
+        "edge_id": "139083714#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "5820063423"
+      },
+      {
+        "edge_id": "186282281",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "1561539019"
+      },
+      {
+        "edge_id": "186713412#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "890870669"
+      },
+      {
+        "edge_id": "186713412#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "5744363318"
+      },
+      {
+        "edge_id": "186713418#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "3479240438"
+      },
+      {
+        "edge_id": "186714394",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "1974636880"
+      },
+      {
+        "edge_id": "186821026",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "13870881"
+      },
+      {
+        "edge_id": "186821028",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "1975693623"
+      },
+      {
+        "edge_id": "189775477#2",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "5324041454"
+      },
+      {
+        "edge_id": "19409045",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "13951254"
+      },
+      {
+        "edge_id": "19728446#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "3673603285"
+      },
+      {
+        "edge_id": "199230912#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "LSA119_part0"
+      },
+      {
+        "edge_id": "199230912#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "266199654"
+      },
+      {
+        "edge_id": "199239120",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "2903844836"
+      },
+      {
+        "edge_id": "199752604",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "2097416260"
+      },
+      {
+        "edge_id": "219999172#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "LSA118_part1"
+      },
+      {
+        "edge_id": "23866766#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "8913236647"
+      },
+      {
+        "edge_id": "23866766#2",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "8913236647"
+      },
+      {
+        "edge_id": "23947828#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "393721378"
+      },
+      {
+        "edge_id": "23947828#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "393721378"
+      },
+      {
+        "edge_id": "24483197",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "7115619094"
+      },
+      {
+        "edge_id": "24483344#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "266199070"
+      },
+      {
+        "edge_id": "24483344#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "LSA119_part0"
+      },
+      {
+        "edge_id": "24505980#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "512493747"
+      },
+      {
+        "edge_id": "25866655#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "653216752"
+      },
+      {
+        "edge_id": "25866659#2",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "9844196560"
+      },
+      {
+        "edge_id": "26623877",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "13951251"
+      },
+      {
+        "edge_id": "27470423#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "301624964"
+      },
+      {
+        "edge_id": "2963460#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "544149073"
+      },
+      {
+        "edge_id": "31050638#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "LSA118_part1"
+      },
+      {
+        "edge_id": "31050638#2",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "LSA118_part1"
+      },
+      {
+        "edge_id": "363112756#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "LSA119_part0"
+      },
+      {
+        "edge_id": "363112756#2",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "5980811310"
+      },
+      {
+        "edge_id": "37693933#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "33406075"
+      },
+      {
+        "edge_id": "37693933#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "266199070"
+      },
+      {
+        "edge_id": "51196062",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "244203536"
+      },
+      {
+        "edge_id": "551284796#1",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "5324041449"
+      },
+      {
+        "edge_id": "551284796#2",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "205068513"
+      },
+      {
+        "edge_id": "551303411#0",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "3479240233"
+      },
+      {
+        "edge_id": "551319332",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "259215586"
+      },
+      {
+        "edge_id": "606141103#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "torii-merge-104-0-2"
+      },
+      {
+        "edge_id": "606141103#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "LSA104_part0"
+      },
+      {
+        "edge_id": "73474895",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "266197536"
+      },
+      {
+        "edge_id": "983227468#0",
+        "status": "pass",
+        "target_at_start": false,
+        "source_remote_junction_id": "18653534"
+      },
+      {
+        "edge_id": "983227468#1",
+        "status": "pass",
+        "target_at_start": true,
+        "source_remote_junction_id": "2286400550"
+      }
+    ],
+    "boundary_edge_map": {},
+    "failure_count": 0,
+    "failures": [],
+    "internal_failure_counts": {},
+    "internal_artifact_restore": {
+      "status": "pass",
+      "claim_status": "diagnostic-demo",
+      "source_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3-geometry-input.net.xml",
+      "target_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected.net.xml",
+      "exclude_junction_ids": [
+        "11046917042",
+        "11381257965",
+        "1246600402",
+        "12469790427",
+        "12959335183",
+        "13411627662",
+        "13411627663",
+        "13411627664",
+        "13411627665",
+        "13411627683",
+        "13879893",
+        "1524487610",
+        "1561370987",
+        "1561371002",
+        "1561539023",
+        "1561539025",
+        "1561539027",
+        "1561539048",
+        "1562406613",
+        "1759791302",
+        "18653570",
+        "201841968",
+        "205068087",
+        "205068090",
+        "205069905",
+        "2092560607",
+        "238002053",
+        "254375203",
+        "255321993",
+        "257590793",
+        "257590811",
+        "2576224012",
+        "2576224013",
+        "2576224014",
+        "258684376",
+        "258684377",
+        "2589886679",
+        "259235622",
+        "259593938",
+        "260305243",
+        "266197525",
+        "266197546",
+        "274983018",
+        "292744646",
+        "297641708",
+        "297641711",
+        "301624961",
+        "315029331",
+        "315029332",
+        "315029336",
+        "32206478",
+        "32206482",
+        "32509934",
+        "32509935",
+        "32510847",
+        "343633360",
+        "345707698",
+        "3479240315",
+        "3479240327",
+        "3479240343",
+        "3660267912",
+        "3660267913",
+        "433301165",
+        "447620746",
+        "4532610435",
+        "4532610440",
+        "4532610442",
+        "4540201410",
+        "4540201411",
+        "4540201412",
+        "510164674",
+        "512493721",
+        "5324041447",
+        "5324379308",
+        "548816044",
+        "549766972",
+        "549766981",
+        "566333536",
+        "611615351",
+        "6390683111",
+        "6390683112",
+        "6390683113",
+        "648264554",
+        "6779941164",
+        "6779941165",
+        "703147138",
+        "710387245",
+        "710397154",
+        "710397156",
+        "710397161",
+        "710397163",
+        "7119615334",
+        "7580912661",
+        "7580912662",
+        "7709833314",
+        "7709833318",
+        "77900623",
+        "7900688747",
+        "8083334",
+        "8440719613",
+        "8466226874",
+        "890870655",
+        "890870657",
+        "890870712",
+        "8913236633",
+        "8913236635",
+        "9006937209",
+        "9844196555",
+        "9844196556",
+        "9844246374"
+      ],
+      "removed_non_target_internal_edge_count": 400,
+      "restored_non_target_internal_edge_count": 402,
+      "skipped_non_target_internal_edge_missing_junction_count": 0,
+      "skipped_non_target_internal_edge_missing_junctions": [],
+      "removed_non_target_internal_junction_count": 63,
+      "source_net_metadata": {
+        "changed": false,
+        "source_format_version": "1.20",
+        "incoming_format_version": "1.20",
+        "header_restored": false,
+        "translated_permission_declarations": [],
+        "restored_type_ids": []
+      },
+      "restored_non_target_internal_junction_count": 64,
+      "removed_non_target_internal_connection_count": 1362,
+      "restored_non_target_internal_connection_count": 1366,
+      "skipped_non_target_internal_connection_missing_edge_count": 0,
+      "skipped_non_target_internal_connection_missing_edges": [],
+      "skipped_non_target_internal_connection_invalid_lane_count": 0,
+      "skipped_non_target_internal_connection_invalid_lanes": [],
+      "skipped_non_target_internal_connection_missing_via_lane_count": 0,
+      "skipped_non_target_internal_connection_missing_via_lanes": [],
+      "restored_non_target_normal_junction_attr_count": 151,
+      "restored_non_target_request_count": 606,
+      "restored_non_target_tllogic_count": 36,
+      "missing_non_target_tllogic_count": 0,
+      "missing_non_target_tllogic_ids": []
+    }
+  },
+  "sumo_load": {
+    "schema": "torii.sumo-load-audit/v1",
+    "status": "pass",
+    "source_net_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected.net.xml",
+    "source_sha256": "a2995560fe0a98cabaf78aa8d570c2c7fa2267a11bd33a5cd6a07b13d6817e72",
+    "source_network_mutation": false,
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "-n",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected.net.xml",
+      "--no-step-log",
+      "true",
+      "--duration-log.disable",
+      "true",
+      "--begin",
+      "0",
+      "--end",
+      "1"
+    ],
+    "command_result": {
+      "command": [
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+        "-n",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\selected.net.xml",
+        "--no-step-log",
+        "true",
+        "--duration-log.disable",
+        "true",
+        "--begin",
+        "0",
+        "--end",
+        "1"
+      ],
+      "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\sumo-load",
+      "status": "pass",
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "Warning: Unused states in tlLogic '1562406613', program '0' in phase 0 after tl-index 0\nWarning: At actuated tlLogic '1562406613', actuated phase 2 has no controlling detector.\nWarning: At actuated tlLogic '18653570', actuated phase 3 has no controlling detector.\nWarning: Unused states in tlLogic '205068090', program '0' in phase 0 after tl-index 1\nWarning: At actuated tlLogic '205068090', actuated phase 2 has no controlling detector.\nWarning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '266197525', program '0' in phase 0 after tl-index 5\nWarning: At actuated tlLogic '266197525', actuated phase 2 has no controlling detector.\nWarning: At actuated tlLogic '315029332', actuated phase 3 has no controlling detector.\nWarning: Unused states in tlLogic '32206478', program '0' in phase 0 after tl-index 11\nWarning: Unused states in tlLogic '32206482', program '0' in phase 0 after tl-index 1\nWarning: At actuated tlLogic '32206482', actuated phase 3 has no controlling detector.\nWarning: At actuated tlLogic '8913236635', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic 'GS_1561539025', actuated phase 2 has no controlling detector.\nWarning: At actuated tlLogic 'GS_205068087', actuated phase 0 has no controlling detector.\n",
+      "error": ""
+    },
+    "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\sumo-load\\sumo-load-audit.json",
+    "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\sumo-load\\sumo-load-audit.manifest.json"
+  },
+  "warnings": [
+    "Scope extraction changed retained control or has unresolved controller ownership. Inspect signal_scope_changes before calibration."
+  ],
+  "retained_road_geometry": {
+    "status": "blocked",
+    "coordinate_frame_preserved": true,
+    "mutable_junction_ids": [
+      "11046917042",
+      "11381172729",
+      "11381257965",
+      "11860461969",
+      "11933598312",
+      "12273252199",
+      "12273252200",
+      "12273293301",
+      "1246600402",
+      "12469790427",
+      "12716414433",
+      "12716414434",
+      "12959335183",
+      "13324859589",
+      "13411627662",
+      "13411627663",
+      "13411627664",
+      "13411627665",
+      "13411627683",
+      "13870881",
+      "13879893",
+      "13879910",
+      "13951251",
+      "13951254",
+      "14004682442",
+      "14398547",
+      "14398548",
+      "14398558",
+      "1524487610",
+      "1561370987",
+      "1561371002",
+      "1561539019",
+      "1561539020",
+      "1561539023",
+      "1561539025",
+      "1561539027",
+      "1561539033",
+      "1561539048",
+      "1562406613",
+      "1564056277",
+      "1564056280",
+      "1759791302",
+      "18653534",
+      "18653570",
+      "1966837175",
+      "1969625489",
+      "1974636880",
+      "1974636910",
+      "1974636921",
+      "1974636929",
+      "1974636934",
+      "1975693614",
+      "1975693623",
+      "1975693628",
+      "1983986560",
+      "2003617180",
+      "2003802536",
+      "2003802538",
+      "201841968",
+      "205068087",
+      "205068090",
+      "205068512",
+      "205068513",
+      "205069136",
+      "205069138",
+      "205069905",
+      "2092477224",
+      "2092560607",
+      "2097416260",
+      "2098004425",
+      "21423180",
+      "218293313",
+      "218299678",
+      "2286400550",
+      "2347315953",
+      "238002053",
+      "244003480",
+      "244003484",
+      "244203524",
+      "244203525",
+      "244203534",
+      "244203536",
+      "244203542",
+      "254375203",
+      "255321993",
+      "257590793",
+      "257590811",
+      "2576224012",
+      "2576224013",
+      "2576224014",
+      "2580317856",
+      "258684376",
+      "258684377",
+      "2589886679",
+      "259215586",
+      "259235622",
+      "259593938",
+      "259593942",
+      "260305243",
+      "260305244",
+      "26084079",
+      "263002865",
+      "264996264",
+      "264996267",
+      "264996272",
+      "264996273",
+      "265093112",
+      "266197525",
+      "266197536",
+      "266197546",
+      "266199061",
+      "266199062",
+      "266199063",
+      "266199070",
+      "266199654",
+      "266199662",
+      "274983018",
+      "2903844836",
+      "291990979",
+      "291990981",
+      "292744646",
+      "297641708",
+      "297641711",
+      "301624961",
+      "301624964",
+      "315029331",
+      "315029332",
+      "315029336",
+      "315029339",
+      "32206474",
+      "32206478",
+      "32206482",
+      "32509934",
+      "32509935",
+      "32510847",
+      "33406075",
+      "3399000426",
+      "343633354",
+      "343633357",
+      "343633360",
+      "345169804",
+      "345619504",
+      "345707698",
+      "3479240233",
+      "3479240315",
+      "3479240327",
+      "3479240343",
+      "3479240438",
+      "3479240441",
+      "3660267912",
+      "3660267913",
+      "3673603273",
+      "3673603285",
+      "3673603290",
+      "3673605812",
+      "3728271430",
+      "393721378",
+      "4031208046",
+      "4031208903",
+      "433301165",
+      "447620746",
+      "4532610435",
+      "4532610440",
+      "4532610442",
+      "4540201410",
+      "4540201411",
+      "4540201412",
+      "4690193600",
+      "4870219616",
+      "5077565475",
+      "510164674",
+      "512493721",
+      "512493732",
+      "512493747",
+      "512493772",
+      "5210756828",
+      "5254541548",
+      "5324041442",
+      "5324041447",
+      "5324041448",
+      "5324041449",
+      "5324041454",
+      "5324199713",
+      "5324200390",
+      "5324200398",
+      "5324200460",
+      "5324200462",
+      "5324379308",
+      "544149070",
+      "544149073",
+      "548816044",
+      "549766972",
+      "549766981",
+      "563269601",
+      "566333536",
+      "568500922",
+      "5744363318",
+      "5747709561",
+      "5820063423",
+      "5980811310",
+      "611615351",
+      "638611679",
+      "6390683111",
+      "6390683112",
+      "6390683113",
+      "6390683114",
+      "6390683115",
+      "6390683126",
+      "648264554",
+      "653125318",
+      "653216752",
+      "6779941164",
+      "6779941165",
+      "703147136",
+      "703147138",
+      "710387245",
+      "710397154",
+      "710397156",
+      "710397161",
+      "710397163",
+      "710442440",
+      "7115619094",
+      "7115619106",
+      "7115619107",
+      "7119615334",
+      "7580912661",
+      "7580912662",
+      "7709833314",
+      "7709833318",
+      "77900623",
+      "7900688747",
+      "8083334",
+      "8440719613",
+      "8466226874",
+      "890870655",
+      "890870657",
+      "890870669",
+      "890870712",
+      "8913236633",
+      "8913236635",
+      "8913236647",
+      "9006937209",
+      "9044756142",
+      "9810392490",
+      "9844196552",
+      "9844196555",
+      "9844196556",
+      "9844196560",
+      "9844246374",
+      "99187952",
+      "99187956",
+      ":13879893_10_0",
+      ":13879893_11_0",
+      ":13879893_12_0",
+      ":13879893_13_0",
+      ":1561370987_13_0",
+      ":1561370987_14_0",
+      ":1561370987_15_0",
+      ":1561370987_15_1",
+      ":1561370987_16_0",
+      ":1561370987_16_1",
+      ":1561370987_17_0",
+      ":1561370987_18_0",
+      ":18653534_21_0",
+      ":18653534_21_1",
+      ":18653534_22_0",
+      ":18653534_23_0",
+      ":18653534_24_0",
+      ":18653534_25_0",
+      ":18653534_26_0",
+      ":18653534_27_0",
+      ":18653534_28_0",
+      ":18653534_29_0",
+      ":18653534_29_1",
+      ":18653534_30_0",
+      ":18653534_31_0",
+      ":18653534_32_0",
+      ":18653534_33_0",
+      ":18653570_12_0",
+      ":18653570_12_1",
+      ":18653570_13_0",
+      ":18653570_14_0",
+      ":18653570_15_0",
+      ":18653570_16_0",
+      ":18653570_17_0",
+      ":18653570_18_0",
+      ":1975693623_10_0",
+      ":1975693623_11_0",
+      ":1975693623_12_0",
+      ":1975693623_13_0",
+      ":205068087_9_0",
+      ":205068087_9_1",
+      ":205068512_2_0",
+      ":205068512_2_1",
+      ":205069905_1_0",
+      ":315029332_14_0",
+      ":315029332_15_0",
+      ":32206478_10_0",
+      ":32206478_11_0",
+      ":32206478_12_0",
+      ":32206478_13_0",
+      ":32206478_14_0",
+      ":32509935_11_0",
+      ":32509935_12_0",
+      ":32509935_13_0",
+      ":32509935_14_0",
+      ":32509935_14_1",
+      ":32509935_15_0",
+      ":32509935_16_0",
+      ":32510847_12_0",
+      ":32510847_13_0",
+      ":32510847_14_0",
+      ":32510847_15_0",
+      ":32510847_16_0",
+      ":32510847_17_0",
+      ":32510847_18_0",
+      ":3673603285_7_0",
+      ":3673603285_8_0",
+      ":5324041442_5_0",
+      ":5324379308_7_0",
+      ":5324379308_8_0",
+      ":548816044_10_0",
+      ":548816044_11_0",
+      ":548816044_8_0",
+      ":548816044_9_0",
+      ":548816044_9_1",
+      ":710397156_10_0",
+      ":710397156_11_0",
+      ":710397156_12_0",
+      ":710397156_9_0",
+      ":7580912661_9_0",
+      ":7709833318_8_0",
+      ":7709833318_8_1",
+      ":7709833318_9_0",
+      ":7709833318_9_1",
+      ":7900688747_14_0",
+      ":7900688747_14_1",
+      ":7900688747_15_0",
+      ":7900688747_16_0",
+      ":7900688747_17_0",
+      ":7900688747_18_0",
+      ":7900688747_19_0",
+      ":8466226874_6_0",
+      ":9844196555_2_0",
+      ":LSA104_part0_28_0",
+      ":LSA104_part0_29_0",
+      ":LSA104_part0_30_0",
+      ":LSA104_part0_30_1",
+      ":LSA104_part0_31_0",
+      ":LSA104_part0_32_0",
+      ":LSA104_part0_33_0",
+      ":LSA104_part0_34_0",
+      ":LSA104_part0_35_0",
+      ":LSA118_part0_45_0",
+      ":LSA118_part0_46_0",
+      ":LSA118_part0_47_0",
+      ":LSA118_part0_47_1",
+      ":LSA118_part0_47_2",
+      ":LSA118_part0_47_3",
+      ":LSA118_part0_48_0",
+      ":LSA118_part0_48_1",
+      ":LSA118_part0_48_2",
+      ":LSA118_part0_49_0",
+      ":LSA118_part0_50_0",
+      ":LSA118_part0_50_1",
+      ":LSA119_part0_21_0",
+      ":LSA119_part0_22_0",
+      ":LSA119_part0_23_0",
+      ":LSA119_part0_24_0",
+      ":LSA200_part0_31_0",
+      ":LSA200_part0_32_0",
+      ":LSA200_part0_33_0",
+      ":LSA200_part0_34_0",
+      ":LSA535_part0_28_0",
+      ":LSA535_part0_28_1",
+      ":LSA535_part0_29_0",
+      ":LSA535_part0_30_0",
+      ":LSA535_part0_31_0",
+      ":LSA535_part0_31_1",
+      ":LSA535_part0_32_0",
+      ":LSA535_part0_32_1",
+      ":LSA535_part0_33_0",
+      ":LSA535_part0_34_0",
+      ":LSA535_part0_34_1",
+      "LSA104_part0",
+      "LSA118_part0",
+      "LSA118_part1",
+      "LSA119_part0",
+      "LSA200_part0",
+      "LSA200_part1",
+      "LSA200_part2",
+      "LSA200_part3",
+      "LSA535_part0",
+      "torii-merge-104-0-2"
+    ],
+    "mutable_edge_ids": [
+      "-1043781613",
+      "-1189704921",
+      "-1462174529#0",
+      "-1462174529#1",
+      "-1462174530",
+      "-1563483961",
+      "-219999179",
+      "-22791190",
+      "-23489785",
+      "-251397516",
+      "-25218459",
+      "-252843137#0",
+      "-252843137#1",
+      "-2956270",
+      "-321703980#3",
+      "-340675955",
+      "-340675956#0",
+      "-340675956#1",
+      "-340675956#2",
+      "-43478106#1",
+      "-43546327",
+      "-457053578",
+      "-457963489",
+      "-457963490",
+      "-4935466#0",
+      "-4935468#2",
+      "-50831791",
+      "-5212898",
+      "-543550497#2",
+      "-56754916",
+      "-56754917",
+      "-660916748#0",
+      "-660916748#1",
+      "-660916748#2",
+      "-722793861",
+      "-722793862",
+      "-75459561",
+      "-75459586",
+      "-762006452",
+      "-810826331",
+      "-941838120#0",
+      "-941838120#1",
+      "-941838120#2",
+      "1043781613",
+      "1072525532",
+      "1073054122#0",
+      "1108564793",
+      "1108564797",
+      "1108564798#0",
+      "1108564798#1",
+      "1164252356",
+      "1189704921",
+      "1345107183#0",
+      "1345107183#1",
+      "1360406653",
+      "142692911",
+      "1462174529#0",
+      "1462174529#1",
+      "1462174530",
+      "1491809365",
+      "1563483961",
+      "186713401",
+      "186713419#0",
+      "186713419#1",
+      "186713419#2",
+      "199239121#0",
+      "199239121#1",
+      "199799715",
+      "219999179",
+      "22125651",
+      "22791190",
+      "23866766#0",
+      "251397514",
+      "251397516",
+      "25218459",
+      "252843137#0",
+      "252843137#1",
+      "27470423#0",
+      "284139902",
+      "28665128#2",
+      "28665128#3",
+      "2956270",
+      "321703980#2",
+      "321703980#3",
+      "340675955",
+      "340675956#0",
+      "340675956#1",
+      "340675956#2",
+      "361572881",
+      "381750335",
+      "40016242#0",
+      "40016242#1",
+      "41676176",
+      "43478106#1",
+      "43546327",
+      "457053578",
+      "480873119",
+      "4917574#1",
+      "4935466#0",
+      "4935468#0",
+      "4935468#1",
+      "4935468#2",
+      "50831791",
+      "51200772",
+      "5212898",
+      "543550497#0",
+      "543550497#1",
+      "543550497#2",
+      "56754916",
+      "660916748#0",
+      "660916748#1",
+      "660916748#2",
+      "722791971",
+      "722793862",
+      "75459561",
+      "75459586",
+      "762006452",
+      "810826331",
+      "8286112#0",
+      "8286112#1",
+      "941838120#0",
+      "941838120#1",
+      "941838120#2",
+      "963590219"
+    ],
+    "ordinary_lane_attribute_changes": {
+      "shape": 32,
+      "length": 0,
+      "width": 0
+    },
+    "max_lane_endpoint_offset_xy_m": 27.223287559180644,
+    "max_geometric_lane_length_change_xy_m": 27.223287558533286,
+    "max_lane_endpoint_offset_xyz_m": 27.223287559180644,
+    "max_geometric_lane_length_change_xyz_m": 27.223287558533286,
+    "outside_lane_count_with_shape_changes": 32,
+    "shape_displacement_metric": "xy_hausdorff",
+    "outside_lane_count_moved_over_0_01_m": 21,
+    "max_outside_lane_shape_displacement_xy_m": 27.223287559180644,
+    "fixed_boundary_failures": [],
+    "boundary_edge_map": {},
+    "outside_scope_geometry": {
+      "lanes": {
+        "missing": [],
+        "added": [],
+        "changed": [
+          "-1108556913_0",
+          "-139083714#1_0",
+          "-27470423#1_0",
+          "1108556913_0",
+          "1108556913_1",
+          "1108556913_2",
+          "1108556913_3",
+          "1164252355_0",
+          "1164252355_1",
+          "1164252355_2",
+          "1265093941_1",
+          "1373419478_1",
+          "186282281_0",
+          "186282281_1",
+          "186282281_2",
+          "186713418#0_1",
+          "199239119_3",
+          "23866766#1_0",
+          "25866659#2_0",
+          "25866659#2_1",
+          "31050638#2_0",
+          "37693933#1_0",
+          "37693933#1_1",
+          "37693933#1_2",
+          "37693933#1_3",
+          "51200771_2",
+          "551303411#0_2",
+          "551303411#0_3",
+          "551319336_2",
+          "606141103#1_0",
+          "73474895_0",
+          "983227468#1_1"
+        ]
+      },
+      "junctions": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      },
+      "edges": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      }
+    }
+  },
+  "signal_program_changes": {
+    "status": "blocked",
+    "source_signature": {
+      "13879893": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGgrrrrGggrG"
+          },
+          {
+            "duration": "5",
+            "state": "GGgrrrrGggrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrryyyrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrgGGGrrrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrgGGGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1561370987": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GgGgrrrrrgGGgrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GgGgrrrrrgGGgrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrggggGrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrggggGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyyyrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1562406613": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "Grrr"
+          },
+          {
+            "duration": "3",
+            "state": "yrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rGGG"
+          },
+          {
+            "duration": "3",
+            "state": "ryyy"
+          }
+        ],
+        "params": []
+      },
+      "1564056277": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "1564056280": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "18653534": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "18653570": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrgGgGgGggGrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrgGgGgGggrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyyyyyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gggGrrrrrrrrrGG"
+          },
+          {
+            "duration": "5",
+            "state": "gggGrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1966837175": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1975693623": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "63",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": "5",
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": "6",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "205068090": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rryy"
+          }
+        ],
+        "params": []
+      },
+      "205068512": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gGgGrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "gGgGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGggGrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrGggrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyrrrr"
+          }
+        ],
+        "params": []
+      },
+      "205069138": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyyr"
+          }
+        ],
+        "params": []
+      },
+      "205069905": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGgGrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrGGgrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gGrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "gGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "244203524": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "244203525": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rryyy"
+          }
+        ],
+        "params": []
+      },
+      "244203534": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrr"
+          }
+        ],
+        "params": []
+      },
+      "244203536": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "258684376": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "264996267": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "266197525": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "27",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyy"
+          },
+          {
+            "duration": "27",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyrrr"
+          },
+          {
+            "duration": "27",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "266197536": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryy"
+          }
+        ],
+        "params": []
+      },
+      "297641708": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "297641711": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "315029332": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGgrrrrrGGGgrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrgggggrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrgggggrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyyyrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "32206478": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "72",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gGgGGgGGggrrG"
+          },
+          {
+            "duration": "5",
+            "state": "gGgGGgGGggrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyyyyyrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "32206482": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrG"
+          },
+          {
+            "duration": "5",
+            "state": "GGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyr"
+          }
+        ],
+        "params": []
+      },
+      "32509935": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GgGgrrrrgGgrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GgGgrrrrgGgrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrryyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrgggGrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrgggGrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyyrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "343633360": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "3479240233": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "3479240327": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "3479240438": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "3479240441": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "77",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "10",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "3673603285": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": "8",
+            "state": "gggGGGGr"
+          }
+        ],
+        "params": []
+      },
+      "4031208903": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "433301165": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "4532610442": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "77",
+            "maxDur": "50",
+            "minDur": "5",
+            "next": "0 1",
+            "state": "gGgGr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrr"
+          }
+        ],
+        "params": []
+      },
+      "5324041447": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "77",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "10",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "5324041448": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "5324041449": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "548816044": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrGgGGgGrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrGgGGgrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gggrrrrrrGG"
+          },
+          {
+            "duration": "5",
+            "state": "gggrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "611615351": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "6390683111": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "6390683112": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "ggGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "6390683113": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "6390683114": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "6390683115": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "6390683126": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "G"
+          },
+          {
+            "duration": "3",
+            "state": "y"
+          },
+          {
+            "duration": "5",
+            "state": "r"
+          }
+        ],
+        "params": []
+      },
+      "7709833318": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "32",
+            "state": "GGrrrGgGrrrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GGrrrGgGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrryyyrrrrr"
+          },
+          {
+            "duration": "32",
+            "state": "rrGggrrrGrGrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrGggrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyrrrrrrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrGGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "7900688747": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrGGgGgGGggrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyyyyyyyrrr"
+          },
+          {
+            "duration": "32",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGggGrrrrrrrrrrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GGggGrrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrrrrrrrrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "8913236635": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyy"
+          }
+        ],
+        "params": []
+      },
+      "9844196556": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "G"
+          },
+          {
+            "duration": "3",
+            "state": "y"
+          },
+          {
+            "duration": "5",
+            "state": "r"
+          }
+        ],
+        "params": []
+      },
+      "9844196560": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "GS_1561539020": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyy"
+          }
+        ],
+        "params": []
+      },
+      "GS_1561539025": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrGGGr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyr"
+          }
+        ],
+        "params": []
+      },
+      "GS_1561539027": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "GGyyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "GGrryy"
+          }
+        ],
+        "params": []
+      },
+      "GS_205068087": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "ggGrrrrrrGr"
+          },
+          {
+            "duration": "5",
+            "state": "ggGrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrrrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrgGGGGGrG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrgGGGGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyyyrr"
+          }
+        ],
+        "params": []
+      },
+      "GS_257590811": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrrrG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrG"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyG"
+          }
+        ],
+        "params": []
+      },
+      "GS_26084079": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrryy"
+          }
+        ],
+        "params": []
+      },
+      "GS_266199063": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyy"
+          }
+        ],
+        "params": []
+      },
+      "LSA104_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "state": "GGgGGggrrrrrrrrrrrGggggGGGgg"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyyrrrrrrrrrrrGyyygyyyyy"
+          },
+          {
+            "duration": "42",
+            "state": "rrrrrrrGGGGggggGGGGrrrgrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrryyyyyyyyyyyGrrrgrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA118_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "15",
+            "state": "rrrrrrrrrrrrrrrrrrrrrGGGGggggrrrrrrrGGGGGGggg"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrrrrrrrrrrrrrrGyyyyyyyrrrrrrryyyyyyyyy"
+          },
+          {
+            "duration": "15",
+            "state": "GGrrrrrrrrrrrrrrrrrrgGrrrrrrrGggggGGrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "GGrrrrrrrrrrrrrrrrrrgGrrrrrrryyyyyyyrrrrrrrrr"
+          },
+          {
+            "duration": "15",
+            "state": "GGGGGGrrrrrrrrrrrrrrgGrrrrrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyrrrrrrrrrrrrrrgGrrrrrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "15",
+            "state": "rrrrrrGGGGGGgGrrrrrrgGrrrrrrrrrrrrrrGGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrryyyyyyyGrrrrrrgGrrrrrrrrrrrrrrGGrrrrrrr"
+          },
+          {
+            "duration": "15",
+            "state": "rrrrrrrrrrrrrGGGGGGGgGrrrrrrrrrrrrrrGGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrrrrrryyyyyyyyGrrrrrrrrrrrrrrGGrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA118_part1": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA119_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "24",
+            "state": "rrrrrrGGrrrrGGGGrggrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrryyrrrryyGGrggrr"
+          },
+          {
+            "duration": "4",
+            "state": "rrrrrrrrrrrrrrGGrggrr"
+          },
+          {
+            "duration": "24",
+            "state": "GGrrrrrrrrrrrrGGggggG"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrrrrrrrryyyyyyy"
+          },
+          {
+            "duration": "1",
+            "state": "rrrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "24",
+            "state": "rrGGGGGGggggrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyyyyggggrrrrrrrrr"
+          },
+          {
+            "duration": "6",
+            "state": "rrrrrrrrGgGGrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrryyyyrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "18",
+            "state": "rrrGgGGgrrrrrrrrrrrrrGGgGGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyyrrrrrrrrrrrrryyyyyyyrrr"
+          },
+          {
+            "duration": "20",
+            "state": "GGrrrrrrGGGGGrrrrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "GGrrrrrryyyyyrrrrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "20",
+            "state": "GGrrrrrrrrrrrGGGrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrrrrrrryyyrrrrrrrrrrrryyy"
+          },
+          {
+            "duration": "20",
+            "state": "rrGrrrrrrrrrrrrrGGgGgGrGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryrrrrrrrrrrrrryyyyyGryrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part1": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part2": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part3": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "state": "GGGGGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrr"
+          },
+          {
+            "duration": "42",
+            "state": "rrrrrGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyy"
+          }
+        ],
+        "params": []
+      },
+      "LSA535_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "33",
+            "state": "rrrrrrrrrGGGGgggrrrrrGGgGGgg"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrryyyygggrrrrryyyyygg"
+          },
+          {
+            "duration": "6",
+            "state": "rrrrrrrrrrrrrGGGrrrrrrrrrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrrrrrryyyrrrrrrrrrryy"
+          },
+          {
+            "duration": "33",
+            "state": "gGggGggggrrrrrrrGGGGGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "gGggGggggrrrrrrryyyyyrrrrrrr"
+          },
+          {
+            "duration": "6",
+            "state": "gGggGgGGGrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyyyyrrrrrrrrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      }
+    },
+    "candidate_signature": {
+      "13879893": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGgrrrrGggrG"
+          },
+          {
+            "duration": "5",
+            "state": "GGgrrrrGggrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrryyyrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrgGGGrrrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrgGGGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1562406613": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "Grrr"
+          },
+          {
+            "duration": "3",
+            "state": "yrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rGGG"
+          },
+          {
+            "duration": "3",
+            "state": "ryyy"
+          }
+        ],
+        "params": []
+      },
+      "1564056277": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "1564056280": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "18653534": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "18653570": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrgGgGgGggGrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrgGgGgGggrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyyyyyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gggGrrrrrrrrrGG"
+          },
+          {
+            "duration": "5",
+            "state": "gggGrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1966837175": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrr"
+          }
+        ],
+        "params": []
+      },
+      "1975693623": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "63",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": "5",
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": "6",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "205068090": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rryy"
+          }
+        ],
+        "params": []
+      },
+      "205068512": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gGgGrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "gGgGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGggGrGr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrGggrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyrrrr"
+          }
+        ],
+        "params": []
+      },
+      "205069138": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyyr"
+          }
+        ],
+        "params": []
+      },
+      "244203524": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "244203525": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rryyy"
+          }
+        ],
+        "params": []
+      },
+      "244203534": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrr"
+          }
+        ],
+        "params": []
+      },
+      "244203536": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "264996267": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "266197525": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "27",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyy"
+          },
+          {
+            "duration": "27",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyrrr"
+          },
+          {
+            "duration": "27",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "266197536": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryy"
+          }
+        ],
+        "params": []
+      },
+      "315029332": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGgrrrrrGGGgrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrgggggrrrrGrG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrgggggrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyyyrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "32206478": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "72",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gGgGGgGGggrrG"
+          },
+          {
+            "duration": "5",
+            "state": "gGgGGgGGggrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyyyyyrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "32206482": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrG"
+          },
+          {
+            "duration": "5",
+            "state": "GGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyr"
+          }
+        ],
+        "params": []
+      },
+      "3479240233": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "3479240438": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "3479240441": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "77",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "10",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "3673603285": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": "8",
+            "state": "gggGGGGr"
+          }
+        ],
+        "params": []
+      },
+      "4031208903": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "5324041448": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "5324041449": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "6390683114": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrr"
+          }
+        ],
+        "params": []
+      },
+      "6390683115": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "6390683126": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "G"
+          },
+          {
+            "duration": "3",
+            "state": "y"
+          },
+          {
+            "duration": "5",
+            "state": "r"
+          }
+        ],
+        "params": []
+      },
+      "7709833318": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "32",
+            "state": "GGrrrGgGrrrGr"
+          },
+          {
+            "duration": "5",
+            "state": "GGrrrGgGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrryyyrrrrr"
+          },
+          {
+            "duration": "32",
+            "state": "rrGggrrrGrGrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrGggrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyrrrrrrrr"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrGGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "8913236635": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyy"
+          }
+        ],
+        "params": []
+      },
+      "9844196560": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "GS_1561539020": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyy"
+          }
+        ],
+        "params": []
+      },
+      "GS_1561539025": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": "37",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrGGGG"
+          },
+          {
+            "duration": "5",
+            "state": "rrrGGGr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyr"
+          }
+        ],
+        "params": []
+      },
+      "GS_1561539027": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "GGyyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "GGrryy"
+          }
+        ],
+        "params": []
+      },
+      "GS_205068087": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "ggGrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrrrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyy"
+          }
+        ],
+        "params": []
+      },
+      "GS_257590811": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGGrrrG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyrrrG"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrrGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrryyyG"
+          }
+        ],
+        "params": []
+      },
+      "GS_26084079": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGGrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrryy"
+          }
+        ],
+        "params": []
+      },
+      "GS_266199063": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "actuated"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "GGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrr"
+          },
+          {
+            "duration": "42",
+            "maxDur": "50",
+            "minDur": "5",
+            "state": "rrGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyy"
+          }
+        ],
+        "params": []
+      },
+      "LSA104_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "state": "GGgGGggrrrrrrrrrrrGggggGGGgg"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyyrrrrrrrrrrrGyyygyyyyy"
+          },
+          {
+            "duration": "42",
+            "state": "rrrrrrrGGGGggggGGGGrrrgrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrryyyyyyyyyyyGrrrgrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA118_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "15",
+            "state": "rrrrrrrrrrrrrrrrrrrrrGGGGggggrrrrrrrGGGGGGggg"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrrrrrrrrrrrrrrGyyyyyyyrrrrrrryyyyyyyyy"
+          },
+          {
+            "duration": "15",
+            "state": "GGrrrrrrrrrrrrrrrrrrgGrrrrrrrGggggGGrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "GGrrrrrrrrrrrrrrrrrrgGrrrrrrryyyyyyyrrrrrrrrr"
+          },
+          {
+            "duration": "15",
+            "state": "GGGGGGrrrrrrrrrrrrrrgGrrrrrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyrrrrrrrrrrrrrrgGrrrrrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "15",
+            "state": "rrrrrrGGGGGGgGrrrrrrgGrrrrrrrrrrrrrrGGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrryyyyyyyGrrrrrrgGrrrrrrrrrrrrrrGGrrrrrrr"
+          },
+          {
+            "duration": "15",
+            "state": "rrrrrrrrrrrrrGGGGGGGgGrrrrrrrrrrrrrrGGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrrrrrryyyyyyyyGrrrrrrrrrrrrrrGGrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA118_part1": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "state": "GGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyyy"
+          },
+          {
+            "duration": "5",
+            "state": "rrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA119_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "24",
+            "state": "rrrrrrGGrrrrGGGGrggrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrryyrrrryyGGrggrr"
+          },
+          {
+            "duration": "4",
+            "state": "rrrrrrrrrrrrrrGGrggrr"
+          },
+          {
+            "duration": "24",
+            "state": "GGrrrrrrrrrrrrGGggggG"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrrrrrrrryyyyyyy"
+          },
+          {
+            "duration": "1",
+            "state": "rrrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "24",
+            "state": "rrGGGGGGggggrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryyyyyyggggrrrrrrrrr"
+          },
+          {
+            "duration": "6",
+            "state": "rrrrrrrrGgGGrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrryyyyrrrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "18",
+            "state": "rrrGgGGgrrrrrrrrrrrrrGGgGGGGrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rrryyyyyrrrrrrrrrrrrryyyyyyyrrr"
+          },
+          {
+            "duration": "20",
+            "state": "GGrrrrrrGGGGGrrrrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "GGrrrrrryyyyyrrrrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "20",
+            "state": "GGrrrrrrrrrrrGGGrrrrrrrrrrrrGGG"
+          },
+          {
+            "duration": "3",
+            "state": "yyrrrrrrrrrrryyyrrrrrrrrrrrryyy"
+          },
+          {
+            "duration": "20",
+            "state": "rrGrrrrrrrrrrrrrGGgGgGrGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "rryrrrrrrrrrrrrryyyyyGryrrrrrrr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part1": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part2": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "82",
+            "state": "GG"
+          },
+          {
+            "duration": "3",
+            "state": "yy"
+          },
+          {
+            "duration": "5",
+            "state": "rr"
+          }
+        ],
+        "params": []
+      },
+      "LSA200_part3": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "42",
+            "state": "GGGGGrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyrrrr"
+          },
+          {
+            "duration": "42",
+            "state": "rrrrrGGGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrryyyy"
+          }
+        ],
+        "params": []
+      },
+      "LSA535_part0": {
+        "attributes": {
+          "offset": "0",
+          "programID": "0",
+          "type": "static"
+        },
+        "phases": [
+          {
+            "duration": "33",
+            "state": "rrrrrrrrrGGGGgggrrrrrGGgGGgg"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrryyyygggrrrrryyyyygg"
+          },
+          {
+            "duration": "6",
+            "state": "rrrrrrrrrrrrrGGGrrrrrrrrrrGG"
+          },
+          {
+            "duration": "3",
+            "state": "rrrrrrrrrrrrryyyrrrrrrrrrryy"
+          },
+          {
+            "duration": "33",
+            "state": "gGggGggggrrrrrrrGGGGGrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "gGggGggggrrrrrrryyyyyrrrrrrr"
+          },
+          {
+            "duration": "6",
+            "state": "gGggGgGGGrrrrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": "3",
+            "state": "yyyyyyyyyrrrrrrrrrrrrrrrrrrr"
+          }
+        ],
+        "params": []
+      }
+    },
+    "differences": {
+      "1561370987": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GgGgrrrrrgGGgrGr"
+            },
+            {
+              "duration": "5",
+              "state": "GgGgrrrrrgGGgrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyrrrrryyyyrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrrggggGrrrrGrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrggggGrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrrryyyyyrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "205069905": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrGGgGrGr"
+            },
+            {
+              "duration": "5",
+              "state": "rrGGgrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rryyyrrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "gGrrrrGrG"
+            },
+            {
+              "duration": "5",
+              "state": "gGrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "258684376": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GG"
+            },
+            {
+              "duration": "3",
+              "state": "yy"
+            },
+            {
+              "duration": "5",
+              "state": "rr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "297641708": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "297641711": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "32509935": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GgGgrrrrgGgrGr"
+            },
+            {
+              "duration": "5",
+              "state": "GgGgrrrrgGgrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyrrrryyyrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrrgggGrrrGrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrgggGrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrrryyyyrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "343633360": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "3479240327": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "433301165": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "4532610442": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "77",
+              "maxDur": "50",
+              "minDur": "5",
+              "next": "0 1",
+              "state": "gGgGr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyr"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "5324041447": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "77",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GG"
+            },
+            {
+              "duration": "3",
+              "state": "yy"
+            },
+            {
+              "duration": "10",
+              "state": "rr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "548816044": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrGgGGgGrr"
+            },
+            {
+              "duration": "5",
+              "state": "rrrGgGGgrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrryyyyyrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "gggrrrrrrGG"
+            },
+            {
+              "duration": "5",
+              "state": "gggrrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyrrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "611615351": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "6390683111": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "6390683112": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "ggGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "6390683113": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "7900688747": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrrrGGgGgGGggrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrrrryyyyyyyyyrrr"
+            },
+            {
+              "duration": "32",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGggGrrrrrrrrrrGr"
+            },
+            {
+              "duration": "5",
+              "state": "GGggGrrrrrrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyyrrrrrrrrrrrr"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrrrrrrrrrrrGGG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrrrrrrrrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "9844196556": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "G"
+            },
+            {
+              "duration": "3",
+              "state": "y"
+            },
+            {
+              "duration": "5",
+              "state": "r"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "GS_205068087": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "ggGrrrrrrGr"
+            },
+            {
+              "duration": "5",
+              "state": "ggGrrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyrrrrrrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrgGGGGGrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrgGGGGGrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrryyyyyyrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "42",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "ggGrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyrrrrr"
+            },
+            {
+              "duration": "42",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrgGGGG"
+            },
+            {
+              "duration": "3",
+              "state": "rrryyyyy"
+            }
+          ],
+          "params": []
+        }
+      }
+    },
+    "accepted_changes": {},
+    "unexpected_changes": {
+      "1561370987": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GgGgrrrrrgGGgrGr"
+            },
+            {
+              "duration": "5",
+              "state": "GgGgrrrrrgGGgrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyrrrrryyyyrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrrggggGrrrrGrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrggggGrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrrryyyyyrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "205069905": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrGGgGrGr"
+            },
+            {
+              "duration": "5",
+              "state": "rrGGgrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rryyyrrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "gGrrrrGrG"
+            },
+            {
+              "duration": "5",
+              "state": "gGrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "258684376": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GG"
+            },
+            {
+              "duration": "3",
+              "state": "yy"
+            },
+            {
+              "duration": "5",
+              "state": "rr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "297641708": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "297641711": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "32509935": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GgGgrrrrgGgrGr"
+            },
+            {
+              "duration": "5",
+              "state": "GgGgrrrrgGgrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyrrrryyyrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrrgggGrrrGrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrgggGrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrrryyyyrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "343633360": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "3479240327": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "433301165": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "4532610442": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "77",
+              "maxDur": "50",
+              "minDur": "5",
+              "next": "0 1",
+              "state": "gGgGr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyr"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "5324041447": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "77",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GG"
+            },
+            {
+              "duration": "3",
+              "state": "yy"
+            },
+            {
+              "duration": "10",
+              "state": "rr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "548816044": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrGgGGgGrr"
+            },
+            {
+              "duration": "5",
+              "state": "rrrGgGGgrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrryyyyyrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "gggrrrrrrGG"
+            },
+            {
+              "duration": "5",
+              "state": "gggrrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyrrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "611615351": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "6390683111": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "6390683112": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "ggGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "6390683113": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGG"
+            },
+            {
+              "duration": "3",
+              "state": "yyy"
+            },
+            {
+              "duration": "5",
+              "state": "rrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "7900688747": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrrrGGgGgGGggrrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrrrryyyyyyyyyrrr"
+            },
+            {
+              "duration": "32",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "GGggGrrrrrrrrrrGr"
+            },
+            {
+              "duration": "5",
+              "state": "GGggGrrrrrrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyyyrrrrrrrrrrrr"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrrrrrrrrrrrGGG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrrrrrrrrrrrrrrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "9844196556": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "82",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "G"
+            },
+            {
+              "duration": "3",
+              "state": "y"
+            },
+            {
+              "duration": "5",
+              "state": "r"
+            }
+          ],
+          "params": []
+        },
+        "candidate": null
+      },
+      "GS_205068087": {
+        "source": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "ggGrrrrrrGr"
+            },
+            {
+              "duration": "5",
+              "state": "ggGrrrrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyrrrrrrrr"
+            },
+            {
+              "duration": "37",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrgGGGGGrG"
+            },
+            {
+              "duration": "5",
+              "state": "rrrgGGGGGrr"
+            },
+            {
+              "duration": "3",
+              "state": "rrryyyyyyrr"
+            }
+          ],
+          "params": []
+        },
+        "candidate": {
+          "attributes": {
+            "offset": "0",
+            "programID": "0",
+            "type": "actuated"
+          },
+          "phases": [
+            {
+              "duration": "42",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "ggGrrrrr"
+            },
+            {
+              "duration": "3",
+              "state": "yyyrrrrr"
+            },
+            {
+              "duration": "42",
+              "maxDur": "50",
+              "minDur": "5",
+              "state": "rrrgGGGG"
+            },
+            {
+              "duration": "3",
+              "state": "rrryyyyy"
+            }
+          ],
+          "params": []
+        }
+      }
+    }
+  },
+  "signal_scope_changes": {
+    "removed_with_junction": [
+      "1561370987",
+      "258684376",
+      "297641708",
+      "297641711",
+      "32509935",
+      "343633360",
+      "3479240327",
+      "433301165",
+      "4532610442",
+      "5324041447",
+      "548816044",
+      "611615351",
+      "6390683111",
+      "6390683112",
+      "6390683113",
+      "7900688747",
+      "9844196556"
+    ],
+    "removed_at_dead_end": [
+      "205069905"
+    ],
+    "changed_retained": [
+      "GS_205068087"
+    ],
+    "added": [],
+    "removed_at_retained_junction": [],
+    "unresolved_removed_owner": []
+  },
+  "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v3\\report.json",
+  "source_unchanged": true
+}

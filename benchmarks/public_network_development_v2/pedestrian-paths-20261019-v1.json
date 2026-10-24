@@ -1,0 +1,516 @@
+{
+  "node_id": "133544",
+  "facility_identity_fix_commit": "af18eabd572b2f2b43b2637547ccfab11823ebcd",
+  "facility_semantics_fix_commit": "1974a6d",
+  "native_probe_producer_commit": null,
+  "producer_limit": "The exploratory runners did not capture a producer commit.",
+  "claim": "Native model diagnostics and selected regressions. No automatic layout acceptance or field-performance claim.",
+  "walking_probe": {
+    "source_positions": {
+      "-152902#0": 0.5,
+      "-152902#1": 26.2,
+      "152902#0": 103.21,
+      "152902#1": 0.5,
+      "153210#0": 0.5
+    },
+    "source_lanes": {
+      "-152902#0": "-152902#0_0",
+      "-152902#1": "-152902#1_0",
+      "152902#0": "152902#0_0",
+      "152902#1": "152902#1_0",
+      "153210#0": "153210#0_0"
+    },
+    "fixed_requests": {
+      "walk.0": {
+        "from": "-152902#0",
+        "to": "-152902#1",
+        "edges": [
+          "-152902#0",
+          "-152902#1"
+        ]
+      },
+      "walk.1": {
+        "from": "-152902#0",
+        "to": "152902#0",
+        "edges": [
+          "-152902#0",
+          "152902#0"
+        ]
+      },
+      "walk.2": {
+        "from": "-152902#0",
+        "to": "152902#1",
+        "edges": [
+          "-152902#0",
+          "152902#1"
+        ]
+      },
+      "walk.3": {
+        "from": "-152902#0",
+        "to": "153210#0",
+        "edges": [
+          "-152902#0",
+          "153210#0"
+        ]
+      },
+      "walk.4": {
+        "from": "-152902#1",
+        "to": "-152902#0",
+        "edges": [
+          "-152902#1",
+          "-152902#0"
+        ]
+      },
+      "walk.5": {
+        "from": "-152902#1",
+        "to": "152902#0",
+        "edges": [
+          "-152902#1",
+          "152902#0"
+        ]
+      },
+      "walk.6": {
+        "from": "-152902#1",
+        "to": "152902#1",
+        "edges": [
+          "-152902#1",
+          "152902#1"
+        ]
+      },
+      "walk.7": {
+        "from": "-152902#1",
+        "to": "153210#0",
+        "edges": [
+          "-152902#1",
+          "153210#0"
+        ]
+      },
+      "walk.8": {
+        "from": "152902#0",
+        "to": "-152902#0",
+        "edges": [
+          "152902#0",
+          "-152902#0"
+        ]
+      },
+      "walk.9": {
+        "from": "152902#0",
+        "to": "-152902#1",
+        "edges": [
+          "152902#0",
+          "-152902#1"
+        ]
+      },
+      "walk.10": {
+        "from": "152902#0",
+        "to": "152902#1",
+        "edges": [
+          "152902#0",
+          "152902#1"
+        ]
+      },
+      "walk.11": {
+        "from": "152902#0",
+        "to": "153210#0",
+        "edges": [
+          "152902#0",
+          "153210#0"
+        ]
+      },
+      "walk.12": {
+        "from": "152902#1",
+        "to": "-152902#0",
+        "edges": [
+          "152902#1",
+          "-152902#0"
+        ]
+      },
+      "walk.13": {
+        "from": "152902#1",
+        "to": "-152902#1",
+        "edges": [
+          "152902#1",
+          "-152902#1"
+        ]
+      },
+      "walk.14": {
+        "from": "152902#1",
+        "to": "152902#0",
+        "edges": [
+          "152902#1",
+          "152902#0"
+        ]
+      },
+      "walk.15": {
+        "from": "152902#1",
+        "to": "153210#0",
+        "edges": [
+          "152902#1",
+          "153210#0"
+        ]
+      },
+      "walk.16": {
+        "from": "153210#0",
+        "to": "-152902#0",
+        "edges": [
+          "153210#0",
+          "-152902#0"
+        ]
+      },
+      "walk.17": {
+        "from": "153210#0",
+        "to": "-152902#1",
+        "edges": [
+          "153210#0",
+          "-152902#1"
+        ]
+      },
+      "walk.18": {
+        "from": "153210#0",
+        "to": "152902#0",
+        "edges": [
+          "153210#0",
+          "152902#0"
+        ]
+      },
+      "walk.19": {
+        "from": "153210#0",
+        "to": "152902#1",
+        "edges": [
+          "153210#0",
+          "152902#1"
+        ]
+      }
+    },
+    "inputs": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.net.xml": "53ee4a45b65463eba9c722feff03a828917ddaeb56a40cc1a82e8ccf8e242702",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\edit\\candidate.net.xml": "84051c7cb93233224556cf1e20f3354ff8fdb032903fed671a364f60f95b523a",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\ledger\\corridor_edit_ledger.json": "15609a8c793e9d37c670eaf8bba3b79c11f22fb9d05e8665ca664c6d39649939",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\walking-completion\\source-frozen.people.rou.xml": "1304f293a7e9b943637ded859b90f5503942f1487a8df3b0366a5c080cd65b58"
+    },
+    "inputs_unchanged": true,
+    "requested_pairs": 20,
+    "explicit_directed_pairs": 5,
+    "additional_native_pairs": 15,
+    "scenario": {
+      "end_s": 600,
+      "seed": 0,
+      "model": "striping",
+      "dawdling": 0,
+      "pedestrian_max_speed_m_s": 1,
+      "departures": "One person per second at 0 through 19",
+      "cars": 0,
+      "fcd_coordinate_decimals": 2
+    },
+    "networks": {
+      "source": {
+        "native_version": [
+          22,
+          "SUMO 1.27.1"
+        ],
+        "network_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "completion_status": "all_completed",
+        "arrived": 20,
+        "final_summary": {
+          "time": "599.00",
+          "loaded": "20",
+          "inserted": "20",
+          "walking": "0",
+          "waitingForRide": "0",
+          "riding": "0",
+          "stopping": "0",
+          "jammed": "0",
+          "ended": "20",
+          "arrived": "20",
+          "teleports": "0",
+          "discarded": "0",
+          "duration": "0"
+        },
+        "recorded_people": 20,
+        "missing_fcd_people": [],
+        "unexpected_fcd_people": [],
+        "outside_scope_edges_by_person": {},
+        "without_local_internal_edge": [],
+        "fcd_sha256": "ebc7f9fd2cb0f4bc88287c7757c301ddb10aa1d0042fbee98ffade936463d05f"
+      },
+      "control": {
+        "native_version": [
+          22,
+          "SUMO 1.27.1"
+        ],
+        "network_sha256": "53ee4a45b65463eba9c722feff03a828917ddaeb56a40cc1a82e8ccf8e242702",
+        "completion_status": "all_completed",
+        "arrived": 20,
+        "final_summary": {
+          "time": "599.00",
+          "loaded": "20",
+          "inserted": "20",
+          "walking": "0",
+          "waitingForRide": "0",
+          "riding": "0",
+          "stopping": "0",
+          "jammed": "0",
+          "ended": "20",
+          "arrived": "20",
+          "teleports": "0",
+          "discarded": "0",
+          "duration": "0"
+        },
+        "recorded_people": 20,
+        "missing_fcd_people": [],
+        "unexpected_fcd_people": [],
+        "outside_scope_edges_by_person": {},
+        "without_local_internal_edge": [],
+        "fcd_sha256": "ff56da4efde55eaf4ec8a4cad7b7d9eb04c823660aaee734f494256967e36289"
+      },
+      "candidate": {
+        "native_version": [
+          22,
+          "SUMO 1.27.1"
+        ],
+        "network_sha256": "84051c7cb93233224556cf1e20f3354ff8fdb032903fed671a364f60f95b523a",
+        "completion_status": "all_completed",
+        "arrived": 20,
+        "final_summary": {
+          "time": "599.00",
+          "loaded": "20",
+          "inserted": "20",
+          "walking": "0",
+          "waitingForRide": "0",
+          "riding": "0",
+          "stopping": "0",
+          "jammed": "0",
+          "ended": "20",
+          "arrived": "20",
+          "teleports": "0",
+          "discarded": "0",
+          "duration": "0"
+        },
+        "recorded_people": 20,
+        "missing_fcd_people": [],
+        "unexpected_fcd_people": [],
+        "outside_scope_edges_by_person": {},
+        "without_local_internal_edge": [],
+        "fcd_sha256": "55b27c2c8e1a666c1d429f8c7fa3da022b452fbab0766b2bfa7f896436b56f76"
+      }
+    },
+    "changed_source_control_edge_sequences": [
+      "walk.18",
+      "walk.7"
+    ],
+    "changed_control_candidate_edge_sequences": [],
+    "limits": [
+      "One junction, no cars, fixed requests and one seed.",
+      "No automatic layout acceptance, field safety, priority-with-vehicles, or traffic-performance claim.",
+      "Position output is rounded to two decimals; no sub-centimetre trajectory comparison is established."
+    ]
+  },
+  "selected_fold_regression": {
+    "node_id": "140489",
+    "fixture_sha256": "29f4baad8701166ba91d089564bd10fe701f1bda76da712006d37ae6dc4affe0",
+    "tightening_m": 0.5,
+    "identity_control_status": "pass",
+    "applicability_status": "blocked",
+    "requested_geometry_status": "pass",
+    "walking_area_validity": "blocked",
+    "reason": "requested_contour_worsens_walking_areas",
+    "xy_polygons": {
+      "source": {
+        "valid": true,
+        "area_m2": 3.0801000000005,
+        "wkt": "POLYGON ((4296.23 3027.18, 4294.74 3027.36, 4295.03 3029.45, 4296.51 3029.21, 4296.2 3027.24, 4296.23 3027.18))"
+      },
+      "control": {
+        "valid": true,
+        "area_m2": 3.088746257944517,
+        "wkt": "POLYGON ((4296.22597 3027.179744, 4294.73692 3027.360656, 4295.027883 3029.450167, 4296.509708 3029.217367, 4296.199486 3027.243264, 4296.22597 3027.179744))"
+      },
+      "candidate": {
+        "valid": false,
+        "area_m2": 1.6066879105565255,
+        "wkt": "POLYGON ((4296.286275 3027.676094, 4294.797224 3027.857007, 4294.950283 3028.956225, 4296.432108 3028.723425, 4296.121885 3026.749326, 4296.286275 3027.676094))"
+      }
+    },
+    "selection": "Independent review finding; not part of the original fixed three-case cohort."
+  },
+  "prior_cohort_facility_inventory_check": [
+    {
+      "node_id": "132844",
+      "removed": [],
+      "added": [],
+      "changed_facility_or_lane_identity": [],
+      "inputs_unchanged": true,
+      "basis": "Read-only facility-inventory check on prior native artifacts, not a new complete applicability or release run."
+    },
+    {
+      "node_id": "132981",
+      "removed": [],
+      "added": [],
+      "changed_facility_or_lane_identity": [],
+      "inputs_unchanged": true,
+      "basis": "Read-only facility-inventory check on prior native artifacts, not a new complete applicability or release run."
+    },
+    {
+      "node_id": "133544",
+      "removed": [],
+      "added": [],
+      "changed_facility_or_lane_identity": [],
+      "inputs_unchanged": true,
+      "basis": "Read-only facility-inventory check on prior native artifacts, not a new complete applicability or release run."
+    }
+  ],
+  "prior_cohort_facility_semantics_check": [
+    {
+      "node_id": "132844",
+      "removed": [],
+      "added": [],
+      "changed_structure_ids": [],
+      "inputs_unchanged": true,
+      "changed_structures": {},
+      "basis": "Read-only facility semantics check, not a new complete applicability or release run."
+    },
+    {
+      "node_id": "132981",
+      "removed": [],
+      "added": [],
+      "changed_structure_ids": [],
+      "inputs_unchanged": true,
+      "changed_structures": {},
+      "basis": "Read-only facility semantics check, not a new complete applicability or release run."
+    },
+    {
+      "node_id": "133544",
+      "removed": [],
+      "added": [],
+      "changed_structure_ids": [],
+      "inputs_unchanged": true,
+      "changed_structures": {},
+      "basis": "Read-only facility semantics check, not a new complete applicability or release run."
+    }
+  ],
+  "local_tests": {
+    "facility_and_applicability_passed": 24,
+    "real_fold_and_navigation_passed": 8,
+    "final_facility_semantics_and_navigation_passed": 33,
+    "ruff": "pass",
+    "diff_check": "pass"
+  },
+  "retained_runner_failure": {
+    "log": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\reproduce-folded-area.log",
+    "reason": "The initial runner passed a string where the materializer expects a Path. It failed before native conversion.",
+    "corrected_runner": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\reproduce-folded-area-v2.py"
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\probe.py",
+      "sha256": "3474fe72af83d61dacc74febae7b62c2d74b0e273719f9bc38ba36b2cfa247e3"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\requests.json",
+      "sha256": "60a44749ca3f8f55936cc9b9d2935bf5c52410fd1aee787b770fd1e97069a8ed"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\results.json",
+      "sha256": "de3004e91111bd02753b08ae8e4e59f29bdf5ca8d21c802f3642520ddc19202c"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\complete-walks.py",
+      "sha256": "e566bc63b4cf6548b883d13560a9d46dc2efd4a22a269432f80936b3ca929096"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\walking-completion\\results.json",
+      "sha256": "39beac5bbf175fdb55832850768a4a47757184f2d44e9a2bdd765b92b808964b"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\analyze.py",
+      "sha256": "68e6985684439f0f7779dfe801e13577f961657586ca8b8353f342233494536c"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\analysis.json",
+      "sha256": "478f002126c84795f8afc89c1127e1891ed9b385966173eb5e85ea34e79af6e7"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\reproduce-folded-area-v2.py",
+      "sha256": "d28fb9f46f840a6c15fb4b771ae13fe5b16c7dfc294458afc25e37db06965faa"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\folded-area-reproduction-v2\\results.json",
+      "sha256": "7be6b91f15a6583285766c9d0ebf5b034417be3fee2f0a48acb5d971ee26bdc0"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\cohort-facilities.json",
+      "sha256": "86987513deb1e057076699d77c88d06f65244065c88888f8471749fae7796dc4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\facility-regression.log",
+      "sha256": "af5b00174fb7432e0cfe87dfa7f4f7a1f304828f03b1ed74e41b72acf55ebeff"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\folded-area-regression.log",
+      "sha256": "86cab12cc5e76092a77dfb01a707b1643aa5d82cbc1713f32e8c5855e2b0cd11"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\cohort-facility-semantics.json",
+      "sha256": "afc0aef5769b64d6a11fdd55be32bd6a070f8625b192d365828f0cee949ab6bf"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\check-cohort-semantics.py",
+      "sha256": "3bc5b670e37eead8d262072234bddb8e75c39320265b9c048e376888b5e702b7"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\facility-semantics-regression.log",
+      "sha256": "cdeda49e56c6fb54ec20484bbcde8cdf9b7a1c42139838b46fcd670f27ecb169"
+    }
+  ],
+  "ci": {
+    "b135_test_steps": [
+      {
+        "run_id": 39279910178,
+        "log": "outputs/pedestrian_paths_20261019_v1/ci-b135-pr.log",
+        "skipped": 24,
+        "passed": 3517,
+        "seconds": 679.21
+      },
+      {
+        "run_id": 39279904579,
+        "log": "outputs/pedestrian_paths_20261019_v1/ci-b135-push.log",
+        "skipped": 24,
+        "passed": 3517,
+        "seconds": 706.56
+      }
+    ],
+    "observed_at": "2026-10-19T18:17:41.2648975+02:00",
+    "runs": [
+      {
+        "conclusion": "",
+        "databaseId": 39279910178,
+        "headSha": "b135e7ab8c7cc9c113099033669f1fb11e7ac8a1",
+        "status": "in_progress",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39279910178"
+      },
+      {
+        "conclusion": "success",
+        "databaseId": 39279904579,
+        "headSha": "b135e7ab8c7cc9c113099033669f1fb11e7ac8a1",
+        "status": "completed",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39279904579"
+      },
+      {
+        "conclusion": "",
+        "databaseId": 39283229082,
+        "headSha": "af18eabd572b2f2b43b2637547ccfab11823ebcd",
+        "status": "queued",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39283229082"
+      },
+      {
+        "conclusion": "",
+        "databaseId": 39283222363,
+        "headSha": "af18eabd572b2f2b43b2637547ccfab11823ebcd",
+        "status": "queued",
+        "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39283222363"
+      }
+    ],
+    "claim": "The b135e7a test-step logs completed successfully. Workflow metadata is retained as observed. The af18eab full suites are not claimed complete."
+  }
+}

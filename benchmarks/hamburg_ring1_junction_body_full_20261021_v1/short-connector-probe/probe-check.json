@@ -1,0 +1,84 @@
+{
+  "formal_result": false,
+  "results": {
+    "global_hold": {
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ],
+      "monitor_status": "all_stopped",
+      "native_end_s": 404.1,
+      "completion": {
+        "loaded": 1,
+        "inserted": 1,
+        "arrived": 0,
+        "running": 1,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "observer_complete": false,
+      "stop": {
+        "time_s": 404.1,
+        "stopped_since_s": 104.1,
+        "duration_s": 300.0,
+        "state": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\all-stopped-state.xml.gz",
+          "sha256": "8d501c47523882cba29f7cd399b4912cccfc0db35bfebf41508ee206648a9965"
+        },
+        "vehicles": {
+          "artificial_post_field_suffix": {
+            "lane": "199230912#1_0",
+            "position_m": 2.098729,
+            "speed_m_s": 0.0,
+            "leader": null,
+            "junction_foes": [],
+            "next_links": [
+              [
+                "1257937836#0_0",
+                true,
+                true,
+                false,
+                ":266199654_0_0",
+                "M",
+                "s",
+                4.482132
+              ]
+            ],
+            "next_signals": []
+          }
+        },
+        "blocked_lanes": [
+          "199230912#1_0"
+        ],
+        "waiting_relations": [],
+        "candidate_wait_cycles": [],
+        "cycle_claim": "Native near-leader and yield relations suggest cycles. They do not prove the cause of standstill."
+      }
+    },
+    "detector_only": {
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ],
+      "monitor_status": "completed",
+      "native_end_s": 900.0,
+      "completion": {
+        "loaded": 1,
+        "inserted": 1,
+        "arrived": 1,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "observer_complete": true,
+      "stop": null
+    }
+  },
+  "claim_boundary": "Artificial one-vehicle mechanism probe. It tests the short-road release conflict, not the full traffic pattern, a revised driver scope, or real-count calibration."
+}

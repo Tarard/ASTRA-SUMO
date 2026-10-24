@@ -1,0 +1,53 @@
+{
+  "schema": "astra.hamburg-bounded-native-count-feedback/v1",
+  "history": [
+    {
+      "trial": 1,
+      "scale": 1,
+      "changed_vehicles": 82,
+      "total_absolute_error": 1681,
+      "diagnostic_MAE": 12.930769230769231,
+      "diagnostic_max_absolute_error": 59,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 7844,
+        "arrived": 7525,
+        "running": 319,
+        "waiting": 796,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "safe_complete_measurement": true,
+      "retained_for_next_proposal": false,
+      "formal_result": false,
+      "new_simulation": true
+    },
+    {
+      "trial": 2,
+      "scale": 0.5,
+      "changed_vehicles": 82,
+      "total_absolute_error": 1691,
+      "diagnostic_MAE": 13.007692307692308,
+      "diagnostic_max_absolute_error": 59,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 7882,
+        "arrived": 7570,
+        "running": 312,
+        "waiting": 758,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "safe_complete_measurement": true,
+      "retained_for_next_proposal": false,
+      "formal_result": false,
+      "new_simulation": true
+    }
+  ],
+  "selected_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1",
+  "maximum_native_trials": 2,
+  "formal_result": false,
+  "claim_boundary": "All 130 fields are measured again in each uninterrupted native run. Station counts are derived sums. A retained diagnostic candidate is not a valid calibration while backlog or residuals remain. The attempt limit does not prove infeasibility."
+}

@@ -1,0 +1,44 @@
+{
+  "formal_result": false,
+  "status": "review_required",
+  "reference_manifest_sha256": "ad6058c59305a53eb9bde4bcd9ee7ad327f5fe868df9790665751bed162bbe9e",
+  "reference_commit": "4b3cb18",
+  "source_case": "substitute-1pair",
+  "observation_native_runs": 1,
+  "new_calibration_candidates": 0,
+  "preparation_failure_native_runs": 0,
+  "observation": {
+    "status": "pass",
+    "parity_checks": 12,
+    "E1_rows": 208,
+    "summary_steps": 144000,
+    "arrived_routes": 8596,
+    "declared_FCD_vehicles": 44,
+    "observed_FCD_vehicles": 17,
+    "never_inserted_without_FCD": 27,
+    "TLS": 51,
+    "instant": {
+      "events": 235746,
+      "attribute_sha256": "9d6c9a471b2062ed7dd940111424b9ec7f9b164aaddf67abd0858e6fcaa41c83"
+    },
+    "new_demand_or_controller": false,
+    "xml_semantics": {
+      "cohort-fcd.xml": {
+        "elements": 15988,
+        "attribute_sha256": "7506372d56dfba27b5473f0372e4ae654688fbad01d679ae2343edd5a7a4c3b7"
+      },
+      "lanechanges.xml": {
+        "elements": 18747,
+        "attribute_sha256": "1afe29e63664a65ba04995303af0708f6163ef9b55a53716ea641b338018ece7"
+      },
+      "tls-switch-states.xml": {
+        "elements": 122067,
+        "attribute_sha256": "75be10b28238546e0d867ac3bac0cbb281e3a59c340064aa947ae57dfb9f95cd"
+      },
+      "tls-recorded-programs.add.xml": {
+        "elements": 122118,
+        "attribute_sha256": "a9f71b7336930568515de9a9339e6b5615aae4b19028037ee3cfd26ca1a1083c"
+      }
+    }
+  }
+}

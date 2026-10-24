@@ -1,0 +1,134 @@
+{
+  "audit": {
+    "status": "review_required",
+    "raw_verdict": "rejected",
+    "candidate_selected": false,
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "full": {
+      "main130": {
+        "SSE": 8858,
+        "TAE": 504,
+        "MAE": 3.876923076923077,
+        "max_abs_error": 44
+      },
+      "initial52": {
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "all182": {
+        "SSE": 9863,
+        "TAE": 609,
+        "MAE": 3.3461538461538463,
+        "max_abs_error": 44
+      },
+      "station40_MAE": 11.45,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8606,
+        "waiting": 0,
+        "running": 34,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8614,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 32
+    },
+    "before": {
+      "metrics130": {
+        "rows": 130,
+        "SSE": 6709,
+        "TAE": 483,
+        "MAE": 3.7153846153846155,
+        "max_abs_error": 27
+      },
+      "metrics52": {
+        "rows": 52,
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "metrics182": {
+        "rows": 182,
+        "SSE": 7714,
+        "TAE": 588,
+        "MAE": 3.230769230769231,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 10.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "safe": true,
+      "healthy": true,
+      "event_count": 8640
+    },
+    "gates": {
+      "safe": true,
+      "healthy": false,
+      "all53556_zero": true,
+      "no_repeated_vehicle_fields": true,
+      "no_contributions_outside_primary_intention": true,
+      "main130_MAE_improves": false,
+      "main130_SSE_not_worse": false,
+      "all182_TAE_not_worse": false
+    },
+    "all53556": {
+      "rows": 56,
+      "SSE": 0,
+      "TAE": 0,
+      "MAE": 0.0,
+      "max_abs_error": 0
+    },
+    "assignment": {
+      "source_events": 8640,
+      "real182_events": 8326,
+      "tail26_events_without_real_targets": 314,
+      "changed_cells": 22,
+      "cell_L1": 128,
+      "OD_totals": 21,
+      "first84_fixed": true,
+      "predicted182_TAE": 473.4135773334767,
+      "predicted130_TAE": 368.4135773334767,
+      "description_is_not_Jacobian": true,
+      "later_guard_offline_solution_same": true
+    },
+    "scope": {
+      "N": 8640,
+      "changed_cells": 22,
+      "cell_L1": 128,
+      "added_IDs": 64,
+      "removed_IDs": 64,
+      "common_IDs": 8576,
+      "common_changes": {
+        "departure": 1102,
+        "route": 179,
+        "stop": 284,
+        "field": 284,
+        "non_departure_attributes": 0
+      },
+      "initial_requests_exact": true,
+      "all21_OD_totals_exact": true,
+      "controls_network_targets_driver_fixed": true
+    },
+    "claim_boundary": "Saved empirical assignment is not a Jacobian or native prediction guarantee. Quantile regeneration changed many requests/routes/stops. Audit pass is not acceptance; retain healthy3.715 reference. No stable realization case is included."
+  },
+  "formal_result": false,
+  "status": "review_required"
+}

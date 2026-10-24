@@ -1,0 +1,143 @@
+{
+  "implementation": "f77e8eea052a4b45bd62e4fa06afc5c6654b2f71",
+  "native_version": "1.27.1",
+  "pre_fix_failures": 2,
+  "focused_passed": 90,
+  "repaired_native_cases": 2,
+  "deliberately_damaged_cases_detected": 2,
+  "road_profile_matching": "Existing unit tests; native conversion test supplies a fixed plan.",
+  "full_hamburg_rebuild": false,
+  "previous_ci": {
+    "failed": 0,
+    "commit": "d16d4b8feb0ee57fa2f4e08ce7c143ae4348418f",
+    "run": 39226140078,
+    "skipped": 24,
+    "passed": 3449
+  },
+  "artifacts": [
+    {
+      "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix.log",
+      "sha256": "c621ba6b25b3612d64e0378c14d00257c46b203c00b5ee8ca03e2d4367ad2119"
+    },
+    {
+      "path": "outputs/legacy_permission_maintenance_20261019_v1/focused-v1.log",
+      "sha256": "2ab8f61b3e4db056f8d3f109aefbebe80b7b9cf24dbd8b5e3f31a24747147600"
+    },
+    {
+      "path": "outputs/legacy_permission_maintenance_20261019_v1/focused-v2.log",
+      "sha256": "bd80c2759678ba8423d155b3a2a0b5d08eb06736b2514031ba21664bcb482782"
+    },
+    {
+      "path": "outputs/legacy_permission_maintenance_20261019_v1/focused.xml",
+      "sha256": "4ecbd8de692b0514e91132ac035d3f8c641cd60c0d4cecdffc0f1dd5f4e86a51"
+    },
+    {
+      "path": "outputs/legacy_permission_maintenance_20261019_v1/previous-ci-d16d4b8.log",
+      "sha256": "5222a5c0040b314d52d97267aee8cb29e26ef56ccddfc41489d1818cff20f42e"
+    }
+  ],
+  "retained_cases": [
+    {
+      "group": "pre-fix-cases",
+      "schema": "torii.hamburg-lane-connection-repair/v1",
+      "status": "review_required",
+      "source": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix-cases/test_legacy_repair_entrypoints0/source.net.xml",
+        "sha256": "e612b2a4a19c838f1796469b0ed146183b1306e72569f1d1ee78d81df3b7dce5"
+      },
+      "candidate": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix-cases/test_legacy_repair_entrypoints0/repair/hamburg-lane-connection-repaired.net.xml",
+        "sha256": "5eab8321e4b433a9f320641287cd4bd724a6cc40b919624e879934bedc5a8161"
+      },
+      "manifest": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix-cases/test_legacy_repair_entrypoints0/repair/manifest.json",
+        "sha256": "1614470321683b072b746a5a6c403835d2ffcd2aa4c742e79c212b6e6a24a160"
+      }
+    },
+    {
+      "group": "pre-fix-cases",
+      "schema": "torii.hamburg-road-geometry/v1",
+      "status": "pass",
+      "source": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix-cases/test_legacy_repair_entrypoints1/source.net.xml",
+        "sha256": "e612b2a4a19c838f1796469b0ed146183b1306e72569f1d1ee78d81df3b7dce5"
+      },
+      "candidate": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix-cases/test_legacy_repair_entrypoints1/repair/road-geometry.net.xml",
+        "sha256": "648c077f110cc25917493c6a60fa0fe1b76b7c4457fea47295424efca0fdcd21"
+      },
+      "manifest": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/pre-fix-cases/test_legacy_repair_entrypoints1/repair/manifest.json",
+        "sha256": "c93761f350d2a56c61f0a57b643bbed2992c8dbd20dc69568b595a8db6722a00"
+      }
+    },
+    {
+      "group": "fixed-and-damaged-cases",
+      "schema": "torii.hamburg-lane-connection-repair/v1",
+      "status": "review_required",
+      "source": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints0/source.net.xml",
+        "sha256": "e612b2a4a19c838f1796469b0ed146183b1306e72569f1d1ee78d81df3b7dce5"
+      },
+      "candidate": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints0/repair/hamburg-lane-connection-repaired.net.xml",
+        "sha256": "018b9338b01e735534e9b0118535da42b31c1dde75d0606fd8298d5885ddea13"
+      },
+      "manifest": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints0/repair/manifest.json",
+        "sha256": "e0a07cb864e775bf443d160f26ff04dbf4e29112487c3e030b995ba3f3aec85d"
+      }
+    },
+    {
+      "group": "fixed-and-damaged-cases",
+      "schema": "torii.hamburg-road-geometry/v1",
+      "status": "pass",
+      "source": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints1/source.net.xml",
+        "sha256": "e612b2a4a19c838f1796469b0ed146183b1306e72569f1d1ee78d81df3b7dce5"
+      },
+      "candidate": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints1/repair/road-geometry.net.xml",
+        "sha256": "5a43cce317dfa1bc40a21d7bc7e75d5fb7c0e9596ca6c2f4aa7da99ecdd4899a"
+      },
+      "manifest": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints1/repair/manifest.json",
+        "sha256": "9b721b22ea148690aa5395c63b62ec24803f771368e38c488dd70efe03c642b4"
+      }
+    },
+    {
+      "group": "fixed-and-damaged-cases",
+      "schema": "torii.hamburg-lane-connection-repair/v1",
+      "status": "blocked",
+      "source": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints2/source.net.xml",
+        "sha256": "e612b2a4a19c838f1796469b0ed146183b1306e72569f1d1ee78d81df3b7dce5"
+      },
+      "candidate": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints2/repair/hamburg-lane-connection-repaired.net.xml",
+        "sha256": "704a7b21f3ff4dd71afec41ed5fe1969f966a3850569312ee6fcb959ecf0d96f"
+      },
+      "manifest": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints2/repair/manifest.json",
+        "sha256": "9ed7c4d7d76fa42c42a7f7d48a8f3496418d5e573a3c5cf013266101293e803b"
+      }
+    },
+    {
+      "group": "fixed-and-damaged-cases",
+      "schema": "torii.hamburg-road-geometry/v1",
+      "status": "blocked",
+      "source": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints3/source.net.xml",
+        "sha256": "e612b2a4a19c838f1796469b0ed146183b1306e72569f1d1ee78d81df3b7dce5"
+      },
+      "candidate": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints3/repair/road-geometry.net.xml",
+        "sha256": "9cff12bbecbce9b8eacfc97b5770194c4ebb10dcc59899ade416a060debb2c5e"
+      },
+      "manifest": {
+        "path": "outputs/legacy_permission_maintenance_20261019_v1/fixed-and-damaged-cases/test_legacy_repair_entrypoints3/repair/manifest.json",
+        "sha256": "22fd2ad62d1f7a77089e56cb3edac846a91aaa37f1675fe07fe7ab9259b345f4"
+      }
+    }
+  ]
+}

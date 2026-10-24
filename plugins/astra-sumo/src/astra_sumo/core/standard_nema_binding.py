@@ -23,6 +23,7 @@ from .connection_mode_audit import (
 )
 from .routeability_audit import run_routeability_audit
 from .sumo_commands import discover_binaries
+from .local_network_conversion import with_geometry_precision
 
 
 _CONNECTION_TAG = re.compile(r"<connection(?=\s)[^<>]*/>", re.DOTALL)
@@ -1666,13 +1667,13 @@ def _run_runtime_validation(
 
     netconvert_result = _result_to_dict(
         command_runner(
-            [
+            with_geometry_precision([
                 str(binaries["netconvert"]),
                 "-s",
                 str(candidate_file),
                 "-o",
                 str(paths["validated_file"]),
-            ],
+            ]),
             cwd=paths["output_dir"],
             timeout_seconds=timeout_seconds,
         )

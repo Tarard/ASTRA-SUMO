@@ -267,13 +267,14 @@ def test_compile_intersection_to_plain_disables_auto_turnarounds(monkeypatch, tm
         captured["command"] = command
 
         class Result:
+            status = "pass"
             returncode = 0
             stderr = "Warning: lane is not connected.\nSuccess."
             stdout = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.compile_plain.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.run_command", fake_run)
 
     artifacts = compile_intersection_to_plain(ir, tmp_path, "x4", compile_net=True)
 
@@ -312,13 +313,14 @@ def test_compile_intersection_to_plain_guesses_crossings_for_osm_support_path(mo
         captured["command"] = command
 
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
             stdout = "Success."
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.compile_plain.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.run_command", fake_run)
 
     compile_intersection_to_plain(ir, tmp_path, "cluster", compile_net=True)
 
@@ -350,13 +352,14 @@ def test_compile_intersection_to_plain_guesses_crossings_for_fused_multimodal_la
         captured["command"] = command
 
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
             stdout = "Success."
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.compile_plain.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.compile_plain.run_command", fake_run)
 
     compile_intersection_to_plain(ir, tmp_path, "x4", compile_net=True)
 

@@ -1,0 +1,49 @@
+{
+  "checks": {
+    "input:network.net.xml": true,
+    "input:demand.rou.xml": true,
+    "input:source-e1.add.xml": true,
+    "input:expected-counts.csv": true,
+    "input:signal-programs.add.xml": true,
+    "input:lane-intentions.json": true,
+    "traffic:field-counts.xml": true,
+    "traffic:vehicle-routes.xml": true,
+    "traffic:tripinfo.xml": true,
+    "traffic:collisions.xml": true,
+    "all130": true,
+    "all40": true,
+    "lane_hold": false,
+    "completion": true
+  },
+  "correspondence": false,
+  "elapsed_seconds": 549.7866853,
+  "evaluation": {
+    "loss": 71625,
+    "MAE": 16.73076923076923,
+    "max_abs_error": 58,
+    "healthy": false,
+    "station_MAE": 52.375,
+    "station_max_abs_error": 121,
+    "completion": {
+      "loaded": 8603,
+      "inserted": 7222,
+      "arrived": 6813,
+      "running": 409,
+      "waiting": 1381,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  "driver_sha256": {
+    "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+    "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+    "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "hamburg_od_spsa.py": "c64cbe5d62aa08c8feea5a386ac8158e6d5c20c020d8537e0ae8ce153c9fca95"
+  },
+  "formal_calibration": false
+}

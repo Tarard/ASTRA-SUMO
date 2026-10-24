@@ -1,0 +1,343 @@
+{
+  "rows": [
+    {
+      "field": "hh_0119_Z_11_28853",
+      "connection": {
+        "from": "37413814#0",
+        "to": "199230912#0",
+        "fromLane": "2",
+        "toLane": "0",
+        "shape": "890.419000,715.622000 890.380000,715.490000 872.701000,662.094000 868.343000,652.726000",
+        "via": ":LSA119_part0_19_1",
+        "tl": "LSA119_part0",
+        "linkIndex": "20",
+        "dir": "s",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 12.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 120.0
+    },
+    {
+      "field": "hh_0119_Z_12_31546",
+      "connection": {
+        "from": "43866090#0",
+        "to": "486864294",
+        "fromLane": "0",
+        "toLane": "0",
+        "shape": "896.338000,714.193000 896.339000,714.022000 897.526000,699.446000 899.181000,692.311000 901.914000,685.035000 907.035000,676.189000 911.164000,671.154000 928.990000,664.080000",
+        "via": ":LSA119_part0_0_0",
+        "tl": "LSA119_part0",
+        "linkIndex": "0",
+        "dir": "L",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 29.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 290.0
+    },
+    {
+      "field": "hh_0119_Z_13_34018",
+      "connection": {
+        "from": "43866090#0",
+        "to": "486864294",
+        "fromLane": "1",
+        "toLane": "1",
+        "shape": "899.531000,713.651000 899.544000,713.190000 902.068000,694.757000 907.130000,681.086000 914.627000,673.518000 918.206000,671.533000 928.884000,667.284000 929.021000,667.281000",
+        "via": ":LSA119_part0_0_1",
+        "tl": "LSA119_part0",
+        "linkIndex": "1",
+        "dir": "L",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 29.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 290.0
+    },
+    {
+      "field": "hh_0119_Z_15_29375",
+      "connection": {
+        "from": "603103445#0",
+        "to": "603103445#1",
+        "fromLane": "0",
+        "toLane": "0",
+        "via": ":6390683126_0_0",
+        "tl": "6390683126",
+        "linkIndex": "0",
+        "dir": "s",
+        "state": "O"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 60.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 600.0
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "connection": {
+        "from": "24483344#1",
+        "to": "79014037#1",
+        "fromLane": "0",
+        "toLane": "0",
+        "shape": "859.316000,677.228000 859.871000,677.125000 877.206000,676.036000 887.262000,678.084000 898.954000,682.018000 907.540000,686.605000 914.860000,691.667000 919.819000,696.517000 925.500000,702.960000",
+        "via": ":LSA119_part0_12_0",
+        "tl": "LSA119_part0",
+        "linkIndex": "12",
+        "dir": "L",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 14.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 140.0
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "connection": {
+        "from": "24483344#1",
+        "to": "79014037#1",
+        "fromLane": "1",
+        "toLane": "1",
+        "shape": "860.640000,680.210000 875.533000,679.880000 886.821000,681.547000 898.589000,685.616000 909.823000,691.845000 915.690000,696.621000 922.350000,703.990000",
+        "via": ":LSA119_part0_12_1",
+        "tl": "LSA119_part0",
+        "linkIndex": "13",
+        "dir": "L",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 14.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 140.0
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "connection": {
+        "from": "2963460#1",
+        "to": "186821029#1",
+        "fromLane": "1",
+        "toLane": "1",
+        "via": ":LSA535_part0_18_0",
+        "tl": "LSA535_part0",
+        "linkIndex": "18",
+        "dir": "s",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 16.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 160.0
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "connection": {
+        "from": "2963460#1",
+        "to": "186821029#1",
+        "fromLane": "1",
+        "toLane": "2",
+        "shape": "1568.800000,270.340000 1580.014000,279.213000 1607.709000,290.818000 1620.678000,298.083000",
+        "via": ":LSA535_part0_18_1",
+        "tl": "LSA535_part0",
+        "linkIndex": "19",
+        "dir": "s",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 16.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 160.0
+    },
+    {
+      "field": "hh_0535_Z_14_31892",
+      "connection": {
+        "from": "2963460#1",
+        "to": "186821029#1",
+        "fromLane": "1",
+        "toLane": "3",
+        "shape": "1568.800000,270.340000 1579.166000,278.531000 1619.124000,300.880000",
+        "via": ":LSA535_part0_18_2",
+        "tl": "LSA535_part0",
+        "linkIndex": "20",
+        "dir": "s",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 16.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 160.0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "connection": {
+        "from": "186821034#0",
+        "to": "186821029#1",
+        "fromLane": "5",
+        "toLane": "2",
+        "shape": "1559.590000,302.050000 1586.997000,279.391000 1620.678000,298.083000",
+        "via": ":LSA535_part0_26_0",
+        "tl": "LSA535_part0",
+        "linkIndex": "26",
+        "dir": "l",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 22.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 220.0
+    },
+    {
+      "field": "hh_0535_Z_4_33055",
+      "connection": {
+        "from": "186821034#0",
+        "to": "186821029#1",
+        "fromLane": "5",
+        "toLane": "3",
+        "shape": "1559.590000,302.050000 1584.332000,281.611000 1619.124000,300.880000",
+        "via": ":LSA535_part0_26_1",
+        "tl": "LSA535_part0",
+        "linkIndex": "27",
+        "dir": "l",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 22.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 220.0
+    },
+    {
+      "field": "hh_0535_Z_5_30894",
+      "connection": {
+        "from": "186821027#0",
+        "to": "142944337#1",
+        "fromLane": "2",
+        "toLane": "0",
+        "shape": "1612.120000,314.780000 1594.061000,306.225000 1577.896000,321.870000",
+        "via": ":LSA535_part0_2_0",
+        "tl": "LSA535_part0",
+        "linkIndex": "2",
+        "dir": "r",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 16.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 160.0
+    },
+    {
+      "field": "hh_0535_Z_6_33855",
+      "connection": {
+        "from": "186821027#0",
+        "to": "142944337#1",
+        "fromLane": "3",
+        "toLane": "1",
+        "shape": "1613.550000,311.915000 1593.386000,302.327000 1575.617000,319.617000",
+        "via": ":LSA535_part0_2_1",
+        "tl": "LSA535_part0",
+        "linkIndex": "3",
+        "dir": "r",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 16.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 160.0
+    },
+    {
+      "field": "hh_0535_Z_7_29316",
+      "connection": {
+        "from": "186821027#0",
+        "to": "43305966#1",
+        "fromLane": "4",
+        "toLane": "0",
+        "shape": "1615.050000,309.080000 1584.050000,295.019000 1561.234000,275.520000",
+        "via": ":LSA535_part0_4_0",
+        "tl": "LSA535_part0",
+        "linkIndex": "4",
+        "dir": "s",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 17.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 170.0
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "connection": {
+        "from": "186821027#0",
+        "to": "186821036#1",
+        "fromLane": "5",
+        "toLane": "0",
+        "via": ":LSA535_part0_7_0",
+        "tl": "LSA535_part0",
+        "linkIndex": "7",
+        "dir": "l",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 17.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 170.0
+    },
+    {
+      "field": "hh_0535_Z_8_34287",
+      "connection": {
+        "from": "186821027#0",
+        "to": "186821036#1",
+        "fromLane": "5",
+        "toLane": "1",
+        "via": ":LSA535_part0_7_1",
+        "tl": "LSA535_part0",
+        "linkIndex": "8",
+        "dir": "l",
+        "state": "o"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 17.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 170.0
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "connection": {
+        "from": "186821035#0",
+        "to": "186821029#1",
+        "fromLane": "0",
+        "toLane": "2",
+        "shape": "1618.990000,277.250000 1608.593000,291.642000 1620.678000,298.083000",
+        "via": ":LSA535_part0_9_0",
+        "tl": "LSA535_part0",
+        "linkIndex": "9",
+        "dir": "r",
+        "state": "O"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 23.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 230.0
+    },
+    {
+      "field": "hh_0535_Z_9_29038",
+      "connection": {
+        "from": "186821035#0",
+        "to": "186821029#1",
+        "fromLane": "0",
+        "toLane": "3",
+        "shape": "1618.990000,277.250000 1606.660000,294.229000 1619.124000,300.880000",
+        "via": ":LSA535_part0_9_1",
+        "tl": "LSA535_part0",
+        "linkIndex": "10",
+        "dir": "r",
+        "state": "O"
+      },
+      "cycle_s": 90.0,
+      "fixed_green_per_cycle_s": 23.0,
+      "yellow_per_cycle_s": 3.0,
+      "green_per_900s_if_cycle_divides_bin": 230.0
+    }
+  ],
+  "claim_boundary": "Fixed immediate-exit signal opportunities only. This is not a discharge-capacity bound, field timing validation or a causal residual explanation."
+}

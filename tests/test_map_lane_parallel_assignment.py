@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 from pathlib import Path
+from dataclasses import replace
+import shutil
+
+import pytest
 
 from astra_sumo.core import digital_twin_mapping as mapping
-from astra_sumo.core.digital_twin import MapLane
+from astra_sumo.core.digital_twin import MapLane, CountStream
 from astra_sumo.core.digital_twin_mapping import (
     NetworkLane,
     bind_map_lanes_to_explicit_network_lanes,
@@ -74,6 +78,74 @@ def test_parallel_map_lanes_use_minimum_cost_unique_assignment(monkeypatch) -> N
         ("7", "381540198#1_1"),
     ]
     assert {item.mapping_status for item in bindings} == {"active"}
+
+
+def test_channelized_approach_assigns_distinct_lanes_within_each_nearest_road(monkeypatch):
+    _install_network(monkeypatch, [_network_lane(f"{edge}_{i}", edge_id=edge, y=y)
+        for edge, values in (("first", (0, 3)), ("second", (6, 9))) for i,y in enumerate(values)])
+    lanes = [_map_lane(str(i), anchor_y=y) for i,y in enumerate((0, 1.4, 6, 7.4))]
+    bindings = bind_map_lanes_to_network(Path("split.net.xml"), lanes)
+    assert [b.sumo_lane for b in bindings] == ["first_0", "first_1", "second_0", "second_1"]
+
+
+def test_curved_lane_uses_its_heading_at_the_bound_anchor(monkeypatch):
+    _install_network(monkeypatch, [_network_lane("main_0", edge_id="main", y=.3),
+        NetworkLane("slip_0", "slip", 14.1421356, ((10,10),(0,0)))])
+    lane = replace(_map_lane("curve", anchor_y=0), points_m=((0,0),(10,10),(100,0)))
+    [binding] = bind_map_lanes_to_network(Path("curve.net.xml"), [lane])
+    assert binding.sumo_lane == "slip_0" and binding.heading_error_deg == pytest.approx(0)
+
+
+@pytest.mark.parametrize("missing_offsets", [False,True])
+def test_explicit_reference_geometry_replaces_approximate_map_offsets(monkeypatch,missing_offsets):
+    _install_network(monkeypatch, [_network_lane("road_0", edge_id="road", y=0),
+        _network_lane("road_1", edge_id="road", y=3)])
+    lane = _map_lane("6", anchor_y=0)
+    if missing_offsets:
+        lane = replace(lane, points_m=())
+    [binding] = bind_map_lanes_to_network(Path("reference.net.xml"), [lane],
+        lane_shapes={("2394","6"):((0,3),(100,3))})
+    assert binding.sumo_lane == "road_1"
+
+
+def test_detector_uses_its_physical_position_and_the_logical_lane_scale(monkeypatch):
+    _install_network(monkeypatch, [NetworkLane("road_0", "road", 200, ((100,0),(0,0)))])
+    lane = _map_lane("6", anchor_y=0)
+    stream = CountStream(1,None,"2394","Z.1","","",75/111320,0)
+    bindings = bind_map_lanes_to_network(Path("scaled.net.xml"), [lane])
+    [detector] = mapping.bind_count_streams_to_network(Path("scaled.net.xml"), [stream], [lane], bindings)
+    assert bindings[0].lane_position == pytest.approx(199.9)
+    assert detector.lane_position == pytest.approx(50) and detector.distance_m == pytest.approx(0)
+    [fallback] = mapping.bind_count_streams_to_network(Path("scaled.net.xml"), [stream], [])
+    assert fallback.lane_position == pytest.approx(50) and fallback.mapping_status == "needs_review"
+
+
+@pytest.mark.skipif(not shutil.which("sumo"), reason="SUMO required")
+def test_native_detector_position_roundtrip_uses_logical_scale(tmp_path):
+    import traci
+    from pyproj import Transformer
+    network = tmp_path / "scaled.net.xml"
+    network.write_bytes(b'''<net version="1.20"><location netOffset="0,0" convBoundary="565950,5933204,566050,5933206" origBoundary="0,0,1,1" projParameter="!"/>
+    <edge id="road" from="a" to="b" priority="1"><lane id="road_0" index="0" speed="10" length="200" shape="565950,5933205 566050,5933205"/></edge>
+    <junction id="a" type="dead_end" x="565950" y="5933205" incLanes="" intLanes=""/>
+    <junction id="b" type="dead_end" x="566050" y="5933205" incLanes="road_0" intLanes=""/></net>''')
+    transform = Transformer.from_crs("EPSG:25832","EPSG:4326",always_xy=True)
+    lon,lat = transform.transform(565975,5933205)
+    reference = MapLane("1","1","vehicle","1","",lon,lat,((0,0),(-100,0)))
+    shapes = {("1","1"):((566050,5933205),(565950,5933205))}
+    [detector] = mapping.bind_count_streams_to_network(network,
+        [CountStream(1,None,"1","Z.1","","",lon,lat)],[reference],
+        network_projection="EPSG:25832",lane_shapes=shapes)
+    assert detector.mapping_status == "active" and detector.lane_position == pytest.approx(50)
+    label = "detector-coordinate-scale"
+    traci.start([shutil.which("sumo"), "-n", str(network), "--end", "1", "--no-step-log", "true",
+                 "--log", str(tmp_path / "sumo.log"), "--error-log", str(tmp_path / "sumo-error.log")],
+                label=label, numRetries=3)
+    connection = traci.getConnection(label)
+    try:
+        assert connection.simulation.convert2D("road",detector.lane_position,0) == pytest.approx((565975,5933205),abs=1e-6)
+    finally:
+        connection.close()
 
 
 def test_capacity_shortage_preserves_auditable_many_to_one_fallback(monkeypatch) -> None:

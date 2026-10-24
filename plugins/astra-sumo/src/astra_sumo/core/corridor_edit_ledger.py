@@ -5,6 +5,7 @@ import json
 import math
 import xml.etree.ElementTree as ET
 from collections import Counter, defaultdict
+from copy import deepcopy
 from html import escape
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -21,6 +22,10 @@ from .candidate_contracts import (
 )
 from .command_runner import run_command
 from .map_review import build_map_review_evidence, validate_map_review_evidence
+from .network_edit_operations import SCOPED_EDIT_TYPES, validate_scoped_operation, write_scoped_edit_plan, check_scoped_edit
+from .network_geometry_freeze import compare_frozen_geometry
+from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+from .local_network_conversion import with_geometry_precision, legacy_edge_edit_scope, legacy_additive_edit_scope
 
 
 EDIT_OPERATION_TYPES = (
@@ -31,7 +36,7 @@ EDIT_OPERATION_TYPES = (
     "delete_edge",
     "merge_edges",
     "review_marker",
-)
+) + SCOPED_EDIT_TYPES
 
 _OPERATION_ALIASES = {
     "add_road": "add_edge",
@@ -60,7 +65,7 @@ _MUTATING_OPERATIONS = {
     "add_ramp",
     "delete_edge",
     "merge_edges",
-}
+} | set(SCOPED_EDIT_TYPES)
 _ADDITIVE_OPERATIONS = {"add_edge", "add_sidewalk", "add_crossing", "add_ramp"}
 _DEFAULT_CONSTRAINTS = {
     "preserve_tls": True,
@@ -89,6 +94,7 @@ def propose_corridor_edits(
     """
     root = ET.parse(net_file).getroot()
     edges = _normal_edges(root)
+    protected_edges = _controlled_edges(root) | {key for key, edge in edges.items() if _is_structurally_protected_edge(edge)}
     proposals: list[dict[str, Any]] = []
 
     if include_isolated:
@@ -103,7 +109,7 @@ def propose_corridor_edits(
                 continue
             if len(incident[from_id]) != 1 or len(incident[to_id]) != 1:
                 continue
-            if _is_protected_edge(edge, root):
+            if edge_id in protected_edges:
                 continue
             proposals.append(
                 _proposal(
@@ -126,10 +132,26 @@ def propose_corridor_edits(
 
     if include_duplicates:
         duplicate_groups: dict[tuple[Any, ...], list[str]] = defaultdict(list)
-        for edge_id, edge in edges.items():
-            if _is_protected_edge(edge, root):
+        incident_connections: dict[str, list[ET.Element]] = defaultdict(list)
+        lanes = {lane.get("id"): lane for lane in root.findall("edge/lane")}
+        lane_ids = {(edge.get("id"), str(index)): lane.get("id") for edge in root.findall("edge")
+                    for index, lane in enumerate(edge.findall("lane"))}
+        continuations = defaultdict(list)
+        for row in root.findall("connection"):
+            if row.get("from") not in edges:
+                continuations[lane_ids.get((row.get("from"), row.get("fromLane"))), row.get("to"), row.get("toLane")].append(row)
+        internal_paths = {}
+        for row in root.findall("connection"):
+            if row.get("from") not in edges or row.get("to") not in edges:
                 continue
-            duplicate_groups[_edge_duplicate_signature(edge)].append(edge_id)
+            internal_paths[row] = _duplicate_internal_path(row, lanes, continuations)
+            for edge_id in {row.get("from"), row.get("to")}:
+                if edge_id in edges:
+                    incident_connections[edge_id].append(row)
+        for edge_id, edge in edges.items():
+            if edge_id in protected_edges:
+                continue
+            duplicate_groups[_edge_duplicate_signature(edge, incident_connections[edge_id], internal_paths)].append(edge_id)
         for signature, edge_ids in sorted(duplicate_groups.items(), key=lambda item: str(item[0])):
             if len(edge_ids) < 2:
                 continue
@@ -140,13 +162,14 @@ def propose_corridor_edits(
                         operation_id=f"delete-duplicate-{duplicate_id}",
                         operation="delete_edge",
                         target_ids=[duplicate_id],
-                        rationale="edge is an exact semantic duplicate of a deterministic retained edge",
+                        rationale="edge has coincident stored geometry, matching lane rules and ordinary movement neighbors",
                         evidence=[
                             {
                                 "kind": "duplicate_signature",
                                 "retained_edge_id": keep_id,
                                 "duplicate_group": sorted(edge_ids),
                                 "signature": list(signature),
+                                "native_turn_states": "not_equivalence_checked",
                             }
                         ],
                         rollback={"action": "restore_source_edge", "edge_ids": [duplicate_id]},
@@ -172,12 +195,15 @@ def propose_corridor_edits(
         for candidate in micro_nodes:
             node_id = str(candidate["node_id"])
             incident_ids = [str(edge_id) for edge_id in candidate["incident_edge_ids"]]
+            if any(_is_structurally_protected_edge(edges[edge_id]) for edge_id in incident_ids if edge_id in edges):
+                continue
             location = _junction_location(junctions.get(node_id))
             proof_evidence = {
                 "kind": "corridor_simplification_proof",
                 "node_id": node_id,
                 "proof": candidate.get("proof", ""),
                 "minimum_incident_edge_length_m": candidate.get("minimum_incident_edge_length_m"),
+                "reference_node_absent": candidate.get("reference_node_absent"),
             }
             if _local_controlled_target_edges(root, set(incident_ids)):
                 proposals.append(
@@ -198,7 +224,7 @@ def propose_corridor_edits(
                     operation_id=f"merge-micro-node-{node_id}",
                     operation="merge_edges",
                     target_ids=incident_ids,
-                    rationale="reference-absent micro node has identical corridor/lane semantics and straight lane-preserving connections",
+                    rationale="micro node has matching corridor/lane rules and straight lane-preserving connections; reference absence is recorded separately",
                     evidence=[proof_evidence],
                     rollback={
                         "action": "restore_source_edges_and_junction",
@@ -250,6 +276,7 @@ def build_corridor_edit_ledger(
     ledger: dict[str, Any] = {
         "schema": "torii.corridor_edit_ledger.v1",
         "source_net_file": str(net_file.resolve()),
+        "source_sha256": file_sha256(net_file),
         "reference_net_file": str(reference_net_file.resolve()) if reference_net_file else "",
         "osm_file": str(osm_file.resolve()) if osm_file else "",
         "map_review": {
@@ -420,6 +447,8 @@ def _write_additive_plain_files(
                 "to": to_id,
                 "type": edge_type,
                 "allow": attributes["allow"],
+                "requested_native_num_lanes": int(attributes["numLanes"]),
+                "native_permissions": {key: attributes[key] for key in ("allow", "disallow") if key in attributes},
             }
         )
 
@@ -507,6 +536,8 @@ def materialize_corridor_edit_variant(
     structure is not present after netconvert. The source network is never
     overwritten.
     """
+    if not prefix or Path(prefix).name != prefix or prefix in {".", ".."}:
+        raise ValueError("Materialization prefix must be a single file-name component.")
     output_dir = output_dir.resolve()
     output_dir.mkdir(parents=True, exist_ok=True)
     report_file = output_dir / f"{prefix}.json"
@@ -617,6 +648,17 @@ def materialize_corridor_edit_variant(
     operations = [normalize_edit_operation(operation) for operation in (loaded_ledger.get("operations") or [])]
     accepted = [operation for operation in operations if operation.get("status") == "accepted"]
     accepted_mutating = [operation for operation in accepted if operation["operation"] in _MUTATING_OPERATIONS]
+    scoped_operations = [operation for operation in accepted_mutating if operation["operation"] in SCOPED_EDIT_TYPES]
+    if scoped_operations:
+        protected_inputs = [source_net_file] + ([ledger_file] if ledger_file is not None else [])
+        protected_inputs.extend(Path(record["path"]) for operation in scoped_operations for record in operation["evidence"]
+                                if isinstance(record, Mapping) and isinstance(record.get("path"), str))
+        if any(path.resolve().is_relative_to(output_dir) for path in protected_inputs):
+            raise ValueError("The scoped output directory must not contain its source, ledger, or evidence.")
+    if scoped_operations and loaded_ledger.get("source_sha256") != file_sha256(source_net_file):
+        validation["status"] = "fail"
+        validation["errors"].append({"code": "scoped_edit_requires_matching_source_sha256"})
+        validation["error_count"] = len(validation["errors"])
     supported_operation_types = {
         "delete_edge",
         "merge_edges",
@@ -624,7 +666,7 @@ def materialize_corridor_edit_variant(
         "add_sidewalk",
         "add_ramp",
         "add_crossing",
-    }
+    } | set(SCOPED_EDIT_TYPES)
     unsupported = [
         operation for operation in accepted_mutating if operation["operation"] not in supported_operation_types
     ]
@@ -692,7 +734,9 @@ def materialize_corridor_edit_variant(
         )
 
     operation_types = {operation["operation"] for operation in accepted_mutating}
-    if operation_types <= _ADDITIVE_OPERATIONS:
+    if len(accepted_mutating) == 1 and scoped_operations:
+        operation_family = "scoped"
+    elif operation_types <= _ADDITIVE_OPERATIONS:
         operation_family = "additive"
     elif len(operation_types) == 1 and operation_types <= {"delete_edge", "merge_edges"}:
         operation_family = next(iter(operation_types))
@@ -781,29 +825,30 @@ def materialize_corridor_edit_variant(
     additional_plan_files: list[tuple[Path, str]] = []
     extra_artifacts: list[tuple[Path, str]] = []
     additive_plan: dict[str, Any] | None = None
-    if operation_family == "merge_edges":
+    scoped_plan = None
+    if operation_family == "scoped":
+        try:
+            scoped_plan = write_scoped_edit_plan(root=source_root, operation=scoped_operations[0],
+                source_file=source_net_file, candidate_file=candidate_net_file, output_dir=output_dir,
+                prefix=prefix, netconvert_binary=netconvert_binary)
+        except (OSError, ET.ParseError, TypeError, ValueError) as error:
+            return _write_materialization_outcome(output_dir=output_dir, report_file=report_file,
+                manifest_file=manifest_file, command_file=command_file, source_net_file=source_net_file,
+                ledger_file=ledger_file, report={"schema": "torii.corridor_materialization.v1", "status": "blocked",
+                    "claim_status": "construction-invalid", "materialization_status": "invalid_scoped_plan",
+                    "error": str(error), "source_net_file": str(source_net_file.resolve())})
+        plan_file, command = scoped_plan["plan_file"], scoped_plan["command"]
+        additional_plan_files = [(Path(item["path"]), "scoped_plain_input") for item in scoped_plan["patches"].values()]
+        if "input" in scoped_plan.get("local_conversion", {}):
+            additional_plan_files.append((Path(scoped_plan["local_conversion"]["input"]["path"]), "local_conversion_input"))
+        if "unfrozen_input" in scoped_plan.get("local_conversion", {}):
+            additional_plan_files.append((Path(scoped_plan["local_conversion"]["unfrozen_input"]["path"]), "local_conversion_unfrozen_input"))
+        plan_description = "source_bound_scoped_plain_xml"
+    elif operation_family == "merge_edges":
         keep_ids = sorted(set(edges) - set(target_ids))
-        if not keep_ids:
-            return _write_materialization_outcome(
-                output_dir=output_dir,
-                report_file=report_file,
-                manifest_file=manifest_file,
-                command_file=command_file,
-                report={
-                    "schema": "torii.corridor_materialization.v1",
-                    "status": "blocked",
-                    "claim_status": "blocked",
-                    "materialization_status": "empty_keep_edge_set",
-                    "source_net_file": str(source_net_file.resolve()),
-                    "target_edge_ids": target_ids,
-                    "warnings": ["netconvert geometry removal requires at least one retained normal edge"],
-                },
-                source_net_file=source_net_file,
-                ledger_file=ledger_file,
-            )
         plan_file = output_dir / f"{prefix}.keep-edges.txt"
         write_text_atomic(plan_file, "\n".join(keep_ids) + "\n")
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file.resolve()),
@@ -814,12 +859,12 @@ def materialize_corridor_edit_variant(
             "--output.removed-nodes",
             "--output-file",
             str(candidate_net_file.resolve()),
-        ]
+        ])
         plan_description = "keep_edges"
     elif operation_family == "delete_edge":
         plan_file = output_dir / f"{prefix}.remove-edges.txt"
         write_text_atomic(plan_file, "\n".join(target_ids) + "\n")
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file.resolve()),
@@ -827,7 +872,7 @@ def materialize_corridor_edit_variant(
             str(plan_file.resolve()),
             "--output-file",
             str(candidate_net_file.resolve()),
-        ]
+        ])
         plan_description = "remove_edges"
     else:
         additive_plan = _write_additive_plain_files(
@@ -880,17 +925,65 @@ def materialize_corridor_edit_variant(
             )
         plan_file = plan_files[0][0]
         additional_plan_files = plan_files[1:]
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file.resolve()),
-        ]
+        ])
         if isinstance(additive_plan.get("edge_file"), Path):
             command.extend(["--edge-files", str(additive_plan["edge_file"].resolve())])
         if isinstance(additive_plan.get("connection_file"), Path):
             command.extend(["--connection-files", str(additive_plan["connection_file"].resolve())])
         command.extend(["--walkingareas", "--output-file", str(candidate_net_file.resolve())])
         plan_description = "additive_plain_xml"
+    legacy_nodes = {value for edge_id in target_ids if edge_id in edges
+                    for value in (edges[edge_id].get("from"), edges[edge_id].get("to")) if value}
+    if additive_plan is not None:
+        legacy_nodes.update(str(row[key]) for row in additive_plan.get("edge_records", []) for key in ("from", "to") if row.get(key))
+        legacy_nodes.update(str(row["node_id"]) for row in additive_plan.get("crossing_records", []))
+    legacy_edges = set(target_ids) | {key for key, edge in edges.items()
+                                    if edge.get("from") in legacy_nodes or edge.get("to") in legacy_nodes}
+    if additive_plan is not None:
+        legacy_edges.update(row["edge_id"] for row in additive_plan.get("edge_records", []))
+    source_geometry_hash = file_sha256(source_net_file)
+    legacy_conversion = None
+    if operation_family in {"delete_edge", "merge_edges", "additive"}:
+        from .local_network_conversion import local_conversion_input, prepare_permission_preserving_input
+        try:
+            native_targets, endpoints = set(), None
+            if operation_family == "additive":
+                legacy_nodes, legacy_edges, endpoints, _ = legacy_additive_edit_scope(source_root, command)
+            else:
+                legacy_nodes, legacy_edges, native_targets = legacy_edge_edit_scope(source_root, operation_family, command)
+                if native_targets != set(target_ids):
+                    raise ValueError("The native road list differs from the accepted edit targets.")
+            subset, legacy_conversion = local_conversion_input(source_root, legacy_nodes, legacy_edges,
+                removed_edge_ids=native_targets if operation_family == "delete_edge" else None,
+                merge_edge_ids=native_targets if operation_family == "merge_edges" else None, edge_endpoints=endpoints,
+                rebuild_adjacent_junctions=operation_family == "additive")
+            legacy_conversion["operation"] = {"operation": operation_family, "target_ids": target_ids}
+            if subset is not None:
+                local_file = output_dir / f"{prefix}.local-input.net.xml"
+                with local_file.open("xb") as stream:
+                    stream.write(ET.tostring(subset, encoding="utf-8", xml_declaration=True))
+                legacy_conversion["input"] = {"path": str(local_file.resolve()), "sha256": file_sha256(local_file)}
+            else:
+                prepared = prepare_permission_preserving_input(source_net_file, output_dir / f"{prefix}.permission-input.net.xml")
+                legacy_conversion["permission_input"] = prepared
+                if prepared["preparation"] == "reconciled":
+                    legacy_conversion.update(input={key: prepared[key] for key in ("path", "sha256")},
+                        preserve_loaded_turn_permissions=True)
+            if "input" in legacy_conversion:
+                command[command.index("--sumo-net-file") + 1] = legacy_conversion["input"]["path"]
+                additional_plan_files.append((Path(legacy_conversion["input"]["path"]), "local_conversion_input"))
+            command.extend(["--offset.disable-normalization", "true"])
+        except (OSError, ET.ParseError, TypeError, ValueError) as error:
+            return _write_materialization_outcome(output_dir=output_dir, report_file=report_file,
+                manifest_file=manifest_file, command_file=command_file, source_net_file=source_net_file,
+                ledger_file=ledger_file, plan_file=plan_file, additional_plan_files=additional_plan_files,
+                report={"schema": "torii.corridor_materialization.v1", "status": "blocked",
+                    "claim_status": "construction-invalid", "materialization_status": "invalid_legacy_conversion_plan",
+                    "error": str(error), "source_net_file": str(source_net_file.resolve()), "validation": validation})
     write_text_atomic(command_file, " ".join(_quote_command_token(token) for token in command) + "\n")
 
     stale_candidate_removed = False
@@ -924,9 +1017,12 @@ def materialize_corridor_edit_variant(
         )
 
     try:
-        command_result = _result_to_dict(
-            command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
-        )
+        if scoped_plan is not None and scoped_plan["materialization_method"] in {"permission_attributes_only", "speed_attributes_only", "stop_line_edge_mean_3d"}:
+            from .network_edit_operations import write_direct_lane_edit
+            write_direct_lane_edit(source_net_file, candidate_net_file, scoped_operations[0])
+            command_result = {"status": "pass", "returncode": 0, "executor": scoped_plan["materialization_method"], "netconvert_rebuild_count": 0}
+        else:
+            command_result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
     except (OSError, RuntimeError, TimeoutError, TypeError, ValueError) as exc:
         command_result = {
             "status": "fail",
@@ -940,7 +1036,36 @@ def materialize_corridor_edit_variant(
         and candidate_net_file.is_file()
     )
     pedestrian_restore_report: list[dict[str, Any]] = []
-    if command_status and additive_plan is not None:
+    legacy_proposal = output_dir / f"{prefix}.native-proposal.net.xml"
+    legacy_merge_error = None
+    if command_status and legacy_conversion is not None and legacy_conversion["status"] == "local":
+        from .artifact_io import copy_file_atomic
+        from .local_network_conversion import merge_local_conversion
+        raw = output_dir / f"{prefix}.native-local-output.net.xml"
+        try:
+            if raw.exists():
+                raise ValueError("Use a new local conversion output directory without protected inputs.")
+            copy_file_atomic(candidate_net_file, raw)
+            extra_artifacts.append((raw, "local_conversion_native_output"))
+            legacy_conversion["native_output"] = {"path": str(raw.resolve()), "sha256": file_sha256(raw)}
+            native_root = ET.parse(raw).getroot()
+            merged = merge_local_conversion(source_root, native_root, legacy_conversion)
+            candidate_net_file.write_bytes(ET.tostring(merged, encoding="utf-8", xml_declaration=True))
+            legacy_conversion.update(merged_proposal={"path": str(legacy_proposal.resolve()),
+                "sha256": file_sha256(candidate_net_file), "stage": "before_exterior_restoration"}, native_rebuild_count=1)
+            if operation_family == "merge_edges":
+                from .corridor_simplification import _corridor_edge_aliases
+                legacy_edges.update(_corridor_edge_aliases(source_root, native_root).values())
+        except (OSError, ET.ParseError, KeyError, TypeError, ValueError) as error:
+            legacy_merge_error = f"{type(error).__name__}: {error}"
+            legacy_conversion.update(merge_status="failed", merge_error=legacy_merge_error)
+    if command_status and scoped_plan is None and legacy_merge_error is None:
+        from .artifact_io import copy_file_atomic
+        if legacy_proposal.resolve() == source_net_file.resolve() or (ledger_file is not None and legacy_proposal.resolve() == ledger_file.resolve()):
+            raise ValueError("Native proposal output must not replace a protected input.")
+        copy_file_atomic(candidate_net_file, legacy_proposal)
+        extra_artifacts.append((legacy_proposal, "native_proposal"))
+    if command_status and additive_plan is not None and legacy_merge_error is None:
         touched_junction_ids = {
             str(record.get("from", ""))
             for record in additive_plan.get("edge_records", [])
@@ -987,8 +1112,42 @@ def materialize_corridor_edit_variant(
     }
     if command_status:
         try:
+            if legacy_merge_error:
+                raise ValueError(legacy_merge_error)
+            if operation_family == "merge_edges":
+                from .corridor_simplification import _corridor_edge_aliases, validate_merged_road_access
+                proposed_root = ET.parse(candidate_net_file).getroot()
+                validate_merged_road_access(source_root, proposed_root, _corridor_edge_aliases(source_root, proposed_root), target_ids=target_ids)
+            legacy_geometry = None
+            if scoped_plan is None:
+                restore = restore_off_scope_netconvert_artifacts(source_file=source_net_file, target_file=candidate_net_file,
+                    mutable_junction_ids=legacy_nodes, mutable_edge_ids=legacy_edges, expand_mutable_edge_endpoints=False)
+                geometry = compare_frozen_geometry(source_file=source_net_file, candidate_file=candidate_net_file,
+                    mutable_junction_ids=legacy_nodes, mutable_edge_ids=legacy_edges)
+                legacy_geometry = {"status": "pass" if restore["status"] == geometry["status"] == "pass"
+                    and file_sha256(source_net_file) == source_geometry_hash else "blocked",
+                    "restoration": restore, "geometry": geometry, "source_sha256": source_geometry_hash}
+            scoped_validation = check_scoped_edit(plan=scoped_plan, candidate_file=candidate_net_file,
+                output_dir=output_dir, netconvert_binary=netconvert_binary, timeout_seconds=timeout_seconds,
+                command_runner=command_runner) if scoped_plan is not None else None
+            if scoped_validation is not None and scoped_validation.get("local_conversion", {}).get("status") == "local":
+                for name in ("native_output", "merged_proposal"):
+                    extra_artifacts.append((Path(scoped_validation["local_conversion"][name]["path"]), f"local_conversion_{name}"))
+            if scoped_validation is not None:
+                links = scoped_validation["loaded_link_preservation"]
+                extra_artifacts.append((Path(links["report_file"]), "loaded_link_preservation"))
+                for name in ("request", "observations"):
+                    if links[name] is not None:
+                        extra_artifacts.append((Path(links[name]["path"]), f"loaded_link_{name}"))
+                extra_artifacts.extend((Path(row["path"]), "loaded_link_input") for row in links["frozen_inputs"])
+                for attempt in scoped_validation.get("native_path_repair", {}).get("attempts", []):
+                    for name in ("before", "patch", "failed_output"):
+                        if name in attempt:
+                            extra_artifacts.append((Path(attempt[name]["path"]), f"path_repair_{name}"))
             candidate_root = ET.parse(candidate_net_file).getroot()
-            semantic_validation = {"status": "pass", "candidate_xml_status": "pass"}
+            semantic_validation = scoped_validation or {"status": "pass", "candidate_xml_status": "pass"}
+            if scoped_validation is not None and scoped_validation.get("connectivity_review_required"):
+                scoped_operations[0]["review_requirements"]["map_review_required"] = True
             if additive_plan is not None:
                 candidate_edges = _normal_edges(candidate_root)
                 expected_edge_ids = [record["edge_id"] for record in additive_plan.get("edge_records", [])]
@@ -1028,8 +1187,14 @@ def materialize_corridor_edit_variant(
                     "pedestrian_restore_status": pedestrian_restore_status,
                     "modal_connectivity": modal_addition_report,
                 }
-        except (OSError, ET.ParseError) as exc:
+            if legacy_geometry is not None:
+                semantic_validation["geometry_preservation"] = legacy_geometry
+                if legacy_geometry["status"] != "pass":
+                    semantic_validation["status"] = "blocked"
+        except (OSError, ET.ParseError, KeyError, TypeError, ValueError, StopIteration) as exc:
             semantic_validation = {"status": "blocked", "error": f"{type(exc).__name__}: {exc}"}
+    if legacy_conversion is not None:
+        semantic_validation["local_conversion"] = legacy_conversion
 
     artifact_identity = (
         build_artifact_identity(source_net_file, candidate_net_file)
@@ -1165,22 +1330,23 @@ def materialize_corridor_edit_variant(
         except (OSError, TypeError, ValueError) as exc:
             review_html_error = f"{type(exc).__name__}: {exc}"
 
-    final_status = (
+    other_checks_passed = (
         command_status
-        and semantic_validation.get("status") == "pass"
         and artifact_identity.get("status") == "pass"
         and map_review_validation.get("status") == "pass"
         and overlay_status == "pass"
         and review_template_status == "pass"
         and review_html_status == "pass"
     )
+    final_status = other_checks_passed and semantic_validation.get("status") == "pass"
+    review_only = other_checks_passed and semantic_validation.get("status") == "review_required"
     if final_status:
         materialization_status = "variant_created_for_review"
     elif not command_status:
         materialization_status = "netconvert_failed"
     elif artifact_identity.get("status") != "pass":
         materialization_status = "artifact_identity_failed"
-    elif semantic_validation.get("status") != "pass":
+    elif semantic_validation.get("status") not in {"pass", "review_required"}:
         materialization_status = "semantic_gate_failed"
     elif map_review_validation.get("status") != "pass":
         materialization_status = "map_review_evidence_failed"
@@ -1188,12 +1354,14 @@ def materialize_corridor_edit_variant(
         materialization_status = "review_overlay_failed"
     elif review_template_status != "pass":
         materialization_status = "review_template_failed"
-    else:
+    elif review_html_status != "pass":
         materialization_status = "review_html_failed"
+    else:
+        materialization_status = "semantic_review_required"
     report = {
         "schema": "torii.corridor_materialization.v1",
-        "status": "pass" if final_status else "blocked",
-        "claim_status": "diagnostic-demo" if final_status else "construction-invalid",
+        "status": "pass" if final_status else "review_required" if review_only else "blocked",
+        "claim_status": "diagnostic-demo" if final_status or review_only else "construction-invalid",
         "materialization_status": materialization_status,
         "source_net_file": str(source_net_file.resolve()),
         "candidate_net_file": str(candidate_net_file.resolve()) if candidate_net_file.exists() else "",
@@ -1202,6 +1370,7 @@ def materialize_corridor_edit_variant(
         "artifact_identity": artifact_identity,
         "ledger_file": str(ledger_file.resolve()) if ledger_file else "",
         "operation_family": operation_family,
+        "materialization_method": scoped_plan["materialization_method"] if scoped_plan else "netconvert",
         "operation_ids": [operation["id"] for operation in accepted_mutating],
         "target_edge_ids": target_ids,
         "plan_description": plan_description,
@@ -1240,7 +1409,7 @@ def materialize_corridor_edit_variant(
         "review_template_error": review_template_error,
         "review_required": bool(review_template.get("review_required")),
         "validation": validation,
-        "candidate_variant_status": "review_only",
+        "candidate_variant_status": "failed_local_subset" if legacy_merge_error else "review_only",
         "warnings": [
             "source network was not modified",
             "candidate must pass SUMO load, routeability, topology, and semantic gates before promotion",
@@ -1278,6 +1447,8 @@ def run_corridor_candidate_gates(
     routeability_audit_func: Any | None = None,
     topology_audit_func: Any | None = None,
     command_runner: Any = run_command,
+    edit_ledger_file: Path | None = None,
+    netconvert_binary: str | None = None,
 ) -> dict[str, Any]:
     """Run promotion gates for an already materialized corridor candidate.
 
@@ -1340,6 +1511,9 @@ def run_corridor_candidate_gates(
     xml_gate = {"status": "pass" if not xml_errors else "blocked", "errors": xml_errors}
 
     if source_root is not None and candidate_root is not None:
+        scoped_plan = _bound_scoped_edit_plan(materialization_report, materialization_evidence, source_net_file, source_root)
+        source_lane_indices = _bound_source_lane_indices(materialization_report, materialization_evidence,
+            source_net_file, source_root, candidate_root)
         semantic_report = _candidate_semantic_gate(
             source_root,
             candidate_root,
@@ -1347,9 +1521,11 @@ def run_corridor_candidate_gates(
             candidate_net_file,
             allowed_deltas=semantic_allowances,
             allowed_tls_logic_changes=tls_logic_allowances,
+            source_lane_indices=source_lane_indices,
         )
         modal_report = _modal_connectivity_gate(source_root, candidate_root)
     else:
+        scoped_plan = {}
         semantic_report = _not_run_gate("source or candidate XML could not be parsed")
         modal_report = _not_run_gate("source or candidate XML could not be parsed")
 
@@ -1361,15 +1537,60 @@ def run_corridor_candidate_gates(
         "tls_modal_rail_bridge_tunnel": semantic_report,
         "modal_connectivity": modal_report,
     }
-    preflight_pass = all(gate.get("status") == "pass" for gate in preflight_gates.values())
+    if edit_ledger_file is not None:
+        from .network_edit_applicability import assess_edit_applicability
+
+        try:
+            edit_path = edit_ledger_file.resolve(strict=True)
+            edit_hash = file_sha256(edit_path)
+            edit_ledger = json.loads(edit_path.read_text(encoding="utf-8"))
+            if (Path(edit_ledger["source_net_file"]).resolve() != source_net_file.resolve()
+                    or not materialization_report or not materialization_report.get("ledger_file")
+                    or Path(materialization_report["ledger_file"]).resolve() != edit_path):
+                raise ValueError("Edit applicability requires the materialized source and ledger")
+            materialized_manifest = json.loads(Path(materialization_report["manifest_file"]).read_text(encoding="utf-8"))
+            ledger_bindings = [row for row in materialized_manifest.get("artifacts", [])
+                               if row.get("kind") == "edit_ledger" and Path(row["path"]).resolve() == edit_path]
+            if len(ledger_bindings) != 1 or ledger_bindings[0].get("sha256") != edit_hash:
+                raise ValueError("Edit ledger differs from the materialized ledger hash")
+            control = None
+            if (materialization_evidence["status"] == "pass" and len(edit_ledger.get("operations", [])) == 1
+                    and edit_ledger["operations"][0].get("operation") == "set_junction_shape"
+                    and assess_edit_applicability(edit_ledger)["status"] == "pass"):
+                from .junction_contour_control import build_identity_control
+                try:
+                    control = build_identity_control(edit_ledger, output_dir=output_dir,
+                        netconvert_binary=netconvert_binary or str(Path(sumo_binary).with_name("netconvert" + Path(sumo_binary).suffix)),
+                        command_runner=command_runner)
+                except (OSError, RuntimeError, ValueError, TypeError, KeyError, ET.ParseError) as error:
+                    control = {"status": "fail", "error": f"{type(error).__name__}: {error}"}
+            applicability = assess_edit_applicability(edit_ledger, candidate_net_file=candidate_net_file, identity_control_report=control)
+            applicability["ledger"] = {"path": str(edit_path), "sha256": edit_hash}
+            if file_sha256(edit_path) != edit_hash:
+                applicability["status"] = "blocked"
+            preflight_gates["edit_applicability"] = applicability
+            if applicability["status"] == "pass" and materialization_evidence["status"] == "pass":
+                preflight_gates["modal_connectivity"] = {
+                    "status": "pass", "basis": "edit_specific_all_class_boundary_paths",
+                    "boundary_paths": applicability["boundary_paths"], "aggregate_diagnostics": modal_report,
+                }
+        except (OSError, ValueError, TypeError, KeyError, ET.ParseError) as exc:
+            preflight_gates["edit_applicability"] = {"status": "blocked", "error": str(exc)}
+    preflight_allows_measurement = all(gate.get("status") in {"pass", "review_required"} for gate in preflight_gates.values())
+    qualified_review = (materialization_evidence["status"] == "review_required"
+                        and artifact_identity["status"] == xml_gate["status"] == "pass"
+                        and review_evidence["status"] in {"pass", "review_required"}
+                        and preflight_gates.get("edit_applicability", {}).get("status", "pass") != "blocked")
+    preflight_allows_measurement |= qualified_review
 
     sumo_load_gate = _not_run_gate("candidate preflight did not pass")
     routeability_gate = _not_run_gate("candidate preflight did not pass")
     topology_gate = _not_run_gate("candidate preflight did not pass")
     routeability_report: dict[str, Any] = {}
     topology_report: dict[str, Any] = {}
+    source_topology_report: dict[str, Any] = {}
 
-    if preflight_pass:
+    if preflight_allows_measurement:
         load_file = output_dir / f"{prefix}_sumo_load.txt"
         load_command = [
             sumo_binary,
@@ -1414,9 +1635,11 @@ def run_corridor_candidate_gates(
 
         candidate_token = str(artifact_identity.get("candidate_sha256", ""))[:12] or "unknown"
         if routeability_audit_func is None:
+            from functools import partial
             from .routeability_audit import run_routeability_audit
 
-            routeability_audit_func = run_routeability_audit
+            routeability_audit_func = partial(run_routeability_audit, od_reference_net_file=source_net_file,
+                                             source_lane_indices=source_lane_indices)
         try:
             raw_routeability = routeability_audit_func(
                 net_file=candidate_net_file,
@@ -1459,6 +1682,38 @@ def run_corridor_candidate_gates(
             topology_report,
             candidate_net_file=candidate_net_file,
         )
+        automatic_scope = preflight_gates.get("edit_applicability", {})
+        if topology_gate["status"] == "review_required" and (automatic_scope.get("status") == "pass" or scoped_plan):
+            from .topology_audit import compare_topology_source_findings
+            try:
+                source_token = str(artifact_identity.get("source_sha256", ""))[:12]
+                source_topology_report = dict(topology_audit_func(net_file=source_net_file,
+                    output_dir=output_dir / f"topology_source_{source_token}", prefix=f"{prefix}_source_topology",
+                    cluster_radius_m=30.0, min_cluster_nodes=3, osm_file=osm_file))
+                source_evidence = validate_topology_evidence(source_topology_report, candidate_net_file=source_net_file)
+                if source_evidence["status"] in {"pass", "review_required"}:
+                    operation = automatic_scope["operation"] if automatic_scope.get("status") == "pass" else scoped_plan["operation"]
+                    params = operation["params"]
+                    aliases = ({node: params["join_id"] for node in params["node_ids"]}
+                               if operation["operation"] in {"join_junctions", "absorb_reciprocal_fragment"} else {})
+                    scope_nodes = (automatic_scope["scope"]["source_junction_ids"] if automatic_scope.get("status") == "pass"
+                                   else scoped_plan["mutable_junction_ids"])
+                    relative = compare_topology_source_findings(topology_report, source_topology_report, node_aliases=aliases,
+                        source_node_ids=scope_nodes)
+                    if scoped_plan.get("scope_binding"):
+                        relative.update(source_scope_junction_ids=sorted(scope_nodes), scope_binding=scoped_plan["scope_binding"])
+                    # Verified direct edits do not reconstruct the inherited junction structure.
+                    direct_method = scoped_plan.get("materialization_method")
+                    if (direct_method in {"speed_attributes_only", "permission_attributes_only", "stop_line_edge_mean_3d"}
+                            and direct_method == materialization_report.get("materialization_method")
+                            and relative.get("reason") == "edit_scope_in_inherited_topology_finding"):
+                        relative.update(status="pass", reason="no_new_or_worsened_source_topology_findings",
+                                        scope_findings_informational=True, scope_basis="verified_direct_edit_without_junction_reconstruction")
+                    topology_gate = {**relative, "candidate_audit": topology_gate, "source_audit": source_evidence}
+                else:
+                    topology_gate.update(reason="source_topology_evidence_unavailable", source_audit=source_evidence)
+            except (OSError, RuntimeError, TypeError, ValueError, KeyError, ET.ParseError) as error:
+                topology_gate.update(reason="source_topology_comparison_unavailable", error=str(error))
 
     gates = {
         **preflight_gates,
@@ -1466,11 +1721,23 @@ def run_corridor_candidate_gates(
         "routeability": routeability_gate,
         "topology": topology_gate,
     }
-    status = "pass" if all(gate.get("status") == "pass" for gate in gates.values()) else "blocked"
+    if edit_ledger_file is not None:
+        try:
+            bound = gates["edit_applicability"].get("ledger", {})
+            if (file_sha256(edit_ledger_file) != bound.get("sha256")
+                    or file_sha256(source_net_file) != artifact_identity.get("source_sha256")
+                    or file_sha256(candidate_net_file) != artifact_identity.get("candidate_sha256")):
+                gates["edit_applicability"]["status"] = "blocked"
+                gates["edit_applicability"]["input_changed_during_gates"] = True
+        except OSError as exc:
+            gates["edit_applicability"]["status"] = "blocked"
+            gates["edit_applicability"]["error"] = str(exc)
+    states = {gate.get("status") for gate in gates.values()}
+    status = "pass" if states == {"pass"} else "review_required" if states <= {"pass", "review_required"} else "blocked"
     report = {
         "schema": "torii.corridor_candidate_gates.v2",
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "blocked",
+        "claim_status": "diagnostic-demo" if status == "pass" else status,
         "source_net_file": str(source_net_file.resolve()),
         "candidate_net_file": str(candidate_net_file.resolve()),
         "source_sha256": artifact_identity.get("source_sha256", ""),
@@ -1486,8 +1753,15 @@ def run_corridor_candidate_gates(
         "gates": gates,
         "routeability_report": routeability_report,
         "topology_report": topology_report,
+        "source_topology_report": source_topology_report,
+        "whole_network_review": {"status": topology_gate.get("whole_network_status", topology_gate["status"]),
+                                 **({"execution_status": "not_run"} if topology_gate.get("execution_status") == "not_run" else {}),
+                                 "inherited_finding_count": topology_gate.get("inherited_finding_count"),
+                                 "scope_finding_count": len(topology_gate["scope_findings"]) if "scope_findings" in topology_gate else None},
         "warnings": [] if status == "pass" else ["candidate remains review-only until every required gate passes"],
     }
+    if topology_gate.get("whole_network_status") == "review_required":
+        report["warnings"].append("Source-relative topology qualification retains inherited whole-network findings for review.")
     return _write_candidate_gate_outcome(
         report=report,
         report_file=report_file,
@@ -1530,8 +1804,13 @@ def normalize_edit_operation(operation: Mapping[str, Any]) -> dict[str, Any]:
         "crossing_edges",
         "x",
         "y",
+        "shape", "fromLane", "toLane", "node_ids", "join_id", "signal_policy",
+        "interior_lane_change_policy", "maximum_length_m", "from_node", "to_node", "tls_id",
+        "link_mapping", "retained_node_id", "lane_id", "width_m",
     )
     for key in promoted_keys:
+        if key == "type" and "operation" not in raw:
+            continue
         if key in raw and key not in params:
             params[key] = raw[key]
     target_ids = raw.get("target_ids", raw.get("edge_ids", raw.get("targets", [])))
@@ -1550,6 +1829,8 @@ def normalize_edit_operation(operation: Mapping[str, Any]) -> dict[str, Any]:
         for key in ("map_review_required", "review_question"):
             if key in raw and key not in normalized_review_requirements:
                 normalized_review_requirements[key] = raw[key]
+        if operation_type in {"relocate_tls_control", "demote_duplicate_tls"}:
+            normalized_review_requirements["map_review_required"] = True
         review_requirements = normalized_review_requirements
     else:
         review_requirements = raw_review_requirements
@@ -1568,6 +1849,93 @@ def normalize_edit_operation(operation: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _native_edge_list_scope(report, source_file, source_root, path, operation):
+    """Derive legacy scope from the recorded native input, without a new plan format."""
+    if sum(report["command"].count(flag) for flag in ("--remove-edges.input-file", "--geometry.remove.keep-edges.input-file")) != 1:
+        return {}
+    if (Path(report["source_net_file"]).resolve() != source_file.resolve()
+            or report["source_sha256"] != file_sha256(source_file)):
+        return {}
+    nodes, mutable_edges, _ = legacy_edge_edit_scope(source_root, operation, report["command"])
+    return {"operation": {"operation": operation, "params": {}}, "source": {"path": str(source_file), "sha256": report["source_sha256"]},
+            "mutable_junction_ids": sorted(nodes), "mutable_edge_ids": sorted(mutable_edges),
+            "scope_binding": {"basis": "manifest_bound_native_edge_list", "path": str(path), "sha256": file_sha256(path)}}
+
+
+def _bound_scoped_edit_plan(report, evidence, source_file, source_root):
+    """Read a bound plan only when its scope matches the source operation."""
+    if not report or evidence.get("status") not in {"pass", "review_required"}:
+        return {}
+    try:
+        path = Path(report["plan_file"]).resolve(strict=True)
+        manifest = json.loads(Path(report["manifest_file"]).read_text(encoding="utf-8"))
+        bindings = [row for row in manifest["artifacts"] if row.get("kind") == "materialization_plan"
+                    and Path(row["path"]).resolve() == path]
+        if len(bindings) != 1 or bindings[0].get("sha256") != file_sha256(path):
+            return {}
+        command = report.get("command", [])
+        native_kinds = {"--remove-edges.input-file": "delete_edge", "--geometry.remove.keep-edges.input-file": "merge_edges"}
+        matched = [kind for flag, kind in native_kinds.items() if command.count(flag) == 1
+                   and command.index(flag) + 1 < len(command) and Path(command[command.index(flag) + 1]).resolve() == path]
+        if len(matched) == 1:
+            return _native_edge_list_scope(report, source_file, source_root, path, matched[0])
+        if matched:
+            return {}
+        try:
+            plan = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            if (Path(report["source_net_file"]).resolve() != source_file.resolve()
+                    or report["source_sha256"] != file_sha256(source_file)):
+                return {}
+            nodes, edges, _, files = legacy_additive_edit_scope(source_root, command)
+            if path not in files or any(not any(Path(row["path"]).resolve() == file and row.get("sha256") == file_sha256(file)
+                    for row in manifest["artifacts"] if row.get("kind") in {"materialization_plan", "additive_plain_input"})
+                    for file in files):
+                return {}
+            return {"operation": {"operation": "additive", "params": {}},
+                    "source": {"path": str(source_file), "sha256": file_sha256(source_file)},
+                    "mutable_junction_ids": sorted(nodes), "mutable_edge_ids": sorted(edges),
+                    "scope_binding": {"basis": "manifest_bound_native_additive_inputs", "inputs": [
+                        {"path": str(file), "sha256": file_sha256(file)} for file in files]}}
+        if (Path(plan["source"]["path"]).resolve() != source_file.resolve()
+                or plan["source"]["sha256"] != file_sha256(source_file)):
+            return {}
+        from .network_edit_operations import scoped_operation_scope, validate_scoped_operation
+        if validate_scoped_operation(plan["operation"], source_root):
+            return {}
+        policy = plan.get("lane_count_scope_policy")
+        if policy not in {None, "overlap_connector_closure"} or policy and plan["operation"]["operation"] != "set_lane_count":
+            return {}
+        nodes, edges = scoped_operation_scope(source_root, plan["operation"], include_overlap_connectors=policy is not None)
+        if set(plan["mutable_junction_ids"]) != nodes or set(plan["mutable_edge_ids"]) != edges:
+            return {}
+        return plan
+    except (OSError, ET.ParseError, KeyError, ValueError, TypeError):
+        return {}
+
+
+def _bound_source_lane_indices(report, evidence, source_file, source_root, candidate_root):
+    """Bind retained lane identities and explicit removals to the source plan."""
+    plan = _bound_scoped_edit_plan(report, evidence, source_file, source_root)
+    if not plan or plan["operation"]["operation"] != "set_lane_count":
+        return {}
+    try:
+        old, new = _normal_edges(source_root), _normal_edges(candidate_root)
+        params = plan["operation"]["params"]
+        target = params["edge_id"]
+        if old.keys() != new.keys() or len(new[target].findall("lane")) != params["num_lanes"]:
+            return {}
+        from .network_edit_operations import _lane_count_layout
+        mapping = {str(key): value for key, value in _lane_count_layout(params, old[target], source_root.get("version", "0.0")).items()}
+        if (mapping != plan["lane_index_mapping"]
+                or mapping != report["semantic_validation"]["lane_index_mapping"]):
+            return {}
+        return {target: {str(index): str(mapping[str(index)]) if str(index) in mapping else None
+                         for index in range(len(old[target].findall("lane")))}}
+    except (OSError, KeyError, ValueError, TypeError):
+        return {}
+
+
 def _candidate_semantic_gate(
     source_root: ET.Element,
     candidate_root: ET.Element,
@@ -1576,6 +1944,7 @@ def _candidate_semantic_gate(
     *,
     allowed_deltas: Mapping[str, int] | None = None,
     allowed_tls_logic_changes: Mapping[str, Mapping[str, Any]] | None = None,
+    source_lane_indices=None,
 ) -> dict[str, Any]:
     source_counts = _protected_semantic_counts(source_root)
     candidate_counts = _protected_semantic_counts(candidate_root)
@@ -1604,7 +1973,7 @@ def _candidate_semantic_gate(
     try:
         from .corridor_simplification import audit_alias_normalized_connections
 
-        connection_audit = audit_alias_normalized_connections(source_file, candidate_file)
+        connection_audit = audit_alias_normalized_connections(source_file, candidate_file, source_lane_indices=source_lane_indices)
     except (OSError, ET.ParseError, ValueError) as exc:
         connection_audit = {"status": "fail", "error": f"{type(exc).__name__}: {exc}"}
     tls_logic_report = _compare_tls_logic_semantics(
@@ -1650,27 +2019,20 @@ def _permission_allows_mode(
     lane_attributes: Mapping[str, str],
     mode: str,
 ) -> bool:
-    edge_allow = set(str(edge_attributes.get("allow", "")).split())
-    edge_disallow = set(str(edge_attributes.get("disallow", "")).split())
-    lane_allow = set(str(lane_attributes.get("allow", "")).split())
-    lane_disallow = set(str(lane_attributes.get("disallow", "")).split())
-    if mode in lane_disallow or mode in edge_disallow:
-        return False
-    if lane_allow:
-        return mode in lane_allow
-    if edge_allow:
-        return mode in edge_allow
-    return True
+    from .osm_access import _permission_set
+    attributes = lane_attributes if "allow" in lane_attributes or "disallow" in lane_attributes else edge_attributes
+    return mode in _permission_set(attributes)
 
 
 def _edge_lane_allows_modal_mode(edge: ET.Element, lane_index: str, mode: str) -> bool:
     lanes = list(edge.findall("lane"))
     if not lanes:
         return _edge_allows_modal_mode(edge, mode)
-    lane = next((item for item in lanes if str(item.attrib.get("index", "")) == lane_index), None)
-    if lane is None:
+    try:
+        index = int(lane_index)
+    except (ValueError, TypeError):
         return False
-    return _permission_allows_mode(edge.attrib, lane.attrib, mode)
+    return 0 <= index < len(lanes) and _permission_allows_mode(edge.attrib, lanes[index].attrib, mode)
 
 
 def _connected_components(adjacency: Mapping[str, set[str]]) -> list[set[str]]:
@@ -1702,6 +2064,15 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
         for edge_id, edge in all_edges.items()
         if _edge_allows_modal_mode(edge, mode)
     }
+    connections = root.findall("connection")
+    if mode != "pedestrian":
+        from .osm_access import _permission_set
+        from .local_network_conversion import loaded_turn_permissions
+        modal_edges = {key: edge for key, edge in normal_edges.items()
+                       if any(mode in _permission_set(lane.attrib, network_version=root.get("version", "0.0"))
+                              for lane in edge.findall("lane"))}
+        connections = [ET.Element("connection", **dict(zip(("from", "fromLane", "to", "toLane"), map(str, key))))
+                       for key, allowed in loaded_turn_permissions(root).items() if mode in allowed]
     normal_modal_edges: dict[str, ET.Element] = {}
     junction_adjacency: dict[str, set[str]] = defaultdict(set)
     for edge_id, edge in normal_edges.items():
@@ -1718,7 +2089,7 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
     connection_adjacency: dict[str, set[str]] = {edge_id: set() for edge_id in modal_edges}
     edge_connection_counts = {edge_id: 0 for edge_id in normal_modal_edges}
     connection_count = 0
-    for connection in root.findall("connection"):
+    for connection in connections:
         from_edge_id = str(connection.attrib.get("from", ""))
         to_edge_id = str(connection.attrib.get("to", ""))
         from_edge = modal_edges.get(from_edge_id)
@@ -1727,9 +2098,9 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
             continue
         from_lane = str(connection.attrib.get("fromLane", "0"))
         to_lane = str(connection.attrib.get("toLane", "0"))
-        if not _edge_lane_allows_modal_mode(from_edge, from_lane, mode):
+        if mode == "pedestrian" and not _edge_lane_allows_modal_mode(from_edge, from_lane, mode):
             continue
-        if not _edge_lane_allows_modal_mode(to_edge, to_lane, mode):
+        if mode == "pedestrian" and not _edge_lane_allows_modal_mode(to_edge, to_lane, mode):
             continue
         connection_count += 1
         connection_adjacency[from_edge_id].add(to_edge_id)
@@ -1754,6 +2125,7 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
     )
     return {
         "edge_count": len(normal_modal_edges),
+        "connection_basis": "explicit_pedestrian_connections" if mode == "pedestrian" else "loaded_ordinary_movements",
         "node_count": len(junction_adjacency),
         "component_count": len(junction_components),
         "largest_component_node_count": max((len(component) for component in junction_components), default=0),
@@ -1772,8 +2144,14 @@ def _modal_graph_stats(root: ET.Element, mode: str) -> dict[str, Any]:
 
 
 def _modal_connectivity_gate(source_root: ET.Element, candidate_root: ET.Element) -> dict[str, Any]:
-    source = {mode: _modal_graph_stats(source_root, mode) for mode in _MODAL_MODES}
-    candidate = {mode: _modal_graph_stats(candidate_root, mode) for mode in _MODAL_MODES}
+    snapshots = {}
+    for name, root in (("source", source_root), ("candidate", candidate_root)):
+        try:
+            snapshots[name] = {mode: _modal_graph_stats(root, mode) for mode in _MODAL_MODES}
+        except ValueError as error:
+            return {"status": "blocked", "source": snapshots.get("source", {}), "candidate": {}, "decreases": {},
+                    "errors": [{"code": "loaded_modal_graph_unavailable", "network": name, "detail": str(error)}]}
+    source, candidate = snapshots["source"], snapshots["candidate"]
     decreases: dict[str, dict[str, tuple[int, int]]] = {}
     for mode in _MODAL_MODES:
         mode_decreases: dict[str, tuple[int, int]] = {}
@@ -1806,17 +2184,38 @@ def _modal_addition_gate(
     candidate_root: ET.Element,
     edge_records: Iterable[Mapping[str, Any]],
 ) -> dict[str, Any]:
-    source_stats = {mode: _modal_graph_stats(source_root, mode) for mode in _MODAL_MODES}
-    candidate_stats = {mode: _modal_graph_stats(candidate_root, mode) for mode in _MODAL_MODES}
+    connectivity = _modal_connectivity_gate(source_root, candidate_root)
+    if connectivity.get("errors"):
+        return {"status": "blocked", "checked_additions": [], "errors": connectivity["errors"], "connectivity": connectivity}
+    source_stats, candidate_stats = connectivity["source"], connectivity["candidate"]
+    types = {row.get("id"): row for row in source_root.findall("type")}
     candidate_edges = _normal_edges(candidate_root)
     errors: list[dict[str, Any]] = []
     checked: list[dict[str, Any]] = []
+    layouts: list[dict[str, Any]] = []
     for record in edge_records:
         edge_id = str(record.get("edge_id", ""))
         operation = str(record.get("operation", ""))
         edge = candidate_edges.get(edge_id)
         if edge is None:
             continue
+        if "requested_native_num_lanes" in record:
+            from .osm_access import _permission_set
+            requested = int(record["requested_native_num_lanes"])
+            permissions = _permission_set(record["native_permissions"], network_version="1.20")
+            type_row = types.get(str(record.get("type", "")))
+            type_attrs = type_row.attrib if type_row is not None else {}
+            sidewalk = float(type_attrs.get("sidewalkWidth", "-1")) > 0 and permissions != {"pedestrian"}
+            base_permissions = permissions - {"pedestrian"} if sidewalk else permissions
+            bicycle = float(type_attrs.get("bikeLaneWidth", "-1")) > 0 and base_permissions != {"bicycle"}
+            actual = len(edge.findall("lane"))
+            expected = requested + int(sidewalk) + int(bicycle)
+            layout = {"edge_id": edge_id, "kind": "added_lane_layout", "input_num_lanes": requested,
+                      "type_added_sidewalk_lanes": int(sidewalk), "type_added_bicycle_lanes": int(bicycle),
+                      "expected_total_lanes": expected, "built_total_lanes": actual}
+            layouts.append(layout)
+            if actual != expected:
+                errors.append({**layout, "code": "added_lane_count_not_materialized"})
         allow = set(str(record.get("allow", "")).split())
         modes = [mode for mode in _MODAL_MODES if mode in allow]
         if operation == "add_sidewalk" and "pedestrian" not in modes:
@@ -1848,12 +2247,12 @@ def _modal_addition_gate(
                     "modal_connection_count": modal_connection_count,
                 }
             )
-    connectivity = _modal_connectivity_gate(source_root, candidate_root)
     if connectivity.get("status") != "pass":
         errors.append({"code": "modal_graph_decreased", "decreases": connectivity.get("decreases", {})})
     return {
         "status": "pass" if not errors else "blocked",
         "checked_additions": checked,
+        "added_lane_layouts": layouts,
         "errors": errors,
         "connectivity": connectivity,
     }
@@ -1940,7 +2339,7 @@ def _protected_semantic_counts(root: ET.Element) -> dict[str, int]:
 
 
 def _not_run_gate(reason: str) -> dict[str, Any]:
-    return {"status": "blocked", "execution_status": "not_run", "reason": reason}
+    return {"status": "review_required", "execution_status": "not_run", "reason": reason}
 
 
 def _result_to_dict(result: Any) -> dict[str, Any]:
@@ -2002,6 +2401,8 @@ def _validate_operation_shape(item: Mapping[str, Any], errors: list[dict[str, An
     operation_type = str(item["operation"])
     target_ids = list(item.get("target_ids") or [])
     params = dict(item.get("params") or {})
+    if operation_type in SCOPED_EDIT_TYPES:
+        errors.extend(validate_scoped_operation(dict(item)))
     review_requirements = item.get("review_requirements", {})
     if not isinstance(review_requirements, Mapping):
         errors.append({"operation_id": operation_id, "code": "review_requirements_must_be_object"})
@@ -2037,6 +2438,9 @@ def _validate_against_network(
     operation_id = str(item["id"])
     operation_type = str(item["operation"])
     target_ids = [str(value) for value in item.get("target_ids", [])]
+    if operation_type in SCOPED_EDIT_TYPES:
+        errors.extend(validate_scoped_operation(dict(item), root))
+        return
     if operation_type in {"delete_edge", "merge_edges"}:
         missing = sorted(set(target_ids) - set(edges))
         if missing:
@@ -2152,6 +2556,9 @@ def _build_rollback(root: ET.Element, ledger: Mapping[str, Any]) -> dict[str, An
                     "junction_id": item.get("params", {}).get("node_id", ""),
                 }
             )
+        elif operation_type in SCOPED_EDIT_TYPES:
+            inverse.append({"operation_id": item["id"], "action": "restore_source_snapshot",
+                            "source_sha256": ledger.get("source_sha256"), "source_net_file": ledger.get("source_net_file")})
     return {
         "schema": "torii.corridor_edit_rollback.v1",
         "source_net_file": ledger.get("source_net_file", ""),
@@ -2452,6 +2859,19 @@ def _operation_review_shapes(
 ) -> list[dict[str, str]]:
     operation_type = str(operation.get("operation", ""))
     params = dict(operation.get("params") or {})
+    if operation_type in SCOPED_EDIT_TYPES:
+        node_ids = params.get("node_ids", [params.get("node_id"), params.get("from_node"), params.get("to_node")])
+        node_ids = {str(node) for node in node_ids if node} | ({str(params["join_id"])} if params.get("join_id") else set())
+        records = [{"edge_id": f"junction:{node.get('id')}", "shape": node.get("shape"), "geometry_source": label}
+                   for label, network in (("source_net", source_root), ("candidate_net", candidate_root))
+                   if network is not None for node in network.findall("junction")
+                   if node.get("id") in node_ids and node.get("shape")]
+        if records:
+            return records
+        if params.get("edge_id"):
+            return [{"edge_id": edge.get("id"), "shape": _edge_shape(edge), "geometry_source": label}
+                    for label, network in (("source_net", source_root), ("candidate_net", candidate_root))
+                    if network is not None for edge in network.findall("edge") if edge.get("id") == params["edge_id"]]
     if operation_type in {"add_edge", "add_sidewalk", "add_ramp"}:
         edge_ids = [str(params.get("id", f"torii-add-{operation.get('id', '')}"))]
         geometry_root = candidate_root
@@ -2499,6 +2919,14 @@ def _operation_location(operation: Mapping[str, Any], root: ET.Element) -> dict[
     junctions = {junction.attrib.get("id", ""): junction for junction in root.findall("junction")}
     if junction_id in junctions:
         return _junction_location(junctions[junction_id])
+    if operation.get("operation") in SCOPED_EDIT_TYPES:
+        names = params.get("node_ids", [params.get("from_node"), params.get("to_node")])
+        points = [_junction_location(junctions.get(node)) for node in names if node in junctions]
+        if points and all(point for point in points):
+            return {key: sum(point[key] for point in points) / len(points) for key in ("x", "y")}
+        for edge in root.findall("edge"):
+            if edge.get("id") in (params.get("from"), params.get("to"), params.get("edge_id")) or any(lane.get("id") == params.get("lane_id") for lane in edge.findall("lane")):
+                return _edge_location(edge)
     from_id = str(params.get("from", "")).strip()
     to_id = str(params.get("to", "")).strip()
     from_location = _junction_location(junctions.get(from_id))
@@ -2561,16 +2989,51 @@ def _normal_edges(root: ET.Element | None) -> dict[str, ET.Element]:
     }
 
 
-def _edge_duplicate_signature(edge: ET.Element) -> tuple[Any, ...]:
-    params = tuple(sorted((item.attrib.get("key", ""), item.attrib.get("value", "")) for item in edge.findall("param")))
-    return (
-        edge.attrib.get("from", ""),
-        edge.attrib.get("to", ""),
-        edge.attrib.get("type", ""),
-        edge.attrib.get("name", ""),
-        params,
-        _edge_lane_signature(edge),
-    )
+def _duplicate_element_state(element: ET.Element) -> str:
+    copy = deepcopy(element)
+    copy.attrib.pop("id", None)
+    if copy.tag == "lane":
+        copy.attrib.pop("index", None)
+    for lane in copy.findall("lane"):
+        lane.attrib.pop("id", None)
+    for row in copy.iter():
+        row.attrib = dict(sorted(row.attrib.items()))
+        row.tail = None
+        if row.text is not None and not row.text.strip():
+            row.text = None
+    return ET.tostring(copy, encoding="unicode")
+
+
+def _duplicate_internal_path(connection, lanes, continuations):
+    path, seen = [], set()
+    current = connection
+    while current.get("via"):
+        via = current.get("via")
+        rows = continuations.get((via, connection.get("to"), connection.get("toLane")), [])
+        if via not in lanes or via in seen or len(rows) != 1:
+            return ("unresolved", connection.get("from"), via)
+        seen.add(via)
+        current = rows[0]
+        rules = tuple(sorted((key, value) for key, value in current.attrib.items()
+                             if key not in {"from", "fromLane", "to", "via", "state"}))
+        children = tuple(ET.tostring(child, encoding="unicode") for child in current)
+        path.append((_duplicate_element_state(lanes[via]), rules, children))
+    return ("resolved", tuple(path))
+
+
+def _edge_duplicate_signature(edge: ET.Element, connections, internal_paths) -> tuple[Any, ...]:
+    movements = []
+    for connection in connections:
+        attributes = []
+        for key, value in sorted(connection.attrib.items()):
+            if key in {"via", "state"}:
+                continue
+            if key in {"from", "to"}:
+                value = (value == edge.get("id"), "" if value == edge.get("id") else value)
+            attributes.append((key, value))
+        children = tuple(ET.tostring(child, encoding="unicode") for child in connection)
+        movements.append((tuple(attributes), children, internal_paths[connection]))
+    return _duplicate_element_state(edge), tuple(sorted(movements))
 
 
 def _edge_lane_signature(edge: ET.Element) -> tuple[tuple[str, ...], ...]:
@@ -2601,10 +3064,18 @@ def _is_protected_edge(edge: ET.Element, root: ET.Element) -> bool:
 
 
 def _is_structurally_protected_edge(edge: ET.Element) -> bool:
+    metadata = {param.get("key"): param.get("value", "") for param in edge.findall("param")}
+    tags = {**metadata, **edge.attrib}
     return (
         edge.attrib.get("function", "") in _PROTECTED_FUNCTIONS
         or _is_rail_edge(edge)
-        or any(edge.attrib.get(field) in {"true", "yes"} for field in _PROTECTED_EDGE_ATTRS)
+        or any(value.lower() not in {"", "false", "no", "0"} for field in _PROTECTED_EDGE_ATTRS
+               for value in (edge.get(field, ""), metadata.get(field, "")))
+        or tags.get("service") == "parking_aisle"
+        or tags.get("amenity") in {"parking", "parking_entrance"}
+        or bool(tags.get("astra.parking.facility"))
+        or any(param.get("key") == "astra.parking.facility" and param.get("value")
+               for lane in edge.findall("lane") for param in lane.findall("param"))
     )
 
 
@@ -2621,11 +3092,15 @@ def _local_controlled_target_edges(root: ET.Element, target_ids: set[str]) -> se
 
 
 def _is_rail_edge(edge: ET.Element) -> bool:
-    values = " ".join(
-        [edge.attrib.get("type", ""), edge.attrib.get("allow", ""), edge.attrib.get("disallow", "")]
-        + [param.attrib.get("value", "") for param in edge.findall("param")]
-    ).lower()
-    return any(token in values for token in _RAIL_TOKENS)
+    absent = {"", "no", "false", "0", "razed", "dismantled", "demolished", "removed"}
+    types = {part.strip().lower() for part in edge.get("type", "").split("|")}
+    railway = [edge.get("railway", ""), *(param.get("value", "") for param in edge.findall("param")
+                                         if param.get("key") == "railway")]
+    # Names, exclusion lists and lifecycle-prefixed tags do not establish current rail infrastructure.
+    return (any(value in _RAIL_TOKENS or value.startswith("railway.") and value[8:] not in absent for value in types)
+            or any(value.strip().lower() not in absent for value in railway)
+            or any(value == "tram" or value.startswith("rail") or value in {"subway", "monorail"}
+                   for row in [edge, *edge.findall("lane")] for value in row.get("allow", "").split()))
 
 
 def _deduplicate_operations(operations: Iterable[Mapping[str, Any]]) -> list[dict[str, Any]]:
@@ -2663,6 +3138,10 @@ def _write_materialization_outcome(
 ) -> dict[str, Any]:
     """Persist both successful and blocked materialization decisions."""
     persisted = dict(report)
+    failed_subset = persisted.get("candidate_variant_status") == "failed_local_subset"
+    if failed_subset and candidate_net_file is not None and candidate_net_file.is_file():
+        persisted.update(failed_local_subset_file=str(candidate_net_file.resolve()),
+                         failed_local_subset_sha256=file_sha256(candidate_net_file), candidate_net_file="", candidate_sha256="")
     persisted["report_file"] = str(report_file)
     persisted["manifest_file"] = str(manifest_file)
     write_json_atomic(report_file, persisted, sort_keys=True)
@@ -2671,7 +3150,7 @@ def _write_materialization_outcome(
         (ledger_file, "edit_ledger"),
         (plan_file, "materialization_plan"),
         (command_file, "netconvert_command"),
-        (candidate_net_file, "candidate_net"),
+        (candidate_net_file, "failed_local_subset" if failed_subset else "candidate_net"),
         (report_file, "materialization_report"),
     ]
     artifact_candidates.extend((path, kind) for path, kind in (additional_plan_files or []))
@@ -2689,13 +3168,15 @@ def _write_materialization_outcome(
         "source_net_file": str(source_net_file.resolve()) if source_net_file is not None else "",
         "candidate_net_file": (
             str(candidate_net_file.resolve())
-            if candidate_net_file is not None and candidate_net_file.exists()
+            if not failed_subset and candidate_net_file is not None and candidate_net_file.exists()
             else ""
         ),
         "artifacts": artifacts,
         "source_overwrite_forbidden": True,
         "warnings": list(persisted.get("warnings") or []),
     }
+    if failed_subset:
+        manifest.update(candidate_variant_status="failed_local_subset", failed_local_subset_file=persisted.get("failed_local_subset_file", ""))
     write_json_atomic(manifest_file, manifest, sort_keys=True)
     return persisted
 
@@ -2712,13 +3193,17 @@ def _write_candidate_gate_outcome(
 ) -> dict[str, Any]:
     """Persist a candidate-gate decision, including all blocked preflight cases."""
     persisted = dict(report)
+    failed_subset = isinstance(materialization_report, Mapping) and materialization_report.get("candidate_variant_status") == "failed_local_subset"
+    if failed_subset:
+        persisted.update(candidate_variant_status="failed_local_subset", failed_local_subset_file=str(candidate_net_file.resolve()),
+                         candidate_net_file="", candidate_sha256="")
     persisted["report_file"] = str(report_file)
     persisted["manifest_file"] = str(manifest_file)
     write_json_atomic(report_file, persisted, sort_keys=True)
 
     artifact_candidates: list[tuple[Path | None, str]] = [
         (source_net_file, "source_net"),
-        (candidate_net_file, "candidate_net"),
+        (candidate_net_file, "failed_local_subset" if failed_subset else "candidate_net"),
     ]
     if isinstance(materialization_report, Mapping):
         materialization_path = materialization_report.get(
@@ -2774,7 +3259,7 @@ def _write_candidate_gate_outcome(
         "status": persisted.get("status", "blocked"),
         "claim_status": persisted.get("claim_status", "blocked"),
         "source_net_file": str(source_net_file.resolve()),
-        "candidate_net_file": str(candidate_net_file.resolve()),
+        "candidate_net_file": "" if failed_subset else str(candidate_net_file.resolve()),
         "source_sha256": persisted.get("source_sha256", ""),
         "candidate_sha256": persisted.get("candidate_sha256", ""),
         "gates": {
@@ -2784,6 +3269,8 @@ def _write_candidate_gate_outcome(
         "artifacts": artifacts,
         "source_overwrite_forbidden": True,
     }
+    if failed_subset:
+        manifest.update(candidate_variant_status="failed_local_subset", failed_local_subset_file=str(candidate_net_file.resolve()))
     write_json_atomic(manifest_file, manifest, sort_keys=True)
     return persisted
 

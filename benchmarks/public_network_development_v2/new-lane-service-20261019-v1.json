@@ -1,0 +1,257 @@
+{
+  "connected_native_case": {
+    "capture": {
+      "path": "outputs/new_lane_service_20261019_v1/connected-native-case/capture.json",
+      "sha256": "194f53ff0ab6648dcb6696b0b4eecc63b37bd997c35e725e29fab96e1741749c"
+    },
+    "service": {
+      "candidate_lane_count": 2,
+      "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence.",
+      "lanes": [
+        {
+          "incoming_movement_count": 1,
+          "incoming_movements": [
+            [
+              "in",
+              0,
+              "middle",
+              1
+            ]
+          ],
+          "lane_change_service": "not_measured",
+          "lane_id": "middle_1",
+          "lane_index": 1,
+          "outgoing_movement_count": 1,
+          "outgoing_movements": [
+            [
+              "middle",
+              1,
+              "out",
+              0
+            ]
+          ],
+          "source_edge_has_compatible_incoming": true,
+          "source_edge_has_compatible_outgoing": true,
+          "unverified_boundaries": [],
+          "vehicle_classes": [
+            "bus",
+            "passenger"
+          ]
+        }
+      ],
+      "source_lane_count": 1,
+      "status": "pass"
+    },
+    "middle_edge_sample_count": 35,
+    "observed_lane_ids": [
+      "middle_1"
+    ]
+  },
+  "schema": "astra.new-lane-service-qualification/v1",
+  "date": "2026-10-19",
+  "production_commit": "bc2efd80c75a98b82ae7d22c99ef54cdafdfc22f",
+  "producer_worktree_clean": true,
+  "cases": [
+    {
+      "mode": "release",
+      "status": "review_required",
+      "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\new_lane_service_20261019_v1\\hamburg-v4\\release\\edit-verification.json",
+      "candidate": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\new_lane_service_20261019_v1\\hamburg-v4\\release\\candidate\\corridor_materialized_variant.net.xml",
+      "service": {
+        "status": "review_required",
+        "source_lane_count": 4,
+        "candidate_lane_count": 5,
+        "lanes": [
+          {
+            "lane_id": "554713076#0_2",
+            "lane_index": 2,
+            "vehicle_classes": [
+              "passenger"
+            ],
+            "incoming_movement_count": 0,
+            "outgoing_movement_count": 0,
+            "incoming_movements": [],
+            "outgoing_movements": [],
+            "source_edge_has_compatible_incoming": true,
+            "source_edge_has_compatible_outgoing": true,
+            "unverified_boundaries": [
+              "incoming",
+              "outgoing"
+            ],
+            "lane_change_service": "not_measured"
+          }
+        ],
+        "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."
+      },
+      "construction_checks_passed": true,
+      "release_checks_passed": false,
+      "signal": "pass",
+      "nonmotor": "pass",
+      "warnings": [
+        "New lanes lack compatible boundary movements present on the source edge. Their intended service needs review."
+      ],
+      "materialization_status": "review_required",
+      "evidence_status": "review_required",
+      "candidate_gates": {
+        "status": "review_required",
+        "execution_status": "not_run",
+        "reason": "materialization_requires_review"
+      }
+    },
+    {
+      "mode": "explore",
+      "status": "measured",
+      "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\new_lane_service_20261019_v1\\hamburg-v4\\explore\\edit-verification.json",
+      "candidate": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\new_lane_service_20261019_v1\\hamburg-v4\\explore\\candidate.net.xml",
+      "service": {
+        "status": "review_required",
+        "source_lane_count": 4,
+        "candidate_lane_count": 5,
+        "lanes": [
+          {
+            "lane_id": "554713076#0_2",
+            "lane_index": 2,
+            "vehicle_classes": [
+              "passenger"
+            ],
+            "incoming_movement_count": 0,
+            "outgoing_movement_count": 0,
+            "incoming_movements": [],
+            "outgoing_movements": [],
+            "source_edge_has_compatible_incoming": true,
+            "source_edge_has_compatible_outgoing": true,
+            "unverified_boundaries": [
+              "incoming",
+              "outgoing"
+            ],
+            "lane_change_service": "not_measured"
+          }
+        ],
+        "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."
+      },
+      "construction_checks_passed": true,
+      "release_checks_passed": false,
+      "signal": "pass",
+      "nonmotor": "pass",
+      "warnings": [
+        "New lanes lack compatible boundary movements present on the source edge. Their intended service needs review."
+      ],
+      "outside_fact_change_count": 0
+    }
+  ],
+  "identity_checks": {
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "serialization": {
+    "tuple_array_difference_count": 463,
+    "example_paths": [
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.0",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.1",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.2",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.3",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.4",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.5",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.6",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.7",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.8",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.9",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.10",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.11",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.12",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.13",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.14",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.15",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.16",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.17",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.18",
+      "semantic_validation.native_path_repair.attempts.0.changes.0.after_shape.19"
+    ],
+    "json_values_equal": true
+  },
+  "semantics": [
+    "Geometry and vehicle permission counts do not establish a new through lane or capacity gain.",
+    "Unverified new boundary service preserves review_required through materialization, evidence validation and release command.",
+    "Definite construction failures retain blocked. Explore keeps physically valid measurements.",
+    "Source departure/arrival boundaries do not acquire requirements absent from compatible source lanes."
+  ],
+  "local_tests": [
+    {
+      "path": "outputs/new_lane_service_20261019_v1/service-consumers.log",
+      "passed": 111,
+      "seconds": 266.23,
+      "scope": "Intermediate service qualification and original consumers before evidence-review propagation."
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/review-contracts-final.log",
+      "passed": 48,
+      "seconds": 58.65
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/native-through-and-review-final.log",
+      "passed": 5,
+      "seconds": 16.07,
+      "scope": "Includes native through movement with all middle-edge FCD samples on the added lane at 0.1-second simulation steps."
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/json-and-review-contracts.log",
+      "passed": 37,
+      "seconds": 22.4
+    }
+  ],
+  "counts_overlap": true,
+  "negative_probes": [
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-service.log",
+      "reason": "Runner supplied facts_file to release; API requires a separate final calibration. No construction started."
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-service-v2.log",
+      "reason": "Immediate in-memory evidence comparison rejected JSON array vs tuple metadata."
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-service-v3.log",
+      "reason": "Repeated mismatch confirmed in semantic_validation before the shared JSON comparison repair."
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-v4/declaration.json",
+      "sha256": "cf0e27d7d2ac85ca4913031a2fa89ee7fdb60879193f0996393b993efdaec868"
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-v4/results.json",
+      "sha256": "3c6c70059e72e72f2c28ff08b5e5af7f6122fa357bf6fccf616f102c6947fb7d"
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-v4/immediate-evidence.json",
+      "sha256": "d94792f2e8b276b399def4560412bdc5c122e17f7faece32fd2ad61ab534decd"
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/hamburg-v4/serialization-diagnosis.json",
+      "sha256": "31d24738376551e2afc65de0aaf173dddf1f0585279c68fca7dd99a1a88550ec"
+    },
+    {
+      "path": "outputs/probe_new_lane_service_20261019_v4.py",
+      "sha256": "e4447c94de3bb038f85d26d995b707ea4515f4cfb62abfdbf03eecde9ac4ce5c"
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/service-before.log",
+      "sha256": "2c155d9db28cb7abc4ee3f7847daac45bde9deaebc5021a2f6878fe3ea5f0015"
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/json-equivalence-before.log",
+      "sha256": "186d8ac4c0aa128bb2c2c6d0ae7054c9e61580daa61a06541b7992134eca9aca"
+    },
+    {
+      "path": "outputs/new_lane_service_20261019_v1/json-and-review-contracts.log",
+      "sha256": "32666d794e05cf296b54e84513eaa770f217cdbe032d9881520d9efed5cf4cb9"
+    }
+  ],
+  "limits": [
+    "Static compatible boundary movement counts do not measure lane-change use, signal availability over time or discharge capacity.",
+    "The fully connected native case is synthetic. The real Hamburg default added lane remains unverified for through service.",
+    "Full CI for the latest production commit is pending at record creation.",
+    "Stochastic-driver validation, automatic-cleaning precision and remaining whole-network scopes remain open."
+  ]
+}

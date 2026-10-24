@@ -200,28 +200,29 @@ nor historical signal timing are road-construction acceptance requirements.
 
 ### 4. Review the Final Network
 
+Use fixed aerial views for routine before-and-after images:
+
 ```powershell
-python plugins/astra-sumo/scripts/netedit_background_review.py `
-  --net-file <candidate.net.xml> `
-  --expected-net-sha256 <sha256> `
-  --target-junction-id <junction-id> `
-  --out-dir <review-dir> `
-  --neutral-overview
+astra review render <request.json> <new-review-dir> --json
 ```
 
-The background review uses no global mouse or keyboard input. For Inspect
-captures it performs `Connection -> Inspect`: entering Connection mode makes
-NetEdit compute junction shapes, then Inspect mode shows the final surface.
+The request binds the source, candidate, and aerial image by SHA-256.
+Declare the image CRS, north-up bounds, capture date or year, license, and fixed view bounds.
+The renderer subtracts each network's offset and transforms its coordinates into the aerial CRS.
+Use the same image and views for both networks. It does not recompile either network.
 
-Interpret the standard review colors as follows:
+Interpret the rendered colors as follows:
 
-- blue: selected junction surface;
-- red: unselected junction surface after computation;
-- black: external SUMO edge or lane surface;
-- white: background or median, not proof of a disconnected route.
+- cyan: ordinary lane centerlines and width ribbons;
+- pink: internal lane geometry;
+- orange: junction contours;
+- yellow and green: crossing and walking-area geometry.
 
-The review must preserve the candidate hash. Screenshots support visual
-inspection only. They do not replace lane-to-lane, internal-path, vehicle-passage,
+Retain the report, image hashes, unmarked aerial crops, and comparison images.
+An unknown exact capture date remains unknown even when the year is available.
+For manual edits or an explicit NetEdit display inspection, use `astra-netedit`.
+Its optional background capture script remains available for mode-specific diagnosis.
+Images support visual inspection only. They do not replace lane-to-lane, internal-path, vehicle-passage,
 collision, teleport, unfinished-vehicle, or surface checks.
 
 ## Stop Conditions

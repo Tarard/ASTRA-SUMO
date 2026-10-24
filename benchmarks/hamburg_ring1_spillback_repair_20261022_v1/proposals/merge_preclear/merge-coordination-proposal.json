@@ -1,0 +1,80 @@
+{
+  "formal_result": false,
+  "native_verified": false,
+  "changed_controller": "GS_266199063",
+  "first_source_collision_s": 6782.2,
+  "native_fastest_transit": {
+    "hh_0119_Z_15_29375": {
+      "vehicle_id": "initialization_hh_0119_Z_15_29375_b2_p240_v26",
+      "upstream_exit_s": 2486.8,
+      "downstream_exit_s": 2488.1,
+      "transit_s": 1.2999999999997272
+    },
+    "hh_0119_Z_4_29437": {
+      "vehicle_id": "initialization_hh_0119_Z_4_29437_b2_p208_v9",
+      "upstream_exit_s": 2869.6,
+      "downstream_exit_s": 2876.1,
+      "transit_s": 6.5
+    },
+    "hh_0119_Z_5_30494": {
+      "vehicle_id": "readme_f5_b1_p56_v11",
+      "upstream_exit_s": 5037.3,
+      "downstream_exit_s": 5042.5,
+      "transit_s": 5.199999999999818
+    }
+  },
+  "upstream_windows_s": {
+    "A": [
+      11.0,
+      71.0
+    ],
+    "B": [
+      75.0,
+      89.0
+    ]
+  },
+  "coordinated_green_windows_s": {
+    "A": [
+      12,
+      71
+    ],
+    "B": [
+      75,
+      96
+    ]
+  },
+  "phases": [
+    [
+      6,
+      "rrGGGG"
+    ],
+    [
+      3,
+      "rryyyy"
+    ],
+    [
+      3,
+      "rrrrrr"
+    ],
+    [
+      59,
+      "GGrrrr"
+    ],
+    [
+      3,
+      "yyrrrr"
+    ],
+    [
+      1,
+      "rrrrrr"
+    ],
+    [
+      15,
+      "rrGGGG"
+    ]
+  ],
+  "preclear_receivers": true,
+  "other_programs_byte_identical": true,
+  "network_demand_targets_and_driver_unchanged": true,
+  "claim_boundary": "A local coordinated placeholder candidate, not source-confirmed real signal timing or binding. The native minimum transit is a proposal input, not a prediction under changed control. A new native comparison is required."
+}

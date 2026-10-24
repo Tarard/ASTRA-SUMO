@@ -1,0 +1,32 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "main_window_run": false,
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "completion": {
+    "loaded": 1954,
+    "inserted": 1806,
+    "arrived": 1661,
+    "running": 145,
+    "waiting": 147,
+    "collisions": 0,
+    "teleports": 0,
+    "discarded": 0
+  },
+  "native_monitor_status": "completed",
+  "native_end_s": 3600.0,
+  "native_E1_reconciled": true,
+  "available_initialization_bins": 52,
+  "exact_initialization_bins": 33,
+  "diagnostic_MAE": 6.576923076923077,
+  "diagnostic_max_abs_error": 43,
+  "complete_field_passages": 1703,
+  "other_complete_fields": 0,
+  "repeated_same_field_passages": 0,
+  "native_safe_prefix": true,
+  "exact_calibration_established": false,
+  "claim_boundary": "One exploratory driver perturbation in the initialization hour. No measured natural-behavior, source-code defect, geometry repair, main-window or exact-calibration claim."
+}

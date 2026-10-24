@@ -1,0 +1,2890 @@
+{
+  "reference_polyline": {
+    "input": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-cost-prototype-cohort-20261021-v1\\replay\\network.net.xml",
+      "sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff"
+    },
+    "status": "static_geometry_diagnostic",
+    "different_inlet_lane_no_foe_pairs": [
+      {
+        "junction": "266199070",
+        "first": [
+          "37693933#1",
+          1,
+          "234421319",
+          1
+        ],
+        "second": [
+          "37693933#1",
+          2,
+          "24483344#0",
+          0
+        ],
+        "first_internal_chain": [
+          ":266199070_3_1"
+        ],
+        "second_internal_chain": [
+          ":266199070_5_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "139083723#0",
+          2,
+          "139056860#1",
+          1
+        ],
+        "second": [
+          "139083723#0",
+          3,
+          "606141102#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_14_0"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_16_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821027#0",
+          4,
+          "186821029#1",
+          2
+        ],
+        "second": [
+          "186821027#0",
+          5,
+          "186821036#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_6_0",
+          ":LSA535_part0_30_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_7_0",
+          ":LSA535_part0_31_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821027#0",
+          4,
+          "186821029#1",
+          2
+        ],
+        "second": [
+          "186821027#0",
+          5,
+          "186821036#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_6_0",
+          ":LSA535_part0_30_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_7_1",
+          ":LSA535_part0_31_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      }
+    ],
+    "same_inlet_lane_fanout_intersections": [
+      {
+        "junction": "13879893",
+        "first": [
+          "19409045",
+          1,
+          "2963460#0",
+          1
+        ],
+        "second": [
+          "19409045",
+          1,
+          "-26623877",
+          0
+        ],
+        "first_internal_chain": [
+          ":13879893_4_1"
+        ],
+        "second_internal_chain": [
+          ":13879893_6_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "1561539019",
+        "first": [
+          "1164647033",
+          0,
+          "1164252355",
+          1
+        ],
+        "second": [
+          "1164647033",
+          0,
+          "186282281",
+          0
+        ],
+        "first_internal_chain": [
+          ":1561539019_0_1"
+        ],
+        "second_internal_chain": [
+          ":1561539019_3_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "1561539019",
+        "first": [
+          "1164647033",
+          0,
+          "1164252355",
+          2
+        ],
+        "second": [
+          "1164647033",
+          0,
+          "186282281",
+          0
+        ],
+        "first_internal_chain": [
+          ":1561539019_0_2"
+        ],
+        "second_internal_chain": [
+          ":1561539019_3_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "18653534",
+        "first": [
+          "448511533#3",
+          1,
+          "-139083714#2",
+          1
+        ],
+        "second": [
+          "448511533#3",
+          1,
+          "983227468#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":18653534_12_0",
+          ":18653534_28_0"
+        ],
+        "second_internal_chain": [
+          ":18653534_13_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "205068087",
+        "first": [
+          "189775477#2",
+          2,
+          "186714394",
+          1
+        ],
+        "second": [
+          "189775477#2",
+          2,
+          "186714394",
+          2
+        ],
+        "first_internal_chain": [
+          ":205068087_3_1"
+        ],
+        "second_internal_chain": [
+          ":205068087_3_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "205068087",
+        "first": [
+          "189775477#2",
+          2,
+          "186714394",
+          4
+        ],
+        "second": [
+          "189775477#2",
+          2,
+          "480873119",
+          1
+        ],
+        "first_internal_chain": [
+          ":205068087_3_4"
+        ],
+        "second_internal_chain": [
+          ":205068087_8_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          0
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          1
+        ],
+        "first_internal_chain": [
+          ":260305243_4_0"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          0
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          2
+        ],
+        "first_internal_chain": [
+          ":260305243_4_0"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          0
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          3
+        ],
+        "first_internal_chain": [
+          ":260305243_4_0"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          1
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          2
+        ],
+        "first_internal_chain": [
+          ":260305243_4_1"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          1
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          3
+        ],
+        "first_internal_chain": [
+          ":260305243_4_1"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          2
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          3
+        ],
+        "first_internal_chain": [
+          ":260305243_4_2"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "32510847",
+        "first": [
+          "-1563483961",
+          0,
+          "4935466#0",
+          1
+        ],
+        "second": [
+          "-1563483961",
+          0,
+          "660916748#2",
+          1
+        ],
+        "first_internal_chain": [
+          ":32510847_1_0"
+        ],
+        "second_internal_chain": [
+          ":32510847_2_0",
+          ":32510847_12_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "7900688747",
+        "first": [
+          "22791190",
+          0,
+          "-941838120#1",
+          2
+        ],
+        "second": [
+          "22791190",
+          0,
+          "941838120#2",
+          2
+        ],
+        "first_internal_chain": [
+          ":7900688747_0_1"
+        ],
+        "second_internal_chain": [
+          ":7900688747_2_1",
+          ":7900688747_14_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "606141103#1",
+          2,
+          "606141102#1",
+          1
+        ],
+        "second": [
+          "606141103#1",
+          2,
+          "-139083723#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_3_1"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_5_0",
+          ":LSA104_part0_28_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "139083723#0",
+          3,
+          "139056860#1",
+          1
+        ],
+        "second": [
+          "139083723#0",
+          3,
+          "606141102#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_14_1"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_16_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "139083723#0",
+          3,
+          "139056860#1",
+          1
+        ],
+        "second": [
+          "139083723#0",
+          3,
+          "606141102#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_14_1"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_16_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "963776077#0",
+          2,
+          "-139083723#0",
+          1
+        ],
+        "second": [
+          "963776077#0",
+          2,
+          "234423652#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_22_0",
+          ":LSA104_part0_33_0"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_23_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          0
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          0
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          0
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_2"
+        ],
+        "crosses": false,
+        "overlap_length_m": 0.10454664030949141,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "-1332144622",
+          0,
+          "251871702",
+          0
+        ],
+        "second": [
+          "-1332144622",
+          0,
+          "606141108",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_13_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_14_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "-1332144622",
+          0,
+          "51214742#1",
+          2
+        ],
+        "second": [
+          "-1332144622",
+          0,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_16_2"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_16_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "538341579#0",
+          2,
+          "51214742#1",
+          2
+        ],
+        "second": [
+          "538341579#0",
+          2,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_25_2",
+          ":LSA118_part0_47_2"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_25_3",
+          ":LSA118_part0_47_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_31_0",
+          ":LSA118_part0_48_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_31_1",
+          ":LSA118_part0_48_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_31_0",
+          ":LSA118_part0_48_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_31_2",
+          ":LSA118_part0_48_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "second": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_31_1",
+          ":LSA118_part0_48_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_31_2",
+          ":LSA118_part0_48_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          2,
+          "251871702",
+          0
+        ],
+        "second": [
+          "551319351#0",
+          2,
+          "251871702",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_34_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_34_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "538341584",
+          0,
+          "381750337",
+          2
+        ],
+        "second": [
+          "538341584",
+          0,
+          "51214742#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_36_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_38_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "186713422#0",
+          2,
+          "363112756#1",
+          2
+        ],
+        "second": [
+          "186713422#0",
+          2,
+          "977482749",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_2_2"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_5_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "186713422#0",
+          3,
+          "199230912#0",
+          0
+        ],
+        "second": [
+          "186713422#0",
+          3,
+          "199230912#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_6_1",
+          ":LSA119_part0_21_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "37413814#0",
+          1,
+          "363112756#1",
+          0
+        ],
+        "second": [
+          "37413814#0",
+          1,
+          "977482749",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_17_0",
+          ":LSA119_part0_23_0"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_18_0",
+          ":LSA119_part0_24_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "37413814#0",
+          1,
+          "363112756#1",
+          0
+        ],
+        "second": [
+          "37413814#0",
+          1,
+          "199230912#0",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_17_0",
+          ":LSA119_part0_23_0"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_19_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          2
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_2"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          2
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          4
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_3"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          2
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          5
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_4"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          3
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          4
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_2"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_3"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          3
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          5
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_2"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_4"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          4
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          5
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_3"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_4"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "142944325#0",
+          1,
+          "142944399#2",
+          2
+        ],
+        "second": [
+          "142944325#0",
+          1,
+          "142944399#2",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_28_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_28_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part1",
+        "first": [
+          "480873120#0",
+          0,
+          "142944325#0",
+          0
+        ],
+        "second": [
+          "480873120#0",
+          0,
+          "142944325#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA200_part1_0_0"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part1_0_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part3",
+        "first": [
+          "486864288",
+          2,
+          "503043835",
+          1
+        ],
+        "second": [
+          "486864288",
+          2,
+          "503043835",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA200_part3_2_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part3_2_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part3",
+        "first": [
+          "551303418",
+          0,
+          "551303422",
+          2
+        ],
+        "second": [
+          "551303418",
+          0,
+          "503043835",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA200_part3_5_0"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part3_6_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "2963460#1",
+          0,
+          "186821036#1",
+          0
+        ],
+        "second": [
+          "2963460#1",
+          0,
+          "186821036#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_16_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_16_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "2963460#1",
+          1,
+          "186821029#1",
+          2
+        ],
+        "second": [
+          "2963460#1",
+          1,
+          "186821029#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_18_1"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_18_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      }
+    ],
+    "different_inlet_lane_count": 4,
+    "by_junction": {
+      "266199070": 1,
+      "LSA104_part0": 1,
+      "LSA535_part0": 2
+    },
+    "same_lane_fanout_count": 50,
+    "structural_failure_count": 0,
+    "claim_boundary": "Polyline centerline intersections only, with a 0.1 m overlap reporting cutoff. No vehicle-envelope, collision probability, field path, or capacity claim."
+  },
+  "native_candidate": {
+    "input": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-native-fanout-curve-probe-20261021-v1\\candidate.net.xml",
+      "sha256": "1a4c6bb09453ccfbf1ea31887bdab95af061f20627a5ee55d692b661c48b9c44"
+    },
+    "status": "static_geometry_diagnostic",
+    "different_inlet_lane_no_foe_pairs": [
+      {
+        "junction": "266199070",
+        "first": [
+          "37693933#1",
+          1,
+          "234421319",
+          1
+        ],
+        "second": [
+          "37693933#1",
+          2,
+          "24483344#0",
+          0
+        ],
+        "first_internal_chain": [
+          ":266199070_3_1"
+        ],
+        "second_internal_chain": [
+          ":266199070_5_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "139083723#0",
+          2,
+          "139056860#1",
+          1
+        ],
+        "second": [
+          "139083723#0",
+          3,
+          "606141102#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_14_0"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_16_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821027#0",
+          4,
+          "186821029#1",
+          2
+        ],
+        "second": [
+          "186821027#0",
+          5,
+          "186821036#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_6_0",
+          ":LSA535_part0_30_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_7_0",
+          ":LSA535_part0_31_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821027#0",
+          4,
+          "186821029#1",
+          2
+        ],
+        "second": [
+          "186821027#0",
+          5,
+          "186821036#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_6_0",
+          ":LSA535_part0_30_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_7_1",
+          ":LSA535_part0_31_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      }
+    ],
+    "same_inlet_lane_fanout_intersections": [
+      {
+        "junction": "13879893",
+        "first": [
+          "19409045",
+          1,
+          "2963460#0",
+          1
+        ],
+        "second": [
+          "19409045",
+          1,
+          "-26623877",
+          0
+        ],
+        "first_internal_chain": [
+          ":13879893_4_1"
+        ],
+        "second_internal_chain": [
+          ":13879893_6_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "1561539019",
+        "first": [
+          "1164647033",
+          0,
+          "1164252355",
+          1
+        ],
+        "second": [
+          "1164647033",
+          0,
+          "186282281",
+          0
+        ],
+        "first_internal_chain": [
+          ":1561539019_0_1"
+        ],
+        "second_internal_chain": [
+          ":1561539019_3_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "1561539019",
+        "first": [
+          "1164647033",
+          0,
+          "1164252355",
+          2
+        ],
+        "second": [
+          "1164647033",
+          0,
+          "186282281",
+          0
+        ],
+        "first_internal_chain": [
+          ":1561539019_0_2"
+        ],
+        "second_internal_chain": [
+          ":1561539019_3_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "18653534",
+        "first": [
+          "448511533#3",
+          1,
+          "-139083714#2",
+          1
+        ],
+        "second": [
+          "448511533#3",
+          1,
+          "983227468#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":18653534_12_0",
+          ":18653534_28_0"
+        ],
+        "second_internal_chain": [
+          ":18653534_13_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "205068087",
+        "first": [
+          "189775477#2",
+          2,
+          "186714394",
+          1
+        ],
+        "second": [
+          "189775477#2",
+          2,
+          "186714394",
+          2
+        ],
+        "first_internal_chain": [
+          ":205068087_3_1"
+        ],
+        "second_internal_chain": [
+          ":205068087_3_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "205068087",
+        "first": [
+          "189775477#2",
+          2,
+          "186714394",
+          4
+        ],
+        "second": [
+          "189775477#2",
+          2,
+          "480873119",
+          1
+        ],
+        "first_internal_chain": [
+          ":205068087_3_4"
+        ],
+        "second_internal_chain": [
+          ":205068087_8_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          0
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          1
+        ],
+        "first_internal_chain": [
+          ":260305243_4_0"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          0
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          2
+        ],
+        "first_internal_chain": [
+          ":260305243_4_0"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          0
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          3
+        ],
+        "first_internal_chain": [
+          ":260305243_4_0"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          1
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          2
+        ],
+        "first_internal_chain": [
+          ":260305243_4_1"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          1
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          3
+        ],
+        "first_internal_chain": [
+          ":260305243_4_1"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "260305243",
+        "first": [
+          "1164252355",
+          2,
+          "1164252356",
+          2
+        ],
+        "second": [
+          "1164252355",
+          2,
+          "1164252356",
+          3
+        ],
+        "first_internal_chain": [
+          ":260305243_4_2"
+        ],
+        "second_internal_chain": [
+          ":260305243_4_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "32510847",
+        "first": [
+          "-1563483961",
+          0,
+          "4935466#0",
+          1
+        ],
+        "second": [
+          "-1563483961",
+          0,
+          "660916748#2",
+          1
+        ],
+        "first_internal_chain": [
+          ":32510847_1_0"
+        ],
+        "second_internal_chain": [
+          ":32510847_2_0",
+          ":32510847_12_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "7900688747",
+        "first": [
+          "22791190",
+          0,
+          "-941838120#1",
+          2
+        ],
+        "second": [
+          "22791190",
+          0,
+          "941838120#2",
+          2
+        ],
+        "first_internal_chain": [
+          ":7900688747_0_1"
+        ],
+        "second_internal_chain": [
+          ":7900688747_2_1",
+          ":7900688747_14_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "606141103#1",
+          2,
+          "606141102#1",
+          1
+        ],
+        "second": [
+          "606141103#1",
+          2,
+          "-139083723#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_3_1"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_5_0",
+          ":LSA104_part0_28_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "139083723#0",
+          3,
+          "139056860#1",
+          1
+        ],
+        "second": [
+          "139083723#0",
+          3,
+          "606141102#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_14_1"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_16_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "139083723#0",
+          3,
+          "139056860#1",
+          1
+        ],
+        "second": [
+          "139083723#0",
+          3,
+          "606141102#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_14_1"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_16_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA104_part0",
+        "first": [
+          "963776077#0",
+          2,
+          "-139083723#0",
+          1
+        ],
+        "second": [
+          "963776077#0",
+          2,
+          "234423652#1",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA104_part0_22_0",
+          ":LSA104_part0_33_0"
+        ],
+        "second_internal_chain": [
+          ":LSA104_part0_23_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          0
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          0
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          0
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "606141108",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_6_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_2"
+        ],
+        "crosses": false,
+        "overlap_length_m": 0.10454664030949141,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "1326490378#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_8_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "-1332144622",
+          0,
+          "251871702",
+          0
+        ],
+        "second": [
+          "-1332144622",
+          0,
+          "606141108",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_13_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_14_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "-1332144622",
+          0,
+          "51214742#1",
+          2
+        ],
+        "second": [
+          "-1332144622",
+          0,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_16_2"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_16_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "538341579#0",
+          2,
+          "51214742#1",
+          2
+        ],
+        "second": [
+          "538341579#0",
+          2,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_25_2",
+          ":LSA118_part0_47_2"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_25_3",
+          ":LSA118_part0_47_3"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_31_0",
+          ":LSA118_part0_48_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_31_1",
+          ":LSA118_part0_48_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          1
+        ],
+        "second": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_31_0",
+          ":LSA118_part0_48_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_31_2",
+          ":LSA118_part0_48_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          2
+        ],
+        "second": [
+          "551319351#0",
+          1,
+          "51214742#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_31_1",
+          ":LSA118_part0_48_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_31_2",
+          ":LSA118_part0_48_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "551319351#0",
+          2,
+          "251871702",
+          0
+        ],
+        "second": [
+          "551319351#0",
+          2,
+          "251871702",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_34_0"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_34_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA118_part0",
+        "first": [
+          "538341584",
+          0,
+          "381750337",
+          2
+        ],
+        "second": [
+          "538341584",
+          0,
+          "51214742#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA118_part0_36_1"
+        ],
+        "second_internal_chain": [
+          ":LSA118_part0_38_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "186713422#0",
+          2,
+          "363112756#1",
+          2
+        ],
+        "second": [
+          "186713422#0",
+          2,
+          "977482749",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_2_2"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_5_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "186713422#0",
+          3,
+          "199230912#0",
+          0
+        ],
+        "second": [
+          "186713422#0",
+          3,
+          "199230912#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_6_0"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_6_1",
+          ":LSA119_part0_21_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "37413814#0",
+          1,
+          "363112756#1",
+          0
+        ],
+        "second": [
+          "37413814#0",
+          1,
+          "977482749",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_17_0",
+          ":LSA119_part0_23_0"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_18_0",
+          ":LSA119_part0_24_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA119_part0",
+        "first": [
+          "37413814#0",
+          1,
+          "363112756#1",
+          0
+        ],
+        "second": [
+          "37413814#0",
+          1,
+          "199230912#0",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA119_part0_17_0",
+          ":LSA119_part0_23_0"
+        ],
+        "second_internal_chain": [
+          ":LSA119_part0_19_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          2
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_2"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          2
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          4
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_3"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          2
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          5
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_4"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          3
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          4
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_2"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_3"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          3
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          5
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_2"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_4"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "350033484#0",
+          2,
+          "551303417",
+          4
+        ],
+        "second": [
+          "350033484#0",
+          2,
+          "551303417",
+          5
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_8_3"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_8_4"
+        ],
+        "crosses": false,
+        "overlap_length_m": 6.110003794039036,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part0",
+        "first": [
+          "142944325#0",
+          1,
+          "142944399#2",
+          2
+        ],
+        "second": [
+          "142944325#0",
+          1,
+          "142944399#2",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA200_part0_28_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part0_28_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part1",
+        "first": [
+          "480873120#0",
+          0,
+          "142944325#0",
+          0
+        ],
+        "second": [
+          "480873120#0",
+          0,
+          "142944325#0",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA200_part1_0_0"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part1_0_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part3",
+        "first": [
+          "486864288",
+          2,
+          "503043835",
+          1
+        ],
+        "second": [
+          "486864288",
+          2,
+          "503043835",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA200_part3_2_1"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part3_2_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA200_part3",
+        "first": [
+          "551303418",
+          0,
+          "551303422",
+          2
+        ],
+        "second": [
+          "551303418",
+          0,
+          "503043835",
+          0
+        ],
+        "first_internal_chain": [
+          ":LSA200_part3_5_0"
+        ],
+        "second_internal_chain": [
+          ":LSA200_part3_6_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821027#0",
+          4,
+          "43305966#1",
+          0
+        ],
+        "second": [
+          "186821027#0",
+          4,
+          "186821036#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_4_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_5_0",
+          ":LSA535_part0_29_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821027#0",
+          4,
+          "43305966#1",
+          0
+        ],
+        "second": [
+          "186821027#0",
+          4,
+          "186821029#1",
+          2
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_4_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_6_0",
+          ":LSA535_part0_30_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821035#0",
+          3,
+          "43305966#1",
+          0
+        ],
+        "second": [
+          "186821035#0",
+          3,
+          "43305966#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_13_0",
+          ":LSA535_part0_32_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_13_1",
+          ":LSA535_part0_32_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "186821035#0",
+          3,
+          "43305966#1",
+          0
+        ],
+        "second": [
+          "186821035#0",
+          3,
+          "186821036#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_13_0",
+          ":LSA535_part0_32_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_15_0",
+          ":LSA535_part0_33_0"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "2963460#1",
+          0,
+          "186821036#1",
+          0
+        ],
+        "second": [
+          "2963460#1",
+          0,
+          "186821036#1",
+          1
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_16_0"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_16_1"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      },
+      {
+        "junction": "LSA535_part0",
+        "first": [
+          "2963460#1",
+          1,
+          "186821029#1",
+          2
+        ],
+        "second": [
+          "2963460#1",
+          1,
+          "186821029#1",
+          3
+        ],
+        "first_internal_chain": [
+          ":LSA535_part0_18_1"
+        ],
+        "second_internal_chain": [
+          ":LSA535_part0_18_2"
+        ],
+        "crosses": true,
+        "overlap_length_m": 0.0,
+        "foe_first_second": false,
+        "foe_second_first": false
+      }
+    ],
+    "different_inlet_lane_count": 4,
+    "by_junction": {
+      "266199070": 1,
+      "LSA104_part0": 1,
+      "LSA535_part0": 2
+    },
+    "same_lane_fanout_count": 54,
+    "structural_failure_count": 5,
+    "claim_boundary": "Polyline centerline intersections only, with a 0.1 m overlap reporting cutoff. No vehicle-envelope, collision probability, field path, or capacity claim."
+  }
+}

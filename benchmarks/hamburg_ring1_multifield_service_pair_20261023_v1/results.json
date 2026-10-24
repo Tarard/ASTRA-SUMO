@@ -1,0 +1,54 @@
+{
+  "formal_result": false,
+  "new_native_evaluations": 1,
+  "previous_manifest_sha256": "ad6058c59305a53eb9bde4bcd9ee7ad327f5fe868df9790665751bed162bbe9e",
+  "evaluations": {
+    "substitute-1pair": {
+      "main130": {
+        "SSE": 6898,
+        "TAE": 662,
+        "MAE": 5.092307692307692,
+        "max_abs_error": 27
+      },
+      "initial52": {
+        "SSE": 826,
+        "TAE": 82,
+        "MAE": 1.5769230769230769,
+        "max_abs_error": 16
+      },
+      "all182": {
+        "SSE": 7724,
+        "TAE": 744,
+        "MAE": 4.087912087912088,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 14.8,
+      "completion": {
+        "loaded": 8639,
+        "inserted": 8632,
+        "arrived": 8618,
+        "waiting": 7,
+        "running": 14,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8626,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 27,
+      "status": "rejected",
+      "substituted_pairs": 1,
+      "dual_complete": true,
+      "unchanged_prefix_rows": 156,
+      "all208_nVehContrib_equal_to_reference": true,
+      "all208_full_interval_attributes_equal_to_reference": false,
+      "changed_nVehContrib_rows": 0,
+      "changed_full_attribute_rows": 1
+    }
+  },
+  "source_selected_retained": true,
+  "inherited_audit_and_replay_functions": true
+}

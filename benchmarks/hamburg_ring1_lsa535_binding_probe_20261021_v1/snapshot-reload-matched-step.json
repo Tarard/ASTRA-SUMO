@@ -1,0 +1,35 @@
+{
+  "role": "native_snapshot_inspection",
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+    "-n",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\network.net.xml",
+    "--load-state",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\all-stopped-state.xml.gz",
+    "--step-length",
+    ".1",
+    "--seed",
+    "104",
+    "--time-to-teleport",
+    "-1",
+    "--collision.check-junctions",
+    "true",
+    "--remote-port",
+    "7613",
+    "--no-step-log",
+    "true",
+    "--log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\forensic-matched-step.log",
+    "--error-log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\forensic-matched-step-errors.log"
+  ],
+  "state": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\rebound\\all-stopped-state.xml.gz",
+    "sha256": "52d61e38e2992690a8576a3fdf83879027091b08c4d0b1c7e4a26dad6d493227"
+  },
+  "simulation_steps_requested": 0,
+  "status": "failed",
+  "error": "Connection closed by SUMO.",
+  "returncode": 1,
+  "original_state_unchanged": true
+}

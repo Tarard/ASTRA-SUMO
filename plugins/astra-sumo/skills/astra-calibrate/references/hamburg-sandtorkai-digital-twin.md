@@ -300,8 +300,12 @@ These three review-stage calls can be run together with
 `sumo_hamburg_sandtorkai_corridor_candidate_package` for the next ASTRA
 invocation.
 
-For an intermediate geometry candidate, use ASTRA's hash-bound background
-Netedit reviewer instead of passing the `.net.xml` as a configuration file:
+For routine geometry images, use `astra review render <request.json> <new-review-dir> --json`.
+Bind the source, candidate, and north-up aerial image by hash. Use the same geographic bounds for both networks.
+The canonical road-construction reference describes this review stage.
+
+For an explicit NetEdit display or mode inspection, use its hash-bound background
+reviewer instead of passing the `.net.xml` as a configuration file:
 
 ```text
 python plugins/astra-sumo/scripts/netedit_background_review.py \

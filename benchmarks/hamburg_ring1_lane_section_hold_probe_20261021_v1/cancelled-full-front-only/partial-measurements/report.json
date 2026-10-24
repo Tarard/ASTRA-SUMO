@@ -1,0 +1,30 @@
+{
+  "schema": "astra.partial-point-detector-measurements/v1",
+  "status": "no_effect",
+  "formal_result": false,
+  "native_completion_established": false,
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-full-20261021-v1\\field-counts.xml",
+      "sha256": "843ae7885afc5f4827ccdd1423fc7a9b1cb09b41a34d79926d95c54c83249060"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-full-20261021-v1\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    }
+  ],
+  "errors": [],
+  "source_parse_error": "unclosed token: line 104, column 4",
+  "completed_records": 51,
+  "expected_field_bins": 130,
+  "recovered_field_bins": 0,
+  "missing_field_bins": 130,
+  "exact_field_bins": 0,
+  "field_metrics": null,
+  "exact_count_fit": false,
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-full-20261021-v1\\partial-measurements\\field-comparison.csv",
+  "completed_records_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-full-20261021-v1\\partial-measurements\\completed-e1-records.xml",
+  "inputs_unchanged": true,
+  "claim_boundary": "Completed E1 records only. The native run remains unverified. No accepted fit metric or exact calibration result is supplied.",
+  "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-lane-section-hold-full-20261021-v1\\partial-measurements\\report.json"
+}

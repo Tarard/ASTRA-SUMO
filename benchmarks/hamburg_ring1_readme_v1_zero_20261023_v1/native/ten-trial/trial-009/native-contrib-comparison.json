@@ -1,0 +1,330 @@
+{
+  "count_definition": "Sum native periodic E1 nVehContrib across the historical station detector bank; not individually validated physical fields.",
+  "comparisons": [
+    {
+      "station_stream_id": 26585,
+      "begin": 0,
+      "end": 900,
+      "target": 120,
+      "measured": 118,
+      "error": -2
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 900,
+      "end": 1800,
+      "target": 98,
+      "measured": 99,
+      "error": 1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 1800,
+      "end": 2700,
+      "target": 127,
+      "measured": 126,
+      "error": -1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 2700,
+      "end": 3600,
+      "target": 104,
+      "measured": 105,
+      "error": 1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 3600,
+      "end": 4500,
+      "target": 147,
+      "measured": 146,
+      "error": -1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 4500,
+      "end": 5400,
+      "target": 122,
+      "measured": 123,
+      "error": 1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 5400,
+      "end": 6300,
+      "target": 162,
+      "measured": 161,
+      "error": -1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 6300,
+      "end": 7200,
+      "target": 140,
+      "measured": 141,
+      "error": 1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 7200,
+      "end": 8100,
+      "target": 128,
+      "measured": 129,
+      "error": 1
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 8100,
+      "end": 9000,
+      "target": 145,
+      "measured": 144,
+      "error": -1
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 0,
+      "end": 900,
+      "target": 101,
+      "measured": 101,
+      "error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 900,
+      "end": 1800,
+      "target": 67,
+      "measured": 66,
+      "error": -1
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 1800,
+      "end": 2700,
+      "target": 68,
+      "measured": 69,
+      "error": 1
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 2700,
+      "end": 3600,
+      "target": 77,
+      "measured": 75,
+      "error": -2
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 3600,
+      "end": 4500,
+      "target": 89,
+      "measured": 91,
+      "error": 2
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 4500,
+      "end": 5400,
+      "target": 89,
+      "measured": 87,
+      "error": -2
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 5400,
+      "end": 6300,
+      "target": 87,
+      "measured": 89,
+      "error": 2
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 6300,
+      "end": 7200,
+      "target": 79,
+      "measured": 79,
+      "error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 7200,
+      "end": 8100,
+      "target": 77,
+      "measured": 77,
+      "error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 8100,
+      "end": 9000,
+      "target": 83,
+      "measured": 81,
+      "error": -2
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 0,
+      "end": 900,
+      "target": 209,
+      "measured": 208,
+      "error": -1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 900,
+      "end": 1800,
+      "target": 194,
+      "measured": 193,
+      "error": -1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 1800,
+      "end": 2700,
+      "target": 210,
+      "measured": 211,
+      "error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 2700,
+      "end": 3600,
+      "target": 218,
+      "measured": 219,
+      "error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 3600,
+      "end": 4500,
+      "target": 185,
+      "measured": 184,
+      "error": -1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 4500,
+      "end": 5400,
+      "target": 194,
+      "measured": 194,
+      "error": 0
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 5400,
+      "end": 6300,
+      "target": 208,
+      "measured": 207,
+      "error": -1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 6300,
+      "end": 7200,
+      "target": 208,
+      "measured": 210,
+      "error": 2
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 7200,
+      "end": 8100,
+      "target": 187,
+      "measured": 186,
+      "error": -1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 8100,
+      "end": 9000,
+      "target": 176,
+      "measured": 176,
+      "error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 0,
+      "end": 900,
+      "target": 120,
+      "measured": 76,
+      "error": -44
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 900,
+      "end": 1800,
+      "target": 109,
+      "measured": 69,
+      "error": -40
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 1800,
+      "end": 2700,
+      "target": 136,
+      "measured": 86,
+      "error": -50
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 2700,
+      "end": 3600,
+      "target": 133,
+      "measured": 86,
+      "error": -47
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 3600,
+      "end": 4500,
+      "target": 133,
+      "measured": 75,
+      "error": -58
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 4500,
+      "end": 5400,
+      "target": 138,
+      "measured": 89,
+      "error": -49
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 5400,
+      "end": 6300,
+      "target": 118,
+      "measured": 75,
+      "error": -43
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 6300,
+      "end": 7200,
+      "target": 145,
+      "measured": 76,
+      "error": -69
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 7200,
+      "end": 8100,
+      "target": 134,
+      "measured": 82,
+      "error": -52
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 8100,
+      "end": 9000,
+      "target": 132,
+      "measured": 84,
+      "error": -48
+    }
+  ],
+  "total_absolute_error": 532,
+  "mae": 13.3,
+  "exact_bins": 5,
+  "max_absolute_error": 69,
+  "physical_130_field_acceptance": false
+}

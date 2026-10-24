@@ -1,0 +1,391 @@
+{
+  "date": "2026-10-16",
+  "code_commit": "ed0db24",
+  "promotion_authority": false,
+  "controls": [
+    {
+      "case": "test_local_approach_matches_co0",
+      "source_roads": 15,
+      "converted_source_roads": 3,
+      "planned_edge_endpoints": {
+        "approach.torii-before-7-0-1": {
+          "from": "s",
+          "to": "torii-merge-7-0-1"
+        },
+        "approach": {
+          "from": "torii-merge-7-0-1",
+          "to": "J"
+        }
+      },
+      "statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_and_snapshots_unchanged": true,
+      "input_reconstructed": true,
+      "merge_reconstructed": true,
+      "complete_source_elements_equal": true,
+      "gates": {
+        "source_immutable": "pass",
+        "scoped_geometry_restoration": "pass",
+        "fixed_boundary_geometry": "pass",
+        "external_connection_set": "pass",
+        "outside_geometry_and_attributes": "pass",
+        "controlled_continuations": "pass",
+        "bounded_restricted_ordinary_preserved": "pass",
+        "internal_path_continuity": "pass"
+      },
+      "root_attributes_equal": true
+    },
+    {
+      "case": "test_local_approach_matches_co1",
+      "source_roads": 15,
+      "converted_source_roads": 3,
+      "planned_edge_endpoints": {},
+      "statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_and_snapshots_unchanged": true,
+      "input_reconstructed": true,
+      "merge_reconstructed": true,
+      "complete_source_elements_equal": true,
+      "gates": {
+        "source_immutable": "pass",
+        "scoped_geometry_restoration": "pass",
+        "fixed_boundary_geometry": "pass",
+        "external_connection_set": "pass",
+        "outside_geometry_and_attributes": "pass",
+        "controlled_continuations": "pass",
+        "bounded_restricted_ordinary_preserved": "pass",
+        "internal_path_continuity": "pass"
+      },
+      "root_attributes_equal": true
+    },
+    {
+      "case": "test_local_approach_matches_co2",
+      "source_roads": 15,
+      "converted_source_roads": 3,
+      "planned_edge_endpoints": {
+        "approach.torii-before-7-0-1": {
+          "from": "s",
+          "to": "torii-merge-7-0-1"
+        },
+        "approach": {
+          "from": "torii-merge-7-0-1",
+          "to": "J"
+        }
+      },
+      "statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_and_snapshots_unchanged": true,
+      "input_reconstructed": true,
+      "merge_reconstructed": true,
+      "complete_source_elements_equal": true,
+      "gates": {
+        "source_immutable": "pass",
+        "scoped_geometry_restoration": "pass",
+        "fixed_boundary_geometry": "pass",
+        "external_connection_set": "pass",
+        "outside_geometry_and_attributes": "pass",
+        "controlled_continuations": "pass",
+        "bounded_restricted_ordinary_preserved": "pass",
+        "internal_path_continuity": "pass"
+      },
+      "root_attributes_equal": true
+    },
+    {
+      "case": "test_local_approach_matches_co3",
+      "source_roads": 15,
+      "converted_source_roads": 3,
+      "planned_edge_endpoints": {},
+      "statuses": [
+        "pass",
+        "pass"
+      ],
+      "source_and_snapshots_unchanged": true,
+      "input_reconstructed": true,
+      "merge_reconstructed": true,
+      "complete_source_elements_equal": true,
+      "gates": {
+        "source_immutable": "pass",
+        "scoped_geometry_restoration": "pass",
+        "fixed_boundary_geometry": "pass",
+        "external_connection_set": "pass",
+        "outside_geometry_and_attributes": "pass",
+        "controlled_continuations": "pass",
+        "bounded_restricted_ordinary_preserved": "pass",
+        "internal_path_continuity": "pass"
+      },
+      "root_attributes_equal": true
+    }
+  ],
+  "test_runs": [
+    {
+      "path": "outputs/local_approach_20261016_v1/before.xml",
+      "tests": 4,
+      "failures": 4,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "186fd613032c30e9409c3fce5a0f953b7fd7e173527c437c4c2a44baabcc597f"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/v2.xml",
+      "tests": 78,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "6cd87f2e6bbe6ae975e0394096a762da44afb955d9e38ceac29d22fbf9d0371b"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/v3.xml",
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "c1770361d277f8b4d752f705ce2957c51b7a6400270a226e60ac3f1d47781460"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/v4.xml",
+      "tests": 89,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "9a6b6cd0ed8fec0418d3b2a19d3ccd3aa7bc67d33578b35dbf73b58f4543814c"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/v5.xml",
+      "tests": 151,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "5c3404f6343e2c6fc9b4e13b5091966ddcdb8e952d7397c0688fa3ff1bf3b333"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/length-before.xml",
+      "tests": 2,
+      "failures": 2,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "af6b48d9a40fcc5d22babd48ebc5e6de30a2114294aab88c955d01e70e92354f"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/durable-before.xml",
+      "tests": 3,
+      "failures": 3,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "766865ed00b3ee978797d16c0cc2a9f382c0d15331060c2901dd5ef1c66e60cc"
+    },
+    {
+      "path": "outputs/local_approach_20261016_v1/durable-v2.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "sha256": "6669d114decb85be66f06bbbe23a17737c339462aaf212490da52074587abc56"
+    }
+  ],
+  "hamburg": {
+    "request": {
+      "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+      "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+    },
+    "workflow": {
+      "path": "outputs/local_approach_20261016_v1/hamburg-rebuild-v1/workflow.manifest.json",
+      "sha256": "3c32daa29bd61f7ab046eeb9026b00b7c37ca171670bdbd8e3bc7ea234895aae"
+    },
+    "status": "review_required",
+    "topology_complete": true,
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "candidate": {
+      "path": "outputs/local_approach_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+    },
+    "previous_candidate": {
+      "path": "outputs/local_movements_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+    },
+    "same_candidate_bytes": true,
+    "approach_status": "review_required",
+    "materialized_approaches": 0,
+    "approach_reviews": [
+      {
+        "node_id": "2349",
+        "intersection_part": "0",
+        "approach": "1",
+        "role": "ingress",
+        "reason": "official_merge_has_no_unique_continuing_lane"
+      },
+      {
+        "node_id": "2349",
+        "intersection_part": "0",
+        "approach": "2",
+        "role": "ingress",
+        "reason": "nearest_source_arm_lane_count_mismatch"
+      },
+      {
+        "node_id": "2349",
+        "intersection_part": "0",
+        "approach": "3",
+        "role": "ingress",
+        "reason": "no_unique_official_merge_event"
+      },
+      {
+        "node_id": "2394",
+        "intersection_part": "0",
+        "approach": "2",
+        "role": "ingress",
+        "reason": "official_merge_has_no_unique_continuing_lane"
+      },
+      {
+        "node_id": "2394",
+        "intersection_part": "0",
+        "approach": "3",
+        "role": "ingress",
+        "reason": "nearest_source_arm_lane_count_mismatch"
+      },
+      {
+        "node_id": "2394",
+        "intersection_part": "0",
+        "approach": "4",
+        "role": "ingress",
+        "reason": "official_merge_has_no_unique_continuing_lane"
+      }
+    ],
+    "meaning": "The unchanged Hamburg build is a regression check. Its unresolved approach proposals do not exercise the new local addition path.",
+    "inputs_unchanged": true,
+    "generated_inputs_unchanged": true,
+    "candidate_unchanged": true
+  },
+  "logical_length_controls": [
+    {
+      "case": "test_split_distributes_explici0",
+      "allocation": {
+        "source": 500.0,
+        "upstream": 299.9999999042484,
+        "downstream": 200.0000000957516,
+        "basis": "source_spatial_split_fraction"
+      },
+      "source_lane_lengths_m": [
+        500.0,
+        500.0
+      ],
+      "upstream_lane_lengths_m": [
+        300.0,
+        300.0
+      ],
+      "downstream_lane_lengths_m": [
+        200.0,
+        200.0,
+        200.0
+      ],
+      "upstream_end_offsets_m": [
+        0.0,
+        0.0
+      ],
+      "downstream_end_offsets_m": [
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "case": "test_split_distributes_explici1",
+      "allocation": {
+        "source": 500.0,
+        "upstream": 307.6923075941009,
+        "downstream": 192.3076924058991,
+        "basis": "source_spatial_split_fraction"
+      },
+      "source_lane_lengths_m": [
+        497.5,
+        497.5
+      ],
+      "upstream_lane_lengths_m": [
+        307.69,
+        307.69
+      ],
+      "downstream_lane_lengths_m": [
+        190.64,
+        190.64,
+        190.64
+      ],
+      "upstream_end_offsets_m": [
+        0.0,
+        0.0
+      ],
+      "downstream_end_offsets_m": [
+        5.0,
+        0.0,
+        0.0
+      ]
+    }
+  ],
+  "durable_failures": [
+    {
+      "record": {
+        "path": "outputs/local_approach_20261016_v1/pytest-durable-v2/test_failed_local_merge_keeps_0/merge-failure.conversion-record.json",
+        "sha256": "f34d27e33e53339564ee0904d4de8087c8c387900462d13afb1c9278bb836c20"
+      },
+      "status": "failed",
+      "returncode": 0,
+      "native_output_present": true,
+      "exception": {
+        "type": "ValueError",
+        "message": "test merge failure"
+      },
+      "source_unchanged": true
+    },
+    {
+      "record": {
+        "path": "outputs/local_approach_20261016_v1/pytest-durable-v2/test_native_error_without_outp0/native-error.conversion-record.json",
+        "sha256": "cbea9566769054df85c71c69a074dc783137d20fdb757b8786b0c34c88e3c1c0"
+      },
+      "status": "failed",
+      "returncode": 1,
+      "native_output_present": false,
+      "exception": null,
+      "source_unchanged": true
+    },
+    {
+      "record": {
+        "path": "outputs/local_approach_20261016_v1/pytest-durable-v2/test_shared_conversion_failure0/failed.conversion-record.json",
+        "sha256": "6d101ddf79de3797a42be5fb6c069a518723605fc785df5c2216745ee9d432b8"
+      },
+      "status": "failed",
+      "returncode": 1,
+      "native_output_present": true,
+      "exception": null,
+      "source_unchanged": true
+    },
+    {
+      "record": {
+        "path": "outputs/local_approach_20261016_v1/pytest-durable-v2/test_source_drift_returns_meas0/source-drift.conversion-record.json",
+        "sha256": "728d2c82b9f7e98cac6da01fe8a3e4f0139f550112e019ada439556650ce38b5"
+      },
+      "status": "source_changed",
+      "returncode": 0,
+      "native_output_present": true,
+      "exception": null,
+      "source_unchanged": false
+    }
+  ],
+  "limits": [
+    "The Hamburg approaches remain unmaterialized because their references are unresolved.",
+    "Native contour release-chain validation is still open.",
+    "Earlier collisions, incomplete demand, tentative correspondence and field audit precision remain unresolved.",
+    "No new fixed-cohort driving comparison or local full-suite run was made."
+  ]
+}

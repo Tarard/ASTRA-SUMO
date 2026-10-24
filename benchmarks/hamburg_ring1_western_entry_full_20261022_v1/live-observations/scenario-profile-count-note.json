@@ -1,0 +1,10 @@
+{
+  "formal_result": false,
+  "source_scenario_sha256": "2665ca5bdd83f824029ebd44f1c8eefe9abf4e6fca9d8e459344f05236468c89",
+  "recorded_profiles_used": 27,
+  "actual_distinct_profiles": 29,
+  "source_inputs_unchanged": true,
+  "affects_native_inputs": false,
+  "native_command_reads_scenario_json": false,
+  "note": "The entry preparer retained the old descriptive profile count, 27, while the actual demand uses 29 profiles. Do not change the executed scenario. Report 29 from the intentions and repair future preparation metadata after native analysis. This count is not a simulator input."
+}

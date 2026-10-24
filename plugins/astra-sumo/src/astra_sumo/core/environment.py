@@ -8,7 +8,7 @@ from collections.abc import Callable
 from importlib.util import find_spec
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from .command_runner import run_command
 
@@ -27,6 +27,8 @@ class EnvironmentReport(BaseModel):
     versions: dict[str, dict[str, Any]]
     warnings: list[str]
     claim_status: str
+    python_executable: str | None = None
+    python_module_origins: dict[str, str | None] = Field(default_factory=dict)
 
     def to_dict(self) -> dict[str, object]:
         return self.model_dump(mode="json")
@@ -69,8 +71,9 @@ def collect_environment_report(
             if versions[name].get("status") != "pass" or versions[name].get("returncode") != 0:
                 warnings.append(f"{name} version command failed")
 
-    traci_available = package_finder("traci") is not None
-    sumolib_available = package_finder("sumolib") is not None
+    package_specs = {name: package_finder(name) for name in ("traci", "sumolib")}
+    traci_available = package_specs["traci"] is not None
+    sumolib_available = package_specs["sumolib"] is not None
     if not traci_available:
         warnings.append("traci Python package not importable")
     if not sumolib_available:
@@ -80,6 +83,8 @@ def collect_environment_report(
     return EnvironmentReport(
         status=status,
         python_version=sys.version,
+        python_executable=sys.executable,
+        python_module_origins={name: getattr(spec, "origin", None) for name, spec in package_specs.items()},
         platform=platform.platform(),
         sumo_home=os.environ.get("SUMO_HOME"),
         sumo_binary=sumo_binary,

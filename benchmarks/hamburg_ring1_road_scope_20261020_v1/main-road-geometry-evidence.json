@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-road-demo-20261020-v4\\01-osm\\logs\\ring1-full_access-input.net.xml",
+    "sha256": "6a01681dd7148fec5647a576a3d96fa5b3301bc7a9ce81fc27eb9d9f49d7c8a4"
+  },
+  "candidate": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-road-demo-20261020-v4\\02-main-roads\\selected.net.xml",
+    "sha256": "44d3ec7a550e8d2679a90635d7724f7ecaaff026dcb918be1678a9b8a06b8d7d"
+  },
+  "scope_report_sha256": "1409309c72f2dcc96ee5e61d7b90a95a0b6fe19a39c340f6f3a61b634e374eb8",
+  "frozen_road_count": 265,
+  "selection_basis": "major roads plus declared protected roads",
+  "geometry_changes": {
+    "shape": 0,
+    "length": 0,
+    "width": 0
+  },
+  "claim_boundary": "Preservation relative to the prepared input model only. No field geometry accuracy claim."
+}

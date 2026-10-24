@@ -1,0 +1,113 @@
+{
+  "detector_count": 13,
+  "additional": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-public-junction-demo-20261021-v9\\field-loops.add.xml",
+    "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+  },
+  "period_s": 900,
+  "count_attribute": "nVehContrib",
+  "station_groups": [
+    {
+      "station_stream_id": 35822,
+      "composition": [
+        "0119-Z.13",
+        "0119-Z.11",
+        "0119-Z.12"
+      ],
+      "member_stream_ids": [
+        34018,
+        28853,
+        31546
+      ],
+      "detector_ids": [
+        "hh_0119_Z_13_34018",
+        "hh_0119_Z_11_28853",
+        "hh_0119_Z_12_31546"
+      ],
+      "missing_fields": []
+    },
+    {
+      "station_stream_id": 33023,
+      "composition": [
+        "0119-Z.5",
+        "0119-Z.4",
+        "0119-Z.15"
+      ],
+      "member_stream_ids": [
+        30494,
+        29437,
+        29375
+      ],
+      "detector_ids": [
+        "hh_0119_Z_5_30494",
+        "hh_0119_Z_4_29437",
+        "hh_0119_Z_15_29375"
+      ],
+      "missing_fields": []
+    },
+    {
+      "station_stream_id": 30666,
+      "composition": [
+        "0535-Z.6",
+        "0535-Z.7",
+        "0535-Z.8",
+        "0535-Z.5"
+      ],
+      "member_stream_ids": [
+        33855,
+        29316,
+        34287,
+        30894
+      ],
+      "detector_ids": [
+        "hh_0535_Z_6_33855",
+        "hh_0535_Z_7_29316",
+        "hh_0535_Z_8_34287",
+        "hh_0535_Z_5_30894"
+      ],
+      "missing_fields": []
+    },
+    {
+      "station_stream_id": 26585,
+      "composition": [
+        "0535-Z.14",
+        "0535-Z.4",
+        "0535-Z.9"
+      ],
+      "member_stream_ids": [
+        31892,
+        33055,
+        29038
+      ],
+      "detector_ids": [
+        "hh_0535_Z_14_31892",
+        "hh_0535_Z_4_33055",
+        "hh_0535_Z_9_29038"
+      ],
+      "missing_fields": []
+    }
+  ],
+  "load": {
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "--net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-public-junction-demo-20261021-v9\\official.net.xml",
+      "--additional-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-public-junction-demo-20261021-v9\\field-loops.add.xml",
+      "--begin",
+      "0",
+      "--end",
+      "1",
+      "--no-step-log",
+      "true"
+    ],
+    "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-public-junction-demo-20261021-v9",
+    "status": "pass",
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\n",
+    "error": ""
+  },
+  "placement_assumption": "Project published field points onto their associated lanes. Surveyed cross-sections remain unverified.",
+  "claim_boundary": "One-second layout load with no traffic demand. No count fitting or experiment-window selection."
+}

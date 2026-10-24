@@ -151,6 +151,7 @@ def run_isolated_junction_workflow(
     common = [
         "--osm-files",
         relative_osm,
+        "--precision", "2",  # Preserve the preregistered construction recipe.
         "--proj.utm",
         "--no-turnarounds",
         "--osm.all-attributes",

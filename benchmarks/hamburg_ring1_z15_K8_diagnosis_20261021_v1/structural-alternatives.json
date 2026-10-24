@@ -1,0 +1,176 @@
+{
+  "status": "candidate",
+  "profiles_source_sha256": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a",
+  "bindings_source_sha256": "e37d1c79eb9756d387db6b987acd4b1dbc1a9fe08405b66bdbc581ec63e03f17",
+  "alternatives": [
+    {
+      "profile_index": 89,
+      "entry": "189764301",
+      "field_mask": 8,
+      "LSA200_planned_movements": [
+        {
+          "physical_key": [
+            "480873120#0",
+            0,
+            "142944325#0",
+            0
+          ],
+          "groups": [
+            [
+              "200",
+              "K31"
+            ]
+          ]
+        },
+        {
+          "physical_key": [
+            "142944325#0",
+            0,
+            "142944399#2",
+            1
+          ],
+          "groups": [
+            [
+              "200",
+              "K2"
+            ]
+          ]
+        }
+      ],
+      "native_probe_completed": false
+    },
+    {
+      "profile_index": 252,
+      "entry": "61578529#1",
+      "field_mask": 8,
+      "LSA200_planned_movements": [
+        {
+          "physical_key": [
+            "480873120#0",
+            0,
+            "142944325#0",
+            0
+          ],
+          "groups": [
+            [
+              "200",
+              "K31"
+            ]
+          ]
+        },
+        {
+          "physical_key": [
+            "142944325#0",
+            0,
+            "142944399#2",
+            1
+          ],
+          "groups": [
+            [
+              "200",
+              "K2"
+            ]
+          ]
+        }
+      ],
+      "native_probe_completed": false
+    }
+  ],
+  "source_group_intervals": {
+    "K31": [
+      {
+        "begin_s": 0.0,
+        "end_s": 50.0,
+        "signal_image": "03",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": false
+      },
+      {
+        "begin_s": 50.0,
+        "end_s": 51.0,
+        "signal_image": "0F",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": true
+      },
+      {
+        "begin_s": 51.0,
+        "end_s": 84.0,
+        "signal_image": "30",
+        "securing_states": [
+          "release"
+        ],
+        "in_transition": false
+      },
+      {
+        "begin_s": 84.0,
+        "end_s": 87.0,
+        "signal_image": "0C",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": true
+      },
+      {
+        "begin_s": 87.0,
+        "end_s": 90.0,
+        "signal_image": "03",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": false
+      }
+    ],
+    "K2": [
+      {
+        "begin_s": 0.0,
+        "end_s": 55.0,
+        "signal_image": "03",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": false
+      },
+      {
+        "begin_s": 55.0,
+        "end_s": 56.0,
+        "signal_image": "0F",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": true
+      },
+      {
+        "begin_s": 56.0,
+        "end_s": 82.0,
+        "signal_image": "30",
+        "securing_states": [
+          "release"
+        ],
+        "in_transition": false
+      },
+      {
+        "begin_s": 82.0,
+        "end_s": 85.0,
+        "signal_image": "0C",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": true
+      },
+      {
+        "begin_s": 85.0,
+        "end_s": 90.0,
+        "signal_image": "03",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": false
+      }
+    ]
+  },
+  "claim_boundary": "Existing ideal lane witnesses through K31 and K2, not native route realization, capacity or measured OD. No new demand was generated."
+}

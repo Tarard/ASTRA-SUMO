@@ -1,0 +1,22 @@
+{
+  "native_reached_planned_end": true,
+  "native_end_s": 14400,
+  "all_vehicle_requests_completed": false,
+  "native_command_status": "pass",
+  "timeout": false,
+  "formal_result": false,
+  "completion": {
+    "loaded": 8640,
+    "inserted": 7273,
+    "arrived": 6782,
+    "running": 491,
+    "waiting": 1367,
+    "teleports": 1,
+    "collisions": 1,
+    "discarded": 0
+  },
+  "all_fixed_traffic_inputs_match_6000s_prefix": true,
+  "collision_time_s": 9402.6,
+  "diagnostic_state_sha256": "fc34787300e54a4613d93b353850216d4d273de69bf2a8d4014abacc6756a8b6",
+  "claim_boundary": "Complete unsafe native measurement. The state does not establish validated restart of the Python driver controller."
+}

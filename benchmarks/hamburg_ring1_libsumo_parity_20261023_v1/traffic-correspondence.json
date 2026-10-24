@@ -1,0 +1,68 @@
+{
+  "correspondence": true,
+  "checks": {
+    "field-counts.xml.gz": true,
+    "tripinfo.xml.gz": true,
+    "vehicle-routes.xml.gz": true,
+    "collisions.xml.gz": true,
+    "summary.xml.gz": true,
+    "evaluation.json": true,
+    "field-comparison.csv": true,
+    "station-comparison.csv": true,
+    "lane_section_hold_per_vehicle": true,
+    "library_completion": true
+  },
+  "traffic_digests": {
+    "field-counts.xml.gz": {
+      "reference": {
+        "rows": 208,
+        "sha256": "7e5b89eee4733a738913fa9d7b7f1581b56b2d8d0bac59cf6bfd20deeceb7c96"
+      },
+      "libsumo": {
+        "rows": 208,
+        "sha256": "7e5b89eee4733a738913fa9d7b7f1581b56b2d8d0bac59cf6bfd20deeceb7c96"
+      }
+    },
+    "tripinfo.xml.gz": {
+      "reference": {
+        "rows": 7222,
+        "sha256": "ffb64a17043449c6c9313b6e1fa719d58b133d5f1f674eec1f372136187833d3"
+      },
+      "libsumo": {
+        "rows": 7222,
+        "sha256": "ffb64a17043449c6c9313b6e1fa719d58b133d5f1f674eec1f372136187833d3"
+      }
+    },
+    "vehicle-routes.xml.gz": {
+      "reference": {
+        "rows": 6813,
+        "sha256": "d230cdd11248f82989be34b7621a9c1375a432a70e79f62923be892c37771e45"
+      },
+      "libsumo": {
+        "rows": 6813,
+        "sha256": "d230cdd11248f82989be34b7621a9c1375a432a70e79f62923be892c37771e45"
+      }
+    },
+    "collisions.xml.gz": {
+      "reference": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "libsumo": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "summary.xml.gz": {
+      "reference": {
+        "rows": 144000,
+        "sha256": "0c5fb0ed749e30de67476daad65805e4917e11c446c6459ed382aa167a9aa9c9"
+      },
+      "libsumo": {
+        "rows": 144000,
+        "sha256": "0c5fb0ed749e30de67476daad65805e4917e11c446c6459ed382aa167a9aa9c9"
+      }
+    }
+  },
+  "raw_lane_hold_event_list_equal": false
+}

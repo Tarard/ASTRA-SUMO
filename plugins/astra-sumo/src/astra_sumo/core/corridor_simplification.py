@@ -8,6 +8,7 @@ from typing import Any, Callable
 import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
+from .local_network_conversion import with_geometry_precision, loaded_turn_permissions, legacy_edge_edit_scope, run_scoped_native_conversion
 
 
 PRESERVED_JUNCTION_ATTRS = ("type", "rightOfWay", "fringe")
@@ -21,7 +22,8 @@ def find_removable_corridor_geometry_nodes(
 ) -> list[dict[str, Any]]:
     """Find locally provable geometry-only corridor nodes.
 
-    A candidate must be a priority node absent from the manual reference, have
+    A supplied reference must omit the candidate. Without a reference, its
+    absence remains unknown. A candidate must be a priority node and have
     exactly one straight lane-preserving continuation per incoming lane, and
     connect edges with identical type, lane semantics, OSM params, and a
     non-empty road name. At least one incident edge must be a micro segment.
@@ -66,6 +68,7 @@ def find_removable_corridor_geometry_nodes(
     }
 
     candidates: list[dict[str, Any]] = []
+    permissions = None
     for junction in root.findall("junction"):
         node_id = junction.attrib.get("id", "")
         node_edges = incident.get(node_id, [])
@@ -106,6 +109,10 @@ def find_removable_corridor_geometry_nodes(
             continue
         if not _connections_are_lane_preserving_straights(connections, edges):
             continue
+        if permissions is None:
+            permissions = loaded_turn_permissions(root)
+        if not _connections_preserve_access(connections, edges, permissions, root.get("version", "0.0")):
+            continue
 
         params = dict(_edge_params(node_edges[0]))
         candidates.append(
@@ -119,7 +126,7 @@ def find_removable_corridor_geometry_nodes(
                 "outgoing_edge_count": len(outgoing),
                 "lane_count_per_edge": len(node_edges[0].findall("lane")),
                 "minimum_incident_edge_length_m": round(min(edge_lengths), 3),
-                "reference_node_absent": reference_node_ids is not None,
+                "reference_node_absent": True if reference_node_ids is not None else None,
                 "proof": "same_corridor_same_semantics_lane_preserving_micro_segment",
             }
         )
@@ -137,6 +144,11 @@ def build_corridor_geometry_simplification_variant(
     timeout_seconds: float = 240.0,
     command_runner: Callable[..., Any] = run_command,
 ) -> dict[str, Any]:
+    if not prefix or Path(prefix).name != prefix or prefix in {".", ".."}:
+        return _failure("Use a single filename component for the simplification prefix.")
+    output_dir = output_dir.resolve()
+    if any(path.resolve().is_relative_to(output_dir) for path in (net_file, reference_net_file) if path is not None):
+        return _failure("Use a simplification output directory separate from its source and reference.")
     if not net_file.exists():
         return _failure(f"net file does not exist: {net_file}")
     if reference_net_file is not None and not reference_net_file.exists():
@@ -194,7 +206,7 @@ def build_corridor_geometry_simplification_variant(
             "warnings": [],
         }
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--sumo-net-file",
         str(net_file.resolve()),
@@ -203,13 +215,20 @@ def build_corridor_geometry_simplification_variant(
         str(keep_edges_file),
         "--geometry.remove.keep-ptstops",
         "--output.removed-nodes",
+        "--offset.disable-normalization", "true",
         "--output-file",
         str(variant_file),
-    ]
+    ])
     command_file.write_text(" ".join(command) + "\n", encoding="utf-8")
+    local_conversion = None
     try:
-        result = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
-    except OSError as exc:
+        mutable_nodes, mutable_edges, targets = legacy_edge_edit_scope(source_root, "merge_edges", command)
+        execution, local_conversion = run_scoped_native_conversion(command=command, mutable_nodes=mutable_nodes,
+            mutable_edges=mutable_edges, output_dir=output_dir, prefix=prefix, timeout_seconds=timeout_seconds,
+            merge_edge_ids=targets, command_runner=command_runner)
+        result = _result_to_dict(execution)
+        command_file.write_text(" ".join(local_conversion["command"]) + "\n", encoding="utf-8")
+    except (OSError, ET.ParseError, KeyError, TypeError, ValueError, RuntimeError) as exc:
         return _failure(f"{type(exc).__name__}: {exc}")
     if result.get("status") != "pass" or not variant_file.exists():
         return {
@@ -217,8 +236,15 @@ def build_corridor_geometry_simplification_variant(
             "netconvert": result,
             "variant_file": str(variant_file),
             "plan_file": str(plan_file),
+            "local_conversion": local_conversion,
         }
 
+    from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from .network_geometry_freeze import compare_frozen_geometry
+    restoration = restore_off_scope_netconvert_artifacts(source_file=net_file, target_file=variant_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges, expand_mutable_edge_endpoints=False)
+    geometry = compare_frozen_geometry(source_file=net_file, candidate_file=variant_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
     restored_junction_count = _restore_surviving_junction_semantics(net_file, variant_file)
     connection_audit = audit_alias_normalized_connections(net_file, variant_file)
     source_counts = _semantic_counts(net_file)
@@ -243,6 +269,8 @@ def build_corridor_geometry_simplification_variant(
     candidate_active_tls_ids = _active_tls_ids(variant_file)
     missing_active_tls_ids = sorted(source_active_tls_ids - candidate_active_tls_ids)
     extra_active_tls_ids = sorted(candidate_active_tls_ids - source_active_tls_ids)
+    merge_realized = (not planned_nodes - set(removed_nodes)
+                      and set(connection_audit["edge_aliases"]) == candidate_edge_ids)
     preservation_status = (
         "pass"
         if not preservation_deltas
@@ -251,14 +279,22 @@ def build_corridor_geometry_simplification_variant(
         and not extra_active_tls_ids
         and connection_audit["controlled_missing_count"] == 0
         and connection_audit["controlled_extra_count"] == 0
+        and connection_audit["status"] == "pass"
+        and merge_realized
+        and restoration["status"] == geometry["status"] == "pass"
         else "fail"
     )
     return {
         "status": "pass" if preservation_status == "pass" else "fail",
         "claim_status": "blocked" if preservation_status == "pass" else "construction-invalid",
         "corridor_geometry_simplification_status": (
-            "variant_created_for_review" if preservation_status == "pass" else "semantic_preservation_failed"
+            "variant_created_for_review" if preservation_status == "pass" else
+            "requested_merge_not_realized" if not merge_realized else "semantic_preservation_failed"
         ),
+        "requested_merge_realized": merge_realized,
+        "local_conversion": local_conversion,
+        "exterior_restoration": restoration,
+        "exterior_geometry": geometry,
         "variant_file": str(variant_file),
         "plan_file": str(plan_file),
         "candidates_file": str(candidates_file),
@@ -304,25 +340,77 @@ def _connections_are_lane_preserving_straights(
     return True
 
 
-def audit_alias_normalized_connections(source_file: Path, candidate_file: Path) -> dict[str, Any]:
+def _connections_preserve_access(connections, edges, permissions, network_version):
+    from .osm_access import _permission_set
+    for row in connections:
+        key = (row.get("from"), int(row.get("fromLane")), row.get("to"), int(row.get("toLane")))
+        allowed = [_permission_set(edges[edge].findall("lane")[index].attrib, network_version=network_version)
+                   for edge, index in (key[:2], key[2:])]
+        if permissions.get(key) != allowed[0] & allowed[1]:
+            return False
+    return True
+
+
+def validate_merged_road_access(source_root, candidate_root, aliases, *, target_ids=None):
+    """A geometry merge must retain lane access and every absorbed continuation."""
+    if target_ids is not None and set(target_ids) != set(aliases):
+        raise ValueError("The requested geometry merge was not fully realized on its declared source roads.")
+    if not aliases:
+        return
+    from .osm_access import _permission_set
+    before = {row.get("id"): row for row in source_root.findall("edge")}
+    after = {row.get("id"): row for row in candidate_root.findall("edge")}
+    collapsed = [row for row in source_root.findall("connection")
+                 if row.get("from") in aliases and row.get("to") in aliases
+                 and aliases[row.get("from")] == aliases[row.get("to")]]
+    required = {(first, str(index), last, str(index)) for first in aliases for last in aliases
+                if aliases[first] == aliases[last] and before[first].get("to") == before[last].get("from")
+                for index in range(len(before[first].findall("lane")))}
+    observed = {tuple(row.get(key) for key in ("from", "fromLane", "to", "toLane")) for row in collapsed}
+    if required != observed or not _connections_preserve_access(collapsed, before,
+            loaded_turn_permissions(source_root), source_root.get("version", "0.0")):
+        raise ValueError("A geometry merge would lose source interior lane access restrictions or continuations.")
+    for merged in set(aliases.values()):
+        allowed = [_permission_set(lane.attrib, network_version=candidate_root.get("version", "0.0"))
+                   for lane in after[merged].findall("lane")]
+        if any([_permission_set(lane.attrib, network_version=source_root.get("version", "0.0"))
+                for lane in before[member].findall("lane")] != allowed
+                for member, target in aliases.items() if target == merged):
+            raise ValueError("A geometry merge changed source lane permissions or lane count.")
+
+
+def audit_alias_normalized_connections(source_file: Path, candidate_file: Path, *, source_lane_indices=None) -> dict[str, Any]:
     source_root = ET.parse(source_file).getroot()
     candidate_root = ET.parse(candidate_file).getroot()
     aliases = _corridor_edge_aliases(source_root, candidate_root)
-    source_all, source_controlled, collapsed = _connection_counters(source_root, aliases)
-    candidate_all, candidate_controlled, _ = _connection_counters(candidate_root, {})
-    all_missing = source_all - candidate_all
+    access = {"status": "pass"}
+    try:
+        validate_merged_road_access(source_root, candidate_root, aliases)
+    except ValueError as error:
+        access = {"status": "fail", "error": str(error)}
+    source_all, source_controlled, collapsed, removed = _connection_counters(source_root, aliases, source_lane_indices)
+    candidate_all, candidate_controlled, _, _ = _connection_counters(candidate_root, {})
+    controlled_removed = Counter({key: count for key, count in removed.items() if key[4]})
+    all_missing = (source_all - candidate_all) + removed
     all_extra = candidate_all - source_all
-    controlled_missing = source_controlled - candidate_controlled
+    retained_controlled_missing = source_controlled - candidate_controlled
+    controlled_missing = retained_controlled_missing + controlled_removed
     controlled_extra = candidate_controlled - source_controlled
     return {
-        "status": "pass" if not controlled_missing and not controlled_extra else "fail",
+        "status": "pass" if not controlled_missing and not controlled_extra and access["status"] == "pass" else "fail",
+        "merged_road_access_preservation": access,
         "edge_alias_count": len(aliases),
         "edge_aliases": dict(sorted(aliases.items())),
+        "source_lane_indices": source_lane_indices or {},
         "collapsed_source_connection_count": collapsed,
         "normal_missing_count": sum(all_missing.values()),
         "normal_extra_count": sum(all_extra.values()),
         "controlled_missing_count": sum(controlled_missing.values()),
         "controlled_extra_count": sum(controlled_extra.values()),
+        "retained_controlled_missing_count": sum(retained_controlled_missing.values()),
+        "declared_removed_count": sum(removed.values()),
+        "declared_controlled_removed_count": sum(controlled_removed.values()),
+        "declared_removed_sample": _counter_sample(removed),
         "normal_missing_sample": _counter_sample(all_missing),
         "normal_extra_sample": _counter_sample(all_extra),
         "controlled_missing_sample": _counter_sample(controlled_missing),
@@ -380,10 +468,11 @@ def _corridor_edge_aliases(source_root: ET.Element, candidate_root: ET.Element) 
 
 
 def _connection_counters(
-    root: ET.Element, aliases: dict[str, str]
-) -> tuple[Counter[tuple[str, ...]], Counter[tuple[str, ...]], int]:
+    root: ET.Element, aliases: dict[str, str], lane_indices=None
+) -> tuple[Counter[tuple[str, ...]], Counter[tuple[str, ...]], int, Counter[tuple[str, ...]]]:
     all_connections: Counter[tuple[str, ...]] = Counter()
     controlled_connections: Counter[tuple[str, ...]] = Counter()
+    removed: Counter[tuple[str, ...]] = Counter()
     collapsed = 0
     for connection in root.findall("connection"):
         from_edge = connection.attrib.get("from", "")
@@ -395,20 +484,25 @@ def _connection_counters(
         if mapped_from == mapped_to:
             collapsed += 1
             continue
+        mapped_lanes = [(lane_indices or {}).get(edge, {}).get(connection.get(key, ""), connection.get(key, ""))
+                        for edge, key in ((from_edge, "fromLane"), (to_edge, "toLane"))]
         signature = (
             mapped_from,
             mapped_to,
-            connection.attrib.get("fromLane", ""),
-            connection.attrib.get("toLane", ""),
+            mapped_lanes[0] if mapped_lanes[0] is not None else connection.get("fromLane", ""),
+            mapped_lanes[1] if mapped_lanes[1] is not None else connection.get("toLane", ""),
             connection.attrib.get("tl", ""),
             connection.attrib.get("linkIndex", ""),
             connection.attrib.get("linkIndex2", ""),
             connection.attrib.get("dir", ""),
         )
+        if None in mapped_lanes:
+            removed[signature] += 1
+            continue
         all_connections[signature] += 1
         if connection.attrib.get("tl"):
             controlled_connections[signature] += 1
-    return all_connections, controlled_connections, collapsed
+    return all_connections, controlled_connections, collapsed, removed
 
 
 def _counter_sample(counter: Counter[tuple[str, ...]], limit: int = 20) -> list[dict[str, Any]]:

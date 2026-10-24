@@ -1,0 +1,1733 @@
+{
+  "producer_commit": "234545e07838194814ff90c0f9951c01a5b60a85",
+  "consumer_commit": "44434c36e89ef3d37bf70f6d828fe0338dfe56cd",
+  "ci": [
+    {
+      "conclusion": "success",
+      "databaseId": 39266541395,
+      "headSha": "44434c36e89ef3d37bf70f6d828fe0338dfe56cd",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39266541395",
+      "passed": 3505,
+      "failed": 0,
+      "skipped": 24
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39266532319,
+      "headSha": "44434c36e89ef3d37bf70f6d828fe0338dfe56cd",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39266532319",
+      "passed": 3505,
+      "failed": 0,
+      "skipped": 24
+    }
+  ],
+  "local_checks": {
+    "passed": 287,
+    "ruff": "pass",
+    "diff_check": "pass"
+  },
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml",
+    "sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b"
+  },
+  "reference": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+    "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+  },
+  "selection_policy": {
+    "maximum_inspected": 10,
+    "maximum_materialized": 3,
+    "order": "lexicographic node ID after exact-frame and strict-containment checks",
+    "selection": "preconditions only; no outcome-based replacement",
+    "label_scope": "published_model_geometry_not_field_defect"
+  },
+  "cases": [
+    {
+      "node_id": "132844",
+      "previous_status": "blocked",
+      "status": "blocked",
+      "reason": "custom_contour_recuts_source_geometry",
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "blocked",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "blocked",
+        "requested_shape": "pass",
+        "native_contour_identity_control": "review_required",
+        "requested_contour_geometry": "pass",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "pedestrian_geometry_reference": null,
+      "requested_geometry": {
+        "status": "pass",
+        "reason": "requested_contour_geometry_within_scope",
+        "geometry": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 27,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152736#0_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.009999999999999787
+            },
+            {
+              "lane_id": "-152736#0_1",
+              "endpoint_shift_xy_m": 0.014142135623718088,
+              "endpoint_shift_xyz_m": 0.014142135623718088,
+              "shape_hausdorff_xy_m": 0.014142135623718088,
+              "declared_length_delta_m": 0.009999999999999787
+            },
+            {
+              "lane_id": "-152736#1_0",
+              "endpoint_shift_xy_m": 0.022360679774875877,
+              "endpoint_shift_xyz_m": 0.022360679774875877,
+              "shape_hausdorff_xy_m": 0.022360679774875873,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "-152736#1_1",
+              "endpoint_shift_xy_m": 0.022360679774875877,
+              "endpoint_shift_xyz_m": 0.022360679774875877,
+              "shape_hausdorff_xy_m": 0.022360679774875873,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "-152748_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152748_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152736#0_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152736#0_1",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152736#1_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.01999999999999602
+            },
+            {
+              "lane_id": "152736#1_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 0.01999999999999602
+            },
+            {
+              "lane_id": "152748_0",
+              "endpoint_shift_xy_m": 0.01999999999998181,
+              "endpoint_shift_xyz_m": 0.01999999999998181,
+              "shape_hausdorff_xy_m": 0.01999999999998181,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "152748_1",
+              "endpoint_shift_xy_m": 0.014142135623718088,
+              "endpoint_shift_xyz_m": 0.014142135623718088,
+              "shape_hausdorff_xy_m": 0.014142135623718088,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": ":132844_0_0",
+              "endpoint_shift_xy_m": 0.018684462555751687,
+              "endpoint_shift_xyz_m": 0.018684462555751687,
+              "shape_hausdorff_xy_m": 0.018684462555751683,
+              "declared_length_delta_m": -0.027938999999999936
+            },
+            {
+              "lane_id": ":132844_1_0",
+              "endpoint_shift_xy_m": 0.010810584304179083,
+              "endpoint_shift_xyz_m": 0.010810584304179083,
+              "shape_hausdorff_xy_m": 0.010810584304179083,
+              "declared_length_delta_m": -0.001963000000000381
+            },
+            {
+              "lane_id": ":132844_2_0",
+              "endpoint_shift_xy_m": 0.025030438470126037,
+              "endpoint_shift_xyz_m": 0.025030438470126037,
+              "shape_hausdorff_xy_m": 0.025030438470126037,
+              "declared_length_delta_m": -0.03398799999999902
+            },
+            {
+              "lane_id": ":132844_3_0",
+              "endpoint_shift_xy_m": 0.025030438470126037,
+              "endpoint_shift_xyz_m": 0.025030438470126037,
+              "shape_hausdorff_xy_m": 0.025030438470126037,
+              "declared_length_delta_m": -0.03706599999999938
+            },
+            {
+              "lane_id": ":132844_4_0",
+              "endpoint_shift_xy_m": 0.01991159059438163,
+              "endpoint_shift_xyz_m": 0.01991159059438163,
+              "shape_hausdorff_xy_m": 0.01991159059438163,
+              "declared_length_delta_m": -0.030546999999999436
+            },
+            {
+              "lane_id": ":132844_5_0",
+              "endpoint_shift_xy_m": 0.01608123160718699,
+              "endpoint_shift_xyz_m": 0.01608123160718699,
+              "shape_hausdorff_xy_m": 0.01608123160718699,
+              "declared_length_delta_m": -0.025911000000000683
+            },
+            {
+              "lane_id": ":132844_6_0",
+              "endpoint_shift_xy_m": 0.019236603494391134,
+              "endpoint_shift_xyz_m": 0.019236603494391134,
+              "shape_hausdorff_xy_m": 0.019236603494391134,
+              "declared_length_delta_m": -0.0005499999999998284
+            },
+            {
+              "lane_id": ":132844_7_0",
+              "endpoint_shift_xy_m": 0.017626467031371294,
+              "endpoint_shift_xyz_m": 0.017626467031371294,
+              "shape_hausdorff_xy_m": 0.017626467031371294,
+              "declared_length_delta_m": -0.02459999999999951
+            },
+            {
+              "lane_id": ":132844_8_0",
+              "endpoint_shift_xy_m": 0.01991159059438163,
+              "endpoint_shift_xyz_m": 0.01991159059438163,
+              "shape_hausdorff_xy_m": 0.01991159059438163,
+              "declared_length_delta_m": 0.0023240000000002148
+            },
+            {
+              "lane_id": ":132844_c0_0",
+              "endpoint_shift_xy_m": 0.01132199876355227,
+              "endpoint_shift_xyz_m": 0.01132224717102947,
+              "shape_hausdorff_xy_m": 0.01132199876355227,
+              "declared_length_delta_m": -5.8000000000113516e-05
+            },
+            {
+              "lane_id": ":132844_c1_0",
+              "endpoint_shift_xy_m": 0.02804021335503423,
+              "endpoint_shift_xyz_m": 0.029166251747446043,
+              "shape_hausdorff_xy_m": 0.028040213355034226,
+              "declared_length_delta_m": -0.0004970000000001917
+            },
+            {
+              "lane_id": ":132844_c2_0",
+              "endpoint_shift_xy_m": 0.019429916417737527,
+              "endpoint_shift_xyz_m": 0.019445486262891592,
+              "shape_hausdorff_xy_m": 0.019429916417737527,
+              "declared_length_delta_m": -4.999999999810711e-06
+            },
+            {
+              "lane_id": ":132844_w0_0",
+              "endpoint_shift_xy_m": 0.01943640069573047,
+              "endpoint_shift_xyz_m": 0.019451965350705085,
+              "shape_hausdorff_xy_m": 0.02155207471514257,
+              "declared_length_delta_m": -0.019406000000000034
+            },
+            {
+              "lane_id": ":132844_w1_0",
+              "endpoint_shift_xy_m": 0.011313166576708744,
+              "endpoint_shift_xyz_m": 0.011313415178113352,
+              "shape_hausdorff_xy_m": 0.030467726482214328,
+              "declared_length_delta_m": -0.025955999999999868
+            },
+            {
+              "lane_id": ":132844_w2_0",
+              "endpoint_shift_xy_m": 0.017871520276928645,
+              "endpoint_shift_xyz_m": 0.017919834318670773,
+              "shape_hausdorff_xy_m": 0.017871520276928645,
+              "declared_length_delta_m": -0.013562999999999992
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.02804021335503423,
+          "max_endpoint_shift_xyz_m": 0.029166251747446043,
+          "max_shape_hausdorff_xy_m": 0.030467726482214328,
+          "max_absolute_declared_length_delta_m": 0.03706599999999938
+        },
+        "contour_displacement_xy_m": 0.036055512754417915,
+        "endpoint_budget_xy_m": 0.1360555127544179,
+        "logical_length_budgets_m": {
+          "-152736#0": 0.17412365498479904,
+          "-152736#1": 0.18089049927003564,
+          "-152748": 0.17402066292233398,
+          "152736#0": 0.17384471041276828,
+          "152736#1": 0.17443535699969953,
+          "152748": 0.17438896100088933
+        },
+        "length_budget_basis": "two moving ends with observed spatial grade",
+        "oversized_lane_changes": [],
+        "boundary_failures": [],
+        "near_vertical_lane_ids": [],
+        "unmeasured_input_lane_ids": []
+      },
+      "identity_control": {
+        "status": "review_required",
+        "reason": "custom_contour_recuts_source_geometry",
+        "identity_tolerance_m": 0.1,
+        "promotion_authority": false,
+        "materialization_report": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.json",
+          "sha256": "2a25edde197b37cc15cffacf896ebd6d9545e202f120c86d6a0124596d34d706"
+        },
+        "candidate": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.net.xml",
+          "sha256": "4b2fa34fe2201749e0292af5d91b0bed7fea57747db020149c09b0ad435890e6"
+        },
+        "geometry": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 27,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152736#0_0",
+              "endpoint_shift_xy_m": 2.0333715843399696,
+              "endpoint_shift_xyz_m": 2.0333715843399696,
+              "shape_hausdorff_xy_m": 2.0333715843399696,
+              "declared_length_delta_m": 1.0
+            },
+            {
+              "lane_id": "-152736#0_1",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 1.0
+            },
+            {
+              "lane_id": "-152736#1_0",
+              "endpoint_shift_xy_m": 0.014142135623718088,
+              "endpoint_shift_xyz_m": 0.014142135623718088,
+              "shape_hausdorff_xy_m": 0.014142135623718088,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "-152736#1_1",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152736#0_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.010000000000001563
+            },
+            {
+              "lane_id": "152736#0_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000001563
+            },
+            {
+              "lane_id": "152736#1_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": ":132844_0_0",
+              "endpoint_shift_xy_m": 0.004236002950738581,
+              "endpoint_shift_xyz_m": 0.004236002950738581,
+              "shape_hausdorff_xy_m": 0.0058586658735492675,
+              "declared_length_delta_m": -0.0010270000000005552
+            },
+            {
+              "lane_id": ":132844_1_0",
+              "endpoint_shift_xy_m": 0.0033428622466995543,
+              "endpoint_shift_xyz_m": 0.0033428622466995543,
+              "shape_hausdorff_xy_m": 0.0033428622466995543,
+              "declared_length_delta_m": 0.0007940000000004055
+            },
+            {
+              "lane_id": ":132844_2_0",
+              "endpoint_shift_xy_m": 0.007277228937028131,
+              "endpoint_shift_xyz_m": 0.007277228937028131,
+              "shape_hausdorff_xy_m": 0.007277228937028131,
+              "declared_length_delta_m": -0.005748999999999782
+            },
+            {
+              "lane_id": ":132844_3_0",
+              "endpoint_shift_xy_m": 0.005305942046480828,
+              "endpoint_shift_xyz_m": 0.005305942046480828,
+              "shape_hausdorff_xy_m": 0.005305942046480828,
+              "declared_length_delta_m": 0.0017019999999998703
+            },
+            {
+              "lane_id": ":132844_4_0",
+              "endpoint_shift_xy_m": 0.0043818032817753115,
+              "endpoint_shift_xyz_m": 0.0043818032817753115,
+              "shape_hausdorff_xy_m": 0.005326658708939573,
+              "declared_length_delta_m": -0.002113999999999727
+            },
+            {
+              "lane_id": ":132844_5_0",
+              "endpoint_shift_xy_m": 0.007277228937028131,
+              "endpoint_shift_xyz_m": 0.007277228937028131,
+              "shape_hausdorff_xy_m": 0.007277228937028131,
+              "declared_length_delta_m": -0.0004609999999996006
+            },
+            {
+              "lane_id": ":132844_6_0",
+              "endpoint_shift_xy_m": 0.004236002950738581,
+              "endpoint_shift_xyz_m": 0.004236002950738581,
+              "shape_hausdorff_xy_m": 0.004236002950738581,
+              "declared_length_delta_m": -0.0037970000000000503
+            },
+            {
+              "lane_id": ":132844_7_0",
+              "endpoint_shift_xy_m": 0.005342735722267445,
+              "endpoint_shift_xyz_m": 0.005342735722267445,
+              "shape_hausdorff_xy_m": 0.005342735722267445,
+              "declared_length_delta_m": -0.008833000000000979
+            },
+            {
+              "lane_id": ":132844_8_0",
+              "endpoint_shift_xy_m": 0.005342735722267445,
+              "endpoint_shift_xyz_m": 0.005342735722267445,
+              "shape_hausdorff_xy_m": 0.005342735722267445,
+              "declared_length_delta_m": -0.0023040000000000838
+            },
+            {
+              "lane_id": ":132844_c0_0",
+              "endpoint_shift_xy_m": 0.014518478157343851,
+              "endpoint_shift_xyz_m": 0.08019023901322087,
+              "shape_hausdorff_xy_m": 0.01451847815734385,
+              "declared_length_delta_m": -0.005348999999999826
+            },
+            {
+              "lane_id": ":132844_c1_0",
+              "endpoint_shift_xy_m": 0.0068208933433673135,
+              "endpoint_shift_xyz_m": 0.008111388783705988,
+              "shape_hausdorff_xy_m": 0.0068208933433673135,
+              "declared_length_delta_m": -0.004242999999999775
+            },
+            {
+              "lane_id": ":132844_c2_0",
+              "endpoint_shift_xy_m": 0.006879414655675618,
+              "endpoint_shift_xyz_m": 0.007152082354444172,
+              "shape_hausdorff_xy_m": 0.006879414655675618,
+              "declared_length_delta_m": 6.599999999945538e-05
+            },
+            {
+              "lane_id": ":132844_w0_0",
+              "endpoint_shift_xy_m": 0.004572905531442689,
+              "endpoint_shift_xyz_m": 0.004572905531442689,
+              "shape_hausdorff_xy_m": 0.014882351762974604,
+              "declared_length_delta_m": -0.007404000000000188
+            },
+            {
+              "lane_id": ":132844_w1_0",
+              "endpoint_shift_xy_m": 0.0158889730317128,
+              "endpoint_shift_xyz_m": 0.08044965934666669,
+              "shape_hausdorff_xy_m": 1.713852006289514,
+              "declared_length_delta_m": -0.7453700000000003
+            },
+            {
+              "lane_id": ":132844_w2_0",
+              "endpoint_shift_xy_m": 0.004228816028458171,
+              "endpoint_shift_xyz_m": 0.005144197313599695,
+              "shape_hausdorff_xy_m": 0.006268618109086109,
+              "declared_length_delta_m": -0.0021559999999998247
+            }
+          ],
+          "max_endpoint_shift_xy_m": 2.0333715843399696,
+          "max_endpoint_shift_xyz_m": 2.0333715843399696,
+          "max_shape_hausdorff_xy_m": 2.0333715843399696,
+          "max_absolute_declared_length_delta_m": 1.0
+        },
+        "walking_area_quality": {
+          "compared_area_count": 3,
+          "newly_invalid_area_ids": [
+            ":132844_w1_0"
+          ]
+        },
+        "materialization_evidence": {
+          "status": "pass",
+          "errors": []
+        },
+        "same_source_polygon": true,
+        "custom_shape_declared": true,
+        "coordinate_frame_preserved": true
+      },
+      "geometry_changes": {
+        "source_to_candidate": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 27,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152736#0_0",
+              "endpoint_shift_xy_m": 2.0426698215816343,
+              "endpoint_shift_xyz_m": 2.0426698215816343,
+              "shape_hausdorff_xy_m": 2.0426698215816343,
+              "declared_length_delta_m": 1.0099999999999998
+            },
+            {
+              "lane_id": "-152736#0_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 1.0099999999999998
+            },
+            {
+              "lane_id": "-152736#1_0",
+              "endpoint_shift_xy_m": 0.036055512754417915,
+              "endpoint_shift_xyz_m": 0.036055512754417915,
+              "shape_hausdorff_xy_m": 0.036055512754417915,
+              "declared_length_delta_m": 0.030000000000001137
+            },
+            {
+              "lane_id": "-152736#1_1",
+              "endpoint_shift_xy_m": 0.028284271247436175,
+              "endpoint_shift_xyz_m": 0.028284271247436175,
+              "shape_hausdorff_xy_m": 0.028284271247436175,
+              "declared_length_delta_m": 0.030000000000001137
+            },
+            {
+              "lane_id": "-152748_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152748_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152736#0_0",
+              "endpoint_shift_xy_m": 0.01999999999998181,
+              "endpoint_shift_xyz_m": 0.01999999999998181,
+              "shape_hausdorff_xy_m": 0.01999999999998181,
+              "declared_length_delta_m": 0.019999999999999574
+            },
+            {
+              "lane_id": "152736#0_1",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.019999999999999574
+            },
+            {
+              "lane_id": "152736#1_0",
+              "endpoint_shift_xy_m": 0.01999999999998181,
+              "endpoint_shift_xyz_m": 0.01999999999998181,
+              "shape_hausdorff_xy_m": 0.01999999999998181,
+              "declared_length_delta_m": 0.01999999999999602
+            },
+            {
+              "lane_id": "152736#1_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 0.01999999999999602
+            },
+            {
+              "lane_id": "152748_0",
+              "endpoint_shift_xy_m": 0.01999999999998181,
+              "endpoint_shift_xyz_m": 0.01999999999998181,
+              "shape_hausdorff_xy_m": 0.01999999999998181,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "152748_1",
+              "endpoint_shift_xy_m": 0.014142135623718088,
+              "endpoint_shift_xyz_m": 0.014142135623718088,
+              "shape_hausdorff_xy_m": 0.014142135623718088,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": ":132844_0_0",
+              "endpoint_shift_xy_m": 0.014921150223878228,
+              "endpoint_shift_xyz_m": 0.014921150223878228,
+              "shape_hausdorff_xy_m": 0.014921150223878228,
+              "declared_length_delta_m": -0.02896600000000049
+            },
+            {
+              "lane_id": ":132844_1_0",
+              "endpoint_shift_xy_m": 0.010901866308067382,
+              "endpoint_shift_xyz_m": 0.010901866308067382,
+              "shape_hausdorff_xy_m": 0.010901866308067384,
+              "declared_length_delta_m": -0.0011689999999999756
+            },
+            {
+              "lane_id": ":132844_2_0",
+              "endpoint_shift_xy_m": 0.02839715149461518,
+              "endpoint_shift_xyz_m": 0.02839715149461518,
+              "shape_hausdorff_xy_m": 0.02839715149461518,
+              "declared_length_delta_m": -0.0397369999999988
+            },
+            {
+              "lane_id": ":132844_3_0",
+              "endpoint_shift_xy_m": 0.02839715149461518,
+              "endpoint_shift_xyz_m": 0.02839715149461518,
+              "shape_hausdorff_xy_m": 0.02839715149461518,
+              "declared_length_delta_m": -0.03536399999999951
+            },
+            {
+              "lane_id": ":132844_4_0",
+              "endpoint_shift_xy_m": 0.01958244075731962,
+              "endpoint_shift_xyz_m": 0.01958244075731962,
+              "shape_hausdorff_xy_m": 0.01958244075731962,
+              "declared_length_delta_m": -0.03266099999999916
+            },
+            {
+              "lane_id": ":132844_5_0",
+              "endpoint_shift_xy_m": 0.01958244075731962,
+              "endpoint_shift_xyz_m": 0.01958244075731962,
+              "shape_hausdorff_xy_m": 0.01958244075731962,
+              "declared_length_delta_m": -0.026372000000000284
+            },
+            {
+              "lane_id": ":132844_6_0",
+              "endpoint_shift_xy_m": 0.015953895887732137,
+              "endpoint_shift_xyz_m": 0.015953895887732137,
+              "shape_hausdorff_xy_m": 0.015953895887732137,
+              "declared_length_delta_m": -0.004346999999999879
+            },
+            {
+              "lane_id": ":132844_7_0",
+              "endpoint_shift_xy_m": 0.02128747108050093,
+              "endpoint_shift_xyz_m": 0.02128747108050093,
+              "shape_hausdorff_xy_m": 0.02128747108050093,
+              "declared_length_delta_m": -0.03343300000000049
+            },
+            {
+              "lane_id": ":132844_8_0",
+              "endpoint_shift_xy_m": 0.02128747108050093,
+              "endpoint_shift_xyz_m": 0.02128747108050093,
+              "shape_hausdorff_xy_m": 0.02128747108050093,
+              "declared_length_delta_m": 2.0000000000131024e-05
+            },
+            {
+              "lane_id": ":132844_c0_0",
+              "endpoint_shift_xy_m": 0.025791803504485074,
+              "endpoint_shift_xyz_m": 0.08304661779995728,
+              "shape_hausdorff_xy_m": 0.02579180350448507,
+              "declared_length_delta_m": -0.00540699999999994
+            },
+            {
+              "lane_id": ":132844_c1_0",
+              "endpoint_shift_xy_m": 0.032792657059021055,
+              "endpoint_shift_xyz_m": 0.035226301437844644,
+              "shape_hausdorff_xy_m": 0.032792657059021055,
+              "declared_length_delta_m": -0.0047399999999999665
+            },
+            {
+              "lane_id": ":132844_c2_0",
+              "endpoint_shift_xy_m": 0.014524727605023451,
+              "endpoint_shift_xyz_m": 0.014975347341552878,
+              "shape_hausdorff_xy_m": 0.014524727605023451,
+              "declared_length_delta_m": 6.099999999964467e-05
+            },
+            {
+              "lane_id": ":132844_w0_0",
+              "endpoint_shift_xy_m": 0.017419249409857007,
+              "endpoint_shift_xyz_m": 0.017459035884113436,
+              "shape_hausdorff_xy_m": 0.025685539160890416,
+              "declared_length_delta_m": -0.026810000000000223
+            },
+            {
+              "lane_id": ":132844_w1_0",
+              "endpoint_shift_xy_m": 0.02703194129145864,
+              "endpoint_shift_xyz_m": 0.08344009497827216,
+              "shape_hausdorff_xy_m": 1.7175013146570874,
+              "declared_length_delta_m": -0.7713260000000002
+            },
+            {
+              "lane_id": ":132844_w2_0",
+              "endpoint_shift_xy_m": 0.016385147207168965,
+              "endpoint_shift_xyz_m": 0.016597042688351563,
+              "shape_hausdorff_xy_m": 0.019161735725400916,
+              "declared_length_delta_m": -0.015718999999999816
+            }
+          ],
+          "max_endpoint_shift_xy_m": 2.0426698215816343,
+          "max_endpoint_shift_xyz_m": 2.0426698215816343,
+          "max_shape_hausdorff_xy_m": 2.0426698215816343,
+          "max_absolute_declared_length_delta_m": 1.0099999999999998
+        },
+        "control_to_candidate": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 27,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152736#0_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.009999999999999787
+            },
+            {
+              "lane_id": "-152736#0_1",
+              "endpoint_shift_xy_m": 0.014142135623718088,
+              "endpoint_shift_xyz_m": 0.014142135623718088,
+              "shape_hausdorff_xy_m": 0.014142135623718088,
+              "declared_length_delta_m": 0.009999999999999787
+            },
+            {
+              "lane_id": "-152736#1_0",
+              "endpoint_shift_xy_m": 0.022360679774875877,
+              "endpoint_shift_xyz_m": 0.022360679774875877,
+              "shape_hausdorff_xy_m": 0.022360679774875873,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "-152736#1_1",
+              "endpoint_shift_xy_m": 0.022360679774875877,
+              "endpoint_shift_xyz_m": 0.022360679774875877,
+              "shape_hausdorff_xy_m": 0.022360679774875873,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "-152748_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152748_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152736#0_0",
+              "endpoint_shift_xy_m": 0.009999999999763531,
+              "endpoint_shift_xyz_m": 0.009999999999763531,
+              "shape_hausdorff_xy_m": 0.009999999999763531,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152736#0_1",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152736#1_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.01999999999999602
+            },
+            {
+              "lane_id": "152736#1_1",
+              "endpoint_shift_xy_m": 0.022360679775079245,
+              "endpoint_shift_xyz_m": 0.022360679775079245,
+              "shape_hausdorff_xy_m": 0.022360679775079245,
+              "declared_length_delta_m": 0.01999999999999602
+            },
+            {
+              "lane_id": "152748_0",
+              "endpoint_shift_xy_m": 0.01999999999998181,
+              "endpoint_shift_xyz_m": 0.01999999999998181,
+              "shape_hausdorff_xy_m": 0.01999999999998181,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": "152748_1",
+              "endpoint_shift_xy_m": 0.014142135623718088,
+              "endpoint_shift_xyz_m": 0.014142135623718088,
+              "shape_hausdorff_xy_m": 0.014142135623718088,
+              "declared_length_delta_m": 0.020000000000003126
+            },
+            {
+              "lane_id": ":132844_0_0",
+              "endpoint_shift_xy_m": 0.018684462555751687,
+              "endpoint_shift_xyz_m": 0.018684462555751687,
+              "shape_hausdorff_xy_m": 0.018684462555751683,
+              "declared_length_delta_m": -0.027938999999999936
+            },
+            {
+              "lane_id": ":132844_1_0",
+              "endpoint_shift_xy_m": 0.010810584304179083,
+              "endpoint_shift_xyz_m": 0.010810584304179083,
+              "shape_hausdorff_xy_m": 0.010810584304179083,
+              "declared_length_delta_m": -0.001963000000000381
+            },
+            {
+              "lane_id": ":132844_2_0",
+              "endpoint_shift_xy_m": 0.025030438470126037,
+              "endpoint_shift_xyz_m": 0.025030438470126037,
+              "shape_hausdorff_xy_m": 0.025030438470126037,
+              "declared_length_delta_m": -0.03398799999999902
+            },
+            {
+              "lane_id": ":132844_3_0",
+              "endpoint_shift_xy_m": 0.025030438470126037,
+              "endpoint_shift_xyz_m": 0.025030438470126037,
+              "shape_hausdorff_xy_m": 0.025030438470126037,
+              "declared_length_delta_m": -0.03706599999999938
+            },
+            {
+              "lane_id": ":132844_4_0",
+              "endpoint_shift_xy_m": 0.01991159059438163,
+              "endpoint_shift_xyz_m": 0.01991159059438163,
+              "shape_hausdorff_xy_m": 0.01991159059438163,
+              "declared_length_delta_m": -0.030546999999999436
+            },
+            {
+              "lane_id": ":132844_5_0",
+              "endpoint_shift_xy_m": 0.01608123160718699,
+              "endpoint_shift_xyz_m": 0.01608123160718699,
+              "shape_hausdorff_xy_m": 0.01608123160718699,
+              "declared_length_delta_m": -0.025911000000000683
+            },
+            {
+              "lane_id": ":132844_6_0",
+              "endpoint_shift_xy_m": 0.019236603494391134,
+              "endpoint_shift_xyz_m": 0.019236603494391134,
+              "shape_hausdorff_xy_m": 0.019236603494391134,
+              "declared_length_delta_m": -0.0005499999999998284
+            },
+            {
+              "lane_id": ":132844_7_0",
+              "endpoint_shift_xy_m": 0.017626467031371294,
+              "endpoint_shift_xyz_m": 0.017626467031371294,
+              "shape_hausdorff_xy_m": 0.017626467031371294,
+              "declared_length_delta_m": -0.02459999999999951
+            },
+            {
+              "lane_id": ":132844_8_0",
+              "endpoint_shift_xy_m": 0.01991159059438163,
+              "endpoint_shift_xyz_m": 0.01991159059438163,
+              "shape_hausdorff_xy_m": 0.01991159059438163,
+              "declared_length_delta_m": 0.0023240000000002148
+            },
+            {
+              "lane_id": ":132844_c0_0",
+              "endpoint_shift_xy_m": 0.01132199876355227,
+              "endpoint_shift_xyz_m": 0.01132224717102947,
+              "shape_hausdorff_xy_m": 0.01132199876355227,
+              "declared_length_delta_m": -5.8000000000113516e-05
+            },
+            {
+              "lane_id": ":132844_c1_0",
+              "endpoint_shift_xy_m": 0.02804021335503423,
+              "endpoint_shift_xyz_m": 0.029166251747446043,
+              "shape_hausdorff_xy_m": 0.028040213355034226,
+              "declared_length_delta_m": -0.0004970000000001917
+            },
+            {
+              "lane_id": ":132844_c2_0",
+              "endpoint_shift_xy_m": 0.019429916417737527,
+              "endpoint_shift_xyz_m": 0.019445486262891592,
+              "shape_hausdorff_xy_m": 0.019429916417737527,
+              "declared_length_delta_m": -4.999999999810711e-06
+            },
+            {
+              "lane_id": ":132844_w0_0",
+              "endpoint_shift_xy_m": 0.01943640069573047,
+              "endpoint_shift_xyz_m": 0.019451965350705085,
+              "shape_hausdorff_xy_m": 0.02155207471514257,
+              "declared_length_delta_m": -0.019406000000000034
+            },
+            {
+              "lane_id": ":132844_w1_0",
+              "endpoint_shift_xy_m": 0.011313166576708744,
+              "endpoint_shift_xyz_m": 0.011313415178113352,
+              "shape_hausdorff_xy_m": 0.030467726482214328,
+              "declared_length_delta_m": -0.025955999999999868
+            },
+            {
+              "lane_id": ":132844_w2_0",
+              "endpoint_shift_xy_m": 0.017871520276928645,
+              "endpoint_shift_xyz_m": 0.017919834318670773,
+              "shape_hausdorff_xy_m": 0.017871520276928645,
+              "declared_length_delta_m": -0.013562999999999992
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.02804021335503423,
+          "max_endpoint_shift_xyz_m": 0.029166251747446043,
+          "max_shape_hausdorff_xy_m": 0.030467726482214328,
+          "max_absolute_declared_length_delta_m": 0.03706599999999938
+        }
+      },
+      "inputs": {
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\ledger\\corridor_edit_ledger.json": "5625a5343ab1719680a2a056e1ff96325070f549e5e63d28202baf1c3dfe18f1",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\edit\\candidate.net.xml": "5439b15840aefd537e7a93083422ebae64ccf69222b08941628668508b391bd3",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.json": "2a25edde197b37cc15cffacf896ebd6d9545e202f120c86d6a0124596d34d706",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.net.xml": "4b2fa34fe2201749e0292af5d91b0bed7fea57747db020149c09b0ad435890e6"
+      }
+    },
+    {
+      "node_id": "132981",
+      "previous_status": "blocked",
+      "status": "pass",
+      "reason": null,
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "pass",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "pass",
+        "requested_shape": "pass",
+        "native_contour_identity_control": "pass",
+        "requested_contour_geometry": "pass",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "pedestrian_geometry_reference": "validated_native_identity_control",
+      "requested_geometry": {
+        "status": "pass",
+        "reason": "requested_contour_geometry_within_scope",
+        "geometry": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 32,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [],
+          "max_endpoint_shift_xy_m": 0.0,
+          "max_endpoint_shift_xyz_m": 0.0,
+          "max_shape_hausdorff_xy_m": 0.0,
+          "max_absolute_declared_length_delta_m": 0.0
+        },
+        "contour_displacement_xy_m": 0.010000000000218279,
+        "endpoint_budget_xy_m": 0.11000000000021828,
+        "logical_length_budgets_m": {
+          "-152440#1": 0.12027610667201635,
+          "-153372#3": 0.12019280684301284,
+          "-153372#4": 0.12000035025693576,
+          "152440#1": 0.12012755947282161,
+          "153372#3": 0.12018775235604019,
+          "153372#4": 0.12000035325573846
+        },
+        "length_budget_basis": "two moving ends with observed spatial grade",
+        "oversized_lane_changes": [],
+        "boundary_failures": [],
+        "near_vertical_lane_ids": [],
+        "unmeasured_input_lane_ids": []
+      },
+      "identity_control": {
+        "status": "pass",
+        "reason": "source_contour_reconstruction_stable",
+        "identity_tolerance_m": 0.1,
+        "promotion_authority": false,
+        "materialization_report": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.json",
+          "sha256": "123a9f3f7949e46f473c0e388d451a9c972f0ca468c71a36e174725b26534630"
+        },
+        "candidate": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.net.xml",
+          "sha256": "53bb53977d2155b96eb5fd61df1320d7962c17f0117262f3bacf517c759068f5"
+        },
+        "geometry": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 32,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152440#1_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152440#1_1",
+              "endpoint_shift_xy_m": 0.014142135624039643,
+              "endpoint_shift_xyz_m": 0.014142135624039643,
+              "shape_hausdorff_xy_m": 0.014142135624039643,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-153372#3_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": "-153372#4_2",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": "152440#1_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152440#1_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "153372#3_2",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": "153372#4_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "153372#4_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "153372#4_2",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": ":132981_0_0",
+              "endpoint_shift_xy_m": 0.0045164394162082976,
+              "endpoint_shift_xyz_m": 0.005863942786252547,
+              "shape_hausdorff_xy_m": 0.0045164394162082976,
+              "declared_length_delta_m": -0.009648999999999575
+            },
+            {
+              "lane_id": ":132981_0_1",
+              "endpoint_shift_xy_m": 0.0069030958997535275,
+              "endpoint_shift_xyz_m": 0.008005476188297334,
+              "shape_hausdorff_xy_m": 0.0069030958997535275,
+              "declared_length_delta_m": -0.009648999999999575
+            },
+            {
+              "lane_id": ":132981_2_0",
+              "endpoint_shift_xy_m": 0.006044116478050226,
+              "endpoint_shift_xyz_m": 0.007005000000009046,
+              "shape_hausdorff_xy_m": 0.006044116478050226,
+              "declared_length_delta_m": -0.005279999999999951
+            },
+            {
+              "lane_id": ":132981_3_0",
+              "endpoint_shift_xy_m": 0.0020292710514053557,
+              "endpoint_shift_xyz_m": 0.004223453207988067,
+              "shape_hausdorff_xy_m": 0.005489951800895481,
+              "declared_length_delta_m": -0.005097999999998493
+            },
+            {
+              "lane_id": ":132981_4_0",
+              "endpoint_shift_xy_m": 0.0069030958997535275,
+              "endpoint_shift_xyz_m": 0.008005476188297334,
+              "shape_hausdorff_xy_m": 0.0069030958997535275,
+              "declared_length_delta_m": -0.004806999999999562
+            },
+            {
+              "lane_id": ":132981_5_0",
+              "endpoint_shift_xy_m": 0.006008887833538464,
+              "endpoint_shift_xyz_m": 0.006527184231809599,
+              "shape_hausdorff_xy_m": 0.006008887833538464,
+              "declared_length_delta_m": -0.0011919999999996378
+            },
+            {
+              "lane_id": ":132981_6_0",
+              "endpoint_shift_xy_m": 0.0020292710514053557,
+              "endpoint_shift_xyz_m": 0.005095897663745287,
+              "shape_hausdorff_xy_m": 0.0020292710514053553,
+              "declared_length_delta_m": -0.007580000000000808
+            },
+            {
+              "lane_id": ":132981_6_1",
+              "endpoint_shift_xy_m": 0.007110853464934942,
+              "endpoint_shift_xyz_m": 0.008345277766484034,
+              "shape_hausdorff_xy_m": 0.007110853464934942,
+              "declared_length_delta_m": -0.007580000000000808
+            },
+            {
+              "lane_id": ":132981_8_0",
+              "endpoint_shift_xy_m": 0.007561074658966851,
+              "endpoint_shift_xyz_m": 0.007561074658966851,
+              "shape_hausdorff_xy_m": 0.007561074658966851,
+              "declared_length_delta_m": -0.0033250000000002444
+            },
+            {
+              "lane_id": ":132981_9_0",
+              "endpoint_shift_xy_m": 0.007561074658966851,
+              "endpoint_shift_xyz_m": 0.007561074658966851,
+              "shape_hausdorff_xy_m": 0.007561074658966851,
+              "declared_length_delta_m": 0.0011930000000002217
+            },
+            {
+              "lane_id": ":132981_c0_0",
+              "endpoint_shift_xy_m": 0.0047679292151590275,
+              "endpoint_shift_xyz_m": 0.005042748556172502,
+              "shape_hausdorff_xy_m": 0.0047679292151590275,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": ":132981_c1_0",
+              "endpoint_shift_xy_m": 0.006180330897591855,
+              "endpoint_shift_xyz_m": 0.006374418483569257,
+              "shape_hausdorff_xy_m": 0.006180330897591855,
+              "declared_length_delta_m": -0.0026260000000002393
+            },
+            {
+              "lane_id": ":132981_c2_0",
+              "endpoint_shift_xy_m": 0.007987018279424999,
+              "endpoint_shift_xyz_m": 0.008021041390981951,
+              "shape_hausdorff_xy_m": 0.007987018279424999,
+              "declared_length_delta_m": 0.0009459999999990032
+            },
+            {
+              "lane_id": ":132981_w0_0",
+              "endpoint_shift_xy_m": 0.008362939733730373,
+              "endpoint_shift_xyz_m": 0.008365451929812506,
+              "shape_hausdorff_xy_m": 0.008362939733730373,
+              "declared_length_delta_m": -0.0008900000000000574
+            },
+            {
+              "lane_id": ":132981_w1_0",
+              "endpoint_shift_xy_m": 0.002806524006786739,
+              "endpoint_shift_xyz_m": 0.0032963643610363427,
+              "shape_hausdorff_xy_m": 0.007895420992680667,
+              "declared_length_delta_m": 0.0014479999999998938
+            },
+            {
+              "lane_id": ":132981_w2_0",
+              "endpoint_shift_xy_m": 0.006836668194586437,
+              "endpoint_shift_xyz_m": 0.0070740031808607245,
+              "shape_hausdorff_xy_m": 0.006836668194586436,
+              "declared_length_delta_m": 0.0015719999999999068
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.014142135624039643,
+          "max_endpoint_shift_xyz_m": 0.014142135624039643,
+          "max_shape_hausdorff_xy_m": 0.014142135624039643,
+          "max_absolute_declared_length_delta_m": 0.010000000000005116
+        },
+        "walking_area_quality": {
+          "compared_area_count": 3,
+          "newly_invalid_area_ids": []
+        },
+        "materialization_evidence": {
+          "status": "pass",
+          "errors": []
+        },
+        "same_source_polygon": true,
+        "custom_shape_declared": true,
+        "coordinate_frame_preserved": true
+      },
+      "geometry_changes": {
+        "source_to_candidate": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 32,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152440#1_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152440#1_1",
+              "endpoint_shift_xy_m": 0.014142135624039643,
+              "endpoint_shift_xyz_m": 0.014142135624039643,
+              "shape_hausdorff_xy_m": 0.014142135624039643,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-153372#3_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": "-153372#4_2",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": "152440#1_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "152440#1_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "153372#3_2",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": "153372#4_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "153372#4_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": "153372#4_2",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": ":132981_0_0",
+              "endpoint_shift_xy_m": 0.0045164394162082976,
+              "endpoint_shift_xyz_m": 0.005863942786252547,
+              "shape_hausdorff_xy_m": 0.0045164394162082976,
+              "declared_length_delta_m": -0.009648999999999575
+            },
+            {
+              "lane_id": ":132981_0_1",
+              "endpoint_shift_xy_m": 0.0069030958997535275,
+              "endpoint_shift_xyz_m": 0.008005476188297334,
+              "shape_hausdorff_xy_m": 0.0069030958997535275,
+              "declared_length_delta_m": -0.009648999999999575
+            },
+            {
+              "lane_id": ":132981_2_0",
+              "endpoint_shift_xy_m": 0.006044116478050226,
+              "endpoint_shift_xyz_m": 0.007005000000009046,
+              "shape_hausdorff_xy_m": 0.006044116478050226,
+              "declared_length_delta_m": -0.005279999999999951
+            },
+            {
+              "lane_id": ":132981_3_0",
+              "endpoint_shift_xy_m": 0.0020292710514053557,
+              "endpoint_shift_xyz_m": 0.004223453207988067,
+              "shape_hausdorff_xy_m": 0.005489951800895481,
+              "declared_length_delta_m": -0.005097999999998493
+            },
+            {
+              "lane_id": ":132981_4_0",
+              "endpoint_shift_xy_m": 0.0069030958997535275,
+              "endpoint_shift_xyz_m": 0.008005476188297334,
+              "shape_hausdorff_xy_m": 0.0069030958997535275,
+              "declared_length_delta_m": -0.004806999999999562
+            },
+            {
+              "lane_id": ":132981_5_0",
+              "endpoint_shift_xy_m": 0.006008887833538464,
+              "endpoint_shift_xyz_m": 0.006527184231809599,
+              "shape_hausdorff_xy_m": 0.006008887833538464,
+              "declared_length_delta_m": -0.0011919999999996378
+            },
+            {
+              "lane_id": ":132981_6_0",
+              "endpoint_shift_xy_m": 0.0020292710514053557,
+              "endpoint_shift_xyz_m": 0.005095897663745287,
+              "shape_hausdorff_xy_m": 0.0020292710514053553,
+              "declared_length_delta_m": -0.007580000000000808
+            },
+            {
+              "lane_id": ":132981_6_1",
+              "endpoint_shift_xy_m": 0.007110853464934942,
+              "endpoint_shift_xyz_m": 0.008345277766484034,
+              "shape_hausdorff_xy_m": 0.007110853464934942,
+              "declared_length_delta_m": -0.007580000000000808
+            },
+            {
+              "lane_id": ":132981_8_0",
+              "endpoint_shift_xy_m": 0.007561074658966851,
+              "endpoint_shift_xyz_m": 0.007561074658966851,
+              "shape_hausdorff_xy_m": 0.007561074658966851,
+              "declared_length_delta_m": -0.0033250000000002444
+            },
+            {
+              "lane_id": ":132981_9_0",
+              "endpoint_shift_xy_m": 0.007561074658966851,
+              "endpoint_shift_xyz_m": 0.007561074658966851,
+              "shape_hausdorff_xy_m": 0.007561074658966851,
+              "declared_length_delta_m": 0.0011930000000002217
+            },
+            {
+              "lane_id": ":132981_c0_0",
+              "endpoint_shift_xy_m": 0.0047679292151590275,
+              "endpoint_shift_xyz_m": 0.005042748556172502,
+              "shape_hausdorff_xy_m": 0.0047679292151590275,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": ":132981_c1_0",
+              "endpoint_shift_xy_m": 0.006180330897591855,
+              "endpoint_shift_xyz_m": 0.006374418483569257,
+              "shape_hausdorff_xy_m": 0.006180330897591855,
+              "declared_length_delta_m": -0.0026260000000002393
+            },
+            {
+              "lane_id": ":132981_c2_0",
+              "endpoint_shift_xy_m": 0.007987018279424999,
+              "endpoint_shift_xyz_m": 0.008021041390981951,
+              "shape_hausdorff_xy_m": 0.007987018279424999,
+              "declared_length_delta_m": 0.0009459999999990032
+            },
+            {
+              "lane_id": ":132981_w0_0",
+              "endpoint_shift_xy_m": 0.008362939733730373,
+              "endpoint_shift_xyz_m": 0.008365451929812506,
+              "shape_hausdorff_xy_m": 0.008362939733730373,
+              "declared_length_delta_m": -0.0008900000000000574
+            },
+            {
+              "lane_id": ":132981_w1_0",
+              "endpoint_shift_xy_m": 0.002806524006786739,
+              "endpoint_shift_xyz_m": 0.0032963643610363427,
+              "shape_hausdorff_xy_m": 0.007895420992680667,
+              "declared_length_delta_m": 0.0014479999999998938
+            },
+            {
+              "lane_id": ":132981_w2_0",
+              "endpoint_shift_xy_m": 0.006836668194586437,
+              "endpoint_shift_xyz_m": 0.0070740031808607245,
+              "shape_hausdorff_xy_m": 0.006836668194586436,
+              "declared_length_delta_m": 0.0015719999999999068
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.014142135624039643,
+          "max_endpoint_shift_xyz_m": 0.014142135624039643,
+          "max_shape_hausdorff_xy_m": 0.014142135624039643,
+          "max_absolute_declared_length_delta_m": 0.010000000000005116
+        },
+        "control_to_candidate": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 32,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [],
+          "max_endpoint_shift_xy_m": 0.0,
+          "max_endpoint_shift_xyz_m": 0.0,
+          "max_shape_hausdorff_xy_m": 0.0,
+          "max_absolute_declared_length_delta_m": 0.0
+        }
+      },
+      "inputs": {
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\ledger\\corridor_edit_ledger.json": "09c580ae9035e4fae4be091792d60214139b117db89026fd173378a2cb0ba06e",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\edit\\candidate.net.xml": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.json": "123a9f3f7949e46f473c0e388d451a9c972f0ca468c71a36e174725b26534630",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.net.xml": "53bb53977d2155b96eb5fd61df1320d7962c17f0117262f3bacf517c759068f5"
+      }
+    },
+    {
+      "node_id": "133544",
+      "previous_status": "blocked",
+      "status": "blocked",
+      "reason": null,
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "blocked",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "blocked",
+        "requested_shape": "pass",
+        "native_contour_identity_control": "pass",
+        "requested_contour_geometry": "pass",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "pedestrian_geometry_reference": "validated_native_identity_control",
+      "requested_geometry": {
+        "status": "pass",
+        "reason": "requested_contour_geometry_within_scope",
+        "geometry": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 14,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "153210#0_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": ":133544_w0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0018759000504246094,
+              "declared_length_delta_m": -0.0007449999999997736
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.010000000000218279,
+          "max_endpoint_shift_xyz_m": 0.010000000000218279,
+          "max_shape_hausdorff_xy_m": 0.010000000000218279,
+          "max_absolute_declared_length_delta_m": 0.00999999999999801
+        },
+        "contour_displacement_xy_m": 0.014080394256731134,
+        "endpoint_budget_xy_m": 0.11408039425673114,
+        "logical_length_budgets_m": {
+          "-152902#0": 0.12875382547762135,
+          "-152902#1": 0.12894622826039667,
+          "152902#0": 0.12888084305062497,
+          "152902#1": 0.1288353297270182,
+          "153210#0": 0.13420917915551578
+        },
+        "length_budget_basis": "two moving ends with observed spatial grade",
+        "oversized_lane_changes": [],
+        "boundary_failures": [],
+        "near_vertical_lane_ids": [],
+        "unmeasured_input_lane_ids": []
+      },
+      "identity_control": {
+        "status": "pass",
+        "reason": "source_contour_reconstruction_stable",
+        "identity_tolerance_m": 0.1,
+        "promotion_authority": false,
+        "materialization_report": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.json",
+          "sha256": "25de17463c3c0d6a6a8a85f162e87c9930b96d3375434c1d4beeba4fd877fe51"
+        },
+        "candidate": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.net.xml",
+          "sha256": "53ee4a45b65463eba9c722feff03a828917ddaeb56a40cc1a82e8ccf8e242702"
+        },
+        "geometry": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 14,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152902#0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152902#0_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152902#0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152902#0_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152902#1_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": -0.00999999999999801
+            },
+            {
+              "lane_id": "152902#1_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": -0.00999999999999801
+            },
+            {
+              "lane_id": "153210#0_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.0
+            },
+            {
+              "lane_id": ":133544_0_0",
+              "endpoint_shift_xy_m": 0.005424506060446831,
+              "endpoint_shift_xyz_m": 0.005830081732019536,
+              "shape_hausdorff_xy_m": 0.005424506060446831,
+              "declared_length_delta_m": -0.0013379999999996173
+            },
+            {
+              "lane_id": ":133544_1_0",
+              "endpoint_shift_xy_m": 0.005188023997807597,
+              "endpoint_shift_xyz_m": 0.006166399435798245,
+              "shape_hausdorff_xy_m": 0.005188023997807597,
+              "declared_length_delta_m": 0.0024810000000003996
+            },
+            {
+              "lane_id": ":133544_c0_0",
+              "endpoint_shift_xy_m": 0.006217739943068132,
+              "endpoint_shift_xyz_m": 0.006344519997574071,
+              "shape_hausdorff_xy_m": 0.006217739943068131,
+              "declared_length_delta_m": 9.999999992515995e-07
+            },
+            {
+              "lane_id": ":133544_w0_0",
+              "endpoint_shift_xy_m": 0.0061617172933053355,
+              "endpoint_shift_xyz_m": 0.007214691192465706,
+              "shape_hausdorff_xy_m": 0.006161717293305335,
+              "declared_length_delta_m": -0.003963000000000161
+            },
+            {
+              "lane_id": ":133544_w1_0",
+              "endpoint_shift_xy_m": 0.005360844895800765,
+              "endpoint_shift_xyz_m": 0.005488103770593983,
+              "shape_hausdorff_xy_m": 0.008153055202180532,
+              "declared_length_delta_m": 0.0005560000000000009
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.010000000000218279,
+          "max_endpoint_shift_xyz_m": 0.010000000000218279,
+          "max_shape_hausdorff_xy_m": 0.010000000000218279,
+          "max_absolute_declared_length_delta_m": 0.010000000000005116
+        },
+        "walking_area_quality": {
+          "compared_area_count": 2,
+          "newly_invalid_area_ids": []
+        },
+        "materialization_evidence": {
+          "status": "pass",
+          "errors": []
+        },
+        "same_source_polygon": true,
+        "custom_shape_declared": true,
+        "coordinate_frame_preserved": true
+      },
+      "geometry_changes": {
+        "source_to_candidate": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 14,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "-152902#0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "-152902#0_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152902#0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152902#0_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.010000000000005116
+            },
+            {
+              "lane_id": "152902#1_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": -0.00999999999999801
+            },
+            {
+              "lane_id": "152902#1_1",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": -0.00999999999999801
+            },
+            {
+              "lane_id": "153210#0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": ":133544_0_0",
+              "endpoint_shift_xy_m": 0.005424506060446831,
+              "endpoint_shift_xyz_m": 0.005830081732019536,
+              "shape_hausdorff_xy_m": 0.005424506060446831,
+              "declared_length_delta_m": -0.0013379999999996173
+            },
+            {
+              "lane_id": ":133544_1_0",
+              "endpoint_shift_xy_m": 0.005188023997807597,
+              "endpoint_shift_xyz_m": 0.006166399435798245,
+              "shape_hausdorff_xy_m": 0.005188023997807597,
+              "declared_length_delta_m": 0.0024810000000003996
+            },
+            {
+              "lane_id": ":133544_c0_0",
+              "endpoint_shift_xy_m": 0.006217739943068132,
+              "endpoint_shift_xyz_m": 0.006344519997574071,
+              "shape_hausdorff_xy_m": 0.006217739943068131,
+              "declared_length_delta_m": 9.999999992515995e-07
+            },
+            {
+              "lane_id": ":133544_w0_0",
+              "endpoint_shift_xy_m": 0.0061617172933053355,
+              "endpoint_shift_xyz_m": 0.007214691192465706,
+              "shape_hausdorff_xy_m": 0.006161717293305335,
+              "declared_length_delta_m": -0.0047079999999999345
+            },
+            {
+              "lane_id": ":133544_w1_0",
+              "endpoint_shift_xy_m": 0.005360844895800765,
+              "endpoint_shift_xyz_m": 0.005488103770593983,
+              "shape_hausdorff_xy_m": 0.008153055202180532,
+              "declared_length_delta_m": 0.0005560000000000009
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.006217739943068132,
+          "max_endpoint_shift_xyz_m": 0.007214691192465706,
+          "max_shape_hausdorff_xy_m": 0.008153055202180532,
+          "max_absolute_declared_length_delta_m": 0.010000000000005116
+        },
+        "control_to_candidate": {
+          "scope": "incident roads and all lanes owned by the junction",
+          "compared_lane_count": 14,
+          "missing_lane_ids": [],
+          "added_lane_ids": [],
+          "unmeasured_lane_ids": [],
+          "changes": [
+            {
+              "lane_id": "153210#0_0",
+              "endpoint_shift_xy_m": 0.010000000000218279,
+              "endpoint_shift_xyz_m": 0.010000000000218279,
+              "shape_hausdorff_xy_m": 0.010000000000218279,
+              "declared_length_delta_m": 0.00999999999999801
+            },
+            {
+              "lane_id": ":133544_w0_0",
+              "endpoint_shift_xy_m": 0.0,
+              "endpoint_shift_xyz_m": 0.0,
+              "shape_hausdorff_xy_m": 0.0018759000504246094,
+              "declared_length_delta_m": -0.0007449999999997736
+            }
+          ],
+          "max_endpoint_shift_xy_m": 0.010000000000218279,
+          "max_endpoint_shift_xyz_m": 0.010000000000218279,
+          "max_shape_hausdorff_xy_m": 0.010000000000218279,
+          "max_absolute_declared_length_delta_m": 0.00999999999999801
+        }
+      },
+      "inputs": {
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\ledger\\corridor_edit_ledger.json": "15609a8c793e9d37c670eaf8bba3b79c11f22fb9d05e8665ca664c6d39649939",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\edit\\candidate.net.xml": "84051c7cb93233224556cf1e20f3354ff8fdb032903fed671a364f60f95b523a",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.json": "25de17463c3c0d6a6a8a85f162e87c9930b96d3375434c1d4beeba4fd877fe51",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.net.xml": "53ee4a45b65463eba9c722feff03a828917ddaeb56a40cc1a82e8ccf8e242702"
+      }
+    }
+  ],
+  "rescore_runner": {
+    "path": "outputs/contour_preservation_20261019_v1/rescore-full-repeat.py",
+    "sha256": "4ad793ac40e56a5361511f6edb7e161015b9a2298f9cc8576e2f92cfb02fe59d"
+  },
+  "rescore_result": {
+    "path": "outputs/contour_preservation_20261019_v1/full-repeat-rescore-v2/results.json",
+    "sha256": "641846c5336a783c5a2f6c75348c822a7c06fe5d99961569faaeee5a7b538ac3"
+  },
+  "implementation_unchanged": true,
+  "field_defect_labels": false,
+  "promotion_authority": false,
+  "limitations": [
+    "One MoST development family, not independent city validation.",
+    "Changed pedestrian layouts remain outside the automatically accepted preservation domain."
+  ]
+}

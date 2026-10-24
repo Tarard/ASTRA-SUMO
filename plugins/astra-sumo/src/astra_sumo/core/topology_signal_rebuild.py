@@ -10,7 +10,7 @@ import json
 import math
 import shutil
 import xml.etree.ElementTree as ET
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from copy import deepcopy
 from pathlib import Path
 from typing import Any
@@ -18,6 +18,36 @@ from typing import Any
 from .candidate_contracts import file_sha256
 from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_aerial_signal import allocate_stage_green_seconds, build_protected_signal_stages, _tls_link_flows
+
+
+def insert_red_clearance_phases(logic: ET.Element, seconds_after_phase: Mapping[int, float]) -> dict[str, Any]:
+    """Close yellow links while preserving greens that continue through a transition."""
+    phases = logic.findall("phase")
+    if logic.tag != "tlLogic" or logic.get("type", "static") != "static" or not phases:
+        raise ValueError("Provide a fixed signal program with phases.")
+    if any(phase.get("next") is not None for phase in phases):
+        raise ValueError("Clearance insertion requires the existing sequential phase order.")
+    widths = {len(phase.get("state", "")) for phase in phases}
+    durations = [float(phase.get("duration", "nan")) for phase in phases]
+    if len(widths) != 1 or 0 in widths or any(not math.isfinite(value) or value <= 0 for value in durations):
+        raise ValueError("Signal phases require equal state widths and positive finite durations.")
+    for index, seconds in seconds_after_phase.items():
+        if (not isinstance(index, int) or isinstance(index, bool) or not 0 <= index < len(phases)
+                or not math.isfinite(seconds) or seconds <= 0):
+            raise ValueError("Use valid phase indices and positive finite clearance durations.")
+        if not any(state in "yY" for state in phases[index].get("state")):
+            raise ValueError("Insert red clearance after a yellow transition phase.")
+    result, insertions = [], []
+    for index, phase in enumerate(phases):
+        result.append(dict(phase.attrib))
+        if index in seconds_after_phase:
+            seconds = seconds_after_phase[index]
+            state = phase.get("state").replace("y", "r").replace("Y", "r")
+            result.append({"duration": f"{seconds:g}", "state": state})
+            insertions.append({"after_source_phase": index, "duration_s": seconds, "state": state})
+    return {"phases": result, "insertions": insertions, "source_cycle_s": sum(durations),
+            "candidate_cycle_s": sum(durations) + sum(seconds_after_phase.values()),
+            "claim_boundary": "Declared transition extensions only. Field timing, all source intergreens, and vehicle clearance remain unverified."}
 
 
 def build_topology_test_signal_plan(

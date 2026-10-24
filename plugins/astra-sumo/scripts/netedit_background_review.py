@@ -8,7 +8,6 @@ import json
 import math
 import os
 import re
-import shutil
 import subprocess
 import sys
 import time
@@ -787,7 +786,8 @@ def network_fit_view(net_file: Path, window_size: str) -> tuple[tuple[float, flo
     return tuple(view["center"]), view["zoom"]
 
 
-def aerial_decal(*, net_file: Path, aerial_image: Path, bbox_epsg25832) -> dict[str, Any]:
+def aerial_decal(*, net_file: Path, aerial_image: Path, bbox_epsg25832,
+                 source_crs: str = "EPSG:25832") -> dict[str, Any]:
     """Place caller-declared north-up pixels without rewriting or warping the image."""
     from PIL import Image
     from pyproj import CRS, Transformer
@@ -795,7 +795,7 @@ def aerial_decal(*, net_file: Path, aerial_image: Path, bbox_epsg25832) -> dict[
 
     if (not isinstance(bbox_epsg25832, (list, tuple)) or len(bbox_epsg25832) != 4
             or any(isinstance(value, bool) or not isinstance(value, (int, float)) for value in bbox_epsg25832)):
-        raise ValueError("Aerial bounds require four finite EPSG:25832 coordinates.")
+        raise ValueError("Aerial bounds require four finite projected coordinates.")
     try:
         west, south, east, north = bbox = tuple(float(value) for value in bbox_epsg25832)
     except OverflowError as error:
@@ -821,7 +821,9 @@ def aerial_decal(*, net_file: Path, aerial_image: Path, bbox_epsg25832) -> dict[
                 or any(axis.unit_conversion_factor != 1 for axis in target.axis_info)
                 or len(offset) != 2 or not all(math.isfinite(value) for value in offset)):
             raise ValueError("Network projection must use metres and a finite two-coordinate offset.")
-        source = CRS.from_epsg(25832)
+        source = CRS.from_user_input(source_crs)
+        if not source.is_projected or any(axis.unit_conversion_factor != 1 for axis in source.axis_info[:2]):
+            raise ValueError("The aerial projection must use metres.")
         geography = Transformer.from_crs(source, "EPSG:4326", always_xy=True)
         transform = Transformer.from_crs(source, target, always_xy=True)
         grid = []
@@ -830,8 +832,8 @@ def aerial_decal(*, net_file: Path, aerial_image: Path, bbox_epsg25832) -> dict[
                 x, y = west + fx * (east - west), south + fy * (north - south)
                 lon, lat = geography.transform(x, y, errcheck=True)
                 area = source.area_of_use
-                if not area.west <= lon <= area.east or not area.south <= lat <= area.north:
-                    raise ValueError("Aerial bounds lie outside the EPSG:25832 area of use.")
+                if area is not None and (not area.west <= lon <= area.east or not area.south <= lat <= area.north):
+                    raise ValueError("Aerial bounds lie outside the declared projection area of use.")
                 nx, ny = transform.transform(x, y, errcheck=True)
                 grid.append((fx, fy, nx + offset[0], ny + offset[1]))
     except (ValueError, ProjError) as error:
@@ -847,17 +849,19 @@ def aerial_decal(*, net_file: Path, aerial_image: Path, bbox_epsg25832) -> dict[
         raise ValueError("Aerial projection requires rotation or warping beyond the 0.1 m rectangle limit.")
     if file_sha256(image_path) != image_hash:
         raise ValueError("Aerial image changed while its background was prepared.")
-    return dict(image=dict(path=str(image_path), sha256=image_hash, size_pixels=image_size), bbox_epsg25832=list(bbox),
+    return dict(image=dict(path=str(image_path), sha256=image_hash, size_pixels=image_size),
+                image_crs=source.to_string(), bbox=list(bbox),
+                **({"bbox_epsg25832": list(bbox)} if source.to_epsg() == 25832 else {}),
                 orientation="caller_declared_north_up", network_projection=location.get("projParameter"),
                 network_offset=list(offset), rectangle_fit_error_m=residual, rectangle_fit_limit_m=0.1,
                 decal=dict(file=str(image_path), centerX=f"{(x0 + x1) / 2:.12g}", centerY=f"{(y0 + y1) / 2:.12g}",
                            width=f"{x1 - x0:.12g}", height=f"{y1 - y0:.12g}", rotation="0", layer="-100", screenRelative="false"),
-                claim_boundary="The declared EPSG:25832 bounds locate the original pixels. Image orientation and surveyed alignment remain caller-supplied evidence.")
+                claim_boundary="The declared projected bounds locate the original pixels. Image orientation and surveyed alignment remain caller-supplied evidence.")
 
 
 def viewsettings_text(center: tuple[float, float], *, zoom: float, aerial_background=None) -> str:
     x, y = center
-    scheme = '  <scheme name="standard"/>\n'
+    scheme = '  <scheme name="standard"><junctions showLane2Lane="true"/></scheme>\n'
     decal = "" if aerial_background is None else "  " + ET.tostring(
         ET.Element("decal", aerial_background["decal"]), encoding="unicode") + "\n"
     return (
@@ -1079,6 +1083,24 @@ def _post_mode_key(hwnd: int, mode: str) -> dict[str, Any]:
 
 
 def _capture_window(hwnd: int, destination: Path) -> dict[str, Any]:
+    user32 = ctypes.windll.user32
+    get_context = user32.GetWindowDpiAwarenessContext
+    get_context.argtypes = (ctypes.c_void_p,)
+    get_context.restype = ctypes.c_void_p
+    set_context = user32.SetThreadDpiAwarenessContext
+    set_context.argtypes = (ctypes.c_void_p,)
+    set_context.restype = ctypes.c_void_p
+    # PrintWindow uses the target's DPI coordinates, which can differ from this process.
+    previous = set_context(get_context(hwnd))
+    if not previous:
+        raise RuntimeError("Cannot use the NetEdit window DPI context for capture.")
+    try:
+        return _capture_window_pixels(hwnd, destination)
+    finally:
+        set_context(previous)
+
+
+def _capture_window_pixels(hwnd: int, destination: Path) -> dict[str, Any]:
     _, win32gui, _, win32ui = _windows_modules()
     from PIL import Image
 
@@ -1530,6 +1552,9 @@ def run_direct_background_review(
     neutral_overview: bool = False,
     aerial_image: Path | None = None,
     aerial_bbox_epsg25832: list[float] | tuple[float, ...] | None = None,
+    aerial_crs: str = "EPSG:25832",
+    capture_modes: tuple[str, ...] | None = None,
+    inspect_selection: str = "junction",
 ) -> dict[str, Any]:
     """Capture a hash-bound, non-promoting review of one candidate junction.
 
@@ -1548,7 +1573,13 @@ def run_direct_background_review(
         raise ValueError("Direct review requires a non-empty target junction id.")
     if (aerial_image is None) != (aerial_bbox_epsg25832 is None):
         raise ValueError("Provide aerial_image and aerial_bbox_epsg25832 together.")
-    background = aerial_decal(net_file=candidate, aerial_image=aerial_image, bbox_epsg25832=aerial_bbox_epsg25832) if aerial_image is not None else None
+    modes = ("inspect", "tls", "connection") if capture_modes is None else tuple(capture_modes)
+    if not modes or len(set(modes)) != len(modes) or set(modes) - {"inspect", "tls", "connection"}:
+        raise ValueError("Choose distinct Inspect, TLS, or Connection capture modes.")
+    if inspect_selection not in {"junction", "none"}:
+        raise ValueError("Inspect selection must be junction or none.")
+    background = aerial_decal(net_file=candidate, aerial_image=aerial_image,
+        bbox_epsg25832=aerial_bbox_epsg25832, source_crs=aerial_crs) if aerial_image is not None else None
     if sys.platform != "win32":
         raise SystemExit("Background NetEdit capture is currently Windows-only.")
 
@@ -1570,6 +1601,10 @@ def run_direct_background_review(
         name_prefix=f"direct-{artifact_token}",
         include_neutral_overview=neutral_overview,
     )
+    requests = [CaptureRequest(row.name, row.mode,
+        inspect_selection if row.mode == "inspect" and row.selection_type == "junction" else row.selection_type,
+        "" if row.mode == "inspect" and inspect_selection == "none" else row.selection_id)
+        for row in requests if row.mode in modes or row.name.endswith("-overview")]
     overview_fit = fitted_viewport(candidate) if neutral_overview else None
     overview_center, overview_zoom = (tuple(overview_fit["center"]), overview_fit["zoom"]) if overview_fit else (view_center, zoom)
     captures = []
@@ -1602,11 +1637,10 @@ def run_direct_background_review(
         after = file_sha256(image_path) if image_path.is_file() else None
         image_unchanged = after == background["image"]["sha256"]
         background.update(image_sha256_after=after, image_unchanged=image_unchanged)
-    mode_capture_hashes = [
-        item["sha256"] for item in captures if item["selection_type"] != "none"
-    ]
+    mode_capture_hashes = [item["sha256"] for request, item in zip(requests, captures)
+                          if not request.name.endswith("-overview")]
     mode_images_distinct = (
-        len(mode_capture_hashes) == 3 and len(set(mode_capture_hashes)) == 3
+        len(mode_capture_hashes) == len(modes) and len(set(mode_capture_hashes)) == len(modes)
     )
     capture_gates_pass = all(
         item["print_window_result"] == 1
@@ -1655,10 +1689,12 @@ def run_direct_background_review(
             if neutral_overview
             else "NetEdit --selection-file"
         ),
-        "inspect_object_delivery": "junction selection only; Net: junction attribute pane remains unverified",
-        "inspect_object_source": f"{candidate}#junction[{target.junction_id}]",
+        "inspect_object_delivery": ("junction selection only; Net: junction attribute pane remains unverified"
+                                    if inspect_selection == "junction" else "unselected Inspect view"),
+        "inspect_object_source": f"{candidate}#junction[{target.junction_id}]" if inspect_selection == "junction" else None,
         "capture_session_count": len(captures),
-        "expected_capture_session_count": 4 if neutral_overview else 3,
+        "expected_capture_session_count": len(requests),
+        "requested_capture_modes": list(modes), "inspect_selection": inspect_selection,
         "global_keyboard_or_mouse_input_used": False,
         "foreground_context_restored": all(
             item["foreground_context_restored"] for item in captures
@@ -1820,8 +1856,13 @@ def _args() -> argparse.Namespace:
     parser.add_argument("--expected-net-sha256")
     parser.add_argument("--target-junction-id")
     parser.add_argument("--aerial-image", help="Original north-up PNG/JPEG background for --net-file reviews.")
-    parser.add_argument("--aerial-bbox-epsg25832", nargs=4, type=float, metavar=("WEST", "SOUTH", "EAST", "NORTH"),
-                        help="Declared image bounds in EPSG:25832 metres. Requires --aerial-image.")
+    parser.add_argument("--aerial-bbox-epsg25832", "--aerial-bbox", nargs=4, type=float, metavar=("WEST", "SOUTH", "EAST", "NORTH"),
+                        help="Declared image bounds in projected metres. Requires --aerial-image.")
+    parser.add_argument("--aerial-crs", default="EPSG:25832", help="Image projection. Default: EPSG:25832.")
+    parser.add_argument("--capture-modes", nargs="+", choices=("inspect", "tls", "connection"),
+                        help="Direct reviews only. Default: all three modes.")
+    parser.add_argument("--inspect-selection", choices=("junction", "none"), default="junction",
+                        help="Direct reviews only. Select the junction or keep the Inspect view unselected.")
     parser.add_argument(
         "--candidate-role",
         choices=("primary", "nema-topology"),
@@ -1849,6 +1890,8 @@ def _args() -> argparse.Namespace:
 
 def main() -> int:
     args = _args()
+    if not args.net_file and (args.capture_modes is not None or args.inspect_selection != "junction" or args.aerial_crs != "EPSG:25832"):
+        raise SystemExit("Direct capture settings are only valid with --net-file.")
     if (args.aerial_image or args.aerial_bbox_epsg25832 is not None) and not args.net_file:
         raise SystemExit("Aerial background arguments are only valid with --net-file.")
     if args.net_file:
@@ -1874,6 +1917,7 @@ def main() -> int:
             neutral_overview=args.neutral_overview,
             aerial_image=Path(args.aerial_image) if args.aerial_image else None,
             aerial_bbox_epsg25832=args.aerial_bbox_epsg25832,
+            aerial_crs=args.aerial_crs, capture_modes=args.capture_modes, inspect_selection=args.inspect_selection,
         )
     elif args.hamburg_manifest:
         if args.neutral_overview:

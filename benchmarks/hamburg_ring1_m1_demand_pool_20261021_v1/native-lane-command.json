@@ -1,0 +1,15 @@
+{
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Scripts\\python.exe",
+    "-m",
+    "astra_sumo.core.hamburg_readme_demand",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m1-demand-pool-20261021-v7\\native-lane-request.json",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m1-demand-pool-20261021-v7\\native-lanes.json"
+  ],
+  "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m1-demand-pool-20261021-v7",
+  "status": "pass",
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.\nWarning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.\nWarning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2\n",
+  "error": ""
+}

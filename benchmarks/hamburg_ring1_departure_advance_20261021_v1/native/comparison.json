@@ -1,0 +1,33 @@
+{
+  "formal_result": false,
+  "global_calibration_established": false,
+  "cases": [],
+  "warmup_check": {
+    "status": "measured",
+    "formal_result": false,
+    "pre_window_real_observations": null,
+    "native_monitor_status": "completed",
+    "native_end_s": 3600.0,
+    "structure": {
+      "one_observed_road_per_route": true,
+      "no_repeated_roads": true,
+      "one_detector_per_lane": true,
+      "detectors_nearer_to_road_end_than_vehicle_length": true,
+      "standard_instantaneous_lane_change_model": true,
+      "structural_conditions_satisfied": true,
+      "minimum_vehicle_length_m": 5.0,
+      "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation."
+    },
+    "native_safe_prefix": true,
+    "native_E1_reconciled": true,
+    "early_native_complete_passages": 206,
+    "early_unique_vehicles": 206,
+    "full_population": 6687,
+    "real_window_target_sum": 6687,
+    "bound_valid_under_declared_single_pass_model": true,
+    "real_window_total_upper_bound": 6481,
+    "candidate_rejected_under_fixed_population": true,
+    "claim_boundary": "Conservation under this fixed one-field population and route model. No zero observation is assigned outside the real window. A different population or route model requires separate validation."
+  },
+  "decision": "Reject the fixed-population advance. Do not run longer prefix or full-window trials."
+}

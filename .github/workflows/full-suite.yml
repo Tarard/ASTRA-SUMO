@@ -47,7 +47,7 @@ jobs:
         run: uv run --no-sync python -c "import os,pathlib,subprocess,importlib.metadata; results=[subprocess.check_output([name,'--version'],text=True) for name in ('sumo','netconvert','netgenerate','duarouter')]; assert all('1.27.1' in result for result in results), results; assert importlib.metadata.version('eclipse-sumo')=='1.27.1'; assert (pathlib.Path(os.environ['SUMO_HOME'])/'bin/netedit.exe').is_file(); print('\n'.join(results))"
 
       - name: Lint package and tests
-        run: uv run --no-sync ruff check plugins/astra-sumo/src tests
+        run: uv run --no-sync ruff check plugins/astra-sumo/src tests .github/scripts/check_windows_native_junit.py
 
       - name: Report complexity debt without blocking yet
         continue-on-error: true
@@ -56,9 +56,15 @@ jobs:
       - name: Run full test suite
         run: uv run --no-sync pytest -q --junitxml=test-results.xml
 
+      - name: Verify critical native cases executed
+        if: always()
+        run: uv run --no-sync python .github/scripts/check_windows_native_junit.py test-results.xml
+
       - name: Save test results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: tests-windows
-          path: test-results.xml
+          path: |
+            test-results.xml
+            outputs/pytest-failures/

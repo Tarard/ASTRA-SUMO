@@ -1,0 +1,232 @@
+{
+  "schema": "astra.point-detector-demand-replay/v1",
+  "status": "invalid",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-junction-body-full-inputs-20261021-v1\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\suffix.rou.xml",
+      "sha256": "fe4c4b7dd23923c94cfcdf578887239d2572d1f25f784c61b5a9c3af4924736d"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-junction-body-full-inputs-20261021-v1\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\artificial-targets.csv",
+      "sha256": "5d6808eac08a17a8af94db688bf0129ff12dbefcd4998a7e33ed09c859109fc7"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-junction-body-full-inputs-20261021-v1\\control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\intentions.json",
+      "sha256": "73f276e3ba545752fd87b2452bcc5fedab7585c4e120643b1c3c5a5ec47ebde5"
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\demand.rou.xml",
+      "sha256": "fe4c4b7dd23923c94cfcdf578887239d2572d1f25f784c61b5a9c3af4924736d"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\expected-counts.csv",
+      "sha256": "5d6808eac08a17a8af94db688bf0129ff12dbefcd4998a7e33ed09c859109fc7"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\lane-intentions.json",
+      "sha256": "73f276e3ba545752fd87b2452bcc5fedab7585c4e120643b1c3c5a5ec47ebde5"
+    }
+  ],
+  "seed": 104,
+  "step_length_s": 0.1,
+  "end_s": 900,
+  "vehicle_count": 1,
+  "measurement_attribute": "nVehContrib",
+  "instant_to_periodic_ids": {
+    "astra_trace_0": "hh_0119_Z_11_28853",
+    "astra_trace_1": "hh_0119_Z_12_31546",
+    "astra_trace_2": "hh_0119_Z_13_34018",
+    "astra_trace_3": "hh_0119_Z_15_29375",
+    "astra_trace_4": "hh_0119_Z_4_29437",
+    "astra_trace_5": "hh_0119_Z_5_30494",
+    "astra_trace_6": "hh_0535_Z_14_31892",
+    "astra_trace_7": "hh_0535_Z_4_33055",
+    "astra_trace_8": "hh_0535_Z_5_30894",
+    "astra_trace_9": "hh_0535_Z_6_33855",
+    "astra_trace_10": "hh_0535_Z_7_29316",
+    "astra_trace_11": "hh_0535_Z_8_34287",
+    "astra_trace_12": "hh_0535_Z_9_29038"
+  },
+  "signal_treatment": "declared_additional_programs",
+  "formal_result": false,
+  "errors": [
+    "All running vehicles exceeded the standstill limit. Inspect stall-monitor.json."
+  ],
+  "driver_treatment": "local_observation_and_junction_body_hold",
+  "expected_field_bins": 13,
+  "observer_complete": false,
+  "missing_field_bins": 13,
+  "exact_field_bins": 0,
+  "exact_count_fit": false,
+  "field_metrics": null,
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\field-comparison.csv",
+  "state_times_s": [],
+  "state_snapshots": [],
+  "native_status": "pass",
+  "native_returncode": 0,
+  "stall_monitor": {
+    "status": "all_stopped",
+    "all_stopped_timeout_s": 300,
+    "speed_tolerance_m_s": 1e-06,
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "--net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\network.net.xml",
+      "--route-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\demand.rou.xml",
+      "--additional-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\signal-programs.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\instant.add.xml",
+      "--end",
+      "900",
+      "--step-length",
+      "0.1",
+      "--seed",
+      "104",
+      "--precision",
+      "12",
+      "--time-to-teleport",
+      "-1",
+      "--collision.check-junctions",
+      "true",
+      "--summary-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\summary.xml",
+      "--tripinfo-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\tripinfo.xml",
+      "--tripinfo-output.write-unfinished",
+      "true",
+      "--vehroute-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\vehicle-routes.xml",
+      "--vehroute-output.exit-times",
+      "true",
+      "--collision-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\collisions.xml",
+      "--log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\sumo.log",
+      "--queue-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\queues.xml",
+      "--queue-output.period",
+      "1",
+      "--error-log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\sumo-errors.log",
+      "--duration-log.statistics",
+      "true",
+      "--no-step-log",
+      "true",
+      "--remote-port",
+      "14684"
+    ],
+    "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "stop": {
+      "time_s": 404.1,
+      "stopped_since_s": 104.1,
+      "duration_s": 300.0,
+      "state": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-short-connector-body-trap-20261021-v1\\global_hold\\all-stopped-state.xml.gz",
+        "sha256": "8d501c47523882cba29f7cd399b4912cccfc0db35bfebf41508ee206648a9965"
+      },
+      "vehicles": {
+        "artificial_post_field_suffix": {
+          "lane": "199230912#1_0",
+          "position_m": 2.098729,
+          "speed_m_s": 0.0,
+          "leader": null,
+          "junction_foes": [],
+          "next_links": [
+            [
+              "1257937836#0_0",
+              true,
+              true,
+              false,
+              ":266199654_0_0",
+              "M",
+              "s",
+              4.482132
+            ]
+          ],
+          "next_signals": []
+        }
+      },
+      "blocked_lanes": [
+        "199230912#1_0"
+      ],
+      "waiting_relations": [],
+      "candidate_wait_cycles": [],
+      "cycle_claim": "Native near-leader and yield relations suggest cycles. They do not prove the cause of standstill."
+    },
+    "monitor_interval_s": null,
+    "position_changes_reset_standstill": true,
+    "native_version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "simulation_time_s": 404.1,
+    "native_returncode": 0,
+    "lane_section_hold": {
+      "mechanism": "Native laneChangeMode=512 after reaching the assigned detector lane; restore the prior mode after rear clearance. No lane, position, speed, route or signal commands.",
+      "safety_source": "https://sumo.dlr.de/docs/TraCI/Change_Vehicle_State.html#lane-change-mode-0xb6",
+      "claim_boundary": "Declared local driver lane intention. No detector count feedback or measured natural driver behaviour.",
+      "events": [],
+      "still_held": {},
+      "released_vehicles": 0,
+      "left_before_release": 0,
+      "junction_body_hold": {
+        "mechanism": "Hold mode 512 from the first post-step internal-lane sample until the rear clears all subsequent internal lanes. Restore only when both detector and junction holds end.",
+        "sampling_limit": "An entry-step lane change before the first internal-lane sample is not prevented.",
+        "events": [
+          {
+            "vehicle_id": "artificial_post_field_suffix",
+            "event": "held",
+            "time_s": 100.5,
+            "lane": ":12959335183_1_0"
+          }
+        ],
+        "still_held": {
+          "artificial_post_field_suffix": 21.242224
+        },
+        "pending_original_modes": {
+          "artificial_post_field_suffix": 1621
+        },
+        "claim_boundary": "Declared exploratory driver assumption on all internal lanes, not measured natural behavior or a network repair."
+      }
+    }
+  },
+  "completion": {
+    "loaded": 1,
+    "inserted": 1,
+    "arrived": 0,
+    "running": 1,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "healthy": false,
+  "inputs_unchanged": true,
+  "claim_boundary": "Native completion and all declared detector bins under the supplied model. No field timing, surveyed detector truth, or prediction accuracy is established."
+}

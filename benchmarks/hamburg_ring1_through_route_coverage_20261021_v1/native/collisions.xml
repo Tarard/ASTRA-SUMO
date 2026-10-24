@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T20:08:55.809719+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\collisions.xml"/>
+        <save-state.times value="3599.9"/>
+        <save-state.prefix value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\states\state"/>
+        <save-state.suffix value=".xml.gz"/>
+        <save-state.rng value="true"/>
+        <save-state.precision value="12"/>
+    </output>
+
+    <time>
+        <end value="3600"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-prior-native-20261021-v1\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="13751"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<collisions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/collision_file.xsd">
+    <collision time="1881.100" type="side" lane=":14398547_3_1" pos="7.952129758798" collider="initialization_hh_0119_Z_13_34018_b1_p175_v113" victim="initialization_hh_0119_Z_13_34018_b1_p175_v118" colliderType="readme_lane_intent" victimType="readme_lane_intent" colliderSpeed="4.861889299103" victimSpeed="0.000288885300" colliderFront="1274.851948319107,548.550049874803" colliderBack="1270.493440631476,551.052438237165" victimFront="1275.032728189264,549.220685341780" victimBack="1270.357857816829,551.216268303494"/>
+    <collision time="2401.100" type="junction" lane=":205069138_2_2" pos="11.883822581954" collider="initialization_hh_0119_Z_12_31546_b1_p98_v16" victim="initialization_hh_0535_Z_4_33055_b2_p281_v28" colliderType="readme_lane_intent" victimType="readme_lane_intent" colliderSpeed="5.801466286425" victimSpeed="0.084913494838" colliderFront="1512.498667194158,345.284933719773" colliderBack="1508.984144075482,348.864280929778" victimFront="1517.343036686616,344.847106151100" victimBack="1509.216277084739,344.029493157638"/>
+</collisions>

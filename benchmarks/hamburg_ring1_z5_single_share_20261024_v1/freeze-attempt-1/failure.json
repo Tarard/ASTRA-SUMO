@@ -1,0 +1,8 @@
+{
+  "status": "failed_offline_manifest_schema_check",
+  "native_runs": 0,
+  "archives_copied_before_failure": 0,
+  "source_files_modified": false,
+  "reason": "Historical helper-failure manifest records SHA only and omits bytes. General reader required size. Its original SHA-only schema will be preserved; size is measured in this packet source-provenance, without rewriting the source manifest.",
+  "old_freezer_sha256": "bcde219cd724d4ae5a7e1bb19f69b872b43b8571772e90635a1e86a027b66d3f"
+}

@@ -1,0 +1,136 @@
+{
+  "schema": "astra.hamburg-approach-regeneration-evidence/v1",
+  "status": "measured",
+  "promotion_authority": false,
+  "raw_input_runner": {
+    "path": "examples/06_hamburg_ring1_demo/prepare_approach_evidence.py",
+    "sha256": "b46d61389ff07c0e50e97762651e6a69c416afb650e9a3b5041a22f683a2d5df"
+  },
+  "extraction_entrypoint": {
+    "path": "plugins/astra-sumo/scripts/generate_hamburg_approach_retention.py",
+    "sha256": "54b99c6cd5c887595dc98d9db337401bbcef1669ff00035934805770db2066b6"
+  },
+  "implementation": {
+    "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_scope_anchors.py",
+    "sha256": "c6dfd096afa2ae751956bb452eeb12311629ad3065b7eed0287b15ff6b822a9e"
+  },
+  "frozen_inputs": [
+    {
+      "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/source.osm.xml.gz",
+      "sha256": "f0b77bcac03a4c3095b40272ca2067e838b0d95125883855a28d53a7d9429365"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json",
+      "sha256": "e8cac2a3d012f517225500424722e0813a577c0876f15ac2cebf834a67fc88df"
+    }
+  ],
+  "full_source_measurement": {
+    "path": "outputs/ring1-approach-prepare-20261020-v1/calibration/run.json",
+    "sha256": "c656a85375796fda7c98658630a75df97be6908f967808b2d0e748dda80c13c4"
+  },
+  "raw_input_run_log": {
+    "path": "outputs/ring1-approach-prepare-20261020-v1.log",
+    "sha256": "474d08758ca332abf69b734c12cdb2a9b071caf808e5fb481421a74825ed098a"
+  },
+  "frozen_regenerated_anchors": {
+    "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/official-approach-anchors-v2.json",
+    "sha256": "a7f896ab0b8e4d39586d866355ac20d31e208f886dd1750e8c254649b54b5cd1"
+  },
+  "checks": {
+    "protected_edge_set_matches_v1": true,
+    "prepared_source_content_matches_v1": true,
+    "source_unchanged": true,
+    "warnings": []
+  },
+  "protected_edges": 126,
+  "edges_without_high_or_confirmed_fact_support": [
+    "-142770548",
+    "-142770551",
+    "-983227468#0",
+    "1373419479",
+    "22127047",
+    "234421319",
+    "31050638#1",
+    "37693933#0",
+    "37693933#1",
+    "381750337",
+    "381750338",
+    "43305966#1",
+    "51214742#1"
+  ],
+  "motor_lane_counts": {
+    "104": {
+      "reference_motor_lanes": 16,
+      "source_lane_parts_available": 14,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 2,
+      "usable_overlap_retention_anchors": 14
+    },
+    "118": {
+      "reference_motor_lanes": 33,
+      "source_lane_parts_available": 26,
+      "source_lateral_offset_unavailable": 3,
+      "unmapped_source_lanes": 7,
+      "usable_overlap_retention_anchors": 23
+    },
+    "119": {
+      "reference_motor_lanes": 27,
+      "source_lane_parts_available": 24,
+      "source_lateral_offset_unavailable": 1,
+      "unmapped_source_lanes": 3,
+      "usable_overlap_retention_anchors": 23
+    },
+    "200": {
+      "reference_motor_lanes": 52,
+      "source_lane_parts_available": 47,
+      "source_lateral_offset_unavailable": 3,
+      "unmapped_source_lanes": 5,
+      "usable_overlap_retention_anchors": 44
+    },
+    "535": {
+      "reference_motor_lanes": 21,
+      "source_lane_parts_available": 21,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 0,
+      "usable_overlap_retention_anchors": 21
+    }
+  },
+  "scope_replay": {
+    "case": {
+      "path": "outputs/ring1-road-demo-20261020-v10/case.json",
+      "sha256": "9c40b8733b1c0e46ed4400df1633920f35e9de7b4ede6d1ec6f377e68b207fc3"
+    },
+    "source_roads": 1156,
+    "selected_roads": 468,
+    "reproduction_checks": {
+      "raw_network_matches_fixture": true,
+      "source_road_count_matches": true,
+      "selected_road_count_matches": true
+    },
+    "checks": {
+      "source_unchanged": true,
+      "selected_roads_realized": true,
+      "required_movements_kept": true,
+      "retained_lane_permissions": true,
+      "retained_local_turns": true,
+      "retained_road_priorities": true,
+      "sumo_load": true
+    }
+  },
+  "focused_tests": {
+    "junit": {
+      "path": "outputs/approach-generator-consumers-tests-20261020-v1.xml",
+      "sha256": "8ad7154b8a41fbd2aa8996195deed7b468dcad4abc49a22c30e350ead2753a42"
+    },
+    "tests": 141,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "limits": [
+    "The raw-input run predates the added input-warnings file and generator-name metadata. The current extractor was rerun on that fresh source measurement.",
+    "Native CI regenerates site 535 from frozen raw inputs. The full five-site run is recorded locally.",
+    "Retaining tentative associations is not independent field accuracy or detector correspondence.",
+    "Junction reconstruction, detectors, exact count fitting, and matched NetEdit figures remain incomplete."
+  ]
+}

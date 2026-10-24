@@ -30,6 +30,7 @@ from astra_sumo.core.hamburg_official_corridor_geometry import (
 )
 from astra_sumo.core.sumo_commands import run_sumo_load_audit
 from astra_sumo.core.surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
+from ..core.local_network_conversion import with_geometry_precision
 
 
 OFFICIAL_SPLICE_MATERIALIZATION_SCHEMA = (
@@ -148,7 +149,7 @@ def materialize_hamburg_official_splice_candidate(
     _write_xml(plain["types"], "types", types)
 
     output_net = destination / "hamburg_official_splice_candidate.net.xml"
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--node-files",
         str(plain["nodes"]),
@@ -172,7 +173,7 @@ def materialize_hamburg_official_splice_candidate(
         "true",
         "--output-file",
         str(output_net),
-    ]
+    ])
     netconvert_passes = [
         _result_dict(command_runner(command, cwd=destination, timeout_seconds=timeout_seconds))
     ]

@@ -1,0 +1,99 @@
+{
+  "schema": "astra.ring1-clearance-timeout-evidence/v1",
+  "status": "invalid",
+  "promotion_authority": false,
+  "implementation_commit": "c16c1da730dbdd12a228a646c499b0b4a2fb75fe",
+  "implementation": {
+    "path": "plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+    "sha256": "3810b423d922a777ea5272359f1cd8828dd3ba36e03e62db8c955b873dd1ba37"
+  },
+  "native_report": {
+    "path": "outputs/ring1-clearance-integer-replay-20261021-v1/run.json",
+    "sha256": "64348bc913820e49ce668672e26ab46d420507e4e135b94559ab294c73b071f6"
+  },
+  "native_command": {
+    "path": "outputs/ring1-clearance-integer-replay-20261021-v1/command.json",
+    "sha256": "a25fcaa55d3b064f7fc8c6d2c34e06647ccbc6b2a89c09b94f235fe3bf2cbbbf"
+  },
+  "runner": {
+    "path": "outputs/run-ring1-clearance-integer-replay-20261021-v1.py",
+    "sha256": "eebab0eece711d420c6f33548323c1c9cba7190f981cd01e12aa14f13fec3a07"
+  },
+  "control_recipe": {
+    "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_preserve_green/scenario.json",
+    "sha256": "d7ed28a10e602e19a201b34e146bed23e2bb8185730e8c32ee55194f334013ed"
+  },
+  "files": {
+    "truncated_e1": {
+      "compressed": {
+        "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/lsa119-clearance-timeout-e1-v1.xml.gz",
+        "sha256": "7fa43eb2a0f0734b7d9b04afc4eb9c63d3ed61fe8c590e295f10e1b08605be4e"
+      },
+      "uncompressed_sha256": "d6b5dad15f2387dfd564daa8c447708fa7006696fce91b9470666d2032a65694",
+      "source": {
+        "path": "outputs/ring1-clearance-integer-replay-20261021-v1/field-counts.xml",
+        "sha256": "d6b5dad15f2387dfd564daa8c447708fa7006696fce91b9470666d2032a65694"
+      }
+    },
+    "stress_demand": {
+      "compressed": {
+        "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/lsa119-stress-demand-v1.rou.xml.gz",
+        "sha256": "9d82be726d525d8a13e16365bfe7caf416d025b1dfec0c3dedc725122cc69d50"
+      },
+      "uncompressed_sha256": "44510d4452ffe684e35330cb70524563ce61c56ec64b1a19cf57eb4d005c7cc9",
+      "source": {
+        "path": "outputs/ring1-clearance-integer-replay-20261021-v1/demand.rou.xml",
+        "sha256": "44510d4452ffe684e35330cb70524563ce61c56ec64b1a19cf57eb4d005c7cc9"
+      }
+    }
+  },
+  "scheduled_vehicles": 4494,
+  "native_status": "timeout",
+  "wall_clock_limit_s": 900,
+  "requested_end_s": 14400,
+  "last_complete_summary_step": {
+    "time": "10607.000",
+    "loaded": "3682",
+    "inserted": "1299",
+    "running": "628",
+    "waiting": "2302",
+    "ended": "671",
+    "arrived": "671",
+    "collisions": "0",
+    "teleports": "0",
+    "halting": "628",
+    "stopped": "0",
+    "meanWaitingTime": "67.265588914551",
+    "meanTravelTime": "422.745156482861",
+    "meanSpeed": "0.000000000000",
+    "meanSpeedRelative": "0.000000000000",
+    "discarded": "0",
+    "duration": "30"
+  },
+  "partial_snapshot_not_final_trip_totals": true,
+  "recovery": {
+    "record": {
+      "path": "outputs/ring1-clearance-integer-partial-measurements-20261021-v1/report.json",
+      "sha256": "00be617177d299b4a12314f84abf34869c995f1d2a8cb01e1a3d8978cf65401f"
+    },
+    "expected_field_bins": 130,
+    "recovered_field_bins": 85,
+    "missing_field_bins": 45,
+    "exact_pairs_observed": 7,
+    "accepted_fit_metrics": null,
+    "exact_count_fit": false,
+    "native_completion_established": false,
+    "source_report_unchanged": true
+  },
+  "original_field_and_station_targets_unchanged": true,
+  "station_target_bins": 40,
+  "tests": {
+    "record": {
+      "path": "outputs/partial-detector-recovery-tests-20261021-v2.xml",
+      "sha256": "060a89b7da30cbce99203bac572a631ef67afdff6ddb0a04f9d481d6b702e1a4"
+    },
+    "passed": 20,
+    "failed": 0
+  },
+  "claim_boundary": "Timed-out replay with 628 halting vehicles in the last complete snapshot and no collision or teleport recorded to that point. Recovery exposes only completed, strictly validated field records. The 85 available pairs are diagnostics; 45 remain missing. No accepted fit metric or full-demand completion is established. The frozen demand is the failed static-response proposal, not calibrated field demand."
+}

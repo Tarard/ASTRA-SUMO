@@ -1,0 +1,38 @@
+{
+  "schema": "astra.indirect-route-attribution/v1",
+  "status": "measured",
+  "flagged_routes": 1163,
+  "selected_indirect_vehicles": 452,
+  "events": 5581,
+  "unique_spliced_movements": 80,
+  "event_classes": {
+    "other": 283,
+    "absent_in_examined_sources": 5280,
+    "unresolved_official": 18
+  },
+  "route_class_memberships": {
+    "absent_in_examined_sources": 1091,
+    "other": 275,
+    "unresolved_official": 18
+  },
+  "unresolved_official_route_memberships": {
+    "200:28": 18
+  },
+  "selected_vehicle_class_memberships": {
+    "absent_in_examined_sources": 452,
+    "other": 0,
+    "unresolved_official": 0
+  },
+  "unresolved_official_vehicle_memberships": {},
+  "sources": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_1_demand_pool_20261021_v1\\inputs\\candidate-manifest.json.gz",
+      "sha256": "bc53c1995a3a0a1fbba0522a86346be2254b01adb54274529e4f439a6260db23"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_1_demand_pool_20261021_v1\\inputs\\original.net.xml",
+      "sha256": "a915ef1076c5bf74200e995575d4391902616fe5b30098c44ed167b7ca029c04"
+    }
+  ],
+  "claim_boundary": "Source-path and lane-correspondence attribution only. Multiple event classes can belong to one vehicle. Absence in incomplete model sources does not prove a field turn prohibition."
+}

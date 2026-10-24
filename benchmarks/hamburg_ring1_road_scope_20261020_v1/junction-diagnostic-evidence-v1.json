@@ -1,0 +1,1027 @@
+{
+  "schema": "astra.ring1-junction-diagnostic-evidence/v1",
+  "status": "partial",
+  "promotion_authority": false,
+  "case": "README Binnenalster/Ring1",
+  "source_scope": {
+    "path": "outputs/ring1-road-demo-20261020-v9/case.json",
+    "sha256": "349686def07f9500b42123ec373450a74a1298af39cd516cd0a848fc1d06b60f"
+  },
+  "official_sources": {
+    "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json",
+    "sha256": "e8cac2a3d012f517225500424722e0813a577c0876f15ac2cebf834a67fc88df"
+  },
+  "implementation": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/lanes.py",
+      "sha256": "e6b6e4aa2e1d08a36f70211801d91d15f3e946fdfdfc7b9cfb8a8c3b31fc74db"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/movement_routeability.py",
+      "sha256": "0704c069777e5d7e5e3b387044323bf56a6df0ab4f6c58079aeb3cfa8b46cfc3"
+    }
+  ],
+  "runner": {
+    "path": "outputs/probe_ring1_119_535_movements_20261020_v1.py",
+    "sha256": "c1fd629198c9d0711efad9fc05b4fbb0adc5daf459b035b08f5c9cf48b33a374"
+  },
+  "candidate": {
+    "path": "C:/Users/huqio/Documents/ASTRA-SUMO/outputs/ring1-119-official-movements-20261020-v2/official.net.xml",
+    "sha256": "4263fcb97e61d12536228834a66b9577e9dcb008f5d6b043c9077662f214624c"
+  },
+  "probe_report": {
+    "path": "outputs/ring1-119-535-movement-probes-20261020-v1/runs/summary.json",
+    "sha256": "7879c4ebdd1081ac6285740717b4ec4efdbaf283fb37d35d50888b95508e8cf1"
+  },
+  "official_motor_movements": 35,
+  "mapped_and_tested": 34,
+  "passed_exact_lane_transition": 34,
+  "unmapped_not_tested": [
+    {
+      "allowed_vehicle_classes": null,
+      "egress_lane_id": "41",
+      "ingress_lane_id": "3",
+      "intersection_part": "0",
+      "join_id": "LSA119_part0",
+      "movement_id": "10",
+      "node_id": "119",
+      "reason": "official_lane_binding_unresolved",
+      "revocable_lane_assumption": null,
+      "selected_source": "official_MAP_reference"
+    }
+  ],
+  "movements": [
+    {
+      "node_id": "535",
+      "movement_id": "1",
+      "sumo_connection": [
+        "186821027#0",
+        2,
+        "142944337#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_2_0",
+          ":LSA535_part0_30_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_2_0",
+          ":LSA535_part0_30_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "168f5d3e5ea78708c671281936bfacf282ec696fdcf8d83babfeda42e9dbc571",
+      "tripinfo_sha256": "946d411db1de1aeecb4b0cf1417343ccac8f3430a7be0bb642413d92acd2ace9"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "2",
+      "sumo_connection": [
+        "186821027#0",
+        3,
+        "142944337#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_2_1",
+          ":LSA535_part0_30_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_2_1",
+          ":LSA535_part0_30_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "d4af288de0ba1b4fdc9bfe0f642f4f038a6a545661e25b81d411b74ba52f5b21",
+      "tripinfo_sha256": "2a4df6faf4290e0c9006acf77d80e7403e015751164ec23f01a753633159136f"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "3",
+      "sumo_connection": [
+        "186821027#0",
+        4,
+        "43305966#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_4_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_4_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "c70360c6df9ac4928c97f090eb39f587360982c6d486ef08e17ade2ef65f3417",
+      "tripinfo_sha256": "e98a7ddaaab679ec3f79323c990927a3c1088b6c90aba254616047722f5a9489"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "4",
+      "sumo_connection": [
+        "186821027#0",
+        5,
+        "186821036#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_7_1",
+          ":LSA535_part0_33_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_7_1",
+          ":LSA535_part0_33_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "233dcd002fb8329748c56297d87fe6f3f34ce51d40598dfdf0f3b128718ed279",
+      "tripinfo_sha256": "fbcd9794e1d8ef70da8e6a338d60950daa73f5348fbc3e56fb288d5097150c0b"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "5",
+      "sumo_connection": [
+        "186821027#0",
+        5,
+        "186821036#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_7_0",
+          ":LSA535_part0_33_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_7_0",
+          ":LSA535_part0_33_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "d3d19c244f0d2c05d05a54f138c5597bd18cea335b573f37d50b24f087fd6407",
+      "tripinfo_sha256": "46ca86ab936c8157045cdae7e01f0ffc2600e3681808b9a2c88ad38b63b4ce4f"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "6",
+      "sumo_connection": [
+        "2963460#1",
+        1,
+        "186821029#1",
+        3
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_19_2"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_19_2"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "047e753c7cbaae5e7790bc24056fd5c23aa820c1e95e26c290274637b3714eb2",
+      "tripinfo_sha256": "e2c44e59460e11c552be257bae20fa87c5e8b9c4318893966691aeacf4c40395"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "7",
+      "sumo_connection": [
+        "2963460#1",
+        0,
+        "186821036#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_17_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_17_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "3f652526f455c8ad5bdc711b2105e8b7679bc7e8ef337e5018cc499649efa9f4",
+      "tripinfo_sha256": "3004bcf8a97d51ef246422aea396c4ca16f465d1cd2b9991d3d1182fe772d942"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "8",
+      "sumo_connection": [
+        "2963460#1",
+        0,
+        "186821036#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_17_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_17_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "f8c502f3cd6791c2f56a7a18cb5cba9a402f8d05342466e3a1029d8007f39697",
+      "tripinfo_sha256": "7742ccf44fc6ec6c12d7bbc78315100b9ffb20cd8b6c5f30601dec0718ad768d"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "9",
+      "sumo_connection": [
+        "186821035#0",
+        0,
+        "186821029#1",
+        2
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_10_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_10_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "23603fea15dcc0f989c9012fa7c42562ff531ed6a6add2777e02aca688c3126f",
+      "tripinfo_sha256": "039fdfc72367f7af2673534b973141e54467735fe3a933aa511a980eab79c6fb"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "10",
+      "sumo_connection": [
+        "2963460#1",
+        1,
+        "186821029#1",
+        2
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_19_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_19_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "2657630ce7990e283150fe392b7a12689b2133fde533af6183c6912f5d8bb952",
+      "tripinfo_sha256": "7dec3de20823e9c6e46b0c24982998b2680ddcccd50d8a8e8bd416a21cf23bd0"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "11",
+      "sumo_connection": [
+        "186821035#0",
+        0,
+        "186821029#1",
+        3
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_10_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_10_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "5a07499b61ed01881857515379224998ce45f6c13aa2f48a33c408f69ffdf3a0",
+      "tripinfo_sha256": "6c703a976e1cc40eec11bef4133799527867165c960d7052a56935de5130c640"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "12",
+      "sumo_connection": [
+        "186821035#0",
+        1,
+        "142944337#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_12_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_12_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "b0fe4245601ad0cf53b171eb4b718c4e13743cd7e42a24a2dd0a25d9bdd7b952",
+      "tripinfo_sha256": "3f675d8628889c7b64bdca919ffd5c97a7ef62bd63a363e959c573079db7bc40"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "13",
+      "sumo_connection": [
+        "186821035#0",
+        2,
+        "142944337#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_12_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_12_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "6ae24704e5e953b7e80af99cb645ba09c30f64f1ba9f1ff7c38d2e7c11980e71",
+      "tripinfo_sha256": "ad1269ee8bb913312181056e2bd21f75eba605342dff5ea3c01595f6a3ee50a1"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "14",
+      "sumo_connection": [
+        "186821035#0",
+        3,
+        "43305966#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_14_0",
+          ":LSA535_part0_35_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_14_0",
+          ":LSA535_part0_35_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "8bec266ae1e02d52d23b2367bdc0a0f4b84ce41d9245e0c2d28d84ec335c9b51",
+      "tripinfo_sha256": "6082f9039ccb31645515f151bd7b7e10dd3b3835b3eacd9822f5c5934dba5685"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "15",
+      "sumo_connection": [
+        "186821034#0",
+        2,
+        "43305966#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_22_2"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_22_2"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "7fe75b69fb183602bf95a9737d29fd70e06b9482ddc7f3697ed23f4a307d6b9d",
+      "tripinfo_sha256": "01fa442c6bedb9a5835abfd7a5c5dcc906e5dcf71779d13083b95ac3864c9608"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "16",
+      "sumo_connection": [
+        "186821034#0",
+        3,
+        "186821036#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_25_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_25_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "fc01901260f23a1b044509c025a461bf0efc6f6a7cbec12f6d1d715d06d373fa",
+      "tripinfo_sha256": "78ce8649506e075896fd9044e3f371851ae957f8c46c50b45f6b4163b91051ef"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "17",
+      "sumo_connection": [
+        "186821034#0",
+        4,
+        "186821036#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_25_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_25_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "1e9b017f4823ff6bae604a51c59d6c405bac147dc38cb79afb7f264d61791e0d",
+      "tripinfo_sha256": "98ad63d12d8b8b000d0598c9a9399e38cdc5b29b99161f0f496db61465b1768a"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "18",
+      "sumo_connection": [
+        "186821034#0",
+        5,
+        "186821029#1",
+        3
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_27_2",
+          ":LSA535_part0_37_2"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_27_2",
+          ":LSA535_part0_37_2"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "9611addcadf9d2568ec71ae3fc8e2d1280be9471869bc7b565bd80b3fdf1ee5f",
+      "tripinfo_sha256": "f675dd594de1b1042e3671019acbf61dd72a63d424f8733d295372d6d1ffae8c"
+    },
+    {
+      "node_id": "535",
+      "movement_id": "19",
+      "sumo_connection": [
+        "186821034#0",
+        5,
+        "186821029#1",
+        2
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA535_part0_27_1",
+          ":LSA535_part0_37_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA535_part0_27_1",
+          ":LSA535_part0_37_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "3e51880cb63f3a69ae4164c51ac082e039b29dc2a6b559dd425ca707c5a48745",
+      "tripinfo_sha256": "92a2179f901fe010343e13825a6187004cecc7334f905b44f2255f208c9854db"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "5",
+      "sumo_connection": [
+        "199230909#0",
+        1,
+        "199230912#0",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_8_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_8_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "5dc2a69fec4947338196c4d9a87e0106a0b07027fb2ea145fe3c312295b9cfe2",
+      "tripinfo_sha256": "d6985cf37c8b970f9153a91bdd95b3f4b2921661869ec6e3b0d20340244b1451"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "6",
+      "sumo_connection": [
+        "24483344#1",
+        1,
+        "79014037#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_12_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_12_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "6356f99a92a7b53bf45548f111202b8968f9ba5dfc8e0733f6eb7f3491618667",
+      "tripinfo_sha256": "c264f2df558ddbb2b0f1acda03b974f20233342376e5ef889be01768719ebf94"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "7",
+      "sumo_connection": [
+        "24483344#1",
+        0,
+        "79014037#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_12_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_12_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "8e28667a3f15dc95615d2226e043ae34ff721a6141a7107ec5bd6ef52fb200fd",
+      "tripinfo_sha256": "c5a919394a51fe38f8305f5421f897ca92f1486392279c9d434b70fedbf1037f"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "8",
+      "sumo_connection": [
+        "37413814#0",
+        1,
+        "363112756#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_17_0",
+          ":LSA119_part0_20_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_17_0",
+          ":LSA119_part0_20_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "749b92bed737af208a70efc513104d8834c4d5865787069807a1df452b2621c1",
+      "tripinfo_sha256": "844dde2c131bc158ab18d216e33ae1e3bfd2546d6e5be96f94002d2c8d889743"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "9",
+      "sumo_connection": [
+        "37413814#0",
+        1,
+        "199230912#0",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_19_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_19_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "a79ec6e1b1aa8691ed3807c8e38fdb92bf5c2d54c13f15beabdcdba278176d5e",
+      "tripinfo_sha256": "5b5a3ca1a45164779429efe097cec802be10f3b7a68a7fd5bb7f82ac864632f3"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "11",
+      "sumo_connection": [
+        "43866090#0",
+        0,
+        "486864294",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_0_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_0_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "0915dc09f678dff7220758d0a1986f5b4c6b8c5f294ced42aacb09889b660e46",
+      "tripinfo_sha256": "86d392a6a1127d3f738bfd8df8dc16e5cb54cb7123c257257136cd08b6d8846f"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "12",
+      "sumo_connection": [
+        "43866090#0",
+        1,
+        "486864294",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_0_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_0_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "349cc34db32f9cdc6fe766f11f879d65c939c77b9a72c3c5d65f688b6eac7b1c",
+      "tripinfo_sha256": "6901a8c819870a1b471808337802cfa3ee638223d5d67ee62a28208e8ee53891"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "13",
+      "sumo_connection": [
+        "186713422#0",
+        3,
+        "199230912#0",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_6_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_6_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "44bb6dc698d83394fbfea4e70e31163292d9e9aea9af482accdec330fe575e87",
+      "tripinfo_sha256": "f39cf3d7a087f9a8fd8b13d4d02f938e2b5f36d11f497aad98760be8f5fb1de3"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "14",
+      "sumo_connection": [
+        "186713422#0",
+        2,
+        "363112756#1",
+        2
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_2_2"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_2_2"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "7d52ef5de58413c2e8cf1b9859b3737cc6057ba913e2fea205c126e494c4acb0",
+      "tripinfo_sha256": "59c07324adbf458e761253e277bc9f29b92a0af0bd4924e0dabf0793fe0b523a"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "15",
+      "sumo_connection": [
+        "186713422#0",
+        1,
+        "363112756#1",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_2_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_2_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "f0c2f4556d959048d475ef8d99910b4b3857a16e5b1b0ec3c4ae8b1dd68fed56",
+      "tripinfo_sha256": "e169ad89955847e8c7818d323e9f9917cbb0e47d605cc1dfab662faaccd15bad"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "16",
+      "sumo_connection": [
+        "186713422#0",
+        0,
+        "363112756#1",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_2_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_2_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "31f8dbfd0d163386715f85b72c71e3b81e799bd250e620dce70e0b15cb82b4c9",
+      "tripinfo_sha256": "e3027a1a0d14683cd109c9661758b0dba42a4cbc4ae666c3f50818cbc8e06c26"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "1",
+      "sumo_connection": [
+        "199230909#0",
+        3,
+        "486864294",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_10_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_10_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "a6290e9507a108d26f7708e861695e7e659125e76f0225d34cd7f750a47136bf",
+      "tripinfo_sha256": "2d4ace541fb90c44260455538d4f01dcdfb56a941ec6e23cbd74cefe18c63599"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "2",
+      "sumo_connection": [
+        "199230909#0",
+        2,
+        "486864294",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_10_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_10_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "33a8f1af4496f9c1ef1c80ae07bd1f1625215dc37ddbb83a6f94cbd18846d0d4",
+      "tripinfo_sha256": "8e1027ac413554700a347d749ab306dedb95316b281356eb80ab1e3d384132ae"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "3",
+      "sumo_connection": [
+        "199230909#0",
+        3,
+        "486864294",
+        1
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_10_1"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_10_1"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "9a861b491b0082a1792c46576824ad12d1a6777eed225cd7fe040577940f88b6",
+      "tripinfo_sha256": "6ca3eaf7bdeb08308b593f18ffe19a401616abe798915a744ebc4abec2725566"
+    },
+    {
+      "node_id": "119",
+      "movement_id": "4",
+      "sumo_connection": [
+        "199230909#0",
+        2,
+        "486864294",
+        0
+      ],
+      "vehicle_class": "passenger",
+      "status": "pass",
+      "proof": {
+        "expected_internal_lane_chain": [
+          ":LSA119_part0_10_0"
+        ],
+        "internal_evidence_source": "fcd",
+        "observed_internal_lane_chain": [
+          ":LSA119_part0_10_0"
+        ],
+        "outlet_evidence_source": "fcd",
+        "pass": true,
+        "reason": "complete_requested_connection_observed"
+      },
+      "fcd_sha256": "9dab1a4bfbed1a45b0a2e8479c1751eecc535fc3442c9c0d31e7dec01dfc70ce",
+      "tripinfo_sha256": "3864f8fc31d8ea8fc18116bbfa8c8a7848699e4f2c0fd6b07347879a8e7d718c"
+    }
+  ],
+  "unexplained_extra_pairs_at_535": [
+    [
+      "186821027#0",
+      5,
+      "186821029#1",
+      3
+    ],
+    [
+      "186821034#0",
+      4,
+      "186821029#1",
+      2
+    ]
+  ],
+  "unexplained_extra_pairs_at_119": [],
+  "source_candidate_structure": {
+    "source": {
+      "report": {
+        "path": "outputs/ring1-119-535-movement-probes-20261020-v1/source-connection-audit.json",
+        "sha256": "2bf156737a2beee4ea98b019bca48b572034d791863b686d04e17d7f3e98ca98"
+      },
+      "structural_failure_count": 9,
+      "failing_junction_ids": [
+        "14398554",
+        "309704079",
+        "309704080",
+        "7709833318"
+      ]
+    },
+    "candidate": {
+      "report": {
+        "path": "outputs/ring1-119-535-movement-probes-20261020-v1/candidate-connection-audit.json",
+        "sha256": "b6512edc297a4739e32927e2bf329d0b518aca7e2e18f187e2773a689f4ae363"
+      },
+      "structural_failure_count": 9,
+      "failing_junction_ids": [
+        "14398554",
+        "309704079",
+        "309704080",
+        "7709833318"
+      ]
+    }
+  },
+  "lane_change_policy": "Autonomous lane changes disabled only for isolated connection probes; source permissions, car following, signals and collision checks remain active.",
+  "focused_tests": {
+    "junit": {
+      "path": "outputs/sumo-typemaps-channelized-tests-20261020-v1.xml",
+      "sha256": "3f70c1257c86d78d783866b3edef1de4396ff1fc5d6fdb4dea3d60d53936f1e9"
+    },
+    "tests": 169,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "physical_sensor_attempts": [
+    {
+      "path": "outputs/ring1-physical-field-bindings-20261020-v1/detector-binding.manifest.json",
+      "sha256": "3b1fe181a7cfbca8de0ca55a06e73b09e57d7ac3bc9959f4c37e837a93f4421e"
+    },
+    {
+      "path": "outputs/ring1-physical-field-bindings-20261020-v2/detector-binding.manifest.json",
+      "sha256": "a422d27b23bd6911195befc687387e6117db93c4c5386162000aee1fdd82cc3a"
+    }
+  ],
+  "limits": [
+    "Only 119 and 535 have been constructed in this prototype. The other three README intersections remain unfinished.",
+    "One official 119 movement is unresolved because source road 37413814#0 has one motor lane for two official lane references. Its bicycle lane is preserved.",
+    "Isolated connection probes disable autonomous lane changes and do not establish mixed-traffic capacity or field signal timing.",
+    "Nine source structural failures remain at the same four outside junctions. This does not waive final driving validity.",
+    "One of the thirteen count fields still lacks a reliable correspondence. No count-fitting run or exact-count result is claimed.",
+    "Generated networks and driving outputs are local diagnostics. A complete committed replay of the junction stage remains required."
+  ]
+}

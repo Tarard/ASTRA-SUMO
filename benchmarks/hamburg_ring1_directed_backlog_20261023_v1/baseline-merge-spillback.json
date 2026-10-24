@@ -1,0 +1,52 @@
+{
+  "sampling_s": 1,
+  "main_samples": 9000,
+  "rows": [
+    {
+      "field": "hh_0119_Z_15_29375",
+      "upstream_lane": "603103445#0_0",
+      "receiving_lanes": [
+        "603103445#1_0"
+      ],
+      "receiving_lengths_m": [
+        4.537385
+      ],
+      "main_upstream_green_samples": 6000,
+      "main_observed_green_spillback_samples": 3954,
+      "receivers_reported_samples": [
+        5914
+      ]
+    },
+    {
+      "field": "hh_0119_Z_4_29437",
+      "upstream_lane": "24483344#1_0",
+      "receiving_lanes": [
+        "79014037#1_0"
+      ],
+      "receiving_lengths_m": [
+        3.46
+      ],
+      "main_upstream_green_samples": 1400,
+      "main_observed_green_spillback_samples": 781,
+      "receivers_reported_samples": [
+        5666
+      ]
+    },
+    {
+      "field": "hh_0119_Z_5_30494",
+      "upstream_lane": "24483344#1_1",
+      "receiving_lanes": [
+        "79014037#1_1"
+      ],
+      "receiving_lengths_m": [
+        3.46
+      ],
+      "main_upstream_green_samples": 1400,
+      "main_observed_green_spillback_samples": 173,
+      "receivers_reported_samples": [
+        1317
+      ]
+    }
+  ],
+  "claim_boundary": "Reported native queues on every planned receiver during static upstream green. Missing receiver reports remain unknown. The downstream actuated phase is not reconstructed as a static cycle."
+}

@@ -1,0 +1,45 @@
+from pathlib import Path
+from copy import deepcopy
+import hashlib,json,shutil
+import xml.etree.ElementTree as E
+
+from astra_sumo.core.local_network_conversion import loaded_turn_permissions
+
+root=Path.cwd()
+old=root/'outputs/ring1-readme-end-to-end-20261021-v3/prepared'
+out=root/'outputs/ring1-readme-end-to-end-20261021-v4/prepared-native-restored'
+out.mkdir(parents=True)
+for file in old.iterdir():
+    if file.is_file(): shutil.copyfile(file,out/file.name)
+candidate=root/'outputs/ring1-native-fanout-curve-probe-20261021-v1/candidate.net.xml'
+before,after=E.parse(old/'network.net.xml').getroot(),E.parse(candidate).getroot()
+assert loaded_turn_permissions(before)==loaded_turn_permissions(after)
+original_edges={e.get('id'):e for e in before.findall('edge') if not e.get('id').startswith(':')}
+for i,edge in enumerate(list(after)):
+    if edge.tag=='edge' and edge.get('id') in original_edges:
+        after.remove(edge); after.insert(i,deepcopy(original_edges[edge.get('id')]))
+def canonical(element):
+    return element.tag,tuple(sorted(element.attrib.items())),(element.text or '').strip(),tuple(canonical(c) for c in element)
+normal=lambda net:{e.get('id'):canonical(e) for e in net.findall('edge') if not e.get('id').startswith(':')}
+assert normal(before)==normal(after),'Normal roads changed.'
+keys=lambda net:{(c.get('from'),c.get('fromLane'),c.get('to'),c.get('toLane')):(c.get('tl'),c.get('linkIndex'))
+    for c in net.findall('connection') if c.get('tl')}
+assert keys(before)==keys(after),'Physical signal bindings changed.'
+assert loaded_turn_permissions(before)==loaded_turn_permissions(after)
+E.ElementTree(after).write(out/'network.net.xml',encoding='utf-8',xml_declaration=True)
+routes=E.parse(out/'demand.rou.xml')
+removed=0
+for vehicle in routes.getroot().findall('vehicle'):
+    stops=vehicle.findall('stop')
+    for a,b in zip(stops,stops[1:]):
+        if a.get('lane')==b.get('lane'):
+            vehicle.remove(a); removed+=1
+routes.write(out/'demand.rou.xml',encoding='utf-8',xml_declaration=True)
+sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+scenario=json.loads((out/'scenario.json').read_bytes())
+scenario.update(network_sha256=sha(out/'network.net.xml'),geometry_source=str(candidate),
+    geometry_role='Existing native 535 fanout-curve candidate; ordinary roads and complete legal movement permissions unchanged.',
+    lane_waypoints='One moving waypoint at the end of each observed road or official approach; ordinary upstream roads left free for anticipatory lane choice.',
+    removed_redundant_waypoints=removed,geometry_validated_as_field_truth=False)
+(out/'scenario.json').write_text(json.dumps(scenario,indent=2),encoding='utf-8')
+print(json.dumps(scenario))

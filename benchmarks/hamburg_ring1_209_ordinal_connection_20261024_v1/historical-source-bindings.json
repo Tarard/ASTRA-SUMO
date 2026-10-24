@@ -1,0 +1,203 @@
+{
+  "bindings": [
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\control.add.xml",
+      "sha256": "075cce9128b92559463581aa30b8342e1cd99477ef4cb1510f8631481171c45c",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_common_offset_20261024_v1/plus15/evaluation/native/signal-programs.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\demand.rou.xml",
+      "sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\lane-intentions.json",
+      "sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\prepared\\scenario.json",
+      "sha256": "4af401fab907d165c0dcfded18b39c93f1815af4e3433fe29b13466eaf4437aa",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_common_offset_20261024_v1/plus15/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-connection-20261024-v1\\candidate-v3\\network.net.xml",
+      "sha256": "4cd5d1b95cce0f43b0626e82c7066cce3b1807db35840c115bcf66252437ae80",
+      "scope": "packet",
+      "target": "construction/candidate-v3/candidate.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-connection-20261024-v1\\candidate-v3\\control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b",
+      "scope": "packet",
+      "target": "construction/candidate-v3/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-connection-20261024-v1\\candidate-v3\\manifest.json",
+      "sha256": "61b12185c4e2fdbe836ae8dee7d6f90012109c85b870d8e0046fcb510ca5fb82",
+      "scope": "packet",
+      "target": "construction/candidate-v3/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\verdict.json",
+      "sha256": "6b48a5671a35b977b85860d4911ebf5fabd6c2d094295d7d2bc193337b5ed61d",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_common_offset_20261024_v1/plus15/verdict.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-receiving-diagnosis-20261023-v1\\full-priority\\verdict.json",
+      "sha256": "f0968aa9acf3666f27046ea7308841537eaeb8640b3a68fd55fd193acd41b1a4",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/verdict.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\evaluation\\native\\native-request.json",
+      "sha256": "eb22ef5c690230cd2877f8c972d30541cd45749c586f84e4fe084fa4ecf558e2",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_common_offset_20261024_v1/plus15/evaluation/native/native-request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-saturated-service-20261024-v1\\run_fixture.py",
+      "sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482",
+      "scope": "packet",
+      "target": "full/implementation/run_fixture.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\response-audit\\audit_response.py",
+      "sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021",
+      "scope": "packet",
+      "target": "full/implementation/audit_response.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\response-audit\\audit_scope.py",
+      "sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a",
+      "scope": "packet",
+      "target": "full/implementation/audit_scope.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\run_full.py",
+      "sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0",
+      "scope": "packet",
+      "target": "full/executed-driver.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/hamburg_od_spsa.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/route_sensor_matrix.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\preflight.json",
+      "sha256": "7679ee4e48cceb37c59d4c1d1433d3c563e09b71450e73b74ddf87d04b2658bb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_common_offset_20261024_v1/plus15/preflight.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-connection-20261024-v1\\smoke\\smoke-verdict.json",
+      "sha256": "0a080b83fb656e6000669a8a2c862bb651d4190df9384f6d87dc8f7a3c5db9c4",
+      "scope": "packet",
+      "target": "construction/smoke/smoke-verdict.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_209_connection_support.py",
+      "sha256": "d0dc8ac39fbceeafa845804ec6421bb4185c0ded50c88c4f5e4a4f7e68f89f40",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/hamburg_209_connection_support.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\tests\\test_hamburg_209_connection_support.py",
+      "sha256": "87c3ad5a84eb35f1ff04aff3b05adc5ca3b150eab2f79f49661105cf335e7634",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/test_hamburg_209_connection_support.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-connection-20261024-v1\\build_candidate.py",
+      "sha256": "52bfa5db11311074c65af730c35a7090419943c136cd2eeb020fb28f02460071",
+      "scope": "packet",
+      "target": "construction/build_candidate.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\local_network_conversion.py",
+      "sha256": "bbaa8b16551c8349f3b96351161ce590964183ea27854c15d005eef739504d83",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/local_network_conversion.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\network_geometry_freeze.py",
+      "sha256": "852c9d902586f89fc81b96f52fd0bd6948dd3abbf01c5c8f309b45c37f0f4dfa",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/network_geometry_freeze.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_split_fanout.py",
+      "sha256": "ef032053de8ec4085c61e8cf334c92d646d80ca5f86855a78ca70973f920d508",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/junction_split_fanout.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_rebuild\\restoration.py",
+      "sha256": "6e19f7e66a29bc34626aa6288edbdea4fe85c485fa4547f442c58d6c6211eb73",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/restoration.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\osm_access.py",
+      "sha256": "5dbebdb4201b833269874385cb91507ffa32fd782fcc879933f9fdfa085688db",
+      "scope": "packet",
+      "target": "construction/candidate-v3/implementation/osm_access.py"
+    }
+  ],
+  "historical_hashes_not_rewritten": true
+}

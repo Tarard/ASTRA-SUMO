@@ -1,0 +1,43 @@
+{
+  "schema": "astra.network-aerial-review-request/v1",
+  "source_net": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\network.net.xml",
+    "sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+  },
+  "candidate_net": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml",
+    "sha256": "68d2f6d2e8630c23f2135202ed906fb47943587cd986ac055c8d99279d582e5c"
+  },
+  "aerial": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_munich_corridor_20261022_v1\\figure-sources\\aerial-2026.png",
+    "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902",
+    "bbox": [
+      565012.777442586,
+      5934182.489688758,
+      566680.1599791404,
+      5935017.708749339
+    ],
+    "crs": "EPSG:25832",
+    "north_up": true,
+    "capture_date": null,
+    "capture_year": 2026,
+    "authority": "Freie und Hansestadt Hamburg, LGV",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "source_url": "https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=dop_zeitreihe_unbelaubt&STYLES=&FORMAT=image%2Fpng&CRS=EPSG%3A25832&BBOX=565012.777442586%2C5934182.489688758%2C566680.1599791404%2C5935017.708749339&WIDTH=4096&HEIGHT=2052&TIME=2026"
+  },
+  "target_date": "2026-10-19",
+  "views": [
+    {
+      "id": "junction197-tight",
+      "bbox": [
+        566525,
+        5934385,
+        566565,
+        5934420
+      ]
+    }
+  ],
+  "width_px": 1600,
+  "source_label": "Source b6ac: 238 roads, one car continuation at197",
+  "candidate_label": "Candidate68d2: 238 roads, two source-supported continuations"
+}

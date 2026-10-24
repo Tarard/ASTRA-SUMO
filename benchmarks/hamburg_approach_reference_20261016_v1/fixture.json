@@ -1,0 +1,539 @@
+{
+  "kind": "frozen_hamburg_approach_reference",
+  "date": "2026-10-16",
+  "promotion_authority": false,
+  "source_model": {
+    "path": "joined-base.net.xml.gz",
+    "sha256": "46e5029e43e1ce2c82cbe6e95aef4a063ead3658def0acfd5de0e0760ecbdfa8",
+    "uncompressed_sha256": "c0476871f7ae014306dfaab355578438f56c387d741ff59c1ac1108d937046b1",
+    "uncompressed_bytes": 817206,
+    "native_version": "1.27.1"
+  },
+  "source_licenses": [
+    {
+      "source": "OpenStreetMap contributors",
+      "license": "ODbL 1.0",
+      "license_url": "https://opendatacommons.org/licenses/odbl/1-0/",
+      "dataset_url": "https://api.openstreetmap.org/api/0.6/map?bbox=9.9780,53.5390,10.0005,53.5475",
+      "raw_osm_sha256": "c0ae1584324ada2fc1f6fa27a6b6329edcf0baa6b1134b9503d6128a0f219ef4"
+    },
+    {
+      "source": "Freie und Hansestadt Hamburg, Landesbetrieb Straßen, Brücken und Gewässer",
+      "license": "Datenlizenz Deutschland Namensnennung 2.0",
+      "license_url": "https://www.govdata.de/dl-de/by-2-0",
+      "dataset_url": "https://suche.transparenz.hamburg.de/dataset/traffic-lights-data-hamburg6"
+    }
+  ],
+  "sites": {
+    "2349": {
+      "node_id": "2349",
+      "field_validity_date": null,
+      "sources": {
+        "map_xml": {
+          "path": "2349.map_xml.gz",
+          "sha256": "56df2070b4953af3f6a116536eee526c38a23a67f24ec9295fa9fd91ed2f5942",
+          "uncompressed_sha256": "a7f2633a7248fd31ead4fcb62fc441784798b13f2a550a8ef82344d20dc45d03",
+          "uncompressed_bytes": 60253,
+          "source_url": "https://daten-hamburg.de/tlf_public/MAP_ITS_23_2349_7.4_R4_Quelle_ETRS89.xml"
+        },
+        "map_kml": {
+          "path": "2349.map_kml.gz",
+          "sha256": "c768639ebfb68cc338d09f9d9b17e9aefb0f404af06de0fb060a8106d95a0e17",
+          "uncompressed_sha256": "8f2b47656ebf3295f86448b1d3bd9faacc41f75e40446ae099c9a6de6c82c7f6",
+          "uncompressed_bytes": 139899,
+          "source_url": "https://daten-hamburg.de/tlf_public/MAP_ITS_23_2349_7.4_R4_Quelle_ETRS89.kml"
+        }
+      },
+      "lanes": [
+        {
+          "lane_id": "1",
+          "lane_type": "bikeLane",
+          "direction_role": "ingress",
+          "ingress_approach": "1"
+        },
+        {
+          "lane_id": "2",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "1"
+        },
+        {
+          "lane_id": "3",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "1"
+        },
+        {
+          "lane_id": "4",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "5",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "6",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "2"
+        },
+        {
+          "lane_id": "7",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "2"
+        },
+        {
+          "lane_id": "8",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "9",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "3"
+        },
+        {
+          "lane_id": "10",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "3"
+        },
+        {
+          "lane_id": "11",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "12",
+          "lane_type": "bikeLane",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "13",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "14",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "15",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "16",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "17",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "18",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "19",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "20",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "21",
+          "lane_type": "bikeLane",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "22",
+          "lane_type": "bikeLane",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "23",
+          "lane_type": "bikeLane",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "24",
+          "lane_type": "bikeLane",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "25",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "26",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "27",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "28",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "29",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "30",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "31",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "32",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "33",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "34",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        }
+      ],
+      "movements": [
+        {
+          "ingress_lane_id": "10",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "2",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "3",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "6",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "7",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "9",
+          "intersection_part": "0"
+        }
+      ]
+    },
+    "2394": {
+      "node_id": "2394",
+      "field_validity_date": null,
+      "sources": {
+        "map_xml": {
+          "path": "2394.map_xml.gz",
+          "sha256": "a2a225044e15f15b609ea2e4a1330e35527f70fb73ec18cee424da0e6c9a4d84",
+          "uncompressed_sha256": "4b64be3092007bbe04ae9c9f0bc90e529bc549d8c622e6a8ef1e83480c40a922",
+          "uncompressed_bytes": 48116,
+          "source_url": "https://daten-hamburg.de/tlf_public/MAP_ITS_23_2394_9.3_R3_Quelle_ETRS89.xml"
+        },
+        "map_kml": {
+          "path": "2394.map_kml.gz",
+          "sha256": "4dc8c26656d16af532a9bb14f4d0185b79af60ca0e6d22f47326610dcdd648ce",
+          "uncompressed_sha256": "b7081d9a90c84999449a2ab47a9d7464292f88687ab360fb09a58cc2766c6111",
+          "uncompressed_bytes": 119862,
+          "source_url": "https://daten-hamburg.de/tlf_public/MAP_ITS_23_2394_9.3_R3_Quelle_ETRS89.kml"
+        }
+      },
+      "lanes": [
+        {
+          "lane_id": "1",
+          "lane_type": "bikeLane",
+          "direction_role": "ingress",
+          "ingress_approach": "2"
+        },
+        {
+          "lane_id": "2",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "2"
+        },
+        {
+          "lane_id": "3",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "2"
+        },
+        {
+          "lane_id": "4",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "5",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "6",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "3"
+        },
+        {
+          "lane_id": "7",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "3"
+        },
+        {
+          "lane_id": "9",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "10",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "4"
+        },
+        {
+          "lane_id": "11",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "4"
+        },
+        {
+          "lane_id": "12",
+          "lane_type": "vehicle",
+          "direction_role": "ingress",
+          "ingress_approach": "4"
+        },
+        {
+          "lane_id": "13",
+          "lane_type": "bikeLane",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "14",
+          "lane_type": "vehicle",
+          "direction_role": "egress",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "15",
+          "lane_type": "bikeLane",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "16",
+          "lane_type": "bikeLane",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "17",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "18",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "19",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "20",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "21",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "22",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "23",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "24",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "25",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        },
+        {
+          "lane_id": "26",
+          "lane_type": "crosswalk",
+          "direction_role": "crosswalk",
+          "ingress_approach": ""
+        }
+      ],
+      "movements": [
+        {
+          "ingress_lane_id": "10",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "11",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "12",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "2",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "3",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "6",
+          "intersection_part": "0"
+        },
+        {
+          "ingress_lane_id": "7",
+          "intersection_part": "0"
+        }
+      ]
+    }
+  },
+  "junction_bindings": [
+    {
+      "node_id": "2349",
+      "intersection_part": "0",
+      "junction_id": "LSA2349_part0"
+    },
+    {
+      "node_id": "2394",
+      "intersection_part": "0",
+      "junction_id": "LSA2394_part0"
+    }
+  ],
+  "parameters": {
+    "maximum_lane_error_m": 10.0,
+    "minimum_match_margin_m": 0.5
+  },
+  "expected_existing_approaches": [
+    [
+      "2349",
+      "1"
+    ],
+    [
+      "2349",
+      "3"
+    ],
+    [
+      "2394",
+      "2"
+    ],
+    [
+      "2394",
+      "4"
+    ]
+  ],
+  "expected_transition_offsets_m": {
+    "2349:2": 16.529138040344,
+    "2394:3": -5.263756960578088
+  },
+  "claim_boundary": "Model-relative lane structure and reference comparison only. No human defect labels, field-validity date, historical signal replay or complete Hamburg reconstruction package is established.",
+  "expected_source_transitions": {
+    "2349:1": {
+      "junction_id": "5353176677",
+      "before": 1,
+      "after": 2
+    },
+    "2394:2": {
+      "junction_id": "86812401",
+      "before": 1,
+      "after": 2
+    },
+    "2394:4": {
+      "junction_id": "5353176676",
+      "before": 2,
+      "after": 3
+    }
+  }
+}

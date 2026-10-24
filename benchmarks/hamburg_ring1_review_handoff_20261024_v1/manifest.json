@@ -1,0 +1,86 @@
+{
+  "files": {
+    "handoff.txt": {
+      "sha256": "d1f6c30d338b6a4f946abc3e34375ca3d805e8a4825e0d8bb14a081fa73788a9",
+      "bytes": 7042
+    },
+    "observer-lineage-recovery.json": {
+      "sha256": "2601098d43d2b0dd7bdc64430d7e1923c0a00863d299f400db0b46bf3c2f68c3",
+      "bytes": 7303
+    },
+    "service-diagnosis/actual-tls-events.csv": {
+      "sha256": "0f7fa3119a6d5c47d5f016ac16d012f3ec0ea7aa5f924c732754438c08e8f1df",
+      "bytes": 2879
+    },
+    "service-diagnosis/analyze.py": {
+      "sha256": "8e1d6679c47eeafd5dab223beff5c01bd8f550297468432e94221695e5d963da",
+      "bytes": 9414
+    },
+    "service-diagnosis/manifest.json": {
+      "sha256": "0d84b0aab9ae57e695fcf486c1d15aa261ea58113d381bbca757520cc1114ea9",
+      "bytes": 681
+    },
+    "service-diagnosis/queues.csv": {
+      "sha256": "dce607752db378ff864647570fcdf82cbffaf0070ffd380f160f3959593bab26",
+      "bytes": 68551
+    },
+    "service-diagnosis/summary.json": {
+      "sha256": "714412564df7829dc52f4be5fca34d8184de07e927fe2e78f1a68ba008e7b53f",
+      "bytes": 14006
+    },
+    "demand-diagnosis/demand-side-diagnosis.json": {
+      "sha256": "372cc40da4ed5e4bbb9b77b36aea30fe81e8c02aeaa086e1a88c1ecfa3cd64a1",
+      "bytes": 36645
+    },
+    "demand-diagnosis/primary-boundary-delay-examples.csv": {
+      "sha256": "a2a0c22abd2153ab8aa1f9f5ff5ac04ba98045a5c0b4b055cd01ef0306f91cf5",
+      "bytes": 10683
+    },
+    "observer/native/executed-observer.py": {
+      "sha256": "aeebb3cac37d588eb8375810a78231e3382c108ae59984853f6541f2bc6dcb25",
+      "bytes": 15674
+    },
+    "observer/native/record-result.json": {
+      "sha256": "5e6adf47fd28da902fbd47649596b64895b17ceb951d4b9145c4ae9326d801ce",
+      "bytes": 1432
+    },
+    "observer/native/observer-coverage.json": {
+      "sha256": "dafd5935ec38f8c1dbdc2929d0e741cb3cdade7bba866285b6df6e81b63e54d2",
+      "bytes": 161
+    },
+    "observer/native/read-only-samples.jsonl.gz": {
+      "sha256": "d5214aa2dfcc4f93688656c8a88865d63c75182ff8edc1ee08e2038b87818492",
+      "bytes": 339511
+    },
+    "observer/native/target182-prefix-measurements.json": {
+      "sha256": "39e346bd48e0e8709e7c87678d84b61cc9b64eeb61ebaaced42cf858772ddb9b",
+      "bytes": 32144
+    },
+    "observer/native/field-counts.xml": {
+      "sha256": "549370d52c5230e37a517220be9a19416eba1c80a3ebe008479b7154a635e56e",
+      "bytes": 18584
+    },
+    "observer/record_prefix.py": {
+      "sha256": "cfa240ccf02aa860a9e0eed59d7ccdda217b4c5fcab1f74e4e7fd5de9345d1d2",
+      "bytes": 15923
+    },
+    "observer/plan.json": {
+      "sha256": "035030067eb4e186b44211cbe8fb010f6855c65b86ca86b7639db89a58bdf718",
+      "bytes": 7944
+    },
+    "observer/pre-execution-coverage-guard/plan.json": {
+      "sha256": "52ee41e97aaffa8a2d5729fb9c7e4004cd412d350513a0763a60a6f06574f4f2",
+      "bytes": 7944
+    },
+    "observer/pre-execution-coverage-guard/record_prefix.py": {
+      "sha256": "aeebb3cac37d588eb8375810a78231e3382c108ae59984853f6541f2bc6dcb25",
+      "bytes": 15674
+    },
+    "observer/execution.log": {
+      "sha256": "514dd1947c2dc742d6d5bcc3961a63a3f89e6cf0c9ad65464d639d1ebcf10b03",
+      "bytes": 5466
+    }
+  },
+  "git_commit": "1ebe87e243d05d7d00049177369ec98c7d572dd0",
+  "full_calibration_complete": false
+}

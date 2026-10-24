@@ -37,6 +37,16 @@ _REVIEW_QUESTIONS = {
     "delete_edge": "Is this road or path absent, closed, duplicated, or inappropriate for the modeled network?",
     "merge_edges": "Do these SUMO fragments represent one continuous physical road or junction?",
     "review_marker": "What does the current or time-aligned map evidence show at this location?",
+    "join_junctions": "Do these source nodes form one physical conflict area with the declared boundary paths?",
+    "absorb_reciprocal_fragment": "Do these short reciprocal roads lie inside one physical junction?",
+    "suppress_turnaround": "Does the dated source prohibit this exact lane-level turnaround?",
+    "set_junction_shape": "Does the proposed junction surface agree with the dated road boundary?",
+    "add_lane_connection": "Does the dated source establish this exact lane-to-lane movement and its vehicle classes?",
+    "delete_lane_connection": "Does the dated source establish that this exact lane-to-lane movement must be removed?",
+    "relocate_tls_control": "Does the official stop line establish every mapped controller link and its phase index?",
+    "demote_duplicate_tls": "Does the source establish one retained signal owner and the removal of the duplicate owner?",
+    "set_lane_permissions": "Which vehicle classes may use this lane at the declared date?",
+    "set_lane_width": "Does the stated width match the dated lane cross-section?",
 }
 
 

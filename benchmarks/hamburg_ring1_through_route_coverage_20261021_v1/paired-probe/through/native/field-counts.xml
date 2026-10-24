@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T19:59:21.426801+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\collisions.xml"/>
+    </output>
+
+    <time>
+        <end value="900"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-through-routes-paired-probe-20261021-v1\through\native\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="9046"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_11_28853" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_12_31546" nVehContrib="27" flow="108.000000000000" occupancy="1.754926248241" speed="9.599508201921" harmonicMeanSpeed="8.547367739834" length="5.000000000000" nVehEntered="27"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_13_34018" nVehContrib="13" flow="52.000000000000" occupancy="0.902071631857" speed="9.352993108753" harmonicMeanSpeed="8.006262437669" length="5.000000000000" nVehEntered="13"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_15_29375" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_4_29437" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_5_30494" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_14_31892" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_4_33055" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_5_30894" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_6_33855" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_7_29316" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_8_34287" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_9_29038" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+</detector>

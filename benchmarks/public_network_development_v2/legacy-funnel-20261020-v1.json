@@ -1,0 +1,220 @@
+{
+  "producer_commit": "f3c3f23f8e9128ed9b8cbbd6752ab8c3fd70ba91",
+  "source_model": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\before\\network.net.xml",
+    "sha256": "919ce26751eb61a8ee9148de78cba857dc169fc6404f2bcd7979f4de0b861bbf"
+  },
+  "planted_condition": {
+    "kind": "isolated_component",
+    "native_fragment_compiled": true,
+    "source_xy_frame_declared": true,
+    "baseline_proposals": 0,
+    "injected_proposals": 1,
+    "extra_new_proposals": 0,
+    "field_defect_label": null
+  },
+  "outcome": {
+    "status": "pass",
+    "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_model_legacy_funnel_20261020_v1\\verification\\edit-verification.json",
+    "materialization_status": "pass",
+    "gates": {
+      "artifact_identity": "pass",
+      "netconvert": "pass",
+      "review_contract": "pass",
+      "xml_parse": "pass",
+      "tls_modal_rail_bridge_tunnel": "pass",
+      "modal_connectivity": "pass",
+      "sumo_load": "pass",
+      "routeability": "pass",
+      "topology": "pass"
+    },
+    "topology": {
+      "status": "pass",
+      "basis": "edit_specific_topology_non_regression",
+      "whole_network_status": "review_required",
+      "inherited_finding_count": 171,
+      "scope_findings": [],
+      "new_or_changed_findings": [],
+      "source_finding_count": 171,
+      "candidate_finding_count": 171,
+      "removed_finding_count": 0,
+      "reason": "no_new_or_worsened_source_topology_findings",
+      "source_scope_junction_ids": [
+        "planted-node-a",
+        "planted-node-b"
+      ],
+      "scope_binding": {
+        "basis": "manifest_bound_native_edge_list",
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_model_legacy_funnel_20261020_v1\\verification\\candidate\\corridor_materialized_variant.remove-edges.txt",
+        "sha256": "d2c1cbd889583df7f5e33a91f788297e78995b96ab26f0f373d3c790e8cb680d"
+      },
+      "candidate_audit": {
+        "status": "review_required",
+        "topology_fragmentation_status": "needs_review",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_model_legacy_funnel_20261020_v1\\verification\\gates\\topology_69a5d6486497\\corridor_candidate_gates_topology_topology_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_model_legacy_funnel_20261020_v1\\verification\\gates\\topology_69a5d6486497\\corridor_candidate_gates_topology_topology_audit.manifest.json",
+        "net_sha256": "69a5d64864977be3ca2f94938dfa936dd2ec08aed6aa1e25034d9ffc9ebd5c27",
+        "errors": []
+      },
+      "source_audit": {
+        "status": "review_required",
+        "topology_fragmentation_status": "needs_review",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_model_legacy_funnel_20261020_v1\\verification\\gates\\topology_source_5425e8eaba9c\\corridor_candidate_gates_source_topology_topology_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\real_model_legacy_funnel_20261020_v1\\verification\\gates\\topology_source_5425e8eaba9c\\corridor_candidate_gates_source_topology_topology_audit.manifest.json",
+        "net_sha256": "5425e8eaba9c95387c9ea759e021a2423af295370ba4f779fa09bd8d1408faaf",
+        "errors": []
+      }
+    },
+    "whole_network_review": {
+      "status": "review_required",
+      "inherited_finding_count": 171,
+      "scope_finding_count": 0
+    }
+  },
+  "restored_original_model": {
+    "all_stored_lane_geometry_restored": true,
+    "all_stored_lane_count": 25563,
+    "original_source_sha256": "919ce26751eb61a8ee9148de78cba857dc169fc6404f2bcd7979f4de0b861bbf",
+    "candidate_sha256": "69a5d64864977be3ca2f94938dfa936dd2ec08aed6aa1e25034d9ffc9ebd5c27",
+    "ordinary_roads": 4800,
+    "ordinary_inventory_restored": true,
+    "exterior_geometry": {
+      "status": "pass",
+      "coordinate_frame_preserved": true,
+      "mutable_junction_ids": [
+        "planted-node-a",
+        "planted-node-b"
+      ],
+      "mutable_edge_ids": [
+        "planted-isolated-road"
+      ],
+      "ordinary_lane_attribute_changes": {
+        "shape": 0,
+        "length": 0,
+        "width": 0
+      },
+      "max_lane_endpoint_offset_xy_m": 0.0,
+      "max_geometric_lane_length_change_xy_m": 0.0,
+      "max_lane_endpoint_offset_xyz_m": 0.0,
+      "max_geometric_lane_length_change_xyz_m": 0.0,
+      "outside_lane_count_with_shape_changes": 0,
+      "shape_displacement_metric": "xy_hausdorff",
+      "outside_lane_count_moved_over_0_01_m": 0,
+      "max_outside_lane_shape_displacement_xy_m": 0.0,
+      "fixed_boundary_failures": [],
+      "boundary_edge_map": {},
+      "outside_scope_geometry": {
+        "lanes": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        },
+        "junctions": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        },
+        "edges": {
+          "missing": [],
+          "added": [],
+          "changed": []
+        }
+      }
+    },
+    "loaded_ordinary_movements": 7568,
+    "loaded_permissions_restored": true,
+    "controlled_movements": 90,
+    "controlled_programs_restored": true,
+    "claim_boundary": "Original modeled geometry, loaded access and per-movement programs only. No field or traffic-benefit claim."
+  },
+  "route_requests": 20,
+  "local_verification": {
+    "legacy_consumers": 55,
+    "final_legacy_native_cases": 2,
+    "command_runner_tests": 35,
+    "native_fatal_cases": 20,
+    "counts_overlap": true
+  },
+  "ci": {
+    "commit": "ce71e878bd52edbbc30e60b1fa2921c9734d2192",
+    "pr": {
+      "status": "success",
+      "passed": 3674,
+      "skipped": 24,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39348201547"
+    },
+    "push": {
+      "status": "failure",
+      "passed": 3671,
+      "failed": 3,
+      "skipped": 24,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39348196741"
+    },
+    "failure": "Three native workers were stopped by the old 8-second external guard before the 10-second command deadline.",
+    "diagnostic_limit": "Empty worker and native error logs do not identify the stage of the CI delay.",
+    "correction": "f3c3f23 retains error assertions, captures per-case inputs and worker temporary output, records imports, and uses a 30-second external guard. Production runner unchanged."
+  },
+  "local_native_capture": {
+    "capture": {
+      "path": "outputs/windows_native_watchdog_capture_20261020_v1/capture.json",
+      "sha256": "edea12b4e960b491b4373ec80b9f8baa06167c56fd5e85ff300c6243247909ce"
+    },
+    "max_command_seconds": 1.2819999999992433,
+    "max_import_seconds": 0.4530000000013388
+  },
+  "artifacts": [
+    {
+      "path": "outputs/real_model_legacy_funnel_20261020_v1/declaration.json",
+      "sha256": "78bdd5686fa9f091468106bde96f4f20f5ef98ee8f29aefcc7e983ab1b1c46eb"
+    },
+    {
+      "path": "outputs/real_model_legacy_funnel_20261020_v1/result.json",
+      "sha256": "b058695ab2e68d7d522be2bc910ac51c77d7f7ee177b208626f2b22ebad484d7"
+    },
+    {
+      "path": "outputs/real_model_legacy_funnel_20261020_v1/restored-model-checks-v2.json",
+      "sha256": "1d6d116c65b1e54c4b3982490de9bda4d3106399bef065c1fb852c3b356bef47"
+    },
+    {
+      "path": "outputs/real_model_legacy_funnel_20261020_v1/verification/edit-verification.json",
+      "sha256": "da717e7a3fc2d15739cedf0ae4c53a1edd50da2f348f18291e88dca243fcb224"
+    },
+    {
+      "path": "outputs/probe_real_model_legacy_funnel_20261020_v1.py",
+      "sha256": "a3271e0f9b733a52e4fd073b6d1566e13c74a490ef957ccf1a680da2e380ca84"
+    },
+    {
+      "path": "outputs/check_real_model_restoration_20261020_v2.py",
+      "sha256": "f8931b635359dce32816f5f0a3bbef840fd30ba30e67dbea25eb44177234da54"
+    },
+    {
+      "path": "outputs/legacy-edit-scope-consumers-20261020-v1.log",
+      "sha256": "2cdfe2268ac2f9e0f2b8f90e1efd473892d6ec7a19e0a59b70dc97c5317bbbdd"
+    },
+    {
+      "path": "outputs/legacy-edit-topology-scope-final-20261020-v1.log",
+      "sha256": "ff3e5bce392bfefb38d6eb8c3e53b9dea153ee1d825b31fc81ae391809325150"
+    },
+    {
+      "path": "outputs/windows-native-watchdog-20261020-v1.log",
+      "sha256": "8d895f63ab89ade6bd5baceee58227c777fcc8eae50d673175203f8ef41113f5"
+    },
+    {
+      "path": "outputs/ci-ce71e87-push-failure-20261020.log",
+      "sha256": "4f1c7c26135e566465bb8c418ddee6d1433d06fe756ef9779c8a1185907f449a"
+    },
+    {
+      "path": "outputs/ci-ce71e87-pr-20261020.log",
+      "sha256": "8211c03a74a4d6d9604a138e59805c535bedf1883de631adff6c359c67a85c17"
+    },
+    {
+      "path": "outputs/ci-ce71e87-push-artifacts-20261020/test-results.xml",
+      "sha256": "4ecd832bbde54b3c517a8fd5164d9480314009fb0521684baf60ec81db926118"
+    }
+  ],
+  "limitations": [
+    "One planted condition on one real-model background is not general detection recall or field precision.",
+    "Routing completion does not certify field topology, demand, signal safety or traffic benefit.",
+    "The old CI delay stage remains unknown; the revised native integration harness still needs complete CI."
+  ]
+}

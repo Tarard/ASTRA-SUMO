@@ -1,0 +1,785 @@
+{
+  "schema": "astra.point-detector-demand-replay/v1",
+  "status": "measured",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-prepared-20261021-v1\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\demand.rou.xml",
+      "sha256": "76fc264954853c9ede0f9527b650266ceca9118544f9c2f904fbb1a295ddc58e"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-prepared-20261021-v1\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\expected.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-prepared-20261021-v1\\control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\intentions.json",
+      "sha256": "9202d83f3d0241775c2027a911675059c6a62da2700dbe0b703c310cbecc9849"
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\demand.rou.xml",
+      "sha256": "76fc264954853c9ede0f9527b650266ceca9118544f9c2f904fbb1a295ddc58e"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\expected-counts.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\lane-intentions.json",
+      "sha256": "9202d83f3d0241775c2027a911675059c6a62da2700dbe0b703c310cbecc9849"
+    }
+  ],
+  "seed": 104,
+  "step_length_s": 0.1,
+  "end_s": 900,
+  "vehicle_count": 40,
+  "measurement_attribute": "nVehContrib",
+  "instant_to_periodic_ids": {
+    "astra_trace_0": "hh_0119_Z_11_28853",
+    "astra_trace_1": "hh_0119_Z_12_31546",
+    "astra_trace_2": "hh_0119_Z_13_34018",
+    "astra_trace_3": "hh_0119_Z_15_29375",
+    "astra_trace_4": "hh_0119_Z_4_29437",
+    "astra_trace_5": "hh_0119_Z_5_30494",
+    "astra_trace_6": "hh_0535_Z_14_31892",
+    "astra_trace_7": "hh_0535_Z_4_33055",
+    "astra_trace_8": "hh_0535_Z_5_30894",
+    "astra_trace_9": "hh_0535_Z_6_33855",
+    "astra_trace_10": "hh_0535_Z_7_29316",
+    "astra_trace_11": "hh_0535_Z_8_34287",
+    "astra_trace_12": "hh_0535_Z_9_29038"
+  },
+  "signal_treatment": "declared_additional_programs",
+  "formal_result": false,
+  "errors": [],
+  "driver_treatment": "local_observation_lane_hold",
+  "expected_field_bins": 13,
+  "observer_complete": true,
+  "missing_field_bins": 0,
+  "exact_field_bins": 13,
+  "exact_count_fit": true,
+  "field_metrics": {
+    "expected_total": 40,
+    "measured_total": 40,
+    "MAE": 0.0,
+    "RMSE": 0.0,
+    "max_abs_error": 0,
+    "signed_bias": 0.0,
+    "GEH_lt5_percent": 100.0,
+    "field_bins": 13
+  },
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\field-comparison.csv",
+  "state_times_s": [],
+  "state_snapshots": [],
+  "native_status": "pass",
+  "native_returncode": 0,
+  "stall_monitor": {
+    "status": "completed",
+    "all_stopped_timeout_s": 300,
+    "speed_tolerance_m_s": 1e-06,
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "--net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\network.net.xml",
+      "--route-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\demand.rou.xml",
+      "--additional-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\signal-programs.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\instant.add.xml",
+      "--end",
+      "900",
+      "--step-length",
+      "0.1",
+      "--seed",
+      "104",
+      "--precision",
+      "12",
+      "--time-to-teleport",
+      "-1",
+      "--collision.check-junctions",
+      "true",
+      "--summary-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\summary.xml",
+      "--tripinfo-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\tripinfo.xml",
+      "--tripinfo-output.write-unfinished",
+      "true",
+      "--vehroute-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\vehicle-routes.xml",
+      "--vehroute-output.exit-times",
+      "true",
+      "--collision-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\collisions.xml",
+      "--log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\sumo.log",
+      "--queue-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\queues.xml",
+      "--queue-output.period",
+      "1",
+      "--error-log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-exit-paired-probe-20261021-v1\\baseline\\native\\sumo-errors.log",
+      "--duration-log.statistics",
+      "true",
+      "--no-step-log",
+      "true",
+      "--remote-port",
+      "2464"
+    ],
+    "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "stop": null,
+    "monitor_interval_s": null,
+    "position_changes_reset_standstill": true,
+    "native_version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "simulation_time_s": 900.0,
+    "native_returncode": 0,
+    "lane_section_hold": {
+      "mechanism": "Native laneChangeMode=512 after reaching the assigned detector lane; restore the prior mode after rear clearance. No lane, position, speed, route or signal commands.",
+      "safety_source": "https://sumo.dlr.de/docs/TraCI/Change_Vehicle_State.html#lane-change-mode-0xb6",
+      "claim_boundary": "Declared local driver lane intention. No detector count feedback or measured natural driver behaviour.",
+      "events": [
+        {
+          "vehicle_id": "destination_probe_1",
+          "event": "held",
+          "time_s": 126.9,
+          "lane": "43866090#0_0",
+          "position_m": 0.12724242333361424,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_2",
+          "event": "held",
+          "time_s": 128.4,
+          "lane": "43866090#0_1",
+          "position_m": 0.5865006387099498,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_5",
+          "event": "held",
+          "time_s": 144.9,
+          "lane": "43866090#0_1",
+          "position_m": 0.14466431137191726,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_4",
+          "event": "held",
+          "time_s": 146.2,
+          "lane": "43866090#0_0",
+          "position_m": 0.07486418024618935,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_1",
+          "event": "released",
+          "time_s": 188.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_2",
+          "event": "released",
+          "time_s": 188.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_7",
+          "event": "held",
+          "time_s": 188.5,
+          "lane": "43866090#0_0",
+          "position_m": 0.2425744648446475,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_8",
+          "event": "held",
+          "time_s": 188.5,
+          "lane": "43866090#0_1",
+          "position_m": 0.2425745261811958,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_5",
+          "event": "released",
+          "time_s": 189.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_4",
+          "event": "released",
+          "time_s": 189.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_10",
+          "event": "held",
+          "time_s": 190.6,
+          "lane": "43866090#0_0",
+          "position_m": 0.5861515742074452,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_11",
+          "event": "held",
+          "time_s": 190.6,
+          "lane": "43866090#0_1",
+          "position_m": 0.5861516231886519,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_7",
+          "event": "released",
+          "time_s": 191.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_8",
+          "event": "released",
+          "time_s": 191.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_13",
+          "event": "held",
+          "time_s": 192.1,
+          "lane": "43866090#0_0",
+          "position_m": 0.15174697438710183,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_14",
+          "event": "held",
+          "time_s": 192.1,
+          "lane": "43866090#0_1",
+          "position_m": 0.15174702706668874,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_10",
+          "event": "released",
+          "time_s": 192.6,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_11",
+          "event": "released",
+          "time_s": 192.6,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_16",
+          "event": "held",
+          "time_s": 193.7,
+          "lane": "43866090#0_0",
+          "position_m": 0.7591657772276772,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_17",
+          "event": "held",
+          "time_s": 193.7,
+          "lane": "43866090#0_1",
+          "position_m": 0.7591658331525295,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_13",
+          "event": "released",
+          "time_s": 194.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_14",
+          "event": "released",
+          "time_s": 194.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_20",
+          "event": "held",
+          "time_s": 195.2,
+          "lane": "43866090#0_1",
+          "position_m": 0.25877876877687456,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_22",
+          "event": "held",
+          "time_s": 195.2,
+          "lane": "43866090#0_0",
+          "position_m": 0.25877870767494393,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_16",
+          "event": "released",
+          "time_s": 195.5,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_17",
+          "event": "released",
+          "time_s": 195.5,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_19",
+          "event": "held",
+          "time_s": 196.9,
+          "lane": "43866090#0_0",
+          "position_m": 0.07418370610393943,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_26",
+          "event": "held",
+          "time_s": 196.9,
+          "lane": "43866090#0_1",
+          "position_m": 0.14045663239919826,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_20",
+          "event": "released",
+          "time_s": 197.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_22",
+          "event": "released",
+          "time_s": 197.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_25",
+          "event": "held",
+          "time_s": 198.6,
+          "lane": "43866090#0_0",
+          "position_m": 0.9483719298153162,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_19",
+          "event": "released",
+          "time_s": 198.7,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_26",
+          "event": "released",
+          "time_s": 198.7,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_23",
+          "event": "held",
+          "time_s": 199.8,
+          "lane": "43866090#0_1",
+          "position_m": 0.4590751999999938,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_25",
+          "event": "released",
+          "time_s": 200.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_23",
+          "event": "released",
+          "time_s": 201.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_0",
+          "event": "held",
+          "time_s": 208.0,
+          "lane": "43866090#0_0",
+          "position_m": 0.32992429999998585,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_0",
+          "event": "released",
+          "time_s": 209.4,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_32",
+          "event": "held",
+          "time_s": 215.4,
+          "lane": "43866090#0_1",
+          "position_m": 1.3614756499999814,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_28",
+          "event": "held",
+          "time_s": 216.0,
+          "lane": "43866090#0_0",
+          "position_m": 0.5360160096774091,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_32",
+          "event": "released",
+          "time_s": 216.7,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_29",
+          "event": "held",
+          "time_s": 217.8,
+          "lane": "43866090#0_1",
+          "position_m": 0.49289086129032356,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_3",
+          "event": "held",
+          "time_s": 227.3,
+          "lane": "43866090#0_0",
+          "position_m": 0.0030040894589351552,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_35",
+          "event": "held",
+          "time_s": 238.1,
+          "lane": "43866090#0_1",
+          "position_m": 0.04547485520539318,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_28",
+          "event": "released",
+          "time_s": 278.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_29",
+          "event": "released",
+          "time_s": 278.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_38",
+          "event": "held",
+          "time_s": 278.5,
+          "lane": "43866090#0_1",
+          "position_m": 0.24257443482305163,
+          "previous_mode": 1621,
+          "clear_distance_m": 346.35535599999986
+        },
+        {
+          "vehicle_id": "destination_probe_6",
+          "event": "held",
+          "time_s": 278.5,
+          "lane": "43866090#0_0",
+          "position_m": 0.24257441851450245,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_3",
+          "event": "released",
+          "time_s": 279.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_35",
+          "event": "released",
+          "time_s": 279.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_9",
+          "event": "held",
+          "time_s": 280.6,
+          "lane": "43866090#0_0",
+          "position_m": 0.5861515381394238,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_38",
+          "event": "released",
+          "time_s": 281.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_6",
+          "event": "released",
+          "time_s": 281.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_31",
+          "event": "held",
+          "time_s": 282.1,
+          "lane": "43866090#0_0",
+          "position_m": 0.1517469359278305,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_9",
+          "event": "released",
+          "time_s": 282.6,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_34",
+          "event": "held",
+          "time_s": 283.7,
+          "lane": "43866090#0_0",
+          "position_m": 0.7591657371300471,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_31",
+          "event": "released",
+          "time_s": 284.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_37",
+          "event": "held",
+          "time_s": 285.2,
+          "lane": "43866090#0_0",
+          "position_m": 0.25877866554739803,
+          "previous_mode": 1621,
+          "clear_distance_m": 347.55276299999986
+        },
+        {
+          "vehicle_id": "destination_probe_34",
+          "event": "released",
+          "time_s": 285.5,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_37",
+          "event": "released",
+          "time_s": 287.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_12",
+          "event": "held",
+          "time_s": 287.0,
+          "lane": "43866090#0_0",
+          "position_m": 0.8296659394300168,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_15",
+          "event": "held",
+          "time_s": 288.6,
+          "lane": "43866090#0_0",
+          "position_m": 1.0248078159487797,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_12",
+          "event": "released",
+          "time_s": 288.7,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_15",
+          "event": "released",
+          "time_s": 290.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_18",
+          "event": "held",
+          "time_s": 290.3,
+          "lane": "43866090#0_0",
+          "position_m": 0.11045450339630847,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_18",
+          "event": "released",
+          "time_s": 291.9,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_21",
+          "event": "held",
+          "time_s": 291.9,
+          "lane": "43866090#0_0",
+          "position_m": 0.6050339432181886,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_21",
+          "event": "released",
+          "time_s": 293.5,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_24",
+          "event": "held",
+          "time_s": 306.4,
+          "lane": "43866090#0_0",
+          "position_m": 0.06788536774192266,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_27",
+          "event": "held",
+          "time_s": 309.0,
+          "lane": "43866090#0_0",
+          "position_m": 0.16923677041570073,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_24",
+          "event": "released",
+          "time_s": 368.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_30",
+          "event": "held",
+          "time_s": 368.5,
+          "lane": "43866090#0_0",
+          "position_m": 0.24257454880202722,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_27",
+          "event": "released",
+          "time_s": 369.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_33",
+          "event": "held",
+          "time_s": 370.6,
+          "lane": "43866090#0_0",
+          "position_m": 0.5861516501223516,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_30",
+          "event": "released",
+          "time_s": 371.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_36",
+          "event": "held",
+          "time_s": 372.1,
+          "lane": "43866090#0_0",
+          "position_m": 0.15173122503435188,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_33",
+          "event": "released",
+          "time_s": 372.6,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_39",
+          "event": "held",
+          "time_s": 373.7,
+          "lane": "43866090#0_0",
+          "position_m": 0.7590660807166234,
+          "previous_mode": 1621,
+          "clear_distance_m": 128.151394
+        },
+        {
+          "vehicle_id": "destination_probe_36",
+          "event": "released",
+          "time_s": 374.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "destination_probe_39",
+          "event": "released",
+          "time_s": 375.5,
+          "restored_mode": 1621
+        }
+      ],
+      "still_held": {},
+      "released_vehicles": 40,
+      "left_before_release": 0
+    }
+  },
+  "completion": {
+    "loaded": 40,
+    "inserted": 40,
+    "arrived": 40,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "healthy": true,
+  "inputs_unchanged": true,
+  "claim_boundary": "Native completion and all declared detector bins under the supplied model. No field timing, surveyed detector truth, or prediction accuracy is established."
+}

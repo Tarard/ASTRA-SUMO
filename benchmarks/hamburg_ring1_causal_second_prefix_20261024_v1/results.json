@@ -1,0 +1,88 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_recorded": 3,
+    "native_runs_by_freeze": 0,
+    "prefixes": {
+      "reference": {
+        "validity_status": "pass",
+        "initial26": {
+          "rows": 26,
+          "TAE": 30,
+          "SSE": 318,
+          "MAE": 1.1538461538461537,
+          "max_abs_error": 13
+        },
+        "observed_initial_rows": 26,
+        "future156_values": null,
+        "main130_metrics": null,
+        "full_health_not_claimed": true,
+        "complete_events": 871,
+        "first13_attributes_and_summary_fixed": true,
+        "executed_runner_sha256": "ee8c18ad0a0c057a49f4275e1bf3fe9f39f0466a27fc0ba8500394814324021c",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_second_bin_departures": 0,
+          "native_bins_routes_stops_fields_fixed": true,
+          "prior_first434_requests_unchanged": true,
+          "future1800_plus7739_requests_unchanged": true
+        }
+      },
+      "advance-second900-120232": {
+        "validity_status": "pass",
+        "initial26": {
+          "rows": 26,
+          "TAE": 3,
+          "SSE": 5,
+          "MAE": 0.11538461538461539,
+          "max_abs_error": 2
+        },
+        "observed_initial_rows": 26,
+        "future156_values": null,
+        "main130_metrics": null,
+        "full_health_not_claimed": true,
+        "complete_events": 898,
+        "first13_attributes_and_summary_fixed": true,
+        "executed_runner_sha256": "ee8c18ad0a0c057a49f4275e1bf3fe9f39f0466a27fc0ba8500394814324021c",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_second_bin_departures": 467,
+          "native_bins_routes_stops_fields_fixed": true,
+          "prior_first434_requests_unchanged": true,
+          "future1800_plus7739_requests_unchanged": true
+        }
+      },
+      "advance-second900-126232": {
+        "validity_status": "pass",
+        "initial26": {
+          "rows": 26,
+          "TAE": 0,
+          "SSE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "observed_initial_rows": 26,
+        "future156_values": null,
+        "main130_metrics": null,
+        "full_health_not_claimed": true,
+        "complete_events": 901,
+        "first13_attributes_and_summary_fixed": true,
+        "executed_runner_sha256": "f0d7445829729b30a5d02ca67d93d788dd77ff0257bb4e390d546b0bd095bc7e",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_second_bin_departures": 467,
+          "native_bins_routes_stops_fields_fixed": true,
+          "prior_first434_requests_unchanged": true,
+          "future1800_plus7739_requests_unchanged": true
+        }
+      }
+    },
+    "stage2_full_not_run": true,
+    "main130_unmeasured": true,
+    "best_main_MAE_unchanged": 3.7153846153846155,
+    "global_extension_not_included": true
+  }
+}

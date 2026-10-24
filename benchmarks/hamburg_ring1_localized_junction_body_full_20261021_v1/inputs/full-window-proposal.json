@@ -1,0 +1,31 @@
+{
+  "formal_result": false,
+  "source_prefix_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_localized_junction_body_20261021_v1",
+  "model_change": "None after the localized 6000 s prefix. Extend the same two-node driver candidate to 14400 s from empty initialization.",
+  "fixed": "All vehicles, routes, request times, fields, real targets, network, lane permissions and signal inputs retained.",
+  "end_s": 14400,
+  "main_window_s": [
+    3600,
+    12600
+  ],
+  "timeout_seconds": 2400,
+  "diagnostic_state_times_s": [
+    14399.9
+  ],
+  "restart_validated": false,
+  "driver_nodes": [
+    "14398547",
+    "205069138"
+  ],
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "206413edc6d67ca910d3f81eb29eb21d0cf5fb0e925c96b933fe1c9ae1844b7d",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "952174ff67cd1028ff3e9e7de8f0db90d68fb411697c78860106de70a70e6d08",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "scenario.json": "16e3982d7c58b3e6f11bcbb1b6747211d84dc02fcac99d2f91e7421cbd91f80a"
+  },
+  "claim_boundary": "A new complete native measurement is required. The prefix does not establish later safety, complete insertion or zero counts. Do not change demand or controller settings during this run."
+}

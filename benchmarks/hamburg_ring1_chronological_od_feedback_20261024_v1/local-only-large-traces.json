@@ -1,0 +1,670 @@
+{
+  "files": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_minus5_z5\\evaluation\\native\\instant-e1.xml",
+      "bytes": 21424405,
+      "sha256": "21535d6ef3542780408937bbc4007e47793531b4f5f6cff4fe7a839a4c739b5a",
+      "relative": "cases/h4_counter_z11_minus5_z5/evaluation/native/instant-e1.xml"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_minus5_z5\\evaluation\\native\\queues.xml",
+      "bytes": 63351790,
+      "sha256": "b466e72939445993c98213b87010dd960a65c20030ccb0a003e4cff02079c4ce",
+      "relative": "cases/h4_counter_z11_minus5_z5/evaluation/native/queues.xml"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30\\native\\tripinfo.xml",
+      "bytes": 1346888,
+      "sha256": "872b60ca99cdde43590f380aa1aba1e6c0fc58292b8009f1fe82a8a19a7531d4",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\native\\tripinfo.xml",
+      "bytes": 1345038,
+      "sha256": "50331568cb9245c31a2cb2b527c4fe2a65124e205f837673f776ba87b35b1330",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\prepared\\demand.rou.xml",
+      "bytes": 3705885,
+      "sha256": "2b4a9ad11ab4a1474f27f69082f678d53644180d0d6a5b045554afa3c6ac90ca",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\prepared\\lane-intentions.json",
+      "bytes": 999597,
+      "sha256": "12774defb2dceb8e0e3bfd80b241a6490d59653c6007070b3ac6949f468dbba6",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\baseline-prefix\\native\\tripinfo.xml",
+      "bytes": 1342265,
+      "sha256": "4b2d4441b5df666d7fa594fa5928f2c80411d1496f8fc06821bb46f135e9fadc",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\native\\tripinfo.xml",
+      "bytes": 1344309,
+      "sha256": "0929f0260f245d25bb1273909a8f512272f8bea5e3244ba2565414674299e722",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\prepared\\demand.rou.xml",
+      "bytes": 3705841,
+      "sha256": "448685744562b663ce591674ccf07c927b963a41feea8e8470ba02292ca61ee5",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\native\\tripinfo.xml",
+      "bytes": 1338571,
+      "sha256": "da6c7ed837365f8423add585ccd348fc99aa90d4be50167ef82b6cace5bb709d",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\prepared\\demand.rou.xml",
+      "bytes": 3705841,
+      "sha256": "b2364c923e153fb20d3a3e3b6f15d80e0251a0e937831bd547ce8c1059972d9a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance15\\native\\instant-e1.xml",
+      "bytes": 4924074,
+      "sha256": "18f5ea6807db3e48da07704865e3d3dcebc936696a626ba1b1869bfd056c296e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance15\\native\\summary.xml",
+      "bytes": 14465683,
+      "sha256": "3f75074e74d51b6d01fdeaa2854d127a7f246da9fc00c7be19a48e1e6b90343f",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance15\\native\\tripinfo.xml",
+      "bytes": 1338535,
+      "sha256": "8393cbd35c78ae1f4b0352499c3d3108066cec4606017d7d680e4f9a2e28896e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance15\\native\\vehicle-routes.xml",
+      "bytes": 1877018,
+      "sha256": "fe5a5953de756354e9a4c9bfd459aa99b86d831243fb68282741be8f417766e6",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance15\\native\\collisions.xml",
+      "bytes": 3402,
+      "sha256": "c2d7095b77c50cd6707b27bd20fbed438b658d63580d0dfcf93e8e8021265e92",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance15\\native\\stall-monitor.json",
+      "bytes": 1730831,
+      "sha256": "1ea88f65a794fcdd7b14aef852df04d24da7bf2cd2e2f730e637c012f662d2f5",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\native\\instant-e1.xml",
+      "bytes": 4939188,
+      "sha256": "3adb460a0e90ab325633eaea1ce00967ea942394600875aad8e7dea696a4c2ac",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\native\\summary.xml",
+      "bytes": 14466250,
+      "sha256": "9653572e0bbdbd23ab67cb1053978d6e4a245081b381e22031b718813a83b2ec",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\native\\vehicle-routes.xml",
+      "bytes": 1887511,
+      "sha256": "df78ca8a4bc7ec49466930b6e2691ea153ed15088f4c40344a94d5a6be9a5e03",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\native\\collisions.xml",
+      "bytes": 3402,
+      "sha256": "57678000d0a2c77949eb38127329ebd41f7e037bf945433fef6418a8a8c8fc29",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance30\\native\\stall-monitor.json",
+      "bytes": 1740055,
+      "sha256": "6757c637f8f4733f2e22aabacaf7873327b9759d33da3b8d466fa32c1ab34e04",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance45\\native\\instant-e1.xml",
+      "bytes": 4924074,
+      "sha256": "d53a5354d3922f01d4f79935818aeb1268e9c12f79e05493b6ea1dc411cd161e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance45\\native\\summary.xml",
+      "bytes": 14466997,
+      "sha256": "e7069f152695a74f5ac31f41f8f43fab05c93cb2afffeb5ce314f94dc43736b9",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance45\\native\\tripinfo.xml",
+      "bytes": 1338557,
+      "sha256": "57920c21e658bc16f481ddc4b4b8b4f4286f7eab438373f704eef747e4be1bdf",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance45\\native\\vehicle-routes.xml",
+      "bytes": 1877022,
+      "sha256": "8655697742e11d4ec0a56973a3b50c4ac4fbf43a22ffea223965cc0b0e3dcf90",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance45\\native\\collisions.xml",
+      "bytes": 3402,
+      "sha256": "7f42de4ccc164d95c68c58c61b86059d62e519197b2247bfe270284a6f476403",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance45\\native\\stall-monitor.json",
+      "bytes": 1730834,
+      "sha256": "7cbb79681c8c36c051a65315f310cbee4c5e69c27aa010c5c9b04baa67107f5a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\native\\instant-e1.xml",
+      "bytes": 4924074,
+      "sha256": "b67d3b79bfddf53c65f6c1893d31b68110d3aedd82797167721a99e997926863",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\native\\summary.xml",
+      "bytes": 14467964,
+      "sha256": "12e9256afe146157a32e0c121e0ad9eff014b178ef711c1ca083f3af115ef5b9",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\native\\vehicle-routes.xml",
+      "bytes": 1877021,
+      "sha256": "4b539301d7f6f0791693f2de28e8a7f819bd5d4cc9356c607d3d4eaca5a3fb9b",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\native\\collisions.xml",
+      "bytes": 3402,
+      "sha256": "39e4fcf6285bd7e9692ffe1b2dfe1bc10421b74259505da46bbe0a5a773bbfa4",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance60\\native\\stall-monitor.json",
+      "bytes": 1730834,
+      "sha256": "5a51d37c79a0f0efb40392e2111fea481eab686bda74119bd5ca51803f509a14",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance75\\native\\instant-e1.xml",
+      "bytes": 4924074,
+      "sha256": "a68036af48a34ff40d57857be2286d7e3c3f7898438eb7645dd8ce5756fcb857",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance75\\native\\summary.xml",
+      "bytes": 14468653,
+      "sha256": "4e27bc4b4a7d32dc95b406a5d6d2db917168074bf35ad47357734396b869cd74",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance75\\native\\tripinfo.xml",
+      "bytes": 1338572,
+      "sha256": "f16f258c7d8ed6d3b76d0f1ba199ce9b1b2f6f2ef679636ee42c9ae4d81ee370",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance75\\native\\vehicle-routes.xml",
+      "bytes": 1877021,
+      "sha256": "7595dcb3c6a7a98b6157f159c19eff67d247e6e5d8b83ff987125d93bb5a50c1",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance75\\native\\collisions.xml",
+      "bytes": 3402,
+      "sha256": "5141bc976b184d7ee9626595a9928c7154389ef59f3d5cfca0db0d069a274bdc",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_advance75\\native\\stall-monitor.json",
+      "bytes": 1730834,
+      "sha256": "c61faf247c2c4c62e02e27299cd1ace7ffb07a39878f07c03bfc01b9aaa16eae",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_1\\native\\instant-e1.xml",
+      "bytes": 4883006,
+      "sha256": "e8d482a9356b035c400741f853b9e6660ce90206ff3544d02eaa486866d774fb",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_1\\native\\summary.xml",
+      "bytes": 14464338,
+      "sha256": "cce3f4df4aeba00911246e2f873cf171ac9686566c09c00f2b276bfa0f8e8a9a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_1\\native\\tripinfo.xml",
+      "bytes": 1346001,
+      "sha256": "a40b8cf9794b85e34cb80a1b77bc10692495f204dda0a41dde8f7b57e872b208",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_1\\native\\vehicle-routes.xml",
+      "bytes": 1897732,
+      "sha256": "875378e4d4b41f6c5a1d910eee2d117dc86dac936c08ebfd8c28ec51d1764fc4",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_1\\native\\collisions.xml",
+      "bytes": 3486,
+      "sha256": "588b4852ee5a29259bc2476693f9763875a8fdf7f927e69ffed536065020eafb",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_1\\native\\stall-monitor.json",
+      "bytes": 1742462,
+      "sha256": "82e12403e31adf49da614021f26377b67fdce0bfb2b74da5b80c6a7592071d15",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_2\\native\\instant-e1.xml",
+      "bytes": 4883006,
+      "sha256": "3cc2aab71affec56dcca0315c43d3d282c154da31c07b36dc700da6fc03764e7",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_2\\native\\summary.xml",
+      "bytes": 14464332,
+      "sha256": "85356fe586b3fe12523160bd158e87d4a606e9579648da75a00e7e11e7fd5906",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_2\\native\\tripinfo.xml",
+      "bytes": 1346001,
+      "sha256": "e89de3512915b80aba25b228aefe7150a2e85a228e05ec7e4be50c9fc27dada7",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_2\\native\\vehicle-routes.xml",
+      "bytes": 1897592,
+      "sha256": "c0583920da12047c7bc77934d739d46101985aef3224a83bedc4c0837b21cbf7",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_2\\native\\collisions.xml",
+      "bytes": 3486,
+      "sha256": "ff89ec61a5f1ad781d4a4e402b09fd2179ff41091860f439b06a5a9311e11adb",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_2\\native\\stall-monitor.json",
+      "bytes": 1742186,
+      "sha256": "82d6ed639b6e3e0701483668ddd5fbf023959ef54216464e495bb5c9dbe11173",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_3\\native\\instant-e1.xml",
+      "bytes": 4878770,
+      "sha256": "b8fb9ab8d9e1afeeef613764d901e13368afefb52f61464835d11a7b5bdd2209",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_3\\native\\summary.xml",
+      "bytes": 14464368,
+      "sha256": "0cbd55b5eefad1d2542a860b4d8d0aeb1f3599b8beba025e4b5256f822cf7329",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_3\\native\\tripinfo.xml",
+      "bytes": 1344990,
+      "sha256": "684dd4e15a96b84c7d92a8d796f81cda45fa15ecbcd065b478a18d056d291559",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_3\\native\\vehicle-routes.xml",
+      "bytes": 1900850,
+      "sha256": "f2b167b433b2528d742358b227bac2527a4cd4f24dc54fad715c374270c811a9",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_3\\native\\collisions.xml",
+      "bytes": 3486,
+      "sha256": "f26d708eaac50dedffec97b56aff5477ed964dad3d78babb0d86f33be132d6ee",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_3\\native\\stall-monitor.json",
+      "bytes": 1740320,
+      "sha256": "70a7a3aaa214705f41fa5019bc663903de775d4d02015404fdb34f343f1f89c0",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_4\\native\\instant-e1.xml",
+      "bytes": 4878770,
+      "sha256": "60bc6e65391cb2f99de26c419a669f8663a5430857386038bf037eb09adf9e5f",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_4\\native\\summary.xml",
+      "bytes": 14464335,
+      "sha256": "412f3b545fc29ed2374e752eb440322261860c1d3d6bf2d8fd8ba76a258eba92",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_4\\native\\tripinfo.xml",
+      "bytes": 1345502,
+      "sha256": "61ca4e84f36fc6cca64c5b5fe26fb4e23c4c175a95d89a461e24b65ce5df71f7",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_4\\native\\vehicle-routes.xml",
+      "bytes": 1900710,
+      "sha256": "049464b227cb44564f71e2db1776a06786286e23cb918a6abff038ee281ccfb5",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_4\\native\\collisions.xml",
+      "bytes": 3486,
+      "sha256": "e2ec143a6e866898df6c43ed940e0f21f62b01fe656bce03cbf418eda3802f2c",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_single_4\\native\\stall-monitor.json",
+      "bytes": 1740042,
+      "sha256": "a8a8f450abab6888a7195dd50bdea17cc25977f29962b228e80d90f9bdee32d5",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-count-feedback-20261024-v1\\cases\\window0_remove3\\evaluation\\native\\instant-e1.xml",
+      "bytes": 22183742,
+      "sha256": "c3e716fb44b2bfc34f0282d715fab5ab65c6e445d5759cdc420e42765c21059e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_one\\native\\instant-e1.xml",
+      "bytes": 4879096,
+      "sha256": "a2ef7e46bad2183185bf866f86826171fec87d0b88629b3b76694d58a751baf2",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_one\\native\\summary.xml",
+      "bytes": 14464377,
+      "sha256": "8b7bf1bf64b551eb1d5be76f9c39f589332bd917aec5612e04170ac0dc1cb8bb",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_one\\native\\tripinfo.xml",
+      "bytes": 1344466,
+      "sha256": "d32aac904d127cabd8100d86a1fb20578f61a66b4546ef6690f8170621159aad",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_one\\native\\vehicle-routes.xml",
+      "bytes": 1900548,
+      "sha256": "a1ed35d5e5c5df5a17d72d51d82747fd07ef4d62599bd52712d309e41e723a0f",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_one\\native\\collisions.xml",
+      "bytes": 3474,
+      "sha256": "bf9f15171d1e2df0bddfa6dd236212a233d33e3dbd5cd3bc28f1af970983ee99",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_counter_z11_one\\native\\stall-monitor.json",
+      "bytes": 1739355,
+      "sha256": "22378053300c927ee4f40480a229343245eeab7733c647509dcfef62d7a177f9",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay15\\native\\instant-e1.xml",
+      "bytes": 4880011,
+      "sha256": "ba75805bd7acc3d1b8e05f574dfd85c9326fb3c410355d58c7d9f108798f3dd4",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay15\\native\\summary.xml",
+      "bytes": 14465397,
+      "sha256": "710cd1a4da34b2c0aa6404e96fd013f10c58ea3b4d129747ea9f596ed424788f",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay15\\native\\tripinfo.xml",
+      "bytes": 1332726,
+      "sha256": "d030c9d9ab3570911e594b704f5d68b54d486d00e3c61776eab2b4a73364619c",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay15\\native\\vehicle-routes.xml",
+      "bytes": 1878174,
+      "sha256": "65f7cf85257791ac31534508b3e51a2420725ab2574ceae07c0ba7e1de7fc18a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay15\\native\\collisions.xml",
+      "bytes": 3378,
+      "sha256": "2321fbd7f0bf96106dd37236c0ba02da4fafb49a526448c70d18e9ba90e0a6ae",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay15\\native\\stall-monitor.json",
+      "bytes": 1723626,
+      "sha256": "763047b10f4c588403015d013e7fba7c03ba7cc336ea46bc570ba9a3431576dc",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30\\native\\instant-e1.xml",
+      "bytes": 4943474,
+      "sha256": "c3563965b8025aa223e53c60d87ef7b53701871fce9cb8bc2b12038198bb202e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30\\native\\summary.xml",
+      "bytes": 14464294,
+      "sha256": "7304b0a8d2382b977748e586f929dae2d0a1ce643b1028d80fbd31d65fd86c9a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30\\native\\vehicle-routes.xml",
+      "bytes": 1893077,
+      "sha256": "965dfc7a268a43dd848afa4f5a0d924850924b45ee684bf5e0ecf7be9a188df9",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30\\native\\collisions.xml",
+      "bytes": 3378,
+      "sha256": "27eb55708be05f8f58a664e10ccb10a95135c14cfc197e9e821abe3007659bb5",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30\\native\\stall-monitor.json",
+      "bytes": 1742685,
+      "sha256": "b77ee559ecf44e5e224feb323337a148760f5845b3d4293214d7c7f9bad2b16e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\native\\instant-e1.xml",
+      "bytes": 4882782,
+      "sha256": "3b741b5d4b3f82653d58ed356ea8fbb05c0f0d3445a09a63f2c7282a9d15d301",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\native\\summary.xml",
+      "bytes": 14464074,
+      "sha256": "5192f1efbb01d7f352acd082184ccbc851e647b452040daa3cd1f0137987a591",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\native\\vehicle-routes.xml",
+      "bytes": 1904256,
+      "sha256": "f691fb3c01eaf9e1ca9c8493c6cda8cebbe63157d0eb99382e38c6316003eb91",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\native\\collisions.xml",
+      "bytes": 3486,
+      "sha256": "fbb5a1959e493d082be85001c3b537f15d8318425835505bc5896429b907d80d",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\native\\stall-monitor.json",
+      "bytes": 1740661,
+      "sha256": "d4a6b53fafa6fbf9bc2b85a8a82e4c8f99b7ccd37267c35fbcd98349f0819c02",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4_late\\native\\instant-e1.xml",
+      "bytes": 4923944,
+      "sha256": "cb574bca9ef3b0d4e2055069d55dd0c0e02648e2f432b6a46db3e48db4800e0a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4_late\\native\\summary.xml",
+      "bytes": 14464487,
+      "sha256": "65f94bbff14f9770fdf2a736adc42fb2137b9498a4a574285eb60814f81d4a08",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4_late\\native\\tripinfo.xml",
+      "bytes": 1339284,
+      "sha256": "012e0a76badd7f043daa23000f059375af7f74c98b501c2ff29c81e14919e8b8",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4_late\\native\\vehicle-routes.xml",
+      "bytes": 1889755,
+      "sha256": "e71904c35859ec763a4b92866aee389af3eff497a7041ad4756b6e1f41722e3f",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4_late\\native\\collisions.xml",
+      "bytes": 3546,
+      "sha256": "037c226354d57d1bddb65e632bfb1d7d6647728562021ca684f349ed57f12f2d",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4_late\\native\\stall-monitor.json",
+      "bytes": 1733127,
+      "sha256": "5db0fafaddc44429316d515b8c58a253e73ccc37f8fa3a014b185404c71d6760",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay30_counter4\\prepared\\scenario.json",
+      "bytes": 6514,
+      "sha256": "90086e094a25cfab12bafe7a20a3dccc26ab14f0d442ca003272df839ab2f725",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay45\\native\\instant-e1.xml",
+      "bytes": 4913903,
+      "sha256": "19b209c3020ad0fb1d366cf8f1738193b6cf3f92d44ae72b3101ca42ff2511b4",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay45\\native\\summary.xml",
+      "bytes": 14463254,
+      "sha256": "5996bee16ff6cf93c3bb0de13192c513ce1ae295615fd9e232ac67affda7435a",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay45\\native\\tripinfo.xml",
+      "bytes": 1346309,
+      "sha256": "92f7953ac582866c8a14ffdc0c60e8cd22cd9bc2d33c1173e9f4a258d73f1fbe",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay45\\native\\vehicle-routes.xml",
+      "bytes": 1897490,
+      "sha256": "e61e3292b302114fc9019deb54db74352fc03c87c6b0d2660751e8a946ce3cbd",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay45\\native\\collisions.xml",
+      "bytes": 3378,
+      "sha256": "359b110edea6ac7caa8ea4449cc54efdf544d46a6347d9ad8a1302e77034c3b8",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay45\\native\\stall-monitor.json",
+      "bytes": 1745929,
+      "sha256": "ed4d98f927bcb3f13b3ee6b4b4d98da76a722219cc529be8a00a2ebf19cf4e55",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay60\\native\\instant-e1.xml",
+      "bytes": 4911007,
+      "sha256": "56050080e22b210c273b3c3ff44e766b508c62e824f2dfb6dd506ede023a6b38",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay60\\native\\summary.xml",
+      "bytes": 14463227,
+      "sha256": "0beeb7c8ea7ab1957f5db663afde7e2f7a5d8b3df79902e45ebd5832e82e4c53",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay60\\native\\tripinfo.xml",
+      "bytes": 1344771,
+      "sha256": "ddff95199a6308b6853317b3c80a1bd575e41773c80f311668de4fb55514a41c",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay60\\native\\vehicle-routes.xml",
+      "bytes": 1897488,
+      "sha256": "b8ce61e1dacaadae9758d674b6ea206c41b6b78c095617c4f8827d8259368529",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay60\\native\\collisions.xml",
+      "bytes": 3378,
+      "sha256": "7eb6d21763cc10000a10bb4f7e7d6beada4a00e761de60f8c82260531b1a1c18",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay60\\native\\stall-monitor.json",
+      "bytes": 1744298,
+      "sha256": "93ab761b705ec8b6a135f42e9c135c01c5304fa19a2dc463fcbbae588d9908ef",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay90\\native\\instant-e1.xml",
+      "bytes": 4926465,
+      "sha256": "ca70b7a69d78471d8ed6e74d3439c330f9bddf4976dd57a09830c5c2a5071688",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay90\\native\\summary.xml",
+      "bytes": 14462335,
+      "sha256": "140d59a2e21882f51696e89913b93e486b664643beaedd0feb359e856809651f",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay90\\native\\tripinfo.xml",
+      "bytes": 1340515,
+      "sha256": "f9d7671aa59ce419a1daeaf0cb763715575c7bf3499760b277bc6e035fbe7c47",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay90\\native\\vehicle-routes.xml",
+      "bytes": 1885681,
+      "sha256": "a91eada04c854f84f3a2f26cf6b404c8bf6c896d744319eb005a9145e4b4e1cf",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay90\\native\\collisions.xml",
+      "bytes": 3378,
+      "sha256": "cb6f2e0f94d08d21a7f1ea3021cac5e6bc0ac1a9bbee2e2a06967c6f1c94156e",
+      "source_dependency": true
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-chronological-prefix-calibration-20261024-v1\\cases\\h4_delay90\\native\\stall-monitor.json",
+      "bytes": 1733085,
+      "sha256": "2bdb0acb9dc46fbe0f5500198d895319fae59fabf6502c2fc1c00d5c8ec0403b",
+      "source_dependency": true
+    }
+  ]
+}

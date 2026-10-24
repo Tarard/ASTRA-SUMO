@@ -1,0 +1,373 @@
+{
+  "schema": "astra.removed-endpoint-coverage/v1",
+  "production_commit": "642b2f84df7eec0e23d85d5099082f4982e46c2c",
+  "implementation": {
+    "routeability_audit.py": "4c220f501861bdaf0d27ceaf41f9c73a7f257f9716e47434955c40c8d3202170",
+    "routeability_od_mapping.py": "8157fa261bdf1dfcf7d77e6b9097652ade8bf468880487e659ea88720482f608",
+    "candidate_contracts.py": "df3f6ecc310c7e18b646bdf3e1e4bb7a68442c0c897c36a60c1e0c8e5ec04e9e",
+    "network_edit_operations.py": "c3d5ee5f9fc2c6e66898f034af775fa7936153b44b1d449865b7abd523d73beb"
+  },
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\source.net.xml",
+    "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+  },
+  "fixture": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_loaded_links_20261018_v1\\candidate.net.xml.gz",
+    "sha256": "48da2a9f750e4910866fa55573450a546851a077696d83b24bde623dcfd42684"
+  },
+  "checks": {
+    "source_unchanged": true,
+    "fixture_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "cases": {
+    "delete-two": {
+      "status": "fail",
+      "routeability_status": "route-generation-failed",
+      "explore_status": null,
+      "routing_status": "fail",
+      "coverage": {
+        "requested_count": 100,
+        "routing_count": 98,
+        "physical_count": 98,
+        "logical_only_count": 0,
+        "removed_endpoint_count": 2,
+        "removed_endpoint_vehicle_ids": [
+          "1",
+          "12"
+        ]
+      },
+      "native_failed_route_vehicle_ids": [
+        "10",
+        "13",
+        "14",
+        "15",
+        "18",
+        "20",
+        "33",
+        "49",
+        "55",
+        "56",
+        "61",
+        "65",
+        "72",
+        "82",
+        "83",
+        "92",
+        "95"
+      ],
+      "driving": {
+        "last_time": null,
+        "loaded": null,
+        "inserted": null,
+        "arrived": null,
+        "running": null,
+        "waiting": null,
+        "collisions": null,
+        "teleports": null
+      },
+      "source_baseline": null,
+      "evidence": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "route-generation-failed",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\delete-two\\routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\delete-two\\routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "d9b5c9787a27b14cf4b0a62771b2b7c43472d971fd2d19c6a4a1c8236ab67090",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "report": {
+        "path": "outputs/removedep26v2/delete-two/routes/routeability_audit_routeability_audit.json",
+        "sha256": "37519ad703d8a7baa835eac4c5ef1ef522cd9fb9e8c22ae2f842cc271a124ddf"
+      },
+      "source_requests": {
+        "path": "outputs/removedep26v2/delete-two/routes/routeability_audit.source.trips.xml",
+        "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+      },
+      "complete_candidate_requests": {
+        "path": "outputs/removedep26v2/delete-two/routes/routeability_audit.trips.xml",
+        "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+      },
+      "native_requests": {
+        "path": "outputs/removedep26v2/delete-two/routes/routeability_audit.routable.trips.xml",
+        "sha256": "614dacf38a18c2faae01e462ecf33673a8a2591bc5b81a8f552a4dc2864664af"
+      }
+    },
+    "dead-end": {
+      "status": "review_required",
+      "routeability_status": "unverified_endpoints",
+      "explore_status": null,
+      "routing_status": "pass",
+      "coverage": {
+        "requested_count": 20,
+        "routing_count": 18,
+        "physical_count": 18,
+        "logical_only_count": 0,
+        "removed_endpoint_count": 2,
+        "removed_endpoint_vehicle_ids": [
+          "1",
+          "12"
+        ]
+      },
+      "native_failed_route_vehicle_ids": [],
+      "driving": {
+        "last_time": 599.0,
+        "loaded": 18,
+        "inserted": 18,
+        "arrived": 18,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0
+      },
+      "source_baseline": null,
+      "evidence": {
+        "status": "review_required",
+        "execution_status": "partial",
+        "routeability_status": "unverified_endpoints",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\dead-end\\routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\dead-end\\routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "f59d62c6233639365b9d1d6bd71dc3631468f40c6157a960c84a51ce5270435b",
+        "errors": []
+      },
+      "report": {
+        "path": "outputs/removedep26v2/dead-end/routes/routeability_audit_routeability_audit.json",
+        "sha256": "730b8f7fdd586946eec901f71aff4f7198cdbbccb5592e054d23fb048b6c86c2"
+      },
+      "source_requests": {
+        "path": "outputs/removedep26v2/dead-end/routes/routeability_audit.source.trips.xml",
+        "sha256": "e369bf2dd9b37e350d7213100ceda6e8498f03c689c0084393bf3d7c50169fef"
+      },
+      "complete_candidate_requests": {
+        "path": "outputs/removedep26v2/dead-end/routes/routeability_audit.trips.xml",
+        "sha256": "e369bf2dd9b37e350d7213100ceda6e8498f03c689c0084393bf3d7c50169fef"
+      },
+      "native_requests": {
+        "path": "outputs/removedep26v2/dead-end/routes/routeability_audit.routable.trips.xml",
+        "sha256": "031e87ea835c5c00078fc47725b8b05ac8b9703457e64ca7ab75940dd672611b"
+      }
+    },
+    "lane-count": {
+      "status": "fail",
+      "routeability_status": "incomplete",
+      "explore_status": "measured",
+      "routing_status": "pass",
+      "coverage": {
+        "requested_count": 100,
+        "routing_count": 100,
+        "physical_count": 97,
+        "logical_only_count": 3,
+        "removed_endpoint_count": 0,
+        "removed_endpoint_vehicle_ids": []
+      },
+      "native_failed_route_vehicle_ids": [],
+      "driving": {
+        "last_time": 2399.0,
+        "loaded": 100,
+        "inserted": 99,
+        "arrived": 63,
+        "running": 36,
+        "waiting": 1,
+        "collisions": 0,
+        "teleports": 0
+      },
+      "source_baseline": {
+        "status": "dirty",
+        "scope": "synthetic_passenger_driving_diagnostic",
+        "diagnostic_status": "fail",
+        "reason": "incomplete",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\lane-count\\source-routes\\routeability_audit_routeability_audit.json"
+      },
+      "evidence": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "incomplete",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\lane-count\\candidate-routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\lane-count\\candidate-routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "23f544918f869a1d31e9ce5d48fbba06f1421cb1dd01c8fe08665d318f6b2718",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "report": {
+        "path": "outputs/removedep26v2/lane-count/candidate-routes/routeability_audit_routeability_audit.json",
+        "sha256": "109f260c04cd49f307e175e7bdba713509c2fb88a94d5e2f201dbec29535b008"
+      },
+      "source_requests": {
+        "path": "outputs/removedep26v2/lane-count/candidate-routes/routeability_audit.source.trips.xml",
+        "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+      },
+      "complete_candidate_requests": {
+        "path": "outputs/removedep26v2/lane-count/candidate-routes/routeability_audit.trips.xml",
+        "sha256": "9bfb753b5e5304366e65c63eaf9db19143bf23852440f6ea9adc9b9c3a07e9e6"
+      },
+      "native_requests": {
+        "path": "outputs/removedep26v2/lane-count/candidate-routes/routeability_audit.trips.xml",
+        "sha256": "9bfb753b5e5304366e65c63eaf9db19143bf23852440f6ea9adc9b9c3a07e9e6"
+      }
+    },
+    "join": {
+      "status": "fail",
+      "routeability_status": "incomplete",
+      "explore_status": "measured",
+      "routing_status": "pass",
+      "coverage": {
+        "requested_count": 100,
+        "routing_count": 98,
+        "physical_count": 98,
+        "logical_only_count": 0,
+        "removed_endpoint_count": 2,
+        "removed_endpoint_vehicle_ids": [
+          "16",
+          "31"
+        ]
+      },
+      "native_failed_route_vehicle_ids": [],
+      "driving": {
+        "last_time": 2399.0,
+        "loaded": 98,
+        "inserted": 97,
+        "arrived": 61,
+        "running": 36,
+        "waiting": 1,
+        "collisions": 0,
+        "teleports": 0
+      },
+      "source_baseline": {
+        "status": "dirty",
+        "scope": "synthetic_passenger_driving_diagnostic",
+        "diagnostic_status": "fail",
+        "reason": "incomplete",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\join\\source-routes\\routeability_audit_routeability_audit.json"
+      },
+      "evidence": {
+        "status": "blocked",
+        "execution_status": "completed",
+        "routeability_status": "incomplete",
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\join\\candidate-routes\\routeability_audit_routeability_audit.json",
+        "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\removedep26v2\\join\\candidate-routes\\routeability_audit_routeability_audit.manifest.json",
+        "net_sha256": "93ee4fa1f99a006c783823d3a6baccde524b9abaf7661d54b5d790d4f73a922c",
+        "errors": [
+          {
+            "code": "routeability_result_not_pass"
+          },
+          {
+            "code": "routeability_manifest_status_not_pass"
+          }
+        ]
+      },
+      "report": {
+        "path": "outputs/removedep26v2/join/candidate-routes/routeability_audit_routeability_audit.json",
+        "sha256": "75d2a31933a908adb78e1088c6842621e1b28e516473966d0a7f140a5dffe95c"
+      },
+      "source_requests": {
+        "path": "outputs/removedep26v2/join/candidate-routes/routeability_audit.source.trips.xml",
+        "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+      },
+      "complete_candidate_requests": {
+        "path": "outputs/removedep26v2/join/candidate-routes/routeability_audit.trips.xml",
+        "sha256": "2a13d2f90732205076ddb9f9fe7de71b888af05a84925de588ed4261d77e83cf"
+      },
+      "native_requests": {
+        "path": "outputs/removedep26v2/join/candidate-routes/routeability_audit.routable.trips.xml",
+        "sha256": "16cd0e6575c7f615b3b36d8de3cc15398a56e93296e3ec1099da373519586c4a"
+      }
+    }
+  },
+  "complete_ci_at_preceding_code": [
+    {
+      "conclusion": "success",
+      "headSha": "ddedffb2e75b8d5c02926ada1afd16f705d7d1c3",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39382879123",
+      "event": "pr",
+      "totals": {
+        "tests": 3778,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3754
+      },
+      "critical_native_passed": 54,
+      "bus_case_time_s": 2.935,
+      "junit": {
+        "path": "outputs/ci-ddedffb-pr-artifacts-20261020/test-results.xml",
+        "sha256": "1d1d4dbd4b6b212addc9160fb8ecfaa0aef6c0f08f138bd105b294ef4a3dad76"
+      },
+      "log": {
+        "path": "outputs/ci-ddedffb-pr-20261020-v1.log",
+        "sha256": "79e0622376475683d86fb6de763ba1a164765c5f01aeb026c94f8c956d0fdaae"
+      }
+    },
+    {
+      "conclusion": "success",
+      "headSha": "ddedffb2e75b8d5c02926ada1afd16f705d7d1c3",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39382875637",
+      "event": "push",
+      "totals": {
+        "tests": 3778,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3754
+      },
+      "critical_native_passed": 54,
+      "bus_case_time_s": 2.712,
+      "junit": {
+        "path": "outputs/ci-ddedffb-push-artifacts-20261020/test-results.xml",
+        "sha256": "e0be135380973bd3138b23fd15dce82b383da59c7682493dabcb12c74340163e"
+      },
+      "log": {
+        "path": "outputs/ci-ddedffb-push-20261020-v1.log",
+        "sha256": "62083dcab1b0839aef4355c0339e0fc06bd4be65b20d9c46f9153ddc150fb3c7"
+      }
+    }
+  ],
+  "focused_checks": [
+    {
+      "passed": 83,
+      "log": {
+        "path": "outputs/removed-endpoint-partition-20261020-v1.log",
+        "sha256": "2ffc515d2f33bad3166b6f1daf7550a59b35a299ca477163afa0763f79a412dc"
+      }
+    },
+    {
+      "passed": 98,
+      "log": {
+        "path": "outputs/removed-endpoint-consumers-20261020-v1.log",
+        "sha256": "343e7238b41fc49b8f91155169cc30a398cc30979dfcd5dab07008bf02e03d92"
+      }
+    },
+    {
+      "passed": 6,
+      "log": {
+        "path": "outputs/removed-endpoint-boundaries-20261020-v1.log",
+        "sha256": "fb70c6a6e2519c0bfcbacbd9de1a686d1334b518b90e485a4934021bbb0214de"
+      }
+    }
+  ],
+  "runner": {
+    "path": "outputs/probe_removed_endpoint_hamburg_20261020_v2.py",
+    "sha256": "50cf6b57adff2124708dc8a181961bba82b65797b9d08bf59c607bc3df502096"
+  },
+  "analysis_script": "outputs/freeze_removed_endpoint_coverage_20261020_v1.py",
+  "raw_directory": "outputs/removedep26v2",
+  "declaration": {
+    "path": "outputs/removedep26v2/declaration.json",
+    "sha256": "4ae610988a51a107fb57277aa3c62d89c33a7215726f266195490438d7f58379"
+  },
+  "claim_boundary": "The complete original cohort stays recorded. Native routing and driving cover only the declared executable subset. Removed endpoints prevent a full-cohort pass. Remaining disconnections still fail. Incomplete or unequal cohorts provide no traffic-performance comparison. The preceding complete CI qualifies ddedffb, not this later partition repair."
+}

@@ -32,7 +32,8 @@ Every change follows the same loop:
 5. **Run against real inputs**: use the official catalog/API or a frozen cache,
    produce a versioned output directory, and never overwrite a candidate.
 6. **Audit**: run SUMO load, topology, lane-surface overlap, routeability,
-   signal-link coverage, and detector-fit checks. Netedit screenshots are
+   signal-link coverage, and detector-fit checks. Fixed aerial images from
+   `astra review render` support routine geometry review. Explicit NetEdit captures are
    evidence only; they do not replace code-native gates.
 7. **Revise**: use failures to update the plan and the smallest necessary code
    surface, then repeat from step 4. A `review_required` or missing official

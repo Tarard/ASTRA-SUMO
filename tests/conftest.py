@@ -2,11 +2,13 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
+from uuid import uuid4
 
 import pytest
 
 
 ROOT = Path(__file__).resolve().parents[1]
+FAILURE_ARTIFACTS = ROOT / "outputs" / "pytest-failures" / uuid4().hex
 SCHEMAS = ROOT / "schemas"
 ORGANIZED_SCHEMA_DIRS = (
     SCHEMAS / "product",
@@ -29,6 +31,21 @@ HISTORICAL_HAMBURG_TESTS = {
     "tests/test_official_lane_transition.py::test_output_artifact_is_the_exact_returned_graph",
 }
 _created_legacy_schema_paths: list[Path] = []
+
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    """Retain failed test inputs before pytest removes their temporary directory."""
+    del call
+    report = (yield).get_result()
+    source = item.funcargs.get("tmp_path")
+    if report.failed and source is not None:
+        destination = FAILURE_ARTIFACTS / f"{source.name}-{report.when}"
+        try:
+            shutil.copytree(source, destination, symlinks=True, dirs_exist_ok=True)
+            (destination / "pytest-nodeid.txt").write_text(item.nodeid, encoding="utf-8")
+        except OSError as error:
+            report.sections.append(("Failure artifact copy", str(error)))
 
 
 def pytest_sessionstart(session: pytest.Session) -> None:

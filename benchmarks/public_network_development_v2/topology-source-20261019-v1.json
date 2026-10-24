@@ -1,0 +1,202 @@
+{
+  "scope": "Technical edit qualification only. Inherited source findings remain unresolved. No field or traffic-performance claim.",
+  "node_id": "132981",
+  "source_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+  "candidate_sha256": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+  "native_release_producer": {
+    "base_commit": "9beb0190b7f399e27f7f9e8acf54317c6b1414e2",
+    "dirty_worktree": true,
+    "code_sha256": {
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\candidate_contracts.py": "6ee4f8d952386f13d13c2c107b31d601661363099adbbd370fecf874f3e99168",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\corridor_edit_ledger.py": "16cc4fc94e7d487b66446aafd5eac7578d463fb1773f10fb8da0dbed741b828a",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\topology_audit.py": "5cd0e9bf90b450cc9b8dae21423f9fff3f13d8d2ed6fdbcb062d5a1e8a31baea"
+    }
+  },
+  "before": {
+    "status": "blocked",
+    "elapsed_seconds": 411.8462507999975,
+    "gates": {
+      "artifact_identity": "pass",
+      "netconvert": "pass",
+      "review_contract": "pass",
+      "xml_parse": "pass",
+      "tls_modal_rail_bridge_tunnel": "pass",
+      "modal_connectivity": "pass",
+      "edit_applicability": "pass",
+      "sumo_load": "pass",
+      "routeability": "pass",
+      "topology": "blocked"
+    },
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "after": {
+    "status": "pass",
+    "elapsed_seconds": 405.81875010000294,
+    "gates": {
+      "artifact_identity": "pass",
+      "netconvert": "pass",
+      "review_contract": "pass",
+      "xml_parse": "pass",
+      "tls_modal_rail_bridge_tunnel": "pass",
+      "modal_connectivity": "pass",
+      "edit_applicability": "pass",
+      "sumo_load": "pass",
+      "routeability": "pass",
+      "topology": "pass"
+    },
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "topology": {
+    "status": "pass",
+    "whole_network_status": "review_required",
+    "source_finding_count": 170,
+    "candidate_finding_count": 170,
+    "inherited_finding_count": 170,
+    "removed_finding_count": 0,
+    "new_or_changed_findings": []
+  },
+  "final_comparison": {
+    "consumer_commit": "9924f6cf85ae75559f268508eed1570041fe9d18",
+    "comparison": {
+      "status": "pass",
+      "basis": "edit_specific_topology_non_regression",
+      "whole_network_status": "review_required",
+      "inherited_finding_count": 170,
+      "new_or_changed_findings": [],
+      "source_finding_count": 170,
+      "candidate_finding_count": 170,
+      "removed_finding_count": 0,
+      "reason": "no_new_or_worsened_source_topology_findings"
+    },
+    "artifact_hashes": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\verification\\gates\\topology_source_8acab7d4767b\\corridor_candidate_gates_source_topology_topology_audit.json": "7c9a6726120101f86b372bc11881a7e1984fa299cdae4636ddfdac12e177df54",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\verification\\gates\\topology_source_8acab7d4767b\\corridor_candidate_gates_source_topology_topology_audit.manifest.json": "fac0708fb7ae673facba32eca4a7a99d62ded21dd31f4d0acc33239a65dab518",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\verification\\candidate\\corridor_materialized_variant.net.xml": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\verification\\gates\\topology_5905bc2e541c\\corridor_candidate_gates_topology_topology_audit.json": "2498d61c3fb138a772feaed28ed8745ea49e975ee4f324209ca2b58fd35acc53",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\verification\\gates\\topology_5905bc2e541c\\corridor_candidate_gates_topology_topology_audit.manifest.json": "84dbe93f1f1be0eacf249c2ac0a02fc673ddca0e39ee31948c8468505ebecbab"
+    },
+    "inputs_unchanged": true,
+    "comparator_sha256": "2f9e1b7d583b8c6892896195e127da58a888ccada850257b237d3faf644d09ef",
+    "scope": "Read-only comparison after additional classification checks. Native release artifacts unchanged."
+  },
+  "native_review_outcomes": {
+    "cases": [
+      {
+        "node_id": "132981",
+        "source_sha256": "a2960cc64d9ea7965e30a0e5babe46bd38aba3b2610953d6eb0cb1ff7ed8b9ed",
+        "status": "review_required",
+        "elapsed_seconds": 10.25657080000019,
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\native-review-outcomes\\132981\\release\\edit-verification.json",
+        "gates": {
+          "artifact_identity": "pass",
+          "netconvert": "pass",
+          "review_contract": "pass",
+          "xml_parse": "pass",
+          "tls_modal_rail_bridge_tunnel": "pass",
+          "modal_connectivity": "pass",
+          "edit_applicability": "pass",
+          "sumo_load": "pass",
+          "routeability": "review_required",
+          "topology": "pass"
+        },
+        "routeability": {
+          "status": "review_required",
+          "execution_status": "not_run",
+          "routeability_status": "not_run",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\native-review-outcomes\\132981\\release\\gates\\routeability_01b1848e2427\\corridor_candidate_gates_routeability_routeability_audit.json",
+          "manifest_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\native-review-outcomes\\132981\\release\\gates\\routeability_01b1848e2427\\corridor_candidate_gates_routeability_routeability_audit.manifest.json",
+          "net_sha256": "01b1848e2427181a5f56ff87d277fbf43cc0e9bfe6caa3fe7a2d69d384082394",
+          "errors": []
+        },
+        "applicability_reason": null,
+        "inputs_unchanged": true
+      },
+      {
+        "node_id": "132844",
+        "source_sha256": "5a3aef46e46f6b502c58a9010614ad146eff63476ad9051776451aa70d151e28",
+        "status": "review_required",
+        "elapsed_seconds": 9.023625299996638,
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\native-review-outcomes\\132844\\release\\edit-verification.json",
+        "gates": {
+          "artifact_identity": "pass",
+          "netconvert": "pass",
+          "review_contract": "pass",
+          "xml_parse": "pass",
+          "tls_modal_rail_bridge_tunnel": "pass",
+          "modal_connectivity": "pass",
+          "edit_applicability": "review_required",
+          "sumo_load": "review_required",
+          "routeability": "review_required",
+          "topology": "review_required"
+        },
+        "routeability": {
+          "status": "review_required",
+          "execution_status": "not_run",
+          "reason": "candidate preflight did not pass"
+        },
+        "applicability_reason": "custom_contour_recuts_source_geometry",
+        "inputs_unchanged": true
+      }
+    ],
+    "implementation_unchanged": true,
+    "verified_commit": "6cdc45d",
+    "code_sha256": {
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\candidate_contracts.py": "47757ae5fa5f772afd10b5bedc96366e31924117fcd8ced333662806a53e2673",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_applicability.py": "b0a66b8b2d21426de34f1001df095e7fc6d8120a5447bd2576bbaa7dc0f96ad9",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\routeability_audit.py": "a68639e0f489af3974c02ecdb3aec2660e65d99643260a701907476685e71ca0"
+    }
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v1\\summary.json",
+      "sha256": "257a56fb3ad4da8384bb76784b7d1d2d38b017b6c28e4348e7ed214d9541cf03"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\summary.json",
+      "sha256": "2ba1ec6db67eab95071ea9d3c2033d7fc565093ba51702ab18709785abdc2b09"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\identity.json",
+      "sha256": "fbd50c9e42950f76c21ad38c911390f95e4131070f55c5e955f4d3704e724e5f"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\confirmed-topology.json",
+      "sha256": "4d674131ab62bf42005c9c908c9bd43d5474116e506a51d26b6393b9e97b5b07"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\native-review-outcomes\\results.json",
+      "sha256": "07f621079caf58c7b1d19d26acd8a9d0c2ed21feadee34f36a2435e92152e8f3"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\verification\\edit-verification.json",
+      "sha256": "de0b8743892fbdfdcdf068353b9189b47bc5c243ec74a1375bb0fa4b4378ed09"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\run-release.py",
+      "sha256": "58b7244354674442b256a23a6e1384e4a1ab7561e3e0175c88d7c379ebaed6e4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\confirm-topology.py",
+      "sha256": "fe02ae311c70a851916478ed8bc441f3a4aa0af27060d97fd3c7745888fa8cb5"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_release_20261019_v2\\check-review-outcomes.py",
+      "sha256": "68be0ae25ea8f3c58aef799375bb12323328faabadf2e83427ba466ee13494d3"
+    }
+  ],
+  "local_checks": {
+    "topology_focused_passed": 110,
+    "review_outcomes_final_passed": 88,
+    "ruff": "pass",
+    "diff_check": "pass"
+  },
+  "limits": [
+    "One full-model release case from the unchanged three-case cohort.",
+    "Two source-derived extracts check reporting outcomes; they are not independent field validation.",
+    "Unstable controls and actual changed pedestrian layouts remain unqualified.",
+    "No original dated field labels or automatic-cleaning precision estimate."
+  ]
+}

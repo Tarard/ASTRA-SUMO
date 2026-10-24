@@ -1,0 +1,15 @@
+{
+  "version": "1.27.1",
+  "references": [
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-sumo/sumo/v1_27_1/src/microsim/output/MSInductLoop.cpp",
+      "sections": "notifyMove; notifyLeave; writeXMLOutput"
+    },
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-sumo/sumo/v1_27_1/src/microsim/output/MSInstantInductLoop.cpp",
+      "sections": "notifyLeave"
+    }
+  ],
+  "inference": "Near-end complete point-loop passages require a compatible exit from the detector lane. The upper bound also needs fixed forward routes, instantaneous lane changes, no repeated roads, no collision, teleport or relocation.",
+  "claim_boundary": "Conditional topology/measurement inference only, not field truth or calibration feasibility."
+}

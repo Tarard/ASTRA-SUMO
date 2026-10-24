@@ -1,0 +1,345 @@
+{
+  "kind": "complete_workflow_loaded_link_verification",
+  "date": "2026-10-18",
+  "promotion_authority": false,
+  "implementation": {
+    "commit": "22827f8c5b199dae08a44d120c7f65d56164ff60",
+    "implementation_sha256": {
+      "plugins/astra-sumo/src/astra_sumo/core/hamburg_topology_workflow.py": "4cbf51b7e7b2963b2aa7c677a11994a083e0fbf039f969409134d3c253745115",
+      "plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py": "6e08af12e576c06373e8ed42ae954fc562d3087319f05ed1c2e1cbb1cddddfc5",
+      "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py": "bdba0cf5a5144f3c168dad9ee8de3958fdbd134f880955759782d26f1c6dd043"
+    }
+  },
+  "construction": {
+    "request": {
+      "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+      "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+    },
+    "workflow": {
+      "path": "outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v2/workflow.manifest.json",
+      "sha256": "2f2ebe2cf9fd3d4f352330640972f9976255427624117589072f0d46765994fa"
+    },
+    "candidate_manifest": {
+      "path": "outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v2/candidate/manifest.json",
+      "sha256": "53dca1735e690b82729eabcea702e78577a44f3b33299c23f461f34f1483c592"
+    },
+    "status": "review_required",
+    "stage_statuses": {
+      "source_network": "pass",
+      "road_geometry": "not_applicable",
+      "context_intersections": "pass",
+      "construction_coverage": "review_required",
+      "physical_areas": "pass",
+      "intersection_binding": "pass",
+      "movement_geometry": "pass",
+      "network_construction": "pass",
+      "outside_geometry": "pass",
+      "construction_audit": "review_required",
+      "movement_probes": "pass",
+      "corridor_routes": "pass",
+      "loaded_link_preservation": "pass"
+    },
+    "topology_complete": true,
+    "inputs_unchanged": true,
+    "generated_inputs_unchanged": true,
+    "candidate_unchanged": true,
+    "candidate": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\runtime_workflow_20261018_v1\\hamburg-rebuild-v2\\candidate\\hamburg-five-aerial-combined.net.xml",
+      "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+    },
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "candidate_bytes_equal_to_previous": true,
+    "previous_candidate": {
+      "path": "outputs/interaction_diagnosis_20261016_v1/hamburg-order-fixed-v2/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "0eb22507926899f40dc1cd356dc52799d14da5cd3bff6fc75c27b17d2447f30a"
+    }
+  },
+  "global_preservation": {
+    "report": {
+      "path": "C:/Users/huqio/Documents/ASTRA-SUMO/outputs/runtime_workflow_20261018_v1/hamburg-rebuild-v2/loaded-links/link-preservation.json",
+      "sha256": "3e0c19a722212b21444d0f33a215ee8ca4aa4e8a3c54f546adff4818bda245ec"
+    },
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 3,
+      "source": 125
+    },
+    "differences": 0,
+    "native_junction_references": {
+      "LSA2349_part0": "native-0",
+      "LSA2394_part0": "native-0",
+      "LSA2403_part0": "native-1"
+    },
+    "native_hash_errors": [],
+    "boundary_mapping_errors": [],
+    "observation_errors": {}
+  },
+  "candidate_preservation": {
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 2,
+      "source": 126
+    }
+  },
+  "most_control": {
+    "report": {
+      "path": "outputs/runtime_workflow_20261018_v1/most-width-v2/report.json",
+      "sha256": "e9b44baa1114e1bee82a2eda269b775a08291ee7c808e7cb64fc20769cff9537"
+    },
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+      "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+    },
+    "candidate": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\runtime_workflow_20261018_v1\\most-width-v2\\candidate.net.xml",
+      "sha256": "090527e6b1fa777d0318584b171eb9b6886928d45bc3cc3497bff2036487f344"
+    },
+    "source_unchanged": true,
+    "converted_normal_edge_count": 9,
+    "source_normal_edge_count": 4404,
+    "status": "pass",
+    "compared_junction_counts": {
+      "native": 2,
+      "source": 2002
+    },
+    "difference_count": 0
+  },
+  "verification_runs": [
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/targeted-v2.log",
+        "sha256": "db623d4e1b9d675cb5a92b28420c782f50842e950afb03ac818db55dc527ec4b"
+      },
+      "passed": 100
+    },
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/final-unit-v3.log",
+        "sha256": "92242d03feca2275faa835c16486504857092b55296d9af1a5c17b9d1c713633"
+      },
+      "passed": 53
+    },
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/signal-bindings-v5.log",
+        "sha256": "ee0d23765632e4a143625fcf7364d32a3f5c0af7decce2461cdb190461c0424e"
+      },
+      "passed": 18
+    },
+    {
+      "record": {
+        "path": "outputs/runtime_workflow_20261018_v1/native-final-v6.log",
+        "sha256": "f383e24c68dd1808dcb88820599fc387aed096f0d28c357c9fe1dd0c30fe103c"
+      },
+      "passed": 38
+    }
+  ],
+  "limits": [
+    "The preserved signal assignments do not establish historical signal timing.",
+    "The native outputs remain model references, not field ground truth.",
+    "Construction coverage and the broader construction audit still require review.",
+    "No driving-performance improvement is claimed. The candidate bytes and its prior driving limitations are unchanged."
+  ],
+  "priority_and_status_follow_up": {
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+        "sha256": "1ec529f5bbe2e273baa5adddae8161635e4ae25240cbc07762850aa7455d86e8"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py",
+        "sha256": "065072f56b754ee20b7f2fa73fa3ab259d7dce4e5f34803cb0bc0ed7fe3cd985"
+      }
+    ],
+    "global_report": {
+      "path": "outputs/runtime_workflow_20261018_v1/priority-final-v8/link-preservation.json",
+      "sha256": "31d7d6d7bd0c1ac66f45bb093a3f6c3af49a44931d08945e1485f341198ca3f9"
+    },
+    "global_counts": {
+      "native": 3,
+      "source": 125
+    },
+    "global_difference_count": 0,
+    "most_report": {
+      "path": "outputs/runtime_workflow_20261018_v1/most-priority-v9/link-preservation.json",
+      "sha256": "8648e313649b76acee60f71bd138670fc7aebf5209cb5dff49b9e41782098358"
+    },
+    "most_counts": {
+      "native": 2,
+      "source": 2002
+    },
+    "most_difference_count": 0,
+    "candidate_unavailable_status": "review_required",
+    "priority_scope": "Links without a signal assignment. Controlled colors remain phase dependent.",
+    "signal_program_scope": "Only the active program loaded from the network. Other programs, switching plans, runtime additional files and historical timing are not verified.",
+    "verification_runs": [
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/priority-v7.log",
+          "sha256": "980ceb81c96d7ca55f99d1ee4db85d42728e567cb2081648de846103fc2fe2f0"
+        },
+        "passed": 104
+      },
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/priority-edits-v9.log",
+          "sha256": "3bac1cb61685bfb46c6562919ab71a581d0de588887c1ff9fe4328bfd750d888"
+        },
+        "passed": 25
+      }
+    ],
+    "mutation_tests": [
+      "test_signal_index_swap_is_detected_without_changing_saved_movement_paths",
+      "test_vehicle_stop_state_change_is_detected_without_changing_conflicts"
+    ]
+  },
+  "load_warning_follow_up": {
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+        "sha256": "e468597107905a5406c3feb01f52fc967d691bf5da36df624412b1a887803e8b"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+        "sha256": "89f0ed98d7f0e5e57bbfcd32e4412c0f6bad4c4415bc31ebbdc1b5365a635d82"
+      }
+    ],
+    "observations": {
+      "hamburg": {
+        "status": "pass",
+        "counts": {
+          "native": 3,
+          "source": 125
+        },
+        "differences": 0,
+        "warning_status": "measured",
+        "warning_counts": {
+          "inherited": 0,
+          "source_only": 0,
+          "candidate_only": 0
+        },
+        "by_input": {
+          "source": 0,
+          "candidate": 0,
+          "native-0": 0,
+          "native-1": 0
+        },
+        "report": {
+          "path": "outputs\\runtime_workflow_20261018_v1\\load-warnings-v11-hamburg\\link-preservation.json",
+          "sha256": "d50aa4d09e7509238afcb76293f16ce1451cd656040583c7ef165bc427473785"
+        },
+        "new_warning_lines": {}
+      },
+      "most": {
+        "status": "pass",
+        "counts": {
+          "native": 2,
+          "source": 2002
+        },
+        "differences": 0,
+        "warning_status": "measured",
+        "warning_counts": {
+          "inherited": 0,
+          "source_only": 0,
+          "candidate_only": 0
+        },
+        "by_input": {
+          "source": 0,
+          "candidate": 0,
+          "native-0": 0
+        },
+        "report": {
+          "path": "outputs\\runtime_workflow_20261018_v1\\load-warnings-v11-most\\link-preservation.json",
+          "sha256": "3fdda2e9af8570de1a65667db598d27bf10e3bd3ec660de16f578c7ff22dcdaf"
+        },
+        "new_warning_lines": {}
+      }
+    },
+    "verification_runs": [
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-warnings-v10.log",
+          "sha256": "a44fe320b475dd07f8b5b96242a935804601d2d2c7baab7da5e33665a509f803"
+        },
+        "passed": 39
+      },
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-warnings-v12.log",
+          "sha256": "c5d47a7b723ef21b448c0059fdef21f8ab49255f5b058269caa25d7500186fa4"
+        },
+        "passed": 213
+      }
+    ],
+    "scope": "Complete native network-load logs and exact source/candidate warning-line counts. Partial native networks are retained separately. No vehicles or simulation steps. Warning differences are diagnostic and do not add an acceptance condition.",
+    "limits": [
+      "Warning text can change after identifier changes.",
+      "Driving warnings and field validity are not measured.",
+      "The retained candidate network is unchanged."
+    ]
+  },
+  "load_error_and_warning_surface_follow_up": {
+    "reviewed_revision": "6b0bc0f",
+    "implementation_files": [
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_link_semantics.py",
+        "sha256": "1b64a14053b7014c9294212071ebbbe3443a67fee648f52171ccc7925c1ec06a"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+        "sha256": "14fbe9fb52e47b16f6abd00f14a617ec7076247aa23eb88665fccd7e84f5336c"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_aerial_corridor_candidate.py",
+        "sha256": "92c4069423b5e3be88635e360806197ec6482da73d01974b174c280cc6f77223"
+      },
+      {
+        "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_topology_workflow.py",
+        "sha256": "c0cbc7d2b14463a25b3a5eb1db67df5a0576cce5c037ac40a78736db5d2f00cf"
+      }
+    ],
+    "verification_runs": [
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-errors-v13.log",
+          "sha256": "64c0841eae06e7c08a6853b3a0bcfd7620271be2ed12d544f721b2cc504d7626"
+        },
+        "passed": 130
+      },
+      {
+        "record": {
+          "path": "outputs/runtime_workflow_20261018_v1/load-error-messages-v15.log",
+          "sha256": "2edbe7e05184f0daff0de1d6fee65306b10a5f6bc715081a23657dcc3285b131"
+        },
+        "passed": 3
+      }
+    ],
+    "native_failed_load": {
+      "status": "unavailable",
+      "warning_status": "unavailable",
+      "errors": [
+        "Error: An unknown lane (':does_not_exist_0') should be set as a via-lane for lane '193847534#1_0'."
+      ],
+      "report": {
+        "path": "outputs/runtime_workflow_20261018_v1/load-error-v16-native/observation/link-preservation.json",
+        "sha256": "374001895f26bd69867e309b8b90075ce0e348c35fdc7a57fe6a99d1e0cba3c6"
+      }
+    },
+    "behavior": [
+      "Structured load logs retain Error lines as well as Warning lines.",
+      "An incomplete warning observation has no zero-warning result.",
+      "Typed edits, the candidate manifest and the complete workflow use the same diagnostic warning summary.",
+      "Warning differences do not change construction decisions."
+    ],
+    "remaining_limit": "Warning matching uses exact text. Changed identifiers can appear as candidate-only lines. This is not proof of a new defect."
+  }
+}

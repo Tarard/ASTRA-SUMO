@@ -260,21 +260,19 @@ def bind_map_lanes_to_network(
     max_distance_m: float = 50.0,
     max_heading_error_deg: float = 80.0,
     network_projection: str | None = None,
+    lane_shapes: Mapping[tuple[str, str], Sequence[tuple[float, float]]] | None = None,
 ) -> list[MapLaneBinding]:
     net, network_lanes = read_network_lanes(net_file)
     prepared: list[_PreparedMapLane] = []
     for source_index, lane in enumerate(map_lanes):
-        if not lane.is_vehicle or not lane.points_m:
+        if not lane.is_vehicle or (not lane.points_m and (lane_shapes is None or (lane.node_id, lane.lane_id) not in lane_shapes)):
             continue
-        map_xy = tuple(
-            _map_point_to_network(net, lane, point, network_projection=network_projection)
-            for point in lane.points_m
-        )
-        source_heading = lane_heading_degrees(map_xy, ingress=lane.is_ingress)
+        map_xy = _map_lane_network_shape(net, lane, network_projection, lane_shapes)
+        source_heading = _anchor_lane_heading(map_xy, ingress=lane.is_ingress)
         anchor = map_xy[0]
         candidates: list[_MapLaneCandidate] = []
         for network_lane in network_lanes:
-            position, distance, heading = project_point_to_polyline(anchor, network_lane.shape)
+            position, distance, heading = project_point_to_lane(anchor, network_lane)
             heading_error = (
                 angular_difference_degrees(source_heading, heading) if source_heading is not None else None
             )
@@ -329,6 +327,7 @@ def bind_map_lanes_to_explicit_network_lanes(
     max_distance_m: float = 50.0,
     max_heading_error_deg: float = 80.0,
     network_projection: str | None = None,
+    lane_shapes: Mapping[tuple[str, str], Sequence[tuple[float, float]]] | None = None,
 ) -> list[MapLaneBinding]:
     """Project selected official MAP lanes onto caller-proven SUMO lanes.
 
@@ -358,7 +357,7 @@ def bind_map_lanes_to_explicit_network_lanes(
     map_lane_by_key = {
         (_normalize_node(lane.node_id), lane.lane_id): lane
         for lane in map_lanes
-        if lane.is_vehicle and lane.points_m
+        if lane.is_vehicle and (lane.points_m or lane_shapes is not None and (lane.node_id, lane.lane_id) in lane_shapes)
     }
     unknown_keys = sorted(set(requested) - set(map_lane_by_key))
     if unknown_keys:
@@ -386,14 +385,9 @@ def bind_map_lanes_to_explicit_network_lanes(
                 )
             )
             continue
-        map_xy = tuple(
-            _map_point_to_network(net, lane, point, network_projection=network_projection)
-            for point in lane.points_m
-        )
-        source_heading = lane_heading_degrees(map_xy, ingress=lane.is_ingress)
-        position, distance, network_heading = project_point_to_polyline(
-            map_xy[0], network_lane.shape
-        )
+        map_xy = _map_lane_network_shape(net, lane, network_projection, lane_shapes)
+        source_heading = _anchor_lane_heading(map_xy, ingress=lane.is_ingress)
+        position, distance, network_heading = project_point_to_lane(map_xy[0], network_lane)
         heading_error = (
             angular_difference_degrees(source_heading, network_heading)
             if source_heading is not None
@@ -508,6 +502,19 @@ def _minimum_cost_parallel_assignment(
     independent_edge_ids = {item.network_lane.edge_id for item in independent_candidates}
     if len(independent_lane_ids) == len(group) and len(independent_edge_ids) == 1:
         return independent, False
+
+    def split_road_arms():
+        if len(independent_edge_ids) == 1:
+            return independent, False
+        assignments, ambiguous = {}, False
+        for edge_id in sorted(independent_edge_ids):
+            members = [item for item, chosen in zip(group, independent) if chosen.network_lane.edge_id == edge_id]
+            restricted = [replace(item, candidates=tuple(c for c in item.candidates if c.network_lane.edge_id == edge_id))
+                          for item in members]
+            chosen, uncertain = _minimum_cost_parallel_assignment(restricted)
+            assignments.update((item.source_index, candidate) for item, candidate in zip(members, chosen))
+            ambiguous |= uncertain
+        return tuple(assignments[item.source_index] for item in group), ambiguous
     candidate_edge_ids = sorted(
         set.intersection(
             *(
@@ -551,14 +558,14 @@ def _minimum_cost_parallel_assignment(
             )
 
     if not ranked:
-        return independent, False
+        return split_road_arms()
     ranked.sort(key=lambda item: (item[0], item[1], item[2]))
     independent_cost = sum(item.score for item in independent_candidates)
     # A coherent cross-section may cost slightly more than independently snapping
     # every official lane to a micro stub.  A larger displacement is not evidence
     # for silently choosing a different road and therefore retains the fallback.
     if ranked[0][0] > independent_cost + 2.0 * len(group):
-        return independent, False
+        return split_road_arms()
     ambiguous = len(ranked) > 1 and math.isclose(
         ranked[0][0],
         ranked[1][0],
@@ -615,27 +622,33 @@ def bind_count_streams_to_network(
     *,
     period: int = 900,
     network_projection: str | None = None,
+    lane_shapes: Mapping[tuple[str, str], Sequence[tuple[float, float]]] | None = None,
 ) -> list[DetectorMapping]:
     net, network_lanes = read_network_lanes(net_file)
-    lane_bindings = list(map_bindings or bind_map_lanes_to_network(net_file, map_lanes))
+    lane_bindings = list(map_bindings or bind_map_lanes_to_network(net_file, map_lanes,
+        network_projection=network_projection, lane_shapes=lane_shapes))
+    network_lane_by_id = {lane.lane_id: lane for lane in network_lanes}
     lane_binding_index = {
         (_normalize_node(binding.node_id), binding.map_lane_id): binding for binding in lane_bindings
     }
     lanes_by_node: dict[str, list[MapLane]] = {}
     for lane in map_lanes:
-        if lane.is_vehicle and lane.is_ingress and lane.points_m:
+        if lane.is_vehicle and lane.is_ingress and (lane.points_m or lane_shapes is not None and (lane.node_id, lane.lane_id) in lane_shapes):
             lanes_by_node.setdefault(_normalize_node(lane.node_id), []).append(lane)
 
     results: list[DetectorMapping] = []
     for stream in streams:
         node_lanes = lanes_by_node.get(_normalize_node(stream.node_id), [])
-        matched_map_lane, map_distance = _nearest_map_lane(stream, node_lanes)
+        point = _convert_network_lonlat2xy(net, stream.longitude, stream.latitude, network_projection=network_projection)
+        matched_map_lane, map_distance = _nearest_map_lane(stream, node_lanes, point=point, lane_shapes=lane_shapes)
         binding = (
             lane_binding_index.get((_normalize_node(stream.node_id), matched_map_lane.lane_id))
             if matched_map_lane is not None
             else None
         )
-        if binding is not None and binding.mapping_status == "active":
+        if binding is not None and binding.mapping_status == "active" and binding.sumo_lane in network_lane_by_id:
+            network_lane = network_lane_by_id[binding.sumo_lane]
+            position, distance, _ = project_point_to_lane(point, network_lane)
             results.append(
                 DetectorMapping(
                     detector_id=stream.detector_id,
@@ -650,8 +663,8 @@ def bind_count_streams_to_network(
                     official_map_distance_m=map_distance,
                     sumo_edge=binding.sumo_edge,
                     sumo_lane=binding.sumo_lane,
-                    lane_position=binding.lane_position,
-                    distance_m=binding.distance_m,
+                    lane_position=_safe_lane_position(position, network_lane.length),
+                    distance_m=distance,
                     heading_error_deg=binding.heading_error_deg,
                     period=period,
                     mapping_confidence=binding.mapping_confidence,
@@ -663,15 +676,9 @@ def bind_count_streams_to_network(
 
         # MAP geometry can be absent or not match a cleaned network.  The nearest
         # lane fallback is emitted for review but never silently promoted.
-        x, y = _convert_network_lonlat2xy(
-            net,
-            stream.longitude,
-            stream.latitude,
-            network_projection=network_projection,
-        )
         nearest = min(
             (
-                (*project_point_to_polyline((x, y), lane.shape)[:2], lane)
+                (*project_point_to_lane(point, lane)[:2], lane)
                 for lane in network_lanes
             ),
             key=lambda item: item[1],
@@ -1873,9 +1880,23 @@ def project_point_to_polyline(
     return best_position, best_distance, best_heading
 
 
-def _nearest_map_lane(stream: CountStream, lanes: Sequence[MapLane]) -> tuple[MapLane | None, float | None]:
+def project_point_to_lane(point, lane):
+    """Convert a physical XY projection to SUMO's logical lane-position scale."""
+    position, distance, heading = project_point_to_polyline(point, lane.shape)
+    geometric_length = sum(math.dist(a[:2], b[:2]) for a, b in zip(lane.shape, lane.shape[1:]))
+    if geometric_length > 0:
+        position *= lane.length / geometric_length
+    return position, distance, heading
+
+
+def _nearest_map_lane(stream: CountStream, lanes: Sequence[MapLane], *, point=None, lane_shapes=None) -> tuple[MapLane | None, float | None]:
     best: tuple[float, MapLane] | None = None
     for lane in lanes:
+        if lane_shapes is not None and (lane.node_id, lane.lane_id) in lane_shapes:
+            _, distance, _ = project_point_to_polyline(point, lane_shapes[lane.node_id, lane.lane_id])
+            if best is None or distance < best[0]:
+                best = (distance, lane)
+            continue
         cos_lat = math.cos(math.radians(lane.ref_latitude))
         x = (stream.longitude - lane.ref_longitude) * 111_320.0 * cos_lat
         y = (stream.latitude - lane.ref_latitude) * 110_540.0
@@ -1883,6 +1904,22 @@ def _nearest_map_lane(stream: CountStream, lanes: Sequence[MapLane]) -> tuple[Ma
         if best is None or distance < best[0]:
             best = (distance, lane)
     return (None, None) if best is None else (best[1], best[0])
+
+
+def _anchor_lane_heading(points, *, ingress):
+    if not points:
+        return None
+    following = next((point for point in points[1:] if math.dist(point[:2], points[0][:2]) >= 1e-9), None)
+    return lane_heading_degrees([points[0], following], ingress=ingress) if following is not None else None
+
+
+def _map_lane_network_shape(net, lane, network_projection, lane_shapes):
+    if lane_shapes is not None and (lane.node_id, lane.lane_id) in lane_shapes:
+        points = tuple(tuple(map(float, point[:2])) for point in lane_shapes[lane.node_id, lane.lane_id])
+        if len(points) < 2 or any(not all(map(math.isfinite, point)) or len(point) != 2 for point in points):
+            raise ValueError("Reference lane geometry requires at least two finite network XY points.")
+        return points
+    return tuple(_map_point_to_network(net, lane, point, network_projection=network_projection) for point in lane.points_m)
 
 
 def _convert_network_lonlat2xy(

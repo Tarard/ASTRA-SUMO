@@ -1,0 +1,49 @@
+{
+  "formal_result": false,
+  "artificial_vehicles_per_case": 40,
+  "results": {
+    "baseline": {
+      "passed": true,
+      "completion": {
+        "loaded": 40,
+        "inserted": 40,
+        "arrived": 40,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_version": "SUMO 1.27.1",
+      "K1_first_front_exit_s": 268.8,
+      "K1_last_front_exit_s": 542.6
+    },
+    "candidate": {
+      "passed": true,
+      "completion": {
+        "loaded": 40,
+        "inserted": 40,
+        "arrived": 40,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "native_version": "SUMO 1.27.1",
+      "K1_first_front_exit_s": 268.8,
+      "K1_last_front_exit_s": 455.3
+    }
+  },
+  "both_route_checks_passed": true,
+  "claim_boundary": "Matched artificial route check only. Road-front exit times are diagnostics and do not replace native E1 counts or establish field capacity. Real targets remain unchanged.",
+  "destination_counts": {
+    "baseline": {
+      "19728446#0": 40
+    },
+    "candidate": {
+      "142944538": 36,
+      "19728446#0": 4
+    }
+  }
+}

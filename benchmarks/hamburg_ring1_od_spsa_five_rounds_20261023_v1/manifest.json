@@ -1,0 +1,341 @@
+{
+  "formal_result": false,
+  "source_commit": "8379aa391541eed045b803a34ca4eaa31210b46d",
+  "files": [
+    {
+      "path": "baseline-attribution/entry-pressure.csv",
+      "bytes": 332,
+      "sha256": "a6b4a16e6360e17d22e437ee3b624f7aeb3c69e83ca2f0a407510f8b93346bc6"
+    },
+    {
+      "path": "baseline-attribution/field-population.csv",
+      "bytes": 603,
+      "sha256": "c35ac8cd344d56781f7727fac6c538951a4180c6a67efaa25645d8f3b036e48e"
+    },
+    {
+      "path": "baseline-attribution/field-total-and-timing.csv",
+      "bytes": 539,
+      "sha256": "4f2578f8e132fd86cdc10870af688c39ba6d2a5cb4d30d051838ae7dcd1d227a"
+    },
+    {
+      "path": "baseline-attribution/observed-response.npz",
+      "bytes": 5753,
+      "sha256": "ea6a672fc13addee7fb1c2d564605c1025620a194080856e2e54ee1e995a5603"
+    },
+    {
+      "path": "baseline-attribution/od-departure-cells.csv",
+      "bytes": 20875,
+      "sha256": "bae9b57ca9e5179d00297aa78242f820b16ea9b6b2fa37cc6c17b389fc83aa0f"
+    },
+    {
+      "path": "baseline-attribution/population-time-accounting.json",
+      "bytes": 302,
+      "sha256": "53ea9b0fcaf712a217f5234519ffc779dbd6fd694a4f5c1d7c9593e624e1eafb"
+    },
+    {
+      "path": "baseline-attribution/results.json",
+      "bytes": 2673,
+      "sha256": "1a40d0bf38c12ebc81706e20a523eb83cb84291490c3aae6bd894ddf08506a88"
+    },
+    {
+      "path": "evaluations/initial/collisions.xml.gz",
+      "bytes": 747,
+      "sha256": "1a496aa5bd20f31b84b9354418dae84b41cd8b57c3193290f4f7d2b5b175d6c7"
+    },
+    {
+      "path": "evaluations/initial/command.json.gz",
+      "bytes": 1362,
+      "sha256": "d17f481235d2db55fdd038ecbb77b751acc1b72e72381c1affd2c2a126b7a84f"
+    },
+    {
+      "path": "evaluations/initial/demand.rou.xml.gz",
+      "bytes": 148177,
+      "sha256": "d9eb945cce3fbe79e43cf18a87b59db441843c4af02582409c86d3ddcd09ff60"
+    },
+    {
+      "path": "evaluations/initial/e1.add.xml.gz",
+      "bytes": 476,
+      "sha256": "b648d2e66f6df75e9840da6808fa397f7d30a6b09e0f7fd40c1a0d94d8c4559a"
+    },
+    {
+      "path": "evaluations/initial/evaluation.json",
+      "bytes": 461,
+      "sha256": "761680a195f6f1796110cda1e8a8e44f29b4520fc0dc8a9837aa79b15585a4ef"
+    },
+    {
+      "path": "evaluations/initial/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "evaluations/initial/field-comparison.csv",
+      "bytes": 7844,
+      "sha256": "beacc440bdfedef762d1b202f75845de4698776b2a2fd3482dd7c010bc83b295"
+    },
+    {
+      "path": "evaluations/initial/field-counts.xml.gz",
+      "bytes": 8936,
+      "sha256": "d4faa122424c6c62cc5ff1bcba1376563f7cd60974e5ed43f451724dd1ca11dc"
+    },
+    {
+      "path": "evaluations/initial/instant.add.xml.gz",
+      "bytes": 388,
+      "sha256": "ec39967b6921b860c3e88468ecaa292a5ccae0f4f6df4c1ae33a6d514677d9ad"
+    },
+    {
+      "path": "evaluations/initial/lane-intentions.json.gz",
+      "bytes": 25479,
+      "sha256": "a2d8412c62dc8a462621f950dad4778a4528c0d0390bfcd860a64f93468cc51b"
+    },
+    {
+      "path": "evaluations/initial/native-request.json.gz",
+      "bytes": 652,
+      "sha256": "0d280aeae2414054d52abca7c33935a0935cc5c481215a38eed94099a4546464"
+    },
+    {
+      "path": "evaluations/initial/network.net.xml.gz",
+      "bytes": 234289,
+      "sha256": "6fc78e1850db23019a2fbaf44f699b5ad8cab96b73acfc815bf160b7b3a3875f"
+    },
+    {
+      "path": "evaluations/initial/od-vector.json",
+      "bytes": 5253,
+      "sha256": "2666c352cf09f6305244e1489b3bf1e8f7ff7f33e07f7462c8c2ca1b5dcde7f3"
+    },
+    {
+      "path": "evaluations/initial/run.json.gz",
+      "bytes": 273399,
+      "sha256": "121bfa8253f6e2a2a19c5addb204f57f82b1bb2518f9cc0da0591a89c12f302a"
+    },
+    {
+      "path": "evaluations/initial/signal-programs.add.xml.gz",
+      "bytes": 1944,
+      "sha256": "ff8da44ab9cd38596335a08733b99009487ca91bb745bc4a42fa7182f9a71ddc"
+    },
+    {
+      "path": "evaluations/initial/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "evaluations/initial/stall-monitor.json.gz",
+      "bytes": 269631,
+      "sha256": "3aae149667912d023e05fe5a2d06eb22cb1c7f611474a5554c1907178f8f456e"
+    },
+    {
+      "path": "evaluations/initial/station-comparison.csv",
+      "bytes": 1605,
+      "sha256": "3c034084fb84ccf76f3b933c92419a4f230c71a6956adb15dc0b9de816f9d587"
+    },
+    {
+      "path": "evaluations/initial/summary.xml.gz",
+      "bytes": 3299768,
+      "sha256": "43d7764c719500a363984934aba5708707ff550239d17c7f45ba4beea18e28f6"
+    },
+    {
+      "path": "evaluations/initial/sumo-errors.log.gz",
+      "bytes": 673,
+      "sha256": "781a0e4fe9ddb01d2a3b47d2456349580c7683e0908eecd05bf7dd75dac02373"
+    },
+    {
+      "path": "evaluations/initial/sumo.log.gz",
+      "bytes": 1217,
+      "sha256": "070947fb13aa68c66a2bd1214bde1bff9e1f64962611635c59d32e4b4f898e54"
+    },
+    {
+      "path": "evaluations/initial/tripinfo.xml.gz",
+      "bytes": 356512,
+      "sha256": "0485856cc2cd94b70055a572d5d8e5483eef7b9b460066cad5404a3e8b7b1ecf"
+    },
+    {
+      "path": "evaluations/initial/vehicle-routes.xml.gz",
+      "bytes": 569104,
+      "sha256": "f41f8050658645daefef045f009f28e4a4cea1a1343059d61f1021f4a134e9ff"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/collisions.xml.gz",
+      "bytes": 1000,
+      "sha256": "746788e7ce60bf80a671410dffb257eaf0cddf28d57bae435cb42e914d00f0e7"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/command.json.gz",
+      "bytes": 1674,
+      "sha256": "ea9b3847d22ba8c2f692440dc481479024dd14218197ac23249fb6f4adab4bfc"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/demand.rou.xml.gz",
+      "bytes": 146847,
+      "sha256": "b1cbcb6972a52696bc4a7f0fd5790aebc1aea4bcefd77dd88ff61ad0696e815c"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/e1.add.xml.gz",
+      "bytes": 482,
+      "sha256": "9dbb9d655a8ff7dfe7dda45ea7e16e7b05117ce15aef03330e4756297e64b384"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/evaluation.json",
+      "bytes": 447,
+      "sha256": "3f9d796c24c4e0bbe9d6763fba9f7b83cacfebf9edc3d9d9b2b88eeee4fe5c90"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/field-comparison.csv",
+      "bytes": 7856,
+      "sha256": "4bb202d4c5fae13b216a4f60e1ee9fb800ca322d12f566f10ad68cd23b245339"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/field-counts.xml.gz",
+      "bytes": 8934,
+      "sha256": "fc9867830aab64959d8d740a513347ce6dbace8dcd430ddb8ed9f61f1e35223c"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/instant.add.xml.gz",
+      "bytes": 396,
+      "sha256": "b3e5bc8a9f51ef414a10e54f7dd42c5e71246a92d1802effea87babe184f0343"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/lane-intentions.json.gz",
+      "bytes": 25340,
+      "sha256": "8346aeaf3a43e4d0e1460ab4c6797a198c4d5a42b79a9c9a073a102f322938cd"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/native-request.json.gz",
+      "bytes": 662,
+      "sha256": "242e6eed91bec7bd37204788e0a4e7fddce5eda4bb29315656bc44fca7e1e34e"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/network.net.xml.gz",
+      "bytes": 234289,
+      "sha256": "6fc78e1850db23019a2fbaf44f699b5ad8cab96b73acfc815bf160b7b3a3875f"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/od-vector.json",
+      "bytes": 5238,
+      "sha256": "95fe684935f71618f87204a25b97a3152b3cfee9a5b911db6f5f9a444490db30"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/run.json.gz",
+      "bytes": 283881,
+      "sha256": "baeb6a5e6555eba5bf0dd01cbee31511678a8287313441af94443dbe519a778a"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/signal-programs.add.xml.gz",
+      "bytes": 1944,
+      "sha256": "ff8da44ab9cd38596335a08733b99009487ca91bb745bc4a42fa7182f9a71ddc"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/stall-monitor.json.gz",
+      "bytes": 280113,
+      "sha256": "d31614ea3b294dba46244d2221c1e24727e8dd127b783508a36ad215cdb1c8ff"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/station-comparison.csv",
+      "bytes": 1603,
+      "sha256": "673777d5e366da84c76e73527c17f933c34649ed4df134b2c3dce3834c3e7c7d"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/summary.xml.gz",
+      "bytes": 3313636,
+      "sha256": "dab600ba32ac225abd729f6afd0ef811dff20c3054ba6c1ac63f6589e08e0154"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/sumo-errors.log.gz",
+      "bytes": 961,
+      "sha256": "61c20cdca9e3d88f599802aaa987d83659b215567fb86f325462f25756ae5d7e"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/sumo.log.gz",
+      "bytes": 1537,
+      "sha256": "bcd0bd4ee01404aaac9ee73ecc295c8e2b39a717314ad8100a546872e6f81a44"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/tripinfo.xml.gz",
+      "bytes": 369482,
+      "sha256": "7e9c780ac6735df61bbf0bddc888039842cee11f3e06fb701939d59dfe6cbdb8"
+    },
+    {
+      "path": "evaluations/iteration-0001-plus/vehicle-routes.xml.gz",
+      "bytes": 595755,
+      "sha256": "4cb9714b31e3c6422a9e62028cd39152ffb756db87d26ccec5d9f6c39038f6cc"
+    },
+    {
+      "path": "evaluations.json",
+      "bytes": 1060,
+      "sha256": "5c18aab6621bed9dd5a755775da617aec7b0de2237ef903d6915886a504a8542"
+    },
+    {
+      "path": "execution.json",
+      "bytes": 45506,
+      "sha256": "f35f29b72ee511230873879e2d551da4b90d82ac6f35b60afb92aa05c6ba8734"
+    },
+    {
+      "path": "initial-od-vector.json.gz",
+      "bytes": 654,
+      "sha256": "6bab2ef714e01087d971158b443d640c6de9564f2f36eb733cf20ffa0da4ff2c"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 1530,
+      "sha256": "af1e90031988fef0b6d5f9983318869253b4843285a6f6df48cd9510ea8010d3"
+    },
+    {
+      "path": "od-model.json.gz",
+      "bytes": 170702,
+      "sha256": "8f40142bb46404c2b627d94924d4df017d9dc9c88e41d0ba29c085a86fe4054a"
+    },
+    {
+      "path": "preflight.json",
+      "bytes": 1296,
+      "sha256": "0929d08ca8710723895d3a4363f64e35034171e6f3a0a27712f8e4bed8751beb"
+    },
+    {
+      "path": "prepare.py",
+      "bytes": 2951,
+      "sha256": "a1c3b12bc69c3007476f3d99fd37525b0bcba5785944d782c74c375c4861d777"
+    },
+    {
+      "path": "progress.json",
+      "bytes": 130,
+      "sha256": "dbcc1057c0c0ffde9ab6f1a3cc2c3c3bec1aac2c6ff1ba6dc805e6ac6b388aab"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6784,
+      "sha256": "d554ce974d950a039b20a8a3c794f6275b96f5bf7dc7c4abcca895d548fa8c64"
+    },
+    {
+      "path": "result.json",
+      "bytes": 4648,
+      "sha256": "afbc53764c9c82570632660ecca4cb8cf532fffcbd4837e7ddb1d3304a3577c5"
+    },
+    {
+      "path": "scenario.json.gz",
+      "bytes": 1596,
+      "sha256": "a37b8e57b57d2cb9ff7b5671e403156aeda7a6520cff4971aca981d226ab55c7"
+    },
+    {
+      "path": "settings.json",
+      "bytes": 133,
+      "sha256": "d665bce8d009b33c6cf42b100c7dfc0d99a3918751eec477f5b4c2f2f15a3c38"
+    },
+    {
+      "path": "study.stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "study.stdout.log",
+      "bytes": 4649,
+      "sha256": "2d8a3fcd3289f40796e79f475d34e58c03219c779d15588e0102ab5445b3aa35"
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-22T00:25:41.370987+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <fcd-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\participants-fcd.xml"/>
+        <fcd-output.skip-empty value="true"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <lanechange-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\lanechanges.xml"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\collisions.xml"/>
+        <save-state.times value="14399.9"/>
+        <save-state.prefix value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\states\state"/>
+        <save-state.suffix value=".xml.gz"/>
+        <save-state.rng value="true"/>
+        <save-state.precision value="12"/>
+    </output>
+
+    <time>
+        <end value="14400"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-three-node-body-full-native-20261022-v1\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <fcd_device>
+        <device.fcd.probability value="0"/>
+        <device.fcd.explicit value="initialization_hh_0119_Z_12_31546_b1_p98_v16,initialization_hh_0119_Z_13_34018_b1_p175_v113,initialization_hh_0119_Z_13_34018_b1_p175_v118,initialization_hh_0535_Z_4_33055_b2_p281_v28,readme_f4_b4_p208_v5,readme_f5_b4_p56_v25"/>
+    </fcd_device>
+
+    <traci_server>
+        <remote-port value="8328"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<collisions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/collision_file.xsd">
+</collisions>

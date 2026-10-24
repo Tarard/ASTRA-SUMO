@@ -15,10 +15,17 @@ from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_lane_connection_repair import HAMBURG_DIVERGE_LANE_SHAPE
 
-_JUNCTION = "266199070"
-_BRANCH = "234421319"
-_THROUGH = "24483344#0"
-_INGRESS = "37693933#1"
+from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision, with_loaded_turn_permissions, loaded_turn_permissions
+from .junction_boundary_rebuild import _signature
+
+_SITE = load_site_parameters('hamburg_road_geometry')
+
+
+_JUNCTION = _SITE['_JUNCTION']
+_BRANCH = _SITE['_BRANCH']
+_THROUGH = _SITE['_THROUGH']
+_INGRESS = _SITE['_INGRESS']
 # Source lane positions relative to the branch's downstream endpoint. These
 # guards bound the existing reviewed correction; they are not a general fit.
 _SOURCE_SHAPES = {
@@ -48,22 +55,22 @@ def _overlap(root, points, opposing_edge=_THROUGH):
 
 def _plan_san_francisco(root):
     """Remove the source dogleg, keeping both end cuts and the remote tangent."""
-    primary, opposing, junction_id = "9702439#0", "307556940#2", "3127482712"
+    primary, opposing, junction_id = _SITE['source_binding.001'], _SITE['source_binding.002'], _SITE['source_binding.003']
     record = {"profile": "hamburg_reviewed_san_francisco_clearance/v1", "junction_id": junction_id,
               "edge_id": primary, "opposing_edge_id": opposing, "status": "not_applicable", "applied": False}
     edges = {e.get("id"): e for e in root.findall("edge")}
-    scope = {primary, opposing, "307556942", "-307556942"}
+    scope = {primary, opposing, _SITE['source_binding.004'], _SITE['source_binding.005']}
     if not scope <= edges.keys():
         return {**record, "reason": "reviewed_road_set_absent"}
     record.update(status="review_required", reason="reviewed_source_geometry_or_lane_connections_changed")
     node = root.find(f"junction[@id='{junction_id}']")
     pairs = {(c.get("from"), c.get("fromLane"), c.get("to"), c.get("toLane"))
-             for c in root.findall("connection") if c.get("from") in {opposing, "307556942"}}
+             for c in root.findall("connection") if c.get("from") in {opposing, _SITE['source_binding.004']}}
     if (node is None or node.get("type") != "priority"
             or {k for k, e in edges.items() if junction_id in (e.get("from"), e.get("to"))} != scope
-            or any(edges[key].get("from") != junction_id for key in (primary, "-307556942"))
-            or any(edges[key].get("to") != junction_id for key in (opposing, "307556942"))
-            or pairs != {(opposing, "0", "-307556942", "0"), ("307556942", "0", primary, "0"), ("307556942", "1", primary, "1")}
+            or any(edges[key].get("from") != junction_id for key in (primary, _SITE['source_binding.005']))
+            or any(edges[key].get("to") != junction_id for key in (opposing, _SITE['source_binding.004']))
+            or pairs != {(opposing, "0", _SITE['source_binding.005'], "0"), (_SITE['source_binding.004'], "0", primary, "0"), (_SITE['source_binding.004'], "1", primary, "1")}
             or len(edges[primary].findall("lane")) != 2 or len(edges[opposing].findall("lane")) != 1):
         return record
     references = {(opposing, 0): ((-14.42, 28.24), (-9.56, 19.21), (0, 0)),
@@ -103,7 +110,7 @@ def plan_hamburg_road_geometry(root):
     """Translate the existing local correction, without changing the source."""
     # ponytail: one reviewed profile per crop; sequence candidates if a crop contains both sites.
     edges = {edge.get("id"): edge for edge in root.findall("edge")}
-    record = {"profile": "hamburg_reviewed_266199070_diverge/v1", "junction_id": _JUNCTION,
+    record = {"profile": _SITE['source_binding.006'], "junction_id": _JUNCTION,
               "edge_id": _BRANCH, "status": "not_applicable", "applied": False}
     if not {_BRANCH, _THROUGH, _INGRESS}.issubset(edges):
         return _plan_san_francisco(root)
@@ -115,7 +122,7 @@ def plan_hamburg_road_geometry(root):
               for c in root.findall("connection") if c.get("from") == _INGRESS}
     incident = {key for key, e in edges.items() if _JUNCTION in (e.get("from"), e.get("to"))}
     if (junction is None or junction.get("type") != "priority" or actual != expected
-            or incident != {_INGRESS, _BRANCH, _THROUGH, "31106387"}
+            or incident != {_INGRESS, _BRANCH, _THROUGH, _SITE['plan_hamburg_road_geometry.007']}
             or edges[_INGRESS].get("to") != _JUNCTION
             or any(edges[k].get("from") != _JUNCTION for k in (_BRANCH, _THROUGH))
             or [len(edges[k].findall("lane")) for k in (_INGRESS, _BRANCH, _THROUGH)] != [3, 1, 2]):
@@ -150,10 +157,6 @@ def plan_hamburg_road_geometry(root):
             "basis": "existing write_hamburg_diverge_geometry_patch; translated after source-shape checks"}
 
 
-def _signature(element):
-    return element.tag, dict(element.attrib), [_signature(c) for c in element]
-
-
 def _local(element, edge_ids, junction_id=_JUNCTION):
     identifier = element.get("id", "")
     if element.tag == "edge":
@@ -172,7 +175,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     source_hash = file_sha256(source)
     root = ET.parse(source).getroot()
     plan = plan_hamburg_road_geometry(root)
-    report = {"schema": "torii.hamburg-road-geometry/v1", **plan,
+    report = {"site_parameters": _SITE["_source"], "schema": "torii.hamburg-road-geometry/v1", **plan,
               "source_network": {"path": str(source), "sha256": source_hash}, "candidate_network": None,
               "claim_status": "diagnostic-demo", "claim_boundary":
               "Reuses a source-matched Hamburg road correction. Other roads and changed source geometry require review."}
@@ -183,6 +186,9 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     if destination.exists():
         raise ValueError("output_dir must not already exist")
     destination.mkdir(parents=True)
+    conversion_source = destination / "source-permissions.net.xml"
+    ET.ElementTree(with_loaded_turn_permissions(root)).write(conversion_source, encoding="utf-8", xml_declaration=True)
+    conversion_input = {"path": str(conversion_source), "sha256": file_sha256(conversion_source)}
     edges = {e.get("id"): e for e in root.findall("edge") if e.get("function") != "internal"}
     scope = {key for key, e in edges.items() if junction_id in (e.get("from"), e.get("to"))}
     nodes = ET.Element("nodes")
@@ -198,9 +204,9 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     ET.ElementTree(nodes).write(node_file, encoding="utf-8", xml_declaration=True)
     ET.ElementTree(patch).write(edge_file, encoding="utf-8", xml_declaration=True)
     compiled = destination / "native.net.xml"
-    command = [str(netconvert_binary), "--sumo-net-file", str(source), "--node-files", str(node_file),
+    command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(conversion_source), "--node-files", str(node_file),
                "--edge-files", str(edge_file), "--offset.disable-normalization", "true",
-               "--junctions.internal-link-detail", "25", "--output-file", str(compiled)]
+               "--junctions.internal-link-detail", "25", "--output-file", str(compiled)])
     result = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
     (destination / "netconvert.log").write_text(result.stdout + result.stderr, encoding="utf-8")
     if result.returncode != 0 or not compiled.is_file():
@@ -243,9 +249,11 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     before_audit = audit_network_connection_mode(root, junction_ids=checked_junctions, endpoint_tolerance_m=0.1)
     after_overlap = sum(_overlap(candidate, _points(lane.get("shape")), plan["opposing_edge_id"])
                         for lane in rebuilt_edges[primary].findall("lane"))
-    gates = {"source_immutable": file_sha256(source) == source_hash,
+    gates = {"source_immutable": file_sha256(source) == source_hash
+                and file_sha256(conversion_source) == conversion_input["sha256"],
              "external_lane_semantics": semantics_preserved, "remote_endpoints": remote_endpoints_preserved,
-             "lane_connections_and_controls": external_pairs(root) == external_pairs(candidate),
+             "lane_connections_and_controls": external_pairs(root) == external_pairs(candidate)
+                 and loaded_turn_permissions(root) == loaded_turn_permissions(candidate),
              "outside_elements": [_signature(e) for e in root if not _local(e, scope, junction_id)] ==
                                  [_signature(e) for e in candidate if not _local(e, scope, junction_id)],
              "exit_lane_overlap_removed": after_overlap <= 0.01,
@@ -260,9 +268,12 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     ET.indent(candidate)
     ET.ElementTree(candidate).write(target, encoding="utf-8", xml_declaration=True)
     reloaded_file = destination / "reload.net.xml"
-    reload_command = [str(netconvert_binary), "--sumo-net-file", str(target),
+    reload_source = destination / "reload-input.net.xml"
+    ET.ElementTree(with_loaded_turn_permissions(candidate)).write(reload_source, encoding="utf-8", xml_declaration=True)
+    reload_input = {"path": str(reload_source), "sha256": file_sha256(reload_source)}
+    reload_command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(reload_source),
                       "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25",
-                      "--output-file", str(reloaded_file)]
+                      "--output-file", str(reloaded_file)])
     reloaded = run_command(reload_command, cwd=destination, timeout_seconds=timeout_seconds)
     (destination / "reload.log").write_text(reloaded.stdout + reloaded.stderr, encoding="utf-8")
     stable = reloaded.returncode == 0 and reloaded_file.is_file()
@@ -270,6 +281,7 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
     shape_deltas = []
     if stable:
         reloaded_root = ET.parse(reloaded_file).getroot()
+        stable &= loaded_turn_permissions(candidate) == loaded_turn_permissions(reloaded_root)
         for edge_id in scope:
             old = rebuilt_edges[edge_id].findall("lane")
             new = reloaded_root.findall(f"edge[@id='{edge_id}']/lane")
@@ -279,13 +291,13 @@ def build_hamburg_road_geometry_candidate(*, source_net, output_dir,
                 stable &= len(a) == len(b)
                 shape_deltas.extend(math.dist(p, q) for p, q in zip(a, b))
             length_deltas.extend(abs(float(a.get("length")) - float(b.get("length"))) for a, b in zip(old, new))
-    # Native cuts use unrounded points, then stored centimetre coordinates.
-    # Bound that rounding effect in both the curves and their lengths.
+    # Retain the reviewed bounds on changes in both curves and lengths.
     stable &= max(length_deltas, default=0.0) <= 0.03 and max(shape_deltas, default=0.0) <= 0.02
     gates["native_reload_geometry"] = stable
     report.update(status="pass" if all(gates.values()) else "blocked", applied=all(gates.values()),
                   gates=gates, after_overlap_m2=after_overlap, edited_edge_ids=sorted(scope), command=command,
                   fixed_boundary_junctions=fixed_junctions, reload_command=reload_command,
+                  conversion_input=conversion_input, reload_input=reload_input,
                   reload_max_length_delta_m=max(length_deltas, default=0.0),
                   reload_max_shape_delta_m=max(shape_deltas, default=0.0),
                   patch={"path": str(edge_file), "sha256": file_sha256(edge_file)},

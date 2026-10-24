@@ -1,0 +1,141 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "new_native_calls_recorded": 4,
+    "native_runs_by_freeze": 0,
+    "context": {
+      "service_fixture60_pass": true,
+      "source_observer4500_parity_pass": true,
+      "source_getter_frames": 301,
+      "source_prefix_measured_rows": 65,
+      "source_future117_null": true,
+      "smoke5cars6movements_pass": true,
+      "old4500_prefix_is_not_new_network_full_parity_gate": true
+    },
+    "full": {
+      "raw_verdict": "diagnostic_measurement_complete",
+      "measurement": {
+        "main130": {
+          "SSE": 5131,
+          "TAE": 421,
+          "MAE": 3.2384615384615385,
+          "max_abs_error": 21
+        },
+        "initial52": {
+          "SSE": 1894,
+          "TAE": 136,
+          "MAE": 2.6153846153846154,
+          "max_abs_error": 20
+        },
+        "all182": {
+          "SSE": 7025,
+          "TAE": 557,
+          "MAE": 3.0604395604395602,
+          "max_abs_error": 21
+        },
+        "station40_MAE": 9.875,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8640,
+          "arrived": 8640,
+          "waiting": 0,
+          "running": 0,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": true,
+        "safe": true,
+        "event_count": 8640,
+        "unexpected_contributions": 0,
+        "repeated_vehicle_fields": 0,
+        "warning_lines": 28
+      },
+      "all53556": {
+        "rows": 56,
+        "SSE": 0,
+        "TAE": 0,
+        "MAE": 0.0,
+        "max_abs_error": 0
+      },
+      "field13_main": {
+        "hh_0119_Z_11_28853": {
+          "TAE": 24,
+          "signed": 2
+        },
+        "hh_0119_Z_12_31546": {
+          "TAE": 80,
+          "signed": 14
+        },
+        "hh_0119_Z_13_34018": {
+          "TAE": 84,
+          "signed": 22
+        },
+        "hh_0119_Z_15_29375": {
+          "TAE": 6,
+          "signed": 4
+        },
+        "hh_0119_Z_4_29437": {
+          "TAE": 85,
+          "signed": -25
+        },
+        "hh_0119_Z_5_30494": {
+          "TAE": 79,
+          "signed": -63
+        },
+        "hh_0535_Z_14_31892": {
+          "TAE": 0,
+          "signed": 0
+        },
+        "hh_0535_Z_4_33055": {
+          "TAE": 63,
+          "signed": 1
+        },
+        "hh_0535_Z_5_30894": {
+          "TAE": 0,
+          "signed": 0
+        },
+        "hh_0535_Z_6_33855": {
+          "TAE": 0,
+          "signed": 0
+        },
+        "hh_0535_Z_7_29316": {
+          "TAE": 0,
+          "signed": 0
+        },
+        "hh_0535_Z_8_34287": {
+          "TAE": 0,
+          "signed": 0
+        },
+        "hh_0535_Z_9_29038": {
+          "TAE": 0,
+          "signed": 0
+        }
+      },
+      "comparisons": {
+        "plus15_parent": {
+          "main130_TAE_delta": -39,
+          "main130_SSE_delta": -687,
+          "initial52_TAE_delta": -32,
+          "all182_TAE_delta": -71
+        },
+        "offset0_reference": {
+          "main130_TAE_delta": -62,
+          "main130_SSE_delta": -1578,
+          "initial52_TAE_delta": 31,
+          "all182_TAE_delta": -31
+        }
+      },
+      "physical_applicability": "review_required",
+      "exact130": false,
+      "source_plus15_main_and_initial_and_all182_aggregate_improve": true,
+      "offset0_initial_TAE_regresses_105_to136": true
+    },
+    "lowest_measured_healthy_main_MAE": 3.2384615384615385,
+    "field_SPAT_or_dated_geometry_certified": false,
+    "calibration_complete": false
+  }
+}

@@ -1,0 +1,166 @@
+{
+  "proposal_producer": "7b4abece46722ecf5230454c880a8002f312afcf",
+  "materialization_producer": "eb0df3e",
+  "native_cases": [
+    {
+      "generator": "isolated",
+      "case": "isolated",
+      "count": 1,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_isolated_proposals0/source.net.xml",
+        "sha256": "36d03bb062725563ac9b1a7d5458ae68657dd484730139c74723090feae15b2e"
+      }
+    },
+    {
+      "generator": "isolated",
+      "case": "connected",
+      "count": 0,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_isolated_proposals1/source.net.xml",
+        "sha256": "d06f1abe85381be9066a2f9d4bc8534b2ba34858237890c779d7a0bcbef44a2f"
+      }
+    },
+    {
+      "generator": "isolated",
+      "case": "parking",
+      "count": 0,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_isolated_proposals2/source.net.xml",
+        "sha256": "232eaadf5f8055908f9485f50edb4ded9a0b14a1888af1dbe64b9de0fa635531"
+      }
+    },
+    {
+      "generator": "micro",
+      "case": "no_reference",
+      "count": 1,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_micro_proposals_re0/source/source.net.xml",
+        "sha256": "7028d2d46dae3d1a11541bfb86a883ee864fd18848e9523ea966c22c9a679322"
+      },
+      "reference_absence": null
+    },
+    {
+      "generator": "micro",
+      "case": "different_name",
+      "count": 0,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_micro_proposals_re1/source/source.net.xml",
+        "sha256": "8451646ed3d3205e72054e1234bc3499bca931c8ee64fe845484b9b730b09e62"
+      },
+      "reference_absence": "not_applicable"
+    },
+    {
+      "generator": "micro",
+      "case": "reference_present",
+      "count": 0,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_micro_proposals_re2/source/source.net.xml",
+        "sha256": "646a06d60efdbc474fd66e359b920da761b4defa669f3f749f808c036b49de6d"
+      },
+      "reference_absence": "not_applicable"
+    },
+    {
+      "generator": "micro",
+      "case": "reference_absent",
+      "count": 1,
+      "source": {
+        "path": "outputs/native_generator_controls_20261020_v1/test_native_micro_proposals_re3/source/source.net.xml",
+        "sha256": "b415568f70389fb4b7cfd62c516c27c4068d1f628bc00165332b12474ef058eb"
+      },
+      "reference_absence": true
+    }
+  ],
+  "source_generation": {
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\unjoined-import.net.xml",
+      "sha256": "0e2c469a01a562a2b57eb301dc96887f6fa7455cc85691881af18ec83a5c8976"
+    },
+    "before_seconds": 29.776074499997776,
+    "after_seconds": 2.374842900004296,
+    "proposal_count": 0,
+    "repeats_per_version": 1,
+    "timing_limit": "Separate wall-clock observations, not a general performance guarantee."
+  },
+  "micro_funnel": {
+    "before": "blocked_empty_keep_list",
+    "after_construction": "pass",
+    "after_release": "review_required",
+    "routing": "not_run_no_diagnostic_od_pool"
+  },
+  "paired_negative_geometry": {
+    "pairs": 31,
+    "different_shapes": 31,
+    "different_lengths": 31,
+    "field_defect_labels": false
+  },
+  "shared_signal_probe": {
+    "retained_programs": 4,
+    "changed": 0,
+    "diagnostic_only": true
+  },
+  "verification": {
+    "generator_and_parking_tests": 39,
+    "all_target_consumers": 45,
+    "combined_final_tests": 62,
+    "counts_overlap": true
+  },
+  "ci": {
+    "commit": "7b4abece46722ecf5230454c880a8002f312afcf",
+    "passed": 3660,
+    "skipped": 24,
+    "pr_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39341813027",
+    "push_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39341807881"
+  },
+  "artifacts": [
+    {
+      "path": "outputs/source_only_proposals_20261020_v4/inventory.json",
+      "sha256": "eea4583fe1d26bb213f4109dcca6eb3cb1bf589fa76e1c38407fe2566f66ee33"
+    },
+    {
+      "path": "outputs/source_only_proposals_20261020_v1/geometry-counterevidence.json",
+      "sha256": "09ad97934e15e14ccf394711296a2710af3f74f947f3dbedde29671317698339"
+    },
+    {
+      "path": "outputs/micro_edit_funnel_20261020_v1/result.json",
+      "sha256": "0645e5035ddd7ac6a980febbbc654735c8b56cc644cef35439457f85221ee329"
+    },
+    {
+      "path": "outputs/micro_edit_funnel_20261020_v2/result.json",
+      "sha256": "dbc738394aeb0af1b9b2de6bfdb3dcb48267db09f4243911945bb57db441cc80"
+    },
+    {
+      "path": "outputs/micro_edit_funnel_20261020_v2/public/edit-verification.json",
+      "sha256": "f85100b62ce98aaa53cf2790a8eca156469c6be4f856fc0f3634187aa3037cf5"
+    },
+    {
+      "path": "outputs/native-proposal-generators-20261020-v1.log",
+      "sha256": "3f62d7dd8e12c3688d37377f170ea1c02c8ffc494077f5185fbb976bef6c0a3c"
+    },
+    {
+      "path": "outputs/proposal-funnel-final-20261020-v1.log",
+      "sha256": "2658d503359c937c1a410af69c2ce8e5e49e10b96ff46b4c4d4f4c54b9f3014e"
+    },
+    {
+      "path": "outputs/all-target-micro-consumers-20261020-v1.log",
+      "sha256": "78d4e57e152769461872d00b56a2aa5a21fa5d67801366c65551fbb217129835"
+    },
+    {
+      "path": "outputs/all-target-micro-consumers-20261020-v2.log",
+      "sha256": "718eb7f45bdaaf7c279402bf68bc14fa61c9a5a5d3202a588c64193b062a0d95"
+    },
+    {
+      "path": "outputs/shared_signal_program_20261020_v1/result.json",
+      "sha256": "e55c137154a64f3c8c211ba397cc1cf849025fb2f485842287683d53fbe7ceee"
+    },
+    {
+      "path": "outputs/signal-duplicate-exclusion-20261020-v1.log",
+      "sha256": "cf88e831e7b24f4306fef9ebb5acfef86915894e607ffe5d900a392d15145a1e"
+    }
+  ],
+  "limitations": [
+    "Native condition controls do not label real field defects.",
+    "Signalized duplicate deletion remains excluded.",
+    "The small merged network has no shared diagnostic OD pool.",
+    "Legacy conversion paths and useful real-network proposal recall remain open."
+  ]
+}

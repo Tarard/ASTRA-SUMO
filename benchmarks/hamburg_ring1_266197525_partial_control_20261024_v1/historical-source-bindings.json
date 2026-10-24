@@ -1,0 +1,437 @@
+{
+  "bindings": [
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\network.net.xml",
+      "sha256": "4cd5d1b95cce0f43b0626e82c7066cce3b1807db35840c115bcf66252437ae80",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/candidate.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\demand.rou.xml",
+      "sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\lane-intentions.json",
+      "sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\scenario.json",
+      "sha256": "1733d9dbfd5310f396b60a205bbbccd72354532fd59007a11ef9bde0f026ddb4",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\candidate-v2\\network.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce",
+      "scope": "packet",
+      "target": "candidate-v2/candidate.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\candidate-v2\\control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\candidate-v2\\manifest.json",
+      "sha256": "b9f2400ad230961cea6a5f8c0962433f37ff3773fc515adbbdff26883ac6d2a6",
+      "scope": "packet",
+      "target": "candidate-v2/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\run_full.py",
+      "sha256": "7226de8dd9159ca45fcbcc72e712048d4654553f9fc9232304c3fb69de6719e0",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/executed-driver.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\run_full.py",
+      "sha256": "1c7ae94facf2d34aba228aa3c036499bf172171e5169139a8c12653a14cc5c6f",
+      "scope": "packet",
+      "target": "full/executed-driver.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\verdict.json",
+      "sha256": "72e35e7c153daae01a86086e94631adbb2321d9baf8b8aa299b5f1feab5c1e2a",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/verdict.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\preflight.json",
+      "sha256": "da473fd23925d57451ec6faa7786d1b1013ccd1a34d7bc4a618e4bede65f4e77",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/preflight.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-saturated-service-20261024-v1\\run_fixture.py",
+      "sha256": "11efae283e663fa9d5961a7107eabd5a8e36dbb78bd6aee295695195fa7b9482",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/run_fixture.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\response-audit\\audit_response.py",
+      "sha256": "d542055e3668bbbfda9348c5bd3ad9b4245738214c62959b712f1e6fb1234021",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_response.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\response-audit\\audit_scope.py",
+      "sha256": "96beafeb53afdbde1ca4ec7d407377f6085807cc0ee9bb490cd2461d29ca425a",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/full/implementation/audit_scope.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\detector_demand_replay.py",
+      "sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/detector_demand_replay.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/hamburg_od_spsa.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\simulation_stall.py",
+      "sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/simulation_stall.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/lane_section_hold.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/implementation/route_sensor_matrix.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\network.net.xml",
+      "sha256": "4cd5d1b95cce0f43b0626e82c7066cce3b1807db35840c115bcf66252437ae80",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/candidate.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_266197525_partial_control.py",
+      "sha256": "a6098b2908b9a044a9c6b576175388b0582b5ebec116ce9f9dc9c00e07c19ddf",
+      "scope": "packet",
+      "target": "candidate-v1/implementation/hamburg_266197525_partial_control.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\network.net.xml",
+      "sha256": "4cd5d1b95cce0f43b0626e82c7066cce3b1807db35840c115bcf66252437ae80",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/candidate.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-ordinal-full-evaluation-20261024-v1\\full\\prepared\\control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_266197525_partial_control.py",
+      "sha256": "32bb2393b982dd83779eecd0fef720b0275ab923236c2b8fed50fe3efaeea572",
+      "scope": "packet",
+      "target": "candidate-v2/implementation/hamburg_266197525_partial_control.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\review_raw_smoke.py",
+      "sha256": "b56e4c4fb1110a693531d6d2b34bdbae8ba8c2c351b5a838d28721cb320a08f6",
+      "scope": "packet",
+      "target": "review_raw_smoke.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\candidate-v2\\manifest.json",
+      "sha256": "b9f2400ad230961cea6a5f8c0962433f37ff3773fc515adbbdff26883ac6d2a6",
+      "scope": "packet",
+      "target": "candidate-v2/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\candidate-v2\\network.net.xml",
+      "sha256": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce",
+      "scope": "packet",
+      "target": "candidate-v2/candidate.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\candidate-v2\\control.add.xml",
+      "sha256": "27220b430aa68c24f0ad360c57ee3bd0f4b8dcdc88aead5344bcff00e4f43e3b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_209_ordinal_connection_20261024_v1/construction/candidate-v3/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\independent-review\\manifest.json",
+      "sha256": "3dff58d49fa333ebc275dc46e529d40859051818d921b9ee30c67234a2a3338f",
+      "scope": "packet",
+      "target": "independent-review/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\independent-review\\review.json",
+      "sha256": "3fd601a3be5a6abf936232d51a2dd6f1140ea6122cd5309ce1f490043e68c121",
+      "scope": "packet",
+      "target": "independent-review/review.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-libsumo-observation-decoder-20261024-v1\\manifest.json",
+      "sha256": "6994be2c5d1a6f17e21dc0f8d8b8c1a7abbbf97c6dfa04ddb858722bc59e842e",
+      "scope": "packet",
+      "target": "source-audits/api-decoder/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-source\\result.json",
+      "sha256": "46a5756a355d16374e1b1ced43e16b70a995dd2f9bcbb9f6368371248e543b0b",
+      "scope": "packet",
+      "target": "smoke/native-source/result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-source\\request.json",
+      "sha256": "7e7b984e05c0ff32abf61b11dae0f3e949b6ad81e5fe5c9da26ce1d8af0609d8",
+      "scope": "packet",
+      "target": "smoke/native-source/request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-source\\samples.json",
+      "sha256": "4905fc3e2f4cd46fed2f5740b699bdd1264b123831e1a17e2b4e1b46d02f6ead",
+      "scope": "packet",
+      "target": "smoke/native-source/samples.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-source\\vehicle-routes.xml",
+      "sha256": "6e915d5956cc3606ab4c905adfcb790ff04099a2eef7739366048f9cc2ac7671",
+      "scope": "packet",
+      "target": "smoke/native-source/vehicle-routes.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-source\\commands.json",
+      "sha256": "ab05b4dbe9d214836f03abe46213365204fc28c0570337cbd6f785928dbe7554",
+      "scope": "packet",
+      "target": "smoke/native-source/commands.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-source\\native-version.json",
+      "sha256": "c6c7a3e6880d5e732db5556161991f5a61980da9d1ca181eac14eacf81638d1f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/merge-smoke/lane0-first/native-version.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-candidate\\result.json",
+      "sha256": "1911ef3ff7115b506d424d03e4ae7ce00207d3f2df9250d44d5342d77c4fbcc6",
+      "scope": "packet",
+      "target": "smoke/native-candidate/result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-candidate\\request.json",
+      "sha256": "d7a3be5d87e2131bba8bd11a1ab2fdb64debbabf610822de154e0d164e0853e6",
+      "scope": "packet",
+      "target": "smoke/native-candidate/request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-candidate\\samples.json",
+      "sha256": "40695cac11d0d687f04bbaa8fb2793d99228ef204775c830ecc492c6cff6207c",
+      "scope": "packet",
+      "target": "smoke/native-candidate/samples.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-candidate\\vehicle-routes.xml",
+      "sha256": "a3393403dd5bb59d09cd5787ac69cb0b77d6902c4310477e299cc2be83def55f",
+      "scope": "packet",
+      "target": "smoke/native-candidate/vehicle-routes.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-candidate\\commands.json",
+      "sha256": "66d1b1b6c8a9475e3ad4c69ffb9d64269b7da988b7d17a6a9a75736675b4bf77",
+      "scope": "packet",
+      "target": "smoke/native-candidate/commands.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\native-candidate\\native-version.json",
+      "sha256": "c6c7a3e6880d5e732db5556161991f5a61980da9d1ca181eac14eacf81638d1f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/merge-smoke/lane0-first/native-version.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-1\\native-candidate\\result.json",
+      "sha256": "4188926172e59681d7e74be7c00183c708bcda02a70ba13ad5935a7449f9439f",
+      "scope": "packet",
+      "target": "smoke/timing-1/native-candidate/result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-1\\native-candidate\\request.json",
+      "sha256": "6f7ea943760e69d28674b860252f05372b63e45f7b93868fa6c703d90f6e6e19",
+      "scope": "packet",
+      "target": "smoke/timing-1/native-candidate/request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-1\\native-candidate\\samples.json",
+      "sha256": "07f2efd074a39ea8bc6825f6ec7501744dd13e59b3daa5454bcca7cce3a5cd0d",
+      "scope": "packet",
+      "target": "smoke/timing-1/native-candidate/samples.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-1\\native-candidate\\vehicle-routes.xml",
+      "sha256": "7e106605b25b5ccfcd8312831683bfdca87433aba510bc0c61cc7b0ac650c23f",
+      "scope": "packet",
+      "target": "smoke/timing-1/native-candidate/vehicle-routes.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-1\\native-candidate\\commands.json",
+      "sha256": "febc1d431b9d131d35136243c2d8422f0cbc3c94e2a313d6be3265412532ec26",
+      "scope": "packet",
+      "target": "smoke/timing-1/native-candidate/commands.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-1\\native-candidate\\native-version.json",
+      "sha256": "c6c7a3e6880d5e732db5556161991f5a61980da9d1ca181eac14eacf81638d1f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/merge-smoke/lane0-first/native-version.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-2\\native-candidate\\result.json",
+      "sha256": "2914422bc8bd91cb024b6874226934ed1b367351c6e5bcea7e843ce1f7ff3d7c",
+      "scope": "packet",
+      "target": "smoke/timing-2/native-candidate/result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-2\\native-candidate\\request.json",
+      "sha256": "f7ae6e93114ecbdce64664707e39af005f797d0af6b21aad3a8dff9ca2fb6f7a",
+      "scope": "packet",
+      "target": "smoke/timing-2/native-candidate/request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-2\\native-candidate\\samples.json",
+      "sha256": "1efc5959d30f56c2feb5d118a38bbe953373774238bf8d741c3c7bc93e1f9e2f",
+      "scope": "packet",
+      "target": "smoke/timing-2/native-candidate/samples.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-2\\native-candidate\\vehicle-routes.xml",
+      "sha256": "8e9512d098b686732b96e6b8f56647fd153d8476df79d131ea0e34ff0f647754",
+      "scope": "packet",
+      "target": "smoke/timing-2/native-candidate/vehicle-routes.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-2\\native-candidate\\commands.json",
+      "sha256": "ec24f7ec838266c59a94997467097d0db9984d4907c7b9f58cef655a09078448",
+      "scope": "packet",
+      "target": "smoke/timing-2/native-candidate/commands.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-2\\native-candidate\\native-version.json",
+      "sha256": "c6c7a3e6880d5e732db5556161991f5a61980da9d1ca181eac14eacf81638d1f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/merge-smoke/lane0-first/native-version.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-candidate\\result.json",
+      "sha256": "91250d2e3fdf010e5ed3aae790b1f72c0d0b251c9a6baeab677c8b5f2c12b6b6",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-candidate/result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-candidate\\request.json",
+      "sha256": "fdb440f70fc3f3617ff3143bf539dbe632d04c5c4291782918bce675508e4c89",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-candidate/request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-candidate\\samples.json",
+      "sha256": "849a8360b893722814fc3a3d78439036dd0046ace97abb93b4c8e73194ff370e",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-candidate/samples.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-candidate\\vehicle-routes.xml",
+      "sha256": "41f242fc0eb5d6a17356e763980f1afcf27457c73c2afbd5277ff717c7ae7fb0",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-candidate/vehicle-routes.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-candidate\\commands.json",
+      "sha256": "7db5ecbb60fad5c47de0ac18e69fc9f7927964dd40c56b2fee39c6274b4a70b1",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-candidate/commands.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-candidate\\native-version.json",
+      "sha256": "c6c7a3e6880d5e732db5556161991f5a61980da9d1ca181eac14eacf81638d1f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/merge-smoke/lane0-first/native-version.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-source\\result.json",
+      "sha256": "37f9a8aa4c707d6a30ddcec531c1117c171dc5b9516792d34831b7735fcd16c8",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-source/result.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-source\\request.json",
+      "sha256": "a1747fcda0c8b1394a9c6bd025842dc93ff59df94bdee68a15506f74780c5832",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-source/request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-source\\samples.json",
+      "sha256": "49108fec9daa29e11a3b356b236e442c2d196034059bafd7491327c67c814128",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-source/samples.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-source\\vehicle-routes.xml",
+      "sha256": "8d0b7faea3542830c42355ed30d85fe3ae68f9ca16d7fa5cda7436f4175923c4",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-source/vehicle-routes.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-source\\commands.json",
+      "sha256": "0051afc199210a626358596a33cab6daf21f5a03eb586ae6f1b819746999c814",
+      "scope": "packet",
+      "target": "smoke/timing-3/native-source/commands.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-266197525-partial-control-20261024-v1\\smoke\\timing-3\\native-source\\native-version.json",
+      "sha256": "c6c7a3e6880d5e732db5556161991f5a61980da9d1ca181eac14eacf81638d1f",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/merge-smoke/lane0-first/native-version.json"
+    }
+  ],
+  "historical_hashes_not_rewritten": true
+}

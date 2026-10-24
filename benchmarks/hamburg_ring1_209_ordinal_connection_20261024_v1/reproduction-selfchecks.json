@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "checks": {
+    "actual_modules_in_project_venv": true,
+    "module_file_hashes": true,
+    "versions_1_27_1": true,
+    "core_files_match": true,
+    "binary_hashes_match": true,
+    "portable182_reader_exact": true,
+    "all8_explicit_inputs_exact": true,
+    "body4_exact": true,
+    "native208_keys_exact": true
+  },
+  "actual_module_paths": {
+    "libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\__init__.py",
+    "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+  },
+  "focused_and_nav_tests": 27,
+  "explicit_native_full_not_executed": true,
+  "claim_boundary": "Offline portable input/runtime/reader checks only. Historical native4 calls preserved; no new simulation during freezing."
+}

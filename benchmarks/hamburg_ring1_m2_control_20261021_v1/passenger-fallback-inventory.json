@@ -1,0 +1,517 @@
+{
+  "passenger_fallback_connections": 34,
+  "planned_vehicle_passages": 872,
+  "rows": [
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "186713403#0",
+        1,
+        "551284796#0",
+        1
+      ],
+      "link_index": 20,
+      "via": ":LSA200_part0_20_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "186713404#0",
+        0,
+        "551303417",
+        2
+      ],
+      "link_index": 14,
+      "via": ":LSA200_part0_13_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "186713404#0",
+        1,
+        "551303417",
+        3
+      ],
+      "link_index": 15,
+      "via": ":LSA200_part0_13_2",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "486870074#0",
+        1,
+        "551284796#0",
+        1
+      ],
+      "link_index": 1,
+      "via": ":LSA200_part0_0_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "551303410",
+        1,
+        "551284796#0",
+        1
+      ],
+      "link_index": 23,
+      "via": ":LSA200_part0_23_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "626677498",
+        2,
+        "551303417",
+        5
+      ],
+      "link_index": 2,
+      "via": ":LSA200_part0_2_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA535_part0",
+      "physical_key": [
+        "186821027#0",
+        4,
+        "186821036#1",
+        1
+      ],
+      "link_index": 5,
+      "via": ":LSA535_part0_5_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA535_part0",
+      "physical_key": [
+        "186821027#0",
+        4,
+        "186821029#1",
+        2
+      ],
+      "link_index": 6,
+      "via": ":LSA535_part0_6_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA535_part0",
+      "physical_key": [
+        "186821035#0",
+        3,
+        "186821036#1",
+        1
+      ],
+      "link_index": 15,
+      "via": ":LSA535_part0_15_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "251871702",
+        0
+      ],
+      "link_index": 13,
+      "via": ":LSA118_part0_13_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "606141108",
+        0
+      ],
+      "link_index": 14,
+      "via": ":LSA118_part0_14_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "606141108",
+        1
+      ],
+      "link_index": 15,
+      "via": ":LSA118_part0_14_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "51214742#1",
+        1
+      ],
+      "link_index": 17,
+      "via": ":LSA118_part0_16_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 250
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "51214742#1",
+        2
+      ],
+      "link_index": 18,
+      "via": ":LSA118_part0_16_2",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "51214742#1",
+        3
+      ],
+      "link_index": 19,
+      "via": ":LSA118_part0_16_3",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "-1332144622",
+        0,
+        "1332144622",
+        0
+      ],
+      "link_index": 20,
+      "via": ":LSA118_part0_20_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "1326490378#0",
+        1,
+        "606141108",
+        0
+      ],
+      "link_index": 6,
+      "via": ":LSA118_part0_6_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "1326490378#0",
+        1,
+        "606141108",
+        1
+      ],
+      "link_index": 7,
+      "via": ":LSA118_part0_6_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "251871172#0",
+        1,
+        "51214742#1",
+        1
+      ],
+      "link_index": 2,
+      "via": ":LSA118_part0_2_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 622
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "251871172#0",
+        1,
+        "51214742#1",
+        2
+      ],
+      "link_index": 3,
+      "via": ":LSA118_part0_2_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "251871172#0",
+        1,
+        "51214742#1",
+        3
+      ],
+      "link_index": 4,
+      "via": ":LSA118_part0_2_2",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "538341579#0",
+        0,
+        "1332144622",
+        0
+      ],
+      "link_index": 21,
+      "via": ":LSA118_part0_21_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "538341579#0",
+        2,
+        "51214742#1",
+        1
+      ],
+      "link_index": 26,
+      "via": ":LSA118_part0_25_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "538341579#0",
+        2,
+        "51214742#1",
+        2
+      ],
+      "link_index": 27,
+      "via": ":LSA118_part0_25_2",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "538341579#0",
+        2,
+        "51214742#1",
+        3
+      ],
+      "link_index": 28,
+      "via": ":LSA118_part0_25_3",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA118_part0",
+      "physical_key": [
+        "538341584",
+        0,
+        "381750337",
+        2
+      ],
+      "link_index": 37,
+      "via": ":LSA118_part0_36_1",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA104_part0",
+      "physical_key": [
+        "139083723#0",
+        2,
+        "139056860#1",
+        1
+      ],
+      "link_index": 14,
+      "via": ":LSA104_part0_14_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA104_part0",
+      "physical_key": [
+        "606141103#1",
+        1,
+        "139056860#1",
+        1
+      ],
+      "link_index": 2,
+      "via": ":LSA104_part0_0_2",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA104_part0",
+      "physical_key": [
+        "606141103#1",
+        2,
+        "234423652#1",
+        2
+      ],
+      "link_index": 6,
+      "via": ":LSA104_part0_6_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA104_part0",
+      "physical_key": [
+        "963776077#0",
+        4,
+        "139056860#1",
+        1
+      ],
+      "link_index": 26,
+      "via": ":LSA104_part0_26_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA104_part0",
+      "physical_key": [
+        "963776077#0",
+        4,
+        "606141102#1",
+        1
+      ],
+      "link_index": 27,
+      "via": ":LSA104_part0_27_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA119_part0",
+      "physical_key": [
+        "186713422#0",
+        2,
+        "977482749",
+        0
+      ],
+      "link_index": 5,
+      "via": ":LSA119_part0_5_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA119_part0",
+      "physical_key": [
+        "37413814#0",
+        1,
+        "977482749",
+        0
+      ],
+      "link_index": 18,
+      "via": ":LSA119_part0_18_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    },
+    {
+      "tls": "LSA200_part3",
+      "physical_key": [
+        "551303418",
+        0,
+        "551303422",
+        2
+      ],
+      "link_index": 5,
+      "via": ":LSA200_part3_5_0",
+      "groups": [],
+      "origin": "declared_uncontrolled",
+      "official_movements": [],
+      "planned_vehicle_passages": 0
+    }
+  ],
+  "claim_boundary": "Offline lane-intent usage only; native lane allocation is unmeasured."
+}

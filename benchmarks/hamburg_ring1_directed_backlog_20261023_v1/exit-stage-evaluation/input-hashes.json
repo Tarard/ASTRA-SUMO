@@ -1,0 +1,38 @@
+{
+  "inputs": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-prepared\\network.net.xml",
+      "sha256": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+      "snapshot": "network.net.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-evaluation\\demand.rou.xml",
+      "sha256": "2c2c3ec9e624f86193405e0d14b003850a910b93b9ec45d769dcc78427c04910",
+      "snapshot": "demand.rou.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "snapshot": "source-e1.add.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "snapshot": "expected-counts.csv.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-prepared\\control.add.xml",
+      "sha256": "392669463f8ef18f76743d1fd312066a50a532d7b4553a9f5586177587e647e4",
+      "snapshot": "signal-programs.add.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-evaluation\\lane-intentions.json",
+      "sha256": "0b142847c59748b37df5125ec166f6ce9f7ac5dceb3c705f55512fb68bac9d6a",
+      "snapshot": "lane-intentions.json.gz"
+    }
+  ],
+  "initialization_targets": {
+    "snapshot": "../initialization-counts.csv.gz",
+    "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  }
+}

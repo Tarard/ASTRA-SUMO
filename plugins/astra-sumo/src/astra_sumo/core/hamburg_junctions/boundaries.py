@@ -326,7 +326,24 @@ def _resolved_boundary_polygon(root, group):
                     envelope_width = max(width, row["width_m"])
                     center = row["junction_endpoint_network"]
                     section = [tuple(center[i] + (point[i] - center[i]) * envelope_width / row["width_m"] for i in (0, 1)) for point in row["shape"]]
-                    ports.append({**row, **native, "width_m": envelope_width, "shape": section})
+                    # A source lane can be laterally displaced from MAP B.
+                    # Its full strip must still enter the same road mouth.
+                    normal = (section[1][1] - section[0][1], section[0][0] - section[1][0])
+                    direction = native["native_lane_direction"]
+                    denominator = sum(direction[i] * normal[i] for i in (0, 1))
+                    extra = {}
+                    if abs(denominator) > 1e-9:
+                        endpoint = native["native_cut_endpoint"]
+                        fraction = sum((center[i] - endpoint[i]) * normal[i] for i in (0, 1)) / denominator
+                        projected = tuple(endpoint[i] + fraction * direction[i] for i in (0, 1))
+                        if math.dist(projected, center) <= classification.get("maximum_lane_projection_error_m", 10.0):
+                            tangent = tuple((section[1][i] - section[0][i]) / math.dist(*section) for i in (0, 1))
+                            offset = sum((projected[i] - center[i]) * tangent[i] for i in (0, 1))
+                            half_width = width * math.hypot(*direction) * math.hypot(*normal) / (2 * abs(denominator))
+                            limits = (min(-envelope_width / 2, offset - half_width), max(envelope_width / 2, offset + half_width))
+                            section = [tuple(center[i] + distance * tangent[i] for i in (0, 1)) for distance in limits]
+                            extra = {"native_center_at_official_section": projected, "source_lateral_offset_m": offset}
+                    ports.append({**row, **native, **extra, "width_m": envelope_width, "shape": section})
             else:
                 safe = _safe_native_cut_port(root, edge, lane, role,
                                              maximum_movement_m=classification.get("maximum_lane_projection_error_m", 10.0))
@@ -384,10 +401,10 @@ def _portal_boundary_polygon(ports, native_boundary):
         else:
             ordered = sorted(rows, key=lambda row: lateral(row["junction_endpoint_network"]))
         points = []
-        for row in ordered:
-            for point in sorted([*row["shape"], row["junction_endpoint_network"]], key=lateral):
-                if not points or math.dist(point, points[-1]) > 0.1:
-                    points.append(tuple(point))
+        # Overlapping source and MAP envelopes share one ordered road profile.
+        for point in sorted([point for row in ordered for point in [*row["shape"], row["junction_endpoint_network"]]], key=lateral):
+            if not points or math.dist(point, points[-1]) > 0.1:
+                points.append(tuple(point))
         midpoint = tuple(sum(row["junction_endpoint_network"][i] for row in rows) / len(rows) for i in (0, 1))
         if native_closed:
             position = _project_point_onto_polyline(midpoint, native_closed)[0]
@@ -417,9 +434,29 @@ def _rebuild_join_boundaries(
     *,
     netconvert_binary: str,
     timeout_seconds: float,
+    protected_source: Path | None = None,
 ) -> dict[str, Any]:
     """Apply external cut-port boundaries without moving internal MAP anchors."""
     source_root = ET.parse(source).getroot()
+    protected_source = protected_source or source
+    protected_root = ET.parse(protected_source).getroot()
+    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group.get("source_node_ids", [])]}
+    mutable_edges = {edge.get("id") for root in (protected_root, source_root) for edge in root.findall("edge")
+                     if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes}
+    aliases = {str(node): str(group["join_id"]) for group in groups for node in group.get("source_node_ids", [])
+               if str(node) != str(group["join_id"]) and protected_root.find(f"junction[@id='{node}']") is not None}
+    from ..junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from ..network_geometry_freeze import compare_frozen_geometry
+
+    def admit(path):
+        restoration = restore_off_scope_netconvert_artifacts(source_file=protected_source, target_file=path,
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
+            expand_mutable_edge_endpoints=False, junction_aliases=aliases)
+        comparison = compare_frozen_geometry(source_file=protected_source, candidate_file=path,
+            mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges)
+        if restoration["status"] != "pass" or comparison["status"] != "pass":
+            raise ValueError("Joined boundary did not preserve its declared outside geometry: " + str(restoration.get("failures", [])) + str(comparison))
+        return {"restoration": restoration, "comparison": comparison}
     nodes = ET.Element("nodes")
     boundaries = []
     for group in groups:
@@ -429,27 +466,42 @@ def _rebuild_join_boundaries(
             ET.SubElement(nodes, "node", id=str(group["join_id"]), shape=_shape(polygon))
     if not len(nodes):
         shutil.copy2(source, output)
-        return {"status": "not_applicable", "reason": "no_resolved_boundary_polygon", "boundaries": boundaries, "network": str(output)}
+        preservation = admit(output)
+        return {"status": "not_applicable", "reason": "no_resolved_boundary_polygon", "boundaries": boundaries, "network": str(output), "geometry_preservation": preservation}
     patch_file = output.with_suffix(".boundaries.nod.xml")
     ET.indent(nodes, space="    ")
     ET.ElementTree(nodes).write(patch_file, encoding="utf-8", xml_declaration=True)
     command = [str(netconvert_binary), "--sumo-net-file", str(source), "--node-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(output)]
-    result = run_command(command, cwd=output.parent, timeout_seconds=timeout_seconds)
+    command[command.index("--junctions.internal-link-detail") + 1] = source_root.get("junctionLinkDetail", "5")
+    from ..local_network_conversion import run_scoped_native_conversion, with_geometry_precision
+    conversion_edges = {edge.get("id") for edge in source_root.findall("edge")
+                        if not edge.get("id", "").startswith(":")
+                        and any(edge.get(end) in mutable_nodes for end in ("from", "to"))}
+    result, local_conversion = run_scoped_native_conversion(command=command,
+        mutable_nodes=mutable_nodes, mutable_edges=conversion_edges, output_dir=output.parent,
+        prefix=output.stem + "-boundary", timeout_seconds=timeout_seconds)
+    command = result.command
     if result.returncode != 0 or not output.is_file():
         raise ValueError("netconvert could not apply the official junction boundary: " + result.stderr)
+    preservation = admit(output)
     bounded = ET.parse(output).getroot()
     from ..hamburg_aerial_approach import _preserved_edge
 
     stable_edges = {edge.get("id"): edge for edge in bounded.findall("edge") if edge.get("function") != "internal"}
     roundtrip_file = output.with_suffix(".roundtrip.net.xml")
-    check_command = [str(netconvert_binary), "--sumo-net-file", str(output), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(roundtrip_file)]
+    check_command = with_geometry_precision([str(netconvert_binary), "--sumo-net-file", str(output), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(roundtrip_file)])
+    check_command[check_command.index("--junctions.internal-link-detail") + 1] = bounded.get("junctionLinkDetail", "5")
     checked = run_command(check_command, cwd=output.parent, timeout_seconds=timeout_seconds)
     if checked.returncode != 0 or not roundtrip_file.is_file():
         raise ValueError("netconvert could not verify boundary round-trip stability: " + checked.stderr)
     reloaded_edges = {edge.get("id"): edge for edge in ET.parse(roundtrip_file).getroot().findall("edge") if edge.get("function") != "internal"}
     unstable = [edge_id for edge_id, edge in stable_edges.items() if edge_id not in reloaded_edges or not _preserved_edge(edge, reloaded_edges[edge_id])]
-    if unstable or set(stable_edges) != set(reloaded_edges):
-        raise ValueError("boundary lane geometry is not stable under netconvert reload: " + ", ".join(unstable))
+    reload_preservation = admit(roundtrip_file)
     basis = "external_cut_ports_and_unverified_legacy_shapes" if any(row["basis"] == "legacy_explicit_boundary_unverified" for row in boundaries) else "actual_external_cut_ports"
     return {"status": "pass", "basis": basis, "boundaries": boundaries, "node_patch": str(patch_file), "network": str(output), "command": command, "stdout": result.stdout, "stderr": result.stderr,
-            "cut_geometry": {"roundtrip_stable": True, "tolerance_m": 0.1, "command": check_command, "roundtrip_network": str(roundtrip_file)}}
+            "local_conversion": local_conversion,
+            "geometry_preservation": preservation,
+            "cut_geometry": {"roundtrip_stable": not unstable and set(stable_edges) == set(reloaded_edges),
+                "native_reload_audit_required": True, "raw_unstable_edge_ids": unstable,
+                "conversion_scope": "full_network_reimport_audit",
+                "protected_reload": reload_preservation, "tolerance_m": 0.1, "command": check_command, "roundtrip_network": str(roundtrip_file)}}

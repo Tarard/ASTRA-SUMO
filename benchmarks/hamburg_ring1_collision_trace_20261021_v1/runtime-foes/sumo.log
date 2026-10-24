@@ -1,0 +1,18 @@
+***Starting server on port 6189 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\benchmarks\hamburg_ring1_through_route_coverage_20261021_v1\inputs\network.net.xml' ... done (193ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Loading done.
+Simulation version 1.27.1 started with time: 0.00.
+Simulation ended at time: 0.00.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 0.04s
+ TraCI-Duration: 0.00s
+ Real time factor: 0
+ UPS: 0.000000
+Vehicles:
+ Inserted: 0
+ Running: 0
+ Waiting: 0

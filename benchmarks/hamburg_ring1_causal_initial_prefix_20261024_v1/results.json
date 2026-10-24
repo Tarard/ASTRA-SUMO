@@ -1,0 +1,185 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_recorded": 6,
+    "native_runs_by_freeze": 0,
+    "prefixes": {
+      "reference": {
+        "validity_status": "pass",
+        "measured_initialization_rows": 13,
+        "prefix13": {
+          "rows": 13,
+          "TAE": 22,
+          "SSE": 234,
+          "MAE": 1.6923076923076923,
+          "max_abs_error": 13
+        },
+        "future169_measured_values": null,
+        "full_completion_not_claimed": true,
+        "executed_runner_sha256": "127b69b9b62ea8898f5f71a64f5aa51d8d03ac26f5725790d30765d157c7a798",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_departures": 0,
+          "routes_stops_fields_and_native_departure_bins_fixed": true
+        }
+      },
+      "advance22": {
+        "validity_status": "pass",
+        "measured_initialization_rows": 13,
+        "prefix13": {
+          "rows": 13,
+          "TAE": 22,
+          "SSE": 244,
+          "MAE": 1.6923076923076923,
+          "max_abs_error": 12
+        },
+        "future169_measured_values": null,
+        "full_completion_not_claimed": true,
+        "executed_runner_sha256": "127b69b9b62ea8898f5f71a64f5aa51d8d03ac26f5725790d30765d157c7a798",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_departures": 22,
+          "routes_stops_fields_and_native_departure_bins_fixed": true
+        }
+      },
+      "advance225": {
+        "validity_status": "pass",
+        "measured_initialization_rows": 13,
+        "prefix13": {
+          "rows": 13,
+          "TAE": 7,
+          "SSE": 17,
+          "MAE": 0.5384615384615384,
+          "max_abs_error": 3
+        },
+        "future169_measured_values": null,
+        "full_completion_not_claimed": true,
+        "executed_runner_sha256": "577701e068bbd801fcc15d0620dedf193510e75be1d346bc5f27a3d85f79cc74",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_departures": 225,
+          "routes_stops_fields_and_native_departure_bins_fixed": true
+        }
+      },
+      "advance-first900": {
+        "validity_status": "pass",
+        "measured_initialization_rows": 13,
+        "prefix13": {
+          "rows": 13,
+          "TAE": 7,
+          "SSE": 25,
+          "MAE": 0.5384615384615384,
+          "max_abs_error": 4
+        },
+        "future169_measured_values": null,
+        "full_completion_not_claimed": true,
+        "executed_runner_sha256": "cd09d3d9b4a577d911588af46ebe44cbfd8068f337b8da71488b9d53c5ea8aed",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_departures": 434,
+          "routes_stops_fields_and_native_departure_bins_fixed": true
+        }
+      },
+      "advance-first900-120225": {
+        "validity_status": "pass",
+        "measured_initialization_rows": 13,
+        "prefix13": {
+          "rows": 13,
+          "TAE": 0,
+          "SSE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "future169_measured_values": null,
+        "full_completion_not_claimed": true,
+        "executed_runner_sha256": "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471",
+        "input": {
+          "full_future_requests": 8640,
+          "changed_departures": 434,
+          "routes_stops_fields_and_native_departure_bins_fixed": true
+        }
+      }
+    },
+    "distinct_executed_runner_versions": [
+      "127b69b9b62ea8898f5f71a64f5aa51d8d03ac26f5725790d30765d157c7a798",
+      "303b282d234a901d6b04584b290bf7927532b25d695e29a0f58eef14e44c0471",
+      "577701e068bbd801fcc15d0620dedf193510e75be1d346bc5f27a3d85f79cc74",
+      "cd09d3d9b4a577d911588af46ebe44cbfd8068f337b8da71488b9d53c5ea8aed"
+    ],
+    "selected_full": {
+      "raw_verdict": "rejected",
+      "full": {
+        "main130": {
+          "SSE": 11917,
+          "TAE": 711,
+          "MAE": 5.469230769230769,
+          "max_abs_error": 31
+        },
+        "initial52": {
+          "SSE": 1088,
+          "TAE": 86,
+          "MAE": 1.6538461538461537,
+          "max_abs_error": 22
+        },
+        "all182": {
+          "SSE": 13005,
+          "TAE": 797,
+          "MAE": 4.3791208791208796,
+          "max_abs_error": 31
+        },
+        "station40_MAE": 15.675,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8594,
+          "arrived": 8507,
+          "waiting": 46,
+          "running": 87,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "safe": true,
+        "event_count": 8522,
+        "unexpected_contributions": 0,
+        "repeated_vehicle_fields": 0,
+        "warning_lines": 30
+      },
+      "prefix13_still_exact": true,
+      "full_prefix_parity_pass": true,
+      "all53556": {
+        "rows": 56,
+        "SSE": 0,
+        "TAE": 0,
+        "MAE": 0.0,
+        "max_abs_error": 0
+      },
+      "gates": {
+        "safe": true,
+        "healthy": false,
+        "all53556_zero": true,
+        "no_repeated_vehicle_fields": true,
+        "no_contributions_outside_primary_intention": true,
+        "main130_MAE_improves": false,
+        "main130_SSE_not_worse": false,
+        "all182_TAE_not_worse": false
+      },
+      "global_best_gates": {
+        "safe": true,
+        "healthy": false,
+        "all53556_zero": true,
+        "no_repeated_vehicle_fields": true,
+        "no_contributions_outside_primary_intention": true,
+        "main130_MAE_improves": false,
+        "main130_SSE_not_worse": false,
+        "all182_TAE_not_worse": false
+      },
+      "claim_boundary": "Only13initializationrowszero. Main130regresses and133unfinished; neither full calibration nor full completion achieved."
+    },
+    "global_best_MAE_unchanged": 3.7153846153846155,
+    "no_second_prefix_study_included": true
+  }
+}

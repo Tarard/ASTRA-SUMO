@@ -1,0 +1,182 @@
+{
+  "schema": "astra.point-detector-demand-replay/v1",
+  "status": "invalid",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\demand.rou.xml",
+      "sha256": "3d18c1b0055db7fb7aa3e90b6fdcea333b91c852e56963bdffa5d77615dda052"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\lane-intentions.json",
+      "sha256": "fbf065419d5174187d243e37aa58a4d1c43861a44a8650e5d5c63803c37e878e"
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\demand.rou.xml",
+      "sha256": "3d18c1b0055db7fb7aa3e90b6fdcea333b91c852e56963bdffa5d77615dda052"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\lane-intentions.json",
+      "sha256": "fbf065419d5174187d243e37aa58a4d1c43861a44a8650e5d5c63803c37e878e"
+    }
+  ],
+  "seed": 104,
+  "step_length_s": 0.1,
+  "end_s": 14400,
+  "vehicle_count": 8640,
+  "measurement_attribute": "nVehContrib",
+  "instant_to_periodic_ids": {
+    "astra_trace_0": "hh_0119_Z_11_28853",
+    "astra_trace_1": "hh_0119_Z_12_31546",
+    "astra_trace_2": "hh_0119_Z_13_34018",
+    "astra_trace_3": "hh_0119_Z_15_29375",
+    "astra_trace_4": "hh_0119_Z_4_29437",
+    "astra_trace_5": "hh_0119_Z_5_30494",
+    "astra_trace_6": "hh_0535_Z_14_31892",
+    "astra_trace_7": "hh_0535_Z_4_33055",
+    "astra_trace_8": "hh_0535_Z_5_30894",
+    "astra_trace_9": "hh_0535_Z_6_33855",
+    "astra_trace_10": "hh_0535_Z_7_29316",
+    "astra_trace_11": "hh_0535_Z_8_34287",
+    "astra_trace_12": "hh_0535_Z_9_29038"
+  },
+  "signal_treatment": "declared_additional_programs",
+  "formal_result": false,
+  "errors": [
+    "Native execution ended with status timeout. Inspect command.json.",
+    "unclosed token: line 136504, column 4"
+  ],
+  "driver_treatment": "local_observation_lane_hold",
+  "expected_field_bins": 130,
+  "observer_complete": true,
+  "missing_field_bins": 0,
+  "exact_field_bins": 32,
+  "exact_count_fit": false,
+  "field_metrics": null,
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\field-comparison.csv",
+  "state_times_s": [],
+  "state_snapshots": [],
+  "native_status": "timeout",
+  "native_returncode": null,
+  "stall_monitor": {
+    "status": "running",
+    "all_stopped_timeout_s": 300,
+    "speed_tolerance_m_s": 1e-06,
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "--net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\network.net.xml",
+      "--route-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\demand.rou.xml",
+      "--additional-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\signal-programs.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\instant.add.xml",
+      "--end",
+      "14400",
+      "--step-length",
+      "0.1",
+      "--seed",
+      "104",
+      "--precision",
+      "12",
+      "--time-to-teleport",
+      "-1",
+      "--collision.check-junctions",
+      "true",
+      "--summary-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\summary.xml",
+      "--tripinfo-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\tripinfo.xml",
+      "--tripinfo-output.write-unfinished",
+      "true",
+      "--vehroute-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\vehicle-routes.xml",
+      "--vehroute-output.exit-times",
+      "true",
+      "--collision-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\collisions.xml",
+      "--log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\sumo.log",
+      "--queue-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\queues.xml",
+      "--queue-output.period",
+      "1",
+      "--error-log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\sumo-errors.log",
+      "--duration-log.statistics",
+      "true",
+      "--no-step-log",
+      "true",
+      "--remote-port",
+      "14897"
+    ],
+    "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "stop": null,
+    "monitor_interval_s": null,
+    "position_changes_reset_standstill": true
+  },
+  "partial_measurements": {
+    "schema": "astra.partial-point-detector-measurements/v1",
+    "status": "measured",
+    "formal_result": false,
+    "native_completion_established": false,
+    "inputs": [
+      {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\field-counts.xml",
+        "sha256": "63cd7dcc893b138c6cff613612c01897f5ddeee4f7498ec0fba8b9f55e061d5f"
+      },
+      {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\expected-counts.csv",
+        "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+      }
+    ],
+    "errors": [],
+    "source_parse_error": "unclosed token: line 241, column 4",
+    "completed_records": 188,
+    "expected_field_bins": 130,
+    "recovered_field_bins": 130,
+    "missing_field_bins": 0,
+    "exact_field_bins": 32,
+    "field_metrics": null,
+    "exact_count_fit": false,
+    "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\partial-measurements\\field-comparison.csv",
+    "completed_records_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\partial-measurements\\completed-e1-records.xml",
+    "inputs_unchanged": true,
+    "claim_boundary": "Completed E1 records only. The native run remains unverified. No accepted fit metric or exact calibration result is supplied.",
+    "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-full-native-20261021-v1\\partial-measurements\\report.json"
+  },
+  "inputs_unchanged": true,
+  "claim_boundary": "Native completion and all declared detector bins under the supplied model. No field timing, surveyed detector truth, or prediction accuracy is established."
+}

@@ -1241,7 +1241,7 @@ def test_export_plain_net_for_teacher_guided_repair_uses_short_source_copy(
 
     def fake_command(command, **kwargs):
         calls["command"] = command
-        source_arg = Path(command[2])
+        source_arg = Path(command[command.index("--sumo-net-file") + 1])
         assert len(str(source_arg)) < 120
         assert source_arg.name == "plain_source.net.xml"
         assert (kwargs["cwd"] / source_arg).exists()
@@ -1258,7 +1258,8 @@ def test_export_plain_net_for_teacher_guided_repair_uses_short_source_copy(
     )
 
     assert report["status"] == "pass"
-    assert calls["command"][2] == "plain_source.net.xml"
+    command = calls["command"]
+    assert command[command.index("--sumo-net-file") + 1] == "plain_source.net.xml"
 
 
 def test_export_plain_net_for_teacher_guided_repair_synthesizes_missing_used_edge_types(

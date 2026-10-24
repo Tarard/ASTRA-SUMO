@@ -19,6 +19,7 @@ from .scope import (
     _sumo_cluster_member_ids,
     _sumo_joined_cluster_id,
 )
+from ..local_network_conversion import with_geometry_precision
 
 
 def write_expanded_scope_plain_inputs(
@@ -271,7 +272,7 @@ def write_expanded_scope_plain_inputs(
     ET.ElementTree(edge_root).write(edge_file, encoding="utf-8", xml_declaration=True)
     ET.ElementTree(connection_root).write(connection_file, encoding="utf-8", xml_declaration=True)
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--node-files",
         ",".join(
@@ -284,7 +285,7 @@ def write_expanded_scope_plain_inputs(
         connection_file.name,
         "--output-file",
         net_file.name,
-    ]
+    ])
     missing_node_ids = sorted(
         node_id
         for node_id in selected_node_ids

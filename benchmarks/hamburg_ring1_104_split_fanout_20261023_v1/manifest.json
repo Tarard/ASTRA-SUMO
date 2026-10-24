@@ -1,0 +1,242 @@
+{
+  "source": "hamburg_ring1_od_spsa_completed_20261023_v3/evaluations/final",
+  "formal_result": false,
+  "text_normalization": "LF for new text evidence only; native files inside gzip are unchanged.",
+  "files": [
+    {
+      "path": "all-104-curves.json",
+      "bytes": 3979,
+      "sha256": "a07a4b91c2b764f151e3ba634d14681636acccf2c7737061f3f4860847fcbc55"
+    },
+    {
+      "path": "body_hold/collisions.xml.gz",
+      "bytes": 751,
+      "sha256": "86bf56339c7b0eea8ff1ec76eb64ef601c5c7f0a6630fe6b7f3939aad81c9a45"
+    },
+    {
+      "path": "body_hold/command.json.gz",
+      "bytes": 1371,
+      "sha256": "a76e9d26cbbdd2e872d0c3d5aa6d78d98e754a9ffb9d0588a177bea22a23bbe3"
+    },
+    {
+      "path": "body_hold/field-comparison.csv",
+      "bytes": 7844,
+      "sha256": "beacc440bdfedef762d1b202f75845de4698776b2a2fd3482dd7c010bc83b295"
+    },
+    {
+      "path": "body_hold/field-counts.xml.gz",
+      "bytes": 8942,
+      "sha256": "999a745ed7d4418d69f47582d79a6ed98566185ff4cf8f787584511e5bc2dea7"
+    },
+    {
+      "path": "body_hold/native-request.json.gz",
+      "bytes": 652,
+      "sha256": "445d37cee4d3a2eb5a46df32ba9b71a4d6de4596dd201196fd8d9b13756dc97d"
+    },
+    {
+      "path": "body_hold/results.json",
+      "bytes": 692,
+      "sha256": "8a080f9a79d9afe0301ac49cea65bb1b57e9d52fd82d56da5ff83cc5bfa6ed65"
+    },
+    {
+      "path": "body_hold/run.json.gz",
+      "bytes": 273406,
+      "sha256": "1ce93ce1825bc05e2ef835aee9017785a58e457222612689eaf363a0f43b2064"
+    },
+    {
+      "path": "body_hold/stall-monitor.json.gz",
+      "bytes": 269633,
+      "sha256": "39c41cdda1095c008d5169e68cadab3838b4164fff260ce4661cbdc0e7a3b42b"
+    },
+    {
+      "path": "body_hold/station-comparison.csv",
+      "bytes": 1605,
+      "sha256": "3c034084fb84ccf76f3b933c92419a4f230c71a6956adb15dc0b9de816f9d587"
+    },
+    {
+      "path": "body_hold/summary.xml.gz",
+      "bytes": 3304413,
+      "sha256": "8d886cd8bbd7263a4275a171e7da759e1e5d6bf8a371dec962ce9ca1fe1e6cc7"
+    },
+    {
+      "path": "body_hold/sumo-errors.log.gz",
+      "bytes": 673,
+      "sha256": "781a0e4fe9ddb01d2a3b47d2456349580c7683e0908eecd05bf7dd75dac02373"
+    },
+    {
+      "path": "body_hold/sumo.log.gz",
+      "bytes": 1226,
+      "sha256": "7d64bbd3b385c07bc71cc12c77c97d6da8d20a63a24e229a81387466759e701b"
+    },
+    {
+      "path": "body_hold/tripinfo.xml.gz",
+      "bytes": 356517,
+      "sha256": "78dc4d458f1ae6f9fe096aa0eee7fbb3fc4b7e722ecb0cd9ccea6555cfef045d"
+    },
+    {
+      "path": "body_hold/vehicle-routes.xml.gz",
+      "bytes": 569108,
+      "sha256": "96e37d1e4fc5d4ba62e549b75936b606209908f56e678d346aa94b0e0dd45310"
+    },
+    {
+      "path": "candidate.net.xml.gz",
+      "bytes": 234289,
+      "sha256": "6fc78e1850db23019a2fbaf44f699b5ad8cab96b73acfc815bf160b7b3a3875f"
+    },
+    {
+      "path": "cohort.rou.xml",
+      "bytes": 524,
+      "sha256": "e4b6f07baee6c90c4b7e6fc2c891050322db6f23dda213fdf8aa85cbdb12873e"
+    },
+    {
+      "path": "execution.json",
+      "bytes": 1549,
+      "sha256": "162220a56c84dcde2a663c6d7bebcc13fe619d97bae9700c5202545c3e51bf84"
+    },
+    {
+      "path": "final-tests.log",
+      "bytes": 99,
+      "sha256": "5a7ecffa1d3cfff2c0cbf98f7b5890748ce157f70f3b155be375388e559f83c5"
+    },
+    {
+      "path": "focused-tests.log",
+      "bytes": 191,
+      "sha256": "7fbff836651904e6cd2bfa270e0d4847e4cc61300942f418036ca883c9b19c7a"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 953,
+      "sha256": "6d1fa0779cc6760319a11f55924e672840cc2f5320f5b231977da89e40b9fa6d"
+    },
+    {
+      "path": "native_only/collisions.xml.gz",
+      "bytes": 1000,
+      "sha256": "b5716dc1100fb5c12988e9d552a62ea6f2b4971c215a0682c3eac24465aa5d93"
+    },
+    {
+      "path": "native_only/command.json.gz",
+      "bytes": 1467,
+      "sha256": "4b82610b0cd3c74689167eac6f0582e955c94bfbfaa94d572a9b0f3a717a08ad"
+    },
+    {
+      "path": "native_only/field-comparison.csv",
+      "bytes": 7852,
+      "sha256": "3ec1d32f21d78f355957c8c9434371e5090bca2d8763b8ad99fdab6c7f857642"
+    },
+    {
+      "path": "native_only/field-counts.xml.gz",
+      "bytes": 8978,
+      "sha256": "c527d362c57b308ce5744fb45e41e79715fca55d43d798375a4dda86d40072d3"
+    },
+    {
+      "path": "native_only/native-request.json.gz",
+      "bytes": 641,
+      "sha256": "f2eae86c230f946384d6524c64eb04fbc63d9f5183632ad09619a878a497db12"
+    },
+    {
+      "path": "native_only/results.json",
+      "bytes": 670,
+      "sha256": "9daa88ed1f433c0c02d81401eb6e46317e3ed7dfed97c9a2ead1fd77cfb17ebb"
+    },
+    {
+      "path": "native_only/run.json.gz",
+      "bytes": 253208,
+      "sha256": "0359b7f95290d2a757bbfe87384efd62d6cd7b63bcdc45f06fd3f9b7f9b046ce"
+    },
+    {
+      "path": "native_only/stall-monitor.json.gz",
+      "bytes": 249684,
+      "sha256": "248b9d3ce35521baadf1ed1149705d0b52ae7c4ba3728b2f51567998b3d0d35f"
+    },
+    {
+      "path": "native_only/station-comparison.csv",
+      "bytes": 1605,
+      "sha256": "312ab628aa97b2c60453a114d43a7b8df1a797a255c5ad37fd7139b77a4f9ac0"
+    },
+    {
+      "path": "native_only/summary.xml.gz",
+      "bytes": 3301167,
+      "sha256": "1cc0df2bdbd3ee3b049bc93e3a5a316e510a7ed8dd2b2af515cf7d163845ac25"
+    },
+    {
+      "path": "native_only/sumo-errors.log.gz",
+      "bytes": 767,
+      "sha256": "edea8917e89ee27f755ecbe917894b4ec67ad811c329002d938ddb68b7e417b7"
+    },
+    {
+      "path": "native_only/sumo.log.gz",
+      "bytes": 1326,
+      "sha256": "9294f77a7edfbd38d79c31dee11845ad8c945b523725d76b97e6841037a2e5a9"
+    },
+    {
+      "path": "native_only/tripinfo.xml.gz",
+      "bytes": 353178,
+      "sha256": "819238314d3bcb26adff923e51e7d8d270c01cdd5e221941a0e46b181edbff7d"
+    },
+    {
+      "path": "native_only/vehicle-routes.xml.gz",
+      "bytes": 562977,
+      "sha256": "266d5af43b503e38f5b7e8b3527500151796949c81b6c8aa29b0f54dc4cccaed"
+    },
+    {
+      "path": "original-collision-context.csv",
+      "bytes": 11882,
+      "sha256": "a68dd74c1e562ddd7c95bed2a6b98045060ce56185e1874bd0d1cda881321ab7"
+    },
+    {
+      "path": "prefix/all-130-targets.csv",
+      "bytes": 7334,
+      "sha256": "ba4d66e26dcc9f318f6b3e4d1053ad8c092419ebd611810ccc642c2049c6ff38"
+    },
+    {
+      "path": "prefix/collisions.xml.gz",
+      "bytes": 742,
+      "sha256": "e9fb4b7efbce870ccf8622054f20718d71d36254cfe1140da8c5f78c7db6f35d"
+    },
+    {
+      "path": "prefix/coverage.json",
+      "bytes": 1687,
+      "sha256": "8d16183c7e7d3e78d94bf7c4add3b8f8d3cd3b4ab686658a31c784a6bb804c2d"
+    },
+    {
+      "path": "prefix/native-request.json.gz",
+      "bytes": 642,
+      "sha256": "70eac23b4cb9d9d2b714fb7b4e77b196d266d746b73a7269d664bffac7ac6bca"
+    },
+    {
+      "path": "prefix/stall-monitor.json.gz",
+      "bytes": 84324,
+      "sha256": "98262d76af1fab7811073be1fa810b3251bd9602f7d2e95fb73f4980b984ec48"
+    },
+    {
+      "path": "prefix/summary.xml.gz",
+      "bytes": 1012510,
+      "sha256": "235101b9e1361afaebb3ba8e1f225e2ac08f473f618f70e2b048e426fc5f545e"
+    },
+    {
+      "path": "README.md",
+      "bytes": 7387,
+      "sha256": "da99d6a41aa37630cdfbfb200b1be6a0452dc1037e1d665087c338ac34656c9c"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 4401,
+      "sha256": "11c8b426ccb28966ac07e77acc803506db124e1a473477022c9447d629710701"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1533,
+      "sha256": "e733baaaa80e88c56add8794417ad300f84f20d3f3a7a6ffb72b3eb3f915e901"
+    },
+    {
+      "path": "small-probe-evidence.json",
+      "bytes": 2985,
+      "sha256": "2e6ff2accf723ad6a2e4f2221f93b9348e20cf125920af38887f2690247430f6"
+    },
+    {
+      "path": "validate.py",
+      "bytes": 3379,
+      "sha256": "b497ce468888a8ea954f8d837b8cb34b3a891fca1ead3996c46872159e24a447"
+    }
+  ]
+}

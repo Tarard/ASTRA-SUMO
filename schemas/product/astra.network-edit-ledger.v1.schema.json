@@ -1,0 +1,717 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "astra.network-edit-ledger.v1.schema.json",
+  "title": "Source-bound scoped edits in the existing corridor ledger",
+  "type": "object",
+  "required": [
+    "schema",
+    "source_net_file",
+    "source_sha256",
+    "operations"
+  ],
+  "properties": {
+    "schema": {
+      "const": "torii.corridor_edit_ledger.v1"
+    },
+    "source_net_file": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source_sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "allOf": [
+          {
+            "$ref": "#/$defs/operation"
+          },
+          {
+            "oneOf": [
+              {
+                "properties": {
+                  "operation": {
+                    "const": "join_junctions"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_ids",
+                      "join_id"
+                    ],
+                    "properties": {
+                      "interior_lane_change_policy": {
+                        "enum": [
+                          "fixed_paths",
+                          "permitted_interior"
+                        ]
+                      },
+                      "join_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "node_ids": {
+                        "type": "array",
+                        "minItems": 2,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "signal_policy": {
+                        "enum": [
+                          "preserve",
+                          "rebuild_diagnostic"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "absorb_reciprocal_fragment"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "node_ids",
+                      "join_id",
+                      "maximum_length_m"
+                    ],
+                    "properties": {
+                      "interior_lane_change_policy": {
+                        "enum": [
+                          "fixed_paths",
+                          "permitted_interior"
+                        ]
+                      },
+                      "join_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "maximum_length_m": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      },
+                      "node_ids": {
+                        "type": "array",
+                        "minItems": 2,
+                        "uniqueItems": true,
+                        "items": {
+                          "type": "string",
+                          "minLength": 1
+                        }
+                      },
+                      "signal_policy": {
+                        "enum": [
+                          "preserve",
+                          "rebuild_diagnostic"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "suppress_turnaround"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "to",
+                      "from",
+                      "toLane",
+                      "fromLane"
+                    ],
+                    "properties": {
+                      "from": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fromLane": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "to": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "toLane": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_junction_shape"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "shape",
+                      "node_id"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shape": {
+                        "type": "array",
+                        "minItems": 3,
+                        "items": {
+                          "type": "array",
+                          "minItems": 2,
+                          "maxItems": 2,
+                          "items": {
+                            "type": "number"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "add_lane_connection"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "from",
+                      "fromLane",
+                      "to",
+                      "toLane"
+                    ],
+                    "properties": {
+                      "allow": {
+                        "type": "string"
+                      },
+                      "disallow": {
+                        "type": "string"
+                      },
+                      "from": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fromLane": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "to": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "toLane": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "delete_lane_connection"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "to",
+                      "from",
+                      "toLane",
+                      "fromLane"
+                    ],
+                    "properties": {
+                      "from": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "fromLane": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "to": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "toLane": {
+                        "type": "integer",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "relocate_tls_control"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "to_node",
+                      "from_node",
+                      "link_mapping",
+                      "tls_id"
+                    ],
+                    "properties": {
+                      "from_node": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "link_mapping": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "source",
+                            "target"
+                          ],
+                          "additionalProperties": false,
+                          "properties": {
+                            "source": {
+                              "$ref": "#/$defs/connection"
+                            },
+                            "target": {
+                              "$ref": "#/$defs/connection"
+                            }
+                          }
+                        }
+                      },
+                      "tls_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "to_node": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "demote_duplicate_tls"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "retained_node_id",
+                      "node_id"
+                    ],
+                    "properties": {
+                      "node_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "retained_node_id": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_lane_permissions"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "lane_id"
+                    ],
+                    "properties": {
+                      "allow": {
+                        "type": "string"
+                      },
+                      "disallow": {
+                        "type": "string"
+                      },
+                      "lane_id": {
+                        "type": "string",
+                        "minLength": 1
+                      }
+                    },
+                    "anyOf": [
+                      {
+                        "required": [
+                          "allow"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "disallow"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_lane_width"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "width_m",
+                      "lane_id"
+                    ],
+                    "properties": {
+                      "lane_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "width_m": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_edge_shape"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "edge_id",
+                      "shape"
+                    ],
+                    "properties": {
+                      "edge_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "shape": {
+                        "type": "array",
+                        "minItems": 2,
+                        "items": {
+                          "type": "array",
+                          "minItems": 2,
+                          "maxItems": 3,
+                          "items": {
+                            "type": "number"
+                          }
+                        },
+                        "oneOf": [
+                          { "items": { "minItems": 2, "maxItems": 2 } },
+                          { "items": { "minItems": 3, "maxItems": 3 } }
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_lane_count"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "edge_id",
+                      "num_lanes"
+                    ],
+                    "properties": {
+                      "edge_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "num_lanes": {
+                        "type": "integer",
+                        "minimum": 1
+                      },
+                      "remove_index": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "add_side": {
+                        "enum": [
+                          "left",
+                          "right"
+                        ]
+                      },
+                      "vehicle_class": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "connections": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "from",
+                            "fromLane",
+                            "to",
+                            "toLane"
+                          ],
+                          "properties": {
+                            "from": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "to": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "fromLane": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "toLane": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "allow": {
+                              "type": "string"
+                            },
+                            "disallow": {
+                              "type": "string"
+                            },
+                            "tl": {
+                              "type": "string",
+                              "minLength": 1
+                            },
+                            "linkIndex": {
+                              "type": "integer",
+                              "minimum": 0
+                            },
+                            "linkIndex2": {
+                              "type": "integer",
+                              "minimum": 0
+                            }
+                          },
+                          "dependentRequired": {
+                            "tl": [
+                              "linkIndex"
+                            ],
+                            "linkIndex": [
+                              "tl"
+                            ],
+                            "linkIndex2": [
+                              "tl",
+                              "linkIndex"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "allOf": [
+                      {
+                        "not": {
+                          "required": [
+                            "remove_index",
+                            "add_side"
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "move_stop_line"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "lane_id",
+                      "end_offset_m"
+                    ],
+                    "properties": {
+                      "lane_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "end_offset_m": {
+                        "type": "number",
+                        "minimum": 0
+                      }
+                    }
+                  }
+                }
+              },
+              {
+                "properties": {
+                  "operation": {
+                    "const": "set_speed"
+                  },
+                  "params": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "lane_id",
+                      "speed_m_s"
+                    ],
+                    "properties": {
+                      "lane_id": {
+                        "type": "string",
+                        "minLength": 1
+                      },
+                      "speed_m_s": {
+                        "type": "number",
+                        "exclusiveMinimum": 0
+                      }
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "connection": {
+      "type": "object",
+      "required": [
+        "from",
+        "fromLane",
+        "to",
+        "toLane"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "from": {
+          "type": "string",
+          "minLength": 1
+        },
+        "to": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fromLane": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "toLane": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "id",
+        "operation",
+        "status",
+        "params",
+        "rationale",
+        "evidence",
+        "rollback"
+      ],
+      "additionalProperties": true,
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "candidate",
+            "accepted",
+            "rejected",
+            "deferred"
+          ]
+        },
+        "rationale": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "sha256"
+            ],
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        },
+        "rollback": {
+          "type": "object",
+          "minProperties": 1
+        },
+        "operation": {
+          "enum": [
+            "join_junctions",
+            "absorb_reciprocal_fragment",
+            "suppress_turnaround",
+            "set_junction_shape",
+            "add_lane_connection",
+            "delete_lane_connection",
+            "relocate_tls_control",
+            "demote_duplicate_tls",
+            "set_lane_permissions",
+            "set_lane_width",
+            "set_edge_shape",
+            "set_lane_count",
+            "move_stop_line",
+            "set_speed"
+          ]
+        },
+        "params": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "role": "completed_entry_mechanism_checks_not_count_calibration",
+  "cases": {
+    "short_local_entry": {
+      "completion": {
+        "loaded": 20,
+        "inserted": 20,
+        "arrived": 20,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "mean_depart_delay_s": 153.035,
+      "max_depart_delay_s": 292.1,
+      "mean_duration_s": 123.105,
+      "mean_planned_departure_to_arrival_s": 276.14,
+      "peak_insertion_waiting_vehicles": 18,
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ]
+    },
+    "major_entry": {
+      "completion": {
+        "loaded": 20,
+        "inserted": 20,
+        "arrived": 20,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "mean_depart_delay_s": 3.8,
+      "max_depart_delay_s": 7.6,
+      "mean_duration_s": 165.845,
+      "mean_planned_departure_to_arrival_s": 169.645,
+      "peak_insertion_waiting_vehicles": 4,
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ]
+    },
+    "short_service_entry": {
+      "completion": {
+        "loaded": 20,
+        "inserted": 20,
+        "arrived": 20,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "mean_depart_delay_s": 3.8,
+      "max_depart_delay_s": 7.6,
+      "mean_duration_s": 183.82,
+      "mean_planned_departure_to_arrival_s": 187.62,
+      "peak_insertion_waiting_vehicles": 4,
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ]
+    },
+    "major_service_replacement": {
+      "completion": {
+        "loaded": 20,
+        "inserted": 20,
+        "arrived": 20,
+        "running": 0,
+        "waiting": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "mean_depart_delay_s": 0.0,
+      "max_depart_delay_s": 0.0,
+      "mean_duration_s": 232.105,
+      "mean_planned_departure_to_arrival_s": 232.105,
+      "peak_insertion_waiting_vehicles": 0,
+      "native_version": [
+        22,
+        "SUMO 1.27.1"
+      ]
+    }
+  },
+  "repetitions_per_case": 1,
+  "seed": 104
+}

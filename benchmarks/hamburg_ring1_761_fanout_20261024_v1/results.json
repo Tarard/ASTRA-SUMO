@@ -1,0 +1,195 @@
+{
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "cases": {
+      "retained8597": {
+        "measurement": {
+          "main130": {
+            "SSE": 5920,
+            "TAE": 448,
+            "MAE": 3.4461538461538463,
+            "max_abs_error": 28
+          },
+          "initial52": {
+            "SSE": 2911,
+            "TAE": 143,
+            "MAE": 2.75,
+            "max_abs_error": 28
+          },
+          "all182": {
+            "SSE": 8831,
+            "TAE": 591,
+            "MAE": 3.2472527472527473,
+            "max_abs_error": 28
+          },
+          "station40_MAE": 10.05,
+          "completion": {
+            "loaded": 8597,
+            "inserted": 8597,
+            "arrived": 8597,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8597,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 36
+        },
+        "parent_N": 8597,
+        "parent_main_TAE": 324,
+        "parent_measurement": {
+          "metrics130": {
+            "rows": 130,
+            "SSE": 3598,
+            "TAE": 324,
+            "MAE": 2.4923076923076923,
+            "max_abs_error": 23
+          },
+          "metrics52": {
+            "rows": 52,
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "metrics182": {
+            "rows": 182,
+            "SSE": 4715,
+            "TAE": 421,
+            "MAE": 2.3131868131868134,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 7.95,
+          "completion": {
+            "loaded": 8597,
+            "inserted": 8597,
+            "arrived": 8597,
+            "running": 0,
+            "waiting": 0,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0
+          },
+          "safe": true,
+          "healthy": true,
+          "event_count": 8597
+        },
+        "unchanged_full_demand_bytes": true,
+        "no_unchanged_prefix_claim": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "contributions_outside": 0,
+        "repeated_vehicle_fields": 0,
+        "raw_verdict": "diagnostic_measurement_complete"
+      },
+      "restored8640": {
+        "measurement": {
+          "main130": {
+            "SSE": 5870,
+            "TAE": 442,
+            "MAE": 3.4,
+            "max_abs_error": 28
+          },
+          "initial52": {
+            "SSE": 2911,
+            "TAE": 143,
+            "MAE": 2.75,
+            "max_abs_error": 28
+          },
+          "all182": {
+            "SSE": 8781,
+            "TAE": 585,
+            "MAE": 3.2142857142857144,
+            "max_abs_error": 28
+          },
+          "station40_MAE": 9.8,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 36
+        },
+        "parent_N": 8640,
+        "parent_main_TAE": 365,
+        "parent_measurement": {
+          "metrics130": {
+            "rows": 130,
+            "SSE": 4117,
+            "TAE": 365,
+            "MAE": 2.8076923076923075,
+            "max_abs_error": 23
+          },
+          "metrics52": {
+            "rows": 52,
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "metrics182": {
+            "rows": 182,
+            "SSE": 5234,
+            "TAE": 462,
+            "MAE": 2.5384615384615383,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 8.975,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "running": 0,
+            "waiting": 0,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0
+          },
+          "safe": true,
+          "healthy": true,
+          "event_count": 8640
+        },
+        "unchanged_full_demand_bytes": true,
+        "no_unchanged_prefix_claim": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "contributions_outside": 0,
+        "repeated_vehicle_fields": 0,
+        "raw_verdict": "diagnostic_measurement_complete"
+      }
+    },
+    "native_full_runs_recorded": 2,
+    "native_smoke_runs_recorded": 2,
+    "ordinary_roads_unchanged": true,
+    "internal_native_group_mean_m": 8.555760785474,
+    "physical_old_curve_preserved_but_logical_internal_length_changed": true,
+    "field_geometry_control_true_OD_and_zero_fit_not_certified": true
+  }
+}

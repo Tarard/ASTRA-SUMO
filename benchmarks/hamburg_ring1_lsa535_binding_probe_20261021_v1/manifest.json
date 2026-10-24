@@ -1,0 +1,344 @@
+{
+  "schema": "astra.ring1-lsa535-binding-failure-evidence/v1",
+  "status": "failed_candidate_not_adopted",
+  "implementation_commit": "5dd238eb7f94a98c019365b9916ca583a431598e",
+  "files": [
+    {
+      "path": "construction.json",
+      "sha256": "867d62493a495eedb9a575d0b579755f3303131069de9515965bd4d5f246ed37",
+      "source_sha256": "867d62493a495eedb9a575d0b579755f3303131069de9515965bd4d5f246ed37",
+      "compression": null
+    },
+    {
+      "path": "conversion.json",
+      "sha256": "0708ba7de801f3de996da72a8c900ba7a3c00a2906c34371b3d5258e7b34da48",
+      "source_sha256": "0708ba7de801f3de996da72a8c900ba7a3c00a2906c34371b3d5258e7b34da48",
+      "compression": null
+    },
+    {
+      "path": "cohort-scenario.json",
+      "sha256": "48619980e9707a8902c03f6582efadc4f7d05025f3ee77e13e0148062b36841c",
+      "source_sha256": "48619980e9707a8902c03f6582efadc4f7d05025f3ee77e13e0148062b36841c",
+      "compression": null
+    },
+    {
+      "path": "rebinding.con.xml",
+      "sha256": "1cd6605edebbc617ea7f29e039d62b7242d5e692e8037c9465083714c8ef0559",
+      "source_sha256": "1cd6605edebbc617ea7f29e039d62b7242d5e692e8037c9465083714c8ef0559",
+      "compression": null
+    },
+    {
+      "path": "snapshot-reload-matched-step.json",
+      "sha256": "f760b1a12742fdc3e3ae30e60b086fd3fbafc9bf2536699140eb1babef878fb5",
+      "source_sha256": "f760b1a12742fdc3e3ae30e60b086fd3fbafc9bf2536699140eb1babef878fb5",
+      "compression": null
+    },
+    {
+      "path": "snapshot-reload-audit.json",
+      "sha256": "b47eb172dba6c76a327639e66663c6263ebdb7b8734d56f3b688bf4a67c8aa76",
+      "source_sha256": "b47eb172dba6c76a327639e66663c6263ebdb7b8734d56f3b688bf4a67c8aa76",
+      "compression": null
+    },
+    {
+      "path": "forensic-matched-step-errors.log",
+      "sha256": "0b5cd5a9cdbeb6faea96090415d24e20b8d38f0249edbbf53f44d5baa7f022bd",
+      "source_sha256": "0b5cd5a9cdbeb6faea96090415d24e20b8d38f0249edbbf53f44d5baa7f022bd",
+      "compression": null
+    },
+    {
+      "path": "results.json",
+      "sha256": "7e255c9bc57da2813d303318b0c653e6c6ca0a2efdec88426e26075f9e4aa597",
+      "source_sha256": "7e255c9bc57da2813d303318b0c653e6c6ca0a2efdec88426e26075f9e4aa597",
+      "compression": null
+    },
+    {
+      "path": "repeated-535-visits.json.gz",
+      "sha256": "bcaa13b626598657b200c25286af0acdd516f0a947cf5f9fa8624da7c285f22f",
+      "source_sha256": "0403559ce9de281f25fca779fbf797e74b901e808ae64c1cd65cd93b6844e09b",
+      "compression": "gzip"
+    },
+    {
+      "path": "cohort.rou.xml.gz",
+      "sha256": "23c9645b8c1744f6adec05d49c0a34dfc2aa18733cefc4b9e0daec964daec52c",
+      "source_sha256": "c9ede7775f0185d01b6383d2975008d964d158282d3fba279004bf8a281fc629",
+      "compression": "gzip"
+    },
+    {
+      "path": "source-correspondence.json",
+      "sha256": "2dda342b545a4877517c45becdb02093dcc06a688d581c40620ea6527983ce0a",
+      "source_sha256": "2dda342b545a4877517c45becdb02093dcc06a688d581c40620ea6527983ce0a",
+      "compression": null
+    },
+    {
+      "path": "geometry-audit.json",
+      "sha256": "502f0abff52fc155499b5cab230978fce903ac26f1b753eeee2df7904778ca43",
+      "source_sha256": "502f0abff52fc155499b5cab230978fce903ac26f1b753eeee2df7904778ca43",
+      "compression": null
+    },
+    {
+      "path": "aerial-source.json",
+      "sha256": "c2573de7ee4a13afa873594b205f2dcb6dc0d6f6f40c3f41a7a3094315aee8b9",
+      "source_sha256": "c2573de7ee4a13afa873594b205f2dcb6dc0d6f6f40c3f41a7a3094315aee8b9",
+      "compression": null
+    },
+    {
+      "path": "aerial.png",
+      "sha256": "cdaa2bbf220cf9ec65a7363d78e331c5d973ac032a2ff4120aee37cbb5838b84",
+      "source_sha256": "cdaa2bbf220cf9ec65a7363d78e331c5d973ac032a2ff4120aee37cbb5838b84",
+      "compression": null
+    },
+    {
+      "path": "aerial-retrieval-response-v1.xml",
+      "sha256": "414e717dc6f08dcb4decd2cb5f28e67476b084d66269fa3a2248335d9bc54d0c",
+      "source_sha256": "414e717dc6f08dcb4decd2cb5f28e67476b084d66269fa3a2248335d9bc54d0c",
+      "compression": null
+    },
+    {
+      "path": "claude-review-175.txt",
+      "sha256": "a6916fe74dea675bfab2aeb5337342acf955d872e173f94640c24e1dbc1da238",
+      "source_sha256": "a6916fe74dea675bfab2aeb5337342acf955d872e173f94640c24e1dbc1da238",
+      "compression": null
+    },
+    {
+      "path": "reference/run.json",
+      "sha256": "e5a3aac6a2c69f22e681b1b898a0c578d0cb9ea4fb73559d66be9dce3df241d1",
+      "source_sha256": "e5a3aac6a2c69f22e681b1b898a0c578d0cb9ea4fb73559d66be9dce3df241d1",
+      "compression": null
+    },
+    {
+      "path": "reference/command.json",
+      "sha256": "c3c58693149210bdf449e92cf98180a3b408774b3c86c3981cab265220512775",
+      "source_sha256": "c3c58693149210bdf449e92cf98180a3b408774b3c86c3981cab265220512775",
+      "compression": null
+    },
+    {
+      "path": "reference/native-request.json",
+      "sha256": "a8c75862c23abe908ed24372cdf16f1d44209c41efac5d562a3e9d4d1204cf72",
+      "source_sha256": "a8c75862c23abe908ed24372cdf16f1d44209c41efac5d562a3e9d4d1204cf72",
+      "compression": null
+    },
+    {
+      "path": "reference/stall-monitor.json",
+      "sha256": "af7c39f1eb96a8c6bcfb85c1cf33acd71ff16d53073249d6fb82aa5a75a95618",
+      "source_sha256": "af7c39f1eb96a8c6bcfb85c1cf33acd71ff16d53073249d6fb82aa5a75a95618",
+      "compression": null
+    },
+    {
+      "path": "reference/expected-counts.csv",
+      "sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc",
+      "source_sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc",
+      "compression": null
+    },
+    {
+      "path": "reference/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "compression": null
+    },
+    {
+      "path": "reference/field-comparison.csv",
+      "sha256": "1a85b54f74f984bd8e5a449a64700e874ce9aac7fa2b8a7e86d63777477cdc96",
+      "source_sha256": "1a85b54f74f984bd8e5a449a64700e874ce9aac7fa2b8a7e86d63777477cdc96",
+      "compression": null
+    },
+    {
+      "path": "reference/station-comparison.csv",
+      "sha256": "312a0d207d6ab7344d54db472a1fb1bdbe12c72cddd7ecf2d4b8078eb0605085",
+      "source_sha256": "312a0d207d6ab7344d54db472a1fb1bdbe12c72cddd7ecf2d4b8078eb0605085",
+      "compression": null
+    },
+    {
+      "path": "reference/arrived-trip-planned-movements.csv",
+      "sha256": "395066d5ac043f6b40c1a494c1319ad2351aa8d1bbe9d830105c5944ccc1f26f",
+      "source_sha256": "395066d5ac043f6b40c1a494c1319ad2351aa8d1bbe9d830105c5944ccc1f26f",
+      "compression": null
+    },
+    {
+      "path": "reference/network.net.xml.gz",
+      "sha256": "c74dd699b329c6f316e7f283e4dedf0a7199d94234c45d769ce91762ef63a7db",
+      "source_sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/summary.xml.gz",
+      "sha256": "80e6b02573d160ea575f0b7fdc8e6dca1f341b87c430cf01c6daa7b4c0645120",
+      "source_sha256": "c97785b9b4deaacbcbb108c4e4a5648feec0e54115588fbc1eb0676bf95db92d",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/tripinfo.xml.gz",
+      "sha256": "bda909537dfc82839da58b20b9f583460939b4e7b59be06f1ea3affbd3252516",
+      "source_sha256": "d9f3000821c2a29b87deb9bc49ffc9b9260ae5562d5add82266b696692d9802d",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/collisions.xml.gz",
+      "sha256": "15e727fb540aa2415de257b04a7a455145dd33e7896da0ed80aadc77420e8b2a",
+      "source_sha256": "de8d5ca64bdf093b5e3e24c10bec90e06d95745ad2cc4dd7717b8a88687e78e3",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/field-counts.xml.gz",
+      "sha256": "49ba4711ac212c56d6fa0af8a6a1c9d7c64680f4946b187f7ca7dd8f74914751",
+      "source_sha256": "61d292c0a201b1c36005044add969252a3c4e63612935796d777c6305a664a9b",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/instant-e1.xml.gz",
+      "sha256": "8c99b294579b56627359596d8e9f4bfc8494b79369449be0e432c59eaaba9379",
+      "source_sha256": "55b95fd7fb83e14f5fe144fb1c672f02ac26d614181aca6545203057f848ba62",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/vehicle-routes.xml.gz",
+      "sha256": "f15337c0e01aaa21bb98513fc8ea9f37a5d82c103112c239e73fd59e6b9e0de6",
+      "source_sha256": "43bc97bb8a715f6ee160c071842f5edf4af9f1ec69f04df6e859d09bf4955225",
+      "compression": "gzip"
+    },
+    {
+      "path": "reference/sumo-errors.log.gz",
+      "sha256": "1db63f00f70f340ed88c67a1b81add64ef05942cc87d3a2c8476a261b4ea03fa",
+      "source_sha256": "ab4122ceb9d9de1103ce4369988ef91711fded58bdd608175fbf00ac1631a822",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/run.json",
+      "sha256": "27e4ca12bdc11981f23a72bc1d5e7ef311d4a61f3a7de53e0907165799bf3187",
+      "source_sha256": "27e4ca12bdc11981f23a72bc1d5e7ef311d4a61f3a7de53e0907165799bf3187",
+      "compression": null
+    },
+    {
+      "path": "rebound/command.json",
+      "sha256": "b474480a5d4d6913bb74e34b9447f90b17da7a5d7986e2f1b36147f225c001b1",
+      "source_sha256": "b474480a5d4d6913bb74e34b9447f90b17da7a5d7986e2f1b36147f225c001b1",
+      "compression": null
+    },
+    {
+      "path": "rebound/native-request.json",
+      "sha256": "874a751165e930f39f916bde0104ecdbb4a17717ac2b23621c6c67e1fdf40244",
+      "source_sha256": "874a751165e930f39f916bde0104ecdbb4a17717ac2b23621c6c67e1fdf40244",
+      "compression": null
+    },
+    {
+      "path": "rebound/stall-monitor.json",
+      "sha256": "a750893729ca1d4efb2aca0adf11b962d81b7f063f5400f226a37e4efc0416e1",
+      "source_sha256": "a750893729ca1d4efb2aca0adf11b962d81b7f063f5400f226a37e4efc0416e1",
+      "compression": null
+    },
+    {
+      "path": "rebound/expected-counts.csv",
+      "sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc",
+      "source_sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc",
+      "compression": null
+    },
+    {
+      "path": "rebound/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "compression": null
+    },
+    {
+      "path": "rebound/field-comparison.csv",
+      "sha256": "cbf8f7c3a396f87fc8c6ae7be23b2862a30bc1c0feaf522cedbca5ace8ce0653",
+      "source_sha256": "cbf8f7c3a396f87fc8c6ae7be23b2862a30bc1c0feaf522cedbca5ace8ce0653",
+      "compression": null
+    },
+    {
+      "path": "rebound/station-comparison.csv",
+      "sha256": "f7eabcdd01e259ba2eddbfaacd31b3811cc7cb602c7d6816e0ac228c3371f347",
+      "source_sha256": "f7eabcdd01e259ba2eddbfaacd31b3811cc7cb602c7d6816e0ac228c3371f347",
+      "compression": null
+    },
+    {
+      "path": "rebound/arrived-trip-planned-movements.csv",
+      "sha256": "1649d40ed1daee2e9ff37a81953c01334ddfb152ab008db6bc9b7b4b5dcdc22c",
+      "source_sha256": "1649d40ed1daee2e9ff37a81953c01334ddfb152ab008db6bc9b7b4b5dcdc22c",
+      "compression": null
+    },
+    {
+      "path": "rebound/network.net.xml.gz",
+      "sha256": "8a1b0d3cf487c993b13c36d13976fd02bae6b07205b1f6de8e3f93f459ce10e1",
+      "source_sha256": "c74d0f4fdf6f1a8a51919d37815518fe1f30b15f2b017568106d38df25629dc1",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/summary.xml.gz",
+      "sha256": "1929092c3cdafa5f195907ec77e6e8098492078d67e70b40a086b1ebd46828ea",
+      "source_sha256": "d41559c182f4f190be094cbf036de57e2d647c88fcee6f046e1b4c176a4e19e7",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/tripinfo.xml.gz",
+      "sha256": "4bb6c527f32deb540aabfd1d1e5f4eeac2a6f19de4bfb30d628fe68c16a3994c",
+      "source_sha256": "06a9402b9eeceb1fd91c3da5608cd6bbdc43eb1fb64640766205c90facb70d79",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/collisions.xml.gz",
+      "sha256": "a510a6153ccb5d2f29975eaad716958d467ae0b8941f953bdefe3e9dae6a6227",
+      "source_sha256": "c235af3a4613ff82e68cae86ad03d919413cfe1419fbf66e1dc3987810c39302",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/field-counts.xml.gz",
+      "sha256": "c5bad94371e6534ad33461356e76902b221fde63a9e5a796b5803a12cd6ff99b",
+      "source_sha256": "c3b359549768a4a113584e01cbaf584f1eeebe71955bd746c47a59b4a8c355f6",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/instant-e1.xml.gz",
+      "sha256": "f518b2fe9dd1b724f8be8248f941e6871c6290db1fd51de2005044f462490635",
+      "source_sha256": "391e39eafda4b701b64b6b095add188c8cf2829f0d1cd479bbe5c949d1f57dfe",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/vehicle-routes.xml.gz",
+      "sha256": "4c5b27480b7824c9e2cdf1fedb6f9f9cee8fc08657799b05826581a6d5741830",
+      "source_sha256": "20d1b5a9d914302b0e663e5643ca5bcce2f6c16f9bb6ab20f1fcdccc2fe1c910",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/sumo-errors.log.gz",
+      "sha256": "fd2f9c0039c0d6bafd2a55056a11c33fb3b684e224e90fe54f3063bf9578c5be",
+      "source_sha256": "38007a6a57caae13c6b0fb2b4d70fdbd58ab3aded8c6016a49568de9c8af61c0",
+      "compression": "gzip"
+    },
+    {
+      "path": "rebound/all-stopped-state.xml.gz",
+      "sha256": "52d61e38e2992690a8576a3fdf83879027091b08c4d0b1c7e4a26dad6d493227",
+      "source_sha256": "52d61e38e2992690a8576a3fdf83879027091b08c4d0b1c7e4a26dad6d493227",
+      "compression": null
+    },
+    {
+      "path": "reference/state_12000.000.xml.gz",
+      "sha256": "feff47eb7e7dbb39b47695b8bf0b623b948e2e2d873946fa05a3dea2d38cf99b",
+      "source_sha256": "feff47eb7e7dbb39b47695b8bf0b623b948e2e2d873946fa05a3dea2d38cf99b",
+      "compression": null
+    },
+    {
+      "path": "source-station-counts.json",
+      "sha256": "69d9c3b264a383dc48614929e2bb99bad7bbc8d5d4e94a4ddee4b4e187e79182",
+      "source_sha256": "69d9c3b264a383dc48614929e2bb99bad7bbc8d5d4e94a4ddee4b4e187e79182",
+      "compression": null
+    },
+    {
+      "path": "source-field-layout.json",
+      "sha256": "8e7ba374393d41783e9eea1335b8ff5de40edd33df087e90b1773453b8adbff1",
+      "source_sha256": "8e7ba374393d41783e9eea1335b8ff5de40edd33df087e90b1773453b8adbff1",
+      "compression": null
+    },
+    {
+      "path": "claude-review-177.txt",
+      "sha256": "4ae0a627c20a4111e3a17645c4a37037ad4f6482cd44a39fea82e3552849c115",
+      "source_sha256": "4ae0a627c20a4111e3a17645c4a37037ad4f6482cd44a39fea82e3552849c115",
+      "compression": null
+    }
+  ],
+  "formal_count_fit": false,
+  "field_bins_retained_per_run": 130,
+  "station_bins_retained_per_run": 40,
+  "turnaround_movement_retained_in_candidate": true,
+  "source_counts": "benchmarks/hamburg_ring1_count_window_20261020_v1/field-counts-15min.csv",
+  "source_counts_sha256": "ae218727ab8eae62396237bbc3169a333e65ea53f57298547b77df908a02ee00",
+  "candidate_wait_cycles_established": false
+}

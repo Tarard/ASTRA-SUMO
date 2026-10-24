@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding="UTF-8" standalone="no" ?>
+<WMS_Capabilities version="1.3.0"  xmlns="http://www.opengis.net/wms"   xmlns:sld="http://www.opengis.net/sld"   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   xmlns:ms="http://mapserver.gis.umn.edu/mapserver"   xmlns:inspire_common="http://inspire.ec.europa.eu/schemas/common/1.0"   xmlns:inspire_vs="http://inspire.ec.europa.eu/schemas/inspire_vs/1.0"   xsi:schemaLocation="http://www.opengis.net/wms http://schemas.opengis.net/wms/1.3.0/capabilities_1_3_0.xsd  http://www.opengis.net/sld http://schemas.opengis.net/sld/1.1.0/sld_capabilities.xsd  http://inspire.ec.europa.eu/schemas/inspire_vs/1.0  http://inspire.ec.europa.eu/schemas/inspire_vs/1.0/inspire_vs.xsd http://mapserver.gis.umn.edu/mapserver https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;service=WMS&amp;version=1.3.0&amp;request=GetSchemaExtension">
+<Service>
+  <Name>WMS</Name>
+  <Title>WMS Luftbilder Hamburg - DOP Zeitreihe unbelaubt</Title>
+  <Abstract>Dieser Web Map Service (WMS) zeigt detaillierte Luftbilder (DOP), die während der unbelaubten Jahreszeit in Hamburg aufgenommen wurden. Die dargestellten Geodaten beinhalten zusätzlich eine zeitliche Dimension (WMS-Time). Zur genaueren Beschreibung der Daten und Datenverantwortung nutzen Sie bitte den Verweis zur Datensatzbeschreibung.</Abstract>
+  <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/>
+  <ContactInformation>
+    <ContactPersonPrimary>
+      <ContactPerson></ContactPerson>
+      <ContactOrganization>LGV Hamburg</ContactOrganization>
+    </ContactPersonPrimary>
+      <ContactPosition>Urban Data Platform</ContactPosition>
+    <ContactAddress>
+        <AddressType>postal</AddressType>
+        <Address>Neuenfelder Straße 19</Address>
+        <City>Hamburg</City>
+        <StateOrProvince>HH</StateOrProvince>
+        <PostCode>21109</PostCode>
+        <Country>Germany</Country>
+    </ContactAddress>
+      <ContactVoiceTelephone></ContactVoiceTelephone>
+      <ContactFacsimileTelephone></ContactFacsimileTelephone>
+  <ContactElectronicMailAddress>udp-hilfe@gv.hamburg.de</ContactElectronicMailAddress>
+  </ContactInformation>
+  <Fees>Datenlizenz Deutschland Namensnennung 2.0, Quellenvermerk: Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung (LGV), Andere geschlossene Lizenz, Quellenvermerk: Maxar Products. Dynamic Product © 2023 Maxar Technologies.</Fees>
+  <AccessConstraints>Es gelten keine Zugriffsbeschränkungen</AccessConstraints>
+  <MaxWidth>4096</MaxWidth>
+  <MaxHeight>4096</MaxHeight>
+</Service>
+
+<Capability>
+  <Request>
+    <GetCapabilities>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetCapabilities>
+    <GetMap>
+      <Format>image/png</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/png; mode=8bit</Format>
+      <Format>image/vnd.jpeg-png</Format>
+      <Format>image/vnd.jpeg-png8</Format>
+      <Format>application/x-pdf</Format>
+      <Format>image/svg+xml</Format>
+      <Format>image/tiff</Format>
+      <Format>application/vnd.google-earth.kml+xml</Format>
+      <Format>application/vnd.google-earth.kmz</Format>
+      <Format>application/vnd.mapbox-vector-tile</Format>
+      <Format>application/x-protobuf</Format>
+      <Format>application/json</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetMap>
+    <GetFeatureInfo>
+      <Format>text/plain</Format>
+      <Format>application/vnd.ogc.gml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </GetFeatureInfo>
+    <sld:DescribeLayer>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </sld:DescribeLayer>
+    <sld:GetLegendGraphic>
+      <Format>image/png</Format>
+      <Format>image/jpeg</Format>
+      <Format>image/png; mode=8bit</Format>
+      <Format>image/vnd.jpeg-png</Format>
+      <Format>image/vnd.jpeg-png8</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </sld:GetLegendGraphic>
+    <ms:GetStyles>
+      <Format>text/xml</Format>
+      <DCPType>
+        <HTTP>
+          <Get><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Get>
+          <Post><OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;"/></Post>
+        </HTTP>
+      </DCPType>
+    </ms:GetStyles>
+  </Request>
+  <Exception>
+    <Format>XML</Format>
+    <Format>INIMAGE</Format>
+    <Format>BLANK</Format>
+  </Exception>
+  <sld:UserDefinedSymbolization SupportSLD="1" UserLayer="0" UserStyle="1" RemoteWFS="0" InlineFeature="0" RemoteWCS="0"/>
+  <inspire_vs:ExtendedCapabilities>
+    <inspire_common:MetadataUrl xsi:type="inspire_common:resourceLocatorType">
+      <inspire_common:URL>https://metaver.de/csw?REQUEST=GetRecordById&amp;SERVICE=CSW&amp;VERSION=2.0.2&amp;id=2a60c6c0-e914-4b60-89b8-bebd2f0b5971&amp;iplug=/ingrid-group:ige-iplug-hmdk.metaver&amp;elementSetName=full</inspire_common:URL>
+      <inspire_common:MediaType>application/vnd.ogc.csw.GetRecordByIdResponse_xml</inspire_common:MediaType>
+    </inspire_common:MetadataUrl>
+    <inspire_common:SupportedLanguages>
+      <inspire_common:DefaultLanguage><inspire_common:Language>ger</inspire_common:Language></inspire_common:DefaultLanguage>
+    </inspire_common:SupportedLanguages>
+    <inspire_common:ResponseLanguage><inspire_common:Language>ger</inspire_common:Language></inspire_common:ResponseLanguage>
+  </inspire_vs:ExtendedCapabilities>
+  <Layer>
+    <Name>wms_dop_zeitreihe_unbelaubt</Name>
+    <Title>WMS Luftbilder Hamburg - DOP Zeitreihe unbelaubt</Title>
+    <Abstract>Dieser Web Map Service (WMS) zeigt detaillierte Luftbilder (DOP), die während der unbelaubten Jahreszeit in Hamburg aufgenommen wurden. Die dargestellten Geodaten beinhalten zusätzlich eine zeitliche Dimension (WMS-Time). Zur genaueren Beschreibung der Daten und Datenverantwortung nutzen Sie bitte den Verweis zur Datensatzbeschreibung.</Abstract>
+    <CRS>EPSG:25832</CRS>
+    <CRS>EPSG:25833</CRS>
+    <CRS>EPSG:31467</CRS>
+    <CRS>EPSG:4258</CRS>
+    <CRS>EPSG:4326</CRS>
+    <CRS>EPSG:4647</CRS>
+    <CRS>EPSG:3044</CRS>
+    <CRS>EPSG:3857</CRS>
+    <CRS>CRS:84</CRS>
+    <EX_GeographicBoundingBox>
+        <westBoundLongitude>9.721766</westBoundLongitude>
+        <eastBoundLongitude>10.349556</eastBoundLongitude>
+        <southBoundLatitude>53.385582</southBoundLatitude>
+        <northBoundLatitude>53.750431</northBoundLatitude>
+    </EX_GeographicBoundingBox>
+    <BoundingBox CRS="EPSG:25832"
+                minx="547999" miny="5.916e+06" maxx="589000" maxy="5.956e+06" />
+    <BoundingBox CRS="EPSG:25833"
+                minx="149127" miny="5.9253e+06" maxx="193407" maxy="5.96866e+06" />
+    <BoundingBox CRS="EPSG:31467"
+                minx="5.91793e+06" miny="3.54809e+06" maxx="5.95795e+06" maxy="3.58911e+06" />
+    <BoundingBox CRS="EPSG:4258"
+                minx="53.385582" miny="9.721766" maxx="53.750431" maxy="10.349556" />
+    <BoundingBox CRS="EPSG:4326"
+                minx="53.385582" miny="9.721766" maxx="53.750431" maxy="10.349556" />
+    <BoundingBox CRS="EPSG:4647"
+                minx="3.2548e+07" miny="5.916e+06" maxx="3.2589e+07" maxy="5.956e+06" />
+    <BoundingBox CRS="EPSG:3044"
+                minx="5.916e+06" miny="547999" maxx="5.956e+06" maxy="589000" />
+    <BoundingBox CRS="EPSG:3857"
+                minx="1.08222e+06" miny="7.05464e+06" maxx="1.15211e+06" maxy="7.12303e+06" />
+    <BoundingBox CRS="CRS:84"
+                minx="9.721766" miny="53.385582" maxx="10.349556" maxy="53.750431" />
+    <Style>
+       <Name>default</Name>
+       <Title>default</Title>
+       <LegendURL width="165" height="160">
+          <Format>image/png</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=wms_dop_zeitreihe_unbelaubt&amp;format=image/png&amp;STYLE=default"/>
+       </LegendURL>
+    </Style>
+    <Layer>
+      <Name>dop_zeitreihe_unbelaubt</Name>
+      <Title>DOP Zeitreihe unbelaubt</Title>
+      <Abstract>DOP Zeitreihe unbelaubt</Abstract>
+    <Style>
+       <Name>default</Name>
+       <Title>default</Title>
+       <LegendURL width="165" height="160">
+          <Format>image/png</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?language=ger&amp;version=1.3.0&amp;service=WMS&amp;request=GetLegendGraphic&amp;sld_version=1.1.0&amp;layer=dop_zeitreihe_unbelaubt&amp;format=image/png&amp;STYLE=default"/>
+       </LegendURL>
+    </Style>
+      <Layer queryable="0" opaque="0" cascaded="0">
+        <Name>dop_zeitreihe_unbelaubt</Name>
+        <Title>DOP Zeitreihe unbelaubt</Title>
+        <Abstract>DOP Zeitreihe unbelaubt</Abstract>
+        <CRS>EPSG:25832</CRS>
+        <CRS>EPSG:25833</CRS>
+        <CRS>EPSG:31467</CRS>
+        <CRS>EPSG:4258</CRS>
+        <CRS>EPSG:4326</CRS>
+        <CRS>EPSG:4647</CRS>
+        <CRS>EPSG:3044</CRS>
+        <CRS>EPSG:3857</CRS>
+        <CRS>CRS:84</CRS>
+        <EX_GeographicBoundingBox>
+            <westBoundLongitude>9.721766</westBoundLongitude>
+            <eastBoundLongitude>10.349556</eastBoundLongitude>
+            <southBoundLatitude>53.385582</southBoundLatitude>
+            <northBoundLatitude>53.750431</northBoundLatitude>
+        </EX_GeographicBoundingBox>
+        <BoundingBox CRS="EPSG:25832"
+                    minx="547999" miny="5.916e+06" maxx="589000" maxy="5.956e+06" />
+        <BoundingBox CRS="EPSG:25833"
+                    minx="149127" miny="5.9253e+06" maxx="193407" maxy="5.96866e+06" />
+        <BoundingBox CRS="EPSG:31467"
+                    minx="5.91793e+06" miny="3.54809e+06" maxx="5.95795e+06" maxy="3.58911e+06" />
+        <BoundingBox CRS="EPSG:4258"
+                    minx="53.385582" miny="9.721766" maxx="53.750431" maxy="10.349556" />
+        <BoundingBox CRS="EPSG:4326"
+                    minx="53.385582" miny="9.721766" maxx="53.750431" maxy="10.349556" />
+        <BoundingBox CRS="EPSG:4647"
+                    minx="3.2548e+07" miny="5.916e+06" maxx="3.2589e+07" maxy="5.956e+06" />
+        <BoundingBox CRS="EPSG:3044"
+                    minx="5.916e+06" miny="547999" maxx="5.956e+06" maxy="589000" />
+        <BoundingBox CRS="EPSG:3857"
+                    minx="1.08222e+06" miny="7.05464e+06" maxx="1.15211e+06" maxy="7.12303e+06" />
+        <BoundingBox CRS="CRS:84"
+                    minx="9.721766" miny="53.385582" maxx="10.349556" maxy="53.750431" />
+        <Dimension name="time" units="ISO8601" default="2026" nearestValue="0">2001/2026/P1Y</Dimension>
+        <AuthorityURL name="LGV">
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="http://www.hamburg.de/bsw/landesbetrieb-geoinformation-und-vermessung/"/>
+        </AuthorityURL>
+        <Identifier authority="LGV">https://registry.gdi-de.org/id/de.hh/86bbb89e-df36-4436-b394-913998629ba5</Identifier>
+        <MetadataURL type="ISO19115:2003">
+          <Format>application/xml</Format>
+          <OnlineResource xmlns:xlink="http://www.w3.org/1999/xlink" xlink:type="simple" xlink:href="https://metaver.de/csw?REQUEST=GetRecordById&amp;SERVICE=CSW&amp;VERSION=2.0.2&amp;id=86bbb89e-df36-4436-b394-913998629ba5&amp;iplug=/ingrid-group:ige-iplug-hmdk.metaver&amp;elementSetName=full"/>
+        </MetadataURL>
+        <MaxScaleDenominator>5000</MaxScaleDenominator>
+      </Layer>
+    </Layer>
+  </Layer>
+</Capability>
+</WMS_Capabilities>

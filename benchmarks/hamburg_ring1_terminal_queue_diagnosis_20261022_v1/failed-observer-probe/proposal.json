@@ -1,0 +1,11 @@
+{
+  "formal_result": false,
+  "vehicles": 40,
+  "end_s": 1800,
+  "source_model": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1",
+  "entry_share": "27 existing Ballindamm and 13 existing Brandsende model profiles, spread across the same 40 request times.",
+  "baseline": "Existing field waypoint only.",
+  "candidate": "Add one positive-speed waypoint on buffer lane 1 for 20 alternating vehicles, 0.1 m before its end. No extra lane-change mode, route, signal, permission or collision option.",
+  "observation": "Native FCD and lane changes in both cases. Artificial E1 aggregation is 1800 s in both cases.",
+  "claim_boundary": "Sparse artificial mechanism test, not the original dense queue or real-count calibration. All 130 real main targets stay retained separately, and 40 station targets remain in the source case."
+}

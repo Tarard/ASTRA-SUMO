@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import math
 import xml.etree.ElementTree as ET
 from pathlib import Path
 from typing import Any, Mapping
@@ -80,9 +81,17 @@ def validate_materialization_evidence(
                 "actual": str(report.get("schema", "")),
             }
         )
-    if str(report.get("status", "")) != "pass":
+    semantic = report.get("semantic_validation", {})
+    service = semantic.get("new_lane_service") if isinstance(semantic, Mapping) else None
+    needs_review = (report.get("status") == "review_required"
+                    and report.get("materialization_status") == "semantic_review_required"
+                    and isinstance(semantic, Mapping) and semantic.get("status") == "review_required"
+                    and semantic.get("construction_checks_passed") is True
+                    and semantic.get("release_checks_passed") is False
+                    and isinstance(service, Mapping) and service.get("status") == "review_required")
+    if str(report.get("status", "")) != "pass" and not needs_review:
         errors.append({"code": "materialization_status_not_pass"})
-    if str(report.get("materialization_status", "")) != "variant_created_for_review":
+    if str(report.get("materialization_status", "")) != "variant_created_for_review" and not needs_review:
         errors.append({"code": "candidate_not_materialized_for_review"})
     if str(report.get("candidate_variant_status", "")) != "review_only":
         errors.append({"code": "candidate_variant_status_not_review_only"})
@@ -94,10 +103,79 @@ def validate_materialization_evidence(
         errors.append({"code": "netconvert_returncode_not_zero"})
 
     command = report.get("command")
-    if not isinstance(command, list) or not all(isinstance(token, str) for token in command):
+    method = report.get("materialization_method", "netconvert")
+    if method in {"permission_attributes_only", "speed_attributes_only"}:
+        from .osm_access import _patch_lane_attributes
+        try:
+            record = report["semantic_validation"]["direct_speed_edit" if method == "speed_attributes_only" else "direct_permission_edit"]
+            allowed_attributes = {"speed"} if method == "speed_attributes_only" else {"allow", "disallow"}
+            if (not isinstance(record, Mapping) or not isinstance(record.get("lane_id"), str)
+                    or not isinstance(record.get("expected_attributes"), Mapping)
+                    or set(record["expected_attributes"]) - allowed_attributes
+                    or any(not isinstance(value, str) for value in record["expected_attributes"].values())):
+                raise ValueError("Direct permission evidence contains invalid lane attributes.")
+            raw = source_net_file.read_bytes()
+            expected = _patch_lane_attributes(raw, ET.fromstring(raw), {record["lane_id"]: record["expected_attributes"]}, allowed_attributes)
+            if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
+                    or expected != candidate_net_file.read_bytes()):
+                errors.append({"code": "direct_permission_materialization_not_exact"})
+        except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+            errors.append({"code": "invalid_direct_permission_materialization", "detail": str(error)})
+    elif method == "stop_line_edge_mean_3d":
+        from .network_edit_operations import _stop_line_patches
+        from .osm_access import _patch_lane_attributes
+        try:
+            record = report["semantic_validation"]["direct_stop_line_edit"]
+            offset = record["end_offset_m"]
+            if type(offset) not in (int, float) or not math.isfinite(offset) or offset < 0:
+                raise ValueError("Stop-line offset must be finite and nonnegative.")
+            raw = source_net_file.read_bytes()
+            patches = _stop_line_patches(ET.fromstring(raw), {"lane_id": record["lane_id"], "end_offset_m": offset})
+            if patches is None:
+                raise ValueError("Saved geometry cannot support the declared direct stop-line edit.")
+            expected = _patch_lane_attributes(raw, ET.fromstring(raw), patches, {"shape", "length", "endOffset"})
+            source_lengths = {lane.get("id"): float(lane.get("length")) for lane in ET.fromstring(raw).findall("edge/lane")}
+            lengths = {key: {"before_m": source_lengths[key], "after_m": float(attrs["length"])} for key, attrs in patches.items()}
+            if (command != [] or not record["all_other_bytes_preserved"] or record["netconvert_rebuild_count"] != 0
+                    or patches != record["expected_lane_attributes"] or expected != candidate_net_file.read_bytes()
+                    or record.get("length_convention") != "sumo_edge_mean_of_saved_logical_lengths"
+                    or record.get("distance_metric") != "xyz_polyline_metres" or record.get("logical_lengths") != lengths):
+                errors.append({"code": "direct_stop_line_materialization_not_exact"})
+        except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+            errors.append({"code": "invalid_direct_stop_line_materialization", "detail": str(error)})
+    elif method == "stop_line_geometry_only":
+        errors.append({"code": "legacy_stop_line_length_convention_requires_rebuild"})
+    elif method != "netconvert":
+        errors.append({"code": "unknown_materialization_method"})
+    elif not isinstance(command, list) or not all(isinstance(token, str) for token in command):
         errors.append({"code": "netconvert_command_required"})
     else:
-        if not _command_targets(command, "--sumo-net-file", source_net_file):
+        command_source = source_net_file
+        semantic = report.get("semantic_validation")
+        local = semantic.get("local_conversion") if isinstance(semantic, Mapping) else None
+        if isinstance(local, Mapping) and (local.get("status") == "local" or local.get("preserve_loaded_turn_permissions") is True):
+            from .local_network_conversion import validate_local_conversion
+            try:
+                command_source = validate_local_conversion(local, source_net_file, command=command)
+            except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+                errors.append({"code": "invalid_local_netconvert_materialization", "detail": str(error)})
+        repairs = semantic.get("native_path_repair") if isinstance(semantic, Mapping) else None
+        joined = semantic.get("restoration") if isinstance(semantic, Mapping) else None
+        joined_local = joined.get("local_conversion") if isinstance(joined, Mapping) else None
+        if isinstance(joined_local, Mapping) and joined_local.get("status") == "local":
+            from .local_network_conversion import validate_join_boundary_conversion
+            try:
+                validate_join_boundary_conversion(joined, source_net_file)
+            except (KeyError, TypeError, ValueError, OSError, ET.ParseError) as error:
+                errors.append({"code": "invalid_join_boundary_local_conversion", "detail": str(error)})
+        if isinstance(repairs, Mapping) and repairs.get("attempts"):
+            from .junction_rebuild.native_path_repair import validate_native_path_repair_chain
+            try:
+                final_native = local["native_output"] if isinstance(local, Mapping) and local.get("status") == "local" else semantic["native_proposal"]
+                validate_native_path_repair_chain(command, repairs, final_native)
+            except (KeyError, TypeError, ValueError, OSError) as error:
+                errors.append({"code": "invalid_native_path_repair_chain", "detail": str(error)})
+        if not _command_targets(command, "--sumo-net-file", command_source):
             errors.append({"code": "netconvert_command_source_mismatch"})
         if not _command_targets(command, "--output-file", candidate_net_file):
             errors.append({"code": "netconvert_command_candidate_mismatch"})
@@ -172,13 +250,15 @@ def validate_materialization_evidence(
                 "candidate_review_html_status",
                 "command",
                 "command_result",
+                "materialization_method",
+                "semantic_validation",
             ),
             "materialization",
             errors,
         )
 
     return {
-        "status": "pass" if not errors else "blocked",
+        "status": "blocked" if errors else "review_required" if needs_review else "pass",
         "errors": errors,
         "identity": identity,
         "materialization_report_file": str(evidence_path) if evidence_path is not None else "",
@@ -568,7 +648,43 @@ def validate_routeability_evidence(
         return {"status": "blocked", "errors": [{"code": "routeability_report_required"}]}
     if str(report.get("schema", "")) != "torii.routeability_audit.v2":
         errors.append({"code": "routeability_schema_mismatch"})
-    if report.get("status") != "pass" or report.get("routeability_status") != "pass":
+    not_run = (report.get("status") == "review_required" and report.get("routeability_status") == "not_run"
+               and report.get("execution_status") == "not_run"
+               and report.get("reason") in {"no_diagnostic_od_pool", "unresolved_endpoint_mapping", "all_source_endpoints_removed"})
+    incomplete_endpoints = (report.get("status") == "review_required" and report.get("routeability_status") == "unverified_endpoints"
+                            and report.get("execution_status") in {"completed", "partial"}
+                            and report.get("reason") == "unresolved_endpoint_mapping")
+    coverage = report.get("cohort_coverage")
+    if coverage is not None:
+        fields = ("requested_count", "routing_count", "physical_count", "logical_only_count", "removed_endpoint_count")
+        removed_ids = coverage.get("removed_endpoint_vehicle_ids") if isinstance(coverage, Mapping) else None
+        relative = coverage.get("road_relative_count", 0) if isinstance(coverage, Mapping) else None
+        if (not isinstance(coverage, Mapping) or not isinstance(removed_ids, list)
+                or type(relative) is not int or relative < 0
+                or any(not isinstance(identity, str) or not identity for identity in removed_ids)
+                or any(type(coverage.get(key)) is not int or coverage[key] < 0 for key in fields)):
+            errors.append({"code": "routeability_invalid_cohort_counts"})
+        elif (coverage["requested_count"] != report.get("vehicle_count")
+              or coverage["requested_count"] != coverage["physical_count"] + relative + coverage["logical_only_count"] + coverage["removed_endpoint_count"]
+              or coverage["routing_count"] != coverage["requested_count"] - coverage["removed_endpoint_count"]
+              or coverage["routing_count"] != report.get("routing_vehicle_count")
+              or len(set(removed_ids)) != coverage["removed_endpoint_count"]):
+            errors.append({"code": "routeability_cohort_partition_mismatch"})
+        elif coverage["removed_endpoint_count"] and report.get("status") == "pass":
+            errors.append({"code": "routeability_removed_endpoints_cannot_pass"})
+        elif incomplete_endpoints and (report.get("final_attempt", {}).get("vehicle_routes", {}).get("planned_count") != coverage["routing_count"]
+                or report.get("final_attempt", {}).get("vehicle_routes", {}).get("complete_count") != coverage["routing_count"]):
+            errors.append({"code": "routeability_completed_subset_count_mismatch"})
+    if incomplete_endpoints and not (report.get("route_generation", {}).get("status") == "pass"
+            and type(report.get("route_generation", {}).get("returncode")) is int
+            and report.get("route_generation", {}).get("returncode") == 0
+            and report.get("final_attempt", {}).get("inspection", {}).get("status") == "pass"
+            and report.get("final_attempt", {}).get("vehicle_routes", {}).get("status") == "pass"
+            and report.get("od_policy", {}).get("endpoint_mapping", {}).get("status") == "review_required"):
+        errors.append({"code": "routeability_unverified_endpoints_missing_completed_probe"})
+    if not_run and (report.get("attempts") != [] or report.get("route_generation") != {"status": "not_run"}):
+        errors.append({"code": "routeability_not_run_has_execution_results"})
+    if not (not_run or incomplete_endpoints) and (report.get("status") != "pass" or report.get("routeability_status") != "pass"):
         errors.append({"code": "routeability_result_not_pass"})
     if not _same_path(report.get("net_file"), candidate_net_file):
         errors.append({"code": "routeability_net_path_mismatch"})
@@ -589,9 +705,16 @@ def validate_routeability_evidence(
                 "net_file",
                 "net_sha256",
                 "vehicle_count",
+                "routing_vehicle_count",
+                "routing_trip_file",
+                "cohort_coverage",
                 "route_generation",
                 "attempts",
                 "final_attempt",
+                "execution_status",
+                "reason",
+                "od_policy",
+                "sampling",
             ),
             "routeability",
             errors,
@@ -606,7 +729,9 @@ def validate_routeability_evidence(
     if persisted_manifest is not None:
         if persisted_manifest.get("schema") != "torii.routeability_manifest.v2":
             errors.append({"code": "routeability_manifest_schema_mismatch"})
-        if persisted_manifest.get("status") != "pass":
+        if persisted_manifest.get("status") != report.get("status"):
+            errors.append({"code": "routeability_manifest_report_status_mismatch"})
+        if not (not_run or incomplete_endpoints) and persisted_manifest.get("status") != "pass":
             errors.append({"code": "routeability_manifest_status_not_pass"})
         if not _same_path(persisted_manifest.get("net_file"), candidate_net_file):
             errors.append({"code": "routeability_manifest_net_path_mismatch"})
@@ -614,7 +739,8 @@ def validate_routeability_evidence(
             errors.append({"code": "routeability_manifest_net_hash_mismatch"})
 
     return {
-        "status": "pass" if not errors else "blocked",
+        "status": "blocked" if errors else "review_required" if not_run or incomplete_endpoints else "pass",
+        "execution_status": "not_run" if not_run else report.get("execution_status", "completed"),
         "routeability_status": str(report.get("routeability_status", "blocked")),
         "report_file": str(report_path) if report_path is not None else "",
         "manifest_file": str(manifest_path) if manifest_path is not None else "",
@@ -633,7 +759,10 @@ def validate_topology_evidence(
         return {"status": "blocked", "errors": [{"code": "topology_report_required"}]}
     if str(report.get("schema", "")) != "torii.topology_audit.v2":
         errors.append({"code": "topology_schema_mismatch"})
-    if report.get("status") != "pass" or report.get("topology_fragmentation_status") != "pass":
+    fragment_review = (report.get("status") in {"blocked", "review_required"}
+                       and report.get("topology_fragmentation_status") == "needs_review")
+    needs_review = fragment_review or report.get("corridor_audit_status", "not_run") not in {"pass", "not_run"}
+    if not fragment_review and (report.get("status") != "pass" or report.get("topology_fragmentation_status") != "pass"):
         errors.append({"code": "topology_result_not_pass"})
     if not _same_path(report.get("net_file"), candidate_net_file):
         errors.append({"code": "topology_net_path_mismatch"})
@@ -657,6 +786,10 @@ def validate_topology_evidence(
                 "min_cluster_nodes",
                 "suspicious_cluster_count",
                 "topology_canonical_cell_records",
+                "suspicious_clusters",
+                "topology_osm_context_sha256",
+                "corridor_audit_status",
+                "corridor_audit_error",
             ),
             "topology",
             errors,
@@ -671,15 +804,19 @@ def validate_topology_evidence(
     if persisted_manifest is not None:
         if persisted_manifest.get("schema") != "torii.topology_manifest.v2":
             errors.append({"code": "topology_manifest_schema_mismatch"})
-        if persisted_manifest.get("status") != "pass":
+        if persisted_manifest.get("status") != report.get("status"):
+            errors.append({"code": "topology_manifest_report_status_mismatch"})
+        if not needs_review and persisted_manifest.get("status") != "pass":
             errors.append({"code": "topology_manifest_status_not_pass"})
+        if persisted_manifest.get("topology_fragmentation_status", "pass") != report.get("topology_fragmentation_status"):
+            errors.append({"code": "topology_manifest_fragmentation_status_mismatch"})
         if not _same_path(persisted_manifest.get("net_file"), candidate_net_file):
             errors.append({"code": "topology_manifest_net_path_mismatch"})
         if str(persisted_manifest.get("net_sha256", "")) != expected_hash:
             errors.append({"code": "topology_manifest_net_hash_mismatch"})
 
     return {
-        "status": "pass" if not errors else "blocked",
+        "status": "blocked" if errors else "review_required" if needs_review else "pass",
         "topology_fragmentation_status": str(report.get("topology_fragmentation_status", "blocked")),
         "report_file": str(report_path) if report_path is not None else "",
         "manifest_file": str(manifest_path) if manifest_path is not None else "",
@@ -781,6 +918,15 @@ def _compare_persisted_fields(
     role: str,
     errors: list[dict[str, Any]],
 ) -> None:
-    mismatches = [field for field in fields if supplied.get(field) != persisted.get(field)]
+    mismatches = []
+    for field in fields:
+        try:
+            # JSON arrays represent both native Python lists and coordinate tuples.
+            value = json.loads(json.dumps(supplied.get(field), allow_nan=False))
+        except (TypeError, ValueError):
+            mismatches.append(field)
+            continue
+        if value != persisted.get(field):
+            mismatches.append(field)
     if mismatches:
         errors.append({"code": f"{role}_evidence_content_mismatch", "fields": mismatches})

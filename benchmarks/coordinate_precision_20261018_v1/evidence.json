@@ -1,0 +1,679 @@
+{
+  "schema": "astra.coordinate-precision-evidence/v1",
+  "date": "2026-10-18",
+  "native_version": "1.27.1",
+  "fixture": {
+    "path": "benchmarks/coordinate_precision_20261018_v1/fixture.json",
+    "sha256": "6eb585f4ae67cc26b1852da60659491735b5030ea002c61ceefd9d1bf838fd05"
+  },
+  "runtime_code_identity": {
+    "base_commit": "5486ce8ecbf14ab0f87adf42bed26f642b755e0f",
+    "implementation_files": {
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\local_network_conversion.py": "9bc175a5518f9d903274af06f8c4236d50599467c809290740b39afb93091546",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_approach.py": "fcc2423ed84ad67f1babcc4bc21de5e31d1b2e127bb7d53f59ce56a396614f85",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_operations.py": "08641e0d8be2989f949da31db8b972827dce146d741436de194e9a0414dbec0d",
+      "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_junctions\\boundaries.py": "7b5b710a557842c62fd5eb3841a63f9f9e11995ba51c219a21034358149afba7"
+    },
+    "request": {
+      "path": "outputs\\claude_followup_20261015_v1\\hamburg-request.json",
+      "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+    }
+  },
+  "native_source_references": [
+    {
+      "url": "https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/netbuild/NBNetBuilder.cpp",
+      "local": {
+        "path": "outputs/coordinate_geometry_20261018_v1/NBNetBuilder-v1_27_1.cpp",
+        "sha256": "995ddf37f8dca47158ec919629d21c1cce8ad91696034bebdc9e3659ce4d8cac"
+      }
+    },
+    {
+      "url": "https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/netbuild/NBNode.cpp",
+      "local": {
+        "path": "outputs/coordinate_geometry_20261018_v1/NBNode-v1_27_1.cpp",
+        "sha256": "c2cc50e838c2d6f4c33e3fac7d3c21e1bba71f94a110e681ab892a14feabeda8"
+      }
+    },
+    {
+      "url": "https://github.com/eclipse-sumo/sumo/blob/v1_27_1/src/netbuild/NBEdge.cpp",
+      "local": {
+        "path": "outputs/coordinate_geometry_20261018_v1/NBEdge-v1_27_1.cpp",
+        "sha256": "ad280ef6fc43943550d423bc190fd322e7a9bff504d4630b4b6a6d836790cef9"
+      }
+    }
+  ],
+  "subset_controls": {
+    "path": "outputs/coordinate_geometry_20261018_v1/subset-probes-v1.json",
+    "sha256": "76c1a0798acf2887df82defd335c6bde645865fe21f84139a8da5821afa7fb82"
+  },
+  "minimal_effective_type_controls": [
+    {
+      "precision": 2,
+      "normalization_disabled": true,
+      "length": "195.76",
+      "shape_points": 19,
+      "connection_present": true
+    },
+    {
+      "precision": 2,
+      "normalization_disabled": false,
+      "length": "200.25",
+      "shape_points": 22,
+      "connection_present": false
+    },
+    {
+      "precision": 12,
+      "normalization_disabled": true,
+      "length": "200.246617684920",
+      "shape_points": 22,
+      "connection_present": false
+    },
+    {
+      "precision": 12,
+      "normalization_disabled": false,
+      "length": "200.246617685109",
+      "shape_points": 22,
+      "connection_present": false
+    }
+  ],
+  "diagnostic_option_controls": {
+    "path": "outputs/coordinate_geometry_20261018_v1/option-probes-v2.json",
+    "sha256": "9a909c0d1042e1891c9839c5d4e65cf99f7708190ad675aa3fd104406b76de49"
+  },
+  "diagnostic_offset_controls": {
+    "path": "outputs/coordinate_geometry_20261018_v1/offset-probes-v6.json",
+    "sha256": "1a4aa604792553157af0115309188924c05d7e74c30135aa2c7128fad5a278ba"
+  },
+  "full_most_precision12_control": {
+    "diagnostic_only": true,
+    "adopted_as_public_corpus_baseline": false,
+    "maximum_absolute_logical_length_difference_m": 2.219931742551001,
+    "logical_length_differences_over_0_01_m": 12,
+    "global_only_connections": [],
+    "normalized_only_connections": [],
+    "target_152527_lengths": [
+      {
+        "152527_0": "203.303547554004",
+        "152527_1": "203.303547554004",
+        "152527_2": "203.303547554004"
+      },
+      {
+        "152527_0": "203.303547554341",
+        "152527_1": "203.303547554341",
+        "152527_2": "203.303547554341"
+      }
+    ]
+  },
+  "full_most_runner": {
+    "path": "outputs/coordinate_geometry_20261018_v1/full-precision12-probes-v12.py",
+    "sha256": "889ea509ede7adb8a9e0e3fd2a4764377d3604d2ffef299748f3b6f5c2ea5e22"
+  },
+  "hamburg_rebuild": {
+    "status": "review_required",
+    "topology_complete": true,
+    "first_failed_stage": null,
+    "first_incomplete_stage": "construction_coverage",
+    "checks": {
+      "official_connectivity": "pass",
+      "outside_geometry": "pass",
+      "road_geometry": "not_applicable",
+      "construction_coverage": "review_required",
+      "movement_probes": "pass",
+      "corridor_routes": "pass",
+      "construction_audit": "review_required"
+    },
+    "inputs_unchanged": true,
+    "generated_inputs_unchanged": true,
+    "candidate_unchanged": true,
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "network_handoff": {
+      "network": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\coordinate_geometry_20261018_v1\\hamburg-rebuild-v11\\candidate\\hamburg-five-aerial-combined.net.xml",
+        "sha256": "6247a19d1f0473fbe591bd5e74676b9a4eaf32a4ec400cd6713cbdaab232cdbf"
+      },
+      "construction_decision": "review_required",
+      "construction_manifest": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\coordinate_geometry_20261018_v1\\hamburg-rebuild-v11\\workflow.manifest.json"
+    },
+    "loaded_links": {
+      "status": "pass",
+      "compared_junction_counts": {
+        "native": 3,
+        "source": 125
+      },
+      "differences": []
+    },
+    "elapsed_seconds": 239.5948972000042
+  },
+  "hamburg_runner": {
+    "path": "outputs/coordinate_geometry_20261018_v1/rebuild-hamburg-v11.py",
+    "sha256": "988739eeaa5604b8656f7eec920ae0f410e072487f2c1778de92fdbbda538d7c"
+  },
+  "calibration": {
+    "2349": {
+      "report": {
+        "path": "outputs/coordinate_geometry_20261018_v1/2349-precision-scorecard-v13.json",
+        "sha256": "a3edc6ddd82b9de5ab4ae033d60fd9691dff4841b846c663c9fb714f06948ecc"
+      },
+      "motor_centerlines": {
+        "all": {
+          "count": 10,
+          "median_lateral_offset_m": 0.5556721436433661,
+          "p90_lateral_offset_m": 2.5850146378867445
+        },
+        "high_confidence": {
+          "count": 7,
+          "median_lateral_offset_m": 0.3903198169375618,
+          "p90_lateral_offset_m": 0.7203413247889812
+        }
+      },
+      "regressed_acceptance_facts": [],
+      "source_associations": "same frozen provisional table for parent and candidate",
+      "lane2_stop": {
+        "lateral_offset_m": -2.815162852144739,
+        "longitudinal_offset_m": 0.06082943465072515,
+        "offset_m": 2.815819970135809
+      }
+    },
+    "2394": {
+      "report": {
+        "path": "outputs/coordinate_geometry_20261018_v1/2394-precision-scorecard-v13.json",
+        "sha256": "341b7d6ace777225f794204f62d00ae4d0fd3e98aabee987f60ed261334a487b"
+      },
+      "motor_centerlines": {
+        "all": {
+          "count": 11,
+          "median_lateral_offset_m": 0.8095666704731477,
+          "p90_lateral_offset_m": 1.6357650335412415
+        },
+        "high_confidence": {
+          "count": 8,
+          "median_lateral_offset_m": 0.5799249177536887,
+          "p90_lateral_offset_m": 1.1301402335895099
+        }
+      },
+      "regressed_acceptance_facts": [],
+      "source_associations": "same frozen provisional table for parent and candidate",
+      "lane2_stop": {
+        "lateral_offset_m": -1.6042421792100017,
+        "longitudinal_offset_m": 0.19145978127824706,
+        "offset_m": 1.6156267568357392
+      }
+    }
+  },
+  "calibration_runner": {
+    "path": "outputs/coordinate_geometry_20261018_v1/calibrate-hamburg-v13.py",
+    "sha256": "9d2dac685c5e5b9484b3b82980da28434417e118604e8021a8f4a16e858f6055"
+  },
+  "verification": [
+    {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/precision-v8.log",
+        "sha256": "7aaa5a9ad00f1a84fe39cd0a571c9961b572b31bd75bd389f8ed8e34b6123636"
+      },
+      "passed": 178,
+      "failed": 27,
+      "role": "retained failed attempt"
+    },
+    {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/precision-fix-v9.log",
+        "sha256": "180f3ac7176ec288980300ab07c7f9abcf3846f3a2455403503da41c740070a7"
+      },
+      "passed": 9,
+      "overlap": true
+    },
+    {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/precision-v10.log",
+        "sha256": "619bf0310f4e104ad5c6c3a3895f1c42bfc47d7828a3bbb1a34d1530419259c2"
+      },
+      "passed": 249,
+      "failed": 0
+    }
+  ],
+  "limits": [
+    "The exact native geometry branch amplifying the remaining differences is not isolated.",
+    "The full precision-12 MoST control still has 12 ordinary lane-length differences above 0.01 m and a maximum near 2.22 m.",
+    "The public source corpus retains its earlier reference/default precision. These precision-12 controls are separate experiments.",
+    "No driving-equivalence, field-accuracy or traffic-improvement claim. The old driving cohort belongs to its old candidate hash."
+  ],
+  "portable_fixture_verification": {
+    "log": {
+      "path": "outputs/coordinate_geometry_20261018_v1/fixture-lf-v16.log",
+      "sha256": "1a8c0b041c2198e058b94c5d5e2fd15178fd4f971619c42a155bc2ba1d7b9fda"
+    },
+    "passed": 8,
+    "includes_repository_navigation": true,
+    "text_storage": "LF, matching repository attributes"
+  },
+  "precision6_and_comparison_follow_up": {
+    "code_identity": {
+      "base_commit": "1404ce0933e3e6d222afe677bca91ca91e869553",
+      "implementation_files": {
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\local_network_conversion.py": "bd7dae65a789f5233f729fb3c17ab096f421113e5c50ed3aa839091d430c5dd0",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_aerial_approach.py": "a593686c0e2d2e33963a4d6b401551b6ecf81df66e1cf2771577a8f2bb480027",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\network_edit_operations.py": "8bf204579f16432ab6e75601a0f528461c96914f75cb96e75b6acb2fd0bb05d4",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_junctions\\boundaries.py": "7b5b710a557842c62fd5eb3841a63f9f9e11995ba51c219a21034358149afba7",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_topology_audit.py": "fe49ae3e40af25d6700a2567966e6afd74b40daf1b84fcaf29236925ff8acc2a",
+        "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_boundary_rebuild.py": "ae7317d2842b568e128c335a6241ef2d14e1f94a10df3ed5002ab51667552479"
+      },
+      "request": {
+        "path": "outputs\\claude_followup_20261015_v1\\hamburg-request.json",
+        "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+      }
+    },
+    "policy": {
+      "default_native_precision": 6,
+      "explicit_caller_values_preserved": true,
+      "coverage": [
+        "shared scoped conversion",
+        "typed geometry commands",
+        "boundary round-trip verification",
+        "topology reload audit"
+      ],
+      "legacy_migration_complete": false
+    },
+    "full_most_precision6_control": {
+      "diagnostic_only": true,
+      "adopted_as_public_corpus_baseline": false,
+      "maximum_absolute_logical_length_difference_m": 1.699999999971169e-05,
+      "logical_length_differences_over_0_01_m": 0,
+      "global_only_connections": [],
+      "normalized_only_connections": [],
+      "target_152527_lengths": [
+        {
+          "152527_0": "203.303548",
+          "152527_1": "203.303548",
+          "152527_2": "203.303548"
+        },
+        {
+          "152527_0": "203.303548",
+          "152527_1": "203.303548",
+          "152527_2": "203.303548"
+        }
+      ]
+    },
+    "full_most_runner": {
+      "path": "outputs/coordinate_geometry_20261018_v1/full-precision6-probes-v17.py",
+      "sha256": "0ad28a12db5d8babb53121c6aeb0365a26317276531d7c444daffcd6a438de34"
+    },
+    "minimal_fixture_precision6_control": [
+      {
+        "precision": 6,
+        "normalization_disabled": true,
+        "length": "200.246618",
+        "shape_points": 22,
+        "connection_present": false
+      },
+      {
+        "precision": 6,
+        "normalization_disabled": false,
+        "length": "200.246618",
+        "shape_points": 22,
+        "connection_present": false
+      }
+    ],
+    "hamburg_rebuild": {
+      "status": "review_required",
+      "topology_complete": true,
+      "first_failed_stage": null,
+      "first_incomplete_stage": "construction_coverage",
+      "checks": {
+        "official_connectivity": "pass",
+        "outside_geometry": "pass",
+        "road_geometry": "not_applicable",
+        "construction_coverage": "review_required",
+        "movement_probes": "pass",
+        "corridor_routes": "pass",
+        "construction_audit": "review_required"
+      },
+      "inputs_unchanged": true,
+      "generated_inputs_unchanged": true,
+      "candidate_unchanged": true,
+      "counts": {
+        "official_vehicle_movements": 16,
+        "physical_part_count": 2,
+        "joined_part_count": 2,
+        "materialized_movement_count": 16,
+        "unmaterialized_official_movement_count": 0,
+        "runtime_fallback_part_count": 0,
+        "source_surface_finding_count": 51,
+        "candidate_surface_finding_count": 45
+      },
+      "network_handoff": {
+        "network": {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\coordinate_geometry_20261018_v1\\hamburg-rebuild-v23\\candidate\\hamburg-five-aerial-combined.net.xml",
+          "sha256": "0af85c0e49ca36e8f346b1f8891bcee19ec6b130a6352aa60143b1b65e9c887b"
+        },
+        "construction_decision": "review_required",
+        "construction_manifest": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\coordinate_geometry_20261018_v1\\hamburg-rebuild-v23\\workflow.manifest.json"
+      },
+      "loaded_links": {
+        "status": "pass",
+        "compared_junction_counts": {
+          "native": 3,
+          "source": 125
+        },
+        "differences": []
+      },
+      "elapsed_seconds": 275.5600588999805
+    },
+    "hamburg_runner": {
+      "path": "outputs/coordinate_geometry_20261018_v1/rebuild-hamburg-v23.py",
+      "sha256": "9effeb9c6cf1250eca6dce3b19d83295533638882da22801e79daa9f62c2c98c"
+    },
+    "calibration": {
+      "2349": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/2349-precision6-scorecard-v25.json",
+          "sha256": "9164afdd2ff26ae4d9cf37f838bc9f10046377d6bc81ac323e2bc1c191d45233"
+        },
+        "status": "measured",
+        "motor_centerlines": {
+          "all": {
+            "count": 10,
+            "median_lateral_offset_m": 0.5556721436433661,
+            "p90_lateral_offset_m": 2.5850146378867445
+          },
+          "high_confidence": {
+            "count": 7,
+            "median_lateral_offset_m": 0.3903198169375618,
+            "p90_lateral_offset_m": 0.7203413247889812
+          }
+        },
+        "regressed_acceptance_facts": [],
+        "provenance": "same frozen provisional facts for parent and candidate"
+      },
+      "2394": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/2394-precision6-scorecard-v25.json",
+          "sha256": "8a5bb7bdfba78af271d670804141d96ec7a89ef2c1c6024df5b42598cc7e74cc"
+        },
+        "status": "measured",
+        "motor_centerlines": {
+          "all": {
+            "count": 11,
+            "median_lateral_offset_m": 0.8095666704731477,
+            "p90_lateral_offset_m": 1.6357650335412415
+          },
+          "high_confidence": {
+            "count": 8,
+            "median_lateral_offset_m": 0.5799249177536887,
+            "p90_lateral_offset_m": 1.130140233322372
+          }
+        },
+        "regressed_acceptance_facts": [],
+        "provenance": "same frozen provisional facts for parent and candidate"
+      }
+    },
+    "calibration_runner": {
+      "path": "outputs/coordinate_geometry_20261018_v1/calibrate-hamburg-v25.py",
+      "sha256": "e073ef3143622479e83f7000cd9dfadeac3c763cd9ff218c87dc41d2997f9dbf"
+    },
+    "verification": {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/full-suite-v24.log",
+        "sha256": "b596de8dc49d0c375e9392ef78ef4a13ca356a7cf0b89d7e73cd8a200953b3ab"
+      },
+      "junit": {
+        "path": "outputs/coordinate_geometry_20261018_v1/full-suite-v24-tests.xml",
+        "sha256": "bd5ae278f9f8ec7f90ee8dc28ab64703c07a24473ae1a5a122959791e1feb910"
+      },
+      "passed": 3364,
+      "skipped": 24,
+      "skip_reasons": {
+        "current Hamburg 2394 MAP artifact is not present": 3,
+        "current Hamburg 2394 OCIT artifact is not present": 1,
+        "current Hamburg 2394 MAP/network artifacts are not present": 1,
+        "untracked official Hamburg 2394 MAP KML is unavailable": 1,
+        "untracked official Hamburg 2394 MAP KML/XML files are unavailable": 1,
+        "untracked official Hamburg screen export KML/XML files are unavailable": 3,
+        "requires untracked Hamburg official signal and corridor artifacts": 1,
+        "real Hamburg 0228 regression assets are not present": 1,
+        "current Hamburg corridor OCIT-C artifacts are not present": 2,
+        "requires untracked Hamburg official transition workflow artifacts": 2,
+        "historical generated Hamburg artifact fixture is not committed": 8
+      }
+    },
+    "retained_ci_failure": {
+      "log": {
+        "path": "outputs/coordinate_geometry_20261018_v1/ci-1404-failure.log",
+        "sha256": "fb66a15eef774be5f731333cce38fb86cde85d75bdf5893458d75c19c49a63d5"
+      },
+      "revision": "1404ce0",
+      "failed": 3,
+      "passed": 3349
+    },
+    "limits": [
+      "Precision is not a monotonic robustness control. These finite precision-6 results do not establish invariance under other frames or input perturbations.",
+      "Some legacy re-import paths remain outside the shared precision policy.",
+      "Public-source recipe controls retain their declared/default settings. No earlier dataset or driving result is reinterpreted.",
+      "Independent dated field labels, field accuracy and traffic performance remain unverified."
+    ]
+  },
+  "boundary_audit_format_follow_up": {
+    "implementation": {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_topology_audit.py",
+      "sha256": "bd11965485d207d9d25948be27da2e4d58a2332f90131146425489e17e008088"
+    },
+    "verification": {
+      "path": "outputs/coordinate_geometry_20261018_v1/audit-format-v26.log",
+      "sha256": "3a1bb128d4c49154e376289fe75464933344bd8159ff8acd2a1568d26509b671",
+      "passed": 30,
+      "includes_navigation": true,
+      "overlaps_full_suite": true
+    },
+    "real_network_audits": {
+      "before": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/hamburg-rebuild-v23/construction-audit/report.json",
+          "sha256": "9528d0a6d9e025138fe5e88a20062bfacea3d5d005d0ad9f61bdade486806d86"
+        },
+        "status": "review_required",
+        "inputs_unchanged": true,
+        "reload_status": "pass",
+        "raw_reload_status": "review_required",
+        "changed_target_boundaries": [],
+        "changed_external_edge_count": 196
+      },
+      "after": {
+        "report": {
+          "path": "outputs/coordinate_geometry_20261018_v1/hamburg-audit-v27/report.json",
+          "sha256": "ecec53adf44b234dff518636d731216e2396adce9efe845dce1433a3bbc6e4a6"
+        },
+        "status": "review_required",
+        "inputs_unchanged": true,
+        "reload_status": "pass",
+        "raw_reload_status": "review_required",
+        "changed_target_boundaries": [],
+        "changed_external_edge_count": 196
+      }
+    },
+    "scope": "Exact numeric canonicalization for shape, x, y and z. Actual numeric or custom-shape changes remain reported. Protected reload restores the source; raw reimport is not a lossless serializer."
+  },
+  "legacy_precision_follow_up": {
+    "implementation_commits": [
+      "c20ff18",
+      "3c5c32d"
+    ],
+    "migrated_legacy_reimport_export_commands": 34,
+    "migrated_supplied_geometry_plain_compiles": 10,
+    "native_control": {
+      "coordinate_errors_m": {
+        "2": 0.0030000000000001137,
+        "6": 0.0
+      },
+      "evidence": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\plain-control\\evidence.json",
+        "sha256": "a30e66f92797867edc3b9dd8d77e18847244bc795848e6a2fb5282e5d7e8ed4f"
+      },
+      "runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\plain-control.py",
+        "sha256": "0779ec64024fa7684fd347111a33ec63a711271776f7a5e0c466128f997c0d36"
+      }
+    },
+    "native_product_export_and_normalization": {
+      "source_unchanged": true,
+      "evidence": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\product-precision-control-v2.json",
+        "sha256": "0dc78e8bcd0382d11610ee2a845c54a6d8c433492ab8cadfc2dc072f3a53f99e"
+      },
+      "earlier_runner_failure": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\product-control-v1-failure.json",
+        "sha256": "fe809df5dc517ab9fa8ca35976d2cce03696f2741de1ca802457842706eaa28a"
+      }
+    },
+    "retained_first_full_suite": {
+      "commit": "c20ff18",
+      "passed": 3375,
+      "failed": 2,
+      "skipped": 24,
+      "log": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\full-suite.log",
+        "sha256": "6bede12e156d7c2589f38a914233dab4bd50b563791a1de33088d87422b256e9"
+      },
+      "cause": "Two test runners used fixed argument positions. Both now resolve named options and pass direct replay."
+    },
+    "focused_precision_pytest": {
+      "passed": 14,
+      "deselected": 96,
+      "log": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\focused-v2.log",
+        "sha256": "97e6f9f33c814901e38979c71fec79eaf1fae4ede393e9b6f38e88d86e371be1"
+      }
+    },
+    "direct_numeric_and_runner_checks": {
+      "passed": 14,
+      "includes_replay_of_both_failed_tests": true,
+      "is_pytest_session": false,
+      "runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\check-numerics-and-mocks.py",
+        "sha256": "263a0aca040f95ec722c0e9e3a13eb73991eeda57f004695485f568501f4b5ae"
+      },
+      "results": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\direct-checks.json",
+        "sha256": "790b5b730743dcfd65aa1d413d9c012c6d635094d44984b77389ea0ec332ae97"
+      }
+    },
+    "hamburg_rebuild": {
+      "summary": {
+        "status": "review_required",
+        "topology_complete": true,
+        "first_failed_stage": null,
+        "first_incomplete_stage": "construction_coverage",
+        "checks": {
+          "official_connectivity": "pass",
+          "outside_geometry": "pass",
+          "road_geometry": "not_applicable",
+          "construction_coverage": "review_required",
+          "movement_probes": "pass",
+          "corridor_routes": "pass",
+          "construction_audit": "review_required"
+        },
+        "inputs_unchanged": true,
+        "generated_inputs_unchanged": true,
+        "candidate_unchanged": true,
+        "counts": {
+          "official_vehicle_movements": 16,
+          "physical_part_count": 2,
+          "joined_part_count": 2,
+          "materialized_movement_count": 16,
+          "unmaterialized_official_movement_count": 0,
+          "runtime_fallback_part_count": 0,
+          "source_surface_finding_count": 51,
+          "candidate_surface_finding_count": 45
+        },
+        "network_handoff": {
+          "network": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-rebuild\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "0af85c0e49ca36e8f346b1f8891bcee19ec6b130a6352aa60143b1b65e9c887b"
+          },
+          "construction_decision": "review_required",
+          "construction_manifest": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-rebuild\\workflow.manifest.json"
+        },
+        "loaded_links": {
+          "status": "pass",
+          "compared_junction_counts": {
+            "native": 3,
+            "source": 125
+          },
+          "differences": []
+        },
+        "workflow_elapsed_seconds": 264.433018,
+        "recovery": {
+          "reason": "Local summary extraction used str where file_sha256 requires Path. Native workflow completed before the error.",
+          "retained_failure_log": "hamburg-rebuild.log",
+          "completed_workflow": {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-rebuild\\workflow.manifest.json",
+            "sha256": "9b4637baf743f1c2cc380e29887273ba56473a031bcb2aa2c3d09e8eb0133ad9"
+          },
+          "implementation_unchanged": true
+        }
+      },
+      "summary_artifact": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-summary.json",
+        "sha256": "8b824cee960c6da86e469e40e189cb5eda88df3e53f8573124641c5be8fbcc86"
+      },
+      "code_identity": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\hamburg-code.json",
+        "sha256": "1ecc16e03b5ee8ef5ce769e7944b989c3c17702db68a63457c12b6ac6a4917a9"
+      },
+      "runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\rebuild-hamburg.py",
+        "sha256": "f2e62a0a5bf983ab78b3ae0f9a31717a53bf088302e31db0e110b4d269f26d63"
+      },
+      "summary_recovery_runner": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\recover-hamburg-summary.py",
+        "sha256": "00789219135865ba45c20b89365ba4d0535b63ec8f9e316c6b903e50935401a0"
+      }
+    },
+    "independent_review": {
+      "commit": "3c5c32d",
+      "report": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\legacy_precision_20261018_v1\\claude-3c5c32d-review.txt",
+        "sha256": "4b1a90274ed3f67ac913fa94e6296dc8d8b214711005e67818144d3e471256dd"
+      },
+      "result": "No correctness problem found. Source-matched reload tolerances and initial product OSM precision remain follow-up questions."
+    },
+    "limits": [
+      "Original OSM import recipes, frozen generation policies and deliberate native-default probes retain their existing settings.",
+      "This current Hamburg input does not exercise the two historical source-matched road corrections.",
+      "The old 0.03 m length and 0.02 m shape reload bounds remain unchanged; their accepted source case still needs remeasurement.",
+      "Geometry precision does not establish field accuracy, audit precision or traffic improvement."
+    ],
+    "complete_windows_ci": {
+      "head_sha": "3c5c32ddb7ecba8183a863a02a4b3b91a3119fbb",
+      "event": "pull_request",
+      "conclusion": "success",
+      "tests": 3414,
+      "passed": 3390,
+      "failed_or_errors": 0,
+      "skipped": 24,
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39133683184",
+      "native_verification": "Locked SUMO 1.27.1 verified before the full suite.",
+      "evidence": [
+        {
+          "path": "outputs\\legacy_precision_20261018_v1\\ci-3c5c32d.log",
+          "sha256": "dbcb45ab3e9909746893d46e6222b601f851897b98df6fd93b7731fe7f0de85f"
+        },
+        {
+          "path": "outputs\\legacy_precision_20261018_v1\\ci-3c5c32d-status.json",
+          "sha256": "4460c969b8b4520f24e0c400154378e0fb3ae12955c0dd46ff0aad1ede185939"
+        },
+        {
+          "path": "outputs\\legacy_precision_20261018_v1\\ci-3c5c32d\\test-results.xml",
+          "sha256": "5033550a3c78edaa65873842413a969279389d8bd257092091b76591e5511a51"
+        }
+      ]
+    }
+  }
+}

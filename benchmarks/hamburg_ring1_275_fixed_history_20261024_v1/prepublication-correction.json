@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "old_manifest_sha256": "5ed4a980d506bb4ef86275c6edaebf5319dd41cd0be5f8fc5d3305a10d382ab1",
+  "old_packet_changed_files": [
+    "freeze_evidence.py",
+    "README.md",
+    "reproduce.py"
+  ],
+  "scope": "Native environment now prioritizes project site-packages; optional native entry binds all7 recorded core dependencies; remove unused import. All input/native/derived/results bytes unchanged.",
+  "results_sha256_unchanged": "028eabc8bcd5bdc06a572b4267dabb3014a0c5a864615cb6e6f524f00c15cb4b"
+}

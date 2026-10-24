@@ -1,0 +1,56 @@
+{
+  "formal_result": false,
+  "vehicles": [
+    {
+      "vehicle_id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+      "original_node": "14398547",
+      "original_outlet": "186713428",
+      "original_outlet_on_current_route": true,
+      "original_site_status": "rear_clear_observed",
+      "native_arrival_s": 2475.8
+    },
+    {
+      "vehicle_id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+      "original_node": "14398547",
+      "original_outlet": "186713428",
+      "original_outlet_on_current_route": true,
+      "original_site_status": "rear_clear_observed",
+      "native_arrival_s": 2303.8
+    },
+    {
+      "vehicle_id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+      "original_node": "205069138",
+      "original_outlet": "189775480",
+      "original_outlet_on_current_route": true,
+      "original_site_status": "rear_clear_observed",
+      "native_arrival_s": 1758.0
+    },
+    {
+      "vehicle_id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+      "original_node": "205069138",
+      "original_outlet": "189775480",
+      "original_outlet_on_current_route": true,
+      "original_site_status": "rear_clear_observed",
+      "native_arrival_s": 2583.9
+    },
+    {
+      "vehicle_id": "readme_f5_b4_p56_v25",
+      "original_node": "18653534",
+      "original_outlet": "139083723#0",
+      "original_outlet_on_current_route": false,
+      "original_site_status": "bypassed_original_site",
+      "native_arrival_s": 9557.3
+    },
+    {
+      "vehicle_id": "readme_f4_b4_p208_v5",
+      "original_node": "18653534",
+      "original_outlet": "139083723#0",
+      "original_outlet_on_current_route": true,
+      "original_site_status": "original_site_not_demonstrated",
+      "native_arrival_s": -1.0
+    }
+  ],
+  "applicable_original_sites": 5,
+  "bypassed_original_sites": 1,
+  "claim_boundary": "One changed road prefix bypasses its original collision site. Another historical ID has no completed arrival or demonstrated original maneuver. Missing samples do not diagnose a new clearance fault. The full run remains invalid."
+}

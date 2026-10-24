@@ -1,0 +1,301 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "artificial-counts.csv",
+      "sha256": "395ee32372dd65f11c35542f494615dab8652c87fc92e80dcae50587c0d09944"
+    },
+    {
+      "path": "control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "demand.rou.xml",
+      "sha256": "67ba04dff8bcb30abab6443deb07e9e64e9c8aa68e857ecaca1db5dfd2dd44dc"
+    },
+    {
+      "path": "execution.log",
+      "sha256": "752f964d846c5153effafbdb4db7a3404ca996542b9a54d6d7cd5aea511f72b6"
+    },
+    {
+      "path": "field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "freeze-late-exit-body-probe.py",
+      "sha256": "9a27cf0cb98029b1909d44a7310e2fd101216cef9b776752466e3ff251500637"
+    },
+    {
+      "path": "identity-check.json",
+      "sha256": "c218d469ba3db385d722af710a6f40166dea38266d8d19214d2a06906e152ace"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "177684c946c43fc857d59a7cb580332c89b2942f2f7ea4fc41ab6fa530fe6297"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py",
+      "sha256": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153"
+    },
+    {
+      "path": "implementation/tests/test_hamburg_late_exit_probe.py",
+      "sha256": "34f68a7791818d1a10eac782849e94d743e18b46b511835a69ccae406918ea9c"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "9e3761bedb03f7836ac69ae44ceaea29cdddaaa2d61d0b53fe3cebb44b9fd0de"
+    },
+    {
+      "path": "lane-intentions.json",
+      "sha256": "8f5f6520eb5c7c0618d5f1c4cc0bd08f10355df4d6c93044870d1d3c9fd46ca5"
+    },
+    {
+      "path": "network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "paired-check.json",
+      "sha256": "6b4e123ba2ce87d0b3458aa0c7541a4d9b5a582b96a56a5fd35a2ac386732e86"
+    },
+    {
+      "path": "passenger-route-audit.json",
+      "sha256": "93aa12c90cdd8d2e562908a66f37cc46dae8ceeaeb1be90013fe72123643a91c"
+    },
+    {
+      "path": "probe-late-exit-body-hold.py",
+      "sha256": "f0552affdf0554e3f6c401cf3cd1b8bbaf6148e16c343c8e956d2fc619d8a445"
+    },
+    {
+      "path": "proposal.json",
+      "sha256": "cf045052ab8fe48cc0fc1863d20a052411d463e8c4b869756dce2b62b91c3df0"
+    },
+    {
+      "path": "README.md",
+      "sha256": "40e62e83aa6235caf404682f44bcbcb2dd002a40cccfaf7efa7deb70163191db"
+    },
+    {
+      "path": "seal-late-exit-body-probe.py",
+      "sha256": "f3779766bf19dd46aa47e76698c82543147b049181461b65dfc318366d447dcd"
+    },
+    {
+      "path": "tests.log",
+      "sha256": "da2e8b9aa126386dd8756ae73b18ce519bbddb4bed8e04d2cb2afb6282e71669"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "2eea5cb773491cb9eee8b2bdcd7552a7793b12c85df7aa6f4b317ceb8b5fb9f9"
+    },
+    {
+      "path": "three_nodes/collisions.xml",
+      "sha256": "2de703e501bb14f890ee4cc1cfd5580e96dd9f7e850dc4e055563154c1820f36"
+    },
+    {
+      "path": "three_nodes/command.json",
+      "sha256": "db22ab367390d8cc814223355437bc39055e53eb24a8475892934e007b5873a4"
+    },
+    {
+      "path": "three_nodes/demand.rou.xml",
+      "sha256": "67ba04dff8bcb30abab6443deb07e9e64e9c8aa68e857ecaca1db5dfd2dd44dc"
+    },
+    {
+      "path": "three_nodes/e1.add.xml",
+      "sha256": "9b09cc3bff384df6ac70ba3cddb9f27120df59016726d4c807f47fc1d94d4b4a"
+    },
+    {
+      "path": "three_nodes/expected-counts.csv",
+      "sha256": "395ee32372dd65f11c35542f494615dab8652c87fc92e80dcae50587c0d09944"
+    },
+    {
+      "path": "three_nodes/fcd.xml.gz",
+      "sha256": "fa2fa2f79e1596fa41735c08ffa65c21208af150667fae35a92ccbc7445c25b3"
+    },
+    {
+      "path": "three_nodes/field-comparison.csv",
+      "sha256": "4a515e4deb7d77ce6d88b08a1f326a06da262ae441a98cc2b752b40dd2924f68"
+    },
+    {
+      "path": "three_nodes/field-counts.xml",
+      "sha256": "125addbdb47a1a16514f1e3321a63452a17c889442a41f6d82240da0491c63b3"
+    },
+    {
+      "path": "three_nodes/instant-e1.xml",
+      "sha256": "999ff35e883a82378460991b216c2318f9ff05a741a9e1a41ab9c5f165dbc3bd"
+    },
+    {
+      "path": "three_nodes/instant.add.xml",
+      "sha256": "d0c2ab2931faa5af1140a5d6c7cfbd8b2bf45a75607f1ab0a2ab8ecd3637f4fc"
+    },
+    {
+      "path": "three_nodes/lane-intentions.json",
+      "sha256": "8f5f6520eb5c7c0618d5f1c4cc0bd08f10355df4d6c93044870d1d3c9fd46ca5"
+    },
+    {
+      "path": "three_nodes/lanechanges.xml",
+      "sha256": "eb5312018093bef5c3caf905cea72245869800860f723ce3073a501c5363678b"
+    },
+    {
+      "path": "three_nodes/maneuver-check.json",
+      "sha256": "34f641578bd671bb50b199cc22800eb82c5704f3b48cc489a912c735d512c756"
+    },
+    {
+      "path": "three_nodes/native-request.json",
+      "sha256": "ef8161479edfd42b1bfbd7d5fddc2a51b0cd74793f8d398d295e7f69558d31bb"
+    },
+    {
+      "path": "three_nodes/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "three_nodes/queues.xml.gz",
+      "sha256": "4db6ba741d4853cb3e4a06c326c953c428a95c0b258b1bbfc23db3dfb80f8650"
+    },
+    {
+      "path": "three_nodes/run.json",
+      "sha256": "9b60ced1708c5b8c5cc7f0977d23be7b98aca9301fa178cf2e4370ade54cb07e"
+    },
+    {
+      "path": "three_nodes/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "three_nodes/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "three_nodes/stall-monitor.json",
+      "sha256": "4ef1d6ba0f83d741e9687ce7aaeadd3e3c7212a98ae9e5c20548f96dec535b02"
+    },
+    {
+      "path": "three_nodes/summary.xml.gz",
+      "sha256": "57b99ff81dde3ae13be4fe93428e29305a27e0c0cdfff5655dce7d94d7b3bea2"
+    },
+    {
+      "path": "three_nodes/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "three_nodes/sumo.log",
+      "sha256": "b7887c9c0ff1612d9a639237246fa05b5bd413a340a452312a2ccb45dbaa6d4f"
+    },
+    {
+      "path": "three_nodes/tripinfo.xml",
+      "sha256": "bc0d8530a3fceee91d406a0d55dbbda0545b8742becddf8c3416d8bda6289b50"
+    },
+    {
+      "path": "three_nodes/vehicle-routes.xml",
+      "sha256": "92cd18abd5d2dc5f885b42578f733299b3f53403a846827cecda6ed7c7bd12da"
+    },
+    {
+      "path": "two_nodes/collisions.xml",
+      "sha256": "74359b3bac021be1c290bde8c131ab3a4d69ad9511b1ae050b3990b248ae6a6d"
+    },
+    {
+      "path": "two_nodes/command.json",
+      "sha256": "a1036f3a78efa378bc4e785fbf78a2c50cf07f843b2a38efed736acb455bf575"
+    },
+    {
+      "path": "two_nodes/demand.rou.xml",
+      "sha256": "67ba04dff8bcb30abab6443deb07e9e64e9c8aa68e857ecaca1db5dfd2dd44dc"
+    },
+    {
+      "path": "two_nodes/e1.add.xml",
+      "sha256": "dd57cfdc6cc09f20c015e00699c1ea34840b975da5d01199e45136d666e8bcfc"
+    },
+    {
+      "path": "two_nodes/expected-counts.csv",
+      "sha256": "395ee32372dd65f11c35542f494615dab8652c87fc92e80dcae50587c0d09944"
+    },
+    {
+      "path": "two_nodes/fcd.xml.gz",
+      "sha256": "5d5fa36c300819ba4110244c2d4f85b61f4af335cc076376c3b11b72b465d331"
+    },
+    {
+      "path": "two_nodes/field-comparison.csv",
+      "sha256": "4a515e4deb7d77ce6d88b08a1f326a06da262ae441a98cc2b752b40dd2924f68"
+    },
+    {
+      "path": "two_nodes/field-counts.xml",
+      "sha256": "9ff3746ba261fc89558bc1cedd18e8784dcbc3852eb1b51613df67c4f35716df"
+    },
+    {
+      "path": "two_nodes/instant-e1.xml",
+      "sha256": "7d8d379a9ac1292e841a2d1864e9ff0d307750c404a535eb0c0225426241cb2f"
+    },
+    {
+      "path": "two_nodes/instant.add.xml",
+      "sha256": "09ac11d33bab9f6b1ab333c1922ffd098fb3871a64b96c313d7fefe073e394db"
+    },
+    {
+      "path": "two_nodes/lane-intentions.json",
+      "sha256": "8f5f6520eb5c7c0618d5f1c4cc0bd08f10355df4d6c93044870d1d3c9fd46ca5"
+    },
+    {
+      "path": "two_nodes/lanechanges.xml",
+      "sha256": "712afc68a9fcac11db306a69cab6656a1cb1b752576a52acfc785263726ed2c1"
+    },
+    {
+      "path": "two_nodes/maneuver-check.json",
+      "sha256": "5626a0010b2939a962d17abdf8f5db34a10324f6fd9ca91bab4dc3fb7760e39b"
+    },
+    {
+      "path": "two_nodes/native-request.json",
+      "sha256": "1eee47289aee21de7e6f0773eef743d67525503ecd4e07587bdad6a0d226a5c6"
+    },
+    {
+      "path": "two_nodes/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "two_nodes/queues.xml.gz",
+      "sha256": "eb491a1850c045324454f8720779742be4a9d66a8a42b56e8c15af8da3175e0f"
+    },
+    {
+      "path": "two_nodes/run.json",
+      "sha256": "36bd89abe566ec4e6c72f61658a5556303c9df46713e8222f50bf18b94022fe3"
+    },
+    {
+      "path": "two_nodes/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "two_nodes/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "two_nodes/stall-monitor.json",
+      "sha256": "55f1ca40cdd4ae9bc99daa97b77cc9e374cef46d64c0b3bdd8a3260b5e292365"
+    },
+    {
+      "path": "two_nodes/summary.xml.gz",
+      "sha256": "32650341f6ebb7a054fba05235497c1e813f5e6ea1364c49b9bc8a4e4b3fd5dc"
+    },
+    {
+      "path": "two_nodes/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "two_nodes/sumo.log",
+      "sha256": "d2e569314c3b151edbeaf4137a1b01da8ab4a61d9a0e859673d2f5a9405b77c0"
+    },
+    {
+      "path": "two_nodes/tripinfo.xml",
+      "sha256": "88cc476f42681e461821b42d7775a8c3dcc655103fe2bfdf7d6c4689e8a9f109"
+    },
+    {
+      "path": "two_nodes/vehicle-routes.xml",
+      "sha256": "8938efcc38b0f98d43986898b6e652e24cd93584dbeee167e96d036a82dd49f2"
+    },
+    {
+      "path": "verify-late-exit-body-probe.py",
+      "sha256": "af499e91e1c1c7a64f6fdc4b83eeffcbea0aa88481cf8fc9aab2da186f8d3296"
+    }
+  ]
+}

@@ -4,9 +4,10 @@ from collections import Counter
 import json
 import math
 from pathlib import Path
-import subprocess
 from typing import Any, Iterable
 import xml.etree.ElementTree as ET
+
+from .command_runner import run_command
 
 
 def extract_teacher_junction_model(net_file: Path, junction_id: str) -> dict[str, Any]:
@@ -848,30 +849,25 @@ def _safe_file_stem(value: str) -> str:
 
 
 def _sumo_load_report(net_file: Path) -> dict[str, Any]:
-    try:
-        result = subprocess.run(
-            [
-                "sumo",
-                "-n",
-                str(net_file),
-                "--no-step-log",
-                "true",
-                "--duration-log.disable",
-                "true",
-                "--quit-on-end",
-                "true",
-                "-W",
-            ],
-            capture_output=True,
-            text=True,
-            check=False,
-        )
-    except FileNotFoundError as exc:
-        return {"sumo_returncode": -1, "sumo_stdout": "", "sumo_stderr": str(exc)}
+    result = run_command(
+        [
+            "sumo",
+            "-n",
+            str(net_file),
+            "--no-step-log",
+            "true",
+            "--duration-log.disable",
+            "true",
+            "--quit-on-end",
+            "true",
+            "-W",
+        ],
+        timeout_seconds=60,
+    )
     return {
-        "sumo_returncode": result.returncode,
+        "sumo_returncode": 0 if result.status == "pass" else (result.returncode or -1),
         "sumo_stdout": result.stdout,
-        "sumo_stderr": result.stderr,
+        "sumo_stderr": "\n".join(text for text in (result.stderr, result.error) if text),
     }
 
 

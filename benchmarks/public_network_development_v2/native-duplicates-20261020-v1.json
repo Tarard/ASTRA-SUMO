@@ -1,0 +1,89 @@
+{
+  "producer_commit": "9142a2faea785ef946865aedf5c7cfaf4816e770",
+  "native_cases": [
+    {
+      "variant": "identical_native_roads",
+      "network": {
+        "path": "outputs/native_duplicate_controls_20261020_v1/test_native_duplicate_ignores_0/native.net.xml",
+        "sha256": "2e7d969d9e533a24ebcd5cfb835feadc9c5610be73901ef208b1100bbf931e59"
+      },
+      "proposal_count": 1,
+      "proposal_ids": [
+        "delete-duplicate-second"
+      ]
+    },
+    {
+      "variant": "different_internal_shape",
+      "network": {
+        "path": "outputs/native_duplicate_controls_20261020_v1/test_native_duplicate_ignores_1/native.net.xml",
+        "sha256": "2ea38472950d494dc82187a9a15d7a857632a52e20c196c7d50b4fc764692a6e"
+      },
+      "proposal_count": 0,
+      "proposal_ids": []
+    },
+    {
+      "variant": "different_internal_permission",
+      "network": {
+        "path": "outputs/native_duplicate_controls_20261020_v1/test_native_duplicate_ignores_2/native.net.xml",
+        "sha256": "b311c2e932c866786c2afcfa05efe055478b76425902c733a57df7f3e4759e6a"
+      },
+      "proposal_count": 0,
+      "proposal_ids": []
+    },
+    {
+      "variant": "unknown_internal_reference",
+      "network": {
+        "path": "outputs/native_duplicate_controls_20261020_v1/test_native_duplicate_ignores_3/native.net.xml",
+        "sha256": "a2d634432db58ebaf6ae49675673364e23069e9d8fa84bbe3b16c5ac4c791b91"
+      },
+      "proposal_count": 0,
+      "proposal_ids": []
+    }
+  ],
+  "paired_model": {
+    "proposal_count": 0,
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v1\\MoST_2019_paired\\unjoined-import.net.xml",
+      "sha256": "0e2c469a01a562a2b57eb301dc96887f6fa7455cc85691881af18ec83a5c8976"
+    },
+    "inventory": {
+      "path": "outputs/source_only_proposals_20261020_v3/inventory.json",
+      "sha256": "7a81a151228e41daaf1fa913fd14dfc12650ea5172c084916e1e28549c5db9a4"
+    },
+    "previous_false_candidates": 31,
+    "field_precision": null,
+    "field_recall": null
+  },
+  "verification": {
+    "related_tests": 101,
+    "captured_controls": 12,
+    "counts_overlap": true
+  },
+  "artifacts": [
+    {
+      "path": "outputs/native-duplicate-proposals-final-20261020-v1.log",
+      "sha256": "861c5a808df3aa31f886ba93ffccdc1ca89f8449dace588bf956047168662501"
+    },
+    {
+      "path": "outputs/native-duplicate-capture-20261020-v1.log",
+      "sha256": "a299b8ce0b402df75b472a8b53491e587e3db3a91f11a14e71ee08412d143e02"
+    },
+    {
+      "path": "outputs/native-duplicate-proposals-four-roads-20261020-v1.log",
+      "sha256": "45e8670710a31f12b9f080d207e1f16f05d3404a3330b06e7f07b774382f69c7"
+    },
+    {
+      "path": "outputs/native_duplicate_20261020_v1/diagnosis.json",
+      "sha256": "cf82084887d44068b18cb8b0b15e88dea861dc8d02c39d453131f07cf73afcba"
+    },
+    {
+      "path": "outputs/claude-review-1f54dba-20261020.txt",
+      "sha256": "a086366480b801aa5573a904a7400c6ac5193db33804445d23d557fc93266592"
+    },
+    {
+      "path": "outputs/probe_source_only_proposals_20261020_v3.py",
+      "sha256": "05d04da103c04e877abdf4dcca15011a1259fa4dfcb4ff8b57149f238fe0f0b9"
+    }
+  ],
+  "limitation": "Proposal equivalence does not establish native right-of-way equivalence, safe deletion, field duplicates, or complete duplicate recall."
+}

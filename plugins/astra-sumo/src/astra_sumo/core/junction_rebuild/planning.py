@@ -53,6 +53,7 @@ from .network import (
 )
 from .parity import _teacher_parity_summary
 from .scope import _conservative_join_node_ids, _expanded_rebuild_scope
+from ..local_network_conversion import with_geometry_precision
 
 
 def build_teacher_guided_repair_queue(
@@ -262,7 +263,7 @@ def build_rebuild_candidate(
         skipped = [movement for movement in graph.get("movements", []) or [] if not _should_emit(movement)]
         movement_source = "movement_graph"
     _write_connections(connections_file, emitted)
-    command = [
+    command = with_geometry_precision([
         "netconvert",
         "--sumo-net-file",
         str(net_file),
@@ -270,7 +271,7 @@ def build_rebuild_candidate(
         str(connections_file),
         "--output-file",
         str(variant_file),
-    ]
+    ])
     command_file.write_text(" ".join(command) + "\n", encoding="utf-8")
 
     report = {

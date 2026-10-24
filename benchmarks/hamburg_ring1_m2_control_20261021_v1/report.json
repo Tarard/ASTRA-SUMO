@@ -1,0 +1,50 @@
+{
+  "schema": "astra.hamburg-readme-control/v1",
+  "status": "measured",
+  "native_verified": false,
+  "formal_result": false,
+  "exact_count_fit": false,
+  "source_hashes": {
+    "network": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff",
+    "candidate_manifest": "bc53c1995a3a0a1fbba0522a86346be2254b01adb54274529e4f439a6260db23",
+    "ocit_104": "9101f67526ab824e716437398259d5843c26ad3677d40eca440e92bff4e343ab",
+    "ocit_118": "6f7beaf440c7c4f94fcc826fe4611cfcd20827d264b4f05057208939df424352",
+    "ocit_119": "99da6cd38af4daad7ec485a1b6ab16608bd81ad4a69615db177f1a4a585d6927",
+    "ocit_200": "98e496293e9f452040b928ce108a71f7b27ed8ddec515df9e711bf40f5069e69",
+    "ocit_535": "4988bab25dffb88b712bed2022c2fba8eca97558e761fb146e87d19bbe1dbae9"
+  },
+  "outputs": {
+    "A": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m2-control-20261021-v4\\control-A.add.xml",
+      "sha256": "2bdb02df5df1596a97d99aae50ae4db0f48a05b382ee8d1bd54dd468b61deee9"
+    },
+    "B": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m2-control-20261021-v4\\control-B.add.xml",
+      "sha256": "d7eece59066af95b4c782ea5d234f4573817540df726c83a5955c00518a0bef5"
+    },
+    "C": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m2-control-20261021-v4\\control-C.add.xml",
+      "sha256": "3df1e312c2b8c66857fc9adfcec6a166d3a6a6a0bbc24ab74ab67e3a463023e8"
+    }
+  },
+  "binding_origins": {
+    "embedded_official_vt": 90,
+    "declared_uncontrolled": 74,
+    "inherited_same_source_lane_target_road": 6,
+    "retained_static_placeholder": 364,
+    "declared_z15_alternative": 1
+  },
+  "original_nonofficial_actuated_controllers": 59,
+  "fixed_placeholders_after_z15_override": 58,
+  "clock_assumption": "Simulation 0 is 2026-10-19 04:30 UTC / 06:30 CEST. Source cycle zero is assumed at local midnight; all selected cycles and offsets are 90 s and 0. 535 uses SP1 from simulation 0; earlier warm-up requires SP10.",
+  "z15_alternatives": {
+    "A": "declared K9",
+    "B": "declared K8, dark release O",
+    "C": "declared blocked"
+  },
+  "unbound_official_links": "Declared O; no official group correspondence established.",
+  "omitted_dark_only_groups": "Declared O when only native image 00 is defined, even if the program omits the row.",
+  "placeholder_phase_preservation": "Retain every controlled state and phase duration. Remove unused trailing state characters and actuated duration bounds in the new static programs.",
+  "inputs_unchanged": true,
+  "claim_boundary": "Fixed-control assumptions installed in additional files. OCIT schedule equivalence, clock alignment, dark-only handling, and supplementary bindings are declared; field timing and traffic validity are not established."
+}

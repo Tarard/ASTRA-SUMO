@@ -1,0 +1,22 @@
+{
+  "loss": 87009,
+  "MAE": 17.76153846153846,
+  "max_abs_error": 71,
+  "healthy": false,
+  "station_MAE": 56.775,
+  "station_max_abs_error": 122,
+  "completion": {
+    "loaded": 8622,
+    "inserted": 7140,
+    "arrived": 6746,
+    "running": 394,
+    "waiting": 1482,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "exact_count_fit": false,
+  "count_source": "Native E1 nVehContrib only",
+  "field_rows": 130,
+  "derived_station_rows": 40
+}

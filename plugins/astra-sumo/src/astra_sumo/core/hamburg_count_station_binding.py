@@ -936,21 +936,24 @@ def _validated_identity_sources(
         record = source.get(key)
         if record is not None:
             trusted.add(_validate_source_record(record, manifest_path, key))
-    official_maps = source.get("official_map_files", [])
-    if not isinstance(official_maps, list):
-        raise HamburgCountStationBindingError("official_map_files must be a list")
     official_map_lane_ids: set[tuple[str, str]] = set()
-    for index, record in enumerate(official_maps):
-        label = f"official_map_files[{index}]"
-        source_path, source_hash = _validate_source_record_path(record, manifest_path, label)
-        trusted.add(source_hash)
-        try:
-            lanes, _ = parse_mapem(source_path)
-        except (OSError, ET.ParseError, ValueError) as exc:
-            raise HamburgCountStationBindingError(f"{label} is not a readable MAPEM asset") from exc
-        official_map_lane_ids.update(
-            (_node(lane.node_id), str(lane.lane_id)) for lane in lanes if lane.node_id and lane.lane_id
-        )
+    for key in ("official_map_files", "official_map_kml_files"):
+        records = source.get(key, [])
+        if not isinstance(records, list):
+            raise HamburgCountStationBindingError(f"{key} must be a list")
+        for index, record in enumerate(records):
+            label = f"{key}[{index}]"
+            source_path, source_hash = _validate_source_record_path(record, manifest_path, label)
+            trusted.add(source_hash)
+            if key == "official_map_kml_files":
+                continue
+            try:
+                lanes, _ = parse_mapem(source_path)
+            except (OSError, ET.ParseError, ValueError) as exc:
+                raise HamburgCountStationBindingError(f"{label} is not a readable MAPEM asset") from exc
+            official_map_lane_ids.update(
+                (_node(lane.node_id), str(lane.lane_id)) for lane in lanes if lane.node_id and lane.lane_id
+            )
     return trusted, official_map_lane_ids
 
 

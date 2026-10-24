@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T17:48:26.632264+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\collisions.xml"/>
+    </output>
+
+    <time>
+        <end value="900"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-z15-k2-small-probe-20261021-v1\native\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="13164"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<instantE1 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/instant_e1_file.xsd">
+    <instantOut id="astra_trace_3" time="195.301438492262" state="enter" vehID="z15_k2_probe_0" speed="13.377100000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="195.400000000000" state="stay" vehID="z15_k2_probe_0" speed="13.377100000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="195.500000000000" state="stay" vehID="z15_k2_probe_0" speed="12.927100000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="195.600000000000" state="stay" vehID="z15_k2_probe_0" speed="12.477100000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="195.694878470690" state="leave" vehID="z15_k2_probe_0" speed="12.027100000000" length="5.000000000000" type="readme_lane_intent" occupancy="0.393439978428"/>
+    <instantOut id="astra_trace_3" time="197.759733985505" state="enter" vehID="z15_k2_probe_1" speed="11.832926388480" length="5.000000000000" type="readme_lane_intent" gap="2.064855514815"/>
+    <instantOut id="astra_trace_3" time="197.800000000000" state="stay" vehID="z15_k2_probe_1" speed="11.832926388480" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="197.900000000000" state="stay" vehID="z15_k2_probe_1" speed="11.935739544356" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="198.000000000000" state="stay" vehID="z15_k2_probe_1" speed="12.047721779235" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="198.100000000000" state="stay" vehID="z15_k2_probe_1" speed="12.167688169547" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="198.176559786282" state="leave" vehID="z15_k2_probe_1" speed="11.865501581509" length="5.000000000000" type="readme_lane_intent" occupancy="0.416825800777"/>
+    <instantOut id="astra_trace_3" time="199.972128433469" state="enter" vehID="z15_k2_probe_3" speed="10.594464586072" length="5.000000000000" type="readme_lane_intent" gap="1.795568647187"/>
+    <instantOut id="astra_trace_3" time="200.000000000000" state="stay" vehID="z15_k2_probe_3" speed="10.594464586072" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="200.100000000000" state="stay" vehID="z15_k2_probe_3" speed="10.708395962252" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="200.200000000000" state="stay" vehID="z15_k2_probe_3" speed="10.828025611531" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="200.300000000000" state="stay" vehID="z15_k2_probe_3" speed="10.956233681780" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="200.400000000000" state="stay" vehID="z15_k2_probe_3" speed="11.090879749963" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="200.430830780446" state="leave" vehID="z15_k2_probe_3" speed="11.234297992611" length="5.000000000000" type="readme_lane_intent" occupancy="0.458702346977"/>
+    <instantOut id="astra_trace_3" time="202.149752297065" state="enter" vehID="z15_k2_probe_2" speed="10.353647075574" length="5.000000000000" type="readme_lane_intent" gap="1.718921516619"/>
+    <instantOut id="astra_trace_3" time="202.200000000000" state="stay" vehID="z15_k2_probe_2" speed="10.353647075574" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="202.300000000000" state="stay" vehID="z15_k2_probe_2" speed="10.474875952072" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="202.400000000000" state="stay" vehID="z15_k2_probe_2" speed="10.602431226252" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="202.500000000000" state="stay" vehID="z15_k2_probe_2" speed="10.741360583032" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="202.600000000000" state="stay" vehID="z15_k2_probe_2" speed="10.884051136971" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="202.618985827657" state="leave" vehID="z15_k2_probe_2" speed="11.033552574119" length="5.000000000000" type="readme_lane_intent" occupancy="0.469233530592"/>
+    <instantOut id="astra_trace_3" time="204.251642157433" state="enter" vehID="z15_k2_probe_4" speed="9.955988390516" length="5.000000000000" type="readme_lane_intent" gap="1.632656329775"/>
+    <instantOut id="astra_trace_3" time="204.300000000000" state="stay" vehID="z15_k2_probe_4" speed="9.955988390516" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="204.400000000000" state="stay" vehID="z15_k2_probe_4" speed="10.078835628312" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="204.500000000000" state="stay" vehID="z15_k2_probe_4" speed="10.212440764927" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="204.600000000000" state="stay" vehID="z15_k2_probe_4" speed="10.352117082205" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="204.700000000000" state="stay" vehID="z15_k2_probe_4" speed="10.498631716077" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="204.737962522927" state="leave" vehID="z15_k2_probe_4" speed="10.651224694378" length="5.000000000000" type="readme_lane_intent" occupancy="0.486320365494"/>
+    <instantOut id="astra_trace_3" time="206.340760565292" state="enter" vehID="z15_k2_probe_6" speed="9.669949250585" length="5.000000000000" type="readme_lane_intent" gap="1.602798042365"/>
+    <instantOut id="astra_trace_3" time="206.400000000000" state="stay" vehID="z15_k2_probe_6" speed="9.669949250585" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="206.500000000000" state="stay" vehID="z15_k2_probe_6" speed="9.793634758631" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="206.600000000000" state="stay" vehID="z15_k2_probe_6" speed="9.924879461216" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="206.700000000000" state="stay" vehID="z15_k2_probe_6" speed="9.951361092692" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="206.800000000000" state="stay" vehID="z15_k2_probe_6" speed="9.820121015814" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="206.849355606845" state="leave" vehID="z15_k2_probe_6" speed="9.688018656196" length="5.000000000000" type="readme_lane_intent" occupancy="0.508595041553"/>
+    <instantOut id="astra_trace_3" time="281.683049519231" state="enter" vehID="z15_k2_probe_10" speed="2.080000000000" length="5.000000000000" type="readme_lane_intent" gap="74.833693912386"/>
+    <instantOut id="astra_trace_3" time="281.700000000000" state="stay" vehID="z15_k2_probe_10" speed="2.080000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="281.800000000000" state="stay" vehID="z15_k2_probe_10" speed="2.340000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="281.900000000000" state="stay" vehID="z15_k2_probe_10" speed="2.600000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.000000000000" state="stay" vehID="z15_k2_probe_10" speed="2.860000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.100000000000" state="stay" vehID="z15_k2_probe_10" speed="3.120000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.200000000000" state="stay" vehID="z15_k2_probe_10" speed="3.380000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.300000000000" state="stay" vehID="z15_k2_probe_10" speed="3.640000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.400000000000" state="stay" vehID="z15_k2_probe_10" speed="3.900000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.500000000000" state="stay" vehID="z15_k2_probe_10" speed="4.160000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.600000000000" state="stay" vehID="z15_k2_probe_10" speed="4.420000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.700000000000" state="stay" vehID="z15_k2_probe_10" speed="4.680000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.800000000000" state="stay" vehID="z15_k2_probe_10" speed="4.940000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.900000000000" state="stay" vehID="z15_k2_probe_10" speed="5.200000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="282.980722161172" state="leave" vehID="z15_k2_probe_10" speed="5.460000000000" length="5.000000000000" type="readme_lane_intent" occupancy="1.297672641941"/>
+    <instantOut id="astra_trace_3" time="284.231384508669" state="enter" vehID="z15_k2_probe_12" speed="3.038973557475" length="5.000000000000" type="readme_lane_intent" gap="1.250662347497"/>
+    <instantOut id="astra_trace_3" time="284.300000000000" state="stay" vehID="z15_k2_probe_12" speed="3.038973557475" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="284.400000000000" state="stay" vehID="z15_k2_probe_12" speed="2.849037710133" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="284.500000000000" state="stay" vehID="z15_k2_probe_12" speed="2.669037710133" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="284.600000000000" state="stay" vehID="z15_k2_probe_12" speed="2.491101862791" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="284.700000000000" state="stay" vehID="z15_k2_probe_12" speed="2.325028405272" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="284.800000000000" state="stay" vehID="z15_k2_probe_12" speed="2.164314119557" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="284.900000000000" state="stay" vehID="z15_k2_probe_12" speed="2.009720253875" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.000000000000" state="stay" vehID="z15_k2_probe_12" speed="1.866168807169" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.100000000000" state="stay" vehID="z15_k2_probe_12" speed="1.747707268708" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.200000000000" state="stay" vehID="z15_k2_probe_12" speed="1.658652863423" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.300000000000" state="stay" vehID="z15_k2_probe_12" speed="1.611064181621" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.400000000000" state="stay" vehID="z15_k2_probe_12" speed="1.597905398419" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.500000000000" state="stay" vehID="z15_k2_probe_12" speed="1.614989598541" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.600000000000" state="stay" vehID="z15_k2_probe_12" speed="1.666913475576" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.700000000000" state="stay" vehID="z15_k2_probe_12" speed="1.740227823609" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.800000000000" state="stay" vehID="z15_k2_probe_12" speed="1.843052420236" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="285.900000000000" state="stay" vehID="z15_k2_probe_12" speed="1.959262961648" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.000000000000" state="stay" vehID="z15_k2_probe_12" speed="2.097887035816" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.100000000000" state="stay" vehID="z15_k2_probe_12" speed="2.256168764374" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.200000000000" state="stay" vehID="z15_k2_probe_12" speed="2.417757513415" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.300000000000" state="stay" vehID="z15_k2_probe_12" speed="2.601240345854" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.400000000000" state="stay" vehID="z15_k2_probe_12" speed="2.788585302623" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.500000000000" state="stay" vehID="z15_k2_probe_12" speed="2.988048721209" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="286.529759639947" state="leave" vehID="z15_k2_probe_12" speed="3.195337106949" length="5.000000000000" type="readme_lane_intent" occupancy="2.298375131278"/>
+    <instantOut id="astra_trace_3" time="287.866670679260" state="enter" vehID="z15_k2_probe_8" speed="4.909685486618" length="5.000000000000" type="readme_lane_intent" gap="1.336911039313"/>
+    <instantOut id="astra_trace_3" time="287.900000000000" state="stay" vehID="z15_k2_probe_8" speed="4.909685486618" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.000000000000" state="stay" vehID="z15_k2_probe_8" speed="5.128492709282" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.100000000000" state="stay" vehID="z15_k2_probe_8" speed="5.354874398848" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.200000000000" state="stay" vehID="z15_k2_probe_8" speed="5.578564965035" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.300000000000" state="stay" vehID="z15_k2_probe_8" speed="5.811890735126" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.400000000000" state="stay" vehID="z15_k2_probe_8" speed="6.040471864951" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.500000000000" state="stay" vehID="z15_k2_probe_8" speed="6.278442602386" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.600000000000" state="stay" vehID="z15_k2_probe_8" speed="6.512183406041" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.700000000000" state="stay" vehID="z15_k2_probe_8" speed="6.752643261197" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="288.712961038473" state="leave" vehID="z15_k2_probe_8" speed="6.990730224935" length="5.000000000000" type="readme_lane_intent" occupancy="0.846290359213"/>
+    <instantOut id="astra_trace_3" time="289.735177525196" state="enter" vehID="z15_k2_probe_14" speed="7.343780352189" length="5.000000000000" type="readme_lane_intent" gap="1.022216486723"/>
+    <instantOut id="astra_trace_3" time="289.800000000000" state="stay" vehID="z15_k2_probe_14" speed="7.343780352189" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="289.900000000000" state="stay" vehID="z15_k2_probe_14" speed="7.385446492489" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="290.000000000000" state="stay" vehID="z15_k2_probe_14" speed="7.425510088932" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="290.100000000000" state="stay" vehID="z15_k2_probe_14" speed="7.464032777819" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="290.200000000000" state="stay" vehID="z15_k2_probe_14" speed="7.501073824826" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="290.300000000000" state="stay" vehID="z15_k2_probe_14" speed="7.536690216179" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="290.400000000000" state="stay" vehID="z15_k2_probe_14" speed="7.570936746326" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="290.404680378115" state="leave" vehID="z15_k2_probe_14" speed="7.603866102236" length="5.000000000000" type="readme_lane_intent" occupancy="0.669502852919"/>
+    <instantOut id="astra_trace_3" time="291.474240992356" state="enter" vehID="z15_k2_probe_18" speed="7.689876962736" length="5.000000000000" type="readme_lane_intent" gap="1.069560614241"/>
+    <instantOut id="astra_trace_3" time="291.500000000000" state="stay" vehID="z15_k2_probe_18" speed="7.689876962736" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="291.600000000000" state="stay" vehID="z15_k2_probe_18" speed="7.717181519672" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="291.700000000000" state="stay" vehID="z15_k2_probe_18" speed="7.743474796721" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="291.800000000000" state="stay" vehID="z15_k2_probe_18" speed="7.768794248694" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="291.900000000000" state="stay" vehID="z15_k2_probe_18" speed="7.793175943187" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="292.000000000000" state="stay" vehID="z15_k2_probe_18" speed="7.816654611958" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="292.100000000000" state="stay" vehID="z15_k2_probe_18" speed="7.839263700404" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="292.117053977166" state="leave" vehID="z15_k2_probe_18" speed="7.861035415204" length="5.000000000000" type="readme_lane_intent" occupancy="0.642812984810"/>
+    <instantOut id="astra_trace_3" time="293.250000277108" state="enter" vehID="z15_k2_probe_16" speed="7.726031033790" length="5.000000000000" type="readme_lane_intent" gap="1.132946299941"/>
+    <instantOut id="astra_trace_3" time="293.300000000000" state="stay" vehID="z15_k2_probe_16" speed="7.726031033790" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.400000000000" state="stay" vehID="z15_k2_probe_16" speed="7.684501545193" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.500000000000" state="stay" vehID="z15_k2_probe_16" speed="7.641553489450" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.600000000000" state="stay" vehID="z15_k2_probe_16" speed="7.595831138723" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.700000000000" state="stay" vehID="z15_k2_probe_16" speed="7.549372035069" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.800000000000" state="stay" vehID="z15_k2_probe_16" speed="7.501630188088" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.900000000000" state="stay" vehID="z15_k2_probe_16" speed="7.452382051331" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="293.909668653617" state="leave" vehID="z15_k2_probe_16" speed="7.361267379099" length="5.000000000000" type="readme_lane_intent" occupancy="0.659668376509"/>
+    <instantOut id="astra_trace_3" time="295.575027741831" state="enter" vehID="z15_k2_probe_5" speed="4.709675614703" length="5.000000000000" type="readme_lane_intent" gap="1.665359088214"/>
+    <instantOut id="astra_trace_3" time="295.600000000000" state="stay" vehID="z15_k2_probe_5" speed="4.709675614703" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="295.700000000000" state="stay" vehID="z15_k2_probe_5" speed="4.812255202923" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="295.800000000000" state="stay" vehID="z15_k2_probe_5" speed="4.931769180687" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="295.900000000000" state="stay" vehID="z15_k2_probe_5" speed="5.056899133912" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.000000000000" state="stay" vehID="z15_k2_probe_5" speed="5.199548449354" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.100000000000" state="stay" vehID="z15_k2_probe_5" speed="5.351119225966" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.200000000000" state="stay" vehID="z15_k2_probe_5" speed="5.511984177200" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.300000000000" state="stay" vehID="z15_k2_probe_5" speed="5.681100112700" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.400000000000" state="stay" vehID="z15_k2_probe_5" speed="5.859755206339" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.500000000000" state="stay" vehID="z15_k2_probe_5" speed="6.043354317290" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="296.506033746376" state="leave" vehID="z15_k2_probe_5" speed="6.233318684286" length="5.000000000000" type="readme_lane_intent" occupancy="0.931006004545"/>
+    <instantOut id="astra_trace_3" time="297.804721016514" state="enter" vehID="z15_k2_probe_7" speed="6.143864514696" length="5.000000000000" type="readme_lane_intent" gap="1.298687270138"/>
+    <instantOut id="astra_trace_3" time="297.900000000000" state="stay" vehID="z15_k2_probe_7" speed="6.143864514696" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.000000000000" state="stay" vehID="z15_k2_probe_7" speed="6.112111132467" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.100000000000" state="stay" vehID="z15_k2_probe_7" speed="6.079042726511" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.200000000000" state="stay" vehID="z15_k2_probe_7" speed="6.044522919792" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.300000000000" state="stay" vehID="z15_k2_probe_7" speed="6.008404496117" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.400000000000" state="stay" vehID="z15_k2_probe_7" speed="5.970541856825" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.500000000000" state="stay" vehID="z15_k2_probe_7" speed="5.931585461060" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.600000000000" state="stay" vehID="z15_k2_probe_7" speed="5.891703607689" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="298.636032245599" state="leave" vehID="z15_k2_probe_7" speed="5.851081741097" length="5.000000000000" type="readme_lane_intent" occupancy="0.831311229085"/>
+    <instantOut id="astra_trace_3" time="300.114110618681" state="enter" vehID="z15_k2_probe_11" speed="5.378222221757" length="5.000000000000" type="readme_lane_intent" gap="1.478078373082"/>
+    <instantOut id="astra_trace_3" time="300.200000000000" state="stay" vehID="z15_k2_probe_11" speed="5.378222221757" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.300000000000" state="stay" vehID="z15_k2_probe_11" speed="5.334425021125" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.400000000000" state="stay" vehID="z15_k2_probe_11" speed="5.289569444917" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.500000000000" state="stay" vehID="z15_k2_probe_11" speed="5.243923934978" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.600000000000" state="stay" vehID="z15_k2_probe_11" speed="5.198385185173" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.700000000000" state="stay" vehID="z15_k2_probe_11" speed="5.152993952651" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.800000000000" state="stay" vehID="z15_k2_probe_11" speed="5.106353530278" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="300.900000000000" state="stay" vehID="z15_k2_probe_11" speed="5.058855474202" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="301.000000000000" state="stay" vehID="z15_k2_probe_11" speed="5.010504593527" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="301.080339457605" state="leave" vehID="z15_k2_probe_11" speed="4.961033083519" length="5.000000000000" type="readme_lane_intent" occupancy="0.966228838924"/>
+    <instantOut id="astra_trace_3" time="302.838500435629" state="enter" vehID="z15_k2_probe_9" speed="3.052822497533" length="5.000000000000" type="readme_lane_intent" gap="1.758160978023"/>
+    <instantOut id="astra_trace_3" time="302.900000000000" state="stay" vehID="z15_k2_probe_9" speed="3.052822497533" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.000000000000" state="stay" vehID="z15_k2_probe_9" speed="2.862021091437" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.100000000000" state="stay" vehID="z15_k2_probe_9" speed="2.682021091437" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.200000000000" state="stay" vehID="z15_k2_probe_9" speed="2.503219685341" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.300000000000" state="stay" vehID="z15_k2_probe_9" speed="2.336338372985" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.400000000000" state="stay" vehID="z15_k2_probe_9" speed="2.175624087271" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.500000000000" state="stay" vehID="z15_k2_probe_9" speed="2.020222366752" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.600000000000" state="stay" vehID="z15_k2_probe_9" speed="1.875920769127" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.700000000000" state="stay" vehID="z15_k2_probe_9" speed="1.737459230665" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.800000000000" state="stay" vehID="z15_k2_probe_9" speed="1.603808520614" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="303.900000000000" state="stay" vehID="z15_k2_probe_9" speed="1.480438634413" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.000000000000" state="stay" vehID="z15_k2_probe_9" speed="1.366558739458" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.100000000000" state="stay" vehID="z15_k2_probe_9" speed="1.254058739458" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.200000000000" state="stay" vehID="z15_k2_probe_9" speed="1.149553844503" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.300000000000" state="stay" vehID="z15_k2_probe_9" speed="1.053757690795" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.400000000000" state="stay" vehID="z15_k2_probe_9" speed="0.965944549895" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.500000000000" state="stay" vehID="z15_k2_probe_9" speed="0.884126368077" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.600000000000" state="stay" vehID="z15_k2_probe_9" speed="0.827387607343" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.700000000000" state="stay" vehID="z15_k2_probe_9" speed="0.805806915766" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.800000000000" state="stay" vehID="z15_k2_probe_9" speed="0.827097196151" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="304.900000000000" state="stay" vehID="z15_k2_probe_9" speed="0.882815632864" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.000000000000" state="stay" vehID="z15_k2_probe_9" speed="0.962346360720" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.100000000000" state="stay" vehID="z15_k2_probe_9" speed="1.072984163994" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.200000000000" state="stay" vehID="z15_k2_probe_9" speed="1.201902150328" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.300000000000" state="stay" vehID="z15_k2_probe_9" speed="1.360840281046" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.400000000000" state="stay" vehID="z15_k2_probe_9" speed="1.523083336350" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.500000000000" state="stay" vehID="z15_k2_probe_9" speed="1.705923079708" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.600000000000" state="stay" vehID="z15_k2_probe_9" speed="1.899362639750" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.700000000000" state="stay" vehID="z15_k2_probe_9" speed="2.097979594053" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.800000000000" state="stay" vehID="z15_k2_probe_9" speed="2.312915648180" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.900000000000" state="stay" vehID="z15_k2_probe_9" speed="2.525387938301" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="305.906017740967" state="leave" vehID="z15_k2_probe_9" speed="2.752214446013" length="5.000000000000" type="readme_lane_intent" occupancy="3.067517305338"/>
+    <instantOut id="astra_trace_3" time="371.683049519231" state="enter" vehID="z15_k2_probe_13" speed="2.080000000000" length="5.000000000000" type="readme_lane_intent" gap="65.777031778264"/>
+    <instantOut id="astra_trace_3" time="371.700000000000" state="stay" vehID="z15_k2_probe_13" speed="2.080000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="371.800000000000" state="stay" vehID="z15_k2_probe_13" speed="2.340000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="371.900000000000" state="stay" vehID="z15_k2_probe_13" speed="2.600000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.000000000000" state="stay" vehID="z15_k2_probe_13" speed="2.860000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.100000000000" state="stay" vehID="z15_k2_probe_13" speed="3.120000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.200000000000" state="stay" vehID="z15_k2_probe_13" speed="3.380000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.300000000000" state="stay" vehID="z15_k2_probe_13" speed="3.640000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.400000000000" state="stay" vehID="z15_k2_probe_13" speed="3.900000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.500000000000" state="stay" vehID="z15_k2_probe_13" speed="4.160000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.600000000000" state="stay" vehID="z15_k2_probe_13" speed="4.420000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.700000000000" state="stay" vehID="z15_k2_probe_13" speed="4.680000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.800000000000" state="stay" vehID="z15_k2_probe_13" speed="4.940000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.900000000000" state="stay" vehID="z15_k2_probe_13" speed="5.200000000000" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="372.980722161172" state="leave" vehID="z15_k2_probe_13" speed="5.460000000000" length="5.000000000000" type="readme_lane_intent" occupancy="1.297672641941"/>
+    <instantOut id="astra_trace_3" time="373.977103719961" state="enter" vehID="z15_k2_probe_15" speed="6.366301038526" length="5.000000000000" type="readme_lane_intent" gap="0.996381558789"/>
+    <instantOut id="astra_trace_3" time="374.000000000000" state="stay" vehID="z15_k2_probe_15" speed="6.366301038526" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.100000000000" state="stay" vehID="z15_k2_probe_15" speed="6.621038495254" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.200000000000" state="stay" vehID="z15_k2_probe_15" speed="6.879755415634" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.300000000000" state="stay" vehID="z15_k2_probe_15" speed="7.018761199008" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.400000000000" state="stay" vehID="z15_k2_probe_15" speed="7.075094751048" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.500000000000" state="stay" vehID="z15_k2_probe_15" speed="7.129174961006" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.600000000000" state="stay" vehID="z15_k2_probe_15" speed="7.181091962566" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="374.691807378027" state="leave" vehID="z15_k2_probe_15" speed="7.229742580830" length="5.000000000000" type="readme_lane_intent" occupancy="0.714703658066"/>
+    <instantOut id="astra_trace_3" time="375.698706103148" state="enter" vehID="z15_k2_probe_17" speed="7.689755096084" length="5.000000000000" type="readme_lane_intent" gap="1.006898725121"/>
+    <instantOut id="astra_trace_3" time="375.700000000000" state="stay" vehID="z15_k2_probe_17" speed="7.689755096084" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="375.800000000000" state="stay" vehID="z15_k2_probe_17" speed="7.395524326853" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="375.900000000000" state="stay" vehID="z15_k2_probe_17" speed="7.435200314282" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="376.000000000000" state="stay" vehID="z15_k2_probe_17" speed="7.473350302194" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="376.100000000000" state="stay" vehID="z15_k2_probe_17" speed="7.510032982879" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="376.200000000000" state="stay" vehID="z15_k2_probe_17" speed="7.545304791230" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="376.300000000000" state="stay" vehID="z15_k2_probe_17" speed="7.579219991567" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="376.365186286290" state="leave" vehID="z15_k2_probe_17" speed="7.611830761122" length="5.000000000000" type="readme_lane_intent" occupancy="0.666480183142"/>
+    <instantOut id="astra_trace_3" time="377.431117319041" state="enter" vehID="z15_k2_probe_19" speed="7.686949888499" length="5.000000000000" type="readme_lane_intent" gap="1.065931032751"/>
+    <instantOut id="astra_trace_3" time="377.500000000000" state="stay" vehID="z15_k2_probe_19" speed="7.686949888499" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="377.600000000000" state="stay" vehID="z15_k2_probe_19" speed="7.714362855592" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="377.700000000000" state="stay" vehID="z15_k2_probe_19" speed="7.740760527607" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="377.800000000000" state="stay" vehID="z15_k2_probe_19" speed="7.766180508066" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="377.900000000000" state="stay" vehID="z15_k2_probe_19" speed="7.790659007767" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="378.000000000000" state="stay" vehID="z15_k2_probe_19" speed="7.814230896368" length="5.000000000000" type="readme_lane_intent"/>
+    <instantOut id="astra_trace_3" time="378.075014440903" state="leave" vehID="z15_k2_probe_19" speed="7.836929752058" length="5.000000000000" type="readme_lane_intent" occupancy="0.643897121862"/>
+</instantE1>

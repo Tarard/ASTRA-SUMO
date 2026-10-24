@@ -1,0 +1,69 @@
+{
+  "code_commit": "84c7e6a0b926d121e6ace334f5ce77d14a58e3a3",
+  "critical_native_cases_executed_per_run": 38,
+  "limit": "Complete software CI does not establish field precision, complete source-curation correction, or unresolved merge topology/OD qualification.",
+  "passed_per_run": 3722,
+  "runs": [
+    {
+      "artifacts": [
+        {
+          "path": "outputs/ci-84c7e6a-pr-artifacts-20261020/test-results.xml",
+          "sha256": "25ee00cc275753a105db6369c2fdcbaedb01598d0dc3ee0e769dfe3b33c53c4c"
+        },
+        {
+          "path": "outputs/ci-84c7e6a-pr-20261020-v1.log",
+          "sha256": "cc3e538bbdfa1263355c2cedec7c24d89fdebf09c397ae08188e2eb1be5658d5"
+        }
+      ],
+      "critical_native_execution": {
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20
+      },
+      "junit_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 24,
+        "tests": 3746
+      },
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39367860611"
+    },
+    {
+      "artifacts": [
+        {
+          "path": "outputs/ci-84c7e6a-push-artifacts-20261020/test-results.xml",
+          "sha256": "79ca233ba5681e5ecd4b76c833eacd4776d655da516e053022f3a15507155be7"
+        },
+        {
+          "path": "outputs/ci-84c7e6a-push-20261020-v1.log",
+          "sha256": "8290d7fa24546b6e5b8f33064bfe8ac468a3c2b1bce9ce3911b1217148cb76a0"
+        }
+      ],
+      "critical_native_execution": {
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20
+      },
+      "junit_counts": {
+        "errors": 0,
+        "failures": 0,
+        "skipped": 24,
+        "tests": 3746
+      },
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39367855431"
+    }
+  ],
+  "skipped_per_run": 24
+}

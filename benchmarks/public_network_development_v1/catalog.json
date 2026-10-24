@@ -1,0 +1,218 @@
+{
+  "schema": "astra.public-network-catalog/v1",
+  "purpose": "daily_development_reference_targets",
+  "automatic_promotion_gate": "blocked",
+  "field_defect_labels": false,
+  "datasets": [
+    {
+      "id": "sumo_ingolstadt",
+      "city": "Ingolstadt",
+      "family_id": "ingolstadt",
+      "repository": "https://github.com/TUM-VT/sumo_ingolstadt",
+      "commit": "e0a95deebe200ff81b6705044d66310d6266d42b",
+      "license": "Apache-2.0",
+      "split": "development_only",
+      "source_relation": "missing_original_osm",
+      "osm_snapshot_date": null,
+      "field_validity_date": null,
+      "limitations": [
+        "The upstream README warns that pedestrian crossings are incomplete.",
+        "The default signals require the published WAUT configuration for traffic experiments."
+      ],
+      "files": [
+        {
+          "role": "documentation",
+          "path": "README.md",
+          "sha256": "8b1adfee7c8fe4fb66d175909b57a79a319f54eab34d9f026d3dece9809bef11",
+          "bytes": 4838
+        },
+        {
+          "role": "license",
+          "path": "LICENSE.md",
+          "sha256": "809fa1ed21450f59827d1e9aec720bbc4b687434fa22283c6cb5dd82a47ab9c0",
+          "bytes": 10175
+        },
+        {
+          "role": "reference_net",
+          "path": "simulation/Ingolstadt SUMO 365/ingolstadt_net.net.xml",
+          "sha256": "ab043e0974eb3ccd8f76799c8687960f3ac42c155f6efe7b01405ebba34549f8",
+          "bytes": 80064627
+        }
+      ]
+    },
+    {
+      "id": "LuSTScenario",
+      "city": "Luxembourg",
+      "family_id": "luxembourg",
+      "repository": "https://github.com/lcodeca/LuSTScenario",
+      "commit": "5edb7ecb9ad196c39172b6eb95d19ed789f4b1a6",
+      "license": "MIT",
+      "split": "development_only",
+      "source_relation": "legacy_prepared_source_unverified",
+      "osm_snapshot_date": null,
+      "field_validity_date": null,
+      "limitations": [
+        "The supplied JOSM source is a legacy prepared input. Its relation to the published network is unverified.",
+        "Mobility validation in the upstream README applies to SUMO 0.26."
+      ],
+      "files": [
+        {
+          "role": "documentation",
+          "path": "README.md",
+          "sha256": "3836e71b27148bdd9e4571b9fffc622a7886719e76d0c08fc424bb969f511aa6",
+          "bytes": 1776
+        },
+        {
+          "role": "license",
+          "path": "LICENSE.md",
+          "sha256": "9a16c8681095f730e72ad6efe2b56c30a924552d4b6b6326868309749d64837b",
+          "bytes": 1134
+        },
+        {
+          "role": "documentation",
+          "path": "BibTeX.bib",
+          "sha256": "caffa4c1703065a2a01f9ea9d855abe48cec2ec1a56980f9ebedd545166a830b",
+          "bytes": 337
+        },
+        {
+          "role": "reference_net",
+          "path": "scenario/lust.net.xml",
+          "sha256": "6f5d76223cf14b797ae6267f13b23eb6c872d76adec1fb22a8569a806dc09341",
+          "bytes": 10940662
+        },
+        {
+          "role": "source_osm",
+          "path": "misc/lust.legacy.scenario.osm",
+          "sha256": "933f7080150ecd1535f5b5680cb248ff9860a25e8fa9ad3c1b33df23674ff119",
+          "bytes": 1892824
+        }
+      ]
+    },
+    {
+      "id": "MoSTScenario",
+      "city": "Monaco",
+      "family_id": "monaco",
+      "repository": "https://github.com/lcodeca/MoSTScenario",
+      "commit": "b29b2f65f1096a9c69a601ec62a724815cb4a43f",
+      "license": "GPLv3",
+      "split": "development_only",
+      "source_relation": "prepared_input_revision_mismatch",
+      "osm_snapshot_date": null,
+      "field_validity_date": null,
+      "limitations": [
+        "The OSM-like input merges edited roads, IGN data and other sources. It is not an unmodified OSM snapshot.",
+        "Some signals were introduced to model pedestrian interactions. They are not field signal truth.",
+        "The published network predates the current SUMO toolchain. Model agreement does not identify individual manual edits.",
+        "The prepared input was replaced in August 2019, after the July 2019 published network. Equal numeric IDs do not establish correspondence."
+      ],
+      "files": [
+        {
+          "role": "documentation",
+          "path": "README.md",
+          "sha256": "d45ca9b7b5f626f3d5e4ab10855dca0dbd6baa448b2bfef7432f287c9f892a13",
+          "bytes": 3337
+        },
+        {
+          "role": "license",
+          "path": "LICENSE.md",
+          "sha256": "c53a65c2fd561c87eaabf1072ef5dcab8653042bc15308465f52413585eb6271",
+          "bytes": 35146
+        },
+        {
+          "role": "documentation",
+          "path": "cite.bib",
+          "sha256": "c01e080ec499f5d676bf6094515a494754b4f404f03cac92954d6c5c829d1759",
+          "bytes": 958
+        },
+        {
+          "role": "reference_net",
+          "path": "scenario/in/most.net.xml",
+          "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0",
+          "bytes": 13898821
+        },
+        {
+          "role": "source_osm",
+          "path": "tools/most.raw.osm",
+          "sha256": "641aa5c71d91de028e9ee9039fe8ef0d7bc93f7cc5cef3e31a3dddf3ba34ee5d",
+          "bytes": 31857000
+        },
+        {
+          "role": "documentation",
+          "path": "tools/most.netcfg",
+          "sha256": "1b19eec7364cce002d734bdc178f9982f2b49e57986b1eb2b519d72df04f735c",
+          "bytes": 2793
+        },
+        {
+          "role": "documentation",
+          "path": "tools/osm-like.aggregator.sh",
+          "sha256": "0dc37d5c6d7eabff7b24d09ababf5d50d3ec92a0e01486083060597eadc87072",
+          "bytes": 1329
+        },
+        {
+          "role": "documentation",
+          "path": "tools/scenario.generator.sh",
+          "sha256": "e723d778c13c0344a7fe5183586e44363c6a047b5a8655b647c592c8c6075e4d",
+          "bytes": 2532
+        },
+        {
+          "role": "documentation",
+          "path": "tools/data/network.osm",
+          "sha256": "0752eabd75f958731028ddc0aa779489a13e8fbfdc166999c4d955a8f538e115",
+          "bytes": 3095503
+        }
+      ]
+    },
+    {
+      "id": "InTAS",
+      "city": "Ingolstadt",
+      "family_id": "ingolstadt",
+      "repository": "https://github.com/silaslobo/InTAS",
+      "commit": "0f7951ba01dda8483f0a852f2c3e4ff0d8a1c0ee",
+      "license": "GPLv3",
+      "split": "development_only",
+      "source_relation": "missing_original_osm",
+      "osm_snapshot_date": null,
+      "field_validity_date": null,
+      "limitations": [
+        "The 2020 paper describes removing bicycle lanes and sidewalks. The current repository adds pedestrian support.",
+        "Do not transfer the paper version assumptions to this network snapshot.",
+        "The supplied origBoundary does not describe a usable same-city acquisition extent."
+      ],
+      "files": [
+        {
+          "role": "documentation",
+          "path": "README.md",
+          "sha256": "8ae4272b997fb68d3806f8414172844b8015cf44f81723a5d8d11412b241e87c",
+          "bytes": 2304
+        },
+        {
+          "role": "license",
+          "path": "LICENSE",
+          "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+          "bytes": 35149
+        },
+        {
+          "role": "reference_net",
+          "path": "scenario/ingolstadt.net.xml",
+          "sha256": "dbd0d7a5949daf336e6ac95737b64d05fb303bfb3a0be53bf0dea2036cb1e942",
+          "bytes": 16774082
+        },
+        {
+          "role": "source_net",
+          "path": "scenario/ingolstadt.net.xml",
+          "commit": "4268efbaba09d6ca5e4ebbb264ce3abd1394b96b",
+          "bytes": 16760832,
+          "sha256": "958ac36833b9b5c3b97489c8324ccbefdff36b72669f7e3003d825f3f25a76f6"
+        }
+      ],
+      "comparison_source_role": "source_net",
+      "source_revision_note": "The current published network follows commit 641652c7588fd42e2cb1b40fe601177ba2cdb0a9 (correcting connections on Junctions). The preceding network version is the development input."
+    }
+  ],
+  "sources": [
+    "https://github.com/TUM-VT/sumo_ingolstadt",
+    "https://github.com/lcodeca/LuSTScenario",
+    "https://easychair.org/publications/open/x3nd",
+    "https://arxiv.org/abs/2011.11995"
+  ]
+}

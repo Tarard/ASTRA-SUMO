@@ -1,0 +1,16 @@
+{
+  "native_format_version": "1.27.1",
+  "references": [
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-sumo/sumo/v1_27_1/src/microsim/devices/MSDevice_Vehroutes.cpp",
+      "sections": "notifyLeave; saveState; loadState",
+      "used_for": "Ordinary-road exit records and raw saved SUMOTime vectors."
+    },
+    {
+      "url": "https://raw.githubusercontent.com/eclipse-sumo/sumo/v1_27_1/src/utils/common/SUMOTime.h",
+      "sections": "SUMOTime; STEPS2TIME; TIME2STEPS",
+      "used_for": "Internal integer time is milliseconds."
+    }
+  ],
+  "claim_boundary": "Time parsing only. These sources do not establish field counts, signal operation, or capacity."
+}

@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\outputs\probe-native-time-correction-20261022-v1.py", line 86, in <module>
+    run = run_point_detector_demand(net_file=P / 'network.net.xml', route_file=P / 'demand.rou.xml',
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\plugins\astra-sumo\src\astra_sumo\core\detector_demand_replay.py", line 111, in run_point_detector_demand
+    raise ValueError("Expected detector intervals must lie inside the simulation period.")
+ValueError: Expected detector intervals must lie inside the simulation period.

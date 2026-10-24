@@ -1,0 +1,29 @@
+{
+  "files": [
+    {
+      "source_relative": "one-car/instant-e1.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-control-response-20261023-v1\\one-car\\instant-e1.xml",
+      "bytes": 25232964,
+      "sha256": "38f832902e9e7832fc17c5a29530044f5a8d55bfe3893421afe15655157eda69"
+    },
+    {
+      "source_relative": "one-car/queues.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-control-response-20261023-v1\\one-car\\queues.xml",
+      "bytes": 87693764,
+      "sha256": "06bbc499db8baa79be3fce28c4ecc98dce27c9c8d035a2182ad32114d365f2ad"
+    },
+    {
+      "source_relative": "reference/instant-e1.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-control-response-20261023-v1\\reference\\instant-e1.xml",
+      "bytes": 25135063,
+      "sha256": "9613a40f84a20f3226f66b587bbd4e4347ad73f8c3427637ae204a007a121f1b"
+    },
+    {
+      "source_relative": "reference/queues.xml",
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-control-response-20261023-v1\\reference\\queues.xml",
+      "bytes": 86933817,
+      "sha256": "66e9afeb22f2b8e89c266e3218022aba8335ad135badcade261c45f3a137f8d9"
+    }
+  ],
+  "portable_limitation": "Omitted queues/instant cannot be independently re-read on another machine without these local files. Original20check records and hashes are retained."
+}

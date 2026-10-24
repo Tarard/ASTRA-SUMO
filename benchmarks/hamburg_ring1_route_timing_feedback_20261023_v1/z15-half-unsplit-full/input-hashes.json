@@ -1,0 +1,38 @@
+{
+  "inputs": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-native-feedback-20261023-v1\\z15-half-unsplit-full\\prepared\\network.net.xml",
+      "sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18",
+      "snapshot": "prepared/network.net.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-native-feedback-20261023-v1\\z15-half-unsplit-full\\prepared\\demand.rou.xml",
+      "sha256": "901c051aec8e3cfc7af068e40fb29345e88ca22c595b9fc82f12fe64cc6c56be",
+      "snapshot": "prepared/demand.rou.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-native-feedback-20261023-v1\\z15-half-unsplit-full\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "snapshot": "prepared/field-loops.add.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-native-feedback-20261023-v1\\z15-half-unsplit-full\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "snapshot": "prepared/expected-counts.csv.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-native-feedback-20261023-v1\\z15-half-unsplit-full\\prepared\\control.add.xml",
+      "sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d",
+      "snapshot": "prepared/control.add.xml.gz"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-native-feedback-20261023-v1\\z15-half-unsplit-full\\prepared\\lane-intentions.json",
+      "sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+      "snapshot": "prepared/lane-intentions.json.gz"
+    }
+  ],
+  "initialization_targets": {
+    "snapshot": "prepared/initialization-counts.csv.gz",
+    "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  }
+}

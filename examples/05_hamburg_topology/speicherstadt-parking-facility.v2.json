@@ -1,0 +1,25 @@
+{
+  "schema": "astra.parking-facility-case/v1",
+  "decision_date": "2026-10-15",
+  "decision": "retain_detailed_network_with_facility_overview",
+  "supersedes": "speicherstadt-parking-scope.ledger.json",
+  "superseded_deletion_status": "withdrawn",
+  "source_net": {
+    "path": "outputs/geometry_extended_20261015_v11/full-workflow/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a"
+  },
+  "source_osm": {
+    "path": "outputs/claude_revisions_20261015_v1/sources/sandtorkai-current.osm.xml",
+    "sha256": "c0ae1584324ada2fc1f6fa27a6b6329edcf0baa6b1134b9503d6128a0f219ef4"
+  },
+  "facility": "osm-way-60260768",
+  "name": "Parkhaus Speicherstadt",
+  "operator_url": "https://www.contipark.de/de/parken/hamburg/parkhaus-speicherstadt/",
+  "expected_interior_road_count": 8,
+  "expected_entry_count": 2,
+  "expected_exit_count": 2,
+  "runtime_topology_policy": "preserve_all_roads_lanes_and_connections",
+  "display_policy": "building_outline_parking_marker_and_entry_exit_arrows",
+  "parking_operations": "not_configured",
+  "field_absence_claim": false
+}

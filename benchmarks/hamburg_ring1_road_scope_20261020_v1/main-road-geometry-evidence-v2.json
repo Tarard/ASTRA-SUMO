@@ -1,0 +1,18 @@
+{
+  "status": "pass",
+  "source": {
+    "path": "outputs/ring1-road-demo-20261020-v6/01-osm/logs/ring1-full_access-input.net.xml",
+    "sha256": "9e8a0a81799f28242273ca8b35a0bfa27b0f53e7d68a621b9af0a4d494b0e280"
+  },
+  "candidate": {
+    "path": "outputs/ring1-road-demo-20261020-v6/02-main-roads/selected.net.xml",
+    "sha256": "bc69def09e30785cce0ff02df9d2d14dcd9a43bbb886204ffc97f4660f49085e"
+  },
+  "frozen_road_count": 265,
+  "geometry_changes": {
+    "shape": 0,
+    "length": 0,
+    "width": 0
+  },
+  "claim_boundary": "Preservation relative to the prepared input only. No field geometry accuracy claim."
+}

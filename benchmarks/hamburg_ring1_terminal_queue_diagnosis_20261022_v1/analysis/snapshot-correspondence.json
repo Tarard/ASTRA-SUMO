@@ -1,0 +1,27 @@
+{
+  "formal_result": false,
+  "snapshot_vehicles": 950,
+  "active_vehicles_verified": 306,
+  "original_unentered_vehicle_count": 644,
+  "loaded_pending_api_count": 0,
+  "loaded_pending_api_is_not_the_original_insertion_queue": true,
+  "only_private_copy_changes": [
+    [
+      "7709833318",
+      "0"
+    ],
+    [
+      "7709833318",
+      "readme_fixed_A"
+    ]
+  ],
+  "time_unchanged": true,
+  "simulation_steps": 0,
+  "mode_mismatches": 24,
+  "mode_mismatches_by_recorded_hold": {
+    "field": 19,
+    "junction": 5
+  },
+  "original_approaching_link_records": 0,
+  "claim_boundary": "Original pending IDs are reconstructed from original vehicle/lane records and independently match full-run uninserted IDs. Loaded API pending=0 and missing influencer modes do not replace the original counts. Query wait-cycle and foe results do not prove absence of original-runtime deadlock or establish restart fidelity."
+}

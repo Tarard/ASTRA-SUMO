@@ -5,6 +5,8 @@ evidence illustrations, not substitutes for the hash-bound machine manifests.
 
 | File | Provenance | Reproduction / license note |
 |---|---|---|
+| `torii-v1-corridor-aerial-sensors.png` | Binnenalster / Ring1 V1 illustration, introduced in public-release commit `f761f8f` | Shows streams 35822, 33023, 30666, and 26585. The original network, raw calibration run, and dated aerial registration are not linked. See the [case evidence](../../hamburg-readme-case.md). |
+| `torii-v1-four-stage-comparison.png` | LSA118 V1 reconstruction illustration, introduced in the same release | The original MAP package, withheld-drive-line evaluation, and source/candidate capture manifests are not linked. It is an illustration, not a reproduced validation result. |
 | `official-aerial-2024.png` | Hamburg LGV DOP time-series WMS | `EPSG:25832`, bbox `565100,5933000,566350,5933625`, `TIME=2024`, 1600×800. Source: Freie und Hansestadt Hamburg, Landesbetrieb Geoinformation und Vermessung (LGV), Datenlizenz Deutschland – Namensnennung – Version 2.0. |
 | `official-construction-plan-2022.png` | LSBG, *Am Sandtorkai / Brooktorkai – Verstetigung Pop-up-Bikelane*, coordinated plan, July 2022 | Page 1 rendered at 110 dpi. Keep the official PDF link with every public use. |
 | `osm-import-overview.png` | Torii review rendering of the original OSM-derived Hamburg network | Generated artifact; red points are TLS/review anchors. |

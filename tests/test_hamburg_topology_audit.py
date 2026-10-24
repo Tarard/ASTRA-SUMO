@@ -11,6 +11,19 @@ from astra_sumo.core.command_runner import CommandResult
 from astra_sumo.core import hamburg_topology_audit as audit
 
 
+@pytest.mark.parametrize("change", [None, "coordinate", "shape", "custom"])
+def test_reload_boundary_comparison_distinguishes_formatting_from_real_changes(change):
+    before = ET.fromstring('<junction id="j" x="226.66" y="0" z="0" customShape="true" shape="0,0 4,0 4,4"/>')
+    after = ET.fromstring('<junction id="j" x="226.660000" y="0.000000" z="0.000000" customShape="true" shape="0.000000,0.000000 4.000000,0.000000 4.000000,4.000000"/>')
+    if change == "coordinate":
+        after.set("x", "226.660001")
+    elif change == "shape":
+        after.set("shape", "0,0 4.000001,0 4,4")
+    elif change == "custom":
+        after.set("customShape", "false")
+    assert (audit._boundary_signature(before) == audit._boundary_signature(after)) is (change is None)
+
+
 def _case(tmp_path, *, outside_bowtie=False):
     body = '''<net><location netOffset="0,0" projParameter="!"/>
     <edge id="in" from="a" to="j"><lane id="in_0" index="0" length="10" shape="0,0 10,0"/></edge>
@@ -211,8 +224,9 @@ def test_declared_context_polygon_is_checked_without_changing_it(tmp_path, monke
 
 
 @pytest.mark.parametrize('change', ['external', 'fixed_boundary'])
-def test_reload_change_blocks_even_when_constructor_passes(tmp_path, monkeypatch, change):
-    manifest, _, _, _ = _case(tmp_path)
+def test_reload_geometry_change_is_retained_and_protected_before_acceptance(tmp_path, monkeypatch, change):
+    manifest, _, source, candidate = _case(tmp_path)
+    hashes = [file_sha256(path) for path in (source, candidate)]
     def mutate(root):
         if change == 'external':
             root.find("edge[@id='far']/lane").set('length', '10.01')
@@ -220,9 +234,21 @@ def test_reload_change_blocks_even_when_constructor_passes(tmp_path, monkeypatch
             root.find("junction[@id='j']").set('shape', '10,-2 12,-2 12,2 10,2.01')
     _runner(monkeypatch, mutate)
     report = audit.audit_hamburg_topology_candidate(manifest, tmp_path / 'audit')
-    assert report['reload_stability']['status'] == report['status'] == 'blocked'
+    assert report['reload_stability']['raw_reload_status'] == 'review_required'
+    assert report['reload_stability']['status'] == 'pass'
+    assert report['status'] != 'blocked'
+    assert report['reload_stability']['protected_reload']['geometry']['status'] == 'pass'
+    assert hashes == [file_sha256(path) for path in (source, candidate)]
     assert report['reload_stability']['changed_external_edges'] == (['far'] if change == 'external' else [])
     assert report['reload_stability']['changed_target_boundaries'] == (['j'] if change == 'fixed_boundary' else [])
+
+
+def test_reload_cannot_restore_an_undeclared_lane_identity_change(tmp_path, monkeypatch):
+    manifest, _, _, _ = _case(tmp_path)
+    _runner(monkeypatch, lambda root: root.find("edge[@id='far']/lane").set('id', 'far_1'))
+    report = audit.audit_hamburg_topology_candidate(manifest, tmp_path / 'audit')
+    assert report['reload_stability']['status'] == report['status'] == 'blocked'
+    assert report['reload_stability']['protected_reload']['geometry']['status'] == 'blocked'
 
 
 def test_outside_permission_loss_is_not_hidden_by_declared_topology_pass(tmp_path, monkeypatch):

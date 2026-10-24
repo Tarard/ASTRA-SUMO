@@ -1,0 +1,48 @@
+{
+  "schema": "astra.ring1-count-window-input/v1",
+  "status": "complete_source_data",
+  "publisher": "Freie und Hansestadt Hamburg",
+  "source_service": "https://iot.hamburg.de/v1.1/",
+  "begin_utc": "2026-10-19T05:30:00+00:00",
+  "end_utc": "2026-10-19T08:00:00+00:00",
+  "window_role": "fixed source-composition check; no fitting/validation split selected",
+  "field_stream_count": 13,
+  "source_interval_seconds": 300,
+  "station_stream_ids": [
+    35822,
+    33023,
+    30666,
+    26585
+  ],
+  "station_interval_seconds": 900,
+  "field_observations": 390,
+  "station_bins": 40,
+  "exact_source_composition_bins": 40,
+  "files": {
+    "field-counts-15min.csv": {
+      "sha256": "ae218727ab8eae62396237bbc3169a333e65ea53f57298547b77df908a02ee00",
+      "bytes": 28324
+    },
+    "field-observations.json.gz": {
+      "sha256": "9b1966f046c1080f7ebd56f790e223be292c6165b5281ecb6adb4214a03c9fa3",
+      "bytes": 10388
+    },
+    "fields.raw.json": {
+      "sha256": "6cb1de3f28b4832348dadf1690b37f9993e153be98ccdef3ed16403fdc10c97c",
+      "bytes": 53117
+    },
+    "station-counts.json": {
+      "sha256": "69d9c3b264a383dc48614929e2bb99bad7bbc8d5d4e94a4ddee4b4e187e79182",
+      "bytes": 11560
+    },
+    "station-observations.json.gz": {
+      "sha256": "d10cdab4af0bb4830bfc22ed13fa346988b58153d48824d8910afb962a24a05b",
+      "bytes": 1402
+    },
+    "stations.raw.json": {
+      "sha256": "ce11c68a7642d9a7987dbad93ecb10f5b2be3291d7eedbc826349cdb3457021e",
+      "bytes": 13439
+    }
+  },
+  "claim_boundary": "Published field-count and processed-station input package. Source composition agreement does not establish SUMO count accuracy, surveyed lane binding, field control or calibrated demand."
+}

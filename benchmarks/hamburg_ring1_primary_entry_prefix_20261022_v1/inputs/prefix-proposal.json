@@ -1,0 +1,10 @@
+{
+  "formal_result": false,
+  "end_s": 3600,
+  "source_complete_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_three_node_body_full_20261022_v1",
+  "baseline": "Reuse the completed source run before 3600 s. All baseline initialization traffic and detector intervals are retained.",
+  "change": "Move 73 initialization and 221 future-main Z12 requests to the existing primary entry according to the declared 3:1 proxy. Only the initialization change is exercised here.",
+  "fixed": "All 8640 vehicle IDs, request times, target fields, destinations, post-merge routes, network, permissions, signals and three-node driver scope.",
+  "targets": "Measure all 52 initialization rows. Retain all 130 main field and 40 derived station targets, with main observations unknown before their window.",
+  "evaluation": "Native completion, insertion and E1 changes for all 13 fields, including other-field losses. No collision/teleport or target deletion. The prefix cannot establish main-window calibration."
+}
