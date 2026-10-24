@@ -1,0 +1,70 @@
+{
+  "audit": {
+    "status": "not_improved",
+    "raw_verdict": "diagnostic_measurement_complete",
+    "formal_result": false,
+    "measurement": {
+      "main130": {
+        "SSE": 5529,
+        "TAE": 427,
+        "MAE": 3.2846153846153845,
+        "max_abs_error": 31
+      },
+      "initial52": {
+        "SSE": 1894,
+        "TAE": 136,
+        "MAE": 2.6153846153846154,
+        "max_abs_error": 20
+      },
+      "all182": {
+        "SSE": 7423,
+        "TAE": 563,
+        "MAE": 3.0934065934065935,
+        "max_abs_error": 31
+      },
+      "station40_MAE": 10.025,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "waiting": 0,
+        "running": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "safe": true,
+      "event_count": 8640,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 37
+    },
+    "parent_main130_TAE": 421,
+    "parent_main130_MAE": 3.2384615384615385,
+    "lowest_measured_healthy_main_MAE": 3.2384615384615385,
+    "initial52_counts_row_equal": true,
+    "all53556": {
+      "rows": 56,
+      "SSE": 0,
+      "TAE": 0,
+      "MAE": 0.0,
+      "max_abs_error": 0
+    },
+    "input_scope": {
+      "depart_only": 521,
+      "unchanged_raw_vehicle_blocks": 8119,
+      "crossed_native_bins": 55,
+      "main_to_initial": 3,
+      "source_initial_requests": 1953,
+      "candidate_initial_requests": 1956,
+      "actual294_recomputed": true,
+      "global21OD_and13field_totals_preserved": true,
+      "fixed_minmax_midpoint_not_sample_mean": true
+    },
+    "new_native_calls_recorded": 1,
+    "native_runs_by_freeze": 0,
+    "calibration_complete": false,
+    "pair_only_interpretation": "Z4/Z5 main counts1034 to1036 in this pair do not establish a capacity bound or a common cause."
+  }
+}

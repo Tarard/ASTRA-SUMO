@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-z5-spread-20261024-v1\\spread15\\evaluation\\native\\instant-e1.xml",
+      "relative": "spread15/evaluation/native/instant-e1.xml",
+      "bytes": 24530992,
+      "sha256": "52a9bcc75d82e6bdffc2e7b79879cd61a35c489044f24487e29111e9ed948aee"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-209-z5-spread-20261024-v1\\spread15\\evaluation\\native\\queues.xml",
+      "relative": "spread15/evaluation/native/queues.xml",
+      "bytes": 75153890,
+      "sha256": "7c2ba849e17bde15ca63c887175312e151380a7afc709555f8bd6b7b9016a73d"
+    }
+  ],
+  "rule": "Only the two named large native traces stay local. Complete counts, summary, trips, routes and compact events are frozen."
+}
