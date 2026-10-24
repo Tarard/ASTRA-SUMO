@@ -49,7 +49,7 @@ def measure_lane_lengths(root):
                        "custom_common_max_error_m": max(abs(value - expected) for value in lengths)
                        if expected is not None and lengths and None not in lengths else None,
                        "bidirectional_partner": edge.get("bidi")})
-    return {"status": "measured", "promotion_authority": False, "normal_edge_count": len(normal),
+    return {"status": "measured", "normal_edge_count": len(normal),
             "unequal_normal_edge_ids": [row["edge_id"] for row in normal
                                         if row["logical_spread_m"] is not None and row["logical_spread_m"] > 1e-6],
             "custom_length_difference_edge_ids": [row["edge_id"] for row in normal
@@ -77,7 +77,7 @@ def audit_network_lengths(*, net_files, output_file):
             record.update(read_status="unreadable", error=str(error))
         record["unchanged_during_read"] = path.is_file() and file_sha256(path) == record["sha256"]
         networks.append(record)
-    report = {"schema": "astra.network-length-audit/v1", "status": "measured", "promotion_authority": False,
+    report = {"schema": "astra.network-length-audit/v1", "status": "measured",
               "networks": networks}
     write_json_atomic(output, report)
     return {**report, "report_file": str(output), "report_sha256": file_sha256(output)}

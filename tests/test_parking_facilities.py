@@ -68,7 +68,6 @@ def test_facility_annotation_preserves_full_runtime_network_and_inputs(tmp_path:
     assert [(p["role"], p["edge_id"]) for p in facility["portals"]] == [("entry", "entry"), ("exit", "exit")]
     assert facility["capacity"] is None and facility["parking_behavior"] == "not_configured"
     assert report["runtime_geometry_changed"] is False
-    assert report["promotion_authority"] is False
     assert all(_is_structurally_protected_edge(edge) for edge in ET.parse(report["network_file"]).getroot().findall("edge"))
 
 

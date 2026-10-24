@@ -1273,7 +1273,7 @@ def explore_network_edit(*, ledger_file, output_dir, netconvert_binary="netconve
         result = run_command(plan["command"], cwd=destination, timeout_seconds=240)
         command_result = result.to_dict()
     report = {"schema": "astra.network-edit-verification/v1", "mode": "explore", "status": "blocked",
-              "promotion_authority": False, "release_gates": "not_run", "warnings": warnings,
+              "release_gates": "not_run", "warnings": warnings,
               "ledger": {"path": str(ledger_path), "sha256": file_sha256(ledger_path)},
               "source": {"path": str(source), "sha256": source_digest}, "command_result": command_result,
               "command_elapsed_seconds": time.perf_counter() - command_started,

@@ -55,7 +55,7 @@ def test_repeated_output_is_identical_and_all_lanes_are_registered(tmp_path: Pat
     assert first["artifacts"] == second["artifacts"]
     assert (tmp_path / "first/report.json").read_bytes() == (tmp_path / "second/report.json").read_bytes()
     assert first["status"] == "review_required" and first["render_status"] == "pass"
-    assert first["promotion_authority"] is False and first["temporal_alignment"] == "unknown"
+    assert first["temporal_alignment"] == "unknown"
     assert first["inputs_unchanged"]
     visible = first["views"][0]["visible_objects"]["candidate_net"]
     assert visible == {"lanes": [":J_0_0", "road_0", "road_1"], "junctions": ["J"]}

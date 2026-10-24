@@ -111,7 +111,7 @@ def audit_hamburg_count_reachability(*, candidate_manifest: Path, field_binding_
             "status": "outlet_unknown" if not usable else "potential_count_influence" if witnesses else "no_path_in_saved_outlet_hypotheses",
             "reachable_fields_by_vehicle_class": by_mode,
             "witnesses": [{"stream_id": field, **value} for field, value in sorted(witnesses.items())]})
-    result = {"schema": "astra.hamburg-count-reachability/v1", "status": "measured", "promotion_authority": False,
+    result = {"schema": "astra.hamburg-count-reachability/v1", "status": "measured",
         "warnings": warnings, "correspondence_basis": "unverified_supplied_hypotheses" if warnings else "matching_saved_evidence",
         "hash_records": {"network_declared": network_record["sha256"], "network_observed": digest,
                          "field_network_declared": binding["source"]["candidate_net"]["sha256"],

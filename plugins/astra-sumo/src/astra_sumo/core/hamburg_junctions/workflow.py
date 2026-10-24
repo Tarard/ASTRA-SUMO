@@ -190,7 +190,7 @@ def rebuild_hamburg_official_corridor(
                       Path(__file__).parents[1] / "junction_rebuild" / "native_path_repair.py",
                       Path(__file__).parents[1] / "hamburg_count_reachability.py"]
     report = {"schema": "astra.hamburg-official-corridor-replay/v1", "status": "running", "mode": "explore",
-              "promotion_authority": False, "inputs": inputs, "stages": {}, "warnings": [], "load_warning_records": [],
+              "inputs": inputs, "stages": {}, "warnings": [], "load_warning_records": [],
               "current_stage": "official_plans", "report_file": str(report_file),
               "implementation": [_identity(path) for path in implementation],
               "parameters": {"seed": 104, "netconvert_binary": netconvert_binary, "sumo_binary": sumo_binary,
@@ -327,7 +327,7 @@ def rebuild_hamburg_official_corridor(
         count = sum(plan["source_vehicle_movement_count"] for plan in plans.values())
         manifest = output / "candidate-manifest.json"
         write_json_atomic(manifest, {"schema": "torii.hamburg-aerial-corridor-candidate/v1", "status": "experimental_unaccepted",
-            "promotion_authority": False, "artifacts": {"network": _identity(final)},
+            "artifacts": {"network": _identity(final)},
             "counts": {"official_vehicle_movements": count}, "official_connection_audit": audit})
         report["current_stage"] = "movement_driving"
         save()

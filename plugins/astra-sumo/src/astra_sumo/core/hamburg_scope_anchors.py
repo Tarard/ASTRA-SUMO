@@ -90,7 +90,7 @@ def write_hamburg_approach_retention(*, calibration_run_file, output_file):
         evidence[edge] = {"basis": "official_motor_approach_correspondence", "mapping_confidences": confidence,
             "has_high_confidence_fact_support": bool(set(confidence) & {"high", "confirmed"}),
             "official_fact_ids": sorted({row["official_fact"] for row in supported})}
-    report = {"schema": "astra.hamburg-approach-retention/v1", "status": "measured", "promotion_authority": False,
+    report = {"schema": "astra.hamburg-approach-retention/v1", "status": "measured",
         "generator": "astra_sumo.core.hamburg_scope_anchors.write_hamburg_approach_retention",
         "source_network_content_sha256": hashlib.sha256(ET.canonicalize(network.read_text(encoding="utf-8")).encode("utf-8")).hexdigest(),
         "inputs": {"calibration_run_sha256": file_sha256(run_file), "measured_network_sha256": digest,

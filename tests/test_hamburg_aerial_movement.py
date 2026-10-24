@@ -239,7 +239,7 @@ def test_official_plan_uses_frozen_sources_without_an_aerial_image(tmp_path, nod
     assert plan["unusable_vehicle_movements"] == []
     assert {row["selected_source"] for row in plan["movements"]} == {"official_map"}
     assert all(row["selected_shape_epsg25832"] == row["official_shape_epsg25832"] for row in plan["movements"])
-    assert not plan["promotion_authority"] and not plan["independent_geometry_validation"]
+    assert not plan["independent_geometry_validation"]
     assert all("permission_status" in row for row in plan["lanes"])
     assert all(file_sha256(path) == hashes[key] for key, path in paths.items())
     rejected = tmp_path / "changed-source-plan.json"
