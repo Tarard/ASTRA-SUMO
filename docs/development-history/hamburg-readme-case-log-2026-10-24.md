@@ -383,4 +383,3 @@ The [shared-route diagnosis](../../benchmarks/hamburg_ring1_z15_K8_diagnosis_202
 Both entry routes use LSA200 K8. Its installed source SP5 gives 5 s green per 90 s, with six native road-front exits in each of 38 successive cycles.
 Those 230 road-front exits remain separate from the 222 native E1 complete passages.
 This identifies a constrained approach under the declared route and control model. It does not establish field capacity or justify changing the signal program.
-
