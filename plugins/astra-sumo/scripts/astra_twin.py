@@ -1,4 +1,4 @@
-"""ASTRA twin profiler CLI: doctor, resolve, goal-create, profile calibrate (M1) and judge (M2).
+"""ASTRA twin profiler CLI: doctor, resolve, goal-create, profile calibrate (M1), judge and panel-fixture (M2).
 
 Only ``judge`` starts SUMO runs: full runs of a goal's run block, cached by their effective execution request, at most
 three in parallel, each logged to ``<store>/runs.jsonl``.
@@ -7,7 +7,8 @@ Exit codes follow ``astra`` (``cli.py``): 0 for ``pass`` or ``measured``; 3 for 
 doctor or resolve check, a blocked profile and a refused or failed command (its ``reason`` and ``error_type`` say
 which); 2 for an argparse usage error. The CLI writes only to the paths it is given (the store, a new profile
 directory, doctor's scratch inside the clone) and writes no bytecode, so a verifier clone stays as checked out.
-``judge`` keeps its staged inputs, runs, ledger and temporary files inside the store.
+``judge`` keeps its staged inputs, runs, ledger and temporary files inside the store. ``panel-fixture`` only reads a
+store and writes one new fixture file.
 """
 
 from __future__ import annotations
@@ -33,7 +34,7 @@ sys.path.insert(0, str(SRC_ROOT))
 
 try:
     import astra_sumo
-    from astra_sumo.twin import count_profile, doctor, goal, ids, perturb, runner
+    from astra_sumo.twin import count_profile, doctor, goal, ids, panel, perturb, runner
 except ImportError as error:
     print(json.dumps({"status": "blocked", "reason": f"cannot import astra_sumo.twin from {SRC_ROOT}: {error}",
                       "error_type": type(error).__name__}, ensure_ascii=False))
@@ -141,6 +142,19 @@ def _judge(args: argparse.Namespace) -> int:
     return _code(status)
 
 
+def _panel_fixture(args: argparse.Namespace) -> int:
+    _clone_code()
+    labels = (json.loads(Path(args.labels).read_text(encoding="utf-8")) if args.labels else panel.B0_LABELS)
+    nominal = args.nominal if args.labels else (args.nominal or panel.B0_NOMINAL)
+    found = panel.read_panel(Path(args.ledger), labels, repository_root=REPOSITORY_ROOT, nominal=nominal)
+    state = doctor.repository_state(REPOSITORY_ROOT)
+    commit = state["commit"] if state["clean"] or state["commit"] is None else f"{state['commit']}+dirty"
+    written = panel.write_panel_fixture(found, Path(args.out), code_commit=commit)
+    _emit({"status": "pass", **written, "runs": len(found["provenance"]["runs"]),
+           "ledger_sha256": found["provenance"]["ledger_sha256"]}, args.json)
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="ASTRA twin profiler (explore only; only judge starts SUMO runs).")
     commands = parser.add_subparsers(dest="command", required=True)
@@ -187,6 +201,15 @@ def main(argv: list[str] | None = None) -> int:
     judge.add_argument("--plan-only", action="store_true", help="Stage and print cache keys; start no run.")
     judge.add_argument("--json", action="store_true")
     judge.set_defaults(handler=_judge)
+    fixture = commands.add_parser("panel-fixture", help="Write the cached M2 panel of a store as one canonical JSON "
+                                                        "fixture (reads judged runs only; no SUMO run).")
+    fixture.add_argument("--ledger", required=True, help="<store>/runs.jsonl of the judged runs.")
+    fixture.add_argument("--out", required=True, help="New fixture file; an existing one is refused.")
+    fixture.add_argument("--labels", help="JSON object '<arm>:<draw key>' -> ledger id; default: the B0 panel.")
+    fixture.add_argument("--nominal", help="Ledger id of the nominal run, reported only; default with the B0 panel: "
+                                           f"{panel.B0_NOMINAL}.")
+    fixture.add_argument("--json", action="store_true")
+    fixture.set_defaults(handler=_panel_fixture)
     args = parser.parse_args(argv)
     try:
         return args.handler(args)

@@ -637,9 +637,48 @@ def _read_run_files(goal: CalibrateGoal, reader: PacketCase,
     return files, pinned, reader.committed(files.values())
 
 
+def profile_core(*, network: Network, loops: dict[str, FieldLoop], intended: dict[str, str],
+                 main_rows: list[dict[str, str]], init_rows: list[dict[str, str]], hold_nodes: list[str],
+                 e1_begin_s: float, e1_period_s: float, requests: dict[str, Request], routes: dict[str, Route],
+                 field_counts: bytes, passages: list[dict]) -> dict:
+    """Score, decomposition, field balance, localization and hotspots of one run, from parsed inputs, the run's
+    native outputs (the demand it was given, its vehicle routes and its E1 counts) and its contributing passages.
+
+    No packet pinning and no invariants: ``build_calibrate_profile`` adds those for the tracked baseline run, and a
+    caller profiling any other run (an M2 panel draw) binds that run's bytes itself. ``localized`` keeps each row's
+    ``anchors_all``; the free-flow schedule a_v comes from ``requests``.
+    """
+    score, score_rows = score_counts(main_rows, init_rows, field_counts)
+    arrivals = free_flow_arrivals(network, requests, intended, loops)
+    decomp, decomp_rows = decompose({(r["detector_id"], float(r["begin"])): int(r["expected_total"])
+                                     for r in main_rows}, passages, intended, arrivals,
+                                    bin_begin_s=e1_begin_s, period_s=e1_period_s)
+    targets: dict[str, dict[str, int]] = {"init": defaultdict(int), "main": defaultdict(int)}
+    for window, rows in (("init", init_rows), ("main", main_rows)):
+        for r in rows:
+            targets[window][r["detector_id"]] += int(r["expected_total"])
+    balance, balance_rows = field_balance(
+        sorted(loops), intended, passages, dict(targets["init"]), dict(targets["main"]), arrivals,
+        init_end_s=min(float(r["begin"]) for r in main_rows), main_end_s=max(float(r["end"]) for r in main_rows))
+    planned: dict[tuple[str, float], list[str]] = defaultdict(list)
+    for vehicle, field_id in sorted(intended.items()):
+        planned[(field_id, _bin_begin(arrivals[vehicle], e1_begin_s, e1_period_s))].append(vehicle)
+    passage_of = {(p["vehicle_id"], p["detector_id"]): p for p in passages}
+    localized = [localize_row(row, network=network, requests=requests, routes=routes, loop=loops[row["detector_id"]],
+                              passage=passage_of, planned=planned[(row["detector_id"], row["begin_s"])],
+                              hold_nodes=set(hold_nodes))
+                 for row in decomp_rows if row["delayed_out"] > 0]
+    return {"score": score, "score_rows": score_rows, "arrivals": arrivals, "decomp": decomp,
+            "decomp_rows": decomp_rows, "balance": balance, "balance_rows": balance_rows, "localized": localized,
+            "hotspots": rank_hotspots(localized, decomp_rows, balance_rows)}
+
+
 def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: PacketCase, *, run_dir: str,
                             verifier: dict) -> tuple[dict, dict[str, list[dict]]]:
-    """Profile the goal's baseline run from tracked files; return the full profile and its detail tables."""
+    """Profile the goal's baseline run from tracked files; return the full profile and its detail tables.
+
+    The accounting is ``profile_core``; this adds the packet-pinning invariants, the bounds and the views.
+    """
     if run_dir != goal.inputs.baseline_run.dir:
         raise ValueError(f"M1 profiles only the goal's archived baseline run ({goal.inputs.baseline_run.dir}); "
                          "other runs need read_contributing_e1_passages on their own instant-E1 output (M2)")
@@ -659,7 +698,11 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
     main_rows, init_rows = csv_rows(data["expected-counts.csv"]), csv_rows(data["initialization-counts.csv"])
     hold_nodes = list(goal.run.junction_body_hold_nodes)
     routes = parse_vehicle_routes(run_files["vehicle-routes.xml"].data)
-    score, score_rows = score_counts(main_rows, init_rows, run_files[E1_OUTPUT].data)
+    core = profile_core(network=network, loops=loops, intended=intended, main_rows=main_rows, init_rows=init_rows,
+                        hold_nodes=hold_nodes, e1_begin_s=goal.observation.e1_begin_s,
+                        e1_period_s=goal.observation.e1_period_s, requests=requests, routes=routes,
+                        field_counts=run_files[E1_OUTPUT].data, passages=report["passages"])
+    score, score_rows = core["score"], core["score_rows"]
     bindings = {E1_OUTPUT: (run_files[E1_OUTPUT].sha256, "the profiled E1 output"),
                 INSTANT_E1: (instant["sha256"] if instant else None,
                              f"{LOCAL_ONLY_FILE}; that file is local-only, its bytes are not in the repository and "
@@ -677,27 +720,14 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
                                   routes=routes, field_edges={name: loop.edge for name, loop in loops.items()},
                                   e1_begin_s=goal.observation.e1_begin_s, e1_period_s=goal.observation.e1_period_s,
                                   step_s=goal.run.step_s)]
-    arrivals = free_flow_arrivals(network, requests, intended, loops)
-    passages = report["passages"]
-    begin_s, period_s = goal.observation.e1_begin_s, goal.observation.e1_period_s
-    decomp, decomp_rows = decompose({(r["detector_id"], float(r["begin"])): int(r["expected_total"])
-                                     for r in main_rows}, passages, intended, arrivals,
-                                    bin_begin_s=begin_s, period_s=period_s)
-    targets: dict[str, dict[str, int]] = {"init": defaultdict(int), "main": defaultdict(int)}
+    arrivals, decomp, decomp_rows = core["arrivals"], core["decomp"], core["decomp_rows"]
+    balance, balance_rows, localized = core["balance"], core["balance_rows"], core["localized"]
     main_bins: dict[str, list[tuple[float, int]]] = defaultdict(list)
-    for window, rows in (("init", init_rows), ("main", main_rows)):
-        for r in rows:
-            targets[window][r["detector_id"]] += int(r["expected_total"])
     for r in main_rows:
         main_bins[r["detector_id"]].append((float(r["end"]), int(r["expected_total"])))
-    balance, balance_rows = field_balance(
-        sorted(loops), intended, passages, dict(targets["init"]), dict(targets["main"]), arrivals,
-        init_end_s=min(float(r["begin"]) for r in main_rows), main_end_s=max(float(r["end"]) for r in main_rows))
     by_field: dict[str, list[float]] = defaultdict(list)
-    planned: dict[tuple[str, float], list[str]] = defaultdict(list)
     for vehicle, field_id in sorted(intended.items()):
         by_field[field_id].append(arrivals[vehicle])
-        planned[(field_id, _bin_begin(arrivals[vehicle], begin_s, period_s))].append(vehicle)
     e1_init: dict[str, int] = defaultdict(int)
     for row in score_rows:
         if row["window"] == "init":
@@ -710,12 +740,6 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
     b2 = bounds.main_supply_b2(balance_rows, main_bins, by_field, intended_vehicles=len(intended), e1_init=e1_init,
                                ff_violations=decomp["ff_violations"], passages=decomp["passages"], invariants=checks,
                                main_tae=score["tae_main"])
-
-    passage_of = {(p["vehicle_id"], p["detector_id"]): p for p in passages}
-    localized = [localize_row(row, network=network, requests=requests, routes=routes, loop=loops[row["detector_id"]],
-                              passage=passage_of, planned=planned[(row["detector_id"], row["begin_s"])],
-                              hold_nodes=set(hold_nodes))
-                 for row in decomp_rows if row["delayed_out"] > 0]
     localization_rows = [
         {"row_id": loc["row_id"], "hotspot_id": loc["hotspot_id"], "anchor": a["anchor"], "element": a["element"],
          "node": a["node"], "node_type": a["node_type"], "window_s": a["window_s"], "diff_s": round(a["diff"], 3),
@@ -755,7 +779,7 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
                                    "its id persists across rounds",
                          "cannot_identify": CANNOT_IDENTIFY,
                          "rows": [{k: v for k, v in loc.items() if k != "anchors_all"} for loc in localized]},
-        "hotspots": rank_hotspots(localized, decomp_rows, balance_rows), "claim": CLAIM}
+        "hotspots": core["hotspots"], "claim": CLAIM}
     details = {"rows.csv": score_rows,
                "decomposition.csv": [{**row, "delayed_out_measured_in": " ".join(
                    f"{k}:{v}" for k, v in row["delayed_out_measured_in"].items())} for row in decomp_rows],

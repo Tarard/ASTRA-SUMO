@@ -324,6 +324,22 @@ def e1_rows(field_counts: bytes) -> list[dict]:
                   key=lambda row: (row["id"], float(row["begin"]), float(row["end"])))
 
 
+def tripinfo_departures(data: bytes) -> list[tuple[str, str, float]]:
+    """(vehicle id, entry edge, departDelay s) per tripinfo row, in file order.
+
+    The entry edge is the departLane id without its trailing ``_<index>``. A row without a departLane or a
+    departDelay is refused rather than read as a zero delay.
+    """
+    rows = []
+    for element in _xml_rows(data, "tripinfo"):
+        vehicle, lane, delay = element.get("id"), element.get("departLane"), element.get("departDelay")
+        if not vehicle or not lane or "_" not in lane or delay is None:
+            raise ValueError(f"tripinfo row {vehicle!r} needs an id, a departLane <edge>_<index> and a departDelay")
+        rows.append((vehicle, lane.rsplit("_", 1)[0], float(delay)))
+        element.clear()
+    return rows
+
+
 def stdout_statistics(stdout: str) -> dict:
     """SUMO's Vehicles and Statistics blocks; the Performance block (wall time, speed) is left out."""
     section, values = None, {}
