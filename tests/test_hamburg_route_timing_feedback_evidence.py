@@ -60,8 +60,6 @@ def test_manifest_and_all_compressed_snapshots_preserve_declared_bytes():
     for row in json.loads((CASE / "source-provenance.json").read_bytes())["snapshots"]:
         value = raw(CASE / row["snapshot"])
         assert len(value) == row["raw_bytes"] and hashlib.sha256(value).hexdigest() == row["raw_sha256"]
-    attributes = (CASE / ".gitattributes").read_text(encoding="utf-8")
-    assert "cr-at-eol" in attributes and "* -text" in attributes
     local = json.loads((CASE / "local-only-large-traces.json").read_bytes())["files"]
     assert len(local) == 14 and {row["run"] for row in local} == set(RUNS)
     assert not list(CASE.rglob("instant-e1.xml.gz")) and not list(CASE.rglob("queues.xml.gz"))

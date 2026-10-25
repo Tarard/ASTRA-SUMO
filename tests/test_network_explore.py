@@ -24,7 +24,6 @@ def test_explore_measures_uncertain_binding_and_stale_source_without_release_acc
     facts.write_text(json.dumps(table), encoding="utf-8")
     report = evaluate_network_calibration(net_file=net, facts_file=facts, output_file=output)
     assert report["status"] == "measured" and report["mode"] == "explore"
-    assert report["promotion_authority"] is False
     assert report["warnings"] == ["Source hash mismatch: survey"]
     row = report["facts"][0]
     assert row["metrics"]["offset_m"] == 1 and row["status"] == "matched"

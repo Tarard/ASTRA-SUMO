@@ -5,7 +5,7 @@ scoped operations. `review_marker` records a review location without changing
 the network. A proposed or accepted operation does not establish field accuracy.
 
 Use `build_corridor_edit_ledger` to record the source path, source SHA-256,
-operation, rationale, evidence, scope, and rollback. Use
+operation, rationale, evidence and scope (a rollback note is optional). Use
 `materialize_corridor_edit_variant` to create a separate candidate and its
 review artifacts. The existing CLI workflow and candidate gates use these
 same functions. Do not replace the final candidate gates with a successful

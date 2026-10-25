@@ -52,7 +52,7 @@ The three decision tiers are explicit:
 2. **Review-required**: review locations are emitted as SUMO
    `additional.xml`; promotion additionally requires an exact, candidate-hash-
    bound decision with structured observed facts, reviewer, timestamp,
-   evidence, rationale, and rollback. Map review is a hard requirement only
+   evidence and rationale. Map review is a hard requirement only
    when the edit explicitly declares it.
 3. **Blocked**: missing/invalid evidence, an unreviewed protected delta, stale
    outputs, source/candidate identity, or a failed runtime gate prevents
@@ -381,53 +381,16 @@ decision.
 
 ## Benchmark Order
 
-The primary acceptance benchmark is now the corridor contract above.  It must
-remain green while human-style add/delete/merge decisions and review overlays
-are expanded.
-
-The Ingolstadt single-corridor teacher slice above is now the first real
-reference experiment. Full Ingolstadt reference-matched OSM-to-SUMO
-construction remains the subsequent city-scale regression target, not a hard
-gate already satisfied by the corridor result.
-
-Target directory:
-
-```text
-benchmarks/ingolstadt_reference_matched/
-```
-
-Benchmark stages:
-
-```text
-raw netconvert
--> ASTRA scoped build
--> TLS aggregated
--> junction candidate review
--> teacher-guided repair
--> final review HTML
-```
-
-Each stage should report edge count, junction count, TLS count, `tlLogic`
-count, routeability status, teleport count when available, manual review item
-count, and reference delta score.
+`plugins/astra-sumo/scripts/run_corridor_contract_regression.py` is a local acceptance run for changes to
+candidate-gate code. The Ingolstadt single-corridor teacher slice above is the first real reference
+experiment; full Ingolstadt reference-matched OSM-to-SUMO construction is a future city-scale target.
 
 ## Known Architecture Debt
 
-- `run_osm_cleanup_workflow` still owns roughly 90 keyword arguments and most
-  of an approximately 8,900-line module.  Split configuration from injected
-  services first, then extract stage execution behind the unchanged facade.
-- `junction_rebuild_candidate.py` is an approximately 12,800-line subsystem.
-  Separate evidence extraction, replay planning, materialization, promotion,
-  and rendering only after behavior is locked by characterization tests.
-- Atomic artifact writes are enforced for the corridor contract and its
-  routeability/topology evidence, but older report writers remain.  Migrate
-  them incrementally through `core/artifact_io.py`.
-- Quality vectors and promotion traces are partly post-hoc.  They must become
-  executor inputs/outputs before they can be treated as a workflow state
-  machine.
-- Real SUMO regressions are local acceptance tests rather than the default
-  unit-test suite.  CI needs an explicit SUMO job before these gates can be
-  considered continuously enforced upstream.
+- Atomic artifact writes are enforced for the corridor contract and its routeability/topology evidence, but
+  older report writers remain. Migrate them incrementally through `core/artifact_io.py`.
+- Quality vectors and promotion traces are partly post-hoc. They must become executor inputs/outputs before
+  they can be treated as a workflow state machine.
 
 The migration rule is deliberately conservative: preserve the working
 corridor slice, add characterization tests, extract one boundary at a time,
@@ -437,8 +400,8 @@ moved.
 ## Non-Goals
 
 - Do not claim fully automatic perfect network cleanup.
-- Do not add more repair heuristics before benchmark quality deltas can show
-  what they improve.
+- Ship each new repair heuristic with a before/after measurement on at least one
+  fixture or reference case.
 - Do not compare a ASTRA connected-core network against a full-detail manual
   reference as if they were the same scope.
 - Do not use NetEdit screenshots, SUMO load, or routeability alone as proof of

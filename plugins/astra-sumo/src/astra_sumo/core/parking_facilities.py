@@ -208,7 +208,7 @@ def build_parking_facility_model(*, net_file: str | Path, osm_file: str | Path, 
         "osm": {"path": str(osm), "sha256": expected_osm_sha256},
         "network": {"path": network.name, "sha256": file_sha256(network)},
         "implementation_sha256": file_sha256(Path(__file__)),
-        "inputs_unchanged": True, "runtime_geometry_changed": False, "promotion_authority": False,
+        "inputs_unchanged": True, "runtime_geometry_changed": False,
         "claim_boundary": "Facility recognition preserves all roads, lane order, connections, and demand. "
             "Only namespaced metadata is added. Parking spaces, occupancy, dwell times, and clearance enforcement remain unconfigured."}
     report_file = destination / "parking-facilities.json"

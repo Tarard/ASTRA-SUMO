@@ -1,10 +1,30 @@
 from __future__ import annotations
 
-import ast
 from pathlib import Path
+
+import anyio
+import pytest
+from markdown_links import broken_links, link_targets, missing_named_paths, named_repository_paths
+
+from astra_sumo.server import SUPPORTED_MCP_PROFILES, create_server
 
 
 ROOT = Path(__file__).resolve().parents[1]
+
+# Frozen research documents whose bytes are hashed by corridor/stage1_review_ready.py; their
+# historical links are left as they were written.
+FROZEN_DOCS = {
+    Path("docs/held-out-corridor-blind-review-protocol-v2.md"),
+    Path("docs/stage1-machine-review-ready-plan.md"),
+    Path("docs/torii-corridor-human-modeling-implementation-status.md"),
+}
+
+
+def _markdown_files() -> list[Path]:
+    files = [ROOT / "README.md", ROOT / "AGENTS.md"]
+    for folder in ("docs", "examples", "schemas", "plugins/astra-sumo/skills"):
+        files.extend(sorted((ROOT / folder).rglob("*.md")))
+    return [path for path in files if path.relative_to(ROOT) not in FROZEN_DOCS]
 
 
 def test_hash_bound_repository_text_uses_lf() -> None:
@@ -15,118 +35,77 @@ def test_hash_bound_repository_text_uses_lf() -> None:
     assert b"\r\n" not in schema.read_bytes()
 
 
-def _registered_tool_names() -> set[str]:
-    legacy_tools_path = ROOT / "plugins" / "astra-sumo" / "src" / "astra_sumo" / "legacy_tools.py"
-    tree = ast.parse(legacy_tools_path.read_text(encoding="utf-8"))
-    names: set[str] = set()
-
-    for node in ast.walk(tree):
-        if not isinstance(node, ast.Call) or not isinstance(node.func, ast.Call):
-            continue
-        registration = node.func
-        if not isinstance(registration.func, ast.Attribute) or registration.func.attr != "tool":
-            continue
-        if node.args and isinstance(node.args[0], ast.Name):
-            names.add(node.args[0].id)
-
-    return names
-
-
-def test_readme_exposes_stable_navigation() -> None:
-    readme = (ROOT / "README.md").read_text(encoding="utf-8")
-
-    expected_links = {
-        "docs/README.md",
-        "docs/codex-plugin-install.md",
-        "docs/architecture.md",
-        "examples/01_signal_control_audit/task.md",
-        "LICENSE",
-    }
-    for link in expected_links:
-        assert link in readme
-
-    assert "docs/repository-guide.md" not in readme
-
-    section_order = (
-        "## What ASTRA Does",
-        "## Quick Start",
-        "## Hamburg Digital Twin",
-        "## Documentation",
-        "## License",
+def test_link_targets_read_markdown_structure() -> None:
+    text = (
+        "[inline](docs/a.md#part) ![image](assets/b.png) [angle](<docs/c d.md>) [web](https://example.org)\n"
+        "[multiline](\nnext-line.md) [anchor](#here) `[code](not-a-link.md)` [ref][probe]\n"
+        "\n"
+        "```\n[fenced](not-a-link-either.md)\n```\n"
+        "\n"
+        "[probe]: missing.md\n"
+        "[unused]: <other.md> \"title\"\n"
     )
-    positions = [readme.index(heading) for heading in section_order]
-    assert positions == sorted(positions)
+    assert link_targets(text) == [
+        (1, "assets/b.png"),
+        (1, "docs/a.md"),
+        (1, "docs/c d.md"),
+        (1, "missing.md"),
+        (1, "next-line.md"),
+        (9, "missing.md"),
+        (10, "other.md"),
+    ]
 
 
-def test_documentation_index_links_current_guides() -> None:
-    docs_index = (ROOT / "docs" / "README.md").read_text(encoding="utf-8")
+def test_broken_links_reports_missing_and_escaping_targets(tmp_path: Path) -> None:
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "plugin" / "skills").mkdir(parents=True)
+    (tmp_path / "docs" / "ok.md").write_text("[fine](../plugin/skills/s.md)\n", encoding="utf-8")
+    (tmp_path / "docs" / "bad.md").write_text("[gone](\nmissing.md)\n", encoding="utf-8")
+    (tmp_path / "plugin" / "skills" / "s.md").write_text("[out](../../docs/ok.md)\n", encoding="utf-8")
+    files = sorted(tmp_path.rglob("*.md"))
 
-    for link in (
-        "mcp-tool-catalog.md",
-        "research/README.md",
-        "development-history/README.md",
-        "architecture.md",
-        "codex-plugin-install.md",
-    ):
-        assert link in docs_index
-
-    assert "repository-guide.md" not in docs_index
-    assert "superpowers" not in docs_index
+    assert broken_links(files, tmp_path, {"skills": tmp_path / "plugin"}) == [
+        "docs/bad.md:1 -> missing.md",
+        "plugin/skills/s.md:1 -> ../../docs/ok.md (leaves plugin)",
+    ]
 
 
-def test_documentation_indexes_separate_research_and_history() -> None:
-    research_index = (ROOT / "docs" / "research" / "README.md").read_text(encoding="utf-8")
-    for link in (
-        "../research-paper-blueprint.md",
-        "../stage1-machine-review-ready-plan.md",
-        "../teacher-free-topology-discrimination-v4.md",
-        "../held-out-corridor-blind-review-protocol-v2.md",
-    ):
-        assert link in research_index
-
-    history_index = (ROOT / "docs" / "development-history" / "README.md").read_text(encoding="utf-8")
-    for link in (
-        "../architecture-audit-2026-07-13.md",
-        "../research-plan-handoff-2026-07-14.md",
-        "../hamburg-digital-twin-development-log.md",
-        "../repository-guide.md",
-    ):
-        assert link in history_index
+def test_relative_markdown_links_resolve() -> None:
+    assert broken_links(_markdown_files(), ROOT, {"skills": ROOT / "plugins" / "astra-sumo"}) == []
 
 
-def test_mcp_catalog_covers_every_registered_tool() -> None:
+def test_named_repository_paths_skip_commands_placeholders_and_modules(tmp_path: Path) -> None:
+    text = (
+        "`README.md` `missing.csv` `scripts/run.ps1` `benchmarks/x.json` `docs/` `.gitattributes`\n"
+        "`astra network verify-edit` `outputs/<run>/` `outputs/agent-notes/` `.venv` `.net.xml` `1.27.1`\n"
+        "`astra_sumo.server` `measured` `$astra-build` `tests/test_*.py`\n"
+        "\n"
+        "```\n`fenced/example.md`\n```\n"
+    )
+    assert named_repository_paths(text) == [
+        "README.md",
+        "missing.csv",
+        "scripts/run.ps1",
+        "benchmarks/x.json",
+        "docs/",
+        ".gitattributes",
+    ]
+
+    (tmp_path / "README.md").write_text("x", encoding="utf-8")
+    (tmp_path / "docs").mkdir()
+    (tmp_path / ".gitattributes").write_text("x", encoding="utf-8")
+    assert missing_named_paths(text, tmp_path) == ["benchmarks/x.json", "missing.csv", "scripts/run.ps1"]
+
+
+def test_paths_named_in_agents_md_exist() -> None:
+    assert missing_named_paths((ROOT / "AGENTS.md").read_text(encoding="utf-8"), ROOT) == []
+
+
+@pytest.mark.parametrize("profile", SUPPORTED_MCP_PROFILES)
+def test_mcp_catalog_covers_every_registered_tool(profile: str) -> None:
     catalog = (ROOT / "docs" / "mcp-tool-catalog.md").read_text(encoding="utf-8")
-    registered = _registered_tool_names()
+    names = {tool.name for tool in anyio.run(create_server(profile).list_tools)}
 
-    assert len(registered) == 73
-    missing = sorted(name for name in registered if f"`{name}`" not in catalog)
+    assert names
+    missing = sorted(name for name in names if f"`{name}`" not in catalog)
     assert missing == []
-
-
-def test_repository_guide_is_archived() -> None:
-    guide = (ROOT / "docs" / "repository-guide.md").read_text(encoding="utf-8")
-
-    assert "Repository Guide (Archived)" in guide
-    assert "AGENTS.md" in guide
-    assert "docs/architecture.md" in guide
-    assert "no longer the current repository contract" in guide
-
-
-def test_agent_instructions_preserve_repository_and_evidence_boundaries() -> None:
-    instructions = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
-
-    for required in (
-        "docs/README.md",
-        "docs/architecture.md",
-        "docs/mcp-tool-catalog.md",
-        "src/astra_sumo/tools/",
-        "src/astra_sumo/core/",
-        "source artifacts immutable",
-        "review_required",
-        "tests/test_repository_navigation.py",
-        "docs/research/README.md",
-        "docs/development-history/README.md",
-    ):
-        assert required in instructions
-
-    assert "docs/repository-guide.md" not in instructions

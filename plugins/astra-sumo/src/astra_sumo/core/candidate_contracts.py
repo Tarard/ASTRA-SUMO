@@ -375,9 +375,6 @@ def validate_review_decision(
     evidence = decision.get("evidence")
     if not isinstance(evidence, list) or not evidence:
         errors.append({"code": "review_evidence_required"})
-    rollback = decision.get("rollback")
-    if not isinstance(rollback, Mapping) or not str(rollback.get("action", "")).strip():
-        errors.append({"code": "review_rollback_required"})
 
     raw_map_review = decision.get("map_review")
     map_review_validation = validate_map_review_decisions(

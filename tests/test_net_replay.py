@@ -64,5 +64,7 @@ def test_net_replay_schema_is_current() -> None:
     assert (
         REPOSITORY_ROOT
         / "schemas"
+        / "research"
+        / "corridor"
         / "torii.corridor.net-replay-report.v1.schema.json"
     ).read_text(encoding="utf-8") == expected

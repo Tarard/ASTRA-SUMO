@@ -11,7 +11,7 @@ The server supports three profiles selected with `create_server(profile=...)` or
   `astra.place.resolve`, `astra.intersection.classify`, `astra.signal.classify`,
   `astra.network.audit`, `astra.network.compare`, `astra.demand.audit`,
   `astra.review.create`.
-- `legacy`: all 73 historical tools listed below. Select this profile explicitly for compatibility.
+- `legacy`: all historical tools listed below. Select this profile explicitly for compatibility.
 - `netedit`: the four-tool observation loop:
   `astra.netedit.open`, `astra.netedit.observe`, `astra.netedit.act`,
   `astra.netedit.close`.
@@ -59,9 +59,8 @@ selection contains `user_request`, `scenario_id`, `reason`, and `arguments`.
 The command without `--execute` checks readiness only. It does not read the
 drawing's meaning, verify nested source evidence, or complete a workflow.
 
-The catalog distinguishes `workflow`, `check`, `stage`, and `guidance`. As
-checked on 2026-09-09, its 25 entries include 19 callable entries and six guides,
-not 25 complete workflows. The executable mapping and live signatures belong
+The catalog distinguishes `workflow`, `check`, `stage`, and `guidance`. Run
+`astra workflows --json` for the current entries; a callable entry is not a complete workflow. The executable mapping and live signatures belong
 to [workflow_catalog.py](../plugins/astra-sumo/src/astra_sumo/core/workflow_catalog.py).
 See [scenario selection](workflow-selection.md) for the four-field example and
 result meanings.
@@ -410,7 +409,7 @@ These commands are not stages of `build-network`. Bind all later evidence to
 the exact checked network hash and matching `candidate/manifest.json`.
 They retain their existing request formats and do not accept the handoff file
 directly. A road change requires new road checks and new affected bindings. See the
-[count-calibration reference](../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md).
+[count-calibration reference](../plugins/astra-sumo/skills/astra-calibrate/references/hamburg-count-calibration-workflow.md).
 
 The signal-binding command accepts only exact physical movement identities
 and reports frozen MAP/TLD version mismatches. It does not infer timing. The
@@ -477,14 +476,3 @@ official v1.0 primary observation service for an explicit UTC window, writes
 time-zero and in-window TLS link events, and blocks on partial/empty streams or
 missing required nodes. The v1.1 endpoint may still be used for metadata
 discovery, but is not silently substituted for v1.0 historical primary states.
-
-## Maintenance Contract
-
-The legacy catalog is checked against `plugins/astra-sumo/src/astra_sumo/legacy_tools.py`.
-The default and NetEdit profiles are checked through `create_server` contract tests. When registering or removing a tool:
-
-1. place reusable logic below the MCP adapter boundary;
-2. update the appropriate group above;
-3. update skill routing if the capability is user-visible;
-4. add a contract or regression test;
-5. state the tool's claim boundary in its description and output.

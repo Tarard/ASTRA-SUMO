@@ -4,17 +4,14 @@ on:
   push:
     branches:
       - main
-      - "codex/**"
   pull_request:
-    branches:
-      - main
-      - "codex/**"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: full-suite-${{ github.workflow }}-${{ github.ref }}
+  group: full-suite-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
@@ -54,9 +51,9 @@ jobs:
         run: uv run --no-sync ruff check plugins/astra-sumo/src --select C901,PLR0912,PLR0913,PLR0915 --statistics
 
       - name: Run full test suite
-        run: uv run --no-sync pytest -q --junitxml=test-results.xml
+        run: uv run --no-sync pytest -q -rs --junitxml=test-results.xml
 
-      - name: Verify critical native cases executed
+      - name: Fail on native cases skipped for missing SUMO
         if: always()
         run: uv run --no-sync python .github/scripts/check_windows_native_junit.py test-results.xml
 

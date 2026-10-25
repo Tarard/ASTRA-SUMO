@@ -15,8 +15,8 @@ is the only executable mapping. The command reads its current function
 signatures, required arguments, and skill references. Do not maintain a second
 list of callable mappings in prompts or documentation.
 
-As checked on 2026-09-09, the catalog has 25 entries: 19 callable entries and
-six guidance entries. They are not 25 complete workflows.
+Run `astra workflows --json` for the current entries. Callable and guidance entries are not
+complete workflows.
 
 | Kind | Meaning |
 |---|---|

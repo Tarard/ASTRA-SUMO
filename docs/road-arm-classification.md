@@ -1,6 +1,9 @@
 # Road-arm and connection classification
 
-This reference defines the second layer below ASTRA's physical-cell
+Developer background for the road-arm layer of `astra intersection classify`.
+The `astra-build` skill holds the steps a user's agent runs.
+
+This page defines the second layer below ASTRA's physical-cell
 intersection archetype. It is classification evidence only; it cannot merge
 SUMO junctions, create lane connections, or bind a signal controller.
 

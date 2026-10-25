@@ -9,11 +9,6 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 FAILURE_ARTIFACTS = ROOT / "outputs" / "pytest-failures" / uuid4().hex
-SCHEMAS = ROOT / "schemas"
-ORGANIZED_SCHEMA_DIRS = (
-    SCHEMAS / "product",
-    SCHEMAS / "research" / "corridor",
-)
 HISTORICAL_HAMBURG_ROOT = (
     ROOT
     / "artifacts"
@@ -30,7 +25,6 @@ HISTORICAL_HAMBURG_TESTS = {
     "tests/test_official_lane_transition.py::test_edited_stitch_plan_is_rejected_before_lane_matching",
     "tests/test_official_lane_transition.py::test_output_artifact_is_the_exact_returned_graph",
 }
-_created_legacy_schema_paths: list[Path] = []
 
 
 @pytest.hookimpl(hookwrapper=True)
@@ -48,18 +42,6 @@ def pytest_runtest_makereport(item, call):
             report.sections.append(("Failure artifact copy", str(error)))
 
 
-def pytest_sessionstart(session: pytest.Session) -> None:
-    """Expose organized schemas at legacy test paths for the current test session."""
-    del session
-    for directory in ORGANIZED_SCHEMA_DIRS:
-        for source in directory.glob("*.schema.json"):
-            target = SCHEMAS / source.name
-            if target.exists():
-                continue
-            shutil.copyfile(source, target)
-            _created_legacy_schema_paths.append(target)
-
-
 def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item]) -> None:
     """Skip regressions whose intentionally deleted generated fixture is unavailable."""
     del config
@@ -73,10 +55,3 @@ def pytest_collection_modifyitems(config: pytest.Config, items: list[pytest.Item
         base_nodeid = item.nodeid.split("[", 1)[0]
         if base_nodeid in HISTORICAL_HAMBURG_TESTS:
             item.add_marker(marker)
-
-
-def pytest_sessionfinish(session: pytest.Session, exitstatus: int) -> None:
-    """Remove temporary compatibility copies so tests do not dirty the repository."""
-    del session, exitstatus
-    for path in _created_legacy_schema_paths:
-        path.unlink(missing_ok=True)

@@ -1,8 +1,7 @@
 # Torii-SUMO 走廊级人类建模闭环研究计划
 
 > 审查基线：\`codex/ingolstadt-osm-baseline\`，Commit \`6d1400c\`，Draft PR #4。
-> 文档状态：本项目后续研究、架构重构、实验和产品声明的权威执行规范。
-> 实施原则：未满足本文件定义的硬门、退出条件和适用域时，不得宣称完成。
+> 文档状态：已暂停的 Stage-1 走廊人类建模研究计划。它不约束产品开发；仓库规则见 `AGENTS.md`。
 
 > **2026-07-14 执行修订：** 当前 active goal 是
 > [Stage 1-M — Machine REVIEW_READY](stage1-machine-review-ready-plan.md)。它只完成机器证据冻结、无损审核压缩、盲审材料和抽样协议；所有自动晋级继续阻断。Stage 1 只有在后续 Stage 1-H 完成两名独立审核者、第三名 adjudicator 和预注册统计门后才可退出。当前 30 条多城市走廊是 Stage 1 held-out 数据收集，不是 Stage 6 泛化验证。

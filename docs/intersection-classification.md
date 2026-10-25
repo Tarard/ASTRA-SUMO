@@ -1,5 +1,9 @@
 # Composable intersection classification before SUMO reconstruction
 
+Developer background for `astra intersection classify`: the model, its source
+basis, compatibility projections and the rules for extending the vocabulary.
+The `astra-build` skill holds the steps a user's agent runs.
+
 Classify the intersection before joining nodes, rebuilding channelization, or
 assigning traffic-light links. The canonical result is not a single name such
 as `T3`, `X4`, `roundabout`, or `DDI`. It is an evidence-bound composition of a

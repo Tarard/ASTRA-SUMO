@@ -35,7 +35,7 @@ def build_identity_control(ledger, *, output_dir, netconvert_binary, command_run
             netconvert_binary=netconvert_binary, command_runner=command_runner)
     except (OSError, RuntimeError, ValueError, TypeError, KeyError, ET.ParseError) as error:
         record = {"status": "fail", "source_net_file": str(source), "output_dir": str(folder),
-                  "error": f"{type(error).__name__}: {error}", "promotion_authority": False,
+                  "error": f"{type(error).__name__}: {error}",
                   "report_file": str(folder / "control-failure.json")}
         try:
             write_json_atomic(Path(record["report_file"]), record)
@@ -156,7 +156,7 @@ def assess_requested_geometry(control, candidate, node_id):
 
 def assess_identity_control(source, before, node_id, report):
     result = {"status": "review_required", "reason": "contour_identity_control_missing",
-              "identity_tolerance_m": IDENTITY_TOLERANCE_M, "promotion_authority": False}
+              "identity_tolerance_m": IDENTITY_TOLERANCE_M}
     if not report:
         return result
     if not isinstance(report, Mapping):

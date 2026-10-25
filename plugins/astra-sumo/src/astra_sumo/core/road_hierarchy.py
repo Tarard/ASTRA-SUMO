@@ -360,7 +360,7 @@ def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class
     keep.write_text("\n".join(plan["selected_edge_ids"]) + "\n", encoding="utf-8")
     candidate = output / "selected.net.xml"
     if not plan["selected_edge_ids"] or not plan["excluded_edge_ids"]:
-        report = {"schema": "astra.road-hierarchy-variant/v1", "status": "no_effect", "promotion_authority": False,
+        report = {"schema": "astra.road-hierarchy-variant/v1", "status": "no_effect",
             "source": {"path": str(source), "sha256": before_hash}, "source_unchanged": file_sha256(source) == before_hash,
             "selection_file": str(output / "selection.json"), "boundaries_file": str(output / "boundaries.json"),
             "source_road_count": plan["source_road_count"], "selected_road_count": plan["selected_road_count"],
@@ -370,7 +370,7 @@ def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class
         return report
     cleanup = build_tls_reference_cleanup_variant(source, output_dir=output / "tls-reference-cleanup")
     if cleanup["status"] != "pass":
-        report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked", "promotion_authority": False,
+        report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked",
             "source": {"path": str(source), "sha256": before_hash}, "source_unchanged": file_sha256(source) == before_hash,
             "selection_file": str(output / "selection.json"), "boundaries_file": str(output / "boundaries.json"),
             "source_road_count": plan["source_road_count"], "selected_road_count": plan["selected_road_count"],
@@ -402,7 +402,7 @@ def materialize_road_selection(*, net_file, output_dir, selection, vehicle_class
     attempts = [attempt]
     if successful and proposal.is_file():
         copy_file_atomic(proposal, candidate)
-    report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked", "promotion_authority": False,
+    report = {"schema": "astra.road-hierarchy-variant/v1", "status": "blocked",
         "source": {"path": str(source), "sha256": before_hash}, "selection_file": str(output / "selection.json"),
         "source_road_count": plan["source_road_count"], "selected_road_count": plan["selected_road_count"],
         "boundaries_file": str(output / "boundaries.json"), "permission_input": prepared, "command": native.to_dict(),

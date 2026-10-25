@@ -260,7 +260,7 @@ def build_hamburg_official_movement_plan(
              "selected_source": "official_map", "selected_shape_epsg25832": [list(point) for point in shape],
              "official_shape_epsg25832": [list(point) for point in shape]}
             for connection, shape in movements]
-    plan = {"schema": PLAN_SCHEMA, "status": "measured", "promotion_authority": False,
+    plan = {"schema": PLAN_SCHEMA, "status": "measured",
             "node_id": str(node_id), "crs": "EPSG:25832",
             "inputs": {key: {"path": str(path), "sha256": file_sha256(path)} for key, path in sources.items()},
             "lanes": lanes, "movements": rows, "unusable_vehicle_movements": unusable,

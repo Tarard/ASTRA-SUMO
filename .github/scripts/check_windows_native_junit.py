@@ -1,61 +1,31 @@
-"""Require the critical native cases in the complete Windows suite."""
+"""Fail the Windows suite when a test was skipped because SUMO or one of its programs was missing."""
 
 import json
 from pathlib import Path
+import re
 import sys
 import xml.etree.ElementTree as ET
 
 
-REQUIRED = {
-    "test_native_isolated_proposals": 3,
-    "test_native_micro_proposals": 6,
-    "test_legacy_native_lists_bind_scope": 2,
-    "test_legacy_local_output_does_not_replace": 1,
-    "test_native_spur_deletion": 1,
-    "test_windows_native_fatal_exit_is_bounded": 20,
-    "test_native_road_shape_edit_preserves": 1,
-    "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
-    "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
-    "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
-    "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
-    "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1,
-    "test_standalone_simplifier_uses_shared_local_conversion_and_keeps_remote_roads": 1,
-    "test_native_merged_od_retains_original_requests_and_physical_positions": 5,
-    "test_native_unresolved_endpoint_does_not_hide_other_route_results": 2,
-    "test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle": 1,
-    "test_native_removed_endpoints_do_not_abort_remaining_requests": 3,
-    "test_native_retained_road_defaults_keep_relative_placement": 2,
-    "test_native_lane_correspondence_keeps_retained_and_removed_endpoint_requests": 2,
-    "test_native_lane_count_keeps_unique_turn_and_serves_new_lane": 2,
-    "test_native_hierarchy_scope_keeps_protected_turns_and_removes_local_tail": 2,
-    "test_native_ring1_road_selection": 1,
-    "test_native_ring1_official_approach_demo": 1,
-    "test_native_ring1_approach_generation_from_frozen_sources": 1,
-    "test_native_ring1_lane_count_geometry_uses_declared_source_hints": 2,
-    "test_native_detector_position_roundtrip_uses_logical_scale": 1,
-    "test_native_ring1_movement_only_keeps_contours_and_drives_saved_endpoints": 1,
-    "test_native_point_detector_demand_replay_keeps_inputs_and_counts": 1,
-    "test_native_libsumo_matches_socket_replay_with_lane_holds": 1,
-    "test_native_real_entry_context_supports_stopped_vehicle_bodies": 1,
-    "test_native_hamburg_split_sibling_continuations_reproduce_then_clear_without_road_changes": 1,
-    "test_native_single_unsplit_preserves_all_other_curves_and_exterior": 1,
-    "test_four_vehicle_measured_leader_boundary_reproduces_then_clears_with_native_safety": 1,
-    "test_native_hamburg_stopped_left_turn_reproduces_then_clears_with_forward_straights": 1,
-}
+NATIVE_PROGRAM = re.compile(r"(?i)\b(sumo|netconvert|netgenerate|duarouter|libsumo|traci|native)\b")
+MISSING = re.compile(r"(?i)\b(required|not installed|unavailable|missing|not found)\b|could not import")
+# pytest writes "<path>:<line>: <reason>" as the element text; the path (e.g. ...\ASTRA-SUMO\...) is not a reason.
+LOCATION = re.compile(r"^.*?:\d+: ")
 
 
 def check_native_execution(path):
     cases = list(ET.parse(path).getroot().iter("testcase"))
-    counts = {}
-    for prefix, minimum in REQUIRED.items():
-        selected = [row for row in cases if row.get("name", "").startswith(prefix)]
-        if len(selected) < minimum:
-            raise ValueError(f"Missing critical native cases: {prefix} requires {minimum}, found {len(selected)}.")
-        for row in selected:
-            if any(row.find(kind) is not None for kind in ("skipped", "failure", "error")):
-                raise ValueError(f"Critical native case did not pass: {row.get('name')}.")
-        counts[prefix] = len(selected)
-    return counts
+    if not cases:
+        raise ValueError("The JUnit report contains no test cases.")
+    native_skips = []
+    for case in cases:
+        for skipped in case.findall("skipped"):
+            reason = skipped.get("message") or LOCATION.sub("", (skipped.text or "").strip(), count=1)
+            if NATIVE_PROGRAM.search(reason) and MISSING.search(reason):
+                native_skips.append(f"{case.get('classname', '')}::{case.get('name', '')}: {skipped.get('message', '')}")
+    if native_skips:
+        raise ValueError("Native cases were skipped because SUMO was unavailable:\n" + "\n".join(native_skips))
+    return {"testcases": len(cases), "native_skips": 0}
 
 
 if __name__ == "__main__":

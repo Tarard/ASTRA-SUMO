@@ -1,6 +1,9 @@
 # OSM way fragmentation and road-axis reconstruction
 
-This reference defines the evidence boundary between an OSM `way` fragment and
+Developer background for road-axis matching. The `astra-build` skill holds the
+steps a user's agent runs.
+
+This page defines the evidence boundary between an OSM `way` fragment and
 the higher-level physical road axis used for authoritative-road matching. It is
 classification and candidate-generation guidance only. It cannot merge SUMO
 edges, create a SUMO `<connection>`, assign a traffic-light link index, or

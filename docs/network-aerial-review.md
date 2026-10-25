@@ -82,7 +82,7 @@ The report records Python, Pillow, pyproj, PROJ, and Shapely versions.
 It also records the renderer source hash. Keep the HTML and source attribution with exported PNG files.
 Byte equality across different dependency versions or operating systems has not been established.
 
-The result retains `status=review_required`, `render_status=pass`, and `promotion_authority=false`.
+The result keeps `status=review_required` and `render_status=pass`.
 The CLI therefore returns exit code 1 when the images are ready and field review remains required.
 Read `render_status` to distinguish that result from an execution failure.
 Exceptions can leave a partial directory without a final report. Use a new directory after correcting the input.

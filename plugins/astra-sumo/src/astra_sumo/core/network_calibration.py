@@ -579,7 +579,7 @@ def evaluate_network_calibration(*, net_file: str | Path, facts_file: str | Path
               "inputs": identities, "sources": sources, "network_file": str(network),
               "network_location": dict(location.attrib) if location is not None else {},
               **(_score(root, table) if mode == "release" else _score(root, table, mode)),
-              "mode": mode, "warnings": warnings, "promotion_authority": False,
+              "mode": mode, "warnings": warnings,
               "claim_status": "reference_comparison_only",
               "limitations": ["Facts apply only to the declared site, date and selected objects.",
                               "Centerline offsets sample the reference at the declared spacing; maxima are sampled.",

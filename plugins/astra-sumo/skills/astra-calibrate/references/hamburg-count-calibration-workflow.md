@@ -1,152 +1,53 @@
 # Hamburg Count Calibration on a Fixed Road Network
 
-Use this reference when the user asks for traffic-count fitting, demand
-reconstruction, or signal replay. It is separate from
-[road construction](hamburg-five-intersection-aerial-workflow.md).
+Use this for the Hamburg five-intersection corridor whose road network was built from aerial images or official MAP data (`astra hamburg aerial-movements`, `astra hamburg combine-aerial-movements`, `astra hamburg build-network`; see `$astra-build`). Building the network does not run these stages, and counts or signal histories are not needed to build it.
 
-Start with `network-handoff.json` from the road workflow. Verify the road
-network and construction manifest against its SHA-256 hashes. Check its
-`construction_decision`. A diagnostic handoff with `review_required` or `blocked`
-does not establish an accepted road network.
-The existing signal/count commands do not accept the handoff file directly.
-Prepare their existing requests with the same network hash and the matching
-`candidate/manifest.json`. The handoff records which checked network to use.
+Freeze the network first. Check `network-handoff.json`: a `review_required` or `blocked` `construction_decision` is not an accepted network. The stages below do not read the handoff file; put the same network and candidate manifest into their requests.
 
-Keep the network fixed while fitting demand. If a road change is needed,
-return to road construction, repeat the affected checks, and rebuild the
-affected signal and detector bindings. Do not improve a count fit by silently
-changing road geometry or vehicle permissions.
+## Request files
 
-Use a new output directory and the existing signal, count, and demand tools.
-The `astra hamburg build-network` command does not run these stages. Counts
-and historical signal states are not prerequisites for building a road network.
-A diagnostic signal plan does not reproduce historical operation.
+Each `astra hamburg <stage> <request.json> <new-output-dir> --json` call needs a JSON object with a `schema` field. Every file in it is written as `{"path": "...", "sha256": "..."}` and must match its hash. The output directory must not exist; the stage writes `manifest.json` there.
 
-For general count-to-route methods, load
-[detector-constrained-demand-reconstruction.md](detector-constrained-demand-reconstruction.md)
-only as needed. Retain the declared source dates and comparison window.
+| Stage | Command and request `schema` | Request keys |
+|---|---|---|
+| 1 Signal identities | `astra hamburg bind-aerial-signals`, `torii.hamburg-aerial-signal-binding-request/v1` | `candidate_manifest` (the `manifest.json` of `combine-aerial-movements`), `movement_summary` (`corridor-summary.json` of `aerial-movements`), `signal_stream_snapshot` (frozen JSON list of official primary-signal stream records) |
+| 2 Count scope | `astra workflow sumo_hamburg_named_count_scope` (keyword arguments, no `schema`) | the corridor's count nodes, called as in stage W3a of `hamburg-sandtorkai-digital-twin.md`; writes `sensor-count-scope.manifest.json` |
+| 3 Station inventory | Python only: `materialize_hamburg_count_station_inventory(output_dir=Path(D), client=SensorThingsClient("https://iot.hamburg.de/v1.1/"), requested_node_ids=[...])` from `astra_sumo.core.hamburg_named_count_scope` and `astra_sumo.core.hamburg_official` | writes `count-station-inventory.manifest.json` into an empty directory |
+| 4 Count binding | `astra hamburg bind-aerial-counts`, `torii.hamburg-aerial-count-binding-request/v1` | `candidate_manifest`, `count_scope_manifest` (stage 2), `count_station_inventory_manifest` (stage 3), `map_xml_files` (list), optional `map_kml_files` |
+| 5 Route support | `astra workflow sumo_detector_route_support` | `net_file` (candidate network), `detector_mapping_csv` (stage 4 `artifacts.detector_mapping`), `output_dir` |
+| 6 Demand | `astra hamburg generate-aerial-demand`, `torii.hamburg-aerial-demand-request/v1` | `count_binding_manifest` (stage 4), `route_candidate_manifest` (stage 5), optional `scenario` (`conservative`, `medium`, `high`), `minimize_vehicles`, `diversify_routes` |
+| 7 Diagnostic signal plan, optional | `astra hamburg build-protected-signals`, `torii.hamburg-protected-signal-candidate-request/v1` | `net_file`, `signal_binding_csv` (stage 1 `artifacts.bindings`), `route_file` (stage 6 demand), `tls_ids`, optional `green_seconds`, `yellow_seconds`, `cycle_seconds`, `green_overrides`, `offset_overrides` |
 
-## 1. Bind Signal Identities When Needed
+## Reading the results
 
-```powershell
-astra hamburg bind-aerial-signals <request.json> <output-dir> --json
-```
+- Signal binding accepts a signal only when node, official connection, ingress lane and egress lane match exactly and the internal lane owns one SUMO controlled link. MAP or TLD version mismatches are reported, not repaired by distance. It binds identities only, not timing.
+- Count binding uses Hamburg's published `Zählstelle` compositions. Direction 1 and 2 stations are directional totals; direction 0 is a QA total only. The station's `zusammensetzung` lists the member fields; never replace it by summing nearby fields. A `Z.*` asset number is not a MAP, TLD or SUMO lane number. Use the station's physical direction; do not guess a turn when `fahrspur` is empty. A station whose members map to more than one directed SUMO edge stays validation-only, and a node without a published composition stays unconstrained.
+- Demand uses only active station bindings and complete passenger-lane cross-sections, always sums the published members (the `scenario` label never changes an official count), and runs routeSampler over 0-9000 s in 900 s bins. Its manifest names `virtual_expected_counts`, `e1_additional`, `station_group_e1_additional`, `station_detector_bank`, `e2_additional`, `edge_counts` and the routeSampler `demand_route_file`. Require zero deficit and overflow. It has no routeSampler path key: set `SUMO_HOME` (repository venv: `.venv/Lib/site-packages/sumo`) or put `routeSampler.py` on `PATH`, otherwise it ends with `status` `error`.
+- The protected signal plan uses protected green only, keeps Hamburg signal groups intact and can share one cycle across controllers. It is a diagnostic plan, not historical operation, and green or offset overrides must keep the declared cycle. It writes a separate network: read `candidate_network.path` (`protected-signals.net.xml`) and inspect `tls_plans`.
 
-Bind a signal only when node, official connection id, ingress lane, and egress
-lane match exactly and the materialized internal lane owns one SUMO controlled
-link. Record MAP/TLD asset-version mismatches instead of repairing them by
-distance. This stage binds identities only. Official timing and historical
-states remain separate gates.
+## Run and check SUMO
 
-After a demand route file is available, a separate diagnostic signal candidate can use:
+- Write a `.sumocfg` with the network (the frozen network, or `candidate_network.path` from stage 7 when you use the protected signal plan), `route_sampler.demand_route_file`, the manifest's `e1_additional`, `station_group_e1_additional` and `e2_additional`, and a summary output, and run it with `astra workflow sumo_run_config` (`config_path`) over the full horizon including warm-up. If departures continue up to the end of the comparison window, add a later flush horizon before you judge completion.
+- Take the warm-up and comparison window from the count-scope manifest (`parameters.warmup_seconds`, `selected_window`). Drop the warm-up bins from `virtual_expected_counts`, then run `astra demand audit <expected.csv> <e1-15min.xml> <new-dir> --json`.
+- Compare counts only when every row of `station-detector-bank.json` has `placement_basis=physical_field_projections`. A conserved or movement proxy is calibration-only evidence, not a same-location twin. Rows with `exact_physical_field_positions=false` (low-confidence or collapsed projections) are diagnostic, not exact physical matches.
+- To isolate a backlog cause, keep network, routes, seed, departure window and flush horizon fixed, and compare the current signals, `--tls.all-off` and a declared scaled-demand run. Signals off is diagnostic only. If scaled demand clears and full demand does not, look at boundary storage and demand before signal timing.
+- For time profiles, a departure interval is not a detector-passage interval. Include the traffic already in the network before the first comparison bin instead of forcing first-bin counts to start at the boundary at time 0.
 
-```powershell
-astra hamburg build-protected-signals <request.json> <output-dir> --json
-```
+## README Ring1 case (repository checkout only)
 
-The request binds the network, signal-binding CSV, and demand route file by
-hash. ASTRA translates SUMO junction-request conflicts to TLS link indices,
-keeps exact Hamburg signal groups intact, uses protected green only, computes
-yellow and clearance intervals, and can allocate one common cycle from the
-fixed demand. Unknown links remain conservative pseudo-groups. Feedback green
-or offset overrides must preserve the declared cycle and remain diagnostic.
+The first paragraph of `docs/hamburg-readme-case.md` links the current best result; its `benchmarks/hamburg_ring1_*` package README gives the inputs and the reproduce command. Start new work from that package, not from an older one. Entry scripts in `plugins/astra-sumo/scripts/`:
 
-## 2. Bind Official Count Stations
+- `run_hamburg_readme_pipeline.py prepare <repo-root> <new-dir>`, then `local-lanes <prepared-dir> <new-dir>` or `run <prepared-dir> <new-dir>` (`run` accepts `--hold-observed-lanes`, and with it `--hold-junction-body`).
+- `run_hamburg_od_spsa.py --prepared-dir <dir> --output-dir <new-dir>` (optional `--settings`, `--backend traci|libsumo`, `--parallel-pair`, `--stop-on-unsafe`).
+- `trace_hamburg_collisions.py <case-dir> <new-dir> [--end <s>]` reproduces a recorded collision.
+- `summarize_hamburg_readme.py <repository> <prepared_dir> <native_dir> <figure_dir> <output_dir>` writes the field and station comparisons.
 
-```powershell
-astra hamburg bind-aerial-counts <request.json> <output-dir> --json
-```
+Only a healthy run (all vehicles arrive, no collisions, teleports or discards) can be accepted; a backlogged run is a diagnostic loss.
 
-Use Hamburg's published `Zählstelle` inventory with the frozen `Zählfeld`
-window. Direction 1 and 2 stations are directional totals. Direction 0 is a
-QA total only. The station `zusammensetzung` property is the membership list.
-never replace it with a sum of every nearby field. A `Z.*` asset number is not
-a MAP, TLD, or SUMO lane number.
+### Departure retiming
 
-Bind only the fields named by one complete directional station composition.
-Use the station's physical direction. Do not guess a turn when `fahrspur` is
-empty. Keep a station group as validation-only when its members map to more
-than one directed SUMO edge. If Hamburg publishes no station composition for
-a node, leave that node unconstrained instead of creating an aggregate.
+`.venv/Scripts/python.exe plugins/astra-sumo/scripts/hamburg_event_retiming.py --source-run <run-dir> --canonical-counts <counts.csv> --output-dir <new-dir>` (optional `--sumo-binary`, `--seed`, `--max-trials`, `--max-shift`).
 
-Keep calibration and validation detectors separate. A common predecessor,
-common successor, or other conserved cross-section may constrain demand, but
-it must not replace the published count-field positions in the final replay.
-Build the validation E1 bank from the count-field mapping rows. If multiple
-official fields project onto the same `(node, SUMO lane)`, write one E1 at the
-downstream-most mapped field position and retain every source field id for the
-expected-count aggregation. Mark low-confidence, `needs_review`, or collapsed
-projections as diagnostic instead of claiming an exact physical match.
-
-Write the Hamburg source URLs and published rules separately from ASTRA's
-interpretation rules. Preserve the comparison window and warm-up from the
-declared count-scope manifest. This stage does not generate routes.
-
-Before route sampling, call the existing `sumo_detector_route_support` workflow
-with the candidate network and detector-mapping CSV. ASTRA must exclude
-`needs_review`, `inactive`, `out_of_scope`, and `ignored` detector mappings.
-route support counts only explicit `active` mappings. Require every active
-detector to appear in at least one boundary-to-boundary candidate route.
-
-## 3. Generate and Check Demand
-
-```powershell
-astra hamburg generate-aerial-demand <request.json> <output-dir> --json
-```
-
-Use only active station-composition bindings and complete passenger-lane edge
-cross-sections. Always sum the published composition members. A conservative,
-medium, or high label must not change an official count.
-Write virtual E1/E2 detectors, fifteen-minute expected counts, edgeData,
-routeSampler evidence, and one demand route file. Require zero routeSampler
-deficit and overflow. The result is a detector-constrained plausible demand,
-not a unique OD matrix.
-
-For time-profile calibration, do not equate departure interval and detector
-passage interval. Record per-vehicle edge exit times, estimate a dynamic
-assignment-ratio matrix, and update all active station groups jointly with a
-nonnegative prior-regularized least-squares model. Rebuild the matrix after
-each SUMO run. Preserve the protected signal plan and reject any update that
-introduces collisions, teleports, unfinished demand, or worse held-out error.
-Include pre-window traffic state instead of forcing first-bin detector counts
-to originate at the simulation boundary at time zero.
-
-For final departure-time corrections, use `scripts/hamburg_event_retiming.py`.
-Reproduce the frozen run first. Fix each vehicle's speed factor from its
-high-precision output and keep the random seed fixed. Sorting departures can
-otherwise assign new random speed factors to unchanged vehicles. Evaluate
-each proposed departure change in a full SUMO run using instantaneous E1
-events and the declared station/bin counting rule. Accept a change only when
-total error decreases, no station error increases, and all vehicles complete
-without warnings, collisions, or teleports. Check vehicle identities, speed
-factors, and periodic-versus-instantaneous detector records. This procedure
-fits the calibration window. An exact fit is not held-out validation.
-
-Run SUMO with the exact frozen network, demand, detector files, and declared
-horizon. The existing two-hour example uses its 9,000-second horizon, including
-warm-up. Report loaded, inserted, arrived, running, waiting,
-teleports, collisions, and unfinished tripinfo rows. Any backlog or teleport
-keeps the replay blocked even when routeSampler matches every count constraint.
-Before comparing counts, require every station detector-bank row to report
-`placement_basis=physical_field_projections`. Treat a conserved or movement
-proxy as calibration-only evidence and block a same-location digital-twin
-claim.
-
-Audit the detector event meaning before changing demand. Near the end of a
-very short SUMO edge, `nVehContrib` can omit vehicles that enter the loop but
-cannot leave it normally on that edge. Do not repair this residual by adding
-vehicles. If road geometry needs repair, return to construction and recheck
-a separate network. A declared entry probe can support a diagnostic result.
-When a station sums several lane loops, `nVehEntered` can
-count one lane-changing vehicle more than once. Use instantaneous loop entry
-events to deduplicate by `(station, vehicle, interval)` for the station audit.
-retain the raw per-lane E1 output for traceability.
-
-If departures continue until the comparison horizon, add a later flush horizon
-before judging completion. Do not treat vehicles that departed near the last
-comparison second as permanent backlog. For cause isolation, keep the network,
-route file, seed, departure window, and flush horizon fixed. Compare the current
-signal program, `--tls.all-off`, and a declared scaled-demand run. Turning
-signals off is diagnostic only because priority rules may create collisions.
-If scaled demand clears while full demand does not, investigate boundary
-storage and demand realization before tuning signal timing.
+- `<run-dir>` is a Ring1 V1 run directory, not the output of `generate-aerial-demand`: it holds `count-audit.json` (window and artifact hashes), `network.net.xml`, `e1.add.xml`, `instant.add.xml`, `station-detector-bank.json` and `demand.rou.xml`. A benchmark package's `inputs/` holds these gzipped; its `reproduce.py` unpacks them and passes `counts.simulation.15min.csv` as `--canonical-counts`. The script stops if a hash differs or the reproduction of that run differs.
+- It fixes each vehicle's speed factor and the seed, tests single departure shifts in full SUMO runs, and keeps a shift only when total error falls, no station gets worse, and every vehicle completes without warnings, collisions or teleports. Read `status` (`exact_fit` or `bounded_search_complete`) and `best` in `result.json`.
+- An exact fit holds for the calibration window only; it is not held-out validation.

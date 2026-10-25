@@ -494,7 +494,7 @@ def render_network_aerial_review(*, request_file: str | Path, output_dir: str | 
     write_text_atomic(destination / "review.html", html)
     artifacts["review.html"] = {"sha256": file_sha256(destination / "review.html")}
     report = {"schema": "astra.network-aerial-review/v1", "status": "review_required",
-              "render_status": "pass", "promotion_authority": False, "inputs": inputs,
+              "render_status": "pass", "inputs": inputs,
               "inputs_unchanged": unchanged, "crs": crs.to_string(),
               "aerial": request.aerial.model_dump(mode="json"),
               "image_registration": registration,
