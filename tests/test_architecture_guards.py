@@ -17,7 +17,7 @@ from typing import Iterable
 
 PACKAGE_ROOT = Path(__file__).resolve().parents[1] / "plugins" / "astra-sumo" / "src" / "astra_sumo"
 
-DOMAIN_PACKAGES = {"core", "corridor", "evidence", "intersection", "road_network"}
+DOMAIN_PACKAGES = {"core", "corridor", "evidence", "intersection", "road_network", "twin"}
 
 # Known tool-to-tool imports.  These are orchestration shortcuts that should
 # eventually be replaced by shared workflow/services functions, not extended.
