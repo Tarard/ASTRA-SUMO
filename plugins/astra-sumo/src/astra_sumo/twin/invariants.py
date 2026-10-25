@@ -95,8 +95,9 @@ def _in_interval(passage: dict, *, e1_begin_s: float, e1_period_s: float, step_s
     if time_s is None or notified is None or begin is None or end is None:
         return False
     slot = (begin - e1_begin_s) / e1_period_s
+    ceiling = math.ceil(math.nextafter(time_s / step_s, -math.inf)) * step_s
     return (abs(end - begin - e1_period_s) <= TIME_TOLERANCE_S and abs(slot - round(slot)) <= TIME_TOLERANCE_S
-            and begin <= notified < end and notified - step_s - TIME_TOLERANCE_S < time_s <= notified + TIME_TOLERANCE_S)
+            and begin <= notified < end and abs(notified - ceiling) <= TIME_TOLERANCE_S)
 
 
 def _stay(route: Route | None, edge: str | None) -> tuple[float, float] | None:

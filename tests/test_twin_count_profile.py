@@ -509,9 +509,12 @@ def _unit_passage(vehicle: str, **changes) -> dict:
     ({"interval_begin_s": 0.0, "interval_end_s": 450.0}, ["interval:v@d"]),
     ({"interval_begin_s": 5.0, "interval_end_s": 905.0}, ["interval:v@d"]),
     ({"notification_time_s": None}, ["interval:v@d"]),
+    ({"notification_time_s": 10.07}, ["interval:v@d"]),
+    ({"time_s": 899.96, "notification_time_s": 899.99}, ["interval:v@d", "route:v@d"]),
     ({"vehicle_id": "u"}, ["route:u@d"]),
 ], ids=["genuine", "time-moved", "time-and-notification-moved", "before-entering-the-edge", "short-interval",
-        "off-grid-interval", "no-notification", "vehicle-without-route"])
+        "off-grid-interval", "no-notification", "notification-off-the-step-grid", "ceiling-in-the-next-interval",
+        "vehicle-without-route"])
 def test_inv_pass_binds_each_passage_to_its_interval_and_its_vehicle_route(changes, witnesses):
     """A passage must lie in its recorded E1 interval at the step ceiling of time_s and inside its vehicle's stay on
     the field edge (from entering it at 8.0 s to arriving at 60.0 s), within one step."""
