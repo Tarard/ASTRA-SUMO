@@ -97,6 +97,7 @@ _WORKFLOW_TOOL_NAMES = (
     "sumo_detector_route_sampler_calibrate",
     "sumo_hamburg_sandtorkai_digital_twin",
     "sumo_hamburg_named_count_scope",
+    "sumo_hamburg_count_station_inventory",
     "sumo_hamburg_named_detector_bindings",
     "sumo_hamburg_sandtorkai_signal_observations",
     "sumo_hamburg_sandtorkai_named_replay",

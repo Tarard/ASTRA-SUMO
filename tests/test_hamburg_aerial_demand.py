@@ -1,15 +1,21 @@
+import csv
 import json
+from dataclasses import asdict
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import pytest
 
 from astra_sumo import cli
-from astra_sumo.core.digital_twin import CanonicalCount
+from astra_sumo.core import route_sampler
+from astra_sumo.core.candidate_contracts import file_sha256
+from astra_sumo.core.digital_twin import CanonicalCount, write_canonical_counts
 from astra_sumo.core.digital_twin_mapping import DetectorMapping
 from astra_sumo.core.hamburg_aerial_demand import (
     _build_official_station_edge_flows,
     _diversify_equivalent_routes,
     _scenario_group_policies,
+    generate_hamburg_aerial_demand,
 )
 from astra_sumo.core.hamburg_sensor_twin import build_station_detector_bank
 
@@ -224,3 +230,103 @@ def test_cli_routes_hamburg_aerial_demand_generation(monkeypatch, tmp_path, caps
 
     assert exit_code == 0
     assert json.loads(capsys.readouterr().out)["decision"] == "review_required"
+
+
+def _write_aerial_demand_request(tmp_path: Path) -> Path:
+    def record(path: Path) -> dict[str, str]:
+        return {"path": str(path), "sha256": file_sha256(path)}
+
+    net = tmp_path / "network.net.xml"
+    net.write_text(
+        """<net>
+        <edge id="source"><lane id="source_0" length="50"/></edge>
+        <edge id="measured"><lane id="measured_0" length="50"/></edge>
+        <edge id="sink"><lane id="sink_0" length="50"/></edge>
+        <connection from="source" to="measured"/><connection from="measured" to="sink"/>
+        </net>""",
+        encoding="utf-8",
+    )
+    mapping = _mapping(1, "measured", "measured_0", 25)
+    mapping_file = tmp_path / "detector-mapping.csv"
+    with mapping_file.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=list(asdict(mapping)))
+        writer.writeheader()
+        writer.writerow(asdict(mapping))
+    groups_file = tmp_path / "binding-groups.json"
+    groups_file.write_text(
+        json.dumps(
+            [
+                {
+                    "station_stream_id": 10,
+                    "node_id": "1",
+                    "direction": "east",
+                    "member_stream_ids": [1],
+                    "sumo_edges": ["measured"],
+                    "constraint_edge": "measured",
+                    "constraint_resolution": "direct_member_edge",
+                    "group_status": "active",
+                    "aggregation": "sum_official_zusammensetzung",
+                }
+            ]
+        ),
+        encoding="utf-8",
+    )
+    start = datetime(2026, 7, 18, 10, tzinfo=timezone.utc)
+    counts_file = tmp_path / "counts-simulation-15min.csv"
+    write_canonical_counts(
+        counts_file,
+        [
+            CanonicalCount(
+                detector_id="field_1", stream_id=1, node_id="1", asset_id="Z.1", direction="east",
+                lane_use="", longitude=10.0, latitude=53.5,
+                source_begin_utc=start + timedelta(seconds=begin),
+                source_end_utc=start + timedelta(seconds=begin + 900),
+                begin=begin, end=begin + 900, count=4, source_observation_count=3,
+                expected_source_observation_count=3, quality_status="complete",
+            )
+            for begin in range(0, 9000, 900)
+        ],
+    )
+    scope_file = tmp_path / "count-scope.json"
+    scope_file.write_text(json.dumps({"artifacts": {"counts_simulation_15min": record(counts_file)}}), encoding="utf-8")
+    binding_file = tmp_path / "count-binding.json"
+    binding_file.write_text(
+        json.dumps(
+            {
+                "schema": "torii.hamburg-aerial-count-binding/v1",
+                "status": "pass",
+                "inputs": {"network": record(net), "count_scope_manifest": record(scope_file)},
+                "artifacts": {"detector_mapping": record(mapping_file), "binding_groups": record(groups_file)},
+            }
+        ),
+        encoding="utf-8",
+    )
+    routes_file = tmp_path / "route-candidates.csv"
+    routes_file.write_text("route_id,edges\nr0,source measured sink\n", encoding="utf-8")
+    request = tmp_path / "request.json"
+    request.write_text(
+        json.dumps(
+            {
+                "schema": "torii.hamburg-aerial-demand-request/v1",
+                "count_binding_manifest": record(binding_file),
+                "route_candidate_manifest": record(routes_file),
+            }
+        ),
+        encoding="utf-8",
+    )
+    return request
+
+
+def test_missing_route_sampler_writes_a_blocked_demand_manifest(monkeypatch, tmp_path) -> None:
+    monkeypatch.setattr(route_sampler, "resolve_route_sampler_script", lambda explicit=None: None)
+    request = _write_aerial_demand_request(tmp_path)
+
+    report = generate_hamburg_aerial_demand(request_file=request, output_dir=tmp_path / "demand")
+
+    assert report["status"] == "blocked"
+    assert report["decision"] == "blocked"
+    assert report["gates"]["route_sampler"] == "blocked"
+    assert report["route_sampler"]["status"] == "blocked"
+    assert "demand_route_file" not in report["route_sampler"]
+    assert report["route_sampler"]["route_diversification"]["method"] == "not_run"
+    assert json.loads(Path(report["manifest_file"]).read_text(encoding="utf-8"))["status"] == "blocked"

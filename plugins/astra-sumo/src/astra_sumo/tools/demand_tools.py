@@ -5,7 +5,7 @@ from typing import Any
 
 from astra_sumo.core.detector_demand import (
     active_detectors,
-    aggregate_edge_counts,
+    aggregate_edge_counts_by_interval,
     boundary_edges,
     build_boundary_routes,
     build_detector_anchored_routes,
@@ -22,8 +22,9 @@ from astra_sumo.core.detector_demand import (
     source_sink_rows,
     summarize_comparison,
     write_csv,
-    write_edge_data,
+    write_interval_edge_data,
 )
+from astra_sumo.core.route_sampler import route_sampler_interval
 
 
 def sumo_detector_route_support(
@@ -140,30 +141,46 @@ def sumo_detector_count_constraints(
     begin: float = 0.0,
     end: float = 3600.0,
 ) -> dict[str, Any]:
+    """Write per-bin edge count constraints and routeSampler edgeData (``count`` attribute)."""
     try:
         expected_path = _existing_file(expected_counts_csv, "expected_counts_csv")
         out_dir = _output_dir(output_dir)
         clean_prefix = safe_id(prefix)
-        edge_counts = aggregate_edge_counts(read_csv_rows(expected_path), begin=float(begin), end=float(end))
+        edge_counts = aggregate_edge_counts_by_interval(
+            read_csv_rows(expected_path), begin=float(begin), end=float(end)
+        )
 
         constraints_file = out_dir / f"{clean_prefix}_time_bin_count_constraints.csv"
         edge_data_file = out_dir / f"{clean_prefix}_edge_counts.xml"
+        if any(target.exists() and target.samefile(expected_path) for target in (constraints_file, edge_data_file)):
+            raise ValueError("Count-constraint output must not replace a source input.")
         write_csv(
             constraints_file,
             constraint_rows(edge_counts),
             ["begin", "end", "edge_id", "lane_ids", "detector_ids", "expected_total"],
         )
-        write_edge_data(edge_data_file, edge_counts)
+        write_interval_edge_data(edge_data_file, edge_counts)
+        interval = route_sampler_interval(edge_data_file, begin=float(begin), end=float(end))
 
         status = "pass" if edge_counts else "fail"
+        warnings: list[str] = []
+        if not edge_counts:
+            warnings.append("no expected count rows matched the requested time window")
+        elif interval is None:
+            warnings.append(
+                "count bins do not cover the window at one width without gaps; "
+                "routeSampler calibration will reject this edge_data_file"
+            )
         return {
             "status": status,
             "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
-            "edge_count": len(edge_counts),
+            "edge_count": len({edge_count.edge_id for edge_count in edge_counts}),
+            "interval_count": len({(edge_count.begin, edge_count.end) for edge_count in edge_counts}),
+            "route_sampler_interval": interval,
             "expected_total": sum(edge_count.entered for edge_count in edge_counts),
             "time_bin_count_constraints": str(constraints_file),
             "edge_data_file": str(edge_data_file),
-            "warnings": [] if status == "pass" else ["no expected count rows matched the requested time window"],
+            "warnings": warnings,
         }
     except (OSError, ValueError) as exc:
         return _construction_invalid(str(exc))

@@ -163,27 +163,29 @@ def generate_hamburg_aerial_demand(
         route_sampler_script=None,
         timeout_seconds=300.0,
     )
-    diversification = (
-        _diversify_equivalent_routes(
+    demand_route_file = route_sampler.get("demand_route_file")
+    if not demand_route_file:
+        # routeSampler was not found or failed, so there is no route file to diversify.
+        diversification = {"method": "not_run", "reason": "routeSampler wrote no demand route file"}
+    elif diversify_routes:
+        diversification = _diversify_equivalent_routes(
             Path(str(route_sampler["candidate_route_file"])),
-            Path(str(route_sampler["demand_route_file"])),
+            Path(str(demand_route_file)),
             {row.edge_id for row in edge_flows},
         )
-        if diversify_routes
-        else {
+    else:
+        diversification = {
             "method": "disabled",
             "constraint_counts_preserved": True,
         }
-    )
-    route_sampler["demand_route_sha256"] = file_sha256(
-        Path(str(route_sampler["demand_route_file"]))
-    )
+    if demand_route_file:
+        route_sampler["demand_route_sha256"] = file_sha256(Path(str(demand_route_file)))
     route_sampler["route_diversification"] = diversification
     route_sampler_pass = route_sampler.get("status") == "pass"
     report = {
         "schema": REPORT_SCHEMA,
         "status": "pass" if route_sampler_pass else "blocked",
-        "decision": "review_required",
+        "decision": "review_required" if demand_route_file else "blocked",
         "claim_status": "detector-constrained-plausible-demand" if route_sampler_pass else "construction-invalid",
         "scenario": scenario,
         "minimize_vehicles": minimize_vehicles,

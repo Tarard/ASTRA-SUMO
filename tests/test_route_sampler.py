@@ -3,10 +3,13 @@ from __future__ import annotations
 import csv
 import json
 import xml.etree.ElementTree as ET
+from importlib.util import find_spec
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
+from astra_sumo.core import route_sampler
 from astra_sumo.core.command_runner import CommandResult
 from astra_sumo.core.detector_demand import EdgeInfo, source_sink_rows
 from astra_sumo.core.route_sampler import (
@@ -486,3 +489,36 @@ def test_departure_lane_targets_mark_partial_source_coverage_for_review(tmp_path
     assert report["unmatched_bins"] == [
         {"edge_id": "source", "begin": 0, "target_count": 1, "vehicle_count": 2}
     ]
+
+
+def test_route_sampler_script_falls_back_to_sumo_package_tools(tmp_path: Path, monkeypatch) -> None:
+    package = tmp_path / "sumo"
+    (package / "tools").mkdir(parents=True)
+    (package / "__init__.py").write_text("", encoding="utf-8")
+    script = package / "tools" / "routeSampler.py"
+    script.write_text("# synthetic routeSampler\n", encoding="utf-8")
+    monkeypatch.delenv("SUMO_HOME", raising=False)
+    monkeypatch.setattr(route_sampler.shutil, "which", lambda name: None)
+    # A pip-installed sumolib sits in site-packages, where no routeSampler.py is next to it.
+    monkeypatch.setattr(route_sampler, "sumolib", SimpleNamespace(__file__=str(tmp_path / "sumolib" / "__init__.py")))
+    monkeypatch.setattr(route_sampler, "find_spec", lambda name: SimpleNamespace(origin=str(package / "__init__.py")))
+
+    assert route_sampler.resolve_route_sampler_script() == script.resolve()
+
+    monkeypatch.setattr(route_sampler, "find_spec", lambda name: None)
+    assert route_sampler.resolve_route_sampler_script() is None
+
+
+def test_repository_venv_finds_route_sampler_without_sumo_home(monkeypatch) -> None:
+    package = find_spec("sumo")
+    if package is None or not package.origin:
+        pytest.skip("the eclipse-sumo package is not installed")
+    site_packages = Path(package.origin).parent.parent
+    monkeypatch.delenv("SUMO_HOME", raising=False)
+    monkeypatch.setattr(route_sampler.shutil, "which", lambda name: None)
+    # Ignore any SUMO installation on PYTHONPATH: use the venv's own sumolib location.
+    monkeypatch.setattr(route_sampler, "sumolib", SimpleNamespace(__file__=str(site_packages / "sumolib" / "__init__.py")))
+
+    assert route_sampler.resolve_route_sampler_script() == (
+        Path(package.origin).parent / "tools" / "routeSampler.py"
+    ).resolve()
