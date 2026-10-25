@@ -776,12 +776,20 @@ def write_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
         raise FileExistsError(f"{out_dir} exists; every profile is written to a new directory")
     profile, details = build_calibrate_profile(goal, goal_bytes, reader, run_dir=run_dir, verifier=verifier)
     compact = dict(zip(("profile.compact.json", "profile.compact.txt"), render.render_compact(profile)))
+    write_staged_profile(out_dir, profile, details, compact, started=started, empty_header="row_id")
+    return profile
+
+
+def write_staged_profile(out_dir: Path, profile: dict, details: dict[str, list[dict]], compact: dict[str, str], *,
+                         started: float, empty_header: str) -> None:
+    """Write the detail CSVs, the compact views and ``profile.full.json`` (with their hashes and the profile time
+    since ``started``) into a sibling staging directory, renamed to ``out_dir`` only once complete."""
     out_dir.parent.mkdir(parents=True, exist_ok=True)
     staging = Path(tempfile.mkdtemp(prefix=f".{out_dir.name}.tmp-", dir=out_dir.parent))
     try:
         profile["details"] = {}
         for name, rows in details.items():
-            write_csv(staging / name, rows, list(rows[0]) if rows else ["row_id"])
+            write_csv(staging / name, rows, list(rows[0]) if rows else [empty_header])
             profile["details"][name] = {"path": name, "sha256": file_sha256(staging / name), "rows": len(rows)}
         for name, text in compact.items():
             write_text_atomic(staging / name, text)
@@ -793,4 +801,3 @@ def write_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
     except BaseException:
         shutil.rmtree(staging, ignore_errors=True)
         raise
-    return profile

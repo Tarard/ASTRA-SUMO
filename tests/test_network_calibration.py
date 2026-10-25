@@ -221,3 +221,122 @@ def test_cli_writes_scorecard_and_preserves_inputs(tmp_path, capsys):
     assert main(["network", "calibrate", *map(str, paths), "--json"]) == 0
     assert json.loads(capsys.readouterr().out)["status"] == "measured"
     assert (paths[0].read_bytes(), paths[1].read_bytes()) == before
+
+
+def test_scorecard_comparison_reports_judged_facts_that_stop_being_judged():
+    from astra_sumo.core.network_calibration import compare_calibration_scorecards
+
+    def card(*statuses):
+        return {"facts": [{"id": f"f{i}", "status": status, "metrics": {}} for i, status in enumerate(statuses)]}
+
+    result = compare_calibration_scorecards(card("matched", "mismatched", "mismatched", "unknown", "matched"),
+                                            card("unknown", "measured", "matched", "matched", "mismatched"))
+    assert result["measurability_lost"] == ["f0", "f1"]
+    assert result["regressed_facts"] == ["f0", "f4"]
+
+
+def test_one_scoring_pass_indexes_the_root_once_and_repeats_its_errors(tmp_path, monkeypatch):
+    from astra_sumo.core import network_calibration
+    from astra_sumo.corridor.enums import TrafficSide
+    from astra_sumo.corridor.synthetic_networks import build_synthetic_fixture
+
+    root = build_synthetic_fixture("standard-x4", traffic_side=TrafficSide.RIGHT)
+    lanes = {lane.get("id"): lane for edge in root.findall("edge") for lane in edge.findall("lane")}
+
+    def shape(*lane_ids):
+        return [[float(v) for v in point.split(",")]
+                for lane_id in lane_ids for point in lanes[lane_id].get("shape").split()]
+
+    facts = [{"id": f"path-{a}", "kind": "lane_centerline",
+              "selector": {"lane_ids": [a, b], "include_internal_paths": True},
+              "expected": shape(a, via, b), "sample_spacing_m": 0.5, "tolerance_m": 0.01, "minimum_coverage": 0.5}
+             for a, via, b in (("W_in_1", ":J0_1_0", "E_out_1"), ("E_in_1", ":J0_4_0", "W_out_1"),
+                               ("S_in_1", ":J0_7_0", "N_out_1"))]
+    table = NetworkFactTable.model_validate({"schema": "astra.network-facts/v1", "site_id": "x4",
+        "target_date": "2026-10-25",
+        "coordinate_system": {"type": "network_xy_m", "location": {}}, "sources": [], "facts": facts})
+    calls = []
+    original = network_calibration._saved_lane_paths
+    monkeypatch.setattr(network_calibration, "_saved_lane_paths", lambda value: calls.append(1) or original(value))
+    scored = network_calibration._score(root, table, "explore")
+    assert len(calls) == 1
+    assert [row["status"] for row in scored["facts"]] == ["matched"] * 3
+    transform = network_calibration._coordinate_transform(root, table.coordinate_system)
+    assert [network_calibration._measure(fact, root, transform, "explore") for fact in table.facts] == scored["facts"]
+    assert len(calls) == 4
+
+    net, facts_file, output = _case(tmp_path, [
+        {"kind": "movement_inventory", "selector": {"incoming_lane_ids": ["in_0"]}, "expected": [["in_0", "out_9"]]},
+        {"kind": "signal_group", "selector": {"lane_pair": ["in_0", "out_9"]},
+         "expected": {"tls_id": "controller", "link_index": 2}}])
+    net.write_text(net.read_text(encoding="utf-8").replace('toLane="0"', 'toLane="9"'), encoding="utf-8")
+    report = evaluate_network_calibration(net_file=net, facts_file=facts_file, output_file=output, mode="explore")
+    assert [(row["status"], row["reason"]) for row in report["facts"]] == [
+        ("unknown", "A network connection references a missing lane.")] * 2
+
+
+def _per_sample_overlap(reference, parts, spacing, *, direction=None, coverage_bands_m=(1.0, 2.0)):
+    """The per-sample interpolate() implementation centerline_overlap_metrics had before vectorization (6ccaac5)."""
+    import math
+
+    count = max(1, math.ceil(reference.length / spacing))
+    segments = [(a, b) for part in parts for a, b in zip(part, part[1:]) if a != b]
+    offsets, cosines = [], []
+    for i in range(count):
+        position = (i + 0.5) * reference.length / count
+        point = reference.interpolate(position)
+        epsilon = min(reference.length / count / 2, 0.1)
+        left, right = reference.interpolate(position - epsilon), reference.interpolate(position + epsilon)
+        tx, ty = right.x - left.x, right.y - left.y
+        tangent_length = math.hypot(tx, ty)
+        distances, aligned = [], []
+        for (ax, ay), (bx, by) in segments:
+            dx, dy = bx - ax, by - ay
+            squared = dx * dx + dy * dy
+            if not squared or not tangent_length:
+                continue
+            cosine = (dx * tx + dy * ty) / (math.sqrt(squared) * tangent_length)
+            if abs(cosine) < 1 / math.sqrt(2):
+                continue
+            fraction = ((point.x - ax) * dx + (point.y - ay) * dy) / squared
+            if 0 <= fraction <= 1:
+                distance = math.hypot(point.x - ax - fraction * dx, point.y - ay - fraction * dy)
+                aligned.append((distance, cosine))
+                if direction is None or cosine * direction >= 1 / math.sqrt(2):
+                    distances.append(distance)
+        if aligned:
+            cosines.append(min(aligned)[1])
+        if distances:
+            offsets.append(min(distances))
+    return offsets, cosines, count
+
+
+def test_vectorized_centerline_sampling_equals_per_sample_interpolation():
+    # Review finding: the vectorized shapely sampling (a deviation beyond the SMALL CORE EDITS list) must stay
+    # bit-identical to per-sample interpolate(), so a future shapely change cannot silently alter scores.
+    import math
+
+    from shapely.geometry import LineString
+
+    from astra_sumo.core.network_calibration import centerline_overlap_metrics
+
+    reference = LineString([(100 * math.cos(a / 40), 100 * math.sin(a / 40) + 0.37 * (a % 3)) for a in range(60)])
+    parts = [[(x + 0.21, y - 0.43) for x, y in reference.coords][::3], [(0.0, 0.0), (5.0, 2.0)]]
+    for spacing in (0.25, 0.7, 1.0, 2.0):
+        for direction in (None, 1, -1):
+            metrics = centerline_overlap_metrics(reference, parts, spacing, direction=direction,
+                                                 coverage_bands_m=(0.5, 1.0, 2.0))
+            offsets, cosines, count = _per_sample_overlap(reference, parts, spacing, direction=direction)
+            assert metrics["coverage_sample_count"] == count
+            assert metrics["max_sampled_lateral_offset_m"] == max(offsets, default=None)
+            assert metrics["mean_lateral_offset_m"] == (sum(offsets) / len(offsets) if offsets else None)
+            assert metrics["mean_direction_cosine"] == (sum(cosines) / len(cosines) if cosines else None)
+            assert metrics["coverage_within_m"]["0.5"] == sum(value <= 0.5 for value in offsets) / count
+    count = max(1, math.ceil(reference.length / 1.0))
+    candidate = LineString(parts[0])
+    import shapely
+
+    vectorized = shapely.distance(shapely.line_interpolate_point(reference, [i / count for i in range(count + 1)],
+                                                                 normalized=True), candidate).tolist()
+    assert vectorized == [reference.interpolate(i / count, normalized=True).distance(candidate)
+                          for i in range(count + 1)]

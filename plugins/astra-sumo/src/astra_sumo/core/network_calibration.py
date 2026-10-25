@@ -13,6 +13,7 @@ import xml.etree.ElementTree as ET
 
 from pydantic import BaseModel, ConfigDict, Field
 from pyproj import CRS, Transformer
+import shapely
 from shapely.geometry import LineString, MultiLineString, Point, Polygon
 from sumolib.net.lane import SUMO_VEHICLE_CLASSES
 
@@ -174,8 +175,49 @@ def _saved_lane_paths(root):
     return paths
 
 
-def _saved_lane_path(root, ordinary_lanes):
-    paths = _saved_lane_paths(root)
+class _RootIndex:
+    """Lookups of one parsed root, built once per scoring pass; the root must not change meanwhile."""
+
+    def __init__(self, root: ET.Element):
+        self.root = root
+        self.lanes = {lane.get("id"): lane for edge in root.findall("edge") for lane in edge.findall("lane")}
+        self.edges = {edge.get("id"): edge for edge in root.findall("edge") if edge.get("function") != "internal"}
+        self.junctions: dict[str, ET.Element] = {}
+        for junction in root.findall("junction"):
+            self.junctions.setdefault(junction.get("id"), junction)
+        self._memo: dict[str, Any] = {}
+
+    def _once(self, key, build):
+        if key not in self._memo:
+            try:
+                self._memo[key] = (True, build())
+            except ValueError as error:
+                self._memo[key] = (False, error)
+        ok, value = self._memo[key]
+        if not ok:
+            raise ValueError(str(value))
+        return value
+
+    def saved_lane_paths(self):
+        return self._once("paths", lambda: _saved_lane_paths(self.root))
+
+    def connections(self) -> dict[tuple[str, str], list[ET.Element]]:
+        def build():
+            actual: dict[tuple[str, str], list[ET.Element]] = {}
+            for connection in self.root.findall("connection"):
+                if connection.get("from") not in self.edges:
+                    continue
+                pair = (f'{connection.get("from")}_{connection.get("fromLane")}',
+                        f'{connection.get("to")}_{connection.get("toLane")}')
+                if pair[0] not in self.lanes or pair[1] not in self.lanes:
+                    raise ValueError("A network connection references a missing lane.")
+                actual.setdefault(pair, []).append(connection)
+            return actual
+        return self._once("connections", build)
+
+
+def _saved_lane_path(root, ordinary_lanes, paths=None):
+    paths = _saved_lane_paths(root) if paths is None else paths
     result = [ordinary_lanes[0]]
     for pair in zip(ordinary_lanes, ordinary_lanes[1:]):
         candidates = paths.get(pair, [])
@@ -190,12 +232,16 @@ def centerline_overlap_metrics(reference, parts, spacing, *, direction=None, cov
     count = max(1, math.ceil(reference.length / spacing))
     segments = [(a, b) for part in parts for a, b in zip(part, part[1:]) if a != b]
     offsets, cosines = [], []
+    length = reference.length
+    epsilon = min(length / count / 2, 0.1)
+    positions = [(i + 0.5) * length / count for i in range(count)]
+    # One vectorized GEOS call per coordinate equals the per-sample interpolate().x values.
+    samples = [(shapely.get_x(points).tolist(), shapely.get_y(points).tolist()) for points in
+               (shapely.line_interpolate_point(reference, [position + shift for position in positions])
+                for shift in (0, -epsilon, epsilon))]
     for i in range(count):
-        position = (i + 0.5) * reference.length / count
-        point = reference.interpolate(position)
-        epsilon = min(reference.length / count / 2, 0.1)
-        left, right = reference.interpolate(position - epsilon), reference.interpolate(position + epsilon)
-        tx, ty = right.x - left.x, right.y - left.y
+        px, py = samples[0][0][i], samples[0][1][i]
+        tx, ty = samples[2][0][i] - samples[1][0][i], samples[2][1][i] - samples[1][1][i]
         tangent_length = math.hypot(tx, ty)
         distances, aligned = [], []
         for (ax, ay), (bx, by) in segments:
@@ -207,9 +253,9 @@ def centerline_overlap_metrics(reference, parts, spacing, *, direction=None, cov
             cosine = (dx * tx + dy * ty) / (math.sqrt(squared) * tangent_length)
             if abs(cosine) < 1 / math.sqrt(2):
                 continue
-            fraction = ((point.x - ax) * dx + (point.y - ay) * dy) / squared
+            fraction = ((px - ax) * dx + (py - ay) * dy) / squared
             if 0 <= fraction <= 1:
-                distance = math.hypot(point.x - ax - fraction * dx, point.y - ay - fraction * dy)
+                distance = math.hypot(px - ax - fraction * dx, py - ay - fraction * dy)
                 aligned.append((distance, cosine))
                 if direction is None or cosine * direction >= 1 / math.sqrt(2):
                     distances.append(distance)
@@ -230,9 +276,10 @@ def centerline_overlap_metrics(reference, parts, spacing, *, direction=None, cov
                                   for band in sorted(set(coverage_bands_m))}}
 
 
-def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> dict[str, Any]:
-    lanes = {lane.get("id"): lane for edge in root.findall("edge") for lane in edge.findall("lane")}
-    edges = {edge.get("id"): edge for edge in root.findall("edge") if edge.get("function") != "internal"}
+def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release",
+             index: _RootIndex | None = None) -> dict[str, Any]:
+    index = _RootIndex(root) if index is None else index
+    lanes, edges = index.lanes, index.edges
     selector, expected = fact.selector, fact.expected
     result: dict[str, Any] = {"id": fact.id, "kind": fact.kind, "layer": _LAYERS[fact.kind],
                               "known": expected is not None, "source_ids": fact.source_ids,
@@ -294,7 +341,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
                     runs[-1].append(lane_id)
                 elif runs[-1]:
                     runs.append([])
-            selected_ids = [lane_id for run in runs if run for lane_id in _saved_lane_path(root, run)]
+            selected_ids = [lane_id for run in runs if run
+                            for lane_id in _saved_lane_path(root, run, index.saved_lane_paths())]
             result["resolved_lane_ids"] = selected_ids
         else:
             selected_ids = [lane_id for lane_id in selected_ids if lane_id in lanes]
@@ -350,8 +398,8 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
                     raise ValueError("Lane centerlines must have positive geometric length.")
                 count = max(1, math.ceil(reference.length / fact.sample_spacing_m))
                 # Equal arclength intervals make the mean independent of source vertex density.
-                distances = [reference.interpolate(i / count, normalized=True).distance(candidate)
-                             for i in range(count + 1)]
+                distances = shapely.distance(shapely.line_interpolate_point(
+                    reference, [i / count for i in range(count + 1)], normalized=True), candidate).tolist()
                 mean = (sum(distances) - (distances[0] + distances[-1]) / 2) / count
                 result["metrics"] = {"mean_reference_offset_m": mean, "max_sampled_reference_offset_m": max(distances),
                                      "sample_spacing_m": reference.length / count, "sample_count": count + 1}
@@ -382,15 +430,7 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
         result["metrics"] = {"absolute_count_error": abs(observed - expected)}
         matches = observed == expected
     elif kind in ("movement_inventory", "signal_group"):
-        actual: dict[tuple[str, str], list[ET.Element]] = {}
-        for connection in root.findall("connection"):
-            if connection.get("from") not in edges:
-                continue
-            pair = (f'{connection.get("from")}_{connection.get("fromLane")}',
-                    f'{connection.get("to")}_{connection.get("toLane")}')
-            if pair[0] not in lanes or pair[1] not in lanes:
-                raise ValueError("A network connection references a missing lane.")
-            actual.setdefault(pair, []).append(connection)
+        actual = index.connections()
         if kind == "movement_inventory":
             incoming = set(_list(selector["incoming_lane_ids"], "Incoming lane IDs"))
             wanted = _pairs(expected)
@@ -430,7 +470,7 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
             matches = observed == [expected]
             result["metrics"] = {"binding_match": int(matches)}
     else:
-        junction = next((j for j in root.findall("junction") if j.get("id") == selector["junction_id"]), None)
+        junction = index.junctions.get(selector["junction_id"]) if isinstance(selector["junction_id"], str) else None
         if junction is None:
             return {**result, "status": "mismatched", "reason": "network_junction_missing"}
         reference, candidate = Polygon(_points(expected, minimum=3)), Polygon(transform(_shape(junction)))
@@ -455,10 +495,11 @@ def _measure(fact: NetworkFact, root: ET.Element, transform, mode="release") -> 
 
 def _score(root: ET.Element, table: NetworkFactTable, mode="release") -> dict[str, Any]:
     transform = _coordinate_transform(root, table.coordinate_system)
+    index = _RootIndex(root)
     facts = []
     for fact in table.facts:
         try:
-            facts.append(_measure(fact, root, transform, mode))
+            facts.append(_measure(fact, root, transform, mode, index))
         except ValueError as error:
             if mode == "release":
                 raise
@@ -520,8 +561,12 @@ def compare_calibration_scorecards(before, after):
                     "metric_deltas": _numeric_deltas(old["metrics"], new["metrics"]),
                     "before_metrics": old["metrics"], "after_metrics": new["metrics"]}
                    for old, new in zip(before["facts"], after["facts"])]
+    judged = {"matched", "mismatched"}
     return {"transitions": transitions, "regressed_facts": [row["fact_id"] for row in transitions
-            if row["before"] == "matched" and row["after"] != "matched"]}
+            if row["before"] == "matched" and row["after"] != "matched"],
+            # A judged fact that stops being judged hides its error instead of fixing it.
+            "measurability_lost": [row["fact_id"] for row in transitions
+                                   if row["before"] in judged and row["after"] not in judged]}
 
 
 def evaluate_network_calibration(*, net_file: str | Path, facts_file: str | Path,

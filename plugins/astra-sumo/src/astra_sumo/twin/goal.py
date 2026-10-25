@@ -1,18 +1,26 @@
-"""Calibrate twin goal ``astra.twin-goal/v1``: frozen inputs, run block and observation contract.
+"""Twin goals ``astra.twin-goal/v1``: the Calibrate goal (M1) and the Build goal (M3).
 
-The run block is copied from tracked machine fields (``run.json``, ``native-request.json`` and the executed shared
-driver), never from prose. The baseline is recomputed from the tracked E1 output and must equal the recorded one.
+Calibrate: the run block is copied from tracked machine fields (``run.json``, ``native-request.json`` and the
+executed shared driver), never from prose. The baseline is recomputed from the tracked E1 output and must equal the
+recorded one.
+
+Build: goal-create scores the source net against the reference facts in explore mode and freezes the scored set with
+each fact's kind, class and acceptance; escalated facts (COR, SRC, OPX, UNK) are excluded with their reason. The fact
+table is stored by content hash next to the goal. GOAL LINT refuses the goal before anything is written.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import math
 import re
+import tempfile
 import xml.etree.ElementTree as ET
+from collections import Counter
 from datetime import datetime, timedelta
 from pathlib import Path
-from typing import Literal
+from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
@@ -20,9 +28,10 @@ from ..core.artifact_io import write_text_atomic
 from ..core.benchmark_references import (LOCAL_ONLY_FILE, BenchmarkReferenceError, PacketCase, csv_rows,
                                          find_tracked_file, local_only_row, safe_relative)
 from ..core.candidate_contracts import file_sha256
-from . import ids, invariants
+from . import build_gate, build_profile, ids, invariants
 from .count_profile import (INSTANT_E1, incomplete_rows, parse_field_loops, parse_intentions, parse_network,
                             read_passage_report, score_counts)
+from .direction_check import RULE as DIRECTION_RULE, direction_baseline
 
 SCHEMA = "astra.twin-goal/v1"
 PREPARED_FILES = ("network.net.xml", "control.add.xml", "demand.rou.xml", "field-loops.add.xml",
@@ -45,6 +54,12 @@ _WINDOWS_DEVICES = {"con", "prn", "aux", "nul", *(f"com{i}" for i in range(1, 10
 
 class _Strict(BaseModel):
     model_config = ConfigDict(extra="forbid")
+
+
+def _not_a_device(value: str) -> str:
+    if value.split(".")[0] in _WINDOWS_DEVICES:
+        raise ValueError(f"goal_id {value!r} is a reserved Windows device name")
+    return value
 
 
 class Verifier(_Strict):
@@ -208,9 +223,7 @@ class CalibrateGoal(_Strict):
     @field_validator("goal_id")
     @classmethod
     def _not_a_device_name(cls, value: str) -> str:
-        if value.split(".")[0] in _WINDOWS_DEVICES:
-            raise ValueError(f"goal_id {value!r} is a reserved Windows device name")
-        return value
+        return _not_a_device(value)
 
     def to_json_bytes(self) -> bytes:
         text = json.dumps(self.model_dump(mode="json", by_alias=True), indent=2, ensure_ascii=False)
@@ -457,7 +470,7 @@ def create_calibrate_goal(repository_root: Path, packet: str, case: str, *,
     return CalibrateGoal.model_validate(document)
 
 
-def write_goal(goal: CalibrateGoal, store: Path) -> tuple[Path, str]:
+def write_goal(goal: CalibrateGoal | BuildGoal, store: Path) -> tuple[Path, str]:
     """Write ``<store>/goals/<goal_id>/goal.json``; an existing goal with other bytes is refused."""
     path = Path(store) / "goals" / goal.goal_id / "goal.json"
     data = goal.to_json_bytes()
@@ -472,3 +485,443 @@ def write_goal(goal: CalibrateGoal, store: Path) -> tuple[Path, str]:
 def load_goal(path: Path) -> tuple[CalibrateGoal, bytes]:
     data = Path(path).read_bytes()
     return CalibrateGoal.model_validate_json(data), data
+
+
+# ---- Build goal (M3) ---------------------------------------------------------------------------------------------
+
+DEFAULT_SEEDS = (17, 42, 104, 7, 23, 37, 59, 71, 83, 97)
+DEFAULT_G0_SHAPE = {"max_vertex_delta": 8, "max_heading_change_deg": 35.0, "max_directed_hausdorff_m": 3.0,
+                    "status": "declared, not calibrated"}
+CATEGORICAL_KINDS = ("lane_count", "lane_permissions", "movement_inventory", "signal_group")
+BUILD_CLAIM = "Model-relative known-answer or reference goal; explore only; no field claim."
+REFERENCE_PRODUCER = Path(__file__).resolve().parents[1] / "core" / "reference_net_facts.py"
+
+
+class _Aliased(_Strict):
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+
+
+class FileRef(_Strict):
+    path: str
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+
+
+class BuildSource(_Strict):
+    net: str
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    lane_elements: int
+
+
+class Sigma(_Strict):
+    source_m: float = Field(ge=0)
+    registration_m: float = Field(ge=0)
+    comb_m: float = Field(ge=0)
+    speed_m_s: float = Field(ge=0)
+    status: str
+
+
+class BuildReference(_Strict):
+    facts: str = Field(pattern=r"^cas:sha256:[0-9a-f]{64}$")
+    producer: str
+    correspondence: str
+    site_id: str
+    target_date: str
+    reference_net: FileRef | None = None
+    sigma: Sigma
+    lock: str | None = None
+
+
+class ScoredFact(_Aliased):
+    id: str
+    kind: str
+    class_: str = Field(alias="class")
+    accept: str
+    anchor: str
+    tol_eff: float | None = None
+    unit: str | None = None
+    tol_floor: float | None = None
+    stop_line_mode: Literal["longitudinal", "distance"] | None = None
+    minimum_coverage: float | None = None
+    maximum_mean_m: float | None = None
+    minimum_iou: float | None = None
+
+
+class ExcludedFact(_Aliased):
+    kind: str
+    class_: str = Field(alias="class")
+    reason: str
+    anchor: str
+    source_status: str
+    note: str
+    probe: list[dict[str, Any]] | None = None
+
+
+class SourceScorecard(_Strict):
+    ref: str = Field(pattern=r"^cas:sha256:[0-9a-f]{64}$")
+    scorer: str
+
+
+class Frozen(_Strict):
+    scored_facts: list[ScoredFact] = Field(min_length=1)
+    excluded: dict[str, ExcludedFact]
+    sha256: str = Field(pattern=r"^[0-9a-f]{64}$")
+    counts: dict[str, int]
+    source_scorecard: SourceScorecard
+
+
+class IntBaseline(_Strict):
+    basis: Literal["reference_net", "source"]
+    net_sha256: str | None = None
+    direction_rule: str
+    direction_sha256: str | None = None
+    junction_ids: list[str]
+    finding_ids: list[str]
+    measures: dict[str, float]
+
+
+class BuildScope(_Strict):
+    mutable_edge_ids: list[str]
+    mutable_junction_ids: list[str]
+    ops: list[str] = Field(min_length=1)
+    max_ops_per_round: Literal[1]
+
+
+class Materiality(_Strict):
+    min_excess_decrease: float = Field(gt=0)
+    max_worsening_tol_fraction: float = Field(gt=0)
+
+
+class BuildObjective(_Strict):
+    order: list[str]
+    tie: Literal["reject"]
+    materiality: Materiality
+    rule: str
+    excess: dict[str, str]
+
+
+class G0Shape(_Strict):
+    max_vertex_delta: int = Field(ge=0)
+    max_heading_change_deg: float = Field(gt=0, le=180)
+    max_directed_hausdorff_m: float = Field(gt=0)
+    status: str
+
+
+class TripRecord(_Strict):
+    seed: int
+    status: Literal["generated", "not_generated"]
+    ref: str | None = Field(default=None, pattern=r"^cas:sha256:[0-9a-f]{64}$")
+    sha256: str | None = Field(default=None, pattern=r"^[0-9a-f]{64}$")
+    requests: int | None = None
+    reason: str | None = None
+
+
+class Routeability(_Strict):
+    seeds: list[int]
+    vehicle_count: int
+    frozen_trips: str
+    trips: list[TripRecord]
+    hard: str
+    dirty_source: str
+    reported_only: list[str]
+
+
+class Guards(_Strict):
+    movement_probes: str
+    routeability: Routeability
+    lane_artifacts: list[FileRef]
+
+
+class BuildGoal(_Strict):
+    schema_id: Literal["astra.twin-goal/v1"] = Field(alias="schema")
+    goal_id: str = Field(pattern=GOAL_ID_PATTERN)
+    capability: Literal["build"]
+    mode: Literal["explore"]
+    source: BuildSource
+    reference: BuildReference
+    frozen: Frozen
+    int_baseline: IntBaseline
+    scope: BuildScope
+    objective: BuildObjective
+    g0_shape: G0Shape
+    guards: Guards
+    claim_boundary: str
+
+    @field_validator("goal_id")
+    @classmethod
+    def _not_a_device_name(cls, value: str) -> str:
+        return _not_a_device(value)
+
+    def to_json_bytes(self) -> bytes:
+        text = json.dumps(self.model_dump(mode="json", by_alias=True, exclude_none=True), indent=2,
+                          ensure_ascii=False)
+        return (text + "\n").encode("utf-8")
+
+
+def _scope_elements(scope: dict) -> set[str]:
+    return ({ids.element_id("edge", edge) for edge in scope.get("mutable_edge_ids") or []}
+            | {ids.element_id("junction", node) for node in scope.get("mutable_junction_ids") or []})
+
+
+def _in_scope(anchor: str, scope: dict) -> bool:
+    if anchor in _scope_elements(scope):
+        return True
+    kind, _, value = anchor.partition(":")
+    return kind == "lane" and value.rpartition("_")[0] in set(scope.get("mutable_edge_ids") or [])
+
+
+def lint_build_goal(document: dict) -> list[str]:
+    """GOAL LINT for a Build goal document; an empty list means the goal may be written."""
+    errors = []
+    if not isinstance(document.get("g0_shape"), dict):
+        errors.append("a Build goal needs a g0_shape block")
+    sigma = ((document.get("reference") or {}).get("sigma") or {})
+    scored = (document.get("frozen") or {}).get("scored_facts") or []
+    if not scored:
+        errors.append("a Build goal needs at least one frozen scored fact")
+    seen: set[str] = set()
+    for entry in scored:
+        fact, kind, cls = entry.get("id"), entry.get("kind"), entry.get("class")
+        if fact in seen:
+            errors.append(f"{fact}: duplicate scored fact")
+        seen.add(fact)
+        if cls not in build_profile.TARGET_CLASSES:
+            errors.append(f"{fact}: frozen class {cls} is not a target (COR, SRC, OPX and UNK are never tasks)")
+        if kind in build_profile.TOLERANCE_KINDS:
+            tolerance, floor = entry.get("tol_eff"), build_profile.tolerance_floor(
+                "m/s" if kind == "speed" else "m", sigma)
+            if type(tolerance) not in (int, float) or not math.isfinite(tolerance) or tolerance <= 0:
+                errors.append(f"{fact}: numeric target without a tolerance (tol_eff {tolerance})")
+            elif tolerance < floor - 1e-12:
+                errors.append(f"{fact}: tol_eff {tolerance:g} below max(2 sigma, representation step) {floor:g}")
+            if kind == "lane_centerline" and not 0 < (entry.get("minimum_coverage") or 0) <= 1:
+                errors.append(f"{fact}: lane_centerline needs a minimum_coverage in (0, 1]")
+        elif kind == "junction_surface":
+            minimum = entry.get("minimum_iou")
+            if type(minimum) not in (int, float) or not 0 < minimum:
+                errors.append(f"{fact}: junction_surface without a minimum_iou")
+            elif minimum >= 1:
+                errors.append(f"{fact}: junction_surface minimum_iou {minimum:g} >= 1 can never be met with excess")
+        elif kind in CATEGORICAL_KINDS:
+            if any(entry.get(key) is not None for key in ("tol_eff", "minimum_iou", "minimum_coverage",
+                                                          "maximum_mean_m", "unit")):
+                errors.append(f"{fact}: categorical target given a numeric tolerance")
+        else:
+            errors.append(f"{fact}: unknown fact kind {kind}")
+    scope = document.get("scope") or {}
+    if not _scope_elements(scope) or not scope.get("ops"):
+        errors.append("scope with no target: it declares no mutable edge or junction, or no op")
+    elif not any(_in_scope(str(entry.get("anchor")), scope) for entry in scored):
+        errors.append("scope with no target: no frozen scored fact is anchored on a mutable edge, lane or junction")
+    unknown_ops = sorted(set(scope.get("ops") or []) - set(_scoped_edit_types()))
+    if unknown_ops:
+        errors.append(f"scope ops are not typed edit ops: {unknown_ops}")
+    return errors
+
+
+def _scoped_edit_types() -> tuple[str, ...]:
+    from ..core.network_edit_operations import SCOPED_EDIT_TYPES
+    return SCOPED_EDIT_TYPES
+
+
+def _stored_path(path: Path, repository_root: Path) -> str:
+    resolved = Path(path).resolve()
+    try:
+        return resolved.relative_to(Path(repository_root).resolve()).as_posix()
+    except ValueError:
+        return str(resolved)
+
+
+def _slug(text: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:40] or "site"
+
+
+TRIP_VEHICLES = 100
+TRIP_SUFFIX = ".trips.xml"
+
+
+def frozen_trips(net: Path, seeds: list[int], scratch_dir: Path | None = None) -> tuple[list[dict], dict[str, bytes]]:
+    """Per seed, the routeability requests generated from ``net`` alone, exactly as verify-edit explore's source
+    audit generates them (``core/routeability_audit.py``: source-reachable OD, 100 vehicles); returns the records and
+    the trip bytes by cas reference. The files are written in a transient directory under ``scratch_dir``."""
+    from ..core.routeability_audit import _write_source_reachable_trips, build_routeability_od_policy
+
+    records, payloads = [], {}
+    source = Path(net).resolve()
+    if scratch_dir is not None:
+        Path(scratch_dir).mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix=".twin-trips-", dir=scratch_dir) as scratch:
+        try:
+            policy, failure = build_routeability_od_policy([source]), None
+            if not policy["source_edge_ids"] or not policy["destination_edge_ids"]:
+                failure = "no_diagnostic_od_pool"
+        except (OSError, ValueError, ET.ParseError) as error:
+            policy, failure = None, f"od_policy_failed: {error}"
+        for seed in seeds:
+            if failure is not None:
+                records.append({"seed": seed, "status": "not_generated", "reason": failure})
+                continue
+            trip_file = Path(scratch) / f"seed{seed}{TRIP_SUFFIX}"
+            try:
+                _write_source_reachable_trips(source, policy, trip_file, vehicle_count=TRIP_VEHICLES, seed=seed)
+            except (RuntimeError, ValueError) as error:
+                records.append({"seed": seed, "status": "not_generated", "reason": str(error)})
+                continue
+            data = trip_file.read_bytes()
+            digest = hashlib.sha256(data).hexdigest()
+            payloads[ids.cas_reference(digest)] = data
+            records.append({"seed": seed, "status": "generated", "ref": ids.cas_reference(digest), "sha256": digest,
+                            "requests": data.count(b"<trip ")})
+    return records, payloads
+
+
+def create_build_goal(repository_root: Path, *, net: Path, facts: Path | None = None,
+                      reference_net: Path | None = None, site_id: str | None = None, target_date: str | None = None,
+                      goal_id: str | None = None, mutable_edge_ids: list[str] | tuple[str, ...] = (),
+                      mutable_junction_ids: list[str] | tuple[str, ...] = (), ops: list[str] | None = None,
+                      seeds: list[int] | None = None, lane_artifacts: list[Path] | tuple[Path, ...] = (),
+                      sigma_m: float = 0.0, g0_shape: dict | None = None,
+                      scratch_dir: Path | None = None) -> tuple[BuildGoal, dict[str, bytes], dict]:
+    """Freeze a Build goal; returns ``(goal, content-addressed payloads by cas reference, summary)``. The payloads
+    are the fact table, the source scorecard and the per-seed frozen trips, all bound by the goal; paths in the goal
+    are repository-relative when inside the repository, so equal inputs give equal goals. Lint failures refuse the
+    goal; ``scratch_dir`` holds the transient trip generation (default: the system temp directory)."""
+    from ..core.network_calibration import _network_root
+    from ..core.reference_net_facts import build_reference_net_facts
+
+    if facts is None and reference_net is None:
+        raise ValueError("goal-create refused: a Build goal needs --facts or --reference-net")
+    if type(sigma_m) not in (int, float) or not math.isfinite(sigma_m) or sigma_m < 0:
+        raise ValueError("goal-create refused: sigma_m must be finite and nonnegative")
+    net_bytes = Path(net).read_bytes()
+    root = _network_root(net_bytes)
+    reference_bytes = Path(reference_net).read_bytes() if reference_net is not None else None
+    if facts is not None:
+        facts_bytes = Path(facts).read_bytes()
+        producer = "supplied fact table"
+    else:
+        if not target_date:
+            raise ValueError("goal-create refused: --reference-net needs --target-date")
+        table_dict, _ = build_reference_net_facts(reference_net, site_id=site_id or Path(reference_net).stem,
+                                                  target_date=target_date,
+                                                  source_path=_stored_path(reference_net, repository_root))
+        facts_bytes = (json.dumps(table_dict, indent=2, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
+        producer = f"core.reference_net_facts@{hashlib.sha256(REFERENCE_PRODUCER.read_bytes()).hexdigest()[:12]}"
+    table = build_profile.parse_table(facts_bytes)
+    sigma = {"source_m": float(sigma_m), "registration_m": 0.0, "comb_m": float(sigma_m), "speed_m_s": 0.0,
+             "status": "declared" if sigma_m else "zero: model truth or undeclared (explore only)"}
+    card = build_profile.score_root(root, table)
+    scored, excluded = build_profile.freeze_scored_set(table, card, root, sigma=sigma)
+    facts_sha = hashlib.sha256(facts_bytes).hexdigest()
+    scorecard = build_profile.scorecard_cache(card, net_sha256=hashlib.sha256(net_bytes).hexdigest(),
+                                              facts_sha256=facts_sha)
+    seed_list = list(DEFAULT_SEEDS if seeds is None else seeds)
+    edges, junctions = sorted(set(mutable_edge_ids)), sorted(set(mutable_junction_ids))
+    # INT rows are differential: against the clean reference net when one is given, else the source itself.
+    basis_bytes = reference_bytes if reference_bytes is not None else net_bytes
+    basis_root = _network_root(basis_bytes)
+    scope_nodes = build_profile.scope_junctions(basis_root, edges, junctions)
+    found, direction = build_profile.int_findings(basis_root, scope_nodes)
+    basis_sha = hashlib.sha256(basis_bytes).hexdigest()
+    baseline = {"basis": "reference_net" if reference_bytes is not None else "source", "net_sha256": basis_sha,
+                "direction_rule": DIRECTION_RULE,
+                "direction_sha256": direction_baseline(direction, basis_sha)["sha256"],
+                "junction_ids": scope_nodes, "finding_ids": [row["id"] for row in found],
+                "measures": {row["id"]: row["measure"] for row in found if row["measure"] is not None}}
+    mappings = sorted({(fact.mapping_status, fact.mapping_confidence) for fact in table.facts})
+    counts = {**{f"scored_{cls}": sum(row["class"] == cls for row in scored) for cls in build_profile.TARGET_CLASSES},
+              **{f"excluded_{cls}": n for cls, n in sorted(Counter(row["class"] for row in excluded.values()).items())}}
+    document = {
+        "schema": SCHEMA, "goal_id": "pending", "capability": "build", "mode": "explore",
+        "source": {"net": _stored_path(net, repository_root), "sha256": hashlib.sha256(net_bytes).hexdigest(),
+                   "lane_elements": sum(1 for _ in root.iter("lane"))},
+        "reference": {"facts": ids.cas_reference(facts_sha), "producer": producer,
+                      "correspondence": ("same ids, confirmed" if mappings == [("confirmed", "confirmed")] else
+                                         "; ".join(f"{status}/{confidence}" for status, confidence in mappings)),
+                      "site_id": table.site_id, "target_date": table.target_date.isoformat(),
+                      **({"reference_net": {"path": _stored_path(reference_net, repository_root),
+                                            "sha256": hashlib.sha256(reference_bytes).hexdigest()}}
+                         if reference_bytes is not None else {}),
+                      "sigma": sigma},
+        "frozen": {"scored_facts": scored, "excluded": excluded,
+                   "sha256": build_profile.frozen_sha256(scored, excluded), "counts": counts,
+                   "source_scorecard": {"ref": ids.cas_reference(hashlib.sha256(scorecard).hexdigest()),
+                                        "scorer": build_profile.scorer_fingerprint()}},
+        "int_baseline": baseline,
+        "scope": {"mutable_edge_ids": edges, "mutable_junction_ids": junctions,
+                  "ops": sorted(set(ops)) if ops else list(_scoped_edit_types()), "max_ops_per_round": 1},
+        "objective": {"order": list(build_gate.ORDER), "tie": "reject", "materiality": dict(build_gate.MATERIALITY),
+                      "rule": build_gate.V_RULE, "excess": dict(build_gate.EXCESS_RULE)},
+        "g0_shape": dict(DEFAULT_G0_SHAPE if g0_shape is None else g0_shape),
+        "guards": {"movement_probes": "manifest_if_supported_else_all_turn_smoke (L2, not run by the M3 profiler)",
+                   "routeability": {
+                       "seeds": seed_list, "vehicle_count": TRIP_VEHICLES,
+                       "frozen_trips": "per seed, generated from the goal source alone at goal-create; every judged "
+                                       "seed must run exactly these requests",
+                       "trips": [],
+                       "hard": "on every seed, the candidate's failing requests must be a subset of the source's",
+                       "dirty_source": "a subset on a dirty source passes the screen but is not promotable without "
+                                       "a human; collisions and teleports without per-request identities never pass",
+                       "reported_only": ["travel time", "arrival time"]},
+                   "lane_artifacts": [{"path": _stored_path(path, repository_root), "sha256": file_sha256(Path(path))}
+                                      for path in lane_artifacts]},
+        "claim_boundary": BUILD_CLAIM}
+    errors = lint_build_goal(document)
+    if errors:
+        raise ValueError(f"goal-create refused: lint failed ({len(errors)}): " + "; ".join(errors[:5]))
+    trips, trip_payloads = frozen_trips(net, seed_list, scratch_dir)
+    document["guards"]["routeability"]["trips"] = trips
+    content = json.dumps({key: value for key, value in document.items() if key != "goal_id"}, sort_keys=True)
+    document["goal_id"] = goal_id or f"build-{_slug(table.site_id)}-{ids.short_hash(content)}"
+    goal = BuildGoal.model_validate(document)
+    summary = {"scored": len(scored), "counts": counts, "source_V": _source_v(scored, card),
+               "int_baseline": {"basis": baseline["basis"], "findings": len(baseline["finding_ids"])},
+               "frozen_trips": {str(row["seed"]): row["status"] for row in trips}}
+    payloads = {goal.reference.facts: facts_bytes, goal.frozen.source_scorecard.ref: scorecard, **trip_payloads}
+    return goal, payloads, summary
+
+
+def _source_v(scored: list[dict], card: dict) -> list:
+    by_id = {row["id"]: row for row in card["facts"]}
+    return build_gate.v_vector({entry["id"]: build_profile.fact_row(entry, by_id[entry["id"]]) for entry in scored})
+
+
+def cas_path(store: Path, reference: str, suffix: str = ".json") -> Path:
+    return Path(store) / "cas" / "sha256" / f"{reference.removeprefix('cas:sha256:')}{suffix}"
+
+
+def _write_cas(path: Path, data: bytes) -> None:
+    """Write one content-addressed file atomically; an existing file is kept only when its bytes still hash to its
+    name, and rewritten otherwise (an interrupted or tampered entry is repaired, never trusted)."""
+    if path.exists() and hashlib.sha256(path.read_bytes()).hexdigest() == path.name.split(".", 1)[0]:
+        return
+    # write_text_atomic opens with newline="", so the UTF-8 bytes round-trip unchanged.
+    write_text_atomic(path, data.decode("utf-8"))
+
+
+def write_build_goal(goal: BuildGoal, payloads: dict[str, bytes], store: Path) -> tuple[Path, str, Path]:
+    """Store every payload the goal binds (fact table, source scorecard, frozen trips) by content hash, then write
+    the goal like any other goal; returns ``(goal path, created|unchanged, fact table path)``."""
+    trips = {row.ref for row in goal.guards.routeability.trips if row.ref}
+    required = {goal.reference.facts, goal.frozen.source_scorecard.ref} | trips
+    if required - set(payloads):
+        raise ValueError(f"goal-create refused: missing content for {sorted(required - set(payloads))}")
+    for reference, data in sorted(payloads.items()):
+        if ids.cas_reference(hashlib.sha256(data).hexdigest()) != reference:
+            raise ValueError(f"goal-create refused: content does not match its cas reference {reference}")
+        _write_cas(cas_path(store, reference, TRIP_SUFFIX if reference in trips else ".json"), data)
+    path, written = write_goal(goal, store)
+    return path, written, cas_path(store, goal.reference.facts)
+
+
+def load_build_goal(path: Path) -> tuple[BuildGoal, bytes, bytes, Path]:
+    """(goal, goal bytes, fact table bytes, fact table path) of ``<store>/goals/<goal_id>/goal.json``."""
+    data = Path(path).read_bytes()
+    goal = BuildGoal.model_validate_json(data)
+    errors = lint_build_goal(json.loads(data))
+    if errors:
+        raise ValueError(f"profile refused: the goal fails lint: {'; '.join(errors[:3])}")
+    facts_file = cas_path(Path(path).resolve().parents[2], goal.reference.facts)
+    facts_bytes = facts_file.read_bytes()
+    if ids.cas_reference(hashlib.sha256(facts_bytes).hexdigest()) != goal.reference.facts:
+        raise ValueError(f"profile refused: {facts_file} does not match the goal's cas reference")
+    return goal, data, facts_bytes, facts_file

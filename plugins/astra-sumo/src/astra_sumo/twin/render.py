@@ -285,6 +285,171 @@ def compact_text(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_PE
     return "\n".join(lines) + "\n"
 
 
+# ---- Build (M3) -------------------------------------------------------------------------------------------------
+
+# (hotspots, rows, escalations, clip, minimal). The last budget keeps only counts of every list and failing invariant
+# and clips every free text, so its size is bounded by construction (the fixed keys, nine classes and 14 invariants).
+_BUILD_BUDGETS = ((HOTSPOTS, ROWS_PER_HOTSPOT, 5, False, False), (HOTSPOTS, 3, 3, False, False),
+                  (3, 2, 2, False, False), (1, 1, 1, False, False), (0, 0, 0, False, False), (0, 0, 0, True, False),
+                  (0, 0, 0, True, True))
+BUILD_ROW_FORMAT = ("<fact id>: <kind> <component> <value> (limit <limit>) e<normalized excess> -> <first suggested "
+                    "op>; categorical rows show |difference| and count 1")
+
+
+def _number(value) -> str:
+    return "-" if value is None else f"{value:.4g}" if isinstance(value, float) else str(value)
+
+
+def _op_brief(ops: list[dict] | None, clip: bool) -> str | None:
+    if not ops:
+        return None
+    first = ops[0]
+    params = ",".join(
+        f"{key}={_id(json.dumps(value, ensure_ascii=False) if isinstance(value, (list, dict)) else value, clip, 24)}"
+        for key, value in first["params"].items() if key != "shape" or not isinstance(value, list))
+    text = f"{first['op']}{{{params}}}" + ("" if first["complete"] else " (incomplete)")
+    return text + (f" +{len(ops) - 1} op(s)" if len(ops) > 1 else "")
+
+
+def _build_row_text(row: dict, clip: bool) -> str:
+    if row.get("class") == "INT":
+        finding = "" if str(row.get("finding")) in str(row.get("id")) else f": {_id(row.get('finding'), clip)}"
+        return f"{row.get('source')}{finding}" + (" (new vs parent)" if row.get("new_vs_parent") else "")
+    parts = [f"{name} {_number(part['value'])} (limit {_number(part['limit'])})"
+             for name, part in row.get("components", {}).items() if part.get("excess")]
+    text = f"{row['kind']} " + ("; ".join(parts) if parts else f"|d| {_number(row.get('magnitude'))}")
+    if row.get("excess") is not None:
+        text += f" e{row['excess']:.4g}"
+    op = _op_brief(row.get("suggested_ops"), clip)
+    return text + (f" -> {op}" if op else "")
+
+
+def _build_hotspot(hotspot: dict, rows: int, clip: bool) -> dict:
+    item = {"id": _id(hotspot["id"], clip), "class": hotspot["class"], "w": hotspot["weight"],
+            "rows": {_id(row["id"], clip): _build_row_text(row, clip) for row in hotspot["rows"][:rows]}}
+    if more := _more(len(hotspot["rows"]), rows):
+        item["rows"]["more"] = more
+    return item
+
+
+def _build_escalation(escalation: dict, clip: bool) -> dict:
+    first = escalation["facts"][0]
+    item = {"id": _id(escalation["id"], clip), "fact": _id(first["fact"], clip), "status": first["status"]}
+    if first.get("metrics"):
+        item["metrics"] = {key: round(value, 3) for key, value in first["metrics"].items()}
+    if more := _more(len(escalation["facts"]), 1):
+        item["more"] = more
+    return item
+
+
+def _counted(items: list, clip: bool, minimal: bool) -> list | dict:
+    return {"n": len(items)} if minimal else _capped(items, clip)
+
+
+def compact_build(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_PER_HOTSPOT, escalations: int = 5,
+                  clip: bool = False, minimal: bool = False) -> dict:
+    gate, v = profile["gate"], profile["V"]
+    view = {"schema": profile["schema"], "kind": "build", "view": "compact", "status": profile["status"],
+            "goal": _id(profile["goal"], clip), "verifier": _verifier(profile["verifier"]),
+            "cand": profile["cand"], "parent": profile["parent"], "subject": profile["subject"],
+            "op": _id(profile["op_text"], clip, CLIP_NOTE) if profile.get("op_text") else None,
+            "gate": {"screening": gate["screening"],
+                     "first_fail": _id(gate["first_fail"], clip, CLIP_NOTE) if gate.get("first_fail") else None,
+                     "G0": gate["G0"]},
+            "V": {"cand": v["cand"], "parent": v["parent"]},
+            "layers": {cls: f"{row['mismatched']}/{row['scored']} e{row['excess']:.4g}"
+                       for cls, row in profile["layers"].items()},
+            "excluded": ({"n": sum(profile["excluded"].values())} if minimal else
+                         {_id(key, clip): n for key, n in list(profile["excluded"].items())[:CLIP_ITEMS if clip else None]})}
+    if "V" in gate:
+        view["V"].update(verdict=gate["V"]["verdict"], tier=gate["V"]["tier"])
+        view["gate"].update(outside_fact_changes=None if gate["outside_fact_changes"] is None
+                            else len(gate["outside_fact_changes"]),
+                            measurability_lost=_counted([_id(f, clip) for f in gate["measurability_lost"]], True,
+                                                        minimal),
+                            regressed=_counted([_id(f, clip) for f in gate["regressed_facts"]], True, minimal))
+        view["invariants"] = {check["id"]: check["pass"] if check["pass"] else {"n": len(check["witness_ids"])}
+                              if minimal else _witnesses(check["witness_ids"],
+                                                         WITNESSES_SHOWN_TEXT if clip else WITNESSES_SHOWN, clip)
+                              for check in profile["invariants"]}
+        view["fixed"] = _counted([f"F:{_id(row['fact'], clip)} e{_number(row['parent']['excess'])} -> "
+                                  f"{row['candidate']['status']}" for row in gate["fixed_rows"]], True, minimal)
+        l3 = gate["L3"]
+        view["L3"] = {"result": l3["result"], "source_state": l3["source_state"],
+                      "seeds": f"{sum(row['status'] == 'pass' for row in l3['seeds'])}/{len(l3['seeds'])} pass "
+                               f"(goal {len(l3['declared_seeds'])})"}
+    view["hot"] = [_build_hotspot(h, rows, clip) for h in profile["hotspots"][:hotspots]]
+    if more := _more(len(profile["hotspots"]), hotspots):
+        view["hot_more"] = more
+    view["escalations"] = [_build_escalation(e, clip) for e in profile["escalations"][:escalations]]
+    if more := _more(len(profile["escalations"]), escalations):
+        view["escalations_more"] = more
+    view["legend"] = {"rows": BUILD_ROW_FORMAT, "V": "(n_TOP, n_CTL, n_GEO, n_ATTR, E)",
+                      "w": "sum of normalized excess; categorical, INT and unmeasured rows count 1"}
+    view["claim"] = profile["claim"]
+    return view
+
+
+def _listed(items: list | dict) -> str:
+    return f"{items['n']} (counts only)" if isinstance(items, dict) else "; ".join(items)
+
+
+def compact_build_text(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_PER_HOTSPOT,
+                       escalations: int = 5, clip: bool = False, minimal: bool = False) -> str:
+    view = compact_build(profile, hotspots=hotspots, rows=rows, escalations=escalations, clip=clip, minimal=minimal)
+    verifier = view["verifier"] or "-"
+    gate = view["gate"]
+    lines = [f"== astra-twin build {view['goal']} cand {view['cand']} parent {view['parent'] or '-'} verifier "
+             f"{verifier[:12]}{'+dirty' if verifier.endswith('+dirty') else ''} ({view['subject']}) status "
+             f"{view['status']}"]
+    if view["op"]:
+        lines.append(f"OP     {view['op']}")
+    text = f"GATE   {gate['screening']} | G0 {gate['G0']}"
+    if "outside_fact_changes" in gate:
+        lost, regressed = gate["measurability_lost"], gate["regressed"]
+        text += (f" | outside {_number(gate['outside_fact_changes'])} | lost "
+                 f"{lost['n'] if isinstance(lost, dict) else len(lost)} | regressed "
+                 f"{regressed['n'] if isinstance(regressed, dict) else len(regressed)}")
+    lines.append(text + (f" | first fail: {gate['first_fail']}" if gate["first_fail"] else ""))
+    lines.append(f"V      cand {view['V']['cand']} parent {view['V']['parent'] or '-'}"
+                 + (f" -> {view['V']['verdict']} ({view['V']['tier']})" if "verdict" in view["V"] else ""))
+    lines.append("LAYERS " + " | ".join(f"{cls} {value}" for cls, value in view["layers"].items())
+                 + " | excluded " + (", ".join(f"{key} {n}" for key, n in view["excluded"].items()) or "none"))
+    if "invariants" in view:
+        lines.append("INV    " + " | ".join(f"{check['id'][4:] if check['id'].startswith('INV-') else check['id']} "
+                                            + ("ok" if check["pass"] else f"FAIL {len(check['witness_ids'])}" if minimal
+                                               else _witness_text(_witnesses(check["witness_ids"],
+                                                                             WITNESSES_SHOWN_TEXT, clip)))
+                                            for check in profile["invariants"]))
+        if view["fixed"]:
+            lines.append("FIXED  " + _listed(view["fixed"]))
+        lines.append(f"L3     {view['L3']['result']} | {view['L3']['seeds']} | source {view['L3']['source_state']}")
+    for index, hotspot in enumerate(view["hot"], start=1):
+        shown = "; ".join(f"{name}: {text}" for name, text in hotspot["rows"].items() if name != "more")
+        lines.append(f"HOT{index}   {hotspot['id']} w {hotspot['w']:.4g}: {shown}"
+                     + (f" {hotspot['rows']['more']}" if "more" in hotspot["rows"] else ""))
+    if "hot_more" in view:
+        lines.append(f"HOT    {view['hot_more']} hotspots")
+    for index, escalation in enumerate(view["escalations"], start=1):
+        lines.append(f"ESC{index}   {escalation['id']} {escalation['fact']}: {escalation['status']}"
+                     + (f" {escalation['more']}" if "more" in escalation else ""))
+    if "escalations_more" in view:
+        lines.append(f"ESC    {view['escalations_more']} escalations")
+    lines.append(f"CLAIM  {view['claim']}")
+    return "\n".join(lines) + "\n"
+
+
+def render_build_compact(profile: dict, *, cap: int = CAP_CHARACTERS) -> tuple[str, str]:
+    """Return (compact JSON, compact text) of a build profile at the largest budget where both fit ``cap``."""
+    for hotspots, rows, escalations, clip, minimal in _BUILD_BUDGETS:
+        budget = {"hotspots": hotspots, "rows": rows, "escalations": escalations, "clip": clip, "minimal": minimal}
+        views = (json.dumps(compact_build(profile, **budget), ensure_ascii=False, separators=(",", ":")) + "\n",
+                 compact_build_text(profile, **budget))
+        if all(len(view) <= cap for view in views):
+            return views
+    raise ValueError(f"build compact view exceeds {cap} characters even with every id and list clipped")
+
+
 def render_compact(profile: dict, *, cap: int = CAP_CHARACTERS) -> tuple[str, str]:
     """Return (compact JSON, compact text) at the largest budget where both fit within ``cap`` characters."""
     for hotspots, rows, anchors, clip in _BUDGETS:

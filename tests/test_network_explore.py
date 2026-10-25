@@ -234,3 +234,65 @@ def test_an_unchanged_stop_line_is_no_effect_and_preserves_the_source_bytes(tmp_
     assert report["construction"]["requested_effect_applied"] is False
     assert report["source"]["sha256"] == report["candidate_sha256"]
     assert report["command_result"]["netconvert_rebuild_count"] == 0
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_explore_routeability_seeds_skip_or_report_one_pair_per_seed(tmp_path):
+    from pathlib import Path
+    source = _source(tmp_path, "set_speed")
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "speed", "operation": "set_speed",
+        "params": {"lane_id": "middle_0", "speed_m_s": 8}}]}), encoding="utf-8")
+    netconvert = shutil.which("netconvert")
+    skipped = verify_network_edit(ledger_file=path, output_dir=tmp_path / "skip", netconvert_binary=netconvert,
+                                  routeability_seeds=())
+    assert skipped["status"] == "measured" and skipped["routeability_seeds"] == []
+    assert "source_routeability" not in skipped and "candidate_routeability" not in skipped
+    assert skipped["source_baseline"] == {"status": "not_run", "scope": "synthetic_passenger_driving_diagnostic",
+                                          "reason": "routeability_seeds_empty"}
+    assert any("Routeability was skipped" in warning for warning in skipped["warnings"])
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "two", netconvert_binary=netconvert,
+                                 routeability_seeds=(17, 42))
+    assert report["status"] == "measured" and report["routeability_seeds"] == [17, 42]
+    assert "candidate_routeability" not in report and report["source_baseline"]["status"] == "clean"
+    for entry, seed in zip(report["routeability_by_seed"], (17, 42)):
+        assert entry["seed"] == seed and entry["source_baseline"]["status"] == "clean"
+        assert entry["source_routeability"]["seed"] == entry["candidate_routeability"]["seed"] == seed
+        assert Path(entry["source_routeability"]["output_dir"]).name == f"source-routes-seed{seed}"
+        assert entry["candidate_routeability"]["od_policy"]["frozen_trip_sha256"] == file_sha256(
+            Path(entry["source_routeability"]["trip_file"]))
+    with pytest.raises(ValueError, match="during exploration"):
+        verify_network_edit(ledger_file=path, output_dir=tmp_path / "release", netconvert_binary=netconvert,
+                            mode="release", routeability_seeds=(17,))
+    for seeds in ((True,), (-1,), (5, 5), "42"):
+        with pytest.raises(ValueError, match="distinct nonnegative"):
+            verify_network_edit(ledger_file=path, output_dir=tmp_path / "bad", netconvert_binary=netconvert,
+                                routeability_seeds=seeds)
+    assert not (tmp_path / "bad").exists()
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+def test_explore_checks_supplied_lane_artifacts_on_the_candidate_lane(tmp_path):
+    source = _source(tmp_path, "move_stop_line")
+    length = float(ET.parse(source).getroot().find("edge[@id='middle']/lane").get("length"))
+    path = tmp_path / "ledger.json"
+    path.write_text(json.dumps({"source_net_file": str(source), "operations": [{"id": "stop",
+        "operation": "move_stop_line", "params": {"lane_id": "middle_0", "end_offset_m": 2}}]}), encoding="utf-8")
+    early, late = tmp_path / "early.add.xml", tmp_path / "late.add.xml"
+    early.write_text('<additional><inductionLoop id="early" lane="middle_0" pos="1" period="60" file="x.xml"/>'
+                     '</additional>', encoding="utf-8")
+    late.write_text('<additional>'
+                    f'<inductionLoop id="late" lane="middle_0" pos="{length - 0.5}" period="60" file="x.xml"/>'
+                    '</additional>', encoding="utf-8")
+    netconvert = shutil.which("netconvert")
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "early", netconvert_binary=netconvert,
+                                 routeability_seeds=(), lane_artifact_files=[early])
+    artifacts = report["construction"]["lane_coordinate_artifacts"]
+    assert report["status"] == "measured" and artifacts["status"] == "pass"
+    assert artifacts["artifacts"][0]["lane_coordinates_changed"] and "middle_0" in artifacts["affected_lane_ids"]
+    report = verify_network_edit(ledger_file=path, output_dir=tmp_path / "late", netconvert_binary=netconvert,
+                                 lane_artifact_files=[early, late])
+    artifacts = report["construction"]["lane_coordinate_artifacts"]
+    assert report["status"] == "blocked" and artifacts["status"] == "blocked" and artifacts["outside_count"] == 1
+    assert artifacts["artifacts"][1]["lane_length_m"] == pytest.approx(length - 2, abs=0.01)
+    assert any("lie outside their candidate lane length" in warning for warning in report["warnings"])

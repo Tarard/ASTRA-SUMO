@@ -1119,3 +1119,39 @@ def test_scoped_evidence_hash_mismatch_stops_before_conversion(tmp_path):
     assert result["materialization_status"] == "invalid_scoped_plan"
     assert "evidence hash" in result["error"]
     assert file_sha256(source) == digest
+
+
+def test_lane_artifact_positions_follow_sumo_lane_coordinates(tmp_path):
+    from astra_sumo.core.network_edit_operations import check_lane_artifact_positions
+    root = ET.fromstring('<net><edge id="a"><lane id="a_0" index="0" length="20" shape="0,0 20,0"/></edge>'
+                         '<edge id="b"><lane id="b_0" index="0" length="5" shape="20,0 25,0"/></edge></net>')
+    inside = tmp_path / "inside.add.xml"
+    inside.write_text('<additional><inductionLoop id="e1" lane="a_0" pos="19.5" period="60" file="x.xml"/>'
+                      '<inductionLoop id="back" lane="a_0" pos="-20" period="60" file="x.xml"/>'
+                      '<busStop id="stop" lane="a_0" startPos="2" endPos="12"><access lane="b_0" pos="5"/></busStop>'
+                      '<laneAreaDetector id="e2" lane="a_0" pos="5" length="15" period="60" file="x.xml"/>'
+                      '</additional>',
+                      encoding="utf-8")
+    report = check_lane_artifact_positions(root, [inside], affected_lane_ids={"a_0"})
+    assert report["status"] == "pass" and report["checked_count"] == 5 and report["outside_count"] == 0
+    assert report["artifacts"][1]["positions_m"] == {"pos": 0.0}
+    assert all(row["lane_coordinates_changed"] == (row["lane_id"] == "a_0") for row in report["artifacts"])
+    outside = tmp_path / "outside.add.xml"
+    outside.write_text('<additional>'
+                       '<inductionLoop id="late" lane="a_0" pos="20.5" friendlyPos="true" period="60" file="x.xml"/>'
+                       '<inductionLoop id="gone" lane="missing_0" pos="1" period="60" file="x.xml"/>'
+                       '<parkingArea id="long" lane="b_0" startPos="1" endPos="6"/>'
+                       '<laneAreaDetector id="e2" lane="a_0" pos="10" length="15" period="60" file="x.xml"/>'
+                       '<laneAreaDetector id="multi" lanes="a_0 b_0" pos="1" endPos="2" period="60" file="x.xml"/>'
+                       '</additional>',
+                       encoding="utf-8")
+    report = check_lane_artifact_positions(root, [inside, outside])
+    assert report["status"] == "blocked" and report["outside_count"] == 4 and report["unchecked_count"] == 1
+    reasons = {row["id"]: row["reason"] for row in report["artifacts"] if row["file"] == str(outside.resolve())}
+    assert reasons == {"late": "position_outside_lane_length", "gone": "lane_missing_or_without_length",
+                       "long": "position_outside_lane_length", "e2": "position_outside_lane_length",
+                       "multi": "multi_lane_artifact_not_checked"}
+    assert [row["sha256"] for row in report["files"]] == [file_sha256(inside), file_sha256(outside)]
+    empty = tmp_path / "empty.add.xml"
+    empty.write_text('<additional><vType id="car"/></additional>', encoding="utf-8")
+    assert check_lane_artifact_positions(root, [empty])["status"] == "not_applicable"
