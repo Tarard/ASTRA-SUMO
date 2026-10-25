@@ -20,12 +20,44 @@ CLIP_ITEMS = 8
 LOC_TEXT = {"entry": ("insertion capacity vs spillback onto the entry edge", "demand timing | network entry"),
             "edge": ("queue along the approach vs spillback from downstream vs hold side effects; which lane or link; "
                      "red vs blocking", "structural hypothesis only")}
-ROW_FORMAT = "r y p(lanned) m(easured) ontime/late_in/delayed_out n(delayed/peers); first row leads"
+ROW_FORMAT = "r y p(lanned) m(easured) ontime/late_in/delayed_out n(analyzed/peers) x(not analyzed); first row leads"
 _SHORT_FLAGS = {"junction-body hold node: declared driver assumption": "hold node"}
+# Witness kinds (the text before the first ':') shown first: whole-artifact and pairing witnesses, then per-vehicle
+# ones; per-row count mismatches come last, so a wholesale mismatch is never hidden behind row witnesses.
+WITNESS_KIND_ORDER = ("report", "report_input", "git", "manifest", "repeated", "off_intention", "interval", "route")
+WITNESS_KIND_LAST = ("count",)
+WITNESSES_SHOWN = 5
+WITNESSES_SHOWN_TEXT = 3
 
 
 def _more(total: int, shown: int) -> str | None:
     return f"+{total - shown} more" if total > shown else None
+
+
+def _witness_kind(witness: str) -> str:
+    return witness.split(":", 1)[0] if ":" in witness else "id"
+
+
+def _witnesses(witness_ids: list[str], limit: int, clip: bool) -> dict:
+    """A failing invariant in both compact views: the witness total, the count per kind, and the first ``limit``
+    witnesses, which take the first witness of every kind before any second one of a kind."""
+    by_kind: dict[str, list[str]] = {}
+    for witness in witness_ids:
+        by_kind.setdefault(_witness_kind(witness), []).append(witness)
+    kinds = sorted(by_kind, key=lambda kind: (kind in WITNESS_KIND_LAST, WITNESS_KIND_ORDER.index(kind)
+                                              if kind in WITNESS_KIND_ORDER else len(WITNESS_KIND_ORDER), kind))
+    ordered = [by_kind[kind][0] for kind in kinds] + [w for kind in kinds for w in by_kind[kind][1:]]
+    counts = {_id(kind, clip): len(by_kind[kind]) for kind in kinds}
+    if clip and len(counts) > CLIP_ITEMS:
+        rest = sum(list(counts.values())[CLIP_ITEMS:])
+        counts = {**dict(list(counts.items())[:CLIP_ITEMS]), f"+{len(kinds) - CLIP_ITEMS} kinds": rest}
+    return {"n": len(witness_ids), "by_kind": counts, "first": [_id(w, clip) for w in ordered[:limit]]}
+
+
+def _witness_text(view: dict) -> str:
+    kinds = ", ".join(f"{kind} {count}" for kind, count in view["by_kind"].items())
+    return (f"FAIL {view['n']} ({kinds}): " + ",".join(view["first"])
+            + (f" {more}" if (more := _more(view["n"], len(view["first"]))) else ""))
 
 
 def _id(text: str, clip: bool, limit: int = CLIP_ID) -> str:
@@ -51,7 +83,7 @@ def _row_text(row: dict) -> str:
         return (f"init {row['r_init']:+d}, main {row['r_main']:+d}, deficit {row['deficit']}, "
                 f"post {row['post_window']}, unpassed {row['unpassed']}")
     return (f"r{row['r']:+d} y{row['y']} p{row['planned']} m{row['measured']} {row['ontime']}/{row['late_in']}/"
-            f"{row['delayed_out']} n{row['n']}")
+            f"{row['delayed_out']} n{row['n']}" + (f" x{row['excluded']}" if row.get("excluded") else ""))
 
 
 def _anchor_text(anchor: dict, *, means: bool = True) -> str:
@@ -78,8 +110,10 @@ def _peers_text(lead: dict) -> str:
         other = f"{count} on {edge}"
     else:
         other = f"{sum(excluded.values())} on {len(excluded)} entries" if excluded else "none"
-    return (f"{lead['n_delayed']} delayed_out vs {lead['n_peer']} on-time; entry {lead['entry']}; "
-            f"{lead['route_prefix_edges']}-edge prefix; excluded {other}")
+    # These are on-time peers on another route prefix, not delayed_out vehicles left out of the analysis (x / "not
+    # analyzed" on the rows), so the clause never reuses the word "excluded".
+    return (f"{lead['n_delayed']} analyzed vs {lead['n_peer']} on-time; entry {lead['entry']}; "
+            f"{lead['route_prefix_edges']}-edge prefix; other-prefix peers {other}")
 
 
 def _hotspot(hotspot: dict, rows: int, anchors: int) -> dict:
@@ -102,11 +136,46 @@ def _hotspot(hotspot: dict, rows: int, anchors: int) -> dict:
     return item
 
 
+def _bounds_view(bounds: dict, clip: bool) -> dict:
+    """The bound block of both compact views: each value with its conditions and whether they hold on this run."""
+    b1, b2 = bounds["B1_all182_request_floor"], bounds["B2_main_supply"]
+
+    def conditions(bound: dict) -> dict:
+        view = {"applies_if": [c["condition"] for c in bound["conditions"]],
+                "verified_on_parent": bound["verified_on_parent"]}
+        if failed := [c["condition"] for c in bound["conditions"] if not c["verified"]]:
+            view["not_verified"] = failed
+        return view
+
+    return {"use": bounds["use"],
+            "B1_all182_request_floor": {"value": b1["value"], **conditions(b1),
+                                        "parent_all182": b1["self_check"]["all182_tae"]},
+            "B2_main_supply": {"value": b2["value"], "at_init_targets": b2["at_init_targets"]["value"],
+                               **conditions(b2), "note": _id(b2["note"], clip, CLIP_NOTE)},
+            "SOL": {sol["statistic"]: sol["value"] for sol in bounds["SOL"]},
+            "surrogate": bounds["surrogate"]}
+
+
+def _bound_lines(view: dict) -> list[str]:
+    """The text rendering of ``_bounds_view``: the same values, conditions and verification."""
+    b1, b2 = view["B1_all182_request_floor"], view["B2_main_supply"]
+
+    def conditions(bound: dict) -> str:
+        text = (f"verified_on_parent {json.dumps(bound['verified_on_parent'])} | applies if: "
+                + "; ".join(bound["applies_if"]))
+        return text + (" | NOT verified: " + "; ".join(bound["not_verified"]) if "not_verified" in bound else "")
+
+    sol = ", ".join(f"{name} {json.dumps(value)}" for name, value in view["SOL"].items())
+    return [f"BOUND  B1 all182 request floor {b1['value']} (parent all182 {b1['parent_all182']}) | {conditions(b1)}",
+            f"BOUND  B2 main supply {b2['value']} @ measured init counts, {b2['at_init_targets']} @ init targets | "
+            f"{conditions(b2)} | {b2['note']}",
+            f"BOUND  SOL {sol} | {view['use']}; surrogate: {view['surrogate']}"]
+
+
 def compact_profile(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_PER_HOTSPOT,
                     anchors: int = 3, clip: bool = False) -> dict:
     score, integrity, decomp = profile["score"], profile["integrity"], profile["decomp"]
-    balance, bounds = profile["field_balance"], profile["bounds"]
-    b1, b2 = bounds["B1_all182_request_floor"], bounds["B2_main_supply"]
+    balance = profile["field_balance"]
     actuated = integrity["actuated_phase_without_controlling_detector"]
     completion = integrity["completion"]
     shown = [(_id(name, clip), f"init {row['r_init']:+d}, main {row['r_main']:+d}, deficit {row['deficit']}, "
@@ -126,7 +195,7 @@ def compact_profile(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS
                    "hold_nodes": _capped([_id(node, clip) for node in profile["inputs"]["hold_nodes"]], clip),
                    "passages": profile["inputs"]["passages"]},
         "invariants": {check["id"]: check["pass"] if check["pass"]
-                       else [_id(w, clip) for w in check["witness_ids"][:3 if clip else 5]]
+                       else _witnesses(check["witness_ids"], WITNESSES_SHOWN_TEXT if clip else WITNESSES_SHOWN, clip)
                        for check in profile["invariants"]},
         "score": {"tae_main": score["tae_main"], "sse": score["sse"], "mae": round(score["mae"], 7),
                   "max": score["max"], "exact": f"{score['exact']}/{score['rows_main']}", "init52": score["init52_tae"],
@@ -154,19 +223,9 @@ def compact_profile(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS
         "field_balance": {"identity": balance["identity"], "deficit_total": balance["deficit_total"],
                           "post_window": balance["post_window"], "unpassed": balance["unpassed"],
                           "closes": balance["identity_fields"], "fields": nonzero},
-        "bounds": {"use": bounds["use"],
-                   "B1_all182_request_floor": {"value": b1["value"],
-                                               "applies_if": [c["condition"] for c in b1["conditions"]],
-                                               "verified_on_parent": b1["verified_on_parent"],
-                                               "parent_all182": b1["self_check"]["all182_tae"]},
-                   "B2_main_supply": {"value": b2["value"], "at_init_targets": b2["at_init_targets"]["value"],
-                                      "applies_if": [c["condition"] for c in b2["conditions"]],
-                                      "verified_on_parent": b2["verified_on_parent"],
-                                      "note": _id(b2["note"], clip, CLIP_NOTE)},
-                   "SOL": {sol["statistic"]: sol["value"] for sol in bounds["SOL"]},
-                   "surrogate": bounds["surrogate"]},
+        "bounds": _bounds_view(profile["bounds"], clip),
         "hot": [_hotspot(h, rows, anchors) for h in profile["hotspots"][:hotspots]],
-        "hot_legend": {"w": "under-count explained: LOC sum of min(-r, delayed_out); field |R_main|",
+        "hot_legend": {"w": "under-count: LOC sum of min(-r, analyzed); field |R_main|",
                        "rows": ROW_FORMAT, "conf": "accounting",
                        **{f"H:LOC:{name}": {"cannot_tell": tell, "knob": knob} for name, (tell, knob) in
                           (("entry", LOC_TEXT["entry"]), ("edge|co", LOC_TEXT["edge"]))},
@@ -180,13 +239,12 @@ def compact_profile(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS
 def compact_text(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_PER_HOTSPOT, anchors: int = 3,
                  clip: bool = False) -> str:
     score, decomp, balance = profile["score"], profile["decomp"], profile["field_balance"]
-    b1, b2 = profile["bounds"]["B1_all182_request_floor"], profile["bounds"]["B2_main_supply"]
     integrity = profile["integrity"]
     deficits = _capped([f"{_id(name, clip)} {value}" for value, name in sorted(
         ((row["deficit"], name) for name, row in balance["fields"].items() if row["deficit"]),
         key=lambda item: (-item[0], item[1]))], clip)
-    invariants = " | ".join(f"{c['id'][4:]} " + ("ok" if c["pass"] else "FAIL " + ",".join(
-        _id(w, clip) for w in c["witness_ids"][:3])) for c in profile["invariants"])
+    invariants = " | ".join(f"{c['id'][4:]} " + ("ok" if c["pass"] else _witness_text(
+        _witnesses(c["witness_ids"], WITNESSES_SHOWN_TEXT, clip))) for c in profile["invariants"])
     verifier = _verifier(profile["verifier"]) or "-"
     lines = [
         f"== astra-twin calibrate {_id(profile['goal'], clip)} cand {_id(profile['cand'], clip)} parent "
@@ -200,18 +258,17 @@ def compact_text(profile: dict, *, hotspots: int = HOTSPOTS, rows: int = ROWS_PE
         f"{decomp['supply_term_abs']} | ff violations {decomp['ff_violations']}/{decomp['passages']} | delay vs ff "
         + " ".join(f"{k} {round(v)}" for k, v in decomp["delay_vs_ff_s"].items() if v is not None) + " s (accounting)",
         f"BAL    request deficit {balance['deficit_total']} (" + ", ".join(deficits)
-        + f") | post-window {balance['post_window']} | "
-        f"unpassed {balance['unpassed']} | identity {balance['identity_fields']} | B1 all182 >= {b1['value']} if "
-        "totals kept",
-        f"BOUND  B2 main supply {b2['value']} @ measured init counts, {b2['at_init_targets']['value']} @ init targets "
-        "(conditional, reported only)"]
+        + f") | post-window {balance['post_window']} | unpassed {balance['unpassed']} | identity "
+        f"{balance['identity_fields']}",
+        *_bound_lines(_bounds_view(profile["bounds"], clip))]
     for index, hotspot in enumerate(profile["hotspots"][:hotspots], start=1):
         item = _hotspot(hotspot, rows, anchors)
         if hotspot["kind"] == "BAL":
             lines.append(f"HOT{index}   {item['id']} w {item['w']}: {item['reading']}")
             continue
-        shown = "; ".join(f"{name} r{row['r']:+d} dout {row['delayed_out']}" for name, row in zip(
-            [name for name in item["rows"] if name != "more"], hotspot["rows"]))
+        shown = "; ".join(f"{name} r{row['r']:+d} dout {row['delayed_out']} w {row['weight']}"
+                          + (f" ({row['excluded']} not analyzed)" if row["excluded"] else "")
+                          for name, row in zip([name for name in item["rows"] if name != "more"], hotspot["rows"]))
         lines.append(f"HOT{index}   {item['id']} w {item['w']} ({hotspot['class']}): lead {hotspot['lead']['row_id']} "
                      f"{item['peers']}; "
                      f"co-anchors {' | '.join(item['co'])}" + (f"; {item['spread']}" if item.get("spread") else "")

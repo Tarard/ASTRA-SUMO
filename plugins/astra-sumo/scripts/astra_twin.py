@@ -2,7 +2,8 @@
 
 Exit codes follow ``astra`` (``cli.py``): 0 for ``pass`` or ``measured``; 3 for ``blocked``, which covers a failed
 doctor or resolve check, a blocked profile and a refused or failed command (its ``reason`` and ``error_type`` say
-which); 2 for an argparse usage error.
+which); 2 for an argparse usage error. The CLI writes only to the paths it is given (the store, a new profile
+directory, doctor's scratch inside the clone) and writes no bytecode, so a verifier clone stays as checked out.
 """
 
 from __future__ import annotations
@@ -18,6 +19,7 @@ from pathlib import Path
 PLUGIN_ROOT = Path(__file__).resolve().parents[1]
 REPOSITORY_ROOT = PLUGIN_ROOT.parents[1]
 SRC_ROOT = PLUGIN_ROOT / "src"
+sys.dont_write_bytecode = True
 
 # The clone's own src always comes first. The venv's editable .pth appends it at the end of sys.path, so an earlier
 # entry (PYTHONPATH, another install) would otherwise shadow the code whose commit the profile records.
@@ -109,7 +111,8 @@ def main(argv: list[str] | None = None) -> int:
     check = commands.add_parser("doctor", help="Check SUMO, libsumo, the import path and the clone state.")
     check.add_argument("--expect-commit", help="Commit that HEAD must equal; default: the clone directory's name.")
     check.add_argument("--forbid-path", action="append", help="Source path that must not be on any sys.path.")
-    check.add_argument("--scratch-root", help="Where the child's empty working directory is created.")
+    check.add_argument("--scratch-root", help="Where the child's empty working directory is created; default: the "
+                                              "clone's git-ignored outputs/. It is removed afterwards.")
     check.add_argument("--json", action="store_true")
     check.set_defaults(handler=_doctor)
     resolve = commands.add_parser("resolve", help="Resolve a packet case through its byte references.")

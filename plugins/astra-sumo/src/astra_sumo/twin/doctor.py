@@ -1,9 +1,11 @@
 """Verifier doctor: SUMO and libsumo, the astra_sumo import path in-process and in a child, and the clone state.
 
 The child is started as ``core/detector_demand_replay.py`` starts its SUMO driver: ``sys.executable -m <module>``
-from a fresh working directory, so it imports astra_sumo through the venv rather than through the caller's path.
-Commands run with captured output and write no log files; the only directory doctor creates is that empty child
-working directory, under ``scratch_root`` when one is given and the system temp directory otherwise, removed after.
+from a fresh working directory, so it imports astra_sumo through the venv rather than through the caller's path; ``-B``
+keeps it from writing bytecode, which does not change what it imports. Commands run with captured output and write no
+log files. The only directory doctor creates is that empty child working directory, under ``scratch_root`` when one
+is given and otherwise under the clone's git-ignored ``outputs/``, never in the system temp directory; it is removed
+afterwards, together with any scratch parent doctor had to create.
 """
 
 from __future__ import annotations
@@ -15,6 +17,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from contextlib import suppress
 from importlib import metadata
 from importlib.util import find_spec
 from pathlib import Path
@@ -22,6 +25,8 @@ from pathlib import Path
 EXPECTED_SUMO = "1.27.1"
 SUMO_DISTRIBUTIONS = ("libsumo", "eclipse-sumo")
 PACKAGE_SRC = ("plugins", "astra-sumo", "src")
+DEFAULT_SCRATCH = "outputs"
+CHILD_ARGS = ("-B", "-m", "astra_sumo.twin.doctor")
 _SHA = re.compile(r"[0-9a-f]{7,40}")
 
 
@@ -102,6 +107,25 @@ def child_probe() -> dict:
             "distributions": _distributions()}
 
 
+def _probe_child(scratch: Path) -> tuple[dict, list[str]]:
+    """Run the child probe from a new empty directory under ``scratch``; remove it and any scratch parent created."""
+    created = [path for path in (scratch, *scratch.parents) if not path.exists()]
+    command = [sys.executable, *CHILD_ARGS]
+    try:
+        scratch.mkdir(parents=True, exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix="astra-twin-doctor-", dir=scratch) as directory:
+            code, stdout, stderr = _capture(command, cwd=Path(directory), timeout_s=120)
+    finally:
+        for path in created:
+            with suppress(OSError):
+                path.rmdir()
+    try:
+        return json.loads(stdout), command
+    except ValueError:
+        return {"error": stderr or f"exit code {code}", "sys_path": [], "astra_sumo": None, "libsumo": None,
+                "distributions": {}}, command
+
+
 def run_doctor(repository_root: Path, *, forbidden_paths: list[str] | None = None, expected_commit: str | None = None,
                scratch_root: Path | None = None) -> dict:
     """Every check must be true. Without ``expected_commit`` the commit is read from the clone's directory name."""
@@ -116,16 +140,8 @@ def run_doctor(repository_root: Path, *, forbidden_paths: list[str] | None = Non
         version_line = next((line for line in stdout.splitlines() if "SUMO" in line), None)
         match = re.search(r"\bv?(\d+\.\d+\.\d+)\b", version_line or "")
         version = match[1] if match else None
-    if scratch_root is not None:
-        Path(scratch_root).mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="astra-twin-doctor-", dir=scratch_root) as directory:
-        code, stdout, stderr = _capture([sys.executable, "-m", "astra_sumo.twin.doctor"], cwd=Path(directory),
-                                        timeout_s=120)
-    try:
-        child = json.loads(stdout)
-    except ValueError:
-        child = {"error": stderr or f"exit code {code}", "sys_path": [], "astra_sumo": None, "libsumo": None,
-                 "distributions": {}}
+    scratch = Path(scratch_root).resolve() if scratch_root is not None else root / DEFAULT_SCRATCH
+    child, command = _probe_child(scratch)
     source = "--expect-commit" if expected_commit else None
     if not expected_commit:
         expected_commit = commit_from_directory(root)
@@ -156,7 +172,10 @@ def run_doctor(repository_root: Path, *, forbidden_paths: list[str] | None = Non
                      "venv": sys.prefix, "child_distributions": distributions},
             "python": {"executable": sys.executable, "version": sys.version.split()[0]},
             "astra_sumo": {"in_process": astra_sumo.__file__, "child": child.get("astra_sumo"),
-                           "child_cwd": child.get("cwd"), "child_libsumo": child.get("libsumo"),
+                           "child_command": command[1:], "child_cwd": child.get("cwd"),
+                           "child_scratch_root": str(scratch),
+                           "child_scratch_source": "--scratch-root" if scratch_root is not None
+                           else f"the clone's git-ignored {DEFAULT_SCRATCH}/", "child_libsumo": child.get("libsumo"),
                            "child_libsumo_error": child.get("libsumo_error"), "child_error": child.get("error"),
                            "foreign_sources": foreign, "forbidden_paths": sorted(forbidden_paths or [])},
             "clone": {**state, "expected_commit": expected,

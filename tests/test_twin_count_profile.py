@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import ast
 import copy
+import dataclasses
 import functools
 import gzip
 import hashlib
@@ -11,18 +12,21 @@ import importlib.util
 import io
 import json
 import os
+import re
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
+import zlib
 from contextlib import redirect_stdout
-from pathlib import Path
+from pathlib import Path, PurePosixPath
 
 import pytest
 import sumolib
 from pydantic import ValidationError
 
-from astra_sumo.core.benchmark_references import (BenchmarkReferenceError, PacketCase, read_tracked_file,
-                                                  resolve_packet_file, resolve_packet_reference)
+from astra_sumo.core.benchmark_references import (LOCAL_ONLY_FILE, BenchmarkReferenceError, PacketCase, git_blob_id,
+                                                  head_blob_ids, read_tracked_file, resolve_packet_file,
+                                                  resolve_packet_reference)
 from astra_sumo.twin import bounds, count_profile, doctor, goal, ids, invariants, render
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -151,6 +155,27 @@ def test_resolver_refuses_unsafe_undeclared_and_mismatched_references(tmp_path):
         resolve_packet_file(packet, "cases/c/missing.txt")
     (tmp_path / "twice.bin.gz.gz").write_bytes(gzip.compress(gzip.compress(b"inner")))
     assert read_tracked_file(tmp_path / "twice.bin")[0] == b"inner"
+
+
+def test_packet_manifest_pins_the_tracked_bytes_read(tmp_path):
+    """A tracked packet file is pinned only while the bytes read carry the manifest sha256 (a temp packet copy)."""
+    case = tmp_path / "benchmarks" / "packet" / "cases" / "c"
+    case.mkdir(parents=True)
+    tracked = case / "run.json.gz"
+    tracked.write_bytes(gzip.compress(b"{}"))
+    (case / "unlisted.json").write_text("{}", encoding="utf-8")
+    packet = case.parents[1]
+    (packet / "byte-references.json").write_text(json.dumps({"aliases": {}}), encoding="utf-8")
+    (packet / "manifest.json").write_text(json.dumps({"files": [
+        {"path": "cases/c/run.json.gz", "sha256": hashlib.sha256(tracked.read_bytes()).hexdigest()}]}),
+        encoding="utf-8")
+    reader = PacketCase(packet, "c")
+    reference = reader.resolve("run.json")
+    assert reference.data == b"{}" and reference.scope == "direct" and reader.pinned(reference)
+    assert reference.tracked_sha256 == hashlib.sha256(tracked.read_bytes()).hexdigest() != reference.sha256
+    assert not reader.pinned(reader.resolve("unlisted.json"))
+    tracked.write_bytes(gzip.compress(b'{"changed": true}'))
+    assert not reader.pinned(reader.resolve("run.json"))
 
 
 def test_resolve_reports_aliases_baseline_passages_holds_and_timeouts():
@@ -305,20 +330,30 @@ def test_bounds_carry_verified_conditions_and_are_reported_only(built):
     assert [c["verified"] for c in b2["conditions"]] == [True] * 4
     assert "8589/8589 intended vehicles" in b2["conditions"][0]["evidence"]
     assert "13/13 fields" in b2["conditions"][2]["evidence"]
-    failing = {"id": "INV-PASS", "pass": False, "witness_ids": ["report:reconciled"]}
+    assert b1["conditions"][-1] == b2["conditions"][-1] == {
+        "condition": bounds.INVARIANTS_CONDITION, "verified": True,
+        "evidence": "4/4 pass: INV-INPUTS, INV-OBS, INV-HOLD, INV-PASS"}
+    passing = [{"id": "INV-PASS", "pass": True}]
+    failing = [{"id": "INV-PASS", "pass": False, "witness_ids": ["report:reconciled"]}]
     rows = [{"field": "F", "detector_id": "f", "deficit": 2, "requests": 3, "m_init": 0, "e_init": 0}]
     matched = {"demand": 3, "intentions": 3, "demand_without_intention": 0, "intention_without_demand": 0}
-    assert not bounds.request_floor_b1(rows, demand_match=matched, inv_pass=failing,
+    assert not bounds.request_floor_b1(rows, demand_match=matched, invariants=failing,
                                        all182_tae=9)["verified_on_parent"]
+    # Any failed invariant, not only INV-PASS, unverifies a bound; so does a run checked without INV-PASS.
+    for checks in ([*passing, {"id": "INV-OBS", "pass": False}], [{"id": "INV-OBS", "pass": True}]):
+        floor = bounds.request_floor_b1(rows, demand_match=matched, invariants=checks, all182_tae=9)
+        assert [c["verified"] for c in floor["conditions"]] == [True, False] and not floor["verified_on_parent"]
+    assert bounds.request_floor_b1(rows, demand_match=matched, invariants=passing,
+                                   all182_tae=9)["conditions"][-1]["evidence"] == "1/1 pass: INV-PASS"
     extra = bounds.request_floor_b1(rows, demand_match={**matched, "demand": 4, "demand_without_intention": 1},
-                                    inv_pass={"pass": True}, all182_tae=9)
+                                    invariants=passing, all182_tae=9)
     assert [c["verified"] for c in extra["conditions"]] == [False, True] and not extra["verified_on_parent"]
     late = bounds.main_supply_b2(rows, {"f": [(900.0, 4)]}, {"f": [10.0, 20.0, 950.0]}, intended_vehicles=3,
-                                 e1_init={"f": 0}, ff_violations=1, passages=3, inv_pass={"pass": True}, main_tae=3)
+                                 e1_init={"f": 0}, ff_violations=1, passages=3, invariants=passing, main_tae=3)
     assert late["value"] == 2 and not late["verified_on_parent"] and late["self_check"]["satisfied"]
     assert [c["verified"] for c in late["conditions"]] == [True, False, True, True]
     other = bounds.main_supply_b2(rows, {"f": [(900.0, 4)]}, {"f": [10.0]}, intended_vehicles=3, e1_init={"f": 1},
-                                  ff_violations=0, passages=1, inv_pass={"pass": True}, main_tae=3)
+                                  ff_violations=0, passages=1, invariants=passing, main_tae=3)
     assert [c["verified"] for c in other["conditions"]] == [False, True, False, True]
 
 
@@ -379,6 +414,29 @@ def test_localization_against_route_matched_peers(built):
     assert built[0]["inputs"]["hold_nodes"] == HOLD_NODES
 
 
+def test_hotspot_weight_counts_only_the_route_group_it_localized(built):
+    """A mixed-route row weighs at most its analyzed delayed vehicles, never the whole row's delayed_out."""
+    profile = built[0]
+    mixed = next(h for h in profile["hotspots"] if h["id"] == "H:LOC:edge:24483344#1")
+    keys = ("row_id", "r", "delayed_out", "analyzed", "excluded", "weight")
+    assert [tuple(row[key] for key in keys) for row in mixed["rows"]] == [
+        ("R:0119Z5@5400", -15, 14, 12, 2, 12), ("R:0119Z4@5400", -14, 14, 10, 4, 10),
+        ("R:0119Z4@9000", -3, 8, 7, 1, 3), ("R:0119Z4@10800", -2, 2, 1, 1, 1), ("R:0119Z5@7200", 4, 4, 4, 0, 0),
+        ("R:0119Z4@6300", 11, 3, 2, 1, 0)]
+    # Whole-row delayed_out would give 14 + 14 + 3 + 2 = 33 and let R:0119Z4@5400 claim its 4 unanalyzed vehicles.
+    assert mixed["weight"] == 26 and mixed["lead"]["row_id"] == "R:0119Z5@5400"
+    assert (mixed["lead"]["delayed_out"], mixed["lead"]["n_delayed"], mixed["lead"]["n_delayed_other_prefix"],
+            mixed["lead"]["n_delayed_unpassed"]) == (14, 12, 2, 0)
+    loc = {row["row_id"]: row for row in profile["localization"]["rows"]}
+    assert (loc["R:0119Z4@5400"]["n_delayed"], loc["R:0119Z4@5400"]["n_delayed_other_prefix"]) == (10, 4)
+    for hotspot in profile["hotspots"]:
+        if hotspot["kind"] == "LOC":
+            assert hotspot["weight"] == sum(row["weight"] for row in hotspot["rows"])
+            for row in hotspot["rows"]:
+                assert row["analyzed"] + row["excluded"] == row["delayed_out"]
+                assert row["weight"] == min(max(-row["r"], 0), row["analyzed"])
+
+
 def test_integrity_rows_from_recorded_stderr(built):
     integrity = built[0]["integrity"]
     assert integrity["healthy"] and integrity["arrived"] == "8589/8589"
@@ -395,21 +453,411 @@ def test_integrity_rows_from_recorded_stderr(built):
 def test_invariants_pass_on_parent_and_name_witnesses_on_violation(built):
     checks = built[0]["invariants"]
     assert [c["id"] for c in checks] == ["INV-INPUTS", "INV-OBS", "INV-HOLD", "INV-PASS"]
-    assert all(set(c) == {"id", "pass", "witness_ids"} and c["pass"] and c["witness_ids"] == [] for c in checks)
+    assert all(set(c) == {"id", "pass", "witness_ids", "reason"} and c["pass"] and c["witness_ids"] == []
+               for c in checks)
+    assert checks[0]["reason"] == ("7/7 goal inputs resolve to the goal's sha256; 8/8 run artifacts match the packet "
+                                   "manifest or their byte reference; 8/8 equal their blob committed at HEAD")
+    reason = checks[-1]["reason"]
+    assert "field-counts.xml sha256 e9f90bb8 recorded, equals the profiled E1 output" in reason
+    assert "instant-e1.xml sha256 21535d6e recorded, equals local-only-large-traces.json" in reason
+    assert "local-only, its bytes are not in the repository and are not re-read" in reason
+    assert "passages equal E1 nVehContrib on 182/182 scored rows" in reason
+    assert "8589/8589 passages inside their recorded E1 interval at the step ceiling of time_s" in reason
+    assert "8589/8589 within their vehicle's stay on the field edge in vehicle-routes.xml" in reason
     assert invariants.inv_inputs({"a": "1", "b": "2"}, {"a": "1", "b": "3"})["witness_ids"] == ["b"]
+    assert invariants.inv_inputs({"a": "1"}, {"a": "1"}, {"cases/c/run.json": True, "cases/c/x.xml": False})[
+        "witness_ids"] == ["manifest:cases/c/x.xml"]
+    assert invariants.inv_inputs({"a": "1"}, {"a": "1"}, {"cases/c/run.json": True},
+                                 {"benchmarks/p/cases/c/run.json.gz": False})["witness_ids"] == [
+        "git:benchmarks/p/cases/c/run.json.gz"]
     loop = count_profile.FieldLoop("e_0", 10.0, 900.0)
     obs = invariants.inv_obs(goal_loops={"d": loop}, run_loops={"d": count_profile.FieldLoop("e_0", 9.0, 900.0)},
                              goal_attribute="nVehContrib", run_attributes=["nVehEntered"], goal_loops_sha256="x",
                              run_loops_sha256="y")
-    assert obs == {"id": "INV-OBS", "pass": False,
-                   "witness_ids": ["attribute:nVehEntered", "detector:d", "file:field-loops.add.xml"]}
+    assert obs.pop("reason") and obs == {
+        "id": "INV-OBS", "pass": False, "witness_ids": ["attribute:nVehEntered", "detector:d", "file:field-loops.add.xml"]}
     hold = invariants.inv_hold(HOLD_NODES, {"run.json": HOLD_NODES[:3], "native-request.json": None})
     assert hold["witness_ids"] == ["missing:native-request.json", "node:LSA104_part0"]
-    report = {"reconciled": False, "inputs_unchanged": True, "passages": [
-        {"vehicle_id": "v", "detector_id": "d"}, {"vehicle_id": "v", "detector_id": "d"},
-        {"vehicle_id": "w", "detector_id": "d"}]}
-    assert invariants.inv_pass(report, {"v": "d", "w": "e"})["witness_ids"] == [
-        "off_intention:w@d", "repeated:v@d", "report:reconciled"]
+    report = {"reconciled": False, "inputs_unchanged": True,
+              "passages": [_unit_passage(vehicle) for vehicle in ("v", "v", "w")]}
+    assert invariants.inv_pass(report, {"v": "d", "w": "e"}, e1_counts={}, bindings={}, **_UNIT_RUN)[
+        "witness_ids"] == ["off_intention:w@d", "repeated:v@d", "report:reconciled"]
+    one ={"reconciled": True, "inputs_unchanged": True,
+           "inputs": [{"path": "C:\\run\\e1.xml", "sha256": "aa"}, {"path": "C:\\run\\extra.xml", "sha256": "cc"}],
+           "passages": [_unit_passage("v")]}
+    check = invariants.inv_pass(one, {"v": "d"}, e1_counts={("d", 0.0): 2, ("d", 900.0): 0},
+                                bindings={"e1.xml": ("aa", "the E1"), "instant.xml": (None, "nowhere")}, **_UNIT_RUN)
+    assert check["witness_ids"] == ["count:R:d@0", "report_input:extra.xml", "report_input:instant.xml"]
+    assert "1/2 scored rows" in check["reason"] and "unexpected inputs extra.xml" in check["reason"]
+
+
+_UNIT_RUN = {"routes": {vehicle: count_profile.Route(5.0, ("a", "x"), (8.0, 60.0)) for vehicle in ("v", "w")},
+             "field_edges": {"d": "x"}, "e1_begin_s": 0.0, "e1_period_s": 900.0, "step_s": 0.1}
+
+
+def _unit_passage(vehicle: str, **changes) -> dict:
+    """A passage at 10.04 s on detector ``d`` (edge ``x``): notified at the step ceiling 10.1 s, in [0, 900)."""
+    return {"vehicle_id": vehicle, "detector_id": "d", "time_s": 10.04, "notification_time_s": 10.1,
+            "interval_begin_s": 0.0, "interval_end_s": 900.0, **changes}
+
+
+@pytest.mark.parametrize(("changes", "witnesses"), [
+    ({}, []),
+    ({"time_s": 5010.04}, ["interval:v@d", "route:v@d"]),
+    ({"time_s": 5010.04, "notification_time_s": 5010.1}, ["interval:v@d", "route:v@d"]),
+    ({"time_s": 7.0}, ["interval:v@d", "route:v@d"]),
+    ({"interval_begin_s": 0.0, "interval_end_s": 450.0}, ["interval:v@d"]),
+    ({"interval_begin_s": 5.0, "interval_end_s": 905.0}, ["interval:v@d"]),
+    ({"notification_time_s": None}, ["interval:v@d"]),
+    ({"vehicle_id": "u"}, ["route:u@d"]),
+], ids=["genuine", "time-moved", "time-and-notification-moved", "before-entering-the-edge", "short-interval",
+        "off-grid-interval", "no-notification", "vehicle-without-route"])
+def test_inv_pass_binds_each_passage_to_its_interval_and_its_vehicle_route(changes, witnesses):
+    """A passage must lie in its recorded E1 interval at the step ceiling of time_s and inside its vehicle's stay on
+    the field edge (from entering it at 8.0 s to arriving at 60.0 s), within one step."""
+    report = {"reconciled": True, "inputs_unchanged": True, "passages": [_unit_passage("v", **changes)]}
+    intended = {"v": "d", "u": "d"}
+    check = invariants.inv_pass(report, intended, e1_counts={}, bindings={}, **_UNIT_RUN)
+    assert check["witness_ids"] == witnesses and check["pass"] is (not witnesses)
+    edge_first = {**_UNIT_RUN, "routes": {"v": count_profile.Route(9.9, ("x",), (60.0,))}}
+    assert invariants.inv_pass({**report, "passages": [_unit_passage("v")]}, intended, e1_counts={}, bindings={},
+                               **edge_first)["pass"]
+
+
+def _swapped(reader: PacketCase, relative: str, transform) -> PacketCase:
+    """An in-memory reader whose ``relative`` run file holds ``transform(bytes)``; no file on disk changes.
+
+    The swapped bytes carry their own raw sha256 while the tracked bytes, and so the manifest check, stay as they are:
+    a run artifact that is not the one its passage report was reconciled against.
+    """
+    swapped = copy.copy(reader)
+    key = reader.key(relative)
+
+    def resolve_root(name: str):
+        reference = reader.resolve_root(name)
+        if name != key:
+            return reference
+        data = transform(reference.data)
+        return dataclasses.replace(reference, data=data, sha256=hashlib.sha256(data).hexdigest())
+
+    swapped.resolve_root = resolve_root
+    return swapped
+
+
+def _edit_report(edit, edited: dict | None = None):
+    """A transform of the archived report; ``edited["vehicle"]`` records the vehicle id the edit returns, if any."""
+
+    def transform(data: bytes) -> bytes:
+        report = json.loads(gzip.decompress(data))
+        vehicle = edit(report)
+        if edited is not None:
+            edited["vehicle"] = vehicle
+        return gzip.compress(json.dumps(report).encode("utf-8"))
+
+    return transform
+
+
+def _profile_with(created, reader: PacketCase) -> dict:
+    loaded, data, _ = created
+    return count_profile.build_calibrate_profile(loaded, data, reader, run_dir="evaluation/native",
+                                                 verifier={"commit": "0" * 40, "clean": True})[0]
+
+
+def test_a_changed_e1_output_fails_inv_pass_blocks_the_profile_and_unverifies_bounds(created, reader):
+    line = b'begin="3600.000" end="4500.000" id="hh_0119_Z_13_34018" nVehContrib="141"'
+
+    def raise_z13(data: bytes) -> bytes:
+        assert data.count(line) == 1
+        return data.replace(line, line.replace(b'"141"', b'"151"'))
+
+    profile = _profile_with(created, _swapped(reader, "evaluation/native/field-counts.xml", raise_z13))
+    # The score reads the changed E1 output; the decomposition still reads the archived passages.
+    assert (profile["score"]["tae_main"], profile["decomp"]["identity_tae"]) == (277, 275)
+    checks = {check["id"]: check for check in profile["invariants"]}
+    assert [name for name, check in checks.items() if not check["pass"]] == ["INV-PASS"]
+    assert checks["INV-PASS"]["witness_ids"] == ["count:R:0119Z13@3600", "report_input:field-counts.xml"]
+    assert "181/182 scored rows" in checks["INV-PASS"]["reason"]
+    assert profile["status"] == "blocked" and profile["inputs"]["passages"] == "archived report, NOT reconciled"
+    for name in ("B1_all182_request_floor", "B2_main_supply"):
+        bound = profile["bounds"][name]
+        assert not bound["verified_on_parent"] and bound["conditions"][-1] == {
+            "condition": bounds.INVARIANTS_CONDITION, "verified": False, "evidence": "failed: INV-PASS"}
+    assert [sol["value"] for sol in profile["bounds"]["SOL"]] == [None, None]
+    compact_json, compact_text = render.render_compact({**profile, "details": {}})
+    view = json.loads(compact_json)
+    # The compact views give the witness total and the count per kind; the pairing witness leads the row witnesses.
+    assert view["status"] == "blocked" and view["invariants"]["INV-PASS"] == {
+        "n": 2, "by_kind": {"report_input": 1, "count": 1},
+        "first": ["report_input:field-counts.xml", "count:R:0119Z13@3600"]}
+    assert "PASS FAIL 2 (report_input 1, count 1): report_input:field-counts.xml,count:R:0119Z13@3600" in compact_text
+    assert view["bounds"]["B2_main_supply"]["not_verified"] == [bounds.INVARIANTS_CONDITION]
+    assert "verified_on_parent false" in compact_text and "NOT verified: INV-* on the candidate run" in compact_text
+
+
+def _restate_input(name: str):
+    def edit(report: dict) -> None:
+        next(row for row in report["inputs"] if row["path"].endswith(name))["sha256"] = "0" * 64
+
+    return edit
+
+
+def _z13_passage(report: dict, begin_s: float) -> dict:
+    return next(p for p in report["passages"] if p["detector_id"] == Z13 and p["interval_begin_s"] == begin_s)
+
+
+def _move_one_passage(report: dict) -> str:
+    passage = _z13_passage(report, 3600)
+    passage.update(interval_begin_s=4500.0, interval_end_s=5400.0)
+    return passage["vehicle_id"]
+
+
+@pytest.mark.parametrize(("edit", "witnesses"), [
+    (_restate_input("\\field-counts.xml"), ["report_input:field-counts.xml"]),
+    (_restate_input("\\instant-e1.xml"), ["report_input:instant-e1.xml"]),
+    # Its time_s and notification time stay in the old bin, so the passage also leaves its recorded interval.
+    (_move_one_passage, ["count:R:0119Z13@3600", "count:R:0119Z13@4500", "interval:{vehicle}@" + Z13]),
+], ids=["stale-e1-sha256", "other-instant-e1", "passage-in-another-bin"])
+def test_a_report_not_paired_with_this_e1_output_fails_inv_pass(created, reader, edit, witnesses):
+    """The report keeps reconciled and inputs_unchanged true; only the cross-artifact checks catch the pairing."""
+    edited: dict = {}
+    profile = _profile_with(created, _swapped(reader, goal.PARENT_PASSAGES, _edit_report(edit, edited)))
+    check = profile["invariants"][-1]
+    assert check["id"] == "INV-PASS" and profile["status"] == "blocked"
+    assert check["witness_ids"] == [witness.format(**edited) for witness in witnesses]
+    assert profile["score"]["tae_main"] == 275 and all(c["pass"] for c in profile["invariants"][:-1])
+    assert not any(profile["bounds"][name]["verified_on_parent"]
+                   for name in ("B1_all182_request_floor", "B2_main_supply"))
+
+
+def test_a_run_artifact_off_the_packet_manifest_is_refused_before_profiling(created, reader):
+    tracked = reader.key("evaluation/native/vehicle-routes.xml") + ".gz"
+    assert tracked in reader.manifest
+    tampered = copy.copy(reader)
+    tampered.manifest = {**reader.manifest, tracked: "0" * 64}
+    with pytest.raises(ValueError, match=r"INV-INPUTS failed for \['manifest:cases/h4_counter_z11_minus5_z5/"
+                                         r"evaluation/native/vehicle-routes\.xml'\]"):
+        _profile_with(created, tampered)
+    assert reader.manifest[tracked] != "0" * 64
+
+
+def _forged(reader: PacketCase, relative: str, transform, *, manifest: bool) -> tuple[PacketCase, str]:
+    """An in-memory reader that reads ``relative`` the way a tampered checkout hands it over; no file on disk changes.
+
+    The raw bytes are ``transform(bytes)``, gzipped back to the tracked form, with that form's own SHA-256 and git blob
+    id. With ``manifest`` the packet manifest row is rewritten to match (a coherent forgery). Returns the reader and
+    the repository-relative tracked name of the forged file.
+    """
+    forged = copy.copy(reader)
+    key = reader.key(relative)
+    original = reader.resolve_root(key)
+    data = tracked = transform(original.data)
+    for _ in range(original.tracked_path.name.count(".gz") - PurePosixPath(key).name.count(".gz")):
+        tracked = gzip.compress(tracked, mtime=0)
+    reference = dataclasses.replace(original, data=data, sha256=hashlib.sha256(data).hexdigest(),
+                                    tracked_sha256=hashlib.sha256(tracked).hexdigest(),
+                                    tracked_blob=git_blob_id(tracked))
+    forged.resolve_root = lambda name: reference if name == key else reader.resolve_root(name)
+    if manifest:
+        row = original.tracked_path.resolve().relative_to(reader.packet_root).as_posix()
+        forged.manifest = {**reader.manifest, row: reference.tracked_sha256}
+        assert forged.pinned(reference) and not reader.pinned(reference)
+    return forged, reader.tracked_name(original)
+
+
+def _refusal(witnesses: list[str]) -> str:
+    return f"profile refused: INV-INPUTS failed for {witnesses!r}"
+
+
+def _swap_z13_vehicles(swapped_ids: dict):
+    """Two Z13 passages in bins 3600 and 9000 swap vehicle ids: row counts hold, no repeat, no off-intention."""
+
+    def edit(report: dict) -> None:
+        first, later = _z13_passage(report, 3600), _z13_passage(report, 9000)
+        first["vehicle_id"], later["vehicle_id"] = later["vehicle_id"], first["vehicle_id"]
+        swapped_ids.update(first=first["vehicle_id"], later=later["vehicle_id"])
+
+    return edit
+
+
+def test_a_vehicle_id_swap_between_bins_fails_inv_pass_on_the_vehicle_routes(created, reader):
+    """In memory the swap keeps every count, so the tracked vehicle routes catch it; on disk the bytes are not HEAD's."""
+    swapped_ids: dict = {}
+    profile = _profile_with(created, _swapped(reader, goal.PARENT_PASSAGES, _edit_report(_swap_z13_vehicles(
+        swapped_ids))))
+    check = profile["invariants"][-1]
+    assert check["witness_ids"] == sorted(f"route:{vehicle}@{Z13}" for vehicle in swapped_ids.values())
+    for text in ("182/182 scored rows", "8589/8589 passages inside their recorded E1 interval", "8587/8589 within"):
+        assert text in check["reason"]
+    assert profile["status"] == "blocked" and all(c["pass"] for c in profile["invariants"][:-1])
+    assert not any(profile["bounds"][name]["verified_on_parent"]
+                   for name in ("B1_all182_request_floor", "B2_main_supply"))
+    assert [sol["value"] for sol in profile["bounds"]["SOL"]] == [None, None]
+    # The same swap as a tampered checkout hands it over: refused before profiling, with or without its manifest row.
+    for manifest, witnesses in ((False, ["git:{tracked}", f"manifest:{reader.key(goal.PARENT_PASSAGES)}"]),
+                                (True, ["git:{tracked}"])):
+        forged, tracked = _forged(reader, goal.PARENT_PASSAGES, _edit_report(_swap_z13_vehicles({})), manifest=manifest)
+        with pytest.raises(ValueError) as refused:
+            _profile_with(created, forged)
+        assert str(refused.value) == _refusal([witness.format(tracked=tracked) for witness in witnesses])
+
+
+@pytest.mark.parametrize("fields", [("time_s",), ("time_s", "notification_time_s")], ids=["time", "time+notification"])
+def test_a_passage_moved_outside_its_interval_fails_inv_pass(created, reader, fields):
+    """One Z13@3600 passage moved +5000 s with its bin fields unchanged: every count and flag still holds."""
+
+    def move(report: dict) -> str:
+        passage = _z13_passage(report, 3600)
+        for name in fields:
+            passage[name] += 5000.0
+        return passage["vehicle_id"]
+
+    edited: dict = {}
+    profile = _profile_with(created, _swapped(reader, goal.PARENT_PASSAGES, _edit_report(move, edited)))
+    check = profile["invariants"][-1]
+    assert check["witness_ids"] == [f"interval:{edited['vehicle']}@{Z13}", f"route:{edited['vehicle']}@{Z13}"]
+    for text in ("182/182 scored rows", "8588/8589 passages inside their recorded E1 interval", "8588/8589 within"):
+        assert text in check["reason"]
+    assert profile["status"] == "blocked" and all(c["pass"] for c in profile["invariants"][:-1])
+    assert not any(profile["bounds"][name]["verified_on_parent"]
+                   for name in ("B1_all182_request_floor", "B2_main_supply"))
+
+
+def _earlier_insertions(vehicles: set[str], requests: dict):
+    """vehicle-routes.xml with each named vehicle's recorded insertion 100 s earlier (never before its request)."""
+    pattern = re.compile(rb'(<vehicle id=")([^"]+)("[^>]*?\bdepart=")([0-9.]+)(")')
+
+    def transform(data: bytes) -> bytes:
+        def edit(match: re.Match) -> bytes:
+            vehicle = match[2].decode()
+            if vehicle not in vehicles:
+                return match[0]
+            depart = max(requests[vehicle].depart_s, float(match[4]) - 100.0)
+            return match[1] + match[2] + match[3] + f"{depart:.2f}".encode() + match[5]
+
+        forged, edits = pattern.subn(edit, data)
+        assert edits >= len(vehicles) and forged != data
+        return forged
+
+    return transform
+
+
+def _inject_braking_warning(data: bytes) -> bytes:
+    command = json.loads(data)
+    command["stderr"] += ("Warning: Vehicle 'od_0000_v00000' performs emergency braking on lane '44532531_0' with "
+                          "decel=9.00, wished=4.50, severity=1.00, time=100.00.\n")
+    return json.dumps(command).encode("utf-8")
+
+
+@pytest.mark.parametrize("artifact", ["vehicle-routes.xml", "command.json"])
+def test_a_coherent_forgery_of_a_run_artifact_and_its_manifest_row_is_refused(created, reader, production_inputs,
+                                                                             artifact):
+    """The manifest is a packet file, so an artifact edited together with its manifest row passes the manifest; the
+    blob committed at HEAD is the trust root outside the packet that refuses it."""
+    inputs = production_inputs
+    if artifact == "vehicle-routes.xml":
+        measured = {p["vehicle_id"]: p["interval_begin_s"] for p in inputs["passages"] if p["detector_id"] == Z13}
+        delayed = {vehicle for vehicle, field in inputs["intended"].items() if field == Z13
+                   and count_profile._bin_begin(inputs["arrivals"][vehicle], 0.0, 900.0) == 3600.0
+                   and measured.get(vehicle) != 3600.0}
+        assert len(delayed) == 36
+        transform = _earlier_insertions(delayed, inputs["requests"])
+    else:
+        transform = _inject_braking_warning
+    forged, tracked = _forged(reader, f"evaluation/native/{artifact}", transform, manifest=True)
+    # Trusting the manifest alone, the forgery would be measured with every invariant passing and changed numbers.
+    trusting = copy.copy(forged)
+    trusting.committed = lambda references: {reader.tracked_name(r): True for r in references}
+    accepted = _profile_with(created, trusting)
+    assert accepted["status"] == "measured" and all(check["pass"] for check in accepted["invariants"])
+    if artifact == "vehicle-routes.xml":
+        # The parent localizes R:0119Z13@3600 at insertion +185.1 s and weighs its hotspot 58.
+        z13 = next(row for row in accepted["localization"]["rows"] if row["row_id"] == "R:0119Z13@3600")
+        assert [(a["anchor"], a["diff"]) for a in z13["coanchors"]] == [("44532531", 103.7), ("insertion", 85.1)]
+        assert accepted["hotspots"][0]["weight"] == 54
+    else:
+        assert accepted["integrity"]["emergency_braking"]["count"] == 6
+    with pytest.raises(ValueError) as refused:
+        _profile_with(created, forged)
+    assert str(refused.value) == _refusal([f"git:{tracked}"])
+
+
+def _corrupt_packet(root: Path) -> Path:
+    packet = root / "benchmarks" / "packet"
+    (packet / "cases" / "c").mkdir(parents=True)
+    (packet / "byte-references.json").write_text(json.dumps({"aliases": {}}), encoding="utf-8")
+    whole = gzip.compress(b"<additional/>", mtime=0)
+    (packet / "cases" / "c" / "not-gzip.xml.gz").write_bytes(b"not a gzip file")
+    (packet / "cases" / "c" / "truncated.xml.gz").write_bytes(whole[:12])
+    (packet / "cases" / "c" / "corrupt.xml.gz").write_bytes(whole[:10] + b"\xff" * 16)
+    return packet
+
+
+@pytest.mark.parametrize(("name", "error"), [("not-gzip", gzip.BadGzipFile), ("truncated", EOFError),
+                                             ("corrupt", zlib.error)])
+def test_an_undecodable_run_artifact_is_a_named_manifest_witness(created, reader, tmp_path, name, error):
+    """A run artifact whose gzip layer does not decode is refused through INV-INPUTS, not with a raw decode error."""
+    packet = _corrupt_packet(tmp_path)
+    with pytest.raises(error):
+        resolve_packet_reference(packet, f"cases/c/{name}.xml")
+    key = reader.key("evaluation/native/e1.add.xml")
+    broken = copy.copy(reader)
+    broken.resolve_root = lambda relative: (resolve_packet_reference(packet, f"cases/c/{name}.xml") if relative == key
+                                            else reader.resolve_root(relative))
+    with pytest.raises(ValueError) as refused:
+        _profile_with(created, broken)
+    assert str(refused.value) == _refusal([f"manifest:{key}"])
+    # A goal input whose tracked target does not decode is named the same way, by its goal alias.
+    prepared = copy.copy(reader)
+    prepared.resolve = lambda relative: (resolve_packet_reference(packet, f"cases/c/{name}.xml")
+                                         if relative == "prepared/field-loops.add.xml" else reader.resolve(relative))
+    with pytest.raises(ValueError) as refused:
+        _profile_with(created, prepared)
+    assert str(refused.value) == _refusal(["field-loops.add.xml"])
+
+
+def test_committed_compares_the_tracked_bytes_read_with_the_blob_at_head(reader, tmp_path):
+    references = [reader.resolve_root(reader.key("evaluation/native/run.json")), reader.resolve_root(LOCAL_ONLY_FILE)]
+    names = [reader.tracked_name(reference) for reference in references]
+    assert reader.committed(references) == dict.fromkeys(names, True)
+    hashed = subprocess.run(["git", "-C", str(ROOT), "hash-object", "--no-filters", str(references[0].tracked_path)],
+                            capture_output=True, encoding="utf-8", timeout=60).stdout.strip()
+    assert references[0].tracked_blob == git_blob_id(references[0].tracked_path.read_bytes()) == hashed
+    other = dataclasses.replace(references[0], tracked_blob=git_blob_id(b"other bytes"))
+    assert reader.committed([other]) == {names[0]: False} and head_blob_ids(ROOT, []) == {}
+    packet = tmp_path / "benchmarks" / "packet"
+    (packet / "cases" / "c").mkdir(parents=True)
+    (packet / "byte-references.json").write_text(json.dumps({"aliases": {}}), encoding="utf-8")
+    (packet / "cases" / "c" / "run.json.gz").write_bytes(gzip.compress(b"{}"))
+    outside = PacketCase(packet, "c")
+    assert outside.committed([outside.resolve("run.json")]) == {"benchmarks/packet/cases/c/run.json.gz": False}
+
+
+def test_compact_views_count_failing_witnesses_by_kind(created, reader):
+    """Every nVehContrib +1: 182 row witnesses and one pairing witness; both views give the total and every kind."""
+
+    def plus_one(data: bytes) -> bytes:
+        return re.sub(rb'nVehContrib="(\d+)"', lambda match: b'nVehContrib="%d"' % (int(match[1]) + 1), data)
+
+    profile = _profile_with(created, _swapped(reader, "evaluation/native/field-counts.xml", plus_one))
+    check = profile["invariants"][-1]
+    assert len(check["witness_ids"]) == 183 and "0/182 scored rows" in check["reason"]
+    compact_json, compact_text = render.render_compact({**profile, "details": {}})
+    assert len(compact_json) <= render.CAP_CHARACTERS and len(compact_text) <= render.CAP_CHARACTERS
+    shown = json.loads(compact_json)["invariants"]["INV-PASS"]
+    assert shown == {"n": 183, "by_kind": {"report_input": 1, "count": 182},
+                     "first": ["report_input:field-counts.xml", *check["witness_ids"][:4]]}
+    assert ("PASS FAIL 183 (report_input 1, count 182): report_input:field-counts.xml,count:R:0119Z11@0,"
+            "count:R:0119Z11@10800 +180 more") in compact_text
+    witnesses = sorted(["count:R:a@0", "count:R:b@0", "off_intention:v@d", "repeated:w@d", "repeated:x@d",
+                        "report:reconciled", "report_input:x", "zeta:1", "bare"])
+    view = render._witnesses(witnesses, 5, False)
+    assert view == {"n": 9, "by_kind": {"report": 1, "report_input": 1, "repeated": 2, "off_intention": 1, "id": 1,
+                                        "zeta": 1, "count": 2},
+                    "first": ["report:reconciled", "report_input:x", "repeated:w@d", "off_intention:v@d", "bare"]}
+    assert render._witness_text(render._witnesses(witnesses, 3, False)).endswith(
+        ": report:reconciled,report_input:x,repeated:w@d +6 more")
+    many = render._witnesses([f"k{n}:w" for n in range(render.CLIP_ITEMS + 2)], 3, True)
+    assert len(many["by_kind"]) == render.CLIP_ITEMS + 1 and many["by_kind"]["+2 kinds"] == 2
 
 
 def test_compact_views_are_capped_and_list_top_hotspots(built):
@@ -420,11 +868,28 @@ def test_compact_views_are_capped_and_list_top_hotspots(built):
     assert view["view"] == "compact" and view["status"] == "measured" and len(view["hot"]) == 5
     assert (view["goal"], view["cand"], view["verifier"]) == (f"{GOAL_ID}@2ba4c172", "c-4f35cd291717", "0" * 40)
     assert [(hotspot["id"], hotspot["w"]) for hotspot in view["hot"]] == [
-        ("H:LOC:entry:44532531", 58), ("H:LOC:edge:24483344#1", 33), ("H:LOC:co:27d1dde6", 22),
+        ("H:LOC:entry:44532531", 58), ("H:LOC:edge:24483344#1", 26), ("H:LOC:co:27d1dde6", 22),
         ("H:LOC:edge:24483344#0", 21), ("H:BAL:field:0119Z13", 13)]
     assert len(view["hot"][0]["rows"]) == 7 and view["hot"][0]["rows"]["more"] == "+21 more"
     assert view["hot_more"] == "+10 more" and "R:0535Z4@10800" in view["hot"][2]["rows"]
+    assert view["hot"][1]["rows"]["R:0119Z4@5400"] == "r-14 y55 p55 m41 41/0/14 n10/29 x4"
+    # "x" / "not analyzed" counts delayed_out vehicles left out; the peer clause counts on-time peers on another
+    # route prefix and never reuses the word "excluded".
+    assert view["hot"][1]["peers"] == ("12 analyzed vs 26 on-time; entry 963776077#0; 8-edge prefix; other-prefix "
+                                       "peers 5 on 3 entries")
+    assert view["hot"][2]["peers"].endswith("; other-prefix peers 28 on 771709146#0")
+    assert not any("excluded" in hotspot.get("peers", "") for hotspot in view["hot"])
     assert "TAE 275" in compact_text and compact_text.count("\nHOT") == 6
+    assert "R:0119Z4@5400 r-14 dout 14 w 10 (4 not analyzed)" in compact_text
+    assert "other-prefix peers 5 on 3 entries" in compact_text and "excluded" not in compact_text
+    # Both views show each bound with its conditions and their verification, from one shared presentation.
+    bound_lines = [line for line in compact_text.splitlines() if line.startswith("BOUND")]
+    assert len(bound_lines) == 3 and bound_lines[2].startswith("BOUND  SOL TAE_all182 0.0, TAE_main130 0.0")
+    for line, name in zip(bound_lines, ("B1_all182_request_floor", "B2_main_supply")):
+        shown = view["bounds"][name]
+        assert shown["verified_on_parent"] is True and "not_verified" not in shown
+        assert "verified_on_parent true | applies if: " + "; ".join(shown["applies_if"]) in line
+        assert shown["applies_if"][-1] == bounds.INVARIANTS_CONDITION
     dirty = json.loads(render.render_compact({**profile, "verifier": {"commit": "a" * 40, "clean": False}})[0])
     assert dirty["verifier"] == "a" * 40 + "+dirty"
     with pytest.raises(ValueError, match="exceeds"):
@@ -525,11 +990,13 @@ def _cli_run(cli, argv: list[str]) -> tuple[int, dict]:
     return code, json.loads(stream.getvalue())
 
 
-def test_cli_goal_create_and_profile(tmp_path):
+def test_cli_goal_create_and_profile(tmp_path, monkeypatch):
+    monkeypatch.setattr(sys, "dont_write_bytecode", sys.dont_write_bytecode)
     spec = importlib.util.spec_from_file_location("astra_twin_cli", ROOT / "plugins/astra-sumo/scripts/astra_twin.py")
     cli = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(cli)
     assert Path(sys.path[0]) == cli.SRC_ROOT and sys.path.count(str(cli.SRC_ROOT)) == 1
+    assert sys.dont_write_bytecode is True
     store = tmp_path / "store"
     goal_file = str(store / "goals" / GOAL_ID / "goal.json")
     profile_args = ["profile", "calibrate", "--goal", goal_file, "--run", "packet:evaluation/native", "--out",
@@ -572,6 +1039,7 @@ def test_cli_imports_the_clone_ahead_of_a_shadowing_path(tmp_path):
 
 def test_doctor_reports_import_paths_and_clone_state(tmp_path):
     scratch = tmp_path / "scratch"
+    scratch.mkdir()
     report = doctor.run_doctor(ROOT, forbidden_paths=[str(ROOT / "no-such-src")], expected_commit="0" * 40,
                                scratch_root=scratch)
     checks = report["checks"]
@@ -580,7 +1048,8 @@ def test_doctor_reports_import_paths_and_clone_state(tmp_path):
     assert checks["forbidden_absent_from_child_sys_path"] and checks["no_foreign_astra_sumo_on_child_sys_path"]
     assert report["clone"]["commit"] and report["clone"]["expected_commit_source"] == "--expect-commit"
     assert Path(report["astra_sumo"]["child_cwd"]).resolve().parent == scratch.resolve()
-    assert list(scratch.iterdir()) == []
+    assert list(scratch.iterdir()) == [] and report["astra_sumo"]["child_scratch_source"] == "--scratch-root"
+    assert report["astra_sumo"]["child_command"] == ["-B", "-m", "astra_sumo.twin.doctor"]
     head = report["clone"]["commit"]
     assert doctor.commit_from_directory(tmp_path / head) == head
     assert doctor.commit_from_directory(tmp_path / "astra-impl") is None
@@ -588,3 +1057,20 @@ def test_doctor_reports_import_paths_and_clone_state(tmp_path):
         pytest.skip("SUMO binary not installed; version check not exercised")
     assert report["sumo"]["version"] == doctor.EXPECTED_SUMO and checks["libsumo_import"]
     assert checks["sumo_distributions"] and checks["sumo_binary_in_venv"]
+
+
+def test_doctor_scratch_defaults_to_the_clone_outputs_never_the_system_temp(tmp_path, monkeypatch):
+    system_temp = tmp_path / "system-temp"
+    system_temp.mkdir()
+    monkeypatch.setattr(doctor.tempfile, "tempdir", str(system_temp))
+    outputs = ROOT / doctor.DEFAULT_SCRATCH
+    existed = outputs.is_dir()
+    before = sorted(outputs.iterdir()) if existed else None
+    report = doctor.run_doctor(ROOT, expected_commit="0" * 40)
+    source = report["astra_sumo"]
+    assert source["child_scratch_root"] == str(outputs) and source["child_scratch_source"].endswith("outputs/")
+    assert Path(source["child_cwd"]).resolve().parent == outputs.resolve(), source["child_error"]
+    assert list(system_temp.iterdir()) == []
+    assert (sorted(outputs.iterdir()) == before) if existed else not outputs.exists()
+    assert subprocess.run(["git", "-C", str(ROOT), "check-ignore", "-q", f"{doctor.DEFAULT_SCRATCH}/x"],
+                          capture_output=True).returncode == 0

@@ -7,13 +7,22 @@ bound in M1-M5: a bound never refuses a hypothesis, rejects a measured candidate
 from __future__ import annotations
 
 USE = "reported only; no rule consumes a bound in M1-M5"
+INVARIANTS_CONDITION = "INV-* on the candidate run"
 
 
 def _condition(text: str, verified: bool, evidence: str) -> dict:
     return {"condition": text, "verified": bool(verified), "evidence": evidence}
 
 
-def request_floor_b1(balance_rows: list[dict], *, demand_match: dict[str, int], inv_pass: dict,
+def _invariants_condition(checks: list[dict]) -> dict:
+    """INV-PASS and every other invariant on the run: a bound is never verified on a run that fails one."""
+    failed = [check["id"] for check in checks if not check["pass"]]
+    names = [check["id"] for check in checks]
+    evidence = f"failed: {', '.join(failed)}" if failed else f"{len(names)}/{len(names)} pass: {', '.join(names)}"
+    return _condition(INVARIANTS_CONDITION, "INV-PASS" in names and not failed, evidence)
+
+
+def request_floor_b1(balance_rows: list[dict], *, demand_match: dict[str, int], invariants: list[dict],
                      all182_tae: int) -> dict:
     """B1: TAE_init52 + TAE_main130 >= sum_f max(0, E_init,f + E_main,f - N_f).
 
@@ -27,7 +36,7 @@ def request_floor_b1(balance_rows: list[dict], *, demand_match: dict[str, int], 
         _condition("per-field request totals N_f read from the candidate's demand", unmatched == 0,
                    f"N = {sum(row['requests'] for row in balance_rows)} demand vehicles by intended field; demand "
                    f"{demand_match['demand']}, intentions {demand_match['intentions']}, {unmatched} in only one"),
-        _condition("INV-PASS on the candidate run", inv_pass["pass"], "INV-PASS on the run's passage report"),
+        _invariants_condition(invariants),
     ]
     return {"label": "conditional", "statistic": "TAE_init52 + TAE_main130", "value": value, "per_field": per_field,
             "conditions": conditions, "verified_on_parent": all(c["verified"] for c in conditions),
@@ -45,7 +54,7 @@ def _supply_shortfall(main_bins: list[tuple[float, int]], arrivals: list[float],
 
 def main_supply_b2(balance_rows: list[dict], main_bins: dict[str, list[tuple[float, int]]],
                    arrivals_by_field: dict[str, list[float]], *, intended_vehicles: int, e1_init: dict[str, int],
-                   ff_violations: int, passages: int, inv_pass: dict, main_tae: int) -> dict:
+                   ff_violations: int, passages: int, invariants: list[dict], main_tae: int) -> dict:
     """B2: LB_main,f = max over main bins b of (E_f(<=b) - (U_f(b) - M_init,f))+, with U_f(b) = #{a_v < end of b}.
 
     ``e1_init`` holds the run's E1-measured init counts per detector, which the passage-derived M_init must equal.
@@ -69,7 +78,7 @@ def main_supply_b2(balance_rows: list[dict], main_bins: dict[str, list[tuple[flo
         _condition("the candidate's own measured init counts", init_equal == len(balance_rows),
                    f"M_init from this run's passages {sum(row['m_init'] for row in balance_rows)} equals this run's "
                    f"E1 init counts on {init_equal}/{len(balance_rows)} fields"),
-        _condition("INV-PASS on the candidate run", inv_pass["pass"], "INV-PASS on the run's passage report"),
+        _invariants_condition(invariants),
     ]
     exceed = {alias[f]: [value, deficit[f]] for f, value in sorted(targets.items()) if value > max(deficit[f], 0)}
     return {"label": "conditional", "statistic": "TAE_main130", "value": sum(measured.values()),

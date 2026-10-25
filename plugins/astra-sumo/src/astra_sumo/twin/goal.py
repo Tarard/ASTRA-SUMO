@@ -17,12 +17,12 @@ from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 
 from ..core.artifact_io import write_text_atomic
-from ..core.benchmark_references import (BenchmarkReferenceError, PacketCase, csv_rows, find_tracked_file,
-                                         safe_relative)
+from ..core.benchmark_references import (LOCAL_ONLY_FILE, BenchmarkReferenceError, PacketCase, csv_rows,
+                                         find_tracked_file, local_only_row, safe_relative)
 from ..core.candidate_contracts import file_sha256
 from . import ids, invariants
-from .count_profile import (incomplete_rows, parse_field_loops, parse_intentions, parse_network, read_passage_report,
-                            score_counts)
+from .count_profile import (INSTANT_E1, incomplete_rows, parse_field_loops, parse_intentions, parse_network,
+                            read_passage_report, score_counts)
 
 SCHEMA = "astra.twin-goal/v1"
 PREPARED_FILES = ("network.net.xml", "control.add.xml", "demand.rou.xml", "field-loops.add.xml",
@@ -278,9 +278,6 @@ def resolve_calibrate_case(repository_root: Path, packet: str, case: str) -> dic
 
 def _resolve(reader: PacketCase, packet: str) -> tuple[dict, dict]:
     """The resolve report, plus the parsed run records that goal-create reuses instead of reading them again."""
-    manifest_path = reader.packet_root / "manifest.json"
-    manifest = ({row["path"]: row["sha256"] for row in json.loads(manifest_path.read_text("utf-8"))["files"]}
-                if manifest_path.is_file() else {})
     aliases = []
     for name in PREPARED_FILES:
         key = reader.key(f"prepared/{name}")
@@ -299,9 +296,9 @@ def _resolve(reader: PacketCase, packet: str) -> tuple[dict, dict]:
         if found is None:
             baseline.append({"file": name, "present": False})
             continue
-        tracked = found[0].resolve().relative_to(reader.packet_root).as_posix()
         baseline.append({"file": name, "present": True, "tracked": reader.tracked_name(found[0]),
-                         "gzip_layers": found[1], "manifest_match": manifest.get(tracked) == file_sha256(found[0])})
+                         "gzip_layers": found[1],
+                         "manifest_match": reader.manifest_sha256(found[0]) == file_sha256(found[0])})
     run = reader.read_json(f"{BASELINE_RUN_DIR}/run.json")
     request = reader.read_json(f"{BASELINE_RUN_DIR}/native-request.json")
     scenario = reader.read_json("prepared/scenario.json")
@@ -413,10 +410,11 @@ def create_calibrate_goal(repository_root: Path, packet: str, case: str, *,
     for row in json.loads(reader.read("prepared/lane-intentions.json"))["vehicles"]:
         cells.setdefault(row["od_cell"], set()).add(row["field_id"])
     od = scenario.get("OD_coordinates", {})
-    local_only = reader.packet_root / "local-only-large-traces.json"
-    instant = next((row for row in json.loads(local_only.read_text("utf-8"))["files"]
-                    if row.get("relative") == reader.key(f"{BASELINE_RUN_DIR}/instant-e1.xml")),
-                   None) if local_only.is_file() else None
+    try:
+        instant = local_only_row(reader.resolve_root(LOCAL_ONLY_FILE).data,
+                                 reader.key(f"{BASELINE_RUN_DIR}/{INSTANT_E1}"))
+    except FileNotFoundError:
+        instant = None
     timeout = resolution["timeouts"]["timeout_source"]
     document = {
         "schema": SCHEMA, "goal_id": goal_id or default_goal_id(packet, case, observation["sim_zero_utc"]),

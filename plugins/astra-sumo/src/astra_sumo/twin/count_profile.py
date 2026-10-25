@@ -16,13 +16,15 @@ import shutil
 import tempfile
 import time
 import xml.etree.ElementTree as ET
+import zlib
 from collections import Counter, defaultdict
 from dataclasses import dataclass
 from pathlib import Path, PureWindowsPath
 from typing import TYPE_CHECKING
 
 from ..core.artifact_io import write_json_atomic, write_text_atomic
-from ..core.benchmark_references import BenchmarkReferenceError, PacketCase, csv_rows
+from ..core.benchmark_references import (LOCAL_ONLY_FILE, BenchmarkReferenceError, PacketCase, ResolvedReference,
+                                         csv_rows, local_only_row)
 from ..core.candidate_contracts import file_sha256
 from ..core.detector_demand import audit_expected_to_e1_strict, geh_value, summarize_comparison, write_csv
 from . import bounds, ids, invariants, render
@@ -38,6 +40,13 @@ SPREAD_MIN_S = 1.0
 ANCHORS_KEPT = 6
 WINDOW_S = 60.0
 HOLD_FLAG = "junction-body hold node: declared driver assumption"
+E1_OUTPUT = "field-counts.xml"
+INSTANT_E1 = "instant-e1.xml"
+RUN_FILES = ("run.json", "native-request.json", "command.json", E1_OUTPUT, "vehicle-routes.xml", "e1.add.xml")
+# A packet file that cannot be read through its references: missing (FileNotFoundError), undeclared or mismatched
+# (BenchmarkReferenceError), or with a gzip layer that does not decode (gzip.BadGzipFile is an OSError; EOFError and
+# zlib.error for a truncated or corrupt stream). INV-INPUTS names it instead of the profile failing on a raw error.
+UNREADABLE = (OSError, EOFError, zlib.error, BenchmarkReferenceError)
 
 
 @dataclass(frozen=True)
@@ -416,6 +425,7 @@ def localize_row(row: dict, *, network: Network, requests: dict[str, Request], r
     excluded = Counter(routes[v].edges[0] for v in on_time if prefix(v) != route)
     result.update(entry=route[0], n_delayed=len(group_d), n_peer=len(group_o),
                   n_delayed_other_prefix=len(delayed) - len(group_d),
+                  n_delayed_unpassed=row["delayed_out"] - len(delayed),
                   excluded_peers_by_entry=dict(sorted(excluded.items())), route_prefix_edges=len(route))
     if not group_o:
         return {**result, "localization": "unmatched", "reason": "no route-matched on-time peer"}
@@ -550,33 +560,36 @@ CLAIM = ("Accounting over simulated passages under the supplied model and declar
 
 
 def rank_hotspots(localized: list[dict], decomposition: list[dict], balance: list[dict]) -> list[dict]:
-    """Group localized rows by anchor set; weight = the under-count the delayed vehicles explain, min(-r, delayed_out).
+    """Group localized rows by anchor set; weight = the under-count its analyzed vehicles can explain.
 
+    A row weighs min(-r, n_delayed): only the delayed_out vehicles of the route-prefix group the anchors were
+    measured on count, never those on another prefix or unpassed, so no hotspot claims a vehicle it did not localize.
     Field-balance hotspots weigh |R_main,f|, the floor of that field's main-window TAE.
     """
     rows = {row["row_id"]: row for row in decomposition}
     groups: dict[str, list[tuple[int, dict]]] = defaultdict(list)
     for loc in localized:
         if loc["localization"] == "localized":
-            row = rows[loc["row_id"]]
-            groups[loc["hotspot_id"]].append((min(max(-row["r"], 0), row["delayed_out"]), loc))
+            groups[loc["hotspot_id"]].append((min(max(-rows[loc["row_id"]]["r"], 0), loc["n_delayed"]), loc))
     hotspots = []
     for hotspot, members in groups.items():
-        members.sort(key=lambda item: (-item[0], -item[1]["delayed_out"], item[1]["row_id"]))
+        members.sort(key=lambda item: (-item[0], -item[1]["n_delayed"], item[1]["row_id"]))
         lead = members[0][1]
         kind = "entry" if len(lead["coanchors"]) == 1 and lead["coanchors"][0]["anchor"] == "insertion" else "edge"
         cannot_tell, knob = render.LOC_TEXT[kind]
         summary = [{"row_id": loc["row_id"], "weight": weight,
                     **{key: rows[loc["row_id"]][key] for key in ("r", "y", "planned", "measured", "ontime",
                                                                  "late_in", "delayed_out")},
-                    "n": f"{loc['n_delayed']}/{loc['n_peer']}", "top_diff_s": loc["coanchors"][0]["diff"]}
+                    "n": f"{loc['n_delayed']}/{loc['n_peer']}", "analyzed": loc["n_delayed"],
+                    "excluded": loc["n_delayed_other_prefix"] + loc["n_delayed_unpassed"],
+                    "top_diff_s": loc["coanchors"][0]["diff"]}
                    for weight, loc in members]
         hotspots.append({"id": hotspot, "kind": "LOC", "class": kind, "weight": sum(weight for weight, _ in members),
                          "rows": summary,
-                         "lead": {key: lead[key] for key in ("row_id", "entry", "n_delayed", "n_peer",
-                                                             "n_delayed_other_prefix", "excluded_peers_by_entry",
-                                                             "route_prefix_edges", "coanchors", "next", "spread",
-                                                             "delayed_measured_in")},
+                         "lead": {key: lead[key] for key in ("row_id", "entry", "delayed_out", "n_delayed", "n_peer",
+                                                             "n_delayed_other_prefix", "n_delayed_unpassed",
+                                                             "excluded_peers_by_entry", "route_prefix_edges",
+                                                             "coanchors", "next", "spread", "delayed_measured_in")},
                          "cannot_tell": cannot_tell, "knob": knob, "conf": "accounting"})
     for row in balance:
         if row["deficit"] + row["post_window"] + row["unpassed"] > 0:
@@ -597,12 +610,31 @@ def _read_inputs(goal: CalibrateGoal, reader: PacketCase) -> tuple[dict[str, byt
     for name in goal.inputs.files:
         try:
             reference = reader.resolve(f"prepared/{name}")
-        except (FileNotFoundError, BenchmarkReferenceError):
+        except UNREADABLE:
             resolved[name] = None
             continue
         resolved[name] = reference.sha256 if reference.scope != "direct" else None
         data[name] = reference.data
     return data, resolved
+
+
+def _read_run_files(goal: CalibrateGoal, reader: PacketCase,
+                    run_dir: str) -> tuple[dict[str, ResolvedReference], dict[str, bool], dict[str, bool]]:
+    """Every baseline-run artifact the profile reads, whether the packet pins the bytes read for each, and whether
+    those tracked bytes equal the blob committed at HEAD. A missing, undeclared or undecodable artifact is unpinned."""
+    names = {name: reader.key(f"{run_dir}/{name}") for name in RUN_FILES}
+    names["passages"] = reader.key(goal.inputs.baseline_run.passages)
+    names[LOCAL_ONLY_FILE] = LOCAL_ONLY_FILE
+    files: dict[str, ResolvedReference] = {}
+    pinned: dict[str, bool] = {}
+    for name, relative in names.items():
+        try:
+            files[name] = reader.resolve_root(relative)
+        except UNREADABLE:
+            pinned[relative] = False
+            continue
+        pinned[relative] = reader.pinned(files[name])
+    return files, pinned, reader.committed(files.values())
 
 
 def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: PacketCase, *, run_dir: str,
@@ -612,21 +644,26 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
         raise ValueError(f"M1 profiles only the goal's archived baseline run ({goal.inputs.baseline_run.dir}); "
                          "other runs need read_contributing_e1_passages on their own instant-E1 output (M2)")
     data, resolved = _read_inputs(goal, reader)
-    input_check = invariants.inv_inputs(goal.inputs.files, resolved)
+    run_files, pinned, committed = _read_run_files(goal, reader, run_dir)
+    input_check = invariants.inv_inputs(goal.inputs.files, resolved, pinned, committed)
     if not input_check["pass"]:
         raise ValueError(f"profile refused: INV-INPUTS failed for {input_check['witness_ids']}")
-    run_files = {name: reader.resolve(f"{run_dir}/{name}") for name in (
-        "run.json", "native-request.json", "command.json", "field-counts.xml", "vehicle-routes.xml", "e1.add.xml")}
-    run_files["passages"] = reader.resolve(goal.inputs.baseline_run.passages)
     run, request, command = (json.loads(run_files[name].data) for name in
                              ("run.json", "native-request.json", "command.json"))
     report = passage_report(run_files["passages"].data)
+    instant = local_only_row(run_files[LOCAL_ONLY_FILE].data, reader.key(f"{run_dir}/{INSTANT_E1}"))
     network = parse_network(data["network.net.xml"], data["control.add.xml"])
     requests = parse_demand(data["demand.rou.xml"])
     loops = parse_field_loops(data["field-loops.add.xml"])
     intended = parse_intentions(data["lane-intentions.json"])
     main_rows, init_rows = csv_rows(data["expected-counts.csv"]), csv_rows(data["initialization-counts.csv"])
     hold_nodes = list(goal.run.junction_body_hold_nodes)
+    routes = parse_vehicle_routes(run_files["vehicle-routes.xml"].data)
+    score, score_rows = score_counts(main_rows, init_rows, run_files[E1_OUTPUT].data)
+    bindings = {E1_OUTPUT: (run_files[E1_OUTPUT].sha256, "the profiled E1 output"),
+                INSTANT_E1: (instant["sha256"] if instant else None,
+                             f"{LOCAL_ONLY_FILE}; that file is local-only, its bytes are not in the repository and "
+                             "are not re-read, so the passage identities are the archived report's")}
     checks = [input_check,
               invariants.inv_obs(goal_loops=loops, run_loops=parse_field_loops(run_files["e1.add.xml"].data),
                                  goal_attribute=goal.observation.attribute,
@@ -634,10 +671,12 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
                                  goal_loops_sha256=goal.inputs.files["field-loops.add.xml"],
                                  run_loops_sha256=run_field_loop_sha(run)),
               invariants.inv_hold(hold_nodes, invariants.hold_node_sources(run, request)),
-              invariants.inv_pass(report, intended)]
-    inv_pass = checks[-1]
-
-    score, score_rows = score_counts(main_rows, init_rows, run_files["field-counts.xml"].data)
+              invariants.inv_pass(report, intended, bindings=bindings,
+                                  e1_counts={(str(row["detector_id"]), float(row["begin_s"])): int(row["measured"])
+                                             for row in score_rows},
+                                  routes=routes, field_edges={name: loop.edge for name, loop in loops.items()},
+                                  e1_begin_s=goal.observation.e1_begin_s, e1_period_s=goal.observation.e1_period_s,
+                                  step_s=goal.run.step_s)]
     arrivals = free_flow_arrivals(network, requests, intended, loops)
     passages = report["passages"]
     begin_s, period_s = goal.observation.e1_begin_s, goal.observation.e1_period_s
@@ -666,14 +705,13 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
     demand_match = {"demand": len(requests), "intentions": len(intended),
                     "demand_without_intention": len(set(requests) - set(intended)),
                     "intention_without_demand": len(set(intended) - set(requests))}
-    b1 = bounds.request_floor_b1(balance_rows, demand_match=demand_match, inv_pass=inv_pass,
+    b1 = bounds.request_floor_b1(balance_rows, demand_match=demand_match, invariants=checks,
                                  all182_tae=score["all182_tae"])
     b2 = bounds.main_supply_b2(balance_rows, main_bins, by_field, intended_vehicles=len(intended), e1_init=e1_init,
-                               ff_violations=decomp["ff_violations"], passages=decomp["passages"], inv_pass=inv_pass,
+                               ff_violations=decomp["ff_violations"], passages=decomp["passages"], invariants=checks,
                                main_tae=score["tae_main"])
 
     passage_of = {(p["vehicle_id"], p["detector_id"]): p for p in passages}
-    routes = parse_vehicle_routes(run_files["vehicle-routes.xml"].data)
     localized = [localize_row(row, network=network, requests=requests, routes=routes, loop=loops[row["detector_id"]],
                               passage=passage_of, planned=planned[(row["detector_id"], row["begin_s"])],
                               hold_nodes=set(hold_nodes))
@@ -698,7 +736,7 @@ def build_calibrate_profile(goal: CalibrateGoal, goal_bytes: bytes, reader: Pack
         "inputs": {"resolved": f"{sum(v is not None for v in resolved.values())}/{len(files)} aliases, "
                                "sha256 verified",
                    "files": files, "hold_nodes": hold_nodes,
-                   "passages": "archived report, " + ("reconciled" if report.get("reconciled") else "NOT reconciled")},
+                   "passages": "archived report, " + ("reconciled" if checks[-1]["pass"] else "NOT reconciled")},
         "invariants": checks, "score": score, "integrity": integrity_rows(command, run, report, intended),
         "decomp": decomp,
         "field_balance": {**balance, "fields": {row["field"]: {key: row[key] for key in (
