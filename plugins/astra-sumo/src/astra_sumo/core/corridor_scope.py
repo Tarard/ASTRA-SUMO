@@ -15,6 +15,7 @@ from pyproj import CRS, Transformer
 
 from .command_runner import run_command
 from .detector_demand import lane_allows_passenger, read_net
+from .local_network_conversion import with_geometry_precision
 
 
 COMPACT_CORRIDOR_SCHEMA_ID = "torii.compact-corridor-scope.v1"
@@ -274,7 +275,7 @@ def build_compact_corridor_variant(
             encoding="utf-8",
         )
         keep_edges_sha256 = _sha256_file(keep_edges_file)
-        command = [
+        command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             str(source_net_file),
@@ -283,7 +284,7 @@ def build_compact_corridor_variant(
             "--keep-edges.postload",
             "--output-file",
             str(output_net_file),
-        ]
+        ])
         result = _result_to_dict(
             command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
         )

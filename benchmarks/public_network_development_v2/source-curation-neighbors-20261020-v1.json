@@ -1,0 +1,401 @@
+{
+  "artifacts": [
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/selection.json",
+      "sha256": "977bdf91573e80a3b4697a168c3b0f803bca5e77d4d16eb81905fd47649e6e08"
+    },
+    {
+      "path": "outputs/prepared_topology_change_trace_20261020_v1/trace.json",
+      "sha256": "650f637b3678e33e637925fd528a21e228e5212f90a27cd17369f6abd74429e1"
+    },
+    {
+      "path": "outputs/measure_prepared_near_controls_20261020_v1.py",
+      "sha256": "70c4db3eccc5e3d54b028cc337f73b5da8ca4904357ad238a720e7964be76ba7"
+    },
+    {
+      "path": "outputs/trace_prepared_topology_changes_20261020_v1.py",
+      "sha256": "4d63f0d3756231ec28e0d55807223d4eeb9e2db6e48b4e7b943ba1b7edbcd3ef"
+    },
+    {
+      "path": "outputs/claude-review-09673be-20261020.txt",
+      "sha256": "972b05138cb1ad3470a45bc37c6c596e00c5016921730e658d4b61411dea2058"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/before-scorecard.json",
+      "sha256": "306b9e509f3ba96499bf70bebc0903d8e2eacb71045751a295aa3f5cf07b430a"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/before-summary.json",
+      "sha256": "32cf4561aa73c2d4615ac13a96a9588af018f181550c191c9a1bff0d28fde1c8"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/before-identity-check.json",
+      "sha256": "59bfd5689c1d46dbc213737943aba92c1a739022d0ba4f65a0367274ab96425a"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/source-shape-identity-control-scorecard.json",
+      "sha256": "942c092c128ddae06b08e220fe2cf71e1cc1643315b51616c79afc59fea303aa"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/source-shape-identity-control-summary.json",
+      "sha256": "b2c04c094fecd1f85b439769e4b3c3f8a30580a1a75ec81bd5059b34847b5ef5"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/source-shape-identity-control-identity-check.json",
+      "sha256": "59bfd5689c1d46dbc213737943aba92c1a739022d0ba4f65a0367274ab96425a"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/revised-shape-partial-correction-scorecard.json",
+      "sha256": "5105d0842e2a0390a38d027991a977611faff27210137fc5d49202dd90ce6bc7"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/revised-shape-partial-correction-summary.json",
+      "sha256": "46f087ae514268fa40e4a03d8b27e71ab3d157e0a632b459f65df714c0857bd0"
+    },
+    {
+      "path": "outputs/prepared_near_controls_20261020_v1/revised-shape-partial-correction-identity-check.json",
+      "sha256": "59bfd5689c1d46dbc213737943aba92c1a739022d0ba4f65a0367274ab96425a"
+    }
+  ],
+  "changes_against_before": {
+    "revised-shape-partial-correction": {
+      "changed_fact_count": 4,
+      "changed_fact_ids": [
+        "source-revision:1847:forward:1847#0_0",
+        "source-revision:1847:forward:1847#0_1",
+        "source-revision:1847:reverse:-1847#0_0",
+        "source-revision:1847:reverse:-1847#0_1"
+      ],
+      "changed_way_ids": [
+        "1847"
+      ],
+      "coverage_change_count": 0
+    },
+    "source-shape-identity-control": {
+      "changed_fact_count": 4,
+      "changed_fact_ids": [
+        "source-revision:1847:forward:1847#0_0",
+        "source-revision:1847:forward:1847#0_1",
+        "source-revision:1847:reverse:-1847#0_0",
+        "source-revision:1847:reverse:-1847#0_1"
+      ],
+      "changed_way_ids": [
+        "1847"
+      ],
+      "coverage_change_count": 0
+    }
+  },
+  "code_commit": "09673bea90da9abb1a350d87f984ddc8b52c5d6a",
+  "complete_ci_receipt": "source-curation-controls-ci-20261020-v1.json",
+  "field_precision": null,
+  "field_recall": null,
+  "limits": [
+    "Near roads can change legitimately through neighboring junction reconstruction. Nonzero model offsets are not field defects.",
+    "The far cohort is outside the declared scope and restoration enforces its geometry. Zero far changes verify restoration, not independent cleaning quality.",
+    "Most source neighbors can still be outside one selected edit. The declaration records which roads actually touch its native scope.",
+    "The revised road shape is copied from the generated reference. This tests the actuator, not independent automatic correction.",
+    "One source-only finding disappears, while two other finding memberships expand. These are model changes without field-defect authority."
+  ],
+  "measurements": {
+    "before": {
+      "covered_lane_length_weighted_mean_lateral_m": 7.307069866622112e-08,
+      "elapsed_seconds": 48.50502869999036,
+      "fact_count": 434,
+      "lane_length_weighted_coverage": 0.999202637042764,
+      "largest_fragment_mean_lateral_m": 3.179427042237303e-05,
+      "lateral_measured_count": 430,
+      "source_way_count": 39,
+      "status": "measured"
+    },
+    "revised-shape-partial-correction": {
+      "covered_lane_length_weighted_mean_lateral_m": 4.3116780138864525e-06,
+      "elapsed_seconds": 49.745606399999815,
+      "fact_count": 434,
+      "lane_length_weighted_coverage": 0.999202637042764,
+      "largest_fragment_mean_lateral_m": 0.0022559001561927006,
+      "lateral_measured_count": 430,
+      "source_way_count": 39,
+      "status": "measured"
+    },
+    "source-shape-identity-control": {
+      "covered_lane_length_weighted_mean_lateral_m": 4.829649399150983e-06,
+      "elapsed_seconds": 52.307689600012964,
+      "fact_count": 434,
+      "lane_length_weighted_coverage": 0.999202637042764,
+      "largest_fragment_mean_lateral_m": 0.0033394471239610113,
+      "lateral_measured_count": 430,
+      "source_way_count": 39,
+      "status": "measured"
+    }
+  },
+  "recorded_at_utc": "2026-10-20T02:43:13.382876+00:00",
+  "schema": "astra.source-curation-neighbor-evidence/v1",
+  "selection": {
+    "actual_edit_scopes": {
+      "revised-shape-partial-correction": {
+        "mutable_edge_ids": [
+          "-1847#0",
+          "-2366#5",
+          "-2366#6",
+          "-3795#5",
+          "-3795#6",
+          "1847#0",
+          "2366#5",
+          "2366#6",
+          "3795#5",
+          "3795#6"
+        ],
+        "mutable_junction_ids": [
+          "14777",
+          "7401"
+        ],
+        "near_way_ids_touching_edit_scope": [
+          "1847"
+        ]
+      },
+      "source-shape-identity-control": {
+        "mutable_edge_ids": [
+          "-1847#0",
+          "-2366#5",
+          "-2366#6",
+          "-3795#5",
+          "-3795#6",
+          "1847#0",
+          "2366#5",
+          "2366#6",
+          "3795#5",
+          "3795#6"
+        ],
+        "mutable_junction_ids": [
+          "14777",
+          "7401"
+        ],
+        "near_way_ids_touching_edit_scope": [
+          "1847"
+        ]
+      }
+    },
+    "fact_count": 434,
+    "selected_way_ids": [
+      "95",
+      "105",
+      "284",
+      "416",
+      "445",
+      "545",
+      "735",
+      "837",
+      "1058",
+      "1453",
+      "1575",
+      "1593",
+      "1604",
+      "1609",
+      "1638",
+      "1686",
+      "1718",
+      "1743",
+      "1839",
+      "1841",
+      "1842",
+      "1845",
+      "1846",
+      "1847",
+      "2035",
+      "2063",
+      "2078",
+      "2131",
+      "2271",
+      "2462",
+      "2463",
+      "2466",
+      "2930",
+      "3280",
+      "3318",
+      "3751",
+      "4202",
+      "4298",
+      "4302"
+    ],
+    "selection_rule": "All 39 complete-source-state neighbors excluded from the original far cohort, with no selection by near-control measurements. This cohort was declared after the far and revised-road measurements.",
+    "source_way_count": 39
+  },
+  "topology_membership_changes": {
+    "added_exact_node_set_count": 2,
+    "after_finding_count": 170,
+    "before_finding_count": 171,
+    "field_precision": null,
+    "field_recall": null,
+    "inputs": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\prepared_revision_finding_coverage_20261020_v1\\after-topology\\topology_audit_topology_audit.json": "6bbb0e844e7b34dbed07b1bcf8e26b0bb0aa8bfafaea97af145ba98285bc639d",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\prepared_revision_finding_coverage_20261020_v1\\before-topology\\topology_audit_topology_audit.json": "c618aa87b04365c42912ea4609b60cde9878d2d479861ce1471eac67b462bff2",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\after\\network.net.xml": "f0078d744e84578403055f99558ddb2d81fa6c6bae41646fff58d6ac96f595c8",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\before\\network.net.xml": "919ce26751eb61a8ee9148de78cba857dc169fc6404f2bcd7979f4de0b861bbf"
+    },
+    "limits": [
+      "A net count change can contain several changed finding memberships, not one resolved defect.",
+      "Shared-node candidates are descriptive and do not confirm identical physical intersections.",
+      "Negative editor node IDs can be renumbered across snapshots. Exact-ID differences with such nodes remain unresolved.",
+      "A finding absent after a source revision is model-relative evidence, not proof of a field defect or its correction."
+    ],
+    "moved_positive_native_node_count": 7,
+    "removed_exact_node_set_count": 3,
+    "same_node_set_finding_count": 168,
+    "schema": "astra.prepared-topology-change-trace/v1",
+    "unpaired_after": [
+      {
+        "contains_negative_editor_node_ids": false,
+        "field_defect_label": null,
+        "moved_positive_native_node_ids": [
+          "25787"
+        ],
+        "node_ids": [
+          "11716",
+          "13480",
+          "17518",
+          "23774",
+          "25787",
+          "7355",
+          "8612"
+        ],
+        "other_side_shared_node_candidates": [
+          {
+            "jaccard": 0.8571428571428571,
+            "node_ids": [
+              "11716",
+              "13480",
+              "23774",
+              "25787",
+              "7355",
+              "8612"
+            ],
+            "shared_node_count": 6
+          }
+        ],
+        "overlapping_registered_revision_way_ids": [
+          "100",
+          "2079"
+        ]
+      },
+      {
+        "contains_negative_editor_node_ids": false,
+        "field_defect_label": null,
+        "moved_positive_native_node_ids": [
+          "422"
+        ],
+        "node_ids": [
+          "1575",
+          "16999",
+          "24221",
+          "422",
+          "6224"
+        ],
+        "other_side_shared_node_candidates": [
+          {
+            "jaccard": 0.6,
+            "node_ids": [
+              "16999",
+              "24221",
+              "422"
+            ],
+            "shared_node_count": 3
+          }
+        ],
+        "overlapping_registered_revision_way_ids": [
+          "1590",
+          "2079",
+          "4201",
+          "96"
+        ]
+      }
+    ],
+    "unpaired_before": [
+      {
+        "contains_negative_editor_node_ids": false,
+        "field_defect_label": null,
+        "moved_positive_native_node_ids": [],
+        "node_ids": [
+          "10195",
+          "10430",
+          "12253",
+          "14023",
+          "15045",
+          "22084",
+          "25020"
+        ],
+        "other_side_shared_node_candidates": [],
+        "overlapping_registered_revision_way_ids": [
+          "1645",
+          "1701",
+          "1745",
+          "4201"
+        ]
+      },
+      {
+        "contains_negative_editor_node_ids": false,
+        "field_defect_label": null,
+        "moved_positive_native_node_ids": [
+          "25787"
+        ],
+        "node_ids": [
+          "11716",
+          "13480",
+          "23774",
+          "25787",
+          "7355",
+          "8612"
+        ],
+        "other_side_shared_node_candidates": [
+          {
+            "jaccard": 0.8571428571428571,
+            "node_ids": [
+              "11716",
+              "13480",
+              "17518",
+              "23774",
+              "25787",
+              "7355",
+              "8612"
+            ],
+            "shared_node_count": 6
+          }
+        ],
+        "overlapping_registered_revision_way_ids": [
+          "100",
+          "2079"
+        ]
+      },
+      {
+        "contains_negative_editor_node_ids": false,
+        "field_defect_label": null,
+        "moved_positive_native_node_ids": [
+          "422"
+        ],
+        "node_ids": [
+          "16999",
+          "24221",
+          "422"
+        ],
+        "other_side_shared_node_candidates": [
+          {
+            "jaccard": 0.6,
+            "node_ids": [
+              "1575",
+              "16999",
+              "24221",
+              "422",
+              "6224"
+            ],
+            "shared_node_count": 3
+          }
+        ],
+        "overlapping_registered_revision_way_ids": [
+          "1590",
+          "2079",
+          "4201",
+          "96"
+        ]
+      }
+    ]
+  }
+}

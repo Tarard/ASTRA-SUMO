@@ -1,0 +1,579 @@
+{
+  "schema": "astra.ring1-signal-clearance-evidence/v1",
+  "status": "partial",
+  "promotion_authority": false,
+  "implementation_commit": "8a060fd44adac5e27eef00a73be16f2ed8309d2e",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/ocit_c_programs.py",
+      "sha256": "acb8d5619232bec1aefe331d6f5bd52abe30a2b0b1403b8e4866d5322446e434"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/topology_signal_rebuild.py",
+      "sha256": "ad0efdb61a3f0c3390a7ae9b24e424ceabdc0091b74544624a5830e79021736c"
+    }
+  ],
+  "official_program_checks": [
+    {
+      "node_id": "104",
+      "program_reference": "5",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_01_104_9.2.xml",
+        "sha256": "20bec90a1c6e90284b2d2d961e97afeb95ea4a8f98224ddd4cfaebb0d7dd52c9"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 58
+      }
+    },
+    {
+      "node_id": "104",
+      "program_reference": "1",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_01_104_9.2.xml",
+        "sha256": "20bec90a1c6e90284b2d2d961e97afeb95ea4a8f98224ddd4cfaebb0d7dd52c9"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 58
+      }
+    },
+    {
+      "node_id": "118",
+      "program_reference": "5",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_01_118_37.6.xml",
+        "sha256": "5aedfeee29763d763921f003777f6a1beed83ebbdc14bda8b0b5ab4b669b15d0"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 260
+      }
+    },
+    {
+      "node_id": "119",
+      "program_reference": "1",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_01_119_18.2.xml",
+        "sha256": "d69cf2736036e1c3023e711246376f45e029356cb3a585d83cb66e61398e9b13"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 98
+      }
+    },
+    {
+      "node_id": "200",
+      "program_reference": "5",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_02_200_19.2.xml",
+        "sha256": "ba3c4713f5a3f48a0e6c50c5d70caddb23a651fabb0eb2c0d7bc6d6758ac4d14"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 140
+      }
+    },
+    {
+      "node_id": "535",
+      "program_reference": "1",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_05_535_9.2.xml",
+        "sha256": "3c8ff54b26908332d05eaabe95efa65197bdc6f75ff004322482fc1e8a79e6ec"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 118
+      }
+    },
+    {
+      "node_id": "535",
+      "program_reference": "10",
+      "source": {
+        "path": "outputs/ring1-approach-prepare-20261020-v3/official-sources/MAP_ITS_05_535_9.2.xml",
+        "sha256": "3c8ff54b26908332d05eaabe95efa65197bdc6f75ff004322482fc1e8a79e6ec"
+      },
+      "source_unchanged": true,
+      "pair_status_counts": {
+        "satisfied": 118
+      }
+    }
+  ],
+  "source_constraint_count": 850,
+  "native_control_correspondence": {
+    "node_id": "119",
+    "tls_id": "LSA119_part0",
+    "program_id": "0",
+    "group_link_indices": {
+      "K2": [
+        12,
+        13
+      ],
+      "K3": [
+        2,
+        3,
+        4
+      ],
+      "K6": [
+        0,
+        1
+      ]
+    },
+    "basis": "Official movement lane pairs matched to final loaded connections. Only these three unshared groups are scored here.",
+    "all_other_group_bindings_resolved": false
+  },
+  "measured_intergreens": {
+    "source": {
+      "cycle_s": 90.0,
+      "rows": [
+        {
+          "clearing_group": "K3",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 3.0,
+          "minimum_intergreen_s": 12.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 9.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 39.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 35.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 9.0,
+          "minimum_intergreen_s": 30.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 21.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K3",
+          "status": "violated",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 3.0,
+          "release_overlap_s": 0.0,
+          "slack_s": -1.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K6",
+          "status": "violated",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 3.0,
+          "release_overlap_s": 0.0,
+          "slack_s": -4.0
+        },
+        {
+          "clearing_group": "K3",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 39.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 32.0
+        }
+      ],
+      "unresolved_other_groups": true
+    },
+    "protected": {
+      "cycle_s": 155.0,
+      "rows": [
+        {
+          "clearing_group": "K3",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 3.0,
+          "minimum_intergreen_s": 12.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 9.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 36.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 32.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 9.0,
+          "minimum_intergreen_s": 113.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 104.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 9.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 5.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 89.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 82.0
+        },
+        {
+          "clearing_group": "K3",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 116.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 109.0
+        }
+      ],
+      "unresolved_other_groups": true
+    },
+    "clearance_only": {
+      "cycle_s": 95.0,
+      "rows": [
+        {
+          "clearing_group": "K3",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 3.0,
+          "minimum_intergreen_s": 12.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 9.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 40.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 36.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 9.0,
+          "minimum_intergreen_s": 35.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 26.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 4.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 0.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 7.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 0.0
+        },
+        {
+          "clearing_group": "K3",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 43.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 36.0
+        }
+      ],
+      "unresolved_other_groups": true
+    },
+    "clearance_preserve_green": {
+      "cycle_s": 95.0,
+      "rows": [
+        {
+          "clearing_group": "K3",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 3.0,
+          "minimum_intergreen_s": 12.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 9.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K2",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 40.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 36.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 9.0,
+          "minimum_intergreen_s": 35.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 26.0
+        },
+        {
+          "clearing_group": "K6",
+          "entering_group": "K3",
+          "status": "satisfied",
+          "required_s": 4.0,
+          "minimum_intergreen_s": 4.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 0.0
+        },
+        {
+          "clearing_group": "K2",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 7.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 0.0
+        },
+        {
+          "clearing_group": "K3",
+          "entering_group": "K6",
+          "status": "satisfied",
+          "required_s": 7.0,
+          "minimum_intergreen_s": 43.0,
+          "release_overlap_s": 0.0,
+          "slack_s": 36.0
+        }
+      ],
+      "unresolved_other_groups": true
+    }
+  },
+  "diagnostic_parameters": {
+    "end_s": 6000,
+    "step_length_s": 0.1,
+    "seed": 104,
+    "scheduled_full_demand_vehicle_count": 4494,
+    "only_target_controller_changed": "LSA119_part0",
+    "native_collision_check": true,
+    "time_to_teleport": -1
+  },
+  "trials": {
+    "source": {
+      "scenario": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/source/scenario.json",
+        "sha256": "6299fb741ef6780b468211d97f545f74c8697b40a33ee3bd8fb8d9b52c1d93d2"
+      },
+      "command": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/source/command.json",
+        "sha256": "4e5dad03996e2544bcf1b73ffaadb5cf4c1b60902950eccec38f1e5156400689"
+      },
+      "result": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/source/result.json",
+        "sha256": "0bdfe6e39c8b3ed16b62a3c85b9d3a4ee8d6ec2ffac6fa6ac6d5ccae06b890ec"
+      },
+      "last_step": {
+        "time": "5999.900",
+        "loaded": "1286",
+        "inserted": "894",
+        "running": "311",
+        "waiting": "323",
+        "ended": "583",
+        "arrived": "583",
+        "collisions": "4",
+        "teleports": "4",
+        "halting": "279",
+        "stopped": "0",
+        "meanWaitingTime": "90.353467561522",
+        "meanTravelTime": "405.375643224700",
+        "meanSpeed": "1.055067962882",
+        "meanSpeedRelative": "0.075980647092",
+        "discarded": "0",
+        "duration": "20"
+      },
+      "collision_count": 4,
+      "count_fit_result": false
+    },
+    "protected": {
+      "scenario": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/protected/scenario.json",
+        "sha256": "834be9e0ca63f2518a10154a0d71e41634b4cf7427c43dae2a14f2714e96da66"
+      },
+      "command": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/protected/command.json",
+        "sha256": "40b4776420330d66a35307a59495b5a86c43b4a849d3439845b6fb05ac41c1c3"
+      },
+      "result": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/protected/result.json",
+        "sha256": "3fafd8152215f7bd223ad55d46d1a9cee47bf1d5001833600bd16a7b9fafeb31"
+      },
+      "last_step": {
+        "time": "5999.900",
+        "loaded": "1286",
+        "inserted": "838",
+        "running": "308",
+        "waiting": "379",
+        "ended": "530",
+        "arrived": "530",
+        "collisions": "0",
+        "teleports": "0",
+        "halting": "234",
+        "stopped": "0",
+        "meanWaitingTime": "86.730668257756",
+        "meanTravelTime": "533.978113207547",
+        "meanSpeed": "1.351033596359",
+        "meanSpeedRelative": "0.097290325984",
+        "discarded": "0",
+        "duration": "4"
+      },
+      "collision_count": 0,
+      "count_fit_result": false
+    },
+    "clearance_only": {
+      "scenario": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_only/scenario.json",
+        "sha256": "27c5c24acba75c34eb3759456711aca9b258fa34f274c8ff395c86b07249c399"
+      },
+      "command": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_only/command.json",
+        "sha256": "888d78692aff4ea0ae3a254d41ceb901b3375bc383b89b7d2ae6656ed1f68043"
+      },
+      "result": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_only/result.json",
+        "sha256": "97ff25fa52d77cbd6f521fecb6c4e8e365f1c5197eaaad362a7c15ae07693f7f"
+      },
+      "last_step": {
+        "time": "5999.900",
+        "loaded": "1286",
+        "inserted": "927",
+        "running": "326",
+        "waiting": "290",
+        "ended": "601",
+        "arrived": "601",
+        "collisions": "0",
+        "teleports": "0",
+        "halting": "231",
+        "stopped": "0",
+        "meanWaitingTime": "94.217152103560",
+        "meanTravelTime": "411.372212978369",
+        "meanSpeed": "1.417675714780",
+        "meanSpeedRelative": "0.102087680125",
+        "discarded": "0",
+        "duration": "9"
+      },
+      "collision_count": 0,
+      "count_fit_result": false
+    },
+    "clearance_preserve_green": {
+      "scenario": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_preserve_green/scenario.json",
+        "sha256": "d7ed28a10e602e19a201b34e146bed23e2bb8185730e8c32ee55194f334013ed"
+      },
+      "command": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_preserve_green/command.json",
+        "sha256": "c14d42f2751bbce1d160c35b420c5f6c6fc8d4b90a85bdc1620668452059ce93"
+      },
+      "result": {
+        "path": "outputs/ring1-lsa119-paired-control-probe-20261021-v1/clearance_preserve_green/result.json",
+        "sha256": "8ad3f7aced73924c6634ff8309a7c72990f793151e7ae603e475dc7d5ec9da14"
+      },
+      "last_step": {
+        "time": "5999.900",
+        "loaded": "1286",
+        "inserted": "927",
+        "running": "326",
+        "waiting": "290",
+        "ended": "601",
+        "arrived": "601",
+        "collisions": "0",
+        "teleports": "0",
+        "halting": "231",
+        "stopped": "0",
+        "meanWaitingTime": "94.217152103560",
+        "meanTravelTime": "411.372212978369",
+        "meanSpeed": "1.417675714780",
+        "meanSpeedRelative": "0.102087680125",
+        "discarded": "0",
+        "duration": "10"
+      },
+      "collision_count": 0,
+      "count_fit_result": false
+    }
+  },
+  "source_collision_fixture": {
+    "compressed": {
+      "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/lsa119-6000-source-collisions-v1.xml.gz",
+      "sha256": "a86f794e1ea2960865ccaf919259b08e8ad679938e7a9aa8e715e5e56a96debb"
+    },
+    "uncompressed_sha256": "7d74e236ab5f4b31d3ce21d0c47a6f2f3c6047ba7070a304935f2a67434a58fa",
+    "count": 4
+  },
+  "clearance_extension": {
+    "source_cycle_s": 90,
+    "candidate_cycle_s": 95,
+    "extra_red_seconds_after_source_phase": {
+      "1": 4,
+      "3": 1
+    },
+    "continuing_greens_preserved": true,
+    "all_existing_phase_records_preserved": true,
+    "all_other_programs_and_non_program_elements_unchanged": true,
+    "all_six_declared_three_group_constraints_satisfied": true
+  },
+  "runners": [
+    {
+      "path": "outputs/probe-ring1-lsa119-control-pair-20261021-v1.py",
+      "sha256": "9fd5c20b8d185027f5a66bb0476452239564c23a8b1313b3dda435fab21e29bf"
+    },
+    {
+      "path": "outputs/probe-ring1-lsa119-clearance-only-20261021-v1.py",
+      "sha256": "e10b99f93317d1a838916e453695ab05aefa582e8e299ed0d160b529da98d4dc"
+    },
+    {
+      "path": "outputs/probe-ring1-lsa119-clearance-preserve-green-20261021-v1.py",
+      "sha256": "3dc3a26bbcd2c8850b15ac1aeef50e360da058a4e141a350111533b5a0d38ace"
+    },
+    {
+      "path": "outputs/measure-ring1-lsa119-control-clearances-20261021-v3.py",
+      "sha256": "c79b09b540177a6d9e009506f83df31133dd9b0b9b6673933b737f3052b8dad4"
+    }
+  ],
+  "tests": {
+    "record": {
+      "path": "outputs/source-and-native-signal-clearance-tests-20261021-v1.xml",
+      "sha256": "4a7fee8dd7eb32fcfd5eb913292b200ebc308789a4a368a62f9f331e8a531a54"
+    },
+    "passed": 41,
+    "failed": 0
+  },
+  "preceding_full_ci": {
+    "implementation_commit": "b5dc47af66f5bd9cbf7e710b99f32610233f4df4",
+    "run_id": 39546477650,
+    "record": {
+      "path": "outputs/ci-b5dc47a-pr-artifacts-20261021/verified-counts.json",
+      "sha256": "00b36baa28f5e393de0bedc312223a29c1e961c2846c8f938c495128c9162137"
+    },
+    "tests": 3947,
+    "passed": 3923,
+    "skipped": 24,
+    "failures": 0,
+    "errors": 0,
+    "required_native_passed": 74
+  },
+  "claim_boundary": "A 6000 s partial-demand diagnostic. The shared transition extension removes the four observed collisions in this horizon and preserves continuing greens. It changes the temporary cycle and does not import field timing. It does not prove full-demand completion, zero count error, every signal correspondence, or collision-free driving on every crossing path."
+}

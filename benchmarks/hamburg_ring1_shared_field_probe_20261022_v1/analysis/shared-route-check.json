@@ -1,0 +1,21 @@
+{
+  "formal_result": false,
+  "vehicles": 40,
+  "distinct_field_contributions": 80,
+  "first_field_totals": {
+    "hh_0119_Z_12_31546": 20,
+    "hh_0119_Z_13_34018": 20
+  },
+  "second_field_total": {
+    "hh_0535_Z_4_33055": 40
+  },
+  "sum_native_stop_time_s": 0.0,
+  "transfer_time_s": {
+    "min": 123.086250822382,
+    "median": 312.2063174312615,
+    "max": 478.310496475069
+  },
+  "driver_schema_changed": false,
+  "larger_shared_population_validated": false,
+  "claim_boundary": "The existing first-field driver suffices for these four tested supported routes. One vehicle may contribute once at each of two different fields without turnarounds, repeated roads or repeated physical junctions. This does not identify observed real vehicle totals, prove a capacity gain or calibrate the 130 real rows."
+}

@@ -16,6 +16,7 @@ from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 from .sumo_commands import run_sumo_load_audit
 from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
+from .local_network_conversion import with_geometry_precision
 
 
 CORRIDOR_GEOMETRY_SCHEMA = "torii.hamburg-official-corridor-geometry/v1"
@@ -95,7 +96,7 @@ def materialize_hamburg_official_corridor_geometry(
     _write_xml(plain["types"], "types", types)
 
     output_net = destination / "hamburg_official_corridor.net.xml"
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--node-files", str(plain["nodes"]),
         "--edge-files", str(plain["edges"]),
@@ -113,7 +114,7 @@ def materialize_hamburg_official_corridor_geometry(
         "--junctions.endpoint-shape", "true",
         "--offset.disable-normalization", "true",
         "--output-file", str(output_net),
-    ]
+    ])
     netconvert_passes = [_as_dict(command_runner(command, cwd=destination, timeout_seconds=timeout_seconds))]
     # netconvert trims external lane shapes at the generated junction polygon.
     # A curve anchored to the PlainXML lane endpoint can therefore still miss

@@ -1,0 +1,19 @@
+{
+  "passed": true,
+  "formal_result": false,
+  "artificial_vehicles": 20,
+  "vehicles_per_route": 10,
+  "native_version": "SUMO 1.27.1",
+  "completion": {
+    "loaded": 20,
+    "inserted": 20,
+    "arrived": 20,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "native_E1_reconciled": true,
+  "claim_boundary": "Artificial route check only. The 130 real main bins and 52 initialization bins remain unchanged. No full-window calibration, natural route choice or capacity is established."
+}

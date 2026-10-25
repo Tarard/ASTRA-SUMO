@@ -1,0 +1,21 @@
+{
+  "all_130_field_counts_match_native_nVehContrib": true,
+  "all_40_station_values_equal_member_field_sums": true,
+  "all_six_traffic_input_files_unchanged": true,
+  "driver_source_hash_matches_declared_scenario": true,
+  "native_complete_field_passages": 4902,
+  "wrong_field_passages": 0,
+  "multiple_field_passages_per_vehicle": 0,
+  "all_4772_arrived_vehicles_passed_their_assigned_field": true,
+  "restored_vehicles": 4902,
+  "unrestored_vehicles_still_running": 20,
+  "released_before_native_rear_clearance": 0,
+  "minimum_release_delay_s": 0.10002512663231755,
+  "maximum_release_delay_s": 0.1999918366636848,
+  "uninserted_vehicles": 1593,
+  "inserted_but_no_complete_field_passage": 192,
+  "observed_window_expected_passages": 6687,
+  "observed_window_native_passages": 4223,
+  "absolute_residual_sum": 2490,
+  "claim_boundary": "Driver realization and exact accounting under this declared model. Native completion and exact count calibration remain false."
+}

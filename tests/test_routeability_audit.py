@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET
 import pytest
 
 from astra_sumo.core.command_runner import CommandResult
+from astra_sumo.core.candidate_contracts import validate_routeability_evidence
 from astra_sumo.core.routeability_audit import (
     inspect_routeability_outputs,
     run_routeability_audit,
@@ -16,6 +17,49 @@ from astra_sumo.core.routeability_audit import (
 
 def _write_od_network(path: Path) -> None:
     path.write_text('<net version="1.20"><location netOffset="0,0" convBoundary="0,0,20,1" origBoundary="0,0,20,1" projParameter="!"/><edge id="a" from="x" to="y" priority="1"><lane id="a_0" index="0" speed="10" length="20" shape="0,0 20,0" allow="passenger"/></edge><edge id="b" from="y" to="x" priority="1"><lane id="b_0" index="0" speed="10" length="20" shape="20,1 0,1" allow="passenger"/></edge><junction id="x" type="priority" x="0" y="0" incLanes="b_0" intLanes="" shape="0,0 0,1"/><junction id="y" type="priority" x="20" y="0" incLanes="a_0" intLanes="" shape="20,0 20,1"/><connection from="a" to="b" fromLane="0" toLane="0" dir="t" state="M"/><connection from="b" to="a" fromLane="0" toLane="0" dir="t" state="M"/></net>', encoding="utf-8")
+
+
+def test_changed_endpoint_requests_are_retained_for_review(tmp_path):
+    source, candidate = tmp_path / "source.net.xml", tmp_path / "candidate.net.xml"
+    _write_od_network(source)
+    candidate.write_text(source.read_text(encoding="utf-8").replace('shape="0,0 20,0"', 'shape="0,0 19,0"')
+        .replace('shape="20,1 0,1"', 'shape="19,1 0,1"'), encoding="utf-8")
+    requests = tmp_path / "explicit.trips.xml"
+    root = ET.Element("routes")
+    for index in range(100):
+        ET.SubElement(root, "trip", id=str(index), depart=str(index),
+                      attrib={"from": "a", "to": "b", "departPos": "20", "arrivalPos": "10"})
+    ET.ElementTree(root).write(requests, encoding="utf-8")
+
+    def runner(command, *, cwd, **kwargs):
+        if not _fake_route_stage(command, cwd):
+            cfg_path = cwd / command[command.index("-c") + 1]
+            cfg = ET.parse(cfg_path).getroot()
+            (cwd / cfg.find("output/summary-output").get("value")).write_text(
+                '<summary><step time="300" loaded="100" inserted="100" arrived="100" running="0" waiting="0" collisions="0" teleports="0"/></summary>', encoding="utf-8")
+            trips = ET.Element("tripinfos")
+            for index in range(100):
+                ET.SubElement(trips, "tripinfo", id=str(index), depart=str(index), arrival=str(index + 10), duration="10", waitingTime="0", timeLoss="0")
+            ET.ElementTree(trips).write(cwd / cfg.find("output/tripinfo-output").get("value"), encoding="utf-8")
+            _fake_vehicle_routes(cwd, cfg, cfg_path, 100)
+        return {"status": "pass", "returncode": 0}
+
+    report = run_routeability_audit(net_file=candidate, od_reference_net_file=source,
+        frozen_trip_file=requests, expected_frozen_trip_sha256=hashlib.sha256(requests.read_bytes()).hexdigest(),
+        output_dir=tmp_path / "audit", binaries={"sumo": "sumo", "duarouter": "duarouter"}, command_runner=runner)
+    assert report["status"] == "review_required"
+    assert report["claim_status"] != "construction-invalid"
+    assert report["routeability_status"] == "unverified_endpoints"
+    assert report["execution_status"] == "completed"
+    assert report["final_attempt"]["vehicle_routes"]["complete_count"] == 100
+    mapping = report["od_policy"]["endpoint_mapping"]
+    assert report["reason"] == "unresolved_endpoint_mapping"
+    assert mapping["request_count"] == len(mapping["unresolved_requests"]) == 100
+    assert len(ET.parse(report["source_trip_file"]).getroot().findall("trip")) == 100
+    checked = validate_routeability_evidence(report, candidate_net_file=candidate)
+    assert checked["status"] == "review_required" and not checked["errors"]
+    forged = {**report, "status": "pass", "routeability_status": "pass"}
+    assert validate_routeability_evidence(forged, candidate_net_file=candidate)["status"] == "blocked"
 
 
 def _fake_route_stage(command: list[str], cwd: Path) -> bool:

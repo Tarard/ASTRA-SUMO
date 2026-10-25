@@ -1,0 +1,209 @@
+{
+  "schema": "astra.hamburg-ring1-m1-demand-evidence/v1",
+  "status": "offline_provisional_only",
+  "implementation_base_commit": "d8f20ebbfd1803267f2d7983cb9a8a9a19733515",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/demand_route_pool.py",
+      "sha256": "cc0c3c83160da67bf83a544656e2d2a234dcea0ce1abd37c583181be6e642ac2"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_demand.py",
+      "sha256": "d6b790bc0a62c2b4e0854018b196b44ff254063998f48b80ee0759b9c2abb214"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "path": "plugins/astra-sumo/scripts/build_hamburg_readme_demand.py",
+      "sha256": "0e20e3157209b5edc605f6eb1223d14d128bc8bccb80284035d950598f26e5ff"
+    }
+  ],
+  "files": [
+    {
+      "path": "report.json",
+      "sha256": "d919a81bcf27dd824e7fe838228bd646d1fc0451d39ea314cd0009c925cc0bf2",
+      "source_sha256": "d919a81bcf27dd824e7fe838228bd646d1fc0451d39ea314cd0009c925cc0bf2",
+      "compression": null
+    },
+    {
+      "path": "request.json",
+      "sha256": "d9688437653541a05919086aeed59950e84fd451514b7f0658cb4a39fe26a39c",
+      "source_sha256": "d9688437653541a05919086aeed59950e84fd451514b7f0658cb4a39fe26a39c",
+      "compression": null
+    },
+    {
+      "path": "integer-proposal.json",
+      "sha256": "356ec9eba547d1daf0ee7bae87dcf31d0f430e342c8523cfac6777e196884ad7",
+      "source_sha256": "356ec9eba547d1daf0ee7bae87dcf31d0f430e342c8523cfac6777e196884ad7",
+      "compression": null
+    },
+    {
+      "path": "vehicle-lower-bound.json",
+      "sha256": "1282457750bce81ccdbd115f2340de066e08e65be3bac0ab459516b346eb31ec",
+      "source_sha256": "1282457750bce81ccdbd115f2340de066e08e65be3bac0ab459516b346eb31ec",
+      "compression": null
+    },
+    {
+      "path": "independent-checks.json",
+      "sha256": "8f99f85afb1a10725ba5e577fc100556ff4039dd9eaf885ed125e178b498fadf",
+      "source_sha256": "8f99f85afb1a10725ba5e577fc100556ff4039dd9eaf885ed125e178b498fadf",
+      "compression": null
+    },
+    {
+      "path": "entry-loads.csv",
+      "sha256": "a67a2db257c43ba0bde047213cfdbace8341efb61f9c8d72e78ee86ec23ad8e8",
+      "source_sha256": "a67a2db257c43ba0bde047213cfdbace8341efb61f9c8d72e78ee86ec23ad8e8",
+      "compression": null
+    },
+    {
+      "path": "entry-inventory.csv",
+      "sha256": "ad499b5dbdbc2e9eae25e524d7c77446621d330612c676f2e651269a3d47c334",
+      "source_sha256": "ad499b5dbdbc2e9eae25e524d7c77446621d330612c676f2e651269a3d47c334",
+      "compression": null
+    },
+    {
+      "path": "approach-lane-loads.csv",
+      "sha256": "396acae9aba1fb775da2d78b2fa90d269f0285203f55dff3004d898b5f636347",
+      "source_sha256": "396acae9aba1fb775da2d78b2fa90d269f0285203f55dff3004d898b5f636347",
+      "compression": null
+    },
+    {
+      "path": "provisional-field-comparison.csv",
+      "sha256": "b9a1aef488839d17ac0c55399f9da2428c4f9ed6b3bf00c8f786a9fb21d84a43",
+      "source_sha256": "b9a1aef488839d17ac0c55399f9da2428c4f9ed6b3bf00c8f786a9fb21d84a43",
+      "compression": null
+    },
+    {
+      "path": "provisional-station-comparison.csv",
+      "sha256": "e51edfb62395d1ca32a52b84fee5a14426b684fdbd4b72679604efdd437b07c2",
+      "source_sha256": "e51edfb62395d1ca32a52b84fee5a14426b684fdbd4b72679604efdd437b07c2",
+      "compression": null
+    },
+    {
+      "path": "provisional-system.npz",
+      "sha256": "10c33dae6dfcaa126c604c7f411df83c2f4d58e827933522bd39686844a78abb",
+      "source_sha256": "10c33dae6dfcaa126c604c7f411df83c2f4d58e827933522bd39686844a78abb",
+      "compression": null
+    },
+    {
+      "path": "native-lane-command.json",
+      "sha256": "8ea511b48b5758fb6ee8c7e5623f7a7394f1fe83d5e0df32322b3f1d56fd4154",
+      "source_sha256": "8ea511b48b5758fb6ee8c7e5623f7a7394f1fe83d5e0df32322b3f1d56fd4154",
+      "compression": null
+    },
+    {
+      "path": "native-lane-request.json",
+      "sha256": "0ee57c57fc32f612e24e54ac0713ef689fd9aaa07ac1c4d16b50d27ac0c9d5dd",
+      "source_sha256": "0ee57c57fc32f612e24e54ac0713ef689fd9aaa07ac1c4d16b50d27ac0c9d5dd",
+      "compression": null
+    },
+    {
+      "path": "native-lanes.errors.log",
+      "sha256": "b06a6ad8e35469a9be3c8df06fc244947c0301f1832ee6e4fc06d4a3aee5e804",
+      "source_sha256": "b06a6ad8e35469a9be3c8df06fc244947c0301f1832ee6e4fc06d4a3aee5e804",
+      "compression": null
+    },
+    {
+      "path": "route-pool.json.gz",
+      "sha256": "d9034fcdb83b7c165a41249be47a907b75b2bc9069252cc820d0fe5513ec1fb0",
+      "source_sha256": "7ec82a4324d8a10f9a61d709133b88d9369be74d088424f8bddd62cdf0977ab5",
+      "compression": "gzip"
+    },
+    {
+      "path": "ideal-lane-profiles.json.gz",
+      "sha256": "f00c705820a76a9ffd52904708e5cd5a2540b570fba0b91a0e2c05aadb171f97",
+      "source_sha256": "12331de563365cccc609772ca58f50611826d837209ebbdf9b73b43f3987569e",
+      "compression": "gzip"
+    },
+    {
+      "path": "columns.json.gz",
+      "sha256": "7348fce77136147f74b4d8748a515c4e9254dc90ab76638b1d67a740e8fe1e8e",
+      "source_sha256": "92d625fd26fd84eaed408fe036f61bc0b7eeb022ed8bda1ce5d2ad1226ad7df0",
+      "compression": "gzip"
+    },
+    {
+      "path": "native-lanes.json.gz",
+      "sha256": "77d3289ec878db97b898e5f2dfe7308ab3a9ce391886ebd97a013fcf69cfd0ef",
+      "source_sha256": "e990de716b754b9b2cb8993c5599eb6b9073e1554c13aeecc2b0d357a111649b",
+      "compression": "gzip"
+    },
+    {
+      "path": "provisional-lane-intentions.json.gz",
+      "sha256": "4b7ed28c7bfd6129ef3bee3ede9ece8e0913edab468f75751ade47c8b92f7eb9",
+      "source_sha256": "b00bfe0b8506f89280b36bc7082f5264c7ead2238d55b74e7b6fd1aff551bd14",
+      "compression": "gzip"
+    },
+    {
+      "path": "provisional-demand.rou.xml.gz",
+      "sha256": "602abcab7a3b5e612e0d17114b831457a780b0715d5b1dd1979a01202ed74215",
+      "source_sha256": "fd6b8459378dd243d61f03e26f53a0fbe81a5ca0fb3d69d082185be72ee09500",
+      "compression": "gzip"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff",
+      "source_sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff",
+      "compression": null
+    },
+    {
+      "path": "inputs/boundary-selection.json",
+      "sha256": "ecca00d3e3aad158ea69df646a3718ac491cdeeb67a4c876b65877bb6c77b097",
+      "source_sha256": "ecca00d3e3aad158ea69df646a3718ac491cdeeb67a4c876b65877bb6c77b097",
+      "compression": null
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "compression": null
+    },
+    {
+      "path": "inputs/field-counts-15min.csv",
+      "sha256": "ae218727ab8eae62396237bbc3169a333e65ea53f57298547b77df908a02ee00",
+      "source_sha256": "ae218727ab8eae62396237bbc3169a333e65ea53f57298547b77df908a02ee00",
+      "compression": null
+    },
+    {
+      "path": "inputs/junction-groups.json",
+      "sha256": "098a93e771a1cbf76f259e0119bbf2276966b6894230a7c199803988624ce3a5",
+      "source_sha256": "098a93e771a1cbf76f259e0119bbf2276966b6894230a7c199803988624ce3a5",
+      "compression": null
+    },
+    {
+      "path": "assignment-001.txt",
+      "sha256": "dd0c751913b8ff97ecff8cd18d2fd742a01b66c6fdb22f83468df3d2f4ff8600",
+      "source_sha256": "dd0c751913b8ff97ecff8cd18d2fd742a01b66c6fdb22f83468df3d2f4ff8600",
+      "compression": null
+    },
+    {
+      "path": "checks/tests.log",
+      "sha256": "3c7f3eb64cd21b268ccf267d69c9177940565b6c7b68a5328ce3cbe4e95225bb",
+      "source_sha256": "3c7f3eb64cd21b268ccf267d69c9177940565b6c7b68a5328ce3cbe4e95225bb",
+      "compression": null
+    },
+    {
+      "path": "checks/tests.xml",
+      "sha256": "433ac5fad781866e9331cc6ef536d8c5e20645e2df8e4b24599e91e080128e54",
+      "source_sha256": "433ac5fad781866e9331cc6ef536d8c5e20645e2df8e4b24599e91e080128e54",
+      "compression": null
+    },
+    {
+      "path": "checks/final-tests.log",
+      "sha256": "94ccf490739309473da8bf63b19c15f8492ba085478139337b4ccd0507391838",
+      "source_sha256": "94ccf490739309473da8bf63b19c15f8492ba085478139337b4ccd0507391838",
+      "compression": null
+    },
+    {
+      "path": "checks/final-tests.xml",
+      "sha256": "465e83fefeb3dce4cb20300540992d362f8a788709a9686529c5cf8d61f2a5ce",
+      "source_sha256": "465e83fefeb3dce4cb20300540992d362f8a788709a9686529c5cf8d61f2a5ce",
+      "compression": null
+    }
+  ],
+  "formal_result": false,
+  "exact_count_fit": false,
+  "native_E1_measured": false,
+  "traffic_simulation_performed": false
+}

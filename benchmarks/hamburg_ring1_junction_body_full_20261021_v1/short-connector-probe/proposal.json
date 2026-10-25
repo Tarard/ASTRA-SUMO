@@ -1,0 +1,7 @@
+{
+  "formal_result": false,
+  "purpose": "Reproduce the route-suffix lane choice observed for readme_f0_b0_p169_v6. A positive-speed waypoint at 0.1 m on the short road selects lane 0. It is an artificial diagnostic, not an unchanged full-vehicle reproduction.",
+  "same_between_cases": "Network, suffix route, explicit lane-0 choice, vehicle, departure, signals and standstill detector.",
+  "difference": "Global junction-body hold enabled versus disabled. Observation-lane assignment lies upstream of this suffix, so it sends no local hold command here.",
+  "measurement_boundary": "No real field lies on the suffix. Artificial zeros do not replace any of the 130 source targets. Early termination leaves unmatched 900 s detector rows missing."
+}

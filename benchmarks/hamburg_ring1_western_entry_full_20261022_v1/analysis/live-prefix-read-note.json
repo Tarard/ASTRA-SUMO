@@ -1,0 +1,10 @@
+{
+  "formal_result": false,
+  "early_visible_closed_prefix_records": 51,
+  "expected_prefix_records": 52,
+  "early_observation_complete": false,
+  "native_restarted": false,
+  "later_terminal_prefix_records": 52,
+  "terminal_prefix_attributes_all_match": true,
+  "claim_boundary": "An earlier live read ended inside the final prefix record. The check was deferred without zero imputation. This observation did not change traffic or the terminal E1 counts."
+}

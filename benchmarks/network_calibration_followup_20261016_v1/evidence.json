@@ -1,0 +1,1651 @@
+{
+  "schema": "astra.network-calibration-followup-evidence/v1",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "network": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-rebuild/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a"
+  },
+  "official_sources": {
+    "path": "outputs/claude_revisions_20261015_v1/sources/official-sources.json",
+    "sha256": "95da14f67dfed39ffdab550eea0626c42b5c8f485f19095a1679db69836996ca"
+  },
+  "full_hamburg_rebuild": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-rebuild/workflow.manifest.json",
+    "sha256": "c57ea0bea70062028e72fb643bf9ed64232f28eefd9b09feddd88117dcc74327"
+  },
+  "sites": {
+    "2349": {
+      "scorecard": {
+        "path": "outputs/claude_followup_20261015_v1/calibration-final-with-width-v1/2349-scorecard.json",
+        "sha256": "1a8a279e0872ad96f8ac84278637cb45fc2dff3dbe4849287ddf549e7cf6bd0d"
+      },
+      "facts": {
+        "path": "outputs/claude_followup_20261015_v1/calibration-final-with-width-v1/2349-facts.json",
+        "sha256": "c21847446d166eb9cf2802a3fd5633f925ad7054fcf196b2b2cb3c8d5fc8e013"
+      },
+      "motor_summary": {
+        "all": {
+          "count": 10,
+          "median_lateral_offset_m": 0.5556721436433661,
+          "p90_lateral_offset_m": 2.585289415715655,
+          "worst_facts": [
+            {
+              "id": "2349:lane:3:centerline",
+              "mapping_confidence": "medium",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 152,
+                "coverage_sample_spacing_m": 0.49924855251045064,
+                "coverage_within_m": {
+                  "1.0": 0.0,
+                  "2.0": 0.0
+                },
+                "covered_reference_length_m": 67.89780314142129,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 3.0292615740260995,
+                "max_sampled_reference_offset_m": 6.381630455092684,
+                "mean_direction_cosine": -0.999904769222173,
+                "mean_lateral_offset_m": 2.8146054692826357,
+                "mean_reference_offset_m": 2.8836879450149406,
+                "reference_coverage": 0.8947368421052632,
+                "reference_length_m": 75.8857799815885,
+                "sample_count": 153,
+                "sample_spacing_m": 0.49924855251045064,
+                "uncovered_reference_length_m": 7.987976840167207
+              }
+            },
+            {
+              "id": "2349:lane:2:centerline",
+              "mapping_confidence": "conflict",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 149,
+                "coverage_sample_spacing_m": 0.49712107358002416,
+                "coverage_within_m": {
+                  "1.0": 0.026845637583892617,
+                  "2.0": 0.053691275167785234
+                },
+                "covered_reference_length_m": 73.07679781626355,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 2.8824777105074184,
+                "max_sampled_reference_offset_m": 2.881651443502303,
+                "mean_direction_cosine": -0.9965068232760168,
+                "mean_lateral_offset_m": 2.559809854208213,
+                "mean_reference_offset_m": 2.549798521533016,
+                "reference_coverage": 0.9865771812080537,
+                "reference_length_m": 74.0710399634236,
+                "sample_count": 150,
+                "sample_spacing_m": 0.49712107358002416,
+                "uncovered_reference_length_m": 0.9942421471600511
+              }
+            },
+            {
+              "id": "2349:lane:11:centerline",
+              "mapping_confidence": "medium",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 52,
+                "coverage_sample_spacing_m": 0.49700069942776415,
+                "coverage_within_m": {
+                  "1.0": 0.0,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 25.844036370243735,
+                "expected_reference_direction": 1,
+                "max_sampled_lateral_offset_m": 1.6788345791932004,
+                "max_sampled_reference_offset_m": 1.6795340975821351,
+                "mean_direction_cosine": 0.999996579784216,
+                "mean_lateral_offset_m": 1.660649622068465,
+                "mean_reference_offset_m": 1.6606594240056367,
+                "reference_coverage": 1.0,
+                "reference_length_m": 25.844036370243735,
+                "sample_count": 53,
+                "sample_spacing_m": 0.49700069942776415,
+                "uncovered_reference_length_m": 0.0
+              }
+            },
+            {
+              "id": "2349:lane:4:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 44,
+                "coverage_sample_spacing_m": 0.4892674378815483,
+                "coverage_within_m": {
+                  "1.0": 1.0,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 21.527767266788125,
+                "expected_reference_direction": 1,
+                "max_sampled_lateral_offset_m": 0.8761761873667875,
+                "max_sampled_reference_offset_m": 0.8774402364116056,
+                "mean_direction_cosine": 0.999327330292087,
+                "mean_lateral_offset_m": 0.7963867891587998,
+                "mean_reference_offset_m": 0.7961870714071889,
+                "reference_coverage": 1.0,
+                "reference_length_m": 21.527767266788125,
+                "sample_count": 45,
+                "sample_spacing_m": 0.4892674378815483,
+                "uncovered_reference_length_m": 0.0
+              }
+            },
+            {
+              "id": "2349:lane:7:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 136,
+                "coverage_sample_spacing_m": 0.4986840852090261,
+                "coverage_within_m": {
+                  "1.0": 0.9191176470588235,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 67.82103558842755,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 1.3709589651538132,
+                "max_sampled_reference_offset_m": 1.373116270249943,
+                "mean_direction_cosine": -0.996873489286853,
+                "mean_lateral_offset_m": 0.6700679820107686,
+                "mean_reference_offset_m": 0.6699487874945903,
+                "reference_coverage": 1.0,
+                "reference_length_m": 67.82103558842755,
+                "sample_count": 137,
+                "sample_spacing_m": 0.4986840852090261,
+                "uncovered_reference_length_m": 0.0
+              }
+            }
+          ]
+        },
+        "high_confidence": {
+          "count": 7,
+          "median_lateral_offset_m": 0.3903198169375618,
+          "p90_lateral_offset_m": 0.720595504869981,
+          "worst_facts": [
+            {
+              "id": "2349:lane:4:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 44,
+                "coverage_sample_spacing_m": 0.4892674378815483,
+                "coverage_within_m": {
+                  "1.0": 1.0,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 21.527767266788125,
+                "expected_reference_direction": 1,
+                "max_sampled_lateral_offset_m": 0.8761761873667875,
+                "max_sampled_reference_offset_m": 0.8774402364116056,
+                "mean_direction_cosine": 0.999327330292087,
+                "mean_lateral_offset_m": 0.7963867891587998,
+                "mean_reference_offset_m": 0.7961870714071889,
+                "reference_coverage": 1.0,
+                "reference_length_m": 21.527767266788125,
+                "sample_count": 45,
+                "sample_spacing_m": 0.4892674378815483,
+                "uncovered_reference_length_m": 0.0
+              }
+            },
+            {
+              "id": "2349:lane:7:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 136,
+                "coverage_sample_spacing_m": 0.4986840852090261,
+                "coverage_within_m": {
+                  "1.0": 0.9191176470588235,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 67.82103558842755,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 1.3709589651538132,
+                "max_sampled_reference_offset_m": 1.373116270249943,
+                "mean_direction_cosine": -0.996873489286853,
+                "mean_lateral_offset_m": 0.6700679820107686,
+                "mean_reference_offset_m": 0.6699487874945903,
+                "reference_coverage": 1.0,
+                "reference_length_m": 67.82103558842755,
+                "sample_count": 137,
+                "sample_spacing_m": 0.4986840852090261,
+                "uncovered_reference_length_m": 0.0
+              }
+            },
+            {
+              "id": "2349:lane:5:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 44,
+                "coverage_sample_spacing_m": 0.49926682206048495,
+                "coverage_within_m": {
+                  "1.0": 0.13636363636363635,
+                  "2.0": 0.13636363636363635
+                },
+                "covered_reference_length_m": 2.99560093236291,
+                "expected_reference_direction": 1,
+                "max_sampled_lateral_offset_m": 0.5782528474500309,
+                "max_sampled_reference_offset_m": 18.99204087190187,
+                "mean_direction_cosine": 0.9939600895403848,
+                "mean_lateral_offset_m": 0.4412763052759637,
+                "mean_reference_offset_m": 8.300451826641384,
+                "reference_coverage": 0.13636363636363635,
+                "reference_length_m": 21.967740170661337,
+                "sample_count": 45,
+                "sample_spacing_m": 0.49926682206048495,
+                "uncovered_reference_length_m": 18.972139238298425
+              }
+            },
+            {
+              "id": "2349:lane:10:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 262,
+                "coverage_sample_spacing_m": 0.4993235940650933,
+                "coverage_within_m": {
+                  "1.0": 1.0,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 130.82278164505445,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 0.4112505416390982,
+                "max_sampled_reference_offset_m": 0.41134938070834515,
+                "mean_direction_cosine": -0.9999997690162927,
+                "mean_lateral_offset_m": 0.3903198169375618,
+                "mean_reference_offset_m": 0.3903214204995829,
+                "reference_coverage": 1.0,
+                "reference_length_m": 130.82278164505445,
+                "sample_count": 263,
+                "sample_spacing_m": 0.4993235940650933,
+                "uncovered_reference_length_m": 0.0
+              }
+            },
+            {
+              "id": "2349:lane:6:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 567,
+                "coverage_sample_spacing_m": 0.4998682017859115,
+                "coverage_within_m": {
+                  "1.0": 0.673721340388007,
+                  "2.0": 0.673721340388007
+                },
+                "covered_reference_length_m": 190.94965308221822,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 0.8362350270549093,
+                "max_sampled_reference_offset_m": 92.34809534625498,
+                "mean_direction_cosine": -0.9988070902076227,
+                "mean_lateral_offset_m": 0.3113661766581893,
+                "mean_reference_offset_m": 15.259845834986299,
+                "reference_coverage": 0.673721340388007,
+                "reference_length_m": 283.42527041261184,
+                "sample_count": 568,
+                "sample_spacing_m": 0.4998682017859115,
+                "uncovered_reference_length_m": 92.47561733039362
+              }
+            }
+          ]
+        }
+      },
+      "motor_centerlines": [
+        {
+          "id": "2349:lane:2:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713077_2",
+              "60578487#0_2",
+              "60578487#1_2",
+              "60578487#2_2",
+              "60578487#3_2",
+              "554713076#0_2"
+            ]
+          },
+          "mapping_confidence": "conflict",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 149,
+            "coverage_sample_spacing_m": 0.49712107358002416,
+            "coverage_within_m": {
+              "1.0": 0.026845637583892617,
+              "2.0": 0.053691275167785234
+            },
+            "covered_reference_length_m": 73.07679781626355,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 2.8824777105074184,
+            "max_sampled_reference_offset_m": 2.881651443502303,
+            "mean_direction_cosine": -0.9965068232760168,
+            "mean_lateral_offset_m": 2.559809854208213,
+            "mean_reference_offset_m": 2.549798521533016,
+            "reference_coverage": 0.9865771812080537,
+            "reference_length_m": 74.0710399634236,
+            "sample_count": 150,
+            "sample_spacing_m": 0.49712107358002416,
+            "uncovered_reference_length_m": 0.9942421471600511
+          }
+        },
+        {
+          "id": "2349:lane:11:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "127716467#1_1"
+            ]
+          },
+          "mapping_confidence": "medium",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 52,
+            "coverage_sample_spacing_m": 0.49700069942776415,
+            "coverage_within_m": {
+              "1.0": 0.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 25.844036370243735,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 1.6788345791932004,
+            "max_sampled_reference_offset_m": 1.6795340975821351,
+            "mean_direction_cosine": 0.999996579784216,
+            "mean_lateral_offset_m": 1.660649622068465,
+            "mean_reference_offset_m": 1.6606594240056367,
+            "reference_coverage": 1.0,
+            "reference_length_m": 25.844036370243735,
+            "sample_count": 53,
+            "sample_spacing_m": 0.49700069942776415,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2349:lane:3:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "60578487#0_3",
+              "60578487#1_3",
+              "60578487#2_3",
+              "60578487#3_3",
+              "554713076#0_3"
+            ]
+          },
+          "mapping_confidence": "medium",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 152,
+            "coverage_sample_spacing_m": 0.49924855251045064,
+            "coverage_within_m": {
+              "1.0": 0.0,
+              "2.0": 0.0
+            },
+            "covered_reference_length_m": 67.89780314142129,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 3.0292615740260995,
+            "max_sampled_reference_offset_m": 6.381630455092684,
+            "mean_direction_cosine": -0.999904769222173,
+            "mean_lateral_offset_m": 2.8146054692826357,
+            "mean_reference_offset_m": 2.8836879450149406,
+            "reference_coverage": 0.8947368421052632,
+            "reference_length_m": 75.8857799815885,
+            "sample_count": 153,
+            "sample_spacing_m": 0.49924855251045064,
+            "uncovered_reference_length_m": 7.987976840167207
+          }
+        },
+        {
+          "id": "2349:lane:8:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "61649649#1_0"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 33,
+            "coverage_sample_spacing_m": 0.498425526617338,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 16.448042378372154,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 0.37702332433769453,
+            "max_sampled_reference_offset_m": 0.380748546692884,
+            "mean_direction_cosine": 0.9997904225448097,
+            "mean_lateral_offset_m": 0.22973043175829627,
+            "mean_reference_offset_m": 0.2297217616989855,
+            "reference_coverage": 1.0,
+            "reference_length_m": 16.448042378372154,
+            "sample_count": 34,
+            "sample_spacing_m": 0.498425526617338,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2349:lane:9:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "1167614257#1_1",
+              "61649647#0_1"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 262,
+            "coverage_sample_spacing_m": 0.4992564507436493,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 130.80519009483612,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 0.44449216095021543,
+            "max_sampled_reference_offset_m": 0.4445599518738134,
+            "mean_direction_cosine": -0.9999959868670149,
+            "mean_lateral_offset_m": 0.27984489719662514,
+            "mean_reference_offset_m": 0.27984495968935996,
+            "reference_coverage": 1.0,
+            "reference_length_m": 130.80519009483612,
+            "sample_count": 263,
+            "sample_spacing_m": 0.4992564507436493,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2349:lane:4:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713075#1_1",
+              "47854310#0_2",
+              "47854310#1_2"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 44,
+            "coverage_sample_spacing_m": 0.4892674378815483,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 21.527767266788125,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 0.8761761873667875,
+            "max_sampled_reference_offset_m": 0.8774402364116056,
+            "mean_direction_cosine": 0.999327330292087,
+            "mean_lateral_offset_m": 0.7963867891587998,
+            "mean_reference_offset_m": 0.7961870714071889,
+            "reference_coverage": 1.0,
+            "reference_length_m": 21.527767266788125,
+            "sample_count": 45,
+            "sample_spacing_m": 0.4892674378815483,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2349:lane:10:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "1167614257#1_0",
+              "61649647#0_0"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 262,
+            "coverage_sample_spacing_m": 0.4993235940650933,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 130.82278164505445,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 0.4112505416390982,
+            "max_sampled_reference_offset_m": 0.41134938070834515,
+            "mean_direction_cosine": -0.9999997690162927,
+            "mean_lateral_offset_m": 0.3903198169375618,
+            "mean_reference_offset_m": 0.3903214204995829,
+            "reference_coverage": 1.0,
+            "reference_length_m": 130.82278164505445,
+            "sample_count": 263,
+            "sample_spacing_m": 0.4993235940650933,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2349:lane:5:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713075#1_0"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 44,
+            "coverage_sample_spacing_m": 0.49926682206048495,
+            "coverage_within_m": {
+              "1.0": 0.13636363636363635,
+              "2.0": 0.13636363636363635
+            },
+            "covered_reference_length_m": 2.99560093236291,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 0.5782528474500309,
+            "max_sampled_reference_offset_m": 18.99204087190187,
+            "mean_direction_cosine": 0.9939600895403848,
+            "mean_lateral_offset_m": 0.4412763052759637,
+            "mean_reference_offset_m": 8.300451826641384,
+            "reference_coverage": 0.13636363636363635,
+            "reference_length_m": 21.967740170661337,
+            "sample_count": 45,
+            "sample_spacing_m": 0.49926682206048495,
+            "uncovered_reference_length_m": 18.972139238298425
+          }
+        },
+        {
+          "id": "2349:lane:7:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "127716468#2_0",
+              "554713078#0_0"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 136,
+            "coverage_sample_spacing_m": 0.4986840852090261,
+            "coverage_within_m": {
+              "1.0": 0.9191176470588235,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 67.82103558842755,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 1.3709589651538132,
+            "max_sampled_reference_offset_m": 1.373116270249943,
+            "mean_direction_cosine": -0.996873489286853,
+            "mean_lateral_offset_m": 0.6700679820107686,
+            "mean_reference_offset_m": 0.6699487874945903,
+            "reference_coverage": 1.0,
+            "reference_length_m": 67.82103558842755,
+            "sample_count": 137,
+            "sample_spacing_m": 0.4986840852090261,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2349:lane:6:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "127716468#0_0",
+              "127716468#1_0",
+              "127716468#2_0",
+              "554713078#0_1"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 567,
+            "coverage_sample_spacing_m": 0.4998682017859115,
+            "coverage_within_m": {
+              "1.0": 0.673721340388007,
+              "2.0": 0.673721340388007
+            },
+            "covered_reference_length_m": 190.94965308221822,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 0.8362350270549093,
+            "max_sampled_reference_offset_m": 92.34809534625498,
+            "mean_direction_cosine": -0.9988070902076227,
+            "mean_lateral_offset_m": 0.3113661766581893,
+            "mean_reference_offset_m": 15.259845834986299,
+            "reference_coverage": 0.673721340388007,
+            "reference_length_m": 283.42527041261184,
+            "sample_count": 568,
+            "sample_spacing_m": 0.4998682017859115,
+            "uncovered_reference_length_m": 92.47561733039362
+          }
+        }
+      ],
+      "width_facts": [
+        {
+          "id": "2349:lane:1:width_at_stop_line",
+          "selector": {},
+          "expected": 3.25,
+          "observed": null,
+          "metrics": {},
+          "status": "unknown"
+        },
+        {
+          "id": "2349:lane:2:width_at_stop_line",
+          "selector": {
+            "lane_id": "554713076#0_2"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2349:lane:3:width_at_stop_line",
+          "selector": {
+            "lane_id": "554713076#0_3"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2349:lane:9:width_at_stop_line",
+          "selector": {
+            "lane_id": "61649647#0_1"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2349:lane:10:width_at_stop_line",
+          "selector": {
+            "lane_id": "61649647#0_0"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2349:lane:7:width_at_stop_line",
+          "selector": {
+            "lane_id": "554713078#0_0"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2349:lane:6:width_at_stop_line",
+          "selector": {
+            "lane_id": "554713078#0_1"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        }
+      ]
+    },
+    "2394": {
+      "scorecard": {
+        "path": "outputs/claude_followup_20261015_v1/calibration-final-with-width-v1/2394-scorecard.json",
+        "sha256": "da9d2f40a0f842646d59fa34aca0c1e1121a1214759e05fe7a3e266a84b31b9e"
+      },
+      "facts": {
+        "path": "outputs/claude_followup_20261015_v1/calibration-final-with-width-v1/2394-facts.json",
+        "sha256": "b71c09b6596e166a78db7941b188e5fa3a29e3484b521b64b606bc826bf93056"
+      },
+      "motor_summary": {
+        "all": {
+          "count": 11,
+          "median_lateral_offset_m": 0.8095666704731477,
+          "p90_lateral_offset_m": 1.6356152942462985,
+          "worst_facts": [
+            {
+              "id": "2394:lane:9:centerline",
+              "mapping_confidence": "low",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 58,
+                "coverage_sample_spacing_m": 0.49695677904695357,
+                "coverage_within_m": {
+                  "1.0": 0.0,
+                  "2.0": 0.0
+                },
+                "covered_reference_length_m": 28.326536405676354,
+                "expected_reference_direction": 1,
+                "max_sampled_lateral_offset_m": 7.034400145552583,
+                "max_sampled_reference_offset_m": 7.163414964274573,
+                "mean_direction_cosine": 0.987845078486558,
+                "mean_lateral_offset_m": 4.858091423219123,
+                "mean_reference_offset_m": 4.897067528483698,
+                "reference_coverage": 0.9827586206896551,
+                "reference_length_m": 28.823493184723308,
+                "sample_count": 59,
+                "sample_spacing_m": 0.49695677904695357,
+                "uncovered_reference_length_m": 0.496956779046954
+              }
+            },
+            {
+              "id": "2394:lane:6:centerline",
+              "mapping_confidence": "medium",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 167,
+                "coverage_sample_spacing_m": 0.4971845326925758,
+                "coverage_within_m": {
+                  "1.0": 0.2634730538922156,
+                  "2.0": 0.49700598802395207
+                },
+                "covered_reference_length_m": 76.06923350196409,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 3.515235205399392,
+                "max_sampled_reference_offset_m": 3.5369302169457657,
+                "mean_direction_cosine": -0.9971951398198815,
+                "mean_lateral_offset_m": 1.6356152942462983,
+                "mean_reference_offset_m": 1.6144824253690109,
+                "reference_coverage": 0.9161676646706587,
+                "reference_length_m": 83.02981695966015,
+                "sample_count": 168,
+                "sample_spacing_m": 0.4971845326925758,
+                "uncovered_reference_length_m": 6.96058345769606
+              }
+            },
+            {
+              "id": "2394:lane:3:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 226,
+                "coverage_sample_spacing_m": 0.49936369290071686,
+                "coverage_within_m": {
+                  "1.0": 0.2079646017699115,
+                  "2.0": 0.9601769911504425
+                },
+                "covered_reference_length_m": 109.86001243815771,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 2.221238576823208,
+                "max_sampled_reference_offset_m": 2.2489098589926333,
+                "mean_direction_cosine": -0.9956890580078509,
+                "mean_lateral_offset_m": 1.205450431707447,
+                "mean_reference_offset_m": 1.1908605975907707,
+                "reference_coverage": 0.9734513274336283,
+                "reference_length_m": 112.85619459556202,
+                "sample_count": 227,
+                "sample_spacing_m": 0.49936369290071686,
+                "uncovered_reference_length_m": 2.9961821574043057
+              }
+            },
+            {
+              "id": "2394:lane:7:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 382,
+                "coverage_sample_spacing_m": 0.4987775836218011,
+                "coverage_within_m": {
+                  "1.0": 0.32460732984293195,
+                  "2.0": 0.7905759162303665
+                },
+                "covered_reference_length_m": 162.10271467708534,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 2.3517768730211737,
+                "max_sampled_reference_offset_m": 28.609112211833217,
+                "mean_direction_cosine": -0.9932066147828248,
+                "mean_lateral_offset_m": 1.0977664146420374,
+                "mean_reference_offset_m": 3.0996063290336475,
+                "reference_coverage": 0.8507853403141361,
+                "reference_length_m": 190.533036943528,
+                "sample_count": 383,
+                "sample_spacing_m": 0.4987775836218011,
+                "uncovered_reference_length_m": 28.43032226644266
+              }
+            },
+            {
+              "id": "2394:lane:2:centerline",
+              "mapping_confidence": "medium",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 222,
+                "coverage_sample_spacing_m": 0.49914959539122317,
+                "coverage_within_m": {
+                  "1.0": 0.3333333333333333,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 110.81121017685155,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 1.5967268331200246,
+                "max_sampled_reference_offset_m": 1.602925286480232,
+                "mean_direction_cosine": -0.9989938398348525,
+                "mean_lateral_offset_m": 1.0363085275988457,
+                "mean_reference_offset_m": 1.0364252484636505,
+                "reference_coverage": 1.0,
+                "reference_length_m": 110.81121017685155,
+                "sample_count": 223,
+                "sample_spacing_m": 0.49914959539122317,
+                "uncovered_reference_length_m": 0.0
+              }
+            }
+          ]
+        },
+        "high_confidence": {
+          "count": 8,
+          "median_lateral_offset_m": 0.5800762618212696,
+          "p90_lateral_offset_m": 1.1300716197616603,
+          "worst_facts": [
+            {
+              "id": "2394:lane:3:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 226,
+                "coverage_sample_spacing_m": 0.49936369290071686,
+                "coverage_within_m": {
+                  "1.0": 0.2079646017699115,
+                  "2.0": 0.9601769911504425
+                },
+                "covered_reference_length_m": 109.86001243815771,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 2.221238576823208,
+                "max_sampled_reference_offset_m": 2.2489098589926333,
+                "mean_direction_cosine": -0.9956890580078509,
+                "mean_lateral_offset_m": 1.205450431707447,
+                "mean_reference_offset_m": 1.1908605975907707,
+                "reference_coverage": 0.9734513274336283,
+                "reference_length_m": 112.85619459556202,
+                "sample_count": 227,
+                "sample_spacing_m": 0.49936369290071686,
+                "uncovered_reference_length_m": 2.9961821574043057
+              }
+            },
+            {
+              "id": "2394:lane:7:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 382,
+                "coverage_sample_spacing_m": 0.4987775836218011,
+                "coverage_within_m": {
+                  "1.0": 0.32460732984293195,
+                  "2.0": 0.7905759162303665
+                },
+                "covered_reference_length_m": 162.10271467708534,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 2.3517768730211737,
+                "max_sampled_reference_offset_m": 28.609112211833217,
+                "mean_direction_cosine": -0.9932066147828248,
+                "mean_lateral_offset_m": 1.0977664146420374,
+                "mean_reference_offset_m": 3.0996063290336475,
+                "reference_coverage": 0.8507853403141361,
+                "reference_length_m": 190.533036943528,
+                "sample_count": 383,
+                "sample_spacing_m": 0.4987775836218011,
+                "uncovered_reference_length_m": 28.43032226644266
+              }
+            },
+            {
+              "id": "2394:lane:14:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 39,
+                "coverage_sample_spacing_m": 0.49757900760689555,
+                "coverage_within_m": {
+                  "1.0": 0.6923076923076923,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 19.405581296668927,
+                "expected_reference_direction": 1,
+                "max_sampled_lateral_offset_m": 1.140175984512265,
+                "max_sampled_reference_offset_m": 1.1464972453478222,
+                "mean_direction_cosine": 0.9856335974162546,
+                "mean_lateral_offset_m": 0.8095666704731477,
+                "mean_reference_offset_m": 0.8095143651388971,
+                "reference_coverage": 1.0,
+                "reference_length_m": 19.405581296668927,
+                "sample_count": 40,
+                "sample_spacing_m": 0.49757900760689555,
+                "uncovered_reference_length_m": 0.0
+              }
+            },
+            {
+              "id": "2394:lane:10:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 148,
+                "coverage_sample_spacing_m": 0.49794050391296835,
+                "coverage_within_m": {
+                  "1.0": 0.8378378378378378,
+                  "2.0": 0.918918918918919
+                },
+                "covered_reference_length_m": 67.7199085321637,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 1.0582159451108024,
+                "max_sampled_reference_offset_m": 4.903226737976698,
+                "mean_direction_cosine": -0.9998572564069486,
+                "mean_lateral_offset_m": 0.5829713929024706,
+                "mean_reference_offset_m": 0.7869614520746084,
+                "reference_coverage": 0.918918918918919,
+                "reference_length_m": 73.69519457911932,
+                "sample_count": 149,
+                "sample_spacing_m": 0.49794050391296835,
+                "uncovered_reference_length_m": 5.975286046955617
+              }
+            },
+            {
+              "id": "2394:lane:11:centerline",
+              "mapping_confidence": "high",
+              "metrics": {
+                "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+                "coverage_sample_count": 145,
+                "coverage_sample_spacing_m": 0.4983858496971039,
+                "coverage_within_m": {
+                  "1.0": 1.0,
+                  "2.0": 1.0
+                },
+                "covered_reference_length_m": 72.26594820608007,
+                "expected_reference_direction": -1,
+                "max_sampled_lateral_offset_m": 0.8753028155001138,
+                "max_sampled_reference_offset_m": 0.8748807092217062,
+                "mean_direction_cosine": -0.9979103344851155,
+                "mean_lateral_offset_m": 0.5771811307400685,
+                "mean_reference_offset_m": 0.5769658522599973,
+                "reference_coverage": 1.0,
+                "reference_length_m": 72.26594820608007,
+                "sample_count": 146,
+                "sample_spacing_m": 0.4983858496971039,
+                "uncovered_reference_length_m": 0.0
+              }
+            }
+          ]
+        }
+      },
+      "motor_centerlines": [
+        {
+          "id": "2394:lane:10:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "47854310#0_0",
+              "47854310#1_0",
+              "47854310#2_0"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 148,
+            "coverage_sample_spacing_m": 0.49794050391296835,
+            "coverage_within_m": {
+              "1.0": 0.8378378378378378,
+              "2.0": 0.918918918918919
+            },
+            "covered_reference_length_m": 67.7199085321637,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 1.0582159451108024,
+            "max_sampled_reference_offset_m": 4.903226737976698,
+            "mean_direction_cosine": -0.9998572564069486,
+            "mean_lateral_offset_m": 0.5829713929024706,
+            "mean_reference_offset_m": 0.7869614520746084,
+            "reference_coverage": 0.918918918918919,
+            "reference_length_m": 73.69519457911932,
+            "sample_count": 149,
+            "sample_spacing_m": 0.49794050391296835,
+            "uncovered_reference_length_m": 5.975286046955617
+          }
+        },
+        {
+          "id": "2394:lane:9:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "-381540198#0_0"
+            ]
+          },
+          "mapping_confidence": "low",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 58,
+            "coverage_sample_spacing_m": 0.49695677904695357,
+            "coverage_within_m": {
+              "1.0": 0.0,
+              "2.0": 0.0
+            },
+            "covered_reference_length_m": 28.326536405676354,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 7.034400145552583,
+            "max_sampled_reference_offset_m": 7.163414964274573,
+            "mean_direction_cosine": 0.987845078486558,
+            "mean_lateral_offset_m": 4.858091423219123,
+            "mean_reference_offset_m": 4.897067528483698,
+            "reference_coverage": 0.9827586206896551,
+            "reference_length_m": 28.823493184723308,
+            "sample_count": 59,
+            "sample_spacing_m": 0.49695677904695357,
+            "uncovered_reference_length_m": 0.496956779046954
+          }
+        },
+        {
+          "id": "2394:lane:11:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713075#1_1",
+              "47854310#0_1",
+              "47854310#1_1",
+              "47854310#2_1"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 145,
+            "coverage_sample_spacing_m": 0.4983858496971039,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 72.26594820608007,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 0.8753028155001138,
+            "max_sampled_reference_offset_m": 0.8748807092217062,
+            "mean_direction_cosine": -0.9979103344851155,
+            "mean_lateral_offset_m": 0.5771811307400685,
+            "mean_reference_offset_m": 0.5769658522599973,
+            "reference_coverage": 1.0,
+            "reference_length_m": 72.26594820608007,
+            "sample_count": 146,
+            "sample_spacing_m": 0.4983858496971039,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2394:lane:4:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "193847534#1_0",
+              "554713072_0"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 61,
+            "coverage_sample_spacing_m": 0.49453581409588965,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 30.166684659849267,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 0.5793746862062386,
+            "max_sampled_reference_offset_m": 0.6190587969603693,
+            "mean_direction_cosine": 0.9975891375884403,
+            "mean_lateral_offset_m": 0.17823410373277165,
+            "mean_reference_offset_m": 0.17836185874381488,
+            "reference_coverage": 1.0,
+            "reference_length_m": 30.166684659849267,
+            "sample_count": 62,
+            "sample_spacing_m": 0.49453581409588965,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2394:lane:12:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713075#1_1",
+              "47854310#0_2",
+              "47854310#1_2",
+              "47854310#2_2"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 145,
+            "coverage_sample_spacing_m": 0.49855723080252984,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 72.29079846636682,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 0.7743204836959839,
+            "max_sampled_reference_offset_m": 0.7767398073719822,
+            "mean_direction_cosine": -0.9999142499082346,
+            "mean_lateral_offset_m": 0.5328488748709841,
+            "mean_reference_offset_m": 0.5328511654564373,
+            "reference_coverage": 1.0,
+            "reference_length_m": 72.29079846636682,
+            "sample_count": 146,
+            "sample_spacing_m": 0.49855723080252984,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2394:lane:5:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "193847534#1_1",
+              "554713072_1"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 60,
+            "coverage_sample_spacing_m": 0.4942477218220095,
+            "coverage_within_m": {
+              "1.0": 1.0,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 29.654863309320568,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 0.4328328070442725,
+            "max_sampled_reference_offset_m": 0.4292023190238322,
+            "mean_direction_cosine": 0.9975899393382199,
+            "mean_lateral_offset_m": 0.2887910777778794,
+            "mean_reference_offset_m": 0.28873237873106467,
+            "reference_coverage": 1.0,
+            "reference_length_m": 29.654863309320568,
+            "sample_count": 61,
+            "sample_spacing_m": 0.4942477218220095,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2394:lane:2:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "395272650#1_2",
+              "9702432#0_2"
+            ]
+          },
+          "mapping_confidence": "medium",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 222,
+            "coverage_sample_spacing_m": 0.49914959539122317,
+            "coverage_within_m": {
+              "1.0": 0.3333333333333333,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 110.81121017685155,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 1.5967268331200246,
+            "max_sampled_reference_offset_m": 1.602925286480232,
+            "mean_direction_cosine": -0.9989938398348525,
+            "mean_lateral_offset_m": 1.0363085275988457,
+            "mean_reference_offset_m": 1.0364252484636505,
+            "reference_coverage": 1.0,
+            "reference_length_m": 110.81121017685155,
+            "sample_count": 223,
+            "sample_spacing_m": 0.49914959539122317,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2394:lane:14:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713077_2",
+              "60578487#0_3",
+              "60578487#1_3"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 39,
+            "coverage_sample_spacing_m": 0.49757900760689555,
+            "coverage_within_m": {
+              "1.0": 0.6923076923076923,
+              "2.0": 1.0
+            },
+            "covered_reference_length_m": 19.405581296668927,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": 1.140175984512265,
+            "max_sampled_reference_offset_m": 1.1464972453478222,
+            "mean_direction_cosine": 0.9856335974162546,
+            "mean_lateral_offset_m": 0.8095666704731477,
+            "mean_reference_offset_m": 0.8095143651388971,
+            "reference_coverage": 1.0,
+            "reference_length_m": 19.405581296668927,
+            "sample_count": 40,
+            "sample_spacing_m": 0.49757900760689555,
+            "uncovered_reference_length_m": 0.0
+          }
+        },
+        {
+          "id": "2394:lane:3:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "395272650#1_2",
+              "9702432#0_3",
+              "193847534#1_1"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 226,
+            "coverage_sample_spacing_m": 0.49936369290071686,
+            "coverage_within_m": {
+              "1.0": 0.2079646017699115,
+              "2.0": 0.9601769911504425
+            },
+            "covered_reference_length_m": 109.86001243815771,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 2.221238576823208,
+            "max_sampled_reference_offset_m": 2.2489098589926333,
+            "mean_direction_cosine": -0.9956890580078509,
+            "mean_lateral_offset_m": 1.205450431707447,
+            "mean_reference_offset_m": 1.1908605975907707,
+            "reference_coverage": 0.9734513274336283,
+            "reference_length_m": 112.85619459556202,
+            "sample_count": 227,
+            "sample_spacing_m": 0.49936369290071686,
+            "uncovered_reference_length_m": 2.9961821574043057
+          }
+        },
+        {
+          "id": "2394:lane:6:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "554713073_0",
+              "381540198#0_0"
+            ]
+          },
+          "mapping_confidence": "medium",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 167,
+            "coverage_sample_spacing_m": 0.4971845326925758,
+            "coverage_within_m": {
+              "1.0": 0.2634730538922156,
+              "2.0": 0.49700598802395207
+            },
+            "covered_reference_length_m": 76.06923350196409,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 3.515235205399392,
+            "max_sampled_reference_offset_m": 3.5369302169457657,
+            "mean_direction_cosine": -0.9971951398198815,
+            "mean_lateral_offset_m": 1.6356152942462983,
+            "mean_reference_offset_m": 1.6144824253690109,
+            "reference_coverage": 0.9161676646706587,
+            "reference_length_m": 83.02981695966015,
+            "sample_count": 168,
+            "sample_spacing_m": 0.4971845326925758,
+            "uncovered_reference_length_m": 6.96058345769606
+          }
+        },
+        {
+          "id": "2394:lane:7:centerline",
+          "selector": {
+            "include_internal_paths": true,
+            "lane_ids": [
+              "1375872044_0",
+              "772558655_0",
+              "554713074_0",
+              "554713073_1",
+              "381540198#0_1"
+            ]
+          },
+          "mapping_confidence": "high",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 382,
+            "coverage_sample_spacing_m": 0.4987775836218011,
+            "coverage_within_m": {
+              "1.0": 0.32460732984293195,
+              "2.0": 0.7905759162303665
+            },
+            "covered_reference_length_m": 162.10271467708534,
+            "expected_reference_direction": -1,
+            "max_sampled_lateral_offset_m": 2.3517768730211737,
+            "max_sampled_reference_offset_m": 28.609112211833217,
+            "mean_direction_cosine": -0.9932066147828248,
+            "mean_lateral_offset_m": 1.0977664146420374,
+            "mean_reference_offset_m": 3.0996063290336475,
+            "reference_coverage": 0.8507853403141361,
+            "reference_length_m": 190.533036943528,
+            "sample_count": 383,
+            "sample_spacing_m": 0.4987775836218011,
+            "uncovered_reference_length_m": 28.43032226644266
+          }
+        }
+      ],
+      "width_facts": [
+        {
+          "id": "2394:lane:10:width_at_stop_line",
+          "selector": {
+            "lane_id": "47854310#2_0"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2394:lane:11:width_at_stop_line",
+          "selector": {
+            "lane_id": "47854310#2_1"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2394:lane:12:width_at_stop_line",
+          "selector": {
+            "lane_id": "47854310#2_2"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2394:lane:1:width_at_stop_line",
+          "selector": {},
+          "expected": 3.25,
+          "observed": null,
+          "metrics": {},
+          "status": "unknown"
+        },
+        {
+          "id": "2394:lane:2:width_at_stop_line",
+          "selector": {
+            "lane_id": "9702432#0_2"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2394:lane:3:width_at_stop_line",
+          "selector": {
+            "lane_id": "9702432#0_3"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2394:lane:6:width_at_stop_line",
+          "selector": {
+            "lane_id": "381540198#0_0"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        },
+        {
+          "id": "2394:lane:7:width_at_stop_line",
+          "selector": {
+            "lane_id": "381540198#0_1"
+          },
+          "expected": 3.25,
+          "observed": 3.2,
+          "metrics": {
+            "absolute_width_error_m": 0.04999999999999982
+          },
+          "status": "measured"
+        }
+      ]
+    }
+  },
+  "stop_line_trial": {
+    "report": {
+      "path": "outputs/claude_followup_20261015_v1/stop-line-pilot-v1/edit-verification.json",
+      "sha256": "74b9ebb60eb96ef74a92a8e6003162d321a8429262817ea2d368586a5f8e1766"
+    },
+    "candidate_sha256": "f3e2e22b03f968985ea438d8f5cb93dd312cc82512deb4e77aef33297e82a50f",
+    "effect": {
+      "after": "measured",
+      "after_metrics": {
+        "lateral_offset_m": -2.817723322577206,
+        "longitudinal_offset_m": 0.004939954811062205,
+        "offset_m": 2.817727652870139
+      },
+      "before": "measured",
+      "before_metrics": {
+        "lateral_offset_m": -2.816697926684487,
+        "longitudinal_offset_m": 4.734841343064008,
+        "offset_m": 5.5093111869068405
+      },
+      "fact_id": "2349:lane:2:stop_line",
+      "metric_deltas": {
+        "lateral_offset_m": -0.0010253958927188833,
+        "longitudinal_offset_m": -4.729901388252945,
+        "offset_m": -2.6915835340367016
+      }
+    },
+    "outside_fact_changes": [],
+    "runtime": {
+      "source_routeability": {
+        "status": "fail",
+        "final_summary": {
+          "arrived": 100,
+          "collisions": 1,
+          "completion_ratio": 1.0,
+          "discarded": 0,
+          "exists": true,
+          "inserted": 100,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "running": 0,
+          "teleports": 1,
+          "valid_xml": true,
+          "waiting": 0,
+          "warnings": [
+            "1 teleports reported at final summary step",
+            "1 collisions reported at final summary step"
+          ]
+        }
+      },
+      "candidate_routeability": {
+        "status": "fail",
+        "final_summary": {
+          "arrived": 62,
+          "collisions": 0,
+          "completion_ratio": 0.62,
+          "discarded": 0,
+          "exists": true,
+          "inserted": 99,
+          "last_time": 2399.0,
+          "loaded": 100,
+          "running": 37,
+          "teleports": 0,
+          "valid_xml": true,
+          "waiting": 1,
+          "warnings": [
+            "37 vehicles still running at final summary step",
+            "1 vehicles waiting for insertion at final summary step"
+          ]
+        }
+      }
+    },
+    "accepted": false
+  },
+  "most_recovery": {
+    "repository": "https://github.com/lcodeca/MoSTScenario",
+    "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+    "artifacts": [
+      {
+        "path": "tools/static/data/network.osm",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "355def2b79c276c53b32885411eb735ddbbb3db2",
+        "size": 3095503,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/355def2b79c276c53b32885411eb735ddbbb3db2",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "0752eabd75f958731028ddc0aa779489a13e8fbfdc166999c4d955a8f538e115"
+      },
+      {
+        "path": "tools/static/most.netcfg",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "55f9a9e2d3e7e084f6d05acd5c233983d74ac0f9",
+        "size": 2793,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/55f9a9e2d3e7e084f6d05acd5c233983d74ac0f9",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "1b19eec7364cce002d734bdc178f9982f2b49e57986b1eb2b519d72df04f735c"
+      },
+      {
+        "path": "tools/static/most.raw.osm",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "5a48c45063d950161092684bb11f7f3fef650d83",
+        "size": 31860863,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/5a48c45063d950161092684bb11f7f3fef650d83",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "dda3afd8f29aee97090088e78d485365ac1ad054c743991090bd5407cedd0073"
+      },
+      {
+        "path": "tools/static/osm-like.aggregator.sh",
+        "mode": "100755",
+        "type": "blob",
+        "sha": "535a4c1d0da387ea66df028530021f78c36629c9",
+        "size": 1604,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/535a4c1d0da387ea66df028530021f78c36629c9",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "68d2ed7500e4ad4797858233a86867163885d2c1484f32725df758b56dd54bf6"
+      },
+      {
+        "path": "tools/static/typemap/osmBidiRailNetconvert.typ.xml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "17543648fdac677b6a35c5645529c48f3c69f16d",
+        "size": 396,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/17543648fdac677b6a35c5645529c48f3c69f16d",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "203ebd625ea5ea7f38f28eeb37745d3b6bc1076c4e55a09d4b4ad4b683ea67f1"
+      },
+      {
+        "path": "tools/static/typemap/osmNetconvert.typ.xml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "d139bfdde7bcfdfbf7aa6107e28951bb91f6b4e1",
+        "size": 6971,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/d139bfdde7bcfdfbf7aa6107e28951bb91f6b4e1",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "1b64c8fe28e436ac44d73c1a52bf13b05e8c31f448de8e9a78492509cba7b6b0"
+      },
+      {
+        "path": "tools/static/typemap/osmNetconvertBicycle.typ.xml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "55b70240e89eba65d8f7653c562527d3679bf704",
+        "size": 449,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/55b70240e89eba65d8f7653c562527d3679bf704",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "2f97d51856b204737cb122b4f6234e5049d354ecb9e2282ee43e9e051a43bbc7"
+      },
+      {
+        "path": "tools/static/typemap/osmNetconvertPedestrians.typ.xml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "cdb3de8769e3ab983a3101b751eb14a7358bffad",
+        "size": 2145,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/cdb3de8769e3ab983a3101b751eb14a7358bffad",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "dd6f2a07af324807bc13e21255ce3e1fe3f9f50e2eca57a1a3faa93164a81ff5"
+      },
+      {
+        "path": "tools/static/typemap/osmNetconvertShips.typ.xml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "c8d2c855d15d6e4a5bcb6fe2ae447469e46323f1",
+        "size": 465,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/c8d2c855d15d6e4a5bcb6fe2ae447469e46323f1",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "ffa7dd5459e0ef97b48a498376ef1bf985b4c3d6379b4ad77b131f7b4f122bbd"
+      },
+      {
+        "path": "tools/static/typemap/osmNetconvertUrbanDe.typ.xml",
+        "mode": "100644",
+        "type": "blob",
+        "sha": "2895c05fdbe00c5d1354848e7e3de9af3968698b",
+        "size": 681,
+        "url": "https://api.github.com/repos/lcodeca/MoSTScenario/git/blobs/2895c05fdbe00c5d1354848e7e3de9af3968698b",
+        "commit": "d00e82945f5c6322a98ad2df4a8d5f48274fca53",
+        "sha256": "988354e9faad24fc58b6715d3bfd2e209619523d4cafe5679e7dc70221760049"
+      }
+    ],
+    "unjoined_import": {
+      "path": "outputs/claude_followup_20261015_v1/recovered-most/config-unjoined.net.xml",
+      "sha256": "97ca4f21c83ef975110ac44da822cfa055d6c23a0b185e9da72eadc56b4dc9d5"
+    },
+    "labels": {
+      "path": "outputs/claude_followup_20261015_v1/recovered-most/config-probed-model-labels.jsonl",
+      "sha256": "7f10917ee00ba8e0ccd75f43f55a297cf34b8511d4a1cb3b3fd466940823ed7c"
+    },
+    "counts": {
+      "unknown_correspondence": 9410,
+      "model_target": 1559,
+      "junction_membership:membership": 657,
+      "lane_connection:retained": 820,
+      "lane_connection:added": 80,
+      "lane_connection:removed": 2
+    },
+    "manual_edit_origin": "unestablished",
+    "osm_snapshot_date": null,
+    "field_validity_date": null
+  },
+  "claim_boundary": "Source-bound diagnostic measurements and published model differences. No field accuracy or manual defect-label claim.",
+  "tests": {
+    "full_suite": {
+      "passed": 3161,
+      "skipped": 24,
+      "failed": 0,
+      "seconds": 497.92,
+      "junit": {
+        "path": "outputs/claude_followup_20261015_v1/full-suite-final-v1.xml",
+        "sha256": "b0bfb3f5ea505f5b5f0edc0bc04f89a1bc44c7d636da0c5233d0394f4087bba6"
+      }
+    }
+  }
+}

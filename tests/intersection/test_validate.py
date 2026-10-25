@@ -88,12 +88,13 @@ def test_validate_intersection_passes_absolute_net_path_to_sumo(monkeypatch, tmp
         seen["cwd"] = kwargs["cwd"]
 
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -138,12 +139,13 @@ def test_validate_intersection_blocks_unknown_fragment(monkeypatch, tmp_path: Pa
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -171,12 +173,13 @@ def test_validate_intersection_reports_netconvert_warnings(monkeypatch, tmp_path
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -207,8 +210,8 @@ def test_validate_reports_restriction_warnings_as_diagnostic(monkeypatch, tmp_pa
     net_file.write_text("<net/>", encoding="utf-8")
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(
@@ -233,8 +236,8 @@ def test_validate_blocks_compiled_net_missing_expected_connection(monkeypatch, t
     net_file.write_text("<net><edge id='placeholder'/></net>", encoding="utf-8")
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -263,8 +266,8 @@ def test_validate_blocks_compiled_net_missing_duplicate_controlled_connection(mo
     _write_compiled_net_from_plain(artifacts, net_file, omit_controlled_pair_once=duplicated_pair)
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -294,8 +297,8 @@ def test_validate_blocks_compiled_net_wrong_duplicate_lane_tuple(monkeypatch, tm
     )
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -313,8 +316,8 @@ def test_validate_records_compiled_net_missing_expected_edge_as_blocking(monkeyp
     _write_compiled_net_from_plain(artifacts, net_file, omit_edge=missing_edge)
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -340,8 +343,8 @@ def test_validate_blocks_compiled_net_tllogic_state_mismatch(monkeypatch, tmp_pa
     )
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -357,8 +360,8 @@ def test_validate_blocks_compiled_net_missing_tllogic_phases(monkeypatch, tmp_pa
     _write_compiled_net_from_plain(artifacts, net_file, omit_tllogic_phases=True)
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -375,8 +378,8 @@ def test_validate_blocks_compiled_net_missing_controlled_linkindex(monkeypatch, 
     _write_compiled_net_from_plain(artifacts, net_file, omit_link_index=True)
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -392,8 +395,8 @@ def test_validate_blocks_compiled_net_negative_controlled_linkindex(monkeypatch,
     _write_compiled_net_from_plain(artifacts, net_file, link_index="-1")
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(ir, artifacts.model_copy(update={"net_file": str(net_file)}), tmp_path)
@@ -409,8 +412,8 @@ def test_validate_reports_custom_tllogic_omission(monkeypatch, tmp_path: Path) -
     _write_compiled_net_from_plain(artifacts, net_file)
     monkeypatch.setattr("astra_sumo.intersection.validate.shutil.which", lambda _name: "sumo")
     monkeypatch.setattr(
-        "astra_sumo.intersection.validate.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": ""})(),
+        "astra_sumo.intersection.validate.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": ""})(),
     )
 
     result = validate_intersection(
@@ -427,8 +430,8 @@ def test_crossing_guess_custom_tllogic_omission_is_reported(monkeypatch, tmp_pat
     ir = build_intersection_ir(FIXTURES / "clustered_signalized_crossing.osm.xml", tmp_path)
     monkeypatch.setattr("astra_sumo.intersection.compile_plain.shutil.which", lambda _name: "netconvert")
     monkeypatch.setattr(
-        "astra_sumo.intersection.compile_plain.subprocess.run",
-        lambda *_args, **_kwargs: type("Result", (), {"returncode": 0, "stderr": "", "stdout": ""})(),
+        "astra_sumo.intersection.compile_plain.run_command",
+        lambda *_args, **_kwargs: type("Result", (), {"status": "pass", "returncode": 0, "stderr": "", "stdout": ""})(),
     )
 
     artifacts = compile_intersection_to_plain(ir, tmp_path, "cluster", compile_net=True)
@@ -450,12 +453,13 @@ def test_validate_intersection_blocks_malformed_tllogic_state_length(monkeypatch
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -482,12 +486,13 @@ def test_validate_intersection_blocks_missing_controlled_plain_connection(monkey
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -509,12 +514,13 @@ def test_validate_intersection_keeps_diagnostic_warning_non_blocking(monkeypatch
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -568,12 +574,13 @@ def test_validate_intersection_tls_linkindex_uses_core_connection_movements(monk
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -623,12 +630,13 @@ def test_validate_intersection_accepts_controlled_bicycle_support_movements(monk
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -666,12 +674,13 @@ def test_validate_intersection_blocks_missing_sumo_crossing_for_osm_support_path
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,
@@ -744,12 +753,13 @@ def test_validate_intersection_reports_mode_layer_counts(monkeypatch, tmp_path: 
 
     def fake_run(_command, **_kwargs):
         class Result:
+            status = "pass"
             returncode = 0
             stderr = ""
 
         return Result()
 
-    monkeypatch.setattr("astra_sumo.intersection.validate.subprocess.run", fake_run)
+    monkeypatch.setattr("astra_sumo.intersection.validate.run_command", fake_run)
 
     result = validate_intersection(
         ir,

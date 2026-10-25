@@ -1,0 +1,64 @@
+{
+  "status": "read_only_evidence",
+  "osm_source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_road_scope_20261020_v1\\source.osm.xml.gz",
+    "sha256": "f0b77bcac03a4c3095b40272ca2067e838b0d95125883855a28d53a7d9429365"
+  },
+  "osm_way": "186821027",
+  "osm_turn_lanes": "left|through|right|right",
+  "osm_terminal_node": "13879907",
+  "compiled_left_divergence_node": "13879907",
+  "divergence_at_osm_way_end": true,
+  "map_lane_use": {
+    "2": "right",
+    "3": "right",
+    "4": "through",
+    "5": "left"
+  },
+  "composed_turnaround_support": {
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-road-demo-20261021-v17\\02-main-roads\\selected.net.xml",
+      "sha256": "a915ef1076c5bf74200e995575d4391902616fe5b30098c44ed167b7ca029c04"
+    },
+    "fixed_lane_source_path": false,
+    "observed_lane_change": {
+      "from": "186821031_1",
+      "to": "186821031_2"
+    },
+    "meaning": "Movement reachability, not a lane-4 stop-line binding."
+  },
+  "collision_position_classification": {
+    "source": "outputs/ring1-distance-count-attempt-20261021-v1/replay/collisions.xml",
+    "times_s": [
+      8784.7,
+      12114.7
+    ],
+    "collider_path": ":LSA535_part0_7_0",
+    "victim_nearest_path": ":LSA535_part0_5_0",
+    "collider_front_distance_to_path_m": 2.04e-13,
+    "victim_front_distance_to_path_m": 6.56e-13,
+    "victim_front_distance_to_lane5_siblings_m": [
+      0.8815162686363629,
+      0.8767218760710347
+    ],
+    "classification": "Lane-5 official left versus lane-4 supplemental left, supported by saved front coordinates. Victim lane identity is inferred from coordinates, not explicitly recorded by the collision XML."
+  },
+  "curve_proximity": {
+    "metric": "Length of left-to-lane0 centerline within the stated distance of left-to-lane1 centerline, including common inlet.",
+    "reference": {
+      "within_0_1_m_length_m": 39.19701246539217,
+      "within_1_8_m_length_m": 40.89660484988449
+    },
+    "native_candidate": {
+      "within_0_1_m_length_m": 9.327057136706166,
+      "within_1_8_m_length_m": 31.47830036771946
+    }
+  },
+  "claude_review": {
+    "url": "https://claude.ai/code/session_01GLAeEq8r2Q9UKMhoXJGosb",
+    "message": 175,
+    "scope": "Read-only source review. Local evidence checked separately.",
+    "response_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-geometry-review-20261021-v1\\claude-review-175.txt"
+  },
+  "claim_boundary": "No field-legality or exact-count conclusion. Candidate changes remain separate from source evidence. No universal detour cap or ban on opposite road directions is added."
+}

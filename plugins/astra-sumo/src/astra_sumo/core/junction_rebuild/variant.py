@@ -31,6 +31,7 @@ from .scope import _endpoint_rewrite_old_endpoint_ids, _joined_source_node_ids
 from .signatures import _model_tls_id
 from .target_replay import write_teacher_target_internal_replay_net
 from .tls import _restore_false_traffic_light_junction_types, write_teacher_tllogic_net
+from ..local_network_conversion import with_geometry_precision
 
 
 def build_teacher_guided_junction_variant(
@@ -176,7 +177,7 @@ def build_teacher_guided_junction_variant(
         teacher_internal_scope_id=teacher_junction_id if replay_target_internal_subgraph else None,
     )
 
-    netconvert_command = [
+    netconvert_command = with_geometry_precision([
         netconvert_binary,
         "--node-files",
         str(patched_node_file),
@@ -189,7 +190,7 @@ def build_teacher_guided_junction_variant(
         "--walkingareas",
         "true",
         "--tls.ignore-internal-junction-jam",
-    ]
+    ])
     type_file = Path(str(type_patch_report.get("type_file", ""))) if type_patch_report.get("type_file") else None
     if type_file is not None:
         netconvert_command[5:5] = ["--type-files", _command_path(type_file, output_dir)]
@@ -362,13 +363,13 @@ def build_teacher_guided_junction_variant(
         and isinstance(target_internal_replay_report, dict)
         and target_internal_replay_report.get("status") == "pass"
     ):
-        target_internal_normalize_command = [
+        target_internal_normalize_command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             _command_path(target_internal_replay_file, output_dir),
             "--output-file",
             _command_path(target_internal_normalized_net_file, output_dir),
-        ]
+        ])
         target_internal_normalize_report = _command_report(
             command_runner(target_internal_normalize_command, cwd=output_dir, timeout_seconds=timeout_seconds)
         )
@@ -451,13 +452,13 @@ def build_teacher_guided_junction_variant(
         and isinstance(target_internal_replay_report, dict)
         and target_internal_replay_report.get("status") == "pass"
     ):
-        teacher_guided_normalize_command = [
+        teacher_guided_normalize_command = with_geometry_precision([
             netconvert_binary,
             "--sumo-net-file",
             _command_path(final_net_file, output_dir),
             "--output-file",
             _command_path(teacher_guided_normalized_net_file, output_dir),
-        ]
+        ])
         teacher_guided_normalize_report = _command_report(
             command_runner(teacher_guided_normalize_command, cwd=output_dir, timeout_seconds=timeout_seconds)
         )

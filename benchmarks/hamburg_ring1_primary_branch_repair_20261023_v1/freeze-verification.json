@@ -1,0 +1,37 @@
+{
+  "status": "pass",
+  "formal_result": false,
+  "stage_goal_met": true,
+  "healthy": false,
+  "aerial_review_status": "review_required",
+  "tests": {
+    "command": "python -m pytest tests/test_hamburg_primary_branch_evidence.py tests/test_hamburg_primary_branch_repair.py tests/test_hamburg_corridor_pruning.py tests/test_road_hierarchy.py tests/test_hamburg_od_spsa.py -q",
+    "passed": 64,
+    "elapsed_seconds": 31.08,
+    "new_frozen_evidence_cases": 9,
+    "scope": "Manifest compressed/raw hashes; 236 old roads and 683 lane-turns; 8640 paired requests and 2589 tails; both five-car primary lanes; 130 native fields; 40 derived stations; 182 real values; warning and unfinished accounting; all 130 plotted values; an actual independent-directory candidate rebuild and five-car replay."
+  },
+  "ruff": {
+    "status": "pass",
+    "files": [
+      "reproduce.py",
+      "plot_counts.py",
+      "tests/test_hamburg_primary_branch_evidence.py"
+    ]
+  },
+  "git_diff_check": "pass",
+  "candidate_rebuild_hashes_identical": true,
+  "full_run_repeated_for_freeze": false,
+  "warnings_retained": {
+    "total": 28,
+    "no_controlling_detector": 18,
+    "unused_states": 3,
+    "missing_green": 2,
+    "emergency_braking": 5
+  },
+  "z5_main_window_TAE": {
+    "before": 137,
+    "after": 335
+  },
+  "claim_boundary": "Stage improvement only. The 2589-route split remains a declared prior. Healthy completion, field geometry, field control and zero residual are not established."
+}

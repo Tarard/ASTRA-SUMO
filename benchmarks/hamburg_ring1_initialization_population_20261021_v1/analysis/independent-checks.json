@@ -1,0 +1,37 @@
+{
+  "all_6687_main_vehicles_unchanged": true,
+  "all_130_main_targets_byte_identical": true,
+  "unchanged_files_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+  },
+  "model_initialization_vehicles": 1953,
+  "all_52_initialization_proposal_totals_match_source": true,
+  "all_52_native_field_counts_rechecked": true,
+  "native_E1_reconciled": true,
+  "unique_complete_passage_vehicles": 1431,
+  "wrong_field_passages": 0,
+  "duplicate_complete_passages": 0,
+  "native_stock_at_end": 225,
+  "stock_after_complete_field_passage": 123,
+  "stock_without_complete_field_passage": 102,
+  "main_window_run": false,
+  "lane_holds_released": 1431,
+  "lane_holds_active_on_running_vehicles": 15,
+  "lane_holds_left_before_release": 0,
+  "emergency_braking_warnings": 1,
+  "source_schedule_checked": true,
+  "native_completion": {
+    "loaded": 1954,
+    "inserted": 1533,
+    "arrived": 1308,
+    "running": 225,
+    "waiting": 420,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "claim_boundary": "The initialization comparison is diagnostic. No independent true OD, real distinct vehicle count, real initial stock, main-window fit, or checkpoint restart is established."
+}

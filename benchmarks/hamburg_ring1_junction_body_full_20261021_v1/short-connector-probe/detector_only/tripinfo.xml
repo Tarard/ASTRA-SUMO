@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T21:49:00.991435+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\network.net.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\signal-programs.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\e1.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\instant.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <queue-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\queues.xml"/>
+        <queue-output.period value="1"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\vehicle-routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\collisions.xml"/>
+    </output>
+
+    <time>
+        <end value="900"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\sumo.log"/>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-short-connector-body-trap-20261021-v1\detector_only\sumo-errors.log"/>
+        <duration-log.statistics value="true"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <traci_server>
+        <remote-port value="14687"/>
+    </traci_server>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<tripinfos xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/tripinfo_file.xsd">
+    <tripinfo id="artificial_post_field_suffix" depart="100.000" departLane="199230912#0_0" departPos="5.100000000000" departSpeed="5.555556000000" departDelay="0.000" arrival="112.200" arrivalLane="1257937836#0_0" arrivalPos="43.420000000000" arrivalSpeed="5.555556000000" duration="12.200" routeLength="66.244084000000" waitingTime="0.000" waitingCount="0" stopTime="0.000" timeLoss="0.144" rerouteNo="0" devices="vehroute_artificial_post_field_suffix tripinfo_artificial_post_field_suffix" vType="readme_lane_intent" speedFactor="1.000000000000" vaporized=""/>
+</tripinfos>

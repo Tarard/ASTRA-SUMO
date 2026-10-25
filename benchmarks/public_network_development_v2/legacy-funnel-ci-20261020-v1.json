@@ -1,0 +1,29 @@
+{
+  "code_commit": "f3c3f23f8e9128ed9b8cbbd6752ab8c3fd70ba91",
+  "passed": 3676,
+  "skipped": 24,
+  "pr_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39353231281",
+  "push_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39353226269",
+  "native_fatal_testcases": {
+    "executed": 20,
+    "skipped": 0,
+    "failures": 0,
+    "max_junit_case_seconds": 5.76,
+    "time_basis": "JUnit case duration includes fixture and test overhead, not only native command time."
+  },
+  "artifacts": [
+    {
+      "path": "outputs/ci-f3c3f23-pr-20261020.log",
+      "sha256": "c10672a5247178e740329efd30b55daa3a68a307a9f19bac9109387e2611ef27"
+    },
+    {
+      "path": "outputs/ci-f3c3f23-push-20261020.log",
+      "sha256": "a4035e1e89f74b5182ff77cddcad65d927cba0656726de689f4a094a88d8a93b"
+    },
+    {
+      "path": "outputs/ci-f3c3f23-pr-artifacts-20261020/test-results.xml",
+      "sha256": "fc158574d68b6195221376373487642bd66dfa59687a3430c9f142cab024122c"
+    }
+  ],
+  "limitation": "Passing updated CI does not identify the timing stage of the earlier three worker timeouts or establish field correctness."
+}

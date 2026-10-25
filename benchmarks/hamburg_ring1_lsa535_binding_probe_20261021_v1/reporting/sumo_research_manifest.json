@@ -1,0 +1,34 @@
+{
+  "schema_version": "sumo-research-manifest-v1",
+  "experiment_id": "ring1-535-lane-rebinding-probe-20261021-v1",
+  "runs": [
+    {
+      "run_id": "reference",
+      "method": "reference",
+      "scenario": "same_1270_vehicle_535_cohort",
+      "seed": 104,
+      "pair_id": "same_1270_vehicle_535_cohort/104",
+      "expected_vehicles": 1270,
+      "tripinfo": "../reference/tripinfo.xml.gz",
+      "summary": "../reference/summary.xml.gz",
+      "validity": {
+        "traffic_valid": false,
+        "formal_count_fit": false
+      }
+    },
+    {
+      "run_id": "rebound",
+      "method": "rebound",
+      "scenario": "same_1270_vehicle_535_cohort",
+      "seed": 104,
+      "pair_id": "same_1270_vehicle_535_cohort/104",
+      "expected_vehicles": 1270,
+      "tripinfo": "../rebound/tripinfo.xml.gz",
+      "summary": "../rebound/summary.xml.gz",
+      "validity": {
+        "traffic_valid": false,
+        "formal_count_fit": false
+      }
+    }
+  ]
+}

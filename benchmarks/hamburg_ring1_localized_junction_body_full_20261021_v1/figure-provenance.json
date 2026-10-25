@@ -1,0 +1,43 @@
+{
+  "review_inputs": {
+    "aerial": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-readme-end-to-end-figures-20261021-v1\\aerial-2026.png",
+      "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902"
+    },
+    "candidate_net": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-readme-end-to-end-20261021-v4\\prepared-native-restored\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    "request": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-readme-end-to-end-figures-20261021-v1\\junctions-request-v2.json",
+      "sha256": "f6c0ec621e9cdf82f054763926e1d9db0f4ef4146d8a9235e4e30638fdb12364"
+    },
+    "source_net": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-road-demo-20261021-v17\\02-main-roads\\selected.net.xml",
+      "sha256": "a915ef1076c5bf74200e995575d4391902616fe5b30098c44ed167b7ca029c04"
+    }
+  },
+  "aerial_bbox": {
+    "authority": "Freie und Hansestadt Hamburg, LGV",
+    "bbox": [
+      565012.777442586,
+      5934182.489688758,
+      566680.1599791404,
+      5935017.708749339
+    ],
+    "capture_date": null,
+    "capture_year": 2026,
+    "control_points": null,
+    "crop_px": null,
+    "crs": "EPSG:25832",
+    "license": "Datenlizenz Deutschland Namensnennung 2.0",
+    "north_up": true,
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-readme-end-to-end-figures-20261021-v1\\aerial-2026.png",
+    "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902",
+    "source_url": "https://geodienste.hamburg.de/wms_dop_zeitreihe_unbelaubt?SERVICE=WMS&VERSION=1.3.0&REQUEST=GetMap&LAYERS=dop_zeitreihe_unbelaubt&STYLES=&FORMAT=image%2Fpng&CRS=EPSG%3A25832&BBOX=565012.777442586%2C5934182.489688758%2C566680.1599791404%2C5935017.708749339&WIDTH=4096&HEIGHT=2052&TIME=2026"
+  },
+  "current_network_sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+  "netedit_after_sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+  "network_unchanged_from_rendered_candidate": true,
+  "claim_boundary": "Existing renderer and actual NetEdit figures are hash-bound to this same network. Images do not validate lane mapping or field behavior."
+}

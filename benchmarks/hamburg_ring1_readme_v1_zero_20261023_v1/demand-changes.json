@@ -1,0 +1,34 @@
+{
+  "vehicle_count_unchanged": true,
+  "vehicle_ids_unchanged": true,
+  "routes_unchanged": true,
+  "other_vehicle_attributes_unchanged": true,
+  "speed_factors": "Fixed per vehicle from original native reproduction; not a new fitted variable.",
+  "changes": [
+    {
+      "vehicle_id": "sensor_schedule_930",
+      "original_depart": 3582.07,
+      "final_depart": 3585.07,
+      "shift_seconds": 3.0
+    },
+    {
+      "vehicle_id": "sensor_schedule_1438",
+      "original_depart": 5382.63,
+      "final_depart": 5385.63,
+      "shift_seconds": 3.0
+    },
+    {
+      "vehicle_id": "sensor_schedule_1941",
+      "original_depart": 5382.87,
+      "final_depart": 5396.87,
+      "shift_seconds": 14.0
+    },
+    {
+      "vehicle_id": "sensor_schedule_3465",
+      "original_depart": 8026.9,
+      "final_depart": 8012.9,
+      "shift_seconds": -14.0
+    }
+  ],
+  "maximum_absolute_departure_shift_seconds": 14.0
+}

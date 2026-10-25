@@ -1,0 +1,55 @@
+{
+  "schema": "astra.site-parameters/v1",
+  "profile_id": "hamburg_2349_channelized_geometry",
+  "field_acceptance": "legacy_snapshot_only_requires_source_match",
+  "source_module_sha256_before_extraction": "81cf687dfc41fff75c3efa7ee540bd0ae13ad3b012d57180d51424e751e3b0df",
+  "parameters": {
+    "JOIN_GROUP": {
+      "$tuple": [
+        "2761334249",
+        "610506352",
+        "cluster_739654528_759714704"
+      ]
+    },
+    "JOINED_JUNCTION_ID": "cluster_2761334249_610506352_cluster_739654528_759714704",
+    "ABSORBED_EDGE_IDS": {
+      "$frozenset": [
+        "61649647#1",
+        "61649647#2"
+      ]
+    },
+    "INCOMING_EDGE_ID": "61649647#0",
+    "TARGET_TLS_ID": "HH_2349",
+    "LEGACY_TLS_ID": "2761334249",
+    "source_binding.001": "59990286",
+    "source_binding.002": "61649649#0",
+    "source_binding.003": "61649647#1",
+    "source_binding.004": "61649647#2",
+    "_require_sha256.005": "0123456789abcdefABCDEF",
+    "absorbed_lane_prefix_1": "61649647#1_",
+    "absorbed_lane_prefix_2": "61649647#2_",
+    "MOVEMENTS": [
+      {
+        "movement_id": "C5",
+        "through_lane": 0,
+        "to_edge": "59990286",
+        "to_lane": 0,
+        "link_index": 2
+      },
+      {
+        "movement_id": "C6",
+        "through_lane": 0,
+        "to_edge": "61649649#0",
+        "to_lane": 0,
+        "link_index": 5
+      },
+      {
+        "movement_id": "C4",
+        "through_lane": 1,
+        "to_edge": "59990286",
+        "to_lane": 1,
+        "link_index": 2
+      }
+    ]
+  }
+}

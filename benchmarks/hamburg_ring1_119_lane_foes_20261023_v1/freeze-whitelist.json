@@ -1,0 +1,115 @@
+{
+  "target": "benchmarks/hamburg_ring1_119_lane_foes_20261023_v1",
+  "status": "tool_preparation_only",
+  "native_runs_by_freezer": 0,
+  "manifest_directories": [
+    "lane-foes-smoke",
+    "full-lane-foes-independent"
+  ],
+  "explicit_files": [
+    "build_lane_foes_candidate.py",
+    "native-source/lane-foes-manifest.json",
+    "native-source/NBFrame.cpp",
+    "native-source/analyze_lane_foes.py",
+    "native-source/lane-foes-analysis.json",
+    "native-source/lane-foes-analysis.md",
+    "native-source/lane-foes-geometry.csv"
+  ],
+  "candidate_directories": [
+    "candidate-lane-foes-v1"
+  ],
+  "candidate_file_names": [
+    "manifest.json",
+    "executed-build.py",
+    "frozen-input.net.xml",
+    "frozen-turns.con.xml",
+    "priority.nod.xml",
+    "converted.net.xml",
+    "priority.local-input.net.xml",
+    "priority.native-local-output.net.xml",
+    "priority.merged-proposal.net.xml",
+    "network.net.xml",
+    "control.add.xml",
+    "independent-outside-scope.json"
+  ],
+  "full_root_names": [
+    "run.py",
+    "audit.py",
+    "README.md",
+    "plan.json",
+    "preflight.json",
+    "input-proof.json",
+    "offline-check.json",
+    "executed-driver.py",
+    "runtime.json",
+    "verdict.json",
+    "execution.log",
+    "failure.log",
+    "independent-audit-result.json"
+  ],
+  "prepared_names": [
+    "network.net.xml",
+    "control.add.xml",
+    "demand.rou.xml",
+    "lane-intentions.json",
+    "field-loops.add.xml",
+    "expected-counts.csv",
+    "initialization-counts.csv",
+    "scenario.json"
+  ],
+  "evaluation_names": [
+    "demand.rou.xml",
+    "lane-intentions.json",
+    "evaluation.json",
+    "station-comparison.csv",
+    "all182-comparison.csv",
+    "contributing-passages.json.gz"
+  ],
+  "native_names": [
+    "network.net.xml",
+    "demand.rou.xml",
+    "source-e1.add.xml",
+    "signal-programs.add.xml",
+    "lane-intentions.json",
+    "expected-counts.csv",
+    "e1.add.xml",
+    "instant.add.xml",
+    "field-counts.xml",
+    "field-comparison.csv",
+    "summary.xml",
+    "tripinfo.xml",
+    "vehicle-routes.xml",
+    "collisions.xml",
+    "run.json",
+    "native-request.json",
+    "command.json",
+    "stall-monitor.json",
+    "sumo.log",
+    "sumo-errors.log",
+    "instant-e1.xml",
+    "queues.xml"
+  ],
+  "implementation_names": [
+    "artifact_io.py",
+    "candidate_contracts.py",
+    "command_runner.py",
+    "detector_demand.py",
+    "detector_demand_replay.py",
+    "hamburg_197_through_support.py",
+    "hamburg_od_spsa.py",
+    "lane_section_hold.py",
+    "route_sensor_matrix.py",
+    "simulation_stall.py"
+  ],
+  "failed_preparation_files": [],
+  "local_only_names": [
+    "instant-e1.xml",
+    "queues.xml",
+    "tls-switch-states.xml",
+    "tls-recorded-programs.add.xml",
+    "fcd.xml"
+  ],
+  "always_archive": [],
+  "optional_top_files": [],
+  "notes": "仅本次lane-level foes单因素；旧GS/observer/full-priority数据与基础builder只引用42a827e已冻包及哈希。不读active full。RQ5、反向到达、饱和tiny未测，不预设效果。"
+}

@@ -1,0 +1,21 @@
+{
+  "formal_result": false,
+  "fixed_inputs_equal": true,
+  "results": {
+    "two_nodes": {
+      "native_E1_reconciled": true,
+      "unique_assigned_passages": 40,
+      "repeated_or_other_fields": 0,
+      "arrived": 40,
+      "sum_native_stop_time_s": 0
+    },
+    "three_nodes": {
+      "native_E1_reconciled": true,
+      "unique_assigned_passages": 40,
+      "repeated_or_other_fields": 0,
+      "arrived": 40,
+      "sum_native_stop_time_s": 0
+    }
+  },
+  "claim_boundary": "All 40 artificial vehicles pass the assigned E1 exactly once in both paired runs. This is not the 130-row real-count calibration."
+}

@@ -1,0 +1,319 @@
+{
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "source_real_N": 8640,
+    "source_packet": "hamburg_ring1_535_late_departure_feedback_20261024_v1",
+    "cases": {
+      "remove28": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 3727,
+            "TAE": 339,
+            "MAE": 2.6076923076923078,
+            "max_abs_error": 23
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 4844,
+            "TAE": 436,
+            "MAE": 2.3956043956043955,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 8.325,
+          "completion": {
+            "loaded": 8612,
+            "inserted": 8612,
+            "arrived": 8612,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8612,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "input_scope": {
+          "source_N": 8640,
+          "actual_candidate_N": 8612,
+          "removed_ids": [
+            "od_0287_v00005",
+            "od_0287_v00008",
+            "od_0287_v00019",
+            "od_0287_v00022",
+            "od_0287_v00034",
+            "od_0287_v00035",
+            "od_0287_v00048",
+            "od_0287_v00049",
+            "od_0287_v00062",
+            "od_0287_v00063",
+            "od_0288_v00005",
+            "od_0288_v00008",
+            "od_0288_v00019",
+            "od_0288_v00027",
+            "od_0288_v00034",
+            "od_0288_v00044",
+            "od_0288_v00048",
+            "od_0288_v00062",
+            "od_0288_v00063",
+            "od_0289_v00007",
+            "od_0289_v00008",
+            "od_0289_v00021",
+            "od_0289_v00026",
+            "od_0289_v00036",
+            "od_0289_v00044",
+            "od_0289_v00050",
+            "od_0289_v00063",
+            "od_0289_v00064"
+          ],
+          "survivors_exact_raw_subset_and_order": true,
+          "survivor_routes_departures_stops_fields_metadata_unchanged": true,
+          "actual294_source_total": 8640,
+          "actual294_candidate_total": 8612,
+          "q_L1": 28,
+          "removed_fields": {
+            "hh_0119_Z_12_31546": 13,
+            "hh_0119_Z_13_34018": 15
+          }
+        },
+        "prefix169_all_native_E1_attributes_equal": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "source_real_N": 8640,
+        "candidate_real_N": 8612,
+        "unchanged_true_targets": true
+      },
+      "remove30": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 3723,
+            "TAE": 337,
+            "MAE": 2.5923076923076924,
+            "max_abs_error": 23
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 4840,
+            "TAE": 434,
+            "MAE": 2.3846153846153846,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 8.275,
+          "completion": {
+            "loaded": 8610,
+            "inserted": 8610,
+            "arrived": 8610,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8610,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "input_scope": {
+          "source_N": 8640,
+          "actual_candidate_N": 8610,
+          "removed_ids": [
+            "od_0287_v00005",
+            "od_0287_v00008",
+            "od_0287_v00019",
+            "od_0287_v00022",
+            "od_0287_v00034",
+            "od_0287_v00035",
+            "od_0287_v00048",
+            "od_0287_v00049",
+            "od_0287_v00062",
+            "od_0287_v00063",
+            "od_0288_v00005",
+            "od_0288_v00008",
+            "od_0288_v00019",
+            "od_0288_v00027",
+            "od_0288_v00034",
+            "od_0288_v00035",
+            "od_0288_v00044",
+            "od_0288_v00048",
+            "od_0288_v00062",
+            "od_0288_v00063",
+            "od_0289_v00007",
+            "od_0289_v00008",
+            "od_0289_v00021",
+            "od_0289_v00026",
+            "od_0289_v00035",
+            "od_0289_v00036",
+            "od_0289_v00044",
+            "od_0289_v00050",
+            "od_0289_v00063",
+            "od_0289_v00064"
+          ],
+          "survivors_exact_raw_subset_and_order": true,
+          "survivor_routes_departures_stops_fields_metadata_unchanged": true,
+          "actual294_source_total": 8640,
+          "actual294_candidate_total": 8610,
+          "q_L1": 30,
+          "removed_fields": {
+            "hh_0119_Z_12_31546": 15,
+            "hh_0119_Z_13_34018": 15
+          }
+        },
+        "prefix169_all_native_E1_attributes_equal": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "source_real_N": 8640,
+        "candidate_real_N": 8610,
+        "unchanged_true_targets": true
+      },
+      "remove43": {
+        "raw_verdict": "diagnostic_measurement_complete",
+        "measurement": {
+          "main130": {
+            "SSE": 3598,
+            "TAE": 324,
+            "MAE": 2.4923076923076923,
+            "max_abs_error": 23
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 4715,
+            "TAE": 421,
+            "MAE": 2.3131868131868134,
+            "max_abs_error": 23
+          },
+          "station40_MAE": 7.95,
+          "completion": {
+            "loaded": 8597,
+            "inserted": 8597,
+            "arrived": 8597,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8597,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "input_scope": {
+          "source_N": 8640,
+          "actual_candidate_N": 8597,
+          "removed_ids": [
+            "od_0277_v00001",
+            "od_0277_v00005",
+            "od_0277_v00009",
+            "od_0277_v00012",
+            "od_0277_v00016",
+            "od_0277_v00020",
+            "od_0286_v00003",
+            "od_0286_v00010",
+            "od_0287_v00005",
+            "od_0287_v00008",
+            "od_0287_v00019",
+            "od_0287_v00022",
+            "od_0287_v00034",
+            "od_0287_v00035",
+            "od_0287_v00048",
+            "od_0287_v00049",
+            "od_0287_v00062",
+            "od_0287_v00063",
+            "od_0288_v00005",
+            "od_0288_v00008",
+            "od_0288_v00019",
+            "od_0288_v00027",
+            "od_0288_v00034",
+            "od_0288_v00035",
+            "od_0288_v00044",
+            "od_0288_v00048",
+            "od_0288_v00062",
+            "od_0288_v00063",
+            "od_0289_v00007",
+            "od_0289_v00008",
+            "od_0289_v00021",
+            "od_0289_v00026",
+            "od_0289_v00035",
+            "od_0289_v00036",
+            "od_0289_v00044",
+            "od_0289_v00050",
+            "od_0289_v00063",
+            "od_0289_v00064",
+            "od_0292_v00002",
+            "od_0292_v00006",
+            "od_0292_v00011",
+            "od_0292_v00015",
+            "od_0292_v00019"
+          ],
+          "survivors_exact_raw_subset_and_order": true,
+          "survivor_routes_departures_stops_fields_metadata_unchanged": true,
+          "actual294_source_total": 8640,
+          "actual294_candidate_total": 8597,
+          "q_L1": 43,
+          "removed_fields": {
+            "hh_0119_Z_12_31546": 15,
+            "hh_0119_Z_13_34018": 15,
+            "hh_0119_Z_11_28853": 2,
+            "hh_0535_Z_4_33055": 11
+          }
+        },
+        "prefix169_all_native_E1_attributes_equal": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "source_real_N": 8640,
+        "candidate_real_N": 8597,
+        "unchanged_true_targets": true
+      }
+    },
+    "best_in_this_group": "remove43",
+    "lowest_measured_healthy_main_MAE_in_this_group": 2.4923076923076923,
+    "calibration_complete": false,
+    "traffic_runs_recorded": 3,
+    "variable_N_is_an_input_prior_not_runtime_vehicle_removal": true,
+    "historical_deleted_contributions_are_not_a_causal_response_prediction": true,
+    "real_OD_or_zero_residual_not_identified": true
+  }
+}

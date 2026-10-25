@@ -1,0 +1,5361 @@
+{
+  "anchors": [
+    {
+      "edge_coverage_sample_count": 596,
+      "edge_covered_reference_length_m": 296.82983585798667,
+      "edge_id": "963776077#0",
+      "edge_mean_lateral_offset_m": 0.7503349743830193,
+      "edge_reference_coverage": 0.9966442953020134,
+      "lane_id": "963776077#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:16:centerline",
+      "reference_length_m": 297.8292629147476,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 596,
+      "edge_covered_reference_length_m": 0.49971352838044897,
+      "edge_id": "963776077#1",
+      "edge_mean_lateral_offset_m": 1.447332284495925,
+      "edge_reference_coverage": 0.0016778523489932886,
+      "lane_id": "963776077#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:16:centerline",
+      "reference_length_m": 297.8292629147476,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 31,
+      "edge_covered_reference_length_m": 15.128520684866386,
+      "edge_id": "234423652#1",
+      "edge_mean_lateral_offset_m": 0.26569159312853224,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "234423652#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:8:centerline",
+      "reference_length_m": 15.128520684866386,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 41,
+      "edge_covered_reference_length_m": 20.032969448305447,
+      "edge_id": "139056860#1",
+      "edge_mean_lateral_offset_m": 0.6693104326244564,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "139056860#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:2:centerline",
+      "reference_length_m": 20.032969448305447,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 573,
+      "edge_covered_reference_length_m": 191.9385614198002,
+      "edge_id": "606141103#0",
+      "edge_mean_lateral_offset_m": 0.36430452782137074,
+      "edge_reference_coverage": 0.6701570680628273,
+      "lane_id": "606141103#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:4:centerline",
+      "reference_length_m": 286.4083221186081,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 573,
+      "edge_covered_reference_length_m": 24.492160181172423,
+      "edge_id": "606141103#1",
+      "edge_mean_lateral_offset_m": 1.526448078545593,
+      "edge_reference_coverage": 0.08551483420593368,
+      "lane_id": "606141103#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:4:centerline",
+      "reference_length_m": 286.4083221186081,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 573,
+      "edge_covered_reference_length_m": 54.9824004067136,
+      "edge_id": "606141108",
+      "edge_mean_lateral_offset_m": 1.1382522342385464,
+      "edge_reference_coverage": 0.19197207678883071,
+      "lane_id": "606141108_0",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:4:centerline",
+      "reference_length_m": 286.4083221186081,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 27,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "139083720",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "139083720_0",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:18:centerline",
+      "reference_length_m": 13.226702773521879,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 27,
+      "edge_covered_reference_length_m": 12.736824893021069,
+      "edge_id": "606141102#1",
+      "edge_mean_lateral_offset_m": 0.6477911898259326,
+      "edge_reference_coverage": 0.9629629629629629,
+      "lane_id": "606141102#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:18:centerline",
+      "reference_length_m": 13.226702773521879,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 572,
+      "edge_covered_reference_length_m": 191.26413977322017,
+      "edge_id": "606141103#0",
+      "edge_mean_lateral_offset_m": 0.36973875307282467,
+      "edge_reference_coverage": 0.6695804195804196,
+      "lane_id": "606141103#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:3:centerline",
+      "reference_length_m": 285.6477492174463,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 572,
+      "edge_covered_reference_length_m": 24.46982467072529,
+      "edge_id": "606141103#1",
+      "edge_mean_lateral_offset_m": 1.5893216988600585,
+      "edge_reference_coverage": 0.08566433566433566,
+      "lane_id": "606141103#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:3:centerline",
+      "reference_length_m": 285.6477492174463,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 572,
+      "edge_covered_reference_length_m": 54.93225946489352,
+      "edge_id": "606141108",
+      "edge_mean_lateral_offset_m": 1.0717280605472475,
+      "edge_reference_coverage": 0.19230769230769232,
+      "lane_id": "606141108_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:3:centerline",
+      "reference_length_m": 285.6477492174463,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 27,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "139083720",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "139083720_2",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:17:centerline",
+      "reference_length_m": 13.18723278068066,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 27,
+      "edge_covered_reference_length_m": 12.69881675176656,
+      "edge_id": "606141102#1",
+      "edge_mean_lateral_offset_m": 0.6081291918236243,
+      "edge_reference_coverage": 0.9629629629629629,
+      "lane_id": "606141102#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:17:centerline",
+      "reference_length_m": 13.18723278068066,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 38,
+      "edge_covered_reference_length_m": 16.348514593608865,
+      "edge_id": "-139083723#0",
+      "edge_mean_lateral_offset_m": 1.235951400859438,
+      "edge_reference_coverage": 0.868421052631579,
+      "lane_id": "-139083723#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:12:centerline",
+      "reference_length_m": 18.825562259307176,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 38,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "-139083723#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "-139083723#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:12:centerline",
+      "reference_length_m": 18.825562259307176,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 132,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "-983227468#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "-983227468#0_1",
+      "mapping_confidence": "medium",
+      "official_fact": "104:lane:11:centerline",
+      "reference_length_m": 65.82528510752172,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6212121212121212
+    },
+    {
+      "edge_coverage_sample_count": 132,
+      "edge_covered_reference_length_m": 35.904700967739124,
+      "edge_id": "139083723#0",
+      "edge_mean_lateral_offset_m": 2.0880431396779753,
+      "edge_reference_coverage": 0.5454545454545454,
+      "lane_id": "139083723#0_2",
+      "mapping_confidence": "medium",
+      "official_fact": "104:lane:11:centerline",
+      "reference_length_m": 65.82528510752172,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6212121212121212
+    },
+    {
+      "edge_coverage_sample_count": 132,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "139083723#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "139083723#1_2",
+      "mapping_confidence": "medium",
+      "official_fact": "104:lane:11:centerline",
+      "reference_length_m": 65.82528510752172,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6212121212121212
+    },
+    {
+      "edge_coverage_sample_count": 31,
+      "edge_covered_reference_length_m": 15.134680638833258,
+      "edge_id": "234423652#1",
+      "edge_mean_lateral_offset_m": 0.17555126341249708,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "234423652#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:7:centerline",
+      "reference_length_m": 15.13468063883326,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 290,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "-139083714#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "-139083714#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:9:centerline",
+      "reference_length_m": 144.65357413802303,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6620689655172414
+    },
+    {
+      "edge_coverage_sample_count": 290,
+      "edge_covered_reference_length_m": 30.9259365398532,
+      "edge_id": "139083714#1",
+      "edge_mean_lateral_offset_m": 1.2973313348196593,
+      "edge_reference_coverage": 0.21379310344827587,
+      "lane_id": "139083714#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:9:centerline",
+      "reference_length_m": 144.65357413802303,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6620689655172414
+    },
+    {
+      "edge_coverage_sample_count": 290,
+      "edge_covered_reference_length_m": 3.990443424497187,
+      "edge_id": "139083714#2",
+      "edge_mean_lateral_offset_m": 0.8870103028393357,
+      "edge_reference_coverage": 0.027586206896551724,
+      "lane_id": "139083714#2_2",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:9:centerline",
+      "reference_length_m": 144.65357413802303,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6620689655172414
+    },
+    {
+      "edge_coverage_sample_count": 290,
+      "edge_covered_reference_length_m": 35.91399082047468,
+      "edge_id": "139083723#0",
+      "edge_mean_lateral_offset_m": 1.1886954414755728,
+      "edge_reference_coverage": 0.2482758620689655,
+      "lane_id": "139083723#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:9:centerline",
+      "reference_length_m": 144.65357413802303,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6620689655172414
+    },
+    {
+      "edge_coverage_sample_count": 290,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "139083723#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "139083723#1_3",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:9:centerline",
+      "reference_length_m": 144.65357413802303,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6620689655172414
+    },
+    {
+      "edge_coverage_sample_count": 598,
+      "edge_covered_reference_length_m": 297.86752606324956,
+      "edge_id": "963776077#0",
+      "edge_mean_lateral_offset_m": 0.5350897493887187,
+      "edge_reference_coverage": 0.9966555183946488,
+      "lane_id": "963776077#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:15:centerline",
+      "reference_length_m": 298.86708151983765,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 598,
+      "edge_covered_reference_length_m": 0.4997777282940429,
+      "edge_id": "963776077#1",
+      "edge_mean_lateral_offset_m": 1.0324035767236575,
+      "edge_reference_coverage": 0.0016722408026755853,
+      "lane_id": "963776077#1_3",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:15:centerline",
+      "reference_length_m": 298.86708151983765,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 601,
+      "edge_covered_reference_length_m": 299.40701876611115,
+      "edge_id": "963776077#0",
+      "edge_mean_lateral_offset_m": 0.39682891026097855,
+      "edge_reference_coverage": 0.9966722129783694,
+      "lane_id": "963776077#0_4",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:14:centerline",
+      "reference_length_m": 300.4067083112401,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 601,
+      "edge_covered_reference_length_m": 0.4998447725644594,
+      "edge_id": "963776077#1",
+      "edge_mean_lateral_offset_m": 0.7243798859235203,
+      "edge_reference_coverage": 0.0016638935108153079,
+      "lane_id": "963776077#1_4",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:14:centerline",
+      "reference_length_m": 300.4067083112401,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 31,
+      "edge_covered_reference_length_m": 15.134673097491888,
+      "edge_id": "234423652#1",
+      "edge_mean_lateral_offset_m": 0.13297420186058276,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "234423652#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "104:lane:6:centerline",
+      "reference_length_m": 15.134673097491888,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 530,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1537476013#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1537476013#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:24:centerline",
+      "reference_length_m": 264.95776257859217,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9981132075471698
+    },
+    {
+      "edge_coverage_sample_count": 530,
+      "edge_covered_reference_length_m": 227.46373957218762,
+      "edge_id": "234423652#1",
+      "edge_mean_lateral_offset_m": 0.3270997600927764,
+      "edge_reference_coverage": 0.8584905660377359,
+      "lane_id": "234423652#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:24:centerline",
+      "reference_length_m": 264.95776257859217,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9981132075471698
+    },
+    {
+      "edge_coverage_sample_count": 530,
+      "edge_covered_reference_length_m": 33.99458085914013,
+      "edge_id": "538341584",
+      "edge_mean_lateral_offset_m": 0.47218961615266924,
+      "edge_reference_coverage": 0.12830188679245283,
+      "lane_id": "538341584_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:24:centerline",
+      "reference_length_m": 264.95776257859217,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9981132075471698
+    },
+    {
+      "edge_coverage_sample_count": 38,
+      "edge_covered_reference_length_m": 1.4865643107709492,
+      "edge_id": "37693933#0",
+      "edge_mean_lateral_offset_m": 1.6146278919802548,
+      "edge_reference_coverage": 0.07894736842105263,
+      "lane_id": "37693933#0_3",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:13:centerline",
+      "reference_length_m": 18.82981460309869,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 38,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "37693933#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "37693933#1_3",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:13:centerline",
+      "reference_length_m": 18.82981460309869,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 38,
+      "edge_covered_reference_length_m": 11.892514486167594,
+      "edge_id": "51214742#1",
+      "edge_mean_lateral_offset_m": 2.29384676881717,
+      "edge_reference_coverage": 0.631578947368421,
+      "lane_id": "51214742#1_3",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:13:centerline",
+      "reference_length_m": 18.82981460309869,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 528,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1537476013#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1537476013#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:25:centerline",
+      "reference_length_m": 263.61343090922315,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9981060606060606
+    },
+    {
+      "edge_coverage_sample_count": 528,
+      "edge_covered_reference_length_m": 227.16687701457676,
+      "edge_id": "234423652#1",
+      "edge_mean_lateral_offset_m": 0.14490835705695818,
+      "edge_reference_coverage": 0.8617424242424242,
+      "lane_id": "234423652#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:25:centerline",
+      "reference_length_m": 263.61343090922315,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9981060606060606
+    },
+    {
+      "edge_coverage_sample_count": 528,
+      "edge_covered_reference_length_m": 33.45094672522339,
+      "edge_id": "538341584",
+      "edge_mean_lateral_offset_m": 0.48869052171664173,
+      "edge_reference_coverage": 0.1268939393939394,
+      "lane_id": "538341584_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:25:centerline",
+      "reference_length_m": 263.61343090922315,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9981060606060606
+    },
+    {
+      "edge_coverage_sample_count": 39,
+      "edge_covered_reference_length_m": 0.9783218376407492,
+      "edge_id": "37693933#0",
+      "edge_mean_lateral_offset_m": 1.4882492852546994,
+      "edge_reference_coverage": 0.05128205128205128,
+      "lane_id": "37693933#0_2",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:14:centerline",
+      "reference_length_m": 19.07727583399461,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9743589743589743
+    },
+    {
+      "edge_coverage_sample_count": 39,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "37693933#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "37693933#1_2",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:14:centerline",
+      "reference_length_m": 19.07727583399461,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9743589743589743
+    },
+    {
+      "edge_coverage_sample_count": 39,
+      "edge_covered_reference_length_m": 9.783218376407492,
+      "edge_id": "51214742#1",
+      "edge_mean_lateral_offset_m": 1.8923053764151327,
+      "edge_reference_coverage": 0.5128205128205128,
+      "lane_id": "51214742#1_2",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:14:centerline",
+      "reference_length_m": 19.07727583399461,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9743589743589743
+    },
+    {
+      "edge_coverage_sample_count": 526,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1537476013#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1537476013#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:26:centerline",
+      "reference_length_m": 262.74519275733184,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9980988593155894
+    },
+    {
+      "edge_coverage_sample_count": 526,
+      "edge_covered_reference_length_m": 226.7800713152636,
+      "edge_id": "234423652#1",
+      "edge_mean_lateral_offset_m": 0.23115466183455174,
+      "edge_reference_coverage": 0.8631178707224335,
+      "lane_id": "234423652#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:26:centerline",
+      "reference_length_m": 262.74519275733184,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9980988593155894
+    },
+    {
+      "edge_coverage_sample_count": 526,
+      "edge_covered_reference_length_m": 33.46754356414684,
+      "edge_id": "538341584",
+      "edge_mean_lateral_offset_m": 0.5552155699165674,
+      "edge_reference_coverage": 0.12737642585551331,
+      "lane_id": "538341584_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:26:centerline",
+      "reference_length_m": 262.74519275733184,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9980988593155894
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 1.478288837147888,
+      "edge_id": "37693933#0",
+      "edge_mean_lateral_offset_m": 1.330068397105516,
+      "edge_reference_coverage": 0.08823529411764706,
+      "lane_id": "37693933#0_1",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:15:centerline",
+      "reference_length_m": 16.75394015434273,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "37693933#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "37693933#1_1",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:15:centerline",
+      "reference_length_m": 16.75394015434273,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 7.391444185739439,
+      "edge_id": "51214742#1",
+      "edge_mean_lateral_offset_m": 1.5907618149553975,
+      "edge_reference_coverage": 0.4411764705882353,
+      "lane_id": "51214742#1_1",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:15:centerline",
+      "reference_length_m": 16.75394015434273,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 51,
+      "edge_covered_reference_length_m": 25.32857741245678,
+      "edge_id": "606141108",
+      "edge_mean_lateral_offset_m": 0.8636205422937969,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "606141108_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:28:centerline",
+      "reference_length_m": 25.32857741245678,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 51,
+      "edge_covered_reference_length_m": 25.380196125435123,
+      "edge_id": "606141108",
+      "edge_mean_lateral_offset_m": 0.8634266052966995,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "606141108_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:29:centerline",
+      "reference_length_m": 25.38019612543512,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 113,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1286645419",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1286645419_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:4:centerline",
+      "reference_length_m": 56.49582729558797,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9823008849557522
+    },
+    {
+      "edge_coverage_sample_count": 113,
+      "edge_covered_reference_length_m": 20.4984860099036,
+      "edge_id": "1326490377",
+      "edge_mean_lateral_offset_m": 0.32447415470394386,
+      "edge_reference_coverage": 0.36283185840707965,
+      "lane_id": "1326490377_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:4:centerline",
+      "reference_length_m": 56.49582729558797,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9823008849557522
+    },
+    {
+      "edge_coverage_sample_count": 113,
+      "edge_covered_reference_length_m": 10.999187615070225,
+      "edge_id": "220109544",
+      "edge_mean_lateral_offset_m": 1.0603232967030227,
+      "edge_reference_coverage": 0.19469026548672566,
+      "lane_id": "220109544_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:4:centerline",
+      "reference_length_m": 56.49582729558797,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9823008849557522
+    },
+    {
+      "edge_coverage_sample_count": 113,
+      "edge_covered_reference_length_m": 11.999113761894792,
+      "edge_id": "251871172#0",
+      "edge_mean_lateral_offset_m": 0.7066066820193805,
+      "edge_reference_coverage": 0.21238938053097345,
+      "lane_id": "251871172#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:4:centerline",
+      "reference_length_m": 56.49582729558797,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9823008849557522
+    },
+    {
+      "edge_coverage_sample_count": 113,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "251871172#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "251871172#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:4:centerline",
+      "reference_length_m": 56.49582729558797,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9823008849557522
+    },
+    {
+      "edge_coverage_sample_count": 234,
+      "edge_covered_reference_length_m": 20.998611845244028,
+      "edge_id": "1326490377",
+      "edge_mean_lateral_offset_m": 0.47602196679579867,
+      "edge_reference_coverage": 0.1794871794871795,
+      "lane_id": "1326490377_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:3:centerline",
+      "reference_length_m": 116.99226599493102,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.43162393162393164
+    },
+    {
+      "edge_coverage_sample_count": 234,
+      "edge_covered_reference_length_m": 10.499305922622014,
+      "edge_id": "220109544",
+      "edge_mean_lateral_offset_m": 2.0644248668898966,
+      "edge_reference_coverage": 0.08974358974358974,
+      "lane_id": "220109544_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:3:centerline",
+      "reference_length_m": 116.99226599493102,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.43162393162393164
+    },
+    {
+      "edge_coverage_sample_count": 234,
+      "edge_covered_reference_length_m": 10.9992728713183,
+      "edge_id": "251871172#0",
+      "edge_mean_lateral_offset_m": 0.8646783790318108,
+      "edge_reference_coverage": 0.09401709401709402,
+      "lane_id": "251871172#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:3:centerline",
+      "reference_length_m": 116.99226599493102,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.43162393162393164
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 13.789861395970533,
+      "edge_id": "1373419479",
+      "edge_mean_lateral_offset_m": 1.6655270265139304,
+      "edge_reference_coverage": 0.8235294117647058,
+      "lane_id": "1373419479_2",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:22:centerline",
+      "reference_length_m": 16.744831695107077,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 2.4624752492804527,
+      "edge_id": "381750337",
+      "edge_mean_lateral_offset_m": 1.6997324322817071,
+      "edge_reference_coverage": 0.14705882352941177,
+      "lane_id": "381750337_2",
+      "mapping_confidence": "medium",
+      "official_fact": "118:lane:22:centerline",
+      "reference_length_m": 16.744831695107077,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 158,
+      "edge_covered_reference_length_m": 20.917818655306473,
+      "edge_id": "1326490377",
+      "edge_mean_lateral_offset_m": 0.6127590387772258,
+      "edge_reference_coverage": 0.26582278481012656,
+      "lane_id": "1326490377_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:2:centerline",
+      "reference_length_m": 78.69084160805768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6265822784810127
+    },
+    {
+      "edge_coverage_sample_count": 158,
+      "edge_covered_reference_length_m": 10.458909327653236,
+      "edge_id": "220109544",
+      "edge_mean_lateral_offset_m": 1.0264364883446655,
+      "edge_reference_coverage": 0.13291139240506328,
+      "lane_id": "220109544_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:2:centerline",
+      "reference_length_m": 78.69084160805768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6265822784810127
+    },
+    {
+      "edge_coverage_sample_count": 158,
+      "edge_covered_reference_length_m": 9.960866026336415,
+      "edge_id": "251871172#0",
+      "edge_mean_lateral_offset_m": 1.0952625565276422,
+      "edge_reference_coverage": 0.12658227848101267,
+      "lane_id": "251871172#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:2:centerline",
+      "reference_length_m": 78.69084160805768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6265822784810127
+    },
+    {
+      "edge_coverage_sample_count": 236,
+      "edge_covered_reference_length_m": 5.9851147750566,
+      "edge_id": "1217435074",
+      "edge_mean_lateral_offset_m": 1.0904682755758983,
+      "edge_reference_coverage": 0.05084745762711865,
+      "lane_id": "1217435074_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:1:centerline",
+      "reference_length_m": 117.70725724277978,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 236,
+      "edge_covered_reference_length_m": 38.90324603786789,
+      "edge_id": "1227169967",
+      "edge_mean_lateral_offset_m": 0.2945733417347785,
+      "edge_reference_coverage": 0.3305084745762712,
+      "lane_id": "1227169967_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:1:centerline",
+      "reference_length_m": 117.70725724277978,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 236,
+      "edge_covered_reference_length_m": 29.925573875282993,
+      "edge_id": "1286645419",
+      "edge_mean_lateral_offset_m": 0.8616417466612155,
+      "edge_reference_coverage": 0.2542372881355932,
+      "lane_id": "1286645419_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:1:centerline",
+      "reference_length_m": 117.70725724277978,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 236,
+      "edge_covered_reference_length_m": 11.9702295501132,
+      "edge_id": "1326490378#0",
+      "edge_mean_lateral_offset_m": 0.471391968851115,
+      "edge_reference_coverage": 0.1016949152542373,
+      "lane_id": "1326490378#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:1:centerline",
+      "reference_length_m": 117.70725724277978,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 102,
+      "edge_covered_reference_length_m": 4.964037807373695,
+      "edge_id": "31050639",
+      "edge_mean_lateral_offset_m": 0.8508290600500755,
+      "edge_reference_coverage": 0.09803921568627451,
+      "lane_id": "31050639_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:18:centerline",
+      "reference_length_m": 50.63318563521169,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 102,
+      "edge_covered_reference_length_m": 37.72668733604009,
+      "edge_id": "551319351#0",
+      "edge_mean_lateral_offset_m": 0.30715471837794084,
+      "edge_reference_coverage": 0.7450980392156863,
+      "lane_id": "551319351#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:18:centerline",
+      "reference_length_m": 50.63318563521169,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 35,
+      "edge_covered_reference_length_m": 6.337212675702449,
+      "edge_id": "1326490379",
+      "edge_mean_lateral_offset_m": 0.007914754714101354,
+      "edge_reference_coverage": 0.37142857142857144,
+      "lane_id": "1326490379_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:7:centerline",
+      "reference_length_m": 17.061726434583516,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 35,
+      "edge_covered_reference_length_m": 10.724513758881066,
+      "edge_id": "251871702",
+      "edge_mean_lateral_offset_m": 0.02572278847999884,
+      "edge_reference_coverage": 0.6285714285714286,
+      "lane_id": "251871702_0",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:7:centerline",
+      "reference_length_m": 17.061726434583516,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 91,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "31050639",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "31050639_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:19:centerline",
+      "reference_length_m": 45.24383302696725,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 91,
+      "edge_covered_reference_length_m": 37.786058352192434,
+      "edge_id": "551319351#0",
+      "edge_mean_lateral_offset_m": 0.26640130893572245,
+      "edge_reference_coverage": 0.8351648351648352,
+      "lane_id": "551319351#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:19:centerline",
+      "reference_length_m": 45.24383302696725,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 36,
+      "edge_covered_reference_length_m": 9.263233471327805,
+      "edge_id": "1326490379",
+      "edge_mean_lateral_offset_m": 0.08838361117038997,
+      "edge_reference_coverage": 0.5277777777777778,
+      "lane_id": "1326490379_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:6:centerline",
+      "reference_length_m": 17.55138973514742,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 36,
+      "edge_covered_reference_length_m": 7.80061766006552,
+      "edge_id": "251871702",
+      "edge_mean_lateral_offset_m": 0.1754252266207036,
+      "edge_reference_coverage": 0.4444444444444444,
+      "lane_id": "251871702_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:6:centerline",
+      "reference_length_m": 17.55138973514742,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 17,
+      "edge_covered_reference_length_m": 7.783452681468172,
+      "edge_id": "22127047",
+      "edge_mean_lateral_offset_m": 10.423543438038108,
+      "edge_reference_coverage": 0.9411764705882353,
+      "lane_id": "22127047_1",
+      "mapping_confidence": "low",
+      "official_fact": "118:lane:61:centerline",
+      "reference_length_m": 8.269918474059933,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 17,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "381750338",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "381750338_2",
+      "mapping_confidence": "low",
+      "official_fact": "118:lane:61:centerline",
+      "reference_length_m": 8.269918474059933,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 68,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1345107183#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1345107183#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:70:centerline",
+      "reference_length_m": 33.85849482115019,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5588235294117647
+    },
+    {
+      "edge_coverage_sample_count": 68,
+      "edge_covered_reference_length_m": 14.43965220313758,
+      "edge_id": "31050638#0",
+      "edge_mean_lateral_offset_m": 0.5181895404836456,
+      "edge_reference_coverage": 0.4264705882352941,
+      "lane_id": "31050638#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:70:centerline",
+      "reference_length_m": 33.85849482115019,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5588235294117647
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 5.866103186709773,
+      "edge_id": "31050638#2",
+      "edge_mean_lateral_offset_m": 0.3250515551215945,
+      "edge_reference_coverage": 0.41379310344827586,
+      "lane_id": "31050638#2_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:73:centerline",
+      "reference_length_m": 14.176416034548618,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "551319336",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "551319336_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:73:centerline",
+      "reference_length_m": 14.176416034548618,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 32,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "31050638#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "31050638#1_2",
+      "mapping_confidence": "low",
+      "official_fact": "118:lane:72:centerline",
+      "reference_length_m": 15.747146178451569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.78125
+    },
+    {
+      "edge_coverage_sample_count": 32,
+      "edge_covered_reference_length_m": 12.302457951915288,
+      "edge_id": "31050638#2",
+      "edge_mean_lateral_offset_m": 6.972503428837452,
+      "edge_reference_coverage": 0.78125,
+      "lane_id": "31050638#2_2",
+      "mapping_confidence": "low",
+      "official_fact": "118:lane:72:centerline",
+      "reference_length_m": 15.747146178451569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.78125
+    },
+    {
+      "edge_coverage_sample_count": 206,
+      "edge_covered_reference_length_m": 5.993162385095561,
+      "edge_id": "219999172#0",
+      "edge_mean_lateral_offset_m": 0.8288392433434025,
+      "edge_reference_coverage": 0.05825242718446602,
+      "lane_id": "219999172#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:63:centerline",
+      "reference_length_m": 102.88262094414046,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.25728155339805825
+    },
+    {
+      "edge_coverage_sample_count": 206,
+      "edge_covered_reference_length_m": 1.9977207950318534,
+      "edge_id": "219999172#1",
+      "edge_mean_lateral_offset_m": 0.6759676317497797,
+      "edge_reference_coverage": 0.019417475728155338,
+      "lane_id": "219999172#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:63:centerline",
+      "reference_length_m": 102.88262094414046,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.25728155339805825
+    },
+    {
+      "edge_coverage_sample_count": 206,
+      "edge_covered_reference_length_m": 0.49943019875796335,
+      "edge_id": "219999172#2",
+      "edge_mean_lateral_offset_m": 0.5413216860530511,
+      "edge_reference_coverage": 0.0048543689320388345,
+      "lane_id": "219999172#2_2",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:63:centerline",
+      "reference_length_m": 102.88262094414046,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.25728155339805825
+    },
+    {
+      "edge_coverage_sample_count": 206,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "251397516",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "251397516_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:63:centerline",
+      "reference_length_m": 102.88262094414046,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.25728155339805825
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.608439743210514,
+      "edge_id": "31050639",
+      "edge_mean_lateral_offset_m": 0.6206895987966021,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "31050639_1",
+      "mapping_confidence": "high",
+      "official_fact": "118:lane:66:centerline",
+      "reference_length_m": 10.608439743210514,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 82,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "142770549",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "142770549_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:58:centerline",
+      "reference_length_m": 40.61722323676777,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9878048780487805
+    },
+    {
+      "edge_coverage_sample_count": 82,
+      "edge_covered_reference_length_m": 23.775935553229914,
+      "edge_id": "48979207#0",
+      "edge_mean_lateral_offset_m": 1.0033434339119167,
+      "edge_reference_coverage": 0.5853658536585366,
+      "lane_id": "48979207#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:58:centerline",
+      "reference_length_m": 40.61722323676777,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9878048780487805
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.832619793099205,
+      "edge_id": "486864294",
+      "edge_mean_lateral_offset_m": 1.5475317598742249,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "486864294_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:12:centerline",
+      "reference_length_m": 10.832619793099205,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 82,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "142770549",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "142770549_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:59:centerline",
+      "reference_length_m": 40.98675089649077,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9878048780487805
+    },
+    {
+      "edge_coverage_sample_count": 82,
+      "edge_covered_reference_length_m": 23.992244427214107,
+      "edge_id": "48979207#0",
+      "edge_mean_lateral_offset_m": 0.9425493575975111,
+      "edge_reference_coverage": 0.5853658536585366,
+      "lane_id": "48979207#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:59:centerline",
+      "reference_length_m": 40.98675089649077,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9878048780487805
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.961991293110593,
+      "edge_id": "486864294",
+      "edge_mean_lateral_offset_m": 1.290094514325253,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "486864294_0",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:13:centerline",
+      "reference_length_m": 10.961991293110593,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 405,
+      "edge_covered_reference_length_m": 44.4716875517231,
+      "edge_id": "1227325137",
+      "edge_mean_lateral_offset_m": 0.9248829152473723,
+      "edge_reference_coverage": 0.21975308641975308,
+      "lane_id": "1227325137_2",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:52:centerline",
+      "reference_length_m": 202.37116245447027,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 405,
+      "edge_covered_reference_length_m": 15.490138360712539,
+      "edge_id": "199230909#0",
+      "edge_mean_lateral_offset_m": 0.5475788468756765,
+      "edge_reference_coverage": 0.07654320987654321,
+      "lane_id": "199230909#0_3",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:52:centerline",
+      "reference_length_m": 202.37116245447027,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 405,
+      "edge_covered_reference_length_m": 106.43224099457325,
+      "edge_id": "234421319",
+      "edge_mean_lateral_offset_m": 1.157058846251917,
+      "edge_reference_coverage": 0.5259259259259259,
+      "lane_id": "234421319_1",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:52:centerline",
+      "reference_length_m": 202.37116245447027,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 405,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "37693933#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "37693933#0_1",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:52:centerline",
+      "reference_length_m": 202.37116245447027,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 405,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "37693933#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "37693933#1_1",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:52:centerline",
+      "reference_length_m": 202.37116245447027,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.4917076041393134,
+      "edge_id": "142770549",
+      "edge_mean_lateral_offset_m": 0.8384063080443218,
+      "edge_reference_coverage": 0.05,
+      "lane_id": "142770549_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:26:centerline",
+      "reference_length_m": 9.834152082786268,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1562283744",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1562283744_3",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:26:centerline",
+      "reference_length_m": 9.834152082786268,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "48979207#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "48979207#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:26:centerline",
+      "reference_length_m": 9.834152082786268,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 185,
+      "edge_covered_reference_length_m": 14.958146192175725,
+      "edge_id": "199230909#0",
+      "edge_mean_lateral_offset_m": 0.42093935647906466,
+      "edge_reference_coverage": 0.16216216216216217,
+      "lane_id": "199230909#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:53:centerline",
+      "reference_length_m": 92.24190151841698,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.16216216216216217
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.4909710549678632,
+      "edge_id": "142770549",
+      "edge_mean_lateral_offset_m": 0.8441297919479918,
+      "edge_reference_coverage": 0.05,
+      "lane_id": "142770549_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:27:centerline",
+      "reference_length_m": 9.819421099357264,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "1562283744",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "1562283744_2",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:27:centerline",
+      "reference_length_m": 9.819421099357264,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "48979207#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "48979207#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:27:centerline",
+      "reference_length_m": 9.819421099357264,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 60,
+      "edge_covered_reference_length_m": 5.9930914869993925,
+      "edge_id": "1227325137",
+      "edge_mean_lateral_offset_m": 1.0174935998783494,
+      "edge_reference_coverage": 0.2,
+      "lane_id": "1227325137_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:54:centerline",
+      "reference_length_m": 29.965457434996964,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 60,
+      "edge_covered_reference_length_m": 14.982728717498482,
+      "edge_id": "199230909#0",
+      "edge_mean_lateral_offset_m": 0.1601047128303455,
+      "edge_reference_coverage": 0.5,
+      "lane_id": "199230909#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:54:centerline",
+      "reference_length_m": 29.965457434996964,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 23,
+      "edge_covered_reference_length_m": 5.747282113283948,
+      "edge_id": "199230912#0",
+      "edge_mean_lateral_offset_m": 0.0796421888856031,
+      "edge_reference_coverage": 0.5217391304347826,
+      "lane_id": "199230912#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:41:centerline",
+      "reference_length_m": 11.0156240504609,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 23,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "199230912#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "199230912#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:41:centerline",
+      "reference_length_m": 11.0156240504609,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 2.3942898656488865,
+      "edge_id": "186713429",
+      "edge_mean_lateral_offset_m": 0.3931847909895846,
+      "edge_reference_coverage": 0.25,
+      "lane_id": "186713429_2",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:5:centerline",
+      "reference_length_m": 9.577159462595546,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 3.352005811908441,
+      "edge_id": "79014037#1",
+      "edge_mean_lateral_offset_m": 0.6925770404498037,
+      "edge_reference_coverage": 0.35,
+      "lane_id": "79014037#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:5:centerline",
+      "reference_length_m": 9.577159462595546,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 406,
+      "edge_covered_reference_length_m": 80.86718732773919,
+      "edge_id": "24483344#0",
+      "edge_mean_lateral_offset_m": 0.3070043177285824,
+      "edge_reference_coverage": 0.39901477832512317,
+      "lane_id": "24483344#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:51:centerline",
+      "reference_length_m": 202.66714848803772,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.916256157635468
+    },
+    {
+      "edge_coverage_sample_count": 406,
+      "edge_covered_reference_length_m": 95.34341221974188,
+      "edge_id": "24483344#1",
+      "edge_mean_lateral_offset_m": 0.38353087511775397,
+      "edge_reference_coverage": 0.47044334975369456,
+      "lane_id": "24483344#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:51:centerline",
+      "reference_length_m": 202.66714848803772,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.916256157635468
+    },
+    {
+      "edge_coverage_sample_count": 406,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "31106387",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "31106387_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:51:centerline",
+      "reference_length_m": 202.66714848803772,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.916256157635468
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 1.4880957341092464,
+      "edge_id": "186713429",
+      "edge_mean_lateral_offset_m": 1.4940917241484541,
+      "edge_reference_coverage": 0.16666666666666666,
+      "lane_id": "186713429_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:6:centerline",
+      "reference_length_m": 8.928574404655478,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 3.4722233795882413,
+      "edge_id": "79014037#1",
+      "edge_mean_lateral_offset_m": 0.6891146024784811,
+      "edge_reference_coverage": 0.3888888888888889,
+      "lane_id": "79014037#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:6:centerline",
+      "reference_length_m": 8.928574404655478,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 98,
+      "edge_covered_reference_length_m": 0.4976215983315358,
+      "edge_id": "1068722010",
+      "edge_mean_lateral_offset_m": 0.9294830910363431,
+      "edge_reference_coverage": 0.01020408163265306,
+      "lane_id": "1068722010_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:4:centerline",
+      "reference_length_m": 48.76691663649051,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 98,
+      "edge_covered_reference_length_m": 26.871566309902935,
+      "edge_id": "24483192",
+      "edge_mean_lateral_offset_m": 1.1756750834354077,
+      "edge_reference_coverage": 0.5510204081632653,
+      "lane_id": "24483192_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:4:centerline",
+      "reference_length_m": 48.76691663649051,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 98,
+      "edge_covered_reference_length_m": 13.435783154951467,
+      "edge_id": "37413814#0",
+      "edge_mean_lateral_offset_m": 0.9936614835489382,
+      "edge_reference_coverage": 0.2755102040816326,
+      "lane_id": "37413814#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:4:centerline",
+      "reference_length_m": 48.76691663649051,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "363112756#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "363112756#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:57:centerline",
+      "reference_length_m": 8.65111027306386,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 7.689875798278987,
+      "edge_id": "363112756#1",
+      "edge_mean_lateral_offset_m": 0.9593588421050652,
+      "edge_reference_coverage": 0.8888888888888888,
+      "lane_id": "363112756#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:57:centerline",
+      "reference_length_m": 8.65111027306386,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 98,
+      "edge_covered_reference_length_m": 26.969462851040376,
+      "edge_id": "24483192",
+      "edge_mean_lateral_offset_m": 1.505277659906179,
+      "edge_reference_coverage": 0.5510204081632653,
+      "lane_id": "24483192_1",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:2:centerline",
+      "reference_length_m": 48.944580729665866,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 98,
+      "edge_covered_reference_length_m": 12.9852969282787,
+      "edge_id": "43866090#0",
+      "edge_mean_lateral_offset_m": 0.19631464210539973,
+      "edge_reference_coverage": 0.2653061224489796,
+      "lane_id": "43866090#0_0",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:2:centerline",
+      "reference_length_m": 48.944580729665866,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 86,
+      "edge_covered_reference_length_m": 20.794249759500783,
+      "edge_id": "24483192",
+      "edge_mean_lateral_offset_m": 1.0700095577119808,
+      "edge_reference_coverage": 0.4883720930232558,
+      "lane_id": "24483192_2",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:1:centerline",
+      "reference_length_m": 42.5787018885016,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9883720930232558
+    },
+    {
+      "edge_coverage_sample_count": 86,
+      "edge_covered_reference_length_m": 14.357934357750539,
+      "edge_id": "43866090#0",
+      "edge_mean_lateral_offset_m": 0.6521209536255911,
+      "edge_reference_coverage": 0.3372093023255814,
+      "lane_id": "43866090#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:1:centerline",
+      "reference_length_m": 42.5787018885016,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9883720930232558
+    },
+    {
+      "edge_coverage_sample_count": 203,
+      "edge_covered_reference_length_m": 4.483111546201127,
+      "edge_id": "186713422#0",
+      "edge_mean_lateral_offset_m": 0.6153891871716617,
+      "edge_reference_coverage": 0.04433497536945813,
+      "lane_id": "186713422#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:7:centerline",
+      "reference_length_m": 101.11907154209209,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.625615763546798
+    },
+    {
+      "edge_coverage_sample_count": 203,
+      "edge_covered_reference_length_m": 43.834868451744356,
+      "edge_id": "186713426",
+      "edge_mean_lateral_offset_m": 1.5763434072971874,
+      "edge_reference_coverage": 0.43349753694581283,
+      "lane_id": "186713426_4",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:7:centerline",
+      "reference_length_m": 101.11907154209209,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.625615763546798
+    },
+    {
+      "edge_coverage_sample_count": 571,
+      "edge_covered_reference_length_m": 4.997721531433123,
+      "edge_id": "186713422#0",
+      "edge_mean_lateral_offset_m": 0.09908384968261434,
+      "edge_reference_coverage": 0.017513134851138354,
+      "lane_id": "186713422#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:8:centerline",
+      "reference_length_m": 285.3698994448313,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.017513134851138354
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "363112756#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "363112756#0_2",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:55:centerline",
+      "reference_length_m": 8.654893840209237,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 7.693238969074877,
+      "edge_id": "363112756#1",
+      "edge_mean_lateral_offset_m": 1.3236362485901818,
+      "edge_reference_coverage": 0.8888888888888888,
+      "lane_id": "363112756#1_2",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:55:centerline",
+      "reference_length_m": 8.654893840209237,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 572,
+      "edge_covered_reference_length_m": 4.996732450921236,
+      "edge_id": "186713422#0",
+      "edge_mean_lateral_offset_m": 0.03840155552671464,
+      "edge_reference_coverage": 0.017482517482517484,
+      "lane_id": "186713422#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:9:centerline",
+      "reference_length_m": 285.8130961926947,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.017482517482517484
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "363112756#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "363112756#0_1",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:56:centerline",
+      "reference_length_m": 8.648454542100916,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 18,
+      "edge_covered_reference_length_m": 7.687515148534148,
+      "edge_id": "363112756#1",
+      "edge_mean_lateral_offset_m": 1.118681262398642,
+      "edge_reference_coverage": 0.8888888888888888,
+      "lane_id": "363112756#1_1",
+      "mapping_confidence": "medium",
+      "official_fact": "119:lane:56:centerline",
+      "reference_length_m": 8.648454542100916,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 573,
+      "edge_covered_reference_length_m": 4.9947015229763005,
+      "edge_id": "186713422#0",
+      "edge_mean_lateral_offset_m": 0.21856007266445715,
+      "edge_reference_coverage": 0.017452006980802792,
+      "lane_id": "186713422#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "119:lane:10:centerline",
+      "reference_length_m": 286.196397266542,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.017452006980802792
+    },
+    {
+      "edge_coverage_sample_count": 142,
+      "edge_covered_reference_length_m": 5.496241078231951,
+      "edge_id": "350033480#0",
+      "edge_mean_lateral_offset_m": 0.3709290508211022,
+      "edge_reference_coverage": 0.07746478873239436,
+      "lane_id": "350033480#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:24:centerline",
+      "reference_length_m": 70.9514757371761,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.07746478873239436
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186713402#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186713402#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:16:centerline",
+      "reference_length_m": 14.042263635711558,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 9.200103761328263,
+      "edge_id": "551284796#0",
+      "edge_mean_lateral_offset_m": 1.667913368075317,
+      "edge_reference_coverage": 0.6551724137931034,
+      "lane_id": "551284796#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:16:centerline",
+      "reference_length_m": 14.042263635711558,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 139,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "350033485#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "350033485#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:4:centerline",
+      "reference_length_m": 69.4225090192682,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9928057553956835
+    },
+    {
+      "edge_coverage_sample_count": 139,
+      "edge_covered_reference_length_m": 38.95651585253899,
+      "edge_id": "368989705",
+      "edge_mean_lateral_offset_m": 0.715528937694945,
+      "edge_reference_coverage": 0.5611510791366906,
+      "lane_id": "368989705_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:4:centerline",
+      "reference_length_m": 69.4225090192682,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9928057553956835
+    },
+    {
+      "edge_coverage_sample_count": 139,
+      "edge_covered_reference_length_m": 21.97547048091943,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 1.575636385920249,
+      "edge_reference_coverage": 0.31654676258992803,
+      "lane_id": "503043835_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:4:centerline",
+      "reference_length_m": 69.4225090192682,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9928057553956835
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 16.6142549205046,
+      "edge_id": "142944399#2",
+      "edge_mean_lateral_offset_m": 0.5732445818138984,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944399#2_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:27:centerline",
+      "reference_length_m": 16.6142549205046,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 139,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "350033485#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "350033485#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:3:centerline",
+      "reference_length_m": 69.19140640385969,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 139,
+      "edge_covered_reference_length_m": 38.82683237051119,
+      "edge_id": "368989705",
+      "edge_mean_lateral_offset_m": 0.6899231804440815,
+      "edge_reference_coverage": 0.5611510791366906,
+      "lane_id": "368989705_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:3:centerline",
+      "reference_length_m": 69.19140640385969,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 139,
+      "edge_covered_reference_length_m": 21.9023156961858,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 1.5230234447874993,
+      "edge_reference_coverage": 0.31654676258992803,
+      "lane_id": "503043835_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:3:centerline",
+      "reference_length_m": 69.19140640385969,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 16.61959479584481,
+      "edge_id": "142944399#2",
+      "edge_mean_lateral_offset_m": 0.7756126074379489,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944399#2_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:26:centerline",
+      "reference_length_m": 16.61959479584481,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 138,
+      "edge_covered_reference_length_m": 38.78587037073702,
+      "edge_id": "368989705",
+      "edge_mean_lateral_offset_m": 0.6449186599033935,
+      "edge_reference_coverage": 0.5652173913043478,
+      "lane_id": "368989705_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:2:centerline",
+      "reference_length_m": 68.62115527130396,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9927536231884058
+    },
+    {
+      "edge_coverage_sample_count": 138,
+      "edge_covered_reference_length_m": 21.879208927082423,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 1.4800361034296907,
+      "edge_reference_coverage": 0.3188405797101449,
+      "lane_id": "503043835_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:2:centerline",
+      "reference_length_m": 68.62115527130396,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9927536231884058
+    },
+    {
+      "edge_coverage_sample_count": 34,
+      "edge_covered_reference_length_m": 16.607670674255765,
+      "edge_id": "142944399#2",
+      "edge_mean_lateral_offset_m": 0.9698276387329504,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944399#2_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:25:centerline",
+      "reference_length_m": 16.607670674255765,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 138,
+      "edge_covered_reference_length_m": 38.287511389121896,
+      "edge_id": "368989705",
+      "edge_mean_lateral_offset_m": 0.6097030345692254,
+      "edge_reference_coverage": 0.5579710144927537,
+      "lane_id": "368989705_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:1:centerline",
+      "reference_length_m": 68.61917625582886,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 138,
+      "edge_covered_reference_length_m": 22.37581834429202,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 0.9754203496643697,
+      "edge_reference_coverage": 0.32608695652173914,
+      "lane_id": "503043835_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:1:centerline",
+      "reference_length_m": 68.61917625582886,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 219,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "-186713427",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "-186713427_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:19:centerline",
+      "reference_length_m": 109.01740336646213,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9954337899543378
+    },
+    {
+      "edge_coverage_sample_count": 219,
+      "edge_covered_reference_length_m": 12.942705422502353,
+      "edge_id": "186713428",
+      "edge_mean_lateral_offset_m": 2.4021228012945883,
+      "edge_reference_coverage": 0.1187214611872146,
+      "lane_id": "186713428_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:19:centerline",
+      "reference_length_m": 109.01740336646213,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9954337899543378
+    },
+    {
+      "edge_coverage_sample_count": 219,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186714396#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186714396#0_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:19:centerline",
+      "reference_length_m": 109.01740336646213,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9954337899543378
+    },
+    {
+      "edge_coverage_sample_count": 219,
+      "edge_covered_reference_length_m": 16.925076321733847,
+      "edge_id": "551303409",
+      "edge_mean_lateral_offset_m": 2.320540428250166,
+      "edge_reference_coverage": 0.1552511415525114,
+      "lane_id": "551303409_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:19:centerline",
+      "reference_length_m": 109.01740336646213,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9954337899543378
+    },
+    {
+      "edge_coverage_sample_count": 219,
+      "edge_covered_reference_length_m": 26.88100356981258,
+      "edge_id": "551303410",
+      "edge_mean_lateral_offset_m": 0.5237285601145972,
+      "edge_reference_coverage": 0.2465753424657534,
+      "lane_id": "551303410_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:19:centerline",
+      "reference_length_m": 109.01740336646213,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9954337899543378
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "51200768#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "51200768#1_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:6:centerline",
+      "reference_length_m": 14.064943472667128,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 9.699961015632502,
+      "edge_id": "551303417",
+      "edge_mean_lateral_offset_m": 0.526221864241376,
+      "edge_reference_coverage": 0.6896551724137931,
+      "lane_id": "551303417_5",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:6:centerline",
+      "reference_length_m": 14.064943472667128,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 60.4733748802497,
+      "edge_id": "-142770548",
+      "edge_mean_lateral_offset_m": 2.017987822952641,
+      "edge_reference_coverage": 0.2009966777408638,
+      "lane_id": "-142770548_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 33.48525716509694,
+      "edge_id": "-142770551",
+      "edge_mean_lateral_offset_m": 2.318769736934499,
+      "edge_reference_coverage": 0.11129568106312292,
+      "lane_id": "-142770551_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 92.95907212997061,
+      "edge_id": "-186713427",
+      "edge_mean_lateral_offset_m": 1.7838822374565237,
+      "edge_reference_coverage": 0.3089700996677741,
+      "lane_id": "-186713427_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 12.994278899888362,
+      "edge_id": "186713428",
+      "edge_mean_lateral_offset_m": 0.8661186193345846,
+      "edge_reference_coverage": 0.04318936877076412,
+      "lane_id": "186713428_2",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186714396#0",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186714396#0_3",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 16.492738603704463,
+      "edge_id": "551303409",
+      "edge_mean_lateral_offset_m": 0.8756273376692872,
+      "edge_reference_coverage": 0.054817275747508304,
+      "lane_id": "551303409_3",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 602,
+      "edge_covered_reference_length_m": 26.988117715152754,
+      "edge_id": "551303410",
+      "edge_mean_lateral_offset_m": 0.4633372733859921,
+      "edge_reference_coverage": 0.08970099667774087,
+      "lane_id": "551303410_3",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:20:centerline",
+      "reference_length_m": 300.8675345281844,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9983388704318937
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "51200768#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "51200768#1_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:7:centerline",
+      "reference_length_m": 14.06495004294018,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 9.699965546855296,
+      "edge_id": "551303417",
+      "edge_mean_lateral_offset_m": 0.637596969452648,
+      "edge_reference_coverage": 0.6896551724137931,
+      "lane_id": "551303417_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:7:centerline",
+      "reference_length_m": 14.06495004294018,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 284,
+      "edge_covered_reference_length_m": 12.996236955590993,
+      "edge_id": "186713428",
+      "edge_mean_lateral_offset_m": 0.8048087003088292,
+      "edge_reference_coverage": 0.09154929577464789,
+      "lane_id": "186713428_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:21:centerline",
+      "reference_length_m": 141.95889597645547,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5985915492957746
+    },
+    {
+      "edge_coverage_sample_count": 284,
+      "edge_covered_reference_length_m": 0.999710535045461,
+      "edge_id": "186714396#0",
+      "edge_mean_lateral_offset_m": 0.8992704482397729,
+      "edge_reference_coverage": 0.007042253521126761,
+      "lane_id": "186714396#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:21:centerline",
+      "reference_length_m": 141.95889597645547,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5985915492957746
+    },
+    {
+      "edge_coverage_sample_count": 284,
+      "edge_covered_reference_length_m": 0.4998552675227305,
+      "edge_id": "186714396#1",
+      "edge_mean_lateral_offset_m": 0.9069918688063977,
+      "edge_reference_coverage": 0.0035211267605633804,
+      "lane_id": "186714396#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:21:centerline",
+      "reference_length_m": 141.95889597645547,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5985915492957746
+    },
+    {
+      "edge_coverage_sample_count": 284,
+      "edge_covered_reference_length_m": 16.495223828250104,
+      "edge_id": "551303409",
+      "edge_mean_lateral_offset_m": 0.7841626823356118,
+      "edge_reference_coverage": 0.11619718309859155,
+      "lane_id": "551303409_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:21:centerline",
+      "reference_length_m": 141.95889597645547,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5985915492957746
+    },
+    {
+      "edge_coverage_sample_count": 284,
+      "edge_covered_reference_length_m": 26.49232917870472,
+      "edge_id": "551303410",
+      "edge_mean_lateral_offset_m": 0.7106145212109007,
+      "edge_reference_coverage": 0.18661971830985916,
+      "lane_id": "551303410_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:21:centerline",
+      "reference_length_m": 141.95889597645547,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5985915492957746
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "51200768#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "51200768#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:8:centerline",
+      "reference_length_m": 14.072304358686164,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 9.70503748874908,
+      "edge_id": "551303417",
+      "edge_mean_lateral_offset_m": 0.36635523436004813,
+      "edge_reference_coverage": 0.6896551724137931,
+      "lane_id": "551303417_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:8:centerline",
+      "reference_length_m": 14.072304358686164,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 60.400971358626634,
+      "edge_id": "-142770548",
+      "edge_mean_lateral_offset_m": 2.1652672693740667,
+      "edge_reference_coverage": 0.20033112582781457,
+      "lane_id": "-142770548_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 33.44516595890896,
+      "edge_id": "-142770551",
+      "edge_mean_lateral_offset_m": 2.324312406922728,
+      "edge_reference_coverage": 0.11092715231788079,
+      "lane_id": "-142770551_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 93.34695573605934,
+      "edge_id": "-186713427",
+      "edge_mean_lateral_offset_m": 2.0836668788451314,
+      "edge_reference_coverage": 0.30960264900662254,
+      "lane_id": "-186713427_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 12.978721118382584,
+      "edge_id": "186713428",
+      "edge_mean_lateral_offset_m": 0.871348204758369,
+      "edge_reference_coverage": 0.04304635761589404,
+      "lane_id": "186713428_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 0.4991815814762532,
+      "edge_id": "186714396#0",
+      "edge_mean_lateral_offset_m": 0.9570587528476725,
+      "edge_reference_coverage": 0.0016556291390728477,
+      "lane_id": "186714396#0_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 0.9983631629525064,
+      "edge_id": "186714396#1",
+      "edge_mean_lateral_offset_m": 1.0066498912841317,
+      "edge_reference_coverage": 0.0033112582781456954,
+      "lane_id": "186714396#1_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 16.472992188716354,
+      "edge_id": "551303409",
+      "edge_mean_lateral_offset_m": 0.8357206775411699,
+      "edge_reference_coverage": 0.054635761589403975,
+      "lane_id": "551303409_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 604,
+      "edge_covered_reference_length_m": 26.955805399717672,
+      "edge_id": "551303410",
+      "edge_mean_lateral_offset_m": 0.6553374132838412,
+      "edge_reference_coverage": 0.08940397350993377,
+      "lane_id": "551303410_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:22:centerline",
+      "reference_length_m": 301.5056752116569,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "51200768#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "51200768#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:9:centerline",
+      "reference_length_m": 14.064958369600541,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 9.699971289379683,
+      "edge_id": "551303417",
+      "edge_mean_lateral_offset_m": 0.46442628067081904,
+      "edge_reference_coverage": 0.6896551724137931,
+      "lane_id": "551303417_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:9:centerline",
+      "reference_length_m": 14.064958369600541,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 134,
+      "edge_covered_reference_length_m": 1.496697753560312,
+      "edge_id": "186713404#0",
+      "edge_mean_lateral_offset_m": 5.753299554239153,
+      "edge_reference_coverage": 0.022388059701492536,
+      "lane_id": "186713404#0_0",
+      "mapping_confidence": "low",
+      "official_fact": "200:lane:78:centerline",
+      "reference_length_m": 66.85249965902727,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.417910447761194
+    },
+    {
+      "edge_coverage_sample_count": 134,
+      "edge_covered_reference_length_m": 15.465876786789892,
+      "edge_id": "186714395",
+      "edge_mean_lateral_offset_m": 4.630727095666396,
+      "edge_reference_coverage": 0.23134328358208955,
+      "lane_id": "186714395_1",
+      "mapping_confidence": "low",
+      "official_fact": "200:lane:78:centerline",
+      "reference_length_m": 66.85249965902727,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.417910447761194
+    },
+    {
+      "edge_coverage_sample_count": 134,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "551288834",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "551288834_2",
+      "mapping_confidence": "low",
+      "official_fact": "200:lane:78:centerline",
+      "reference_length_m": 66.85249965902727,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.417910447761194
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 1.4955551608342037,
+      "edge_id": "186713404#0",
+      "edge_mean_lateral_offset_m": 0.5387969636285753,
+      "edge_reference_coverage": 0.022900763358778626,
+      "lane_id": "186713404#0_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:14:centerline",
+      "reference_length_m": 65.30590868976023,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 0.4985183869447346,
+      "edge_id": "186713404#1",
+      "edge_mean_lateral_offset_m": 0.5536566290013277,
+      "edge_reference_coverage": 0.007633587786259542,
+      "lane_id": "186713404#1_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:14:centerline",
+      "reference_length_m": 65.30590868976023,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 29.41258482973934,
+      "edge_id": "186714394",
+      "edge_mean_lateral_offset_m": 1.9639641487651227,
+      "edge_reference_coverage": 0.45038167938931295,
+      "lane_id": "186714394_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:14:centerline",
+      "reference_length_m": 65.30590868976023,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 15.952588382231507,
+      "edge_id": "186714395",
+      "edge_mean_lateral_offset_m": 0.8874372970709486,
+      "edge_reference_coverage": 0.24427480916030533,
+      "lane_id": "186714395_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:14:centerline",
+      "reference_length_m": 65.30590868976023,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 0.4985183869447346,
+      "edge_id": "551288834",
+      "edge_mean_lateral_offset_m": 0.5839325602483332,
+      "edge_reference_coverage": 0.007633587786259542,
+      "lane_id": "551288834_2",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:14:centerline",
+      "reference_length_m": 65.30590868976023,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 0.4988071087859103,
+      "edge_id": "186713404#0",
+      "edge_mean_lateral_offset_m": 0.6293158596702201,
+      "edge_reference_coverage": 0.007633587786259542,
+      "lane_id": "186713404#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:13:centerline",
+      "reference_length_m": 65.34373125095425,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 0.9976142175718206,
+      "edge_id": "186713404#1",
+      "edge_mean_lateral_offset_m": 0.6217998747382527,
+      "edge_reference_coverage": 0.015267175572519083,
+      "lane_id": "186713404#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:13:centerline",
+      "reference_length_m": 65.34373125095425,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 29.429619418368706,
+      "edge_id": "186714394",
+      "edge_mean_lateral_offset_m": 2.0174092420696543,
+      "edge_reference_coverage": 0.45038167938931295,
+      "lane_id": "186714394_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:13:centerline",
+      "reference_length_m": 65.34373125095425,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 15.961827481149129,
+      "edge_id": "186714395",
+      "edge_mean_lateral_offset_m": 0.9724711522743837,
+      "edge_reference_coverage": 0.24427480916030533,
+      "lane_id": "186714395_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:13:centerline",
+      "reference_length_m": 65.34373125095425,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "551288834",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "551288834_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:13:centerline",
+      "reference_length_m": 65.34373125095425,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9847328244274809
+    },
+    {
+      "edge_coverage_sample_count": 107,
+      "edge_covered_reference_length_m": 3.972480207341256,
+      "edge_id": "186713403#0",
+      "edge_mean_lateral_offset_m": 0.44504951677751825,
+      "edge_reference_coverage": 0.07476635514018691,
+      "lane_id": "186713403#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:11:centerline",
+      "reference_length_m": 53.1319227731893,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 107,
+      "edge_covered_reference_length_m": 1.489680077752971,
+      "edge_id": "186713403#1",
+      "edge_mean_lateral_offset_m": 0.15884376115916884,
+      "edge_reference_coverage": 0.028037383177570093,
+      "lane_id": "186713403#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:11:centerline",
+      "reference_length_m": 53.1319227731893,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 107,
+      "edge_covered_reference_length_m": 17.876160933035653,
+      "edge_id": "186714394",
+      "edge_mean_lateral_offset_m": 1.631019862131312,
+      "edge_reference_coverage": 0.3364485981308411,
+      "lane_id": "186714394_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:11:centerline",
+      "reference_length_m": 53.1319227731893,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 107,
+      "edge_covered_reference_length_m": 15.889920829365025,
+      "edge_id": "186714395",
+      "edge_mean_lateral_offset_m": 1.0075280804117657,
+      "edge_reference_coverage": 0.29906542056074764,
+      "lane_id": "186714395_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:11:centerline",
+      "reference_length_m": 53.1319227731893,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 4.4925769190772185,
+      "edge_id": "186713403#0",
+      "edge_mean_lateral_offset_m": 0.3655656515114589,
+      "edge_reference_coverage": 0.06870229007633588,
+      "lane_id": "186713403#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:12:centerline",
+      "reference_length_m": 65.39195293323507,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5267175572519084
+    },
+    {
+      "edge_coverage_sample_count": 131,
+      "edge_covered_reference_length_m": 15.973606823385667,
+      "edge_id": "186714395",
+      "edge_mean_lateral_offset_m": 1.0129965382260195,
+      "edge_reference_coverage": 0.24427480916030533,
+      "lane_id": "186714395_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:12:centerline",
+      "reference_length_m": 65.39195293323507,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5267175572519084
+    },
+    {
+      "edge_coverage_sample_count": 309,
+      "edge_covered_reference_length_m": 1.9941283139976327,
+      "edge_id": "186713410#0",
+      "edge_mean_lateral_offset_m": 0.993833060738333,
+      "edge_reference_coverage": 0.012944983818770227,
+      "lane_id": "186713410#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:29:centerline",
+      "reference_length_m": 154.04641225631713,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.012944983818770227
+    },
+    {
+      "edge_coverage_sample_count": 138,
+      "edge_covered_reference_length_m": 0.4973599819696587,
+      "edge_id": "186713410#0",
+      "edge_mean_lateral_offset_m": 1.0040523746389245,
+      "edge_reference_coverage": 0.007246376811594203,
+      "lane_id": "186713410#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:30:centerline",
+      "reference_length_m": 68.6356775118129,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.007246376811594203
+    },
+    {
+      "edge_coverage_sample_count": 104,
+      "edge_covered_reference_length_m": 16.8426879436629,
+      "edge_id": "486870074#0",
+      "edge_mean_lateral_offset_m": 0.7215524800181085,
+      "edge_reference_coverage": 0.3269230769230769,
+      "lane_id": "486870074#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:33:centerline",
+      "reference_length_m": 51.51881018061593,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.33653846153846156
+    },
+    {
+      "edge_coverage_sample_count": 104,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "486870074#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "486870074#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:33:centerline",
+      "reference_length_m": 51.51881018061593,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.33653846153846156
+    },
+    {
+      "edge_coverage_sample_count": 301,
+      "edge_covered_reference_length_m": 15.948077404528815,
+      "edge_id": "486870074#0",
+      "edge_mean_lateral_offset_m": 0.6075692790177153,
+      "edge_reference_coverage": 0.10631229235880399,
+      "lane_id": "486870074#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:34:centerline",
+      "reference_length_m": 150.01160308634917,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.10631229235880399
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 14.121652160960423,
+      "edge_id": "142944325#0",
+      "edge_mean_lateral_offset_m": 0.17527351855678103,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944325#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:37:centerline",
+      "reference_length_m": 14.121652160960423,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 29,
+      "edge_covered_reference_length_m": 14.295022314509223,
+      "edge_id": "142944325#0",
+      "edge_mean_lateral_offset_m": 0.2341935628654837,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944325#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:36:centerline",
+      "reference_length_m": 14.295022314509225,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 223,
+      "edge_covered_reference_length_m": 9.965845857572733,
+      "edge_id": "480873120#0",
+      "edge_mean_lateral_offset_m": 0.49542211296152044,
+      "edge_reference_coverage": 0.08968609865470852,
+      "lane_id": "480873120#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:41:centerline",
+      "reference_length_m": 111.11918131193598,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.08968609865470852
+    },
+    {
+      "edge_coverage_sample_count": 13,
+      "edge_covered_reference_length_m": 6.41875658637367,
+      "edge_id": "43292244",
+      "edge_mean_lateral_offset_m": 1.081385043340076,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "43292244_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:45:centerline",
+      "reference_length_m": 6.41875658637367,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 214,
+      "edge_covered_reference_length_m": 20.97670136161753,
+      "edge_id": "142944337#1",
+      "edge_mean_lateral_offset_m": 0.8054045896653224,
+      "edge_reference_coverage": 0.19626168224299065,
+      "lane_id": "142944337#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:50:centerline",
+      "reference_length_m": 106.88128789014645,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 214,
+      "edge_covered_reference_length_m": 82.9079149054407,
+      "edge_id": "486864288",
+      "edge_mean_lateral_offset_m": 1.0056743360644382,
+      "edge_reference_coverage": 0.7757009345794392,
+      "lane_id": "486864288_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:50:centerline",
+      "reference_length_m": 106.88128789014645,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 10,
+      "edge_covered_reference_length_m": 4.6847163388564566,
+      "edge_id": "551303422",
+      "edge_mean_lateral_offset_m": 1.2165875485702249,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "551303422_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:59:centerline",
+      "reference_length_m": 4.6847163388564566,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "413418696",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "413418696_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:58:centerline",
+      "reference_length_m": 9.7698817892266,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 1.4654822683839899,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 1.2568931452279657,
+      "edge_reference_coverage": 0.15,
+      "lane_id": "503043835_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:58:centerline",
+      "reference_length_m": 9.7698817892266,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 214,
+      "edge_covered_reference_length_m": 20.933683704490782,
+      "edge_id": "142944337#1",
+      "edge_mean_lateral_offset_m": 0.7380146699710315,
+      "edge_reference_coverage": 0.19626168224299065,
+      "lane_id": "142944337#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:49:centerline",
+      "reference_length_m": 106.66210268478636,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 214,
+      "edge_covered_reference_length_m": 82.7378927367969,
+      "edge_id": "486864288",
+      "edge_mean_lateral_offset_m": 0.9459125225058435,
+      "edge_reference_coverage": 0.7757009345794392,
+      "lane_id": "486864288_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:49:centerline",
+      "reference_length_m": 106.66210268478636,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "495246281",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "495246281_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:57:centerline",
+      "reference_length_m": 9.765186153794843,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 1.4647779230692266,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 1.214176356295739,
+      "edge_reference_coverage": 0.15,
+      "lane_id": "503043835_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:57:centerline",
+      "reference_length_m": 9.765186153794843,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "495246281",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "495246281_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:56:centerline",
+      "reference_length_m": 9.765188506290405,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 20,
+      "edge_covered_reference_length_m": 1.953037701258081,
+      "edge_id": "503043835",
+      "edge_mean_lateral_offset_m": 1.1451168534077616,
+      "edge_reference_coverage": 0.2,
+      "lane_id": "503043835_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:56:centerline",
+      "reference_length_m": 9.765188506290405,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 159,
+      "edge_covered_reference_length_m": 19.43206507226912,
+      "edge_id": "142944527",
+      "edge_mean_lateral_offset_m": 1.2889025455318535,
+      "edge_reference_coverage": 0.24528301886792453,
+      "lane_id": "142944527_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:48:centerline",
+      "reference_length_m": 79.22303452540487,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9937106918238994
+    },
+    {
+      "edge_coverage_sample_count": 159,
+      "edge_covered_reference_length_m": 51.81884019271765,
+      "edge_id": "551303418",
+      "edge_mean_lateral_offset_m": 1.4064273196231665,
+      "edge_reference_coverage": 0.6540880503144654,
+      "lane_id": "551303418_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:48:centerline",
+      "reference_length_m": 79.22303452540487,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9937106918238994
+    },
+    {
+      "edge_coverage_sample_count": 180,
+      "edge_covered_reference_length_m": 29.965676306561168,
+      "edge_id": "142944527",
+      "edge_mean_lateral_offset_m": 0.9106754372545737,
+      "edge_reference_coverage": 0.3333333333333333,
+      "lane_id": "142944527_0",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:47:centerline",
+      "reference_length_m": 89.89702891968349,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 180,
+      "edge_covered_reference_length_m": 51.94050559803935,
+      "edge_id": "551303418",
+      "edge_mean_lateral_offset_m": 1.3250847004823105,
+      "edge_reference_coverage": 0.5777777777777777,
+      "lane_id": "551303418_1",
+      "mapping_confidence": "medium",
+      "official_fact": "200:lane:47:centerline",
+      "reference_length_m": 89.89702891968349,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 180,
+      "edge_covered_reference_length_m": 29.92932126061568,
+      "edge_id": "142944527",
+      "edge_mean_lateral_offset_m": 0.8365644717671635,
+      "edge_reference_coverage": 0.3333333333333333,
+      "lane_id": "142944527_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:46:centerline",
+      "reference_length_m": 89.78796378184704,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 180,
+      "edge_covered_reference_length_m": 51.87749018506718,
+      "edge_id": "551303418",
+      "edge_mean_lateral_offset_m": 1.2627314671710435,
+      "edge_reference_coverage": 0.5777777777777777,
+      "lane_id": "551303418_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:46:centerline",
+      "reference_length_m": 89.78796378184704,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.628776712344695,
+      "edge_id": "186713430",
+      "edge_mean_lateral_offset_m": 0.15374071298380884,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "186713430_1",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:51:centerline",
+      "reference_length_m": 10.628776712344695,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.628779313117171,
+      "edge_id": "186713430",
+      "edge_mean_lateral_offset_m": 0.09868803090730704,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "186713430_0",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:52:centerline",
+      "reference_length_m": 10.628779313117171,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.636286583541093,
+      "edge_id": "551303424",
+      "edge_mean_lateral_offset_m": 0.5632933247550979,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "551303424_4",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:53:centerline",
+      "reference_length_m": 10.636286583541093,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.636289478828509,
+      "edge_id": "551303424",
+      "edge_mean_lateral_offset_m": 0.5101333484921463,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "551303424_3",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:54:centerline",
+      "reference_length_m": 10.636289478828509,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 22,
+      "edge_covered_reference_length_m": 10.636292374945738,
+      "edge_id": "551303424",
+      "edge_mean_lateral_offset_m": 0.4664258119827089,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "551303424_2",
+      "mapping_confidence": "high",
+      "official_fact": "200:lane:55:centerline",
+      "reference_length_m": 10.636292374945738,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 102,
+      "edge_covered_reference_length_m": 2.971590477415035,
+      "edge_id": "-186821026",
+      "edge_mean_lateral_offset_m": 0.46791987455965117,
+      "edge_reference_coverage": 0.058823529411764705,
+      "lane_id": "-186821026_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:4:centerline",
+      "reference_length_m": 50.51703811605559,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9803921568627451
+    },
+    {
+      "edge_coverage_sample_count": 102,
+      "edge_covered_reference_length_m": 9.410036511814276,
+      "edge_id": "-186821028",
+      "edge_mean_lateral_offset_m": 1.6509712936922187,
+      "edge_reference_coverage": 0.18627450980392157,
+      "lane_id": "-186821028_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:4:centerline",
+      "reference_length_m": 50.51703811605559,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9803921568627451
+    },
+    {
+      "edge_coverage_sample_count": 102,
+      "edge_covered_reference_length_m": 26.24904921716614,
+      "edge_id": "186821027#0",
+      "edge_mean_lateral_offset_m": 0.7852632249320185,
+      "edge_reference_coverage": 0.5196078431372549,
+      "lane_id": "186821027#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:4:centerline",
+      "reference_length_m": 50.51703811605559,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9803921568627451
+    },
+    {
+      "edge_coverage_sample_count": 30,
+      "edge_covered_reference_length_m": 14.781590856172603,
+      "edge_id": "142944337#1",
+      "edge_mean_lateral_offset_m": 0.9541021239582963,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944337#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:23:centerline",
+      "reference_length_m": 14.781590856172603,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 101,
+      "edge_covered_reference_length_m": 25.982671014467574,
+      "edge_id": "186821027#0",
+      "edge_mean_lateral_offset_m": 0.7496904990789379,
+      "edge_reference_coverage": 0.5148514851485149,
+      "lane_id": "186821027#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:3:centerline",
+      "reference_length_m": 50.46634177810048,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.5148514851485149
+    },
+    {
+      "edge_coverage_sample_count": 30,
+      "edge_covered_reference_length_m": 14.871147734506119,
+      "edge_id": "142944337#1",
+      "edge_mean_lateral_offset_m": 0.9029960622397689,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "142944337#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:22:centerline",
+      "reference_length_m": 14.871147734506119,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 305,
+      "edge_covered_reference_length_m": 25.99014744222273,
+      "edge_id": "186821027#0",
+      "edge_mean_lateral_offset_m": 0.5376189931777596,
+      "edge_reference_coverage": 0.17049180327868851,
+      "lane_id": "186821027#0_4",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:2:centerline",
+      "reference_length_m": 152.44221095919102,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.17049180327868851
+    },
+    {
+      "edge_coverage_sample_count": 25,
+      "edge_covered_reference_length_m": 12.071809418733762,
+      "edge_id": "43305966#1",
+      "edge_mean_lateral_offset_m": 1.747386684561319,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "43305966#1_1",
+      "mapping_confidence": "conflict",
+      "official_fact": "535:lane:15:centerline",
+      "reference_length_m": 12.071809418733762,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 304,
+      "edge_covered_reference_length_m": 25.963264923539743,
+      "edge_id": "186821027#0",
+      "edge_mean_lateral_offset_m": 0.48138436334441437,
+      "edge_reference_coverage": 0.17105263157894737,
+      "lane_id": "186821027#0_5",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:1:centerline",
+      "reference_length_m": 151.78524109146312,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.17763157894736842
+    },
+    {
+      "edge_coverage_sample_count": 304,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186821029#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186821029#1_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:1:centerline",
+      "reference_length_m": 151.78524109146312,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.17763157894736842
+    },
+    {
+      "edge_coverage_sample_count": 25,
+      "edge_covered_reference_length_m": 12.06298181854866,
+      "edge_id": "186821036#1",
+      "edge_mean_lateral_offset_m": 1.5208093402656602,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "186821036#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:11:centerline",
+      "reference_length_m": 12.06298181854866,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 25,
+      "edge_covered_reference_length_m": 12.122724692292515,
+      "edge_id": "186821036#1",
+      "edge_mean_lateral_offset_m": 1.4719874891855813,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "186821036#1_0",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:12:centerline",
+      "reference_length_m": 12.122724692292515,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 129,
+      "edge_covered_reference_length_m": 1.4889915552455741,
+      "edge_id": "2963460#0",
+      "edge_mean_lateral_offset_m": 0.5576910835788623,
+      "edge_reference_coverage": 0.023255813953488372,
+      "lane_id": "2963460#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:13:centerline",
+      "reference_length_m": 64.02663687555969,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9922480620155039
+    },
+    {
+      "edge_coverage_sample_count": 129,
+      "edge_covered_reference_length_m": 62.04131480189893,
+      "edge_id": "2963460#1",
+      "edge_mean_lateral_offset_m": 0.7143276496940884,
+      "edge_reference_coverage": 0.9689922480620154,
+      "lane_id": "2963460#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:13:centerline",
+      "reference_length_m": 64.02663687555969,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9922480620155039
+    },
+    {
+      "edge_coverage_sample_count": 32,
+      "edge_covered_reference_length_m": 15.923757438478923,
+      "edge_id": "186821029#1",
+      "edge_mean_lateral_offset_m": 0.49282209106699326,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "186821029#1_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:5:centerline",
+      "reference_length_m": 15.923757438478923,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 440,
+      "edge_covered_reference_length_m": 61.36223268069382,
+      "edge_id": "2963460#1",
+      "edge_mean_lateral_offset_m": 0.9512995910609355,
+      "edge_reference_coverage": 0.27954545454545454,
+      "lane_id": "2963460#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:14:centerline",
+      "reference_length_m": 219.5071738171161,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.2863636363636364
+    },
+    {
+      "edge_coverage_sample_count": 440,
+      "edge_covered_reference_length_m": 1.496639821480337,
+      "edge_id": "2963460#2",
+      "edge_mean_lateral_offset_m": 0.6917388434103445,
+      "edge_reference_coverage": 0.006818181818181818,
+      "lane_id": "2963460#2_0",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:14:centerline",
+      "reference_length_m": 219.5071738171161,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.2863636363636364
+    },
+    {
+      "edge_coverage_sample_count": 128,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186821032",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186821032_0",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:10:centerline",
+      "reference_length_m": 63.61216902375428,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 128,
+      "edge_covered_reference_length_m": 61.12731867126387,
+      "edge_id": "186821035#0",
+      "edge_mean_lateral_offset_m": 0.9921215637769373,
+      "edge_reference_coverage": 0.9609375,
+      "lane_id": "186821035#0_0",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:10:centerline",
+      "reference_length_m": 63.61216902375428,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 128,
+      "edge_covered_reference_length_m": 0.4969700704980803,
+      "edge_id": "186821035#1",
+      "edge_mean_lateral_offset_m": 0.7433096538683285,
+      "edge_reference_coverage": 0.0078125,
+      "lane_id": "186821035#1_0",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:10:centerline",
+      "reference_length_m": 63.61216902375428,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 33,
+      "edge_covered_reference_length_m": 16.07747267425801,
+      "edge_id": "186821029#1",
+      "edge_mean_lateral_offset_m": 0.43647670400735383,
+      "edge_reference_coverage": 1.0,
+      "lane_id": "186821029#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:6:centerline",
+      "reference_length_m": 16.07747267425801,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 248,
+      "edge_covered_reference_length_m": 60.97806339496059,
+      "edge_id": "186821035#0",
+      "edge_mean_lateral_offset_m": 0.7843482209832523,
+      "edge_reference_coverage": 0.49193548387096775,
+      "lane_id": "186821035#0_1",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:9:centerline",
+      "reference_length_m": 123.95540755696908,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.4959677419354839
+    },
+    {
+      "edge_coverage_sample_count": 248,
+      "edge_covered_reference_length_m": 0.49982019176197207,
+      "edge_id": "186821035#1",
+      "edge_mean_lateral_offset_m": 0.6106558794223271,
+      "edge_reference_coverage": 0.004032258064516129,
+      "lane_id": "186821035#1_1",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:9:centerline",
+      "reference_length_m": 123.95540755696908,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.4959677419354839
+    },
+    {
+      "edge_coverage_sample_count": 248,
+      "edge_covered_reference_length_m": 60.979657170938765,
+      "edge_id": "186821035#0",
+      "edge_mean_lateral_offset_m": 0.6545715377843303,
+      "edge_reference_coverage": 0.49193548387096775,
+      "lane_id": "186821035#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:8:centerline",
+      "reference_length_m": 123.95864736387553,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.4959677419354839
+    },
+    {
+      "edge_coverage_sample_count": 248,
+      "edge_covered_reference_length_m": 0.4998332554994981,
+      "edge_id": "186821035#1",
+      "edge_mean_lateral_offset_m": 0.3453932915004876,
+      "edge_reference_coverage": 0.004032258064516129,
+      "lane_id": "186821035#1_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:8:centerline",
+      "reference_length_m": 123.95864736387553,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.4959677419354839
+    },
+    {
+      "edge_coverage_sample_count": 176,
+      "edge_covered_reference_length_m": 60.79783352549918,
+      "edge_id": "186821035#0",
+      "edge_mean_lateral_offset_m": 0.7468993302090227,
+      "edge_reference_coverage": 0.6931818181818182,
+      "lane_id": "186821035#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:7:centerline",
+      "reference_length_m": 87.70835000399882,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6988636363636364
+    },
+    {
+      "edge_coverage_sample_count": 176,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186821035#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186821035#1_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:7:centerline",
+      "reference_length_m": 87.70835000399882,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.6988636363636364
+    },
+    {
+      "edge_coverage_sample_count": 80,
+      "edge_covered_reference_length_m": 20.43280299339316,
+      "edge_id": "186821034#0",
+      "edge_mean_lateral_offset_m": 0.5225698086355574,
+      "edge_reference_coverage": 0.5125,
+      "lane_id": "186821034#0_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:19:centerline",
+      "reference_length_m": 39.86888388954763,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 80,
+      "edge_covered_reference_length_m": 11.462304118244944,
+      "edge_id": "189775480",
+      "edge_mean_lateral_offset_m": 0.9617630956689274,
+      "edge_reference_coverage": 0.2875,
+      "lane_id": "189775480_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:19:centerline",
+      "reference_length_m": 39.86888388954763,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 1.0
+    },
+    {
+      "edge_coverage_sample_count": 408,
+      "edge_covered_reference_length_m": 20.999517981881098,
+      "edge_id": "186821034#0",
+      "edge_mean_lateral_offset_m": 0.7370204703592583,
+      "edge_reference_coverage": 0.10294117647058823,
+      "lane_id": "186821034#0_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:18:centerline",
+      "reference_length_m": 203.99531753827355,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.3161764705882353
+    },
+    {
+      "edge_coverage_sample_count": 408,
+      "edge_covered_reference_length_m": 35.499185159846625,
+      "edge_id": "189775480",
+      "edge_mean_lateral_offset_m": 1.9966433492406497,
+      "edge_reference_coverage": 0.17401960784313725,
+      "lane_id": "189775480_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:18:centerline",
+      "reference_length_m": 203.99531753827355,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.3161764705882353
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 15.969593515220918,
+      "edge_id": "186722706",
+      "edge_mean_lateral_offset_m": 0.7820537355886978,
+      "edge_reference_coverage": 0.07804878048780488,
+      "lane_id": "186722706_4",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 20.461041691376803,
+      "edge_id": "186821034#0",
+      "edge_mean_lateral_offset_m": 1.0261040158292654,
+      "edge_reference_coverage": 0.1,
+      "lane_id": "186821034#0_4",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186821034#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186821034#1_4",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 35.43253561189641,
+      "edge_id": "189775480",
+      "edge_mean_lateral_offset_m": 1.7673882454689758,
+      "edge_reference_coverage": 0.17317073170731706,
+      "lane_id": "189775480_4",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "51200768#1",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "51200768#1_2",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 15.969593515220918,
+      "edge_id": "551303416",
+      "edge_mean_lateral_offset_m": 0.567689073663563,
+      "edge_reference_coverage": 0.07804878048780488,
+      "lane_id": "551303416_2",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 11.478145339065033,
+      "edge_id": "551303417",
+      "edge_mean_lateral_offset_m": 0.42780533639751217,
+      "edge_reference_coverage": 0.05609756097560976,
+      "lane_id": "551303417_3",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "551303423",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "551303423_3",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 410,
+      "edge_covered_reference_length_m": 37.42873480129903,
+      "edge_id": "551303424",
+      "edge_mean_lateral_offset_m": 2.543940880567289,
+      "edge_reference_coverage": 0.18292682926829268,
+      "lane_id": "551303424_4",
+      "mapping_confidence": "medium",
+      "official_fact": "535:lane:17:centerline",
+      "reference_length_m": 204.610416913768,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.9951219512195122
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 0.0,
+      "edge_id": "186722706",
+      "edge_mean_lateral_offset_m": null,
+      "edge_reference_coverage": 0.0,
+      "lane_id": "186722706_4",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 20.441614812504127,
+      "edge_id": "186821034#0",
+      "edge_mean_lateral_offset_m": 1.1213377800193332,
+      "edge_reference_coverage": 0.12576687116564417,
+      "lane_id": "186821034#0_5",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 0.49857597103668605,
+      "edge_id": "186821034#1",
+      "edge_mean_lateral_offset_m": 1.606177569003481,
+      "edge_reference_coverage": 0.003067484662576687,
+      "lane_id": "186821034#1_5",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 35.39889394360471,
+      "edge_id": "189775480",
+      "edge_mean_lateral_offset_m": 1.508422827576115,
+      "edge_reference_coverage": 0.21779141104294478,
+      "lane_id": "189775480_4",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 15.954431073173954,
+      "edge_id": "551303416",
+      "edge_mean_lateral_offset_m": 1.4323162958254485,
+      "edge_reference_coverage": 0.09815950920245399,
+      "lane_id": "551303416_2",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 0.49857597103668605,
+      "edge_id": "551303423",
+      "edge_mean_lateral_offset_m": 1.7088792710579686,
+      "edge_reference_coverage": 0.003067484662576687,
+      "lane_id": "551303423_3",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    },
+    {
+      "edge_coverage_sample_count": 326,
+      "edge_covered_reference_length_m": 37.39319782775145,
+      "edge_id": "551303424",
+      "edge_mean_lateral_offset_m": 0.8189325018954925,
+      "edge_reference_coverage": 0.23006134969325154,
+      "lane_id": "551303424_4",
+      "mapping_confidence": "high",
+      "official_fact": "535:lane:16:centerline",
+      "reference_length_m": 162.53576655795965,
+      "sample_spacing_m": 0.5,
+      "scorecard_lane_reference_coverage": 0.99079754601227
+    }
+  ],
+  "claim_boundary": "Tentative source-retention evidence. Whole-lane coverage and individual-edge support are separate. No independent field validation.",
+  "edge_evidence": {
+    "-139083714#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:9:centerline"
+      ]
+    },
+    "-139083723#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:12:centerline"
+      ]
+    },
+    "-139083723#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:12:centerline"
+      ]
+    },
+    "-142770548": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:20:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "-142770551": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:20:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "-186713427": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:19:centerline",
+        "200:lane:20:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "-186821026": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:4:centerline"
+      ]
+    },
+    "-186821028": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:4:centerline"
+      ]
+    },
+    "-983227468#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "104:lane:11:centerline"
+      ]
+    },
+    "1068722010": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:4:centerline"
+      ]
+    },
+    "1217435074": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:1:centerline"
+      ]
+    },
+    "1227169967": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:1:centerline"
+      ]
+    },
+    "1227325137": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:52:centerline",
+        "119:lane:54:centerline"
+      ]
+    },
+    "1286645419": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:1:centerline",
+        "118:lane:4:centerline"
+      ]
+    },
+    "1326490377": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:2:centerline",
+        "118:lane:3:centerline",
+        "118:lane:4:centerline"
+      ]
+    },
+    "1326490378#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:1:centerline"
+      ]
+    },
+    "1326490379": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:6:centerline",
+        "118:lane:7:centerline"
+      ]
+    },
+    "1345107183#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:70:centerline"
+      ]
+    },
+    "1373419479": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "118:lane:22:centerline"
+      ]
+    },
+    "139056860#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:2:centerline"
+      ]
+    },
+    "139083714#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:9:centerline"
+      ]
+    },
+    "139083714#2": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:9:centerline"
+      ]
+    },
+    "139083720": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:17:centerline",
+        "104:lane:18:centerline"
+      ]
+    },
+    "139083723#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "104:lane:11:centerline",
+        "104:lane:9:centerline"
+      ]
+    },
+    "139083723#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "104:lane:11:centerline",
+        "104:lane:9:centerline"
+      ]
+    },
+    "142770549": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:26:centerline",
+        "119:lane:27:centerline",
+        "119:lane:58:centerline",
+        "119:lane:59:centerline"
+      ]
+    },
+    "142944325#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:36:centerline",
+        "200:lane:37:centerline"
+      ]
+    },
+    "142944337#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:49:centerline",
+        "200:lane:50:centerline",
+        "535:lane:22:centerline",
+        "535:lane:23:centerline"
+      ]
+    },
+    "142944399#2": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:25:centerline",
+        "200:lane:26:centerline",
+        "200:lane:27:centerline"
+      ]
+    },
+    "142944527": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:46:centerline",
+        "200:lane:47:centerline",
+        "200:lane:48:centerline"
+      ]
+    },
+    "1537476013#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:24:centerline",
+        "118:lane:25:centerline",
+        "118:lane:26:centerline"
+      ]
+    },
+    "1562283744": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:26:centerline",
+        "119:lane:27:centerline"
+      ]
+    },
+    "186713402#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:16:centerline"
+      ]
+    },
+    "186713403#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:11:centerline",
+        "200:lane:12:centerline"
+      ]
+    },
+    "186713403#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:11:centerline"
+      ]
+    },
+    "186713404#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "low",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:13:centerline",
+        "200:lane:14:centerline",
+        "200:lane:78:centerline"
+      ]
+    },
+    "186713404#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:13:centerline",
+        "200:lane:14:centerline"
+      ]
+    },
+    "186713410#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:29:centerline",
+        "200:lane:30:centerline"
+      ]
+    },
+    "186713422#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:10:centerline",
+        "119:lane:7:centerline",
+        "119:lane:8:centerline",
+        "119:lane:9:centerline"
+      ]
+    },
+    "186713426": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:7:centerline"
+      ]
+    },
+    "186713428": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:19:centerline",
+        "200:lane:20:centerline",
+        "200:lane:21:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "186713429": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:5:centerline",
+        "119:lane:6:centerline"
+      ]
+    },
+    "186713430": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:51:centerline",
+        "200:lane:52:centerline"
+      ]
+    },
+    "186714394": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:11:centerline",
+        "200:lane:13:centerline",
+        "200:lane:14:centerline"
+      ]
+    },
+    "186714395": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "low",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:11:centerline",
+        "200:lane:12:centerline",
+        "200:lane:13:centerline",
+        "200:lane:14:centerline",
+        "200:lane:78:centerline"
+      ]
+    },
+    "186714396#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:19:centerline",
+        "200:lane:20:centerline",
+        "200:lane:21:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "186714396#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:21:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "186722706": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:16:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "186821027#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:1:centerline",
+        "535:lane:2:centerline",
+        "535:lane:3:centerline",
+        "535:lane:4:centerline"
+      ]
+    },
+    "186821029#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:1:centerline",
+        "535:lane:5:centerline",
+        "535:lane:6:centerline"
+      ]
+    },
+    "186821032": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:10:centerline"
+      ]
+    },
+    "186821034#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:16:centerline",
+        "535:lane:17:centerline",
+        "535:lane:18:centerline",
+        "535:lane:19:centerline"
+      ]
+    },
+    "186821034#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:16:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "186821035#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:10:centerline",
+        "535:lane:7:centerline",
+        "535:lane:8:centerline",
+        "535:lane:9:centerline"
+      ]
+    },
+    "186821035#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:10:centerline",
+        "535:lane:7:centerline",
+        "535:lane:8:centerline",
+        "535:lane:9:centerline"
+      ]
+    },
+    "186821036#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:11:centerline",
+        "535:lane:12:centerline"
+      ]
+    },
+    "189775480": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:16:centerline",
+        "535:lane:17:centerline",
+        "535:lane:18:centerline",
+        "535:lane:19:centerline"
+      ]
+    },
+    "199230909#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:52:centerline",
+        "119:lane:53:centerline",
+        "119:lane:54:centerline"
+      ]
+    },
+    "199230912#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:41:centerline"
+      ]
+    },
+    "199230912#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:41:centerline"
+      ]
+    },
+    "219999172#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:63:centerline"
+      ]
+    },
+    "219999172#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:63:centerline"
+      ]
+    },
+    "219999172#2": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:63:centerline"
+      ]
+    },
+    "220109544": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:2:centerline",
+        "118:lane:3:centerline",
+        "118:lane:4:centerline"
+      ]
+    },
+    "22127047": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "low"
+      ],
+      "official_fact_ids": [
+        "118:lane:61:centerline"
+      ]
+    },
+    "234421319": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:52:centerline"
+      ]
+    },
+    "234423652#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:6:centerline",
+        "104:lane:7:centerline",
+        "104:lane:8:centerline",
+        "118:lane:24:centerline",
+        "118:lane:25:centerline",
+        "118:lane:26:centerline"
+      ]
+    },
+    "24483192": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:1:centerline",
+        "119:lane:2:centerline",
+        "119:lane:4:centerline"
+      ]
+    },
+    "24483344#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:51:centerline"
+      ]
+    },
+    "24483344#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:51:centerline"
+      ]
+    },
+    "251397516": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:63:centerline"
+      ]
+    },
+    "251871172#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:2:centerline",
+        "118:lane:3:centerline",
+        "118:lane:4:centerline"
+      ]
+    },
+    "251871172#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:4:centerline"
+      ]
+    },
+    "251871702": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:6:centerline",
+        "118:lane:7:centerline"
+      ]
+    },
+    "2963460#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:13:centerline"
+      ]
+    },
+    "2963460#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:13:centerline",
+        "535:lane:14:centerline"
+      ]
+    },
+    "2963460#2": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "535:lane:14:centerline"
+      ]
+    },
+    "31050638#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:70:centerline"
+      ]
+    },
+    "31050638#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "low"
+      ],
+      "official_fact_ids": [
+        "118:lane:72:centerline"
+      ]
+    },
+    "31050638#2": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "low"
+      ],
+      "official_fact_ids": [
+        "118:lane:72:centerline",
+        "118:lane:73:centerline"
+      ]
+    },
+    "31050639": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:18:centerline",
+        "118:lane:19:centerline",
+        "118:lane:66:centerline"
+      ]
+    },
+    "31106387": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:51:centerline"
+      ]
+    },
+    "350033480#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:24:centerline"
+      ]
+    },
+    "350033485#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:3:centerline",
+        "200:lane:4:centerline"
+      ]
+    },
+    "363112756#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:55:centerline",
+        "119:lane:56:centerline",
+        "119:lane:57:centerline"
+      ]
+    },
+    "363112756#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:55:centerline",
+        "119:lane:56:centerline",
+        "119:lane:57:centerline"
+      ]
+    },
+    "368989705": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:1:centerline",
+        "200:lane:2:centerline",
+        "200:lane:3:centerline",
+        "200:lane:4:centerline"
+      ]
+    },
+    "37413814#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:4:centerline"
+      ]
+    },
+    "37693933#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "118:lane:13:centerline",
+        "118:lane:14:centerline",
+        "118:lane:15:centerline",
+        "119:lane:52:centerline"
+      ]
+    },
+    "37693933#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "118:lane:13:centerline",
+        "118:lane:14:centerline",
+        "118:lane:15:centerline",
+        "119:lane:52:centerline"
+      ]
+    },
+    "381750337": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "118:lane:22:centerline"
+      ]
+    },
+    "381750338": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "low"
+      ],
+      "official_fact_ids": [
+        "118:lane:61:centerline"
+      ]
+    },
+    "413418696": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:58:centerline"
+      ]
+    },
+    "43292244": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:45:centerline"
+      ]
+    },
+    "43305966#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "conflict"
+      ],
+      "official_fact_ids": [
+        "535:lane:15:centerline"
+      ]
+    },
+    "43866090#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:1:centerline",
+        "119:lane:2:centerline"
+      ]
+    },
+    "480873120#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:41:centerline"
+      ]
+    },
+    "486864288": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:49:centerline",
+        "200:lane:50:centerline"
+      ]
+    },
+    "486864294": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "119:lane:12:centerline",
+        "119:lane:13:centerline"
+      ]
+    },
+    "486870074#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:33:centerline",
+        "200:lane:34:centerline"
+      ]
+    },
+    "486870074#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:33:centerline"
+      ]
+    },
+    "48979207#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:26:centerline",
+        "119:lane:27:centerline",
+        "119:lane:58:centerline",
+        "119:lane:59:centerline"
+      ]
+    },
+    "495246281": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:56:centerline",
+        "200:lane:57:centerline"
+      ]
+    },
+    "503043835": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:1:centerline",
+        "200:lane:2:centerline",
+        "200:lane:3:centerline",
+        "200:lane:4:centerline",
+        "200:lane:56:centerline",
+        "200:lane:57:centerline",
+        "200:lane:58:centerline"
+      ]
+    },
+    "51200768#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:6:centerline",
+        "200:lane:7:centerline",
+        "200:lane:8:centerline",
+        "200:lane:9:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "51214742#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": false,
+      "mapping_confidences": [
+        "medium"
+      ],
+      "official_fact_ids": [
+        "118:lane:13:centerline",
+        "118:lane:14:centerline",
+        "118:lane:15:centerline"
+      ]
+    },
+    "538341584": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:24:centerline",
+        "118:lane:25:centerline",
+        "118:lane:26:centerline"
+      ]
+    },
+    "551284796#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:16:centerline"
+      ]
+    },
+    "551288834": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "low",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:13:centerline",
+        "200:lane:14:centerline",
+        "200:lane:78:centerline"
+      ]
+    },
+    "551303409": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:19:centerline",
+        "200:lane:20:centerline",
+        "200:lane:21:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "551303410": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:19:centerline",
+        "200:lane:20:centerline",
+        "200:lane:21:centerline",
+        "200:lane:22:centerline"
+      ]
+    },
+    "551303416": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:16:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "551303417": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:6:centerline",
+        "200:lane:7:centerline",
+        "200:lane:8:centerline",
+        "200:lane:9:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "551303418": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:46:centerline",
+        "200:lane:47:centerline",
+        "200:lane:48:centerline"
+      ]
+    },
+    "551303422": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "200:lane:59:centerline"
+      ]
+    },
+    "551303423": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "535:lane:16:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "551303424": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high",
+        "medium"
+      ],
+      "official_fact_ids": [
+        "200:lane:53:centerline",
+        "200:lane:54:centerline",
+        "200:lane:55:centerline",
+        "535:lane:16:centerline",
+        "535:lane:17:centerline"
+      ]
+    },
+    "551319336": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:73:centerline"
+      ]
+    },
+    "551319351#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "118:lane:18:centerline",
+        "118:lane:19:centerline"
+      ]
+    },
+    "606141102#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:17:centerline",
+        "104:lane:18:centerline"
+      ]
+    },
+    "606141103#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:3:centerline",
+        "104:lane:4:centerline"
+      ]
+    },
+    "606141103#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:3:centerline",
+        "104:lane:4:centerline"
+      ]
+    },
+    "606141108": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:3:centerline",
+        "104:lane:4:centerline",
+        "118:lane:28:centerline",
+        "118:lane:29:centerline"
+      ]
+    },
+    "79014037#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "119:lane:5:centerline",
+        "119:lane:6:centerline"
+      ]
+    },
+    "963776077#0": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:14:centerline",
+        "104:lane:15:centerline",
+        "104:lane:16:centerline"
+      ]
+    },
+    "963776077#1": {
+      "basis": "official_motor_approach_correspondence",
+      "has_high_confidence_fact_support": true,
+      "mapping_confidences": [
+        "high"
+      ],
+      "official_fact_ids": [
+        "104:lane:14:centerline",
+        "104:lane:15:centerline",
+        "104:lane:16:centerline"
+      ]
+    }
+  },
+  "generator": "astra_sumo.core.hamburg_scope_anchors.write_hamburg_approach_retention",
+  "inputs": {
+    "calibration_run_sha256": "c656a85375796fda7c98658630a75df97be6908f967808b2d0e748dda80c13c4",
+    "measured_network_sha256": "af7afca0ebab58097904f820434b22964d1c7db2c441cd05de08d44f3d256d36",
+    "sites": [
+      {
+        "facts_sha256": "23541566397a40a619d0855f8e532be05da1ae1910a400bb2c174588aacb4899",
+        "node_id": "104",
+        "scorecard_sha256": "eecfe503932af6b3f221782a8a3981cbf3b65bc5f17d046a61aa76da9ed97761"
+      },
+      {
+        "facts_sha256": "182b187506406f24ef5a08b237eb7a85106c75b77f0fdc09b56a179f0341b814",
+        "node_id": "118",
+        "scorecard_sha256": "f3924e438bad3f5d915c86bbcdc61eccf267c27b827ef95bdeb4876b7b2d6334"
+      },
+      {
+        "facts_sha256": "fc025248eb04b15aa65505cf30a5113d42c0f19266d6bbd32bcf8b0815ff2b26",
+        "node_id": "119",
+        "scorecard_sha256": "2ef5924659e47a5dda7033857cf7bf63b6d50d55293c7430ac5d7d0fc9fa1543"
+      },
+      {
+        "facts_sha256": "a28dc285e3cdea95aa52408b610cd24c739bef29a562d0ecad1da490000db340",
+        "node_id": "200",
+        "scorecard_sha256": "7ae5c09b547a967c1eed509a8460860dd81d28eb38806db459fce1dbbf50f638"
+      },
+      {
+        "facts_sha256": "927061e4ccc1e0f45277541ad88ac6b30faf34a8a6320a6ad43fbbd025249854",
+        "node_id": "535",
+        "scorecard_sha256": "8f9c0e79d7959129014bc94fa2d3cc31e243763abe564e159e1d2217b02dcfa7"
+      }
+    ],
+    "snapshot_network_sha256": "af7afca0ebab58097904f820434b22964d1c7db2c441cd05de08d44f3d256d36"
+  },
+  "lateral_offset_unavailable_motor_lane_facts": {
+    "104": [],
+    "118": [
+      "118:lane:9:centerline",
+      "118:lane:10:centerline",
+      "118:lane:11:centerline"
+    ],
+    "119": [
+      "119:lane:40:centerline"
+    ],
+    "200": [
+      "200:lane:38:centerline",
+      "200:lane:31:centerline",
+      "200:lane:32:centerline"
+    ],
+    "535": []
+  },
+  "motor_lane_counts": {
+    "104": {
+      "reference_motor_lanes": 16,
+      "source_lane_parts_available": 14,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 2,
+      "usable_overlap_retention_anchors": 14
+    },
+    "118": {
+      "reference_motor_lanes": 33,
+      "source_lane_parts_available": 26,
+      "source_lateral_offset_unavailable": 3,
+      "unmapped_source_lanes": 7,
+      "usable_overlap_retention_anchors": 23
+    },
+    "119": {
+      "reference_motor_lanes": 27,
+      "source_lane_parts_available": 24,
+      "source_lateral_offset_unavailable": 1,
+      "unmapped_source_lanes": 3,
+      "usable_overlap_retention_anchors": 23
+    },
+    "200": {
+      "reference_motor_lanes": 52,
+      "source_lane_parts_available": 47,
+      "source_lateral_offset_unavailable": 3,
+      "unmapped_source_lanes": 5,
+      "usable_overlap_retention_anchors": 44
+    },
+    "535": {
+      "reference_motor_lanes": 21,
+      "source_lane_parts_available": 21,
+      "source_lateral_offset_unavailable": 0,
+      "unmapped_source_lanes": 0,
+      "usable_overlap_retention_anchors": 21
+    }
+  },
+  "promotion_authority": false,
+  "protected_edge_ids": [
+    "-139083714#1",
+    "-139083723#0",
+    "-139083723#1",
+    "-142770548",
+    "-142770551",
+    "-186713427",
+    "-186821026",
+    "-186821028",
+    "-983227468#0",
+    "1068722010",
+    "1217435074",
+    "1227169967",
+    "1227325137",
+    "1286645419",
+    "1326490377",
+    "1326490378#0",
+    "1326490379",
+    "1345107183#1",
+    "1373419479",
+    "139056860#1",
+    "139083714#1",
+    "139083714#2",
+    "139083720",
+    "139083723#0",
+    "139083723#1",
+    "142770549",
+    "142944325#0",
+    "142944337#1",
+    "142944399#2",
+    "142944527",
+    "1537476013#0",
+    "1562283744",
+    "186713402#1",
+    "186713403#0",
+    "186713403#1",
+    "186713404#0",
+    "186713404#1",
+    "186713410#0",
+    "186713422#0",
+    "186713426",
+    "186713428",
+    "186713429",
+    "186713430",
+    "186714394",
+    "186714395",
+    "186714396#0",
+    "186714396#1",
+    "186722706",
+    "186821027#0",
+    "186821029#1",
+    "186821032",
+    "186821034#0",
+    "186821034#1",
+    "186821035#0",
+    "186821035#1",
+    "186821036#1",
+    "189775480",
+    "199230909#0",
+    "199230912#0",
+    "199230912#1",
+    "219999172#0",
+    "219999172#1",
+    "219999172#2",
+    "220109544",
+    "22127047",
+    "234421319",
+    "234423652#1",
+    "24483192",
+    "24483344#0",
+    "24483344#1",
+    "251397516",
+    "251871172#0",
+    "251871172#1",
+    "251871702",
+    "2963460#0",
+    "2963460#1",
+    "2963460#2",
+    "31050638#0",
+    "31050638#1",
+    "31050638#2",
+    "31050639",
+    "31106387",
+    "350033480#0",
+    "350033485#0",
+    "363112756#0",
+    "363112756#1",
+    "368989705",
+    "37413814#0",
+    "37693933#0",
+    "37693933#1",
+    "381750337",
+    "381750338",
+    "413418696",
+    "43292244",
+    "43305966#1",
+    "43866090#0",
+    "480873120#0",
+    "486864288",
+    "486864294",
+    "486870074#0",
+    "486870074#1",
+    "48979207#0",
+    "495246281",
+    "503043835",
+    "51200768#1",
+    "51214742#1",
+    "538341584",
+    "551284796#0",
+    "551288834",
+    "551303409",
+    "551303410",
+    "551303416",
+    "551303417",
+    "551303418",
+    "551303422",
+    "551303423",
+    "551303424",
+    "551319336",
+    "551319351#0",
+    "606141102#1",
+    "606141103#0",
+    "606141103#1",
+    "606141108",
+    "79014037#1",
+    "963776077#0",
+    "963776077#1"
+  ],
+  "retention_basis": "Retain saved ordinary parts of source motor-lane associations with measured directed overlap. Confidence does not gate retention.",
+  "schema": "astra.hamburg-approach-retention/v1",
+  "source_network_content_sha256": "4eb0e4bc88f97153c96597a980ee32d46e1bed8a9587b1d8dfac0c210b149dae",
+  "source_unchanged": true,
+  "status": "measured",
+  "unresolved_motor_lane_facts": {
+    "104": [
+      "104:lane:13:centerline",
+      "104:lane:5:centerline"
+    ],
+    "118": [
+      "118:lane:21:centerline",
+      "118:lane:30:centerline",
+      "118:lane:17:centerline",
+      "118:lane:69:centerline",
+      "118:lane:68:centerline",
+      "118:lane:62:centerline",
+      "118:lane:65:centerline"
+    ],
+    "119": [
+      "119:lane:50:centerline",
+      "119:lane:3:centerline",
+      "119:lane:11:centerline"
+    ],
+    "200": [
+      "200:lane:17:centerline",
+      "200:lane:39:centerline",
+      "200:lane:43:centerline",
+      "200:lane:42:centerline",
+      "200:lane:44:centerline"
+    ],
+    "535": []
+  },
+  "warnings": []
+}

@@ -1,0 +1,19 @@
+{
+  "schema": "astra.ring1-lane-count-regression-input/v1",
+  "source": "unaccepted MAP-based LSA119 prototype, local native conversion context",
+  "native_version": "SUMO 1.27.1",
+  "file": "lane-count-input.net.xml.gz",
+  "compressed_sha256": "127d0f249a567fd61aa7fc0220b7a77bad3c479fc595b8088272b706b0f41977",
+  "uncompressed_sha256": "17c143b56c8f097cdab73197e579c73eb922e7a47e53eb952b74382994a68631",
+  "operation_file": "lane-count-operation.json",
+  "operation_sha256": "0619a75281a7d16b42182733dfc13de3d67d31f7a8f42af7b8e97a61a17744ae",
+  "unfrozen_baseline": {
+    "ordinary_lane_attribute_changes": {
+      "shape": 18,
+      "length": 17,
+      "width": 0
+    },
+    "max_outside_lane_shape_displacement_xy_m": 9.250951302433725
+  },
+  "claim_boundary": "Regression input for source-immutable lane-count construction and adjacent geometry measurements. Not accepted field geometry, signal timing or calibrated demand."
+}

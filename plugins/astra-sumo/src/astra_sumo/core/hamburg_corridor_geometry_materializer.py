@@ -33,68 +33,24 @@ from .surface_overlap_audit import (
 )
 
 
+from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
+
+_SITE = load_site_parameters('hamburg_corridor_geometry_materializer')
+
+
 HAMBURG_CORRIDOR_GEOMETRY_SCHEMA = "torii.hamburg-sandtorkai-corridor-geometry-materializer/v1"
 HAMBURG_CORRIDOR_GEOMETRY_PROFILE = "hamburg_sandtorkai_geometry_safe_v1"
 
-JOIN_GROUPS: tuple[tuple[str, ...], ...] = (
-    ("1703191982", "268809865"),
-    ("5420059034", "759714713", "76463158"),
-)
+JOIN_GROUPS: tuple[tuple[str, ...], ...] = _SITE['JOIN_GROUPS']
 
 # These are simple polygons in the accepted V10 projected frame.  They are
 # derived by scaling the inherited faces around each node center by 0.5.  The
 # values are intentionally frozen and reviewed as evidence, rather than
 # recomputed from a nearest-node heuristic on every run.
-SHAPE_OVERRIDES: Mapping[str, Mapping[str, str]] = {
-    "1703191999": {
-        "x": "253.07",
-        "y": "551.24",
-        "type": "traffic_light",
-        "shape": (
-            "257.425,553.485 257.885,550.315 257.82,549.89 257.14,548.44 "
-            "256.355,548.845 256.07,548.975 255.775,549.055 255.415,549.08 "
-            "254.93,549.045 254.365,553.81"
-        ),
-    },
-    "25911514": {
-        "x": "260.78",
-        "y": "552.35",
-        "type": "traffic_light",
-        "shape": (
-            "262.375,555.035 263.13,550.295 261.62,550.265 261.085,550.375 "
-            "260.545,550.49 259.9,550.545 259.03,550.48 258.575,553.65 "
-            "260.005,554.065 260.475,554.33 260.945,554.6 261.54,554.84"
-        ),
-    },
-    "199166130": {
-        "x": "309.30",
-        "y": "570.70",
-        "type": "traffic_light",
-        "tl": "HH_0228",
-        "shape": (
-            "310.865,573.585 312.58,570.885 312.37,567.515 311.04,566.63 "
-            "308.06,567.22 305.67,571.385 306.525,572.13 306.725,572.565 "
-            "306.77,573.04 306.665,573.555 306.41,574.115 307.795,574.915 "
-            "308.75,573.7 309.255,573.385 309.775,573.26 310.31,573.325"
-        ),
-    },
-}
+SHAPE_OVERRIDES: Mapping[str, Mapping[str, str]] = _SITE['SHAPE_OVERRIDES']
 
-FOCUS_JUNCTION_IDS = frozenset(
-    {
-        "228",
-        "2421",
-        "1703191982",
-        "268809865",
-        "1703191999",
-        "25911514",
-        "199166130",
-        "243175302",
-        "5420059034",
-        "759714713",
-        "76463158",
-    }
-)
+FOCUS_JUNCTION_IDS = _SITE['FOCUS_JUNCTION_IDS']
 
 
 class HamburgCorridorGeometryMaterializationError(ValueError):
@@ -143,7 +99,7 @@ def materialize_hamburg_sandtorkai_geometry_safe_candidate(
     _write_profile_patch(patch_file)
     output_net = destination / "hamburg_sandtorkai_geometry_safe.net.xml"
     joined_file = destination / "hamburg_sandtorkai_geometry_safe.joined_junctions.xml"
-    command = [
+    command = with_geometry_precision([
         str(netconvert_binary),
         "--sumo-net-file",
         str(source),
@@ -155,7 +111,7 @@ def materialize_hamburg_sandtorkai_geometry_safe_candidate(
         str(output_net),
         "--geometry.check-overlap",
         "0",
-    ]
+    ])
     result = command_runner(command, cwd=destination, timeout_seconds=timeout_seconds)
     command_report = _result_dict(result)
     if command_report.get("status") != "pass" or command_report.get("returncode") != 0:
@@ -199,7 +155,7 @@ def materialize_hamburg_sandtorkai_geometry_safe_candidate(
         else "blocked"
     )
     manifest_file = destination / "hamburg_sandtorkai_geometry_safe.manifest.json"
-    manifest: dict[str, object] = {
+    manifest: dict[str, object] = {"site_parameters": _SITE["_source"],
         "schema_id": HAMBURG_CORRIDOR_GEOMETRY_SCHEMA,
         "status": status,
         "claim_status": "geometry-safe-corridor-review-candidate",
@@ -213,7 +169,7 @@ def materialize_hamburg_sandtorkai_geometry_safe_candidate(
         },
         "geometry_policy": {
             "join_groups": [list(group) for group in JOIN_GROUPS],
-            "protected_branch_groups": [["199166130", "243175302"]],
+            "protected_branch_groups": [[_SITE['source_binding.001'], _SITE['source_binding.002']]],
             "shape_override_ids": sorted(SHAPE_OVERRIDES),
             "shape_override_rule": "frozen half-scale simple polygons around inherited node centers",
             "official_reference": [

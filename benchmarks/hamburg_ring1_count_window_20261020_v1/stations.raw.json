@@ -1,0 +1,366 @@
+[
+  {
+    "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(35822)",
+    "@iot.id": 35822,
+    "name": "Kfz-Aufkommen an Verkehrszählstelle 0276921 im 15-Min-Intervall",
+    "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 15-Min-Intervall aufsummiert.",
+    "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+    "unitOfMeasurement": {
+      "name": "Anzahl",
+      "symbol": "",
+      "definition": ""
+    },
+    "observedArea": {
+      "type": "Point",
+      "coordinates": [
+        9.993558,
+        53.558167
+      ]
+    },
+    "phenomenonTime": "2026-10-05T22:15:00Z/2026-10-20T10:14:59Z",
+    "properties": {
+      "aggregationDuration": "P15M",
+      "aggregationMethod": "count",
+      "art": "Zählstelle",
+      "assetID": "0276",
+      "direction": "1",
+      "infoLastUpdate": "2026-04-09T09:04:30.900Z",
+      "internID": "MQ_1161",
+      "knotenarm": "2",
+      "layerName": "Anzahl_Kfz_Zaehlstelle_15-Min",
+      "mediaMonitored": "transport",
+      "ownerData": "Freie und Hansestadt Hamburg",
+      "resultNature": "processed",
+      "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+      "topic": "Verkehr",
+      "typ": "Kfz",
+      "zusammensetzung": "0119-Z.13,0119-Z.11,0119-Z.12"
+    },
+    "resultTime": "2026-10-05T22:32:20.01Z/2026-10-20T10:17:57.361Z",
+    "Thing": {
+      "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13084)",
+      "@iot.id": 13084,
+      "name": "Verkehrszählstelle 0276921",
+      "description": "Verkehrszählstelle zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+      "properties": {
+        "art": "Zählstelle",
+        "assetID": "0276921",
+        "infoLastUpdate": "2025-12-02T12:46:02.210Z",
+        "internID": "MQ_1161",
+        "keywords": [
+          "Infrarotdetektor",
+          "Verkehrsmenge",
+          "automatisierte Verkehrsmengenerfassung",
+          "Hamburg",
+          "Hamburger Radzählnetz",
+          "aVME",
+          "HaRaZäN",
+          "Zählstelle"
+        ],
+        "language": "de",
+        "ownerThing": "Freie und Hansestadt Hamburg",
+        "richtung": "Nord nach Süd"
+      },
+      "Locations": [
+        {
+          "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26524929)",
+          "@iot.id": 26524929,
+          "name": "Verkehrszählstelle 0276921",
+          "description": "Mittelpunkt des Streckenverlaufes bezüglich Zählstelle 0276 auf dem Richtungsarm Nord von Nord nach Süd",
+          "encodingType": "application/vnd.geo+json",
+          "location": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                9.993558,
+                53.558167
+              ]
+            }
+          },
+          "properties": {
+            "infoLastUpdate": "2025-12-02T12:46:02.210Z",
+            "internID": "MQ_1161"
+          }
+        }
+      ]
+    },
+    "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(35822)/ObservedProperty",
+    "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(35822)/Sensor",
+    "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(35822)/Thing",
+    "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(35822)/Observations"
+  },
+  {
+    "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(33023)",
+    "@iot.id": 33023,
+    "name": "Kfz-Aufkommen an Verkehrszählstelle 0276922 im 15-Min-Intervall",
+    "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 15-Min-Intervall aufsummiert.",
+    "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+    "unitOfMeasurement": {
+      "name": "Anzahl",
+      "symbol": "",
+      "definition": ""
+    },
+    "observedArea": {
+      "type": "Point",
+      "coordinates": [
+        9.99386,
+        53.558164
+      ]
+    },
+    "phenomenonTime": "2026-10-05T22:15:00Z/2026-10-20T10:14:59Z",
+    "properties": {
+      "aggregationDuration": "P15M",
+      "aggregationMethod": "count",
+      "art": "Zählstelle",
+      "assetID": "0276",
+      "direction": "2",
+      "infoLastUpdate": "2026-04-09T09:04:37.009Z",
+      "internID": "MQ_971",
+      "knotenarm": "2",
+      "layerName": "Anzahl_Kfz_Zaehlstelle_15-Min",
+      "mediaMonitored": "transport",
+      "ownerData": "Freie und Hansestadt Hamburg",
+      "resultNature": "processed",
+      "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+      "topic": "Verkehr",
+      "typ": "Kfz",
+      "zusammensetzung": "0119-Z.5,0119-Z.4,0119-Z.15"
+    },
+    "resultTime": "2026-10-05T22:32:10.936Z/2026-10-20T10:18:00.854Z",
+    "Thing": {
+      "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(12594)",
+      "@iot.id": 12594,
+      "name": "Verkehrszählstelle 0276922",
+      "description": "Verkehrszählstelle zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+      "properties": {
+        "art": "Zählstelle",
+        "assetID": "0276922",
+        "infoLastUpdate": "2025-12-02T12:46:12.379Z",
+        "internID": "MQ_971",
+        "keywords": [
+          "Infrarotdetektor",
+          "Verkehrsmenge",
+          "automatisierte Verkehrsmengenerfassung",
+          "Hamburg",
+          "Hamburger Radzählnetz",
+          "aVME",
+          "HaRaZäN",
+          "Zählstelle"
+        ],
+        "language": "de",
+        "ownerThing": "Freie und Hansestadt Hamburg",
+        "richtung": "Süd nach Nord"
+      },
+      "Locations": [
+        {
+          "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26524430)",
+          "@iot.id": 26524430,
+          "name": "Verkehrszählstelle 0276922",
+          "description": "Mittelpunkt des Streckenverlaufes bezüglich Zählstelle 0276 auf dem Richtungsarm Nord von Süd nach Nord",
+          "encodingType": "application/vnd.geo+json",
+          "location": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                9.99386,
+                53.558164
+              ]
+            }
+          },
+          "properties": {
+            "infoLastUpdate": "2025-12-02T12:46:12.379Z",
+            "internID": "MQ_971"
+          }
+        }
+      ]
+    },
+    "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33023)/ObservedProperty",
+    "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33023)/Sensor",
+    "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33023)/Thing",
+    "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(33023)/Observations"
+  },
+  {
+    "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(30666)",
+    "@iot.id": 30666,
+    "name": "Kfz-Aufkommen an Verkehrszählstelle 0331931 im 15-Min-Intervall",
+    "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 15-Min-Intervall aufsummiert.",
+    "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+    "unitOfMeasurement": {
+      "name": "Anzahl",
+      "symbol": "",
+      "definition": ""
+    },
+    "observedArea": {
+      "type": "Point",
+      "coordinates": [
+        10.004229,
+        53.55424
+      ]
+    },
+    "phenomenonTime": "2026-10-05T22:15:00Z/2026-10-20T10:14:59Z",
+    "properties": {
+      "aggregationDuration": "P15M",
+      "aggregationMethod": "count",
+      "art": "Zählstelle",
+      "assetID": "0331",
+      "direction": "1",
+      "infoLastUpdate": "2026-04-24T10:09:52.236Z",
+      "internID": "MQ_1303",
+      "knotenarm": "3",
+      "layerName": "Anzahl_Kfz_Zaehlstelle_15-Min",
+      "mediaMonitored": "transport",
+      "ownerData": "Freie und Hansestadt Hamburg",
+      "resultNature": "processed",
+      "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+      "topic": "Verkehr",
+      "typ": "Kfz",
+      "zusammensetzung": "0535-Z.6,0535-Z.7,0535-Z.8,0535-Z.5"
+    },
+    "resultTime": "2026-10-05T22:32:14.999Z/2026-10-20T10:18:02.372Z",
+    "Thing": {
+      "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(13911)",
+      "@iot.id": 13911,
+      "name": "Verkehrszählstelle 0331931",
+      "description": "Verkehrszählstelle zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+      "properties": {
+        "art": "Zählstelle",
+        "assetID": "0331931",
+        "infoLastUpdate": "2026-02-26T12:08:06.833Z",
+        "internID": "MQ_1303",
+        "keywords": [
+          "Infrarotdetektor",
+          "Verkehrsmenge",
+          "automatisierte Verkehrsmengenerfassung",
+          "Hamburg",
+          "Hamburger Radzählnetz",
+          "aVME",
+          "HaRaZäN",
+          "Zählstelle"
+        ],
+        "language": "de",
+        "ownerThing": "Freie und Hansestadt Hamburg",
+        "richtung": "Nordost nach Südwest"
+      },
+      "Locations": [
+        {
+          "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26527903)",
+          "@iot.id": 26527903,
+          "name": "Verkehrszählstelle 0331931",
+          "description": "Mittelpunkt des Streckenverlaufes bezüglich Zählstelle 0331 auf dem Richtungsarm Nordost von Nordost nach Südwest",
+          "encodingType": "application/vnd.geo+json",
+          "location": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                10.004229,
+                53.55424
+              ]
+            }
+          },
+          "properties": {
+            "infoLastUpdate": "2026-04-24T10:09:52.236Z",
+            "internID": "MQ_1303"
+          }
+        }
+      ]
+    },
+    "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30666)/ObservedProperty",
+    "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30666)/Sensor",
+    "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30666)/Thing",
+    "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(30666)/Observations"
+  },
+  {
+    "@iot.selfLink": "https://iot.hamburg.de/v1.1/Datastreams(26585)",
+    "@iot.id": 26585,
+    "name": "Kfz-Aufkommen an Verkehrszählstelle 0331932 im 15-Min-Intervall",
+    "description": "Die Anzahl der von dem Infrarotdetektor erfassten Kfz wird für ein 15-Min-Intervall aufsummiert.",
+    "observationType": "http://www.opengis.net/def/ogc-om/OM_CountObservation",
+    "unitOfMeasurement": {
+      "name": "Anzahl",
+      "symbol": "",
+      "definition": ""
+    },
+    "observedArea": {
+      "type": "Point",
+      "coordinates": [
+        10.004438,
+        53.554112
+      ]
+    },
+    "phenomenonTime": "2026-10-05T22:15:00Z/2026-10-20T10:14:59Z",
+    "properties": {
+      "aggregationDuration": "P15M",
+      "aggregationMethod": "count",
+      "art": "Zählstelle",
+      "assetID": "0331",
+      "direction": "2",
+      "infoLastUpdate": "2026-04-24T10:09:56.712Z",
+      "internID": "MQ_1164",
+      "knotenarm": "3",
+      "layerName": "Anzahl_Kfz_Zaehlstelle_15-Min",
+      "mediaMonitored": "transport",
+      "ownerData": "Freie und Hansestadt Hamburg",
+      "resultNature": "processed",
+      "serviceName": "HH_STA_Verkehrsdaten_Kfz_Infrarotdetektoren",
+      "topic": "Verkehr",
+      "typ": "Kfz",
+      "zusammensetzung": "0535-Z.14,0535-Z.4,0535-Z.9"
+    },
+    "resultTime": "2026-10-05T22:32:21.245Z/2026-10-20T10:18:01.321Z",
+    "Thing": {
+      "@iot.selfLink": "https://iot.hamburg.de/v1.1/Things(12283)",
+      "@iot.id": 12283,
+      "name": "Verkehrszählstelle 0331932",
+      "description": "Verkehrszählstelle zur Zählung der von Infrarotdetektoren erfassten Mobilitätswerkzeuge",
+      "properties": {
+        "art": "Zählstelle",
+        "assetID": "0331932",
+        "infoLastUpdate": "2026-02-26T12:07:43.961Z",
+        "internID": "MQ_1164",
+        "keywords": [
+          "Infrarotdetektor",
+          "Verkehrsmenge",
+          "automatisierte Verkehrsmengenerfassung",
+          "Hamburg",
+          "Hamburger Radzählnetz",
+          "aVME",
+          "HaRaZäN",
+          "Zählstelle"
+        ],
+        "language": "de",
+        "ownerThing": "Freie und Hansestadt Hamburg",
+        "richtung": "Südwest nach Nordost"
+      },
+      "Locations": [
+        {
+          "@iot.selfLink": "https://iot.hamburg.de/v1.1/Locations(26524134)",
+          "@iot.id": 26524134,
+          "name": "Verkehrszählstelle 0331932",
+          "description": "Mittelpunkt des Streckenverlaufes bezüglich Zählstelle 0331 auf dem Richtungsarm Nordost von Südwest nach Nordost",
+          "encodingType": "application/vnd.geo+json",
+          "location": {
+            "type": "Feature",
+            "geometry": {
+              "type": "Point",
+              "coordinates": [
+                10.004438,
+                53.554112
+              ]
+            }
+          },
+          "properties": {
+            "infoLastUpdate": "2026-02-26T12:07:43.961Z",
+            "internID": "MQ_1164"
+          }
+        }
+      ]
+    },
+    "ObservedProperty@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(26585)/ObservedProperty",
+    "Sensor@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(26585)/Sensor",
+    "Thing@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(26585)/Thing",
+    "Observations@iot.navigationLink": "https://iot.hamburg.de/v1.1/Datastreams(26585)/Observations"
+  }
+]

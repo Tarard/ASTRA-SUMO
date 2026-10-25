@@ -1,0 +1,13 @@
+{
+  "execution_terminal": true,
+  "command_status": "timeout",
+  "wall_clock_limit_s": 2400,
+  "planned_end_s": 14400,
+  "last_complete_summary_s": 13645,
+  "native_process_present_at_verification": false,
+  "controller_status_file": "running",
+  "status_file_is_incomplete": true,
+  "formal_result": false,
+  "native_completion_established": false,
+  "claim_boundary": "The controller status file was not finalized before termination. Command outcome and verified absent native process establish terminal execution. Snapshot counts are not final counts."
+}

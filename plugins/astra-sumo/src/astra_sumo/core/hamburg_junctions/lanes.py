@@ -124,7 +124,7 @@ def _bind_official_lanes(
 def _ordered_approach_lane_bindings(
     lanes, options, candidates, existing, *, role, max_error_m, margin_m,
 ) -> list[dict[str, Any]]:
-    """Resolve a lateral offset only for one proven, equal-count road arm."""
+    """Resolve lane order within each unambiguous, equal-count source road arm."""
     approaches = defaultdict(list)
     for lane_id, lane in lanes.items():
         if lane_id not in options:
@@ -132,16 +132,13 @@ def _ordered_approach_lane_bindings(
         approach = str(lane.get(f"{role}_approach", "")).strip()
         if approach and approach != "0":
             approaches[approach].append(lane_id)
-    result = []
-    occupied = dict(existing)
-    for approach, lane_ids in approaches.items():
+    groups = []
+    for approach, lane_ids in sorted(approaches.items()):
         if len(lane_ids) < 2 or any(lane_id not in options for lane_id in lane_ids):
-            continue
-        if all(lane_id in occupied for lane_id in lane_ids):
             continue
         # Select the road arm before checking its lane count. A closer road
         # with a different count cannot be replaced by a more distant match.
-        chosen_edges = []
+        arms = defaultdict(list)
         for lane_id in lane_ids:
             edge_errors = {}
             for error, (edge_id, _) in options[lane_id]:
@@ -149,10 +146,16 @@ def _ordered_approach_lane_bindings(
             ranked = sorted((error, edge_id) for edge_id, error in edge_errors.items())
             if not ranked or ranked[0][0] > max_error_m or (len(ranked) > 1 and ranked[1][0] - ranked[0][0] < margin_m):
                 break
-            chosen_edges.append(ranked[0][1])
-        if len(chosen_edges) != len(lane_ids) or len(set(chosen_edges)) != 1:
+            arms[ranked[0][1]].append(lane_id)
+        else:
+            groups.extend((approach, edge, members) for edge, members in sorted(arms.items()))
+    result = []
+    occupied = dict(existing)
+    for approach, edge_id, lane_ids in groups:
+        if len(lane_ids) < 2:
             continue
-        edge_id = chosen_edges[0]
+        if all(lane_id in occupied for lane_id in lane_ids) and len({occupied[lane_id] for lane_id in lane_ids}) == len(lane_ids):
+            continue
         if any(
             other_id not in lane_ids and values and values[0][0] <= max_error_m and values[0][1][0] == edge_id
             for other_id, values in options.items()

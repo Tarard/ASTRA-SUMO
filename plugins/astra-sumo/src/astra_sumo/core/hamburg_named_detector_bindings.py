@@ -20,7 +20,7 @@ from typing import Any, Mapping
 from .artifact_io import write_json_atomic
 from .cached_detector_demand import read_hamburg_count_stream_snapshot
 from .candidate_contracts import file_sha256
-from .digital_twin import parse_mapem
+from .hamburg_map_kml import read_hamburg_map_lane_references
 from .digital_twin import angular_difference_degrees
 from .digital_twin_mapping import (
     DetectorMapping,
@@ -28,7 +28,8 @@ from .digital_twin_mapping import (
     _safe_lane_position,
     bind_count_streams_to_network,
     bind_map_lanes_to_network,
-    project_point_to_polyline,
+    project_point_to_lane,
+    _normalize_node,
     read_network_lanes,
     write_detector_mapping,
 )
@@ -55,6 +56,7 @@ def materialize_hamburg_named_detector_bindings(
     max_distance_m: float = 5.0,
     ambiguity_margin_m: float = 1.0,
     map_files: tuple[Path, ...] = (),
+    map_kml_files: tuple[Path, ...] = (),
     movement_evidence_file: Path | None = None,
 ) -> dict[str, Any]:
     """Write an auditable detector mapping and its automatic quality gate.
@@ -87,6 +89,9 @@ def materialize_hamburg_named_detector_bindings(
     official_map_paths = [Path(path).expanduser().resolve(strict=True) for path in map_files]
     if len(set(official_map_paths)) != len(official_map_paths):
         raise HamburgDetectorBindingError("official MAP files must be unique")
+    official_kml_paths = [Path(path).expanduser().resolve(strict=True) for path in map_kml_files]
+    if official_kml_paths and (len(official_kml_paths) != len(official_map_paths) or len(set(official_kml_paths)) != len(official_kml_paths)):
+        raise HamburgDetectorBindingError("Supply one unique KML file for each MAP file, in the same order.")
     movement_evidence_path = (
         Path(movement_evidence_file).expanduser().resolve(strict=True)
         if movement_evidence_file is not None
@@ -97,10 +102,8 @@ def materialize_hamburg_named_detector_bindings(
         if movement_evidence_path is not None
         else None
     )
-    map_lanes = []
-    for map_path in official_map_paths:
-        lanes, _ = parse_mapem(map_path)
-        map_lanes.extend(lanes)
+    map_lanes, lane_shapes = read_hamburg_map_lane_references(net_path, official_map_paths,
+        official_kml_paths, network_projection=network_projection)
     if official_map_paths and not map_lanes:
         raise HamburgDetectorBindingError("official MAP files contain no lane geometry")
     map_lane_keys = [(lane.node_id, lane.lane_id) for lane in map_lanes]
@@ -112,6 +115,7 @@ def materialize_hamburg_named_detector_bindings(
             net_path,
             map_lanes,
             network_projection=network_projection,
+            lane_shapes=lane_shapes,
         )
         if map_lanes
         else []
@@ -123,7 +127,9 @@ def materialize_hamburg_named_detector_bindings(
         map_bindings,
         period=period,
         network_projection=network_projection,
+        lane_shapes=lane_shapes,
     )
+    binding_by_lane = {(_normalize_node(binding.node_id), binding.map_lane_id): binding for binding in map_bindings}
 
     prepared_candidates: list[tuple[list[dict[str, Any]], list[dict[str, Any]]]] = []
     for stream in streams:
@@ -163,10 +169,10 @@ def materialize_hamburg_named_detector_bindings(
             None,
         )
         has_official_identity = bool(mapping.official_map_lane)
-        official_map_to_sumo_distance_m = mapping.distance_m if has_official_identity else None
-        official_map_to_sumo_heading_error_deg = (
-            mapping.heading_error_deg if has_official_identity else None
-        )
+        reference_binding = binding_by_lane.get((_normalize_node(stream.node_id), mapping.official_map_lane))
+        official_map_to_sumo_distance_m = (reference_binding.distance_m
+            if reference_binding is not None and math.isfinite(reference_binding.distance_m) else None)
+        official_map_to_sumo_heading_error_deg = reference_binding.heading_error_deg if reference_binding is not None else None
         official_active = (
             has_official_identity
             and mapping.mapping_status == "active"
@@ -280,6 +286,9 @@ def materialize_hamburg_named_detector_bindings(
             "ambiguity_margin_m": ambiguity_margin_m,
             "serial_cut_max_gap_m": SERIAL_CUT_MAX_GAP_M,
             "constellation_heading_tolerance_deg": CONSTELLATION_HEADING_TOLERANCE_DEG,
+            "reference_geometry": "paired_KML_geographic" if official_kml_paths else "MAP_local_offsets",
+            "lane_position_convention": "physical_XY_projection_scaled_to_SUMO_logical_lane_metres",
+            "reference_heading": "first_nonzero_segment_at_bound_anchor",
         },
         "rows": candidate_rows,
     }
@@ -347,6 +356,7 @@ def materialize_hamburg_named_detector_bindings(
             "official_map_files": [
                 {"path": str(path), "sha256": file_sha256(path)} for path in official_map_paths
             ],
+            "official_map_kml_files": [{"path": str(path), "sha256": file_sha256(path)} for path in official_kml_paths],
             "movement_lane_evidence": (
                 {
                     "path": str(movement_evidence_path),
@@ -385,13 +395,15 @@ def materialize_hamburg_named_detector_bindings(
         "claim_boundary": {
             "proves": [
                 "the explicit WGS84-to-network CRS conversion used for each detector",
-                "official MAP ingress-lane identity for nodes whose MAP file is supplied",
-                "all nearby passenger-lane candidates and the reason for each active or blocked mapping",
+                "automatic geometric association with official MAP ingress lanes when reference files are supplied",
+                "the ranked nearby passenger-lane candidates retained in the report and each mapping reason",
+                "logical SUMO lane positions derived from the physical detector-point projections",
                 "that one-to-one serial edge cuts are collapsed while ambiguous parallel lanes remain rejected",
                 "translation-normalized cross-section inference only when official lane-count evidence and strict geometric gates agree",
             ],
             "does_not_prove": [
                 "official MAP lane identity when the MAP cell is absent",
+                "independently surveyed detector identity, count cross-section, or reference field-validity date",
                 "that a Zählfeld asset number is a Hamburg or SUMO lane index",
                 "complete three-node detector coverage",
                 "that SUMO E1/E2 sensors can be materialized before all mappings are active",
@@ -426,7 +438,7 @@ def _candidate_rows(
     )
     rows: list[dict[str, Any]] = []
     for lane in network_lanes:
-        position, distance, heading = project_point_to_polyline((x, y), lane.shape)
+        position, distance, heading = project_point_to_lane((x, y), lane)
         rows.append(
             {
                 "lane_id": lane.lane_id,

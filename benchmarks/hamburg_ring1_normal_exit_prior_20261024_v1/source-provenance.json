@@ -1,0 +1,1229 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-exit-prior-support-20261024-v1\\manifest.json",
+      "relative": "119-alternative-limit/manifest.json",
+      "raw_bytes": 1090,
+      "raw_sha256": "16ff81e30eeee182e5ef14fa5c6d5b39c13a5992459b53e60890263dd120b48b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-exit-prior-support-20261024-v1\\README.md",
+      "relative": "119-alternative-limit/README.md",
+      "raw_bytes": 2639,
+      "raw_sha256": "8e934837245e66ca74d4204dc6013e715e5a74e4d9b1650355aa95482609e4fa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-exit-prior-support-20261024-v1\\summary.json",
+      "relative": "119-alternative-limit/summary.json",
+      "raw_bytes": 4852,
+      "raw_sha256": "330313d9a0bb276ceca368169c298da46211e7705c2be5f1ecb3c819e7dc8eb7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\cells294.json",
+      "relative": "full/cells294.json",
+      "raw_bytes": 43290,
+      "raw_sha256": "131937737051487f1cef4fca4350b0983641042b504de36e8382867e545d1d94"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\changed-route-native.json",
+      "relative": "full/changed-route-native.json",
+      "raw_bytes": 974862,
+      "raw_sha256": "939e2ae00ff20db8a78c29e02a10aec611f1051457637a80a821f8e0fe82075b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\535-all56.csv",
+      "relative": "full/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\all182-comparison.csv",
+      "relative": "full/evaluation/all182-comparison.csv",
+      "raw_bytes": 10863,
+      "raw_sha256": "c150e734110c5ddc1a6dc99f3455ef1840d41fc802a1216e8271a0904171541c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\contributing-passages.json.gz",
+      "relative": "full/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 173473,
+      "raw_sha256": "7a6da89926010b3534e6918f35b8368547ef6c93edc62a187e6fe7ef888adae3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\demand.rou.xml",
+      "relative": "full/evaluation/demand.rou.xml",
+      "raw_bytes": 3743394,
+      "raw_sha256": "d479b76595230ed528ad9f0b174a63d188c9c4a0db3d74c5abeec389def9ecc4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\evaluation.json",
+      "relative": "full/evaluation/evaluation.json",
+      "raw_bytes": 454,
+      "raw_sha256": "9ac34ec1981698e94f3314b44a47b752f796fec3f3641522cd6d6ec05c9498f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\initialization52-comparison.csv",
+      "relative": "full/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "0b5dc108d5945d4052b0bc07cae0195e97a0aec214e80d5178658d8fbeb30ec5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\lane-intentions.json",
+      "relative": "full/evaluation/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "e16762228d62b2542f01e39f73d93c3c8226faff311833e91dec09cee018eb38"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\collisions.xml",
+      "relative": "full/evaluation/native/collisions.xml",
+      "raw_bytes": 3187,
+      "raw_sha256": "2a503c27efbf6fc3cb5149fec4e775621a63f049d46a9d0cbf6fa7b0d9aec25b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\command.json",
+      "relative": "full/evaluation/native/command.json",
+      "raw_bytes": 5638,
+      "raw_sha256": "c04f87de14112d62d9ee1bbabcc776277e166e84d4ffa87a63a57567de54ba5b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\demand.rou.xml",
+      "relative": "full/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3743394,
+      "raw_sha256": "d479b76595230ed528ad9f0b174a63d188c9c4a0db3d74c5abeec389def9ecc4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\e1.add.xml",
+      "relative": "full/evaluation/native/e1.add.xml",
+      "raw_bytes": 3537,
+      "raw_sha256": "2ffd35afb80089c2c7085c954a449361567d46ffc6654e68d771381650f32d55"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\expected-counts.csv",
+      "relative": "full/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\field-comparison.csv",
+      "relative": "full/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7879,
+      "raw_sha256": "6f6f8ab2cf9baf53789050c146352e646a83d721a2e9b1dca2efe15d8057092f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\field-counts.xml",
+      "relative": "full/evaluation/native/field-counts.xml",
+      "raw_bytes": 53010,
+      "raw_sha256": "f074f3cc4c28f2399392f0b67a88898e4c27e13927cf56dc7b2eac574fd36bf8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\instant.add.xml",
+      "relative": "full/evaluation/native/instant.add.xml",
+      "raw_bytes": 3013,
+      "raw_sha256": "e31a23724240c2aad5182c1aa675bd77ae51b01683ec3ac801fa0a71eccab059"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\lane-intentions.json",
+      "relative": "full/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "e16762228d62b2542f01e39f73d93c3c8226faff311833e91dec09cee018eb38"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\native-request.json",
+      "relative": "full/evaluation/native/native-request.json",
+      "raw_bytes": 3674,
+      "raw_sha256": "1408f92677074480a09792688cb9766c47cc7757a5a18dc46e6c0494ad7107b8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\network.net.xml",
+      "relative": "full/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\run.json",
+      "relative": "full/evaluation/native/run.json",
+      "raw_bytes": 6308668,
+      "raw_sha256": "5baa93c3cc75cc58f9bac2fad6ed18edaa4ed2eb5a788e6018ec4364b6ef216d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "full/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\source-e1.add.xml",
+      "relative": "full/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\stall-monitor.json",
+      "relative": "full/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5853398,
+      "raw_sha256": "3b67502192dd3074c919e60b2bcb3f16914372c154525f43d06f3bfb624fb243"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\summary.xml",
+      "relative": "full/evaluation/native/summary.xml",
+      "raw_bytes": 46731462,
+      "raw_sha256": "aa65c4dcba484cece59a5f27463f96111d6ec88fbdcb1ee62e6fe651ddcd5440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\sumo-errors.log",
+      "relative": "full/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3482,
+      "raw_sha256": "e2708032e11912f9b74696b815f7a8ad2fd4f6a8b490173156f0be1585b4a301"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\sumo.log",
+      "relative": "full/evaluation/native/sumo.log",
+      "raw_bytes": 5000,
+      "raw_sha256": "6c9682b46dbe17cdeacda0b12a4d9c098402977e4d5b1eb3c7781f798845d090"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\tripinfo.xml",
+      "relative": "full/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4574284,
+      "raw_sha256": "51f9a54ef1c0a1e010d811fd15e48e45f2938bf75726b9b47b5bc31194106a46"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "full/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6570357,
+      "raw_sha256": "fb10622fcf9bf8013eae2d8ffd63b89740d8b41072738dea494fafc0dd7888e5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\native208-comparison.csv",
+      "relative": "full/evaluation/native208-comparison.csv",
+      "raw_bytes": 25162,
+      "raw_sha256": "cda2086a827790768ba50d1f5b608c8c739773f504f4b9626debce22ca8fe4a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\od-vector.json",
+      "relative": "full/evaluation/od-vector.json",
+      "raw_bytes": 2763,
+      "raw_sha256": "0f5955de30390dd41539fe11903714bdb464d4d2709eac7509c8b7e76e80346b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\evaluation\\station-comparison.csv",
+      "relative": "full/evaluation/station-comparison.csv",
+      "raw_bytes": 1613,
+      "raw_sha256": "0963c4891d8e8c8098fc840582cb5d3748a05e54ae6ee70c138d60aa6dcf9fac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\executed-driver.py",
+      "relative": "full/executed-driver.py",
+      "raw_bytes": 11648,
+      "raw_sha256": "37f1891d9ac4635abdc788946ed7e95fd8ac9e03606831eaab521d55cf532e49"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\artifact_io.py",
+      "relative": "full/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\candidate_contracts.py",
+      "relative": "full/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\command_runner.py",
+      "relative": "full/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\detector_demand.py",
+      "relative": "full/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\detector_demand_replay.py",
+      "relative": "full/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\hamburg_197_through_support.py",
+      "relative": "full/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\hamburg_od_spsa.py",
+      "relative": "full/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\lane_section_hold.py",
+      "relative": "full/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\route_sensor_matrix.py",
+      "relative": "full/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\implementation\\simulation_stall.py",
+      "relative": "full/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\metadata-index-changes.csv",
+      "relative": "full/metadata-index-changes.csv",
+      "raw_bytes": 9551,
+      "raw_sha256": "601c2db22f931d6cda724655ab47675809790a26f30c0499bda38a10ed2e01cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\od-coordinate-map.json",
+      "relative": "full/od-coordinate-map.json",
+      "raw_bytes": 11467,
+      "raw_sha256": "72b840ea5a8cf4f1ce7193b19b98fd8123d1af8871a97841ad9b0883208b1d0b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\od-vector.json",
+      "relative": "full/od-vector.json",
+      "raw_bytes": 2763,
+      "raw_sha256": "0f5955de30390dd41539fe11903714bdb464d4d2709eac7509c8b7e76e80346b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\preflight.json",
+      "relative": "full/preflight.json",
+      "raw_bytes": 3707,
+      "raw_sha256": "a05b9637931671ac96069f37c921cfe92a0182a0b2f3665ba7c4e8e2812bc623"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\control.add.xml",
+      "relative": "full/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\demand.rou.xml",
+      "relative": "full/prepared/demand.rou.xml",
+      "raw_bytes": 3743394,
+      "raw_sha256": "d479b76595230ed528ad9f0b174a63d188c9c4a0db3d74c5abeec389def9ecc4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\expected-counts.csv",
+      "relative": "full/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\field-loops.add.xml",
+      "relative": "full/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\initialization-counts.csv",
+      "relative": "full/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\lane-intentions.json",
+      "relative": "full/prepared/lane-intentions.json",
+      "raw_bytes": 1004966,
+      "raw_sha256": "e16762228d62b2542f01e39f73d93c3c8226faff311833e91dec09cee018eb38"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\network.net.xml",
+      "relative": "full/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\prepared\\scenario.json",
+      "relative": "full/prepared/scenario.json",
+      "raw_bytes": 4440,
+      "raw_sha256": "2ffad4e0abfb9609143f16a6781c0c8b9008fb4c50601ee39b5775c7834eb8d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\route-changes.csv",
+      "relative": "full/route-changes.csv",
+      "raw_bytes": 71353,
+      "raw_sha256": "912f302797542a3b2f5a0c0c30a1ca04b60da93cc14c8c656e3d776f777769a6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\scope-proof.json",
+      "relative": "full/scope-proof.json",
+      "raw_bytes": 5664,
+      "raw_sha256": "c29476e9a273f507ba0f98021998bc33c00554e293428892978714c726bb5f9b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full\\verdict.json",
+      "relative": "full/verdict.json",
+      "raw_bytes": 4184,
+      "raw_sha256": "404e12b137ec9ba8d1b3612d48dd7286752f22e69fe88d29a21eb83714102308"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\audit_completed.py",
+      "relative": "independent/audit_completed.py",
+      "raw_bytes": 15296,
+      "raw_sha256": "10b35fdc9bf88c351769bb24c349c63a8cd356145e5e75a043187ba536433d0a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\130.csv",
+      "relative": "independent/full/130.csv",
+      "raw_bytes": 7879,
+      "raw_sha256": "6f6f8ab2cf9baf53789050c146352e646a83d721a2e9b1dca2efe15d8057092f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\182.csv",
+      "relative": "independent/full/182.csv",
+      "raw_bytes": 10863,
+      "raw_sha256": "c150e734110c5ddc1a6dc99f3455ef1840d41fc802a1216e8271a0904171541c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\40.csv",
+      "relative": "independent/full/40.csv",
+      "raw_bytes": 1613,
+      "raw_sha256": "0963c4891d8e8c8098fc840582cb5d3748a05e54ae6ee70c138d60aa6dcf9fac"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\52.csv",
+      "relative": "independent/full/52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "0b5dc108d5945d4052b0bc07cae0195e97a0aec214e80d5178658d8fbeb30ec5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\changed-route-actual-events-and-arrivals.csv",
+      "relative": "independent/full/changed-route-actual-events-and-arrivals.csv",
+      "raw_bytes": 273396,
+      "raw_sha256": "4e061651010427266df8494b93d226e306e21be654b20dcd8dd0e6458fdc33d8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\field13-response.csv",
+      "relative": "independent/full/field13-response.csv",
+      "raw_bytes": 770,
+      "raw_sha256": "ce33658a870bde64506156e3580471cc1843cc716ad4359f577354b1f863bd83"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\native208-cohort-accounting.csv",
+      "relative": "independent/full/native208-cohort-accounting.csv",
+      "raw_bytes": 9653,
+      "raw_sha256": "202ce579e32b96edb13a99879e965196000eb12ac3a494b2882f9c4503683922"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\summary.json",
+      "relative": "independent/full/summary.json",
+      "raw_bytes": 12698,
+      "raw_sha256": "b9d9459266b4f8ada6d885c50f8d7395a0b9238f4e64bf62af83a1117747c39c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\terminal-state-context.json",
+      "relative": "independent/full/terminal-state-context.json",
+      "raw_bytes": 13373,
+      "raw_sha256": "e2322022a39f2c5b81a4adb601c9b249f275d499db77045166682e9060986c77"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\full\\terminal-unfinished-inputs-and-events.csv",
+      "relative": "independent/full/terminal-unfinished-inputs-and-events.csv",
+      "raw_bytes": 427,
+      "raw_sha256": "77db9e8094cdf293c0996211374eff102c4e630a80148c0d68a0311836ee4c8d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\input-scope.json",
+      "relative": "independent/input-scope.json",
+      "raw_bytes": 2604,
+      "raw_sha256": "14d484a0c61f9a1d213dc6a55474f7e962db05ba0bc66939c4fa24a439ee9ac7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\inspect_inputs.py",
+      "relative": "independent/inspect_inputs.py",
+      "raw_bytes": 8586,
+      "raw_sha256": "399bee20be4ff1c1fc58fe17d247991d68ed5dcb66ee374636f12b6061f38ddb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\manifest.json",
+      "relative": "independent/manifest.json",
+      "raw_bytes": 3798,
+      "raw_sha256": "270c9ff4637710b58686d0964b7a6705afdf086a6270a9ea6ef35844398dc32c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\README.md",
+      "relative": "independent/README.md",
+      "raw_bytes": 4440,
+      "raw_sha256": "cc1905d9b72b778eaafb0b4a6f238b07507c5e2a7763806c70bd32179875e807"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\130.csv",
+      "relative": "independent/smoke/130.csv",
+      "raw_bytes": 7947,
+      "raw_sha256": "0f8f1f1eefa6cb4a9b35fb1d135604ff18a2e018fb0d944569bf81ac9fd6e48c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\182.csv",
+      "relative": "independent/smoke/182.csv",
+      "raw_bytes": 10966,
+      "raw_sha256": "839dd0c296ed00e3c129e2fc71885480de0574c901f46e0e54d4b006e8a79ab9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\40.csv",
+      "relative": "independent/smoke/40.csv",
+      "raw_bytes": 1615,
+      "raw_sha256": "03470f77cb4afd389d747348c414c34c4ee404698d4d62b377cc564a6e868c50"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\52.csv",
+      "relative": "independent/smoke/52.csv",
+      "raw_bytes": 3159,
+      "raw_sha256": "16d9ed18092c4c45bd5e463bb6902438b1f4750e2cecb977a30c55715ec68195"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\changed-route-actual-events-and-arrivals.csv",
+      "relative": "independent/smoke/changed-route-actual-events-and-arrivals.csv",
+      "raw_bytes": 1379,
+      "raw_sha256": "ec5f0330053bf6bc443d187f35215c23c8dcee88e356acca0375cac75bf18f34"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\field13-response.csv",
+      "relative": "independent/smoke/field13-response.csv",
+      "raw_bytes": 929,
+      "raw_sha256": "414b15cc7f58112897bb8d6d288a68c62a09950c07fe35d9743a35b72a09c229"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\summary.json",
+      "relative": "independent/smoke/summary.json",
+      "raw_bytes": 12486,
+      "raw_sha256": "34bfecb76ed7deb7060dfead97ae466be64734fe4f22a247d9c3b4e327546214"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\smoke\\terminal-unfinished-inputs-and-events.csv",
+      "relative": "independent/smoke/terminal-unfinished-inputs-and-events.csv",
+      "raw_bytes": 0,
+      "raw_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\independent\\summary.json",
+      "relative": "independent/summary.json",
+      "raw_bytes": 1860,
+      "raw_sha256": "046d7511a257d8b4bb0b29626539fc57508cbb54145da1852b4a10287d7dc8f0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\audit_lineage.py",
+      "relative": "parking-lineage/audit_lineage.py",
+      "raw_bytes": 10353,
+      "raw_sha256": "2c5c27fcaab13eeb119dd2fa776d7accc7b045e2055a84bcdedc7295c5c922d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\audit_straight_tail.py",
+      "relative": "parking-lineage/audit_straight_tail.py",
+      "raw_bytes": 7822,
+      "raw_sha256": "3dd691f897e4d8291017fd1ceec8e94af767ce43468f022100eee1551e190f4b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\frozen-source-evidence.json",
+      "relative": "parking-lineage/frozen-source-evidence.json",
+      "raw_bytes": 14061,
+      "raw_sha256": "6dad90d9a4c983455cd3aed3033b13a9be072dc3ad5ce88c02273bbb9590bc97"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\lineage.json",
+      "relative": "parking-lineage/lineage.json",
+      "raw_bytes": 18281,
+      "raw_sha256": "333a61b739f5185e9fa44c0d6b11b334aca9b6833e2865c9bf4a7efb529caa4c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\manifest.json",
+      "relative": "parking-lineage/manifest.json",
+      "raw_bytes": 1585,
+      "raw_sha256": "36d29ece667c57e1fb7d67aa8aa3e00ae34a1a8f4044736cef0e85fbecf7d022"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\README.md",
+      "relative": "parking-lineage/README.md",
+      "raw_bytes": 3666,
+      "raw_sha256": "8453927dd8f74391c05303c0d42dba156e1363465c305dab83cd8ca2932a9fd8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\selfchecks.json",
+      "relative": "parking-lineage/selfchecks.json",
+      "raw_bytes": 172,
+      "raw_sha256": "e4c1790dca60d29139a34a551d14be9851e5ea965d560c6bbe657e2142feb2d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\stages.csv",
+      "relative": "parking-lineage/stages.csv",
+      "raw_bytes": 1826,
+      "raw_sha256": "8624a82b5b8edb22230427b9c12ee0ee93084477fa3e2e992df3efde907bd601"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\straight-tail-check.csv",
+      "relative": "parking-lineage/straight-tail-check.csv",
+      "raw_bytes": 1098,
+      "raw_sha256": "c6d52f27376b916aee3fe89c07af743e7638f7450b2bb3d3156d6a923ba99075"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-parking-exit-prior-lineage-20261024-v1\\straight-tail-check.json",
+      "relative": "parking-lineage/straight-tail-check.json",
+      "raw_bytes": 45406,
+      "raw_sha256": "3b803718a97b84f488788bef2fe423f2778f17a0db496a10cffaba9f45c895c8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-route-port-boundary-audit-20261024-v1\\142944318-check.json",
+      "relative": "port-audit/142944318-check.json",
+      "raw_bytes": 8819,
+      "raw_sha256": "585bae25322c1582bb07f1e3dd56bcdcef9bd5603e733b227a1c46a43457df7e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-route-port-boundary-audit-20261024-v1\\audit_ports.py",
+      "relative": "port-audit/audit_ports.py",
+      "raw_bytes": 20467,
+      "raw_sha256": "e223170885db96b0661c0ec95345921fb3d43f5909e3cb1224885a0b00617ad9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-route-port-boundary-audit-20261024-v1\\evidence.json",
+      "relative": "port-audit/evidence.json",
+      "raw_bytes": 83467,
+      "raw_sha256": "e69dccd3ce33b456b65df5005fb8567126b46025496af2a9797fc54ab63b8783"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-route-port-boundary-audit-20261024-v1\\manifest.json",
+      "relative": "port-audit/manifest.json",
+      "raw_bytes": 886,
+      "raw_sha256": "04f6fa72e2743b401615fe06959049b1bf8476ae1af602c11e822645041a285b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-route-port-boundary-audit-20261024-v1\\named-ports.csv",
+      "relative": "port-audit/named-ports.csv",
+      "raw_bytes": 2201,
+      "raw_sha256": "3f84161e8f7db0aabbfce661fbb0b08d7da542b3a61ee7e277292b71e9f9ba32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-route-port-boundary-audit-20261024-v1\\README.md",
+      "relative": "port-audit/README.md",
+      "raw_bytes": 5477,
+      "raw_sha256": "45b2029bfe11fc19abee404d8718b4071299d9121d7315b311103122c6ad8025"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\preparation-notes\\description-correction.json",
+      "relative": "preparation-notes/description-correction.json",
+      "raw_bytes": 401,
+      "raw_sha256": "e6c4b0960bc5ecbb57906634043e54b7da59ce9b954ded7100a0d8045f102e15"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\preparation-notes\\initial-full-scope-proof.json",
+      "relative": "preparation-notes/initial-full-scope-proof.json",
+      "raw_bytes": 5660,
+      "raw_sha256": "d1d403f0976a9c43eb75880d3f10d76800071bf3f63f64a95b8199209d38753d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\preparation-notes\\initial-prepare.py",
+      "relative": "preparation-notes/initial-prepare.py",
+      "raw_bytes": 14534,
+      "raw_sha256": "dc096f8369548ba7e47baed061bfecdf48dba88bf988ce72dd050b3ab492c944"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\preparation-notes\\initial-smoke-od-vector.json",
+      "relative": "preparation-notes/initial-smoke-od-vector.json",
+      "raw_bytes": 2576,
+      "raw_sha256": "3e6c2b07a3d8637c02a672b582979c8cf124053e8785ed15dd0b4ca44d9c5752"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\preparation-notes\\initial-smoke-scope-proof.json",
+      "relative": "preparation-notes/initial-smoke-scope-proof.json",
+      "raw_bytes": 5654,
+      "raw_sha256": "8493d1a0159dcf6d0fd8ee4b56ebb38c85f4314aac26749edbe2c1980029f256"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\cells294.json",
+      "relative": "smoke/cells294.json",
+      "raw_bytes": 43290,
+      "raw_sha256": "131937737051487f1cef4fca4350b0983641042b504de36e8382867e545d1d94"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\changed-route-native.json",
+      "relative": "smoke/changed-route-native.json",
+      "raw_bytes": 4720,
+      "raw_sha256": "b1ef860e63607c7c2026913ea0aef13602bac514de6fc32489e4906460f2cb7f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\535-all56.csv",
+      "relative": "smoke/evaluation/535-all56.csv",
+      "raw_bytes": 3440,
+      "raw_sha256": "046fa0f830c0c133401f39b2faad16d6aae1b1b0f978ab9c91b510ae81534d75"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\all182-comparison.csv",
+      "relative": "smoke/evaluation/all182-comparison.csv",
+      "raw_bytes": 10966,
+      "raw_sha256": "839dd0c296ed00e3c129e2fc71885480de0574c901f46e0e54d4b006e8a79ab9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\contributing-passages.json.gz",
+      "relative": "smoke/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 1802,
+      "raw_sha256": "cd1ce1a4747ba7d834f636e137784622be7c5f729f792ce7d02a05bcc28af1a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\demand.rou.xml",
+      "relative": "smoke/evaluation/demand.rou.xml",
+      "raw_bytes": 1669,
+      "raw_sha256": "86db616e8b5d8e6a3e5fef6a44415e80a5c106a8854ce8d01e18a325afccb4d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\evaluation.json",
+      "relative": "smoke/evaluation/evaluation.json",
+      "raw_bytes": 449,
+      "raw_sha256": "90d1243b5df91d8b38e792505c0a56ab2c4a236ba6b6b212f7279b1493b03a41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\initialization52-comparison.csv",
+      "relative": "smoke/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3159,
+      "raw_sha256": "16d9ed18092c4c45bd5e463bb6902438b1f4750e2cecb977a30c55715ec68195"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\lane-intentions.json",
+      "relative": "smoke/evaluation/lane-intentions.json",
+      "raw_bytes": 690,
+      "raw_sha256": "16ac393c962f624707f243c6904da0952c31e330d8db2039c1dc5cbeb3b2b54f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\collisions.xml",
+      "relative": "smoke/evaluation/native/collisions.xml",
+      "raw_bytes": 3199,
+      "raw_sha256": "306f7e8655c485b5a124609cc1aa7760b2a465cff5c61216bda1c5b4ea149236"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\command.json",
+      "relative": "smoke/evaluation/native/command.json",
+      "raw_bytes": 4201,
+      "raw_sha256": "cbee486a5f6cc23eac3f30fd14f4a7fb37a2d97ea70b17ce38349f69fd847ea9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\demand.rou.xml",
+      "relative": "smoke/evaluation/native/demand.rou.xml",
+      "raw_bytes": 1669,
+      "raw_sha256": "86db616e8b5d8e6a3e5fef6a44415e80a5c106a8854ce8d01e18a325afccb4d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\e1.add.xml",
+      "relative": "smoke/evaluation/native/e1.add.xml",
+      "raw_bytes": 3550,
+      "raw_sha256": "d1d509cd36d48c8b0ec2aad908a1b8cccd11e1cce7da117b7c021769dec8f29e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\expected-counts.csv",
+      "relative": "smoke/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\field-comparison.csv",
+      "relative": "smoke/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7947,
+      "raw_sha256": "0f8f1f1eefa6cb4a9b35fb1d135604ff18a2e018fb0d944569bf81ac9fd6e48c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\field-counts.xml",
+      "relative": "smoke/evaluation/native/field-counts.xml",
+      "raw_bytes": 52819,
+      "raw_sha256": "02bd03e0b307a92e99ec05f27bea735a79c8330118e9728f61c509f745cb3399"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\instant.add.xml",
+      "relative": "smoke/evaluation/native/instant.add.xml",
+      "raw_bytes": 3026,
+      "raw_sha256": "c8016428c59565dfe63732ec7d8d2f0836ca43c237cbfe2ee826f30c2704e3ba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\lane-intentions.json",
+      "relative": "smoke/evaluation/native/lane-intentions.json",
+      "raw_bytes": 690,
+      "raw_sha256": "16ac393c962f624707f243c6904da0952c31e330d8db2039c1dc5cbeb3b2b54f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\native-request.json",
+      "relative": "smoke/evaluation/native/native-request.json",
+      "raw_bytes": 3690,
+      "raw_sha256": "0912f0add94a2c44c402be394f5dd1bdf1477a99f8d9ad60e24f821257c2d860"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\network.net.xml",
+      "relative": "smoke/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\run.json",
+      "relative": "smoke/evaluation/native/run.json",
+      "raw_bytes": 13626,
+      "raw_sha256": "f8c7cb62c0e02cd4443a49b1528b926afd6b61c72983c20545f43cdf4ab9ce76"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "smoke/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\source-e1.add.xml",
+      "relative": "smoke/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\stall-monitor.json",
+      "relative": "smoke/evaluation/native/stall-monitor.json",
+      "raw_bytes": 7755,
+      "raw_sha256": "980d7ae5d7e92e80e618cac27cea32bf3b2ce07c2d0c48cb68614ebf414a3589"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\summary.xml",
+      "relative": "smoke/evaluation/native/summary.xml",
+      "raw_bytes": 44564836,
+      "raw_sha256": "a8927e6d5c9ec241be9d2fdcabf7ead97365f31ffe57c69c435ff441b83f7d19"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\sumo-errors.log",
+      "relative": "smoke/evaluation/native/sumo-errors.log",
+      "raw_bytes": 2074,
+      "raw_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\sumo.log",
+      "relative": "smoke/evaluation/native/sumo.log",
+      "raw_bytes": 3561,
+      "raw_sha256": "d6985a89d247f2d68267409fc1997eb855abfa9bafa76414d8af77a20c135228"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\tripinfo.xml",
+      "relative": "smoke/evaluation/native/tripinfo.xml",
+      "raw_bytes": 5303,
+      "raw_sha256": "b24b05e2da12cfd7421e83602c8794f20b7506854dcb0b4fe15f7f6009f93c8f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "smoke/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 5776,
+      "raw_sha256": "ddef0f363b1a2432f8f2cb39adeee7691346b3e03a3d97ef7452957b04881179"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\native208-comparison.csv",
+      "relative": "smoke/evaluation/native208-comparison.csv",
+      "raw_bytes": 24959,
+      "raw_sha256": "bda0d92708833ed62395aaa972fda5cc807b7b19fa8faceb547349c0d8a9632e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\od-vector.json",
+      "relative": "smoke/evaluation/od-vector.json",
+      "raw_bytes": 2575,
+      "raw_sha256": "b4d2d35c1d788375a9e74e325d01cdce5b85a013ec4c1a86b68811bb00a19d41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\evaluation\\station-comparison.csv",
+      "relative": "smoke/evaluation/station-comparison.csv",
+      "raw_bytes": 1615,
+      "raw_sha256": "03470f77cb4afd389d747348c414c34c4ee404698d4d62b377cc564a6e868c50"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\executed-driver.py",
+      "relative": "smoke/executed-driver.py",
+      "raw_bytes": 11648,
+      "raw_sha256": "37f1891d9ac4635abdc788946ed7e95fd8ac9e03606831eaab521d55cf532e49"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\artifact_io.py",
+      "relative": "smoke/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\candidate_contracts.py",
+      "relative": "smoke/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\command_runner.py",
+      "relative": "smoke/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\detector_demand.py",
+      "relative": "smoke/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\detector_demand_replay.py",
+      "relative": "smoke/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\hamburg_197_through_support.py",
+      "relative": "smoke/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\hamburg_od_spsa.py",
+      "relative": "smoke/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\lane_section_hold.py",
+      "relative": "smoke/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\route_sensor_matrix.py",
+      "relative": "smoke/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\implementation\\simulation_stall.py",
+      "relative": "smoke/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\od-vector.json",
+      "relative": "smoke/od-vector.json",
+      "raw_bytes": 2575,
+      "raw_sha256": "b4d2d35c1d788375a9e74e325d01cdce5b85a013ec4c1a86b68811bb00a19d41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\evaluation\\demand.rou.xml",
+      "relative": "smoke/preflight-attempt-2/evaluation/demand.rou.xml",
+      "raw_bytes": 1669,
+      "raw_sha256": "86db616e8b5d8e6a3e5fef6a44415e80a5c106a8854ce8d01e18a325afccb4d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\evaluation\\lane-intentions.json",
+      "relative": "smoke/preflight-attempt-2/evaluation/lane-intentions.json",
+      "raw_bytes": 690,
+      "raw_sha256": "16ac393c962f624707f243c6904da0952c31e330d8db2039c1dc5cbeb3b2b54f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\evaluation\\od-vector.json",
+      "relative": "smoke/preflight-attempt-2/evaluation/od-vector.json",
+      "raw_bytes": 2575,
+      "raw_sha256": "b4d2d35c1d788375a9e74e325d01cdce5b85a013ec4c1a86b68811bb00a19d41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\executed-driver.py",
+      "relative": "smoke/preflight-attempt-2/executed-driver.py",
+      "raw_bytes": 11659,
+      "raw_sha256": "a9a53709506a791d694e975682ebf40fb98a63b3fb9adbfa5779803d46a25597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\execution.log",
+      "relative": "smoke/preflight-attempt-2/execution.log",
+      "raw_bytes": 616,
+      "raw_sha256": "f4eed192d78df9ec6280a9faedf700ba365c3eae3ac7c2ddfd066a7dbf3e41b9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\artifact_io.py",
+      "relative": "smoke/preflight-attempt-2/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\candidate_contracts.py",
+      "relative": "smoke/preflight-attempt-2/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\command_runner.py",
+      "relative": "smoke/preflight-attempt-2/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\detector_demand.py",
+      "relative": "smoke/preflight-attempt-2/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\detector_demand_replay.py",
+      "relative": "smoke/preflight-attempt-2/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\hamburg_197_through_support.py",
+      "relative": "smoke/preflight-attempt-2/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\hamburg_od_spsa.py",
+      "relative": "smoke/preflight-attempt-2/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\lane_section_hold.py",
+      "relative": "smoke/preflight-attempt-2/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\route_sensor_matrix.py",
+      "relative": "smoke/preflight-attempt-2/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight-attempt-2\\implementation\\simulation_stall.py",
+      "relative": "smoke/preflight-attempt-2/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\preflight.json",
+      "relative": "smoke/preflight.json",
+      "raw_bytes": 3703,
+      "raw_sha256": "35a8688a8cce6361377d1071d7028314e95201a9b6e2c005774a434a968e1e44"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\control.add.xml",
+      "relative": "smoke/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\demand.rou.xml",
+      "relative": "smoke/prepared/demand.rou.xml",
+      "raw_bytes": 1669,
+      "raw_sha256": "86db616e8b5d8e6a3e5fef6a44415e80a5c106a8854ce8d01e18a325afccb4d2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\expected-counts.csv",
+      "relative": "smoke/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\field-loops.add.xml",
+      "relative": "smoke/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\initialization-counts.csv",
+      "relative": "smoke/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\lane-intentions.json",
+      "relative": "smoke/prepared/lane-intentions.json",
+      "raw_bytes": 690,
+      "raw_sha256": "16ac393c962f624707f243c6904da0952c31e330d8db2039c1dc5cbeb3b2b54f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\network.net.xml",
+      "relative": "smoke/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\prepared\\scenario.json",
+      "relative": "smoke/prepared/scenario.json",
+      "raw_bytes": 4472,
+      "raw_sha256": "92c4584bf2b0ac38c3d0635a4ab86f59664f6714f8b9c840df99e7ec6f1b7ac7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\scope-proof.json",
+      "relative": "smoke/scope-proof.json",
+      "raw_bytes": 5657,
+      "raw_sha256": "a2be4b190bf15bd251ca8b78671c3a4a52dbe74f371cadd715efdee649dc3dc5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\smoke-plan.json",
+      "relative": "smoke/smoke-plan.json",
+      "raw_bytes": 680,
+      "raw_sha256": "8f189fd1557de772ee3153f9b3cd818f1eb8d9185c9f2a05a1b2a059f5b4080d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke\\verdict.json",
+      "relative": "smoke/verdict.json",
+      "raw_bytes": 4202,
+      "raw_sha256": "3eb5f1ba5c9ec8073a56ddec93e3be7262c9a33a031473693824abc3b1502dc3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\control.add.xml.gz",
+      "relative": "source-snapshot/control.add.xml.gz",
+      "raw_bytes": 1939,
+      "raw_sha256": "dbd5e662ccaef73c38bdf92577eea49cbda3082e7cd7cbfae477b02b3f3afef3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\demand.rou.xml.gz",
+      "relative": "source-snapshot/demand.rou.xml.gz",
+      "raw_bytes": 122416,
+      "raw_sha256": "2f3dc5d91c161356be9b7594e01ecfa0b284c3747dcb6fe8c372cafd79e0ec32"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\expected-counts.csv.gz",
+      "relative": "source-snapshot/expected-counts.csv.gz",
+      "raw_bytes": 1433,
+      "raw_sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\field-loops.add.xml.gz",
+      "relative": "source-snapshot/field-loops.add.xml.gz",
+      "raw_bytes": 358,
+      "raw_sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\hamburg-parking-exit-prior-lineage-20261024-v1--lineage.json.gz",
+      "relative": "source-snapshot/hamburg-parking-exit-prior-lineage-20261024-v1--lineage.json.gz",
+      "raw_bytes": 4053,
+      "raw_sha256": "979ecc89a8b121da5833b409fe1572523ab9be8b0a1c3e09e74d1161ab43d4ed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\hamburg-parking-exit-prior-lineage-20261024-v1--manifest.json.gz",
+      "relative": "source-snapshot/hamburg-parking-exit-prior-lineage-20261024-v1--manifest.json.gz",
+      "raw_bytes": 695,
+      "raw_sha256": "d6288c33ab5b739893a47b5e98116525fb1edeff7816400eaec8c61b5ebe7682"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\hamburg-parking-exit-prior-lineage-20261024-v1--straight-tail-check.json.gz",
+      "relative": "source-snapshot/hamburg-parking-exit-prior-lineage-20261024-v1--straight-tail-check.json.gz",
+      "raw_bytes": 4874,
+      "raw_sha256": "cd9afdb3f730630f81b269cc8002553bc25f1f8b0ff4e7372c66d21c29750eda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\hamburg-route-port-boundary-audit-20261024-v1--142944318-check.json.gz",
+      "relative": "source-snapshot/hamburg-route-port-boundary-audit-20261024-v1--142944318-check.json.gz",
+      "raw_bytes": 2011,
+      "raw_sha256": "cf5504276e05f3144036eeeefead4e9d5442f4293b5d2814f94343d8f0dbc3c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\hamburg-route-port-boundary-audit-20261024-v1--manifest.json.gz",
+      "relative": "source-snapshot/hamburg-route-port-boundary-audit-20261024-v1--manifest.json.gz",
+      "raw_bytes": 446,
+      "raw_sha256": "cd463b2a149559c5cca7eaab9e480a0cae7d187eb8db5addbf1c748788423ae5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\initialization-counts.csv.gz",
+      "relative": "source-snapshot/initialization-counts.csv.gz",
+      "raw_bytes": 912,
+      "raw_sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\lane-intentions.json.gz",
+      "relative": "source-snapshot/lane-intentions.json.gz",
+      "raw_bytes": 26182,
+      "raw_sha256": "9abe50fbf71ae71cff1239174d1e12a150f5bf827d75cfda2ede49945de87b0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\native-request.json.gz",
+      "relative": "source-snapshot/native-request.json.gz",
+      "raw_bytes": 667,
+      "raw_sha256": "0caba85900917ded925b196e8db082ab96219b2591a51d726746e660611dccab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\network.net.xml.gz",
+      "relative": "source-snapshot/network.net.xml.gz",
+      "raw_bytes": 243171,
+      "raw_sha256": "985ef34be5278fa97bd548ae2d61494e9d99d1b43b9309f86a7f0e66a593b997"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\prepare.py",
+      "relative": "source-snapshot/prepare.py",
+      "raw_bytes": 14559,
+      "raw_sha256": "9810556c24dea3446bbdeb40400eb94c676c21e8b6bc704f1c8038fc67733ac9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\source-snapshot\\scenario.json.gz",
+      "relative": "source-snapshot/scenario.json.gz",
+      "raw_bytes": 2073,
+      "raw_sha256": "dbcf28cde30950705d57991c14509265c187a2a0bc8e238d1b5e8ef123a77710"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full.check-only.json",
+      "relative": "study-source/full.check-only.json",
+      "raw_bytes": 5373,
+      "raw_sha256": "449fea146a9f69b92215abce77e1ae5d0ced63b4a6f96ed3b7abc3d1971a87c6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\full.execution.log",
+      "relative": "study-source/full.execution.log",
+      "raw_bytes": 3275,
+      "raw_sha256": "2998b394c3ac87989217bdc55cd89ca864638e0719efa77a99799a0745727a48"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\preflight-attempt-1.json",
+      "relative": "study-source/preflight-attempt-1.json",
+      "raw_bytes": 329,
+      "raw_sha256": "2b9983c2c952b4215e00d489da462c3a95f8be056faacfe98155580670ff0aab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\prepare-manifest.json",
+      "relative": "study-source/prepare-manifest.json",
+      "raw_bytes": 8797,
+      "raw_sha256": "dcdca8bb2c5ea71dc3893300fbb285e5e8ae226b577c327613d4d1d4892a8a72"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\prepare.py",
+      "relative": "study-source/prepare.py",
+      "raw_bytes": 14559,
+      "raw_sha256": "9810556c24dea3446bbdeb40400eb94c676c21e8b6bc704f1c8038fc67733ac9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\README.md",
+      "relative": "study-source/README.md",
+      "raw_bytes": 2532,
+      "raw_sha256": "60842546a34e29da453c91918f4da5633f9759a2e0ca9bda10be96b1bfcba9fc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\run_candidate.pre-scope-adapter.py.txt",
+      "relative": "study-source/run_candidate.pre-scope-adapter.py.txt",
+      "raw_bytes": 11339,
+      "raw_sha256": "637efb4b3c355a96e85e066dd376160b7cb6615f6c1d5fbed6ae55270cd52780"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\run_candidate.py",
+      "relative": "study-source/run_candidate.py",
+      "raw_bytes": 11648,
+      "raw_sha256": "37f1891d9ac4635abdc788946ed7e95fd8ac9e03606831eaab521d55cf532e49"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\runner-reuse.json",
+      "relative": "study-source/runner-reuse.json",
+      "raw_bytes": 1790,
+      "raw_sha256": "9e34dda6a7915abd4b8a1b5f78002da820ef9e65a445f27f6a7ca66bd14971fd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\selfchecks.json",
+      "relative": "study-source/selfchecks.json",
+      "raw_bytes": 1682,
+      "raw_sha256": "f8c9714e6061fb097edb702c95abb16574046a2a4436ee528e4515046b1f8075"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke.check-only.json",
+      "relative": "study-source/smoke.check-only.json",
+      "raw_bytes": 5366,
+      "raw_sha256": "17e1974eebfdd21c350ac50eb99f131a5f2bafff21fe021689b4cb520ade58eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-normal-exit-prior-20261024-v1\\smoke.execution.log",
+      "relative": "study-source/smoke.execution.log",
+      "raw_bytes": 3293,
+      "raw_sha256": "b11a805755f31490ef90257a540dfcf76ad5b45fbcf86b48adb358e9b4e5e689"
+    }
+  ],
+  "source_files_unchanged": true
+}

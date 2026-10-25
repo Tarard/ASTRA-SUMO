@@ -93,7 +93,7 @@ ASTRA combines official traffic data, aerial imagery, and SUMO network reconstru
 
 <p align="center"><sub>LSA118 reconstruction: official MAP endpoints and headings, reconstructed curves, and lane connections before and after cleaning.</sub></p>
 
-The current Hamburg calibration matches the aggregate detector count exactly, with **0.15 vehicles MAE per 15-minute bin**.
+These figures show the Binnenalster / Ring1 case around LSA118. Its count-calibration results are being revalidated. No verified error value is published here. See the [case identity and evidence](docs/hamburg-readme-case.md).
 
 ## Documentation
 

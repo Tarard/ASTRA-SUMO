@@ -1,0 +1,10 @@
+{
+  "formal_result": false,
+  "decision": "not_promoted",
+  "new_initialization_trials": 1,
+  "new_full_window_runs": 0,
+  "reference_case": "../hamburg_ring1_primary_entry_full_20261022_v1",
+  "reason": "The bounded frozen-lag request advances reduce native initialization E1 contributions and worsen mean absolute error.",
+  "stop_for_this_rule": true,
+  "claim_boundary": "Reject this timing rule, not every possible schedule. Unknown passages and joint target conflicts do not prove physical infeasibility."
+}

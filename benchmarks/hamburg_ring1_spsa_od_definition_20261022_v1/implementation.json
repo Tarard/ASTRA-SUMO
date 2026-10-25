@@ -1,0 +1,44 @@
+{
+  "files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/spsa.py",
+      "sha256": "f6e71c3c11fd3ecb03d21af09f659586428bfc860fa9f9806cc579f419904383"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_od_definition.py",
+      "sha256": "6c3a526c9030558e401c0faab1b4a37b1e8d60c73a9df2590a6615377804b66d"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_od_spsa.py",
+      "sha256": "6b7b464406879738b273df8b0e7b04786581e077475eabb404d28975fa3ff371"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "58809165d897fda897e64ec68bf3230afb1e9bb74c38e3d5f84d8815846a060f"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_spillback.py",
+      "sha256": "e0a5314d7be4b1ff54bf8ffea49b247427a3bfe68717503893669c739d1edcba"
+    },
+    {
+      "path": "plugins/astra-sumo/scripts/audit_hamburg_od_definition.py",
+      "sha256": "6a0678de6c2de112243d917889d3c908e3418b0b885b49cf7d5d9f0ee27210e2"
+    },
+    {
+      "path": "plugins/astra-sumo/scripts/run_hamburg_od_spsa.py",
+      "sha256": "d628d81dc0e16c17363e7d13e84a27b928c93e44d7fbbb5d2cb33f9553f2d35a"
+    },
+    {
+      "path": "tests/test_spsa.py",
+      "sha256": "362e466cb06f11c55d711ea0ecd3fe342b79eb8bc5b5d0974f4f2861cdf3b6a2"
+    },
+    {
+      "path": "tests/test_hamburg_od_definition.py",
+      "sha256": "33704278ad19af04bafea4bbd909053632ad7be4f36fd45d45a6a64c0cbf938b"
+    },
+    {
+      "path": "tests/test_hamburg_od_spsa.py",
+      "sha256": "fda66377131923ba14f8e4f0092d6d03d017b7097d52f35bd99ebea4fee48a8e"
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "formal_result": false,
+  "source_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1",
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+    "--net-file",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\inputs\\network.net.xml",
+    "--additional-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\inputs\\control.add.xml",
+    "--load-state",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\native\\states\\state_14399.900.xml.gz",
+    "--step-length",
+    ".1",
+    "--precision",
+    "12",
+    "--time-to-teleport",
+    "-1",
+    "--collision.check-junctions",
+    "true",
+    "--no-step-log",
+    "true",
+    "--log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-entry-terminal-state-20261022-v1\\sumo.log",
+    "--error-log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-primary-entry-terminal-state-20261022-v1\\sumo-errors.log",
+    "--remote-port",
+    "11864"
+  ],
+  "source_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\native\\states\\state_14399.900.xml.gz": "794b4d491cdf4c504e465cc66270a2b502cfedc078333cdb8be259678cd0c33d",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\inputs\\network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\inputs\\control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\native\\field-counts.xml": "2d0fc8684675e85e157c43a5b8086949c012637e2f29d7a29d03a6d5106b0051"
+  },
+  "planned_simulation_steps": 0,
+  "claim_boundary": "Loaded native state inspection only. No simulationStep, driver commands, detector remeasurement or calibrated restart. Python hold ownership is reconstructed from recorded events, not restarted."
+}

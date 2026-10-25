@@ -1,0 +1,154 @@
+{
+  "operations": [
+    {
+      "id": "official-119-approach-1-second-motor-lane",
+      "operation": "set_lane_count",
+      "status": "candidate",
+      "params": {
+        "edge_id": "37413814#0",
+        "num_lanes": 3,
+        "add_side": "left",
+        "connections": [
+          {
+            "from": "37413814#0",
+            "fromLane": 0,
+            "to": "363112756#1",
+            "toLane": 0
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 0,
+            "to": "977482749",
+            "toLane": 0
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 0,
+            "to": "199230912#0",
+            "toLane": 0
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 1,
+            "to": "363112756#1",
+            "toLane": 0
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 1,
+            "to": "363112756#1",
+            "toLane": 1
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 1,
+            "to": "363112756#1",
+            "toLane": 2
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 1,
+            "to": "977482749",
+            "toLane": 0
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 1,
+            "to": "199230912#0",
+            "toLane": 0
+          },
+          {
+            "from": "1068722010",
+            "fromLane": 0,
+            "to": "37413814#0",
+            "toLane": 0
+          },
+          {
+            "from": "1068722010",
+            "fromLane": 0,
+            "to": "37413814#0",
+            "toLane": 1
+          },
+          {
+            "from": "1068722010",
+            "fromLane": 0,
+            "to": "37413814#0",
+            "toLane": 2
+          },
+          {
+            "from": "37413814#0",
+            "fromLane": 2,
+            "to": "199230912#0",
+            "toLane": 0
+          }
+        ]
+      },
+      "rationale": "Official lanes 3 and 4 need two motor lanes. The source edge has one motor lane and a separate bicycle lane. New-lane connections retain compatible source inlets and use only its official movement 3 to 41. The new lane inherits the source motor lane permissions, including buses.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    }
+  ],
+  "connection_edits": [
+    {
+      "id": "exclude-unverified-supplement-0",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "186821027#0",
+        "fromLane": 5,
+        "to": "186821029#1",
+        "toLane": 3
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    },
+    {
+      "id": "exclude-unverified-supplement-1",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "186821034#0",
+        "fromLane": 4,
+        "to": "186821029#1",
+        "toLane": 2
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    },
+    {
+      "id": "exclude-unverified-supplement-2",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "368989705",
+        "fromLane": 4,
+        "to": "142944399#2",
+        "toLane": 3
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    },
+    {
+      "id": "exclude-unverified-supplement-3",
+      "operation": "delete_lane_connection",
+      "status": "proposed",
+      "params": {
+        "from": "626677498",
+        "fromLane": 0,
+        "to": "551303417",
+        "toLane": 2
+      },
+      "rationale": "Restrict this demonstration to official movements and source-verified supplements. This pair has neither an official movement nor a verified source-lane path in the frozen construction evidence. This is a candidate modelling restriction, not a claim of field prohibition.",
+      "rollback": {
+        "action": "discard_candidate"
+      }
+    }
+  ]
+}

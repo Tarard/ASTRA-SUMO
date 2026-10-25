@@ -1,10 +1,11 @@
 from __future__ import annotations
 
 import shutil
-import subprocess
 import xml.etree.ElementTree as ET
 from collections import Counter
 from pathlib import Path
+
+from astra_sumo.core.command_runner import run_command
 
 from .compile_plain import _connection_rows, needs_sumo_crossing
 from .schema import CompiledSUMOArtifacts, IntersectionIR, IntersectionValidation, Movement, ValidationWarningRecord
@@ -44,10 +45,11 @@ def validate_intersection(
                 "--duration-log.disable",
                 "true",
             ]
-            result = subprocess.run(command, cwd=output_dir, capture_output=True, text=True, timeout=30)
-            sumo_load_status = "pass" if result.returncode == 0 else "fail"
-            if result.returncode != 0:
-                _add_warning(warnings, warning_records, result.stderr.strip() or "sumo load failed", "sumo", "blocking")
+            result = run_command(command, cwd=output_dir, timeout_seconds=30)
+            sumo_load_status = "pass" if result.status == "pass" else "fail"
+            if result.status != "pass":
+                message = "\n".join(text.strip() for text in (result.stderr, result.error) if text.strip())
+                _add_warning(warnings, warning_records, message or "sumo load failed", "sumo", "blocking")
         else:
             _add_warning(warnings, warning_records, "sumo binary not found", "sumo", "blocking")
     else:

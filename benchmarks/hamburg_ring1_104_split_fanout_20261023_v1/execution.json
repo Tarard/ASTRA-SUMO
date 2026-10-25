@@ -1,0 +1,27 @@
+{
+  "python": "3.12.13",
+  "base_commit": "15526a0a4e4ff076f10ee11e771f1e463618b186",
+  "versions": {
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "eclipse-sumo": "1.27.1",
+    "traci": "1.27.1",
+    "sumolib": "1.27.1"
+  },
+  "python_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe",
+  "module_paths": {
+    "sumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\__init__.py",
+    "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+  },
+  "binary_sha256": {
+    "sumo.exe": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c",
+    "netconvert.exe": "b85bbcecd3c60799c3a0eb7f1077f9608b0187da29babc3a20f326f97d23942f"
+  },
+  "source_sha256": {
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\junction_split_fanout.py": "e7627e8ca98e6bc42b2cc58da843baa8e1fec2a810045aa6065c03626f47214b",
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\simulation_stall.py": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153",
+    "plugins\\astra-sumo\\src\\astra_sumo\\core\\detector_demand_replay.py": "58809165d897fda897e64ec68bf3230afb1e9bb74c38e3d5f84d8815846a060f"
+  }
+}

@@ -1,6 +1,6 @@
 # Conference and Demo Positioning
 
-> Draft release material. Use the top-level `README.md` and `ARCHITECTURE.md` as the current product and claim boundary.
+> Draft release material. Use the top-level `README.md` and `docs/architecture.md` as the current product and claim boundary.
 
 ## Recommended Angle
 

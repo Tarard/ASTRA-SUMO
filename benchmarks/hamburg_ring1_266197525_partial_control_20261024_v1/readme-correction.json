@@ -1,0 +1,13 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "scope": "README clarification only after the first successful freeze. Native artifacts and results.json remain unchanged.",
+  "old_manifest_sha256": "1f6fcda1af2c3628146cdedaac87bc35e938f8d43906c3d3dbc7320a88981a8a",
+  "old_README_sha256": "dce12589ead9fba297271f38b44188d9c66c3e7320d9f82a1297105adc9cfc66",
+  "new_README_sha256": "db25ba17b28eb8bfc7076fca22ce8cec5b36892b013d2c510d587b02846c3aff",
+  "clarifications": [
+    "O is a network priority/off state, not a constant runtime signal. Identical programmes do not imply identical actuated histories.",
+    "Z5 main TAE79 to108 is explicit beside the aggregate improvement."
+  ],
+  "results_sha256_unchanged": "559bc1343ccdcffee886fcea524edd52c35b8a5b1f92078f3a92430126ad7f1a"
+}

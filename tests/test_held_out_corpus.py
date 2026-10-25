@@ -262,7 +262,7 @@ def test_held_out_corpus_schemas_are_current() -> None:
     }
     for filename, schema in schemas.items():
         expected = json.dumps(schema, indent=2, ensure_ascii=False, sort_keys=True)
-        assert (REPOSITORY_ROOT / "schemas" / filename).read_text(
+        assert (REPOSITORY_ROOT / "schemas" / "research" / "corridor" / filename).read_text(
             encoding="utf-8"
         ) == expected
 
@@ -440,3 +440,23 @@ def test_blocked_calibration_has_diagnostic_only_fallback() -> None:
 
     assert tolerance == 2.0
     assert source == "diagnostic_fallback_due_blocked_calibration"
+
+
+def test_frozen_corpus_build_pins_its_original_precision(tmp_path, monkeypatch):
+    from astra_sumo.corridor import held_out_corridor_runner as runner
+    source = tmp_path / "source.osm.xml"
+    source.write_text("<osm/>", encoding="utf-8")
+    profile = SimpleNamespace(allowed_highways=["primary"], include_railway=False, allowed_railways=[],
+                              netconvert_profile="vehicle_core", clip_source_ways_to_bbox=True)
+
+    def stop_at_build(**kwargs):
+        assert kwargs["output_precision"] == 2
+        raise RuntimeError("fixture-stop-before-native-build")
+
+    monkeypatch.setattr(runner, "build_osm_network", stop_at_build)
+    with pytest.raises(RuntimeError, match="fixture-stop-before-native-build"):
+        runner._build_case_evidence(spec=SimpleNamespace(network_build_profile=profile), case=_selection(),
+            snapshot=SimpleNamespace(path=str(source), sha256=file_sha256(source)), city_group="test",
+            traffic_side=SimpleNamespace(value="right"), envelope=None, destination=tmp_path / "case",
+            sumo_root=tmp_path, netconvert_binary=Path("netconvert"), sumo_binary=Path("sumo"),
+            random_trips=Path("randomTrips.py"), toolchain_id="test", timeout_seconds=30)

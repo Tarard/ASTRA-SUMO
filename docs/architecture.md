@@ -17,6 +17,12 @@ and keeps promotion blocked until the relevant gates pass.
 
 ## Implemented Corridor Contract
 
+Daily road calibration and typed-edit verification default to `explore` mode.
+They retain measurements, tentative correspondence, confidence, and actual file hashes before release evidence is complete.
+Explore candidates remain separate from their sources and have no promotion authority.
+Final publication or promotion uses `release` mode and the contract below.
+See [road calibration](network-calibration.md) and [typed edits](network-edit-operations.md) for the command boundaries.
+
 The first acceptance boundary is corridor-scale human-modeling work, not a
 city-scale automatic-cleanup claim.  An accepted edit is materialized into a
 new candidate network and may be promoted only through this persisted chain:
@@ -46,7 +52,7 @@ The three decision tiers are explicit:
 2. **Review-required**: review locations are emitted as SUMO
    `additional.xml`; promotion additionally requires an exact, candidate-hash-
    bound decision with structured observed facts, reviewer, timestamp,
-   evidence, rationale, and rollback. Map review is a hard requirement only
+   evidence and rationale. Map review is a hard requirement only
    when the edit explicitly declares it.
 3. **Blocked**: missing/invalid evidence, an unreviewed protected delta, stale
    outputs, source/candidate identity, or a failed runtime gate prevents
@@ -59,6 +65,24 @@ or merged geometry is rendered from the source network, added geometry from
 the candidate. The JSON evidence, decision, HTML rendering, overlay, and
 candidate are bound by SHA-256 in the manifests.
 
+[Network review over aerial imagery](network-aerial-review.md) adds a separate
+CLI path for routine visual review. It draws saved lane and junction geometry
+in fixed aerial coordinates, with input and image hashes. It does not invoke
+NetEdit or netconvert and does not replace map-review decisions or candidate gates.
+
+[Parking facilities](parking-facilities.md) uses OSM building footprints and exact
+road correspondence to preserve parking access as a facility. It adds metadata
+without changing the driving network. Aerial overviews show facility boundaries
+and portals while detail views retain full geometry. Parking operations and
+capacity validation remain separate inputs.
+
+[Local edit applicability](edit-specific-applicability.md) provides technical
+profiles for accepted turnaround removal, contour tightening, and reciprocal
+fragment absorption. These profiles check exact vehicle-class boundary paths
+instead of rejecting the intended decrease in road, node, or connection counts.
+They retain all other candidate gates and required review. They do not change
+the frozen whole-intersection certification envelope or establish field accuracy.
+
 The reproducible four-scenario acceptance runner is
 `plugins/astra-sumo/scripts/run_corridor_contract_regression.py`.  It rebuilds
 its source networks from tracked OSM input, the installed SUMO pedestrian
@@ -66,6 +90,12 @@ tutorial, and a sentence-generated five-way scene; it does not depend on old
 ignored `outputs/` artifacts.
 
 ## Ingolstadt Teacher-Corridor Slice
+
+The [public reference corpus](public-reference-corpus.md) provides a separate
+daily development path. It freezes TUM Ingolstadt, LuST, MoST, and InTAS model
+targets. A traceable InTAS revision pair supplies model-relative connection
+checks. Missing raw OSM and unresolved correspondence stay explicit. This path
+does not change the frozen human study or certify field accuracy.
 
 The first same-bbox human-modeling experiment is intentionally one physical
 intersection rather than the whole city. Its executable chain is:
@@ -351,53 +381,16 @@ decision.
 
 ## Benchmark Order
 
-The primary acceptance benchmark is now the corridor contract above.  It must
-remain green while human-style add/delete/merge decisions and review overlays
-are expanded.
-
-The Ingolstadt single-corridor teacher slice above is now the first real
-reference experiment. Full Ingolstadt reference-matched OSM-to-SUMO
-construction remains the subsequent city-scale regression target, not a hard
-gate already satisfied by the corridor result.
-
-Target directory:
-
-```text
-benchmarks/ingolstadt_reference_matched/
-```
-
-Benchmark stages:
-
-```text
-raw netconvert
--> ASTRA scoped build
--> TLS aggregated
--> junction candidate review
--> teacher-guided repair
--> final review HTML
-```
-
-Each stage should report edge count, junction count, TLS count, `tlLogic`
-count, routeability status, teleport count when available, manual review item
-count, and reference delta score.
+`plugins/astra-sumo/scripts/run_corridor_contract_regression.py` is a local acceptance run for changes to
+candidate-gate code. The Ingolstadt single-corridor teacher slice above is the first real reference
+experiment; full Ingolstadt reference-matched OSM-to-SUMO construction is a future city-scale target.
 
 ## Known Architecture Debt
 
-- `run_osm_cleanup_workflow` still owns roughly 90 keyword arguments and most
-  of an approximately 8,900-line module.  Split configuration from injected
-  services first, then extract stage execution behind the unchanged facade.
-- `junction_rebuild_candidate.py` is an approximately 12,800-line subsystem.
-  Separate evidence extraction, replay planning, materialization, promotion,
-  and rendering only after behavior is locked by characterization tests.
-- Atomic artifact writes are enforced for the corridor contract and its
-  routeability/topology evidence, but older report writers remain.  Migrate
-  them incrementally through `core/artifact_io.py`.
-- Quality vectors and promotion traces are partly post-hoc.  They must become
-  executor inputs/outputs before they can be treated as a workflow state
-  machine.
-- Real SUMO regressions are local acceptance tests rather than the default
-  unit-test suite.  CI needs an explicit SUMO job before these gates can be
-  considered continuously enforced upstream.
+- Atomic artifact writes are enforced for the corridor contract and its routeability/topology evidence, but
+  older report writers remain. Migrate them incrementally through `core/artifact_io.py`.
+- Quality vectors and promotion traces are partly post-hoc. They must become executor inputs/outputs before
+  they can be treated as a workflow state machine.
 
 The migration rule is deliberately conservative: preserve the working
 corridor slice, add characterization tests, extract one boundary at a time,
@@ -407,8 +400,8 @@ moved.
 ## Non-Goals
 
 - Do not claim fully automatic perfect network cleanup.
-- Do not add more repair heuristics before benchmark quality deltas can show
-  what they improve.
+- Ship each new repair heuristic with a before/after measurement on at least one
+  fixture or reference case.
 - Do not compare a ASTRA connected-core network against a full-detail manual
   reference as if they were the same scope.
 - Do not use NetEdit screenshots, SUMO load, or routeability alone as proof of

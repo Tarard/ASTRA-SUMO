@@ -1,0 +1,483 @@
+{
+  "schema": "astra.hamburg-readme-demand-pool/v1",
+  "status": "measured",
+  "formal_result": false,
+  "exact_count_fit": false,
+  "inputs": {
+    "network": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_demand_pool_20261021_v1\\inputs\\network.net.xml",
+      "sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff"
+    },
+    "boundary_selection": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_demand_pool_20261021_v1\\inputs\\boundary-selection.json",
+      "sha256": "ecca00d3e3aad158ea69df646a3718ac491cdeeb67a4c876b65877bb6c77b097"
+    },
+    "field_loops": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_demand_pool_20261021_v1\\inputs\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    "counts": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_demand_pool_20261021_v1\\inputs\\field-counts-15min.csv",
+      "sha256": "ae218727ab8eae62396237bbc3169a333e65ea53f57298547b77df908a02ee00"
+    },
+    "junction_groups": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_demand_pool_20261021_v1\\inputs\\junction-groups.json",
+      "sha256": "098a93e771a1cbf76f259e0119bbf2276966b6894230a7c199803988624ce3a5"
+    }
+  },
+  "native_lane_inventory": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m1-1-double-20261021-v1\\native-lanes.json",
+  "boundary_audit": {
+    "basis": "declared_scope_boundaries",
+    "source": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-m1-1-double-20261021-v1\\boundary-declarations.json",
+      "sha256": "ca162d235b678022cc429c21da841e11e768724a21b4166fe611b46c5a4b150d"
+    },
+    "source_unchanged": true,
+    "unresolved": [
+      {
+        "edge_id": "186713410#0",
+        "junction_id": "5324199712",
+        "role": "entry_edges",
+        "reason": "road_missing_or_directed_endpoint_changed"
+      }
+    ],
+    "nonpassenger_roads": [],
+    "claim_boundary": "Declared traffic boundaries only. No traffic volumes or fixed physical OD positions are inferred."
+  },
+  "route_count": 1809,
+  "excluded_routes": 1561,
+  "flagged_indirect_routes": 1163,
+  "ideal_profile_count": 2515,
+  "field_coverage": {
+    "hh_0119_Z_11_28853": {
+      "single_pass": 2,
+      "flagged_indirect": 0
+    },
+    "hh_0119_Z_12_31546": {
+      "single_pass": 16,
+      "flagged_indirect": 130
+    },
+    "hh_0119_Z_13_34018": {
+      "single_pass": 16,
+      "flagged_indirect": 130
+    },
+    "hh_0119_Z_15_29375": {
+      "single_pass": 36,
+      "flagged_indirect": 445
+    },
+    "hh_0119_Z_4_29437": {
+      "single_pass": 156,
+      "flagged_indirect": 377
+    },
+    "hh_0119_Z_5_30494": {
+      "single_pass": 156,
+      "flagged_indirect": 377
+    },
+    "hh_0535_Z_14_31892": {
+      "single_pass": 4,
+      "flagged_indirect": 198
+    },
+    "hh_0535_Z_4_33055": {
+      "single_pass": 98,
+      "flagged_indirect": 1070
+    },
+    "hh_0535_Z_5_30894": {
+      "single_pass": 36,
+      "flagged_indirect": 667
+    },
+    "hh_0535_Z_6_33855": {
+      "single_pass": 36,
+      "flagged_indirect": 667
+    },
+    "hh_0535_Z_7_29316": {
+      "single_pass": 4,
+      "flagged_indirect": 2
+    },
+    "hh_0535_Z_8_34287": {
+      "single_pass": 2,
+      "flagged_indirect": 0
+    },
+    "hh_0535_Z_9_29038": {
+      "single_pass": 2,
+      "flagged_indirect": 0
+    }
+  },
+  "ideal_lane_intent_rank": 13,
+  "fixed_lane_no_changes_rank": 8,
+  "native_response_rank_without_lane_intent": null,
+  "rank_boundary": "Both reported ranks are structural. Native driver behavior is not measured in this offline assignment.",
+  "maximum_fields_per_vehicle_in_pool": 4,
+  "vehicle_count_lower_bound_within_declared_pool": 4825,
+  "integer_status": "pass",
+  "integer_equations_exact": true,
+  "entry_vph_per_lane_assumption": null,
+  "entry_vph_by_highway_assumption": {
+    "primary": 900,
+    "secondary": 900,
+    "trunk": 900,
+    "primary_link": 900,
+    "secondary_link": 900,
+    "trunk_link": 900,
+    "tertiary": 600,
+    "tertiary_link": 600,
+    "residential": 400,
+    "unclassified": 400,
+    "service": 200,
+    "living_street": 200
+  },
+  "entry_alternatives": [
+    {
+      "id": "primary-entry",
+      "source_entry": "25866659#1",
+      "replacement_entry": "44532531",
+      "merge_edge": "24483192",
+      "status": "declared_alternative"
+    },
+    {
+      "id": "service-entry",
+      "source_entry": "31106387",
+      "replacement_entry": "963776077#0",
+      "merge_edge": "24483344#0",
+      "status": "candidate"
+    }
+  ],
+  "entry_inventory": [
+    {
+      "entry": "-142944318",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 24.65,
+      "maximum_inflow_veh_per_h": 1200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-1563483961",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 90.4,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-23489785",
+      "motor_lanes": 1,
+      "eligible_lanes": 0,
+      "minimum_native_lane_length_m": 0.2,
+      "maximum_inflow_veh_per_h": 0,
+      "short_entry_excluded": true
+    },
+    {
+      "entry": "-457963489",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 15.802756,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-551319332",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 16.2,
+      "maximum_inflow_veh_per_h": 600,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-56754916",
+      "motor_lanes": 1,
+      "eligible_lanes": 0,
+      "minimum_native_lane_length_m": 4.22,
+      "maximum_inflow_veh_per_h": 0,
+      "short_entry_excluded": true
+    },
+    {
+      "entry": "-56754917",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 18.504713,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-722793861",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 16.484608,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-75459561",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 14.56,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "-983227468#1",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 11.68,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "1345107183#0",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 33.54,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "1360406653",
+      "motor_lanes": 1,
+      "eligible_lanes": 0,
+      "minimum_native_lane_length_m": 7.19295,
+      "maximum_inflow_veh_per_h": 0,
+      "short_entry_excluded": true
+    },
+    {
+      "entry": "139083714#0",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 46.45,
+      "maximum_inflow_veh_per_h": 600,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "142944473#0",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 107.147309,
+      "maximum_inflow_veh_per_h": 1800,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "1491809365",
+      "motor_lanes": 1,
+      "eligible_lanes": 0,
+      "minimum_native_lane_length_m": 1.05,
+      "maximum_inflow_veh_per_h": 0,
+      "short_entry_excluded": true
+    },
+    {
+      "entry": "189764301",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 31.822676,
+      "maximum_inflow_veh_per_h": 800,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "19409045",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 142.69,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "199799715",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 15.615607,
+      "maximum_inflow_veh_per_h": 800,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "22791190",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 37.91,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "251397514",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 28.410103,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "25866659#1",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 8.91,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "26623877",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 14.34,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "27470423#0",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 19.147016,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "28665128#2",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 54.041386,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "31106387",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 9.66,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "321703980#2",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 32.622354,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "43478106#1",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 61.81,
+      "maximum_inflow_veh_per_h": 200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "44532531",
+      "motor_lanes": 3,
+      "eligible_lanes": 3,
+      "minimum_native_lane_length_m": 186.561742,
+      "maximum_inflow_veh_per_h": 2700,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "448511533#3",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 54.29,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "486870074#0",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 16.34,
+      "maximum_inflow_veh_per_h": 1800,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "4917574#1",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 115.459154,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "4935468#0",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 84.557719,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "521070807",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 14.979607,
+      "maximum_inflow_veh_per_h": 1200,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "543550497#0",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 45.877185,
+      "maximum_inflow_veh_per_h": 800,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "551288837#2",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 139.16,
+      "maximum_inflow_veh_per_h": 600,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "61578529#1",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 68.704305,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "61684076",
+      "motor_lanes": 2,
+      "eligible_lanes": 2,
+      "minimum_native_lane_length_m": 265.243127,
+      "maximum_inflow_veh_per_h": 1800,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "722791971",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 169.188185,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "771709146#0",
+      "motor_lanes": 1,
+      "eligible_lanes": 1,
+      "minimum_native_lane_length_m": 76.359688,
+      "maximum_inflow_veh_per_h": 400,
+      "short_entry_excluded": false
+    },
+    {
+      "entry": "963776077#0",
+      "motor_lanes": 3,
+      "eligible_lanes": 3,
+      "minimum_native_lane_length_m": 323.23,
+      "maximum_inflow_veh_per_h": 2700,
+      "short_entry_excluded": false
+    }
+  ],
+  "distance_basis": "Selected native ordinary and internal lane lengths, minus the explicit departure front position.",
+  "claim_boundary": "Offline route and ideal-lane proposal only. Free-flow times omit signals, queues, acceleration and lane-change delay. No SUMO E1 count fit, field OD, or operating capacity is established.",
+  "vehicle_count": 5334,
+  "vehicle_km": 4257.980095676,
+  "passages_per_vehicle": 1.2536557930258718,
+  "binding_entry_rows": 28,
+  "short_entries": [
+    "-23489785",
+    "-56754916",
+    "1360406653",
+    "1491809365"
+  ],
+  "overloaded_approach_rows": [],
+  "turnaround_vehicle_passages_by_junction": {
+    "1975693623": 452
+  },
+  "inputs_unchanged": true
+}

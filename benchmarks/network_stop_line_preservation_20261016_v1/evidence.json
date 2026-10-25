@@ -1,0 +1,203 @@
+{
+  "schema": "astra.stop-line-preservation-evidence/v1",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "implementation_commit": "ba907d1340d05772b98953aeaaf5a80cb1ac4f6b",
+  "networks": {
+    "source": {
+      "path": "outputs/claude_followup_20261015_v1/hamburg-rebuild/candidate/hamburg-five-aerial-combined.net.xml",
+      "sha256": "5bf18df7329c7eddf3dd2c394baadc24c9e023f1712a7336c6e4341551eb509a"
+    },
+    "native": {
+      "path": "outputs/claude_followup_20261015_v1/stop-line-pilot-v1/candidate.net.xml",
+      "sha256": "f3e2e22b03f968985ea438d8f5cb93dd312cc82512deb4e77aef33297e82a50f"
+    },
+    "direct": {
+      "path": "outputs/calibration_driving_20261016_v1/direct-stop-line-v2/candidate.net.xml",
+      "sha256": "2b46c8358de39e5ba0a674605ca6f5bf43d638f2f9256445cd5f9c0daf7f0d30"
+    }
+  },
+  "request": {
+    "path": "outputs/claude_followup_20261015_v1/stop-line-request-v1.json",
+    "sha256": "fdf14dbd34b6b7ff821d16eca96360fb22fb64060970f8e54500733c5b8e903d"
+  },
+  "facts": {
+    "path": "outputs/claude_followup_20261015_v1/frozen-two-site-facts-v1.json",
+    "sha256": "dbb7ab2783c22f5b38c70ec717a42d717866a544f163d212c50af0c099cd31c9"
+  },
+  "trial": {
+    "path": "outputs/calibration_driving_20261016_v1/direct-stop-line-v2/edit-verification.json",
+    "sha256": "6e58a8a5c55f4fa90e2a969ee983ed2cbb909ec3afe4aff2d137551b8cb4dd4a"
+  },
+  "ensemble": {
+    "path": "outputs/calibration_driving_20261016_v1/paired-seeds-v1/comparison.json",
+    "sha256": "423bb1a3a7b25d761f6dfefc6234059e6ec5399c2b10a6f7910da1202b7eb3bc"
+  },
+  "runner": {
+    "path": "outputs/calibration_driving_20261016_v1/compare_stop_line_seeds.py",
+    "sha256": "d8e1c62c634f1298ecf1e69d9d1fbb3f4d6c4209bf39608cf1a6965e965e0c1c"
+  },
+  "seeds": [
+    17,
+    42,
+    104
+  ],
+  "horizon_s": 2400,
+  "frozen_route_file": {
+    "path": "outputs/claude_followup_20261015_v1/stop-line-pilot-v1/source-routes/routeability_audit.rou.xml",
+    "sha256": "c28f3392fa13f7e7e60d42d0849a684105deaa47f9c744f506036dd6c6b96492"
+  },
+  "stop_line": {
+    "after": "measured",
+    "after_metrics": {
+      "lateral_offset_m": -2.8166979276694613,
+      "longitudinal_offset_m": 0.0048413429648675645,
+      "offset_m": 2.816702088318738
+    },
+    "before": "measured",
+    "before_metrics": {
+      "lateral_offset_m": -2.816697926684487,
+      "longitudinal_offset_m": 4.734841343064008,
+      "offset_m": 5.5093111869068405
+    },
+    "fact_id": "2349:lane:2:stop_line",
+    "metric_deltas": {
+      "lateral_offset_m": -9.849743243250941e-10,
+      "longitudinal_offset_m": -4.73000000009914,
+      "offset_m": -2.6926090985881026
+    }
+  },
+  "outside_fact_changes": [],
+  "all_other_bytes_preserved": true,
+  "patched_lane_ids": [
+    "554713076#0_2",
+    ":LSA2349_part0_0_1"
+  ],
+  "netconvert_rebuild_count": 0,
+  "internal_junction_counts": {
+    "source": 87,
+    "native": 83,
+    "direct": 87
+  },
+  "per_seed": {
+    "17": {
+      "source": {
+        "arrived": 63,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 36,
+        "waiting": 1
+      },
+      "native_stop_line": {
+        "arrived": 62,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 37,
+        "waiting": 1
+      },
+      "direct_stop_line": {
+        "arrived": 63,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 36,
+        "waiting": 1
+      }
+    },
+    "42": {
+      "source": {
+        "arrived": 100,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 0,
+        "waiting": 0
+      },
+      "native_stop_line": {
+        "arrived": 62,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 37,
+        "waiting": 1
+      },
+      "direct_stop_line": {
+        "arrived": 100,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 0,
+        "waiting": 0
+      }
+    },
+    "104": {
+      "source": {
+        "arrived": 61,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 38,
+        "waiting": 1
+      },
+      "native_stop_line": {
+        "arrived": 60,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 40,
+        "waiting": 0
+      },
+      "direct_stop_line": {
+        "arrived": 61,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 38,
+        "waiting": 1
+      }
+    }
+  },
+  "pair_validity_counts": {
+    "invalid": 6
+  },
+  "performance_mean": null,
+  "tests": {
+    "affected-tests-v2.xml": {
+      "path": "outputs/calibration_driving_20261016_v1/affected-tests-v2.xml",
+      "sha256": "f7840cf8fbe8610aaa67729389180c68de9edefaa5eb09fcdd64387e64fe0459"
+    },
+    "explore-final-v1.xml": {
+      "path": "outputs/calibration_driving_20261016_v1/explore-final-v1.xml",
+      "sha256": "e6796c5cef902308b62cdcac3ec9b035612ce0cea8f44743825f446e0d1bb32a"
+    },
+    "public-reference-tests-v2.xml": {
+      "path": "outputs/calibration_driving_20261016_v1/public-reference-tests-v2.xml",
+      "sha256": "8db23cbf7f638b770c2b4fd7bf69096926331abe38dd03f4c0ca9305929b2416"
+    },
+    "final_focused": {
+      "path": "outputs/calibration_driving_20261016_v1/final-focused-v1.xml",
+      "sha256": "7d948dbca150abb3b16c8f95c662ae5ef23cabf9a6dd7de40ad271cd65916be9",
+      "passed": 136
+    },
+    "local_full_before_final_lane_membership_fix": {
+      "path": "outputs/calibration_driving_20261016_v1/full-suite-v1.xml",
+      "sha256": "eecd368761b55b99274756e38170c21528f33a290496771f3291f5619f67f011",
+      "passed": 3169,
+      "skipped": 24
+    },
+    "ci_latest_code": {
+      "conclusion": "success",
+      "headSha": "c0cf78bed467afdd45050bc3be727230e89ecd51",
+      "status": "completed",
+      "workflowName": "Full Python Suite",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/38820235601"
+    }
+  },
+  "most_dataset": {
+    "path": "outputs/calibration_driving_20261016_v1/most-corpus-v2/MoST_2019_paired/dataset.json",
+    "sha256": "a0f3fdacdceb1474307f7c078a6e813bfbd65d4f7d271667473f39bd2c7f5ffb"
+  },
+  "most_self_check": {
+    "path": "outputs/calibration_driving_20261016_v1/most-published-comparison-v1.json",
+    "sha256": "54416f1fd3d00c83d78d12e8c41b53ad6018e3f5424c90d9bbb87f1c88f84164"
+  },
+  "most_unjoined_check": {
+    "path": "outputs/calibration_driving_20261016_v1/most-unjoined-comparison-v1.json",
+    "sha256": "2de4288075ad3750c97ec5fb2e3bfeedd4ee2d140b4f38b3cd4655dc8e64aa03"
+  },
+  "claim_boundary": "A direct geometric stop-line transfer preserves the tested source structure. All six paired driving units remain invalid. No field-accuracy or traffic-performance claim."
+}

@@ -1,0 +1,21 @@
+{
+  "formal_result": false,
+  "end_s": 3600,
+  "model_vehicles": 8185,
+  "model_vehicles_by_first_target": {
+    "main": 6337,
+    "initialization": 1848
+  },
+  "field_observation_targets": {
+    "initialization": 1953,
+    "main": 6687
+  },
+  "shared_pairs": 455,
+  "source_complete_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1",
+  "change": "Use 455 native-supported shared routes. Parents already traversed the second observed road in the original model; keep their road prefix, request time and first-field waypoint. Keep 40 unmatched independent second-field requests.",
+  "pairing_prior": "Original native road-front exit plus sparse rear-clearance offset. A 90 s target-edge margin and 450 s unmatched cost are declared priors, not traffic-delay bounds.",
+  "fixed": "All 182 initialization/main field quotas and all 40 derived station targets, network, permissions, control programs, vehicle type and three-node driver.",
+  "from_empty_initialization": true,
+  "restart_validated": false,
+  "evaluation": "Compare every initialization field, unique entered vehicles, E1 contributions, repeated/unexpected fields and native safety. Do not compare vehicle counts as if one vehicle still equaled one field contribution. Keep the 130/40 main rows unknown."
+}

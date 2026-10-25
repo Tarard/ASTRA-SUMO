@@ -1,0 +1,28 @@
+{
+  "formal_result": false,
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "completion": {
+    "loaded": 40,
+    "inserted": 40,
+    "arrived": 40,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "healthy": true,
+  "observer_complete": true,
+  "native_E1_reconciled": true,
+  "native_contributions": 40,
+  "vehicle_signatures_matched": true,
+  "native_field_totals": {
+    "hh_0119_Z_5_30494": 20,
+    "hh_0119_Z_4_29437": 20
+  },
+  "sum_native_stop_time_s": 0.0,
+  "claim_boundary": "Only this sparse route check. No true OD, larger-demand capacity or main-window count fit is established."
+}

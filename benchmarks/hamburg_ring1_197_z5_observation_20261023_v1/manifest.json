@@ -1,0 +1,370 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 86,
+      "sha256": "3d4eb11c39904b9ccac344568c0ec94bbd59de7ae49ba31403044196f78daa61"
+    },
+    {
+      "path": "all32-native-event-proof.json",
+      "bytes": 18129,
+      "sha256": "fba9e52b4f903fb733c41a446e27eec37d107e031cc71838b31351adc3ff7810"
+    },
+    {
+      "path": "code-source/lane_section_hold.py.gz",
+      "bytes": 2012,
+      "sha256": "8e8e29d7f0c97e3a1d491b692cf9af589b34bcb994cc0679ee1565c49815b8c2"
+    },
+    {
+      "path": "code-source/simulation_stall.py.gz",
+      "bytes": 3160,
+      "sha256": "29db062eccd51cd1fa672406329cc51621eb47d6959b6128c207aaed727285b6"
+    },
+    {
+      "path": "failure-inventory.json",
+      "bytes": 176,
+      "sha256": "c75e5bc820bffe70a107901f6230980a9b9cb4085b06125fd9a24faa0c4bfbb8"
+    },
+    {
+      "path": "freeze-check-failure.json",
+      "bytes": 434,
+      "sha256": "796980b21695a3de6acaf4b065110820b1a9c74ee50740732e01d1fbbe86d429"
+    },
+    {
+      "path": "freeze_evidence.py",
+      "bytes": 19300,
+      "sha256": "d3755d383b648a96b572c7578a36dddf6869208151edf5749a9fb72958e7f2c5"
+    },
+    {
+      "path": "large-trace-proof.json",
+      "bytes": 2744,
+      "sha256": "baf12285743672f64671f211bb7525f8f7e22cb297d1f7eceec71c99811894eb"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 1395,
+      "sha256": "efe96fde865f2810de63568b619b3452789b5aa1d400266e6bec90f0049826f7"
+    },
+    {
+      "path": "next-observation-cohort/basis.json.gz",
+      "bytes": 2082,
+      "sha256": "f34cf864df477af7638d4b62be81eefaf98359836ebea5780f4d3b2c022d477a"
+    },
+    {
+      "path": "next-observation-cohort/build_cohort.py.gz",
+      "bytes": 3034,
+      "sha256": "ef0e3747bed9400ab6e41aa052974820f7347b48298169af90622467775bcca8"
+    },
+    {
+      "path": "next-observation-cohort/cohort.csv.gz",
+      "bytes": 2546,
+      "sha256": "f1c9aea00496ef2a227613a87c116c2e838e9ece9dc85bf5c534edf435324e44"
+    },
+    {
+      "path": "next-observation-cohort/manifest.json.gz",
+      "bytes": 446,
+      "sha256": "a24cfa88b7cf4452d1171dc815a722e58f1cc9457b3ba7ca4b839d4163b516a7"
+    },
+    {
+      "path": "next-observation-cohort/README.md.gz",
+      "bytes": 1405,
+      "sha256": "4a1289670face24fbadbcb5e56bebca3a27715117d6fe9db6a42b36cbaf25f13"
+    },
+    {
+      "path": "next-observation-cohort/source-bin-all32.csv.gz",
+      "bytes": 1872,
+      "sha256": "4cb0cc2690533ff27f269d40b41ca06e153d777c683d55defc6d1d51dcec2c4f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 2952,
+      "sha256": "7db79168581ae75fdf52efd1501283def61ac9f7afcdf7a14f5ea0d60e706592"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 3792,
+      "sha256": "f874288f3a6c598e96cf8c804462b70951bd05673e677786a9c301a2997040c9"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1152,
+      "sha256": "178ee8f899ca9e54dd9e984dac036f40da92ef6ca96fd95b8aed1995da08a43e"
+    },
+    {
+      "path": "selfchecks.json",
+      "bytes": 636,
+      "sha256": "643d72908cc81af11d8f2c8a629a3c8ca84aff79596f5035656330f182253a37"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 22772,
+      "sha256": "907d2316584527ca3527203ceab47c9ec15a580abefdbe7832a8eb03e0f52004"
+    },
+    {
+      "path": "test_freeze_evidence.py",
+      "bytes": 1020,
+      "sha256": "16591ed1ed1a1e36faf049385ce3d7e76c80abd220157bedfaae6993d06ec411"
+    },
+    {
+      "path": "z5-observation/analysis/actual-stopline-stopped-under-green.csv.gz",
+      "bytes": 1206,
+      "sha256": "542e5ce377c7cc10b2c426560e7ef3d72a726a5e00f5e365d2d32092af630b4f"
+    },
+    {
+      "path": "z5-observation/analysis/analyze_verified_trace.py.gz",
+      "bytes": 3738,
+      "sha256": "9260cdc760ecb1ad914066618f3077b757a335c695dede0e23e3340c2432ad20"
+    },
+    {
+      "path": "z5-observation/analysis/cohort-lanechanges.json.gz",
+      "bytes": 14986,
+      "sha256": "78dbb257d96afaffa1b0a8d348ceb3ab47fa88075decf9c523ba3616b5984eca"
+    },
+    {
+      "path": "z5-observation/analysis/compare_early_routes.py.gz",
+      "bytes": 2252,
+      "sha256": "668d1d4afa542b8f4102f986f3484c98a6c27f36b3943001e7d795aeb6f936cf"
+    },
+    {
+      "path": "z5-observation/analysis/diagnosis.json.gz",
+      "bytes": 1389,
+      "sha256": "fd175749b0a349f6175ec375ba1dfa4b54d1075f91a71210c519673875bdea82"
+    },
+    {
+      "path": "z5-observation/analysis/early-actual-signal-intervals.csv.gz",
+      "bytes": 3421,
+      "sha256": "658b721d10454d5b534e1ada6e448ea72483125ce818f97a11e799885cc6b97e"
+    },
+    {
+      "path": "z5-observation/analysis/early20-edge-exit-times.csv.gz",
+      "bytes": 7156,
+      "sha256": "17b5622609a6c04163aef5d741223b4fbf7b387fdf54f076c9103bc81d601e4d"
+    },
+    {
+      "path": "z5-observation/analysis/early20-representative-scenes.json.gz",
+      "bytes": 3301,
+      "sha256": "546d33e086f5952964a601c501f3338244a726670ee1aee73741f14e718b9487"
+    },
+    {
+      "path": "z5-observation/analysis/early20-route-delay-summary.csv.gz",
+      "bytes": 1315,
+      "sha256": "777d2cef90851505ea2606305ed348a98b0793dba1e2b48b57eaf4292db07dca"
+    },
+    {
+      "path": "z5-observation/analysis/early20-route-proof.json.gz",
+      "bytes": 822,
+      "sha256": "d789bccfe0b8755c135f8e68e07366fc1a581f4793054cbd3b0ecb8f10a71f66"
+    },
+    {
+      "path": "z5-observation/analysis/eight-cross-bin-route-differences.csv.gz",
+      "bytes": 687,
+      "sha256": "115070c7867b9a62e3dc467478a7a5a227d0e32f31e6881cf7e6286c23b85500"
+    },
+    {
+      "path": "z5-observation/analysis/explain_receiving_context.py.gz",
+      "bytes": 2715,
+      "sha256": "3fbd3669d3b786d3a5f521298c71f45b013464820dd88b8e2acf572af1ca4ecd"
+    },
+    {
+      "path": "z5-observation/analysis/lane-sample-summary.csv.gz",
+      "bytes": 970,
+      "sha256": "2b3ef1d7b487ac990bfe8e1a106a9c7cf3a6d117e8b5e5a206b617ce62ebd290"
+    },
+    {
+      "path": "z5-observation/analysis/lane-stay-segments.csv.gz",
+      "bytes": 24642,
+      "sha256": "4c62263b030f34670d64ef01e3d726cfc4d389807c75c52c3ad6805af2acb3de"
+    },
+    {
+      "path": "z5-observation/analysis/manifest.json.gz",
+      "bytes": 1483,
+      "sha256": "72d98c8b31cc6bc205f29d15a5e94230db7d9dfef4a1c28ddce5c13ad7ba46c5"
+    },
+    {
+      "path": "z5-observation/analysis/README.md.gz",
+      "bytes": 2584,
+      "sha256": "37b537208388bfdb4e0994aa954810f6abdb396bb34e9f3ac198d543f9bd5e3d"
+    },
+    {
+      "path": "z5-observation/analysis/receiving-context.json.gz",
+      "bytes": 1414,
+      "sha256": "7b8cea00211f2163f4e9869a17634a2f79e44e6fd0f6667c801b02105dbbfdff"
+    },
+    {
+      "path": "z5-observation/analysis/receiving-queue-frames.csv.gz",
+      "bytes": 1774,
+      "sha256": "f6df2fd18e624c7fc2b01bfad36ae1b31bee62cbead28b0474cb56f5ae367fa8"
+    },
+    {
+      "path": "z5-observation/analysis/stopped-segments.csv.gz",
+      "bytes": 94880,
+      "sha256": "4fa890659f32b12be90f313739eea685bdfa1d7715bfee12f160fa78cd39ce6f"
+    },
+    {
+      "path": "z5-observation/analysis/summarize_observation.py.gz",
+      "bytes": 2349,
+      "sha256": "b759334d557b2b8cb5465b165d2d17020ee2ea674bb972e63e968a96341c2da1"
+    },
+    {
+      "path": "z5-observation/analysis/terminal34-final-scenes.json.gz",
+      "bytes": 4404,
+      "sha256": "68a10df6e098144d11628786ca664f30e1d2eba5537d245819feca63a08d9a12"
+    },
+    {
+      "path": "z5-observation/analysis/terminal34-last-observed.csv.gz",
+      "bytes": 1978,
+      "sha256": "31c85d0419703b0de9f5a6862c5637c7a5be7ae11f251e5eda3c12ebde57a754"
+    },
+    {
+      "path": "z5-observation/analysis/trace-proof.json.gz",
+      "bytes": 1594,
+      "sha256": "e040674ad73a960d9ebebe2673c1d813560e0f7a1ad1704d8915e090fb34a930"
+    },
+    {
+      "path": "z5-observation/baseline/collisions.xml.gz",
+      "bytes": 1005,
+      "sha256": "d854b83184ce03786264835bd850a381c695e0f612b538a011c7ed24baf4f672"
+    },
+    {
+      "path": "z5-observation/baseline/demand.rou.xml.gz",
+      "bytes": 122415,
+      "sha256": "1c34392d63ae3e8f5f340d6ae571689c0bf8c79130eb98c5cccfb2779fed9a75"
+    },
+    {
+      "path": "z5-observation/baseline/e1.add.xml.gz",
+      "bytes": 482,
+      "sha256": "d4d9df70670f1f32cdff0dba25b57c80bb8bcfafc150aaefce90599123f9c17b"
+    },
+    {
+      "path": "z5-observation/baseline/expected-counts.csv.gz",
+      "bytes": 1433,
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "z5-observation/baseline/field-counts.xml.gz",
+      "bytes": 8847,
+      "sha256": "a624bffe50f4af6d86fb175284fd75c87961a52a7e421d57b034568ad1d819fd"
+    },
+    {
+      "path": "z5-observation/baseline/instant-e1.xml.gz",
+      "bytes": 1495344,
+      "sha256": "6e68a9c5e99bdf79420f87bd0a26cf4ad97f1102a2f595acc342f0654a5b5237"
+    },
+    {
+      "path": "z5-observation/baseline/instant.add.xml.gz",
+      "bytes": 396,
+      "sha256": "b8f0b22f28db329aee129d7b75a9d89cf5e0db89b1531f35b704bd42ca52fe48"
+    },
+    {
+      "path": "z5-observation/baseline/lane-intentions.json.gz",
+      "bytes": 25491,
+      "sha256": "93ef47e3fc686d90df0083208c19de96ae85f40e1b3aac63e2415b1f796e277a"
+    },
+    {
+      "path": "z5-observation/baseline/lanechanges.xml.gz",
+      "bytes": 1205258,
+      "sha256": "1e3b0d965299a9d4af8c4a011895b21e2d0b71c1bb21b6da55dc7833bd14f3f8"
+    },
+    {
+      "path": "z5-observation/baseline/native-request.json.gz",
+      "bytes": 935,
+      "sha256": "e5fc150f184ebad0080bc81fab0efa6b4e03443a1ee125a43e1525607c7f7f59"
+    },
+    {
+      "path": "z5-observation/baseline/network.net.xml.gz",
+      "bytes": 242510,
+      "sha256": "537acfc0f9cde7a1a7b0760db880f137677877950c599e021d6da94ae0f2a0e3"
+    },
+    {
+      "path": "z5-observation/baseline/observed-vehicle-ids.json.gz",
+      "bytes": 395,
+      "sha256": "53249f8ea1b0d906f32c7fa6665289e66f123c1ad89731fa86958ec5209222e9"
+    },
+    {
+      "path": "z5-observation/baseline/preflight.json.gz",
+      "bytes": 897,
+      "sha256": "94bc1c2ed0b363b15a900bace2a22f012e6b68d880861cef13677b6cb070569d"
+    },
+    {
+      "path": "z5-observation/baseline/record-result.json.gz",
+      "bytes": 1823,
+      "sha256": "a5af465ad5e5bd771113455a5f5725e3410117c73e6f8bdc0e516f13c3f7c3f2"
+    },
+    {
+      "path": "z5-observation/baseline/record_tls.snapshot.py.gz",
+      "bytes": 3376,
+      "sha256": "d559d9e249ae6714d8747c5d90c321c54d095ea3499d700c04991c7e9aa78eb9"
+    },
+    {
+      "path": "z5-observation/baseline/signal-programs.add.xml.gz",
+      "bytes": 1981,
+      "sha256": "4875a6f66b8fb0ef1045047bd8ac02438bb4a9387b02b0125f085dcbb1c413c2"
+    },
+    {
+      "path": "z5-observation/baseline/source-e1.add.xml.gz",
+      "bytes": 358,
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "z5-observation/baseline/stall-monitor.json.gz",
+      "bytes": 343132,
+      "sha256": "b343942a64672406958b045a51ca69e88e83d4e70af223656745d28d1d2983d1"
+    },
+    {
+      "path": "z5-observation/baseline/summary.xml.gz",
+      "bytes": 3310787,
+      "sha256": "f7c41c86ffb961e51ff721fa0e228b7b3e9c97b565aa047ae55c2bb69cec9bae"
+    },
+    {
+      "path": "z5-observation/baseline/sumo-errors.log.gz",
+      "bytes": 505,
+      "sha256": "3af643b6f8805c012b1bfefa8e27b0b9ec3df29cb8148feba98707c4edacb664"
+    },
+    {
+      "path": "z5-observation/baseline/sumo.log.gz",
+      "bytes": 1015,
+      "sha256": "32f90e5ac3f0197e2a63c9145fcfa96a11b7451c4f035f2c21866b3862d485ba"
+    },
+    {
+      "path": "z5-observation/baseline/tls-observer.add.xml.gz",
+      "bytes": 254,
+      "sha256": "8301f691504a2ec0fc81c4e85191a64233f59c4b67deda2cf1e5029739eb4bcc"
+    },
+    {
+      "path": "z5-observation/baseline/tripinfo.xml.gz",
+      "bytes": 403241,
+      "sha256": "55c8e75dbac1df5db2766b26136a974f5036327ab29b680fb4707439108a3d23"
+    },
+    {
+      "path": "z5-observation/baseline/vehicle-routes.xml.gz",
+      "bytes": 708035,
+      "sha256": "090190949ca069a5a73a91e146fc04f6383789f4ec6206eaf225960f94a31a2a"
+    },
+    {
+      "path": "z5-observation/launch.json.gz",
+      "bytes": 231,
+      "sha256": "f6e4aaea66db23e904487354d063b5bf209a2f0967da79f3b7288839bf8bb2cd"
+    },
+    {
+      "path": "z5-observation/preparation.json.gz",
+      "bytes": 668,
+      "sha256": "a39baae0b89a0edce6869b2a0cbfd30bbb8402aa3325a96e474274c6aac237e6"
+    },
+    {
+      "path": "z5-observation/record_z5.py.gz",
+      "bytes": 3376,
+      "sha256": "d559d9e249ae6714d8747c5d90c321c54d095ea3499d700c04991c7e9aa78eb9"
+    },
+    {
+      "path": "z5-observation/stderr.log.gz",
+      "bytes": 503,
+      "sha256": "aaaa0cdf762750380bd85f473e0692185de4e8757734ef8dad36235f97a0a8b0"
+    },
+    {
+      "path": "z5-observation/stdout.log.gz",
+      "bytes": 816,
+      "sha256": "c8ee5f75b322728a0ac92c1ae3b4a899ecbeedf8104ed5dbffeac53b8175021a"
+    }
+  ]
+}

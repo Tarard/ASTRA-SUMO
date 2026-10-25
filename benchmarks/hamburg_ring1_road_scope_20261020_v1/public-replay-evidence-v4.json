@@ -1,0 +1,114 @@
+{
+  "schema": "astra.ring1-public-replay-evidence/v4",
+  "status": "partial",
+  "promotion_authority": false,
+  "model_recipe_commit": "f2e88f93a7e5fb28ce32b5701cab3e0c1d2aaabb",
+  "previous_record": {
+    "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/public-replay-evidence-v3.json",
+    "sha256": "e340de6c8833ac2342bdd3e415c40e13c1739a7a80402b6a8d46fde05cbe638b"
+  },
+  "content_hashes": {
+    "network_content_sha256": "1c636dc82f7ab89b1cef6ff5311bababfbe4d56042c15b60b0b3c42d8d56326d",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+  },
+  "independent_linux_replay": {
+    "content_hashes": {
+      "network_content_sha256": "1c636dc82f7ab89b1cef6ff5311bababfbe4d56042c15b60b0b3c42d8d56326d",
+      "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+    },
+    "official_motor_movements": 114,
+    "passed_official_movements": 92,
+    "field_loop_count": 13,
+    "unexplained_extra_connection_count": 0,
+    "evidence_kind": "Independent peer-reported fresh full replay observed in the review UI. The full Linux file was not imported locally."
+  },
+  "canonical_contents_match_between_observed_platform_runs": true,
+  "control_review": {
+    "source_protected_green_foe_findings": 10,
+    "candidate_protected_green_foe_findings": 10,
+    "new_findings": 0,
+    "inherited_findings": 10,
+    "comparison_basis": "Junction, controller, program and directed lane-pair identities, with declared lane remapping. Phase timing preservation is checked separately. Existing conflicts remain release findings.",
+    "terminal_lanes_after_exclusions": [
+      {
+        "sumo_lane": "368989705_4",
+        "official_ingress_identities": [
+          {
+            "node_id": "200",
+            "intersection_part": "0",
+            "lane_id": "1"
+          }
+        ],
+        "count_fields": []
+      },
+      {
+        "sumo_lane": "626677498_0",
+        "official_ingress_identities": [],
+        "count_fields": []
+      }
+    ],
+    "report": {
+      "path": "outputs/ring1-control-review-20261020-v1.json",
+      "sha256": "2af01195496e946dfc519caadd84f0b3c47b91e480c60232a274ec83054d03e9"
+    }
+  },
+  "reporting_repair_validation": {
+    "isolated_shared_exclusion_replay": {
+      "path": "outputs/ring1-connection-exclusions-20261020-v2/result.json",
+      "sha256": "a2feac295222b253def5c6c7cf0121619780078c6b94ee27ea8b862e5025b4e5"
+    },
+    "canonical_model_unchanged": true,
+    "checks": [
+      {
+        "operation_id": "exclude-unverified-supplement-0",
+        "new_conflict_findings": 0,
+        "inherited_conflict_findings": 7,
+        "release_checks_passed": false
+      },
+      {
+        "operation_id": "exclude-unverified-supplement-1",
+        "new_conflict_findings": 0,
+        "inherited_conflict_findings": 7,
+        "release_checks_passed": false
+      },
+      {
+        "operation_id": "exclude-unverified-supplement-2",
+        "new_conflict_findings": 0,
+        "inherited_conflict_findings": 0,
+        "release_checks_passed": true
+      },
+      {
+        "operation_id": "exclude-unverified-supplement-3",
+        "new_conflict_findings": 0,
+        "inherited_conflict_findings": 0,
+        "release_checks_passed": true
+      }
+    ],
+    "test_results": {
+      "path": "outputs/green-conflict-identity-native-tests-20261020-v1.xml",
+      "sha256": "8911e745dbd6a2fd03c2958e796aa065645fb025b52081c791079d2267756081"
+    },
+    "ci_model_commit": "f2e88f93a7e5fb28ce32b5701cab3e0c1d2aaabb",
+    "ci_junit": {
+      "path": "outputs/ci-f2e88f9-pr-artifacts-20261020/tests-windows/test-results.xml",
+      "sha256": "24080e0047228c613b541c4c646a1def46c8979b49b54f1a944837f49e54796f"
+    },
+    "ci_passed": 3873,
+    "ci_skipped": 24,
+    "ci_failures": 0,
+    "required_native_cases": 71
+  },
+  "calibration": {
+    "status": "not_run"
+  },
+  "remaining": [
+    "22 unresolved official movements, including ingress 1 and egress 16/17 at 200",
+    "Terminal motor-lane service",
+    "Existing protected-green foe findings in temporary programs",
+    "Z.15 signal correspondence and official timing",
+    "Neighboring lane geometry review",
+    "Exact count fitting and independent validation",
+    "Matched NetEdit/Google figures"
+  ],
+  "claim_boundary": "Matching XML and single-vehicle probes establish partial reproducibility only. Existing static conflict findings remain release findings. Terminal lanes have no verified lane-change service. No count-fit result is claimed."
+}

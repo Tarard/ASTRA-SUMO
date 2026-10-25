@@ -15,6 +15,7 @@ from .command_runner import run_command
 from .connection_mode_audit import audit_network_connection_mode
 from .hamburg_aerial_approach import build_hamburg_aerial_approach_candidate
 from .routeability_audit import run_routeability_audit
+from .network_link_semantics import load_warning_messages
 from .topology_signal_rebuild import rebuild_topology_test_signals
 from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
 from .hamburg_junctions.boundaries import (
@@ -47,6 +48,7 @@ from .hamburg_junctions.geometry import (
     reanchor_movement_shape as reanchor_movement_shape,
 )
 from .hamburg_junctions.groups import (
+    _compile_official_part_joins,
     _movements_by_part as _movements_by_part,
     _prepare_context_joins as _prepare_context_joins,
     _select_join_groups as _select_join_groups,
@@ -135,42 +137,10 @@ def build_hamburg_aerial_combined_candidate(
     ) if request["context_joins"] else None
     construction_net = Path(context["candidate_network"]["path"]) if context else source_net
     join_file = destination / "physical-part-joins.nod.xml"
-    _write_join_file(join_file, groups)
-    joined_auto = destination / "joined-auto.net.xml"
-    joined_net = destination / "joined-base.net.xml"
-    joined_output = destination / "joined-output.nod.xml"
-    netconvert = run_command(
-        [
-            str(request.get("netconvert_binary", "netconvert")),
-            "--junctions.internal-link-detail",
-            "25",
-            "--sumo-net-file",
-            str(construction_net),
-            "--node-files",
-            str(join_file),
-            "--output-file",
-            str(joined_auto),
-            "--junctions.join-output",
-            str(joined_output),
-            "--seed",
-            str(int(request["seed"])),
-            "--offset.disable-normalization",
-            "true",
-        ],
-        cwd=destination,
-        timeout_seconds=float(request["timeout_seconds"]),
-    )
-    (destination / "netconvert.log").write_text(
-        netconvert.stdout + netconvert.stderr,
-        encoding="utf-8",
-    )
-    if netconvert.returncode != 0 or not joined_auto.is_file():
-        raise ValueError("netconvert could not build the physical-part candidate")
-    boundary_rebuild = _rebuild_join_boundaries(
-        joined_auto, joined_net, groups,
+    joined_net, netconvert, join_conversion, boundary_rebuild = _compile_official_part_joins(
+        source_net=construction_net, groups=groups, output_dir=destination,
         netconvert_binary=str(request.get("netconvert_binary", "netconvert")),
-        timeout_seconds=float(request["timeout_seconds"]),
-    )
+        timeout_seconds=float(request["timeout_seconds"]), seed=int(request["seed"]))
     approach_rebuild = build_hamburg_aerial_approach_candidate(
         source_net=joined_net,
         plans=plans,
@@ -198,6 +168,9 @@ def build_hamburg_aerial_combined_candidate(
     source_lane_change_evidence = []
     frozen_probe_trips = None
     frozen_probe_sha256 = None
+    sumo_executable = Path(shutil.which(str(request.get("sumo_binary", "sumo"))) or str(request.get("sumo_binary", "sumo"))).resolve()
+    router_executable = sumo_executable.with_name("duarouter" + sumo_executable.suffix)
+    route_binaries = {"sumo": str(sumo_executable), "duarouter": str(router_executable) if router_executable.is_file() else None}
     for attempt_index in range(3):
         candidate = destination / f"candidate-attempt-{attempt_index}.net.xml"
         materialization = _write_movement_candidate(
@@ -227,7 +200,8 @@ def build_hamburg_aerial_combined_candidate(
             net_file=candidate,
             output_dir=destination / f"test-signals-attempt-{attempt_index}",
             target_junction_ids=sorted(node.get("id") for node in ET.parse(candidate).getroot().findall("junction")
-                                       if node.get("type", "").startswith("traffic_light")),
+                                       if node.get("type", "").startswith("traffic_light")
+                                       and node.get("id") in {str(group["join_id"]) for group in groups}),
             expected_source_sha256=file_sha256(candidate),
         ) if groups else None
         if signal_report is not None:
@@ -247,6 +221,7 @@ def build_hamburg_aerial_combined_candidate(
             od_reference_net_file=source_net,
             frozen_trip_file=frozen_probe_trips,
             expected_frozen_trip_sha256=frozen_probe_sha256,
+            binaries=route_binaries,
         )
         if frozen_probe_trips is None and routeability.get("trip_file"):
             planned_trips = Path(routeability["trip_file"])
@@ -282,6 +257,7 @@ def build_hamburg_aerial_combined_candidate(
         initial_end=int(request["simulation_end"]), max_end=int(request["simulation_max_end"]),
         timeout_seconds=float(request["timeout_seconds"]), frozen_trip_file=frozen_probe_trips,
         expected_frozen_trip_sha256=frozen_probe_sha256,
+        binaries=route_binaries,
     ) if frozen_probe_trips is not None else None
     final_net = destination / "hamburg-five-aerial-combined.net.xml"
     shutil.copy2(selected_candidate, final_net)
@@ -304,6 +280,11 @@ def build_hamburg_aerial_combined_candidate(
         load.stdout + load.stderr,
         encoding="utf-8",
     )
+    link_preservation = _measure_final_links(source_net=source_net, candidate_net=final_net,
+        groups=groups, context=context, join_conversion=join_conversion, boundary_rebuild=boundary_rebuild,
+        approach_rebuild=approach_rebuild, materialization=selected_materialization,
+        output_dir=destination / "loaded-links", sumo_binary=str(sumo_executable),
+        timeout_seconds=float(request["timeout_seconds"]))
     source_surface = audit_sumo_lane_junction_surface_overlaps(
         source_net,
         report_file=destination / "source-surface-overlap.json",
@@ -320,16 +301,14 @@ def build_hamburg_aerial_combined_candidate(
     topology = selected_materialization["official_connection_audit"]
     structural_pass = connection_audit["structural_failure_count"] == 0 and connection_audit["status"] != "fail"
     source_unchanged = file_sha256(source_net) == str(request["source_net"]["sha256"]).lower()
-    status = (
-        "pass"
-        if load.returncode == 0
+    technical_pass = (load.returncode == 0
         and routeability["status"] == "pass"
         and candidate_findings <= source_findings
         and structural_pass
         and source_unchanged
         and topology["status"] != "blocked"
-        else "blocked"
     )
+    status = _construction_status(technical_pass, link_preservation["status"])
     plan_hashes = {
         node_id: str(row["plan_sha256"]).lower()
         for node_id, row in {
@@ -339,9 +318,9 @@ def build_hamburg_aerial_combined_candidate(
     manifest = {
         "schema": CANDIDATE_SCHEMA,
         "status": status,
-        "decision": "review_required" if status == "pass" else "blocked",
-        "topology_complete": status == "pass" and topology["status"] == "pass",
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "decision": "blocked" if status == "blocked" else "review_required",
+        "topology_complete": status != "blocked" and topology["status"] == "pass",
+        "claim_status": "construction-invalid" if status == "blocked" else "diagnostic-demo",
         "inputs": {
             "request": {"path": str(request_path), "sha256": file_sha256(request_path)},
             "source_net": {"path": str(source_net), "sha256": file_sha256(source_net)},
@@ -387,9 +366,13 @@ def build_hamburg_aerial_combined_candidate(
         "movement_materialization": selected_materialization,
         "official_connection_audit": topology,
         "connection_mode": {"status": connection_audit["status"], "structural_failure_count": connection_audit["structural_failure_count"], "report": str(connection_report)},
+        "loaded_link_preservation": link_preservation,
+        "load_warning_comparison": link_preservation.get("load_warning_comparison"),
+        "warnings": load_warning_messages(link_preservation),
         "runtime_fallback_join_ids": sorted(skipped_join_ids),
         "attempts": attempts,
         "netconvert": {
+            "local_conversion": join_conversion,
             "returncode": netconvert.returncode,
             "warning_count": sum(
                 line.startswith("Warning:")
@@ -431,6 +414,7 @@ def build_hamburg_aerial_combined_candidate(
             "routeability": "pass" if routeability["status"] == "pass" else "blocked",
             "surface_regression": "pass" if candidate_findings <= source_findings else "blocked",
             "connection_structure": "pass" if structural_pass else "blocked",
+            "loaded_link_preservation": link_preservation["status"],
             "official_lane_connections": topology["status"],
             "all_official_movements_materialized": (
                 "pass"
@@ -462,6 +446,49 @@ def build_hamburg_aerial_combined_candidate(
         "sha256": file_sha256(manifest_file),
     }
     return manifest
+
+
+def _construction_status(technical_pass, link_status):
+    if not technical_pass or link_status == "fail":
+        return "blocked"
+    return "pass" if link_status == "pass" else "review_required"
+
+
+def _measure_final_links(*, source_net, candidate_net, groups, context, join_conversion, boundary_rebuild,
+                         approach_rebuild, materialization, output_dir, sumo_binary, timeout_seconds):
+    from .network_link_semantics import compare_loaded_link_semantics
+
+    mutable, references = set(), {}
+
+    def adopt(nodes, conversion):
+        mutable.update(nodes)
+        native = conversion.get("native_output")
+        for node in nodes:
+            references.pop(node, None)
+            if native is not None:
+                references[node] = native
+
+    if context:
+        context_nodes = {str(node) for group in context["plan"]["groups"]
+            for node in [group["join_id"], *group["source_node_ids"]]}
+        adopt(context_nodes, context["local_conversion"])
+    original_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
+    initial = join_conversion if boundary_rebuild["status"] == "not_applicable" else boundary_rebuild.get("local_conversion", {})
+    adopt(original_nodes, initial)
+    boundary_map = {}
+    if approach_rebuild.get("candidate_network"):
+        restoration = approach_rebuild["scoped_geometry_restoration"]
+        adopt(restoration["mutable_junction_ids"], approach_rebuild["local_conversion"])
+        boundary_map.update(restoration["boundary_edge_map"])
+    for row in materialization["netconvert_passes"]:
+        conversion = row.get("local_conversion", {})
+        adopt(conversion.get("mutable_junction_ids", original_nodes), conversion)
+    all_groups = list(groups) + (context["plan"]["groups"] if context else [])
+    retired = {str(node) for group in all_groups for node in group["source_node_ids"] if str(node) != str(group["join_id"])}
+    references = {node: artifact for node, artifact in references.items() if node not in retired}
+    return compare_loaded_link_semantics(source_net_file=source_net, native_net_file=references,
+        candidate_net_file=candidate_net, mutable_junction_ids=mutable, boundary_edge_map=boundary_map,
+        output_dir=output_dir, sumo_binary=sumo_binary, timeout_seconds=timeout_seconds)
 
 
 def _collision_join_ids(routeability: Mapping[str, Any]) -> set[str]:

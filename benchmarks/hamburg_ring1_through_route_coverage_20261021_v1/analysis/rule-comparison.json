@@ -1,0 +1,27 @@
+{
+  "cases": {
+    "baseline": {
+      "one_observed_road_per_route": true,
+      "at_most_one_countable_detector_road_per_route": true,
+      "no_repeated_roads": true,
+      "one_detector_per_lane": true,
+      "detectors_nearer_to_road_end_than_vehicle_length": true,
+      "standard_instantaneous_lane_change_model": true,
+      "structural_conditions_satisfied": true,
+      "minimum_vehicle_length_m": 5.0,
+      "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation. Near-end complete E1 passages require an exit from the detector lane to the route's next road. Different observed roads alone do not imply repeated or multiple detector contributions."
+    },
+    "through": {
+      "one_observed_road_per_route": false,
+      "at_most_one_countable_detector_road_per_route": true,
+      "no_repeated_roads": true,
+      "one_detector_per_lane": true,
+      "detectors_nearer_to_road_end_than_vehicle_length": true,
+      "standard_instantaneous_lane_change_model": true,
+      "structural_conditions_satisfied": true,
+      "minimum_vehicle_length_m": 5.0,
+      "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation. Near-end complete E1 passages require an exit from the detector lane to the route's next road. Different observed roads alone do not imply repeated or multiple detector contributions."
+    }
+  },
+  "claim_boundary": "Conditional complete-passage upper bound, not natural driver behavior or safety proof. The larger run violates the no-collision/no-teleport premise."
+}

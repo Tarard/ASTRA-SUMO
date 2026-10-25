@@ -1,0 +1,269 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/all-13-field-totals.csv",
+      "sha256": "c78fe807f877cc2dbd33b76d9bbec03ff51088b7a1ea779f06f296482fc3fea2"
+    },
+    {
+      "path": "analysis/all-130-main-rows.csv",
+      "sha256": "070e5390a75bbfb319ed68f8ae823c70e006e5359b4f2e9217af3ecaa832af57"
+    },
+    {
+      "path": "analysis/all-40-main-stations.csv",
+      "sha256": "44c0b13b279800b1399babeabaf34b9f98332e1305d5d6e6fde0765c74e39b9d"
+    },
+    {
+      "path": "analysis/all-52-initialization-comparisons.csv",
+      "sha256": "b00fdc99b698c871b41e0a6c8d11df3f8ff4868c585d65ad374e742f09e2acd3"
+    },
+    {
+      "path": "analysis/all-declared-observation-passages.csv.gz",
+      "sha256": "b65140d7a57922c1e927fe7018855ffc279cd875a21894a6019a0af056685292"
+    },
+    {
+      "path": "analysis/baseline-closed-e1.xml",
+      "sha256": "9f3cbb50fafdb9f8348eed52737e14b13a008ec40af36aef4e26b8555b0bdc97"
+    },
+    {
+      "path": "analysis/entry-loads.csv",
+      "sha256": "56e3d10b25bbbe38b2f03205705e2aa47af45449b71932c66c9f4d372967b63c"
+    },
+    {
+      "path": "analysis/prefix-check.json",
+      "sha256": "d5a040e510d6c4a966bfe7041b002ba8a1c5ed9f1631f0e5acbfa80d8e044b19"
+    },
+    {
+      "path": "analyze-shared-population-prefix.py",
+      "sha256": "593c158a620df037ebdb4533bd15c11c035c1462ef4c28c8795a2e0a1e82b5b3"
+    },
+    {
+      "path": "freeze-shared-population-prefix.py",
+      "sha256": "023e627276a6f5acfd2a505d9b21472e0c07636850bc53ca418908b8d5d74bf5"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "177684c946c43fc857d59a7cb580332c89b2942f2f7ea4fc41ab6fa530fe6297"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py",
+      "sha256": "b1135ec80036c25d04d463fb546142849a5e913e78fef30fde536f66e1e7e11e"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/hamburg_shared_population.py",
+      "sha256": "3b402f30f95869d1b75b0cb9e0877e8277f33a1826698ce92489da8dd8c7cadb"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py",
+      "sha256": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153"
+    },
+    {
+      "path": "implementation/tests/test_hamburg_shared_population.py",
+      "sha256": "bca15094452c4c6012be0f02fdef2d5c758949d075c123e46a0b1fbff7889679"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "b210582a8d3e87ac42e9322cfb7f760cbfe5f4bae0fd9f51b06e0e9792a102df"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "1553bec2e78bf63ad390121756b98bb09ae4e6659c77d98765ff2ac69b4cf57d"
+    },
+    {
+      "path": "inputs/executed-implementation-sha256.json",
+      "sha256": "88c1ab793fe1ccad7a2c7c119a3b51c8f1716a3554d1a5b94919c4763f31ad17"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "177684c946c43fc857d59a7cb580332c89b2942f2f7ea4fc41ab6fa530fe6297"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_results.py",
+      "sha256": "b1135ec80036c25d04d463fb546142849a5e913e78fef30fde536f66e1e7e11e"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/hamburg_shared_population.py",
+      "sha256": "3b402f30f95869d1b75b0cb9e0877e8277f33a1826698ce92489da8dd8c7cadb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py",
+      "sha256": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153"
+    },
+    {
+      "path": "inputs/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "cbf458fb2845ae9f171e416db5b353bdcfa8b396c576ac08b14ce5759ae219b2"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/prefix-proposal.json",
+      "sha256": "30381e8aaea85b7fdc4020312af50a1d6159a2c1ae83d9f1f79dc4ee5933fabf"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "d7011bccef74eda9826467e71d722364baab4bd594a1a44d443ee60672854d5f"
+    },
+    {
+      "path": "inputs/shared-population.json.gz",
+      "sha256": "9df56f122c43ae64e2b247119fb3a43d43c2ea3fab0ed27a918f8eeaae8c8da0"
+    },
+    {
+      "path": "inputs/source-commit.txt",
+      "sha256": "f6e0b26867b8df1a563605b6b958a7bbcc470b79da1da5044d665c0b1a89e041"
+    },
+    {
+      "path": "inputs/target-ledger.csv",
+      "sha256": "dfa99a0e6f6d513933abe16f8c2106b132426b5fc727d26f9ac30d28a870efd1"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "099ce104fafb287766ffeed35c7483fdb589b811bbaabaf257a38e91ed0ff523"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "c320223390f928f8b2b5361aaf94fae7da1df2cebf3a716e36b0c2dfd5769f0e"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "1553bec2e78bf63ad390121756b98bb09ae4e6659c77d98765ff2ac69b4cf57d"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "9fbcb72e1515b39b8e36ff6d8a9f10606e91227161ce545ebabb180ab840af61"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "af4e00b5569549b1adcf5940a7180ff0378e581370da655b955420440225557c"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "0d769de1a8d5ef23f90b609a6d0a8f0d569f933af60d65a25fd59a5d9709edad"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "06eee348c429dd38fee528e62020acb084c16c6e38bf145b71465087d9cf795f"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "9caae97d09d32d6aedc7820f527ca104392bdbcd749ced15906b7469951d7059"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "cbf458fb2845ae9f171e416db5b353bdcfa8b396c576ac08b14ce5759ae219b2"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "5bcccb460e89524a345743bb5fd00bc48b47662f525aec24e390c0e15c2bb3a4"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "1018bc49275186c54b81012fbb920445534b6d235923337dc55eb768f62c1305"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "8534b69e090ef848472f7e507f9efaf4e7b57fad3890c7aac07b03884b2a2ebf"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "0016b2e68c064b82b387e87e147321cee7d48acc155b099ed4ecf6fd4b483f7a"
+    },
+    {
+      "path": "native/states/state_3599.900.xml.gz",
+      "sha256": "1897a630664fd7a296a7b25aa8462e98e06cffe5bbfdea068d472177d91c30af"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "7a71b037022ee6c3742bb09edc518fd0c4244b7810ba3c4a8a40c6707cf8b734"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "62778a86046e93b407be4c0143df59394ad7255dad7c5669a272e3fd7c1b1c9a"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "79189524b76e18472d6b99167b0dd174bdab24aaa4f7d3b6a8e2a97d748293c3"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "1ef433d788bc8e1493e8f1918e9a05fda12b2f7415cdd8ac9e13342c4e1af94a"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "a600a24dfb3dacd8da193e2ed22ae12a34dfecd6aba5189c9de524176991b6af"
+    },
+    {
+      "path": "probe-shared-population-prefix.py",
+      "sha256": "58362fb80088daef6e5af2ef4ca5c666c4d2cb5c47d2fafa8cbcfb774e4f1472"
+    },
+    {
+      "path": "README.md",
+      "sha256": "d449a267f96520d16a94a3630c485f77bd10bde1fa8369da8243c62ef9897916"
+    },
+    {
+      "path": "seal-shared-population-prefix.py",
+      "sha256": "f14dd46ceec54731c124b1dc2c3ebd00541ab7d9ab96f006b6d99584dccad2b0"
+    },
+    {
+      "path": "tests.log",
+      "sha256": "549ac723f2ffd8d5d84cf2b81cf643cc8a9c1be04533b7fea1f386b8f8f59783"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "7a5794d915f582e85537c8f289125534aaccc74f0a83f58d3f5fa5a42e35c8b8"
+    }
+  ]
+}

@@ -196,6 +196,23 @@ def test_primary_tld_groups_validate_by_normalized_node_and_group(tmp_path: Path
     assert report.checked_groups == ("228/K8",)
 
 
+@pytest.mark.parametrize("group", ["R6", "CAR-A"])
+def test_declared_kfz_groups_do_not_require_a_k_prefix(tmp_path: Path, group: str) -> None:
+    fixture = tmp_path / "ocit.xml"
+    _write_fixture(fixture)
+    fixture.write_text(fixture.read_text(encoding="utf-8").replace("K8", group), encoding="utf-8")
+    config = parse_ocit_c(fixture)
+    assert config.motor_group_ids == (group,)
+    assert config.vehicle_movements[0].primary_motor_groups == (group,)
+    stream = _stream(group=group)
+    validation = validate_primary_signal_groups([stream], [config])
+    assert validation.checked_groups == (f"228/{group}",)
+    connection = MapConnection("228", "3", "1", "2", "4", "100000000000")
+    inventory = build_vehicle_topology_inventory([config], [_map_lane("1"), _map_lane("2")], [connection], [stream])
+    assert inventory.observed_match_count == 1
+    assert inventory.movements[0].observed_signal_groups == (group,)
+
+
 def test_missing_primary_tld_group_fails_closed(tmp_path: Path) -> None:
     fixture = tmp_path / "ocit.xml"
     _write_fixture(fixture)

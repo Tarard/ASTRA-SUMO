@@ -1,0 +1,7 @@
+{
+  "reason": "Add the project runtime environment to the documented native command before publication. Existing guards reject ambient foreign SUMO modules; measurements and runtime code do not change.",
+  "prior_manifest_sha256": "026dd0c1de73b096ec73029bcda309776fb26d00727d91ae8fd7909a8ea7e8c3",
+  "prior_readme_sha256": "394bbf528093f3c1b83fcdb63f52761f0e81e0cead251704673e72badf2239f8",
+  "new_readme_sha256": "d6d7d582acbbe6fe6ff911fd1dd4d540c90555f9da9d3783e6a259e4f6584013",
+  "native_runs": 0
+}

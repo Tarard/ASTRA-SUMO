@@ -1,0 +1,116 @@
+{
+  "fields": {
+    "hh_0119_Z_11_28853": {
+      "expected_total": 32,
+      "measured_nVehContrib": 28,
+      "in_from_other_target_bins": 7,
+      "out_to_other_measured_bins": 7,
+      "not_entered_by_end": 2,
+      "entered_without_complete_passage_by_end": 2
+    },
+    "hh_0119_Z_12_31546": {
+      "expected_total": 392,
+      "measured_nVehContrib": 255,
+      "in_from_other_target_bins": 87,
+      "out_to_other_measured_bins": 87,
+      "not_entered_by_end": 119,
+      "entered_without_complete_passage_by_end": 18
+    },
+    "hh_0119_Z_13_34018": {
+      "expected_total": 554,
+      "measured_nVehContrib": 488,
+      "in_from_other_target_bins": 118,
+      "out_to_other_measured_bins": 118,
+      "not_entered_by_end": 26,
+      "entered_without_complete_passage_by_end": 40
+    },
+    "hh_0119_Z_15_29375": {
+      "expected_total": 309,
+      "measured_nVehContrib": 266,
+      "in_from_other_target_bins": 43,
+      "out_to_other_measured_bins": 43,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 43
+    },
+    "hh_0119_Z_4_29437": {
+      "expected_total": 160,
+      "measured_nVehContrib": 160,
+      "in_from_other_target_bins": 34,
+      "out_to_other_measured_bins": 34,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0119_Z_5_30494": {
+      "expected_total": 102,
+      "measured_nVehContrib": 102,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_14_31892": {
+      "expected_total": 9,
+      "measured_nVehContrib": 9,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_4_33055": {
+      "expected_total": 105,
+      "measured_nVehContrib": 105,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_5_30894": {
+      "expected_total": 51,
+      "measured_nVehContrib": 51,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_6_33855": {
+      "expected_total": 62,
+      "measured_nVehContrib": 62,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_7_29316": {
+      "expected_total": 57,
+      "measured_nVehContrib": 57,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_8_34287": {
+      "expected_total": 62,
+      "measured_nVehContrib": 62,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    },
+    "hh_0535_Z_9_29038": {
+      "expected_total": 58,
+      "measured_nVehContrib": 58,
+      "in_from_other_target_bins": 0,
+      "out_to_other_measured_bins": 0,
+      "not_entered_by_end": 0,
+      "entered_without_complete_passage_by_end": 0
+    }
+  },
+  "totals": {
+    "in_from_other_target_bins": 289,
+    "out_to_other_measured_bins": 289,
+    "not_entered_by_end": 147,
+    "entered_without_complete_passage_by_end": 103
+  },
+  "all_52_residual_identities_verified": true,
+  "claim_boundary": "Exact accounting of this one completed native initialization replay. It separates bin transfers from unentered and not-yet-passed requests. It does not identify a unique physical cause, predict changed-demand effects, or require the initialization hour to be an independently accepted calibration."
+}

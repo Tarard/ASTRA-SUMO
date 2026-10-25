@@ -173,6 +173,7 @@ from .osm_workflow_tail import (  # noqa: F401 - compatibility re-export
     _teacher_guided_queue_has_replay_candidates,
     _teacher_guided_seed_candidate,
     _tls_connection_repair_promotion_decision,
+    _cleanup_outcome,
     _tls_gate_value,
     _tls_semantic_delta_score,
     _topology_metric,
@@ -5350,9 +5351,8 @@ def run_osm_cleanup_workflow(
     gate_status["standard_nema_scan"] = (
         "skipped" if standard_nema_scan_report is None else _gate_value(standard_nema_scan_report)
     )
-    workflow_ok = (
+    structure_ok = (
         gate_status["network_build"] == "pass"
-        and gate_status["tls_reality_audit"] == "pass"
         and gate_status["connectivity"] in {"pass", "partial"}
         and gate_status.get("topology_audit", "skipped") in {"pass", "skipped"}
         and gate_status.get("routeability_audit", "skipped") in {"pass", "blocked", "skipped"}
@@ -5374,6 +5374,7 @@ def run_osm_cleanup_workflow(
         and gate_status["netedit"] in {"pass", "blocked"}
         and gate_status["sumo_gui"] in {"pass", "blocked"}
     )
+    workflow_status, workflow_claim = _cleanup_outcome(structure_ok, gate_status["tls_reality_audit"])
     bbox_regional_map_baseline = regional_map_baseline_for_bbox(bbox, label=cleaned_place_name or "SUMO network area")
     tls_regional_map_baseline = dict(tls_summary.get("regional_map_baseline") or {})
     provider_counts = tls_regional_map_baseline.get("regional_map_provider_counts")
@@ -5467,8 +5468,8 @@ def run_osm_cleanup_workflow(
         effective_net_file=reference_visual_detail_comparison_net_file,
     )
     report = {
-        "status": "pass" if workflow_ok else "fail",
-        "claim_status": "diagnostic-demo" if workflow_ok else "construction-invalid",
+        "status": workflow_status,
+        "claim_status": workflow_claim,
         "area_input": cleaned_place_name or bbox,
         "area_resolution_status": area_status,
         **(_candidate_fields(place_report) if place_report is not None else {**_candidate_fields(None), "candidate_bbox": bbox}),

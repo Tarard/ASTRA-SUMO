@@ -1,0 +1,133 @@
+{
+  "schema": "astra.unfinished-route-evidence/v1",
+  "date": "2026-10-16",
+  "commit": "362a534",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "native_version": "1.27.1",
+  "current_comparison": {
+    "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/comparison.json",
+    "sha256": "75f5ffcfb805e2a6aaeb10d7e3325314159d009a57f437bebf6bfb2d30d46134"
+  },
+  "prior_comparison": {
+    "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v3/comparison.json",
+    "sha256": "c913b4bed5c296f9cbfaaec87e6dc4160001abc8716826136c016ed13a657066"
+  },
+  "request": {
+    "path": "outputs/local_conversion_20261016_v1/reference-width-paired-request-v3.json",
+    "sha256": "16fb85386edebfbcc723d8c19e01e459677f3a051e2a758f4bd6beba46f9cbaf"
+  },
+  "cohort": {
+    "path": "outputs/claude_followup_20261015_v1/stop-line-pilot-v1/source-routes/routeability_audit.rou.xml",
+    "sha256": "c28f3392fa13f7e7e60d42d0849a684105deaa47f9c744f506036dd6c6b96492"
+  },
+  "vehicle_count": 100,
+  "horizon_s": 2400,
+  "output_policy": {
+    "edge_exit_times": true,
+    "unfinished_routes": true
+  },
+  "pair_validity_counts": {
+    "invalid": 3
+  },
+  "focused_checks": {
+    "count": 41,
+    "artifact": {
+      "path": "outputs/local_conversion_20261016_v1/unfinished-routes-v1.xml",
+      "sha256": "bbdc774e23a5e484225af8a7958c058185c7b7aca24de4bc7a53e5fa35879be3"
+    }
+  },
+  "runs": [
+    {
+      "seed": 17,
+      "network": "parent",
+      "arrived": 64,
+      "waiting_for_insertion": 1,
+      "vehicle_route_record_count": 99,
+      "unfinished_route_record_count": 35,
+      "same_terminal_summary_as_prior": true,
+      "same_last_step_positions_as_prior": true,
+      "vehicle_routes": {
+        "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/parent-17/driving_end2400_vehroute.xml",
+        "sha256": "9111d860d849dac78c67e5d158d65d0443f6904ea8065edf72c5ab4b89404f55"
+      }
+    },
+    {
+      "seed": 17,
+      "network": "reference_width",
+      "arrived": 61,
+      "waiting_for_insertion": 1,
+      "vehicle_route_record_count": 99,
+      "unfinished_route_record_count": 38,
+      "same_terminal_summary_as_prior": true,
+      "same_last_step_positions_as_prior": true,
+      "vehicle_routes": {
+        "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/reference_width-17/driving_end2400_vehroute.xml",
+        "sha256": "3dc1c3957aa136a9dd3f47ee78560581bbc9b4efb1e2cb9c79b000c14c2a9f75"
+      }
+    },
+    {
+      "seed": 42,
+      "network": "parent",
+      "arrived": 100,
+      "waiting_for_insertion": 0,
+      "vehicle_route_record_count": 100,
+      "unfinished_route_record_count": 0,
+      "same_terminal_summary_as_prior": true,
+      "same_last_step_positions_as_prior": true,
+      "vehicle_routes": {
+        "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/parent-42/driving_end2400_vehroute.xml",
+        "sha256": "a74fda0103fb39f8323812ffa86c3c9b4a6caf90a2cf1c5bb5f5574e456f746c"
+      }
+    },
+    {
+      "seed": 42,
+      "network": "reference_width",
+      "arrived": 57,
+      "waiting_for_insertion": 1,
+      "vehicle_route_record_count": 99,
+      "unfinished_route_record_count": 42,
+      "same_terminal_summary_as_prior": true,
+      "same_last_step_positions_as_prior": true,
+      "vehicle_routes": {
+        "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/reference_width-42/driving_end2400_vehroute.xml",
+        "sha256": "190fe0d59241dddd4363b6d03094dd357bdacd596f51bdddb34286e2053fe02b"
+      }
+    },
+    {
+      "seed": 104,
+      "network": "parent",
+      "arrived": 60,
+      "waiting_for_insertion": 1,
+      "vehicle_route_record_count": 99,
+      "unfinished_route_record_count": 39,
+      "same_terminal_summary_as_prior": true,
+      "same_last_step_positions_as_prior": true,
+      "vehicle_routes": {
+        "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/parent-104/driving_end2400_vehroute.xml",
+        "sha256": "e0ed0039e9cf484e639132d8753ce23b77c1ed453df22f413dba25d8cc37cb5d"
+      }
+    },
+    {
+      "seed": 104,
+      "network": "reference_width",
+      "arrived": 100,
+      "waiting_for_insertion": 0,
+      "vehicle_route_record_count": 100,
+      "unfinished_route_record_count": 0,
+      "same_terminal_summary_as_prior": true,
+      "same_last_step_positions_as_prior": true,
+      "vehicle_routes": {
+        "path": "outputs/local_conversion_20261016_v1/reference-width-paired-v4/reference_width-104/driving_end2400_vehroute.xml",
+        "sha256": "7a19b7ed43fd5359ee276878771e9a4c23938e930a8e9ee879aa90f50add1c4d"
+      }
+    }
+  ],
+  "limits": [
+    "The new output policy retains unfinished departed vehicles. Vehicles still waiting for insertion have no native vehicle-route record.",
+    "Planned route edges without recorded exits remain unobserved crossings.",
+    "The original request cohort retains every vehicle. No missing boundary observation becomes zero flow.",
+    "Terminal equality in these six runs does not prove universal trajectory equivalence.",
+    "All three pairs remain invalid for clean performance comparison."
+  ]
+}

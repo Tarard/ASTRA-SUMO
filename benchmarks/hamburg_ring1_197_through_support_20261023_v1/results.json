@@ -1,0 +1,52 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "previous_manifest_sha256": "ad6058c59305a53eb9bde4bcd9ee7ad327f5fe868df9790665751bed162bbe9e",
+  "new_full_native_runs": 1,
+  "toy_native_runs": 10,
+  "source_supported_candidate_not_field_SPaT": true,
+  "full": {
+    "main130": {
+      "SSE": 9473,
+      "TAE": 605,
+      "MAE": 4.653846153846154,
+      "max_abs_error": 35
+    },
+    "initial52": {
+      "SSE": 820,
+      "TAE": 78,
+      "MAE": 1.5,
+      "max_abs_error": 16
+    },
+    "all182": {
+      "SSE": 10293,
+      "TAE": 683,
+      "MAE": 3.7527472527472527,
+      "max_abs_error": 35
+    },
+    "station40_MAE": 12.825,
+    "completion": {
+      "loaded": 8640,
+      "inserted": 8640,
+      "arrived": 8606,
+      "waiting": 0,
+      "running": 34,
+      "collisions": 0,
+      "teleports": 0,
+      "discarded": 0
+    },
+    "healthy": false,
+    "safe": true,
+    "event_count": 8615,
+    "unexpected_contributions": 0,
+    "repeated_vehicle_fields": 0,
+    "warning_lines": 29,
+    "source535_real56_exact": true,
+    "source535_real56_expected_and_measured": 1459,
+    "unfinished_origin": "963776077#0",
+    "unfinished_primary_field": "hh_0119_Z_5_30494",
+    "raw_verdict_status": "diagnostic_candidate",
+    "status": "review_required",
+    "formal_result": false
+  }
+}

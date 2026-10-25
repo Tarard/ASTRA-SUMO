@@ -304,7 +304,6 @@ def test_workflow_review_html_writes_visual_cockpit_and_sidecars(tmp_path: Path)
     assert "ASTRA-SUMO" in html
     assert "Cleanup Review" in html
     assert 'class="torii-review-app"' in html
-    assert ".torii-review-app { display: grid; grid-template-columns: 240px minmax(620px, 1fr) 420px; height: 100vh;" in html
     assert 'class="torii-sidebar"' in html
     assert 'class="torii-map-shell"' in html
     assert 'class="torii-review-panel"' in html

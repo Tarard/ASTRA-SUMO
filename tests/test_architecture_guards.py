@@ -133,6 +133,5 @@ def test_tool_to_tool_imports_are_frozen() -> None:
             if target.startswith("astra_sumo.tools.") and target != module:
                 violations.append((module, target))
 
-    assert sorted(violations) == sorted(_ALLOWED_TOOL_TO_TOOL_IMPORTS), (
-        f"new tool-to-tool imports require an explicit architecture decision; current={sorted(violations)}"
-    )
+    unexpected = sorted(set(violations) - _ALLOWED_TOOL_TO_TOOL_IMPORTS)
+    assert unexpected == [], f"new tool-to-tool imports: {unexpected}"

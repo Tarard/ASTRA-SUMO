@@ -1,0 +1,381 @@
+{
+  "formal_result": false,
+  "completed_native_evaluations": 6,
+  "all182_TAE": {
+    "merge": 1883,
+    "exit-stage": 2292,
+    "retiming": 2059,
+    "tail": 1952,
+    "tail27": 2197,
+    "original-seed-restored": 2113
+  },
+  "preflight_failures": {
+    "original-seed": {
+      "status": "preflight_failed",
+      "native_run_started": false,
+      "requested_vehicle_count": 8622,
+      "required_original_seed_vehicle_count": 8640,
+      "native_evaluation": null,
+      "completion": null,
+      "field_metrics": null,
+      "formal_result": false,
+      "reason": "initial-od-vector.json contains a modified 8622-request vector. The worker assertion failed before demand generation or native execution.",
+      "input_hashes": {
+        "original-seed-initial-od-vector.json.gz": "d6ef9b09ce504e595ab1abf0e7cfbfea840ddb25562363d97a53c962aaa9093b",
+        "seed-od-model.json.gz": "714356c3f706e000ca635cfa6f67ece513bcc12e7adfd2a1e7c993eb7a3137ed"
+      },
+      "claim_boundary": "No native result exists. Missing counts and completion remain null."
+    }
+  },
+  "lowest_main_MAE_diagnostic": "merge",
+  "stage_goal": {
+    "field_MAE_at_most": 10,
+    "waiting_at_14400_at_most": 690,
+    "collisions_teleports_discards": 0
+  },
+  "selected_diagnostic": "baseline",
+  "evaluations": {
+    "merge": {
+      "status": "rejected",
+      "safe": true,
+      "formal_result": false,
+      "before": {
+        "loss": 71625,
+        "MAE": 16.73076923076923,
+        "max_abs_error": 58,
+        "healthy": false,
+        "station_MAE": 52.375,
+        "station_max_abs_error": 121,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 7222,
+          "arrived": 6813,
+          "running": 409,
+          "waiting": 1381,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 41062,
+        "MAE": 12.246153846153845,
+        "max_abs_error": 64,
+        "healthy": false,
+        "station_MAE": 37.25,
+        "station_max_abs_error": 109,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 8087,
+          "arrived": 7855,
+          "running": 232,
+          "waiting": 516,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 476.5491216999999,
+      "claim_boundary": "One declared downstream control hypothesis. No field SPaT claim. All 130 native E1 values and 40 derived station values remain required, together with healthy completion for acceptance."
+    },
+    "exit-stage": {
+      "status": "rejected",
+      "milestone_met": false,
+      "safe": true,
+      "formal_result": false,
+      "before": {
+        "loss": 71625,
+        "MAE": 16.73076923076923,
+        "max_abs_error": 58,
+        "healthy": false,
+        "station_MAE": 52.375,
+        "station_max_abs_error": 121,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 7222,
+          "arrived": 6813,
+          "running": 409,
+          "waiting": 1381,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "parent": {
+        "loss": 41062,
+        "MAE": 12.246153846153845,
+        "max_abs_error": 64,
+        "healthy": false,
+        "station_MAE": 37.25,
+        "station_max_abs_error": 109,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 8087,
+          "arrived": 7855,
+          "running": 232,
+          "waiting": 516,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 60780,
+        "MAE": 15.107692307692307,
+        "max_abs_error": 69,
+        "healthy": false,
+        "station_MAE": 46.55,
+        "station_max_abs_error": 143,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 7868,
+          "arrived": 7537,
+          "running": 331,
+          "waiting": 735,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "elapsed_seconds": 505.8026440000003,
+      "claim_boundary": "Second sequential single-controller intervention on an unpromoted diagnostic parent. Demand, network, true counts and driver unchanged. All 130 native values retained. No actual field signal timing is established."
+    },
+    "retiming": {
+      "status": "rejected",
+      "safe": true,
+      "milestone_met": false,
+      "formal_result": false,
+      "before": {
+        "loss": 41062,
+        "MAE": 12.246153846153845,
+        "max_abs_error": 64,
+        "healthy": false,
+        "station_MAE": 37.25,
+        "station_max_abs_error": 109,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 8087,
+          "arrived": 7855,
+          "running": 232,
+          "waiting": 516,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 55264,
+        "MAE": 13.846153846153847,
+        "max_abs_error": 73,
+        "healthy": false,
+        "station_MAE": 43.35,
+        "station_max_abs_error": 132,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 7837,
+          "arrived": 7526,
+          "running": 311,
+          "waiting": 766,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "before_all182_TAE": 1883,
+      "after_all182_TAE": 2059,
+      "elapsed_seconds": 486.84306879999986,
+      "claim_boundary": "All 182 real observations enter the timing proposal and are reported. The 130 main-window native E1 rows remain the stage objective. Unobserved vehicles and all routes remain unchanged. Pending vehicles and unconfirmed control still prevent calibration acceptance."
+    },
+    "tail": {
+      "status": "rejected",
+      "safe": true,
+      "milestone_met": false,
+      "formal_result": false,
+      "before": {
+        "loss": 41062,
+        "MAE": 12.246153846153845,
+        "max_abs_error": 64,
+        "healthy": false,
+        "station_MAE": 37.25,
+        "station_max_abs_error": 109,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 8087,
+          "arrived": 7855,
+          "running": 232,
+          "waiting": 516,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 49829,
+        "MAE": 12.515384615384615,
+        "max_abs_error": 81,
+        "healthy": false,
+        "station_MAE": 37.175,
+        "station_max_abs_error": 124,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 7723,
+          "arrived": 7412,
+          "running": 311,
+          "waiting": 880,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after_all182_TAE": 1952,
+      "elapsed_seconds": 522.2260848000005,
+      "claim_boundary": "One handover change only. Fixed OD, vehicle requests, network and driver. All 182 real values reported; 130 main values define the stage target. No field SPaT or exact calibration claim."
+    },
+    "tail27": {
+      "status": "rejected",
+      "safe": true,
+      "milestone_met": false,
+      "formal_result": false,
+      "before": {
+        "loss": 41062,
+        "MAE": 12.246153846153845,
+        "max_abs_error": 64,
+        "healthy": false,
+        "station_MAE": 37.25,
+        "station_max_abs_error": 109,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 8087,
+          "arrived": 7855,
+          "running": 232,
+          "waiting": 516,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 61302,
+        "MAE": 14.184615384615384,
+        "max_abs_error": 79,
+        "healthy": false,
+        "station_MAE": 43.25,
+        "station_max_abs_error": 143,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 7674,
+          "arrived": 7334,
+          "running": 340,
+          "waiting": 929,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after_all182_TAE": 2197,
+      "elapsed_seconds": 533.9148449000013,
+      "claim_boundary": "One handover change only. Fixed OD, vehicle requests, network and driver. All 182 real values reported; 130 main values define the stage target. No field SPaT or exact calibration claim."
+    },
+    "original-seed-restored": {
+      "status": "rejected",
+      "safe": true,
+      "milestone_met": false,
+      "formal_result": false,
+      "before": {
+        "loss": 41062,
+        "MAE": 12.246153846153845,
+        "max_abs_error": 64,
+        "healthy": false,
+        "station_MAE": 37.25,
+        "station_max_abs_error": 109,
+        "completion": {
+          "loaded": 8603,
+          "inserted": 8087,
+          "arrived": 7855,
+          "running": 232,
+          "waiting": 516,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after": {
+        "loss": 58754,
+        "MAE": 14.03076923076923,
+        "max_abs_error": 66,
+        "healthy": false,
+        "station_MAE": 43.7,
+        "station_max_abs_error": 138,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 7896,
+          "arrived": 7586,
+          "running": 310,
+          "waiting": 744,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "exact_count_fit": false,
+        "count_source": "Native E1 nVehContrib only",
+        "field_rows": 130,
+        "derived_station_rows": 40
+      },
+      "after_all182_TAE": 2113,
+      "elapsed_seconds": 483.795127899999,
+      "claim_boundary": "Original field-count integer seed restored, rather than the SPSA plus perturbation. Vehicle populations differ by37 requests, so arrived totals are not fixed-demand performance evidence. All real observations retained; native fit and completion remain required."
+    }
+  },
+  "stage_goal_met": false,
+  "selected_stage_candidate": null,
+  "selection_rule": "Apply the predeclared stage limits and require all182 TAE not above1883, then rank by main MAE, maximum error and waiting. Raw local trial verdicts remain unchanged.",
+  "claim_boundary": "All six completed trials remain diagnostic. The restored original seed has8640 requests; the other five have8603. Population changes do not establish fixed-demand performance. Original real observations are immutable. Forty station values are derived. The separate preflight has no native result."
+}

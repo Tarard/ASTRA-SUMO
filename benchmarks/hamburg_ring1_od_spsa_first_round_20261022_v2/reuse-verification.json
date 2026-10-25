@@ -1,0 +1,63 @@
+{
+  "evaluation": {
+    "loss": 61146,
+    "MAE": 14.923076923076923,
+    "max_abs_error": 60,
+    "healthy": false,
+    "station_MAE": 47.45,
+    "station_max_abs_error": 129,
+    "completion": {
+      "loaded": 8640,
+      "inserted": 7664,
+      "arrived": 7240,
+      "running": 424,
+      "waiting": 976,
+      "teleports": 3,
+      "collisions": 3,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  "provenance": {
+    "cached_dir": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1",
+    "initial_loss_recomputed_from_native_e1": true,
+    "healthy": false,
+    "input_sha256": {
+      "network.net.xml": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+      "demand.rou.xml": "9aefb1944e5a0764cea2e92b440ace99f136885a157b33260fef46438a82c070",
+      "source-e1.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "signal-programs.add.xml": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d",
+      "lane-intentions.json": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2"
+    },
+    "native_implementation_sha256": {
+      "artifact_io.py": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51",
+      "candidate_contracts.py": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda",
+      "command_runner.py": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267",
+      "detector_demand.py": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2",
+      "detector_demand_replay.py": "58809165d897fda897e64ec68bf3230afb1e9bb74c38e3d5f84d8815846a060f",
+      "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+      "simulation_stall.py": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153",
+      "hamburg_od_spsa.py": "6b7b464406879738b273df8b0e7b04786581e077475eabb404d28975fa3ff371"
+    },
+    "od_functions_compared_as_ast": [
+      "write_hamburg_od_demand"
+    ],
+    "native_call_compared_as_ast": "measure_hamburg_od:run_point_detector_demand",
+    "postprocessing": "Metrics are recomputed from raw native E1; metadata formatting changes do not require another simulation.",
+    "evidence_sha256": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\run.json": "357d909c76c91e99f731e712bdf2a40aa4fb91a856cfaeee90356ee236512918",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\command.json": "60341992af44256f0c479c64739445455715c3e2cb8de5f16d42be02146cc30e",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\native-request.json": "dbe1ccacf1a4cd273289e2b939babaf7fc49da5fa85fcab2b4d572225fcb064d",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\stall-monitor.json": "d3444b825ba9cdf928c28c7cacc34b21dc224740f4f9709a0e9fb1adcb3d1342",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\field-counts.xml": "14c2aceb0a6036e30189b372df53caeffb4d2457dbd0d097a72da0307c1ecefa",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\summary.xml": "be3d1dbc16661f1fac396dd31e7af4dad073c320c4d7912383184a0101ba0a7e",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\tripinfo.xml": "53765ff375f1e861d226e6d6ff9135cbfdd8890dd8b9b586fbb1fdfddf2d0b2c",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\od-vector.json": "e22407f9e8b992af014c15f21749d63c7b3b9fdf56167456e288e2348ad86d22",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1-execution\\execution.json": "7a7e3577ee9c88cc23bbbdce21aa6c9d4c6cbdab1638f5fabe1da90eade53956"
+    }
+  }
+}

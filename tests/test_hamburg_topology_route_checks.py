@@ -1,5 +1,6 @@
 import importlib
 import json
+from pathlib import Path
 import shutil
 import subprocess
 import xml.etree.ElementTree as ET
@@ -217,3 +218,37 @@ def test_bus_enters_a_new_pocket_from_upstream_with_native_lane_change(tmp_path)
     assert pocket["vehicle_routes"]["status"] == "pass"
     assert result["mainline"]["directions"][0]["status"] == "pass"
     assert result["mainline"]["status"] == "review_required"  # No reverse road exists.
+
+
+@pytest.mark.parametrize("matching_hash", [True, False])
+def test_context_node_participates_in_the_fixed_corridor_order(tmp_path, monkeypatch, matching_hash):
+    module = importlib.import_module("astra_sumo.core.hamburg_topology_route_checks")
+    path = _manifest(tmp_path)
+    manifest = json.loads(path.read_text())
+    for record in (manifest["inputs"]["source_net"], manifest["artifacts"]["network"]):
+        network = Path(record["path"])
+        tree = ET.parse(network)
+        for node in tree.getroot().findall("junction"):
+            if node.get("id") == "b":
+                node.set("id", "LSA2_part0")
+        for edge in tree.getroot().findall("edge"):
+            for key in ("from", "to"):
+                if edge.get(key) == "b":
+                    edge.set(key, "LSA2_part0")
+        tree.write(network, encoding="utf-8")
+        record["sha256"] = file_sha256(network)
+    manifest["physical_parts"] = manifest["physical_parts"][:1]
+    path.write_text(json.dumps(manifest), encoding="utf-8")
+    context = tmp_path / "context.json"
+    context.write_text(json.dumps({"status": "pass", "candidate_network": {"sha256": manifest["inputs"]["source_net"]["sha256"] if matching_hash else "0" * 64},
+        "plan": {"groups": [{"join_id": "LSA2_part0"}]}, "context_evidence": [{"node_id": "2"}]}), encoding="utf-8")
+    monkeypatch.setattr(module, "_run_probe", lambda *args, **kwargs: {"status": "pass"})
+    options = dict(road_names=["Main"], ordered_node_ids=["1", "2"], context_manifest=context)
+    if not matching_hash:
+        with pytest.raises(ValueError, match="context boundary evidence"):
+            module.run_hamburg_topology_route_checks(path, tmp_path / "checks", **options)
+        return
+    result = module.run_hamburg_topology_route_checks(path, tmp_path / "checks", **options)
+    assert result["status"] == "pass"
+    assert all(row["required_node_order"] in (["1", "2"], ["2", "1"]) for row in result["mainline"]["directions"])
+    assert any(row["path"] == str(context) for row in result["inputs"])

@@ -1,0 +1,424 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/collision-context.json",
+      "sha256": "fc4b75b33cea6c2bd6877897a28db54a3db17d9e112760c64516a678a50e8b9f"
+    },
+    {
+      "path": "analysis/comparison.json",
+      "sha256": "7984dbd84835a9f2fa8f2167626d679e1377800a372a9c371a8a6a1d22b6e8bc"
+    },
+    {
+      "path": "analysis/field-change.csv",
+      "sha256": "3a48fdd90bf0d622d59228e6424ad97bb6324ecf756bd755a16d5dd66645f4c5"
+    },
+    {
+      "path": "analysis/independent-checks.json",
+      "sha256": "6318524d538e2e963a62b9296e696c5749b2ff746aef2fabb685b08b2fa46503"
+    },
+    {
+      "path": "analysis/rule-comparison.json",
+      "sha256": "3e51415a28675767615277e1cd2d730f9889c2ddbbcdc79feba2ff14111d68f6"
+    },
+    {
+      "path": "analysis/runtime-provenance.json",
+      "sha256": "8adadf6578051dc64072ac27d1df9b75e51fba205f464df38d5e343821f5c8ff"
+    },
+    {
+      "path": "analysis/source-semantics.json",
+      "sha256": "6cebf44564e156b8330cfb0de5eea3823e20e82e482c49f00bfc4d2a4b32783c"
+    },
+    {
+      "path": "analysis-at-verification.py",
+      "sha256": "5c12d672934f390010625cb5eaf8af0e756ff6c364cb68356b42ea79923c1145"
+    },
+    {
+      "path": "freeze-at-verification.py",
+      "sha256": "0c249b6bcb9995499736d5d7b0a6b28a517edf675f7919eb640b0eacc37b0319"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "f058f0dc4f3b18b11945880a62e0e00186e9242f11ddf4c481113a3b2191a6d2"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "05a35bc5a605ef7b1f0c43043e74743e43e0e971b43293ab35a8504174b50407"
+    },
+    {
+      "path": "inputs/through-prior.json",
+      "sha256": "130d54a0bcceda09e994ea22fdc04d66a8ab39871fb6fe9421d8d5a205445f83"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "425758c452b4bf1e3cbcc2626e7753198a1f152c4a58a181d709be71fb892175"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "3b8332108b43f7de6631d83380ec561c905f3c3a5eb6a465771b30d91829d882"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "36a12845956c17d22b6f5ea2903a4374fd61bef4dbbbdf87effdfd0189982e51"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "21f73384083d69f0ee28143da020e57d8cbcc6e25dcc7b5a5f60e4d8df9a5ed1"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "1ec2cb6611e61dd48ed5df86cdf78f38008b73ea37ade6cc414eb7cd864a9881"
+    },
+    {
+      "path": "native/initialization-check.json",
+      "sha256": "68a7fa8b5251d2d907ba610ff1d49534144ca4310491d58819550dd691293a6b"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "f9d40b6743c05ae04be135107ec5016bf67e13f4683155acdc39cb4e472e6b8d"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "2865a26be26480b703b8b6100636f2505f3d4b195db98a0b2d8ecea14be56637"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "196b3f93afdaa83abb96ec0ae3438a1dcc70846a2358029e8c93f701b6299f63"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/passage-reconciliation.json.gz",
+      "sha256": "2f608ada5377e5cb758d0f094b75db5954f26a70a74edd2b0881709c91d6d341"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "cb80f92ad38939ac26b4b7a07de1f65bbcb9cfe181dcefd1e1d82cf22d47fbdd"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "d9550b04d1d664b24122e7c343a3063ecdfc5a829734f9e5a11d4cf22d2d201e"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "9a0ba4a1c9dea035bcc9833c0b4f618bf65d8a72aaf2213cb69b3d7cc99dc067"
+    },
+    {
+      "path": "native/states/state_3599.900.xml.gz",
+      "sha256": "c8a196ff8ca5dd708d20d95b5a877462cfcb7bffcba7ac14137d9926022e5711"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "0dc4290f890bd2827b2ecde2c0a1f6370d283b88c1f2017739873d8f7d8a737e"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "bb0b9b6b4c3fdfc0b2a394df1472bbbe8698e09862938404e4767fe7ec70d8ec"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "ab2bf629a444a005fcb5ad17f357426d374dff714ca97dfadb2b637218375416"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "2e9d0b52fc1e02bfa6ac94fcdcd1ca38557111eba0abaf7232bdee7a6ae1a1c3"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "aaa86739ac96d520674a1eefc45e592b194556e290b7b86c8adb3c83928bcf58"
+    },
+    {
+      "path": "paired-probe/baseline/artificial-targets.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/baseline/demand.rou.xml",
+      "sha256": "b1aa92adeaf9e582fe0399858065bf4396971a575f51789da4395cdad71df2e2"
+    },
+    {
+      "path": "paired-probe/baseline/intentions.json",
+      "sha256": "f818e0c701b4cfb955a6f5ba6e76875038fdedef595d461e4f442a9cce51e211"
+    },
+    {
+      "path": "paired-probe/baseline/native/collisions.xml",
+      "sha256": "609f56787589d640eadfeabf6b63b83678a5be907159d7fafe912b46c6a71943"
+    },
+    {
+      "path": "paired-probe/baseline/native/command.json",
+      "sha256": "13611caa88fbc70ba22a502e6cdd43debc322233f2a09cf37089851a4dc865ff"
+    },
+    {
+      "path": "paired-probe/baseline/native/demand.rou.xml",
+      "sha256": "b1aa92adeaf9e582fe0399858065bf4396971a575f51789da4395cdad71df2e2"
+    },
+    {
+      "path": "paired-probe/baseline/native/e1.add.xml",
+      "sha256": "44863dc943fdf037e67c8dce60b7e402740dfd83423ff89bb5dd17afe189c7e0"
+    },
+    {
+      "path": "paired-probe/baseline/native/expected-counts.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/baseline/native/field-comparison.csv",
+      "sha256": "85fa8b9f8fdb71adc8c2b32ea26ad5527d2c84a300800105dbf4cacde2faf8e2"
+    },
+    {
+      "path": "paired-probe/baseline/native/field-counts.xml",
+      "sha256": "1f86be4022ffcb616aa9e32e4c6a6205f0d1595ea6ee4dd0f68e6a7c291ba97f"
+    },
+    {
+      "path": "paired-probe/baseline/native/instant-e1.xml",
+      "sha256": "fe3bd530a82d1e63361c8aa3d5b903416b0853b0cce58c6e57729276aa2f4321"
+    },
+    {
+      "path": "paired-probe/baseline/native/instant.add.xml",
+      "sha256": "cbab494aeeeacd25a33d4d0ff8c2c4de77b92f0a8f7c24a5985ff8924d63a9c3"
+    },
+    {
+      "path": "paired-probe/baseline/native/lane-intentions.json",
+      "sha256": "f818e0c701b4cfb955a6f5ba6e76875038fdedef595d461e4f442a9cce51e211"
+    },
+    {
+      "path": "paired-probe/baseline/native/native-request.json",
+      "sha256": "12ad2ef18373c3147bcd3c83811d7cbfe84c353a583d031373aea1daa4f4e61a"
+    },
+    {
+      "path": "paired-probe/baseline/native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "paired-probe/baseline/native/queues.xml.gz",
+      "sha256": "4627470c6445f09be4e76efbb27871592021cf561f59c74e1713281e16c93b00"
+    },
+    {
+      "path": "paired-probe/baseline/native/run.json",
+      "sha256": "41eea89f58f62d3caa484aa61c12fceede093e2865f8e9b7e6117b8bfada8cd8"
+    },
+    {
+      "path": "paired-probe/baseline/native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "paired-probe/baseline/native/source-e1.add.xml",
+      "sha256": "25b69c79266b93cc26f2f2455d380667995c615e0b000c5b8b25299e687311d1"
+    },
+    {
+      "path": "paired-probe/baseline/native/stall-monitor.json",
+      "sha256": "ac25f4a6ba41cfd7d86837a8557bf99ade048edb1e616dae9c8d5a3980a58c0f"
+    },
+    {
+      "path": "paired-probe/baseline/native/summary.xml.gz",
+      "sha256": "50878c34852ee20ac061eaffb0a5eed5d436dfa35ac424ec5ce56b5b44d5d026"
+    },
+    {
+      "path": "paired-probe/baseline/native/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "paired-probe/baseline/native/sumo.log",
+      "sha256": "41875e32033b70c0f6180335c93688fc8fff1265d7f0fda1e97df77cf142623b"
+    },
+    {
+      "path": "paired-probe/baseline/native/tripinfo.xml",
+      "sha256": "358d1adb288e10e919edef94573e05100f8d78444d3d7065e1dbbeec117f0796"
+    },
+    {
+      "path": "paired-probe/baseline/native/vehicle-routes.xml",
+      "sha256": "3cdb283024c7dd0cf9876a78b752adfa1ace9563787b361028ed981e95957c8c"
+    },
+    {
+      "path": "paired-probe/baseline/passage-reconciliation.json",
+      "sha256": "5267e28b8dace9deb06bfb7cc2922acb609baf798b5ad871a9493adb0c8297c7"
+    },
+    {
+      "path": "paired-probe/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "paired-probe/field-loops.add.xml",
+      "sha256": "25b69c79266b93cc26f2f2455d380667995c615e0b000c5b8b25299e687311d1"
+    },
+    {
+      "path": "paired-probe/network.net.xml.gz",
+      "sha256": "05bce76841118a85c948c9c5af82fb011b1c74ff74a9e0d6a11ed169bdc1bbf1"
+    },
+    {
+      "path": "paired-probe/original-initialization-targets.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "paired-probe/original-main-targets.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "paired-probe/probe-check.json",
+      "sha256": "4fdba0b828a8a97a204d8de49f76073021b19a992a7dd728524c64867e862893"
+    },
+    {
+      "path": "paired-probe/through/artificial-targets.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/through/demand.rou.xml",
+      "sha256": "2de2dbeef7c5a9a9bedb0e05d1da9c91f2da7cc61e19bb523fd2d14bd2bdf230"
+    },
+    {
+      "path": "paired-probe/through/intentions.json",
+      "sha256": "d2d1616822a0ad6ce85787246115ae9e05cd17702cbafd367036fe839c9ede36"
+    },
+    {
+      "path": "paired-probe/through/native/collisions.xml",
+      "sha256": "c3e1f25aba05f09b318dd3879bf615018a3323871a93d513e030fc7c45f0f385"
+    },
+    {
+      "path": "paired-probe/through/native/command.json",
+      "sha256": "420c8712a1bc290c8f2ebdc1db62ed8dcec945de56774ce248d2f89ff11ae646"
+    },
+    {
+      "path": "paired-probe/through/native/demand.rou.xml",
+      "sha256": "2de2dbeef7c5a9a9bedb0e05d1da9c91f2da7cc61e19bb523fd2d14bd2bdf230"
+    },
+    {
+      "path": "paired-probe/through/native/e1.add.xml",
+      "sha256": "f15e1450c61a76f9e0211a7f7260ef5c9916ad1c0448ab94a0e0cce6b421f533"
+    },
+    {
+      "path": "paired-probe/through/native/expected-counts.csv",
+      "sha256": "41dc25d0c12018c478338c74f50657f81bf45c31a0eddae0b2c224a232da5d30"
+    },
+    {
+      "path": "paired-probe/through/native/field-comparison.csv",
+      "sha256": "85fa8b9f8fdb71adc8c2b32ea26ad5527d2c84a300800105dbf4cacde2faf8e2"
+    },
+    {
+      "path": "paired-probe/through/native/field-counts.xml",
+      "sha256": "87d8959d3e81361fd2ca2282c8d2d12b8b2880413f1ead20756273cbb0bd63e3"
+    },
+    {
+      "path": "paired-probe/through/native/instant-e1.xml",
+      "sha256": "9763954a4d273a5ac6fb26b4e0b39fb2543622aa0a423876e1e5ff6fdf890080"
+    },
+    {
+      "path": "paired-probe/through/native/instant.add.xml",
+      "sha256": "a2988e4931a260345f7d33fbceaa6454cf3281e83e214a591b5a0cc284d3a2a8"
+    },
+    {
+      "path": "paired-probe/through/native/lane-intentions.json",
+      "sha256": "d2d1616822a0ad6ce85787246115ae9e05cd17702cbafd367036fe839c9ede36"
+    },
+    {
+      "path": "paired-probe/through/native/native-request.json",
+      "sha256": "cf2ebbf0819c42946734256c913ba38399ca96078925c473050ed30ed118ebda"
+    },
+    {
+      "path": "paired-probe/through/native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "paired-probe/through/native/queues.xml.gz",
+      "sha256": "505c21ccc7ca7d39b06425c98430c08ab6e5830aae477f68b9fed211578a6c28"
+    },
+    {
+      "path": "paired-probe/through/native/run.json",
+      "sha256": "ecee732e66d926cfb88f413fdb6ce491c9296c424775f23cd138abbfb31ea7de"
+    },
+    {
+      "path": "paired-probe/through/native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "paired-probe/through/native/source-e1.add.xml",
+      "sha256": "25b69c79266b93cc26f2f2455d380667995c615e0b000c5b8b25299e687311d1"
+    },
+    {
+      "path": "paired-probe/through/native/stall-monitor.json",
+      "sha256": "1331576f582235916ffadb056c66d5cc3bf959de6f2c7310aa7fd60c822d18db"
+    },
+    {
+      "path": "paired-probe/through/native/summary.xml.gz",
+      "sha256": "16338a214f2290e1d1d13e4fdc0641f6833c05b2a61cc842d32733b47fadaa58"
+    },
+    {
+      "path": "paired-probe/through/native/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "paired-probe/through/native/sumo.log",
+      "sha256": "cab486df440ba49bf0b4ec64a157764b33e2bc1953cff0dd6e0cb678bfa3593f"
+    },
+    {
+      "path": "paired-probe/through/native/tripinfo.xml",
+      "sha256": "42e948a1eea67091c533aca21895132d8e3a00dff8823304bcd7c1f1e29c1b68"
+    },
+    {
+      "path": "paired-probe/through/native/vehicle-routes.xml",
+      "sha256": "6ca337cff9b86a7f7bd4a7f6b211f54496cc7ca58dae629b30b699eaa99a76df"
+    },
+    {
+      "path": "paired-probe/through/passage-reconciliation.json",
+      "sha256": "d3eca12ec8a9211104f08f4e4e414f7e352f115d21f2d55602da442cf11f45f2"
+    },
+    {
+      "path": "README.md",
+      "sha256": "17563a6cbd07e6796fcc8906de7dec4f9268235e9e17a9407602df0843e1baad"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "83b9a71eaa4c17b01e7d7fad13af4c19eb87eb9af52ab4b52c0e5d5820408f36"
+    }
+  ]
+}

@@ -1,0 +1,371 @@
+{
+  "status": "not_improved",
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 84,
+      "sha256": "8de86dffb7af79f50addd04e2d2a200672ccecab51706aee4c4e0575ad9f1341"
+    },
+    {
+      "path": "byte-references.json",
+      "bytes": 10464,
+      "sha256": "13e6fbe496d40441580c7e850db228c8e367ced4ebed85eee772623944f1a341"
+    },
+    {
+      "path": "freeze_evidence.py",
+      "bytes": 16290,
+      "sha256": "3d327f2e94631c2c10db3f2c25a97a1fb16e03581911e248d76df92f23c01c55"
+    },
+    {
+      "path": "historical-source-bindings.json",
+      "bytes": 26641,
+      "sha256": "ce88444753d5ee22fb8965bc004c10d0fed439ebd8ffe1994405d3839d11e588"
+    },
+    {
+      "path": "independent/all182.csv.gz",
+      "bytes": 1571,
+      "sha256": "97370f1b4c495238c35f2499494bd1944c2cd997de801757e3d6c2c2a5e82965"
+    },
+    {
+      "path": "independent/audit_completed.py.gz",
+      "bytes": 3652,
+      "sha256": "b1cd4996d22f957bbc3df7c605f6ea0859730425e810016720ba3c03ab8ffcd8"
+    },
+    {
+      "path": "independent/field13.csv.gz",
+      "bytes": 436,
+      "sha256": "f737936eaae98b49fe89822a42676ca1494e3fde1816517e18b7895ff2976bfe"
+    },
+    {
+      "path": "independent/main130.csv.gz",
+      "bytes": 1194,
+      "sha256": "12bda8e2dcf199b4b8081107656c7cfc8f27d6d1dfa39a4d5484702936c00fce"
+    },
+    {
+      "path": "independent/manifest.json.gz",
+      "bytes": 663,
+      "sha256": "b275ecc3cea368d1fe46fa3f735a3034dbc76fe7477481153afa3a01db3d7ac1"
+    },
+    {
+      "path": "independent/native208.csv.gz",
+      "bytes": 6786,
+      "sha256": "6a026becd81ebe5d56777965ae0d678725b0af0863eac2105dfc39c6bc8dc290"
+    },
+    {
+      "path": "independent/source-hashes.json.gz",
+      "bytes": 1707,
+      "sha256": "6c3dfbf0e8385a9ba5eb99c9469c76d999d8e486245fd617ea24ae3aaeba86c0"
+    },
+    {
+      "path": "independent/station40.csv.gz",
+      "bytes": 470,
+      "sha256": "fabb3abdd57836c9af29c9fa4c61469558b0ae4c9e442ed4ead613e5ee545b16"
+    },
+    {
+      "path": "independent/summary.json.gz",
+      "bytes": 1126,
+      "sha256": "e967060e9d74076a576ee31548d3ec942f11d20ddb765a44be701c3304d0b1fb"
+    },
+    {
+      "path": "independent-input/manifest.json.gz",
+      "bytes": 235,
+      "sha256": "fdd1dc89b80c239895fdcdd96c459ef06e4d6acd141c3d052556320a41c9b25a"
+    },
+    {
+      "path": "independent-input/source-hashes.json.gz",
+      "bytes": 735,
+      "sha256": "1cd686938f1e58ecaaf083af77ecbf29b41703d71fed077d111dabeb2dbacb4f"
+    },
+    {
+      "path": "independent-input/summary.json.gz",
+      "bytes": 1063,
+      "sha256": "b8239b3a524087356800eb981d111e967fd1668db4f8b08eafb3ded9f4969a70"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 878,
+      "sha256": "85151ca015344fe4f3df87ca753206e0ce90da5566c23ba9c5213bf6df94dceb"
+    },
+    {
+      "path": "measurement-plan.json.gz",
+      "bytes": 1777,
+      "sha256": "14b2c3c38f8802478be230e76947ad0413d7f54f25786e8fa15c0c1a74986a6c"
+    },
+    {
+      "path": "prepare.py.gz",
+      "bytes": 4203,
+      "sha256": "bc7144c9431f71c7b891354198318988abae26626303517ab8af88434f4bbb6f"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3829,
+      "sha256": "c13039ca4da3f8a242c2da71018dcaf2a58288a22e3ceb4d4f91f920bf159dbb"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 8078,
+      "sha256": "527e1cc70619d1634fbb39374901b4b2c512b642801fa88c7562469b181c7c71"
+    },
+    {
+      "path": "results.json",
+      "bytes": 1959,
+      "sha256": "2976a6c0de1593b7573eee7a92947618c8beb3290f6ac9c1fc16a529afb69902"
+    },
+    {
+      "path": "root-check-only.json.gz",
+      "bytes": 469,
+      "sha256": "cf409587f897a1ca56635c562df6a10e15daf7815540f1b047eeb9ee27443c3c"
+    },
+    {
+      "path": "run_spread.py.gz",
+      "bytes": 2297,
+      "sha256": "145b48888642ed1b9bc20a1e8c0f568f3d55407d4746cac1a808d7e38365232a"
+    },
+    {
+      "path": "selfcheck.py.gz",
+      "bytes": 1653,
+      "sha256": "d3ff210628cf0d46348aac04798f55e23f1c01369f9fd612f075f3560250b0c2"
+    },
+    {
+      "path": "selfchecks.json.gz",
+      "bytes": 212,
+      "sha256": "42538a657e818ecbd7308f04da904a61d0abb391db124f854d08dbe6e081418c"
+    },
+    {
+      "path": "source-concentration/analyze_source.py.gz",
+      "bytes": 2674,
+      "sha256": "9a1b46b3d38a7929760b04578bf88efc0e7ea62a32c0d66abe21329e81dad60b"
+    },
+    {
+      "path": "source-concentration/manifest.json.gz",
+      "bytes": 524,
+      "sha256": "f01e1cea53f6bfa5e96ba67c1803d521a883cc8259d60d613a1bc735365dfac5"
+    },
+    {
+      "path": "source-concentration/raw-stretch-crossings55.csv.gz",
+      "bytes": 989,
+      "sha256": "1f2e2012d4547c3050b22481c04b72c32d232399927504aea27afdc6c9514eb4"
+    },
+    {
+      "path": "source-concentration/request-bin14.csv.gz",
+      "bytes": 2099,
+      "sha256": "a22b9520dcd06a22d354a52a92fee633f0cb0290a928c8c8791b798ea24d5874"
+    },
+    {
+      "path": "source-concentration/source-hashes.json.gz",
+      "bytes": 444,
+      "sha256": "dd9e773b32b30006a0c9a23445e681496c6f24366f04b8182d943d1e5c2b14b2"
+    },
+    {
+      "path": "source-concentration/summary.json.gz",
+      "bytes": 869,
+      "sha256": "18cc5bce66578c73cb1e0c4b38547ced95d82d62e44efc008a1e523c2554f124"
+    },
+    {
+      "path": "source-concentration/tail74.csv.gz",
+      "bytes": 3155,
+      "sha256": "19aa6ec25a4516f44970dc8de93ae50d0cd281ebc4e6f6cf421b13ffb550b408"
+    },
+    {
+      "path": "source-concentration/Z5-vehicles623.csv.gz",
+      "bytes": 27721,
+      "sha256": "9cc26e2b1a75722c681f9408bba15798078803bcbd9f0ea6912f3dbd7427405d"
+    },
+    {
+      "path": "source-provenance.json",
+      "bytes": 36718,
+      "sha256": "2e5fbd01f4829ce8b7a549b6e122a7680c9277b2dc37bc0d2cd313661e07121c"
+    },
+    {
+      "path": "source-references.json",
+      "bytes": 185,
+      "sha256": "9053c8f0c54e505cea30a8fe078e9d51a7ec0e964c70312aaee7388d4dbfb782"
+    },
+    {
+      "path": "spread15/bin-spread-statistics.json.gz",
+      "bytes": 1350,
+      "sha256": "6ae6e3a8ec6ae1bd70778d5a74f5f701339b03881cb278cd0952e9b7ed3bf864"
+    },
+    {
+      "path": "spread15/departure-proposals.json.gz",
+      "bytes": 19134,
+      "sha256": "3a70fe3bc9f8d75039e8cb954e9d62ffbc2d679db76e637c8424335390bd361e"
+    },
+    {
+      "path": "spread15/evaluation/contributing-passages.json.gz.gz",
+      "bytes": 172784,
+      "sha256": "2720e8974106c0dced0c2edb10986cd086ce18e6862fb7a96a92d087436d60b1"
+    },
+    {
+      "path": "spread15/evaluation/demand.rou.xml.gz",
+      "bytes": 122508,
+      "sha256": "24419ce21a32b098fdb1ed9b4b4f46d98ecc259ffac8605b43c8642dde08730a"
+    },
+    {
+      "path": "spread15/evaluation/evaluation.json.gz",
+      "bytes": 264,
+      "sha256": "a4f11718aef59b87d3635ff891bea7a6c845d39878c1248a555710262a6b2793"
+    },
+    {
+      "path": "spread15/evaluation/lane-intentions.json.gz",
+      "bytes": 30657,
+      "sha256": "9dd6ae708d83fbef26d636908e1257326a936f27a5e71dfd990f9f8f5a454cb7"
+    },
+    {
+      "path": "spread15/evaluation/native/collisions.xml.gz",
+      "bytes": 726,
+      "sha256": "4992a1d4e7b0ea6612a10783388a57010025238a1e7992c290ac661345fd725f"
+    },
+    {
+      "path": "spread15/evaluation/native/command.json.gz",
+      "bytes": 1226,
+      "sha256": "decc283053bdfb814d076d1b66521dbbec7f26d954aa0a79a70cb128c0432ed8"
+    },
+    {
+      "path": "spread15/evaluation/native/e1.add.xml.gz",
+      "bytes": 477,
+      "sha256": "6c86cb97a08927d89c33a58093c371b2a244202f88f8cc683961ddaabbebb2a1"
+    },
+    {
+      "path": "spread15/evaluation/native/field-counts.xml.gz",
+      "bytes": 8438,
+      "sha256": "54fac543f4fd0313f7847e74ba3f6b5ac2c0a658ecdb8796921e3fbb7902b8eb"
+    },
+    {
+      "path": "spread15/evaluation/native/instant.add.xml.gz",
+      "bytes": 390,
+      "sha256": "60b97dce5a211271007458a0e25edbd0dbfd65e7bff36e7f5c2729e4f31cade6"
+    },
+    {
+      "path": "spread15/evaluation/native/native-request.json.gz",
+      "bytes": 666,
+      "sha256": "6eed03c08689fdd788d4895d6fdfdceed66032767ab4ee89dcb56bccdd528713"
+    },
+    {
+      "path": "spread15/evaluation/native/run.json.gz",
+      "bytes": 347231,
+      "sha256": "78283db160f3bca26ebf0d17f3a2178fe11d5d1022c50f3b304d29ea59739b4c"
+    },
+    {
+      "path": "spread15/evaluation/native/stall-monitor.json.gz",
+      "bytes": 340021,
+      "sha256": "0ded8513435aacc9fb708e1ca88c4550e28eee844f067412619c9e7462a55e40"
+    },
+    {
+      "path": "spread15/evaluation/native/summary.xml.gz",
+      "bytes": 3143443,
+      "sha256": "86c037a65f78de7607fcb60a5a9c174b7f8df8f22e97b40fc3055082c8d02265"
+    },
+    {
+      "path": "spread15/evaluation/native/sumo-errors.log.gz",
+      "bytes": 591,
+      "sha256": "93ce3b4449d73a2dad0735bc7913be6c03dd0a5c1939d11d861d431ef8e91e3c"
+    },
+    {
+      "path": "spread15/evaluation/native/sumo.log.gz",
+      "bytes": 1088,
+      "sha256": "65cefde924e94b314d1820af33c242c24f2c3bee79250474f1111c58c6711683"
+    },
+    {
+      "path": "spread15/evaluation/native/tripinfo.xml.gz",
+      "bytes": 406827,
+      "sha256": "4c8814d1d945c89b56d6eb74e883823b95889ebae89941bdf01ed3ff2d7d7cba"
+    },
+    {
+      "path": "spread15/evaluation/native/vehicle-routes.xml.gz",
+      "bytes": 712059,
+      "sha256": "b1f621446863889069579f40088b73feb2e85d9b41822c40b5708a64fd6c998e"
+    },
+    {
+      "path": "spread15/implementation/hamburg_departure_probe.py.gz",
+      "bytes": 5747,
+      "sha256": "87da5202f0ffe8eb7051c6c20b5db4586b245f02857d2328a980bc3748eb9b08"
+    },
+    {
+      "path": "spread15/metadata-correction-history/manifest.json.gz",
+      "bytes": 501,
+      "sha256": "58613963b9178b17c4bec08df39a2f4c9a4f6770657629b02d369d6320cce8bd"
+    },
+    {
+      "path": "spread15/metadata-correction-history/measurement-plan.json.gz",
+      "bytes": 1773,
+      "sha256": "7d3cd471a7635afff9c8fe06da0f96255c3d42c3539c8f1121e11918e216d315"
+    },
+    {
+      "path": "spread15/metadata-correction-history/prepare.py.gz",
+      "bytes": 4121,
+      "sha256": "5c4d5362492fa544bcddf01176828fb742edd5a11b376550dbf7f57028579cf1"
+    },
+    {
+      "path": "spread15/metadata-correction-history/run_spread-before-parent-labels.py.gz",
+      "bytes": 2228,
+      "sha256": "2e7d0a664163e60efaeae4b823d885911ef00a7cc19e11820fe720447aa60569"
+    },
+    {
+      "path": "spread15/metadata-correction-history/scenario.json.gz",
+      "bytes": 2246,
+      "sha256": "124a8c390efb30c29aaa1c9f85e1aa0ce46724b9c615b143e1a14af237353c28"
+    },
+    {
+      "path": "spread15/metadata-correction-history/scope-proof.json.gz",
+      "bytes": 2315,
+      "sha256": "2c74399a35d5a8b4859d7a921511b359bc7e1baec35992ca8a2461ae5268debd"
+    },
+    {
+      "path": "spread15/metadata-revision.json.gz",
+      "bytes": 589,
+      "sha256": "34a3c0e540f22e305c17b504d35018c867550cc4e77b55e6d391452fbd04dcaf"
+    },
+    {
+      "path": "spread15/od-vector.json.gz",
+      "bytes": 1171,
+      "sha256": "e4e0d116dda80fd766d6ee99806a4e404e0ba9a39df18d39429f657e4709af4b"
+    },
+    {
+      "path": "spread15/preflight.json.gz",
+      "bytes": 1092,
+      "sha256": "17448ce23201bc88cbcbc4f7a0b6d4043f864fa79cd1022ce1565935e4ed94d9"
+    },
+    {
+      "path": "spread15/preparation-implementation/mapping.json.gz",
+      "bytes": 386,
+      "sha256": "017018f9de4a52d50816904a364cb352b2de1a8c32356cce3bae16f3c3a6823d"
+    },
+    {
+      "path": "spread15/preparation-snapshot-migration.json.gz",
+      "bytes": 543,
+      "sha256": "9d6f96160bfcad73a6e1531f96850afa48d493ad300d57818c8e0aea58a06cff"
+    },
+    {
+      "path": "spread15/prepared/scenario.json.gz",
+      "bytes": 2252,
+      "sha256": "70a97d594130f383a59e6dc8f3b36662060cc4b6f2b9f9519c280eea68d26a69"
+    },
+    {
+      "path": "spread15/scope-proof.json.gz",
+      "bytes": 2316,
+      "sha256": "dae73bf7c70ff0775000d10b4092f711836af81aba6f074e296c357c19a20750"
+    },
+    {
+      "path": "spread15/verdict.json.gz",
+      "bytes": 1048,
+      "sha256": "ca3432c0f9245dfbd73fb85a427b8e04fdbec234603eca027402099b6ebe3512"
+    },
+    {
+      "path": "spread15/z5-departure-stocks.json.gz",
+      "bytes": 205,
+      "sha256": "76b776a3eb243ab3eb7b68f89b20fff5e4a0b5bffcaa0066752edf9e4b932af9"
+    },
+    {
+      "path": "spread15.execution.log.gz",
+      "bytes": 1137,
+      "sha256": "bb89a56d6512ebb3c2c256ee253d147945edaf970527ea21d5083e84116e0fa6"
+    },
+    {
+      "path": "test_freeze_evidence.py",
+      "bytes": 2926,
+      "sha256": "f7dc4532c8e4fa9c8eabe8830a1a67d9569b86348276d37e96f068d26a0488d0"
+    }
+  ]
+}

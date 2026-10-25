@@ -1,0 +1,48 @@
+{
+  "network": "../hamburg_ring1_m1_demand_pool_20261021_v1/inputs/network.net.xml",
+  "boundary_selection": "../hamburg_ring1_m1_demand_pool_20261021_v1/inputs/boundary-selection.json",
+  "field_loops": "../hamburg_ring1_m1_demand_pool_20261021_v1/inputs/field-loops.add.xml",
+  "counts": "../hamburg_ring1_m1_demand_pool_20261021_v1/inputs/field-counts-15min.csv",
+  "junction_groups": "../hamburg_ring1_m1_demand_pool_20261021_v1/inputs/junction-groups.json",
+  "entry_min_length_m": 7.5,
+  "entry_vph_per_lane": 900,
+  "nominal_approach_vph": 1800,
+  "vehicle_length_m": 5,
+  "departure_position_m": 5.1,
+  "step_length_s": 0.1,
+  "interval_s": 900,
+  "comparison_offset_s": 3600,
+  "end_s": 14400,
+  "solver_limit_s": 60,
+  "entry_alternatives": [
+    {
+      "id": "primary-entry",
+      "source_entry": "25866659#1",
+      "replacement_entry": "44532531",
+      "merge_edge": "24483192",
+      "status": "declared_alternative"
+    },
+    {
+      "id": "service-entry",
+      "source_entry": "31106387",
+      "replacement_entry": "963776077#0",
+      "merge_edge": "24483344#0",
+      "status": "candidate"
+    }
+  ],
+  "entry_vph_by_highway": {
+    "primary": 900,
+    "secondary": 900,
+    "trunk": 900,
+    "primary_link": 900,
+    "secondary_link": 900,
+    "trunk_link": 900,
+    "tertiary": 600,
+    "tertiary_link": 600,
+    "residential": 200,
+    "unclassified": 200,
+    "service": 100,
+    "living_street": 100
+  },
+  "low_class_sensitivity_factor": 1
+}

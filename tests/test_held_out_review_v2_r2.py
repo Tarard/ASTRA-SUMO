@@ -30,7 +30,7 @@ from astra_sumo.corridor.schema import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_DIR = REPOSITORY_ROOT / "schemas"
+SCHEMA_DIR = REPOSITORY_ROOT / "schemas" / "research" / "corridor"
 
 
 def test_v2_r2_reviewer_unit_does_not_expose_machine_role_or_weight() -> None:

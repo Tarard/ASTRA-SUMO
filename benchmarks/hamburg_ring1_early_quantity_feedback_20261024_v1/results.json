@@ -1,0 +1,162 @@
+{
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "cases": {
+      "window0": {
+        "measurement": {
+          "main130": {
+            "SSE": 5498,
+            "TAE": 356,
+            "MAE": 2.7384615384615385,
+            "max_abs_error": 36
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 6615,
+            "TAE": 453,
+            "MAE": 2.489010989010989,
+            "max_abs_error": 36
+          },
+          "station40_MAE": 8.4,
+          "completion": {
+            "loaded": 8604,
+            "inserted": 8604,
+            "arrived": 8604,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8604,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "input_scope": {
+          "source_N": 8597,
+          "actual_N": 8604,
+          "added_IDs": [
+            "hyp_w0_11_c97_a0",
+            "hyp_w0_12_c100_a0",
+            "hyp_w0_12_c100_a1",
+            "hyp_w0_12_c98_a0",
+            "hyp_w0_12_c99_a0",
+            "hyp_w0_12_c99_a1",
+            "hyp_w0_13_c100_a0",
+            "hyp_w0_13_c100_a1",
+            "hyp_w0_13_c98_a0",
+            "hyp_w0_13_c99_a0"
+          ],
+          "removed_IDs": [
+            "od_0088_v00008",
+            "od_0104_v00015",
+            "od_0104_v00049"
+          ],
+          "common_survivors": 8594,
+          "survivors_XML_intent_routes_times_stops_and_relative_order_exact": true,
+          "new_IDs_are_explicit_hypothetical_template_clones": true,
+          "actual294_inventory_verified": true,
+          "q_L1": 13
+        },
+        "prefix52_all_native_attributes_equal": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "first_main_window_TAE": 9,
+        "remaining117_main_TAE": 347,
+        "raw_verdict": "diagnostic_measurement_complete",
+        "selected": false,
+        "reason": "Main130 error is worse than source324; first-window improvement is not global success."
+      },
+      "window0_remove3": {
+        "measurement": {
+          "main130": {
+            "SSE": 6738,
+            "TAE": 448,
+            "MAE": 3.4461538461538463,
+            "max_abs_error": 24
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 7855,
+            "TAE": 545,
+            "MAE": 2.9945054945054945,
+            "max_abs_error": 24
+          },
+          "station40_MAE": 10.55,
+          "completion": {
+            "loaded": 8594,
+            "inserted": 8594,
+            "arrived": 8594,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8594,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 34
+        },
+        "input_scope": {
+          "source_N": 8597,
+          "actual_N": 8594,
+          "added_IDs": [],
+          "removed_IDs": [
+            "od_0088_v00008",
+            "od_0104_v00015",
+            "od_0104_v00049"
+          ],
+          "common_survivors": 8594,
+          "survivors_XML_intent_routes_times_stops_and_relative_order_exact": true,
+          "new_IDs_are_explicit_hypothetical_template_clones": true,
+          "actual294_inventory_verified": true,
+          "q_L1": 3
+        },
+        "prefix52_all_native_attributes_equal": true,
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "first_main_window_TAE": 10,
+        "remaining117_main_TAE": 438,
+        "raw_verdict": "diagnostic_measurement_complete",
+        "selected": false,
+        "reason": "Main130 error is worse than source324; first-window improvement is not global success."
+      }
+    },
+    "traffic_runs_recorded": 2,
+    "working_best_unchanged": {
+      "source_N": 8597,
+      "main_TAE": 324,
+      "main_MAE": 2.4923076923076923
+    },
+    "calibration_complete": false,
+    "first_window_improvement_is_not_global_acceptance": true
+  }
+}

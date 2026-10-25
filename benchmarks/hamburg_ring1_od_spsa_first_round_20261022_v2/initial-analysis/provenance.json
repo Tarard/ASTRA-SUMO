@@ -1,0 +1,34 @@
+{
+  "source_dir": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1",
+  "prepared_dir": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-baseline-20261022-v1",
+  "analysis": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-analysis-20261022-v2\\analyze.py",
+  "count_source": "Native E1 nVehContrib only",
+  "all_130_fields_retained": true,
+  "all_40_derived_station_rows_retained": true,
+  "input_files_unchanged": true,
+  "source_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-baseline-20261022-v1\\expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-baseline-20261022-v1\\network.net.xml": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-baseline-20261022-v1\\control.add.xml": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-baseline-20261022-v1\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-baseline-20261022-v1\\od-model.json": "23652b2758038a4818d167679688b954d2848ef8a2cd659d22fd5f46a8db5638",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\od-vector.json": "e22407f9e8b992af014c15f21749d63c7b3b9fdf56167456e288e2348ad86d22",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\demand.rou.xml": "9aefb1944e5a0764cea2e92b440ace99f136885a157b33260fef46438a82c070",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\lane-intentions.json": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\run.json": "357d909c76c91e99f731e712bdf2a40aa4fb91a856cfaeee90356ee236512918",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\field-counts.xml": "14c2aceb0a6036e30189b372df53caeffb4d2457dbd0d097a72da0307c1ecefa",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\summary.xml": "be3d1dbc16661f1fac396dd31e7af4dad073c320c4d7912383184a0101ba0a7e",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\tripinfo.xml": "53765ff375f1e861d226e6d6ff9135cbfdd8890dd8b9b586fbb1fdfddf2d0b2c",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\collisions.xml": "3b9804de8c53261635b3c1bf4881c86780e52084a67734a61195c4b8079fdf97",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\stall-monitor.json": "d3444b825ba9cdf928c28c7cacc34b21dc224740f4f9709a0e9fb1adcb3d1342",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\command.json": "60341992af44256f0c479c64739445455715c3e2cb8de5f16d42be02146cc30e",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\hamburg-od-initial-native-20261022-v1\\native\\native-request.json": "dbe1ccacf1a4cd273289e2b939babaf7fc49da5fa85fcab2b4d572225fcb064d"
+  },
+  "output_sha256": {
+    "analyze.py": "b8acce847acf1a095152635dcdd93646711166a7f8563419a9a5221b235b22e8",
+    "metrics.json": "7397df7d9d85f85ff1fb0fc0e77d20f6843a6fa84b8a31a5498123a5b88c6ed5",
+    "all-130-field-comparison.csv": "c03a3ea8b5a7f64e5a97bb605ff30090b7c360ae17f38aee532a0845ba20e157",
+    "all-40-station-comparison.csv": "4a8e6e070f5ed67b66d6f30bd00c53fe111a2f4fa679eeca48bdfdfca308cb52"
+  },
+  "claim_boundary": "Completed native observations from an unhealthy run. These diagnostic losses are not accepted calibration. Station values sum the same field observations."
+}

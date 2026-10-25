@@ -1,0 +1,176 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/all-130-main-rows.csv",
+      "sha256": "a2fb3a191dff70e82ec3b8744a04d9dbb7dba46515b0af00577c699ff17bead3"
+    },
+    {
+      "path": "analysis/all-40-main-stations.csv",
+      "sha256": "a4fc4ec174592a1849d785b522513d80afef740cc2a64c042b73064d7670f68f"
+    },
+    {
+      "path": "analysis/prefix-check.json",
+      "sha256": "d8035e46ff720230d07f6e20c09078269363bfde1c2c1d03ac281401c9a3c8db"
+    },
+    {
+      "path": "analyze-localized-junction-body-prefix.py",
+      "sha256": "cafe808cd4ebbda282b4cdecd131cddf2540f96b898d7ebad1930287ee30ea5f"
+    },
+    {
+      "path": "freeze-localized-body-prefix.py",
+      "sha256": "eba9eac8b922d5f8a1911ed07dc5b14e547d8f64edc263013757a1dd3cd46c33"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "0fd9ebde70866edc4d0b4f886a8c7f73d42e1d2c87c403a179cacaa9dcebd119"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/prefix-proposal.json",
+      "sha256": "ce67f8cf6abe965223785a24a9dd711d559f7f656d83599dac72ce559548525f"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "05d2948ae0375ab003c12a2898e8c6fb82e1516605fb7a5dd575b8ff1efb0d20"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "323a3cdb9913e90b799f929ba9d458cc5408ec2f779aded3f69aeced06e71615"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "a8a4bc4351325b9144b4c0382add461457202d2427f0fc01116a9dbe6b6e42c5"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "c264b78b7f92494291e4653ef28e228bee93b544997d5bbca51b001fbf71d16d"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "0d81acc5a75cdfbd5d7023645f1bb8e3d851741b9891b7582441c39967d30025"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "24d99a8cac196cfcc6228f807ffa25b5808ca357be1f4cb3a60469fcbca6693c"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "6a3cd48602180e05fa16e98dea6ff4de40ee342a9f3e49bb9521cda339a4ee04"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "b1e8ba0ba2e1c701f86ad5a8cf50bdfecaff4145cac53578d77ec4256e9055d7"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "cf92fbf206b637a5160a30e998adbc4baf7cdbb38ee32882036584b8bb6dd18d"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "d173f5b625d038507920bc34e2331d81ea3617a6dd51a4630e61a9b2a4b30683"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "ca4fac861597d3fa927ce372b8b5c6bc6ef9b481b65972d0e3122e7bc51adc42"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "0a1000ff87ee59a0ebe1aa5f748bf14315794879489b154c9c0a112ae5081d11"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "ab99837bd98cf8be1ae76bc3cec28b86c95cf89be341b8e959939a8980122062"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "4d9e1e10ee1e53614fb0ba7b8bb2b2b3396c8584245936babf9ebe7a3972c557"
+    },
+    {
+      "path": "native/states/state_5999.900.xml.gz",
+      "sha256": "9695243a9f88ce4e52504a5e1ecd65c29740be04c2470e05f95daf8873d81885"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "149c53171d8349edd5aaa637b2adb2d1a10fde4433ce73f24bdcf2cb58dd5fb1"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "3d0bf31f29ca2cdc0b7dce07bb7df43acf9d6eca3daee4def23cd921fdf1a897"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "105de7cb3e866dc12d881216a53c93bb9329c51239907f637d100a44a85044c5"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "38e185f81b8f3c9d677d717005ddb352b9673468b6bba002f5e1e25848070035"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "05212bf06c4e1d2e78a7a0d62400d28bed89074c3be1b9d495bed460e51aaf80"
+    },
+    {
+      "path": "probe-localized-junction-body.py",
+      "sha256": "d94b882b3d7360e210086d84fb890ddcbfe0c85627c35662e5aba70e53c503da"
+    },
+    {
+      "path": "README.md",
+      "sha256": "5224856841d071e7d45db2523cb5f648df96ce9e0af19ab05bb097ded95ad587"
+    },
+    {
+      "path": "runtime-environment.json",
+      "sha256": "17b69358d733bd67d1a364155d431ae32174754140aae93a78f1b4880c52a6de"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "2a2563f6c9e416fe8b58921505806f3fd6db948655f33be97986a52e9bfc07e4"
+    }
+  ]
+}

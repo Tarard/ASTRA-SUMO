@@ -6,9 +6,9 @@ construct lanes or certify an existing road.
 
 | Module | Responsibility |
 |---|---|
-| [design_rules.py](../../plugins/torii-sumo/src/torii_sumo/road_network/design_rules.py) | Version and context checks, followed by three explicit width checks |
-| [engineering_plan.py](../../plugins/torii-sumo/src/torii_sumo/road_network/adapters/engineering_plan.py) | Manual PDF dimension records, source hashes, dates, units, and measurement basis |
-| [design_review.py](../../plugins/torii-sumo/src/torii_sumo/road_network/design_review.py) | Combine checks and observations without losing either source identity |
+| [design_rules.py](../../plugins/astra-sumo/src/astra_sumo/road_network/design_rules.py) | Version and context checks, followed by three explicit width checks |
+| [engineering_plan.py](../../plugins/astra-sumo/src/astra_sumo/road_network/adapters/engineering_plan.py) | Manual PDF dimension records, source hashes, dates, units, and measurement basis |
+| [design_review.py](../../plugins/astra-sumo/src/astra_sumo/road_network/design_review.py) | Combine checks and observations without losing either source identity |
 
 No rule language, automatic standard selector, or model-training dependency is
 introduced. Each rule function can be tested and extended on its own.

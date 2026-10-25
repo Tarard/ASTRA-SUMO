@@ -1,0 +1,23 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "source_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_localized_junction_body_full_20261021_v1",
+  "source_end_s": 14400,
+  "trace_end_s": 9420.0,
+  "observed_vehicles": [
+    "readme_f4_b4_p208_v5",
+    "readme_f5_b4_p56_v25"
+  ],
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "206413edc6d67ca910d3f81eb29eb21d0cf5fb0e925c96b933fe1c9ae1844b7d",
+    "signal-programs.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "e1.add.xml": "b917160e5cf476f5e4015bdd5bbc68da25d3e4c9080e9913df4dba3bae387fd2",
+    "instant.add.xml": "97eff1b1d87752abddf498e3d339f20aa5a33b125868f4ef7c33e25d35ef84df",
+    "source-e1.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "lane-intentions.json": "952174ff67cd1028ff3e9e7de8f0db90d68fb411697c78860106de70a70e6d08",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+  },
+  "change": "Native FCD on collision participants and lane-change output only. No traffic input or controller change.",
+  "claim_boundary": "Instrumented reproduction. Observation neutrality must be checked against native counts, collisions, completion and lane-hold events."
+}

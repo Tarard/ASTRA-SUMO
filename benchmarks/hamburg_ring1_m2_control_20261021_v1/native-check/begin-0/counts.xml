@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T12:19:49.756503+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\inputs\network.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\control-A.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\e1.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="0"/>
+        <end value="1800"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-0\errors.log"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<detector xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/det_e1_file.xsd">
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_11_28853" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_12_31546" nVehContrib="2" flow="8.000000000000" occupancy="0.079999999360" speed="13.888889000000" harmonicMeanSpeed="13.888889000000" length="5.000000000000" nVehEntered="2"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_13_34018" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_15_29375" nVehContrib="1" flow="4.000000000000" occupancy="0.144185849105" speed="3.853051870246" harmonicMeanSpeed="3.853051870246" length="5.000000000000" nVehEntered="1"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_4_29437" nVehContrib="2" flow="8.000000000000" occupancy="0.220121889932" speed="5.584279394775" harmonicMeanSpeed="5.047708392176" length="5.000000000000" nVehEntered="2"/>
+    <interval begin="0.000" end="900.000" id="hh_0119_Z_5_30494" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_14_31892" nVehContrib="1" flow="4.000000000000" occupancy="4.394892878765" speed="0.126409350781" harmonicMeanSpeed="0.126409350781" length="5.000000000000" nVehEntered="1"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_4_33055" nVehContrib="1" flow="4.000000000000" occupancy="0.144177350427" speed="3.853278992219" harmonicMeanSpeed="3.853278992219" length="5.000000000000" nVehEntered="1"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_5_30894" nVehContrib="2" flow="8.000000000000" occupancy="0.220121889795" speed="5.584279401357" harmonicMeanSpeed="5.047708395310" length="5.000000000000" nVehEntered="2"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_6_33855" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_7_29316" nVehContrib="2" flow="8.000000000000" occupancy="0.220161739379" speed="5.582361172786" harmonicMeanSpeed="5.046794753019" length="5.000000000000" nVehEntered="2"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_8_34287" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="0.000" end="900.000" id="hh_0535_Z_9_29038" nVehContrib="1" flow="4.000000000000" occupancy="0.144474969475" speed="3.845341221213" harmonicMeanSpeed="3.845341221213" length="5.000000000000" nVehEntered="1"/>
+    <interval begin="900.000" end="1800.000" id="hh_0119_Z_11_28853" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0119_Z_12_31546" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0119_Z_13_34018" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0119_Z_15_29375" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0119_Z_4_29437" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0119_Z_5_30494" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_14_31892" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_4_33055" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_5_30894" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_6_33855" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_7_29316" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_8_34287" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+    <interval begin="900.000" end="1800.000" id="hh_0535_Z_9_29038" nVehContrib="0" flow="0.000000000000" occupancy="0.000000000000" speed="-1.000000000000" harmonicMeanSpeed="-1.000000000000" length="-1.000000000000" nVehEntered="0"/>
+</detector>

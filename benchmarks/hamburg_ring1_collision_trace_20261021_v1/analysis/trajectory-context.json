@@ -1,0 +1,472 @@
+{
+  "events": [
+    {
+      "event": {
+        "time": "1881.100",
+        "type": "side",
+        "lane": ":14398547_3_1",
+        "pos": "7.952129758798",
+        "collider": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+        "victim": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+        "colliderType": "readme_lane_intent",
+        "victimType": "readme_lane_intent",
+        "colliderSpeed": "4.861889299103",
+        "victimSpeed": "0.000288885300",
+        "colliderFront": "1274.851948319107,548.550049874803",
+        "colliderBack": "1270.493440631476,551.052438237165",
+        "victimFront": "1275.032728189264,549.220685341780",
+        "victimBack": "1270.357857816829,551.216268303494"
+      },
+      "vehicles": {
+        "collider": {
+          "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+          "last_samples_through_event": [
+            {
+              "time": 1880.9,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1272.581981096963",
+              "y": "546.242886885263",
+              "angle": "118.441831267688",
+              "type": "readme_lane_intent",
+              "speed": "5.339869000317",
+              "pos": "6.956214950037",
+              "lane": ":14398547_3_0",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1881.0,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1273.002396834107",
+              "y": "545.975400664357",
+              "angle": "119.187791689714",
+              "type": "readme_lane_intent",
+              "speed": "5.097258788513",
+              "pos": "7.465940828888",
+              "lane": ":14398547_3_0",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1881.1,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1293.596058282174",
+              "y": "529.552172320733",
+              "angle": "128.060364734326",
+              "type": "readme_lane_intent",
+              "speed": "11.587868518110",
+              "pos": "5.000000000000",
+              "lane": "186713428_0",
+              "slope": "0.000000000000"
+            }
+          ],
+          "lane_transitions": [
+            {
+              "time": 1871.1,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1255.198972235574",
+              "y": "558.103748458135",
+              "angle": "115.003951141251",
+              "type": "readme_lane_intent",
+              "speed": "2.957912971947",
+              "pos": "79.259686228962",
+              "lane": "-186713427_1",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1877.5,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1259.777058203307",
+              "y": "552.306684879424",
+              "angle": "116.029824171644",
+              "type": "readme_lane_intent",
+              "speed": "0.087796227647",
+              "pos": "85.760117750752",
+              "lane": "-186713427_0",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1879.9,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1267.106247327462",
+              "y": "549.106153380438",
+              "angle": "113.177008551301",
+              "type": "readme_lane_intent",
+              "speed": "6.327796227647",
+              "pos": "0.629570697105",
+              "lane": ":14398547_3_0",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1881.1,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1293.596058282174",
+              "y": "529.552172320733",
+              "angle": "128.060364734326",
+              "type": "readme_lane_intent",
+              "speed": "11.587868518110",
+              "pos": "5.000000000000",
+              "lane": "186713428_0",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1881.9,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "x": "1300.197479896622",
+              "y": "524.396156022651",
+              "angle": "127.945458423187",
+              "type": "readme_lane_intent",
+              "speed": "9.319739329644",
+              "pos": "0.467182757418",
+              "lane": ":5324200460_0_0",
+              "slope": "0.000000000000"
+            }
+          ],
+          "native_lane_changes": [
+            {
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "type": "readme_lane_intent",
+              "time": "1877.500",
+              "from": "-186713427_1",
+              "to": "-186713427_0",
+              "dir": "-1",
+              "speed": "0.087796227647",
+              "pos": "85.760117750752",
+              "reason": "speedGain",
+              "leaderGap": "None",
+              "leaderSecureGap": "None",
+              "leaderSpeed": "None",
+              "followerGap": "None",
+              "followerSecureGap": "None",
+              "followerSpeed": "None",
+              "origLeaderGap": "2.582598760411",
+              "origLeaderSecureGap": "0.053602047287",
+              "origLeaderSpeed": "0.025821555287"
+            },
+            {
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+              "type": "readme_lane_intent",
+              "time": "1881.100",
+              "from": ":14398547_3_0",
+              "to": ":14398547_3_1",
+              "dir": "1",
+              "speed": "4.861889299103",
+              "pos": "7.952129758798",
+              "reason": "strategic|urgent",
+              "leaderGap": "9.783315547148",
+              "leaderSecureGap": "4.781019320601",
+              "leaderSpeed": "0.000000000000",
+              "followerGap": "2.952129758798",
+              "followerSecureGap": "0.000000000000",
+              "followerSpeed": "0.001412974030",
+              "origLeaderGap": "None",
+              "origLeaderSecureGap": "None",
+              "origLeaderSpeed": "None"
+            }
+          ]
+        },
+        "victim": {
+          "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+          "last_samples_through_event": [
+            {
+              "time": 1880.9,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+              "x": "1275.032672125002",
+              "y": "549.220710526615",
+              "angle": "113.116383144102",
+              "type": "readme_lane_intent",
+              "speed": "0.000344867314",
+              "pos": "7.733081909944",
+              "lane": ":14398547_3_2",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1881.0,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+              "x": "1275.032701399628",
+              "y": "549.220697376052",
+              "angle": "113.116392072614",
+              "type": "readme_lane_intent",
+              "speed": "0.000315682125",
+              "pos": "7.733113478157",
+              "lane": ":14398547_3_2",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 1881.1,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+              "x": "1275.032728189264",
+              "y": "549.220685341780",
+              "angle": "113.116400243224",
+              "type": "readme_lane_intent",
+              "speed": "0.000288885300",
+              "pos": "7.733142366687",
+              "lane": ":14398547_3_2",
+              "slope": "0.000000000000"
+            }
+          ],
+          "lane_transitions": [
+            {
+              "time": 1871.1,
+              "id": "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+              "x": "1273.874815802643",
+              "y": "549.726558492669",
+              "angle": "112.922282516804",
+              "type": "readme_lane_intent",
+              "speed": "0.916342594426",
+              "pos": "6.490194959010",
+              "lane": ":14398547_3_2",
+              "slope": "0.000000000000"
+            }
+          ],
+          "native_lane_changes": []
+        }
+      }
+    },
+    {
+      "event": {
+        "time": "2401.100",
+        "type": "junction",
+        "lane": ":205069138_2_2",
+        "pos": "11.883822581954",
+        "collider": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+        "victim": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+        "colliderType": "readme_lane_intent",
+        "victimType": "readme_lane_intent",
+        "colliderSpeed": "5.801466286425",
+        "victimSpeed": "0.084913494838",
+        "colliderFront": "1512.498667194158,345.284933719773",
+        "colliderBack": "1508.984144075482,348.864280929778",
+        "victimFront": "1517.343036686616,344.847106151100",
+        "victimBack": "1509.216277084739,344.029493157638"
+      },
+      "vehicles": {
+        "collider": {
+          "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+          "last_samples_through_event": [
+            {
+              "time": 2400.8,
+              "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+              "x": "1511.241076310583",
+              "y": "346.575212116081",
+              "angle": "135.405028426241",
+              "type": "readme_lane_intent",
+              "speed": "6.369166841979",
+              "pos": "10.087578100225",
+              "lane": ":205069138_2_2",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2400.9,
+              "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+              "x": "1511.674440646717",
+              "y": "346.135677082027",
+              "angle": "135.405028426241",
+              "type": "readme_lane_intent",
+              "speed": "6.151683961613",
+              "pos": "10.702746496386",
+              "lane": ":205069138_2_2",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2401.0,
+              "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+              "x": "1512.096823085175",
+              "y": "345.705478019611",
+              "angle": "135.419479911027",
+              "type": "readme_lane_intent",
+              "speed": "6.009294569253",
+              "pos": "0.080564953311",
+              "lane": "189775480_3",
+              "slope": "0.000000000000"
+            }
+          ],
+          "lane_transitions": [
+            {
+              "time": 2391.1,
+              "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+              "x": "1503.423380121516",
+              "y": "354.486996081737",
+              "angle": "134.712643320071",
+              "type": "readme_lane_intent",
+              "speed": "0.000000000000",
+              "pos": "36.560415000000",
+              "lane": "551303424_3",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2398.8,
+              "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+              "x": "1504.253789511356",
+              "y": "353.661991265100",
+              "angle": "134.736121870898",
+              "type": "readme_lane_intent",
+              "speed": "2.340000000000",
+              "pos": "0.169000000000",
+              "lane": ":205069138_2_2",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2401.0,
+              "id": "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+              "x": "1512.096823085175",
+              "y": "345.705478019611",
+              "angle": "135.419479911027",
+              "type": "readme_lane_intent",
+              "speed": "6.009294569253",
+              "pos": "0.080564953311",
+              "lane": "189775480_3",
+              "slope": "0.000000000000"
+            }
+          ],
+          "native_lane_changes": []
+        },
+        "victim": {
+          "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+          "last_samples_through_event": [
+            {
+              "time": 2400.9,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1517.330581054619",
+              "y": "344.860141418265",
+              "angle": "84.246368775132",
+              "type": "readme_lane_intent",
+              "speed": "0.104831475109",
+              "pos": "4.283019108117",
+              "lane": "189775480_4",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2401.0,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1517.337136650407",
+              "y": "344.853280751336",
+              "angle": "84.250882874712",
+              "type": "readme_lane_intent",
+              "speed": "0.094348327598",
+              "pos": "4.292453940877",
+              "lane": "189775480_4",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2401.1,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1517.343036686616",
+              "y": "344.847106151100",
+              "angle": "84.254946191786",
+              "type": "readme_lane_intent",
+              "speed": "0.084913494838",
+              "pos": "4.300945290361",
+              "lane": "189775480_4",
+              "slope": "0.000000000000"
+            }
+          ],
+          "lane_transitions": [
+            {
+              "time": 2391.1,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1489.217587809884",
+              "y": "329.727875281709",
+              "angle": "48.333905303489",
+              "type": "readme_lane_intent",
+              "speed": "7.824786693615",
+              "pos": "62.926277690346",
+              "lane": "771709146#0_1",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2393.1,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1499.342399986657",
+              "y": "339.210612198579",
+              "angle": "44.217120449769",
+              "type": "readme_lane_intent",
+              "speed": "7.251192801170",
+              "pos": "0.532632333147",
+              "lane": ":5254541548_0_0",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2393.6,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1500.404500345262",
+              "y": "342.392933009295",
+              "angle": "23.932092446856",
+              "type": "readme_lane_intent",
+              "speed": "6.576109283262",
+              "pos": "0.013825931067",
+              "lane": ":205069138_0_1",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2395.9,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1512.078399819193",
+              "y": "345.724758629479",
+              "angle": "84.337561161832",
+              "type": "readme_lane_intent",
+              "speed": "2.467045651714",
+              "pos": "0.053967087600",
+              "lane": "189775480_3",
+              "slope": "0.000000000000"
+            },
+            {
+              "time": 2396.0,
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "x": "1514.581595950846",
+              "y": "347.737053265852",
+              "angle": "73.726238910445",
+              "type": "readme_lane_intent",
+              "speed": "2.727045651714",
+              "pos": "0.326671652771",
+              "lane": "189775480_4",
+              "slope": "0.000000000000"
+            }
+          ],
+          "native_lane_changes": [
+            {
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "type": "readme_lane_intent",
+              "time": "2395.900",
+              "from": "189775480_2",
+              "to": "189775480_3",
+              "dir": "1",
+              "speed": "2.467045651714",
+              "pos": "0.053967087600",
+              "reason": "strategic|urgent",
+              "leaderGap": "11.992202207665",
+              "leaderSecureGap": "1.467176344940",
+              "leaderSpeed": "1.354677762249",
+              "followerGap": "7.278078087600",
+              "followerSecureGap": "0.000000000000",
+              "followerSpeed": "0.000000000000",
+              "origLeaderGap": "5.279863912400",
+              "origLeaderSecureGap": "1.603579673614",
+              "origLeaderSpeed": "0.000000000000"
+            },
+            {
+              "id": "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+              "type": "readme_lane_intent",
+              "time": "2396.000",
+              "from": "189775480_3",
+              "to": "189775480_4",
+              "dir": "1",
+              "speed": "2.727045651714",
+              "pos": "0.326671652771",
+              "reason": "strategic|urgent",
+              "leaderGap": "6.053400575505",
+              "leaderSecureGap": "3.418273042743",
+              "leaderSpeed": "0.000000000000",
+              "followerGap": "7.550782652771",
+              "followerSecureGap": "0.000000000000",
+              "followerSpeed": "0.000000000000",
+              "origLeaderGap": "11.853605577535",
+              "origLeaderSecureGap": "3.285057172660",
+              "origLeaderSpeed": "1.341079350412"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "reproduction_matched": true,
+  "claim_boundary": "Native FCD samples and lane-change events. Collision checks and FCD output occur at different stages, so equal time labels do not establish an identical vehicle state."
+}

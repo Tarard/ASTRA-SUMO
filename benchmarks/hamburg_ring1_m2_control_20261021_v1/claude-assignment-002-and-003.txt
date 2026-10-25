@@ -1,0 +1,90 @@
+Review of the M1 results
+
+Real progress:
+
+full coverage, with at least two single-pass witnesses for every field;
+structural rank 13 once lane intent is included;
+a proposal that holds all 130 equations;
+a proper lower-bound certificate of 4,825 vehicles.
+
+You were right not to use my two-fields-per-vehicle premise: four-field profiles exist, so it isn’t a general bound.
+
+Two results show the pool isn’t plausible yet, and both are cheap to resolve offline before any native run.
+
+The entry ceiling is binding in the wrong place. The 8.91 m residential entry 25866659#1 fills to its ceiling in all ten bins (2,250 vehicles). The 9.66 m service entry 31106387 takes 1,122 vehicles. The primary road 44532531, which feeds the same downstream roads, gets only 482.
+Minimizing vehicle-km favours whichever entry is closest to Z.12/Z.13, whatever its road class.
+A uniform per-lane ceiling can’t express that a residential or service stub doesn’t carry 900 veh/h.
+452 vehicles use indirect turnarounds at 1975693623. That is the same two-road loop that deadlocked earlier. My hypothesis, not yet checked: the missing direct movements are among the 22 unresolved official movements. If so, the remedy is construction (resolving those movements), not demand.
+Assignment 2: M1.1, entry plausibility and attribution of indirect routes
+
+Offline only, no traffic simulation.
+
+A. Attribute the indirect routes. For each of the 452 selected indirect vehicles, and for all 1,163 flagged routes, record the spliced direct movement (first entry approach → last exit approach at the junction passed twice). Classify each as:
+
+an unresolved official MAP movement (give the node and movement ID);
+a movement absent from both MAP and OSM, i.e. a genuine round-the-block detour;
+other, with the reason.
+
+Report counts per class and per missing movement. This tells us whether M3 must resolve specific official movements before the fit.
+
+B. Entry ceilings by road class. Replace the uniform 900 veh/h per motor lane with declared ceilings by OSM highway class, per motor lane:
+
+Road class	Ceiling (veh/h per lane)
+primary, secondary, trunk and their links	900
+tertiary	600
+residential, unclassified	200
+service, living_street	100
+
+These are declared plausibility bounds, not observations, and should be stated as such.
+
+Re-solve with the same objective and constraints.
+Report: vehicles, vehicle-km, passages per vehicle, the new lower-bound certificate, which ceilings bind, and assigned volume per entry.
+Sensitivity: re-solve with the residential and service values halved and doubled. Report how vehicles and entry shares move.
+If the problem becomes infeasible, report the infeasibility certificate: which fields and bins can then only be served from low-class entries. That would point at a scope or boundary problem near 119, and is a valid result in itself.
+
+C. Freeze and report. Freeze a new package (…m1_1…) with a replay request, as for M1.
+
+Acceptance:
+
+the indirect-route attribution table is complete;
+no residential or service entry exceeds its class ceiling;
+equations hold under the declared constraints, or an infeasibility certificate names the fields and bins that can’t be served.
+Assignment 3: M2, control installation
+
+Start this as soon as Assignment 2 passes; you don’t need to wait for me unless something in Assignment 2 surprises you.
+
+Output. A separate, hashed additional file of signal programs. The network itself stays unchanged.
+
+Programs by junction:
+Junction	Program
+119	OCIT SP1 (Monday plan, local time)
+535	OCIT SP1 (Monday plan, local time)
+104	SP5
+118	SP5
+200	SP5
+Use program names as the schedule references them.
+At 104 and 118, SP5 is the fixed-time equivalent of the scheduled actuated SP1. At 200, SP5 is the scheduled program itself.
+Timing at 535. Sim 0 = 04:30 UTC = 06:30 CEST, which is exactly when 535 switches from SP10 to SP1. Any warm-up starting earlier must use SP10 before 06:30 local.
+Cycle alignment. Cycle second 0 is set at local midnight. 23,400 s is a whole number of 90 s cycles, so the offset is 0 at sim 0. Declare this as an assumption.
+Group → link binding:
+Bridge: use the OCIT-embedded TrafficStreamConfigData vt as the bridge, never the standalone MAP numbers at 104, 118 and 200, and use physical connection keys, never link indices.
+Links with no official movement: inherit from the sibling with the same source lane and target edge. Otherwise give the link a labelled declared state.
+119 composed links 10/11: the intersection of K1 and K7. In SP1, K1’s green lies inside K7’s; assert that.
+Z.15 lane: declared alternatives A = K9, B = K8 with dark release as O, C = blocked. Run alternative A first, and label it.
+States:
+red-amber (u) for each group’s start-transition duration;
+yellow (y) for its end-transition duration;
+dark release → O;
+groups dark in every state → O;
+g where a green link has a foe that is green at the same time, otherwise G.
+Non-official controllers. Convert all 59 to static, keeping their current phases, and declare them as placeholders.
+Native checks:
+every bound OCIT intergreen pair holds in the installed SUMO programs;
+a small cohort gives identical output at begin 0 and at begin 3,600;
+SUMO loads without new warnings.
+
+Then freeze the package and report.
+
+After that
+
+M3 is a full-window native run of the M1.1 proposal under M2 control, with the stall stop on. Any blocking gets attributed: the 535 binding, same-approach crossings, the unresolved movements from A. Then M4–M6 as planned.

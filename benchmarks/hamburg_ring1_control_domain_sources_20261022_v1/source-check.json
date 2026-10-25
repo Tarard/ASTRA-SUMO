@@ -1,0 +1,382 @@
+{
+  "schema": "astra.hamburg-control-domain-source-check/v1",
+  "sumolib_version": "1.27.1",
+  "inputs": [
+    {
+      "path": "benchmarks/hamburg_ring1_119_control_diagnosis_20261022_v1/diagnostic-inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_road_scope_20261020_v1/source.osm.xml.gz",
+      "sha256": "f0b77bcac03a4c3095b40272ca2067e838b0d95125883855a28d53a7d9429365"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/lsa-identities.json",
+      "sha256": "6a2d7e48947b4012510933d49012d6dd0e96b9613793514f1ba8a0e180ba0bba"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json",
+      "sha256": "e8cac2a3d012f517225500424722e0813a577c0876f15ac2cebf834a67fc88df"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/104-map_xml.xml.gz",
+      "sha256": "1cf3bedfecbc035428fcbf4f6fedc1a973b1100895524f9b52b4f446758a4b7c"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/104-map_kml.kml.gz",
+      "sha256": "81f85ee725d910bc5d5ecf9b87ba16dfde65fafbfbb605544f7e122913973b7d"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/118-map_xml.xml.gz",
+      "sha256": "f0d760c5ad5d8d98b1f4e72a54270b68d104f6c5801fa7e2f914dafa6a0ad70f"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/118-map_kml.kml.gz",
+      "sha256": "d0cc481b9d32925a5a916dddbc9a3f033ac446dd55aa868b1c4554ab6c6061b1"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/119-map_xml.xml.gz",
+      "sha256": "1fe2ff5fdac70b3a594384f465b3303a27951fe5957bde1a06255ef7eec6d7e7"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/119-map_kml.kml.gz",
+      "sha256": "4533588782961e77bf8cfdbba94d553d4b6bbcbbfbf6186d6421bf248377b49d"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/200-map_xml.xml.gz",
+      "sha256": "b296701d005f1c4e4c4e19b415c71f19f63b36efc98730c54ec9167ca4ede6e8"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/200-map_kml.kml.gz",
+      "sha256": "70a2b257af5c2e7fed0103b61650d6e6f4dc7b8f2f738993479d1aa2c24328d8"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/535-map_xml.xml.gz",
+      "sha256": "ed10624422848a0d74633acd3899584e5c82289dfc87edd591734279af048b85"
+    },
+    {
+      "path": "benchmarks/hamburg_ring1_official_sources_20261020_v1/535-map_kml.kml.gz",
+      "sha256": "d2ba2046abcd6aa048a1074f76cfe4a16c4038316374e952c76ee4bd849ccdb8"
+    }
+  ],
+  "nodes": [
+    {
+      "osm_node_id": "266199063",
+      "model_tls_id": "GS_266199063",
+      "longitude": 9.9938765,
+      "latitude": 53.5578951,
+      "osm_tags": {},
+      "nearest_register": [
+        {
+          "distance_m": 54.94772722642001,
+          "knoten": 119,
+          "art": "K-LSA     ",
+          "LSA_Name": "Esplanade/Neuer Jungfernstieg           "
+        },
+        {
+          "distance_m": 103.28334231603075,
+          "knoten": 209,
+          "art": "K-LSA     ",
+          "LSA_Name": "Kennedybrücke/Alsterglacis              "
+        },
+        {
+          "distance_m": 324.6237117434808,
+          "knoten": 118,
+          "art": "K-LSA     ",
+          "LSA_Name": "Stephansplatz       "
+        }
+      ],
+      "nearest_map_lanes": [
+        {
+          "lsa": "119",
+          "lane_id": "5",
+          "lane_type": "vehicle",
+          "distance_m": 1.8593218940089247,
+          "official_connections": [
+            {
+              "connection_id": "6",
+              "ingress_lane_id": "50",
+              "egress_lane_id": "5",
+              "signal_group": "2"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "6",
+          "lane_type": "vehicle",
+          "distance_m": 3.7377579355508166,
+          "official_connections": [
+            {
+              "connection_id": "7",
+              "ingress_lane_id": "51",
+              "egress_lane_id": "6",
+              "signal_group": "2"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "32",
+          "lane_type": "crosswalk",
+          "distance_m": 13.168007133416012,
+          "official_connections": [
+            {
+              "connection_id": "33",
+              "ingress_lane_id": "32",
+              "egress_lane_id": "33",
+              "signal_group": "23"
+            },
+            {
+              "connection_id": "34",
+              "ingress_lane_id": "33",
+              "egress_lane_id": "32",
+              "signal_group": "23"
+            }
+          ]
+        }
+      ],
+      "control_binding": "unresolved",
+      "model_change": false
+    },
+    {
+      "osm_node_id": "1966837175",
+      "model_tls_id": "1966837175",
+      "longitude": 9.9941673,
+      "latitude": 53.5584171,
+      "osm_tags": {
+        "highway": "traffic_signals"
+      },
+      "nearest_register": [
+        {
+          "distance_m": 43.03379905024501,
+          "knoten": 209,
+          "art": "K-LSA     ",
+          "LSA_Name": "Kennedybrücke/Alsterglacis              "
+        },
+        {
+          "distance_m": 108.49115926861481,
+          "knoten": 119,
+          "art": "K-LSA     ",
+          "LSA_Name": "Esplanade/Neuer Jungfernstieg           "
+        },
+        {
+          "distance_m": 329.90993420135356,
+          "knoten": 1556,
+          "art": "K-LSA     ",
+          "LSA_Name": "Theodor-Heuß-Platz/Mittelweg            "
+        }
+      ],
+      "nearest_map_lanes": [
+        {
+          "lsa": "119",
+          "lane_id": "2",
+          "lane_type": "vehicle",
+          "distance_m": 41.03819346166429,
+          "official_connections": [
+            {
+              "connection_id": "11",
+              "ingress_lane_id": "2",
+              "egress_lane_id": "13",
+              "signal_group": "9"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "4",
+          "lane_type": "vehicle",
+          "distance_m": 44.14080251785013,
+          "official_connections": [
+            {
+              "connection_id": "8",
+              "ingress_lane_id": "4",
+              "egress_lane_id": "57",
+              "signal_group": "8"
+            },
+            {
+              "connection_id": "9",
+              "ingress_lane_id": "4",
+              "egress_lane_id": "41",
+              "signal_group": "8"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "1",
+          "lane_type": "vehicle",
+          "distance_m": 44.658144501144484,
+          "official_connections": [
+            {
+              "connection_id": "12",
+              "ingress_lane_id": "1",
+              "egress_lane_id": "12",
+              "signal_group": "9"
+            }
+          ]
+        }
+      ],
+      "control_binding": "unresolved",
+      "model_change": false
+    },
+    {
+      "osm_node_id": "244203525",
+      "model_tls_id": "244203525",
+      "longitude": 9.9936003,
+      "latitude": 53.5584452,
+      "osm_tags": {
+        "bicycle": "yes",
+        "button_operated": "no",
+        "crossing": "traffic_signals",
+        "highway": "crossing",
+        "tactile_paving": "no",
+        "traffic_signals:sound": "no",
+        "traffic_signals:vibration": "no"
+      },
+      "nearest_register": [
+        {
+          "distance_m": 56.18726881742638,
+          "knoten": 209,
+          "art": "K-LSA     ",
+          "LSA_Name": "Kennedybrücke/Alsterglacis              "
+        },
+        {
+          "distance_m": 93.24559331983903,
+          "knoten": 119,
+          "art": "K-LSA     ",
+          "LSA_Name": "Esplanade/Neuer Jungfernstieg           "
+        },
+        {
+          "distance_m": 303.2863438395843,
+          "knoten": 1556,
+          "art": "K-LSA     ",
+          "LSA_Name": "Theodor-Heuß-Platz/Mittelweg            "
+        }
+      ],
+      "nearest_map_lanes": [
+        {
+          "lsa": "119",
+          "lane_id": "2",
+          "lane_type": "vehicle",
+          "distance_m": 12.01444322509771,
+          "official_connections": [
+            {
+              "connection_id": "11",
+              "ingress_lane_id": "2",
+              "egress_lane_id": "13",
+              "signal_group": "9"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "4",
+          "lane_type": "vehicle",
+          "distance_m": 12.15445655660116,
+          "official_connections": [
+            {
+              "connection_id": "8",
+              "ingress_lane_id": "4",
+              "egress_lane_id": "57",
+              "signal_group": "8"
+            },
+            {
+              "connection_id": "9",
+              "ingress_lane_id": "4",
+              "egress_lane_id": "41",
+              "signal_group": "8"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "74",
+          "lane_type": "bikeLane",
+          "distance_m": 14.123426055754944,
+          "official_connections": []
+        }
+      ],
+      "control_binding": "unresolved",
+      "model_change": false
+    },
+    {
+      "osm_node_id": "266197525",
+      "model_tls_id": "266197525",
+      "longitude": 9.9940419,
+      "latitude": 53.5587829,
+      "osm_tags": {
+        "ele": "6.0",
+        "source": "HH LGV 2012"
+      },
+      "nearest_register": [
+        {
+          "distance_m": 10.59748846080738,
+          "knoten": 209,
+          "art": "K-LSA     ",
+          "LSA_Name": "Kennedybrücke/Alsterglacis              "
+        },
+        {
+          "distance_m": 139.0380413137903,
+          "knoten": 119,
+          "art": "K-LSA     ",
+          "LSA_Name": "Esplanade/Neuer Jungfernstieg           "
+        },
+        {
+          "distance_m": 295.08694856161935,
+          "knoten": 1556,
+          "art": "K-LSA     ",
+          "LSA_Name": "Theodor-Heuß-Platz/Mittelweg            "
+        }
+      ],
+      "nearest_map_lanes": [
+        {
+          "lsa": "119",
+          "lane_id": "2",
+          "lane_type": "vehicle",
+          "distance_m": 58.6837064609894,
+          "official_connections": [
+            {
+              "connection_id": "11",
+              "ingress_lane_id": "2",
+              "egress_lane_id": "13",
+              "signal_group": "9"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "4",
+          "lane_type": "vehicle",
+          "distance_m": 59.661967453044745,
+          "official_connections": [
+            {
+              "connection_id": "8",
+              "ingress_lane_id": "4",
+              "egress_lane_id": "57",
+              "signal_group": "8"
+            },
+            {
+              "connection_id": "9",
+              "ingress_lane_id": "4",
+              "egress_lane_id": "41",
+              "signal_group": "8"
+            }
+          ]
+        },
+        {
+          "lsa": "119",
+          "lane_id": "74",
+          "lane_type": "bikeLane",
+          "distance_m": 61.726960202233734,
+          "official_connections": []
+        }
+      ],
+      "control_binding": "unresolved",
+      "model_change": false
+    }
+  ],
+  "model_changed": false,
+  "new_simulations": 0,
+  "claim_boundary": "Distances identify candidates only. Official lane/group identities do not bind an OSM signal head. The frozen point register names a separate LSA209 but does not assign these OSM nodes to it. No signal is removed or rebound."
+}

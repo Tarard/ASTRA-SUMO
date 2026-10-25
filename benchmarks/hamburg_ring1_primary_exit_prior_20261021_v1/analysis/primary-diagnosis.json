@@ -1,0 +1,56 @@
+{
+  "cases": {
+    "baseline": {
+      "selected_requests": 978,
+      "population_status": {
+        "arrived": 445,
+        "running": 169,
+        "not_inserted": 364
+      },
+      "hold_acquisition": {
+        "hh_0119_Z_13_34018": {
+          "events": 341,
+          "median_position_m": 0.3257184999999865,
+          "above_one_step_distance": 2
+        },
+        "hh_0119_Z_12_31546": {
+          "events": 198,
+          "median_position_m": 0.2552467970511776,
+          "above_one_step_distance": 0
+        },
+        "hh_0119_Z_11_28853": {
+          "events": 17,
+          "median_position_m": 0.38819582000000086,
+          "above_one_step_distance": 0
+        }
+      }
+    },
+    "candidate": {
+      "selected_requests": 978,
+      "population_status": {
+        "arrived": 677,
+        "not_inserted": 226,
+        "running": 75
+      },
+      "hold_acquisition": {
+        "hh_0119_Z_13_34018": {
+          "events": 429,
+          "median_position_m": 0.39394879354838075,
+          "above_one_step_distance": 9
+        },
+        "hh_0119_Z_12_31546": {
+          "events": 244,
+          "median_position_m": 0.3066007363243459,
+          "above_one_step_distance": 0
+        },
+        "hh_0119_Z_11_28853": {
+          "events": 24,
+          "median_position_m": 0.6095139805048668,
+          "above_one_step_distance": 0
+        }
+      }
+    }
+  },
+  "one_step_distance_bound_m": 1.3888889000000002,
+  "claim_boundary": "Completed and censored native intervals include incoming internal connections. One-step positions only bound late acquisition. Queue records and snapshots do not identify all causal mechanisms or field capacities."
+}

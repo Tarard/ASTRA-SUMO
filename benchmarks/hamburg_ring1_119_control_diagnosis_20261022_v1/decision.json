@@ -1,0 +1,12 @@
+{
+  "formal_result": false,
+  "decision": "nominal_all_osm_not_promoted",
+  "full_reference": "../hamburg_ring1_primary_entry_full_20261022_v1",
+  "new_full_window_runs": 0,
+  "read_only_diagnosis_end_s": 3780,
+  "nominal_control_trial_end_s": 3600,
+  "observation": "119 K2 can be green while serial downstream controls hold vehicles. The sampled field-lane head has no remaining waypoint.",
+  "nominal_trial": "Fixing all 58 nominal OSM sequences worsens the initialization result. No main-window fit is established.",
+  "rejected_unrun_prototype": "The retirement mechanism was never enabled in a native run. The prototype was reverted after checking waypoint upper-bound semantics.",
+  "claim_boundary": "The observations do not prove physical infeasibility, a deadlock cycle, source-controller duplication or correct field timing."
+}

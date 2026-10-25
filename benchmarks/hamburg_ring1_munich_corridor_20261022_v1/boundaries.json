@@ -1,0 +1,959 @@
+{
+  "zones": [
+    {
+      "junction_id": "1246600402",
+      "entry_edges": [],
+      "exit_edges": [
+        "-199239120"
+      ],
+      "cut_roads": [
+        "1072525532"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1018.181803",
+        "y": "776.557868"
+      }
+    },
+    {
+      "junction_id": "12959335183",
+      "entry_edges": [
+        "199230912#1"
+      ],
+      "exit_edges": [
+        "199230912#0"
+      ],
+      "cut_roads": [
+        "-762006452",
+        "762006452"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "866.734532",
+        "y": "639.496803"
+      }
+    },
+    {
+      "junction_id": "13324859589",
+      "entry_edges": [
+        "61578529#1"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1537.635997",
+        "y": "594.254250"
+      }
+    },
+    {
+      "junction_id": "13879893",
+      "entry_edges": [
+        "-26623877",
+        "2963460#0"
+      ],
+      "exit_edges": [
+        "19409045",
+        "26623877"
+      ],
+      "cut_roads": [
+        "-2956270",
+        "2956270"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1520.269485",
+        "y": "217.418981"
+      }
+    },
+    {
+      "junction_id": "13951254",
+      "entry_edges": [
+        "19409045"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1442.393779",
+        "y": "87.451281"
+      }
+    },
+    {
+      "junction_id": "14004682442",
+      "entry_edges": [
+        "139083714#0"
+      ],
+      "exit_edges": [
+        "-139083714#0"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "291.637147",
+        "y": "505.891259"
+      }
+    },
+    {
+      "junction_id": "14398558",
+      "entry_edges": [],
+      "exit_edges": [
+        "139083720"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "9.891931",
+        "y": "495.118426"
+      }
+    },
+    {
+      "junction_id": "1561539027",
+      "entry_edges": [],
+      "exit_edges": [
+        "23866766#2"
+      ],
+      "cut_roads": [
+        "186713419#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1529.173676",
+        "y": "660.707475"
+      }
+    },
+    {
+      "junction_id": "1562406613",
+      "entry_edges": [
+        "24483197"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "1108564798#1"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "914.129165",
+        "y": "819.656955"
+      }
+    },
+    {
+      "junction_id": "1759791302",
+      "entry_edges": [
+        "139056860#2"
+      ],
+      "exit_edges": [
+        "139056860#1"
+      ],
+      "cut_roads": [
+        "-50831791",
+        "50831791"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "214.279542",
+        "y": "765.925722"
+      }
+    },
+    {
+      "junction_id": "18653570",
+      "entry_edges": [
+        "-139083714#0",
+        "139083714#1"
+      ],
+      "exit_edges": [
+        "-139083714#1",
+        "139083714#0"
+      ],
+      "cut_roads": [
+        "-1189704921",
+        "1189704921"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "289.690660",
+        "y": "559.484710"
+      }
+    },
+    {
+      "junction_id": "1983986560",
+      "entry_edges": [],
+      "exit_edges": [
+        "142944477"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1709.992648",
+        "y": "112.107092"
+      }
+    },
+    {
+      "junction_id": "2003617180",
+      "entry_edges": [
+        "189764301"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1627.143135",
+        "y": "611.316009"
+      }
+    },
+    {
+      "junction_id": "2003802536",
+      "entry_edges": [
+        "-142944318"
+      ],
+      "exit_edges": [
+        "142944318"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1686.457458",
+        "y": "343.025809"
+      }
+    },
+    {
+      "junction_id": "205068087",
+      "entry_edges": [
+        "186714394"
+      ],
+      "exit_edges": [
+        "189775477#2"
+      ],
+      "cut_roads": [
+        "480873119",
+        "543550497#2"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1331.723824",
+        "y": "392.854410"
+      }
+    },
+    {
+      "junction_id": "205068090",
+      "entry_edges": [
+        "551284796#2"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "480873119"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1316.010231",
+        "y": "394.091443"
+      }
+    },
+    {
+      "junction_id": "205069136",
+      "entry_edges": [
+        "771709146#0"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1440.898899",
+        "y": "289.406020"
+      }
+    },
+    {
+      "junction_id": "205069905",
+      "entry_edges": [],
+      "exit_edges": [
+        "19728446#0"
+      ],
+      "cut_roads": [
+        "543550497#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1382.955444",
+        "y": "345.094009"
+      }
+    },
+    {
+      "junction_id": "2098004425",
+      "entry_edges": [],
+      "exit_edges": [
+        "199500676"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "733.434416",
+        "y": "978.412273"
+      }
+    },
+    {
+      "junction_id": "21423180",
+      "entry_edges": [
+        "521070807"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "671.870435",
+        "y": "925.482120"
+      }
+    },
+    {
+      "junction_id": "2286400550",
+      "entry_edges": [
+        "-983227468#1"
+      ],
+      "exit_edges": [
+        "983227468#1"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "381.235309",
+        "y": "658.466894"
+      }
+    },
+    {
+      "junction_id": "2347315953",
+      "entry_edges": [
+        "963776077#0"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "0.000000",
+        "y": "452.266354"
+      }
+    },
+    {
+      "junction_id": "257590793",
+      "entry_edges": [
+        "1265093941"
+      ],
+      "exit_edges": [
+        "1265093940"
+      ],
+      "cut_roads": [
+        "-75459561",
+        "75459561"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1453.956301",
+        "y": "545.330779"
+      }
+    },
+    {
+      "junction_id": "257590811",
+      "entry_edges": [
+        "23947828#0"
+      ],
+      "exit_edges": [
+        "186282281"
+      ],
+      "cut_roads": [
+        "1164252356",
+        "8286112#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1529.961825",
+        "y": "610.858813"
+      }
+    },
+    {
+      "junction_id": "2580317856",
+      "entry_edges": [],
+      "exit_edges": [
+        "31050642"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "645.846285",
+        "y": "823.097966"
+      }
+    },
+    {
+      "junction_id": "258684377",
+      "entry_edges": [
+        "-199752604"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "186713419#2"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1406.574411",
+        "y": "651.605348"
+      }
+    },
+    {
+      "junction_id": "259215586",
+      "entry_edges": [
+        "-551319332"
+      ],
+      "exit_edges": [
+        "551319332"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "548.321136",
+        "y": "569.886815"
+      }
+    },
+    {
+      "junction_id": "260305243",
+      "entry_edges": [],
+      "exit_edges": [
+        "1164252355"
+      ],
+      "cut_roads": [
+        "1164252356"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1511.843424",
+        "y": "596.127556"
+      }
+    },
+    {
+      "junction_id": "264996272",
+      "entry_edges": [
+        "61684076"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1720.545274",
+        "y": "109.485490"
+      }
+    },
+    {
+      "junction_id": "264996273",
+      "entry_edges": [],
+      "exit_edges": [
+        "142944538"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1711.770794",
+        "y": "107.247477"
+      }
+    },
+    {
+      "junction_id": "266197525",
+      "entry_edges": [],
+      "exit_edges": [
+        "73474895"
+      ],
+      "cut_roads": [
+        "1108564798#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "937.570088",
+        "y": "811.483143"
+      }
+    },
+    {
+      "junction_id": "291990981",
+      "entry_edges": [
+        "31106387"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "686.194074",
+        "y": "733.430908"
+      }
+    },
+    {
+      "junction_id": "301624961",
+      "entry_edges": [
+        "-1332144622",
+        "27470423#1"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "27470423#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "646.833148",
+        "y": "803.094413"
+      }
+    },
+    {
+      "junction_id": "315029332",
+      "entry_edges": [
+        "-186821028",
+        "186821026"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "28665128#3"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1657.262675",
+        "y": "325.767648"
+      }
+    },
+    {
+      "junction_id": "315029339",
+      "entry_edges": [],
+      "exit_edges": [
+        "28665128#0"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1652.611216",
+        "y": "301.356306"
+      }
+    },
+    {
+      "junction_id": "32206474",
+      "entry_edges": [],
+      "exit_edges": [
+        "1257937836#0"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "849.950359",
+        "y": "586.899664"
+      }
+    },
+    {
+      "junction_id": "32206478",
+      "entry_edges": [],
+      "exit_edges": [
+        "-551319332",
+        "551319336"
+      ],
+      "cut_roads": [
+        "5212898"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "557.548865",
+        "y": "590.043235"
+      }
+    },
+    {
+      "junction_id": "32206482",
+      "entry_edges": [
+        "31050638#0"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "1345107183#1"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "579.951416",
+        "y": "669.588669"
+      }
+    },
+    {
+      "junction_id": "345619504",
+      "entry_edges": [],
+      "exit_edges": [
+        "139056860#2"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "199.135150",
+        "y": "796.604851"
+      }
+    },
+    {
+      "junction_id": "3660267913",
+      "entry_edges": [],
+      "exit_edges": [
+        "24483344#0"
+      ],
+      "cut_roads": [
+        "361572881"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "761.371846",
+        "y": "702.353501"
+      }
+    },
+    {
+      "junction_id": "3673605812",
+      "entry_edges": [
+        "486870074#0"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1382.789568",
+        "y": "522.410216"
+      }
+    },
+    {
+      "junction_id": "4031208046",
+      "entry_edges": [
+        "142944473#0"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1734.896781",
+        "y": "55.577919"
+      }
+    },
+    {
+      "junction_id": "5324200390",
+      "entry_edges": [],
+      "exit_edges": [
+        "43292244"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1424.012930",
+        "y": "465.897418"
+      }
+    },
+    {
+      "junction_id": "5324379308",
+      "entry_edges": [
+        "219999172#1"
+      ],
+      "exit_edges": [
+        "219999172#0"
+      ],
+      "cut_roads": [
+        "-722793862",
+        "722793862"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "587.703815",
+        "y": "630.396154"
+      }
+    },
+    {
+      "junction_id": "544149070",
+      "entry_edges": [],
+      "exit_edges": [
+        "551303415#0"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "1515.290425",
+        "y": "235.986473"
+      }
+    },
+    {
+      "junction_id": "549766972",
+      "entry_edges": [
+        "363112756#2"
+      ],
+      "exit_edges": [
+        "363112756#1"
+      ],
+      "cut_roads": [
+        "-43546327",
+        "43546327"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "797.054263",
+        "y": "719.073361"
+      }
+    },
+    {
+      "junction_id": "653125318",
+      "entry_edges": [
+        "44532531"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "719.847822",
+        "y": "980.726775"
+      }
+    },
+    {
+      "junction_id": "703147136",
+      "entry_edges": [
+        "25866659#1"
+      ],
+      "exit_edges": [],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "950.357375",
+        "y": "823.756591"
+      }
+    },
+    {
+      "junction_id": "710397156",
+      "entry_edges": [
+        "-983227468#0",
+        "983227468#1"
+      ],
+      "exit_edges": [
+        "-983227468#1",
+        "983227468#0"
+      ],
+      "cut_roads": [
+        "-56754916",
+        "56754916"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "366.058140",
+        "y": "651.669764"
+      }
+    },
+    {
+      "junction_id": "7580912661",
+      "entry_edges": [
+        "37693933#1"
+      ],
+      "exit_edges": [
+        "37693933#0"
+      ],
+      "cut_roads": [
+        "-810826331",
+        "810826331"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "666.619531",
+        "y": "722.265550"
+      }
+    },
+    {
+      "junction_id": "7709833318",
+      "entry_edges": [
+        "219999172#0"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "251397516"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "570.747241",
+        "y": "615.295261"
+      }
+    },
+    {
+      "junction_id": "8466226874",
+      "entry_edges": [
+        "606141103#1"
+      ],
+      "exit_edges": [
+        "606141103#0"
+      ],
+      "cut_roads": [
+        "-25218459",
+        "25218459"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "310.579948",
+        "y": "710.965293"
+      }
+    },
+    {
+      "junction_id": "890870657",
+      "entry_edges": [
+        "186713412#1"
+      ],
+      "exit_edges": [
+        "186713412#0"
+      ],
+      "cut_roads": [
+        "-75459586",
+        "75459586"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1432.650112",
+        "y": "524.034623"
+      }
+    },
+    {
+      "junction_id": "8913236635",
+      "entry_edges": [
+        "23866766#1"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "23866766#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "1562.847653",
+        "y": "662.294520"
+      }
+    },
+    {
+      "junction_id": "9044756142",
+      "entry_edges": [],
+      "exit_edges": [
+        "977482749"
+      ],
+      "cut_roads": [],
+      "basis": [
+        "source_model_boundary"
+      ],
+      "position": {
+        "x": "857.878760",
+        "y": "694.462590"
+      }
+    },
+    {
+      "junction_id": "9844196555",
+      "entry_edges": [
+        "1073054122#1"
+      ],
+      "exit_edges": [],
+      "cut_roads": [
+        "1073054122#0"
+      ],
+      "basis": [
+        "scope_cut"
+      ],
+      "position": {
+        "x": "934.720061",
+        "y": "826.286647"
+      }
+    }
+  ],
+  "traffic_rates": "not_assigned"
+}

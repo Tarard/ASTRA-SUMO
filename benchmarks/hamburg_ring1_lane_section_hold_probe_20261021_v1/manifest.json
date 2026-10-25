@@ -1,0 +1,364 @@
+{
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "a72325b0f69e1aad3a3dd7206b9cbc35b856f8b12084737c70430a77c2755203"
+    },
+    {
+      "path": "baseline/all-stopped-state.xml.gz",
+      "sha256": "8b6d0c4a416e4b7c41ab716948f077c96b0c88baf0c8115bd5fb01261c3f4f48"
+    },
+    {
+      "path": "baseline/collisions.xml",
+      "sha256": "c2f34a52a428429a1b0ee1e5547d8ca6f3cf16a4264b20f04f0d6c79d6753e0a"
+    },
+    {
+      "path": "baseline/command.json",
+      "sha256": "9c16d802412300f50f29f2745df79ccbaa81ec76be41ca177d55e0ace59041ee"
+    },
+    {
+      "path": "baseline/e1.add.xml",
+      "sha256": "373cfa9559d5c6e53a3fde96af7ccf12d747fdc71a9c9b7f76f9c4ee108b4cb5"
+    },
+    {
+      "path": "baseline/field-comparison.csv",
+      "sha256": "083238f8baa79bf736a8687ac61e33fea6315fb059e59d978216a18a396955cb"
+    },
+    {
+      "path": "baseline/field-counts.xml",
+      "sha256": "3f06da2f0d2ce05f8e73336bb78cbb8913b928f35ea0fcf0c34dee0b9f158923"
+    },
+    {
+      "path": "baseline/instant-e1.xml.gz",
+      "sha256": "9974f7b2983b96f4203577ef9a0936c52b70893f1e3a775fe3db236d4658e9f0"
+    },
+    {
+      "path": "baseline/instant.add.xml",
+      "sha256": "1312dc2fce070b90f6d80c7eaa7ae5abc3fa5a070325cd9eaf811412c5b765e4"
+    },
+    {
+      "path": "baseline/native-request.json",
+      "sha256": "be62533706fd7681ee49b07ee9989e1a412ac46158977d13e0af6ebec71239a9"
+    },
+    {
+      "path": "baseline/queues.xml.gz",
+      "sha256": "910442a6286b23ed17c4f54f3b563d21cc82fa025fc76ce79137840929f2d3bb"
+    },
+    {
+      "path": "baseline/run.json",
+      "sha256": "f1fb22108fde816852f884b7b89ad77b1a3c0a69c088d9e53af06583c7cbd205"
+    },
+    {
+      "path": "baseline/stall-monitor.json",
+      "sha256": "492c84b37b393a5d3124ef1782f23b98e4dcc4a62464b95602dda4d9983d7d2e"
+    },
+    {
+      "path": "baseline/summary.xml.gz",
+      "sha256": "d33ced334216f042593164bb45ac3b16bbc73f6fc8aec2022f18fa839856c18f"
+    },
+    {
+      "path": "baseline/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "baseline/sumo.log",
+      "sha256": "abe243fd542aa391fc59955891e3c148e06e02ae8e33df92cd410a5aa585cf0c"
+    },
+    {
+      "path": "baseline/tripinfo.xml",
+      "sha256": "0aa9cc554089496fc11a79f598a535d65c3191b36d8fa0df0aec11bd48f8eb49"
+    },
+    {
+      "path": "baseline/vehicle-routes.xml",
+      "sha256": "d76804b61ba9d759c4a20a15cf37ddfd4a4adf9d1ed068a626d2a0b5d29743e1"
+    },
+    {
+      "path": "body-hold/collisions.xml",
+      "sha256": "75e15caa2658efe83a978bbdf8d5a51f458313f3720ae89d191d2b2fea6ef14c"
+    },
+    {
+      "path": "body-hold/command.json",
+      "sha256": "86f6ab4c6de424b0263ed9c935c3f9a8837ba75d1e964fd2f8755c04ee54e158"
+    },
+    {
+      "path": "body-hold/e1.add.xml",
+      "sha256": "70358659b3c551faa1f1e21f563b2d8b55b880e5de7437c887034f7230bd93b9"
+    },
+    {
+      "path": "body-hold/field-comparison.csv",
+      "sha256": "9614fade28f88fbcb5f889c94b1eada2a75c6864bb39a051e419d514afcdf347"
+    },
+    {
+      "path": "body-hold/field-counts.xml",
+      "sha256": "b8dcb8969fbcb484aee6868561e959ae1465ea24d3e7d1fc6fd663d6e6a406af"
+    },
+    {
+      "path": "body-hold/instant-e1.xml.gz",
+      "sha256": "5d7bbca741227d6da5448638282ed10ac5f62b0a4f476fa7ed4f1ad0cb91a6fc"
+    },
+    {
+      "path": "body-hold/instant.add.xml",
+      "sha256": "86497d3b33385bfda30f45844d4952eb1ff907bc7e7440f544fd48e26a6d33f8"
+    },
+    {
+      "path": "body-hold/native-request.json",
+      "sha256": "1910c82c160a3810b9c06762b6494945db2ba675ed0c7b4a05b6cc6f72f5f40e"
+    },
+    {
+      "path": "body-hold/probe-summary.json",
+      "sha256": "db7c7981cdc532107f893fb191ea3cec241481b4a32240061cbb015e51789732"
+    },
+    {
+      "path": "body-hold/queues.xml.gz",
+      "sha256": "92a19b4df5283be62039c197054e78ed5bc2dde190e042a11cb4286721e83eb2"
+    },
+    {
+      "path": "body-hold/run.json",
+      "sha256": "5ca959cbd791432651577043e4262c9aea740bbb2f750c0d1262a0a61b561793"
+    },
+    {
+      "path": "body-hold/stall-monitor.json",
+      "sha256": "57bb9cc5bcdb89fc7dc8467240dcd028ba55ae081591f90c087a1db5acd25f58"
+    },
+    {
+      "path": "body-hold/summary.xml.gz",
+      "sha256": "c50fba022ac2d70c2948c60b44e4ead00edf54e4a90d875cb520615e099a954e"
+    },
+    {
+      "path": "body-hold/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "body-hold/sumo.log",
+      "sha256": "884bad92cddfb2ebcc4840ceb2fafe79639a693f03fe1e1298713db9f11c9c24"
+    },
+    {
+      "path": "body-hold/tripinfo.xml",
+      "sha256": "d4d804dc6274a85a4bfa92608b96f6c8ece22b0ca980ee92002e47a9fe7ee439"
+    },
+    {
+      "path": "body-hold/vehicle-routes.xml",
+      "sha256": "170927eff5b31fd42c328ca3afa9909e7408b9fc75dc4d76e3c99c6fc9d6968c"
+    },
+    {
+      "path": "cancelled-full-front-only/cancellation-reason.json",
+      "sha256": "9ce363ef9a2cda45124e2d0fc600aa4ef93c7e18d2cebe186bbc99a645e3398d"
+    },
+    {
+      "path": "cancelled-full-front-only/collisions.xml",
+      "sha256": "bd6726756621ff40c9790bece6bac37972415c375dec067911da33dabbdd9cd3"
+    },
+    {
+      "path": "cancelled-full-front-only/command.json",
+      "sha256": "a28f401fbc6ee0d5164a2212295a71874e7734cb51c6bd2e1065872383093de1"
+    },
+    {
+      "path": "cancelled-full-front-only/demand.rou.xml.gz",
+      "sha256": "30e7b6c040a43e3e2a706f2ec77197d5bae089f8e8855d9a5d890becaa6783ff"
+    },
+    {
+      "path": "cancelled-full-front-only/driver-source-at-start.py",
+      "sha256": "fc167060b8af090d1ac5abf1257d19eb074f89a81ccc91056aa0144e35e73137"
+    },
+    {
+      "path": "cancelled-full-front-only/e1.add.xml",
+      "sha256": "cdd576b897cb2abd728209eb353fb35106ba3d499771e43b1caa75d5148e8daf"
+    },
+    {
+      "path": "cancelled-full-front-only/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "cancelled-full-front-only/field-comparison.csv",
+      "sha256": "2b20c4c36bcf989fcabf759bcdc1f3f9df4e238d6c1a470b7d821171601af822"
+    },
+    {
+      "path": "cancelled-full-front-only/field-counts.xml",
+      "sha256": "843ae7885afc5f4827ccdd1423fc7a9b1cb09b41a34d79926d95c54c83249060"
+    },
+    {
+      "path": "cancelled-full-front-only/instant-e1.xml.gz",
+      "sha256": "7f59e275dc204503de611faf9e9d23b178f4c2ce452fad5f15f7b423aa07f583"
+    },
+    {
+      "path": "cancelled-full-front-only/instant.add.xml",
+      "sha256": "e819accf3c833c711d5f0489f27b13cafec93a3d2cc5d0f349d721b30085fdc8"
+    },
+    {
+      "path": "cancelled-full-front-only/lane-intentions.json.gz",
+      "sha256": "a46829a49236a6c38bf8174018f2216c8a4657fe8ccfbb5f45b81e4894ce726a"
+    },
+    {
+      "path": "cancelled-full-front-only/native-request.json",
+      "sha256": "3e3953f24fa4596ad7e3ef455c8630fc054de0766525cab934b9fe175d6b523a"
+    },
+    {
+      "path": "cancelled-full-front-only/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "cancelled-full-front-only/partial-measurements/completed-e1-records.xml",
+      "sha256": "b65242497298e8f4eb690cf15137a1839e6e277c8cce13b8dfb8495a3592b5a1"
+    },
+    {
+      "path": "cancelled-full-front-only/partial-measurements/field-comparison.csv",
+      "sha256": "2b20c4c36bcf989fcabf759bcdc1f3f9df4e238d6c1a470b7d821171601af822"
+    },
+    {
+      "path": "cancelled-full-front-only/partial-measurements/report.json",
+      "sha256": "95cee1217ac8399a8a7d48b9eb01f1ecb4b69deaea96647df7533fe1cc8e4bc0"
+    },
+    {
+      "path": "cancelled-full-front-only/queues.xml.gz",
+      "sha256": "e1e88e887fa6723ae57b6c617a0c97cc24536921e588dd22574a97e8c0a863d7"
+    },
+    {
+      "path": "cancelled-full-front-only/run.json.gz",
+      "sha256": "426f9dec2dff2ed10e4a5c8fa18667984b58443b876243d956cd363a079fcd3b"
+    },
+    {
+      "path": "cancelled-full-front-only/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "cancelled-full-front-only/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "cancelled-full-front-only/stall-monitor.json.gz",
+      "sha256": "82d2e89fed285ea16bf3d8c54c3d13ac69b035a82a140b2815e6f574a618707c"
+    },
+    {
+      "path": "cancelled-full-front-only/summary.xml.gz",
+      "sha256": "a5ab88c09f9e0b20fb93455ad034cbe319add54ebc595b1eb6ad66f4c2d4c686"
+    },
+    {
+      "path": "cancelled-full-front-only/sumo-errors.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cancelled-full-front-only/sumo.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "cancelled-full-front-only/tripinfo.xml.gz",
+      "sha256": "1ec5fbbbeaa19b554dc02941c4c243957166408bfdf1095ab70ff58429f1ecc6"
+    },
+    {
+      "path": "cancelled-full-front-only/vehicle-routes.xml.gz",
+      "sha256": "f94cf0d176cbb327754a75c4545ee0737edb33064a480e9d8f792ef6f3320aba"
+    },
+    {
+      "path": "driver-source.py",
+      "sha256": "a30b2cb63055e2b8aed9de204fff0554aa43a51d023cb351a7ee0157dfd777b9"
+    },
+    {
+      "path": "front-only-comparison.json",
+      "sha256": "f4fc782d17b9d1f04f0f40844cefc3a245c19372d27561288b8a87896afb92bd"
+    },
+    {
+      "path": "front-only-hold/collisions.xml",
+      "sha256": "61ede97b84b28dd72c6586b032adb02971c75c569142bb34534a7c4ef005c62a"
+    },
+    {
+      "path": "front-only-hold/command.json",
+      "sha256": "fd2b32715255c36f4b80e5fa0424a799b2ceba1c8c5537f04f80176b3edc2fc1"
+    },
+    {
+      "path": "front-only-hold/e1.add.xml",
+      "sha256": "f29c957157240a4a45a801f84ff4d878059ca91f12a4fc8315ebc86dea22a245"
+    },
+    {
+      "path": "front-only-hold/field-comparison.csv",
+      "sha256": "9614fade28f88fbcb5f889c94b1eada2a75c6864bb39a051e419d514afcdf347"
+    },
+    {
+      "path": "front-only-hold/field-counts.xml",
+      "sha256": "07e01d5d5a1df0cb0f3872dd3b12d8c40de8dbce8dfdaa6f65632815756acb92"
+    },
+    {
+      "path": "front-only-hold/instant-e1.xml.gz",
+      "sha256": "eb8aff19ad4b84ee3b8747034b3cae9fd1c16c3ea27d252115763ddd804f4acd"
+    },
+    {
+      "path": "front-only-hold/instant.add.xml",
+      "sha256": "14fb7a6ac139f14e444c430203d7a7b807c8644f365bba3afd34013d661cb778"
+    },
+    {
+      "path": "front-only-hold/native-request.json",
+      "sha256": "1ebd2dda8c88d5196fa84e149b25d8da22dbf5a4d8d49b47d9871494f326e797"
+    },
+    {
+      "path": "front-only-hold/queues.xml.gz",
+      "sha256": "87cc1d44a1a37e7e665e4d3640e5743a1b4ee3111bcce07397c51f2b61995630"
+    },
+    {
+      "path": "front-only-hold/run.json",
+      "sha256": "0ef1894f09161b35a1753f0f6b6108844f79ad1c848f905e2ad5282f49375a5a"
+    },
+    {
+      "path": "front-only-hold/stall-monitor.json",
+      "sha256": "73270aafdbb87f1c6f5e4ec4317758b44bd0d89181da2f5603da019479a26dcf"
+    },
+    {
+      "path": "front-only-hold/summary.xml.gz",
+      "sha256": "5608a8ae384e7d3d0fceb7cb4e2cc57d164af49a4fe79e644d09e5672d4dbb90"
+    },
+    {
+      "path": "front-only-hold/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "front-only-hold/sumo.log",
+      "sha256": "1665b268b6638790577aa4ae9403e986b461f50f15c4a5bc995038de1591b3f5"
+    },
+    {
+      "path": "front-only-hold/tripinfo.xml",
+      "sha256": "d3f25294712dce9561a64d1d3bec29d67f91542e91e37eccf7fb0da89abe069c"
+    },
+    {
+      "path": "front-only-hold/vehicle-routes.xml",
+      "sha256": "4c3e3bbceebc8d53e71e1c869fc03cfa8f44f1219de8583545b24b5148fe253b"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml",
+      "sha256": "89870a192a3dc6da0844a7d91f48937aab127e251e21eb8bfc68f5f8924e9c16"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "c282d7e499a52ed8705a827790df0b11ce537e143c5558e113fc2daaf6aeaea0"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/lane-intentions.json",
+      "sha256": "77f67d64e55935ae4110f45341187eb35fa1ec33f902a6f59e8f02f1ea712711"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "raw-source-checksums.json",
+      "sha256": "ea80e1676a0021c4329f2d5e4e7280518e365ce1d7682704500ddd376527b3de"
+    },
+    {
+      "path": "README.md",
+      "sha256": "4c7627c6080e2c2fec9ff9aa2f92e025647c7fcce1a2b24c64a22acaa2cb2b32"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "0efb2527ff8f4b525d48bf7c6424c5fe1f00ffeddee5b2cd9164fe6787ee3b62"
+    },
+    {
+      "path": "verified-probe-summary.json",
+      "sha256": "e008ce57e66fa1f4ad6b99a7516acc5601ed9c12f6284c5f732b16b1fdba3bd8"
+    }
+  ]
+}

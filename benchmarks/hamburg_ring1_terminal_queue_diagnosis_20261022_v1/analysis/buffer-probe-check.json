@@ -1,0 +1,28 @@
+{
+  "formal_result": false,
+  "period_correction": "Version 1 added freq=1800 but retained period=900. Its requested aggregate rows were missing. Version 2 sets period=1800 and removes freq. All actual traffic samples match exactly between versions.",
+  "observation_neutrality": {
+    "baseline": {
+      "same_tripinfo_attributes": true,
+      "same_every_FCD_vehicle_sample": true,
+      "corrected_observer_complete": true,
+      "native_contributions": 40
+    },
+    "two_lane_intent": {
+      "same_tripinfo_attributes": true,
+      "same_every_FCD_vehicle_sample": true,
+      "corrected_observer_complete": true,
+      "native_contributions": 40
+    }
+  },
+  "candidate_minus_baseline_E1_time_s": {
+    "min": -1.726755453653027,
+    "median": -2.0179413695586845e-12,
+    "max": 2.2474284333250125,
+    "mean": 0.1548563913495485
+  },
+  "baseline_last_E1_time_s": 515.30104650511,
+  "candidate_last_E1_time_s": 515.30104650511,
+  "promoted_as_capacity_fix": false,
+  "claim_boundary": "A lane-use change is observed, but no additional E1 contributions or faster final arrival are established by this sparse test. It does not establish the capacity or cause of the dense original queue."
+}

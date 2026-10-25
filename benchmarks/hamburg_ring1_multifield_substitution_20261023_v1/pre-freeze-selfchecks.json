@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "native_runs_started": 0,
+  "offline_test": {
+    "command": ".venv/Scripts/python.exe -m pytest benchmarks/hamburg_ring1_multifield_substitution_20261023_v1/test_freeze_evidence.py -q",
+    "passed": 1
+  },
+  "ruff": "pass",
+  "reproduce_help": "pass",
+  "two_candidate_input_scopes": "pass",
+  "source_sha256": {
+    "freeze_evidence.py": "04da48f8fbfb922c346a4a65ca5457fffbeab361ba93d11a3503006ed8c31393",
+    "reproduce.py": "6679a7c6bd36561ce02654603a3a4300e960b3c59789dda16115f93f4516d040",
+    "test_freeze_evidence.py": "c7f5ab3af29b63153afe6fe229968a85956356fccc39e986741b3cc518f90b0b"
+  }
+}

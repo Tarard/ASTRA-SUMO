@@ -1,0 +1,102 @@
+{
+  "formal_result": false,
+  "family_manifest_sha256": "aedae5c95df674ca52c0d0c50c6f859b3be64547fdb4cc1a06d7b8ac57d9e11a",
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "raw_verdict": "diagnostic_candidate",
+    "reference": {
+      "main130": {
+        "SSE": 9473,
+        "TAE": 605,
+        "MAE": 4.653846153846154,
+        "max_abs_error": 35
+      },
+      "initial52": {
+        "SSE": 820,
+        "TAE": 78,
+        "MAE": 1.5,
+        "max_abs_error": 16
+      },
+      "all182": {
+        "SSE": 10293,
+        "TAE": 683,
+        "MAE": 3.7527472527472527,
+        "max_abs_error": 35
+      },
+      "station40_MAE": 12.825,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8606,
+        "waiting": 0,
+        "running": 34,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8615,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 29,
+      "source535_real56_exact": true,
+      "source535_real56_expected_and_measured": 1459,
+      "unfinished_origin": "963776077#0",
+      "unfinished_primary_field": "hh_0119_Z_5_30494",
+      "raw_verdict_status": "diagnostic_candidate",
+      "status": "review_required",
+      "formal_result": false
+    },
+    "full": {
+      "main130": {
+        "SSE": 6709,
+        "TAE": 483,
+        "MAE": 3.7153846153846155,
+        "max_abs_error": 27
+      },
+      "initial52": {
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "all182": {
+        "SSE": 7714,
+        "TAE": 588,
+        "MAE": 3.230769230769231,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 10.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "waiting": 0,
+        "running": 0,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": true,
+      "safe": true,
+      "event_count": 8640,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 29
+    },
+    "all535_real56_TAE": 0,
+    "prefix": {
+      "checks": 13,
+      "frames": 502,
+      "closed_E1": 104,
+      "summary_steps": 72000,
+      "instant_events": 69526,
+      "arrived_routes": 4341
+    },
+    "candidate_network_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+    "candidate_control_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+    "claim_boundary": "Conditional inferred GS signal to priority operation, including unknown603-major/790-minor field ROW. Count fit and sparse smoke do not establish physical signal ownership or field correctness."
+  }
+}

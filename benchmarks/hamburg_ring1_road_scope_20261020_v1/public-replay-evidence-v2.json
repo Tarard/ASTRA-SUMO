@@ -1,0 +1,170 @@
+{
+  "schema": "astra.ring1-public-replay-evidence/v2",
+  "status": "partial",
+  "promotion_authority": false,
+  "implementation_commit": "e8ea94b249bdeb140f362991c3f8a8f6082b4158",
+  "run": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v3/run.json",
+    "sha256": "6a101f9c6d4de08d3fbe46818721d92ffdbde393c02909599d51dffc8cee6e24"
+  },
+  "source_road_case": {
+    "path": "outputs/ring1-road-demo-20261020-v12/case.json",
+    "sha256": "341b0e3c9be328cbe34210bd7aee7a5ecf8d9441dae56d5129c03a0a8617d121"
+  },
+  "replay_runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_junction_construction.py",
+    "sha256": "17a83d0f485172a54b6d780d6498dedf09ff522512401ab59b1f3479c0e4d88f"
+  },
+  "road_scope_runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_road_selection.py",
+    "sha256": "f39876236a48b51aeb36c447cf1c4fe7ace2c22fa29dc34b186d4f6fd21dd519"
+  },
+  "source_and_replay_implementation_hashes_match_commit": true,
+  "inputs_unchanged": true,
+  "implementation_unchanged": true,
+  "prepared_source_content_sha256": "50573ad5651cbcf76a70f105a99eae7066254d1f599730922ff9236b57627804",
+  "selected_source_content_sha256": "920462c7f467edd36cd1945959d6472b9a6914963864e7c1969dfe8b7c2fc6cf",
+  "windows_content_hashes": {
+    "network_content_sha256": "16a3728c860f4b87ff3ae2c868d01ca51b3ee9731796a1d9642f9d3e68cc7263",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+  },
+  "independent_linux_replay": {
+    "model_recipe_commit": "91254d68bada714213272070fbc880f2bf6deadb",
+    "python": "3.13.16",
+    "sumo": "1.27.1",
+    "content_hashes": {
+      "network_content_sha256": "16a3728c860f4b87ff3ae2c868d01ca51b3ee9731796a1d9642f9d3e68cc7263",
+      "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+    },
+    "prepared_source_content_sha256": "50573ad5651cbcf76a70f105a99eae7066254d1f599730922ff9236b57627804",
+    "selected_source_content_sha256": "920462c7f467edd36cd1945959d6472b9a6914963864e7c1969dfe8b7c2fc6cf",
+    "evidence_kind": "Independent peer-run fingerprints observed in the review UI. The full Linux file was not imported locally."
+  },
+  "canonical_contents_match_between_observed_platform_runs": true,
+  "reproduction": {
+    "status": "matches_reference",
+    "reference": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\examples\\06_hamburg_ring1_demo\\replay-reference-v1.json",
+      "sha256": "89fc5a5132671eafbe7de2e8744d34d06c825b0afee2348c8094e8f75b3ac02a"
+    },
+    "canonicalization": "ElementTree C14N 2.0, strip_text=True, with_comments=False; model values and element order retained",
+    "actual": {
+      "network_content_sha256": "16a3728c860f4b87ff3ae2c868d01ca51b3ee9731796a1d9642f9d3e68cc7263",
+      "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5",
+      "official_motor_movements": 114,
+      "passed_official_movements": 92,
+      "field_loop_count": 13
+    },
+    "checks": {
+      "network_content_sha256": true,
+      "field_loops_content_sha256": true,
+      "official_motor_movements": true,
+      "passed_official_movements": true,
+      "field_loop_count": true
+    }
+  },
+  "source_version_diagnosis": {
+    "saved_input_run": {
+      "path": "outputs/ring1-public-junction-demo-20261020-v2/run.json",
+      "sha256": "7fe91d8f8987b27119a844945e2af56cc7a1ced410362dc8fe64a5ed2041507b"
+    },
+    "difference_report": {
+      "path": "outputs/ring1-cached-road-scope-difference-20261020-v1.json",
+      "sha256": "fb990492825ff0a433a44bbc2567ed27eb38872548156c23f599ce70be567d37"
+    },
+    "ordinary_movement_identities_equal": true,
+    "loaded_vehicle_class_permissions_equal": true,
+    "tls_programs_equal": true,
+    "changed_edge_centerlines": 35,
+    "changed_ordinary_lane_shapes": 1,
+    "max_ordinary_lane_shape_displacement_m": 0.005057646982595019,
+    "cause": "The earlier Windows replay reused stage 2 from before the exact-source-cut repair. A fresh stage-2 rebuild removes the observed content mismatch."
+  },
+  "movement_coverage": {
+    "official": 114,
+    "passed": 92,
+    "unmapped": 22,
+    "unexplained_extra_connections": [
+      [
+        "186821027#0",
+        5,
+        "186821029#1",
+        3
+      ],
+      [
+        "186821034#0",
+        4,
+        "186821029#1",
+        2
+      ],
+      [
+        "368989705",
+        4,
+        "142944399#2",
+        3
+      ],
+      [
+        "626677498",
+        0,
+        "551303417",
+        2
+      ]
+    ]
+  },
+  "field_loop_count": 13,
+  "calibration": {
+    "status": "not_run"
+  },
+  "count_influence": {
+    "potential_count_influence": 19,
+    "unknown_outlets": 2
+  },
+  "load_warning_records": [
+    {
+      "stage": "empty-turn-0",
+      "message": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.",
+      "also_observed_in_final_load": true
+    },
+    {
+      "stage": "empty-turn-1",
+      "message": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.",
+      "also_observed_in_final_load": true
+    },
+    {
+      "stage": "lane-edit-0",
+      "message": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.",
+      "also_observed_in_final_load": true
+    },
+    {
+      "stage": "lane-edit-0",
+      "message": "Warning: Unsafe green phase 5 in tlLogic 'LSA119_part0', program '0'. Lane '199230912#0_0' is targeted by 2 'G'-links. (use 'g' instead)",
+      "also_observed_in_final_load": false
+    },
+    {
+      "stage": "field-layout",
+      "message": "Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.",
+      "also_observed_in_final_load": true
+    }
+  ],
+  "load_warning_comparison_basis": "Exact warning-line occurrence only. Absence of an identical line is not a safety verdict.",
+  "diagnostic_hash_warning_regression": {
+    "test": {
+      "path": "outputs/diagnostic-hash-warnings-tests-20261020-v1.xml",
+      "sha256": "4137dd4b253df860531a5c69e53d3e5a1d5baae6604150c3adfb4853a24bdef0"
+    },
+    "fresh_input_diagnostic": {
+      "path": "outputs/ring1-count-reachability-fresh-source-20261020-v1.json",
+      "sha256": "79edf57b01ca0ee04529079e763a75df546d8839e3675e7acca81cc439290efa"
+    },
+    "unchanged_rows_on_matching_inputs": true
+  },
+  "remaining": [
+    "Four unverified supplementary motor connections",
+    "22 unresolved official movements",
+    "Neighboring lane geometry review",
+    "Official signal timing",
+    "Exact count fitting and independent validation",
+    "Matched NetEdit/Google figures"
+  ],
+  "claim_boundary": "The observed Windows and Linux construction outputs have identical canonical XML contents. This is partial construction reproducibility, not field correctness, calibrated demand, exact count fit or independent prediction accuracy."
+}

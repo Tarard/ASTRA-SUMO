@@ -1,0 +1,99 @@
+{
+  "producer_commit": "0b1bb6a3c637b8845153baa0ace3787769b6eb96",
+  "worktree_modified": false,
+  "source_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+  "candidate_sha256": "bb80c7ad50316db21c1dfd3e113587641134265b11d78aed45b0efd46b8e1b71",
+  "identity": {
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "status": "review_required",
+  "gates": {
+    "artifact_identity": "pass",
+    "netconvert": "review_required",
+    "review_contract": "pass",
+    "xml_parse": "pass",
+    "tls_modal_rail_bridge_tunnel": "pass",
+    "modal_connectivity": "pass",
+    "sumo_load": "pass",
+    "routeability": "pass",
+    "topology": "review_required"
+  },
+  "new_lane_service": {
+    "status": "review_required",
+    "source_lane_count": 4,
+    "candidate_lane_count": 5,
+    "lanes": [
+      {
+        "lane_id": "554713076#0_2",
+        "lane_index": 2,
+        "vehicle_classes": [
+          "passenger"
+        ],
+        "incoming_movement_count": 0,
+        "outgoing_movement_count": 0,
+        "incoming_movements": [],
+        "outgoing_movements": [],
+        "source_edge_has_compatible_incoming": true,
+        "source_edge_has_compatible_outgoing": true,
+        "unverified_boundaries": [
+          "incoming",
+          "outgoing"
+        ],
+        "lane_change_service": "not_measured"
+      }
+    ],
+    "claim_boundary": "Compatible ordinary junction movements only. Lane-change use, purpose and discharge capacity require separate evidence."
+  },
+  "route_requests": 20,
+  "arrived": 20,
+  "local_tests": {
+    "targeted_suite": 60,
+    "negative_and_service_suite": 12,
+    "counts_overlap": true
+  },
+  "previous_ci": {
+    "commit": "b960e86b08e588c5cc95555429dfda107e564161",
+    "passed": 3623,
+    "skipped": 24,
+    "run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39332640440"
+  },
+  "artifacts": [
+    {
+      "path": "outputs/probe_informational_gates_20261020_v5.py",
+      "sha256": "be2b3d05c1d484e6e988f0834cbb3cfd118b1fdff4da3bf96a232f4da02f1eee"
+    },
+    {
+      "path": "outputs/informational_gates_20261020_v5/declaration.json",
+      "sha256": "a99e189db6fc784e02c813b7491889d807a6977dabd36991bd0d1f78b45adf83"
+    },
+    {
+      "path": "outputs/informational_gates_20261020_v5/results.json",
+      "sha256": "6d253bf9aacbac813d59e852e42d90a2ff7f52fc9c78d684b9e31edb7ddadce5"
+    },
+    {
+      "path": "outputs/informational_gates_20261020_v5/identity-check.json",
+      "sha256": "d66a36221b30afb18255eb6e65e59598770fcb74474689167f57ca3eea78f55e"
+    },
+    {
+      "path": "outputs/informational_gates_20261020_v5/release/edit-verification.json",
+      "sha256": "ba6fbd3c21675c921f02e4b9c61704ceccb240306cbda6fbedcb7db1525aeb67"
+    },
+    {
+      "path": "outputs/informational_gates_20261020_v5/release/gates/routeability_bb80c7ad5031/corridor_candidate_gates_routeability_routeability_audit.json",
+      "sha256": "0654cf52dd24e32b1d0b544c23058e950c55768da0903d8dcfcf421787b5fcd3"
+    },
+    {
+      "path": "outputs/informational_gates_20261020_v5/release/gates/topology_bb80c7ad5031/corridor_candidate_gates_topology_topology_audit.json",
+      "sha256": "1a14293c1aae72952b814243f57c411d84e9b7631a7a542ccbe180f5592657ad"
+    }
+  ],
+  "claim_boundary": "Informational diagnostics only. No added-lane service, extra capacity, field correctness or promotion established.",
+  "retained_probes": [
+    "outputs/informational_gates_20261020_v1/",
+    "outputs/informational_gates_20261020_v2/",
+    "outputs/informational_gates_20261020_v3/",
+    "outputs/informational_gates_20261020_v4/"
+  ],
+  "retained_test_failure": "outputs/informational-gates-and-correspondence-final.log"
+}

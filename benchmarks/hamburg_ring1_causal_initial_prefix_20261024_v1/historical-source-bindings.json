@@ -1,0 +1,401 @@
+{
+  "bindings": [
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\reference\\departure-proposals.json",
+      "sha256": "a5338d955b09046ec0b16f3a9625b7955c763aae07dc722e474e6078745f932f",
+      "scope": "packet",
+      "target": "reference/departure-proposals.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_reference.py",
+      "sha256": "a5ca79018112a40fcfc6b044dff6056d02ef172b84c0b477de48c28fa72da1d5",
+      "scope": "packet",
+      "target": "study-source/prepare_reference.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\late-first900.csv",
+      "sha256": "107550655ddd240378bf03b3facee50eac5c16baba61e7a756029c44ef21fe96",
+      "scope": "packet",
+      "target": "service-evidence/late-first900.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\manifest.json",
+      "sha256": "b26491d24cf7dc01f7fd0588f032480429cf8c4934030df42feef0202614eacb",
+      "scope": "packet",
+      "target": "service-evidence/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/stable-64/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance22.py",
+      "sha256": "cae2f012949d074dfcaa4a3b4e95a2470d4ec6485e3321e5b85b23d930cd70ee",
+      "scope": "packet",
+      "target": "advance22/source-snapshot/prepare_advance22.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\native-request.json",
+      "sha256": "e3eed792e524f8f3b3dcbefe352046876e08c8579c7b53f8a18c5dce3468577b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance22\\departure-proposals.json",
+      "sha256": "a810e0941483beb667715a5471ea42350a5410db964939c0efb74fb72047a9c7",
+      "scope": "packet",
+      "target": "advance22/departure-proposals.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225-cohort.csv",
+      "sha256": "8539c83dff732cbf7934c23351e37f6b65fc6b1ae2d23c42cbc2d646983ab940",
+      "scope": "packet",
+      "target": "study-source/advance225-cohort.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\manifest.json",
+      "sha256": "b26491d24cf7dc01f7fd0588f032480429cf8c4934030df42feef0202614eacb",
+      "scope": "packet",
+      "target": "service-evidence/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/stable-64/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance225.py",
+      "sha256": "d986a931c7693fe7d471b95e211ceeba2c7b48d9c57aeecd49e70cb284481888",
+      "scope": "packet",
+      "target": "advance225/source-snapshot/prepare_advance225.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\native-request.json",
+      "sha256": "e3eed792e524f8f3b3dcbefe352046876e08c8579c7b53f8a18c5dce3468577b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance225\\departure-proposals.json",
+      "sha256": "4dc710f5413e46b23653d827ae6ddb495d5594dfc926f1e09edd4ba38124b698",
+      "scope": "packet",
+      "target": "advance225/departure-proposals.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-cohort.csv",
+      "sha256": "b0f530ed051340d5720c3d0371ce62b7912ee8ddf762b5c951e11ede6b54563f",
+      "scope": "packet",
+      "target": "study-source/advance-first900-cohort.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\manifest.json",
+      "sha256": "b26491d24cf7dc01f7fd0588f032480429cf8c4934030df42feef0202614eacb",
+      "scope": "packet",
+      "target": "service-evidence/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/stable-64/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance_first900.py",
+      "sha256": "7b7e08f0980b6c864492ee7c803a4aef563ec05728a84bc63e513134473dacd5",
+      "scope": "packet",
+      "target": "advance-first900/source-snapshot/prepare_advance_first900.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\native-request.json",
+      "sha256": "e3eed792e524f8f3b3dcbefe352046876e08c8579c7b53f8a18c5dce3468577b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900\\departure-proposals.json",
+      "sha256": "d8a5f170d3c8d01fe1aa0cad8086eb50bda70f8d92aaf2bf1daf8a076a2f871b",
+      "scope": "packet",
+      "target": "advance-first900/departure-proposals.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\demand.rou.xml",
+      "sha256": "244e2a23b7d67c419da0ad978ecb53f3dbb247cc3e0d9ffe2f8121382aa7dbc3",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/demand.rou.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/field-loops.add.xml"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\lane-intentions.json",
+      "sha256": "45c8acaa8936ad76e36e2d2e19b80427df03a9f8ae7ffd89507f59731aa230a7",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/lane-intentions.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\prepared\\scenario.json",
+      "sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/scenario.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-cohort.csv",
+      "sha256": "b0f530ed051340d5720c3d0371ce62b7912ee8ddf762b5c951e11ede6b54563f",
+      "scope": "packet",
+      "target": "study-source/advance-first900-cohort.csv"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-119-cumulative-service-20261024-v1\\manifest.json",
+      "sha256": "b26491d24cf7dc01f7fd0588f032480429cf8c4934030df42feef0202614eacb",
+      "scope": "packet",
+      "target": "service-evidence/manifest.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_departure_probe.py",
+      "sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_healthy_joint_od_stable_20261024_v1/stable-64/implementation/hamburg_departure_probe.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\prepare_advance_first900_120225.py",
+      "sha256": "12395c70c2299bfafa584f9868a2b51673e31eb700d09271ed0288e9f476778c",
+      "scope": "packet",
+      "target": "advance-first900-120225/source-snapshot/prepare_advance_first900_120225.py"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-z5-single-share-20261024-v1\\one-share\\evaluation\\native\\native-request.json",
+      "sha256": "e3eed792e524f8f3b3dcbefe352046876e08c8579c7b53f8a18c5dce3468577b",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_z5_single_share_20261024_v1/one-share/evaluation/native/native-request.json"
+    },
+    {
+      "declared_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-causal-initial-prefix-20261024-v1\\advance-first900-120225\\departure-proposals.json",
+      "sha256": "0ce86346370199f9f81064421d96d7a50a68ec9a7b70f4980e839048b3925376",
+      "scope": "packet",
+      "target": "advance-first900-120225/departure-proposals.json"
+    }
+  ],
+  "original_hashes_not_rewritten": true
+}

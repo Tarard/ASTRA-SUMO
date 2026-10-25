@@ -72,6 +72,19 @@ def test_representative_tail_helpers_keep_behavior() -> None:
     ) == 4
 
 
+def test_pending_traffic_light_map_review_needs_review_instead_of_failing() -> None:
+    passing_tls = {"status": "pass"}
+    assert tail_module._tls_gate_value(passing_tls, {"tls_reality_review_status": "pass"}) == "pass"
+    assert tail_module._tls_gate_value(passing_tls, {"tls_reality_review_status": "review_required"}) == "review_required"
+    assert tail_module._tls_gate_value({"status": "fail"}, {"tls_reality_review_status": "review_required"}) == "fail"
+
+    assert tail_module._cleanup_outcome(True, "pass") == ("pass", "diagnostic-demo")
+    assert tail_module._cleanup_outcome(True, "review_required") == ("review_required", "diagnostic-demo")
+    assert tail_module._cleanup_outcome(True, "fail") == ("fail", "construction-invalid")
+    assert tail_module._cleanup_outcome(False, "pass") == ("fail", "construction-invalid")
+    assert tail_module._cleanup_outcome(False, "review_required") == ("fail", "construction-invalid")
+
+
 def test_tls_movement_smoke_ignores_stale_output_files(tmp_path: Path) -> None:
     net_file = tmp_path / "candidate.net.xml"
     net_file.write_text(

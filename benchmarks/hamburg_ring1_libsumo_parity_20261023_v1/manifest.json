@@ -1,0 +1,140 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": "backend-correspondence.json",
+      "bytes": 1508,
+      "sha256": "42b1160a42e2831a7b79c023ceec1db21ed2ea4be6357831f7e4d862d79b60c5"
+    },
+    {
+      "path": "benchmark_libsumo.py.gz",
+      "bytes": 1044,
+      "sha256": "374a4892c3821a8f3efb5911f7c2ac062828424f2606a6495a62db3c7610f834"
+    },
+    {
+      "path": "environment.json",
+      "bytes": 2354,
+      "sha256": "3b29a7befb2eb34b2d07855cdb9b10bffe5bac539f2073154f9000ac210c0ebb"
+    },
+    {
+      "path": "evaluation.json",
+      "bytes": 461,
+      "sha256": "5f24541775ea88052c9eac92346800f951e85bb86271b56f93326fa51d2daf51"
+    },
+    {
+      "path": "field-comparison.csv",
+      "bytes": 7841,
+      "sha256": "837388abcb3726b19b04310307c929c2bfceb464226c78abb5ce37331bf4f40a"
+    },
+    {
+      "path": "first-format-check.json",
+      "bytes": 1974,
+      "sha256": "34e0ac6b0d6300750316af5322d538f8a576ac862d79575151a347f6b5c337ee"
+    },
+    {
+      "path": "libsumo-execution.json.gz",
+      "bytes": 121,
+      "sha256": "47d35a57e2a0f271548a6b1f752c610c8ad7a52c73bc3480f37de83166b61474"
+    },
+    {
+      "path": "libsumo.stderr.log.gz",
+      "bytes": 388,
+      "sha256": "596ab05fa73d8a73c7b7be586d04b7536b8dd0cb6926840da66cdc7f44864c73"
+    },
+    {
+      "path": "libsumo.stdout.log.gz",
+      "bytes": 729,
+      "sha256": "0d6fed0dee5e3ab932be9d7ecd656fcc599fa1d2c16414867a20fd991385722b"
+    },
+    {
+      "path": "local-only-large-traces.json",
+      "bytes": 601,
+      "sha256": "9ab5bbc11bd5f2c96c41a682326d71dbdf970e5f4fca2f4c47b9ebb2e38a82ce"
+    },
+    {
+      "path": "native/collisions.xml.gz",
+      "bytes": 725,
+      "sha256": "7e38c7714107775af8a14245c1cfe7e2070f921979deed317728f2a6098240c5"
+    },
+    {
+      "path": "native/command.json.gz",
+      "bytes": 1394,
+      "sha256": "a2645db9cec5d5314324a13174690f9a031bb1e6f8878f5b827b9abced97a45f"
+    },
+    {
+      "path": "native/field-counts.xml.gz",
+      "bytes": 8912,
+      "sha256": "c3905f897c084676c651cefe6d6fdd8d7f6dd5eb3929ce1b729de67f2f6e1137"
+    },
+    {
+      "path": "native/native-request.json.gz",
+      "bytes": 665,
+      "sha256": "743bd9f4c2a3917a6bbf8e570cd74ab744d928d469fcbfa8f71a3bd1628816b9"
+    },
+    {
+      "path": "native/run.json.gz",
+      "bytes": 276951,
+      "sha256": "42279963184f537d172448ffe55c8938aca51998fcb09ad46d7894264815ce8f"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "bytes": 273275,
+      "sha256": "a6c15fb36a0992431ef89d3f4a4506acf0328367318ff327bd0390a94a200354"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "bytes": 3297554,
+      "sha256": "3b7ed476a10062370e178f3407636aefcab402d4a4e3629f697cc74f10eda870"
+    },
+    {
+      "path": "native/sumo-errors.log.gz",
+      "bytes": 732,
+      "sha256": "b968ff7d8532928b43d6f957824c24089172d8bf046d353580f8d7155044d572"
+    },
+    {
+      "path": "native/sumo.log.gz",
+      "bytes": 1254,
+      "sha256": "16271e1f8f3feaf5b3547eef71f0e9f78c08dc1e8824dab162e77e595625d274"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "bytes": 362260,
+      "sha256": "41bdd74658b895cb41fbc957ea47cb6820444f37a9c37f6038f3695d4888797c"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "bytes": 578193,
+      "sha256": "e4ba501dc9fdc59125a7090bd9889d9752e17d7367d75e6ea5b068c55f47af90"
+    },
+    {
+      "path": "README.md",
+      "bytes": 3915,
+      "sha256": "3abcd16cd21ff00ab46a0cf31895325a1e2c614248ed914ce0c3be80057e9c5f"
+    },
+    {
+      "path": "reproduce.py",
+      "bytes": 1942,
+      "sha256": "64d56271156fc84309812208c5fcef1646235503bab075dbf3530f23abae80ed"
+    },
+    {
+      "path": "station-comparison.csv",
+      "bytes": 1605,
+      "sha256": "6e01eb3938efb1a548b165f9fda9dee20b2461d96efd4a73ca140cb5eb3823ab"
+    },
+    {
+      "path": "timing.json",
+      "bytes": 472,
+      "sha256": "7b972f4e87750de18244d1ad098c9570f25ba3b7fbf8483ac5ba9ff1b020a53c"
+    },
+    {
+      "path": "traffic-correspondence.json",
+      "bytes": 1969,
+      "sha256": "a6f8351500b04101a8641e28bc978d1934ce744b160f01f574cec94f84cb4faa"
+    },
+    {
+      "path": "verify.py",
+      "bytes": 3866,
+      "sha256": "a2ede8f78ee0e58e35d6726eaec11a3aa0821bd168257af2832301ebe9d5feba"
+    }
+  ]
+}

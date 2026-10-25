@@ -8,8 +8,45 @@ import pytest
 
 from astra_sumo.core.topology_signal_rebuild import (
     build_topology_test_signal_plan,
+    insert_red_clearance_phases,
     rebuild_topology_test_signals,
 )
+
+
+def test_clearance_keeps_continuing_greens_and_source_phase_records():
+    logic = ET.fromstring('<tlLogic type="static"><phase duration="15" state="GGr" name="first"/>'
+        '<phase duration="3" state="yGr"/><phase duration="15" state="rGG"/>'
+        '<phase duration="3" state="rYy"/></tlLogic>')
+    before = ET.tostring(logic)
+    result = insert_red_clearance_phases(logic, {1: 4, 3: 1})
+    assert [p["state"] for p in result["phases"]] == ["GGr", "yGr", "rGr", "rGG", "rYy", "rrr"]
+    assert result["phases"][0]["name"] == "first"
+    assert result["source_cycle_s"] == 36 and result["candidate_cycle_s"] == 41
+    assert [p["duration_s"] for p in result["insertions"]] == [4, 1]
+    assert ET.tostring(logic) == before
+
+
+@pytest.mark.parametrize("change", ["actuated", "next", "duration", "width", "index", "seconds", "green"])
+def test_clearance_rejects_ambiguous_order_and_invalid_extensions(change):
+    logic = ET.fromstring('<tlLogic type="static"><phase duration="15" state="Gr"/>'
+        '<phase duration="3" state="yr"/></tlLogic>')
+    extensions = {1: 4}
+    if change == "actuated":
+        logic.set("type", "actuated")
+    elif change == "next":
+        logic[0].set("next", "1")
+    elif change == "duration":
+        logic[0].set("duration", "nan")
+    elif change == "width":
+        logic[0].set("state", "G")
+    elif change == "index":
+        extensions = {2: 4}
+    elif change == "seconds":
+        extensions = {1: -1}
+    elif change == "green":
+        extensions = {0: 4}
+    with pytest.raises(ValueError):
+        insert_red_clearance_phases(logic, extensions)
 
 
 def _network() -> ET.Element:

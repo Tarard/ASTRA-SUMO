@@ -1,0 +1,140 @@
+{
+  "schema": "astra.complete-ci-receipt/v1",
+  "runs": [
+    {
+      "conclusion": "success",
+      "headSha": "cc54a9273a2c9ffa2374393521594eba4abdedf5",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39374685769",
+      "event": "pr",
+      "totals": {
+        "tests": 3758,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3734
+      },
+      "critical_native_executed": 45,
+      "critical_native_counts": {
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
+        "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
+        "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1
+      },
+      "junit": {
+        "path": "outputs/ci-cc54a92-pr-artifacts-20261020/test-results.xml",
+        "sha256": "adee5c5875cb9d5e4196f9624bb5584fb7bdf729b633870c74b494cd20f48f82"
+      }
+    },
+    {
+      "conclusion": "success",
+      "headSha": "cc54a9273a2c9ffa2374393521594eba4abdedf5",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39374682466",
+      "event": "push",
+      "totals": {
+        "tests": 3758,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3734
+      },
+      "critical_native_executed": 45,
+      "critical_native_counts": {
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
+        "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
+        "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1
+      },
+      "junit": {
+        "path": "outputs/ci-cc54a92-push-artifacts-20261020/test-results.xml",
+        "sha256": "549fec8deb500443ef3848dc01866f821284b7cb64ffb70fe58e42e0a8df33bd"
+      }
+    },
+    {
+      "conclusion": "success",
+      "headSha": "89aa27d2d6bb6b33ebe7142e5f112d4561a06daf",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39376424665",
+      "event": "pr",
+      "totals": {
+        "tests": 3761,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3737
+      },
+      "critical_native_executed": 46,
+      "critical_native_counts": {
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
+        "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
+        "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1,
+        "test_standalone_simplifier_uses_shared_local_conversion_and_keeps_remote_roads": 1
+      },
+      "junit": {
+        "path": "outputs/ci-89aa27d-pr-artifacts-20261020/test-results.xml",
+        "sha256": "6a22e91adbfb20b6112217b56a581c5fb4ea9e80918c013028239b53adfc5aa6"
+      }
+    },
+    {
+      "conclusion": "success",
+      "headSha": "89aa27d2d6bb6b33ebe7142e5f112d4561a06daf",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39376417761",
+      "event": "push",
+      "totals": {
+        "tests": 3761,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 24,
+        "passed": 3737
+      },
+      "critical_native_executed": 46,
+      "critical_native_counts": {
+        "test_native_isolated_proposals": 3,
+        "test_native_micro_proposals": 6,
+        "test_legacy_native_lists_bind_scope": 2,
+        "test_legacy_local_output_does_not_replace": 1,
+        "test_native_spur_deletion": 1,
+        "test_windows_native_fatal_exit_is_bounded": 20,
+        "test_native_road_shape_edit_preserves": 1,
+        "test_hamburg_branching_pair_does_not_report_a_successful_merge": 2,
+        "test_existing_edge_deletion_uses_the_shared_exterior_protection": 2,
+        "test_native_additions_use_local_context_and_replay_bound_plain_inputs": 4,
+        "test_hamburg_added_sidewalk_reaches_its_walking_area": 2,
+        "test_native_type_adds_declared_sidewalk_and_bicycle_lanes": 1,
+        "test_standalone_simplifier_uses_shared_local_conversion_and_keeps_remote_roads": 1
+      },
+      "junit": {
+        "path": "outputs/ci-89aa27d-push-artifacts-20261020/test-results.xml",
+        "sha256": "7998a686ef98f58a86dc2bb987b68478fe952d133079acee204d7664cc4e4c75"
+      }
+    }
+  ],
+  "claim_boundary": "These complete Windows results qualify only the recorded commits and tested cases. They do not qualify subsequent endpoint-mapping code, field correctness or automatic-cleaning accuracy."
+}

@@ -1,0 +1,160 @@
+{
+  "schema": "astra.point-detector-demand-replay/v1",
+  "status": "invalid",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-distance-count-attempt-20261021-v1\\replay\\network.net.xml",
+      "sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\cohort.rou.xml",
+      "sha256": "c9ede7775f0185d01b6383d2975008d964d158282d3fba279004bf8a281fc629"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-distance-count-attempt-20261021-v1\\replay\\source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-distance-count-attempt-20261021-v1\\replay\\expected-counts.csv",
+      "sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc"
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\network.net.xml",
+      "sha256": "e906ab92d6e3276f5b4dd7370547270af007f9c58a56d9945f421d1aaf2554ff"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\demand.rou.xml",
+      "sha256": "c9ede7775f0185d01b6383d2975008d964d158282d3fba279004bf8a281fc629"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\expected-counts.csv",
+      "sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc"
+    }
+  ],
+  "seed": 104,
+  "step_length_s": 0.1,
+  "end_s": 14400,
+  "vehicle_count": 1270,
+  "measurement_attribute": "nVehContrib",
+  "instant_to_periodic_ids": {
+    "astra_trace_0": "hh_0119_Z_11_28853",
+    "astra_trace_1": "hh_0119_Z_12_31546",
+    "astra_trace_2": "hh_0119_Z_13_34018",
+    "astra_trace_3": "hh_0119_Z_15_29375",
+    "astra_trace_4": "hh_0119_Z_4_29437",
+    "astra_trace_5": "hh_0119_Z_5_30494",
+    "astra_trace_6": "hh_0535_Z_14_31892",
+    "astra_trace_7": "hh_0535_Z_4_33055",
+    "astra_trace_8": "hh_0535_Z_5_30894",
+    "astra_trace_9": "hh_0535_Z_6_33855",
+    "astra_trace_10": "hh_0535_Z_7_29316",
+    "astra_trace_11": "hh_0535_Z_8_34287",
+    "astra_trace_12": "hh_0535_Z_9_29038"
+  },
+  "signal_treatment": "network_programs_unchanged",
+  "formal_result": false,
+  "errors": [],
+  "expected_field_bins": 130,
+  "observer_complete": true,
+  "missing_field_bins": 0,
+  "exact_field_bins": 28,
+  "exact_count_fit": false,
+  "field_metrics": null,
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\field-comparison.csv",
+  "state_times_s": [
+    12000
+  ],
+  "state_snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\states\\state_12000.000.xml.gz",
+      "sha256": "feff47eb7e7dbb39b47695b8bf0b623b948e2e2d873946fa05a3dea2d38cf99b"
+    }
+  ],
+  "native_status": "pass",
+  "native_returncode": 0,
+  "stall_monitor": {
+    "status": "completed",
+    "all_stopped_timeout_s": 300,
+    "speed_tolerance_m_s": 1e-06,
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "--net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\network.net.xml",
+      "--route-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\demand.rou.xml",
+      "--additional-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\instant.add.xml",
+      "--end",
+      "14400",
+      "--step-length",
+      "0.1",
+      "--seed",
+      "104",
+      "--precision",
+      "12",
+      "--time-to-teleport",
+      "-1",
+      "--collision.check-junctions",
+      "true",
+      "--summary-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\summary.xml",
+      "--tripinfo-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\tripinfo.xml",
+      "--tripinfo-output.write-unfinished",
+      "true",
+      "--vehroute-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\vehicle-routes.xml",
+      "--vehroute-output.exit-times",
+      "true",
+      "--collision-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\collisions.xml",
+      "--log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\sumo.log",
+      "--error-log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\sumo-errors.log",
+      "--duration-log.statistics",
+      "true",
+      "--no-step-log",
+      "true",
+      "--save-state.times",
+      "12000",
+      "--save-state.prefix",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-535-lane-rebinding-probe-20261021-v1\\reference\\states\\state",
+      "--save-state.suffix",
+      ".xml.gz",
+      "--save-state.rng",
+      "true",
+      "--save-state.precision",
+      "12",
+      "--remote-port",
+      "1744"
+    ],
+    "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "stop": null,
+    "native_version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "simulation_time_s": 14400.0,
+    "native_returncode": 0
+  },
+  "completion": {
+    "loaded": 1270,
+    "inserted": 1270,
+    "arrived": 1270,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 1,
+    "collisions": 1,
+    "discarded": 0
+  },
+  "healthy": false,
+  "inputs_unchanged": true,
+  "claim_boundary": "Native completion and all declared detector bins under the supplied model. No field timing, surveyed detector truth, or prediction accuracy is established."
+}

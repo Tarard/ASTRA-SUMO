@@ -9,6 +9,7 @@ import xml.etree.ElementTree as ET
 
 from .command_runner import run_command
 from .osm_network import read_net_edges
+from .local_network_conversion import with_geometry_precision
 
 
 def _failure(error_message: str) -> dict[str, Any]:
@@ -236,7 +237,7 @@ def extract_largest_passenger_component_core(
                     }
                 )
 
-    command = [
+    command = with_geometry_precision([
         "netconvert",
         "--sumo-net-file",
         str(net_file.resolve()),
@@ -245,7 +246,7 @@ def extract_largest_passenger_component_core(
         "--keep-edges.postload",
         "--output-file",
         core_file.name,
-    ]
+    ])
     command_record.write_text(" ".join(command) + "\n", encoding="utf-8")
     command_attempts = [list(command)]
     try:

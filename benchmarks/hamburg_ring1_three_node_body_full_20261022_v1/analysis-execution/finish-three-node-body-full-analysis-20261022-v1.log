@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "<stdin>", line 5, in <module>
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\outputs\analyze-three-node-body-full-20261022-v1.py", line 51, in <module>
+    trips = {v.get('id'): v for v in ET.parse(N / 'tripinfo.xml').getroot().findall('tripinfo')}
+                                                                                           ^^^^^^
+NameError: name 'decompose' is not defined

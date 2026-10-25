@@ -1,0 +1,99 @@
+{
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_by_freeze": 0,
+    "cases": {
+      "reference": {
+        "measurement": {
+          "main130": {
+            "SSE": 2833,
+            "TAE": 275,
+            "MAE": 2.1153846153846154,
+            "max_abs_error": 22
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 3950,
+            "TAE": 372,
+            "MAE": 2.043956043956044,
+            "max_abs_error": 22
+          },
+          "station40_MAE": 6.125,
+          "completion": {
+            "loaded": 8589,
+            "inserted": 8589,
+            "arrived": 8589,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8589,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 26
+        },
+        "actual_N": 8589,
+        "all50_state_program_ticks_equal": true
+      },
+      "warmup9": {
+        "measurement": {
+          "main130": {
+            "SSE": 2688,
+            "TAE": 286,
+            "MAE": 2.2,
+            "max_abs_error": 22
+          },
+          "initial52": {
+            "SSE": 1117,
+            "TAE": 97,
+            "MAE": 1.8653846153846154,
+            "max_abs_error": 20
+          },
+          "all182": {
+            "SSE": 3805,
+            "TAE": 383,
+            "MAE": 2.1043956043956045,
+            "max_abs_error": 22
+          },
+          "station40_MAE": 6.3,
+          "completion": {
+            "loaded": 8598,
+            "inserted": 8598,
+            "arrived": 8598,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8598,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 26
+        },
+        "actual_N": 8598,
+        "all50_state_program_ticks_equal": true
+      }
+    },
+    "reference14_verified": true,
+    "reference_N8589_and_counterpart_N8598_not_equal": true,
+    "record21_offline_recovery_not_original_script_success": true,
+    "original_wall_time": null,
+    "best275_unchanged": true,
+    "mixed_warmup_TAE": 422,
+    "mixed_fill9_TAE": 430,
+    "no_field_SPAT_capacity_or_global_bound_claim": true
+  }
+}

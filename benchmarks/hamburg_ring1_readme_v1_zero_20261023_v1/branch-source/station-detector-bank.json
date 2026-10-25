@@ -1,0 +1,196 @@
+[
+  {
+    "station_stream_id": 26585,
+    "node_id": "535",
+    "direction": "Südwest nach Nordost",
+    "detector_ids": [
+      "hh_535_Z_14_31892",
+      "hh_535_Z_4_33055",
+      "hh_535_Z_9_29038"
+    ],
+    "detector_sources": [
+      {
+        "detector_id": "hh_535_Z_14_31892",
+        "sumo_lane": "186821034#0_0",
+        "lane_position": 26.84,
+        "source_detector_ids": [
+          "hh_535_Z_14_31892"
+        ],
+        "source_stream_ids": [
+          31892
+        ]
+      },
+      {
+        "detector_id": "hh_535_Z_4_33055",
+        "sumo_lane": "186821034#0_3",
+        "lane_position": 21.29213475929386,
+        "source_detector_ids": [
+          "hh_535_Z_4_33055"
+        ],
+        "source_stream_ids": [
+          33055
+        ]
+      },
+      {
+        "detector_id": "hh_535_Z_9_29038",
+        "sumo_lane": "186821035#0_0",
+        "lane_position": 65.07032619703557,
+        "source_detector_ids": [
+          "hh_535_Z_9_29038"
+        ],
+        "source_stream_ids": [
+          29038
+        ]
+      }
+    ],
+    "placement_basis": "physical_field_projections",
+    "exact_physical_field_positions": false,
+    "constraint_edge": "186821036#1"
+  },
+  {
+    "station_stream_id": 30666,
+    "node_id": "535",
+    "direction": "Nordost nach Südwest",
+    "detector_ids": [
+      "hh_535_Z_5_30894",
+      "hh_535_Z_6_33855",
+      "hh_535_Z_7_29316",
+      "hh_535_Z_8_34287"
+    ],
+    "detector_sources": [
+      {
+        "detector_id": "hh_535_Z_5_30894",
+        "sumo_lane": "186821027#0_0",
+        "lane_position": 25.54519258851532,
+        "source_detector_ids": [
+          "hh_535_Z_5_30894"
+        ],
+        "source_stream_ids": [
+          30894
+        ]
+      },
+      {
+        "detector_id": "hh_535_Z_6_33855",
+        "sumo_lane": "186821027#0_1",
+        "lane_position": 25.659762224915635,
+        "source_detector_ids": [
+          "hh_535_Z_6_33855"
+        ],
+        "source_stream_ids": [
+          33855
+        ]
+      },
+      {
+        "detector_id": "hh_535_Z_7_29316",
+        "sumo_lane": "186821027#0_2",
+        "lane_position": 25.64075448116537,
+        "source_detector_ids": [
+          "hh_535_Z_7_29316"
+        ],
+        "source_stream_ids": [
+          29316
+        ]
+      },
+      {
+        "detector_id": "hh_535_Z_8_34287",
+        "sumo_lane": "186821027#0_3",
+        "lane_position": 25.5751757498269,
+        "source_detector_ids": [
+          "hh_535_Z_8_34287"
+        ],
+        "source_stream_ids": [
+          34287
+        ]
+      }
+    ],
+    "placement_basis": "physical_field_projections",
+    "exact_physical_field_positions": true,
+    "constraint_edge": "186821027#0"
+  },
+  {
+    "station_stream_id": 33023,
+    "node_id": "119",
+    "direction": "Süd nach Nord",
+    "detector_ids": [
+      "hh_119_Z_15_29375",
+      "hh_119_Z_4_29437",
+      "hh_119_Z_5_30494"
+    ],
+    "detector_sources": [
+      {
+        "detector_id": "hh_119_Z_4_29437",
+        "sumo_lane": "24483344#0_0",
+        "lane_position": 184.43377336763507,
+        "source_detector_ids": [
+          "hh_119_Z_4_29437"
+        ],
+        "source_stream_ids": [
+          29437
+        ]
+      },
+      {
+        "detector_id": "hh_119_Z_5_30494",
+        "sumo_lane": "24483344#0_1",
+        "lane_position": 184.6934535065551,
+        "source_detector_ids": [
+          "hh_119_Z_5_30494"
+        ],
+        "source_stream_ids": [
+          30494
+        ]
+      },
+      {
+        "detector_id": "hh_119_Z_15_29375",
+        "sumo_lane": "603103445#0_0",
+        "lane_position": 4.385308342060191,
+        "source_detector_ids": [
+          "hh_119_Z_15_29375"
+        ],
+        "source_stream_ids": [
+          29375
+        ]
+      }
+    ],
+    "placement_basis": "physical_field_projections",
+    "exact_physical_field_positions": false,
+    "constraint_edge": "141050975"
+  },
+  {
+    "station_stream_id": 35822,
+    "node_id": "119",
+    "direction": "Nord nach Süd",
+    "detector_ids": [
+      "hh_119_Z_13_34018",
+      "station_35822_1068722010_0"
+    ],
+    "detector_sources": [
+      {
+        "detector_id": "station_35822_1068722010_0",
+        "sumo_lane": "1068722010_0",
+        "lane_position": 0.01,
+        "source_detector_ids": [
+          "hh_119_Z_11_28853",
+          "hh_119_Z_12_31546"
+        ],
+        "source_stream_ids": [
+          28853,
+          31546
+        ]
+      },
+      {
+        "detector_id": "hh_119_Z_13_34018",
+        "sumo_lane": "43866090#0_0",
+        "lane_position": 0.01,
+        "source_detector_ids": [
+          "hh_119_Z_13_34018"
+        ],
+        "source_stream_ids": [
+          34018
+        ]
+      }
+    ],
+    "placement_basis": "short_edge_entry_probe",
+    "exact_physical_field_positions": false,
+    "constraint_edge": "24483192"
+  }
+]

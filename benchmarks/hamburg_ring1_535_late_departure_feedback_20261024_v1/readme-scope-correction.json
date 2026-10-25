@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "native_runs": 0,
+  "scope": "Only two README tense/scope clarifications; no native, input, analysis or result changes.",
+  "old_manifest_sha256": "c770b14e102fe076cc62ef2c0408a4dfaa1a6374015e757c722d8c06033df884",
+  "old_README_sha256": "685ca293c94a3d1f513de3e2f3be9f66d9ecba89e83fcbd2bf56ca9d815a9d35",
+  "new_README_sha256": "08bbc93c22458a900ac11a1dedd79b9b78bdd2c500f4e42cbe3b59ebbf793e18",
+  "replacements": {
+    "当前最低已测": "本组最低已测",
+    "新数量自由度尚未运行的材料不在此包": "后续数量试验不属于本包"
+  },
+  "old_packet_changed_files": [
+    "README.md"
+  ],
+  "results_sha256_unchanged": "4da8049488682e8a43877b71eb7e2f26d6a5365b6ec1c5b396629693f32bdb7c",
+  "exact_two_utf8_byte_replacements": true
+}

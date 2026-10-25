@@ -1,0 +1,35 @@
+{
+  "cases": {
+    "baseline": {
+      "551303410_1": {
+        "recorded_samples": 2968,
+        "positive_queue_length_samples": 2777,
+        "max_recorded_queue_length_m": 24.145792035166
+      },
+      "551303410_2": {
+        "recorded_samples": 2185,
+        "positive_queue_length_samples": 2059,
+        "max_recorded_queue_length_m": 24.384922970652
+      }
+    },
+    "candidate": {
+      "551303410_1": {
+        "recorded_samples": 1006,
+        "positive_queue_length_samples": 978,
+        "max_recorded_queue_length_m": 21.086983286677
+      },
+      "551303410_3": {
+        "recorded_samples": 1704,
+        "positive_queue_length_samples": 1665,
+        "max_recorded_queue_length_m": 21.099248614314
+      },
+      "551303410_2": {
+        "recorded_samples": 164,
+        "positive_queue_length_samples": 154,
+        "max_recorded_queue_length_m": 23.341939895364
+      }
+    }
+  },
+  "sampling_period_s": 1,
+  "claim_boundary": "Counts are recorded native queue samples, not vehicle totals. Absent lane records are not zero queues or proof of an unused lane. No field queue or capacity is inferred."
+}

@@ -1,0 +1,24 @@
+{
+  "changed_from_parent": [
+    "GS_266199063"
+  ],
+  "extension_s": 18,
+  "first_source_green_window_s": [
+    30,
+    73
+  ],
+  "second_source_green_window_s": [
+    80,
+    114
+  ],
+  "cycle_s": 90,
+  "all_clearance_durations_retained": true,
+  "formal_result": false,
+  "driver_sha256": {
+    "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+    "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+    "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "hamburg_od_spsa.py": "7f8d630e9fbda9c1bd2d37d3c7b8d460bfa02f94652a71cdb075ecda1aaeb71b",
+    "hamburg_spillback_repair.py": "4ab5388e2ffe602ed52224ced1fc98ed301a43813186555c62715f70fc95b2cd"
+  }
+}

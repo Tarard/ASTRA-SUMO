@@ -1,0 +1,690 @@
+{
+  "status": "completed",
+  "all_stopped_timeout_s": 300,
+  "speed_tolerance_m_s": 1e-06,
+  "command": [
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+    "--net-file",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\network.net.xml",
+    "--route-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\demand.rou.xml",
+    "--additional-files",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\signal-programs.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\instant.add.xml",
+    "--end",
+    "900",
+    "--step-length",
+    "0.1",
+    "--seed",
+    "104",
+    "--precision",
+    "12",
+    "--time-to-teleport",
+    "-1",
+    "--collision.check-junctions",
+    "true",
+    "--summary-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\summary.xml",
+    "--tripinfo-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\tripinfo.xml",
+    "--tripinfo-output.write-unfinished",
+    "true",
+    "--vehroute-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\vehicle-routes.xml",
+    "--vehroute-output.exit-times",
+    "true",
+    "--collision-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\collisions.xml",
+    "--log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\sumo.log",
+    "--queue-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\queues.xml",
+    "--queue-output.period",
+    "1",
+    "--error-log",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\sumo-errors.log",
+    "--duration-log.statistics",
+    "true",
+    "--no-step-log",
+    "true",
+    "--lanechange-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\lanechanges.xml",
+    "--fcd-output",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-late-exit-body-hold-probe-20261022-v1\\two_nodes\\fcd.xml",
+    "--fcd-output.skip-empty",
+    "true",
+    "--remote-port",
+    "8312"
+  ],
+  "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+  "stop": null,
+  "monitor_interval_s": null,
+  "position_changes_reset_standstill": true,
+  "junction_body_hold_nodes": [
+    "14398547",
+    "205069138"
+  ],
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "simulation_time_s": 900.0,
+  "native_returncode": 0,
+  "lane_section_hold": {
+    "mechanism": "Native laneChangeMode=512 after reaching the assigned detector lane; restore the prior mode after rear clearance. No lane, position, speed, route or signal commands.",
+    "safety_source": "https://sumo.dlr.de/docs/TraCI/Change_Vehicle_State.html#lane-change-mode-0xb6",
+    "claim_boundary": "Declared local driver lane intention. No detector count feedback or measured natural driver behaviour.",
+    "events": [
+      {
+        "vehicle_id": "artificial_a0_0",
+        "event": "held",
+        "time_s": 177.8,
+        "lane": "24483344#1_0",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_0",
+        "event": "held",
+        "time_s": 177.8,
+        "lane": "24483344#1_1",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_1",
+        "event": "held",
+        "time_s": 179.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.6890411859861834,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_1",
+        "event": "held",
+        "time_s": 179.3,
+        "lane": "24483344#1_1",
+        "position_m": 0.6956739870805011,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_2",
+        "event": "held",
+        "time_s": 180.8,
+        "lane": "24483344#1_1",
+        "position_m": 0.35570221252239076,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_0",
+        "event": "released",
+        "time_s": 257.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_0",
+        "event": "released",
+        "time_s": 257.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_1",
+        "event": "released",
+        "time_s": 258.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_1",
+        "event": "released",
+        "time_s": 258.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_2",
+        "event": "released",
+        "time_s": 260.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_2",
+        "event": "held",
+        "time_s": 267.8,
+        "lane": "24483344#1_0",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_3",
+        "event": "held",
+        "time_s": 267.8,
+        "lane": "24483344#1_1",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_3",
+        "event": "held",
+        "time_s": 269.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.6956746552056652,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_4",
+        "event": "held",
+        "time_s": 269.3,
+        "lane": "24483344#1_1",
+        "position_m": 0.6956746559501203,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_4",
+        "event": "held",
+        "time_s": 270.8,
+        "lane": "24483344#1_0",
+        "position_m": 0.35572184964707354,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_5",
+        "event": "held",
+        "time_s": 270.8,
+        "lane": "24483344#1_1",
+        "position_m": 0.35572185124508593,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_5",
+        "event": "held",
+        "time_s": 272.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.011789680804497493,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999997
+      },
+      {
+        "vehicle_id": "artificial_a1_6",
+        "event": "held",
+        "time_s": 272.3,
+        "lane": "24483344#1_1",
+        "position_m": 0.011789651141475233,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_6",
+        "event": "held",
+        "time_s": 273.9,
+        "lane": "24483344#1_0",
+        "position_m": 0.796743356551989,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_7",
+        "event": "held",
+        "time_s": 273.9,
+        "lane": "24483344#1_1",
+        "position_m": 0.7967431116075012,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_8",
+        "event": "held",
+        "time_s": 275.6,
+        "lane": "24483344#1_1",
+        "position_m": 0.595704781712362,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_9",
+        "event": "held",
+        "time_s": 277.5,
+        "lane": "24483344#1_1",
+        "position_m": 0.8967514413748994,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_10",
+        "event": "held",
+        "time_s": 279.4,
+        "lane": "24483344#1_1",
+        "position_m": 0.03719810882579466,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_11",
+        "event": "held",
+        "time_s": 281.6,
+        "lane": "24483344#1_1",
+        "position_m": 0.6449906607970988,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_2",
+        "event": "released",
+        "time_s": 347.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_3",
+        "event": "released",
+        "time_s": 347.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_3",
+        "event": "released",
+        "time_s": 348.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_4",
+        "event": "released",
+        "time_s": 348.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_4",
+        "event": "released",
+        "time_s": 350.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_5",
+        "event": "released",
+        "time_s": 350.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_5",
+        "event": "released",
+        "time_s": 351.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_6",
+        "event": "released",
+        "time_s": 351.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_6",
+        "event": "released",
+        "time_s": 353.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_7",
+        "event": "released",
+        "time_s": 353.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_8",
+        "event": "released",
+        "time_s": 354.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_9",
+        "event": "released",
+        "time_s": 356.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_10",
+        "event": "released",
+        "time_s": 357.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_7",
+        "event": "held",
+        "time_s": 357.8,
+        "lane": "24483344#1_0",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_12",
+        "event": "held",
+        "time_s": 357.8,
+        "lane": "24483344#1_1",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_8",
+        "event": "held",
+        "time_s": 359.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.6956746553342441,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999997
+      },
+      {
+        "vehicle_id": "artificial_a1_13",
+        "event": "held",
+        "time_s": 359.3,
+        "lane": "24483344#1_1",
+        "position_m": 0.6956746563768776,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_11",
+        "event": "released",
+        "time_s": 359.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_9",
+        "event": "held",
+        "time_s": 360.8,
+        "lane": "24483344#1_0",
+        "position_m": 0.35572184984796085,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_14",
+        "event": "held",
+        "time_s": 360.8,
+        "lane": "24483344#1_1",
+        "position_m": 0.35572185152158653,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_10",
+        "event": "held",
+        "time_s": 362.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.011789663566324826,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_15",
+        "event": "held",
+        "time_s": 362.3,
+        "lane": "24483344#1_1",
+        "position_m": 0.0117896832201696,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_11",
+        "event": "held",
+        "time_s": 363.9,
+        "lane": "24483344#1_0",
+        "position_m": 0.7967432121699813,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_16",
+        "event": "held",
+        "time_s": 363.9,
+        "lane": "24483344#1_1",
+        "position_m": 0.7967433606475671,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a1_17",
+        "event": "held",
+        "time_s": 365.6,
+        "lane": "24483344#1_1",
+        "position_m": 0.5957057859054986,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_7",
+        "event": "released",
+        "time_s": 437.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_12",
+        "event": "released",
+        "time_s": 437.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_8",
+        "event": "released",
+        "time_s": 438.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_13",
+        "event": "released",
+        "time_s": 438.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_9",
+        "event": "released",
+        "time_s": 440.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_14",
+        "event": "released",
+        "time_s": 440.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_10",
+        "event": "released",
+        "time_s": 441.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_15",
+        "event": "released",
+        "time_s": 441.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_11",
+        "event": "released",
+        "time_s": 443.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_16",
+        "event": "released",
+        "time_s": 443.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_17",
+        "event": "released",
+        "time_s": 444.5,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_13",
+        "event": "held",
+        "time_s": 447.8,
+        "lane": "24483344#1_0",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_18",
+        "event": "held",
+        "time_s": 447.8,
+        "lane": "24483344#1_1",
+        "position_m": 1.0421394999998652,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_12",
+        "event": "held",
+        "time_s": 449.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.695674656028979,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a1_19",
+        "event": "held",
+        "time_s": 449.3,
+        "lane": "24483344#1_1",
+        "position_m": 0.695674655683634,
+        "previous_mode": 1621,
+        "clear_distance_m": 771.8016289999997
+      },
+      {
+        "vehicle_id": "artificial_a0_16",
+        "event": "held",
+        "time_s": 450.8,
+        "lane": "24483344#1_0",
+        "position_m": 0.3557218507602471,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a0_14",
+        "event": "held",
+        "time_s": 452.3,
+        "lane": "24483344#1_0",
+        "position_m": 0.22371906840395805,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a0_17",
+        "event": "held",
+        "time_s": 453.9,
+        "lane": "24483344#1_0",
+        "position_m": 1.0822781765258789,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a0_15",
+        "event": "held",
+        "time_s": 455.5,
+        "lane": "24483344#1_0",
+        "position_m": 0.01916838923888431,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a0_19",
+        "event": "held",
+        "time_s": 457.4,
+        "lane": "24483344#1_0",
+        "position_m": 0.5727465890792018,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a0_18",
+        "event": "held",
+        "time_s": 459.4,
+        "lane": "24483344#1_0",
+        "position_m": 0.7432675744871968,
+        "previous_mode": 1621,
+        "clear_distance_m": 739.9018509999996
+      },
+      {
+        "vehicle_id": "artificial_a0_13",
+        "event": "released",
+        "time_s": 527.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_18",
+        "event": "released",
+        "time_s": 527.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_12",
+        "event": "released",
+        "time_s": 528.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a1_19",
+        "event": "released",
+        "time_s": 528.8,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_16",
+        "event": "released",
+        "time_s": 530.2,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_14",
+        "event": "released",
+        "time_s": 531.6,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_17",
+        "event": "released",
+        "time_s": 533.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_15",
+        "event": "released",
+        "time_s": 535.0,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_19",
+        "event": "released",
+        "time_s": 617.1,
+        "restored_mode": 1621
+      },
+      {
+        "vehicle_id": "artificial_a0_18",
+        "event": "released",
+        "time_s": 622.1,
+        "restored_mode": 1621
+      }
+    ],
+    "still_held": {},
+    "released_vehicles": 40,
+    "left_before_release": 0,
+    "junction_body_hold": {
+      "mechanism": "Hold mode 512 from the first post-step internal-lane sample until the rear clears all subsequent internal lanes. Restore only when both detector and junction holds end.",
+      "sampling_limit": "An entry-step lane change before the first internal-lane sample is not prevented.",
+      "events": [],
+      "still_held": {},
+      "pending_original_modes": {},
+      "claim_boundary": "Declared exploratory driver assumption on all internal lanes, not measured natural behavior or a network repair."
+    }
+  }
+}

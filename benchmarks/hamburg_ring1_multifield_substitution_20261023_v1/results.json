@@ -1,0 +1,91 @@
+{
+  "formal_result": false,
+  "new_native_evaluations": 2,
+  "baseline_new_native_run": false,
+  "classic_helper_sha256": "3d0e8e7c3d39f9f9f4bc6c8cc2ed0088dadabd4cdaf75729056e2750669475a0",
+  "baseline_manifest_sha256": "c4e3964150ce069bfbb154ff5da70c0e52acde026ab279de650f805bd4042c95",
+  "evaluations": {
+    "substitute-1pair": {
+      "main130": {
+        "SSE": 6964,
+        "TAE": 662,
+        "MAE": 5.092307692307692,
+        "max_abs_error": 27
+      },
+      "initial52": {
+        "SSE": 826,
+        "TAE": 82,
+        "MAE": 1.5769230769230769,
+        "max_abs_error": 16
+      },
+      "all182": {
+        "SSE": 7790,
+        "TAE": 744,
+        "MAE": 4.087912087912088,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 14.8,
+      "completion": {
+        "loaded": 8639,
+        "inserted": 8612,
+        "arrived": 8596,
+        "waiting": 27,
+        "running": 16,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8604,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 26,
+      "status": "rejected",
+      "substituted_pairs": 1,
+      "dual_complete": true,
+      "unchanged_prefix_rows": 156
+    },
+    "substitute-20pair": {
+      "main130": {
+        "SSE": 12123,
+        "TAE": 845,
+        "MAE": 6.5,
+        "max_abs_error": 37
+      },
+      "initial52": {
+        "SSE": 826,
+        "TAE": 82,
+        "MAE": 1.5769230769230769,
+        "max_abs_error": 16
+      },
+      "all182": {
+        "SSE": 12949,
+        "TAE": 927,
+        "MAE": 5.093406593406593,
+        "max_abs_error": 37
+      },
+      "station40_MAE": 18.825,
+      "completion": {
+        "loaded": 8620,
+        "inserted": 8591,
+        "arrived": 8515,
+        "waiting": 29,
+        "running": 76,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8552,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 29,
+      "status": "rejected",
+      "substituted_pairs": 20,
+      "dual_complete": true,
+      "unchanged_prefix_rows": 52
+    }
+  }
+}

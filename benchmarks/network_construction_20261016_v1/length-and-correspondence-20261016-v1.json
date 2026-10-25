@@ -1,0 +1,421 @@
+{
+  "schema": "astra.length-and-correspondence-evidence/v1",
+  "date": "2026-10-16",
+  "status": "diagnostic_only",
+  "promotion_authority": false,
+  "construction_commit": "0878011",
+  "driving_commit": "6eebd648c0f30cb21de79c155c76876a9f97c271",
+  "nonmotor_commit": "3c5ae28",
+  "workflow": {
+    "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/workflow.manifest.json",
+    "sha256": "ee3e543f3b2a71bd7f5f39268f73f35de3b38aa3b13545d472b2e27c34246f8f"
+  },
+  "stage_length_report": {
+    "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/construction-stage-lane-lengths.json",
+    "sha256": "e86214e1bf020fcc6238cfb5476d7d0900f62a2ad094a243f5423c5213cdb6ea"
+  },
+  "prior_stage_report": {
+    "path": "outputs/length_conformance_20261016_v1/hamburg-stages-v1.json",
+    "sha256": "706124ae7016001e4d171009ea1b5e92cc85925600b39e5f2baeec873ba605c4"
+  },
+  "stage_count": 15,
+  "stage_summary": [
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/candidate-attempt-0.net.xml",
+        "sha256": "6d2e0d696ef8c52d6b2f8d49464665c9f6012a5b5faa62cf5d667a091451d5b4"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/hamburg-five-aerial-combined.net.xml",
+        "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/joined-auto.net.xml",
+        "sha256": "b97c2ecaa095fc2967bd9547e92e007bd9afedaee0b66e1e89678823e56df754"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/joined-base.net.roundtrip.net.xml",
+        "sha256": "e3fcbd256e120123b7c311d65610608830c2168bb4c0269e90b9fb00e6e1e231"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/joined-base.net.xml",
+        "sha256": "f9286cb057d1ba0b6a95c72cec34d605fd3ddfd1b0cd1238927b51de404f7c11"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/candidate/test-signals-attempt-0/topology-test-signals.net.xml",
+        "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/construction-audit/protected-reloaded.net.xml",
+        "sha256": "4ad06c087faf8f16104165d448fa7e1a604af67b6e1cde6acb353ae968d99093"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/construction-audit/reloaded.net.xml",
+        "sha256": "4cd62832fd5d5b2f9874b03080de8ac6cdf06704799f1a5c689f2cac409f40a1"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/context-intersections/boundary-restoration/boundary-restored.net.xml",
+        "sha256": "124335be453e2712447716102ffec5fc491adfe264169e5fd72d30567567bc35"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/context-intersections/boundary-restoration/compiled.net.xml",
+        "sha256": "124ea9dab29fe434520810862afa288c6b4c95bf11fa9cf70cbbe053ce43220f"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/context-intersections/boundary-restoration/diagnostic-signals/topology-test-signals.net.xml",
+        "sha256": "6358eb744a752d24dff4d81e076357c162449a568e9dbeaa85229459990e937a"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/context-intersections/joined.net.xml",
+        "sha256": "0fbb2a7d6ddb7e9d6f651648ae76b07082940bb8c3939c039a9b56f47f69d319"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/source/logs/source_access-input.net.xml",
+        "sha256": "8fe588e2759783a442f83bbf405e1726ec85d1981d072a82d6883d030eaed025"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/source/logs/source_tls_cleanup/tls_reference_cleanup.net.xml",
+        "sha256": "8fe588e2759783a442f83bbf405e1726ec85d1981d072a82d6883d030eaed025"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    },
+    {
+      "network": {
+        "path": "outputs/length_conformance_20261016_v1/hamburg-rebuild-v1/source/sumo/source.net.xml",
+        "sha256": "c02e9f64268401da4a3e743a77e89865d9e80cac6beb6318bb892ec24a1fe1f3"
+      },
+      "read_status": "read",
+      "unchanged_during_read": true,
+      "unequal_normal_edge_count": 0,
+      "custom_length_difference_edge_count": 0
+    }
+  ],
+  "paired_driving": {
+    "path": "outputs/length_conformance_20261016_v1/paired-rebuild-v1/comparison.json",
+    "sha256": "e1cf9e5601769b7fd61e8327d9a3a1c5829cc150520aac764e2ff4dfa79376c7"
+  },
+  "paired_driving_request": {
+    "path": "outputs/length_conformance_20261016_v1/paired-driving-request-v1.json",
+    "sha256": "c68db6ad183833fad70340886e05bd2ba8212ab97a0ec4d49f1c0d9f66c4c173"
+  },
+  "pair_validity_counts": {
+    "invalid": 3
+  },
+  "execution_failure_count": 0,
+  "collision_affected_trip_pairs": [
+    {
+      "seed": 17,
+      "vehicle_id": "72",
+      "raw_recorded_duration_delta_s": null,
+      "ordinary_duration_delta_s": null,
+      "source_status": "unfinished_at_horizon",
+      "candidate_status": "unfinished_at_horizon"
+    },
+    {
+      "seed": 17,
+      "vehicle_id": "77",
+      "raw_recorded_duration_delta_s": 0.0,
+      "ordinary_duration_delta_s": null,
+      "source_status": "arrived",
+      "candidate_status": "arrived_with_recorded_collision"
+    },
+    {
+      "seed": 42,
+      "vehicle_id": "90",
+      "raw_recorded_duration_delta_s": 2.0,
+      "ordinary_duration_delta_s": null,
+      "source_status": "arrived_with_recorded_collision",
+      "candidate_status": "arrived_with_recorded_collision"
+    },
+    {
+      "seed": 42,
+      "vehicle_id": "95",
+      "raw_recorded_duration_delta_s": 8.0,
+      "ordinary_duration_delta_s": null,
+      "source_status": "arrived_with_recorded_collision",
+      "candidate_status": "arrived_with_recorded_collision"
+    }
+  ],
+  "driving_summary": {
+    "17": {
+      "source": {
+        "arrived": 63,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 36,
+        "waiting": 1
+      },
+      "rebuilt": {
+        "arrived": 64,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 35,
+        "waiting": 1
+      }
+    },
+    "42": {
+      "source": {
+        "arrived": 100,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 0,
+        "waiting": 0
+      },
+      "rebuilt": {
+        "arrived": 100,
+        "collisions": 1,
+        "teleports": 1,
+        "running": 0,
+        "waiting": 0
+      }
+    },
+    "104": {
+      "source": {
+        "arrived": 61,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 38,
+        "waiting": 1
+      },
+      "rebuilt": {
+        "arrived": 60,
+        "collisions": 0,
+        "teleports": 0,
+        "running": 39,
+        "waiting": 1
+      }
+    }
+  },
+  "calibration_run": {
+    "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/run.json",
+    "sha256": "38c0cc9cd1e30e75569e2e6a452a8e063762c442c2b4918f1383810f021a7ecf"
+  },
+  "calibration_artifacts": [
+    {
+      "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2349-facts.json",
+      "sha256": "f051a2356943199f70317e916dcbe21a56868f558e1387068f1cb3e99d511473"
+    },
+    {
+      "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2394-facts.json",
+      "sha256": "0a83f78b8c703a074a1b0cbfc8e055e043f88f8439415fef69c4cbd9e769f68c"
+    },
+    {
+      "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2349-scorecard.json",
+      "sha256": "0a55fcabe558e1ae79ea6dea8a3671db521e72760f3abf44a727917319081486"
+    },
+    {
+      "path": "outputs/length_conformance_20261016_v1/nonmotor-calibration-v1/2394-scorecard.json",
+      "sha256": "8b6c14266420d6206899a6128ca0788798b7652d9541eec37a9a4c1b4f869935"
+    }
+  ],
+  "measured_motor_centerlines": 21,
+  "nonmotor_reference_centerlines": 38,
+  "measured_nonmotor_centerlines": 3,
+  "nonmotor_measurements": [
+    {
+      "fact_id": "2349:lane:1:centerline",
+      "mode": "bicycle",
+      "mapping_confidence": "low",
+      "selector": {
+        "lane_ids": [
+          "60578487#0_1",
+          ":748827192_1_0",
+          "60578487#1_1",
+          ":4051376221_1_0",
+          "60578487#2_1",
+          ":4051376209_2_0",
+          "60578487#3_1",
+          ":759714744_2_0",
+          "554713076#0_1"
+        ]
+      },
+      "metrics": {
+        "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+        "coverage_sample_count": 148,
+        "coverage_sample_spacing_m": 0.4968857161895595,
+        "coverage_within_m": {
+          "1.0": 0.0,
+          "2.0": 0.7972972972972973
+        },
+        "covered_reference_length_m": 67.07957168559054,
+        "expected_reference_direction": -1,
+        "max_sampled_lateral_offset_m": 2.154387017038519,
+        "max_sampled_reference_offset_m": 6.3256783807175525,
+        "mean_direction_cosine": -0.9995992201234618,
+        "mean_lateral_offset_m": 1.7488830827654247,
+        "mean_reference_offset_m": 1.890017931022681,
+        "reference_coverage": 0.9121621621621622,
+        "reference_length_m": 73.53908599605481,
+        "sample_count": 149,
+        "sample_spacing_m": 0.4968857161895595,
+        "uncovered_reference_length_m": 6.459514310464272
+      }
+    },
+    {
+      "fact_id": "2394:lane:1:centerline",
+      "mode": "bicycle",
+      "mapping_confidence": "low",
+      "selector": {
+        "lane_ids": [
+          "25400603_1",
+          ":86812401_5_0",
+          "9702432#0_1"
+        ]
+      },
+      "metrics": {
+        "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+        "coverage_sample_count": 221,
+        "coverage_sample_spacing_m": 0.4999443897844169,
+        "coverage_within_m": {
+          "1.0": 0.9140271493212669,
+          "2.0": 0.918552036199095
+        },
+        "covered_reference_length_m": 101.48871112623664,
+        "expected_reference_direction": -1,
+        "max_sampled_lateral_offset_m": 1.329989953548631,
+        "max_sampled_reference_offset_m": 9.551516978562315,
+        "mean_direction_cosine": -0.9956517804083551,
+        "mean_lateral_offset_m": 0.2797889441331244,
+        "mean_reference_offset_m": 0.6958715944766918,
+        "reference_coverage": 0.918552036199095,
+        "reference_length_m": 110.48771014235614,
+        "sample_count": 222,
+        "sample_spacing_m": 0.4999443897844169,
+        "uncovered_reference_length_m": 8.998999016119498
+      }
+    },
+    {
+      "fact_id": "2394:lane:13:centerline",
+      "mode": "bicycle",
+      "mapping_confidence": "low",
+      "selector": {
+        "lane_ids": [
+          "554713077_1"
+        ]
+      },
+      "metrics": {
+        "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+        "coverage_sample_count": 40,
+        "coverage_sample_spacing_m": 0.4894291214190547,
+        "coverage_within_m": {
+          "1.0": 0.525,
+          "2.0": 0.525
+        },
+        "covered_reference_length_m": 10.27801154980015,
+        "expected_reference_direction": 1,
+        "max_sampled_lateral_offset_m": 0.05210397969486989,
+        "max_sampled_reference_offset_m": 9.221430024273344,
+        "mean_direction_cosine": 0.9998950179752077,
+        "mean_lateral_offset_m": 0.020977497743483085,
+        "mean_reference_offset_m": 2.184646275188348,
+        "reference_coverage": 0.525,
+        "reference_length_m": 19.577164856762188,
+        "sample_count": 41,
+        "sample_spacing_m": 0.4894291214190547,
+        "uncovered_reference_length_m": 9.299153306962038
+      }
+    }
+  ],
+  "tests": [
+    {
+      "path": "outputs/length_conformance_20261016_v1/final-v1.xml",
+      "sha256": "d364ee2b919da423197b6b4793f969dca9bf25b331b2be963b73a41055e966d3"
+    },
+    {
+      "path": "outputs/length_conformance_20261016_v1/collision-v2.xml",
+      "sha256": "56a9d2d037a5c4199a3a590cd5359eca32f09aefb280e2f3863d925f51ab88c9"
+    },
+    {
+      "path": "outputs/length_conformance_20261016_v1/nonmotor-v1.xml",
+      "sha256": "415567df8634f3c6bd022ba117536e57d25d4f03b8bf1a90736679d508cd8a77"
+    }
+  ],
+  "limits": [
+    "The 2 m nonmotor threshold is a diagnostic association rule, not field confirmation.",
+    "All three nonmotor associations remain low confidence.",
+    "Remaining nonmotor references are not inferred as absent roads.",
+    "All three driving pairs remain invalid; no performance mean is computed.",
+    "Coupled bidirectional lengths retain native values; independent custom-length expectations are not inferred."
+  ]
+}

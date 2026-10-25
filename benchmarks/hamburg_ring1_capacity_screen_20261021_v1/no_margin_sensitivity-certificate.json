@@ -1,0 +1,1751 @@
+{
+  "rational_bound": [
+    4956,
+    1
+  ],
+  "integer_service_upper_bound": 4956,
+  "nonzero_dual": [
+    {
+      "row_index": 208,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "entry",
+        "entry": "771709146#0",
+        "begin_s": 10800,
+        "end_s": 11700
+      },
+      "rhs": 50
+    },
+    {
+      "row_index": 420,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 3600,
+        "end_s": 4500
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 421,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 4500,
+        "end_s": 5400
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 422,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 5400,
+        "end_s": 6300
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 423,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 6300,
+        "end_s": 7200
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 424,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 7200,
+        "end_s": 8100
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 425,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 8100,
+        "end_s": 9000
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 426,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 9000,
+        "end_s": 9900
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 427,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 9900,
+        "end_s": 10800
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 428,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 10800,
+        "end_s": 11700
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 429,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "266197525",
+        "physical_keys": [
+          [
+            "73474895",
+            0,
+            "27064186#0",
+            0
+          ]
+        ],
+        "indices": [
+          5
+        ],
+        "green_s": "27",
+        "cycle_s": "90",
+        "program_type": "actuated",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "266197525",
+          "73474895",
+          0
+        ],
+        "begin_s": 11700,
+        "end_s": 12600
+      },
+      "rhs": 135
+    },
+    {
+      "row_index": 750,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 3600,
+        "end_s": 4500
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 751,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 4500,
+        "end_s": 5400
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 752,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 5400,
+        "end_s": 6300
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 753,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 6300,
+        "end_s": 7200
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 754,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 7200,
+        "end_s": 8100
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 755,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 8100,
+        "end_s": 9000
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 756,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 9000,
+        "end_s": 9900
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 757,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 9900,
+        "end_s": 10800
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 758,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 10800,
+        "end_s": 11700
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 759,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "shared_signal_inlet_lane",
+        "tls": "LSA200_part0",
+        "physical_keys": [
+          [
+            "551303410",
+            1,
+            "551303417",
+            2
+          ]
+        ],
+        "indices": [
+          24
+        ],
+        "green_s": "29",
+        "cycle_s": "90",
+        "program_type": "static",
+        "time_basis": "nominal union of permitted intervals for planned movements on one motor lane",
+        "resource_key": [
+          "lane",
+          "LSA200_part0",
+          "551303410",
+          1
+        ],
+        "begin_s": 11700,
+        "end_s": 12600
+      },
+      "rhs": 145
+    },
+    {
+      "row_index": 1500,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 0,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 13
+    },
+    {
+      "row_index": 1506,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 6,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 4
+    },
+    {
+      "row_index": 1507,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 7,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 34
+    },
+    {
+      "row_index": 1508,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 8,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 17
+    },
+    {
+      "row_index": 1509,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 9,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 26
+    },
+    {
+      "row_index": 1510,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 10,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 24
+    },
+    {
+      "row_index": 1511,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 11,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 29
+    },
+    {
+      "row_index": 1512,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 12,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 18
+    },
+    {
+      "row_index": 1513,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 13,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 18
+    },
+    {
+      "row_index": 1519,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 19,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 5
+    },
+    {
+      "row_index": 1520,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 20,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 39
+    },
+    {
+      "row_index": 1521,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 21,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 15
+    },
+    {
+      "row_index": 1522,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 22,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 33
+    },
+    {
+      "row_index": 1523,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 23,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 35
+    },
+    {
+      "row_index": 1524,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 24,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 36
+    },
+    {
+      "row_index": 1525,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 25,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 22
+    },
+    {
+      "row_index": 1526,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 26,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 30
+    },
+    {
+      "row_index": 1532,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 32,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 5
+    },
+    {
+      "row_index": 1533,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 33,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 28
+    },
+    {
+      "row_index": 1534,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 34,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 17
+    },
+    {
+      "row_index": 1535,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 35,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 29
+    },
+    {
+      "row_index": 1536,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 36,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 28
+    },
+    {
+      "row_index": 1537,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 37,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 34
+    },
+    {
+      "row_index": 1538,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 38,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 17
+    },
+    {
+      "row_index": 1539,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 39,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 31
+    },
+    {
+      "row_index": 1545,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 45,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 8
+    },
+    {
+      "row_index": 1546,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 46,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 35
+    },
+    {
+      "row_index": 1547,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 47,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 20
+    },
+    {
+      "row_index": 1548,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 48,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 32
+    },
+    {
+      "row_index": 1549,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 49,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 32
+    },
+    {
+      "row_index": 1550,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 50,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 34
+    },
+    {
+      "row_index": 1551,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 51,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 20
+    },
+    {
+      "row_index": 1552,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 52,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 26
+    },
+    {
+      "row_index": 1558,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 58,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 6
+    },
+    {
+      "row_index": 1559,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 59,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 40
+    },
+    {
+      "row_index": 1560,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 60,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 22
+    },
+    {
+      "row_index": 1561,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 61,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 36
+    },
+    {
+      "row_index": 1562,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 62,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 39
+    },
+    {
+      "row_index": 1563,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 63,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 40
+    },
+    {
+      "row_index": 1564,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 64,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 19
+    },
+    {
+      "row_index": 1565,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 65,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 29
+    },
+    {
+      "row_index": 1571,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 71,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 8
+    },
+    {
+      "row_index": 1572,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 72,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 39
+    },
+    {
+      "row_index": 1573,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 73,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 21
+    },
+    {
+      "row_index": 1574,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 74,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 31
+    },
+    {
+      "row_index": 1575,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 75,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 37
+    },
+    {
+      "row_index": 1576,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 76,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 45
+    },
+    {
+      "row_index": 1577,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 77,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 34
+    },
+    {
+      "row_index": 1578,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 78,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 23
+    },
+    {
+      "row_index": 1584,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 84,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 11
+    },
+    {
+      "row_index": 1585,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 85,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 39
+    },
+    {
+      "row_index": 1586,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 86,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 26
+    },
+    {
+      "row_index": 1587,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 87,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 30
+    },
+    {
+      "row_index": 1588,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 88,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 38
+    },
+    {
+      "row_index": 1589,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 89,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 45
+    },
+    {
+      "row_index": 1590,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 90,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 35
+    },
+    {
+      "row_index": 1591,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 91,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 27
+    },
+    {
+      "row_index": 1597,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 97,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 5
+    },
+    {
+      "row_index": 1598,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 98,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 35
+    },
+    {
+      "row_index": 1599,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 99,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 18
+    },
+    {
+      "row_index": 1600,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 100,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 26
+    },
+    {
+      "row_index": 1601,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 101,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 32
+    },
+    {
+      "row_index": 1602,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 102,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 43
+    },
+    {
+      "row_index": 1603,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 103,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 27
+    },
+    {
+      "row_index": 1604,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 104,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 15
+    },
+    {
+      "row_index": 1610,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 110,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 5
+    },
+    {
+      "row_index": 1612,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 112,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 24
+    },
+    {
+      "row_index": 1613,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 113,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 30
+    },
+    {
+      "row_index": 1614,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 114,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 24
+    },
+    {
+      "row_index": 1615,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 115,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 43
+    },
+    {
+      "row_index": 1616,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 116,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 38
+    },
+    {
+      "row_index": 1617,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 117,
+        "detector_id": "hh_0119_Z_11_28853"
+      },
+      "rhs": 14
+    },
+    {
+      "row_index": 1623,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 123,
+        "detector_id": "hh_0535_Z_14_31892"
+      },
+      "rhs": 8
+    },
+    {
+      "row_index": 1624,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 124,
+        "detector_id": "hh_0535_Z_4_33055"
+      },
+      "rhs": 44
+    },
+    {
+      "row_index": 1625,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 125,
+        "detector_id": "hh_0535_Z_5_30894"
+      },
+      "rhs": 20
+    },
+    {
+      "row_index": 1626,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 126,
+        "detector_id": "hh_0535_Z_6_33855"
+      },
+      "rhs": 38
+    },
+    {
+      "row_index": 1627,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 127,
+        "detector_id": "hh_0535_Z_7_29316"
+      },
+      "rhs": 39
+    },
+    {
+      "row_index": 1628,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 128,
+        "detector_id": "hh_0535_Z_8_34287"
+      },
+      "rhs": 39
+    },
+    {
+      "row_index": 1629,
+      "coefficient": [
+        1,
+        1
+      ],
+      "constraint": {
+        "kind": "observed_field_upper_bound",
+        "field_row": 129,
+        "detector_id": "hh_0535_Z_9_29038"
+      },
+      "rhs": 25
+    }
+  ],
+  "all_column_inequalities_verified": true
+}

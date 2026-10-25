@@ -1,0 +1,58 @@
+{
+  "source_directory": "outputs/ring1-native-count-feedback-20261022-v2/trial-2",
+  "source_commit": "f446bc05338ebf2fa6106ec1da9c1fdaaf6a96ee",
+  "formal_result": false,
+  "retained_for_next_proposal": false,
+  "csv_and_json_line_endings": "LF",
+  "compressed_native_files": "Exact original bytes after decompression",
+  "files": [
+    {
+      "path": "demand.rou.xml.gz",
+      "sha256": "2662854a56460f68169487a6bd60429d0d94fd17cb9fa05b194f3686ae33273a"
+    },
+    {
+      "path": "execution.json",
+      "sha256": "d41a8bad42158980232a2a1e1bb4e77ddcaf3e77ff57cd83ea0192edeaffacf8"
+    },
+    {
+      "path": "field-comparison.csv",
+      "sha256": "4da994109c9484b799e3323e63b8ffa8c36fab95ee8a9c58a5f4863060c8e009"
+    },
+    {
+      "path": "field-counts.xml.gz",
+      "sha256": "ffd2c1f0e13badb2c43611e73a2718af9b32277516049b91562cb59ac1a6a218"
+    },
+    {
+      "path": "instant-e1.xml.gz",
+      "sha256": "f06c1e7d3a6e8ca0c9a6d21e63e555bf0ecc71611398b8275dd84a5389c0d302"
+    },
+    {
+      "path": "lane-intentions.json.gz",
+      "sha256": "6b9269f2c8b27e5b0eb355e7bb4a025fce6dc478e489c92654ba3eb806806cf5"
+    },
+    {
+      "path": "native-count-feedback-proposal.json",
+      "sha256": "3ac8b9346f129162e7e79bf7618c912cbc961e462fb82a3937c3788299b04ca9"
+    },
+    {
+      "path": "results.json",
+      "sha256": "855e24cc1dfac71458d3653049e1a7b4b8bbd2954288ac063873eec542306989"
+    },
+    {
+      "path": "run.json.gz",
+      "sha256": "558c34513d6384ca622d5a5530c0847d6c4a22b863cf579fdffad19051dfcdf9"
+    },
+    {
+      "path": "scenario.json",
+      "sha256": "74c3356999120baa06bc709956cd39eba52e5b49084acf96be6205497d44ed8d"
+    },
+    {
+      "path": "stall-monitor.json.gz",
+      "sha256": "0eebb809fed3472d576ea2ee41d614749baa6033d8e8df3a401a96a682e4761d"
+    },
+    {
+      "path": "station-comparison.csv",
+      "sha256": "1b0dba8e49868959b98fe104346a3ef122d76f3468df17c8d877b9d87167bfaa"
+    }
+  ]
+}

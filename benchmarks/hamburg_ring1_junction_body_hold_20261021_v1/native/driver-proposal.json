@@ -1,0 +1,10 @@
+{
+  "formal_result": false,
+  "source_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_through_route_coverage_20261021_v1",
+  "model_change": "junction_body_hold=true",
+  "scope": "All native internal lanes, all model vehicles. Mode 512 from the first post-step internal sample through rear clearance. Detector and junction holds share one original mode.",
+  "fixed": "All vehicles, routes, times, targets, network, permissions and signal inputs retained.",
+  "sampling_limit": "The first native entry-step lane change is not prevented before its post-step observation.",
+  "classification": "New exploratory driver assumption, not a literature-prescribed restriction, field law, natural behavior or geometry repair.",
+  "evaluation": "Retain all 52 preceding-hour E1 residuals, collisions, teleports and insertion backlog. Inspect lane changes during active holds and the four original collision participants. No main-window claim."
+}

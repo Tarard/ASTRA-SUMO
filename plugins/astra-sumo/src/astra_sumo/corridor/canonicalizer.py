@@ -120,8 +120,9 @@ def canonicalize_raw_network(
     raw_lane_role_ids: dict[tuple[str, str], str] = {}
     port_descriptors: dict[tuple[str, str, str], dict[str, Any]] = {}
 
+    incident_by_junction = _incident_external_edges_by_junction(network)
     for junction_id, junction in sorted(network.junctions.items()):
-        incident = _incident_external_edges(network, junction_id)
+        incident = incident_by_junction.get(junction_id, [])
         if not _junction_requires_physical_cell(
             network,
             junction_id=junction_id,
@@ -895,19 +896,16 @@ def _record_pedestrian_control_binding_evidence(
     )
 
 
-def _incident_external_edges(
+def _incident_external_edges_by_junction(
     network: RawNetwork,
-    junction_id: str,
-) -> list[tuple[RawEdge, str]]:
-    incident: list[tuple[RawEdge, str]] = []
+) -> dict[str, list[tuple[RawEdge, str]]]:
+    incident: dict[str, list[tuple[RawEdge, str]]] = defaultdict(list)
     for edge in network.edges.values():
         if not edge.external:
             continue
-        if edge.to_junction == junction_id:
-            incident.append((edge, "incoming"))
-        if edge.from_junction == junction_id:
-            incident.append((edge, "outgoing"))
-    return sorted(incident, key=lambda item: (item[0].edge_id, item[1]))
+        incident[edge.to_junction].append((edge, "incoming"))
+        incident[edge.from_junction].append((edge, "outgoing"))
+    return {node: sorted(rows, key=lambda item: (item[0].edge_id, item[1])) for node, rows in incident.items()}
 
 
 def _junction_requires_physical_cell(

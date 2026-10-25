@@ -62,6 +62,8 @@ def build_routeability_od_policy(net_files: Sequence[Path]) -> dict[str, Any]:
         destination -= geometry_exclusions.keys()
     differences = [{"network": row["path"], "source_edges_outside_common_pool": sorted(set(row["source_edge_ids"]) - source), "destination_edges_outside_common_pool": sorted(set(row["destination_edge_ids"]) - destination)} for row in networks]
     for row in differences:
+        row["source_excluded_count"] = len(row["source_edges_outside_common_pool"])
+        row["destination_excluded_count"] = len(row["destination_edges_outside_common_pool"])
         row["reasons"] = {key: [{"network": other["path"], "reason": geometry_exclusions.get(key, other[f"{role}_excluded_edges"].get(key, "missing_edge"))} for other in networks if key not in other[f"{role}_edge_ids"] or key in geometry_exclusions] for role in ("source", "destination") for key in row[f"{role}_edges_outside_common_pool"]}
     connection_differences = [{"network": row["path"], "source_edges_missing_connections": sorted(source - set(row["source_edge_ids"])), "destination_edges_missing_connections": sorted(destination - set(row["destination_edge_ids"]))} for row in networks[1:]]
     review = any(row["source_edges_outside_common_pool"] or row["destination_edges_outside_common_pool"] for row in differences) or any(row["source_edges_missing_connections"] or row["destination_edges_missing_connections"] for row in connection_differences)
@@ -70,31 +72,77 @@ def build_routeability_od_policy(net_files: Sequence[Path]) -> dict[str, Any]:
 
 def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any], trip_file: Path, *, vehicle_count: int, seed: int) -> dict[str, Any]:
     """Sample original-network reachable pairs once, without candidate routing."""
-    import sumolib.net
+    from bisect import bisect_left
+    from graphlib import TopologicalSorter
+    from scipy.sparse import csr_matrix
+    from scipy.sparse.csgraph import connected_components
+    from .local_network_conversion import loaded_turn_permissions
+    from .osm_access import _permission_set
 
     if vehicle_count <= 0 or not isinstance(seed, int) or isinstance(seed, bool) or seed < 0:
         raise ValueError("vehicle_count must be positive and seed must be a nonnegative integer")
     if trip_file.resolve() == reference_net.resolve() or trip_file.exists() and trip_file.samefile(reference_net):
         raise ValueError("trip output must not replace the reference network")
     reference_hash = file_sha256(reference_net)
-    net = sumolib.net.readNet(str(reference_net), maxcache=1)
+    root = ET.parse(reference_net).getroot()
     destinations = set(policy["destination_edge_ids"])
-    choices = {}
+    edges = {edge.get("id"): edge for edge in root.findall("edge")
+             if not edge.get("id", "").startswith(":") and edge.get("function") not in {"internal", "crossing", "walkingarea"}}
+    positions = {identity: index for index, identity in enumerate(edges)}
+    links = [(positions[start], positions[target]) for (start, _, target, _), modes in loaded_turn_permissions(root).items()
+             if "passenger" in modes]
+    rows, columns = zip(*links) if links else ([], [])
+    graph = csr_matrix(([True] * len(links), (rows, columns)), shape=(len(edges), len(edges)), dtype=bool)
+    count, components = connected_components(graph, directed=True, connection="strong")
+    successors = {index: set() for index in range(count)}
+    for left, right in links:
+        a, b = int(components[left]), int(components[right])
+        if a != b:
+            successors[a].add(b)
+    destination_ids = sorted(destinations & edges.keys())
+    destination_bits = {identity: 1 << index for index, identity in enumerate(destination_ids)}
+    reachable = [0] * count
+    for identity in destination_ids:
+        reachable[int(components[positions[identity]])] |= destination_bits[identity]
+    # Edges in one strong component share destinations. Bitsets avoid all-pairs path searches and lists.
+    for component in TopologicalSorter(successors).static_order():
+        for target in successors[component]:
+            reachable[component] |= reachable[target]
+    choices, source_components, usable = {}, {}, 0
     for source in policy["source_edge_ids"]:
-        start = net.getEdge(source)
-        reachable = {edge.getID() for edge in net.getReachable(start, vclass="passenger")} & destinations - {source}
-        # getReachable ignores connection-only restrictions in SUMO 1.27.1.
-        # Reuse the native cached router before choosing any requests.
-        choices[source] = [target for target in sorted(reachable) if net.getShortestPath(start, net.getEdge(target), vClass="passenger")[0] is not None]
+        if not any("passenger" in _permission_set(lane.attrib, network_version=root.get("version", "0.0"))
+                   for lane in edges[source].findall("lane")):
+            raise RuntimeError(f"'{source}' does not allow passenger")
+        component = int(components[positions[source]])
+        source_components[source] = component
+        targets = reachable[component] & ~destination_bits.get(source, 0)
+        choices[source] = targets.bit_count()
+        usable |= targets
     sources = sorted(source for source, targets in choices.items() if targets)
     if not sources:
         raise ValueError("the original network has no reachable distinct-edge diagnostic OD pair")
+    def unpack(mask):
+        result = []
+        while mask:
+            bit = mask & -mask
+            result.append(destination_ids[bit.bit_length() - 1])
+            mask ^= bit
+        return result
     generator = random.Random(seed)
     root = ET.Element("routes")
     sampled_sources, sampled_destinations, sampled_pairs = set(), set(), set()
+    pools = {}
     for number in range(vehicle_count):
         source = generator.choice(sources)
-        destination = generator.choice(choices[source])
+        component = source_components[source]
+        if component not in pools:
+            pools[component] = unpack(reachable[component])
+        targets = pools[component]
+        index = generator.randrange(choices[source])
+        own = bisect_left(targets, source)
+        if own < len(targets) and targets[own] == source and index >= own:
+            index += 1
+        destination = targets[index]
         ET.SubElement(root, "trip", id=str(number), depart=str(number), **{"from": source, "to": destination})
         sampled_sources.add(source)
         sampled_destinations.add(destination)
@@ -103,15 +151,15 @@ def _write_source_reachable_trips(reference_net: Path, policy: Mapping[str, Any]
         raise ValueError("reference network changed during OD preparation")
     ET.indent(root)
     write_text_atomic(trip_file, ET.tostring(root, encoding="unicode", xml_declaration=True))
-    usable_destinations = set().union(*(set(targets) for targets in choices.values()))
-    return {"status": "pass", "method": "source_reachable_uniform_origin_then_destination/v1", "reference_network": {"path": str(reference_net), "sha256": reference_hash},
-            "reachability_method": "SUMO Net.getReachable prefilter followed by cached Net.getShortestPath(vClass=passenger), including connection permissions",
+    usable_destinations = set(unpack(usable))
+    return {"status": "pass", "method": "source_reachable_uniform_origin_then_destination/v2", "reference_network": {"path": str(reference_net), "sha256": reference_hash},
+            "reachability_method": "Loaded ordinary-road turn graph from endpoint and complete internal-lane permissions; dormant compiled connection directives ignored",
             "seed": seed, "vehicle_count": vehicle_count, "departures": "one vehicle per second at 0..vehicle_count-1", "same_edge_trips": 0,
-            "reachable_od_pair_count": sum(map(len, choices.values())), "reachable_destination_count_by_source": {source: len(targets) for source, targets in choices.items()},
+            "reachable_od_pair_count": sum(choices.values()), "reachable_destination_count_by_source": choices,
             "sources_without_reachable_destinations": sorted(set(choices) - set(sources)), "destinations_without_reachable_sources": sorted(destinations - usable_destinations),
             "sampled_source_edge_ids": sorted(sampled_sources), "sampled_destination_edge_ids": sorted(sampled_destinations), "sampled_unique_od_pairs": len(sampled_pairs),
             "eligible_sources_not_sampled": sorted(set(sources) - sampled_sources), "eligible_destinations_not_sampled": sorted(usable_destinations - sampled_destinations),
-            "source": "https://sumo.dlr.de/pydoc/sumolib/net.html#Net.getReachable",
+            "source": "https://sumo.dlr.de/docs/Simulation/VehiclePermissions.html",
             "claim_boundary": "Synthetic source-reachable diagnostic OD, not historical demand. Candidate reachability never selects requests. Native duarouter still checks every request; no failed request is replaced. Unused endpoints and unsampled roads are not claimed covered."}
 
 
@@ -147,6 +195,13 @@ def _request_records(path: Path, *, routed: bool = False) -> dict[str, tuple[str
     return records
 
 
+def _same_endpoint_value(expected: str, actual: str) -> bool:
+    try:
+        return math.isfinite(float(actual)) and abs(float(expected) - float(actual)) <= 1e-6
+    except ValueError:
+        return expected == actual
+
+
 def _hash_changes(expected: Mapping[Path, str]) -> list[dict[str, Any]]:
     changes = []
     for path, digest in expected.items():
@@ -165,6 +220,11 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
         approved_rows = ET.parse(approved_file).getroot().findall("vehicle")
         expected = {row.get("id"): row.find("route").get("edges", "").split() for row in approved_rows}
         departures = {row.get("id"): float(row.get("depart", "nan")) for row in approved_rows}
+        endpoints = {row.get("id"): {name: float(row.get(name)) for name in ("departPos", "arrivalPos")
+                     if row.get(name) is not None and _is_nonnegative_position(row.get(name))} for row in approved_rows}
+        endpoint_lanes = {row.get("id"): {name: f"{expected[row.get('id')][index]}_{int(row.get(name))}"
+                         for name, index in (("departLane", 0), ("arrivalLane", -1))
+                         if row.get(name, "").isdigit()} for row in approved_rows}
         rows = ET.parse(observed_file).getroot().findall("vehicle")
         tripinfo_rows = ET.parse(tripinfo_file).getroot().findall("tripinfo")
         tripinfo = {row.get("id"): row for row in tripinfo_rows}
@@ -189,6 +249,11 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
                 failures.append({"vehicle_id": identity, "reason": "tripinfo_completion_not_normal_or_inconsistent"})
             elif route.get("edges", "").split() != expected[identity]:
                 failures.append({"vehicle_id": identity, "reason": "vehicle_route_changed"})
+            elif any(not math.isfinite(float(trip.get(name, "nan"))) or abs(float(trip.get(name)) - position) > 0.01
+                     for name, position in endpoints[identity].items()):
+                failures.append({"vehicle_id": identity, "reason": "vehicle_endpoint_position_changed"})
+            elif any(trip.get(name) != lane for name, lane in endpoint_lanes[identity].items()):
+                failures.append({"vehicle_id": identity, "reason": "vehicle_endpoint_lane_changed"})
             elif len(exits) != len(expected[identity]) or not exits or any(not math.isfinite(value) or value < depart or value > arrival for value in exits) or any(a > b for a, b in zip(exits, exits[1:])) or exits[-1] != arrival:
                 failures.append({"vehicle_id": identity, "reason": "vehicle_route_exit_times_incomplete"})
             else:
@@ -199,6 +264,13 @@ def _inspect_vehicle_routes(approved_file: Path, observed_file: Path, expected_c
     except (OSError, ET.ParseError, AttributeError, TypeError, ValueError) as error:
         result["error"] = f"{type(error).__name__}: {error}"
     return result
+
+
+def _is_nonnegative_position(value: str) -> bool:
+    try:
+        return math.isfinite(float(value)) and float(value) >= 0
+    except ValueError:
+        return False
 
 
 def inspect_routeability_outputs(
@@ -290,12 +362,13 @@ def run_routeability_audit(
     od_reference_net_file: Path | None = None,
     frozen_trip_file: Path | None = None,
     expected_frozen_trip_sha256: str | None = None,
+    source_lane_indices: Mapping[str, Mapping[str, str | None]] | None = None,
 ) -> dict[str, Any]:
     """Test fixed requests or new source-reachable synthetic diagnostic OD.
 
     With a reference network, only that original network determines OD
-    connectivity. Candidate lane geometry may exclude nonmatching physical
-    endpoints, but candidate connection losses cannot remove requests.
+    connectivity and endpoint eligibility. Verified merges map original
+    endpoint positions. No candidate change may remove or replace requests.
     """
     if not prefix or Path(prefix).name != prefix or prefix in {".", ".."}:
         return _construction_invalid("prefix must be a single file-name component")
@@ -304,7 +377,7 @@ def run_routeability_audit(
     reference = Path(od_reference_net_file).resolve() if od_reference_net_file is not None else None
     frozen = Path(frozen_trip_file).resolve() if frozen_trip_file is not None else None
     protected = {path for path in (net_file, reference, frozen) if path is not None}
-    planned_outputs = {output_dir / f"{prefix}{suffix}" for suffix in (".trips.xml", ".rou.xml", "_routeability_audit.json", "_routeability_audit.manifest.json", ".od.src.xml", ".od.dst.xml")}
+    planned_outputs = {output_dir / f"{prefix}{suffix}" for suffix in (".trips.xml", ".source.trips.xml", ".routable.trips.xml", ".od-map.json", ".rou.xml", "_routeability_audit.json", "_routeability_audit.manifest.json", ".od.src.xml", ".od.dst.xml")}
     if initial_end > 0 and max_end >= initial_end:
         planned_outputs.update(output_dir / f"{prefix}_end{end}{suffix}" for end in _horizon_sequence(initial_end, max_end) for suffix in (".sumocfg", "_summary.xml", "_tripinfo.xml", "_vehroute.xml"))
     if any(path.resolve() in protected or any(path.exists() and source.exists() and path.samefile(source) for source in protected) for path in planned_outputs):
@@ -313,6 +386,8 @@ def run_routeability_audit(
     input_hashes = {path: file_sha256(path) for path in protected if path.is_file()}
     approved_hashes: dict[Path, str] = {}
     observed_changes: list[dict[str, Any]] = []
+    routing_vehicle_count = 0
+    coverage = {}
     try:
         output_dir.mkdir(parents=True, exist_ok=True)
     except OSError as exc:
@@ -322,12 +397,30 @@ def run_routeability_audit(
 
     def finish(report: Mapping[str, Any]) -> dict[str, Any]:
         payload = dict(report)
+        payload.setdefault("vehicle_count", vehicle_count)
+        payload["routing_vehicle_count"] = routing_vehicle_count
+        if coverage:
+            payload["cohort_coverage"] = coverage
+        if executable_trip_file in approved_hashes:
+            payload["routing_trip_file"] = str(executable_trip_file)
+        mapping = payload.get("od_policy", {}).get("endpoint_mapping", {})
+        if mapping.get("status") == "review_required":
+            payload["warnings"] = list(payload.get("warnings", [])) + [
+                "Physical endpoint qualification remains incomplete. See removed endpoints and logical-only routing coverage."]
+            if payload.get("status") == "pass":
+                payload.update(status="review_required", claim_status="review_required", routeability_status="unverified_endpoints",
+                               execution_status="partial" if coverage.get("removed_endpoint_count", 0) else "completed",
+                               reason="unresolved_endpoint_mapping")
+        if source_trip_file in approved_hashes:
+            payload["source_trip_file"] = str(source_trip_file)
+        if mapping_file in approved_hashes:
+            payload["endpoint_mapping_file"] = str(mapping_file)
         payload["completion_policy"] = {
             "mode": "bounded_natural_completion",
             "begin_s": 0,
             "max_end_s": max_end,
             "time_to_teleport_s": max_end,
-            "claim_boundary": "Every attempt uses the same finite waiting-teleport threshold as the fixed maximum end. All requested vehicles must arrive normally on their complete approved routes within that window. Native vehicle-route output must retain every vehicle, route edge and exit time without replacement. Running, waiting, discarded, teleported or collided vehicles fail. Other recovery modes are not disabled; their events still fail. This is topology diagnostics, not traffic-performance or calibration evidence.",
+            "claim_boundary": "Every executable request must arrive normally on its complete approved route within the fixed maximum window. Removed-endpoint requests remain recorded outside the native subset and prevent full-cohort qualification. Running, waiting, discarded, teleported or collided vehicles fail. Recovery events still fail. This is topology diagnosis, not traffic-performance or calibration evidence.",
         }
         changes = observed_changes + _hash_changes({**input_hashes, **approved_hashes})
         payload["input_identities"] = [{"path": str(path), "sha256": digest} for path, digest in input_hashes.items()]
@@ -345,6 +438,9 @@ def run_routeability_audit(
             net_file=net_file,
         )
 
+    source_trip_file = output_dir / f"{prefix}.source.trips.xml"
+    mapping_file = output_dir / f"{prefix}.od-map.json"
+    executable_trip_file = output_dir / f"{prefix}.routable.trips.xml"
     if vehicle_count <= 0:
         return finish(_construction_invalid("vehicle_count must be positive"))
     if initial_end <= 0 or max_end <= 0:
@@ -373,7 +469,7 @@ def run_routeability_audit(
 
     trip_file = output_dir / f"{prefix}.trips.xml"
     route_file = output_dir / f"{prefix}.rou.xml"
-    cleanup_errors = _remove_stale_outputs(trip_file, route_file)
+    cleanup_errors = _remove_stale_outputs(trip_file, source_trip_file, executable_trip_file, mapping_file, route_file)
     if cleanup_errors:
         return finish(
             {
@@ -397,12 +493,33 @@ def run_routeability_audit(
                 raise ValueError("frozen trip changed while being copied")
         else:
             original = reference or net_file
-            od_policy = build_routeability_od_policy([original, *([net_file] if reference is not None else [])])
+            od_policy = build_routeability_od_policy([original])
             if not od_policy["source_edge_ids"] or not od_policy["destination_edge_ids"]:
-                raise ValueError("no qualifying diagnostic origin or destination edges")
+                return finish({"status": "review_required", "claim_status": "review_required",
+                    "routeability_status": "not_run", "execution_status": "not_run",
+                    "reason": "no_diagnostic_od_pool", "od_policy": od_policy, "sampling": sampling,
+                    "route_generation": {"status": "not_run"}, "attempts": [],
+                    "warnings": ["No qualifying diagnostic origin or destination edges. Route preservation was not checked."]})
             sampling = _write_source_reachable_trips(original, od_policy, trip_file, vehicle_count=vehicle_count, seed=seed)
-            od_policy["mode"] = "source_reachable_shared_generated" if reference is not None else "source_reachable_independent_generated"
+            od_policy["mode"] = "source_reachable_reference_generated" if reference is not None else "source_reachable_independent_generated"
             od_policy["request_generation"] = sampling
+        if reference is not None:
+            from .routeability_od_mapping import map_merged_od_requests
+
+            od_policy["request_count"] = len(_request_records(trip_file))
+            if od_policy["request_count"] != vehicle_count:
+                raise ValueError("The original request count differs from vehicle_count; no requests were replaced.")
+            shutil.copy2(trip_file, source_trip_file)
+            approved_hashes[source_trip_file] = file_sha256(source_trip_file)
+            od_policy["source_request_file_sha256"] = approved_hashes[source_trip_file]
+            mapped, mapping = map_merged_od_requests(ET.parse(reference).getroot(), ET.parse(net_file).getroot(),
+                ET.parse(source_trip_file).getroot(), source_lane_indices=source_lane_indices)
+            write_json_atomic(mapping_file, mapping)
+            approved_hashes[mapping_file] = file_sha256(mapping_file)
+            od_policy["endpoint_mapping"] = mapping
+            if mapping["changed"]:
+                ET.indent(mapped)
+                write_text_atomic(trip_file, ET.tostring(mapped, encoding="unicode", xml_declaration=True))
         observed_changes.extend(_hash_changes(input_hashes))
         if observed_changes:
             raise ValueError("protected input changed during trip preparation")
@@ -411,7 +528,35 @@ def run_routeability_audit(
             raise ValueError(f"generated {len(requested)} requests, expected {vehicle_count}; no requests were replaced")
         planned_hash = file_sha256(trip_file)
         approved_hashes[trip_file] = planned_hash
-        command = [str(selected["duarouter"]), "--net-file", str(net_file), "--route-files", str(trip_file), "--output-file", str(route_file), "--alternatives-output", os.devnull, "--seed", str(seed)]
+        routing_input = trip_file
+        mapping = od_policy.get("endpoint_mapping", {})
+        removed_ids = set(mapping.get("removed_endpoint_vehicle_ids", []))
+        if removed_ids:
+            root = ET.parse(trip_file).getroot()
+            for row in root.findall("trip"):
+                if row.get("id") in removed_ids:
+                    root.remove(row)
+            ET.indent(root)
+            write_text_atomic(executable_trip_file, ET.tostring(root, encoding="unicode", xml_declaration=True))
+            routing_input = executable_trip_file
+            approved_hashes[routing_input] = file_sha256(routing_input)
+        executable = _request_records(routing_input)
+        if set(executable) & removed_ids or set(executable) | removed_ids != set(requested):
+            raise ValueError("Executable and removed-endpoint requests do not partition the original cohort.")
+        routing_vehicle_count = len(executable)
+        coverage.update(requested_count=len(requested), routing_count=routing_vehicle_count,
+                        physical_count=mapping.get("physical_request_count", len(requested)),
+                        road_relative_count=mapping.get("road_relative_request_count", 0),
+                        logical_only_count=mapping.get("logical_only_request_count", 0),
+                        removed_endpoint_count=len(removed_ids), removed_endpoint_vehicle_ids=sorted(removed_ids))
+        od_policy.update(request_file_sha256=planned_hash, request_count=len(requested),
+                         routing_request_file_sha256=approved_hashes[routing_input])
+        if not routing_vehicle_count:
+            return finish({"status": "review_required", "claim_status": "review_required", "routeability_status": "not_run",
+                "execution_status": "not_run", "reason": "all_source_endpoints_removed", "trip_file": str(trip_file),
+                "od_policy": od_policy, "sampling": sampling, "route_generation": {"status": "not_run"}, "attempts": [],
+                "warnings": ["Every original request has a removed endpoint. The original cohort remains recorded; native routing was not run."]})
+        command = [str(selected["duarouter"]), "--net-file", str(net_file), "--route-files", str(routing_input), "--output-file", str(route_file), "--alternatives-output", os.devnull, "--precision", "12", "--seed", str(seed)]
         route_generation = _result_to_dict(command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds))
         if route_generation.get("returncode") != 0 or route_generation.get("status") != "pass" or not route_file.is_file():
             raise ValueError("strict route generation failed; original requests are retained")
@@ -419,8 +564,15 @@ def run_routeability_audit(
         if observed_changes:
             raise ValueError("protected input or planned trips changed during routing")
         routed_hash = file_sha256(route_file)
-        if _request_records(route_file, routed=True) != requested or file_sha256(route_file) != routed_hash:
+        if _request_records(route_file, routed=True) != executable or file_sha256(route_file) != routed_hash:
             raise ValueError("routing changed or omitted diagnostic vehicle IDs, departures, or OD")
+        planned_rows = {row.get("id"): row for row in ET.parse(routing_input).getroot().findall("trip")}
+        defaults = {"departPos": "base", "arrivalPos": "max", "departLane": "best_prob", "arrivalLane": "current"}
+        for row in ET.parse(route_file).getroot().findall("vehicle"):
+            for name in ("departPos", "arrivalPos", "departLane", "arrivalLane"):
+                value = planned_rows[row.get("id")].get(name)
+                if value is not None and not _same_endpoint_value(value, row.get(name, defaults[name])):
+                    raise ValueError(f"Routing changed the diagnostic endpoint attribute {name}.")
         approved_hashes[route_file] = routed_hash
         od_policy["request_file_sha256"] = planned_hash
         od_policy["request_count"] = len(requested)
@@ -471,7 +623,7 @@ def run_routeability_audit(
             end=end,
             time_to_teleport=max_end,
             seed=seed,
-            vehicle_count=vehicle_count,
+            vehicle_count=routing_vehicle_count,
             timeout_seconds=timeout_seconds,
             command_runner=command_runner,
         )
@@ -532,16 +684,21 @@ def _run_attempt(
     vehicle_count: int,
     timeout_seconds: float,
     command_runner: CommandRunner,
+    diagnostic_outputs: bool = False,
 ) -> dict[str, Any]:
     summary_file = output_dir / f"{prefix}_end{end}_summary.xml"
     tripinfo_file = output_dir / f"{prefix}_end{end}_tripinfo.xml"
     vehicle_route_file = output_dir / f"{prefix}_end{end}_vehroute.xml"
     config_file = output_dir / f"{prefix}_end{end}.sumocfg"
     outputs = (summary_file, tripinfo_file, vehicle_route_file, config_file)
+    collision_file = output_dir / f"{prefix}_end{end}_collisions.xml"
+    position_file = output_dir / f"{prefix}_end{end}_last-step-positions.xml"
+    if diagnostic_outputs:
+        outputs = (*outputs, collision_file, position_file)
     if any(path.resolve() == source.resolve() or path.exists() and path.samefile(source) for path in outputs for source in (net_file, route_file)):
         return _failed_attempt(end=end, config_file=config_file, summary_file=summary_file, tripinfo_file=tripinfo_file,
             status="output-input-overlap", warnings=["simulation output paths overlap a protected network or approved route"])
-    cleanup_errors = _remove_stale_outputs(summary_file, tripinfo_file, vehicle_route_file)
+    cleanup_errors = _remove_stale_outputs(*(path for path in outputs if path != config_file))
     if cleanup_errors:
         return _failed_attempt(
             end=end,
@@ -582,6 +739,12 @@ def _run_attempt(
         "--time-to-teleport",
         str(time_to_teleport),
     ]
+    if diagnostic_outputs:
+        command.extend(["--step-length", "1", "--collision.action", "teleport",
+                        "--vehroute-output.write-unfinished", "true",
+                        "--collision-output", collision_file.name,
+                        "--fcd-output", position_file.name, "--fcd-output.attributes", "id,lane,pos,speed",
+                        "--device.fcd.begin", str(end - 1), "--device.fcd.period", "1"])
     try:
         command_result = _result_to_dict(
             command_runner(command, cwd=output_dir, timeout_seconds=timeout_seconds)
@@ -620,6 +783,8 @@ def _run_attempt(
         "tripinfo_file": str(tripinfo_file),
         "vehicle_route_file": str(vehicle_route_file),
         "vehicle_routes": vehicle_routes,
+        "diagnostic_outputs": {"collisions": str(collision_file), "last_step_positions": str(position_file),
+                               "vehicle_routes": str(vehicle_route_file)} if diagnostic_outputs else {},
         "command": command_result,
         "inspection": inspection,
     }
@@ -746,7 +911,9 @@ def _write_routeability_outcome(
     artifact_candidates: list[tuple[Path, str]] = []
     if net_file.is_file():
         artifact_candidates.append((net_file, "routeability_net"))
-    for key, kind in (("trip_file", "random_trips"), ("route_file", "route_file")):
+    for key, kind in (("trip_file", "random_trips"), ("source_trip_file", "source_trips"),
+                      ("routing_trip_file", "executable_trips"),
+                      ("endpoint_mapping_file", "endpoint_mapping"), ("route_file", "route_file")):
         value = persisted.get(key)
         if value:
             artifact_candidates.append((Path(str(value)), kind))

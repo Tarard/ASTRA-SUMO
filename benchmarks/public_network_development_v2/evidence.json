@@ -1,0 +1,56 @@
+{
+  "paired_labels": {
+    "count": 10969,
+    "counts": {
+      "connection_added": 80,
+      "connection_removed": 2,
+      "connection_retained": 820,
+      "connection_unknown": 7273,
+      "joined": 58,
+      "separate": 599,
+      "total": 10969,
+      "unknown": 2137
+    },
+    "evidence_scope": "prepared_osm_import",
+    "field_temporal_match": "unverified",
+    "manual_edit_origin": "unestablished",
+    "path": "outputs/calibration_driving_20261016_v1/most-corpus-v2/MoST_2019_paired/model-labels.jsonl",
+    "sha256": "f24b629763abeb9a3ce6fb8b3f9fe1ef6e16184c095da059dad82e1e99790db9"
+  },
+  "source_relation": "upstream_prepared_build_input",
+  "source_revision_note": "The July 2019 network revision retains its prepared OSM input and import recipe under tools/static/.",
+  "import_status": "pass",
+  "import_configuration": {
+    "ignored_sections": [
+      "output",
+      "report"
+    ],
+    "overrides": {
+      "geometry.remove": false,
+      "junctions.join": false,
+      "tls.join": false
+    },
+    "path": "outputs/public_network_cache_v2/MoST_2019_paired/tools/static/most.netcfg",
+    "sha256": "1b19eec7364cce002d734bdc178f9982f2b49e57986b1eb2b519d72df04f735c",
+    "toolchain_relation": "current_sumo_with_published_import_settings"
+  },
+  "schema": "astra.historical-model-pair-evidence/v1",
+  "status": "model_relative_only",
+  "promotion_authority": false,
+  "catalog": {
+    "path": "benchmarks/public_network_development_v2/catalog.json",
+    "sha256": "06a8bae89c97a66e240f32296773f8c5573a81cbe10fccf46c48b771f5d90ec0"
+  },
+  "dataset": {
+    "path": "outputs/calibration_driving_20261016_v1/most-corpus-v2/MoST_2019_paired/dataset.json",
+    "sha256": "a0f3fdacdceb1474307f7c078a6e813bfbd65d4f7d271667473f39bd2c7f5ffb"
+  },
+  "published_check": {
+    "path": "outputs/calibration_driving_20261016_v1/most-published-comparison-v1.json",
+    "sha256": "54416f1fd3d00c83d78d12e8c41b53ad6018e3f5424c90d9bbb87f1c88f84164"
+  },
+  "unjoined_check": {
+    "path": "outputs/calibration_driving_20261016_v1/most-unjoined-comparison-v1.json",
+    "sha256": "2de4288075ad3750c97ec5fb2e3bfeedd4ee2d140b4f38b3cd4655dc8e64aa03"
+  }
+}

@@ -1,0 +1,7483 @@
+{
+  "baseline": {
+    "version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "command": [
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "-n",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa119-collision-diagnosis-20261023\\paired-prepared\\network.net.xml",
+      "-a",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\lsa119-collision-diagnosis-20261023\\paired-prepared\\control.add.xml",
+      "--no-step-log",
+      "true"
+    ],
+    "programs": {
+      "13879893": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrggrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrggrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrryyrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyyrrrrr"
+          }
+        ]
+      },
+      "1562406613": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 42.0,
+            "state": "r"
+          },
+          {
+            "duration": 3.0,
+            "state": "r"
+          }
+        ]
+      },
+      "1564056277": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "1564056280": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "18653534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ]
+      },
+      "18653570": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryryyyryrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "1966837175": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "1975693623": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 63.0,
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "205068090": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "205068512": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrggGrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyrrrr"
+          }
+        ]
+      },
+      "205069138": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyyr"
+          }
+        ]
+      },
+      "244203524": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "244203525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyy"
+          }
+        ]
+      },
+      "244203534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "244203536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "264996267": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "266197525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "rrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrry"
+          },
+          {
+            "duration": 27.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 27.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          }
+        ]
+      },
+      "266197536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "315029332": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206478": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 72.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "ryryyyyyryrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206482": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GG"
+          },
+          {
+            "duration": 5.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "3479240233": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrr"
+          }
+        ]
+      },
+      "3479240438": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3479240441": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 77.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3673603285": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": 8.0,
+            "state": "gggGGGGr"
+          }
+        ]
+      },
+      "4031208903": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041448": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041449": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683114": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "6390683115": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683126": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 10.0,
+            "state": "r"
+          },
+          {
+            "duration": 1.0,
+            "state": "u"
+          },
+          {
+            "duration": 60.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 16.0,
+            "state": "r"
+          }
+        ]
+      },
+      "7709833318": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 32.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrryyrrrrrr"
+          },
+          {
+            "duration": 32.0,
+            "state": "rrrrrrrrGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrGrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "8913236635": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyy"
+          }
+        ]
+      },
+      "9844196560": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "GS_1561539020": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyy"
+          }
+        ]
+      },
+      "GS_1561539025": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          }
+        ]
+      },
+      "GS_1561539027": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "GS_205068087": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryyyyy"
+          }
+        ]
+      },
+      "GS_257590811": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          }
+        ]
+      },
+      "GS_26084079": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryy"
+          }
+        ]
+      },
+      "GS_266199063": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyy"
+          }
+        ]
+      },
+      "LSA104_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yOOyyyOOOOOOrrrrrrOOOOyyyyOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rOOrrrOOOOOOuuruuuOOOOrrrrOO"
+          },
+          {
+            "duration": 26.0,
+            "state": "rOOrrrOOOOOOggrgggOOOOrrrrOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rOOrrrOOOOOOyyryyyOOOOrrrrOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uOOuuuOOOOOOrrrrrrOOOOuuuuOO"
+          },
+          {
+            "duration": 33.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          }
+        ]
+      },
+      "LSA118_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 6.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOuuuuuOOrrrrOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uuOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOyyyyyOOrrrrOOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGOOOOOOuuuuOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrOOOOOOyyyyOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOuuuOOOOOOrrrrrOOuuuuOOO"
+          },
+          {
+            "duration": 19.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          }
+        ]
+      },
+      "LSA118_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OGOy"
+          },
+          {
+            "duration": 18.0,
+            "state": "OGOr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyOr"
+          },
+          {
+            "duration": 7.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 10.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 10.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OyOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OyOy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          }
+        ]
+      },
+      "LSA119_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 2.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uurrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGrrrOrrOrrrrrOOOuOuu"
+          },
+          {
+            "duration": 12.0,
+            "state": "GGrrrOrrOrrrrrOOOgOgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrOrrOrrrrrOOOyOyy"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rruuuOuuOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 17.0,
+            "state": "rrGGGOggOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrGGGOyyOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 8.0,
+            "state": "rrGGGOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rryyyOrrOuuurrOOOrOrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "rryyyOrrOGGGrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOGGGuuOOOrOrr"
+          },
+          {
+            "duration": 14.0,
+            "state": "rrrrrOrrOGGGGGOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          }
+        ]
+      },
+      "LSA200_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOuuOuOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOuuuuOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOggggOOOyyOyOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOyyyyOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrruuu"
+          },
+          {
+            "duration": 26.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrGgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrryyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOuuuOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOuuuurrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          }
+        ]
+      },
+      "LSA200_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 50.0,
+            "state": "rr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uu"
+          },
+          {
+            "duration": 33.0,
+            "state": "gg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "LSA200_part2": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 64.0,
+            "state": "OG"
+          },
+          {
+            "duration": 3.0,
+            "state": "Oy"
+          },
+          {
+            "duration": 20.0,
+            "state": "Or"
+          },
+          {
+            "duration": 1.0,
+            "state": "Ou"
+          },
+          {
+            "duration": 2.0,
+            "state": "OG"
+          }
+        ]
+      },
+      "LSA200_part3": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 26.0,
+            "state": "OrrrrOGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OrrrrOyyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuuuuOrrr"
+          },
+          {
+            "duration": 30.0,
+            "state": "OggggOrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyyyyOrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOruu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrrrrOrGG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOuGG"
+          },
+          {
+            "duration": 4.0,
+            "state": "OrrrrOGGG"
+          }
+        ]
+      },
+      "LSA535_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 3.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrryrOyyrrrrrrOyyyyyOOrrrrr"
+          },
+          {
+            "duration": 11.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrruuuurrOrrrrrOOuuurr"
+          },
+          {
+            "duration": 23.0,
+            "state": "OOrrrrOrrggGGrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrryyyyrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOGGGuu"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOyyygg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrruuOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOuurrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 14.0,
+            "state": "OOGGrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOGGrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOyyrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOyyrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrurOuurrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrGrOggrrrrrrOuuuuuOOrrrrr"
+          },
+          {
+            "duration": 13.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          }
+        ]
+      }
+    },
+    "control_sha256": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d"
+  },
+  "candidate": {
+    "version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "command": [
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "-n",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\merge-prepared\\network.net.xml",
+      "-a",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\merge-prepared\\control.add.xml",
+      "--no-step-log",
+      "true"
+    ],
+    "programs": {
+      "13879893": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrggrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrggrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrryyrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyyrrrrr"
+          }
+        ]
+      },
+      "1562406613": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 42.0,
+            "state": "r"
+          },
+          {
+            "duration": 3.0,
+            "state": "r"
+          }
+        ]
+      },
+      "1564056277": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "1564056280": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "18653534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ]
+      },
+      "18653570": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryryyyryrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "1966837175": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "1975693623": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 63.0,
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "205068090": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "205068512": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrggGrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyrrrr"
+          }
+        ]
+      },
+      "205069138": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyyr"
+          }
+        ]
+      },
+      "244203524": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "244203525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyy"
+          }
+        ]
+      },
+      "244203534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "244203536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "264996267": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "266197525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "rrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrry"
+          },
+          {
+            "duration": 27.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 27.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          }
+        ]
+      },
+      "266197536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "315029332": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206478": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 72.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "ryryyyyyryrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206482": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GG"
+          },
+          {
+            "duration": 5.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "3479240233": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrr"
+          }
+        ]
+      },
+      "3479240438": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3479240441": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 77.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3673603285": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": 8.0,
+            "state": "gggGGGGr"
+          }
+        ]
+      },
+      "4031208903": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041448": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041449": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683114": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "6390683115": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683126": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 10.0,
+            "state": "r"
+          },
+          {
+            "duration": 1.0,
+            "state": "u"
+          },
+          {
+            "duration": 60.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 16.0,
+            "state": "r"
+          }
+        ]
+      },
+      "7709833318": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 32.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrryyrrrrrr"
+          },
+          {
+            "duration": 32.0,
+            "state": "rrrrrrrrGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrGrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "8913236635": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyy"
+          }
+        ]
+      },
+      "9844196560": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "GS_1561539020": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyy"
+          }
+        ]
+      },
+      "GS_1561539025": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          }
+        ]
+      },
+      "GS_1561539027": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "GS_205068087": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryyyyy"
+          }
+        ]
+      },
+      "GS_257590811": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          }
+        ]
+      },
+      "GS_26084079": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryy"
+          }
+        ]
+      },
+      "GS_266199063": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 6.0,
+            "state": "rrGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 61.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrGGGG"
+          }
+        ]
+      },
+      "LSA104_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yOOyyyOOOOOOrrrrrrOOOOyyyyOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rOOrrrOOOOOOuuruuuOOOOrrrrOO"
+          },
+          {
+            "duration": 26.0,
+            "state": "rOOrrrOOOOOOggrgggOOOOrrrrOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rOOrrrOOOOOOyyryyyOOOOrrrrOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uOOuuuOOOOOOrrrrrrOOOOuuuuOO"
+          },
+          {
+            "duration": 33.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          }
+        ]
+      },
+      "LSA118_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 6.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOuuuuuOOrrrrOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uuOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOyyyyyOOrrrrOOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGOOOOOOuuuuOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrOOOOOOyyyyOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOuuuOOOOOOrrrrrOOuuuuOOO"
+          },
+          {
+            "duration": 19.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          }
+        ]
+      },
+      "LSA118_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OGOy"
+          },
+          {
+            "duration": 18.0,
+            "state": "OGOr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyOr"
+          },
+          {
+            "duration": 7.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 10.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 10.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OyOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OyOy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          }
+        ]
+      },
+      "LSA119_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 2.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uurrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGrrrOrrOrrrrrOOOuOuu"
+          },
+          {
+            "duration": 12.0,
+            "state": "GGrrrOrrOrrrrrOOOgOgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrOrrOrrrrrOOOyOyy"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rruuuOuuOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 17.0,
+            "state": "rrGGGOggOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrGGGOyyOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 8.0,
+            "state": "rrGGGOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rryyyOrrOuuurrOOOrOrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "rryyyOrrOGGGrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOGGGuuOOOrOrr"
+          },
+          {
+            "duration": 14.0,
+            "state": "rrrrrOrrOGGGGGOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          }
+        ]
+      },
+      "LSA200_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOuuOuOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOuuuuOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOggggOOOyyOyOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOyyyyOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrruuu"
+          },
+          {
+            "duration": 26.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrGgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrryyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOuuuOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOuuuurrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          }
+        ]
+      },
+      "LSA200_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 50.0,
+            "state": "rr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uu"
+          },
+          {
+            "duration": 33.0,
+            "state": "gg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "LSA200_part2": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 64.0,
+            "state": "OG"
+          },
+          {
+            "duration": 3.0,
+            "state": "Oy"
+          },
+          {
+            "duration": 20.0,
+            "state": "Or"
+          },
+          {
+            "duration": 1.0,
+            "state": "Ou"
+          },
+          {
+            "duration": 2.0,
+            "state": "OG"
+          }
+        ]
+      },
+      "LSA200_part3": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 26.0,
+            "state": "OrrrrOGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OrrrrOyyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuuuuOrrr"
+          },
+          {
+            "duration": 30.0,
+            "state": "OggggOrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyyyyOrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOruu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrrrrOrGG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOuGG"
+          },
+          {
+            "duration": 4.0,
+            "state": "OrrrrOGGG"
+          }
+        ]
+      },
+      "LSA535_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 3.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrryrOyyrrrrrrOyyyyyOOrrrrr"
+          },
+          {
+            "duration": 11.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrruuuurrOrrrrrOOuuurr"
+          },
+          {
+            "duration": 23.0,
+            "state": "OOrrrrOrrggGGrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrryyyyrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOGGGuu"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOyyygg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrruuOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOuurrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 14.0,
+            "state": "OOGGrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOGGrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOyyrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOyyrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrurOuurrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrGrOggrrrrrrOuuuuuOOrrrrr"
+          },
+          {
+            "duration": 13.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          }
+        ]
+      }
+    },
+    "control_sha256": "8bdea33ced680acaa13485f867779b49194db157d838905fc2cc357a3a751ca8"
+  },
+  "claim_boundary": "Load-only native readback in separate processes from the count replay. Confirms installed active program identity, native type and phase payload, not measured field SPaT.",
+  "exit_stage": {
+    "version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "command": [
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "-n",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-prepared\\network.net.xml",
+      "-a",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\exit-stage-prepared\\control.add.xml",
+      "--no-step-log",
+      "true",
+      "--error-log",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\readback-exit-stage.log"
+    ],
+    "programs": {
+      "13879893": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrggrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrggrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrryyrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyyrrrrr"
+          }
+        ]
+      },
+      "1562406613": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 42.0,
+            "state": "r"
+          },
+          {
+            "duration": 3.0,
+            "state": "r"
+          }
+        ]
+      },
+      "1564056277": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "1564056280": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "18653534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ]
+      },
+      "18653570": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryryyyryrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "1966837175": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "1975693623": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 63.0,
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "205068090": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "205068512": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrggGrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyrrrr"
+          }
+        ]
+      },
+      "205069138": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyyr"
+          }
+        ]
+      },
+      "244203524": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "244203525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyy"
+          }
+        ]
+      },
+      "244203534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "244203536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "264996267": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "266197525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "rrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrry"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 27.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          }
+        ]
+      },
+      "266197536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "315029332": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206478": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 72.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "ryryyyyyryrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206482": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GG"
+          },
+          {
+            "duration": 5.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "3479240233": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrr"
+          }
+        ]
+      },
+      "3479240438": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3479240441": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 77.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3673603285": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": 8.0,
+            "state": "gggGGGGr"
+          }
+        ]
+      },
+      "4031208903": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041448": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041449": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683114": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "6390683115": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683126": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 10.0,
+            "state": "r"
+          },
+          {
+            "duration": 1.0,
+            "state": "u"
+          },
+          {
+            "duration": 60.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 16.0,
+            "state": "r"
+          }
+        ]
+      },
+      "7709833318": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 32.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrryyrrrrrr"
+          },
+          {
+            "duration": 32.0,
+            "state": "rrrrrrrrGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrGrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "8913236635": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyy"
+          }
+        ]
+      },
+      "9844196560": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "GS_1561539020": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyy"
+          }
+        ]
+      },
+      "GS_1561539025": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          }
+        ]
+      },
+      "GS_1561539027": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "GS_205068087": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryyyyy"
+          }
+        ]
+      },
+      "GS_257590811": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          }
+        ]
+      },
+      "GS_26084079": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryy"
+          }
+        ]
+      },
+      "GS_266199063": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 6.0,
+            "state": "rrGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 61.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrGGGG"
+          }
+        ]
+      },
+      "LSA104_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yOOyyyOOOOOOrrrrrrOOOOyyyyOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rOOrrrOOOOOOuuruuuOOOOrrrrOO"
+          },
+          {
+            "duration": 26.0,
+            "state": "rOOrrrOOOOOOggrgggOOOOrrrrOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rOOrrrOOOOOOyyryyyOOOOrrrrOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uOOuuuOOOOOOrrrrrrOOOOuuuuOO"
+          },
+          {
+            "duration": 33.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          }
+        ]
+      },
+      "LSA118_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 6.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOuuuuuOOrrrrOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uuOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOyyyyyOOrrrrOOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGOOOOOOuuuuOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrOOOOOOyyyyOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOuuuOOOOOOrrrrrOOuuuuOOO"
+          },
+          {
+            "duration": 19.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          }
+        ]
+      },
+      "LSA118_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OGOy"
+          },
+          {
+            "duration": 18.0,
+            "state": "OGOr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyOr"
+          },
+          {
+            "duration": 7.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 10.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 10.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OyOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OyOy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          }
+        ]
+      },
+      "LSA119_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 2.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uurrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGrrrOrrOrrrrrOOOuOuu"
+          },
+          {
+            "duration": 12.0,
+            "state": "GGrrrOrrOrrrrrOOOgOgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrOrrOrrrrrOOOyOyy"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rruuuOuuOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 17.0,
+            "state": "rrGGGOggOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrGGGOyyOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 8.0,
+            "state": "rrGGGOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rryyyOrrOuuurrOOOrOrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "rryyyOrrOGGGrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOGGGuuOOOrOrr"
+          },
+          {
+            "duration": 14.0,
+            "state": "rrrrrOrrOGGGGGOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          }
+        ]
+      },
+      "LSA200_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOuuOuOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOuuuuOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOggggOOOyyOyOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOyyyyOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrruuu"
+          },
+          {
+            "duration": 26.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrGgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrryyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOuuuOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOuuuurrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          }
+        ]
+      },
+      "LSA200_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 50.0,
+            "state": "rr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uu"
+          },
+          {
+            "duration": 33.0,
+            "state": "gg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "LSA200_part2": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 64.0,
+            "state": "OG"
+          },
+          {
+            "duration": 3.0,
+            "state": "Oy"
+          },
+          {
+            "duration": 20.0,
+            "state": "Or"
+          },
+          {
+            "duration": 1.0,
+            "state": "Ou"
+          },
+          {
+            "duration": 2.0,
+            "state": "OG"
+          }
+        ]
+      },
+      "LSA200_part3": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 26.0,
+            "state": "OrrrrOGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OrrrrOyyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuuuuOrrr"
+          },
+          {
+            "duration": 30.0,
+            "state": "OggggOrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyyyyOrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOruu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrrrrOrGG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOuGG"
+          },
+          {
+            "duration": 4.0,
+            "state": "OrrrrOGGG"
+          }
+        ]
+      },
+      "LSA535_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 3.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrryrOyyrrrrrrOyyyyyOOrrrrr"
+          },
+          {
+            "duration": 11.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrruuuurrOrrrrrOOuuurr"
+          },
+          {
+            "duration": 23.0,
+            "state": "OOrrrrOrrggGGrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrryyyyrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOGGGuu"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOyyygg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrruuOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOuurrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 14.0,
+            "state": "OOGGrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOGGrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOyyrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOyyrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrurOuurrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrGrOggrrrrrrOuuuuuOOrrrrr"
+          },
+          {
+            "duration": 13.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          }
+        ]
+      }
+    },
+    "control_sha256": "392669463f8ef18f76743d1fd312066a50a532d7b4553a9f5586177587e647e4"
+  },
+  "tail": {
+    "version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "command": [
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "-n",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\tail-prepared\\network.net.xml",
+      "-a",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\tail-prepared\\control.add.xml",
+      "--no-step-log",
+      "true",
+      "--error-log",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\tail-readback.log"
+    ],
+    "programs": {
+      "13879893": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrggrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrggrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrryyrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyyrrrrr"
+          }
+        ]
+      },
+      "1562406613": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 42.0,
+            "state": "r"
+          },
+          {
+            "duration": 3.0,
+            "state": "r"
+          }
+        ]
+      },
+      "1564056277": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "1564056280": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "18653534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ]
+      },
+      "18653570": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryryyyryrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "1966837175": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "1975693623": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 63.0,
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "205068090": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "205068512": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrggGrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyrrrr"
+          }
+        ]
+      },
+      "205069138": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyyr"
+          }
+        ]
+      },
+      "244203524": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "244203525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyy"
+          }
+        ]
+      },
+      "244203534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "244203536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "264996267": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "266197525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "rrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrry"
+          },
+          {
+            "duration": 27.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 27.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          }
+        ]
+      },
+      "266197536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "315029332": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206478": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 72.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "ryryyyyyryrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206482": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GG"
+          },
+          {
+            "duration": 5.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "3479240233": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrr"
+          }
+        ]
+      },
+      "3479240438": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3479240441": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 77.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3673603285": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": 8.0,
+            "state": "gggGGGGr"
+          }
+        ]
+      },
+      "4031208903": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041448": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041449": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683114": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "6390683115": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683126": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 10.0,
+            "state": "r"
+          },
+          {
+            "duration": 1.0,
+            "state": "u"
+          },
+          {
+            "duration": 60.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 16.0,
+            "state": "r"
+          }
+        ]
+      },
+      "7709833318": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 32.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrryyrrrrrr"
+          },
+          {
+            "duration": 32.0,
+            "state": "rrrrrrrrGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrGrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "8913236635": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyy"
+          }
+        ]
+      },
+      "9844196560": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "GS_1561539020": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyy"
+          }
+        ]
+      },
+      "GS_1561539025": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          }
+        ]
+      },
+      "GS_1561539027": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "GS_205068087": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryyyyy"
+          }
+        ]
+      },
+      "GS_257590811": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          }
+        ]
+      },
+      "GS_26084079": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryy"
+          }
+        ]
+      },
+      "GS_266199063": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 24.0,
+            "state": "rrGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 43.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrGGGG"
+          }
+        ]
+      },
+      "LSA104_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yOOyyyOOOOOOrrrrrrOOOOyyyyOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rOOrrrOOOOOOuuruuuOOOOrrrrOO"
+          },
+          {
+            "duration": 26.0,
+            "state": "rOOrrrOOOOOOggrgggOOOOrrrrOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rOOrrrOOOOOOyyryyyOOOOrrrrOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uOOuuuOOOOOOrrrrrrOOOOuuuuOO"
+          },
+          {
+            "duration": 33.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          }
+        ]
+      },
+      "LSA118_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 6.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOuuuuuOOrrrrOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uuOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOyyyyyOOrrrrOOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGOOOOOOuuuuOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrOOOOOOyyyyOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOuuuOOOOOOrrrrrOOuuuuOOO"
+          },
+          {
+            "duration": 19.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          }
+        ]
+      },
+      "LSA118_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OGOy"
+          },
+          {
+            "duration": 18.0,
+            "state": "OGOr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyOr"
+          },
+          {
+            "duration": 7.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 10.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 10.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OyOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OyOy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          }
+        ]
+      },
+      "LSA119_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 2.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uurrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGrrrOrrOrrrrrOOOuOuu"
+          },
+          {
+            "duration": 12.0,
+            "state": "GGrrrOrrOrrrrrOOOgOgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrOrrOrrrrrOOOyOyy"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rruuuOuuOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 17.0,
+            "state": "rrGGGOggOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrGGGOyyOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 8.0,
+            "state": "rrGGGOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rryyyOrrOuuurrOOOrOrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "rryyyOrrOGGGrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOGGGuuOOOrOrr"
+          },
+          {
+            "duration": 14.0,
+            "state": "rrrrrOrrOGGGGGOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          }
+        ]
+      },
+      "LSA200_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOuuOuOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOuuuuOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOggggOOOyyOyOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOyyyyOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrruuu"
+          },
+          {
+            "duration": 26.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrGgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrryyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOuuuOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOuuuurrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          }
+        ]
+      },
+      "LSA200_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 50.0,
+            "state": "rr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uu"
+          },
+          {
+            "duration": 33.0,
+            "state": "gg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "LSA200_part2": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 64.0,
+            "state": "OG"
+          },
+          {
+            "duration": 3.0,
+            "state": "Oy"
+          },
+          {
+            "duration": 20.0,
+            "state": "Or"
+          },
+          {
+            "duration": 1.0,
+            "state": "Ou"
+          },
+          {
+            "duration": 2.0,
+            "state": "OG"
+          }
+        ]
+      },
+      "LSA200_part3": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 26.0,
+            "state": "OrrrrOGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OrrrrOyyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuuuuOrrr"
+          },
+          {
+            "duration": 30.0,
+            "state": "OggggOrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyyyyOrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOruu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrrrrOrGG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOuGG"
+          },
+          {
+            "duration": 4.0,
+            "state": "OrrrrOGGG"
+          }
+        ]
+      },
+      "LSA535_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 3.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrryrOyyrrrrrrOyyyyyOOrrrrr"
+          },
+          {
+            "duration": 11.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrruuuurrOrrrrrOOuuurr"
+          },
+          {
+            "duration": 23.0,
+            "state": "OOrrrrOrrggGGrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrryyyyrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOGGGuu"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOyyygg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrruuOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOuurrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 14.0,
+            "state": "OOGGrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOGGrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOyyrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOyyrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrurOuurrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrGrOggrrrrrrOuuuuuOOrrrrr"
+          },
+          {
+            "duration": 13.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          }
+        ]
+      }
+    },
+    "control_sha256": "06654e642fd3fa897ac115e7d44ad23290ff4a37a9807d97b29ac9e5b47a3d3d"
+  },
+  "tail27": {
+    "version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "command": [
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "-n",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\tail27-prepared\\network.net.xml",
+      "-a",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\tail27-prepared\\control.add.xml",
+      "--no-step-log",
+      "true",
+      "--error-log",
+      "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\tail27-readback.log"
+    ],
+    "programs": {
+      "13879893": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrggrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrggrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrryyrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrGGGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyyrrrrr"
+          }
+        ]
+      },
+      "1562406613": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 42.0,
+            "state": "r"
+          },
+          {
+            "duration": 3.0,
+            "state": "r"
+          }
+        ]
+      },
+      "1564056277": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "1564056280": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "18653534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrgGgGGggrrrrrgGggGrGr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrgGgGGggrrrrrgGggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyyyyyyrrrrryyyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "ggGggrrrrrrrgGgggrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrrrryyyyyrrrrrrrr"
+          }
+        ]
+      },
+      "18653570": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrGrGgGrgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryryyyryrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "1966837175": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "1975693623": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 63.0,
+            "state": "GGgggGgGGGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGgggGgGGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGggyyyyyyrrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "GGGGrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "205068090": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "205068512": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrggGrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrggrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyrrrr"
+          }
+        ]
+      },
+      "205069138": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrGGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrGGGGr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyyr"
+          }
+        ]
+      },
+      "244203524": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "244203525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyy"
+          }
+        ]
+      },
+      "244203534": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrr"
+          }
+        ]
+      },
+      "244203536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "264996267": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "266197525": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "rrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrry"
+          },
+          {
+            "duration": 27.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 27.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          }
+        ]
+      },
+      "266197536": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "315029332": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGGGgrrrrrGGGgrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrrrryyyyrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrrrrrrrrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206478": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 72.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rGrGGgGGrgrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "ryryyyyyryrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrr"
+          }
+        ]
+      },
+      "32206482": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "GG"
+          },
+          {
+            "duration": 5.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 42.0,
+            "state": "rr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "3479240233": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrr"
+          }
+        ]
+      },
+      "3479240438": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3479240441": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 77.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "3673603285": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "gggGGGGG"
+          },
+          {
+            "duration": 8.0,
+            "state": "gggGGGGr"
+          }
+        ]
+      },
+      "4031208903": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041448": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "5324041449": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683114": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrr"
+          }
+        ]
+      },
+      "6390683115": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "6390683126": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 10.0,
+            "state": "r"
+          },
+          {
+            "duration": 1.0,
+            "state": "u"
+          },
+          {
+            "duration": 60.0,
+            "state": "G"
+          },
+          {
+            "duration": 3.0,
+            "state": "y"
+          },
+          {
+            "duration": 16.0,
+            "state": "r"
+          }
+        ]
+      },
+      "7709833318": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 32.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "GGrrrGgrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrryyrrrrrr"
+          },
+          {
+            "duration": 32.0,
+            "state": "rrrrrrrrGrGrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrGrGrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrrrrrrr"
+          }
+        ]
+      },
+      "8913236635": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryyy"
+          }
+        ]
+      },
+      "9844196560": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 82.0,
+            "state": "GG"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 5.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "GS_1561539020": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGGGrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyyyrrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrryyy"
+          }
+        ]
+      },
+      "GS_1561539025": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrrrrG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrr"
+          }
+        ]
+      },
+      "GS_1561539027": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrryy"
+          }
+        ]
+      },
+      "GS_205068087": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 37.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrr"
+          },
+          {
+            "duration": 37.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 5.0,
+            "state": "rrrgGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryyyyy"
+          }
+        ]
+      },
+      "GS_257590811": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrrrrrG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrrrG"
+          }
+        ]
+      },
+      "GS_26084079": {
+        "active_program": "readme_fixed_A",
+        "type": 3,
+        "phases": [
+          {
+            "duration": 42.0,
+            "state": "GGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyyrr"
+          },
+          {
+            "duration": 42.0,
+            "state": "rrrGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrryy"
+          }
+        ]
+      },
+      "GS_266199063": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 33.0,
+            "state": "rrGGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "rryyyy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 34.0,
+            "state": "GGrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrr"
+          },
+          {
+            "duration": 10.0,
+            "state": "rrGGGG"
+          }
+        ]
+      },
+      "LSA104_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yOOyyyOOOOOOrrrrrrOOOOyyyyOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rOOrrrOOOOOOuuruuuOOOOrrrrOO"
+          },
+          {
+            "duration": 26.0,
+            "state": "rOOrrrOOOOOOggrgggOOOOrrrrOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rOOrrrOOOOOOyyryyyOOOOrrrrOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "rOOrrrOOOOOOrrrrrrOOOOrrrrOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uOOuuuOOOOOOrrrrrrOOOOuuuuOO"
+          },
+          {
+            "duration": 33.0,
+            "state": "GOOGggOOOOOOrrrrrrOOOOggggOO"
+          }
+        ]
+      },
+      "LSA118_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOyyyyOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOyyyOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 6.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOuuuuuOOrrrrOOO"
+          },
+          {
+            "duration": 2.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "uuOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOgggggOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOyyyyyOOrrrrOOO"
+          },
+          {
+            "duration": 7.0,
+            "state": "GGOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGOOOOOOuuuuOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 9.0,
+            "state": "rrOOOOOOggggOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrOOOOOOyyyyOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOrrrOOOOOOrrrrrOOrrrrOOO"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOuuuOOOOOOrrrrrOOuuuuOOO"
+          },
+          {
+            "duration": 19.0,
+            "state": "rrOOOOOOrrrrOOOOOOOOOOGGGOOOOOOrrrrrOOggGGOOO"
+          }
+        ]
+      },
+      "LSA118_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OGOy"
+          },
+          {
+            "duration": 18.0,
+            "state": "OGOr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyOr"
+          },
+          {
+            "duration": 7.0,
+            "state": "OrOr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOu"
+          },
+          {
+            "duration": 10.0,
+            "state": "OrOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuOG"
+          },
+          {
+            "duration": 10.0,
+            "state": "OGOG"
+          },
+          {
+            "duration": 2.0,
+            "state": "OyOG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OyOy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrOy"
+          }
+        ]
+      },
+      "LSA119_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 2.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uurrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 16.0,
+            "state": "GGrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "GGrrrOrrOrrrrrOOOuOuu"
+          },
+          {
+            "duration": 12.0,
+            "state": "GGrrrOrrOrrrrrOOOgOgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yyrrrOrrOrrrrrOOOyOyy"
+          },
+          {
+            "duration": 4.0,
+            "state": "rrrrrOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rruuuOuuOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 17.0,
+            "state": "rrGGGOggOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "rrGGGOyyOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 8.0,
+            "state": "rrGGGOrrOrrrrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rryyyOrrOuuurrOOOrOrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "rryyyOrrOGGGrrOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOGGGuuOOOrOrr"
+          },
+          {
+            "duration": 14.0,
+            "state": "rrrrrOrrOGGGGGOOOrOrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "rrrrrOrrOyyyyyOOOrOrr"
+          }
+        ]
+      },
+      "LSA200_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 27.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOyyyyrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOyyyOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOuuOuOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOuuuuOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOggOGOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOggggOOOyyOyOOOOrrrrrrr"
+          },
+          {
+            "duration": 4.0,
+            "state": "OOOOOrrrOggggOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOyyyyOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 5.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrruuu"
+          },
+          {
+            "duration": 26.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrGgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrryyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOrrrOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOuuuOrrrrOOOrrOrOOOOrrrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOuuuurrr"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOOOOGGGOrrrrOOOrrOrOOOOGGGGrrr"
+          }
+        ]
+      },
+      "LSA200_part1": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 50.0,
+            "state": "rr"
+          },
+          {
+            "duration": 1.0,
+            "state": "uu"
+          },
+          {
+            "duration": 33.0,
+            "state": "gg"
+          },
+          {
+            "duration": 3.0,
+            "state": "yy"
+          },
+          {
+            "duration": 3.0,
+            "state": "rr"
+          }
+        ]
+      },
+      "LSA200_part2": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 64.0,
+            "state": "OG"
+          },
+          {
+            "duration": 3.0,
+            "state": "Oy"
+          },
+          {
+            "duration": 20.0,
+            "state": "Or"
+          },
+          {
+            "duration": 1.0,
+            "state": "Ou"
+          },
+          {
+            "duration": 2.0,
+            "state": "OG"
+          }
+        ]
+      },
+      "LSA200_part3": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 26.0,
+            "state": "OrrrrOGGG"
+          },
+          {
+            "duration": 3.0,
+            "state": "OrrrrOyyy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OuuuuOrrr"
+          },
+          {
+            "duration": 30.0,
+            "state": "OggggOrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OyyyyOrrr"
+          },
+          {
+            "duration": 6.0,
+            "state": "OrrrrOrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOruu"
+          },
+          {
+            "duration": 14.0,
+            "state": "OrrrrOrGG"
+          },
+          {
+            "duration": 1.0,
+            "state": "OrrrrOuGG"
+          },
+          {
+            "duration": 4.0,
+            "state": "OrrrrOGGG"
+          }
+        ]
+      },
+      "LSA535_part0": {
+        "active_program": "readme_fixed_A",
+        "type": 0,
+        "phases": [
+          {
+            "duration": 3.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrryrOyyrrrrrrOyyyyyOOrrrrr"
+          },
+          {
+            "duration": 11.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrruuuurrOrrrrrOOuuurr"
+          },
+          {
+            "duration": 23.0,
+            "state": "OOrrrrOrrggGGrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrryyyyrrOrrrrrOOGGGrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOGGGuu"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOyyygg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrrrOrrrrrruuOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOuurrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 14.0,
+            "state": "OOGGrrOrrrrrrggOrrrrrOOrrrgg"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOGGrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOyyrrOrrrrrryyOrrrrrOOrrryy"
+          },
+          {
+            "duration": 2.0,
+            "state": "OOyyrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 3.0,
+            "state": "OOrrrrOrrrrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrurOuurrrrrrOrrrrrOOrrrrr"
+          },
+          {
+            "duration": 1.0,
+            "state": "OOrrGrOggrrrrrrOuuuuuOOrrrrr"
+          },
+          {
+            "duration": 13.0,
+            "state": "OOrrGrOggrrrrrrOgggggOOrrrrr"
+          }
+        ]
+      }
+    },
+    "control_sha256": "5ecbedee2f7280e8d00d6a77bcce403b976d84ee3dfaed5b67433056c7fb5c46"
+  }
+}

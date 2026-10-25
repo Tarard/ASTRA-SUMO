@@ -1,0 +1,29 @@
+{
+  "runs": {
+    "baseline": {
+      "duration_s": 958.258,
+      "traci_interaction_s": 546.496,
+      "traci_fraction": 0.5703015263112856,
+      "simulation_step_s": 0.1,
+      "steps": 144000,
+      "source": "outputs\\lsa119-collision-diagnosis-20261023\\paired-full\\native\\sumo.log"
+    },
+    "first-trial": {
+      "duration_s": 977.456,
+      "traci_interaction_s": 553.109,
+      "traci_fraction": 0.5658658804079161,
+      "simulation_step_s": 0.1,
+      "steps": 144000,
+      "source": "outputs\\lsa119-collision-diagnosis-20261023\\directed-0001-retry\\evaluation\\native\\sumo.log"
+    },
+    "unit-step": {
+      "duration_s": 952.071,
+      "traci_interaction_s": 542.946,
+      "traci_fraction": 0.5702788972671156,
+      "simulation_step_s": 0.1,
+      "steps": 144000,
+      "source": "outputs\\lsa119-collision-diagnosis-20261023\\directed-0002-unit\\evaluation\\native\\sumo.log"
+    }
+  },
+  "interpretation": "TraCI duration includes command handling and client interaction time; it is not a direct measurement of socket-only overhead."
+}

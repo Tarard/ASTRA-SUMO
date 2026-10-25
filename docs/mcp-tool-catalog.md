@@ -11,7 +11,7 @@ The server supports three profiles selected with `create_server(profile=...)` or
   `astra.place.resolve`, `astra.intersection.classify`, `astra.signal.classify`,
   `astra.network.audit`, `astra.network.compare`, `astra.demand.audit`,
   `astra.review.create`.
-- `legacy`: all 73 historical tools listed below. Select this profile explicitly for compatibility.
+- `legacy`: all historical tools listed below. Select this profile explicitly for compatibility.
 - `netedit`: the four-tool observation loop:
   `astra.netedit.open`, `astra.netedit.observe`, `astra.netedit.act`,
   `astra.netedit.close`.
@@ -59,9 +59,8 @@ selection contains `user_request`, `scenario_id`, `reason`, and `arguments`.
 The command without `--execute` checks readiness only. It does not read the
 drawing's meaning, verify nested source evidence, or complete a workflow.
 
-The catalog distinguishes `workflow`, `check`, `stage`, and `guidance`. As
-checked on 2026-09-09, its 25 entries include 19 callable entries and six guides,
-not 25 complete workflows. The executable mapping and live signatures belong
+The catalog distinguishes `workflow`, `check`, `stage`, and `guidance`. Run
+`astra workflows --json` for the current entries; a callable entry is not a complete workflow. The executable mapping and live signatures belong
 to [workflow_catalog.py](../plugins/astra-sumo/src/astra_sumo/core/workflow_catalog.py).
 See [scenario selection](workflow-selection.md) for the four-field example and
 result meanings.
@@ -141,7 +140,9 @@ profile. Resolve a place to a bbox before the call. Its JSON request has seven
 fields: `output_dir`, `bbox`, `profile`, `source_osm_path`, `traffic_layers`,
 `reference_net_file`, and `timeout_seconds`. The `reference_matched` profile is
 audit-only and does not repair the network. `sumo_osm_build_network` remains a
-low-level importer and is not a complete cleanup workflow.
+low-level importer and is not a complete cleanup workflow. New product imports
+use construction precision 6 and record the effective setting. Precision affects
+native geometry computation as well as coordinate output.
 
 ## Structural, Reference, and Regression Audits
 
@@ -212,6 +213,14 @@ This read-only specialist hashes and parses one frozen OCIT-C supply snapshot, t
 
 These tools construct and assess detector-constrained demand. Their output is a plausible count-matched route set, not a uniquely identified true OD matrix.
 
+`sumo_detector_route_support` accepts `boundary_zones_file` from road-scope selection.
+Declared entries and exits remain available when retained roads also meet their boundary junction.
+The CLI road-selection option `--entry-min-lane-length` can retain upstream source context for traffic injection.
+The report lists missing or changed boundary references and roads excluded from the passenger model.
+Without this file, the tool uses terminal roads available to passenger vehicles.
+Loaded SUMO turns use endpoint and internal lane permissions. Connection import directives do not replace loaded access.
+Route incidence here measures road traversal. It cannot distinguish separate detector lanes on the same road or establish actual E1 contributions.
+
 ## Hamburg Corridor Digital Twin
 
 Road construction and traffic-count calibration have separate entry points.
@@ -254,6 +263,12 @@ and `road_names`. Each intersection supplies official MAP XML, matching KML,
 an aerial image, its `bbox_epsg25832`, and `aerial_year`. Source files require
 SHA-256 hashes. Paths may be relative to the request file. An arbitrary
 screenshot without known geographic bounds is not a georeferenced input.
+
+Set `osm_build.output_precision` explicitly in new requests. The current example
+uses 6. The source import of a v1 request without this field retains precision 2.
+The workflow records the resolved setting, whether it was declared, and the
+source network hash. It records the native edit default separately. These
+settings do not pin the software version or every downstream construction step.
 
 An intersection may also supply `road_reference.topology` and
 `road_reference.cross_sections` as hash-bound Hamburg GeoJSON files. The
@@ -394,7 +409,7 @@ These commands are not stages of `build-network`. Bind all later evidence to
 the exact checked network hash and matching `candidate/manifest.json`.
 They retain their existing request formats and do not accept the handoff file
 directly. A road change requires new road checks and new affected bindings. See the
-[count-calibration reference](../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md).
+[count-calibration reference](../plugins/astra-sumo/skills/astra-calibrate/references/hamburg-count-calibration-workflow.md).
 
 The signal-binding command accepts only exact physical movement identities
 and reports frozen MAP/TLD version mismatches. It does not infer timing. The
@@ -461,14 +476,3 @@ official v1.0 primary observation service for an explicit UTC window, writes
 time-zero and in-window TLS link events, and blocks on partial/empty streams or
 missing required nodes. The v1.1 endpoint may still be used for metadata
 discovery, but is not silently substituted for v1.0 historical primary states.
-
-## Maintenance Contract
-
-The legacy catalog is checked against `plugins/astra-sumo/src/astra_sumo/legacy_tools.py`.
-The default and NetEdit profiles are checked through `create_server` contract tests. When registering or removing a tool:
-
-1. place reusable logic below the MCP adapter boundary;
-2. update the appropriate group above;
-3. update skill routing if the capability is user-visible;
-4. add a contract or regression test;
-5. state the tool's claim boundary in its description and output.

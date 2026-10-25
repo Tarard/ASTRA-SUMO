@@ -1,0 +1,223 @@
+{
+  "formal_result": false,
+  "network_sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+  "facts": [
+    {
+      "entry": "31106387",
+      "osm_tags": {
+        "highway": "service",
+        "lanes": "1",
+        "lit": "yes",
+        "oneway": "yes",
+        "service": "driveway",
+        "surface": "asphalt",
+        "turn": "left"
+      },
+      "passenger_lanes": [
+        "31106387_0"
+      ],
+      "minimum_passenger_lane_length_m": 9.66,
+      "boundary": {
+        "junction_id": "291990981",
+        "entry_edges": [
+          "31106387"
+        ],
+        "exit_edges": [],
+        "cut_roads": [
+          "26621054#1"
+        ],
+        "basis": [
+          "scope_cut"
+        ],
+        "position": {
+          "x": "686.194074",
+          "y": "733.430908"
+        }
+      },
+      "declared_inflow_prior_veh_per_hour": 100,
+      "baseline_model_requests": 310,
+      "baseline_inserted_full_run": 310,
+      "baseline_native_passed_full_run": 310,
+      "measured_spare_capacity": null
+    },
+    {
+      "entry": "963776077#0",
+      "osm_tags": {
+        "cycleway:left": "no",
+        "cycleway:right": "track",
+        "highway": "secondary",
+        "lanes": "3",
+        "lit": "yes",
+        "maxspeed": "50",
+        "maxspeed:source": "DE:urban",
+        "name": "Gorch-Fock-Wall",
+        "name:etymology:wikidata": "Q69087",
+        "oneway": "yes",
+        "ref": "Ring 1",
+        "sidewalk": "right",
+        "sidewalk:right:surface": "paving_stones",
+        "smoothness": "good",
+        "surface": "asphalt"
+      },
+      "passenger_lanes": [
+        "963776077#0_2",
+        "963776077#0_3",
+        "963776077#0_4"
+      ],
+      "minimum_passenger_lane_length_m": 323.23,
+      "boundary": {
+        "junction_id": "2347315953",
+        "entry_edges": [
+          "963776077#0"
+        ],
+        "exit_edges": [],
+        "cut_roads": [],
+        "basis": [
+          "source_model_boundary"
+        ],
+        "position": {
+          "x": "0.000000",
+          "y": "452.266354"
+        }
+      },
+      "declared_inflow_prior_veh_per_hour": 2700,
+      "baseline_model_requests": 0,
+      "baseline_inserted_full_run": 0,
+      "baseline_native_passed_full_run": 0,
+      "measured_spare_capacity": null
+    },
+    {
+      "entry": "-983227468#1",
+      "osm_tags": {
+        "cycleway:both": "no",
+        "highway": "residential",
+        "lane_markings": "no",
+        "lit": "yes",
+        "maxspeed": "50",
+        "name": "Dammtorwall",
+        "sidewalk": "both",
+        "sidewalk:both:surface": "paving_stones",
+        "smoothness": "intermediate",
+        "surface": "sett"
+      },
+      "passenger_lanes": [
+        "-983227468#1_1"
+      ],
+      "minimum_passenger_lane_length_m": 11.68,
+      "boundary": {
+        "junction_id": "2286400550",
+        "entry_edges": [
+          "-983227468#1"
+        ],
+        "exit_edges": [
+          "983227468#1"
+        ],
+        "cut_roads": [
+          "-139083717#0",
+          "139083717#0"
+        ],
+        "basis": [
+          "scope_cut"
+        ],
+        "position": {
+          "x": "381.235309",
+          "y": "658.466894"
+        }
+      },
+      "declared_inflow_prior_veh_per_hour": 200,
+      "baseline_model_requests": 445,
+      "baseline_inserted_full_run": 299,
+      "baseline_native_passed_full_run": 270,
+      "measured_spare_capacity": null
+    },
+    {
+      "entry": "448511533#3",
+      "osm_tags": {
+        "cycleway:both": "no",
+        "highway": "unclassified",
+        "lane_markings": "no",
+        "lit": "yes",
+        "maxspeed": "50",
+        "name": "Dammtorwall",
+        "sidewalk": "both",
+        "surface": "sett"
+      },
+      "passenger_lanes": [
+        "448511533#3_1"
+      ],
+      "minimum_passenger_lane_length_m": 54.29,
+      "boundary": {
+        "junction_id": "3399000426",
+        "entry_edges": [
+          "448511533#3"
+        ],
+        "exit_edges": [
+          "-448511533#3"
+        ],
+        "cut_roads": [
+          "-332766161#1",
+          "-448511533#2",
+          "332766161#1",
+          "448511533#2"
+        ],
+        "basis": [
+          "scope_cut"
+        ],
+        "position": {
+          "x": "228.442820",
+          "y": "583.195652"
+        }
+      },
+      "declared_inflow_prior_veh_per_hour": 200,
+      "baseline_model_requests": 622,
+      "baseline_inserted_full_run": 406,
+      "baseline_native_passed_full_run": 356,
+      "measured_spare_capacity": null
+    },
+    {
+      "entry": "139083714#0",
+      "osm_tags": {
+        "cycleway:left": "no",
+        "cycleway:right": "track",
+        "highway": "tertiary",
+        "lanes": "2",
+        "lit": "yes",
+        "maxspeed": "50",
+        "name": "Caffamacherreihe",
+        "sidewalk": "both",
+        "sidewalk:both:surface": "paving_stones",
+        "surface": "asphalt"
+      },
+      "passenger_lanes": [
+        "139083714#0_2"
+      ],
+      "minimum_passenger_lane_length_m": 46.45,
+      "boundary": {
+        "junction_id": "14004682442",
+        "entry_edges": [
+          "139083714#0"
+        ],
+        "exit_edges": [
+          "-139083714#0"
+        ],
+        "cut_roads": [
+          "-1537477255#2",
+          "1537477255#2"
+        ],
+        "basis": [
+          "scope_cut"
+        ],
+        "position": {
+          "x": "291.637147",
+          "y": "505.891259"
+        }
+      },
+      "declared_inflow_prior_veh_per_hour": 600,
+      "baseline_model_requests": 15,
+      "baseline_inserted_full_run": 15,
+      "baseline_native_passed_full_run": 7,
+      "measured_spare_capacity": null
+    }
+  ],
+  "claim_boundary": "Source road facts and prior native performance, not measured capacity or true OD. Passing all assigned sparse requests does not establish spare capacity."
+}

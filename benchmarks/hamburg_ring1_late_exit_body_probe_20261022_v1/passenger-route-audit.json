@@ -1,0 +1,46 @@
+{
+  "formal_result": false,
+  "model_requests": 1082,
+  "movements": [
+    {
+      "from": "-983227468#0",
+      "to": "139083723#0",
+      "model_requests": 445,
+      "allowed_passenger_outlet_lanes": [
+        "2"
+      ],
+      "outlet_length_m": [
+        38.38
+      ]
+    },
+    {
+      "from": "139083714#2",
+      "to": "139083723#0",
+      "model_requests": 15,
+      "allowed_passenger_outlet_lanes": [
+        "2",
+        "3"
+      ],
+      "outlet_length_m": [
+        38.38
+      ]
+    },
+    {
+      "from": "448511533#3",
+      "to": "139083723#0",
+      "model_requests": 622,
+      "allowed_passenger_outlet_lanes": [
+        "3"
+      ],
+      "outlet_length_m": [
+        38.38
+      ]
+    }
+  ],
+  "passenger_route_exit_lanes": [
+    "2"
+  ],
+  "bicycle_only_lane": "139083723#0_1",
+  "lane_permissions_changed": false,
+  "claim_boundary": "The earlier unfiltered connection list included lane 1. Passenger permissions leave only lane 2. All 1082 planned movements at this junction lead to the 38.38 m outlet. This is a static route and permission check, not field capacity or full-demand clearance."
+}

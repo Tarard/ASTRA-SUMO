@@ -12,7 +12,6 @@ from pathlib import Path
 from typing import Any
 import numpy as np
 from ..candidate_contracts import file_sha256
-from ..command_runner import run_command
 from ..connection_mode_audit import lane_supports_motorized
 from ..official_movement_composition import compose_official_movements
 from ..source_movement_support import audit_source_movement_support, probe_source_interior_lane_changes, _modes as _lane_motorized_modes
@@ -44,8 +43,17 @@ def _write_movement_candidate(
     junction_corner_radius_m: float = 8.0,
 ) -> dict[str, Any]:
     """Write whole connection curves to netconvert, never only the first via."""
+    protected_source = joined_net
+    if protected_source.resolve() == output_file.resolve():
+        raise ValueError("The movement candidate must be separate from its protected source.")
+    protected_hash = file_sha256(protected_source)
     root = ET.parse(joined_net).getroot()
     source_root = ET.parse(original_net or joined_net).getroot()
+    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
+    mutable_edges = set(identity_changed_edges) | {
+        edge.get("id") for network in (root,) for edge in network.findall("edge")
+        if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes
+    }
     external = {
         (edge.attrib["id"], index): _parse_shape(lane.get("shape", ""))
         for edge in root.findall("edge")
@@ -196,7 +204,17 @@ def _write_movement_candidate(
                 connection.set("allow", " ".join(sorted(composed_permissions[key])))
 
     patch_file = output_file.with_suffix(".con.xml")
-    command = [str(netconvert_binary), "--sumo-net-file", str(joined_net), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25", "--output-file", str(output_file)]
+    geometry_input = None
+    native_source = joined_net
+    if junction_contours == "preserve":
+        from ..network_geometry_freeze import prepare_geometry_frozen_input
+        geometry_input = prepare_geometry_frozen_input(source_file=joined_net,
+            output_file=output_file.with_suffix(".geometry-input.net.xml"))
+        native_source = Path(geometry_input["frozen_input"]["path"])
+    command = [str(netconvert_binary), "--sumo-net-file", str(native_source), "--connection-files", str(patch_file), "--offset.disable-normalization", "true", "--junctions.internal-link-detail", root.get("junctionLinkDetail", "5"), "--output-file", str(output_file)]
+    base_command = list(command)
+    from ..local_network_conversion import run_scoped_native_conversion
+    conversion_edges = {identity for identity in mutable_edges if identity in edges}
     commands = []
     removed_source_fanouts = []
     restored_source_permissions = []
@@ -209,12 +227,27 @@ def _write_movement_candidate(
     # Reuse the same joined source each time: the compiled junction may trim
     # its approaches, so align full curves to those endpoints before rebuilding.
     for iteration in range(4):
+        pass_dir = output_file.parent / f"{output_file.stem}-native-pass-{iteration:02d}"
+        pass_dir.mkdir()
+        pass_patch = pass_dir / "connections.xml"
+        pass_file = pass_dir / "candidate.net.xml"
         ET.indent(patch, space="    ")
         ET.ElementTree(patch).write(patch_file, encoding="utf-8", xml_declaration=True)
-        result = run_command(command, cwd=output_file.parent, timeout_seconds=timeout_seconds)
-        commands.append({"command": command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr})
-        if result.returncode != 0 or not output_file.is_file():
+        shutil.copyfile(patch_file, pass_patch)
+        trial_command = list(base_command)
+        trial_command[trial_command.index("--connection-files") + 1] = str(pass_patch)
+        trial_command[trial_command.index("--output-file") + 1] = str(pass_file)
+        result, local_conversion = run_scoped_native_conversion(command=trial_command,
+            mutable_nodes=mutable_nodes, mutable_edges=conversion_edges,
+            output_dir=pass_dir, prefix="movement", timeout_seconds=timeout_seconds)
+        commands.append({"command": result.command, "returncode": result.returncode, "stdout": result.stdout, "stderr": result.stderr,
+                         "local_conversion": local_conversion,
+                         "patch": {"path": str(pass_patch), "sha256": file_sha256(pass_patch)}})
+        if result.returncode != 0 or not pass_file.is_file():
             raise ValueError("netconvert could not compile the official connection candidate: " + result.stderr)
+        shutil.copyfile(pass_file, output_file)
+        command = list(base_command)
+        command[command.index("--connection-files") + 1] = str(pass_patch)
         compiled_root = ET.parse(output_file).getroot()
         compiled_lanes = {
             (edge.attrib["id"], index): _parse_shape(lane.get("shape", ""))
@@ -267,6 +300,8 @@ def _write_movement_candidate(
                 original = compiled_connections[pair]
                 connection = ET.SubElement(patch, "connection", {name: original.attrib[name]
                     for name in ("from", "fromLane", "to", "toLane", "allow", "disallow") if name in original.attrib})
+                from ..osm_access import _translate_permission_declarations
+                _translate_permission_declarations(connection, source_version=compiled_root.get("version", "0.0"))
             denied = set(row["candidate_vehicle_classes"]) - set(row["supported_vehicle_classes"])
             allowed = set(connection.get("allow", "").split())
             if allowed and "all" not in allowed:
@@ -285,21 +320,6 @@ def _write_movement_candidate(
         for connection, shape in changes:
             connection.set("shape", _shape(shape))
 
-    from ..junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
-
-    mutable_nodes = {str(node) for group in groups for node in [group["join_id"], *group["source_node_ids"]]}
-    mutable_edges = set(identity_changed_edges) | {
-        edge.get("id") for network in (source_root, compiled_root) for edge in network.findall("edge")
-        if edge.get("from") in mutable_nodes or edge.get("to") in mutable_nodes
-    }
-    outside_restoration = restore_off_scope_netconvert_artifacts(
-        source_file=original_net or joined_net, target_file=output_file,
-        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges,
-    )
-    if outside_restoration["status"] != "pass":
-        raise ValueError("Official movement construction changed roads outside its declared scope: " + str(outside_restoration.get("failures", [])))
-    compiled_root = ET.parse(output_file).getroot()
-
     contours = {"mode": "preserve", "status": "not_applicable", "parts": [],
                 "accepted_junction_ids": [], "rejected_junction_ids": []}
     if junction_contours in ("guarded", "fused"):
@@ -314,6 +334,25 @@ def _write_movement_candidate(
     tree = ET.ElementTree(compiled_root)
     ET.indent(tree, space="    ")
     tree.write(output_file, encoding="utf-8", xml_declaration=True)
+    from ..junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+    from ..network_geometry_freeze import compare_frozen_geometry
+
+    # Admit the scoped result after the last native compilation, including contours.
+    if file_sha256(protected_source) != protected_hash:
+        raise ValueError("The protected source changed during movement compilation.")
+    outside_restoration = restore_off_scope_netconvert_artifacts(
+        source_file=protected_source, target_file=output_file,
+        mutable_junction_ids=mutable_nodes, mutable_edge_ids=mutable_edges if geometry_input is None else set(),
+        expand_mutable_edge_endpoints=False,
+    )
+    preservation = compare_frozen_geometry(source_file=protected_source, candidate_file=output_file,
+        mutable_junction_ids=frozenset(mutable_nodes), mutable_edge_ids=frozenset(mutable_edges) if geometry_input is None else frozenset())
+    outside_restoration["independent_geometry_preservation"] = preservation
+    outside_restoration["protected_source_sha256"] = protected_hash
+    if outside_restoration["status"] != "pass" or preservation["status"] != "pass":
+        raise ValueError("Official movement construction did not preserve its declared geometry boundary: " + str(outside_restoration))
+    compiled_root = ET.parse(output_file).getroot()
+    source_support = audit_source_movement_support(source_root, compiled_root, **support_args)
     if composition is not None:
         composition = compose_official_movements(source_root, compiled_root, **composition_args)
         remaining = []
@@ -395,7 +434,8 @@ def _write_movement_candidate(
         "official_connection_audit": audit,
         "connection_patch": str(patch_file),
         "netconvert_passes": commands,
-        "selected_netconvert_command": contours.get("selected_command", command),
+        "selected_netconvert_command": contours.get("selected_command", commands[-1]["command"]),
+        "geometry_frozen_input": geometry_input,
         "junction_contours": contours,
     }
 
@@ -441,6 +481,12 @@ def _compile_junction_contours(root, *, command, groups, output_file, timeout_se
               "claim_boundary": "These local shape cuts preserve known model surfaces and compiled traffic "
                                 "semantics. They do not identify or verify field curbs or traffic islands."}
     target_ids = _contour_target_ids(root, groups, include_context=mode == "fused" and include_context)
+    from ..local_network_conversion import run_scoped_native_conversion
+    conversion_root = ET.parse(command[command.index("--sumo-net-file") + 1]).getroot()
+    conversion_nodes = set(target_ids) | {str(node) for group in groups for node in [group["join_id"], *group.get("source_node_ids", [])]}
+    conversion_edges = {row.get("id") for row in conversion_root.findall("edge")
+                        if not row.get("id", "").startswith(":")
+                        and any(row.get(end) in conversion_nodes for end in ("from", "to"))}
     declared = {str(row["join_id"]) for row in groups}
     report["target_junction_ids"] = target_ids
     report["context_junction_ids"] = [identifier for identifier in target_ids if identifier not in declared]
@@ -466,9 +512,13 @@ def _compile_junction_contours(root, *, command, groups, output_file, timeout_se
             trial_command[trial_command.index("--node-files") + 1] += "," + str(node_file)
         else:
             trial_command += ["--node-files", str(node_file)]
-        result = run_command(trial_command, cwd=destination, timeout_seconds=timeout_seconds)
-        row["netconvert"] = {"command": trial_command, "returncode": result.returncode,
+        result, local_conversion = run_scoped_native_conversion(command=trial_command,
+            mutable_nodes=conversion_nodes, mutable_edges=conversion_edges,
+            output_dir=destination, prefix=f"trial-{index:03d}", timeout_seconds=timeout_seconds,
+            merge_source_file=baseline_file)
+        row["netconvert"] = {"command": result.command, "returncode": result.returncode,
                              "stdout": result.stdout, "stderr": result.stderr}
+        row["local_conversion"] = local_conversion
         row["node_file"] = {"path": str(node_file), "sha256": file_sha256(node_file)}
         accepted = False
         materialized_file = trial_file
@@ -515,7 +565,7 @@ def _compile_junction_contours(root, *, command, groups, output_file, timeout_se
         row["status"] = "pass" if accepted else "blocked"
         if accepted:
             root, selected_file = candidate, materialized_file
-            report["selected_command"] = trial_command
+            report["selected_command"] = result.command
             report["accepted_junction_ids"].append(identifier)
         else:
             nodes.remove(node)
@@ -569,6 +619,7 @@ def _contour_curve_difference(before_shape, after_shape):
 def _compare_contour_compilation(before_root, after_root, target_junction_ids):
     """Allow reviewed target outlines, preserving all other construction data."""
     from ..junction_boundary_rebuild import _signature
+    from ..osm_access import _permission_set, _permission_attributes
 
     targets = set(target_junction_ids)
     changes, target_shapes = [], []
@@ -596,6 +647,21 @@ def _compare_contour_compilation(before_root, after_root, target_junction_ids):
             continue
         for original, current in zip(before[key], after[key]):
             left, right = deepcopy(original), deepcopy(current)
+            permission_rows = [[row for row in element.iter() if row.tag in {"lane", "connection"}]
+                               for element in (left, right)]
+            original_declarations = [[_permission_attributes(row) for row in rows] for rows in permission_rows]
+            effective = [[_permission_set(row.attrib, network_version=network.get("version", "0.0")) for row in rows]
+                         for rows, network in zip(permission_rows, (before_root, after_root))]
+            for index, (a, b) in enumerate(zip(*original_declarations)):
+                if a != b and effective[0][index] == effective[1][index]:
+                    changes.append({"status": "pass", "kind": "equivalent_permission_declarations", "key": list(key),
+                                    "id": permission_rows[0][index].get("id"), "before": a, "after": b,
+                                    "effective_vehicle_classes": sorted(effective[0][index])})
+            for rows, classes in zip(permission_rows, effective):
+                for row, allowed in zip(rows, classes):
+                    row.attrib.pop("allow", None)
+                    row.attrib.pop("disallow", None)
+                    row.set("allow", " ".join(sorted(allowed)))
             if original.tag == "junction" and original.get("id") in targets:
                 fields = ("shape", "customShape")
                 if any(left.get(field) != right.get(field) for field in fields):
@@ -636,5 +702,5 @@ def _compare_contour_compilation(before_root, after_root, target_junction_ids):
             "geometry_tolerance_m": 0.1, "changes": changes, "target_shape_changes": target_shapes,
             "claim_boundary": "Only selected junction shape/customShape may change freely. Directed curves may be "
                               "resampled within existing 0.1 m geometry precision. All other attributes and child "
-                              "records, including permissions, speeds, connection indices, conflicts and signal "
+                              "records, including effective permissions, speeds, connection indices, conflicts and signal "
                               "programs, must match. Outline validity and coverage require their separate check."}

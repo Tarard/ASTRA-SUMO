@@ -1,0 +1,88 @@
+{
+  "formal_result": false,
+  "zero_residual_goal_complete": false,
+  "complete_runs": [
+    "lane-swap-1pair",
+    "lane-swap-5pair"
+  ],
+  "trace": {
+    "status": "pass",
+    "parity_checks": 12,
+    "native_E1_rows": 208,
+    "FCD_vehicles": 115,
+    "completion": {
+      "loaded": 8640,
+      "inserted": 8633,
+      "arrived": 8619,
+      "waiting": 7,
+      "running": 14,
+      "collisions": 0,
+      "teleports": 0,
+      "discarded": 0
+    }
+  },
+  "evaluations": {
+    "lane-swap-1pair": {
+      "main130": {
+        "SSE": 6636,
+        "TAE": 646,
+        "MAE": 4.969230769230769,
+        "max_abs_error": 27
+      },
+      "all182": {
+        "SSE": 7462,
+        "TAE": 728,
+        "MAE": 4.0,
+        "max_abs_error": 27
+      },
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8630,
+        "arrived": 8615,
+        "waiting": 10,
+        "running": 15,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "unchanged_prefix_rows": 156,
+      "wrong_field": 0,
+      "repeat_vehicle_field": 0,
+      "status": "rejected",
+      "changed_vehicles": 2
+    },
+    "lane-swap-5pair": {
+      "main130": {
+        "SSE": 8644,
+        "TAE": 718,
+        "MAE": 5.523076923076923,
+        "max_abs_error": 33
+      },
+      "all182": {
+        "SSE": 9470,
+        "TAE": 800,
+        "MAE": 4.395604395604396,
+        "max_abs_error": 33
+      },
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8624,
+        "waiting": 0,
+        "running": 16,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "unchanged_prefix_rows": 143,
+      "wrong_field": 0,
+      "repeat_vehicle_field": 0,
+      "status": "rejected",
+      "changed_vehicles": 10
+    }
+  },
+  "offline_helper_sha256": "3d0e8e7c3d39f9f9f4bc6c8cc2ed0088dadabd4cdaf75729056e2750669475a0",
+  "claim_boundary": "Separate explicit lane-prior counterfactuals, not an OD quantile update. Actual model TLS replay is not field SPaT. All 130 real targets and 52 initialization counts remain."
+}

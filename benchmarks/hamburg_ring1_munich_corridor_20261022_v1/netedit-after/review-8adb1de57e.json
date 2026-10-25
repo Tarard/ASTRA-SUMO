@@ -1,0 +1,332 @@
+{
+  "schema": "torii.netedit-background-review.direct/v1",
+  "status": "review_material_ready",
+  "review_scope": "single-hash-bound-candidate-junction",
+  "candidate_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\inputs\\network.net.xml",
+  "candidate_sha256_before": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+  "candidate_sha256_after": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+  "candidate_unchanged": true,
+  "aerial_background": {
+    "image": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-readme-end-to-end-figures-20261021-v1\\aerial-2026.png",
+      "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902",
+      "size_pixels": [
+        4096,
+        2052
+      ]
+    },
+    "image_crs": "EPSG:25832",
+    "bbox": [
+      565012.777442586,
+      5934182.489688758,
+      566680.1599791404,
+      5935017.708749339
+    ],
+    "bbox_epsg25832": [
+      565012.777442586,
+      5934182.489688758,
+      566680.1599791404,
+      5935017.708749339
+    ],
+    "orientation": "caller_declared_north_up",
+    "network_projection": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+    "network_offset": [
+      -564907.515104,
+      -5934081.485621
+    ],
+    "rectangle_fit_error_m": 1.8662795822463695e-09,
+    "rectangle_fit_limit_m": 0.1,
+    "decal": {
+      "file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-readme-end-to-end-figures-20261021-v1\\aerial-2026.png",
+      "centerX": "938.953606162",
+      "centerY": "518.613722174",
+      "width": "1667.38253654",
+      "height": "835.21906058",
+      "rotation": "0",
+      "layer": "-100",
+      "screenRelative": "false"
+    },
+    "claim_boundary": "The declared projected bounds locate the original pixels. Image orientation and surveyed alignment remain caller-supplied evidence.",
+    "image_sha256_after": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902",
+    "image_unchanged": true
+  },
+  "netedit_binary": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netedit.exe",
+  "target_junction": {
+    "id": "LSA118_part0",
+    "type": "traffic_light",
+    "x": 612.517627,
+    "y": 746.831069,
+    "incoming_lanes": [
+      "251871172#0_0",
+      "251871172#0_1",
+      "251871172#0_2",
+      "1326490378#0_0",
+      "1326490378#0_1",
+      "-1332144622_0",
+      "538341579#0_0",
+      "538341579#0_1",
+      "538341579#0_2",
+      "551319351#0_0",
+      "551319351#0_1",
+      "551319351#0_2",
+      "538341584_0",
+      "538341584_1",
+      "538341584_2"
+    ]
+  },
+  "view_center": [
+    612.517627,
+    746.831069
+  ],
+  "zoom": 411.22560778806053,
+  "viewport_fit": {
+    "center": [
+      612.517627,
+      746.831069
+    ],
+    "zoom": 411.22560778806053,
+    "basis": "explicit_zoom_override",
+    "zoom_unit": "percent_of_initial_network_view",
+    "reference_bounds": [
+      0.0,
+      55.577919,
+      1734.896781,
+      980.726775
+    ],
+    "reference_bounds_basis": "convBoundary_estimate",
+    "runtime_grid_measured": false,
+    "target_bounds": [
+      545.3352230753593,
+      679.7512168267727,
+      675.472674,
+      791.4852524273011
+    ],
+    "connected_lane_context_m": 30.0,
+    "content_fraction": null,
+    "limitation": "Initial NetEdit grid bounds are estimated, not measured. Check the actual Connection-mode image; explicit zoom can adjust its framing."
+  },
+  "neutral_overview_view": null,
+  "window_size": "1600,1000",
+  "mode_delivery": "target-window WM_KEYDOWN/WM_KEYUP",
+  "capture_delivery": "target-window PrintWindow(PW_RENDERFULLCONTENT)",
+  "selection_delivery": "NetEdit --selection-file",
+  "inspect_object_delivery": "junction selection only; Net: junction attribute pane remains unverified",
+  "inspect_object_source": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\inputs\\network.net.xml#junction[LSA118_part0]",
+  "capture_session_count": 1,
+  "expected_capture_session_count": 1,
+  "requested_capture_modes": [
+    "inspect"
+  ],
+  "inspect_selection": "junction",
+  "global_keyboard_or_mouse_input_used": false,
+  "foreground_context_restored": true,
+  "keyboard_layout_context": {
+    "status": "pass",
+    "is_chinese": false,
+    "foreground_hwnd": 66682,
+    "target_hwnd": 3608306,
+    "thread_id": 4528,
+    "hkl": "0x4090409",
+    "lang_id": "0x0409",
+    "primary_language_id": 9,
+    "layout_name": "00000804",
+    "changed_by_torii": true,
+    "before": {
+      "status": "blocked",
+      "is_chinese": true,
+      "foreground_hwnd": 66682,
+      "target_hwnd": 3608306,
+      "thread_id": 4528,
+      "hkl": "0x8040804",
+      "lang_id": "0x0804",
+      "primary_language_id": 4,
+      "layout_name": "00000804"
+    }
+  },
+  "mode_images_distinct": true,
+  "captures": [
+    {
+      "name": "direct-LSA118_par-8adb1de57e-inspect",
+      "mode": "inspect",
+      "selection_type": "junction",
+      "selection_id": "LSA118_part0",
+      "command": [
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netedit.exe",
+        "-s",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\inputs\\network.net.xml",
+        "-g",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\netedit-after\\direct-LSA118_par-8adb1de57e-inspect.view.xml",
+        "--selection-file",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\netedit-after\\direct-LSA118_par-8adb1de57e-inspect.selection.txt",
+        "--registry-viewport",
+        "false",
+        "--window-size",
+        "1600,1000",
+        "--window-pos",
+        "20,20"
+      ],
+      "pid": 39864,
+      "window_title": "network.net.xml - netedit 1.27.1",
+      "view_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\netedit-after\\direct-LSA118_par-8adb1de57e-inspect.view.xml",
+      "selection_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\netedit-after\\direct-LSA118_par-8adb1de57e-inspect.selection.txt",
+      "preselection_applied": true,
+      "screenshot_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-20261022-v2\\netedit-after\\direct-LSA118_par-8adb1de57e-inspect.png",
+      "mode_delivery": {
+        "status": "pass",
+        "mode": "inspect",
+        "virtual_keys": [
+          67,
+          73
+        ],
+        "target_hwnd": 78956,
+        "target_class": "FXGLCanvas",
+        "foreground_before": {
+          "hwnd": 66682,
+          "process_id": 20004
+        },
+        "foreground_after": {
+          "hwnd": 66682,
+          "process_id": 20004
+        },
+        "foreground_context_unchanged": true
+      },
+      "inspect_delivery": {
+        "status": "unverified",
+        "object_type": "junction",
+        "delivery": "NetEdit junction selection file; attribute-pane inspection not claimed",
+        "foreground_context_unchanged": true
+      },
+      "foreground_before": 66682,
+      "foreground_after": 66682,
+      "foreground_context_before": {
+        "hwnd": 66682,
+        "process_id": 20004
+      },
+      "foreground_context_after": {
+        "hwnd": 66682,
+        "process_id": 20004
+      },
+      "foreground_context_restored": true,
+      "foreground_restore_events": [
+        {
+          "observed": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "context_restored": true
+        },
+        {
+          "observed": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "restore_attempted": false,
+          "restored": {
+            "hwnd": 66682,
+            "process_id": 20004
+          },
+          "context_restored": true
+        }
+      ],
+      "foreground_samples": [
+        66682,
+        66682,
+        66682,
+        66682,
+        66682,
+        66682,
+        66682,
+        66682,
+        66682
+      ],
+      "foreground_unchanged": true,
+      "capture_attempts": [
+        {
+          "attempt": 1,
+          "bright_pixel_fraction": 0.11706807430134668
+        }
+      ],
+      "window_presentation": {
+        "status": "pass",
+        "window_state": "maximized"
+      },
+      "dpi_awareness": {
+        "status": "pass",
+        "context": "per-monitor-v2",
+        "already_enabled": false
+      },
+      "keyboard_layout": {
+        "status": "pass",
+        "is_chinese": false,
+        "foreground_hwnd": 66682,
+        "target_hwnd": 3608306,
+        "thread_id": 4528,
+        "hkl": "0x4090409",
+        "lang_id": "0x0409",
+        "primary_language_id": 9,
+        "layout_name": "00000804",
+        "changed_by_torii": true,
+        "before": {
+          "status": "blocked",
+          "is_chinese": true,
+          "foreground_hwnd": 66682,
+          "target_hwnd": 3608306,
+          "thread_id": 4528,
+          "hkl": "0x8040804",
+          "lang_id": "0x0804",
+          "primary_language_id": 4,
+          "layout_name": "00000804"
+        }
+      },
+      "print_window_result": 1,
+      "width": 2410,
+      "height": 1314,
+      "bright_pixel_fraction": 0.11706807430134668,
+      "sha256": "f047ffd233ba39c586a75332eff355fe784b739f390de2d42f61909c9cc4d161",
+      "render_quality": "pass"
+    }
+  ],
+  "claim_boundary": "These images provide background NetEdit context for one immutable candidate junction owner. They do not prove official TLS correctness, do not constitute human validation, and do not authorize promotion.",
+  "automatic_promotion_gate": "blocked"
+}

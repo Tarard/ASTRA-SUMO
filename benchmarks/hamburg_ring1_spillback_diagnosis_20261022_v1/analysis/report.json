@@ -1,0 +1,307 @@
+{
+  "status": "measured",
+  "new_simulations": 0,
+  "formal_result": false,
+  "native_case_valid": false,
+  "native_completion": {
+    "loaded": 8640,
+    "inserted": 8019,
+    "arrived": 7625,
+    "running": 394,
+    "waiting": 621,
+    "teleports": 1,
+    "collisions": 1,
+    "discarded": 0
+  },
+  "first_collision_s": 6782.2,
+  "queue_sample_period_s": 1,
+  "field_rows": 13,
+  "count_target_rows": 130,
+  "fields": [
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "lane": "37413814#0_2",
+      "receivers": [
+        "199230912#0_0"
+      ],
+      "tls": "LSA119_part0",
+      "links": [
+        20
+      ],
+      "expected_total": 226,
+      "native_total": 187,
+      "green_samples": 1200,
+      "queued_green_samples": 51,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "lane": "43866090#0_0",
+      "receivers": [
+        "486864294_0"
+      ],
+      "tls": "LSA119_part0",
+      "links": [
+        0
+      ],
+      "expected_total": 1160,
+      "native_total": 943,
+      "green_samples": 2900,
+      "queued_green_samples": 354,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "lane": "43866090#0_1",
+      "receivers": [
+        "486864294_1"
+      ],
+      "tls": "LSA119_part0",
+      "links": [
+        1
+      ],
+      "expected_total": 1346,
+      "native_total": 1091,
+      "green_samples": 2900,
+      "queued_green_samples": 395,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "lane": "603103445#0_0",
+      "receivers": [
+        "603103445#1_0"
+      ],
+      "tls": "6390683126",
+      "links": [
+        0
+      ],
+      "expected_total": 896,
+      "native_total": 654,
+      "green_samples": 6000,
+      "queued_green_samples": 3466,
+      "full_receiving_queue_samples": 4641,
+      "spillback_green_samples": 3449,
+      "spillback_green_before_first_collision_samples": 1267,
+      "spillback_episodes_without_E1_contribution": 181,
+      "longest_sampled_spillback_episode_s": 60.0
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "lane": "24483344#1_0",
+      "receivers": [
+        "79014037#1_0"
+      ],
+      "tls": "LSA119_part0",
+      "links": [
+        12
+      ],
+      "expected_total": 600,
+      "native_total": 322,
+      "green_samples": 1400,
+      "queued_green_samples": 1171,
+      "full_receiving_queue_samples": 4025,
+      "spillback_green_samples": 491,
+      "spillback_green_before_first_collision_samples": 189,
+      "spillback_episodes_without_E1_contribution": 84,
+      "longest_sampled_spillback_episode_s": 14.0
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "lane": "24483344#1_1",
+      "receivers": [
+        "79014037#1_1"
+      ],
+      "tls": "LSA119_part0",
+      "links": [
+        13
+      ],
+      "expected_total": 522,
+      "native_total": 417,
+      "green_samples": 1400,
+      "queued_green_samples": 685,
+      "full_receiving_queue_samples": 534,
+      "spillback_green_samples": 127,
+      "spillback_green_before_first_collision_samples": 32,
+      "spillback_episodes_without_E1_contribution": 29,
+      "longest_sampled_spillback_episode_s": 14.0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "lane": "2963460#1_1",
+      "receivers": [
+        "186821029#1_2",
+        "186821029#1_3"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        19,
+        20
+      ],
+      "expected_total": 65,
+      "native_total": 65,
+      "green_samples": 1600,
+      "queued_green_samples": 79,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "lane": "186821034#0_5",
+      "receivers": [
+        "186821029#1_2",
+        "186821029#1_3"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        26,
+        27
+      ],
+      "expected_total": 390,
+      "native_total": 240,
+      "green_samples": 2200,
+      "queued_green_samples": 382,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "lane": "186821027#0_2",
+      "receivers": [
+        "142944337#1_0"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        2
+      ],
+      "expected_total": 200,
+      "native_total": 145,
+      "green_samples": 1600,
+      "queued_green_samples": 522,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "lane": "186821027#0_3",
+      "receivers": [
+        "142944337#1_1"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        3
+      ],
+      "expected_total": 311,
+      "native_total": 225,
+      "green_samples": 1600,
+      "queued_green_samples": 607,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "lane": "186821027#0_4",
+      "receivers": [
+        "43305966#1_0"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        4
+      ],
+      "expected_total": 328,
+      "native_total": 245,
+      "green_samples": 1700,
+      "queued_green_samples": 223,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "lane": "186821027#0_5",
+      "receivers": [
+        "186821036#1_0",
+        "186821036#1_1"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        7,
+        8
+      ],
+      "expected_total": 388,
+      "native_total": 280,
+      "green_samples": 1700,
+      "queued_green_samples": 34,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "lane": "186821035#0_0",
+      "receivers": [
+        "186821029#1_2",
+        "186821029#1_3"
+      ],
+      "tls": "LSA535_part0",
+      "links": [
+        9,
+        10
+      ],
+      "expected_total": 255,
+      "native_total": 255,
+      "green_samples": 2300,
+      "queued_green_samples": 387,
+      "full_receiving_queue_samples": 0,
+      "spillback_green_samples": 0,
+      "spillback_green_before_first_collision_samples": 0,
+      "spillback_episodes_without_E1_contribution": 0,
+      "longest_sampled_spillback_episode_s": 0
+    }
+  ],
+  "evidence_rule": "At a recorded one-second sample: positive reported upstream queue, declared static green on a planned movement, and reported queues reaching the upstream end of every planned passenger receiving lane. Missing lane records do not become zero queues or free-space evidence.",
+  "sources_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\inputs\\network.net.xml": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\inputs\\demand.rou.xml": "63886c65034bff673355043b2cf5ce72d4a549bbe0615adfd387a66e75bfb576",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\inputs\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\inputs\\control.add.xml": "a6967ad4ecbb658258df3eca2a818beaebceea4d236f5509f8c55e9f1c57849d",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\inputs\\lane-intentions.json": "f08fbe5df9f99270f9f1b7e18ad7b831ed8eb7e8f7b3f4610eec7d3120879302",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\native\\queues.xml": "746bc5269ac0c8da0f4777cdf775369c039a9204c566364e6a6d442287c57eef",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\native\\run.json": "c635c86075820d2c7c8b5567fd61326b8eb49414f206e7af13bc45db2bb06822",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\native\\collisions.xml": "3aee6da7893dc8b9dd4184760c6f78e2702ce55b7f08fd6f1640acdfa673f86f",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\native\\field-comparison.csv": "80acd6532926ea322804bb4387a6aea8632e89c406ab08e62e6e6815c0a6ddc0",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\report\\passage-reconciliation.json": "daa82013e879ca3b1df10b2f256ead913d7ba1795734907e88b053a0705acc89",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\native\\instant-e1.xml": "c395348bf0d947b2292a5d7f76c9933ff26c4f8147e668caedadb48b0efd17b9",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-munich-corridor-calibration-20261022-v1\\native\\field-counts.xml": "34b740b710b408b810e7d275f7300a454d15ac86af7dee6f4759f45c63b704b9"
+  },
+  "sources_unchanged": true,
+  "claim_boundary": "Receiving-queue spillback evidence in one realized model run. It does not measure the causal share of count residuals, prove excess unique demand, recover actuated signal states, establish field control truth or prove infeasibility. Queue and planned-green evidence are diagnostic simulator truth; calibration counts remain native E1 nVehContrib."
+}

@@ -1,0 +1,55 @@
+{
+  "python": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe",
+    "version": "3.12.13"
+  },
+  "sumo": {
+    "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+    "sha256": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c",
+    "version_output": "Eclipse SUMO sumo 1.27.1\n Build features: Windows-10.0.26100 AMD64 MSVC 19.51.36247.0 Release FMI Proj GUI FMT Intl SWIG Parquet Eigen GDAL FFmpeg OSG GL2PS JuPedSim\n Copyright (C) 2001-2026 German Aerospace Center (DLR) and others; https://sumo.dlr.de\n\nEclipse SUMO sumo 1.27.1 is part of SUMO.\nThis program and the accompanying materials\nare made available under the terms of the Eclipse Public License v2.0\nwhich accompanies this distribution, and is available at\nhttp://www.eclipse.org/legal/epl-v20.html\nThis program may also be made available under the following Secondary\nLicenses when the conditions for such availability set forth in the Eclipse\nPublic License 2.0 are satisfied: GNU General Public License, version 2\nor later which is available at\nhttps://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html\nSPDX-License-Identifier: EPL-2.0 OR GPL-2.0-or-later\n"
+  },
+  "packages": {
+    "eclipse-sumo": "1.27.1",
+    "sumolib": "1.27.1",
+    "traci": "1.27.1"
+  },
+  "repo_HEAD": "c60566442796511308b1e95d2aafde03d6817145",
+  "replay_modules": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_event_retiming.py",
+      "sha256": "79218788d12deb2145afc61b4d880c2614800fbb7cc2515a412d7da292f82d3a",
+      "git_blob": "d87b308eb62823607bcbeb7fec3ab702e8cad49d"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_sensor_twin.py",
+      "sha256": "dc09b10f4c559d6583a4b1c4c1e04100223d597c6349eb84c078bd090fe9a90c",
+      "git_blob": "4deeb3311e0141ab886d871c416c9a0461e4bb0f"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/cached_detector_demand.py",
+      "sha256": "7c7dfae0d58d58ddeaa00aaea987d575bed26ae2e6d0c554f55872be43d51b0e",
+      "git_blob": "13d1efbee8f8c7914443a0431413c9ba0336f8ed"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/command_runner.py",
+      "sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267",
+      "git_blob": "391c6d7052c1c59f73d9b52429537e8e06b083c7"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/candidate_contracts.py",
+      "sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda",
+      "git_blob": "839d3ac9fd44721de2b5bf27183c149d7da04fd9"
+    },
+    {
+      "path": "plugins/astra-sumo/scripts/hamburg_event_retiming.py",
+      "sha256": "09bb68d29f4be80c5452677368230e5905c70c2a6f39c8aced08592817bae4a4",
+      "git_blob": "342c275edfe28d766426eb018859d1d4b90be8d3"
+    }
+  ],
+  "runs_use_project_binary": true,
+  "seed": 23423,
+  "step_seconds": 1,
+  "end_seconds": 24000,
+  "comparison_begin_seconds": 1800,
+  "comparison_end_seconds": 10800
+}

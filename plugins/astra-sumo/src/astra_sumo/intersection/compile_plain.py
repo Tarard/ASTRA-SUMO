@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import math
 import shutil
-import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
+from astra_sumo.core.command_runner import run_command
 from astra_sumo.road_semantics import classify_approach_mode_layer
 
 from .infer_movements import core_connection_movements
@@ -301,8 +301,12 @@ def _run_netconvert(
     command.extend(["--output-file", str(net_file)])
     if tllogic_file and not guess_crossings:
         command.extend(["--tllogic-files", str(tllogic_file)])
-    result = subprocess.run(command, capture_output=True, text=True, timeout=30)
-    return result.returncode == 0, _warning_lines(result.stdout, result.stderr)
+    result = run_command(command, timeout_seconds=30)
+    warnings = _warning_lines(result.stdout, result.stderr)
+    if result.status != "pass":
+        message = "\n".join(text.strip() for text in (result.stderr, result.error) if text.strip())
+        warnings.append(message or result.stdout.strip() or "netconvert failed")
+    return result.status == "pass", warnings
 
 
 def _warning_lines(*texts: str) -> list[str]:

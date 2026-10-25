@@ -1,0 +1,641 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\assignment182.npz",
+      "relative": "audit/assignment182.npz",
+      "raw_bytes": 7571,
+      "raw_sha256": "87a9fee893e5cdfcdfdfbfcb5dee3017e45eaffe56c327494e9130f6d5b7a6ba"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\assignment208-accounting.npz",
+      "relative": "audit/assignment208-accounting.npz",
+      "raw_bytes": 3911,
+      "raw_sha256": "06ae1591db38257b6fa8c8a2fe85cdbd52beb2914acb7b431eb43abff9d9b034"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\audit-inputs.json",
+      "relative": "audit/audit-inputs.json",
+      "raw_bytes": 1457158,
+      "raw_sha256": "e0627808cae4ac617d85f84c85eb92c69bbc40decd8aad7c5205b7ac1a163f3c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\audit.json",
+      "relative": "audit/audit.json",
+      "raw_bytes": 11495,
+      "raw_sha256": "9db4bf621fd8f3f37807ac8a23426f138d3bb59adab85fcd2acd5836310c1619"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\generated\\demand.rou.xml",
+      "relative": "audit/bounded-128/generated/demand.rou.xml",
+      "raw_bytes": 3726640,
+      "raw_sha256": "58016c9d48005bb68c5b134d87c3ddf3446f21f77cf46e3e21348e95318d8ca5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\generated\\lane-intentions.json",
+      "relative": "audit/bounded-128/generated/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "47f199d47e72ad810b4e1c23ac00c4a6c096161480b9131904fc2613bfba5a77"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\generated\\od-vector.json",
+      "relative": "audit/bounded-128/generated/od-vector.json",
+      "raw_bytes": 5242,
+      "raw_sha256": "98fde144215ab718435233b4f57bb3e60e1a190da49968c211d101de6379a775"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\generation-audit.json",
+      "relative": "audit/bounded-128/generation-audit.json",
+      "raw_bytes": 82366,
+      "raw_sha256": "6010a6e1b442138868d493f251f600a112912bc44a83764acf70c2c58c45baf9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\offline-proposal-invocation.py.txt",
+      "relative": "audit/bounded-128/offline-proposal-invocation.py.txt",
+      "raw_bytes": 1803,
+      "raw_sha256": "2ffbedad9309b2a0f8625afeef5357f4c4daa5b9adda3326f6a190f5546ce782"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\prediction182.csv",
+      "relative": "audit/bounded-128/prediction182.csv",
+      "raw_bytes": 10730,
+      "raw_sha256": "029099a9791b3e6e4e9e862c0600a235e5f22c6087afb7ae75c17527107bd851"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\proposal.json",
+      "relative": "audit/bounded-128/proposal.json",
+      "raw_bytes": 10718,
+      "raw_sha256": "e00081c4001b224d15179710f27703ad7b7589419b773e4ddeef47f5d7fc7d22"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\bounded-128\\solver-inputs.npz",
+      "relative": "audit/bounded-128/solver-inputs.npz",
+      "raw_bytes": 5167,
+      "raw_sha256": "19d2b66240496ebd0daea66e90d86cd9a5c3a70561c46d26bb234ad725cf9661"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\cells294.csv",
+      "relative": "audit/cells294.csv",
+      "raw_bytes": 30291,
+      "raw_sha256": "c548c62cceee05192dc99714a737c3777eac7c3704583d8171f13fb61b46ce70"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\finalize_audit.py",
+      "relative": "audit/finalize_audit.py",
+      "raw_bytes": 9630,
+      "raw_sha256": "078a9b504ab93b76b2701acd21723f2d3369abff1463a1e0b99f288ef227332f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\initial-model-replay\\demand.rou.xml",
+      "relative": "audit/initial-model-replay/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\initial-model-replay\\lane-intentions.json",
+      "relative": "audit/initial-model-replay/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\initial-model-replay\\od-vector.json",
+      "relative": "audit/initial-model-replay/od-vector.json",
+      "raw_bytes": 5238,
+      "raw_sha256": "de93ac09f4564481e0febe3644cfa8c2c88123eb59eb040e474bab044d29b893"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\manifest.json",
+      "relative": "audit/manifest.json",
+      "raw_bytes": 3457,
+      "raw_sha256": "aed4c5bce1c0f270e4d97266b19f91fef67622f2fcd4490d9de710bedf343520"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\native208-accounting.csv",
+      "relative": "audit/native208-accounting.csv",
+      "raw_bytes": 9324,
+      "raw_sha256": "81dc050b1c41ee8b01c6d9f95df1765033b6331b44dc43d059321411537ece08"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\preliminary.json",
+      "relative": "audit/preliminary.json",
+      "raw_bytes": 1260,
+      "raw_sha256": "bcc665afecda817614f2994662348a769a801a936884e7391f369ca18714e6f9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-audit-20261024-v1\\README.md",
+      "relative": "audit/README.md",
+      "raw_bytes": 2592,
+      "raw_sha256": "9489d0889308fdb2c8fd418c8620a64eea278e37f5efd1c48b715787883c0c11"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\after-130.csv",
+      "relative": "independent/after-130.csv",
+      "raw_bytes": 7870,
+      "raw_sha256": "32012b5810e88c1901d2120935a2748fa4815c000e61c172767c07bc9d9a78ea"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\after-182.csv",
+      "relative": "independent/after-182.csv",
+      "raw_bytes": 10854,
+      "raw_sha256": "727149902f960ce0141c0d81497514c79179346db653e5a889621cbb8857751a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\after-40.csv",
+      "relative": "independent/after-40.csv",
+      "raw_bytes": 1606,
+      "raw_sha256": "e08ed7124df99463bd4255d8f70ef082b2af938ace332ea72ee75335af486dc0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\after-52.csv",
+      "relative": "independent/after-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\all21-od-totals.csv",
+      "relative": "independent/all21-od-totals.csv",
+      "raw_bytes": 663,
+      "raw_sha256": "042097ea9a3d750eaf046e86dfa43502a85e656b46acc6029186abb2ef200be2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\all294-cell-inventory.csv",
+      "relative": "independent/all294-cell-inventory.csv",
+      "raw_bytes": 10500,
+      "raw_sha256": "666aaebf4b944ad544ad5becd789449154269803ebf7f799789e4b1eb0d9c786"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\audit_joint.py",
+      "relative": "independent/audit_joint.py",
+      "raw_bytes": 18373,
+      "raw_sha256": "0cd7f8ab112710a98ab34169dbc6c8c8badd62613f6fe085a4114f24c928f4cf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\before-130.csv",
+      "relative": "independent/before-130.csv",
+      "raw_bytes": 7876,
+      "raw_sha256": "c64bd971832dbfffd5894e7c6614d15ec08e597008adfe15ddb912611f14b877"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\before-182.csv",
+      "relative": "independent/before-182.csv",
+      "raw_bytes": 10860,
+      "raw_sha256": "305b6e208f238483f61adfb043cb6faf1542e687880e14ffbad4a4a9b16881f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\before-40.csv",
+      "relative": "independent/before-40.csv",
+      "raw_bytes": 1608,
+      "raw_sha256": "52e99db4974fbf05c1ef441db3e638714e3db027c4a09da08eccaee8c833849b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\before-52.csv",
+      "relative": "independent/before-52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\core-review.json",
+      "relative": "independent/core-review.json",
+      "raw_bytes": 2160,
+      "raw_sha256": "c6f3da688bd39406a9cefcad3da070328bd90e6d7b83c5d3fb30bcfbd61fed41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\field13-response.csv",
+      "relative": "independent/field13-response.csv",
+      "raw_bytes": 548,
+      "raw_sha256": "d3c1424425cce42f6cbcd30700715d7dfd0a4c30083fdee94dd25dcfa54b6abe"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\fixed-helper-offline-replay.json",
+      "relative": "independent/fixed-helper-offline-replay.json",
+      "raw_bytes": 13219,
+      "raw_sha256": "4444f923c5fbb13fe5f12ce458500be82abc6cacce7398abb1dd377185407f68"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\manifest.json",
+      "relative": "independent/manifest.json",
+      "raw_bytes": 2910,
+      "raw_sha256": "8e63fd771c98ee14a73a09c5f98e592a65608606133437a13d4d9a3e83d06205"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\native208-cohort-accounting.csv",
+      "relative": "independent/native208-cohort-accounting.csv",
+      "raw_bytes": 10139,
+      "raw_sha256": "8bb6b47283152ec1183c3bed5da30309998387486e562f0dbf38b054c4ec2fb8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\README.md",
+      "relative": "independent/README.md",
+      "raw_bytes": 3339,
+      "raw_sha256": "9c036feaa85e54784317f5221dce3e38f60106a898e72b54c6932655a204d42b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\summary.json",
+      "relative": "independent/summary.json",
+      "raw_bytes": 21827,
+      "raw_sha256": "5f1dcea46d246d29ff776043e45bf5f9bcd4a7bbfb66b300b4b94999691076f7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\independent\\terminal-unfinished-inputs-and-events.csv",
+      "relative": "independent/terminal-unfinished-inputs-and-events.csv",
+      "raw_bytes": 8095,
+      "raw_sha256": "3087b69d888e8914596c7f42eaafc07ff12069f3670686b54a3cfc7f2fd7f41f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\535-all56.csv",
+      "relative": "joint-128/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\all182-comparison.csv",
+      "relative": "joint-128/evaluation/all182-comparison.csv",
+      "raw_bytes": 10854,
+      "raw_sha256": "727149902f960ce0141c0d81497514c79179346db653e5a889621cbb8857751a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\contributing-passages.json.gz",
+      "relative": "joint-128/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 173983,
+      "raw_sha256": "e0b3e5731a50164b3a0875a9e9a18ae16493f1288cec73d6bd023c2aa6186580"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\demand.rou.xml",
+      "relative": "joint-128/evaluation/demand.rou.xml",
+      "raw_bytes": 3726640,
+      "raw_sha256": "58016c9d48005bb68c5b134d87c3ddf3446f21f77cf46e3e21348e95318d8ca5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\evaluation.json",
+      "relative": "joint-128/evaluation/evaluation.json",
+      "raw_bytes": 454,
+      "raw_sha256": "d73328fdab757bc7cb38302968c6a50d12b8e96f3ce78e8f35b28fb113c461a4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\initialization52-comparison.csv",
+      "relative": "joint-128/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\lane-intentions.json",
+      "relative": "joint-128/evaluation/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "47f199d47e72ad810b4e1c23ac00c4a6c096161480b9131904fc2613bfba5a77"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\collisions.xml",
+      "relative": "joint-128/evaluation/native/collisions.xml",
+      "raw_bytes": 3343,
+      "raw_sha256": "01620ceb61f014042d2b5ef87d41dda9cfcda68ec2b35f91c8d1d29b519e87d0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\command.json",
+      "relative": "joint-128/evaluation/native/command.json",
+      "raw_bytes": 5905,
+      "raw_sha256": "ab3e51d62093a86e5f9249ddc6e8adb765c73e5195c8255f6e634e967554547a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\demand.rou.xml",
+      "relative": "joint-128/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3726640,
+      "raw_sha256": "58016c9d48005bb68c5b134d87c3ddf3446f21f77cf46e3e21348e95318d8ca5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\e1.add.xml",
+      "relative": "joint-128/evaluation/native/e1.add.xml",
+      "raw_bytes": 3706,
+      "raw_sha256": "e068426cca71dc6905e87f76e635cbe287435add5aab7cf6319efa80f409f9a4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\expected-counts.csv",
+      "relative": "joint-128/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\field-comparison.csv",
+      "relative": "joint-128/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7870,
+      "raw_sha256": "32012b5810e88c1901d2120935a2748fa4815c000e61c172767c07bc9d9a78ea"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\field-counts.xml",
+      "relative": "joint-128/evaluation/native/field-counts.xml",
+      "raw_bytes": 53170,
+      "raw_sha256": "6a0e60db7e52d0a7af5dfc5e1096dc7860a44f9be6071a413628c7a5502e023b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\instant.add.xml",
+      "relative": "joint-128/evaluation/native/instant.add.xml",
+      "raw_bytes": 3182,
+      "raw_sha256": "23c571fee297f6f224c283ea607b1fbf179ad4eeed69f4b24883c504dbbbeb60"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\lane-intentions.json",
+      "relative": "joint-128/evaluation/native/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "47f199d47e72ad810b4e1c23ac00c4a6c096161480b9131904fc2613bfba5a77"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\native-request.json",
+      "relative": "joint-128/evaluation/native/native-request.json",
+      "raw_bytes": 3882,
+      "raw_sha256": "7ecd37f4700f952b8568da124c72c7dcc7f33e5fac4a1737d41af3cfc7f7423e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\network.net.xml",
+      "relative": "joint-128/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\run.json",
+      "relative": "joint-128/evaluation/native/run.json",
+      "raw_bytes": 6300014,
+      "raw_sha256": "52df74f23f462811d5a0244ebdc9eabbdcb96f7c92281ff2921738d1ac284dcc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "joint-128/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\source-e1.add.xml",
+      "relative": "joint-128/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\stall-monitor.json",
+      "relative": "joint-128/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5845214,
+      "raw_sha256": "f0e7bbcf4f946989eac6ae81db3f3ff6540a1882bb5fb53417965d8416540b3f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\summary.xml",
+      "relative": "joint-128/evaluation/native/summary.xml",
+      "raw_bytes": 46745040,
+      "raw_sha256": "b715d87d140432a17ac7a4399be6ba15602821dd49b1bfd94a493b9f10e3ad2d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\sumo-errors.log",
+      "relative": "joint-128/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3657,
+      "raw_sha256": "03c25d51d177a296ecb26a639b51b7c44827cf689d0379c6d23772bbcd62f6bc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\sumo.log",
+      "relative": "joint-128/evaluation/native/sumo.log",
+      "raw_bytes": 5241,
+      "raw_sha256": "9261e3adf4ee28f93809cad1a450fd4057f0c7c525a0c3f8f9d2bfa2a67752a6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\tripinfo.xml",
+      "relative": "joint-128/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4573880,
+      "raw_sha256": "a827ce156c7db44c091364e00264274e834006894d5b8bdd69a463a3c6b59a2b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "joint-128/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6511497,
+      "raw_sha256": "b1772e233161283d0d174d7713570034a6ecbf1a8dc0d62bc535d77a2b599102"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\native208-comparison.csv",
+      "relative": "joint-128/evaluation/native208-comparison.csv",
+      "raw_bytes": 25166,
+      "raw_sha256": "9ebc5400aa17b12858290791ad1a01fb14941030b8c88241c09a76b7df222b42"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\od-vector.json",
+      "relative": "joint-128/evaluation/od-vector.json",
+      "raw_bytes": 5242,
+      "raw_sha256": "98fde144215ab718435233b4f57bb3e60e1a190da49968c211d101de6379a775"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\evaluation\\station-comparison.csv",
+      "relative": "joint-128/evaluation/station-comparison.csv",
+      "raw_bytes": 1606,
+      "raw_sha256": "e08ed7124df99463bd4255d8f70ef082b2af938ace332ea72ee75335af486dc0"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\executed-driver.py",
+      "relative": "joint-128/executed-driver.py",
+      "raw_bytes": 8564,
+      "raw_sha256": "fa69c9120d46cc21a8b5a5e9b19d1e0b8857b30c8b318f283aba5b0162e13643"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\artifact_io.py",
+      "relative": "joint-128/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\candidate_contracts.py",
+      "relative": "joint-128/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\command_runner.py",
+      "relative": "joint-128/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\detector_demand.py",
+      "relative": "joint-128/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\detector_demand_replay.py",
+      "relative": "joint-128/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\hamburg_197_through_support.py",
+      "relative": "joint-128/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\hamburg_od_spsa.py",
+      "relative": "joint-128/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\lane_section_hold.py",
+      "relative": "joint-128/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\route_sensor_matrix.py",
+      "relative": "joint-128/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\implementation\\simulation_stall.py",
+      "relative": "joint-128/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\od-vector.json",
+      "relative": "joint-128/od-vector.json",
+      "raw_bytes": 5242,
+      "raw_sha256": "98fde144215ab718435233b4f57bb3e60e1a190da49968c211d101de6379a775"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\preflight.json",
+      "relative": "joint-128/preflight.json",
+      "raw_bytes": 91812,
+      "raw_sha256": "40061f27b0fcb17e833be92a3539dd507ced09715f739e6896892b274cf84ada"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\control.add.xml",
+      "relative": "joint-128/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\demand.rou.xml",
+      "relative": "joint-128/prepared/demand.rou.xml",
+      "raw_bytes": 3726640,
+      "raw_sha256": "58016c9d48005bb68c5b134d87c3ddf3446f21f77cf46e3e21348e95318d8ca5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\expected-counts.csv",
+      "relative": "joint-128/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\field-loops.add.xml",
+      "relative": "joint-128/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\initialization-counts.csv",
+      "relative": "joint-128/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\lane-intentions.json",
+      "relative": "joint-128/prepared/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "47f199d47e72ad810b4e1c23ac00c4a6c096161480b9131904fc2613bfba5a77"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\network.net.xml",
+      "relative": "joint-128/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\prepared\\scenario.json",
+      "relative": "joint-128/prepared/scenario.json",
+      "raw_bytes": 4157,
+      "raw_sha256": "73dd40e20597385f5d58100408570dbd817744618fb6e9aa7c89b07a028190a1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\scope-proof.json",
+      "relative": "joint-128/scope-proof.json",
+      "raw_bytes": 93382,
+      "raw_sha256": "c9af80f6041b9c8c823a9c57643b15470df8458dd4d26a274c0228c9ba6a546d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128\\verdict.json",
+      "relative": "joint-128/verdict.json",
+      "raw_bytes": 2494,
+      "raw_sha256": "eb53d172f8f7efb04ba0c3ce842b88711b3bdb2c335709c514288c7ae662a218"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_od_definition.py",
+      "relative": "source-code/hamburg_od_definition.py",
+      "raw_bytes": 4859,
+      "raw_sha256": "6c3a526c9030558e401c0faab1b4a37b1e8d60c73a9df2590a6615377804b66d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_od_reuse.py",
+      "relative": "source-code/hamburg_od_reuse.py",
+      "raw_bytes": 13311,
+      "raw_sha256": "bdf0391ed8df95eb6751f8a0029efe0b7e4b07ef612a98eafa50e33d06c798e8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "relative": "source-code/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\native_temporal_feedback.py",
+      "relative": "source-code/native_temporal_feedback.py",
+      "raw_bytes": 22304,
+      "raw_sha256": "0f379f68fc620223f812e1f869744d073d2438f4e0ce0a4cd6d03fc13f02f90b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\od_assignment_feedback.py",
+      "relative": "source-code/od_assignment_feedback-boundary-fixed.py",
+      "raw_bytes": 6641,
+      "raw_sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\source-code\\od_assignment_feedback.py",
+      "relative": "source-code/od_assignment_feedback.py",
+      "raw_bytes": 6464,
+      "raw_sha256": "e9335099a4f5ed2fc68d7231abdb6c1c1e710596a2cf657703ea89a362c3a7da"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\route_sensor_matrix.py",
+      "relative": "source-code/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\spsa.py",
+      "relative": "source-code/spsa.py",
+      "raw_bytes": 4596,
+      "raw_sha256": "414fcfa4b1895f540745167df682faee93822525de590956de3043b19c436533"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\check-only.json",
+      "relative": "study-source/check-only.json",
+      "raw_bytes": 64734,
+      "raw_sha256": "9d7345f855f804f87ac1f6f1a369dcbdeaff696c2880e5cae19d3fe456cb5c0e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\joint-128.execution.log",
+      "relative": "study-source/joint-128.execution.log",
+      "raw_bytes": 1912,
+      "raw_sha256": "46c5e700da2e0fd9de1658d590e059bfa2f2ce3e3a43a9d1d4bc23ae6513d379"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\prepare.py",
+      "relative": "study-source/prepare.py",
+      "raw_bytes": 3875,
+      "raw_sha256": "cf4ed749965f2a15902179b8f6ae5b05b9e3a35a5f894aa95cdae1f3a09fb558"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\run_candidate.py",
+      "relative": "study-source/run_candidate.py",
+      "raw_bytes": 8564,
+      "raw_sha256": "fa69c9120d46cc21a8b5a5e9b19d1e0b8857b30c8b318f283aba5b0162e13643"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-joint-od-feedback-20261024-v1\\runner-reuse.json",
+      "relative": "study-source/runner-reuse.json",
+      "raw_bytes": 1114,
+      "raw_sha256": "aee0fcaba5757dcd15550e57c83f0b25040d2fa1910996aff33446b5a4452ccc"
+    }
+  ],
+  "original_sources_unchanged": true
+}

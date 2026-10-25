@@ -1,0 +1,39 @@
+{
+  "formal_result": false,
+  "source_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_localized_junction_body_full_20261021_v1",
+  "nodes": [
+    "14398547",
+    "205069138",
+    "18653534"
+  ],
+  "model_change": "Only add 18653534 to the existing two-node junction-body hold. Keep all traffic input files and all 130/40 targets.",
+  "end_s": 14400,
+  "window_s": [
+    3600,
+    12600
+  ],
+  "timeout_seconds": 3600,
+  "timeout_reason": "The preceding complete native run took 2299 seconds. Allow margin for the added declared hold and native observation outputs.",
+  "observation": "Native lane-change output for all vehicles and FCD only for the six original collision participants.",
+  "observed_vehicles": [
+    "initialization_hh_0119_Z_12_31546_b1_p98_v16",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v113",
+    "initialization_hh_0119_Z_13_34018_b1_p175_v118",
+    "initialization_hh_0535_Z_4_33055_b2_p281_v28",
+    "readme_f4_b4_p208_v5",
+    "readme_f5_b4_p56_v25"
+  ],
+  "restart_validated": false,
+  "from_empty_initialization": true,
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "206413edc6d67ca910d3f81eb29eb21d0cf5fb0e925c96b933fe1c9ae1844b7d",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "952174ff67cd1028ff3e9e7de8f0db90d68fb411697c78860106de70a70e6d08",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "scenario.json": "89256b443025fd35b6e17e5cdb73eaa06052d9476f22f6fb93b8cc869121d1e8"
+  },
+  "claim_boundary": "The paired artificial maneuver result does not establish full-demand safety, insertion or exact native counts. Retain all residuals and unsafe results."
+}

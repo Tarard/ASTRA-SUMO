@@ -1,0 +1,14 @@
+{
+  "base_replay_commit": "91254d68bada714213272070fbc880f2bf6deadb",
+  "source_evidence": "Fresh source-to-layout replay comparison; the earlier public-replay-evidence-v1 used a saved older stage-2 network.",
+  "canonicalization": "ElementTree C14N 2.0, strip_text=True, with_comments=False; model values and element order retained",
+  "expected": {
+    "network_content_sha256": "16a3728c860f4b87ff3ae2c868d01ca51b3ee9731796a1d9642f9d3e68cc7263",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5",
+    "official_motor_movements": 114,
+    "passed_official_movements": 92,
+    "field_loop_count": 13
+  },
+  "claim_boundary": "Exploratory partial replay reference. A mismatch is measured and warned about, not a reason to suppress the result. No count-fit or field-accuracy claim.",
+  "reference_origin": "Independent Linux full replay at 91254d6, Python 3.13.16 and SUMO 1.27.1; peer-reported canonical fingerprints"
+}

@@ -1,0 +1,1007 @@
+{
+  "producer_commit": "9e4f87262c1c408d4448207fd8b0b01ae31b740d",
+  "worktree_modified": false,
+  "identity": {
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "inputs": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+    "outputs\\native_command_failure_20261019_v1\\hamburg\\actuation-results.json": "ff9ec33d2351ff1fe5bcf9b21442e160bc7b29bcd01b9f1a36636df0218abb71",
+    "outputs\\length_conformance_20261016_v1\\nonmotor-calibration-v1\\2349-facts.json": "f051a2356943199f70317e916dcbe21a56868f558e1387068f1cb3e99d511473",
+    "outputs\\length_conformance_20261016_v1\\nonmotor-calibration-v1\\2394-facts.json": "0a83f78b8c703a074a1b0cbfc8e055e043f88f8439415fef69c4cbd9e769f68c"
+  },
+  "cases": [
+    {
+      "operation": {
+        "id": "shape-stress",
+        "operation": "set_edge_shape",
+        "params": {
+          "edge_id": "554713076#0",
+          "shape": [
+            [
+              279.87,
+              237.61
+            ],
+            [
+              264.78,
+              235.585
+            ],
+            [
+              249.69,
+              232.56
+            ]
+          ]
+        },
+        "status": "accepted",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ]
+      },
+      "explore": {
+        "status": "measured",
+        "outside_fact_change_count": 0,
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\shape-stress\\explore\\edit-verification.json"
+      },
+      "release": {
+        "status": "review_required",
+        "gates": {
+          "artifact_identity": "pass",
+          "netconvert": "pass",
+          "review_contract": "pass",
+          "xml_parse": "pass",
+          "tls_modal_rail_bridge_tunnel": "pass",
+          "modal_connectivity": "pass",
+          "sumo_load": "pass",
+          "routeability": "pass",
+          "topology": "review_required"
+        },
+        "inherited_finding_count": 13,
+        "scope_findings": [
+          {
+            "cluster_id": "C001",
+            "node_count": 20,
+            "node_ids": [
+              "12865383035",
+              "12865383036",
+              "12865383037",
+              "12865383038",
+              "280110818",
+              "4051376209",
+              "4051376221",
+              "4051376234",
+              "4051376235",
+              "4051376236",
+              "4051376237",
+              "5353176676",
+              "5353176677",
+              "6713049560",
+              "7286512429",
+              "7286512430",
+              "748827192",
+              "748827240",
+              "748827262",
+              "759714744"
+            ],
+            "node_types": [
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "right_before_left",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "priority",
+              "priority"
+            ],
+            "centroid_x": 293.477,
+            "centroid_y": 241.027,
+            "centroid_lat": 53.5434549,
+            "centroid_lon": 9.9942689,
+            "coordinate_status": "wgs84_from_sumo_projection",
+            "map_review_source": "Google Maps default map",
+            "google_maps_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m",
+            "optional_google_maps_satellite_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m/data=!3m1!1e3",
+            "manual_correction_status": "needs_map_review",
+            "suggested_correction_action": "compare the Google Maps road/intersection footprint before joining SUMO junctions",
+            "internal_edge_ids": [
+              "-174284968#0",
+              "-174284968#1",
+              "-174284968#2",
+              "-714078605",
+              "-780360331",
+              "174284967#0",
+              "174284967#1",
+              "174284968#0",
+              "174284968#1",
+              "174284968#2",
+              "402732222#0",
+              "402732222#1",
+              "402732223#0",
+              "402732223#1",
+              "47854310#0",
+              "47854310#1",
+              "60260767#0",
+              "60260767#1",
+              "60578487#0",
+              "60578487#1",
+              "60578487#2",
+              "60578487#3",
+              "714078605",
+              "780360331",
+              "882966132",
+              "882966133"
+            ],
+            "boundary_edge_ids": [
+              "47854310#2",
+              "554713075#1",
+              "554713076#0",
+              "554713077"
+            ],
+            "external_junction_ids": [
+              "LSA2349_part0",
+              "LSA2394_part0"
+            ],
+            "connected_node_pairs": [
+              "12865383035<->748827262",
+              "12865383035<->759714744",
+              "12865383036<->4051376209",
+              "12865383036<->4051376234",
+              "12865383037<->4051376221",
+              "12865383037<->4051376235",
+              "12865383038<->748827192",
+              "12865383038<->748827240",
+              "280110818<->6713049560",
+              "280110818<->7286512429",
+              "4051376209<->4051376221",
+              "4051376209<->759714744",
+              "4051376221<->748827192",
+              "4051376234<->4051376236",
+              "4051376235<->4051376237",
+              "4051376236<->4051376237",
+              "4051376236<->748827262",
+              "4051376237<->748827240",
+              "5353176676<->7286512429",
+              "5353176677<->748827192",
+              "7286512429<->7286512430"
+            ],
+            "internal_edge_count": 26,
+            "boundary_edge_count": 4,
+            "approach_count": 2,
+            "direct_connected_node_pair_count": 21,
+            "traffic_light_node_count": 0,
+            "internal_edge_total_length_m": 121.766,
+            "internal_edge_max_length_m": 17.748,
+            "internal_edge_overlap_pair_count": 5,
+            "aggregation_recommendation": "map_review_join_candidate",
+            "reference_free_scorer": "topology_heuristic_v1",
+            "aggregation_decision": "needs_map_review",
+            "aggregation_confidence": "low",
+            "aggregation_reason": "no stable cross/T intersection shape from approach axes; overlapping internal edges require map review; large cluster requires map review; service or parking access risk requires map review",
+            "short_internal_edge_score": 0.613,
+            "same_road_name_score": 0.0,
+            "physical_intersection_shape": "none",
+            "physical_intersection_score": 0.172,
+            "approach_axis_count": 1,
+            "approach_axis_angles_deg": [
+              10.1
+            ],
+            "approach_axis_arm_counts": [
+              2
+            ],
+            "dominant_axis_separation_deg": 0.0,
+            "angle_continuity_score": 0.0,
+            "traffic_signal_density": 0.0,
+            "service_or_parking_risk": true,
+            "bridge_tunnel_layer_risk": false,
+            "roundabout_or_slip_lane_risk": false,
+            "modal_aggregation_decision": "review_required",
+            "modal_primary_role": "vehicle_core",
+            "modal_review_action": "review_vehicle_core_boundary",
+            "modal_reason": "vehicle core mixed with support or terminal infrastructure",
+            "modal_risk_flags": [
+              "bicycle_support",
+              "service_terminal_present"
+            ],
+            "modal_decision_counts": {
+              "protected_terminal": 20,
+              "join_core": 4,
+              "shape_support": 6
+            },
+            "modal_role_counts": {
+              "service": 20,
+              "vehicle_core": 4,
+              "bicycle": 6
+            },
+            "risk_flags": [
+              "bicycle_support",
+              "large_cluster",
+              "many_internal_edges",
+              "map_review_required",
+              "overlapping_internal_edges",
+              "service_terminal_present"
+            ],
+            "max_pair_distance_m": 58.434,
+            "cluster_radius_m": 30.0
+          }
+        ],
+        "new_or_changed_findings": [],
+        "whole_network_review": {
+          "status": "review_required",
+          "inherited_finding_count": 13,
+          "scope_finding_count": 1
+        },
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\shape-stress\\release\\edit-verification.json"
+      },
+      "route_requests": 20
+    },
+    {
+      "operation": {
+        "id": "lane-count-stress",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 5
+        },
+        "status": "accepted",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ]
+      },
+      "explore": {
+        "status": "measured",
+        "outside_fact_change_count": 0,
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\lane-count-stress\\explore\\edit-verification.json"
+      },
+      "release": {
+        "status": "review_required",
+        "gates": {
+          "artifact_identity": "pass",
+          "netconvert": "review_required",
+          "review_contract": "pass",
+          "xml_parse": "pass",
+          "tls_modal_rail_bridge_tunnel": "pass",
+          "modal_connectivity": "pass",
+          "sumo_load": "pass",
+          "routeability": "pass",
+          "topology": "review_required"
+        },
+        "inherited_finding_count": 13,
+        "scope_findings": [
+          {
+            "cluster_id": "C001",
+            "node_count": 20,
+            "node_ids": [
+              "12865383035",
+              "12865383036",
+              "12865383037",
+              "12865383038",
+              "280110818",
+              "4051376209",
+              "4051376221",
+              "4051376234",
+              "4051376235",
+              "4051376236",
+              "4051376237",
+              "5353176676",
+              "5353176677",
+              "6713049560",
+              "7286512429",
+              "7286512430",
+              "748827192",
+              "748827240",
+              "748827262",
+              "759714744"
+            ],
+            "node_types": [
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "right_before_left",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "priority",
+              "priority"
+            ],
+            "centroid_x": 293.477,
+            "centroid_y": 241.027,
+            "centroid_lat": 53.5434549,
+            "centroid_lon": 9.9942689,
+            "coordinate_status": "wgs84_from_sumo_projection",
+            "map_review_source": "Google Maps default map",
+            "google_maps_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m",
+            "optional_google_maps_satellite_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m/data=!3m1!1e3",
+            "manual_correction_status": "needs_map_review",
+            "suggested_correction_action": "compare the Google Maps road/intersection footprint before joining SUMO junctions",
+            "internal_edge_ids": [
+              "-174284968#0",
+              "-174284968#1",
+              "-174284968#2",
+              "-714078605",
+              "-780360331",
+              "174284967#0",
+              "174284967#1",
+              "174284968#0",
+              "174284968#1",
+              "174284968#2",
+              "402732222#0",
+              "402732222#1",
+              "402732223#0",
+              "402732223#1",
+              "47854310#0",
+              "47854310#1",
+              "60260767#0",
+              "60260767#1",
+              "60578487#0",
+              "60578487#1",
+              "60578487#2",
+              "60578487#3",
+              "714078605",
+              "780360331",
+              "882966132",
+              "882966133"
+            ],
+            "boundary_edge_ids": [
+              "47854310#2",
+              "554713075#1",
+              "554713076#0",
+              "554713077"
+            ],
+            "external_junction_ids": [
+              "LSA2349_part0",
+              "LSA2394_part0"
+            ],
+            "connected_node_pairs": [
+              "12865383035<->748827262",
+              "12865383035<->759714744",
+              "12865383036<->4051376209",
+              "12865383036<->4051376234",
+              "12865383037<->4051376221",
+              "12865383037<->4051376235",
+              "12865383038<->748827192",
+              "12865383038<->748827240",
+              "280110818<->6713049560",
+              "280110818<->7286512429",
+              "4051376209<->4051376221",
+              "4051376209<->759714744",
+              "4051376221<->748827192",
+              "4051376234<->4051376236",
+              "4051376235<->4051376237",
+              "4051376236<->4051376237",
+              "4051376236<->748827262",
+              "4051376237<->748827240",
+              "5353176676<->7286512429",
+              "5353176677<->748827192",
+              "7286512429<->7286512430"
+            ],
+            "internal_edge_count": 26,
+            "boundary_edge_count": 4,
+            "approach_count": 2,
+            "direct_connected_node_pair_count": 21,
+            "traffic_light_node_count": 0,
+            "internal_edge_total_length_m": 121.766,
+            "internal_edge_max_length_m": 17.748,
+            "internal_edge_overlap_pair_count": 5,
+            "aggregation_recommendation": "map_review_join_candidate",
+            "reference_free_scorer": "topology_heuristic_v1",
+            "aggregation_decision": "needs_map_review",
+            "aggregation_confidence": "low",
+            "aggregation_reason": "no stable cross/T intersection shape from approach axes; overlapping internal edges require map review; large cluster requires map review; service or parking access risk requires map review",
+            "short_internal_edge_score": 0.613,
+            "same_road_name_score": 0.0,
+            "physical_intersection_shape": "none",
+            "physical_intersection_score": 0.172,
+            "approach_axis_count": 1,
+            "approach_axis_angles_deg": [
+              10.1
+            ],
+            "approach_axis_arm_counts": [
+              2
+            ],
+            "dominant_axis_separation_deg": 0.0,
+            "angle_continuity_score": 0.0,
+            "traffic_signal_density": 0.0,
+            "service_or_parking_risk": true,
+            "bridge_tunnel_layer_risk": false,
+            "roundabout_or_slip_lane_risk": false,
+            "modal_aggregation_decision": "review_required",
+            "modal_primary_role": "vehicle_core",
+            "modal_review_action": "review_vehicle_core_boundary",
+            "modal_reason": "vehicle core mixed with support or terminal infrastructure",
+            "modal_risk_flags": [
+              "bicycle_support",
+              "service_terminal_present"
+            ],
+            "modal_decision_counts": {
+              "protected_terminal": 20,
+              "join_core": 4,
+              "shape_support": 6
+            },
+            "modal_role_counts": {
+              "service": 20,
+              "vehicle_core": 4,
+              "bicycle": 6
+            },
+            "risk_flags": [
+              "bicycle_support",
+              "large_cluster",
+              "many_internal_edges",
+              "map_review_required",
+              "overlapping_internal_edges",
+              "service_terminal_present"
+            ],
+            "max_pair_distance_m": 58.434,
+            "cluster_radius_m": 30.0
+          }
+        ],
+        "new_or_changed_findings": [],
+        "whole_network_review": {
+          "status": "review_required",
+          "inherited_finding_count": 13,
+          "scope_finding_count": 1
+        },
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\lane-count-stress\\release\\edit-verification.json"
+      },
+      "route_requests": 20
+    },
+    {
+      "operation": {
+        "id": "stop-line-stress",
+        "operation": "move_stop_line",
+        "params": {
+          "lane_id": "554713076#0_2",
+          "end_offset_m": 2
+        },
+        "status": "accepted",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ]
+      },
+      "explore": {
+        "status": "measured",
+        "outside_fact_change_count": 0,
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\stop-line-stress\\explore\\edit-verification.json"
+      },
+      "release": {
+        "status": "review_required",
+        "gates": {
+          "artifact_identity": "pass",
+          "netconvert": "pass",
+          "review_contract": "pass",
+          "xml_parse": "pass",
+          "tls_modal_rail_bridge_tunnel": "pass",
+          "modal_connectivity": "pass",
+          "sumo_load": "pass",
+          "routeability": "pass",
+          "topology": "review_required"
+        },
+        "inherited_finding_count": 13,
+        "scope_findings": [
+          {
+            "cluster_id": "C001",
+            "node_count": 20,
+            "node_ids": [
+              "12865383035",
+              "12865383036",
+              "12865383037",
+              "12865383038",
+              "280110818",
+              "4051376209",
+              "4051376221",
+              "4051376234",
+              "4051376235",
+              "4051376236",
+              "4051376237",
+              "5353176676",
+              "5353176677",
+              "6713049560",
+              "7286512429",
+              "7286512430",
+              "748827192",
+              "748827240",
+              "748827262",
+              "759714744"
+            ],
+            "node_types": [
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "right_before_left",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "priority",
+              "priority"
+            ],
+            "centroid_x": 293.477,
+            "centroid_y": 241.027,
+            "centroid_lat": 53.5434549,
+            "centroid_lon": 9.9942689,
+            "coordinate_status": "wgs84_from_sumo_projection",
+            "map_review_source": "Google Maps default map",
+            "google_maps_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m",
+            "optional_google_maps_satellite_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m/data=!3m1!1e3",
+            "manual_correction_status": "needs_map_review",
+            "suggested_correction_action": "compare the Google Maps road/intersection footprint before joining SUMO junctions",
+            "internal_edge_ids": [
+              "-174284968#0",
+              "-174284968#1",
+              "-174284968#2",
+              "-714078605",
+              "-780360331",
+              "174284967#0",
+              "174284967#1",
+              "174284968#0",
+              "174284968#1",
+              "174284968#2",
+              "402732222#0",
+              "402732222#1",
+              "402732223#0",
+              "402732223#1",
+              "47854310#0",
+              "47854310#1",
+              "60260767#0",
+              "60260767#1",
+              "60578487#0",
+              "60578487#1",
+              "60578487#2",
+              "60578487#3",
+              "714078605",
+              "780360331",
+              "882966132",
+              "882966133"
+            ],
+            "boundary_edge_ids": [
+              "47854310#2",
+              "554713075#1",
+              "554713076#0",
+              "554713077"
+            ],
+            "external_junction_ids": [
+              "LSA2349_part0",
+              "LSA2394_part0"
+            ],
+            "connected_node_pairs": [
+              "12865383035<->748827262",
+              "12865383035<->759714744",
+              "12865383036<->4051376209",
+              "12865383036<->4051376234",
+              "12865383037<->4051376221",
+              "12865383037<->4051376235",
+              "12865383038<->748827192",
+              "12865383038<->748827240",
+              "280110818<->6713049560",
+              "280110818<->7286512429",
+              "4051376209<->4051376221",
+              "4051376209<->759714744",
+              "4051376221<->748827192",
+              "4051376234<->4051376236",
+              "4051376235<->4051376237",
+              "4051376236<->4051376237",
+              "4051376236<->748827262",
+              "4051376237<->748827240",
+              "5353176676<->7286512429",
+              "5353176677<->748827192",
+              "7286512429<->7286512430"
+            ],
+            "internal_edge_count": 26,
+            "boundary_edge_count": 4,
+            "approach_count": 2,
+            "direct_connected_node_pair_count": 21,
+            "traffic_light_node_count": 0,
+            "internal_edge_total_length_m": 121.766,
+            "internal_edge_max_length_m": 17.748,
+            "internal_edge_overlap_pair_count": 5,
+            "aggregation_recommendation": "map_review_join_candidate",
+            "reference_free_scorer": "topology_heuristic_v1",
+            "aggregation_decision": "needs_map_review",
+            "aggregation_confidence": "low",
+            "aggregation_reason": "no stable cross/T intersection shape from approach axes; overlapping internal edges require map review; large cluster requires map review; service or parking access risk requires map review",
+            "short_internal_edge_score": 0.613,
+            "same_road_name_score": 0.0,
+            "physical_intersection_shape": "none",
+            "physical_intersection_score": 0.172,
+            "approach_axis_count": 1,
+            "approach_axis_angles_deg": [
+              10.1
+            ],
+            "approach_axis_arm_counts": [
+              2
+            ],
+            "dominant_axis_separation_deg": 0.0,
+            "angle_continuity_score": 0.0,
+            "traffic_signal_density": 0.0,
+            "service_or_parking_risk": true,
+            "bridge_tunnel_layer_risk": false,
+            "roundabout_or_slip_lane_risk": false,
+            "modal_aggregation_decision": "review_required",
+            "modal_primary_role": "vehicle_core",
+            "modal_review_action": "review_vehicle_core_boundary",
+            "modal_reason": "vehicle core mixed with support or terminal infrastructure",
+            "modal_risk_flags": [
+              "bicycle_support",
+              "service_terminal_present"
+            ],
+            "modal_decision_counts": {
+              "protected_terminal": 20,
+              "join_core": 4,
+              "shape_support": 6
+            },
+            "modal_role_counts": {
+              "service": 20,
+              "vehicle_core": 4,
+              "bicycle": 6
+            },
+            "risk_flags": [
+              "bicycle_support",
+              "large_cluster",
+              "many_internal_edges",
+              "map_review_required",
+              "overlapping_internal_edges",
+              "service_terminal_present"
+            ],
+            "max_pair_distance_m": 58.434,
+            "cluster_radius_m": 30.0
+          }
+        ],
+        "new_or_changed_findings": [],
+        "whole_network_review": {
+          "status": "review_required",
+          "inherited_finding_count": 13,
+          "scope_finding_count": 1
+        },
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\stop-line-stress\\release\\edit-verification.json"
+      },
+      "route_requests": 20
+    },
+    {
+      "operation": {
+        "id": "speed-stress",
+        "operation": "set_speed",
+        "params": {
+          "lane_id": "554713076#0_2",
+          "speed_m_s": 12
+        },
+        "status": "accepted",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ]
+      },
+      "explore": {
+        "status": "measured",
+        "outside_fact_change_count": 0,
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\speed-stress\\explore\\edit-verification.json"
+      },
+      "release": {
+        "status": "review_required",
+        "gates": {
+          "artifact_identity": "pass",
+          "netconvert": "pass",
+          "review_contract": "pass",
+          "xml_parse": "pass",
+          "tls_modal_rail_bridge_tunnel": "pass",
+          "modal_connectivity": "pass",
+          "sumo_load": "pass",
+          "routeability": "pass",
+          "topology": "review_required"
+        },
+        "inherited_finding_count": 13,
+        "scope_findings": [
+          {
+            "cluster_id": "C001",
+            "node_count": 20,
+            "node_ids": [
+              "12865383035",
+              "12865383036",
+              "12865383037",
+              "12865383038",
+              "280110818",
+              "4051376209",
+              "4051376221",
+              "4051376234",
+              "4051376235",
+              "4051376236",
+              "4051376237",
+              "5353176676",
+              "5353176677",
+              "6713049560",
+              "7286512429",
+              "7286512430",
+              "748827192",
+              "748827240",
+              "748827262",
+              "759714744"
+            ],
+            "node_types": [
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "right_before_left",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "priority",
+              "right_before_left",
+              "priority",
+              "priority"
+            ],
+            "centroid_x": 293.477,
+            "centroid_y": 241.027,
+            "centroid_lat": 53.5434549,
+            "centroid_lon": 9.9942689,
+            "coordinate_status": "wgs84_from_sumo_projection",
+            "map_review_source": "Google Maps default map",
+            "google_maps_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m",
+            "optional_google_maps_satellite_url": "https://www.google.com/maps/@53.5434549,9.9942689,50m/data=!3m1!1e3",
+            "manual_correction_status": "needs_map_review",
+            "suggested_correction_action": "compare the Google Maps road/intersection footprint before joining SUMO junctions",
+            "internal_edge_ids": [
+              "-174284968#0",
+              "-174284968#1",
+              "-174284968#2",
+              "-714078605",
+              "-780360331",
+              "174284967#0",
+              "174284967#1",
+              "174284968#0",
+              "174284968#1",
+              "174284968#2",
+              "402732222#0",
+              "402732222#1",
+              "402732223#0",
+              "402732223#1",
+              "47854310#0",
+              "47854310#1",
+              "60260767#0",
+              "60260767#1",
+              "60578487#0",
+              "60578487#1",
+              "60578487#2",
+              "60578487#3",
+              "714078605",
+              "780360331",
+              "882966132",
+              "882966133"
+            ],
+            "boundary_edge_ids": [
+              "47854310#2",
+              "554713075#1",
+              "554713076#0",
+              "554713077"
+            ],
+            "external_junction_ids": [
+              "LSA2349_part0",
+              "LSA2394_part0"
+            ],
+            "connected_node_pairs": [
+              "12865383035<->748827262",
+              "12865383035<->759714744",
+              "12865383036<->4051376209",
+              "12865383036<->4051376234",
+              "12865383037<->4051376221",
+              "12865383037<->4051376235",
+              "12865383038<->748827192",
+              "12865383038<->748827240",
+              "280110818<->6713049560",
+              "280110818<->7286512429",
+              "4051376209<->4051376221",
+              "4051376209<->759714744",
+              "4051376221<->748827192",
+              "4051376234<->4051376236",
+              "4051376235<->4051376237",
+              "4051376236<->4051376237",
+              "4051376236<->748827262",
+              "4051376237<->748827240",
+              "5353176676<->7286512429",
+              "5353176677<->748827192",
+              "7286512429<->7286512430"
+            ],
+            "internal_edge_count": 26,
+            "boundary_edge_count": 4,
+            "approach_count": 2,
+            "direct_connected_node_pair_count": 21,
+            "traffic_light_node_count": 0,
+            "internal_edge_total_length_m": 121.766,
+            "internal_edge_max_length_m": 17.748,
+            "internal_edge_overlap_pair_count": 5,
+            "aggregation_recommendation": "map_review_join_candidate",
+            "reference_free_scorer": "topology_heuristic_v1",
+            "aggregation_decision": "needs_map_review",
+            "aggregation_confidence": "low",
+            "aggregation_reason": "no stable cross/T intersection shape from approach axes; overlapping internal edges require map review; large cluster requires map review; service or parking access risk requires map review",
+            "short_internal_edge_score": 0.613,
+            "same_road_name_score": 0.0,
+            "physical_intersection_shape": "none",
+            "physical_intersection_score": 0.172,
+            "approach_axis_count": 1,
+            "approach_axis_angles_deg": [
+              10.1
+            ],
+            "approach_axis_arm_counts": [
+              2
+            ],
+            "dominant_axis_separation_deg": 0.0,
+            "angle_continuity_score": 0.0,
+            "traffic_signal_density": 0.0,
+            "service_or_parking_risk": true,
+            "bridge_tunnel_layer_risk": false,
+            "roundabout_or_slip_lane_risk": false,
+            "modal_aggregation_decision": "review_required",
+            "modal_primary_role": "vehicle_core",
+            "modal_review_action": "review_vehicle_core_boundary",
+            "modal_reason": "vehicle core mixed with support or terminal infrastructure",
+            "modal_risk_flags": [
+              "bicycle_support",
+              "service_terminal_present"
+            ],
+            "modal_decision_counts": {
+              "protected_terminal": 20,
+              "join_core": 4,
+              "shape_support": 6
+            },
+            "modal_role_counts": {
+              "service": 20,
+              "vehicle_core": 4,
+              "bicycle": 6
+            },
+            "risk_flags": [
+              "bicycle_support",
+              "large_cluster",
+              "many_internal_edges",
+              "map_review_required",
+              "overlapping_internal_edges",
+              "service_terminal_present"
+            ],
+            "max_pair_distance_m": 58.434,
+            "cluster_radius_m": 30.0
+          }
+        ],
+        "new_or_changed_findings": [],
+        "whole_network_review": {
+          "status": "review_required",
+          "inherited_finding_count": 13,
+          "scope_finding_count": 1
+        },
+        "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\typed_topology_20261020_v1\\speed-stress\\release\\edit-verification.json"
+      },
+      "route_requests": 20
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "outputs/typed_topology_20261020_v1/declaration.json",
+      "sha256": "e07af07c0b63d0ba4159b7fedba4cbe6b198991df06d51e5dc133be5d6a45ac7"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/identity-check.json",
+      "sha256": "d66a36221b30afb18255eb6e65e59598770fcb74474689167f57ca3eea78f55e"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/results.json",
+      "sha256": "6a0f71ae3bdeebaad8cc25383e28bc30ddc9d8d2cf5199f567e1b0e0c81a0d17"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/calibration.json",
+      "sha256": "f2aafce88d2f76d5ee4c9852ca95b02330ad63a812f73a6ffbf590213ae41bb3"
+    },
+    {
+      "path": "outputs/probe_typed_topology_20261020_v1.py",
+      "sha256": "15d8770b15d6884c2e41f747a0dc934b9ad3f0869acc2ecc48844a13a905e3c9"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/shape-stress/explore/edit-verification.json",
+      "sha256": "d1a68959a92b6083df0d8d59a1b14851c841b54c09ae1826155983f0ef7f8661"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/shape-stress/release/edit-verification.json",
+      "sha256": "b408f0bfa992569b3313f3820ca67f95558894098bce9efc4c1b6c9ab94016f7"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/lane-count-stress/explore/edit-verification.json",
+      "sha256": "8e2e111e88819ecc7067f13da77e026ffcc0799c38d9e048777d685526e7aa0d"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/lane-count-stress/release/edit-verification.json",
+      "sha256": "4e50014ebb903032d496ebcdbb23d991f36f895b05ab52a5e930b535e80c95cf"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/stop-line-stress/explore/edit-verification.json",
+      "sha256": "2173d890d89e4918064d89842a7b909736cbe07848c9beb2725dd6d7b9423a99"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/stop-line-stress/release/edit-verification.json",
+      "sha256": "a5670f7278d69a4919af43c1801d8539c54ab94e2a4bc6640c2b7b5905274f1e"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/speed-stress/explore/edit-verification.json",
+      "sha256": "3a60745d26614aa723932b44d239e5d56134afb91da4112ee6309115065d31c9"
+    },
+    {
+      "path": "outputs/typed_topology_20261020_v1/speed-stress/release/edit-verification.json",
+      "sha256": "ea9cae0cd5c7f9a5ced5a6d1a5ee9df5c4c538320215212ffeca8081b98d1dab"
+    }
+  ],
+  "verification": {
+    "topology_controls": 20,
+    "related_consumers": 116,
+    "prior_native_consumers": 101,
+    "signal_materialization_controls": 17,
+    "counts_overlap": true
+  },
+  "claude_review": {
+    "path": "outputs/claude-review-0b1bb6a-20261020.txt",
+    "sha256": "00e896441cb1bcda7be5aa502bc55711d213dc16ca4975e2d9513b14876e97bc"
+  },
+  "claim_boundary": "Source-relative diagnostics only. In-scope unresolved topology and new-lane service still require review. No field correctness or capacity benefit established."
+}

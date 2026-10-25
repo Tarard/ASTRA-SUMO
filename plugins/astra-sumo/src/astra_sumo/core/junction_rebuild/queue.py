@@ -73,6 +73,7 @@ from .tls import (
     _restore_false_traffic_light_junction_types,
 )
 from .variant import build_teacher_guided_junction_variant
+from ..local_network_conversion import with_geometry_precision
 
 
 def run_teacher_guided_repair_queue(
@@ -742,7 +743,7 @@ def run_teacher_guided_repair_queue(
                             continue
                         replay_type_value = str(replay_type_report.get("type_file", ""))
                         replay_type_file = Path(replay_type_value) if replay_type_value else None
-                    seed_command = [
+                    seed_command = with_geometry_precision([
                         netconvert_binary,
                         "--node-files",
                         _command_path(replay_node_file, output_dir / safe_junction_id),
@@ -755,7 +756,7 @@ def run_teacher_guided_repair_queue(
                         "--walkingareas",
                         "true",
                         "--tls.ignore-internal-junction-jam",
-                    ]
+                    ])
                     if replay_type_file is not None:
                         seed_command[5:5] = [
                             "--type-files",
@@ -1265,13 +1266,13 @@ def run_teacher_guided_repair_queue(
                 prefix,
                 "final_internal_replay_normalized.net.xml",
             )
-            final_internal_replay_normalize_command = [
+            final_internal_replay_normalize_command = with_geometry_precision([
                 netconvert_binary,
                 "--sumo-net-file",
                 _command_path(current_composite_net_file, restore_dir),
                 "--output-file",
                 _command_path(normalized_composite_net_file, restore_dir),
-            ]
+            ])
             final_internal_replay_normalize_report = _command_report(
                 command_runner(
                     final_internal_replay_normalize_command,
@@ -1335,13 +1336,13 @@ def run_teacher_guided_repair_queue(
                         prefix,
                         "final_internal_replay_canonical.net.xml",
                     )
-                    final_internal_replay_canonical_command = [
+                    final_internal_replay_canonical_command = with_geometry_precision([
                         netconvert_binary,
                         "--sumo-net-file",
                         _command_path(normalized_composite_net_file, restore_dir),
                         "--output-file",
                         _command_path(canonical_composite_net_file, restore_dir),
-                    ]
+                    ])
                     final_internal_replay_canonical_report = _command_report(
                         command_runner(
                             final_internal_replay_canonical_command,

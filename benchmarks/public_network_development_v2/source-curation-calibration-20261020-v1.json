@@ -1,0 +1,248 @@
+{
+  "factory_commit": "ce71e878bd52edbbc30e60b1fa2921c9734d2192",
+  "native_import_commit": "e9e1957469649a23a97533bcc5debb0648e3cb2d",
+  "native_imports": [
+    {
+      "label": "before",
+      "status": "pass",
+      "load": "pass",
+      "network": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\before\\network.net.xml",
+        "sha256": "919ce26751eb61a8ee9148de78cba857dc169fc6404f2bcd7979f4de0b861bbf"
+      }
+    },
+    {
+      "label": "after",
+      "status": "pass",
+      "load": "pass",
+      "network": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\after\\network.net.xml",
+        "sha256": "f0078d744e84578403055f99558ddb2d81fa6c6bae41646fff58d6ac96f595c8"
+      }
+    }
+  ],
+  "historical_configuration_options": [
+    "no-turnarounds=false",
+    "no-turnarounds.tls=true",
+    "default.lanewidth=2.7"
+  ],
+  "historical_assets": [
+    {
+      "role": "build_config",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\tools\\static\\most.netcfg",
+      "sha256": "3c46e6419d109e5e47bd81ed2587a3e5186e7b2c597e0851efdb45651f7250b6",
+      "git_blob_sha1": "c7a411c04ebf57650b1278e5ae12ec0452f5117e"
+    },
+    {
+      "role": "license",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\LICENSE.md",
+      "sha256": "c53a65c2fd561c87eaabf1072ef5dcab8653042bc15308465f52413585eb6271",
+      "git_blob_sha1": "20d40b6bceca3a6c0237d7455ebf1820aeff3680"
+    },
+    {
+      "role": "type_map",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\tools\\static\\typemap\\osmNetconvert.typ.xml",
+      "sha256": "1b64c8fe28e436ac44d73c1a52bf13b05e8c31f448de8e9a78492509cba7b6b0",
+      "git_blob_sha1": "d139bfdde7bcfdfbf7aa6107e28951bb91f6b4e1"
+    },
+    {
+      "role": "type_map",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\tools\\static\\typemap\\osmNetconvertUrbanDe.typ.xml",
+      "sha256": "988354e9faad24fc58b6715d3bfd2e209619523d4cafe5679e7dc70221760049",
+      "git_blob_sha1": "2895c05fdbe00c5d1354848e7e3de9af3968698b"
+    },
+    {
+      "role": "type_map",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\tools\\static\\typemap\\osmNetconvertPedestrians.typ.xml",
+      "sha256": "dd6f2a07af324807bc13e21255ce3e1fe3f9f50e2eca57a1a3faa93164a81ff5",
+      "git_blob_sha1": "cdb3de8769e3ab983a3101b751eb14a7358bffad"
+    },
+    {
+      "role": "type_map",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\tools\\static\\typemap\\osmNetconvertBicycle.typ.xml",
+      "sha256": "2f97d51856b204737cb122b4f6234e5049d354ecb9e2282ee43e9e051a43bbc7",
+      "git_blob_sha1": "55b70240e89eba65d8f7653c562527d3679bf704"
+    },
+    {
+      "role": "type_map",
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_revision_import_20261020_v2\\recipe\\tools\\static\\typemap\\osmBidiRailNetconvert.typ.xml",
+      "sha256": "203ebd625ea5ea7f38f28eeb37745d3b6bc1076c4e55a09d4b4ad4b683ea67f1",
+      "git_blob_sha1": "17543648fdac677b6a35c5645529c48f3c69f16d"
+    }
+  ],
+  "generated_facts": {
+    "ways": 17,
+    "facts": 165,
+    "correspondence": "source way, direction, allowed-class set, lane order; provisional"
+  },
+  "measurements": {
+    "before": {
+      "status": "measured",
+      "facts": 165,
+      "measured_lateral_count": 163,
+      "largest_fragment_mean_lateral_m": 14.647098330432364,
+      "median_fragment_mean_lateral_m": 2.524876473359296e-10,
+      "largest_sampled_lateral_m": 1160.2948808238175,
+      "minimum_reference_coverage": 0.0,
+      "median_reference_coverage": 1.0,
+      "unknown_facts": [
+        {
+          "id": "source-revision:2366:forward:2366#6_0",
+          "reason": "no_directed_longitudinal_overlap",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 8,
+            "coverage_sample_spacing_m": 0.47764122927011665,
+            "coverage_within_m": {
+              "1.0": 0.0,
+              "2.0": 0.0
+            },
+            "covered_reference_length_m": 0.0,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": null,
+            "max_sampled_reference_offset_m": 7.313189953775979,
+            "mean_direction_cosine": null,
+            "mean_lateral_offset_m": null,
+            "mean_reference_offset_m": 5.467499866744706,
+            "reference_coverage": 0.0,
+            "reference_length_m": 3.821129834160933,
+            "sample_count": 9,
+            "sample_spacing_m": 0.47764122927011665,
+            "uncovered_reference_length_m": 3.821129834160933
+          }
+        },
+        {
+          "id": "source-revision:2366:reverse:-2366#6_0",
+          "reason": "no_directed_longitudinal_overlap",
+          "metrics": {
+            "coverage_method": "midpoint_perpendicular_foot_heading_within_45deg",
+            "coverage_sample_count": 9,
+            "coverage_sample_spacing_m": 0.44777354041621176,
+            "coverage_within_m": {
+              "1.0": 0.0,
+              "2.0": 0.0
+            },
+            "covered_reference_length_m": 0.0,
+            "expected_reference_direction": 1,
+            "max_sampled_lateral_offset_m": null,
+            "max_sampled_reference_offset_m": 7.482999471763902,
+            "mean_direction_cosine": null,
+            "mean_lateral_offset_m": null,
+            "mean_reference_offset_m": 5.5347251185361,
+            "reference_coverage": 0.0,
+            "reference_length_m": 4.029961863745906,
+            "sample_count": 10,
+            "sample_spacing_m": 0.44777354041621176,
+            "uncovered_reference_length_m": 4.029961863745906
+          }
+        }
+      ]
+    },
+    "reference-self-control": {
+      "status": "measured",
+      "facts": 165,
+      "measured_lateral_count": 165,
+      "largest_fragment_mean_lateral_m": 2.590318829782614e-10,
+      "median_fragment_mean_lateral_m": 1.5463282714986558e-10,
+      "largest_sampled_lateral_m": 4.658304352695266e-10,
+      "minimum_reference_coverage": 1.0,
+      "median_reference_coverage": 1.0,
+      "unknown_facts": []
+    }
+  },
+  "numeric_repeat_unchanged": true,
+  "local_verification": {
+    "reference_tests": 40,
+    "initial_calibration_consumers": 51,
+    "factory_and_consumers": 81,
+    "counts_overlap": true
+  },
+  "preceding_complete_ci": {
+    "commit": "cae92d7450591c868d5426599a0a17ba8725196b",
+    "passed": 3661,
+    "skipped": 24,
+    "pr_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39344054451",
+    "push_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39344049595"
+  },
+  "artifacts": [
+    {
+      "path": "outputs/source_revision_import_20261020_v2/declaration.json",
+      "sha256": "84ff74f30b1200b797bc8f34d7104f6e8b756547502beca99580b84b43fe3460"
+    },
+    {
+      "path": "outputs/source_revision_import_20261020_v2/results.json",
+      "sha256": "55517ee113485c7c38dc48df11b0cf0f2947235256a286985bed7d0e7868d4a4"
+    },
+    {
+      "path": "outputs/source_revision_import_20261020_v2/identity-check.json",
+      "sha256": "9596d350f51befe30b4b6dba1376e2f45b180ad207b6ed2635619559aca51cb9"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/declaration.json",
+      "sha256": "c01faaa96f7128c08cbded88546256ae04d39ec8b003facd53668ccef5452904"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/facts/fact-generation.json",
+      "sha256": "cc6b933466bf16d549b65453f20b9806f8ff25dc0ddeec1b7c2e5c894a5ae414"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/facts/selector-correspondence.json",
+      "sha256": "1a8c6a8393c0ff3a30b2edbedb5b4e7114b2223673c3d76aba1d55656a574842"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/before-scorecard.json",
+      "sha256": "2614af6773719265b142f07ac2a7eab0eb56c14924d237e2e4222d3dc6f7ee05"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/reference-self-control-scorecard.json",
+      "sha256": "4de72dde9bd4beff281fc87b3c80873a23f1fbb31ea5a92187851f19058176fc"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/numeric-repeat-check.json",
+      "sha256": "d522eaaf305f72cd7facf37238f623da09f5acb03da42c6454a342f0433aab8b"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/comparison.json",
+      "sha256": "598aa5dd4c9ea0c5c46349f234a9ca1d267ead9d0b057d86854fb332b57c3d70"
+    },
+    {
+      "path": "outputs/prepared_source_facts_repeat_20261020_v1/identity-check.json",
+      "sha256": "127481fbb09d8b609c3fc9ed14addb0945e42867353805341dd7de3e86d00815"
+    },
+    {
+      "path": "outputs/import_source_revision_pair_20261020_v2.py",
+      "sha256": "af1246aeaceed26769a01a2e2e69e1df58918f749b4c600dbb50da855cc46cfc"
+    },
+    {
+      "path": "outputs/repeat_prepared_source_facts_20261020_v1.py",
+      "sha256": "8a04447e147850d435b70dc50abaa09705637d934de9a1586f99458c9d0808ab"
+    },
+    {
+      "path": "outputs/source-revision-import-20261020-v1.log",
+      "sha256": "edc6fddb5d670e61fe27e5397d7c9c2cce097f2fb9275b184cfd684ef31f3c4e"
+    },
+    {
+      "path": "outputs/prepared-source-facts-20261020-v2.log",
+      "sha256": "476d34e6d0f287428f381e8eb2ceb919c693963dc85e68f5a5c954dc1165c813"
+    },
+    {
+      "path": "outputs/prepared-source-facts-final-20261020-v1.log",
+      "sha256": "e1de52a593b11e390dd33111c628b1632f306f1b415b1dc4ed4249994ba4379a"
+    },
+    {
+      "path": "outputs/ci-cae92d7-pr-20261020.log",
+      "sha256": "ac0c01515dcd537bab64167a845fd37b17f86b1447269bf3d914ab01c1c43bc7"
+    },
+    {
+      "path": "outputs/ci-cae92d7-push-20261020.log",
+      "sha256": "e7f0e235ad5a88b5f60f7ca55172b04568d4978c51a9e3398072db96415d4b94"
+    }
+  ],
+  "limitations": [
+    "Prepared road revisions and generated lane geometry are not field truth.",
+    "A changed source road contains unchanged lane fragments; 165 facts are not 165 defects.",
+    "The reference self-control verifies calculations and coordinates, not reference quality or repair precision.",
+    "The nominal target date describes the source model revision; field validity remains unknown.",
+    "Permission-rank correspondence is provisional, especially for lane additions or reordering."
+  ]
+}

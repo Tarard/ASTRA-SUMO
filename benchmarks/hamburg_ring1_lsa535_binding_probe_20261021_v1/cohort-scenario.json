@@ -1,0 +1,25 @@
+{
+  "role": "535_movement_conservation_and_collision_probe_not_count_fit",
+  "vehicle_count": 1270,
+  "selection": "Every source vehicle traversing any of the four controlled 535 inlet roads, including both recorded collision pairs and all 535 foe approaches.",
+  "inlet_roads": [
+    "186821027#0",
+    "186821034#0",
+    "186821035#0",
+    "2963460#1"
+  ],
+  "original_departures_vehicles_routes_unchanged": true,
+  "same_seed": 104,
+  "step_length_s": 0.1,
+  "end_s": 14400,
+  "all_stopped_timeout_s": 300,
+  "source_demand": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-distance-count-attempt-20261021-v1\\replay\\demand.rou.xml",
+    "sha256": "8ae1e81a456a697e4d526a326bbcccee393f1fd3d8ea1e09948f80926d2a8bd0"
+  },
+  "source_expected_counts": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-distance-count-attempt-20261021-v1\\replay\\expected-counts.csv",
+    "sha256": "4895f2098f3f842789832c29781f02145d3024fc883f729c1a515c79179d31bc"
+  },
+  "claim_boundary": "Subset traffic changes upstream queues and actuated phase histories relative to the original full run. Only the two cohort runs form this pair. All 130 count cells remain present, with no count-fit claim."
+}

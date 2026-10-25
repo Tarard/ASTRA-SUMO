@@ -2,6 +2,7 @@ import hashlib
 import json
 import xml.etree.ElementTree as ET
 from pathlib import Path
+import pytest
 
 from astra_sumo.core.candidate_contracts import (
     build_review_decision_template,
@@ -98,6 +99,11 @@ def _persist_review_decision(
 def _append_generated_edges_with_connections(source_root: ET.Element, additions_root: ET.Element) -> None:
     for edge in additions_root.findall("edge"):
         edge_id = str(edge.attrib["id"])
+        # Mimic netconvert's expansion of edge permissions onto compiled lanes.
+        if not edge.findall("lane"):
+            for index in range(int(edge.get("numLanes", "1"))):
+                ET.SubElement(edge, "lane", id=f"{edge_id}_{index}", index=str(index),
+                    **{key: edge.get(key) for key in ("allow", "disallow") if edge.get(key) is not None})
         source_root.append(edge)
         ET.SubElement(
             source_root,
@@ -199,7 +205,7 @@ def test_normalize_operation_promotes_edit_parameters() -> None:
     }
 
 
-def test_validation_requires_evidence_and_rollback() -> None:
+def test_validation_requires_rationale_and_evidence_but_not_rollback() -> None:
     report = validate_edit_ledger(
         {
             "operations": [
@@ -209,7 +215,17 @@ def test_validation_requires_evidence_and_rollback() -> None:
     )
 
     assert report["status"] == "fail"
-    assert {item["code"] for item in report["errors"]} == {"missing_rationale", "missing_evidence", "missing_rollback"}
+    assert {item["code"] for item in report["errors"]} == {"missing_rationale", "missing_evidence"}
+
+    explained = validate_edit_ledger(
+        {
+            "operations": [
+                {"id": "delete-1", "operation": "delete_edge", "target_ids": ["edge"],
+                 "rationale": "duplicate carriageway", "evidence": ["aerial.png"]}
+            ]
+        }
+    )
+    assert explained["status"] == "pass", explained["errors"]
 
 
 def test_build_writes_review_overlay_manifest_and_rollback(tmp_path: Path) -> None:
@@ -387,7 +403,7 @@ def test_materializer_materializes_accepted_sidewalk_as_plain_edge_candidate(tmp
     assert "--walkingareas" in report["command"]
 
 
-def test_materializer_creates_separate_merge_variant_from_accepted_operation(tmp_path: Path) -> None:
+def test_materializer_rejects_a_merge_that_only_deletes_a_source_road(tmp_path: Path) -> None:
     net_file = tmp_path / "source.net.xml"
     _write_net(net_file)
     output_dir = tmp_path / "materialized"
@@ -414,8 +430,9 @@ def test_materializer_creates_separate_merge_variant_from_accepted_operation(tmp
         command_runner=fake_runner,
     )
 
-    assert report["status"] == "pass"
-    assert report["materialization_status"] == "variant_created_for_review"
+    assert report["status"] == "blocked"
+    assert report["materialization_status"] == "semantic_gate_failed"
+    assert "retained ordinary-road inventory" in report["semantic_validation"]["error"]
     assert Path(report["candidate_net_file"]).exists()
     assert "--geometry.remove" in report["command"]
     assert "ab\n" not in Path(report["plan_file"]).read_text(encoding="utf-8")
@@ -716,7 +733,7 @@ def test_materializer_blocks_crossing_when_netconvert_does_not_create_crossing_s
 
     def fake_runner(command: list[str], *, cwd: Path, timeout_seconds: float) -> dict[str, object]:
         candidate = Path(command[command.index("--output-file") + 1])
-        root = ET.parse(net_file).getroot()
+        root = ET.parse(Path(command[command.index("--sumo-net-file") + 1])).getroot()
         ET.SubElement(root, "param", {"key": "netconvert-ran", "value": "true"})
         ET.ElementTree(root).write(candidate, encoding="utf-8")
         return {"status": "pass", "returncode": 0, "command": command}
@@ -742,7 +759,8 @@ def test_materializer_blocks_crossing_when_netconvert_does_not_create_crossing_s
     assert Path(report["candidate_net_file"]).exists()
 
 
-def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_passes(tmp_path: Path) -> None:
+@pytest.mark.parametrize("injected", [True, False])
+def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_passes(tmp_path: Path, monkeypatch, injected) -> None:
     source = tmp_path / "source.net.xml"
     candidate = tmp_path / "candidate.net.xml"
     _write_net(source)
@@ -757,7 +775,13 @@ def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_pa
         return {"status": "pass", "command": command, "returncode": 0}
 
     def _routeability(**_kwargs):
+        if not injected:
+            assert _kwargs.pop("od_reference_net_file") == source
         return _passing_routeability_audit(**_kwargs)
+
+    if not injected:
+        from astra_sumo.core import routeability_audit
+        monkeypatch.setattr(routeability_audit, "run_routeability_audit", _routeability)
 
     def _topology(**_kwargs):
         return _passing_topology_audit(**_kwargs)
@@ -767,7 +791,7 @@ def test_candidate_gates_require_bound_materialization_evidence_and_aggregate_pa
         candidate_net_file=candidate,
         output_dir=tmp_path / "gates",
         materialization_report=materialization,
-        routeability_audit_func=_routeability,
+        routeability_audit_func=_routeability if injected else None,
         topology_audit_func=_topology,
         command_runner=_command_runner,
     )
@@ -811,6 +835,30 @@ def test_candidate_gate_blocks_tls_phase_semantic_change(tmp_path: Path) -> None
     semantic = report["gates"]["tls_modal_rail_bridge_tunnel"]
     assert semantic["tls_logic_signature_status"] == "blocked"
     assert "tls" in semantic["tls_logic_signature_differences"]
+
+
+def test_unscoped_candidate_retains_global_topology_review(tmp_path: Path) -> None:
+    from astra_sumo.core.topology_audit import audit_topology_fragmentation
+
+    source = tmp_path / "source.net.xml"
+    candidate = tmp_path / "candidate.net.xml"
+    _write_net(source)
+    _write_distinct_candidate(source, candidate)
+    materialization = _persist_materialization_report(source, candidate, tmp_path / "materialization.json")
+    report = run_corridor_candidate_gates(
+        source_net_file=source,
+        candidate_net_file=candidate,
+        output_dir=tmp_path / "gates",
+        materialization_report=materialization,
+        routeability_audit_func=_passing_routeability_audit,
+        topology_audit_func=audit_topology_fragmentation,
+        command_runner=lambda *_args, **_kwargs: {"status": "pass", "returncode": 0},
+    )
+    assert report["status"] == "review_required"
+    assert report["gates"]["topology"]["status"] == "review_required"
+    assert report["topology_report"]["suspicious_cluster_count"] > 0
+    assert report["source_topology_report"] == {}
+    assert report["whole_network_review"]["status"] == "review_required"
 
 
 def test_candidate_gate_accepts_only_explicit_tls_phase_review_allowance(tmp_path: Path) -> None:

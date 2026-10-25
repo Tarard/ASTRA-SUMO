@@ -1,0 +1,65 @@
+{
+  "files": [
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-compression-20261024-v1\\compress29\\evaluation\\native\\instant-e1.xml",
+      "relative": "compression/compress29/evaluation/native/instant-e1.xml",
+      "bytes": 21415291,
+      "sha256": "1dcf01e49828f3dc0ca5f4281c4e0e2e1fb5e622380b21f5235bc61510459a54"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-compression-20261024-v1\\compress29\\evaluation\\native\\queues.xml",
+      "relative": "compression/compress29/evaluation/native/queues.xml",
+      "bytes": 66400067,
+      "sha256": "4ba6fd3707a58b766fec964efa4089d945cc7aa51e2f6d6a16fef51c6a65678d"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-extension-20261024-v1\\cases\\minus60\\evaluation\\native\\instant-e1.xml",
+      "relative": "extension/cases/minus60/evaluation/native/instant-e1.xml",
+      "bytes": 21066083,
+      "sha256": "991a688d1ed61e2d601a2aae46862364fa8ffea86d1a98f71f9fc5eedda99b74"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-extension-20261024-v1\\cases\\minus60\\evaluation\\native\\queues.xml",
+      "relative": "extension/cases/minus60/evaluation/native/queues.xml",
+      "bytes": 62254972,
+      "sha256": "b19cd226f842c16ca19eca2dacdf3262fe9ba712aea7dc6778953639f94eb973"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-extension-20261024-v1\\cases\\minus90\\evaluation\\native\\instant-e1.xml",
+      "relative": "extension/cases/minus90/evaluation/native/instant-e1.xml",
+      "bytes": 21539527,
+      "sha256": "b9d17ab96c210b1c281385464ca9d3b2ef78758247a980195c80b1c95a3ea57f"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-extension-20261024-v1\\cases\\minus90\\evaluation\\native\\queues.xml",
+      "relative": "extension/cases/minus90/evaluation/native/queues.xml",
+      "bytes": 62519739,
+      "sha256": "292afaadbef0f859977f4edf9576e044bf1daa4ac7caf19d9c5c7d78481b8146"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-20261024-v1\\cases\\minus30\\evaluation\\native\\instant-e1.xml",
+      "relative": "offset/cases/minus30/evaluation/native/instant-e1.xml",
+      "bytes": 21147671,
+      "sha256": "945af73166f3e6c759e46aa9ed858dd7458f3427278e4de3c6ba281e49b8c3a6"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-20261024-v1\\cases\\minus30\\evaluation\\native\\queues.xml",
+      "relative": "offset/cases/minus30/evaluation/native/queues.xml",
+      "bytes": 62417176,
+      "sha256": "b3a957621e95bae8fbd2d9b45ae09a4ca5a698349048af7d14d81672535faceb"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-20261024-v1\\cases\\plus30\\evaluation\\native\\instant-e1.xml",
+      "relative": "offset/cases/plus30/evaluation/native/instant-e1.xml",
+      "bytes": 21311194,
+      "sha256": "5d13fef207902ffb5de50f5783828e19cdcb70fc34b0b827bf3e21478f04b0c8"
+    },
+    {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-535z4-tail-offset-20261024-v1\\cases\\plus30\\evaluation\\native\\queues.xml",
+      "relative": "offset/cases/plus30/evaluation/native/queues.xml",
+      "bytes": 64228829,
+      "sha256": "c8edf13f6a95236da9fed17af83dd94d18fd238db61f50262d61bf8b984825a5"
+    }
+  ],
+  "rule": "Only named large native traces remain local."
+}

@@ -1,0 +1,308 @@
+{
+  "status": "measured",
+  "reconciled": true,
+  "measurement_attribute": "nVehContrib",
+  "step_length_s": 0.1,
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\instant-e1.xml",
+      "sha256": "32728d6b2ca45ce21c2ca0683b0733cd9f88c48a1cad0575af2a5ba8f09b2dfd"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\field-counts.xml",
+      "sha256": "f0e042d35981a4e8fe7d2d8659d8e5ecd4c926a654b56a87bff4675a091a2ed3"
+    }
+  ],
+  "inputs_unchanged": true,
+  "passages": [
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_0",
+      "time_s": 195.69487847069,
+      "notification_time_s": 195.70000000000002,
+      "occupancy_s": 0.393439978428,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_1",
+      "time_s": 198.176559786282,
+      "notification_time_s": 198.20000000000002,
+      "occupancy_s": 0.416825800777,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_3",
+      "time_s": 200.430830780446,
+      "notification_time_s": 200.5,
+      "occupancy_s": 0.458702346977,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_2",
+      "time_s": 202.618985827657,
+      "notification_time_s": 202.70000000000002,
+      "occupancy_s": 0.469233530592,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_4",
+      "time_s": 204.737962522927,
+      "notification_time_s": 204.8,
+      "occupancy_s": 0.486320365494,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_6",
+      "time_s": 206.849355606845,
+      "notification_time_s": 206.9,
+      "occupancy_s": 0.508595041553,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_10",
+      "time_s": 282.980722161172,
+      "notification_time_s": 283.0,
+      "occupancy_s": 1.297672641941,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_12",
+      "time_s": 286.529759639947,
+      "notification_time_s": 286.6,
+      "occupancy_s": 2.298375131278,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_8",
+      "time_s": 288.712961038473,
+      "notification_time_s": 288.8,
+      "occupancy_s": 0.846290359213,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_14",
+      "time_s": 290.404680378115,
+      "notification_time_s": 290.5,
+      "occupancy_s": 0.669502852919,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_18",
+      "time_s": 292.117053977166,
+      "notification_time_s": 292.2,
+      "occupancy_s": 0.64281298481,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_16",
+      "time_s": 293.909668653617,
+      "notification_time_s": 294.0,
+      "occupancy_s": 0.659668376509,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_5",
+      "time_s": 296.506033746376,
+      "notification_time_s": 296.6,
+      "occupancy_s": 0.931006004545,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_7",
+      "time_s": 298.636032245599,
+      "notification_time_s": 298.7,
+      "occupancy_s": 0.831311229085,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_11",
+      "time_s": 301.080339457605,
+      "notification_time_s": 301.1,
+      "occupancy_s": 0.966228838924,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_9",
+      "time_s": 305.906017740967,
+      "notification_time_s": 306.0,
+      "occupancy_s": 3.067517305338,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_13",
+      "time_s": 372.980722161172,
+      "notification_time_s": 373.0,
+      "occupancy_s": 1.297672641941,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_15",
+      "time_s": 374.691807378027,
+      "notification_time_s": 374.70000000000005,
+      "occupancy_s": 0.714703658066,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_17",
+      "time_s": 376.36518628629,
+      "notification_time_s": 376.40000000000003,
+      "occupancy_s": 0.666480183142,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "vehicle_id": "z15_k2_probe_19",
+      "time_s": 378.075014440903,
+      "notification_time_s": 378.1,
+      "occupancy_s": 0.643897121862,
+      "interval_begin_s": 0.0,
+      "interval_end_s": 900.0
+    }
+  ],
+  "early_departures": [],
+  "outside_periodic_intervals": [],
+  "interval_comparisons": [
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 20,
+      "complete_passage_count": 20,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    }
+  ],
+  "claim_boundary": "Event correspondence for the supplied periodic intervals only. No inferred field truth, demand fit, or invariance under changed traffic."
+}

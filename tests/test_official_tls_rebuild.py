@@ -583,6 +583,22 @@ def test_application_keeps_sources_unchanged_and_edge_lane_signature_stable(tmp_
     assert edge_lane_signature(source_net) == edge_lane_signature(rebuilt_net)
 
 
+@pytest.mark.parametrize('change', [None, 'speed', 'width', 'identity', 'permission'])
+def test_edge_lane_signature_compares_numeric_values_without_merging_other_attributes(tmp_path, change):
+    source = tmp_path / 'source.net.xml'
+    candidate = tmp_path / 'candidate.net.xml'
+    source.write_text('<net><edge id="001"><lane id="001_0" speed="13.89" width="3.2"/></edge></net>', encoding='utf-8')
+    tree = ET.ElementTree(ET.fromstring('<net><edge id="001"><lane id="001_0" speed="13.890000" width="3.200000"/></edge></net>'))
+    if change == 'identity':
+        tree.getroot().find('edge').set('id', '1')
+    elif change:
+        key, value = {'speed': ('speed', '13.891'), 'width': ('width', '3.201'),
+                      'permission': ('disallow', 'passenger')}[change]
+        tree.getroot().find('edge/lane').set(key, value)
+    tree.write(candidate, encoding='utf-8')
+    assert (edge_lane_signature(source) == edge_lane_signature(candidate)) is (change is None)
+
+
 def test_source_tls_controller_ids_include_logic_and_connection_references(
     tmp_path: Path,
 ) -> None:

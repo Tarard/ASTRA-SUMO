@@ -25,48 +25,24 @@ from .ocit_c import (
 )
 
 
+from .site_parameters import load_site_parameters
+
+_SITE = load_site_parameters('hamburg_2394_tls_topology')
+
+
 SCHEMA_ID = "torii.hamburg-2394-multi-owner-tls-topology/v1"
 PROTOTYPE_ID = "hamburg_2394_v1"
-CONTROLLER_ID = "HH_2394"
+CONTROLLER_ID = _SITE['CONTROLLER_ID']
 
-SIGNAL_OWNER_IDS = (
-    "759714726",
-    "cluster_2761334279_757036795",
-    "cluster_3847369287_757036909_76463166",
-)
-PASSIVE_OWNER_IDS = ("3847369285", "3847369288")
-MAIN_OWNER_ID = "cluster_3847369287_757036909_76463166"
+SIGNAL_OWNER_IDS = _SITE['SIGNAL_OWNER_IDS']
+PASSIVE_OWNER_IDS = _SITE['PASSIVE_OWNER_IDS']
+MAIN_OWNER_ID = _SITE['MAIN_OWNER_ID']
 
-EXPECTED_MAP_LANE_TO_SUMO_LANE = {
-    "2": "9702432#0_0",
-    "3": "9702432#0_1",
-    "4": "193847534#1_0",
-    "5": "193847534#1_1",
-    "6": "381540198#1_0",
-    "7": "381540198#1_1",
-    "9": "-381540198#1_0",
-    "10": "47854310#2_0",
-    "11": "47854310#2_1",
-    "12": "47854310#2_2",
-    "14": "554713077_0",
-}
+EXPECTED_MAP_LANE_TO_SUMO_LANE = _SITE['EXPECTED_MAP_LANE_TO_SUMO_LANE']
 
-EXPECTED_MOVEMENTS = {
-    "1": ("10", "9", "P_K6__S_K7", "K7"),
-    "2": ("11", "4", "P_K7__S_NONE", "K7"),
-    "3": ("12", "5", "P_K7__S_NONE", "K7"),
-    "5": ("2", "14", "P_K1__S_NONE", "K1"),
-    "6": ("3", "9", "P_NONE__S_K2", "K2"),
-    "7": ("6", "4", "P_K3__S_K4", "K4"),
-    "8": ("6", "5", "P_K3__S_K4", "K4"),
-    "9": ("7", "14", "P_NONE__S_K5", "K5"),
-}
+EXPECTED_MOVEMENTS = _SITE['EXPECTED_MOVEMENTS']
 
-EXPECTED_PHASE_IMAGES = {
-    "Phase 1": {"K1": "30", "K2": "03", "K3": "00", "K4": "03", "K5": "03", "K6": "00", "K7": "30"},
-    "Phase 2": {"K1": "03", "K2": "03", "K3": "00", "K4": "30", "K5": "30", "K6": "30", "K7": "03"},
-    "Phase 3": {"K1": "30", "K2": "30", "K3": "30", "K4": "03", "K5": "03", "K6": "00", "K7": "03"},
-}
+EXPECTED_PHASE_IMAGES = _SITE['EXPECTED_PHASE_IMAGES']
 
 
 class Hamburg2394TlsTopologyError(ValueError):
@@ -94,28 +70,28 @@ class PhysicalLink:
 
 
 ROUTING_REPAIRS = (
-    PhysicalLink("381540198#1", 0, "193847534#0", 1),
-    PhysicalLink("60578519", 1, "193847534#0", 0),
-    PhysicalLink("60578519", 2, "193847534#0", 1),
+    PhysicalLink(_SITE['source_binding.001'], 0, _SITE['source_binding.002'], 1),
+    PhysicalLink(_SITE['source_binding.003'], 1, _SITE['source_binding.002'], 0),
+    PhysicalLink(_SITE['source_binding.003'], 2, _SITE['source_binding.002'], 1),
 )
 
 ROUTING_REMOVALS = (
-    PhysicalLink("381540198#1", 1, "193847534#0", 1),
-    PhysicalLink("60578519", 0, "193847534#0", 0),
-    PhysicalLink("60578519", 1, "193847534#0", 1),
-    PhysicalLink("60578519", 2, "554713077", 0),
-    PhysicalLink("9702432#2", 1, "193847534#0", 1),
+    PhysicalLink(_SITE['source_binding.001'], 1, _SITE['source_binding.002'], 1),
+    PhysicalLink(_SITE['source_binding.003'], 0, _SITE['source_binding.002'], 0),
+    PhysicalLink(_SITE['source_binding.003'], 1, _SITE['source_binding.002'], 1),
+    PhysicalLink(_SITE['source_binding.003'], 2, _SITE['source_binding.004'], 0),
+    PhysicalLink(_SITE['source_binding.005'], 1, _SITE['source_binding.002'], 1),
 )
 
 EXPECTED_MAIN_ROUTING = (
-    PhysicalLink("381540198#1", 0, "193847534#0", 0),
-    PhysicalLink("381540198#1", 0, "193847534#0", 1),
-    PhysicalLink("381540198#1", 1, "554713077", 0),
-    PhysicalLink("60578519", 0, "-381540198#1", 0),
-    PhysicalLink("60578519", 1, "193847534#0", 0),
-    PhysicalLink("60578519", 2, "193847534#0", 1),
-    PhysicalLink("9702432#2", 0, "554713077", 0),
-    PhysicalLink("9702432#2", 1, "-381540198#1", 0),
+    PhysicalLink(_SITE['source_binding.001'], 0, _SITE['source_binding.002'], 0),
+    PhysicalLink(_SITE['source_binding.001'], 0, _SITE['source_binding.002'], 1),
+    PhysicalLink(_SITE['source_binding.001'], 1, _SITE['source_binding.004'], 0),
+    PhysicalLink(_SITE['source_binding.003'], 0, _SITE['source_binding.006'], 0),
+    PhysicalLink(_SITE['source_binding.003'], 1, _SITE['source_binding.002'], 0),
+    PhysicalLink(_SITE['source_binding.003'], 2, _SITE['source_binding.002'], 1),
+    PhysicalLink(_SITE['source_binding.005'], 0, _SITE['source_binding.004'], 0),
+    PhysicalLink(_SITE['source_binding.005'], 1, _SITE['source_binding.006'], 0),
 )
 
 EXPECTED_CURRENT_MAIN_ROUTING = tuple(
@@ -390,7 +366,7 @@ def compile_hamburg_2394_tls_topology(
         raise Hamburg2394TlsTopologyError(
             "source network changed while the read-only topology plan was being compiled"
         )
-    return {
+    return {"site_parameters": _SITE["_source"],
         "schema_id": SCHEMA_ID,
         "status": "topology_binding_ready",
         "claim_status": "official-static-topology-review-plan",

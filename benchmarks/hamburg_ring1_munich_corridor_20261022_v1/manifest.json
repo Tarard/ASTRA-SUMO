@@ -1,0 +1,298 @@
+{
+  "files": [
+    {
+      "path": "aerial-review-report.json",
+      "sha256": "627191ee4fef1a1f3101eceb50bf038955ade23f32e8b49efc75e0cdce44a0c8"
+    },
+    {
+      "path": "boundaries.json",
+      "sha256": "321692468558be90b38b9923ef5b7b067883aa986ab21b1bd1a8f67779644a86"
+    },
+    {
+      "path": "corridor-calibration-result.json",
+      "sha256": "b09cc327e3f49d300f40e87b5b51431439b815c8b56de7352c061c896c82acc2"
+    },
+    {
+      "path": "corridor-preservation.json",
+      "sha256": "720cb5c0f21898faeac4ad94165041a3f0bf7da760bdaea9a4277a674cc408b7"
+    },
+    {
+      "path": "corridor-result.json",
+      "sha256": "890db674b609fa173ee79bdb748d25210f4e86d74d535d282d0804f41347afac"
+    },
+    {
+      "path": "demand-path-check.json",
+      "sha256": "68f2f4b1cf49c348d11abb6d56917460e323a1378c74307c051e64f88bc3c402"
+    },
+    {
+      "path": "execution.json",
+      "sha256": "ca96f2b9edac7472df147845b3fc2d40d351166c035886fd34802adc37dbc577"
+    },
+    {
+      "path": "figure-sources/aerial-2026.png",
+      "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902"
+    },
+    {
+      "path": "figure-sources/junctions-final/corridor-comparison.png",
+      "sha256": "bd73b7db297f2fdfdd04cdd7aabdfaaca8223c1b5043386793affad6f83ff903"
+    },
+    {
+      "path": "figure-sources/junctions-final/lsa118-comparison.png",
+      "sha256": "32952a0e3a06d515ace38efe6d0a2d3343ecaf766b6f3d0486190b115455cea3"
+    },
+    {
+      "path": "figure-sources/netedit-after/direct-LSA118_par-8adb1de57e-inspect.png",
+      "sha256": "f047ffd233ba39c586a75332eff355fe784b739f390de2d42f61909c9cc4d161"
+    },
+    {
+      "path": "figure-sources/netedit-before/direct-LSA118_par-8adb1de57e-inspect.png",
+      "sha256": "4893f1a95b7904985bdc39d3b40c5e71a53bd22fa2f7a84aa5695face14fafc7"
+    },
+    {
+      "path": "figure-sources/pruning/corridor-comparison.png",
+      "sha256": "86fa347e0611e28527d493e35c45c7c175afaa45d409e925e3346af2bae6a2c3"
+    },
+    {
+      "path": "figure-sources/source.json",
+      "sha256": "6cf97aa9c9325e39ebd4a13ad43fd9ba052d6c9b2ffae03b94bdf6bc978bd661"
+    },
+    {
+      "path": "figures/corridor-comparison.png",
+      "sha256": "bd73b7db297f2fdfdd04cdd7aabdfaaca8223c1b5043386793affad6f83ff903"
+    },
+    {
+      "path": "figures/lsa118-comparison.png",
+      "sha256": "32952a0e3a06d515ace38efe6d0a2d3343ecaf766b6f3d0486190b115455cea3"
+    },
+    {
+      "path": "freeze-results.py",
+      "sha256": "64756026a735c2088b4d7d563a0177b691ebec50f77877bc7dc77a93f23d8b0b"
+    },
+    {
+      "path": "inputs/control.add.xml.gz",
+      "sha256": "ff8da44ab9cd38596335a08733b99009487ca91bb745bc4a42fa7182f9a71ddc"
+    },
+    {
+      "path": "inputs/corridor-demand-seed.json.gz",
+      "sha256": "8f0efc21ffb5f859d7495f16e0ea4858e5d74f5806f48f77b8be5bf8e5de8867"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "f952175b6dd04756353bedc2137ddebac24e171b96da3111407ab8eb63542019"
+    },
+    {
+      "path": "inputs/expected-counts.csv.gz",
+      "sha256": "8422c55a187d7f0e975ab70ad669bf5edf742bcda3ac491dfc23a11082a23a30"
+    },
+    {
+      "path": "inputs/field-loops.add.xml.gz",
+      "sha256": "0f614d294e893bb62abe8eb3ba1d51049497619532b6af11ba0dd30509284937"
+    },
+    {
+      "path": "inputs/initialization-counts.csv.gz",
+      "sha256": "5d6c9c4751dd1e8b4998f5f1e8afd5d64d2cd4ab7af547bd536819ab89e2ea00"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "189c6e68fb658b00fe3c3c2e716f8b92ad4b3cbe63ef52e6042624da887972cc"
+    },
+    {
+      "path": "inputs/network.net.xml.gz",
+      "sha256": "1cd38edca8c107e656017d8799848b9b9e1e1f7f9eb195c8db1e8e95a4d51418"
+    },
+    {
+      "path": "inputs/scenario.json.gz",
+      "sha256": "4f5f705dcbdc5a83cff1f46b64dd69cd1f1f44780c427635da2632f4f9ce49df"
+    },
+    {
+      "path": "internal-path-correspondence.json",
+      "sha256": "159d7691aa55a16ca9a3b5b83e6007f7299b2087b28aaa59ab2a79bfbe134251"
+    },
+    {
+      "path": "native/collisions.xml.gz",
+      "sha256": "0a0c0bcd7faf1485a05630f274293349d29637066314d5d0fa523493c926957f"
+    },
+    {
+      "path": "native/command.json.gz",
+      "sha256": "561e11e7ceb39eb70846ab8249a6dae113f56dfda85d7e6a71151fecae674aed"
+    },
+    {
+      "path": "native/field-counts.xml.gz",
+      "sha256": "6a3146402fbbe32a8f2d8253073fe3e7a54bec2ec792c3f9c5d152c9205d8d19"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "d48a289717ab860c5708ce1084bfae16603f97ad605178a0e069196195cca085"
+    },
+    {
+      "path": "native/native-request.json.gz",
+      "sha256": "f3927f0d2ddfb05802536a0c4b7c922fd8ffb4a9b9443bd4c7e9b56072804508"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "527a6114f194bfa54b3e37e89a587107fb2f17bf271a142bb9876f15e56b1962"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "b97e2d4168809fd7c3fb28d4d92101e54bc356ebf976ad9cb17c73f191399c7c"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "64a4aab4026426dad25369c2e045c460feeff201501eacc82797fee419a2abff"
+    },
+    {
+      "path": "native/sumo-errors.log.gz",
+      "sha256": "c38caed4270a4b49e4c17f8b2e469d6828c9b0e0d5fabf3617d3af1fd4df0861"
+    },
+    {
+      "path": "native/sumo.log.gz",
+      "sha256": "6d002386bcdce13382316b8ac8f9557161506bf3811a5eeab0d3ceba0469641c"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "1a5dc57c43d6780d66e3e67bfd90ab36d89cabb5bad4373198a6a77efdfd8a52"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "b99fa226850bc1cd46d46b7588fc0305250ec13cd114f0f0d68bcba75d2f5f5a"
+    },
+    {
+      "path": "netedit-after/direct-LSA118_par-8adb1de57e-inspect.png",
+      "sha256": "f047ffd233ba39c586a75332eff355fe784b739f390de2d42f61909c9cc4d161"
+    },
+    {
+      "path": "netedit-after/review-8adb1de57e.json",
+      "sha256": "a69f0a931e2b9d261a839876e9a0b36752c928de945c0fc5e89f479bd6ddc847"
+    },
+    {
+      "path": "netedit-before/direct-LSA118_par-8adb1de57e-inspect.png",
+      "sha256": "4893f1a95b7904985bdc39d3b40c5e71a53bd22fa2f7a84aa5695face14fafc7"
+    },
+    {
+      "path": "netedit-before/review-8adb1de57e.json",
+      "sha256": "ce08abb86f9ad89778f28f491c1ea80ae8d3b30ba6c6f0d44a3894ed51788ef3"
+    },
+    {
+      "path": "post-run-checks.log",
+      "sha256": "fef0a2bad7fc51876cc9aa47a306de2d3207a048b66c5d2fc50988aab9700e72"
+    },
+    {
+      "path": "preflight-tests.log",
+      "sha256": "a1a974d35a63f726ec424d2e38fda224e257ec7b7e97f1e9c360592e7e603a61"
+    },
+    {
+      "path": "preflight-tests.xml",
+      "sha256": "1c6aae38e4f4e44d0b0b7778044e5cb06f872aee2489e3ed1d403d6cdf3a894f"
+    },
+    {
+      "path": "raw-native-inventory.json",
+      "sha256": "3643075e572f6ac325c191de431e56fa83a11910447bfe73a2f911eaca3ea5b1"
+    },
+    {
+      "path": "README.md",
+      "sha256": "144e0cd3965dcbaa007120e3a1dc6c1fc41cb4e3381508e71ed43353a9ea2cd4"
+    },
+    {
+      "path": "report-generation.json",
+      "sha256": "461b0bad35777b859067d89ebf95cada8e4ebcf52d863599183fe6d7cd0a24fe"
+    },
+    {
+      "path": "report.json",
+      "sha256": "a45945a627c783ecde87cd6c701a24d608544bfe3723d0992dbe225e73942673"
+    },
+    {
+      "path": "reproduction-check.log",
+      "sha256": "e8054ba68bc3503aa2722bba55332d7dfb631010aa6daa21148dbc11d777e119"
+    },
+    {
+      "path": "review-request.json",
+      "sha256": "c7362cecc0a9cc14c16ee9d9516067c102ac2683fe5209185fea0cab554363f5"
+    },
+    {
+      "path": "run-build.py",
+      "sha256": "c896775ffd20500b40d861076ad6db9add1e4350b0fa5b3cea3386840478677a"
+    },
+    {
+      "path": "run-calibration.py",
+      "sha256": "7be838f130d8b20a13b4a25172cf0e39711806360169d582cbac046979e9b779"
+    },
+    {
+      "path": "seed/entry-delays.csv",
+      "sha256": "f9884b54248f1c80712352af0acfb4dcd39dbbdd4cc615591c4a240b677bf44b"
+    },
+    {
+      "path": "seed/field-comparison.csv",
+      "sha256": "7e7d4b38ac457358f47fe38a2638bae7a7f486e7eaee7af6ded3b76c529159b1"
+    },
+    {
+      "path": "seed/figures/01-osm-to-pruned.png",
+      "sha256": "86fa347e0611e28527d493e35c45c7c175afaa45d409e925e3346af2bae6a2c3"
+    },
+    {
+      "path": "seed/figures/02-pruned-to-junctions.png",
+      "sha256": "bd73b7db297f2fdfdd04cdd7aabdfaaca8223c1b5043386793affad6f83ff903"
+    },
+    {
+      "path": "seed/figures/03-lsa118-before-after.png",
+      "sha256": "32952a0e3a06d515ace38efe6d0a2d3343ecaf766b6f3d0486190b115455cea3"
+    },
+    {
+      "path": "seed/figures/04-sensors.png",
+      "sha256": "98e9b8324de11e8d79a6af875702a128459700e95c098829484702b3d5b5f5fd"
+    },
+    {
+      "path": "seed/figures/field-counts.png",
+      "sha256": "b32d7c1e5ca40495c371326dc5c65d5db493966e855decf3312a3615fe5e1f44"
+    },
+    {
+      "path": "seed/figures/netedit-after.png",
+      "sha256": "f047ffd233ba39c586a75332eff355fe784b739f390de2d42f61909c9cc4d161"
+    },
+    {
+      "path": "seed/figures/netedit-before.png",
+      "sha256": "4893f1a95b7904985bdc39d3b40c5e71a53bd22fa2f7a84aa5695face14fafc7"
+    },
+    {
+      "path": "seed/figures/station-counts.png",
+      "sha256": "de906b9ab000e71f74796d6ad9dee2aea40d66bb294a424f0ca7a7cce7082ce7"
+    },
+    {
+      "path": "seed/passage-reconciliation.json.gz",
+      "sha256": "03e7da597f8ad4445e2c01787f0ad87e0843b3e63ec098c52d3c40b964d8f1b7"
+    },
+    {
+      "path": "seed/README.md",
+      "sha256": "ec9ce8f9a1659508024ce77d842994b630398685f932e994790bbc634ad91a1f"
+    },
+    {
+      "path": "seed/report.html",
+      "sha256": "79d612008cb4a3fc7d031f8e5e76797c06e9f23f324120513fb4127c10ea5b17"
+    },
+    {
+      "path": "seed/results.json",
+      "sha256": "d0104774b4fb67c100b41261b6a78ae90f88dff8a5d0dd8b764327176576b3d6"
+    },
+    {
+      "path": "seed/sensor-positions.csv",
+      "sha256": "29be91aa8156021b3aebbfdb71496dd1682e65570efe49f70c6d0c82e0ed4c7c"
+    },
+    {
+      "path": "seed/station-comparison.csv",
+      "sha256": "40cdb16745e906f03a46e9d03549ac54c39fd50ac3d3f8a589267a6119d72c0b"
+    },
+    {
+      "path": "seed/vehicle-field-passages.csv.gz",
+      "sha256": "67c1daa2dfa90988705c3beefbabb9e26564ae8d54cea29f683809fbf0630efd"
+    },
+    {
+      "path": "selection.json",
+      "sha256": "00ffdc3ca120a94fbd06d57bdca716fc9125568302b339997e87272b1822ada8"
+    }
+  ],
+  "native_count_result": "complete_invalid_collision_and_backlog",
+  "formal_result": false,
+  "candidate_network_sha256": "2d29bdb4183a9491bbd220324742d3a48a3484a96de8adc0eda984ad477cdb7e",
+  "actual_native_runs": 1,
+  "further_feedback_runs": 0,
+  "native_source_commit": "8fcbde9ef16d3636f6a7c7ec9d70865129d59eef"
+}

@@ -286,7 +286,7 @@ def test_inventory_canonical_json_round_trips_and_checked_schema_is_current() ->
 
     assert canonical == reparsed.canonical_json()
     assert (
-        ROOT / "schemas" / "torii.signal-device-profile-inventory.v1.schema.json"
+        ROOT / "schemas" / "product" / "torii.signal-device-profile-inventory.v1.schema.json"
     ).read_text(encoding="utf-8") == expected_schema
 
 

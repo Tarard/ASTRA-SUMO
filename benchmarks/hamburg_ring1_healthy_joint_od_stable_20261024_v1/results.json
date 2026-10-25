@@ -1,0 +1,123 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "raw_verdict": "rejected",
+    "candidate_selected": false,
+    "native_runs_by_freeze": 0,
+    "before": {
+      "metrics130": {
+        "rows": 130,
+        "SSE": 6709,
+        "TAE": 483,
+        "MAE": 3.7153846153846155,
+        "max_abs_error": 27
+      },
+      "metrics52": {
+        "rows": 52,
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "metrics182": {
+        "rows": 182,
+        "SSE": 7714,
+        "TAE": 588,
+        "MAE": 3.230769230769231,
+        "max_abs_error": 27
+      },
+      "station40_MAE": 10.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8640,
+        "running": 0,
+        "waiting": 0,
+        "teleports": 0,
+        "collisions": 0,
+        "discarded": 0
+      },
+      "safe": true,
+      "healthy": true,
+      "event_count": 8640
+    },
+    "full": {
+      "main130": {
+        "SSE": 12467,
+        "TAE": 663,
+        "MAE": 5.1,
+        "max_abs_error": 41
+      },
+      "initial52": {
+        "SSE": 1005,
+        "TAE": 105,
+        "MAE": 2.019230769230769,
+        "max_abs_error": 15
+      },
+      "all182": {
+        "SSE": 13472,
+        "TAE": 768,
+        "MAE": 4.21978021978022,
+        "max_abs_error": 41
+      },
+      "station40_MAE": 14.975,
+      "completion": {
+        "loaded": 8640,
+        "inserted": 8640,
+        "arrived": 8510,
+        "waiting": 0,
+        "running": 130,
+        "collisions": 0,
+        "teleports": 0,
+        "discarded": 0
+      },
+      "healthy": false,
+      "safe": true,
+      "event_count": 8540,
+      "unexpected_contributions": 0,
+      "repeated_vehicle_fields": 0,
+      "warning_lines": 31
+    },
+    "all53556": {
+      "rows": 56,
+      "SSE": 0,
+      "TAE": 0,
+      "MAE": 0.0,
+      "max_abs_error": 0
+    },
+    "gates": {
+      "safe": true,
+      "healthy": false,
+      "all53556_zero": true,
+      "no_repeated_vehicle_fields": true,
+      "no_contributions_outside_primary_intention": true,
+      "main130_MAE_improves": false,
+      "main130_SSE_not_worse": false,
+      "all182_TAE_not_worse": false
+    },
+    "scope": {
+      "IDs": 8640,
+      "changed_departures": 64,
+      "unchanged_XML_intents_relative_order": 8576,
+      "initial_requests_fixed": 1953,
+      "same_q_as_quantile": true,
+      "OD_totals": 21,
+      "cell_L1": 128,
+      "native_max_shift_s": 5408.089,
+      "native_median_shift_s": 2709.244,
+      "departure_shift_cap": null
+    },
+    "conditional_Z5_capacity": {
+      "global_fixed_intended_vehicles": 623,
+      "fixed_initial_complete_events": 102,
+      "main_maximum_if_at_most_one_intended_contribution": 521,
+      "main_target_total": 522,
+      "applies_only_with_fixed_initial_and_no_extra_or_repeated_contributions": true,
+      "does_not_restrict_legal_field_share_changes": true
+    },
+    "claim_boundary": "Only64 explicit departures changed. Same q does not imply same realization or transfer the earlier empirical C/q prediction. Audit pass is not acceptance; healthy3.715 remains the reference. Conditional same-input bounds do not contradict real targets."
+  }
+}

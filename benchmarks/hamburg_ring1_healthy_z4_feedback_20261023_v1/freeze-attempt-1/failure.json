@@ -1,0 +1,36 @@
+{
+  "status": "failed_final_provenance_check",
+  "reason": "Source README snapshot lookup was shadowed by generated packet README. No native or measured input changed.",
+  "mismatches": [
+    "README.md"
+  ],
+  "repair": "Archive source README under study-source/README.md; keep original compressed snapshot and failed manifest.",
+  "native_runs_by_freeze": 0,
+  "lossless_snapshots": [
+    {
+      "snapshot": "manifest.json.gz",
+      "raw_bytes": 31880,
+      "raw_sha256": "ab83074d63c3e993ea117b85667a91bb9efdf571f224526e24bbcf07813916d2"
+    },
+    {
+      "snapshot": "source-provenance.json.gz",
+      "raw_bytes": 71744,
+      "raw_sha256": "454b59cc03940c56220747aec52d6b93b929c0edca32a45bcc4b7c2477d5233d"
+    },
+    {
+      "snapshot": "freeze_evidence.py.gz",
+      "raw_bytes": 20245,
+      "raw_sha256": "de404e410f432224436ff8b11e2c917d020ce363004891ea3b34210a1f02c163"
+    },
+    {
+      "snapshot": "test_freeze_evidence.py.gz",
+      "raw_bytes": 1432,
+      "raw_sha256": "3c111da80cfb5f8bb106512e247dbe08b7821822ca908b300dfb983e041b9c37"
+    },
+    {
+      "snapshot": "README.md.gz",
+      "raw_bytes": 1848,
+      "raw_sha256": "90304148e84f7c18b670cdd4d24371da103318d73a88d55d9e02428b6ea8cbb4"
+    }
+  ]
+}

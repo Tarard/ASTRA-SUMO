@@ -5,16 +5,22 @@ ODbL-1.0. It contains original node/way tags from the public corridor extract.
 """
 
 import hashlib
+import os
 import shutil
 import subprocess
+import threading
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
 import pytest
 import sumolib
+import traci
+from sumolib import checkBinary
+from sumolib.miscutils import getFreeSocketPort
 
 from astra_sumo.core.osm_network import build_osm_network
 from astra_sumo.core.osm_access import resolve_static_osm_access
+from astra_sumo.core.command_runner import _terminate_process_tree
 
 
 def test_static_restriction_hierarchy_and_unresolved_access_stay_explicit():
@@ -111,18 +117,50 @@ def test_real_bus_roads_preserve_source_access_and_reject_delivery_and_bicycle(t
     assert report["changed_lane_count"] == len(relevant)
 
     chosen = [next(edge for edge in relevant if key in edge.getID()).getID() for key in ("219999179", "1217434982")]
+    routes = ET.Element("routes")
     for mode in ("bus", "delivery", "bicycle"):
-        routes = ET.Element("routes")
-        ET.SubElement(routes, "vType", id="test", vClass=mode)
-        for i, edge in enumerate(chosen):
-            vehicle = ET.SubElement(routes, "vehicle", id=f"v{i}", type="test", depart=str(i))
-            ET.SubElement(vehicle, "route", edges=edge)
-        route_file = tmp_path / f"{mode}.rou.xml"
-        ET.ElementTree(routes).write(route_file, encoding="utf-8", xml_declaration=True)
-        tripinfo = tmp_path / f"{mode}.tripinfo.xml"
-        run = subprocess.run([sumo, "-n", result["net_file"], "-r", str(route_file), "--end", "300", "--tripinfo-output", str(tripinfo), "--no-step-log", "true"], text=True, capture_output=True, timeout=30)
-        if mode == "bus":
-            assert run.returncode == 0, run.stderr
-            assert len(ET.parse(tripinfo).getroot().findall("tripinfo")) == 2
-        else:
-            assert run.returncode != 0, f"{mode} unexpectedly entered a bus-only road"
+        ET.SubElement(routes, "vType", id=mode, vClass=mode)
+    for i, edge in enumerate(chosen):
+        vehicle = ET.SubElement(routes, "vehicle", id=f"v{i}", type="bus", depart=str(i))
+        ET.SubElement(vehicle, "route", edges=edge)
+    route_file, tripinfo = tmp_path / "vehicles.rou.xml", tmp_path / "tripinfo.xml"
+    ET.ElementTree(routes).write(route_file, encoding="utf-8", xml_declaration=True)
+    port, native_log = getFreeSocketPort(), tmp_path / "native.log"
+    expired = threading.Event()
+    with native_log.open("w", encoding="utf-8") as log:
+        process = subprocess.Popen([checkBinary("sumo"), "-n", result["net_file"], "-r", str(route_file),
+            "--remote-port", str(port), "--tripinfo-output", str(tripinfo), "--no-step-log", "true",
+            "--error-log", str(tmp_path / "native-errors.log")],
+            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT,
+            start_new_session=os.name != "nt", creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
+        def stop_at_deadline():
+            if process.poll() is not None:
+                return
+            expired.set()
+            (tmp_path / "native-timeout.txt").write_text("The native permission probe exceeded 30 seconds.\n", encoding="utf-8")
+            _terminate_process_tree(process)
+        deadline = threading.Timer(30, stop_at_deadline)
+        deadline.start()
+        try:
+            connection = traci.connect(port, numRetries=30, proc=process)
+            for i, edge in enumerate(chosen):
+                route_id = f"restricted-{i}"
+                connection.route.add(route_id, [edge])
+                for mode in ("delivery", "bicycle"):
+                    vehicle_id = f"{mode}-{i}"
+                    # Check native departure rejection without the fatal XML-error shutdown path.
+                    with pytest.raises(traci.TraCIException, match="not allowed to depart on any lane of edge"):
+                        connection.vehicle.add(vehicle_id, route_id, typeID=mode)
+                    with pytest.raises(traci.TraCIException, match="not known"):
+                        connection.vehicle.getVehicleClass(vehicle_id)
+            connection.simulationStep(300)
+            connection.close(wait=False)
+            assert process.wait(timeout=15) == 0, native_log.read_text(encoding="utf-8")
+        except traci.FatalTraCIError as error:
+            raise AssertionError(f"Native permission connection closed. Deadline expired: {expired.is_set()}. Process exit: {process.poll()}. See native logs.") from error
+        finally:
+            deadline.cancel()
+            if process.poll() is None:
+                _terminate_process_tree(process)
+            process.wait(timeout=5)
+    assert {row.get("id") for row in ET.parse(tripinfo).getroot().findall("tripinfo")} == {"v0", "v1"}

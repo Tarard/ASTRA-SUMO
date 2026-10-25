@@ -1,0 +1,50 @@
+{
+  "formal_result": false,
+  "source_case": "hamburg_ring1_primary_entry_full_20261022_v1",
+  "queue_sample_period_s": 1,
+  "positive_queue_samples": {
+    "480873120#0_0": 8939,
+    "142944325#0_0": 9701,
+    "142944325#0_1": 771
+  },
+  "maximum_native_queue_length_m": {
+    "480873120#0_0": 14.978582640164,
+    "142944325#0_0": 21.105462477575,
+    "142944325#0_1": 21.026222401983
+  },
+  "installed_signal_windows": {
+    "LSA200_part1": {
+      "link_index": 0,
+      "cycle_s": 90.0,
+      "windows": [
+        {
+          "begin_s": 51.0,
+          "end_s": 84.0,
+          "state": "g"
+        },
+        {
+          "begin_s": 84.0,
+          "end_s": 87.0,
+          "state": "y"
+        }
+      ]
+    },
+    "LSA200_part0": {
+      "link_index": 28,
+      "cycle_s": 90.0,
+      "windows": [
+        {
+          "begin_s": 56.0,
+          "end_s": 82.0,
+          "state": "G"
+        },
+        {
+          "begin_s": 82.0,
+          "end_s": 85.0,
+          "state": "y"
+        }
+      ]
+    }
+  },
+  "claim_boundary": "Original native queue samples and installed input programs only. A free lane or one green snapshot does not establish spare service capacity. Overlapping green windows do not prove a capacity bottleneck or its absence."
+}

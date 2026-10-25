@@ -1,0 +1,634 @@
+{
+  "files": [
+    {
+      "path": "parent-prepared/network.net.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-prepared\\network.net.xml",
+      "source_sha256": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+      "source_bytes": 1333925
+    },
+    {
+      "path": "parent-prepared/control.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-prepared\\control.add.xml",
+      "source_sha256": "8bdea33ced680acaa13485f867779b49194db157d838905fc2cc357a3a751ca8",
+      "source_bytes": 21971
+    },
+    {
+      "path": "parent-prepared/field-loops.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-prepared\\field-loops.add.xml",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_bytes": 1574
+    },
+    {
+      "path": "parent-prepared/expected-counts.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-prepared\\expected-counts.csv",
+      "source_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "source_bytes": 29105
+    },
+    {
+      "path": "parent-prepared/initialization-counts.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-prepared\\initialization-counts.csv",
+      "source_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "source_bytes": 11492
+    },
+    {
+      "path": "parent-prepared/scenario.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-prepared\\scenario.json",
+      "source_sha256": "302dd1fde57603f1ae66bc5eae5ee494352bdbf6da37b7c81f5daae69fd0abde",
+      "source_bytes": 3334
+    },
+    {
+      "path": "parent-evaluation/demand.rou.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\demand.rou.xml",
+      "source_sha256": "9aefb1944e5a0764cea2e92b440ace99f136885a157b33260fef46438a82c070",
+      "source_bytes": 3744510
+    },
+    {
+      "path": "parent-evaluation/lane-intentions.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\lane-intentions.json",
+      "source_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+      "source_bytes": 961760
+    },
+    {
+      "path": "parent-evaluation/evaluation.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\evaluation.json",
+      "source_sha256": "dbc75a367fecd7af737cd1d04b2f1bd3bbccdc384587b2436b960befd02176e4",
+      "source_bytes": 458
+    },
+    {
+      "path": "parent-evaluation/od-vector.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\od-vector.json",
+      "source_sha256": "d7491ddf755db4a18b1eceda9a8cd583c3516f87afdf17099aef0284a1d99e16",
+      "source_bytes": 5238
+    },
+    {
+      "path": "parent-evaluation/station-comparison.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\station-comparison.csv",
+      "source_sha256": "59c286b656143d464a32dd31e06320c558cfcc141f0bc0be824da154cec5a492",
+      "source_bytes": 1640
+    },
+    {
+      "path": "prepared/control.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\control.add.xml",
+      "source_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d",
+      "source_bytes": 22252
+    },
+    {
+      "path": "prepared/demand.rou.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\demand.rou.xml",
+      "source_sha256": "74331837b39c941851a51e86ca255a35a979ecdd5440e54df94d1829c3c48505",
+      "source_bytes": 3721209
+    },
+    {
+      "path": "prepared/expected-counts.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\expected-counts.csv",
+      "source_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "source_bytes": 29105
+    },
+    {
+      "path": "prepared/field-loops.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\field-loops.add.xml",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_bytes": 1574
+    },
+    {
+      "path": "prepared/initialization-counts.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\initialization-counts.csv",
+      "source_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "source_bytes": 11492
+    },
+    {
+      "path": "prepared/lane-intentions.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\lane-intentions.json",
+      "source_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+      "source_bytes": 961760
+    },
+    {
+      "path": "prepared/network.net.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\network.net.xml",
+      "source_sha256": "6752c9df76fdace2262c4dc827df295e258bbee69c232de756136be6e094bc1c",
+      "source_bytes": 1346605
+    },
+    {
+      "path": "prepared/scenario.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\prepared\\scenario.json",
+      "source_sha256": "e78b27167b2cc248f1fc28a6f0451dbdad0d5458ec648205e39c4319852e8321",
+      "source_bytes": 3552
+    },
+    {
+      "path": "evaluation/demand.rou.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\demand.rou.xml",
+      "source_sha256": "74331837b39c941851a51e86ca255a35a979ecdd5440e54df94d1829c3c48505",
+      "source_bytes": 3721209
+    },
+    {
+      "path": "evaluation/lane-intentions.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\lane-intentions.json",
+      "source_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+      "source_bytes": 961760
+    },
+    {
+      "path": "evaluation/evaluation.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\evaluation.json",
+      "source_sha256": "a54fe1aee400d7d565f6b1eb481abd4c86ec367c5fd199bc07c2d99de1be10f9",
+      "source_bytes": 459
+    },
+    {
+      "path": "evaluation/od-vector.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\od-vector.json",
+      "source_sha256": "b4f088a8c82030581aa53fe8acb37aa03abc9d440d928bcfa04f8c3feeedd7b5",
+      "source_bytes": 5961
+    },
+    {
+      "path": "evaluation/station-comparison.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\station-comparison.csv",
+      "source_sha256": "54dcf411917943a6c26a0638c19cdbc63a030cddc6988714a8e0199d0e896296",
+      "source_bytes": 1629
+    },
+    {
+      "path": "evaluation/all182-comparison.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\all182-comparison.csv",
+      "source_sha256": "d4269c9f1e6bf7e5c7ad6c0d407a9f4fa7e860bccd92524145afb3430852365b",
+      "source_bytes": 41441
+    },
+    {
+      "path": "evaluation/native/collisions.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\collisions.xml",
+      "source_sha256": "9520b581c52aa318052edeff0a7d2e4b3b8561fe010bf8c20b4859585c475f02",
+      "source_bytes": 3175
+    },
+    {
+      "path": "evaluation/native/command.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\command.json",
+      "source_sha256": "5128fd7084de59feb16ab8d6c4ca26ce90665a7f8971dc5a36042dbfbc4b1f0a",
+      "source_bytes": 5135
+    },
+    {
+      "path": "evaluation/native/demand.rou.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\demand.rou.xml",
+      "source_sha256": "74331837b39c941851a51e86ca255a35a979ecdd5440e54df94d1829c3c48505",
+      "source_bytes": 3721209
+    },
+    {
+      "path": "evaluation/native/e1.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\e1.add.xml",
+      "source_sha256": "c74c78adaefc51761b5a585e850e543069fc8ecee6f28514ac4b06248efb3ba9",
+      "source_bytes": 3524
+    },
+    {
+      "path": "evaluation/native/expected-counts.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\expected-counts.csv",
+      "source_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "source_bytes": 29105
+    },
+    {
+      "path": "evaluation/native/field-comparison.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\field-comparison.csv",
+      "source_sha256": "8eb976c8cd097fb457203da5dc31762e3fd79c5465cca3854058e3d4d8160412",
+      "source_bytes": 7948
+    },
+    {
+      "path": "evaluation/native/field-counts.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\field-counts.xml",
+      "source_sha256": "e07449ad159df0fd30f5f03ccc4494ded8bface1212f1203ed61ae2103f8ff58",
+      "source_bytes": 53038
+    },
+    {
+      "path": "evaluation/native/instant.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\instant.add.xml",
+      "source_sha256": "ddc19635ea943a5ca467a69a73f164620f0a7d3694fe038defa59b0238052202",
+      "source_bytes": 3000
+    },
+    {
+      "path": "evaluation/native/lane-intentions.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\lane-intentions.json",
+      "source_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+      "source_bytes": 961760
+    },
+    {
+      "path": "evaluation/native/native-request.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\native-request.json",
+      "source_sha256": "c109e6c93d0e3187d6cbb35b08e29f9bae332a6cbc01ccc53c0a238b1226fb60",
+      "source_bytes": 3642
+    },
+    {
+      "path": "evaluation/native/network.net.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\network.net.xml",
+      "source_sha256": "6752c9df76fdace2262c4dc827df295e258bbee69c232de756136be6e094bc1c",
+      "source_bytes": 1346605
+    },
+    {
+      "path": "evaluation/native/run.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\run.json",
+      "source_sha256": "a95d0621339909573d16f638e21069ea78f486207cee68947670c775498a1de4",
+      "source_bytes": 6092927
+    },
+    {
+      "path": "evaluation/native/signal-programs.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\signal-programs.add.xml",
+      "source_sha256": "cc7b9b5f60a93ee6e5bc77352532806746607c371707197344c85bce21e0b39d",
+      "source_bytes": 22252
+    },
+    {
+      "path": "evaluation/native/source-e1.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\source-e1.add.xml",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_bytes": 1574
+    },
+    {
+      "path": "evaluation/native/stall-monitor.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\stall-monitor.json",
+      "source_sha256": "4b7d1243b75c037545c382cc32ec0f443d3a166c487fa8eb8ae166f1bf82f849",
+      "source_bytes": 5652619
+    },
+    {
+      "path": "evaluation/native/summary.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\summary.xml",
+      "source_sha256": "de079d01c6e57ae0e36050750b4c52d0f2a772894590255929dc0749e79ea161",
+      "source_bytes": 47027722
+    },
+    {
+      "path": "evaluation/native/sumo-errors.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\sumo-errors.log",
+      "source_sha256": "5a2d22cceb737c0a07ea5121388dc6878b2efb6d4232f7a9fbf14d1fc1041684",
+      "source_bytes": 2969
+    },
+    {
+      "path": "evaluation/native/sumo.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\sumo.log",
+      "source_sha256": "948aa8e69b8b026350a1d6b4055be05dcf25182e2e4a216b35e699babaaa4ca8",
+      "source_bytes": 4506
+    },
+    {
+      "path": "evaluation/native/tripinfo.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\tripinfo.xml",
+      "source_sha256": "09556560b739f29e857709b7319c1188bb5d1cdc93dc05b123c392b21030bb7f",
+      "source_bytes": 4486782
+    },
+    {
+      "path": "evaluation/native/vehicle-routes.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\evaluation\\native\\vehicle-routes.xml",
+      "source_sha256": "8f45c1fc806a7e74ef5f7ca656e67a635b2e39659f9648a9ded5ecf8aeaf8cf0",
+      "source_bytes": 6249081
+    },
+    {
+      "path": "parent-evaluation/native/collisions.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\collisions.xml",
+      "source_sha256": "95c719f15c70e0013a5b8028eac7d429d00436be83b3f84f69c8d01cf0f09314",
+      "source_bytes": 3391
+    },
+    {
+      "path": "parent-evaluation/native/command.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\command.json",
+      "source_sha256": "4444c1546e4311e398a62db74790868168294db5b9dd3eaa65bb37243e4e9e84",
+      "source_bytes": 6483
+    },
+    {
+      "path": "parent-evaluation/native/demand.rou.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\demand.rou.xml",
+      "source_sha256": "9aefb1944e5a0764cea2e92b440ace99f136885a157b33260fef46438a82c070",
+      "source_bytes": 3744510
+    },
+    {
+      "path": "parent-evaluation/native/e1.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\e1.add.xml",
+      "source_sha256": "ca37554810035ec296f84ccd425a1eb3f9c767aaeeadfd281311a27a61ec1b69",
+      "source_bytes": 3758
+    },
+    {
+      "path": "parent-evaluation/native/expected-counts.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\expected-counts.csv",
+      "source_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "source_bytes": 29105
+    },
+    {
+      "path": "parent-evaluation/native/field-comparison.csv.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\field-comparison.csv",
+      "source_sha256": "acee7e4d42d87bc2b9f620e2e3d676280b7ead9c33d87ac100c436b1b85a9e06",
+      "source_bytes": 7964
+    },
+    {
+      "path": "parent-evaluation/native/field-counts.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\field-counts.xml",
+      "source_sha256": "6b8a8865e3d7f6548668c7853a1229a369515d8d2749f66dd702b7f1090eb384",
+      "source_bytes": 53210
+    },
+    {
+      "path": "parent-evaluation/native/instant.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\instant.add.xml",
+      "source_sha256": "891789722fb530ad5b2247c918e9e4aae9f9080d082f639cb37c80dd45d210f8",
+      "source_bytes": 3234
+    },
+    {
+      "path": "parent-evaluation/native/lane-intentions.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\lane-intentions.json",
+      "source_sha256": "f4648ce9b3ac0ca17c9a1db9627627f4958c7d85bbf41d9c89b1fac6fc88d3d2",
+      "source_bytes": 961760
+    },
+    {
+      "path": "parent-evaluation/native/native-request.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\native-request.json",
+      "source_sha256": "982fd40a9b32252803a9863a9f59f78ece7432bc6e3a68a4c6d769cb4f509bd5",
+      "source_bytes": 3930
+    },
+    {
+      "path": "parent-evaluation/native/network.net.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\network.net.xml",
+      "source_sha256": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+      "source_bytes": 1333925
+    },
+    {
+      "path": "parent-evaluation/native/run.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\run.json",
+      "source_sha256": "ffcf9d18fd5057e6c7861425dc7a20b523131a79a1f5bc6e8123f6138c8e1b37",
+      "source_bytes": 5417953
+    },
+    {
+      "path": "parent-evaluation/native/signal-programs.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\signal-programs.add.xml",
+      "source_sha256": "8bdea33ced680acaa13485f867779b49194db157d838905fc2cc357a3a751ca8",
+      "source_bytes": 21971
+    },
+    {
+      "path": "parent-evaluation/native/source-e1.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\source-e1.add.xml",
+      "source_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+      "source_bytes": 1574
+    },
+    {
+      "path": "parent-evaluation/native/stall-monitor.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\stall-monitor.json",
+      "source_sha256": "8877123e8ac05784aec9a889b2d57800008792bbcddc7e701e63b1e23513760b",
+      "source_bytes": 5026081
+    },
+    {
+      "path": "parent-evaluation/native/summary.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\summary.xml",
+      "source_sha256": "7b3c041800944c37bfd0c73d36bfa15a22fc53702c7984a6a0f7b8e9fc384772",
+      "source_bytes": 47030696
+    },
+    {
+      "path": "parent-evaluation/native/sumo-errors.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\sumo-errors.log",
+      "source_sha256": "a1ac2a077cccde6c7702074d454f2e51a22ad4ebf72871158dac6a521df1490f",
+      "source_bytes": 4191
+    },
+    {
+      "path": "parent-evaluation/native/sumo.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\sumo.log",
+      "source_sha256": "b26a65daebc3d56fcfa17c5977dbdc16020ed0f5882d599c7638e791b0be9c60",
+      "source_bytes": 5818
+    },
+    {
+      "path": "parent-evaluation/native/tripinfo.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\tripinfo.xml",
+      "source_sha256": "5ccb8aed620f38138dd437b8c6dfbac2f1f3f4636d86fced8339d503ab0ba001",
+      "source_bytes": 4187935
+    },
+    {
+      "path": "parent-evaluation/native/vehicle-routes.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-directed-backlog-20261023-v1\\original-seed-restored-evaluation\\native\\vehicle-routes.xml",
+      "source_sha256": "089234af3de089147bd2cc3e2028aaefdf87c9e821a94c2a3f0fb2772d4c6f42",
+      "source_bytes": 5702875
+    },
+    {
+      "path": "sparse-probe/collisions.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\collisions.xml",
+      "source_sha256": "66a0578aebee7f640d57119f5088d8d88521e7e112f12ab2fdda972c9093db39",
+      "source_bytes": 2675
+    },
+    {
+      "path": "sparse-probe/command.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\command.json",
+      "source_sha256": "492a83e3dd3eb944545ccbe6d6e7637268bbe48f6d5878012a37b3225e03c076",
+      "source_bytes": 5535
+    },
+    {
+      "path": "sparse-probe/fcd.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\fcd.xml",
+      "source_sha256": "3d7626fa799973f9551f223fecd7e0cd315a83a643ebffc8a039247bfac36cc5",
+      "source_bytes": 2054532
+    },
+    {
+      "path": "sparse-probe/five-vehicles.rou.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\five-vehicles.rou.xml",
+      "source_sha256": "cd706fce2c278489c0140e66a4e565e0f9cb59066bc0a117e908108ae9601d5d",
+      "source_bytes": 2068
+    },
+    {
+      "path": "sparse-probe/probe-result.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\probe-result.json",
+      "source_sha256": "e6cd30459e7608a8053d86dc84ed101d4c92c5d505417e32718d3d695ddc8149",
+      "source_bytes": 8684
+    },
+    {
+      "path": "sparse-probe/summary.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\summary.xml",
+      "source_sha256": "a91d80a072a5f822bd50f6e29f5c2912e85261efbfbf840e21e92f718204b7d3",
+      "source_bytes": 5564064
+    },
+    {
+      "path": "sparse-probe/sumo-errors.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\sumo-errors.log",
+      "source_sha256": "b12ed82d5fd498da3a72013ffe493c803f0437bd602e48f9b65a7e7a9eee9ea7",
+      "source_bytes": 2074
+    },
+    {
+      "path": "sparse-probe/tripinfo.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\tripinfo.xml",
+      "source_sha256": "8c55fd18462032e747b99e1258344460fa80e3cd537c6cca73e0dd5706dd9c06",
+      "source_bytes": 5388
+    },
+    {
+      "path": "sparse-probe/vehicle-routes.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\sparse-probe\\vehicle-routes.xml",
+      "source_sha256": "8f262afd7510e7ed48921dfded05c9301744071a46cf8f13c7461f272566c1cb",
+      "source_bytes": 5872
+    },
+    {
+      "path": "branch-cost-evidence.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\branch-cost-evidence.json",
+      "source_sha256": "0dd2bbf3e44ab66fa18853de922d99459ae8360b59e32b35e7d20dec8262de63",
+      "source_bytes": 592
+    },
+    {
+      "path": "preservation.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\preservation.json",
+      "source_sha256": "52ff455a172cac98ced27d7fb3955a0c326091b704c57cbd831cc223695c6d94",
+      "source_bytes": 1040
+    },
+    {
+      "path": "repair-proposal.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\repair-proposal.json",
+      "source_sha256": "c2fff0735e059f00fcf42d68f54b6693cc794eacd4b1ef791eac4bc56cd9bece",
+      "source_bytes": 65477
+    },
+    {
+      "path": "generation-request.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\generation-request.json",
+      "source_sha256": "f23bb6e6a210a57ab7bce0f518143fce0abd14f253b50efa752f159bcd59839e",
+      "source_bytes": 842
+    },
+    {
+      "path": "verification.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\verification.json",
+      "source_sha256": "7675f7d89c06e1c3abf6d0c57613e4b0a2eba3dc530a001775d2000cefb3f561",
+      "source_bytes": 2307
+    },
+    {
+      "path": "selection-record-correction.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\selection-record-correction.json",
+      "source_sha256": "1cd2ccd6246a11d34b8d71263f948a48d5126a875b9c2272f382b774175cf62f",
+      "source_bytes": 406
+    },
+    {
+      "path": "full-preflight.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\full-preflight.json",
+      "source_sha256": "230b7ce3e33559f7c3b424c209d2c02641f21849eeb9154de55d60f51acc5eba",
+      "source_bytes": 953
+    },
+    {
+      "path": "full-verdict.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\full-verdict.json",
+      "source_sha256": "1b78f3d3c63c74072cd88d4fd235c8771c846b248ffd5534531b70e0af583326",
+      "source_bytes": 1501
+    },
+    {
+      "path": "full-execution.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\full-execution.json",
+      "source_sha256": "a677f938c6a379d218b647743253c16d77df12678f8db0678f6cf2abc31f2dd6",
+      "source_bytes": 187
+    },
+    {
+      "path": "full.stdout.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\full.stdout.log",
+      "source_sha256": "1b78f3d3c63c74072cd88d4fd235c8771c846b248ffd5534531b70e0af583326",
+      "source_bytes": 1501
+    },
+    {
+      "path": "full.stderr.log.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\full.stderr.log",
+      "source_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "source_bytes": 0
+    },
+    {
+      "path": "run_full.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\run_full.py",
+      "source_sha256": "f051d8a441a1194f52a35a301f7719e3fbda39ca76ab0e63eb6f9628accc1c37",
+      "source_bytes": 4321
+    },
+    {
+      "path": "run_probe.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\run_probe.py",
+      "source_sha256": "32556593fbccfe8f6baac2b1b037cda1cebde836d439ef7d37dc21322c7fb7b9",
+      "source_bytes": 4685
+    },
+    {
+      "path": "source/network.net.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\inputs\\network.net.xml",
+      "source_sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+      "source_bytes": 1948363
+    },
+    {
+      "path": "source/control.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_primary_entry_full_20261022_v1\\inputs\\control.add.xml",
+      "source_sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+      "source_bytes": 27863
+    },
+    {
+      "path": "source/selection.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_munich_corridor_20261022_v1\\selection.json",
+      "source_sha256": "00ffdc3ca120a94fbd06d57bdca716fc9125568302b339997e87272b1822ada8",
+      "source_bytes": 125295
+    },
+    {
+      "path": "source-projection/selected.net.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\source-projection\\selected.net.xml",
+      "source_sha256": "a4c7b0af8c551e95ba78c7c2c7d3804753c175cbcb586b71ba091160d482ab65",
+      "source_bytes": 1360309
+    },
+    {
+      "path": "source-projection/report.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\source-projection\\report.json",
+      "source_sha256": "866a60a013d2121c22b66a80bb50a228c9b6ab28b38dd571c915424252c6ae34",
+      "source_bytes": 162276
+    },
+    {
+      "path": "source-projection/selection.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\source-projection\\selection.json",
+      "source_sha256": "b8e54c7d10e7e479ad18c580f3c5c06c025b66152fa568a5c9f0bc7b2c793bf1",
+      "source_bytes": 125309
+    },
+    {
+      "path": "source-projection/control.add.xml.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\source-projection-control.add.xml",
+      "source_sha256": "01e250f40aef748a17ccde706ffb50da792b2256fdf803247eb97b676aecc4ad",
+      "source_bytes": 22241
+    },
+    {
+      "path": "source/control-domain-check.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_control_domain_sources_20261022_v1\\source-check.json",
+      "source_sha256": "41af6d4f7ef72202dbd3a2a9951eba2d0f668a1ecdaa2f59db980ae814a6147f",
+      "source_bytes": 11622
+    },
+    {
+      "path": "code-source/simulation_stall.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\simulation_stall.py",
+      "source_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+      "source_bytes": 9792
+    },
+    {
+      "path": "code-source/detector_demand_replay.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\detector_demand_replay.py",
+      "source_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+      "source_bytes": 17798
+    },
+    {
+      "path": "code-source/lane_section_hold.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\lane_section_hold.py",
+      "source_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+      "source_bytes": 6795
+    },
+    {
+      "path": "code-source/hamburg_od_spsa.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_od_spsa.py",
+      "source_sha256": "7f8d630e9fbda9c1bd2d37d3c7b8d460bfa02f94652a71cdb075ecda1aaeb71b",
+      "source_bytes": 19668
+    },
+    {
+      "path": "code-source/hamburg_primary_branch_repair.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_primary_branch_repair.py",
+      "source_sha256": "861791b56c065f8818acf0c16846dfcf7ffe558139dc43e072e62154131238c8",
+      "source_bytes": 13938
+    },
+    {
+      "path": "code-source/road_hierarchy.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\road_hierarchy.py",
+      "source_sha256": "e0ff9d458b7c46dec1f831a11bf2b683b2d54412f1845b2f5cf3bd65b0a92018",
+      "source_bytes": 31608
+    },
+    {
+      "path": "code-source/hamburg_corridor_pruning.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_corridor_pruning.py",
+      "source_sha256": "e47cfb4163f1ca36413c2c3c718f21ca23dabe13e5c56657a721fbd27669ad5a",
+      "source_bytes": 21983
+    },
+    {
+      "path": "code-source/test_hamburg_primary_branch_repair.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\tests\\test_hamburg_primary_branch_repair.py",
+      "source_sha256": "edc8597eaa07952b5578133aa1fae7838dad48cbe3dc9d6439f77c7f682dcfb5",
+      "source_bytes": 3651
+    },
+    {
+      "path": "code-source/test_hamburg_primary_branch_evidence.py.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\tests\\test_hamburg_primary_branch_evidence.py",
+      "source_sha256": "40bcd9937a4d488c70fb2056fbda33d99df76cf9d5c85c043da03d6f2b439097",
+      "source_bytes": 10945
+    },
+    {
+      "path": "aerial-review/report.json.gz",
+      "source_path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-primary-branch-repair-20261023-v1\\aerial-review\\report.json",
+      "source_sha256": "378db76b889540ac24bc36da5b0ae2b27659b05f9f011f1f391762ef1cf3bfda",
+      "source_bytes": 708860
+    }
+  ]
+}

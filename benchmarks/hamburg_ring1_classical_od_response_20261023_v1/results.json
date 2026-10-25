@@ -1,0 +1,398 @@
+{
+  "formal_result": false,
+  "complete_runs": [
+    "probe-plus6",
+    "probe-minus6",
+    "probe-plus1",
+    "probe-minus1"
+  ],
+  "evaluations": {
+    "probe-plus6": {
+      "original_verdict": {
+        "status": "rejected",
+        "formal_result": false,
+        "native_status": "pass",
+        "safe": true,
+        "healthy": false,
+        "preview_and_measure_bytes_identical": true,
+        "initialization52_identical_to_baseline": true,
+        "main_rows": 130,
+        "initialization_rows": 52,
+        "all_rows": 182,
+        "baseline": {
+          "SSE": 10749,
+          "TAE": 775,
+          "MAE": 5.961538461538462
+        },
+        "measurement": {
+          "loss": 9917,
+          "MAE": 6.084615384615384,
+          "max_abs_error": 30,
+          "healthy": false,
+          "station_MAE": 17.775,
+          "station_max_abs_error": 52,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8591,
+            "arrived": 8578,
+            "running": 13,
+            "waiting": 49,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0
+          },
+          "exact_count_fit": false,
+          "count_source": "Native E1 nVehContrib only",
+          "field_rows": 130,
+          "derived_station_rows": 40,
+          "TAE": 791,
+          "all182_TAE": 873
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8591,
+          "arrived": 8578,
+          "running": 13,
+          "waiting": 49,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "waiting": 49,
+        "running": 13,
+        "claim_boundary": "A safe SSE decrease with non-increasing main MAE is diagnostic only. All 130 fields and 52 initialization observations remain. This is not formal calibration or proof of true OD.",
+        "elapsed_seconds": 287.60804590000043,
+        "source_inputs_unchanged": true
+      },
+      "independent": {
+        "main130": {
+          "SSE": 9917,
+          "TAE": 791,
+          "MAE": 6.084615384615384,
+          "max_abs_error": 30
+        },
+        "initial52": {
+          "SSE": 826,
+          "TAE": 82,
+          "MAE": 1.5769230769230769,
+          "max_abs_error": 16
+        },
+        "all182": {
+          "SSE": 10743,
+          "TAE": 873,
+          "MAE": 4.7967032967032965,
+          "max_abs_error": 30
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8591,
+          "arrived": 8578,
+          "running": 13,
+          "waiting": 49,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "exact_count_fit": false
+      }
+    },
+    "probe-minus6": {
+      "original_verdict": {
+        "status": "rejected",
+        "formal_result": false,
+        "native_status": "pass",
+        "safe": true,
+        "healthy": false,
+        "preview_and_measure_bytes_identical": true,
+        "initialization52_identical_to_baseline": true,
+        "main_rows": 130,
+        "initialization_rows": 52,
+        "all_rows": 182,
+        "baseline": {
+          "SSE": 10749,
+          "TAE": 775,
+          "MAE": 5.961538461538462
+        },
+        "measurement": {
+          "loss": 11112,
+          "MAE": 6.461538461538462,
+          "max_abs_error": 26,
+          "healthy": false,
+          "station_MAE": 18.2,
+          "station_max_abs_error": 54,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8585,
+            "arrived": 8560,
+            "running": 25,
+            "waiting": 55,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0
+          },
+          "exact_count_fit": false,
+          "count_source": "Native E1 nVehContrib only",
+          "field_rows": 130,
+          "derived_station_rows": 40,
+          "TAE": 840,
+          "all182_TAE": 922
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8585,
+          "arrived": 8560,
+          "running": 25,
+          "waiting": 55,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "waiting": 55,
+        "running": 25,
+        "claim_boundary": "A safe SSE decrease with non-increasing main MAE is diagnostic only. All 130 fields and 52 initialization observations remain. This is not formal calibration or proof of true OD.",
+        "elapsed_seconds": 303.05321950000143,
+        "source_inputs_unchanged": true
+      },
+      "independent": {
+        "main130": {
+          "SSE": 11112,
+          "TAE": 840,
+          "MAE": 6.461538461538462,
+          "max_abs_error": 26
+        },
+        "initial52": {
+          "SSE": 826,
+          "TAE": 82,
+          "MAE": 1.5769230769230769,
+          "max_abs_error": 16
+        },
+        "all182": {
+          "SSE": 11938,
+          "TAE": 922,
+          "MAE": 5.065934065934066,
+          "max_abs_error": 26
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8585,
+          "arrived": 8560,
+          "running": 25,
+          "waiting": 55,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "exact_count_fit": false
+      }
+    },
+    "probe-plus1": {
+      "original_verdict": {
+        "status": "rejected",
+        "formal_result": false,
+        "native_status": "pass",
+        "safe": true,
+        "healthy": false,
+        "preview_and_measure_bytes_identical": true,
+        "initialization52_identical_to_baseline": true,
+        "main_rows": 130,
+        "initialization_rows": 52,
+        "all_rows": 182,
+        "baseline": {
+          "SSE": 10749,
+          "TAE": 775,
+          "MAE": 5.961538461538462
+        },
+        "measurement": {
+          "loss": 10997,
+          "MAE": 6.376923076923077,
+          "max_abs_error": 36,
+          "healthy": false,
+          "station_MAE": 18.025,
+          "station_max_abs_error": 59,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8571,
+            "arrived": 8531,
+            "running": 40,
+            "waiting": 69,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0
+          },
+          "exact_count_fit": false,
+          "count_source": "Native E1 nVehContrib only",
+          "field_rows": 130,
+          "derived_station_rows": 40,
+          "TAE": 829,
+          "all182_TAE": 911
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8571,
+          "arrived": 8531,
+          "running": 40,
+          "waiting": 69,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "waiting": 69,
+        "running": 40,
+        "claim_boundary": "A safe SSE decrease with non-increasing main MAE is diagnostic only. All 130 fields and 52 initialization observations remain. This is not formal calibration or proof of true OD.",
+        "elapsed_seconds": 316.52765799999906,
+        "source_inputs_unchanged": true
+      },
+      "independent": {
+        "main130": {
+          "SSE": 10997,
+          "TAE": 829,
+          "MAE": 6.376923076923077,
+          "max_abs_error": 36
+        },
+        "initial52": {
+          "SSE": 826,
+          "TAE": 82,
+          "MAE": 1.5769230769230769,
+          "max_abs_error": 16
+        },
+        "all182": {
+          "SSE": 11823,
+          "TAE": 911,
+          "MAE": 5.0054945054945055,
+          "max_abs_error": 36
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8571,
+          "arrived": 8531,
+          "running": 40,
+          "waiting": 69,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "exact_count_fit": false
+      }
+    },
+    "probe-minus1": {
+      "original_verdict": {
+        "status": "diagnostic_candidate",
+        "formal_result": false,
+        "native_status": "pass",
+        "safe": true,
+        "healthy": false,
+        "preview_and_measure_bytes_identical": true,
+        "initialization52_identical_to_baseline": true,
+        "main_rows": 130,
+        "initialization_rows": 52,
+        "all_rows": 182,
+        "baseline": {
+          "SSE": 10749,
+          "TAE": 775,
+          "MAE": 5.961538461538462
+        },
+        "measurement": {
+          "loss": 6898,
+          "MAE": 5.092307692307692,
+          "max_abs_error": 27,
+          "healthy": false,
+          "station_MAE": 14.8,
+          "station_max_abs_error": 48,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8633,
+            "arrived": 8619,
+            "running": 14,
+            "waiting": 7,
+            "teleports": 0,
+            "collisions": 0,
+            "discarded": 0
+          },
+          "exact_count_fit": false,
+          "count_source": "Native E1 nVehContrib only",
+          "field_rows": 130,
+          "derived_station_rows": 40,
+          "TAE": 662,
+          "all182_TAE": 744
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8633,
+          "arrived": 8619,
+          "running": 14,
+          "waiting": 7,
+          "teleports": 0,
+          "collisions": 0,
+          "discarded": 0
+        },
+        "waiting": 7,
+        "running": 14,
+        "claim_boundary": "A safe SSE decrease with non-increasing main MAE is diagnostic only. All 130 fields and 52 initialization observations remain. This is not formal calibration or proof of true OD.",
+        "elapsed_seconds": 286.4820838000014,
+        "source_inputs_unchanged": true
+      },
+      "independent": {
+        "main130": {
+          "SSE": 6898,
+          "TAE": 662,
+          "MAE": 5.092307692307692,
+          "max_abs_error": 27
+        },
+        "initial52": {
+          "SSE": 826,
+          "TAE": 82,
+          "MAE": 1.5769230769230769,
+          "max_abs_error": 16
+        },
+        "all182": {
+          "SSE": 7724,
+          "TAE": 744,
+          "MAE": 4.087912087912088,
+          "max_abs_error": 27
+        },
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8633,
+          "arrived": 8619,
+          "running": 14,
+          "waiting": 7,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "exact_count_fit": false
+      }
+    }
+  },
+  "selected_evaluation": "probe-minus1",
+  "selected_measurement": {
+    "loss": 6898,
+    "MAE": 5.092307692307692,
+    "max_abs_error": 27,
+    "healthy": false,
+    "station_MAE": 14.8,
+    "station_max_abs_error": 48,
+    "completion": {
+      "loaded": 8640,
+      "inserted": 8633,
+      "arrived": 8619,
+      "running": 14,
+      "waiting": 7,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40,
+    "TAE": 662,
+    "all182_TAE": 744
+  },
+  "goal": "All 130 native nVehContrib residuals zero, with valid completion and safety.",
+  "claim_boundary": "Finite OD direction probes under the current empirical quantile generator and original actuated/static control. Assignment fractions are descriptive, not Jacobians. No unique true OD or finite convergence claim."
+}

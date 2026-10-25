@@ -1,0 +1,26 @@
+{
+  "status_counts": {
+    "feasible_frozen_lags": 3699,
+    "shift_budget_exceeded": 2907,
+    "missing_native_passage": 1138,
+    "before_simulation_start": 108,
+    "incompatible_target_windows": 333
+  },
+  "model_vehicles": 8185,
+  "target_field_visits": 8640,
+  "observed_target_passages": 7502,
+  "max_shift_s": 900,
+  "guard_s": 90,
+  "step_s": 0.1,
+  "formal_result": false,
+  "new_simulations": 0,
+  "changed_demand_response_verified": false,
+  "claim_boundary": "Frozen native notification lags only. Missing passages stay unknown. Shared vehicles must satisfy all declared target windows. These intervals do not prove feasibility or infeasibility after queues, insertion or lane choices change.",
+  "shared_status_counts": {
+    "incompatible_target_windows": 333,
+    "feasible_frozen_lags": 122
+  },
+  "nonzero_proposals": 1785,
+  "proposed_advances": 1785,
+  "proposed_delays": 0
+}

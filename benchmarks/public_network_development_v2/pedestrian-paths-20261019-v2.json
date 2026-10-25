@@ -1,0 +1,373 @@
+{
+  "consumer_commit": "e1236f1ba5469bab1692ab080056c4099e05d5f0",
+  "native_producer_commit": "234545e07838194814ff90c0f9951c01a5b60a85",
+  "previous_consumer_commit": "b135e7ab8c7cc9c113099033669f1fb11e7ac8a1",
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml",
+    "sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b"
+  },
+  "reference": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+    "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+  },
+  "selection_policy": {
+    "maximum_inspected": 10,
+    "maximum_materialized": 3,
+    "order": "lexicographic node ID after exact-frame and strict-containment checks",
+    "selection": "preconditions only; no outcome-based replacement",
+    "label_scope": "published_model_geometry_not_field_defect"
+  },
+  "implementation_unchanged": true,
+  "cases": [
+    {
+      "node_id": "132844",
+      "previous_status": "review_required",
+      "status": "blocked",
+      "reason": "candidate_newly_invalid_walking_areas",
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "review_required",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "review_required",
+        "requested_shape": "pass",
+        "native_contour_identity_control": "review_required",
+        "requested_contour_geometry": "pass",
+        "walking_area_validity": "blocked",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "structure_reference": "immutable_source",
+      "validity_reference": "immutable_source",
+      "newly_invalid_areas": [
+        {
+          "lane_id": ":132844_w1_0",
+          "present_in_identity_control": true
+        }
+      ],
+      "identity_control_status": "review_required",
+      "identity_control_reason": "custom_contour_recuts_source_geometry",
+      "elapsed_seconds": 177.00719019999815,
+      "inputs": {
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\ledger\\corridor_edit_ledger.json": "5625a5343ab1719680a2a056e1ff96325070f549e5e63d28202baf1c3dfe18f1",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\edit\\candidate.net.xml": "5439b15840aefd537e7a93083422ebae64ccf69222b08941628668508b391bd3",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.json": "2a25edde197b37cc15cffacf896ebd6d9545e202f120c86d6a0124596d34d706",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132844\\contour-identity-lcdwejpf\\candidate\\corridor_materialized_variant.net.xml": "4b2fa34fe2201749e0292af5d91b0bed7fea57747db020149c09b0ad435890e6"
+      },
+      "inputs_unchanged": true
+    },
+    {
+      "node_id": "132981",
+      "previous_status": "pass",
+      "status": "pass",
+      "reason": null,
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "pass",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "pass",
+        "requested_shape": "pass",
+        "native_contour_identity_control": "pass",
+        "requested_contour_geometry": "pass",
+        "walking_area_validity": "pass",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "structure_reference": "immutable_source",
+      "validity_reference": "immutable_source",
+      "newly_invalid_areas": [],
+      "identity_control_status": "pass",
+      "identity_control_reason": "source_contour_reconstruction_stable",
+      "elapsed_seconds": 181.4951532999985,
+      "inputs": {
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\ledger\\corridor_edit_ledger.json": "09c580ae9035e4fae4be091792d60214139b117db89026fd173378a2cb0ba06e",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\edit\\candidate.net.xml": "5905bc2e541c5bfd95dfb7d38aadab2c365d73ddd98208ae24a2d767985cc685",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.json": "123a9f3f7949e46f473c0e388d451a9c972f0ca468c71a36e174725b26534630",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-132981\\contour-identity-l5fhj1j5\\candidate\\corridor_materialized_variant.net.xml": "53bb53977d2155b96eb5fd61df1320d7962c17f0117262f3bacf517c759068f5"
+      },
+      "inputs_unchanged": true
+    },
+    {
+      "node_id": "133544",
+      "previous_status": "review_required",
+      "status": "review_required",
+      "reason": "pedestrian_layout_change_requires_review",
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "review_required",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "review_required",
+        "requested_shape": "pass",
+        "native_contour_identity_control": "pass",
+        "requested_contour_geometry": "pass",
+        "walking_area_validity": "pass",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "structure_reference": "immutable_source",
+      "validity_reference": "immutable_source",
+      "newly_invalid_areas": [],
+      "identity_control_status": "pass",
+      "identity_control_reason": "source_contour_reconstruction_stable",
+      "elapsed_seconds": 189.92693029999646,
+      "inputs": {
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\ledger\\corridor_edit_ledger.json": "15609a8c793e9d37c670eaf8bba3b79c11f22fb9d05e8665ca664c6d39649939",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\edit\\candidate.net.xml": "84051c7cb93233224556cf1e20f3354ff8fdb032903fed671a364f60f95b523a",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.json": "25de17463c3c0d6a6a8a85f162e87c9930b96d3375434c1d4beeba4fd877fe51",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\contour_preservation_20261019_v1\\most-repeat\\node-133544\\contour-identity-p_9hg1oc\\candidate\\corridor_materialized_variant.net.xml": "53ee4a45b65463eba9c722feff03a828917ddaeb56a40cc1a82e8ccf8e242702"
+      },
+      "inputs_unchanged": true
+    }
+  ],
+  "132844_polygon_evidence": {
+    "node_id": "132844",
+    "lane_id": ":132844_w1_0",
+    "polygons": {
+      "source": {
+        "network_sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+        "valid": true,
+        "area_xy_m2": 16.533199999999084,
+        "explanation": "Valid Geometry",
+        "minimum_clearance_m": 0.050990195136149025,
+        "wkt_xy": "POLYGON ((3201.85 3045.99, 3202.31 3045.68, 3201.76 3044.28, 3194.72 3043.46, 3193.97 3044.75, 3193.98 3044.8, 3195.44 3045.52, 3196.79 3046.02, 3198.09 3046.31, 3199.36 3046.38, 3200.6 3046.24, 3201.85 3045.99))",
+        "shape_saved": "3201.85,3045.99,461.03 3202.31,3045.68,460.80 3201.76,3044.28,460.80 3194.72,3043.46,460.80 3193.97,3044.75,460.80 3193.98,3044.80,460.44 3195.44,3045.52,460.80 3196.79,3046.02,460.80 3198.09,3046.31,460.80 3199.36,3046.38,460.80 3200.60,3046.24,460.80"
+      },
+      "control": {
+        "network_sha256": "4b2fa34fe2201749e0292af5d91b0bed7fea57747db020149c09b0ad435890e6",
+        "valid": false,
+        "area_xy_m2": 9.950737409710463,
+        "explanation": "Self-intersection[3200.35685565079 3046.26722067439]",
+        "minimum_clearance_m": 0.0505228534920539,
+        "wkt_xy": "POLYGON ((3201.83427 3045.992242, 3200.418526 3046.423745, 3199.868668 3045.028161, 3194.728084 3043.458107, 3193.969212 3044.751982, 3193.988669 3044.798608, 3195.442811 3045.520358, 3196.787712 3046.021441, 3198.094577 3046.308406, 3199.363406 3046.381251, 3200.594198 3046.239978, 3201.83427 3045.992242))",
+        "shape_saved": "3201.834270,3045.992242,460.951135 3200.418526,3046.423745,460.800000 3199.868668,3045.028161,460.800000 3194.728084,3043.458107,460.800000 3193.969212,3044.751982,460.800000 3193.988669,3044.798608,460.444840 3195.442811,3045.520358,460.800000 3196.787712,3046.021441,460.800000 3198.094577,3046.308406,460.800000 3199.363406,3046.381251,460.800000 3200.594198,3046.239978,460.800000"
+      },
+      "candidate": {
+        "network_sha256": "5439b15840aefd537e7a93083422ebae64ccf69222b08941628668508b391bd3",
+        "valid": false,
+        "area_xy_m2": 9.854055107818088,
+        "explanation": "Self-intersection[3200.34128649907 3046.27157467429]",
+        "minimum_clearance_m": 0.04758953806224703,
+        "wkt_xy": "POLYGON ((3201.823717 3045.996319, 3200.403564 3046.42964, 3199.853706 3045.034056, 3194.754364 3043.47352, 3193.995493 3044.767396, 3194.01362 3044.811398, 3195.457512 3045.529267, 3196.796139 3046.02753, 3198.097344 3046.312608, 3199.361128 3046.384501, 3200.58749 3046.243209, 3201.823717 3045.996319))",
+        "shape_saved": "3201.823717,3045.996319,460.951060 3200.403564,3046.429640,460.800000 3199.853706,3045.034056,460.800000 3194.754364,3043.473520,460.800000 3193.995493,3044.767396,460.800000 3194.013620,3044.811398,460.452866 3195.457512,3045.529267,460.800000 3196.796139,3046.027530,460.800000 3198.097344,3046.312608,460.800000 3199.361128,3046.384501,460.800000 3200.587490,3046.243209,460.800000"
+      }
+    },
+    "inputs_unchanged": true
+  },
+  "native_corner_probe": {
+    "control": {
+      "default": {
+        "valid": true,
+        "area_xy_m2": 3.088746257944517,
+        "explanation": "Valid Geometry",
+        "shape_saved": "4296.225970,3027.179744,274.065697 4294.736920,3027.360656,274.065697 4295.027883,3029.450167,273.935796 4296.509708,3029.217367,273.935796 4296.199486,3027.243264,274.001053"
+      },
+      "corner0": {
+        "valid": true,
+        "area_xy_m2": 3.088746257944517,
+        "explanation": "Valid Geometry",
+        "shape_saved": "4296.225970,3027.179744,274.065697 4294.736920,3027.360656,274.065697 4295.027883,3029.450167,273.935796 4296.509708,3029.217367,273.935796 4296.199486,3027.243264,274.001053"
+      },
+      "same_facility_structure": true,
+      "inputs_unchanged": true
+    },
+    "candidate": {
+      "default": {
+        "valid": false,
+        "area_xy_m2": 1.6066879105565255,
+        "explanation": "Self-intersection[4296.26787477389 3027.67832954472]",
+        "shape_saved": "4296.286275,3027.676094,274.031947 4294.797224,3027.857007,274.031947 4294.950283,3028.956225,273.968806 4296.432108,3028.723425,273.968806 4296.121885,3026.749326,274.034540"
+      },
+      "corner0": {
+        "valid": false,
+        "area_xy_m2": 1.6066879105565255,
+        "explanation": "Self-intersection[4296.26787477389 3027.67832954472]",
+        "shape_saved": "4296.286275,3027.676094,274.031947 4294.797224,3027.857007,274.031947 4294.950283,3028.956225,273.968806 4296.432108,3028.723425,273.968806 4296.121885,3026.749326,274.034540"
+      },
+      "same_facility_structure": true,
+      "inputs_unchanged": true
+    }
+  },
+  "standalone_native_replay": {
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netconvert.exe",
+      "--sumo-net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\tests\\fixtures\\most-contour-controls\\140489.net.xml",
+      "--offset.disable-normalization",
+      "true",
+      "--junctions.internal-link-detail",
+      "5",
+      "--precision",
+      "6",
+      "--output-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\native-direct-input-replay\\candidate.net.xml",
+      "--node-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\folded-area-reproduction-v2\\candidate\\corridor_materialized_variant.nodes.xml"
+    ],
+    "returncode": 0,
+    "walking_area": {
+      "valid": false,
+      "area_xy_m2": 1.6066879105565255,
+      "explanation": "Self-intersection[4296.26787477389 3027.67832954472]",
+      "shape_saved": "4296.286275,3027.676094,274.031947 4294.797224,3027.857007,274.031947 4294.950283,3028.956225,273.968806 4296.432108,3028.723425,273.968806 4296.121885,3026.749326,274.034540"
+    },
+    "input_hashes": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\tests\\fixtures\\most-contour-controls\\140489.net.xml": "29f4baad8701166ba91d089564bd10fe701f1bda76da712006d37ae6dc4affe0",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\folded-area-reproduction-v2\\candidate\\corridor_materialized_variant.local-input.net.xml": "93745bda463dd468469203520dbb0cd15c0acdd63d07c2607e1ce27d9cfe3a59",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\folded-area-reproduction-v2\\candidate\\corridor_materialized_variant.nodes.xml": "e5806533521b406b91b22718245bca34e8a5d36d597c42d01a30a3770dd99f4b",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\folded-area-reproduction-v2\\candidate\\corridor_materialized_variant.json": "a11413426fcc521f3efae15553b29b9f7690eecdf8382a282955ea498dd057d1"
+    },
+    "inputs_unchanged": true
+  },
+  "public_fixture_packet_replay": {
+    "command_result": {
+      "command": [
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netconvert.exe",
+        "--sumo-net-file",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\tests\\fixtures\\most-contour-controls\\140489.net.xml",
+        "--node-files",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\tests\\fixtures\\most-contour-controls\\140489-tighten.nodes.xml",
+        "--offset.disable-normalization",
+        "true",
+        "--junctions.internal-link-detail",
+        "5",
+        "--precision",
+        "6",
+        "--output-file",
+        "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\native-standalone-packet\\candidate.net.xml"
+      ],
+      "cwd": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\native-standalone-packet",
+      "status": "pass",
+      "returncode": 0,
+      "stdout": "Success.\n",
+      "stderr": "",
+      "error": ""
+    },
+    "inputs": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\tests\\fixtures\\most-contour-controls\\140489.net.xml": "29f4baad8701166ba91d089564bd10fe701f1bda76da712006d37ae6dc4affe0",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\tests\\fixtures\\most-contour-controls\\140489-tighten.nodes.xml": "e5806533521b406b91b22718245bca34e8a5d36d597c42d01a30a3770dd99f4b",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\netconvert.exe": "b85bbcecd3c60799c3a0eb7f1077f9608b0187da29babc3a20f326f97d23942f"
+    },
+    "valid": false,
+    "area_xy_m2": 1.6066879105565255,
+    "output_sha256": "351986e07aacd58ef787bc67f50ddf4d3c67ed92bcc704a2f1cfef1b02887846",
+    "inputs_unchanged": true
+  },
+  "local_checks": {
+    "related_passed": 33,
+    "elapsed_seconds": 132.68,
+    "ruff": "pass",
+    "diff_check": "pass"
+  },
+  "ci": [
+    {
+      "run_id": 39292004838,
+      "conclusion": "success",
+      "status": "completed",
+      "passed": 3519,
+      "skipped": 24,
+      "seconds": 671.79,
+      "head_sha": "e1236f1ba5469bab1692ab080056c4099e05d5f0"
+    },
+    {
+      "run_id": 39291995904,
+      "conclusion": "success",
+      "status": "completed",
+      "passed": 3519,
+      "skipped": 24,
+      "seconds": 704.82,
+      "head_sha": "e1236f1ba5469bab1692ab080056c4099e05d5f0"
+    }
+  ],
+  "limits": [
+    "Read-only applicability reassessment, not a fresh full release of all three candidates.",
+    "The invalid-ring area() values do not measure usable walking space.",
+    "No native repair was adopted. The corner-detail diagnostic did not remove the fold.",
+    "Changed pedestrian layouts remain unsupported for automatic acceptance.",
+    "No field-defect labels, cleaning-precision estimate, or mixed-traffic safety result."
+  ],
+  "artifacts": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\rescore-source-validity.py",
+      "sha256": "9e10d32bb6e4d583e614751b0028fcea351d515af9ddc61da946211e6f741896"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\source-validity-three-case-rescore\\results.json",
+      "sha256": "9e9836882ff12bcd68623908bb6949b1706f4c092bdbb2b9bc9455a7c6cda845"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\132844-area-details.json",
+      "sha256": "e49f29fb6f2cf4740a72e81548646956d98ac6ce0ce65d4e06a15b7a88468b97"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\inspect-132844-area.py",
+      "sha256": "1e88bc5eff772095a743d543816a08dbc2ce76c54651024d8ceeadb12d82de67"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\native-corner-probe\\results.json",
+      "sha256": "bd51816a02b6875fa3bfcc0f044c9242536080a4b015f9ae35566defa09c1351"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\probe-native-corners.py",
+      "sha256": "144a50dd440747e82f1b05feb16de22f469fce479e970aee28a76bf17fcfe729"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\native-direct-input-replay\\results.json",
+      "sha256": "6e3c40991b79e2390dd3270b506af11bc10ef0d5391447df492351b3dfc807e9"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\probe-direct-input.py",
+      "sha256": "2155bb1c0ddcf27db3d70c7f6855d42010852bd7c01cf85674150b7affd9f595"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\source-validity-regression.log",
+      "sha256": "8702d8ccef8383f298714913e26cab42388c3dcd42364d4da61a030c40c16e13"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\plot-132844-v2.py",
+      "sha256": "e2bb3e79b577c2d6a4b2144fa4022beac55ee4e67d49e46d4b3735e0dba60c13"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\plot-runtime.json",
+      "sha256": "c1bd00d3e06391cd76ca1263a0208e5d0bdd31e717a845acd7906b3bd04d0fff"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\native-standalone-packet\\results.json",
+      "sha256": "62f8f8ddc903afc28694b968fb254983060183b07a0ce1b55b5bdfbd25e9acd4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\pedestrian_paths_20261019_v1\\verify-standalone-packet.py",
+      "sha256": "1db52b848b31f79203694b41281619fcf9833276cf69c8725183e40ec5341acd"
+    },
+    {
+      "path": "tests\\fixtures\\most-contour-controls\\140489-tighten.nodes.xml",
+      "sha256": "e5806533521b406b91b22718245bca34e8a5d36d597c42d01a30a3770dd99f4b"
+    },
+    {
+      "path": "benchmarks\\public_network_development_v2\\figures\\132844-source-control-candidate.png",
+      "sha256": "659fec390ffabfe67c92568ea64e482bc77f2d0d4821a453b61ab8e46c92461b"
+    }
+  ]
+}

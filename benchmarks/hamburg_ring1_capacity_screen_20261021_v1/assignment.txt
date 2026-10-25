@@ -1,0 +1,131 @@
+Main issue
+
+The demand allocation ignores how much traffic each signal can pass, so the 119 fields are starved by signal capacity.
+
+The residuals are strongly uneven:
+
+Fields	Measured / target
+535	Z.14 and Z.9 exact in total; the others within 2–13%
+119 Z.12/Z.13	719 / 2,506 (29%)
+119 Z.11	226 → 58 (26%)
+119 Z.15	426 / 896 (48%)
+119 Z.4/Z.5	759 / 1,122 (68%)
+
+The 2,242 vehicles that never entered come from exactly the entries feeding 119. The signals along those routes, from the frozen demand and control files:
+
+Field	Signals on the route (green / cycle, s)
+Z.15 (890 vehicles)	5324041447 (77/90) → GS_205068087 (42/90) → LSA200_part0 (5/90) → 6390683126 (60/90)
+Z.12/Z.13 (2,006 vehicles)	6390683114 (82/90) → 244203524 (82/90) → 244203525 (42/90) → LSA119 K6 (29/90)
+Z.12/Z.13 (500 vehicles)	9844196560 (82/90) → 266197525 (27/90) → GS_26084079 (42/90) → 244203525 (42/90) → LSA119 (29/90)
+Z.15. Five seconds of green per cycle passes only a few cars per cycle, far below the roughly 360 veh/h Z.15 needs. Z.15 can’t reach its target along that route.
+Z.12/Z.13. Three or four placeholder signals in a row with only about 4–5 m between them. Any red spills back immediately, so throughput falls well below what each signal could pass on its own.
+
+The integer solve only had entry ceilings, so nothing stopped it from sending more traffic through these signals than they can pass.
+
+The collisions are a separate, mechanical problem.
+
+Every lane-intent waypoint ends 0.01 m before the stop line.
+All 50 collisions occur on the junction path immediately downstream of such a waypoint: 46 at LSA104 (139083723#0 lane 2, right turn) and 4 at LSA119 (K6 left).
+At 104 the colliding vehicles are consecutive vehicles of the same route (e.g. p208_v16 → v17).
+SUMO’s stopped counter going negative points the same way: SUMO handles waypoints badly where they meet a signal stop line.
+Next assignment: one corrective iteration, two declared changes
+
+The two changes act on symptoms that can be told apart (collision locations versus insertion per entry), so one run tests both.
+
+1. Capacity-aware solve (the main correction).
+
+For every signalled link on each candidate route, add the constraint: flow per 15-min bin ≤ 1,800 veh/h × lanes × (green / cycle) × 0.8. Take the green share from the installed programs, for official and placeholder signals alike. Declare the 0.8 factor; it allows for start-up losses and closely spaced uncoordinated signals.
+Re-solve with all other rules unchanged.
+If it’s infeasible, report the certificate: which fields and bins are capacity-limited, and by which link. I expect Z.15 through the 5/90 s movement at LSA200. That would mean either the model’s only supply path to Z.15 is wrong (check whether pruning removed a closer real entry near 119), or that movement’s group binding at 200 is wrong. Stop and report. Don’t run.
+
+2. Move the waypoints off the stop line. Set each waypoint to end at least 7.5 m (one vehicle plus gap) before the stop line, with the same lane, speed and lane-change settings.
+
+3. If feasible, run the full window once with both changes under the same control as this run: M2, Z.15 alternative A, the two r links. Use the same validity criteria. Report:
+
+insertion per entry;
+collisions by location;
+field residuals by junction;
+whether any vehicle changed lane between waypoint end and loop.
+
+The README figures, NetEdit captures and the report structure from this delivery are usable as they stand. Only the calibration run needs another pass.
+
+
+
+
+11 minutes ago
+Environment
+
+
+Default
+
+ASTRA-SUMO
+
+
+
+codex/claude-network-c
+leaning-v1
+
+Context
+
+73% used
+725.4k / 1M
+Messages
+608.1k
+60.8%
+System tools
+26.7k
+2.7%
+System prompt
+11.4k
+1.1%
+Skills
+5.6k
+0.6%
+Manage skills
+Since last update
+73.6k
+7.4%
+Autocompact buffer
+33k
+3.3%
+Free space
+241.6k
+24.2%
+System tools (deferred)
+20.9k
+—
+240k until auto-compact
+Compact session
+Outputs
+
+
+overlay_movements.png
+
+egress_zoom_map.png
+
+ring1-91254d6-linux-official.net.xml
+
+ring1-91254d6-linux-official.net.xml.gz
+Changes
+
+
+Enable exploratory road calibration and preserve scoped network edits
+
+#1
+183,694 additions, 6 deletions
++183,694
+−6
+3/4
+Mark ready
+
+
+
+
+
+Assignment executed, results pushed; please review
+
+
+Auto
+Opus 5.5 High
+Fast mode off
+Arrow keys move the tile. Perpendicular arrows preview a split; press Enter to commit or Escape to cancel.

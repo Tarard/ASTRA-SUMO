@@ -1,0 +1,68 @@
+{
+  "correspondence": false,
+  "checks": {
+    "field-counts.xml.gz": true,
+    "tripinfo.xml.gz": false,
+    "vehicle-routes.xml.gz": false,
+    "collisions.xml.gz": true,
+    "summary.xml.gz": true,
+    "evaluation.json": true,
+    "field-comparison.csv": false,
+    "station-comparison.csv": false,
+    "lane_section_hold_per_vehicle": true,
+    "library_completion": true
+  },
+  "traffic_digests": {
+    "field-counts.xml.gz": {
+      "reference": {
+        "rows": 208,
+        "sha256": "d4e0b57849eccb5fb2f8fb021be3b344e87ca54d2dcbb826a139f458d3abcf2a"
+      },
+      "libsumo": {
+        "rows": 208,
+        "sha256": "d4e0b57849eccb5fb2f8fb021be3b344e87ca54d2dcbb826a139f458d3abcf2a"
+      }
+    },
+    "tripinfo.xml.gz": {
+      "reference": {
+        "rows": 7222,
+        "sha256": "4b443d2e30e29a0f39595c5404498facc7d3a5c79d5fef30528960c7d2b322f9"
+      },
+      "libsumo": {
+        "rows": 7222,
+        "sha256": "348c014497edaf2e83525d12de56685dcccaa62e487a448f3cee355a2d71014a"
+      }
+    },
+    "vehicle-routes.xml.gz": {
+      "reference": {
+        "rows": 6813,
+        "sha256": "e0f3649b7341db4f4502744c6cec5490fe4b617f3ece82b2f9efbba5fef23eff"
+      },
+      "libsumo": {
+        "rows": 6813,
+        "sha256": "f0eb0b446e4990f9662225a5d66f82bc3c6bf88fa0fefdd4509cd3ded26ecfc0"
+      }
+    },
+    "collisions.xml.gz": {
+      "reference": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "libsumo": {
+        "rows": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    "summary.xml.gz": {
+      "reference": {
+        "rows": 144000,
+        "sha256": "0c5fb0ed749e30de67476daad65805e4917e11c446c6459ed382aa167a9aa9c9"
+      },
+      "libsumo": {
+        "rows": 144000,
+        "sha256": "0c5fb0ed749e30de67476daad65805e4917e11c446c6459ed382aa167a9aa9c9"
+      }
+    }
+  },
+  "raw_lane_hold_event_list_equal": false
+}

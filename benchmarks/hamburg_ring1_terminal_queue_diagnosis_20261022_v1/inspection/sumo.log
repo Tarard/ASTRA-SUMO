@@ -1,0 +1,25 @@
+***Starting server on port 13903 ***
+Loading net-file from 'C:\Users\huqio\Documents\ASTRA-SUMO\benchmarks\hamburg_ring1_primary_entry_full_20261022_v1\inputs\network.net.xml' ... done (194ms).
+Loading additional-files from 'C:\Users\huqio\Documents\ASTRA-SUMO\benchmarks\hamburg_ring1_primary_entry_full_20261022_v1\inputs\control.add.xml' ... done (5ms).
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program '0' in phase 0 after tl-index 2
+Warning: At actuated tlLogic '205068512', actuated phase 0 has no controlling detector.
+Warning: At actuated tlLogic '205069905', actuated phase 0 has no controlling detector.
+Warning: Unused states in tlLogic '6390683112', program 'readme_fixed_A' in phase 0 after tl-index 2
+Warning: Missing green phase in tlLogic 'LSA104_part0', program 'readme_fixed_A' for tl-index 14.
+Warning: Missing green phase in tlLogic 'LSA535_part0', program 'readme_fixed_A' for tl-index 5.
+Loading state from 'C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-primary-entry-terminal-state-20261022-v2\inspection-state.xml.gz' ... done (374ms).
+Loading done.
+Simulation version 1.27.1 started with time: 14399.900.
+Simulation ended at time: 14399.900.
+Reason: TraCI requested termination.
+Performance:
+ Duration: 2.520s
+ TraCI-Duration: 0.000s
+ Real time factor: 0
+ UPS: 0.000000
+Vehicles:
+ Inserted: 7996 (Loaded: 8640)
+ Running: 306
+ Waiting: 0

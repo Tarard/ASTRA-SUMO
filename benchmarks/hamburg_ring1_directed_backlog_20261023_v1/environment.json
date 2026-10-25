@@ -1,0 +1,22 @@
+{
+  "python": "3.12.13 (main, Apr 14 2026, 14:31:26) [MSC v.1944 64 bit (AMD64)]",
+  "python_executable": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe",
+  "source_head": "c60566442796511308b1e95d2aafde03d6817145",
+  "source_has_declared_uncommitted_domain_changes": true,
+  "versions": {
+    "numpy": "2.5.1",
+    "scipy": "1.18.0",
+    "eclipse-sumo": "1.27.1",
+    "traci": "1.27.1",
+    "sumolib": "1.27.1",
+    "libsumo": "1.27.1"
+  },
+  "network_sha256": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+  "driver_sha256": {
+    "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2",
+    "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+    "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+    "hamburg_od_spsa.py": "c64cbe5d62aa08c8feea5a386ac8158e6d5c20c020d8537e0ae8ce153c9fca95",
+    "hamburg_spillback_repair.py": "f7d9a26293a3bab7a860032359bc8bbe968e9ece3a54e1f126492320c95ba987"
+  }
+}

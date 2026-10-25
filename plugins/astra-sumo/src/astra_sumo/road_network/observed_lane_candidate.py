@@ -13,6 +13,7 @@ from ..core.hamburg_aerial_approach import (
     _CONNECTION_ATTRIBUTES, _LANE_ATTRIBUTES, _connection_key, _preserved_edge, _set_lane_shape,
 )
 from ..core.osm_access import _permission_set
+from ..core.local_network_conversion import with_geometry_precision
 
 
 def _edge_attributes_preserved(expected, actual):
@@ -191,9 +192,9 @@ def build_observed_lane_candidate(*, source_net, layouts, junction_movements, ou
         ET.indent(tree)
         ET.ElementTree(tree).write(paths[name], encoding='utf-8', xml_declaration=True)
     candidate = destination / 'observed-lanes.net.xml'
-    command = [str(netconvert_binary), '--sumo-net-file', str(source), '--edge-files', str(paths['edges']), '--node-files', str(paths['nodes']),
+    command = with_geometry_precision([str(netconvert_binary), '--sumo-net-file', str(source), '--edge-files', str(paths['edges']), '--node-files', str(paths['nodes']),
                '--connection-files', str(paths['connections']), '--tllogic-files', str(paths['tllogic']), '--type-files', str(paths['types']),
-               '--offset.disable-normalization', 'true', '--output-file', str(candidate)]
+               '--offset.disable-normalization', 'true', '--output-file', str(candidate)])
     result = run_command(command, cwd=destination, timeout_seconds=60)
     (destination / 'netconvert.log').write_text(result.stdout + result.stderr, encoding='utf-8')
     if result.returncode or not candidate.exists():

@@ -1,0 +1,28 @@
+{
+  "formal_result": false,
+  "change": "Extend the already-declared initialized driver candidate to the full observation window. No demand, topology, control, permission or target change.",
+  "prefix_case": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_junction_body_hold_20261021_v1",
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "206413edc6d67ca910d3f81eb29eb21d0cf5fb0e925c96b933fe1c9ae1844b7d",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "952174ff67cd1028ff3e9e7de8f0db90d68fb411697c78860106de70a70e6d08",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "scenario.json": "a6481f21cc2ab08ac11fd706e91ae52be59566f8ad876fdf6224869373548c73",
+    "through-prior.json": "130d54a0bcceda09e994ea22fdc04d66a8ab39871fb6fe9421d8d5a205445f83"
+  },
+  "end_s": 14400,
+  "formal_window_s": [
+    3600,
+    12600
+  ],
+  "timeout_seconds": 2400,
+  "time_origin_utc": "2026-10-19T04:30:00Z",
+  "time_origin_local": "2026-10-19T06:30:00+02:00",
+  "field_rows": 130,
+  "station_rows": 40,
+  "station_values_are_independent": false,
+  "claim_boundary": "One full native measurement of the declared candidate, not an integer correction or accepted calibration. A timeout is an execution limit, not evidence of physical infeasibility. Preserve incomplete records and do not restart the same candidate only to alter already-sealed counts."
+}

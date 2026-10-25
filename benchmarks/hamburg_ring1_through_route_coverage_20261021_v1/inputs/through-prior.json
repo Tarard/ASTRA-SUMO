@@ -1,0 +1,144 @@
+{
+  "status": "prepared",
+  "formal_result": false,
+  "selected_by_population": {
+    "main": 2257,
+    "initialization": 851
+  },
+  "changed_by_population": {
+    "initialization": 425,
+    "main": 1126
+  },
+  "major_destination_split": "1:1; odd vehicle retained on original outlet",
+  "outlet_facts": {
+    "142944538": {
+      "road_type": "highway.primary",
+      "passenger_lanes": 2
+    },
+    "142944477": {
+      "road_type": "highway.secondary",
+      "passenger_lanes": 3
+    }
+  },
+  "split_is_exploratory_not_measured": true,
+  "allocations": [
+    {
+      "population_role": "initialization",
+      "target_begin_s": 0.0,
+      "existing_major_destination": 98,
+      "through_destination": 97
+    },
+    {
+      "population_role": "initialization",
+      "target_begin_s": 900.0,
+      "existing_major_destination": 103,
+      "through_destination": 103
+    },
+    {
+      "population_role": "initialization",
+      "target_begin_s": 1800.0,
+      "existing_major_destination": 109,
+      "through_destination": 109
+    },
+    {
+      "population_role": "initialization",
+      "target_begin_s": 2700.0,
+      "existing_major_destination": 116,
+      "through_destination": 116
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 3600,
+      "existing_major_destination": 119,
+      "through_destination": 119
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 4500,
+      "existing_major_destination": 115,
+      "through_destination": 115
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 5400,
+      "existing_major_destination": 118,
+      "through_destination": 117
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 6300,
+      "existing_major_destination": 125,
+      "through_destination": 125
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 7200,
+      "existing_major_destination": 120,
+      "through_destination": 119
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 8100,
+      "existing_major_destination": 114,
+      "through_destination": 114
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 9000,
+      "existing_major_destination": 100,
+      "through_destination": 99
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 9900,
+      "existing_major_destination": 111,
+      "through_destination": 110
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 10800,
+      "existing_major_destination": 111,
+      "through_destination": 111
+    },
+    {
+      "population_role": "main",
+      "target_begin_s": 11700,
+      "existing_major_destination": 98,
+      "through_destination": 97
+    }
+  ],
+  "structure": {
+    "one_observed_road_per_route": false,
+    "at_most_one_countable_detector_road_per_route": true,
+    "no_repeated_roads": true,
+    "one_detector_per_lane": true,
+    "detectors_nearer_to_road_end_than_vehicle_length": true,
+    "standard_instantaneous_lane_change_model": true,
+    "structural_conditions_satisfied": true,
+    "minimum_vehicle_length_m": 5.0,
+    "condition": "Declared routes, forward driving, standard instantaneous lane changes, and no collision, teleport or vehicle relocation. Near-end complete E1 passages require an exit from the detector lane to the route's next road. Different observed roads alone do not imply repeated or multiple detector contributions."
+  },
+  "source_sha256": {
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-through-routes-paired-probe-20261021-v1\\probe-check.json": "4fdba0b828a8a97a204d8de49f76073021b19a992a7dd728524c64867e862893",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\demand.rou.xml.gz": "accbf20ce40b06c34153e555a4bdd5967377812b9cf818c638707d66ea234c90",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\lane-intentions.json.gz": "a2769cdd6dfe508894eed6d621d6bd09a9d3c8eca267c165e25ecaf5c858575b",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\scenario.json": "69a4a58841771acf807438d34f7b25b5a44c74c769daa71406a1a71e05cc33c2",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_primary_exit_prior_20261021_v1\\inputs\\initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+    "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_m1_2_demand_pool_20261021_v1\\base\\ideal-lane-profiles.json.gz": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a"
+  },
+  "input_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "demand.rou.xml": "206413edc6d67ca910d3f81eb29eb21d0cf5fb0e925c96b933fe1c9ae1844b7d",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "lane-intentions.json": "952174ff67cd1028ff3e9e7de8f0db90d68fb411697c78860106de70a70e6d08",
+    "scenario.json": "05a35bc5a605ef7b1f0c43043e74743e43e0e971b43293ab35a8504174b50407",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  },
+  "claim_boundary": "Existing routes and source-supported turns only. A native artificial probe and conditional coverage bound do not establish larger-demand validity or count calibration. All real 130/40 targets remain unchanged."
+}

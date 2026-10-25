@@ -1,0 +1,23 @@
+{
+  "changed_from_parent": [
+    "266197525"
+  ],
+  "source_control_sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+  "removed_stages": [
+    {
+      "source_phase_index": 2,
+      "source_state": "rrGGGrrr",
+      "projected_state": "rrrrrr",
+      "duration_s": 27.0
+    }
+  ],
+  "protected_sha256": {
+    "network.net.xml": "7de0868a3dc92f02f3cad621faecfef0956f81c4acbacf82c9d21a317f0ac5bd",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "od-model.json": "714356c3f706e000ca635cfa6f67ece513bcc12e7adfd2a1e7c993eb7a3137ed"
+  },
+  "source_parent_status": "rejected_due_to_maximum_error_increase",
+  "formal_result": false,
+  "backend": "libsumo"
+}

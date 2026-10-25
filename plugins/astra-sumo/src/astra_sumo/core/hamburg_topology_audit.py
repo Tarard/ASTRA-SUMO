@@ -18,6 +18,7 @@ from .connection_mode_audit import (
     lane_supports_motorized,
 )
 from .junction_boundary_rebuild import _signature
+from .network_length_audit import measure_lane_lengths
 from .surface_overlap_audit import audit_sumo_lane_junction_surface_overlaps
 
 
@@ -247,10 +248,16 @@ def _geometry_review(manifest, root, surface, targets, declared_edges, source, s
                               "target overlap findings and unresolved approaches require review, not automatic joining."}
 
 
+def _boundary_signature(node):
+    fields = ("shape", "customShape", "x", "y", "z")
+    return _signature(ET.Element("junction", {field: node.get(field) for field in fields if node.get(field) is not None}))
+
+
 def _reload(candidate, root, targets, destination, netconvert_binary, timeout_seconds):
+    from .local_network_conversion import with_geometry_precision
     reloaded = destination / "reloaded.net.xml"
-    command = [netconvert_binary, "--sumo-net-file", str(candidate), "--output-file", str(reloaded),
-               "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25"]
+    command = with_geometry_precision([netconvert_binary, "--sumo-net-file", str(candidate), "--output-file", str(reloaded),
+               "--offset.disable-normalization", "true", "--junctions.internal-link-detail", "25"])
     result = run_command(command, cwd=destination, timeout_seconds=timeout_seconds)
     report = {"status": "blocked", "command": result.to_dict(), "changed_external_edges": [],
               "changed_target_boundaries": [], "network": None}
@@ -264,12 +271,26 @@ def _reload(candidate, root, targets, destination, netconvert_binary, timeout_se
                                                  if key not in before_edges or key not in after_edges
                                                  or _signature(before_edges[key]) != _signature(after_edges[key]))
         nodes = [{row.get("id"): row for row in tree.findall("junction")} for tree in (root, after)]
-        fields = ("shape", "customShape", "x", "y", "z")
         report["changed_target_boundaries"] = sorted(key for key in targets
             if key not in nodes[0] or key not in nodes[1]
-            or any(nodes[0][key].get(field) != nodes[1][key].get(field) for field in fields))
+            or _boundary_signature(nodes[0][key]) != _boundary_signature(nodes[1][key]))
         report["network"] = {"path": str(reloaded), "sha256": file_sha256(reloaded)}
-        report["status"] = "blocked" if report["changed_external_edges"] or report["changed_target_boundaries"] else "pass"
+        report["raw_reload_status"] = "review_required" if report["changed_external_edges"] or report["changed_target_boundaries"] else "pass"
+        from .junction_rebuild.restoration import restore_off_scope_netconvert_artifacts
+        from .network_geometry_freeze import compare_frozen_geometry
+        from .junction_boundary_rebuild import _outside_delta
+        import shutil
+
+        protected = destination / "protected-reloaded.net.xml"
+        shutil.copy2(reloaded, protected)
+        restoration = restore_off_scope_netconvert_artifacts(source_file=candidate, target_file=protected,
+            mutable_junction_ids=set(), mutable_edge_ids=set(), expand_mutable_edge_endpoints=False)
+        geometry = compare_frozen_geometry(source_file=candidate, candidate_file=protected)
+        state = _outside_delta(root, ET.parse(protected).getroot(), set())
+        report["protected_reload"] = {"restoration": restoration, "geometry": geometry, "network_state": state,
+            "network": {"path": str(protected), "sha256": file_sha256(protected)}}
+        report["status"] = "pass" if all(row["status"] == "pass" for row in (restoration, geometry, state)) else "blocked"
+        report["claim_boundary"] = "A no-edit reload requires complete source restoration. Raw reimport remains a proposal, not a lossless serialization."
     except (OSError, ET.ParseError, ValueError) as error:
         report["error"] = str(error)
     return report
@@ -361,6 +382,7 @@ def audit_hamburg_topology_candidate(
               "structural": structural, "official_connectivity": connectivity, "geometry_review": geometry,
               "connection_review": connection_review, "connection_comparison": comparison,
               "outside_scope_preservation": outside, "reload_stability": reload,
+              "lane_length_measurements": {"source": measure_lane_lengths(before), "candidate": measure_lane_lengths(root)},
               "claim_boundary": "Construction and geometry decisions remain separate. A passed connection check "
                                 "does not clear review items. No detector counts, routes for calibration, or "
                                 "historical signal observations are loaded by this audit."}

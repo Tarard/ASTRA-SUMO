@@ -1,0 +1,15 @@
+{"all_130_residual_identities_verified": true, "totals": {"in_from_initialization": 315, "in_from_other_main_bins": 3442, "out_before_main_window": 0, "out_after_main_window": 764, "out_to_other_main_bins": 3442, "not_entered_by_native_end": 984, "entered_without_complete_field_passage_by_native_end": 268}}
+Traceback (most recent call last):
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\outputs\analyze-three-node-body-full-20261022-v1.py", line 100, in <module>
+    compared = compare_collision_trace(case_dir=ROOT / 'benchmarks/hamburg_ring1_localized_junction_body_full_20261021_v1', prepared_dir=old / 'native')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\Documents\ASTRA-SUMO\plugins\astra-sumo\src\astra_sumo\core\hamburg_collision_trace.py", line 100, in compare_collision_trace
+    after = json.loads((out / "stall-monitor.json").read_bytes())
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\AppData\Roaming\uv\python\cpython-3.12.13-windows-x86_64-none\Lib\pathlib.py", line 1019, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\huqio\AppData\Roaming\uv\python\cpython-3.12.13-windows-x86_64-none\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\benchmarks\\hamburg_ring1_late_collision_trace_20261021_v1\\native\\stall-monitor.json'

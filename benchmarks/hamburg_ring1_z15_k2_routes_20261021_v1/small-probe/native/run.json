@@ -1,0 +1,485 @@
+{
+  "schema": "astra.point-detector-demand-replay/v1",
+  "status": "measured",
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\probe-demand.rou.xml",
+      "sha256": "1e606f1fbc4d415d3f7cf55a2e30bd04351afd8c5727bfb37550fc8c7a7de1a7"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\probe-counts.csv",
+      "sha256": "d47d20f142d62e3e715c7c2a022154f88b0d740fc9943db91e631a8701858544"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-prepared-20261021-v1\\control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\probe-intentions.json",
+      "sha256": "67ee1b6e0ae08cad6f17e3045420f9ca1879660cab4deca9dec6285ab18bd1c5"
+    }
+  ],
+  "snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\demand.rou.xml",
+      "sha256": "1e606f1fbc4d415d3f7cf55a2e30bd04351afd8c5727bfb37550fc8c7a7de1a7"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\expected-counts.csv",
+      "sha256": "d47d20f142d62e3e715c7c2a022154f88b0d740fc9943db91e631a8701858544"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\lane-intentions.json",
+      "sha256": "67ee1b6e0ae08cad6f17e3045420f9ca1879660cab4deca9dec6285ab18bd1c5"
+    }
+  ],
+  "seed": 104,
+  "step_length_s": 0.1,
+  "end_s": 900,
+  "vehicle_count": 20,
+  "measurement_attribute": "nVehContrib",
+  "instant_to_periodic_ids": {
+    "astra_trace_0": "hh_0119_Z_11_28853",
+    "astra_trace_1": "hh_0119_Z_12_31546",
+    "astra_trace_2": "hh_0119_Z_13_34018",
+    "astra_trace_3": "hh_0119_Z_15_29375",
+    "astra_trace_4": "hh_0119_Z_4_29437",
+    "astra_trace_5": "hh_0119_Z_5_30494",
+    "astra_trace_6": "hh_0535_Z_14_31892",
+    "astra_trace_7": "hh_0535_Z_4_33055",
+    "astra_trace_8": "hh_0535_Z_5_30894",
+    "astra_trace_9": "hh_0535_Z_6_33855",
+    "astra_trace_10": "hh_0535_Z_7_29316",
+    "astra_trace_11": "hh_0535_Z_8_34287",
+    "astra_trace_12": "hh_0535_Z_9_29038"
+  },
+  "signal_treatment": "declared_additional_programs",
+  "formal_result": false,
+  "errors": [],
+  "driver_treatment": "local_observation_lane_hold",
+  "expected_field_bins": 13,
+  "observer_complete": true,
+  "missing_field_bins": 0,
+  "exact_field_bins": 13,
+  "exact_count_fit": true,
+  "field_metrics": {
+    "expected_total": 20,
+    "measured_total": 20,
+    "MAE": 0.0,
+    "RMSE": 0.0,
+    "max_abs_error": 0,
+    "signed_bias": 0.0,
+    "GEH_lt5_percent": 100.0,
+    "field_bins": 13
+  },
+  "field_comparison": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\field-comparison.csv",
+  "state_times_s": [],
+  "state_snapshots": [],
+  "native_status": "pass",
+  "native_returncode": 0,
+  "stall_monitor": {
+    "status": "completed",
+    "all_stopped_timeout_s": 300,
+    "speed_tolerance_m_s": 1e-06,
+    "command": [
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe",
+      "--net-file",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\network.net.xml",
+      "--route-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\demand.rou.xml",
+      "--additional-files",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\signal-programs.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\e1.add.xml,C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\instant.add.xml",
+      "--end",
+      "900",
+      "--step-length",
+      "0.1",
+      "--seed",
+      "104",
+      "--precision",
+      "12",
+      "--time-to-teleport",
+      "-1",
+      "--collision.check-junctions",
+      "true",
+      "--summary-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\summary.xml",
+      "--tripinfo-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\tripinfo.xml",
+      "--tripinfo-output.write-unfinished",
+      "true",
+      "--vehroute-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\vehicle-routes.xml",
+      "--vehroute-output.exit-times",
+      "true",
+      "--collision-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\collisions.xml",
+      "--log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\sumo.log",
+      "--queue-output",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\queues.xml",
+      "--queue-output.period",
+      "1",
+      "--error-log",
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-z15-k2-small-probe-20261021-v1\\native\\sumo-errors.log",
+      "--duration-log.statistics",
+      "true",
+      "--no-step-log",
+      "true",
+      "--remote-port",
+      "13164"
+    ],
+    "traci_module": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+    "stop": null,
+    "monitor_interval_s": null,
+    "position_changes_reset_standstill": true,
+    "native_version": [
+      22,
+      "SUMO 1.27.1"
+    ],
+    "simulation_time_s": 900.0,
+    "native_returncode": 0,
+    "lane_section_hold": {
+      "mechanism": "Native laneChangeMode=512 after reaching the assigned detector lane; restore the prior mode after rear clearance. No lane, position, speed, route or signal commands.",
+      "safety_source": "https://sumo.dlr.de/docs/TraCI/Change_Vehicle_State.html#lane-change-mode-0xb6",
+      "claim_boundary": "Declared local driver lane intention. No detector count feedback or measured natural driver behaviour.",
+      "events": [
+        {
+          "vehicle_id": "z15_k2_probe_0",
+          "event": "held",
+          "time_s": 195.1,
+          "lane": "603103445#0_0",
+          "position_m": 0.3732693451611304,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_0",
+          "event": "released",
+          "time_s": 195.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_1",
+          "event": "held",
+          "time_s": 197.5,
+          "lane": "603103445#0_0",
+          "position_m": 0.35011112600237837,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_1",
+          "event": "released",
+          "time_s": 198.3,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_3",
+          "event": "held",
+          "time_s": 199.7,
+          "lane": "603103445#0_0",
+          "position_m": 0.6540386206086044,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_3",
+          "event": "released",
+          "time_s": 200.6,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_2",
+          "event": "held",
+          "time_s": 201.9,
+          "lane": "603103445#0_0",
+          "position_m": 0.9815006498281473,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_2",
+          "event": "released",
+          "time_s": 202.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_4",
+          "event": "held",
+          "time_s": 203.9,
+          "lane": "603103445#0_0",
+          "position_m": 0.07452997277948192,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_4",
+          "event": "released",
+          "time_s": 204.9,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_6",
+          "event": "held",
+          "time_s": 206.0,
+          "lane": "603103445#0_0",
+          "position_m": 0.24803528083935156,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_6",
+          "event": "released",
+          "time_s": 207.0,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_10",
+          "event": "held",
+          "time_s": 271.8,
+          "lane": "603103445#0_0",
+          "position_m": 0.43643529677412296,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_10",
+          "event": "released",
+          "time_s": 283.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_12",
+          "event": "held",
+          "time_s": 283.3,
+          "lane": "603103445#0_0",
+          "position_m": 0.32238470268043784,
+          "previous_mode": 1621,
+          "clear_distance_m": 820.7366820000001
+        },
+        {
+          "vehicle_id": "z15_k2_probe_12",
+          "event": "released",
+          "time_s": 286.7,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_8",
+          "event": "held",
+          "time_s": 286.8,
+          "lane": "603103445#0_0",
+          "position_m": 0.1414135875329734,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_8",
+          "event": "released",
+          "time_s": 288.9,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_14",
+          "event": "held",
+          "time_s": 289.2,
+          "lane": "603103445#0_0",
+          "position_m": 0.13725649595574296,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_14",
+          "event": "released",
+          "time_s": 290.6,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_18",
+          "event": "held",
+          "time_s": 291.0,
+          "lane": "603103445#0_0",
+          "position_m": 0.08607557249520603,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_18",
+          "event": "released",
+          "time_s": 292.3,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_16",
+          "event": "held",
+          "time_s": 292.8,
+          "lane": "603103445#0_0",
+          "position_m": 0.2444984624054367,
+          "previous_mode": 1621,
+          "clear_distance_m": 814.181817
+        },
+        {
+          "vehicle_id": "z15_k2_probe_16",
+          "event": "released",
+          "time_s": 294.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_5",
+          "event": "held",
+          "time_s": 294.8,
+          "lane": "603103445#0_0",
+          "position_m": 0.45937572628456635,
+          "previous_mode": 1621,
+          "clear_distance_m": 848.898294
+        },
+        {
+          "vehicle_id": "z15_k2_probe_5",
+          "event": "released",
+          "time_s": 296.7,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_7",
+          "event": "held",
+          "time_s": 297.2,
+          "lane": "603103445#0_0",
+          "position_m": 0.14763280933276413,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_7",
+          "event": "released",
+          "time_s": 298.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_11",
+          "event": "held",
+          "time_s": 299.4,
+          "lane": "603103445#0_0",
+          "position_m": 0.03554684524192453,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_11",
+          "event": "released",
+          "time_s": 301.2,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_9",
+          "event": "held",
+          "time_s": 301.9,
+          "lane": "603103445#0_0",
+          "position_m": 0.2520189323647486,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_9",
+          "event": "released",
+          "time_s": 306.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_13",
+          "event": "held",
+          "time_s": 361.8,
+          "lane": "603103445#0_0",
+          "position_m": 0.4256766622720143,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_13",
+          "event": "released",
+          "time_s": 373.1,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_15",
+          "event": "held",
+          "time_s": 373.3,
+          "lane": "603103445#0_0",
+          "position_m": 0.3223732466926723,
+          "previous_mode": 1621,
+          "clear_distance_m": 854.016189
+        },
+        {
+          "vehicle_id": "z15_k2_probe_15",
+          "event": "released",
+          "time_s": 374.8,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_17",
+          "event": "held",
+          "time_s": 375.2,
+          "lane": "603103445#0_0",
+          "position_m": 0.2429301524557399,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_17",
+          "event": "released",
+          "time_s": 376.5,
+          "restored_mode": 1621
+        },
+        {
+          "vehicle_id": "z15_k2_probe_19",
+          "event": "held",
+          "time_s": 377.0,
+          "lane": "603103445#0_0",
+          "position_m": 0.4130716844670417,
+          "previous_mode": 1621,
+          "clear_distance_m": 847.461324
+        },
+        {
+          "vehicle_id": "z15_k2_probe_19",
+          "event": "released",
+          "time_s": 378.2,
+          "restored_mode": 1621
+        }
+      ],
+      "still_held": {},
+      "released_vehicles": 20,
+      "left_before_release": 0
+    }
+  },
+  "completion": {
+    "loaded": 20,
+    "inserted": 20,
+    "arrived": 20,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "healthy": true,
+  "inputs_unchanged": true,
+  "claim_boundary": "Native completion and all declared detector bins under the supplied model. No field timing, surveyed detector truth, or prediction accuracy is established."
+}

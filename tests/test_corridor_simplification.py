@@ -1,8 +1,13 @@
 from pathlib import Path
+import shutil
+import xml.etree.ElementTree as ET
+
+import pytest
 
 from astra_sumo.core.corridor_simplification import (
     audit_alias_normalized_connections,
     find_removable_corridor_geometry_nodes,
+    build_corridor_geometry_simplification_variant,
 )
 
 
@@ -109,3 +114,59 @@ def test_alias_normalized_connection_audit_preserves_boundary_movement(tmp_path:
     assert report["normal_missing_count"] == 0
     assert report["normal_extra_count"] == 0
     assert report["controlled_missing_count"] == 0
+
+
+@pytest.mark.parametrize("variant", ["unchanged", "merged", "changed_access"])
+def test_standalone_simplification_requires_realized_and_access_preserving_merges(tmp_path, variant):
+    source = tmp_path / "source.net.xml"
+    _write_net(source)
+    if variant == "changed_access":
+        tree = ET.parse(source)
+        for lane in tree.getroot().findall("edge/lane"):
+            lane.set("allow", "bus")
+        tree.write(source, encoding="utf-8")
+    original = source.read_bytes()
+
+    def runner(command, **kwargs):
+        output = Path(command[command.index("--output-file") + 1])
+        if variant == "unchanged":
+            shutil.copyfile(source, output)
+        else:
+            root = ET.parse(source).getroot()
+            root.remove(root.find("junction[@id='micro']"))
+            for first, second, end in (("f0", "f1", "east"), ("r0", "r1", "west")):
+                root.remove(root.find(f"edge[@id='{second}']"))
+                edge = root.find(f"edge[@id='{first}']")
+                edge.set("to", end)
+                ET.SubElement(edge, "param", key="removedNodeIds", value="micro")
+                if variant == "changed_access":
+                    edge.find("lane").set("allow", "passenger bus")
+            for connection in list(root.findall("connection")):
+                root.remove(connection)
+            ET.ElementTree(root).write(output, encoding="utf-8")
+        return {"status": "pass", "returncode": 0}
+
+    result = build_corridor_geometry_simplification_variant(
+        net_file=source, output_dir=tmp_path / "candidate", command_runner=runner
+    )
+    assert result["status"] == ("pass" if variant == "merged" else "fail")
+    assert result["requested_merge_realized"] is (variant != "unchanged")
+    if variant == "unchanged":
+        assert result["missed_candidate_node_ids"] == ["micro"]
+    elif variant == "changed_access":
+        assert result["alias_normalized_connection_audit"]["merged_road_access_preservation"]["status"] == "fail"
+    assert source.read_bytes() == original
+
+
+@pytest.mark.parametrize("bad_prefix", [False, True])
+def test_standalone_plan_outputs_do_not_replace_a_source(tmp_path, bad_prefix):
+    source = tmp_path / "corridor_geometry_simplification_plan.json"
+    _write_net(source)
+    original = source.read_bytes()
+    result = build_corridor_geometry_simplification_variant(
+        net_file=source,
+        output_dir=tmp_path / "new" if bad_prefix else tmp_path,
+        prefix="../corridor_geometry_simplification" if bad_prefix else "corridor_geometry_simplification",
+    )
+    assert result["status"] == "fail"
+    assert source.read_bytes() == original

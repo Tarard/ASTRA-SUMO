@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2026-10-21T12:19:51.532393+01:00 by Eclipse SUMO sumo 1.27.1
+<sumoConfiguration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/sumoConfiguration.xsd">
+
+    <input>
+        <net-file value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\inputs\network.xml"/>
+        <route-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\demand.rou.xml"/>
+        <additional-files value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-control-20261021-v4\control-A.add.xml,C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\e1.add.xml"/>
+    </input>
+
+    <output>
+        <precision value="12"/>
+        <summary-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\summary.xml"/>
+        <tripinfo-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\tripinfo.xml"/>
+        <tripinfo-output.write-unfinished value="true"/>
+        <vehroute-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\routes.xml"/>
+        <vehroute-output.exit-times value="true"/>
+        <collision-output value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\collisions.xml"/>
+    </output>
+
+    <time>
+        <begin value="3600"/>
+        <end value="5400"/>
+        <step-length value="0.1"/>
+    </time>
+
+    <processing>
+        <collision.check-junctions value="true"/>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+    <report>
+        <error-log value="C:\Users\huqio\Documents\ASTRA-SUMO\outputs\ring1-m2-native-probe-20261021-v3\begin-3600\errors.log"/>
+        <no-step-log value="true"/>
+    </report>
+
+    <random_number>
+        <seed value="104"/>
+    </random_number>
+
+</sumoConfiguration>
+-->
+
+<collisions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/collision_file.xsd">
+</collisions>

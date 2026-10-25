@@ -1,0 +1,492 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "native_runs_recorded": 3,
+    "native_runs_by_freeze": 0,
+    "runs": {
+      "plus15": {
+        "raw_verdict": "rejected",
+        "measurement": {
+          "main130": {
+            "SSE": 5818,
+            "TAE": 460,
+            "MAE": 3.5384615384615383,
+            "max_abs_error": 24
+          },
+          "initial52": {
+            "SSE": 2116,
+            "TAE": 168,
+            "MAE": 3.230769230769231,
+            "max_abs_error": 21
+          },
+          "all182": {
+            "SSE": 7934,
+            "TAE": 628,
+            "MAE": 3.4505494505494507,
+            "max_abs_error": 24
+          },
+          "station40_MAE": 10.55,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "gates": {
+          "safe": true,
+          "healthy": true,
+          "no_repeated_fields": true,
+          "no_extra_fields": true,
+          "all53556_zero": true,
+          "MAE_improves": true,
+          "SSE_not_worse": true,
+          "all182_TAE_not_worse": false
+        },
+        "scope": {
+          "offset_xml_s": 15,
+          "common_controllers": [
+            "6390683126",
+            "LSA119_part0"
+          ],
+          "only_two_offsets_and_declared_scenario_metadata_changed": true,
+          "all8640_explicit_requests_and_real_observations_byte_identical": true,
+          "runtime_parameters": {
+            "end_s": 14400,
+            "step_length": 0.1,
+            "seed": 104,
+            "backend": "libsumo",
+            "body_hold_nodes": [
+              "14398547",
+              "205069138",
+              "18653534",
+              "LSA104_part0"
+            ]
+          },
+          "binaries_sha256": {
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe": "4271baacb88549d5ea7e31682923c067cbc4821db59d720bde57920f441b4512",
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c",
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\_libsumo.pyd": "b7fec284bf60e07fd6b10d2b58547530f13a83e34ff39aa0facb20a4bad6036e"
+          },
+          "implementation_sha256": {
+            "artifact_io.py": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51",
+            "candidate_contracts.py": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda",
+            "command_runner.py": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267",
+            "detector_demand.py": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2",
+            "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+            "hamburg_197_through_support.py": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a",
+            "hamburg_od_spsa.py": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597",
+            "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+            "route_sensor_matrix.py": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+            "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+          },
+          "actual_module_paths": {
+            "libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\__init__.py",
+            "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+            "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+          }
+        },
+        "failed_gates": [
+          "all182_TAE_not_worse"
+        ],
+        "field13_main": {
+          "hh_0119_Z_11_28853": {
+            "TAE": 25,
+            "signed": 1
+          },
+          "hh_0119_Z_12_31546": {
+            "TAE": 112,
+            "signed": 12
+          },
+          "hh_0119_Z_13_34018": {
+            "TAE": 96,
+            "signed": 24
+          },
+          "hh_0119_Z_15_29375": {
+            "TAE": 20,
+            "signed": -8
+          },
+          "hh_0119_Z_4_29437": {
+            "TAE": 99,
+            "signed": -83
+          },
+          "hh_0119_Z_5_30494": {
+            "TAE": 67,
+            "signed": -41
+          },
+          "hh_0535_Z_14_31892": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_4_33055": {
+            "TAE": 41,
+            "signed": -17
+          },
+          "hh_0535_Z_5_30894": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_6_33855": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_7_29316": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_8_34287": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_9_29038": {
+            "TAE": 0,
+            "signed": 0
+          }
+        }
+      },
+      "minus15": {
+        "raw_verdict": "rejected",
+        "measurement": {
+          "main130": {
+            "SSE": 9974,
+            "TAE": 602,
+            "MAE": 4.630769230769231,
+            "max_abs_error": 32
+          },
+          "initial52": {
+            "SSE": 1142,
+            "TAE": 110,
+            "MAE": 2.1153846153846154,
+            "max_abs_error": 19
+          },
+          "all182": {
+            "SSE": 11116,
+            "TAE": 712,
+            "MAE": 3.912087912087912,
+            "max_abs_error": 32
+          },
+          "station40_MAE": 13.1,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8613,
+            "arrived": 8551,
+            "waiting": 27,
+            "running": 62,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": false,
+          "safe": true,
+          "event_count": 8562,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 27
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "gates": {
+          "safe": true,
+          "healthy": false,
+          "no_repeated_fields": true,
+          "no_extra_fields": true,
+          "all53556_zero": true,
+          "MAE_improves": false,
+          "SSE_not_worse": false,
+          "all182_TAE_not_worse": false
+        },
+        "scope": {
+          "offset_xml_s": 75,
+          "common_controllers": [
+            "6390683126",
+            "LSA119_part0"
+          ],
+          "only_two_offsets_and_declared_scenario_metadata_changed": true,
+          "all8640_explicit_requests_and_real_observations_byte_identical": true,
+          "runtime_parameters": {
+            "end_s": 14400,
+            "step_length": 0.1,
+            "seed": 104,
+            "backend": "libsumo",
+            "body_hold_nodes": [
+              "14398547",
+              "205069138",
+              "18653534",
+              "LSA104_part0"
+            ]
+          },
+          "binaries_sha256": {
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe": "4271baacb88549d5ea7e31682923c067cbc4821db59d720bde57920f441b4512",
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c",
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\_libsumo.pyd": "b7fec284bf60e07fd6b10d2b58547530f13a83e34ff39aa0facb20a4bad6036e"
+          },
+          "implementation_sha256": {
+            "artifact_io.py": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51",
+            "candidate_contracts.py": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda",
+            "command_runner.py": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267",
+            "detector_demand.py": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2",
+            "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+            "hamburg_197_through_support.py": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a",
+            "hamburg_od_spsa.py": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597",
+            "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+            "route_sensor_matrix.py": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+            "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+          },
+          "actual_module_paths": {
+            "libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\__init__.py",
+            "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+            "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+          }
+        },
+        "failed_gates": [
+          "healthy",
+          "MAE_improves",
+          "SSE_not_worse",
+          "all182_TAE_not_worse"
+        ],
+        "field13_main": {
+          "hh_0119_Z_11_28853": {
+            "TAE": 21,
+            "signed": 3
+          },
+          "hh_0119_Z_12_31546": {
+            "TAE": 63,
+            "signed": 27
+          },
+          "hh_0119_Z_13_34018": {
+            "TAE": 69,
+            "signed": 43
+          },
+          "hh_0119_Z_15_29375": {
+            "TAE": 56,
+            "signed": 0
+          },
+          "hh_0119_Z_4_29437": {
+            "TAE": 173,
+            "signed": -161
+          },
+          "hh_0119_Z_5_30494": {
+            "TAE": 107,
+            "signed": -69
+          },
+          "hh_0535_Z_14_31892": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_4_33055": {
+            "TAE": 113,
+            "signed": -111
+          },
+          "hh_0535_Z_5_30894": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_6_33855": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_7_29316": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_8_34287": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_9_29038": {
+            "TAE": 0,
+            "signed": 0
+          }
+        }
+      },
+      "plus30": {
+        "raw_verdict": "rejected",
+        "measurement": {
+          "main130": {
+            "SSE": 6942,
+            "TAE": 464,
+            "MAE": 3.5692307692307694,
+            "max_abs_error": 30
+          },
+          "initial52": {
+            "SSE": 1061,
+            "TAE": 91,
+            "MAE": 1.75,
+            "max_abs_error": 19
+          },
+          "all182": {
+            "SSE": 8003,
+            "TAE": 555,
+            "MAE": 3.0494505494505493,
+            "max_abs_error": 30
+          },
+          "station40_MAE": 10.55,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 33
+        },
+        "all53556": {
+          "rows": 56,
+          "SSE": 0,
+          "TAE": 0,
+          "MAE": 0.0,
+          "max_abs_error": 0
+        },
+        "gates": {
+          "safe": true,
+          "healthy": true,
+          "no_repeated_fields": true,
+          "no_extra_fields": true,
+          "all53556_zero": true,
+          "MAE_improves": true,
+          "SSE_not_worse": false,
+          "all182_TAE_not_worse": true
+        },
+        "scope": {
+          "offset_xml_s": 30,
+          "common_controllers": [
+            "6390683126",
+            "LSA119_part0"
+          ],
+          "only_two_offsets_and_declared_scenario_metadata_changed": true,
+          "all8640_explicit_requests_and_real_observations_byte_identical": true,
+          "runtime_parameters": {
+            "end_s": 14400,
+            "step_length": 0.1,
+            "seed": 104,
+            "backend": "libsumo",
+            "body_hold_nodes": [
+              "14398547",
+              "205069138",
+              "18653534",
+              "LSA104_part0"
+            ]
+          },
+          "binaries_sha256": {
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Scripts\\python.exe": "4271baacb88549d5ea7e31682923c067cbc4821db59d720bde57920f441b4512",
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumo\\bin\\sumo.exe": "e39d9f60e2494570bc826d29ac0a22c3fe311c2b222469cb5063591b4574d05c",
+            "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\_libsumo.pyd": "b7fec284bf60e07fd6b10d2b58547530f13a83e34ff39aa0facb20a4bad6036e"
+          },
+          "implementation_sha256": {
+            "artifact_io.py": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51",
+            "candidate_contracts.py": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda",
+            "command_runner.py": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267",
+            "detector_demand.py": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2",
+            "detector_demand_replay.py": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14",
+            "hamburg_197_through_support.py": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a",
+            "hamburg_od_spsa.py": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597",
+            "lane_section_hold.py": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb",
+            "route_sensor_matrix.py": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb",
+            "simulation_stall.py": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+          },
+          "actual_module_paths": {
+            "libsumo": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\libsumo\\__init__.py",
+            "traci": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+            "sumolib": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+          }
+        },
+        "failed_gates": [
+          "SSE_not_worse"
+        ],
+        "field13_main": {
+          "hh_0119_Z_11_28853": {
+            "TAE": 19,
+            "signed": 1
+          },
+          "hh_0119_Z_12_31546": {
+            "TAE": 65,
+            "signed": 17
+          },
+          "hh_0119_Z_13_34018": {
+            "TAE": 68,
+            "signed": 22
+          },
+          "hh_0119_Z_15_29375": {
+            "TAE": 37,
+            "signed": -9
+          },
+          "hh_0119_Z_4_29437": {
+            "TAE": 144,
+            "signed": -132
+          },
+          "hh_0119_Z_5_30494": {
+            "TAE": 74,
+            "signed": -68
+          },
+          "hh_0535_Z_14_31892": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_4_33055": {
+            "TAE": 57,
+            "signed": -35
+          },
+          "hh_0535_Z_5_30894": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_6_33855": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_7_29316": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_8_34287": {
+            "TAE": 0,
+            "signed": 0
+          },
+          "hh_0535_Z_9_29038": {
+            "TAE": 0,
+            "signed": 0
+          }
+        }
+      }
+    },
+    "lowest_healthy_main_MAE": 3.5384615384615383,
+    "original_offset0_reference_MAE": 3.7153846153846155,
+    "auto_promotion": false,
+    "exact130": false,
+    "source_field_clock_unknown": true,
+    "smoothness_or_optimum_claimed": false
+  }
+}

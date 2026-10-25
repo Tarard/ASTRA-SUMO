@@ -1,0 +1,25 @@
+{
+  "all_8640_ids_request_times_stops_and_target_bins_retained": true,
+  "changed_entry_by_population": {
+    "initialization": 307,
+    "main": 890
+  },
+  "unchanged_sha256": {
+    "network.net.xml": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4",
+    "control.add.xml": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1",
+    "field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "initialization-counts.csv": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+  },
+  "replacement_entry_max_requested_vehicles_per_900s": 106,
+  "declared_prior_per_900s": 150,
+  "all_52_native_counts_checked": true,
+  "native_E1_reconciled": true,
+  "wrong_field_passages": 0,
+  "duplicate_field_passages": 0,
+  "lane_holds_released": 1431,
+  "lane_holds_left_before_release": 0,
+  "emergency_braking_warnings": 1,
+  "main_window_run": false,
+  "formal_result": false
+}

@@ -1,0 +1,953 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\audit_pair.py",
+      "relative": "independent/audit_pair.py",
+      "raw_bytes": 13854,
+      "raw_sha256": "84c09b0d1f04fc2e564212b787dd39946e4b6c7d486c59e04778e6a698799e9f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\input-scope.json",
+      "relative": "independent/input-scope.json",
+      "raw_bytes": 25550,
+      "raw_sha256": "c0fbceb4b84ed417f4e21c0ef3a5cfe9fb9ccda118c17ae97bcf2d5ab035b243"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\inspect_inputs.py",
+      "relative": "independent/inspect_inputs.py",
+      "raw_bytes": 12768,
+      "raw_sha256": "ff808cd3eb11bc2155224ca879f9d072b85692906cb026eaae4e0fda048a8806"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\manifest.json",
+      "relative": "independent/manifest.json",
+      "raw_bytes": 3941,
+      "raw_sha256": "769e33dd1919451e9232d3f61223ca88c797b7638ce9561d0ea62bae967aa0bc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\130.csv",
+      "relative": "independent/minus/130.csv",
+      "raw_bytes": 7890,
+      "raw_sha256": "80824942f692f18dfee16023067e252157aba74ae7d9af83fdd601bba445c158"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\182.csv",
+      "relative": "independent/minus/182.csv",
+      "raw_bytes": 10874,
+      "raw_sha256": "f6c805aea154361cbc29ad1864155b1d1c635e1c9801c1096ef71850e822abe2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\40.csv",
+      "relative": "independent/minus/40.csv",
+      "raw_bytes": 1611,
+      "raw_sha256": "ee3cf511dd1ae8026087093cb1a50405f830e8fd03fe8e4f84a782c70f097e69"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\52.csv",
+      "relative": "independent/minus/52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\field13-response.csv",
+      "relative": "independent/minus/field13-response.csv",
+      "raw_bytes": 559,
+      "raw_sha256": "6891cfa2bf9c70467ece3316b31685856e35d2f06015a353557a3294925f0fe2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\native208-cohort-accounting.csv",
+      "relative": "independent/minus/native208-cohort-accounting.csv",
+      "raw_bytes": 9678,
+      "raw_sha256": "0f1e640760f78a1d131929ed20244fee42fb6383b8a11dedd8e62a3e3d79edc6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\selected16-actual-events.csv",
+      "relative": "independent/minus/selected16-actual-events.csv",
+      "raw_bytes": 5134,
+      "raw_sha256": "aa8b9af5f8f36eb368a97244b9090c129df55c9fe9efcb4dfec4f21336c1dfb3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\summary.json",
+      "relative": "independent/minus/summary.json",
+      "raw_bytes": 11663,
+      "raw_sha256": "a1c1ee0d2c400721e3c499e7d87c793c9237a52c636ce316bd326ddbf1a51847"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\minus\\terminal-unfinished-inputs-and-events.csv",
+      "relative": "independent/minus/terminal-unfinished-inputs-and-events.csv",
+      "raw_bytes": 10861,
+      "raw_sha256": "45424f4a4e8bb7988f97d907a8020975f704a92a2291981656ff5d7d86f3938e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\paired-native208-response.csv",
+      "relative": "independent/paired-native208-response.csv",
+      "raw_bytes": 12138,
+      "raw_sha256": "66237ebf5b79066e7f684d64fbe4697d68fb090c3063a769fb4b3fdd72cbe5c8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\130.csv",
+      "relative": "independent/plus/130.csv",
+      "raw_bytes": 7886,
+      "raw_sha256": "634fe5d53db47b4af10ba633a5f4c4094375b446f8ead09489d54ba748954d58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\182.csv",
+      "relative": "independent/plus/182.csv",
+      "raw_bytes": 10870,
+      "raw_sha256": "4dac852b70b4d3cf247f921973ae019613fec34c023acb0c083cf631b4032775"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\40.csv",
+      "relative": "independent/plus/40.csv",
+      "raw_bytes": 1615,
+      "raw_sha256": "127a768c34ff7c4733944938d95fb8609cb49bb8cfb41b0f546fa71e8ec831d8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\52.csv",
+      "relative": "independent/plus/52.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\field13-response.csv",
+      "relative": "independent/plus/field13-response.csv",
+      "raw_bytes": 559,
+      "raw_sha256": "b62a47c58e9a3ea504a91317e0ef8bc51516a8b3550e8278b6eecdb9756c5adc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\native208-cohort-accounting.csv",
+      "relative": "independent/plus/native208-cohort-accounting.csv",
+      "raw_bytes": 9677,
+      "raw_sha256": "454f27de7f9de2c300c3d63bfc3a4c356b014b6e9389755cd11442ea7aed6e0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\selected16-actual-events.csv",
+      "relative": "independent/plus/selected16-actual-events.csv",
+      "raw_bytes": 5136,
+      "raw_sha256": "aa734ea6628134a6ab532f1d3c4d144d033445cfaa7fdf8c1a5e8815691c0edc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\summary.json",
+      "relative": "independent/plus/summary.json",
+      "raw_bytes": 11686,
+      "raw_sha256": "1f79124c05ea69aadd53810da897263f9e1a3eb397187f0d203f387182be2eeb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\plus\\terminal-unfinished-inputs-and-events.csv",
+      "relative": "independent/plus/terminal-unfinished-inputs-and-events.csv",
+      "raw_bytes": 9395,
+      "raw_sha256": "1ce8b1a85a2ca227400b7c1e0664ff53b182c7dcc8bcd5270c208dade4405322"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\README.md",
+      "relative": "independent/README.md",
+      "raw_bytes": 4823,
+      "raw_sha256": "582dc1436349b9307168c76e0966bfc8a028a16ed4625dd259bbf03549d4a39a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\independent\\summary.json",
+      "relative": "independent/summary.json",
+      "raw_bytes": 28278,
+      "raw_sha256": "b3a414b9ef61ce63a0d501f2ca9d00e0d3d361f116fd459574899655559cc33d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\535-all56.csv",
+      "relative": "minus/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\all182-comparison.csv",
+      "relative": "minus/evaluation/all182-comparison.csv",
+      "raw_bytes": 10874,
+      "raw_sha256": "f6c805aea154361cbc29ad1864155b1d1c635e1c9801c1096ef71850e822abe2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\contributing-passages.json.gz",
+      "relative": "minus/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 171813,
+      "raw_sha256": "8c1640f6ddc29674db0eb72d83cefe1eceac9c64b76c4fb46b00ff20f9cd213f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\demand.rou.xml",
+      "relative": "minus/evaluation/demand.rou.xml",
+      "raw_bytes": 3726592,
+      "raw_sha256": "2c97c9712261d75648219a3cac0aca6b46f2d4da46367693d618cdf7a539d75d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\evaluation.json",
+      "relative": "minus/evaluation/evaluation.json",
+      "raw_bytes": 456,
+      "raw_sha256": "f71cdeedfadf6b0eb4ba517b816822cb00a32d477d58bb2bbd663280591781d6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\initialization52-comparison.csv",
+      "relative": "minus/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\lane-intentions.json",
+      "relative": "minus/evaluation/lane-intentions.json",
+      "raw_bytes": 1005532,
+      "raw_sha256": "2ab13bebe4c5172cf212b4c60920e58c42f86c712fc7483171641fdcf30be777"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\collisions.xml",
+      "relative": "minus/evaluation/native/collisions.xml",
+      "raw_bytes": 3415,
+      "raw_sha256": "6e96bb0345252aabebeb78db967664703eaf82238601d1236f15865730c39851"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\command.json",
+      "relative": "minus/evaluation/native/command.json",
+      "raw_bytes": 6481,
+      "raw_sha256": "54b54a9ee106b2cb48d08f9ae2a90ee363f06ec9b10d710efef97abf95ab5854"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\demand.rou.xml",
+      "relative": "minus/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3726592,
+      "raw_sha256": "2c97c9712261d75648219a3cac0aca6b46f2d4da46367693d618cdf7a539d75d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\e1.add.xml",
+      "relative": "minus/evaluation/native/e1.add.xml",
+      "raw_bytes": 3784,
+      "raw_sha256": "1b7a286c61c639ce451189b7b10feb7ffe62f911c52af538c9e4a90594b28761"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\expected-counts.csv",
+      "relative": "minus/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\field-comparison.csv",
+      "relative": "minus/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7890,
+      "raw_sha256": "80824942f692f18dfee16023067e252157aba74ae7d9af83fdd601bba445c158"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\field-counts.xml",
+      "relative": "minus/evaluation/native/field-counts.xml",
+      "raw_bytes": 53242,
+      "raw_sha256": "ab1b36eaeb3b37d359dd8220f05d3ee4e24b33cde59d6df0a485b7199393e3f1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\instant.add.xml",
+      "relative": "minus/evaluation/native/instant.add.xml",
+      "raw_bytes": 3260,
+      "raw_sha256": "123434c5e1fd65075ac9c883fdcab9b017caecb91dc3bece81c59858b7f0beb5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\lane-intentions.json",
+      "relative": "minus/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1005532,
+      "raw_sha256": "2ab13bebe4c5172cf212b4c60920e58c42f86c712fc7483171641fdcf30be777"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\native-request.json",
+      "relative": "minus/evaluation/native/native-request.json",
+      "raw_bytes": 3978,
+      "raw_sha256": "0fc225ad61a3529ed292c38571d4b3a4d1febccfab60b7e781b594cf1c82c8b1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\network.net.xml",
+      "relative": "minus/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\run.json",
+      "relative": "minus/evaluation/native/run.json",
+      "raw_bytes": 6289038,
+      "raw_sha256": "2f1da0d888f6d405638c6e928e07b827491dbe494ea47222371e15d82e326592"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "minus/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\source-e1.add.xml",
+      "relative": "minus/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\stall-monitor.json",
+      "relative": "minus/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5835022,
+      "raw_sha256": "fe51961874039fe2ea1b6d4d71e92223e40b7fc0e2dc97d0e493e2570419ac7e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\summary.xml",
+      "relative": "minus/evaluation/native/summary.xml",
+      "raw_bytes": 46824328,
+      "raw_sha256": "f16cde735224c1dced63406c6c12131c2459e48e467643bfdbd8c7046ff344dd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\sumo-errors.log",
+      "relative": "minus/evaluation/native/sumo-errors.log",
+      "raw_bytes": 4190,
+      "raw_sha256": "97c7da497336f25fbc4ee5021541ff7f26a6b111a77cc59d8b1d154e78943147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\sumo.log",
+      "relative": "minus/evaluation/native/sumo.log",
+      "raw_bytes": 5805,
+      "raw_sha256": "400732f4c604b813c07119b0c24ffa09d98c90993a99347826b6bfac0301bb21"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\tripinfo.xml",
+      "relative": "minus/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4576459,
+      "raw_sha256": "00c629999af1c1efda119374951b79a41544d11b6ccbfae407da065d1435db82"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "minus/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6469050,
+      "raw_sha256": "6c117a10cf807a44302f0a9224536b7be20897cc83ddf134c80f6d2b2141fd5d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\native208-comparison.csv",
+      "relative": "minus/evaluation/native208-comparison.csv",
+      "raw_bytes": 25166,
+      "raw_sha256": "c533360655578404d2d43489f5f231e47a13b8f551d89ce3c164d3f3878ff3d5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\od-vector.json",
+      "relative": "minus/evaluation/od-vector.json",
+      "raw_bytes": 5444,
+      "raw_sha256": "2588fb457f26c4a95506efd618b15b070fa4ada5c21f80626f87c051e3c14420"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\evaluation\\station-comparison.csv",
+      "relative": "minus/evaluation/station-comparison.csv",
+      "raw_bytes": 1611,
+      "raw_sha256": "ee3cf511dd1ae8026087093cb1a50405f830e8fd03fe8e4f84a782c70f097e69"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\executed-driver.py",
+      "relative": "minus/executed-driver.py",
+      "raw_bytes": 9656,
+      "raw_sha256": "9939859015ac73f07f5fc1ea57c57fa1b851dfc91ff97fd90244963790d75168"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\artifact_io.py",
+      "relative": "minus/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\candidate_contracts.py",
+      "relative": "minus/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\command_runner.py",
+      "relative": "minus/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\detector_demand.py",
+      "relative": "minus/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\detector_demand_replay.py",
+      "relative": "minus/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\hamburg_197_through_support.py",
+      "relative": "minus/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\hamburg_departure_probe.py",
+      "relative": "minus/implementation/hamburg_departure_probe.py",
+      "raw_bytes": 18764,
+      "raw_sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\hamburg_od_spsa.py",
+      "relative": "minus/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\lane_section_hold.py",
+      "relative": "minus/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\od_assignment_feedback.py",
+      "relative": "minus/implementation/od_assignment_feedback.py",
+      "raw_bytes": 6641,
+      "raw_sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\od_stable_realization.py",
+      "relative": "minus/implementation/od_stable_realization.py",
+      "raw_bytes": 6658,
+      "raw_sha256": "56ca5f4fabbe00ef796959a969f293afdd96b409fc18398f08ccc3c9e973a392"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\route_sensor_matrix.py",
+      "relative": "minus/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\implementation\\simulation_stall.py",
+      "relative": "minus/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\od-vector.json",
+      "relative": "minus/od-vector.json",
+      "raw_bytes": 5444,
+      "raw_sha256": "2588fb457f26c4a95506efd618b15b070fa4ada5c21f80626f87c051e3c14420"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\preflight.json",
+      "relative": "minus/preflight.json",
+      "raw_bytes": 3987,
+      "raw_sha256": "f783ec4cabbe3fec541b3a12aae308d8f89b87aefe82eed3ef7cef06c97ba585"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\control.add.xml",
+      "relative": "minus/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\demand.rou.xml",
+      "relative": "minus/prepared/demand.rou.xml",
+      "raw_bytes": 3726592,
+      "raw_sha256": "2c97c9712261d75648219a3cac0aca6b46f2d4da46367693d618cdf7a539d75d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\expected-counts.csv",
+      "relative": "minus/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\field-loops.add.xml",
+      "relative": "minus/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\initialization-counts.csv",
+      "relative": "minus/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\lane-intentions.json",
+      "relative": "minus/prepared/lane-intentions.json",
+      "raw_bytes": 1005532,
+      "raw_sha256": "2ab13bebe4c5172cf212b4c60920e58c42f86c712fc7483171641fdcf30be777"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\network.net.xml",
+      "relative": "minus/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\prepared\\scenario.json",
+      "relative": "minus/prepared/scenario.json",
+      "raw_bytes": 4190,
+      "raw_sha256": "93a702adc3074d2c93035390d56c04273ea976d200a50a505c234b32f57ed9c7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\retiming-proposals.json",
+      "relative": "minus/retiming-proposals.json",
+      "raw_bytes": 7261,
+      "raw_sha256": "c18d09e9de14dc94b10baec41f3c8f6db7ae05ae82baf3b0d307e0b81e4bcb41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\scope-proof.json",
+      "relative": "minus/scope-proof.json",
+      "raw_bytes": 8780,
+      "raw_sha256": "568b61c7e403b6e85b76d427d8e5437450c33aaf69cee0edaa497471494ccc10"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\source-snapshot-mapping.json",
+      "relative": "minus/source-snapshot-mapping.json",
+      "raw_bytes": 1847,
+      "raw_sha256": "76b2e96e577ce1d523c26eaef10fdb50298e2eae5db9f57d5499118c693ad41c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\vector406.json",
+      "relative": "minus/vector406.json",
+      "raw_bytes": 3727,
+      "raw_sha256": "c9fb9ebbf821cd3cbe838667e2c807c597f6afd01cba3d1d936a7d943fc2e1bc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus\\verdict.json",
+      "relative": "minus/verdict.json",
+      "raw_bytes": 3813,
+      "raw_sha256": "a998e34a3d583cf7be66a65f899839a1d4a48fa94c42cf9ce985d252292644fe"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\535-all56.csv",
+      "relative": "plus/evaluation/535-all56.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "a803a18edd8f764f754b4285249aa0f15906f4493dd3892a4675a160bd45a15e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\all182-comparison.csv",
+      "relative": "plus/evaluation/all182-comparison.csv",
+      "raw_bytes": 10870,
+      "raw_sha256": "4dac852b70b4d3cf247f921973ae019613fec34c023acb0c083cf631b4032775"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\contributing-passages.json.gz",
+      "relative": "plus/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 171616,
+      "raw_sha256": "d23b3e93504c265012e1b2e0f088d1e6a228d28cae55246f035cf6291c5073ed"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\demand.rou.xml",
+      "relative": "plus/evaluation/demand.rou.xml",
+      "raw_bytes": 3726584,
+      "raw_sha256": "5ea8fc90206030d7d651cd9ea2937acbdec94d916c3f5f103da71e9a0da1bc9f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\evaluation.json",
+      "relative": "plus/evaluation/evaluation.json",
+      "raw_bytes": 442,
+      "raw_sha256": "9a42830ca259e2dd4618f9a96e3fe0c7c3e4275af46bd69ec6d906719d14c1c9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\initialization52-comparison.csv",
+      "relative": "plus/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\lane-intentions.json",
+      "relative": "plus/evaluation/lane-intentions.json",
+      "raw_bytes": 1005528,
+      "raw_sha256": "8b3e54a6308abc386e9d3f5df01846212ddcbc87ab708a7bcacf26653aa509d6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\collisions.xml",
+      "relative": "plus/evaluation/native/collisions.xml",
+      "raw_bytes": 3403,
+      "raw_sha256": "1c8cc243fecbcfd681ff4b046125d663e8490d192acd498058465ad9e6b50549"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\command.json",
+      "relative": "plus/evaluation/native/command.json",
+      "raw_bytes": 5965,
+      "raw_sha256": "0026eff65eadb1d005094c000ec94d4e6716b6be3efec567e7198dce920097a6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\demand.rou.xml",
+      "relative": "plus/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3726584,
+      "raw_sha256": "5ea8fc90206030d7d651cd9ea2937acbdec94d916c3f5f103da71e9a0da1bc9f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\e1.add.xml",
+      "relative": "plus/evaluation/native/e1.add.xml",
+      "raw_bytes": 3771,
+      "raw_sha256": "da0c8884cbeaf0eb922799bdb59b858538f7c410c28598ebfe69518a2d0f6978"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\expected-counts.csv",
+      "relative": "plus/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\field-comparison.csv",
+      "relative": "plus/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7886,
+      "raw_sha256": "634fe5d53db47b4af10ba633a5f4c4094375b446f8ead09489d54ba748954d58"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\field-counts.xml",
+      "relative": "plus/evaluation/native/field-counts.xml",
+      "raw_bytes": 53225,
+      "raw_sha256": "b6b99be6b93198ad9877faee88d689a1821005666f76e13db8fdd13b06bb80d8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\instant.add.xml",
+      "relative": "plus/evaluation/native/instant.add.xml",
+      "raw_bytes": 3247,
+      "raw_sha256": "627f19161994ff91dbae082f4042efbf53bb4cf0a0d3b0e326a012149b744aae"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\lane-intentions.json",
+      "relative": "plus/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1005528,
+      "raw_sha256": "8b3e54a6308abc386e9d3f5df01846212ddcbc87ab708a7bcacf26653aa509d6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\native-request.json",
+      "relative": "plus/evaluation/native/native-request.json",
+      "raw_bytes": 3962,
+      "raw_sha256": "c8b20372f017a2bed19292557b58046f57fb8c172bcc847514fa506598c1604d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\network.net.xml",
+      "relative": "plus/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\run.json",
+      "relative": "plus/evaluation/native/run.json",
+      "raw_bytes": 6245372,
+      "raw_sha256": "fed0dc9646a26f4e7c6080287c25393de8744772beab3a02c7352bd25d96b056"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "plus/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\source-e1.add.xml",
+      "relative": "plus/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\stall-monitor.json",
+      "relative": "plus/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5794505,
+      "raw_sha256": "079768ffb2407fcc2336569095846edd0e68e7da39a7293063f1bf5353600b46"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\summary.xml",
+      "relative": "plus/evaluation/native/summary.xml",
+      "raw_bytes": 46826664,
+      "raw_sha256": "a0904ad476fdd222d0bbf3196f0b5b449b72bccaebf2fcf89a448050e7db66c8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\sumo-errors.log",
+      "relative": "plus/evaluation/native/sumo-errors.log",
+      "raw_bytes": 3662,
+      "raw_sha256": "1911b24734226cd439c984954abf9381b71ae79b3abd7cb728d438961b898030"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\sumo.log",
+      "relative": "plus/evaluation/native/sumo.log",
+      "raw_bytes": 5291,
+      "raw_sha256": "f047ae6f497d06e74c3a225a2075b7149ebba434d3c9c63a9a71357153f7ce37"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\tripinfo.xml",
+      "relative": "plus/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4571281,
+      "raw_sha256": "523a06604a627b01c4ba8f8b6f058cef71365553a57ada13e6e7025e4757a1c9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "plus/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6458468,
+      "raw_sha256": "7da607b6bd66d5e3c1c5ea3932114349fd8ec705a233f506ffeb0face7e96818"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\native208-comparison.csv",
+      "relative": "plus/evaluation/native208-comparison.csv",
+      "raw_bytes": 25161,
+      "raw_sha256": "f3240dd2be14d93ce515cc8e11826e4caf09b21e0b17cda931da06e3c5b8d4db"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\od-vector.json",
+      "relative": "plus/evaluation/od-vector.json",
+      "raw_bytes": 5444,
+      "raw_sha256": "81cf9e5ae958ff1a06d2b656f447218a664bb34d9886b76c8bc7f4b14f9dfeab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\evaluation\\station-comparison.csv",
+      "relative": "plus/evaluation/station-comparison.csv",
+      "raw_bytes": 1615,
+      "raw_sha256": "127a768c34ff7c4733944938d95fb8609cb49bb8cfb41b0f546fa71e8ec831d8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\executed-driver.py",
+      "relative": "plus/executed-driver.py",
+      "raw_bytes": 9656,
+      "raw_sha256": "9939859015ac73f07f5fc1ea57c57fa1b851dfc91ff97fd90244963790d75168"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\artifact_io.py",
+      "relative": "plus/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\candidate_contracts.py",
+      "relative": "plus/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\command_runner.py",
+      "relative": "plus/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\detector_demand.py",
+      "relative": "plus/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\detector_demand_replay.py",
+      "relative": "plus/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\hamburg_197_through_support.py",
+      "relative": "plus/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\hamburg_departure_probe.py",
+      "relative": "plus/implementation/hamburg_departure_probe.py",
+      "raw_bytes": 18764,
+      "raw_sha256": "e6e05ed72e7a5e61a070a2e88211c66783d7424e81d34f9e0b4ec5e3932865bc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\hamburg_od_spsa.py",
+      "relative": "plus/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\lane_section_hold.py",
+      "relative": "plus/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\od_assignment_feedback.py",
+      "relative": "plus/implementation/od_assignment_feedback.py",
+      "raw_bytes": 6641,
+      "raw_sha256": "c09c4a7a94e4246676882b0ef4675791e7f3bf3e08e59dda8b941800e14cc6cc"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\od_stable_realization.py",
+      "relative": "plus/implementation/od_stable_realization.py",
+      "raw_bytes": 6658,
+      "raw_sha256": "56ca5f4fabbe00ef796959a969f293afdd96b409fc18398f08ccc3c9e973a392"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\route_sensor_matrix.py",
+      "relative": "plus/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\implementation\\simulation_stall.py",
+      "relative": "plus/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\od-vector.json",
+      "relative": "plus/od-vector.json",
+      "raw_bytes": 5444,
+      "raw_sha256": "81cf9e5ae958ff1a06d2b656f447218a664bb34d9886b76c8bc7f4b14f9dfeab"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\preflight.json",
+      "relative": "plus/preflight.json",
+      "raw_bytes": 3987,
+      "raw_sha256": "0307a6f203a6255a6d9f2f2b9f3ba904a98121b621598285dc82d3aa72c94eb9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\control.add.xml",
+      "relative": "plus/prepared/control.add.xml",
+      "raw_bytes": 21916,
+      "raw_sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\demand.rou.xml",
+      "relative": "plus/prepared/demand.rou.xml",
+      "raw_bytes": 3726584,
+      "raw_sha256": "5ea8fc90206030d7d651cd9ea2937acbdec94d916c3f5f103da71e9a0da1bc9f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\expected-counts.csv",
+      "relative": "plus/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\field-loops.add.xml",
+      "relative": "plus/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\initialization-counts.csv",
+      "relative": "plus/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\lane-intentions.json",
+      "relative": "plus/prepared/lane-intentions.json",
+      "raw_bytes": 1005528,
+      "raw_sha256": "8b3e54a6308abc386e9d3f5df01846212ddcbc87ab708a7bcacf26653aa509d6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\network.net.xml",
+      "relative": "plus/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\prepared\\scenario.json",
+      "relative": "plus/prepared/scenario.json",
+      "raw_bytes": 4190,
+      "raw_sha256": "b6b9fb9af417a50c1009cac3149611c06929e0ce7ec64a5731f42b2801bca7e2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\retiming-proposals.json",
+      "relative": "plus/retiming-proposals.json",
+      "raw_bytes": 7278,
+      "raw_sha256": "af7eb04f31ecd851f9d35a7d25a43e0af7844e0b217b6d081daaafdaf3283292"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\scope-proof.json",
+      "relative": "plus/scope-proof.json",
+      "raw_bytes": 8772,
+      "raw_sha256": "a5389e0e5474e8e2d28c2359b341148542f9a71f138b8933608b420c83849189"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\source-snapshot-mapping.json",
+      "relative": "plus/source-snapshot-mapping.json",
+      "raw_bytes": 1843,
+      "raw_sha256": "34a3bfd0e76316abcba54e933fb66558b8b555fe852f43e2cbc79b64ccc697aa"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\vector406.json",
+      "relative": "plus/vector406.json",
+      "raw_bytes": 3726,
+      "raw_sha256": "0e67714f9d591629deb84543d0dcb5d54848e46a298621b65b422939e80a4457"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus\\verdict.json",
+      "relative": "plus/verdict.json",
+      "raw_bytes": 3799,
+      "raw_sha256": "6411b86ebe394539988a73ff76118d5bddb287c7b5489f3123df84cb5664fb26"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\audit.json",
+      "relative": "study-source/audit.json",
+      "raw_bytes": 10224,
+      "raw_sha256": "eb902f1a828d5cd83c2a0d21925f3d56b70960cbd74af887dd747c12480e835f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\audit_prepared.py",
+      "relative": "study-source/audit_prepared.py",
+      "raw_bytes": 6026,
+      "raw_sha256": "04acda164f6fbaf5692b5a67fa0469388125765d295dc8f480033e6c6765169d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\columns406.json",
+      "relative": "study-source/columns406.json",
+      "raw_bytes": 81012,
+      "raw_sha256": "5de6b2836f3bbd88c886920970b2a76835f0b440909dfe6debb6d3e11d55300f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\direction.json",
+      "relative": "study-source/direction.json",
+      "raw_bytes": 14620,
+      "raw_sha256": "365fb200bc9faa8fcb8153b4975b643cc73819ed2495136ad138507a7b4bec7c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus.check-only.json",
+      "relative": "study-source/minus.check-only.json",
+      "raw_bytes": 8397,
+      "raw_sha256": "3984c27fcc153ebe0b980d19880567f011a8ed9111a7c1f88d9be6574e674d4d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\minus.execution.log",
+      "relative": "study-source/minus.execution.log",
+      "raw_bytes": 2943,
+      "raw_sha256": "24d71d7396af0acc6671ed00e3b5c3fd7def29288821efcd5474468f72589bae"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus.check-only.json",
+      "relative": "study-source/plus.check-only.json",
+      "raw_bytes": 8389,
+      "raw_sha256": "4ec9a6de84c4f910738863e1468f379159f1ed4147324ecb16d5754e524cbf21"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\plus.execution.log",
+      "relative": "study-source/plus.execution.log",
+      "raw_bytes": 2929,
+      "raw_sha256": "ecca6443d2593f724be1e002d14c3ec38dd88a6cf7c31fe8bc81eb93ba8dfb1c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\prepare.py",
+      "relative": "study-source/prepare.py",
+      "raw_bytes": 12238,
+      "raw_sha256": "44cdf0d91dd0d18c3adf4c80663d32e25b4093ef03056010cc39223c9d06080e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\README.md",
+      "relative": "study-source/README.md",
+      "raw_bytes": 1921,
+      "raw_sha256": "9a303f245a23525eb60d06993b7bd507465a7582dac83848198205f2add206cb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\rows182.json",
+      "relative": "study-source/rows182.json",
+      "raw_bytes": 126716,
+      "raw_sha256": "694c0160f83b83f11bdee04f5fe82aedbed8edf976f9b490c5810acd12fb5b49"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\run_candidate.py",
+      "relative": "study-source/run_candidate.py",
+      "raw_bytes": 9656,
+      "raw_sha256": "9939859015ac73f07f5fc1ea57c57fa1b851dfc91ff97fd90244963790d75168"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\runner-reuse.json",
+      "relative": "study-source/runner-reuse.json",
+      "raw_bytes": 2035,
+      "raw_sha256": "9ab5117946b7114df3db2ec3e303d368e4ce5196acb24f75cfec52a791adcae6"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\solver-inputs406.npz",
+      "relative": "study-source/solver-inputs406.npz",
+      "raw_bytes": 5882,
+      "raw_sha256": "6902d21149bc76476c9069b48c14aa7d873dccf138ceb4a54e8ed2f9e42e6e5b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-one-share-field-stratified-feedback-20261024-v1\\solver-result.json",
+      "relative": "study-source/solver-result.json",
+      "raw_bytes": 12071,
+      "raw_sha256": "09f3542fa0760f65dbb1dff11ab83d9a0777f0db758e635165a0b4ee17b66065"
+    }
+  ],
+  "source_files_unchanged": true
+}

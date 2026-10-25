@@ -1,0 +1,224 @@
+{
+  "schema": "astra.ring1-public-replay-evidence/v3",
+  "status": "partial",
+  "promotion_authority": false,
+  "implementation_base_commit": "aa0d9c5f411b6b35269f9065229d28041d8f7633",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/workflow.py",
+      "sha256": "5282657936a062a0918f676a7b1caf085a5ee122dd3ed357e16f97ce819cf3cf"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/groups.py",
+      "sha256": "97da92fb697fa2f6f7e7689ca6fee7e7d061fa4c33f24c784498ef4929c05650"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_junctions/movements.py",
+      "sha256": "b992faee12c83c38544ab7c56bd07e62e1b2042d638bd05a18f5831b442a12b2"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/network_edit_operations.py",
+      "sha256": "56d7b6f3910818955214f3f5a5c61ce5eff5afc2ac781701bf2566b9f2c3c382"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/local_network_conversion.py",
+      "sha256": "11f499ed5a96bdbefc84165f33061aaf9e55313f46bfda527065305b3a90dfbe"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_count_reachability.py",
+      "sha256": "bf3dd0e836ff9fd12c648af0e3031f34750f3af0e1d634810a6a93fd08649082"
+    }
+  ],
+  "run": {
+    "path": "outputs/ring1-public-junction-demo-20261020-v4/run.json",
+    "sha256": "7e53040ff82deb3044fef4ac3458507367e705f1169c097cf38bf613b841c7fd"
+  },
+  "case_edits": {
+    "path": "examples/06_hamburg_ring1_demo/junction-edits.json",
+    "sha256": "1069b6b4b728560be6539e93893def7b8d453ac06f4f769cab19b98b7b1545a7"
+  },
+  "source_road_case": {
+    "path": "outputs/ring1-road-demo-20261020-v12/case.json",
+    "sha256": "341b0e3c9be328cbe34210bd7aee7a5ecf8d9441dae56d5129c03a0a8617d121"
+  },
+  "replay_runner": {
+    "path": "examples/06_hamburg_ring1_demo/run_junction_construction.py",
+    "sha256": "17a83d0f485172a54b6d780d6498dedf09ff522512401ab59b1f3479c0e4d88f"
+  },
+  "inputs_unchanged": true,
+  "implementation_unchanged": true,
+  "declared_exclusions": [
+    [
+      "186821027#0",
+      5,
+      "186821029#1",
+      3
+    ],
+    [
+      "186821034#0",
+      4,
+      "186821029#1",
+      2
+    ],
+    [
+      "368989705",
+      4,
+      "142944399#2",
+      3
+    ],
+    [
+      "626677498",
+      0,
+      "551303417",
+      2
+    ]
+  ],
+  "exclusion_count": 4,
+  "retained_loaded_vehicle_class_permissions_exact": true,
+  "exclusion_geometry": {
+    "status": "pass",
+    "coordinate_frame_preserved": true,
+    "mutable_junction_ids": [],
+    "mutable_edge_ids": [],
+    "ordinary_lane_attribute_changes": {
+      "shape": 0,
+      "length": 0,
+      "width": 0
+    },
+    "max_lane_endpoint_offset_xy_m": 0.0,
+    "max_geometric_lane_length_change_xy_m": 0.0,
+    "max_lane_endpoint_offset_xyz_m": 0.0,
+    "max_geometric_lane_length_change_xyz_m": 0.0,
+    "outside_lane_count_with_shape_changes": 0,
+    "shape_displacement_metric": "xy_hausdorff",
+    "outside_lane_count_moved_over_0_01_m": 0,
+    "max_outside_lane_shape_displacement_xy_m": 0.0,
+    "fixed_boundary_failures": [],
+    "boundary_edge_map": {},
+    "outside_scope_geometry": {
+      "lanes": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      },
+      "junctions": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      },
+      "edges": {
+        "missing": [],
+        "added": [],
+        "changed": []
+      }
+    }
+  },
+  "structural_failure_count": 0,
+  "movement_coverage": {
+    "official": 114,
+    "passed": 92,
+    "unmapped": 22,
+    "unexplained_extra_connections": []
+  },
+  "field_loop_count": 13,
+  "station_group_count": 4,
+  "field_layout_load_returncode": 0,
+  "content_hashes": {
+    "network_content_sha256": "1c636dc82f7ab89b1cef6ff5311bababfbe4d56042c15b60b0b3c42d8d56326d",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+  },
+  "legacy_reference_comparison": {
+    "status": "different_reference",
+    "reference": {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\examples\\06_hamburg_ring1_demo\\replay-reference-v1.json",
+      "sha256": "89fc5a5132671eafbe7de2e8744d34d06c825b0afee2348c8094e8f75b3ac02a"
+    },
+    "canonicalization": "ElementTree C14N 2.0, strip_text=True, with_comments=False; model values and element order retained",
+    "actual": {
+      "network_content_sha256": "1c636dc82f7ab89b1cef6ff5311bababfbe4d56042c15b60b0b3c42d8d56326d",
+      "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5",
+      "official_motor_movements": 114,
+      "passed_official_movements": 92,
+      "field_loop_count": 13
+    },
+    "checks": {
+      "network_content_sha256": false,
+      "field_loops_content_sha256": true,
+      "official_motor_movements": true,
+      "passed_official_movements": true,
+      "field_loop_count": true
+    }
+  },
+  "model_difference": {
+    "report": {
+      "path": "outputs/ring1-exclusions-full-model-difference-20261020-v1.json",
+      "sha256": "2941b33130712072ca8b32cf4e922edb166de59a212eb26d0025b176618ca07e"
+    },
+    "removed_pairs": [
+      [
+        "186821027#0",
+        5,
+        "186821029#1",
+        3
+      ],
+      [
+        "186821034#0",
+        4,
+        "186821029#1",
+        2
+      ],
+      [
+        "368989705",
+        4,
+        "142944399#2",
+        3
+      ],
+      [
+        "626677498",
+        0,
+        "551303417",
+        2
+      ]
+    ],
+    "added_pairs": [],
+    "changed_loaded_permissions": [],
+    "ordinary_lane_attribute_changes": {
+      "shape": 2,
+      "length": 13,
+      "width": 0
+    },
+    "max_restored_source_shape_displacement_m": 0.005630321926896056,
+    "restored_shapes_match_pre_cleanup_source": true,
+    "reason": "Connection edits now preserve adjacent ordinary-road geometry and logical lengths. The earlier cleanup rounded 13 lane lengths and two lane shapes."
+  },
+  "verification": {
+    "native_negative_regression": {
+      "path": "outputs/connection-logical-length-negative-20261020-v1.xml",
+      "sha256": "12df8fd60621c182fb33bd21f782cdf3489e0d4fde87a1c4de2c4071da55c68a"
+    },
+    "edit_tests": {
+      "path": "outputs/connection-logical-length-fix-20261020-v1.xml",
+      "sha256": "ef17c336d5a3d8cbea1eb7c532fb8e5733ca66ca819f2e16c0332862cbf7debd"
+    },
+    "workflow_and_documentation_tests": {
+      "path": "outputs/ring1-exclusions-workflow-tests-20261020-v1.xml",
+      "sha256": "d774d40c44d6b7bf0ed5fa6b71424603f1138e5551fcb669e37660cd61730d67"
+    },
+    "isolated_exclusion_check": {
+      "path": "outputs/ring1-connection-exclusions-20261020-v1/result.json",
+      "sha256": "e987d730642e4aa394d57f67fe07f3d6c24a6a7436e807cc7373a06b373258fe"
+    }
+  },
+  "calibration": {
+    "status": "not_run",
+    "target": "zero field and station count residual in every declared bin"
+  },
+  "remaining": [
+    "22 unresolved official movements",
+    "Neighboring lane geometry review",
+    "Official signal timing and cycle alignment",
+    "Exact count fitting and independent validation",
+    "Matched NetEdit/Google figures"
+  ],
+  "claim_boundary": "Exclusions define this model candidate, not real-world turn prohibitions. The changed model has one complete Windows replay. The old model's cross-platform agreement does not establish it for this version."
+}

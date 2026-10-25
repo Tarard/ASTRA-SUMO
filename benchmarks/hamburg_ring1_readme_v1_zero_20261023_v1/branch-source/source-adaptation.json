@@ -1,0 +1,67 @@
+{
+  "parent_run": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\trial-002",
+  "parent_result": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-zero-count-20261023-v2\\result.json",
+  "parent_trial": 2,
+  "parent_accepted": false,
+  "reason": "Test a bounded continuation from a rejected state; the original greedy search did not accept it.",
+  "original_source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-v1-code-comparison-20261023\\portable\\data",
+  "changes": [
+    {
+      "vehicle_id": "sensor_schedule_930",
+      "original_depart": "3582.07",
+      "branch_depart": "3585.07",
+      "shift_seconds": 3.0
+    },
+    {
+      "vehicle_id": "sensor_schedule_1438",
+      "original_depart": "5382.63",
+      "branch_depart": "5385.63",
+      "shift_seconds": 3.0
+    }
+  ],
+  "fixed_speed_factors": "Inherited actual per-vehicle factors from V1 reproduction.",
+  "max_shift_from_branch_seconds": 117,
+  "maximum_possible_shift_from_original_seconds": 120,
+  "observations_unchanged": true,
+  "network_unchanged": true,
+  "detectors_unchanged": true,
+  "audit_adaptation": "Retain original window and limitations; replace comparisons and completion with the measured rejected parent; update the five required input hashes.",
+  "files": [
+    {
+      "path": "count-audit.json",
+      "sha256": "4b4f7a18f1b8ef2c95b8081cb020138048082378f118281d79cb86a8be0d33af"
+    },
+    {
+      "path": "counts.simulation.15min.csv",
+      "sha256": "73400b0620e019dc142b174d10a7b4db211a30751122d031f47bea98257986e7"
+    },
+    {
+      "path": "demand.rou.xml",
+      "sha256": "e965e709e3719fc59a5613f86764027e9a78794bc642096c0a7fa64972db0675"
+    },
+    {
+      "path": "e1.add.xml",
+      "sha256": "bba08cf9c68efb4313be90ddffa65951dee551f3143b51d6466c7da762b3a2af"
+    },
+    {
+      "path": "instant.add.xml",
+      "sha256": "6307b4bba43f2d02e9da44c64ae06e7bf6291229e9f7d444319f8b64b612f580"
+    },
+    {
+      "path": "network.net.xml",
+      "sha256": "6c538bc3c837ea559cc1f72e9e7c8567535eb01ceecf66153eabcf531956a2be"
+    },
+    {
+      "path": "original-source-audit.json",
+      "sha256": "7b7d1161f0fcc8a8be598e9b744edf7c2d23cc6c1108d555beeadf6c287a8e46"
+    },
+    {
+      "path": "rejected-parent-audit.json",
+      "sha256": "d28396cd76e44dc3e217d89b7f6bc000f92a23bf521a5185910543f691649712"
+    },
+    {
+      "path": "station-detector-bank.json",
+      "sha256": "3e38a6ff82b4a6ab8ae1330a882884f1aee429a8fcd5ab7e3afc1be2169f6835"
+    }
+  ]
+}

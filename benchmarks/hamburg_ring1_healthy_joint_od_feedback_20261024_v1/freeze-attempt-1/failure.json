@@ -1,0 +1,15 @@
+{
+  "status": "failed_offline_check",
+  "native_runs": 0,
+  "source_files_modified": false,
+  "location": "audit_packet: measured metric dict == verdict metric dict",
+  "reason": "Frozen reader reports SSE/TAE/MAE/max_abs_error; raw verdict also includes rows. Numeric results match; direct dictionary equality rejected the additional metadata key.",
+  "old_freezer_sha256": "f4d151167195163bfb0d28d7b239947045d23ce65d480a807d19e9467e9acbe3",
+  "retained_metrics": {
+    "main130_SSE": 8858,
+    "main130_TAE": 504,
+    "main130_MAE": 3.876923076923077,
+    "initial52_TAE": 105,
+    "all182_TAE": 609
+  }
+}

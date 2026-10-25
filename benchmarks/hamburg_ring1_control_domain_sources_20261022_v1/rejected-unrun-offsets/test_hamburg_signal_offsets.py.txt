@@ -1,0 +1,38 @@
+import json
+from pathlib import Path
+import xml.etree.ElementTree as ET
+
+from astra_sumo.core.hamburg_collision_trace import read_trace_source
+from astra_sumo.core.hamburg_signal_offsets import coordinate_offsets, prepare_coordinated_offsets
+
+
+ROOT = Path(__file__).parents[1]
+SOURCE = ROOT / 'benchmarks/hamburg_ring1_119_control_diagnosis_20261022_v1/nominal-inputs'
+
+
+def test_offset_search_keeps_anchor_and_reduces_pair_cost_without_tie_drift():
+    costs = [9, 8, 0, 7]
+    pair = {'upstream': 'a', 'downstream': 'b', 'cost': costs}
+    offsets, trace = coordinate_offsets([pair], {'a': 0, 'b': 0}, {'a'}, cycle_s=4)
+    assert offsets == {'a': 0, 'b': 2} and trace[0] == 9 and trace[-1] == 0
+    unchanged, constant = coordinate_offsets([dict(pair, cost=[1] * 4)], offsets, {'a'}, cycle_s=4)
+    assert unchanged == offsets and constant == [1, 1]
+
+
+def test_hamburg_offset_candidate_preserves_official_programs_states_and_all_traffic(tmp_path):
+    out = tmp_path / 'coordinated'
+    report = prepare_coordinated_offsets(repository=ROOT, prepared_dir=SOURCE, output_dir=out)
+    assert not report['formal_result'] and not report['native_verified']
+    assert report['planning_objective_trace'][-1] < report['planning_objective_trace'][0]
+    old = {p.get('id'): p for p in ET.fromstring(read_trace_source(SOURCE, 'control.add.xml'))}
+    new = {p.get('id'): p for p in ET.parse(out / 'control.add.xml').getroot()}
+    for identity, before in old.items():
+        after = new[identity]
+        if identity in report['fixed_programs']:
+            assert ET.tostring(before) == ET.tostring(after)
+        else:
+            assert {k: v for k, v in before.attrib.items() if k != 'offset'} == {k: v for k, v in after.attrib.items() if k != 'offset'}
+            assert [p.attrib for p in before.findall('phase')] == [p.attrib for p in after.findall('phase')]
+    for name in ('network.net.xml', 'demand.rou.xml', 'field-loops.add.xml', 'lane-intentions.json', 'initialization-counts.csv', 'expected-counts.csv'):
+        assert (out / name).read_bytes() == read_trace_source(SOURCE, name)
+    assert json.loads((out / 'scenario.json').read_bytes())['control_variant'] == 'A_nominal_OSM_coordinated'

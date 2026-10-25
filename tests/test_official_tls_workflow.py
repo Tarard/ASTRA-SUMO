@@ -418,7 +418,7 @@ def test_sumo_rendered_overlap_audit_fails_on_netconvert_warning(
     source.write_text("<net/>", encoding="utf-8")
 
     def fake_runner(command, *, cwd, timeout_seconds):
-        Path(command[4]).write_text("<net/>", encoding="utf-8")
+        Path(command[command.index("--output-file") + 1]).write_text("<net/>", encoding="utf-8")
         return {
             "status": "pass",
             "returncode": 0,
@@ -447,7 +447,7 @@ def test_sumo_rendered_overlap_audit_passes_only_with_clean_probe(
     source.write_text("<net/>", encoding="utf-8")
 
     def fake_runner(command, *, cwd, timeout_seconds):
-        Path(command[4]).write_text("<net/>", encoding="utf-8")
+        Path(command[command.index("--output-file") + 1]).write_text("<net/>", encoding="utf-8")
         return {"status": "pass", "returncode": 0, "stdout": "Success.", "stderr": ""}
 
     report = workflow.audit_sumo_rendered_edge_overlaps(

@@ -71,6 +71,7 @@ def run_topology_variant(
     relative_osm = relative_or_absolute_path(source_osm, destination)
     command = [
         netconvert_binary,
+        "--precision", "2",  # Preserve the preregistered construction recipe.
         "--osm-files",
         relative_osm,
         "--node-files",

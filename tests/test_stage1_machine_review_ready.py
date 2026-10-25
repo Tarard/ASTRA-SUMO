@@ -31,7 +31,7 @@ from astra_sumo.corridor.stage1_review_ready_contracts import (
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_FILE = (
     REPOSITORY_ROOT
-    / "schemas/torii.corridor.stage1m-machine-review-ready-provenance.v3.schema.json"
+    / "schemas/research/corridor/torii.corridor.stage1m-machine-review-ready-provenance.v3.schema.json"
 )
 
 _GATE_IDS = (

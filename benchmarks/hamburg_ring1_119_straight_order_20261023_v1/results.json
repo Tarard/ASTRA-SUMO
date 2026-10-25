@@ -1,0 +1,49 @@
+{
+  "formal_result": false,
+  "before": {
+    "loss": 71032,
+    "MAE": 17.2,
+    "max_abs_error": 62,
+    "healthy": false,
+    "station_MAE": 53.85,
+    "station_max_abs_error": 134,
+    "completion": {
+      "loaded": 8603,
+      "inserted": 7386,
+      "arrived": 6962,
+      "running": 424,
+      "waiting": 1217,
+      "teleports": 1,
+      "collisions": 1,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  "after": {
+    "loss": 71625,
+    "MAE": 16.73076923076923,
+    "max_abs_error": 58,
+    "healthy": false,
+    "station_MAE": 52.375,
+    "station_max_abs_error": 121,
+    "completion": {
+      "loaded": 8603,
+      "inserted": 7222,
+      "arrived": 6813,
+      "running": 409,
+      "waiting": 1381,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    "exact_count_fit": false,
+    "count_source": "Native E1 nVehContrib only",
+    "field_rows": 130,
+    "derived_station_rows": 40
+  },
+  "unchanged_five_nonnetwork_inputs": true,
+  "all_130_fields_and_40_derived_stations": true
+}

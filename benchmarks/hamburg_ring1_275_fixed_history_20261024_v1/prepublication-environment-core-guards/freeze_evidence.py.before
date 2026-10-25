@@ -1,0 +1,214 @@
+"""Freeze the275 simulated-history pair and its source recovery; never start SUMO."""
+
+import argparse
+import ast
+from decimal import Decimal
+import gzip
+import hashlib
+from importlib.util import module_from_spec, spec_from_file_location
+import itertools
+import json
+from pathlib import Path
+import tempfile
+import xml.etree.ElementTree as ET
+
+
+HERE = Path(__file__).resolve().parent
+REPO = HERE.parents[1]
+SOURCE = REPO / "outputs/hamburg-275-fixed-history-20261024-v1"
+RECORD = REPO / "outputs/hamburg-275-control-history-20261024-v1"
+PREFIX = REPO / "outputs/hamburg-chronological-prefix-calibration-20261024-v1/cases"
+PARENT = REPO / "benchmarks/hamburg_ring1_chronological_od_feedback_20261024_v1"
+PARENT_SHA = "f1ca7bd2db9a482bc55a6b7bed3653370e5d5b6cf8659b1c8a2fface8088df6c"
+PARENT_CASE = Path("cases/h4_counter_z11_minus5_z5")
+CASES = {"reference": (8589, 275), "warmup9": (8598, 286)}
+CONTROL_SHA = "bfb182f96731086145bb5f8bdd4e3ba614ebd81d0e579f659c827db811fd09e1"
+INDEPENDENT_SHA = "6640da4bad48533239bd7bafa9a16e1a997c6e0475d4626c8e7fb005e7605e8d"
+PURE_SOURCE = REPO / "outputs/hamburg-healthy-z4-fixed-history-20261024-v1/independent/audit_fixed.py"
+spec = spec_from_file_location("paired_history_archive_helpers", PARENT / "freeze_evidence.py")
+prior = module_from_spec(spec)
+spec.loader.exec_module(prior)
+raw, load, sha, raw_sha = prior.raw, prior.load, prior.sha, prior.raw_sha
+read, jread, save, safe_relative = prior.read, prior.jread, prior.save, prior.safe_relative
+verify_manifest, physical, audit_measurement, PREPARED, intervals = prior.verify_manifest, prior.physical, prior.audit_measurement, prior.PREPARED, prior.intervals
+
+
+def timeline_tools(packet):
+    """Execute only unchanged pure functions from the archived earlier audit."""
+    tree = ast.parse(read(packet, "helpers/audit_fixed.py"))
+    names = {"elements", "compare_rows", "keyed", "histories", "program_histories", "difference_ticks"}
+    functions = [n for n in tree.body if isinstance(n, ast.FunctionDef) and n.name in names]
+    assert {n.name for n in functions} == names
+    env = dict(ET=ET, Decimal=Decimal, itertools=itertools, END_TICK=144000)
+    exec(compile(ast.Module(body=functions, type_ignores=[]), "archived-pure-timeline-functions", "exec"), env)
+    return env
+
+
+def widths(control):
+    result = {}
+    for program in ET.fromstring(control).findall("tlLogic"):
+        sizes = {len(p.get("state")) for p in program.findall("phase")}
+        assert len(sizes) == 1 and program.get("id") not in result
+        result[program.get("id")] = sizes.pop()
+    assert len(result) == 50 and result["266197525"] == 9
+    return result
+
+
+def derived_rows(source, label):
+    from astra_sumo.core.detector_demand import audit_expected_to_e1_strict, read_csv_rows, write_csv
+    prepared, native = source / label / "prepared", source / label / "evaluation/native"
+    main = read_csv_rows(prepared / "expected-counts.csv")
+    initial = read_csv_rows(prepared / "initialization-counts.csv")
+    rows = audit_expected_to_e1_strict(initial + main, native / "field-counts.xml", count_attribute="nVehContrib")
+    target = HERE / "derived" / label / "all182-comparison.csv"
+    target.parent.mkdir(parents=True, exist_ok=True)
+    write_csv(target, rows, list(rows[0]))
+
+
+def audit_packet(packet):
+    independent = jread(packet, "independent.json")
+    assert hashlib.sha256(read(packet, "independent.json")).hexdigest() == INDEPENDENT_SHA
+    assert independent["audit_status"] == "pass" and independent["recording_wall_elapsed_seconds"] is None
+    recovery = jread(packet, "recording/postcheck-recovery.json")
+    record = jread(packet, "recording/reference/record-result.json")
+    assert recovery["new_native_runs"] == 0 and recovery["wall_elapsed_seconds"] is None and record["elapsed_seconds"] is None
+    assert record["status"] == "pass" and len(record["checks"]) == 21 and all(record["checks"].values())
+    assert "not JSON serializable" in read(packet, "recording/reference/execution.log").decode("utf-8")
+    assert hashlib.sha256(read(packet, "recording/reference/record_tls.snapshot.py")).hexdigest() == recovery["executed_script_sha256"]
+    assert hashlib.sha256(read(packet, "recording/reference/tls-recorded-programs.add.xml")).hexdigest() == CONTROL_SHA
+    tools = timeline_tools(packet)
+    results = {}
+    with tempfile.TemporaryDirectory() as temporary:
+        out = Path(temporary)
+        for row in load(packet / "source-provenance.json")["snapshots"]:
+            name = Path(row["relative"])
+            if name.parts[0] in CASES or name.parts[:2] == ("recording", "reference"):
+                target = out / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(read(packet, name))
+        full_widths = widths(read(packet, "reference/prepared/control.add.xml"))
+        target = tools["histories"](out / "recording/reference/tls-switch-states.xml", full_widths)
+        programs, _ = tools["program_histories"](out / "reference/prepared/control.add.xml", full_widths)
+        assert all(tools["difference_ticks"](target[tls], programs[tls]) == 0 for tls in full_widths)
+        for label, (count, tae) in CASES.items():
+            case = out / label
+            (case / "evaluation/all182-comparison.csv").write_bytes(raw(packet / "derived" / label / "all182-comparison.csv"))
+            signatures = {r["vehicle_id"]: [r["field_id"]] for r in load(case / "prepared/lane-intentions.json")["vehicles"]}
+            assert len(signatures) == count and hashlib.sha256((case / "prepared/control.add.xml").read_bytes()).hexdigest() == CONTROL_SHA
+            measured, _, outside, repeated = audit_measurement(case / "prepared", case / "evaluation", signatures)
+            assert measured["main130"]["TAE"] == tae and measured["healthy"] and measured["safe"] and measured["event_count"] == count and not outside and not repeated
+            parity = jread(packet, Path(label) / "parity.json")
+            assert parity["status"] == "pass" and len(parity["checks"]) == (14 if label == "reference" else 7) and all(parity["checks"].values())
+            for a, b in (("main130", "metrics130"), ("initial52", "metrics52"), ("all182", "metrics182")):
+                assert all(value == parity["after"][b][key] for key, value in measured[a].items())
+            for name, digest in jread(packet, Path(label) / "preflight.json")["prepared_hashes"].items():
+                assert hashlib.sha256(read(packet, Path(label) / "prepared" / name)).hexdigest() == digest
+            states = tools["histories"](case / "evaluation/native/tls-switch-states.xml", full_widths)
+            assert all(tools["difference_ticks"](target[tls], states[tls]) == 0 for tls in full_widths)
+            if label == "warmup9":
+                assert parity["raw_comparisons"]["instant"]["status"] == "not_applicable" and parity["raw_comparisons"]["instant"]["same"] is None
+            results[label] = dict(measurement=measured, actual_N=count, all50_state_program_ticks_equal=True)
+        base = out / "original275"
+        base.mkdir()
+        for name in ("field-counts.xml", "summary.xml", "tripinfo.xml", "vehicle-routes.xml", "stall-monitor.json"):
+            (base / name).write_bytes(read(PARENT, PARENT_CASE / "evaluation/native" / name))
+        for folder in (out / "recording/reference", out / "reference/evaluation/native"):
+            assert tools["compare_rows"](base / "field-counts.xml", folder / "field-counts.xml", "interval")["same"]
+            assert tools["compare_rows"](base / "summary.xml", folder / "summary.xml", "step", ("duration",))["same"]
+            for name, tag in (("tripinfo.xml", "tripinfo"), ("vehicle-routes.xml", "vehicle")):
+                assert tools["keyed"](base / name, tag) == tools["keyed"](folder / name, tag)
+            assert load(base / "stall-monitor.json")["lane_section_hold"] == load(folder / "stall-monitor.json")["lane_section_hold"]
+    assert jread(packet, "paired-result.json")["conditional_comparison_interpretable"]
+    return dict(status="review_required", formal_result=False, native_runs_by_freeze=0, cases=results,
+        reference14_verified=True, reference_N8589_and_counterpart_N8598_not_equal=True, record21_offline_recovery_not_original_script_success=True,
+        original_wall_time=None, best275_unchanged=True, mixed_warmup_TAE=422, mixed_fill9_TAE=430,
+        no_field_SPAT_capacity_or_global_bound_claim=True)
+
+
+def verify(packet):
+    verify_manifest(packet)
+    assert sha(PARENT / "manifest.json") == PARENT_SHA
+    for row in load(packet / "source-provenance.json")["snapshots"]:
+        value = read(packet, row["relative"])
+        assert len(value) == row["raw_bytes"] and hashlib.sha256(value).hexdigest() == row["raw_sha256"]
+    for row in load(packet / "historical-source-bindings.json")["bindings"]:
+        if row["scope"] == "local_trace":
+            assert any(r["sha256"] == row["sha256"] and r["path"] == row["target"] for r in load(packet / "local-only-large-traces.json")["files"])
+        else:
+            value = read(packet, row["target"]) if row["scope"] == "packet" else raw(REPO / safe_relative(row["target"]))
+            assert hashlib.sha256(value).hexdigest() == row["sha256"]
+    assert audit_packet(packet) == load(packet / "results.json")["audit"]
+    print("275 simulated-history pair: raw metrics, recovery and50 color/program timelines verified", flush=True)
+
+
+def freeze():
+    assert not (HERE / "manifest.json").exists() and (HERE / "README.md").is_file()
+    assert sha(SOURCE / "independent.json") == INDEPENDENT_SHA and sha(PARENT / "manifest.json") == PARENT_SHA
+    locations = {}
+    for row in load(PARENT / "source-provenance.json")["snapshots"]:
+        path = physical(PARENT, row["relative"])
+        locations[row["raw_sha256"]] = dict(scope="repository", target=path.relative_to(REPO).as_posix())
+    selected = {p.relative_to(SOURCE): p for p in SOURCE.rglob("*") if p.is_file() and "__pycache__" not in p.parts and p.relative_to(SOURCE).parts[0] not in {"demand-side-diagnosis.json", "primary-boundary-delay-examples.csv"}}
+    selected.update({Path("recording") / p.relative_to(RECORD): p for p in RECORD.rglob("*") if p.is_file() and "__pycache__" not in p.parts})
+    selected[Path("helpers/audit_fixed.py")] = PURE_SOURCE
+    for label in ("h3_counter_add9", "h4_counter_fill9"):
+        folder = PREFIX / label
+        for name in ("verdict.json", "full-result.json", "independent-full.json", "proposal.json", "scope-proof.json", "od-vector.json", "preflight.json", "executed-driver.py", "executed-shared-driver.py", "executed-prepare.py", "evaluation/native/field-counts.xml"):
+            if (folder / name).is_file():
+                selected[Path("mixed") / label / name] = folder / name
+        for name in ("measurement-implementation", "additional-measurement-implementation"):
+            selected.update({Path("mixed") / label / p.relative_to(folder): p for p in (folder / name).glob("*.py")})
+    aliases, provenance, local = {}, [], []
+    def store(name, source):
+        digest, relative = sha(source), name.as_posix()
+        if name.name in {"instant-e1.xml", "queues.xml"}:
+            local.append(dict(path=str(source), bytes=source.stat().st_size, sha256=digest, relative=relative))
+            locations[digest] = dict(scope="local_trace", target=str(source))
+            return
+        if digest in locations:
+            aliases[relative] = dict(**locations[digest], sha256=digest)
+        else:
+            target = HERE / (relative + ".gz")
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(gzip.compress(source.read_bytes(), mtime=0))
+            locations[digest] = dict(scope="packet", target=relative)
+        provenance.append(dict(source=str(source), relative=relative, raw_bytes=source.stat().st_size, raw_sha256=digest))
+    for name, source in sorted(selected.items()):
+        store(name, source)
+    bindings = []
+    for source in selected.values():
+        if source.suffix == ".json":
+            record = load(source)
+            hashes = record.get("source_hashes", {}) if isinstance(record, dict) else {}
+            entries = hashes.items() if isinstance(hashes, dict) else [(r["path"], r["sha256"]) for r in hashes]
+            for path, digest in entries:
+                if digest not in locations:
+                    dependency = Path(path)
+                    if not dependency.is_absolute():
+                        dependency = REPO / dependency
+                    assert dependency.is_file() and sha(dependency) == digest, (path, digest)
+                    if dependency.name in {"instant-e1.xml", "queues.xml"} or dependency.suffix.lower() in {".exe", ".pyd"} or dependency.is_relative_to(PREFIX):
+                        local.append(dict(path=str(dependency), bytes=dependency.stat().st_size, sha256=digest, source_dependency=True))
+                        locations[digest] = dict(scope="local_trace", target=str(dependency))
+                    else:
+                        store(Path("bound-dependencies") / digest / dependency.name, dependency)
+                bindings.append(dict(declared_path=path, sha256=digest, **locations[digest]))
+    save(HERE / "source-provenance.json", dict(snapshots=provenance, source_files_unchanged=True))
+    save(HERE / "byte-references.json", dict(aliases=aliases, rule="Exact raw SHA aliases only."))
+    save(HERE / "historical-source-bindings.json", dict(bindings=bindings, historical_hashes_not_rewritten=True))
+    save(HERE / "local-only-large-traces.json", dict(files=local))
+    save(HERE / "source-references.json", dict(current275_packet=PARENT.name, manifest_sha256=PARENT_SHA))
+    for label in CASES:
+        derived_rows(SOURCE, label)
+    save(HERE / "results.json", dict(audit=audit_packet(HERE)))
+    assert all(sha(Path(r["source"])) == r["raw_sha256"] for r in provenance)
+    save(HERE / "manifest.json", dict(status="review_required", formal_result=False, files=[dict(path=p.relative_to(HERE).as_posix(), bytes=p.stat().st_size,
+        sha256=sha(p)) for p in sorted(HERE.rglob("*")) if p.is_file() and p.name != "manifest.json" and "__pycache__" not in p.parts]))
+    verify(HERE)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--freeze", action="store_true")
+    args = parser.parse_args()
+    freeze() if args.freeze else verify(HERE)

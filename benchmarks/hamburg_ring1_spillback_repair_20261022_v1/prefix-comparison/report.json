@@ -1,0 +1,66 @@
+{
+  "new_simulations": 0,
+  "formal_result": false,
+  "prefix_end_s": 3780,
+  "variants": [
+    {
+      "variant": "baseline",
+      "initialization_E1_contributions": 1773,
+      "initialization_exact_rows": 32,
+      "initialization_diagnostic_MAE": 4.076923076923077,
+      "loaded": 2152,
+      "inserted": 1993,
+      "arrived": 1806,
+      "running": 187,
+      "waiting": 79,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    {
+      "variant": "empty_stage_removed",
+      "initialization_E1_contributions": 1694,
+      "initialization_exact_rows": 33,
+      "initialization_diagnostic_MAE": 5.826923076923077,
+      "loaded": 2152,
+      "inserted": 1951,
+      "arrived": 1727,
+      "running": 224,
+      "waiting": 121,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    {
+      "variant": "merge_coordinated",
+      "initialization_E1_contributions": 1844,
+      "initialization_exact_rows": 27,
+      "initialization_diagnostic_MAE": 4.211538461538462,
+      "loaded": 2152,
+      "inserted": 2070,
+      "arrived": 1889,
+      "running": 181,
+      "waiting": 2,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    },
+    {
+      "variant": "merge_preclear",
+      "initialization_E1_contributions": 1804,
+      "initialization_exact_rows": 33,
+      "initialization_diagnostic_MAE": 3.9038461538461537,
+      "loaded": 2152,
+      "inserted": 2070,
+      "arrived": 1839,
+      "running": 231,
+      "waiting": 2,
+      "teleports": 0,
+      "collisions": 0,
+      "discarded": 0
+    }
+  ],
+  "all_130_main_rows_unknown_in_every_prefix": true,
+  "decision": "Reject empty-stage-only treatment for worse backlog. Measure the locally coordinated merge through the complete unchanged window.",
+  "claim_boundary": "Prefixes establish neither main-window count fit nor full-window safety. All other-field losses are retained."
+}

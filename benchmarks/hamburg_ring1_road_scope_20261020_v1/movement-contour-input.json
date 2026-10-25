@@ -1,0 +1,24 @@
+{
+  "schema": "astra.ring1-movement-contour-input/v1",
+  "file": "movement-contour-input.net.xml.gz",
+  "compressed_sha256": "82f637617b604a31251cff02f20480829f130597a80ef30b5e67dbe5be2d0a9c",
+  "uncompressed_sha256": "386b9b22d39be97b83e9eb6c0d020f7d16ebb059ef5fe8bd1c8f71f7f71dff40",
+  "source": {
+    "path": "outputs/ring1-empty-turn-cleanup-20261020-v3/edit-1/candidate.net.xml",
+    "sha256": "4f83113a9869fd3cc4db57839fa60543c0ca96aff95aaa3632b3c180d6a8e180"
+  },
+  "source_scope_roads": 467,
+  "source_stage_roads": 334,
+  "fixture_roads": 4,
+  "junction_id": "LSA118_part1",
+  "official_node_id": "118",
+  "official_movement_ids": [
+    "35",
+    "39"
+  ],
+  "known_failed_probes": [
+    "outputs/ring1-all-movement-probes-20261020-v1/runs/movement-0028",
+    "outputs/ring1-all-movement-probes-20261020-v1/runs/movement-0029"
+  ],
+  "claim_boundary": "Unaccepted prototype context. It checks endpoint continuity and contour preservation, not field geometry or count accuracy."
+}

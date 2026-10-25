@@ -1,0 +1,7 @@
+{
+  "status": "corrected_offline_check_failure",
+  "new_native_runs": 0,
+  "original_assertion": "The extra32-event binding initially compared continuous detector leave time_s with a CSV notification time.",
+  "correction": "Use notification_time_s for the CSV binding. Both native continuous leave and notification timestamps remain unchanged in all32-native-event-proof.json.",
+  "source_or_native_outputs_modified": false
+}

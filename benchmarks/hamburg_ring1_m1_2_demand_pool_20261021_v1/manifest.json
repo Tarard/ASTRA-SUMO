@@ -1,0 +1,286 @@
+{
+  "schema": "astra.hamburg-ring1-m1-2-evidence/v1",
+  "status": "offline_single_pass_proposal",
+  "implementation_base_commit": "d37f5be557202bc37d752658f61a62524360a922",
+  "implementation_files": [
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/demand_route_pool.py",
+      "sha256": "3ed1207d10a04cc65ee019383a5f87ffaead8041605eb34bb9f6a8beeab923c8"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/hamburg_readme_demand.py",
+      "sha256": "65d24dfc6bb825be22dfe5c78c32dfbc9e617c240e41b6e6616019b0d84d722a"
+    },
+    {
+      "path": "plugins/astra-sumo/src/astra_sumo/core/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "path": "plugins/astra-sumo/scripts/build_hamburg_readme_demand.py",
+      "sha256": "0e20e3157209b5edc605f6eb1223d14d128bc8bccb80284035d950598f26e5ff"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": ".gitattributes",
+      "sha256": "69dc5dd568f3edbd1b479daae42b4e6c707f37e858895e8017d48c16635d972c"
+    },
+    {
+      "path": "assignment-002b.txt",
+      "sha256": "b6226cc3068e0f85fba0fcb89faf30e584c69183c4d97e0bf0b27ec7923e0a9b"
+    },
+    {
+      "path": "base/approach-lane-loads.csv",
+      "sha256": "78633d4ed5a3fe173ba08f122983cc1c0ec67c31c77e4724f6b90e5f560ebd9e"
+    },
+    {
+      "path": "base/boundary-declarations.json",
+      "sha256": "ca162d235b678022cc429c21da841e11e768724a21b4166fe611b46c5a4b150d"
+    },
+    {
+      "path": "base/columns.json.gz",
+      "sha256": "e8fb240d1ec2b780e82ff916dcaa5188e10f599caa71bcf92ca50587acd4dbdb"
+    },
+    {
+      "path": "base/entry-inventory.csv",
+      "sha256": "d5267b0e6e9bc992d4df798553de0da1a0ffafb41bc28f8a533a39ce035eab3d"
+    },
+    {
+      "path": "base/entry-loads.csv",
+      "sha256": "059ec34b0fe8c605833b4ca92172de9db51fe697162b50ad6445b4dac3dee183"
+    },
+    {
+      "path": "base/ideal-lane-profiles.json.gz",
+      "sha256": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a"
+    },
+    {
+      "path": "base/independent-checks.json",
+      "sha256": "625f56ae0b30982434d7a8b3cae6d2908bfd979dd68a4c0fe9b3f0952b102661"
+    },
+    {
+      "path": "base/integer-proposal.json",
+      "sha256": "c7adafcc0be0c879068688545bc3da9832a20538f92bdbf071cc8eaedbfc5893"
+    },
+    {
+      "path": "base/native-lanes.errors.log",
+      "sha256": "b06a6ad8e35469a9be3c8df06fc244947c0301f1832ee6e4fc06d4a3aee5e804"
+    },
+    {
+      "path": "base/native-lanes.json.gz",
+      "sha256": "77d3289ec878db97b898e5f2dfe7308ab3a9ce391886ebd97a013fcf69cfd0ef"
+    },
+    {
+      "path": "base/provisional-demand.rou.xml.gz",
+      "sha256": "591ca4adb956a1ecb72936dc5faa30aa420c3705abc37a03c207874ff124a57a"
+    },
+    {
+      "path": "base/provisional-field-comparison.csv",
+      "sha256": "b9a1aef488839d17ac0c55399f9da2428c4f9ed6b3bf00c8f786a9fb21d84a43"
+    },
+    {
+      "path": "base/provisional-lane-intentions.json.gz",
+      "sha256": "838cc648f7218bd129761c981cce711bd7210578fe254abb2c784668b0910713"
+    },
+    {
+      "path": "base/provisional-station-comparison.csv",
+      "sha256": "0fd9fc8e9956d1a53dd8cc20544f232ebfca0ec40d35f33620b5f569de6ef0dc"
+    },
+    {
+      "path": "base/provisional-system.npz",
+      "sha256": "ff2ea8571ca79a5697049a6b0f2faf6a1fa9258b55a6efe5a39621e49997d7a4"
+    },
+    {
+      "path": "base/report.json",
+      "sha256": "9c5b5378776ad5d12c74df91f682154c5cf7267a301782a70c106fbdb1dd4300"
+    },
+    {
+      "path": "base/route-pool.json.gz",
+      "sha256": "43b118c5353efc20dc2250caf5d00a37bdb4b48632d9a53e985ab79fc01fff8a"
+    },
+    {
+      "path": "base/vehicle-lower-bound.json",
+      "sha256": "5c206a2583dd33e390060108ff79fb4801b57e6dc225544f372cae86602c30e3"
+    },
+    {
+      "path": "checks/navigation.log",
+      "sha256": "4b5992730eb79e36237a122e52cf367fcd4a637cbb18f51484c7bff148ddbbea"
+    },
+    {
+      "path": "checks/tests.log",
+      "sha256": "11ea74b6e6f59a9a7ce4fa5d8ba5ea08923ee7f03564126ff92860966a8e8a18"
+    },
+    {
+      "path": "checks/tests.xml",
+      "sha256": "ee027ed676aee9cc11d2adcd8eabbdaf1cd30d64002a4eb0b0a7904cd38c929b"
+    },
+    {
+      "path": "double/approach-lane-loads.csv",
+      "sha256": "f70662fd0e576c798ec83fc28312930f0fc06a1e5b36fe5d0110e1aa655bf8c9"
+    },
+    {
+      "path": "double/boundary-declarations.json",
+      "sha256": "ca162d235b678022cc429c21da841e11e768724a21b4166fe611b46c5a4b150d"
+    },
+    {
+      "path": "double/columns.json.gz",
+      "sha256": "e8fb240d1ec2b780e82ff916dcaa5188e10f599caa71bcf92ca50587acd4dbdb"
+    },
+    {
+      "path": "double/entry-inventory.csv",
+      "sha256": "75613547a2fe77dbcf08d692ed31c61eba36e3f6bac77d4fb26849b549eec5fb"
+    },
+    {
+      "path": "double/entry-loads.csv",
+      "sha256": "b84f932e90f9c63f92eca833aeefda2c11733c30acddb4e8a207979a8759c5c4"
+    },
+    {
+      "path": "double/ideal-lane-profiles.json.gz",
+      "sha256": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a"
+    },
+    {
+      "path": "double/independent-checks.json",
+      "sha256": "de1c761ba57eec4d5460667fe88afb5daf737385e05b8a8f4bf88823da3427c1"
+    },
+    {
+      "path": "double/integer-proposal.json",
+      "sha256": "694727e277b94beb51a1f0062a936adb4325c270b2f66ecfda600948615d8fab"
+    },
+    {
+      "path": "double/native-lanes.errors.log",
+      "sha256": "b06a6ad8e35469a9be3c8df06fc244947c0301f1832ee6e4fc06d4a3aee5e804"
+    },
+    {
+      "path": "double/native-lanes.json.gz",
+      "sha256": "77d3289ec878db97b898e5f2dfe7308ab3a9ce391886ebd97a013fcf69cfd0ef"
+    },
+    {
+      "path": "double/provisional-demand.rou.xml.gz",
+      "sha256": "31b29ed2a9ea4602bdb48f95500f34559bfac937d5c614d6d809089b87fb1e01"
+    },
+    {
+      "path": "double/provisional-field-comparison.csv",
+      "sha256": "b9a1aef488839d17ac0c55399f9da2428c4f9ed6b3bf00c8f786a9fb21d84a43"
+    },
+    {
+      "path": "double/provisional-lane-intentions.json.gz",
+      "sha256": "73d4c885671c43dee4db59e739272f5a6a992cfc6ffdc5ae87c380c42d6c3486"
+    },
+    {
+      "path": "double/provisional-station-comparison.csv",
+      "sha256": "0fd9fc8e9956d1a53dd8cc20544f232ebfca0ec40d35f33620b5f569de6ef0dc"
+    },
+    {
+      "path": "double/provisional-system.npz",
+      "sha256": "f2625148efdc5e961345b2a45a54be949e5d176d72b398248d1d3bf33c467dac"
+    },
+    {
+      "path": "double/report.json",
+      "sha256": "bbce81a5ad1b203d9c2af1b4b215f9624a7f247ff9b529c1e4e88eba61c2b3e2"
+    },
+    {
+      "path": "double/route-pool.json.gz",
+      "sha256": "43b118c5353efc20dc2250caf5d00a37bdb4b48632d9a53e985ab79fc01fff8a"
+    },
+    {
+      "path": "double/vehicle-lower-bound.json",
+      "sha256": "5c206a2583dd33e390060108ff79fb4801b57e6dc225544f372cae86602c30e3"
+    },
+    {
+      "path": "half/approach-lane-loads.csv",
+      "sha256": "4d502e347a58c3e07ebe19c319a743db56ec6194d67864df7a41b4d6505df388"
+    },
+    {
+      "path": "half/boundary-declarations.json",
+      "sha256": "ca162d235b678022cc429c21da841e11e768724a21b4166fe611b46c5a4b150d"
+    },
+    {
+      "path": "half/columns.json.gz",
+      "sha256": "e8fb240d1ec2b780e82ff916dcaa5188e10f599caa71bcf92ca50587acd4dbdb"
+    },
+    {
+      "path": "half/entry-inventory.csv",
+      "sha256": "abf3f4e61e6d6671f9b12cf53fe0a14b99de17c570b7b4b190261e2304316312"
+    },
+    {
+      "path": "half/entry-loads.csv",
+      "sha256": "ca77e74aa9d47bf07827eb8444d4e98b59eee9e8bf0213b5f9fc6e2afba450eb"
+    },
+    {
+      "path": "half/ideal-lane-profiles.json.gz",
+      "sha256": "285a2f173d8a17e13b9bab310199cd4adfe3074170df9def9679f3c05326769a"
+    },
+    {
+      "path": "half/independent-checks.json",
+      "sha256": "c9eab5f7deafdb60363f6f91171ac9c56ac839352e23b51c8fdbfcc4cae0bff5"
+    },
+    {
+      "path": "half/integer-proposal.json",
+      "sha256": "3ba985e17db5d357ede747a4c13fe9f3786dea88c56b7e6301f8facb2651f817"
+    },
+    {
+      "path": "half/native-lanes.errors.log",
+      "sha256": "b06a6ad8e35469a9be3c8df06fc244947c0301f1832ee6e4fc06d4a3aee5e804"
+    },
+    {
+      "path": "half/native-lanes.json.gz",
+      "sha256": "77d3289ec878db97b898e5f2dfe7308ab3a9ce391886ebd97a013fcf69cfd0ef"
+    },
+    {
+      "path": "half/provisional-demand.rou.xml.gz",
+      "sha256": "47cd7d6147fb5850e873e955f9aca88f82b015d287f4a0b27fa0e01e17dba7d6"
+    },
+    {
+      "path": "half/provisional-field-comparison.csv",
+      "sha256": "b9a1aef488839d17ac0c55399f9da2428c4f9ed6b3bf00c8f786a9fb21d84a43"
+    },
+    {
+      "path": "half/provisional-lane-intentions.json.gz",
+      "sha256": "2f7ab97010cfb01109c6142193c2586cf7147eb940bd2c0ebcf4b0f42210f5f1"
+    },
+    {
+      "path": "half/provisional-station-comparison.csv",
+      "sha256": "0fd9fc8e9956d1a53dd8cc20544f232ebfca0ec40d35f33620b5f569de6ef0dc"
+    },
+    {
+      "path": "half/provisional-system.npz",
+      "sha256": "314bb831f6ec2756f31c8fefe501b9f33f2aba00c905c560820477aed7536ce5"
+    },
+    {
+      "path": "half/report.json",
+      "sha256": "4c2a8ce8a818f123cee53208b90b8429d8f85a3e646a89194a8b4739e3067a9b"
+    },
+    {
+      "path": "half/route-pool.json.gz",
+      "sha256": "43b118c5353efc20dc2250caf5d00a37bdb4b48632d9a53e985ab79fc01fff8a"
+    },
+    {
+      "path": "half/vehicle-lower-bound.json",
+      "sha256": "5c206a2583dd33e390060108ff79fb4801b57e6dc225544f372cae86602c30e3"
+    },
+    {
+      "path": "README.md",
+      "sha256": "481e34bc090bc821312de8da175bb6d923cd397d9abb7a64a390026a53626f1f"
+    },
+    {
+      "path": "replay-base.json",
+      "sha256": "8ff065f84b93dff97c1cd4c15017846e39b5f62b13cb76719dff35f2a44359c7"
+    },
+    {
+      "path": "replay-double.json",
+      "sha256": "ebd15d893da71978cdf5e4085766d093b180865ebf5b1f243830dc710d35c05c"
+    },
+    {
+      "path": "replay-half.json",
+      "sha256": "e92d27485ccae2db9b2f6235f531b02233707a612c02de1e5a77028d22298556"
+    },
+    {
+      "path": "sensitivity-summary.json",
+      "sha256": "217bbebb15c10f128b1eb9349a9c8e70ca521d52ec7c2616f5f7e7b94d00bf51"
+    }
+  ],
+  "frozen_input_replay_verified": true,
+  "m1_input_package": "../hamburg_ring1_m1_demand_pool_20261021_v1",
+  "formal_result": false,
+  "exact_count_fit": false,
+  "traffic_simulation_performed": false
+}

@@ -5,6 +5,8 @@ import gzip
 import hashlib
 import math
 import os
+from importlib.util import find_spec
+import shutil
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -13,7 +15,7 @@ from urllib import error, parse, request
 import unicodedata
 import xml.etree.ElementTree as ET
 
-from .artifact_io import write_json_atomic
+from .artifact_io import copy_file_atomic, write_json_atomic
 from .command_runner import run_command
 
 
@@ -631,29 +633,44 @@ REFERENCE_VISUAL_SERVICE_TYPE_XML = """<types xmlns:xsi="http://www.w3.org/2001/
 """
 
 
+def _sumo_typemap_directory(netconvert_binary, explicit_sumo_home=None):
+    configured = explicit_sumo_home or os.environ.get("SUMO_HOME", "").strip()
+    if configured:
+        return Path(configured).resolve() / "data" / "typemap"
+    executable = Path(shutil.which(str(netconvert_binary)) or netconvert_binary).resolve()
+    candidates = [executable.parent.parent / "data" / "typemap",
+                  executable.parent.parent / "share" / "sumo" / "data" / "typemap"]
+    package = find_spec("sumo")
+    if package is not None and package.origin:
+        candidates.append(Path(package.origin).parent / "data" / "typemap")
+    for directory in candidates:
+        if directory.is_dir():
+            return directory
+    raise ValueError("Cannot find the SUMO OSM type maps. Set sumo_home to the SUMO installation directory.")
+
+
 def _reference_visual_type_options(
     root: Path,
     logs_dir: Path,
     prefix: str,
     *,
     explicit_sumo_home: Path | None = None,
+    netconvert_binary: str = "netconvert",
 ) -> tuple[list[str], list[str]]:
-    sumo_home_value = (
-        str(explicit_sumo_home.resolve())
-        if explicit_sumo_home is not None
-        else os.environ.get("SUMO_HOME", "").strip()
-    )
-    if not sumo_home_value:
-        return [], ["SUMO_HOME is not set; reference visual service typemap overlay skipped"]
-    typemap_dir = Path(sumo_home_value) / "data" / "typemap"
+    typemap_dir = _sumo_typemap_directory(netconvert_binary, explicit_sumo_home)
     base_type_files = [typemap_dir / name for name in REFERENCE_VISUAL_SUMO_TYPEMAPS]
     missing = [str(path) for path in base_type_files if not path.exists()]
     if missing:
-        return [], ["SUMO typemap files missing; reference visual service typemap overlay skipped: " + ", ".join(missing)]
+        raise ValueError("The selected visual profile requires SUMO type maps. Missing files: " + ", ".join(missing))
     service_type_file = logs_dir / f"{prefix}_service_no_pedestrian.typ.xml"
     _write_text(service_type_file, REFERENCE_VISUAL_SERVICE_TYPE_XML)
     type_files = [*base_type_files, service_type_file]
-    return ["--type-files", ",".join(_command_path(path, root) for path in type_files)], []
+    executable = Path(shutil.which(str(netconvert_binary)) or netconvert_binary).resolve()
+    adjacent = next((path for path in (executable.parent.parent / "data" / "typemap",
+        executable.parent.parent / "share" / "sumo" / "data" / "typemap") if path.is_dir()), None)
+    warnings = ([f"Configured SUMO type maps differ from the selected binary installation: {typemap_dir}; binary type maps: {adjacent}. Check their versions."]
+                if adjacent is not None and adjacent.resolve() != typemap_dir.resolve() else [])
+    return ["--type-files", ",".join(_command_path(path, root) for path in type_files)], warnings
 
 
 def _forced_construction_type_options(
@@ -662,21 +679,9 @@ def _forced_construction_type_options(
     prefix: str,
     *,
     explicit_sumo_home: Path | None = None,
+    netconvert_binary: str = "netconvert",
 ) -> tuple[list[str], Path]:
-    sumo_home_value = (
-        str(explicit_sumo_home.resolve())
-        if explicit_sumo_home is not None
-        else os.environ.get("SUMO_HOME", "").strip()
-    )
-    if not sumo_home_value:
-        raise ValueError(
-            "SUMO_HOME is not set; forced highway=construction import requires "
-            "the official SUMO OSM typemap"
-        )
-
-    base_type_file = (
-        Path(sumo_home_value) / "data" / "typemap" / OSM_BASE_SUMO_TYPEMAP
-    )
+    base_type_file = _sumo_typemap_directory(netconvert_binary, explicit_sumo_home) / OSM_BASE_SUMO_TYPEMAP
     if not base_type_file.is_file():
         raise ValueError(
             "SUMO official OSM typemap is missing for forced "
@@ -791,6 +796,7 @@ def build_osm_network(
     command_runner: Callable[..., Any] = run_command,
     download_func: Callable[..., bytes] = download_osm,
     netconvert_profile: str | None = "vehicle_core",
+    output_precision: int | None = None,
     allowed_way_ids: set[str] | None = None,
     forced_way_ids: set[str] | None = None,
     include_railway: bool = False,
@@ -806,6 +812,9 @@ def build_osm_network(
     it does not geometrically clip them at the rectangle boundary.
     """
     try:
+        if output_precision is not None and (isinstance(output_precision, bool)
+                or not isinstance(output_precision, int) or output_precision < 0):
+            raise ValueError("output_precision must be a non-negative integer.")
         parsed_bbox = parse_bbox(bbox)
         parsed_geo_boundary = parse_geo_boundary(geo_boundary)
         if not math.isfinite(tls_join_distance_m) or tls_join_distance_m < 0:
@@ -921,6 +930,7 @@ def build_osm_network(
                 logs_dir,
                 prefix,
                 explicit_sumo_home=sumo_home,
+                netconvert_binary=netconvert_binary,
             )
             if normalized_profile in REFERENCE_VISUAL_PROFILES
             else ([], [])
@@ -934,6 +944,7 @@ def build_osm_network(
                         logs_dir,
                         prefix,
                         explicit_sumo_home=sumo_home,
+                        netconvert_binary=netconvert_binary,
                     )
                 )
             except ValueError as exc:
@@ -952,7 +963,14 @@ def build_osm_network(
                 type_options,
                 construction_type_options,
             )
-        command = [
+        type_map_inputs = []
+        for filename in (type_options[1].split(",") if type_options else []):
+            path = Path(filename)
+            path = path if path.is_absolute() else root / path
+            type_map_inputs.append({"path": str(path.resolve()), "sha256": _file_sha256(path)})
+        from .local_network_conversion import with_geometry_precision
+
+        command = with_geometry_precision([
             netconvert_binary,
             "--osm-files",
             _relative_to_root(filtered_osm, root),
@@ -970,13 +988,15 @@ def build_osm_network(
             f"{tls_join_distance_m:g}",
             *type_options,
             *profile_options,
+            *([] if output_precision is None else ["--precision", str(output_precision)]),
             *(
                 ["--keep-edges.in-geo-boundary", parsed_geo_boundary]
                 if parsed_geo_boundary is not None
                 else []
             ),
             "--verbose",
-        ]
+        ])
+        effective_precision = int(command[command.index("--precision") + 1])
         _write_text(
             command_record,
             "\n".join(
@@ -1050,6 +1070,16 @@ def build_osm_network(
             ),
         )
         from .osm_access import correct_osm_access_permissions
+        from .tls_reference_cleanup import build_tls_reference_cleanup_variant
+
+        tls_cleanup = {"status": "not_run"}
+        if result.get("status") == "pass" and net_file.is_file():
+            tls_cleanup = build_tls_reference_cleanup_variant(
+                net_file, output_dir=logs_dir / f"{prefix}_tls_cleanup")
+            if tls_cleanup["status"] == "pass":
+                access_input = logs_dir / f"{prefix}_access-input.net.xml"
+                copy_file_atomic(Path(tls_cleanup["effective_net_file"]), access_input)
+                net_file = access_input
 
         access_correction = (
             correct_osm_access_permissions(
@@ -1060,7 +1090,7 @@ def build_osm_network(
                 timeout_seconds=timeout_seconds,
                 command_runner=command_runner,
             )
-            if result.get("status") == "pass" and net_file.is_file()
+            if result.get("status") == "pass" and tls_cleanup["status"] == "pass" and net_file.is_file()
             else {"status": "not_run", "changed_lane_count": 0}
         )
     except (OSError, ET.ParseError, error.URLError, error.HTTPError, RuntimeError, ValueError) as exc:
@@ -1069,15 +1099,19 @@ def build_osm_network(
             artifacts={"query_file": str(query_file), "command_record": str(command_record)},
         )
 
-    status = "pass" if result.get("status") == "pass" and net_file.exists() and access_correction["status"] != "blocked" else "fail"
+    status = "pass" if result.get("status") == "pass" and tls_cleanup["status"] == "pass" and net_file.exists() and access_correction["status"] != "blocked" else "fail"
     warnings = list(type_warnings)
+    if status == "pass" and access_correction.get("connectivity_review_required"):
+        status = "review_required"
+        warnings.append("Newly allowed vehicle classes require a separate connectivity review.")
+    claim_status = "diagnostic-demo" if status in {"pass", "review_required"} else "construction-invalid"
     if not net_file.exists():
         warnings.append(f"net file was not created: {net_file}")
     origin_name_output = _origin_name_output_summary(net_file)
     build_manifest = {
         "schema": OSM_BUILD_PROVENANCE_SCHEMA,
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "claim_status": claim_status,
         "build_scope": {
             "bbox": bbox,
             "geo_boundary": parsed_geo_boundary,
@@ -1115,13 +1149,16 @@ def build_osm_network(
         },
         "netconvert": {
             "command": command,
+            "precision": effective_precision,
             "result": result,
             "profile": normalized_profile,
             "profile_options": profile_options,
             "type_options": type_options,
+            "type_map_inputs": type_map_inputs,
             "output_original_names": origin_name_output,
         },
         "osm_access_correction": access_correction,
+        "tls_reference_cleanup": tls_cleanup,
         "artifacts": {
             "command_record": str(command_record.resolve()),
             "netconvert_log": str(netconvert_log.resolve()),
@@ -1147,7 +1184,7 @@ def build_osm_network(
         )
     return {
         "status": status,
-        "claim_status": "diagnostic-demo" if status == "pass" else "construction-invalid",
+        "claim_status": claim_status,
         "bbox": bbox,
         "geo_boundary": parsed_geo_boundary,
         "tls_join_distance_m": tls_join_distance_m,
@@ -1173,9 +1210,12 @@ def build_osm_network(
         "filter_stats": filter_stats,
         "overpass": overpass_report,
         "netconvert_profile": normalized_profile,
+        "netconvert_precision": effective_precision,
         "netconvert_profile_options": profile_options,
+        "netconvert_type_map_inputs": type_map_inputs,
         "netconvert_output_original_names": origin_name_output,
         "osm_access_correction": access_correction,
+        "tls_reference_cleanup": tls_cleanup,
         **(
             {
                 "forced_construction_type_overlay_file": str(

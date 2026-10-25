@@ -1,0 +1,839 @@
+{
+  "snapshots": [
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\audit.py",
+      "relative": "study-source/audit.py",
+      "raw_bytes": 8050,
+      "raw_sha256": "f16e6ce1ce08e164d852ad6aac59ecaca82aa686c181989466d541fb96e9072d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\all50-colour-program-histories.csv",
+      "relative": "independent/all50-colour-program-histories.csv",
+      "raw_bytes": 1571,
+      "raw_sha256": "80a7a2615a4d5e2824233fa6156e95c0e0b2324c086675bb29dc73103fe00015"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\audit_fixed.py",
+      "relative": "independent/audit_fixed.py",
+      "raw_bytes": 18078,
+      "raw_sha256": "55f4a2c8472251ac55c184a0c5e0cb77a18d0e60dee107fb53c353e0438b5d1b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\field13-exactness-and-errors.csv",
+      "relative": "independent/field13-exactness-and-errors.csv",
+      "raw_bytes": 658,
+      "raw_sha256": "dfd5af801dedab353eac8865a5db9cf5726ac29b87720626df9c93c376ca5702"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\manifest.json",
+      "relative": "independent/manifest.json",
+      "raw_bytes": 2308,
+      "raw_sha256": "f21a303b95f90a12c6ef492b32a8653e95e3ee70556cf9301ee6b13a1811e53a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\native208-paired-counts.csv",
+      "relative": "independent/native208-paired-counts.csv",
+      "raw_bytes": 10445,
+      "raw_sha256": "b6571d53d04b54bf3a6bfc01e34ef1eb8dd0d0965f9c4686df64eda19b1806df"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\one-car-all182.csv",
+      "relative": "independent/one-car-all182.csv",
+      "raw_bytes": 10861,
+      "raw_sha256": "0487f9d94aba8788c5a5a8ac1667f71ddb56751139807bd439445979fdb96b45"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\one-car-initial.csv",
+      "relative": "independent/one-car-initial.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\one-car-main.csv",
+      "relative": "independent/one-car-main.csv",
+      "raw_bytes": 7877,
+      "raw_sha256": "5fba4716a47851283f7d0b470b8a63f302a8fb0c01937f4bb10c7d268e8851ad"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\one-car-stations.csv",
+      "relative": "independent/one-car-stations.csv",
+      "raw_bytes": 1607,
+      "raw_sha256": "4e546a32e7379acb5c13df278488105a9de3d9c4e3573b32515a4d18f301cc53"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\README.md",
+      "relative": "independent/README.md",
+      "raw_bytes": 2716,
+      "raw_sha256": "7f5cb18d59dcd6d442e7a1b8ae36e7e3e02a08a81a6e1c645b63ce72fab7e405"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\reference-all182.csv",
+      "relative": "independent/reference-all182.csv",
+      "raw_bytes": 10860,
+      "raw_sha256": "305b6e208f238483f61adfb043cb6faf1542e687880e14ffbad4a4a9b16881f8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\reference-initial.csv",
+      "relative": "independent/reference-initial.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\reference-main.csv",
+      "relative": "independent/reference-main.csv",
+      "raw_bytes": 7876,
+      "raw_sha256": "c64bd971832dbfffd5894e7c6614d15ec08e597008adfe15ddb912611f14b877"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\reference-stations.csv",
+      "relative": "independent/reference-stations.csv",
+      "raw_bytes": 1608,
+      "raw_sha256": "52e99db4974fbf05c1ef441db3e638714e3db027c4a09da08eccaee8c833849b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\independent\\summary.json",
+      "relative": "independent/summary.json",
+      "raw_bytes": 34786,
+      "raw_sha256": "50a547ab3d1e437841fbc342544f7435a6181b9018e28d7a324a8338cb779dcd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\manifest.json",
+      "relative": "study-source/manifest.json",
+      "raw_bytes": 8902,
+      "raw_sha256": "25bdb4285ab40b7c92c24040d2f66b46ede7c909c72f59bc83878d5a0f03ddd1"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\535-all56-comparison.csv",
+      "relative": "one-car/evaluation/535-all56-comparison.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "e2aa7e2c1c7b88cc1cc69099f3ea695d726ccfa8987c96f0ad076f8139063109"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\all182-comparison.csv",
+      "relative": "one-car/evaluation/all182-comparison.csv",
+      "raw_bytes": 10861,
+      "raw_sha256": "4eafe2a483f20e3272c0ba88d02e2d66d6fc0b9adc084cd9d69c8a2b1b3543a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\contributing-passages.json.gz",
+      "relative": "one-car/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 173292,
+      "raw_sha256": "860dedbb3aabf8205af572e61000ee42827f7c24be8601753876a5f1dad2e0af"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\demand.rou.xml",
+      "relative": "one-car/evaluation/demand.rou.xml",
+      "raw_bytes": 3726633,
+      "raw_sha256": "be7bcd2f3b95eee5d056d0296f18d0272652ffe3caa04605808e25d86f5b120c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\evaluation.json",
+      "relative": "one-car/evaluation/evaluation.json",
+      "raw_bytes": 453,
+      "raw_sha256": "44f26765c90648252e957ef35389f3447656713819084fe8434b1fb44122b054"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\initialization52-comparison.csv",
+      "relative": "one-car/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\lane-intentions.json",
+      "relative": "one-car/evaluation/lane-intentions.json",
+      "raw_bytes": 1005112,
+      "raw_sha256": "5c28006d353e97b5287550bb7c5828a1fb2f381f0881237d60aee884dbd101d3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\collisions.xml",
+      "relative": "one-car/evaluation/native/collisions.xml",
+      "raw_bytes": 3467,
+      "raw_sha256": "0179dcb0966577d8db1699357b89073f86fc7dcd72ce4c024b04c82520598940"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\command.json",
+      "relative": "one-car/evaluation/native/command.json",
+      "raw_bytes": 5265,
+      "raw_sha256": "7bf80e9763693e6cba1058445e57ad0544f6d131600de34bcc7753f7dd4cccd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\demand.rou.xml",
+      "relative": "one-car/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3726633,
+      "raw_sha256": "be7bcd2f3b95eee5d056d0296f18d0272652ffe3caa04605808e25d86f5b120c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\e1.add.xml",
+      "relative": "one-car/evaluation/native/e1.add.xml",
+      "raw_bytes": 3667,
+      "raw_sha256": "d9d4a7ab11274498a80e4839c814c0cfbf877d377b1808180004af95b10c47c5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\expected-counts.csv",
+      "relative": "one-car/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\field-comparison.csv",
+      "relative": "one-car/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7877,
+      "raw_sha256": "5fba4716a47851283f7d0b470b8a63f302a8fb0c01937f4bb10c7d268e8851ad"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\field-counts.xml",
+      "relative": "one-car/evaluation/native/field-counts.xml",
+      "raw_bytes": 53294,
+      "raw_sha256": "d186c3d250176b0d1e15a9eff1db45b8565b402ca87e792ddf43d2c5f5ec776d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\instant.add.xml",
+      "relative": "one-car/evaluation/native/instant.add.xml",
+      "raw_bytes": 3143,
+      "raw_sha256": "7f7b175f2903369cfbb662c165fbdb8cd26b29ab3195ac07dc477553c71411ea"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\lane-intentions.json",
+      "relative": "one-car/evaluation/native/lane-intentions.json",
+      "raw_bytes": 1005112,
+      "raw_sha256": "5c28006d353e97b5287550bb7c5828a1fb2f381f0881237d60aee884dbd101d3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\native-request.json",
+      "relative": "one-car/evaluation/native/native-request.json",
+      "raw_bytes": 4069,
+      "raw_sha256": "78446dc2d45aa4d36ed540b90381925905f47222b8e23717c158c298ed7ddef7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\network.net.xml",
+      "relative": "one-car/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\run.json",
+      "relative": "one-car/evaluation/native/run.json",
+      "raw_bytes": 6309771,
+      "raw_sha256": "4bacbfc4a7e1e60596273a55024281e2ce44fd42d504090193bf0972a67ca9d4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "one-car/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 7638512,
+      "raw_sha256": "74bff7513926a6b62a772439c058d47c318765791538e8bbc077702f70a39dc2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\source-e1.add.xml",
+      "relative": "one-car/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\stall-monitor.json",
+      "relative": "one-car/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5854135,
+      "raw_sha256": "e1f216151386ef7ab67f0cf524b749b49c12cc1407cb4cb1ea396dad462128a5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\summary.xml",
+      "relative": "one-car/evaluation/native/summary.xml",
+      "raw_bytes": 46731667,
+      "raw_sha256": "da4f93c6dcf57a9fcf15095dbac508c5fbc56138f90c37777c239117d9527f0d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\sumo-errors.log",
+      "relative": "one-car/evaluation/native/sumo-errors.log",
+      "raw_bytes": 2815,
+      "raw_sha256": "3a91ce3e3857ced272524573dc315d9f33f6c9fb91d37b487d11203fcbf65462"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\sumo.log",
+      "relative": "one-car/evaluation/native/sumo.log",
+      "raw_bytes": 4595,
+      "raw_sha256": "5affc2d04b0277cdaae7c7630325096158d95f9ad31eeeb862053f9edb637212"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\tls-observer.add.xml",
+      "relative": "one-car/evaluation/native/tls-observer.add.xml",
+      "raw_bytes": 274,
+      "raw_sha256": "8dcd56206c8fb59dacafa0968ad3bf2900a0b458accb0b2afea52f3f2524fd45"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\tls-switch-states.xml",
+      "relative": "one-car/evaluation/native/tls-switch-states.xml",
+      "raw_bytes": 12984915,
+      "raw_sha256": "de59a6e981213a9d8f218aa0c47dfe2161040e7320865fa0fa2efd9de5cf6077"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\tripinfo.xml",
+      "relative": "one-car/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4574952,
+      "raw_sha256": "735ef00430cd70173d9294f3eb1e00f09bf959a8050f19871f48bab9f37eb601"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "one-car/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6540398,
+      "raw_sha256": "ef975e2342dbf19e8886e2bea0dca4e303bb3a9ce45a6ce57e96bc4e4e421835"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\evaluation\\station-comparison.csv",
+      "relative": "one-car/evaluation/station-comparison.csv",
+      "raw_bytes": 1607,
+      "raw_sha256": "4e546a32e7379acb5c13df278488105a9de3d9c4e3573b32515a4d18f301cc53"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\executed-run.py",
+      "relative": "one-car/executed-run.py",
+      "raw_bytes": 6499,
+      "raw_sha256": "a5e7c5aeda9675673906321ba3f2347563d09789b611ddeee0880187dd4aa166"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\execution.json",
+      "relative": "one-car/execution.json",
+      "raw_bytes": 510,
+      "raw_sha256": "1d85e19efa0e299a004b36ce25d361894db14dcbc7e0cb310b457742c526f186"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\execution.log",
+      "relative": "one-car/execution.log",
+      "raw_bytes": 19613,
+      "raw_sha256": "8e67d986f3d43380d3421defd05114f72a6a295bee0a67a93b7264d7d6f0a2a8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\artifact_io.py",
+      "relative": "one-car/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\candidate_contracts.py",
+      "relative": "one-car/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\command_runner.py",
+      "relative": "one-car/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\detector_demand.py",
+      "relative": "one-car/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\detector_demand_replay.py",
+      "relative": "one-car/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\hamburg_197_through_support.py",
+      "relative": "one-car/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\hamburg_od_spsa.py",
+      "relative": "one-car/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\lane_section_hold.py",
+      "relative": "one-car/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\route_sensor_matrix.py",
+      "relative": "one-car/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\implementation\\simulation_stall.py",
+      "relative": "one-car/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\native-result.json",
+      "relative": "one-car/native-result.json",
+      "raw_bytes": 485,
+      "raw_sha256": "b9b6ee27bd4e49a61df3170ddd505831e73c6a5cd2cde16a3d6cab986d9e409b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\observer-adapter.json",
+      "relative": "one-car/observer-adapter.json",
+      "raw_bytes": 615,
+      "raw_sha256": "9a66557fddb0314b9dff803335932f1e84207ef7c10d06cca0b505fb90b0e4a2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\parity.json",
+      "relative": "one-car/parity.json",
+      "raw_bytes": 31129,
+      "raw_sha256": "2bdba055ff2c9ef5183cd9c70fe1f05805644785d80851f53e1a4f979a7b4d84"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\planned-native-request.json",
+      "relative": "one-car/planned-native-request.json",
+      "raw_bytes": 4069,
+      "raw_sha256": "78446dc2d45aa4d36ed540b90381925905f47222b8e23717c158c298ed7ddef7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\preflight.json",
+      "relative": "one-car/preflight.json",
+      "raw_bytes": 7594,
+      "raw_sha256": "ae2a6a43193835cde2ad78919ca42ed4bdc141096f0e11bf7328b161e601b197"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\control.add.xml",
+      "relative": "one-car/prepared/control.add.xml",
+      "raw_bytes": 7638512,
+      "raw_sha256": "74bff7513926a6b62a772439c058d47c318765791538e8bbc077702f70a39dc2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\demand.rou.xml",
+      "relative": "one-car/prepared/demand.rou.xml",
+      "raw_bytes": 3726633,
+      "raw_sha256": "be7bcd2f3b95eee5d056d0296f18d0272652ffe3caa04605808e25d86f5b120c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\expected-counts.csv",
+      "relative": "one-car/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\field-loops.add.xml",
+      "relative": "one-car/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\initialization-counts.csv",
+      "relative": "one-car/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\lane-intentions.json",
+      "relative": "one-car/prepared/lane-intentions.json",
+      "raw_bytes": 1005112,
+      "raw_sha256": "5c28006d353e97b5287550bb7c5828a1fb2f381f0881237d60aee884dbd101d3"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\network.net.xml",
+      "relative": "one-car/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\one-car\\prepared\\scenario.json",
+      "relative": "one-car/prepared/scenario.json",
+      "raw_bytes": 4761,
+      "raw_sha256": "adc0e6c2249639470abcd9fbf88c9d47bce7a72f433f02fba8e5fa155e733145"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\paired-result.json",
+      "relative": "study-source/paired-result.json",
+      "raw_bytes": 38812,
+      "raw_sha256": "a57cb28ff98097873ca7be5a4f35561df90e0bd638445d9cb70ce3aa72fdc758"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\preparation.json",
+      "relative": "study-source/preparation.json",
+      "raw_bytes": 9184,
+      "raw_sha256": "cd5fced2d1924c9d2b4215a424603ef7eaf67e450001d2ae6db9d4cbc80c6dd4"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\prepare.py",
+      "relative": "study-source/prepare.py",
+      "raw_bytes": 8328,
+      "raw_sha256": "f1a832c63c92e6a1ab9bd050172268d32627a12a8db17f0f23586f7c9089409d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\program-mapping.csv",
+      "relative": "study-source/program-mapping.csv",
+      "raw_bytes": 3733,
+      "raw_sha256": "8730bc9043ad51cabc3e72e6d790bb0b3e5191eac8c93f5c457af12f66702755"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\program-validation.json",
+      "relative": "study-source/program-validation.json",
+      "raw_bytes": 7811,
+      "raw_sha256": "d8649fb713d261017f146ddd492de8ad7da1318e4ab38bff899124da75c772b2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\README.md",
+      "relative": "study-source/README.md",
+      "raw_bytes": 2590,
+      "raw_sha256": "2054cae792017ac5599685429830ec7ef60612ea1ac7f3d4c016d96b67faea11"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\535-all56-comparison.csv",
+      "relative": "reference/evaluation/535-all56-comparison.csv",
+      "raw_bytes": 3384,
+      "raw_sha256": "e2aa7e2c1c7b88cc1cc69099f3ea695d726ccfa8987c96f0ad076f8139063109"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\all182-comparison.csv",
+      "relative": "reference/evaluation/all182-comparison.csv",
+      "raw_bytes": 10860,
+      "raw_sha256": "8f6c01e63ac4ae6eb79400853543a8dcec6041d307f5a5de758e053b5464ab25"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\contributing-passages.json.gz",
+      "relative": "reference/evaluation/contributing-passages.json.gz",
+      "raw_bytes": 173195,
+      "raw_sha256": "3adfb03be23383060174f2de2f603eadf2148e16bd940d7987d70cc3272e89ce"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\demand.rou.xml",
+      "relative": "reference/evaluation/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\evaluation.json",
+      "relative": "reference/evaluation/evaluation.json",
+      "raw_bytes": 454,
+      "raw_sha256": "1b90964eb629f2b57016499ec75860560b19499ee8dee0c862d84efc2cd5145c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\initialization52-comparison.csv",
+      "relative": "reference/evaluation/initialization52-comparison.csv",
+      "raw_bytes": 3124,
+      "raw_sha256": "111906389fefdab485de0d192b8c1b948e8b07cc75d5304f7f37d0ab3ab708de"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\lane-intentions.json",
+      "relative": "reference/evaluation/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\collisions.xml",
+      "relative": "reference/evaluation/native/collisions.xml",
+      "raw_bytes": 3493,
+      "raw_sha256": "7282649e033ccd419dcd109d438636ffa9faa40ee84e6a83933db4244d1cf6eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\command.json",
+      "relative": "reference/evaluation/native/command.json",
+      "raw_bytes": 5281,
+      "raw_sha256": "58db258de9f828b308e2526c99579de438f3833d1277c37ad924565dc0d07737"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\demand.rou.xml",
+      "relative": "reference/evaluation/native/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\e1.add.xml",
+      "relative": "reference/evaluation/native/e1.add.xml",
+      "raw_bytes": 3693,
+      "raw_sha256": "f5c4ee1cee573cbd6199712bdd60c7e4cf001f50f38c55bfd91440daeacbf00a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\expected-counts.csv",
+      "relative": "reference/evaluation/native/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\field-comparison.csv",
+      "relative": "reference/evaluation/native/field-comparison.csv",
+      "raw_bytes": 7876,
+      "raw_sha256": "c64bd971832dbfffd5894e7c6614d15ec08e597008adfe15ddb912611f14b877"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\field-counts.xml",
+      "relative": "reference/evaluation/native/field-counts.xml",
+      "raw_bytes": 53319,
+      "raw_sha256": "318d41ae958d68766b54909d3a1727af07130f6ad29af04a9a2d6491682a3439"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\instant.add.xml",
+      "relative": "reference/evaluation/native/instant.add.xml",
+      "raw_bytes": 3169,
+      "raw_sha256": "3e08f02fd848edd65fbdb99195b48382b273e2dbbb4b90752a4ab3475cfbd48e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\lane-intentions.json",
+      "relative": "reference/evaluation/native/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\native-request.json",
+      "relative": "reference/evaluation/native/native-request.json",
+      "raw_bytes": 4103,
+      "raw_sha256": "d9ffea2863f6c1671d93b2f6fd7539690c66ad7fd817987adb707a332e618538"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\network.net.xml",
+      "relative": "reference/evaluation/native/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\run.json",
+      "relative": "reference/evaluation/native/run.json",
+      "raw_bytes": 6309828,
+      "raw_sha256": "77d25d7beaf4f1a31032991fb992246a59af68cdfe0c705f81eb3708bb55b006"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\signal-programs.add.xml",
+      "relative": "reference/evaluation/native/signal-programs.add.xml",
+      "raw_bytes": 7638512,
+      "raw_sha256": "74bff7513926a6b62a772439c058d47c318765791538e8bbc077702f70a39dc2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\source-e1.add.xml",
+      "relative": "reference/evaluation/native/source-e1.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\stall-monitor.json",
+      "relative": "reference/evaluation/native/stall-monitor.json",
+      "raw_bytes": 5854166,
+      "raw_sha256": "b4511bdc5595ea2e679740d63733f838bf8179d32d8c2a9edc79cd8bbd0dea2e"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\summary.xml",
+      "relative": "reference/evaluation/native/summary.xml",
+      "raw_bytes": 46732190,
+      "raw_sha256": "7aba3641386d8ec366ee35be79475c12ca32146b186dd94e426d82841c17122c"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\sumo-errors.log",
+      "relative": "reference/evaluation/native/sumo-errors.log",
+      "raw_bytes": 2815,
+      "raw_sha256": "3a91ce3e3857ced272524573dc315d9f33f6c9fb91d37b487d11203fcbf65462"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\sumo.log",
+      "relative": "reference/evaluation/native/sumo.log",
+      "raw_bytes": 4607,
+      "raw_sha256": "77f735f73ea893679f435714c341a434557ff38405170cbeb9234558bd49bad7"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\tls-observer.add.xml",
+      "relative": "reference/evaluation/native/tls-observer.add.xml",
+      "raw_bytes": 276,
+      "raw_sha256": "d9526491c7a263f5ddeb535859685ff0296f16ea7690f4aca8a0da39abecca79"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\tls-switch-states.xml",
+      "relative": "reference/evaluation/native/tls-switch-states.xml",
+      "raw_bytes": 12984941,
+      "raw_sha256": "296dfcf3ec6593faa6e2b77a77ca0ed2ee27d90cfe461c67f02a887cacb5bff5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\tripinfo.xml",
+      "relative": "reference/evaluation/native/tripinfo.xml",
+      "raw_bytes": 4575052,
+      "raw_sha256": "9a0ee3f8a6e0ea717f53293928b7c1e4178a774917e1edd0e7619ce322e54a60"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\native\\vehicle-routes.xml",
+      "relative": "reference/evaluation/native/vehicle-routes.xml",
+      "raw_bytes": 6540595,
+      "raw_sha256": "8ceea22a695fa4754ef99d5e0727d8596f2e704e95a704f4b862c63102b82aaf"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\evaluation\\station-comparison.csv",
+      "relative": "reference/evaluation/station-comparison.csv",
+      "raw_bytes": 1608,
+      "raw_sha256": "52e99db4974fbf05c1ef441db3e638714e3db027c4a09da08eccaee8c833849b"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\executed-run.py",
+      "relative": "reference/executed-run.py",
+      "raw_bytes": 6499,
+      "raw_sha256": "a5e7c5aeda9675673906321ba3f2347563d09789b611ddeee0880187dd4aa166"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\execution.json",
+      "relative": "reference/execution.json",
+      "raw_bytes": 512,
+      "raw_sha256": "53155994e96253e0a43aa13cb1a9dbf37836795bb7dd9089a49f9674d1fcad41"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\execution.log",
+      "relative": "reference/execution.log",
+      "raw_bytes": 2389,
+      "raw_sha256": "c0d0de0c3e88c79d5f9fdce444af38fd992d6ef91f95b254c84c95939543a1c8"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\artifact_io.py",
+      "relative": "reference/implementation/artifact_io.py",
+      "raw_bytes": 3571,
+      "raw_sha256": "fa55b00b76635a16b526b4cfd55db697c7df71e8f040c5b05a17281a675b1a51"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\candidate_contracts.py",
+      "relative": "reference/implementation/candidate_contracts.py",
+      "raw_bytes": 43473,
+      "raw_sha256": "1f16b5fbeee51d0bf5d98e0b28cf1d1b8a40349593a038ba37eabd489b679cda"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\command_runner.py",
+      "relative": "reference/implementation/command_runner.py",
+      "raw_bytes": 5654,
+      "raw_sha256": "cda6b396d6eb764633e652c3247f5dbb176bbf3cd2503539614f71fc0ae31267"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\detector_demand.py",
+      "relative": "reference/implementation/detector_demand.py",
+      "raw_bytes": 42124,
+      "raw_sha256": "dc91763d7d3ec6bfa8194f311747057f5c324fcdc90dde37cc81a552c1c077c2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\detector_demand_replay.py",
+      "relative": "reference/implementation/detector_demand_replay.py",
+      "raw_bytes": 17798,
+      "raw_sha256": "03b5eaa574ba8be22709cf2076c0472f8be1ffac15d052abd8e67ca2e64b1c14"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\hamburg_197_through_support.py",
+      "relative": "reference/implementation/hamburg_197_through_support.py",
+      "raw_bytes": 29467,
+      "raw_sha256": "3be301d25a807dd13075ed17396f68c6d4c4ea3d6cc70114c560737c9e0aad4a"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\hamburg_od_spsa.py",
+      "relative": "reference/implementation/hamburg_od_spsa.py",
+      "raw_bytes": 32041,
+      "raw_sha256": "c5a000ed544c08bbfa7778ba4fc79e3e63942fa3ac6cfa3d2de9ec22af14c597"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\lane_section_hold.py",
+      "relative": "reference/implementation/lane_section_hold.py",
+      "raw_bytes": 6795,
+      "raw_sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\route_sensor_matrix.py",
+      "relative": "reference/implementation/route_sensor_matrix.py",
+      "raw_bytes": 24167,
+      "raw_sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\implementation\\simulation_stall.py",
+      "relative": "reference/implementation/simulation_stall.py",
+      "raw_bytes": 9792,
+      "raw_sha256": "72250be7534cdcaa2f79be771c2b912b91dec1c1b3476fbeb701f6ccfae5efb2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\native-result.json",
+      "relative": "reference/native-result.json",
+      "raw_bytes": 485,
+      "raw_sha256": "20481c9e87e4bfab99cc37f8df82ebb43f232fda1205a3903454342faffe812f"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\observer-adapter.json",
+      "relative": "reference/observer-adapter.json",
+      "raw_bytes": 617,
+      "raw_sha256": "d23e244de1a02d565d2bd08cae5d1fa5e25800766475570824e2a3c34b362ae9"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\parity.json",
+      "relative": "reference/parity.json",
+      "raw_bytes": 2950,
+      "raw_sha256": "beb698897a997000e0aeaa31bfea0a40cf95a245614b55877d06f79bcc895487"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\planned-native-request.json",
+      "relative": "reference/planned-native-request.json",
+      "raw_bytes": 4103,
+      "raw_sha256": "d9ffea2863f6c1671d93b2f6fd7539690c66ad7fd817987adb707a332e618538"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\preflight.json",
+      "relative": "reference/preflight.json",
+      "raw_bytes": 7714,
+      "raw_sha256": "b64e95da580a1b162258baf24027140185142fa943ff936a36495332ef0c0abe"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\control.add.xml",
+      "relative": "reference/prepared/control.add.xml",
+      "raw_bytes": 7638512,
+      "raw_sha256": "74bff7513926a6b62a772439c058d47c318765791538e8bbc077702f70a39dc2"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\demand.rou.xml",
+      "relative": "reference/prepared/demand.rou.xml",
+      "raw_bytes": 3726636,
+      "raw_sha256": "7f521b4614df86f7c9968969b30bbbb2aad81c980e04407b17795acd4df79440"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\expected-counts.csv",
+      "relative": "reference/prepared/expected-counts.csv",
+      "raw_bytes": 29105,
+      "raw_sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\field-loops.add.xml",
+      "relative": "reference/prepared/field-loops.add.xml",
+      "raw_bytes": 1574,
+      "raw_sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\initialization-counts.csv",
+      "relative": "reference/prepared/initialization-counts.csv",
+      "raw_bytes": 11492,
+      "raw_sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\lane-intentions.json",
+      "relative": "reference/prepared/lane-intentions.json",
+      "raw_bytes": 961760,
+      "raw_sha256": "c7014d5659ffc75655e4a50c93548ff54e245574a3de60cc0c1accedc0c52f39"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\network.net.xml",
+      "relative": "reference/prepared/network.net.xml",
+      "raw_bytes": 1364707,
+      "raw_sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reference\\prepared\\scenario.json",
+      "relative": "reference/prepared/scenario.json",
+      "raw_bytes": 4788,
+      "raw_sha256": "29be9101998a9c5ff9c00c5e7dd525cf21ff710d43c7b25e6c164256857b7bdd"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reused-audit_frozen_self_replay.py.txt",
+      "relative": "study-source/reused-audit_frozen_self_replay.py.txt",
+      "raw_bytes": 12047,
+      "raw_sha256": "85981e04783080393c06dcac44040da709a4cec9fa72c58995b2ef14f12a672d"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\reused-run_frozen_self_replay.py.txt",
+      "relative": "study-source/reused-run_frozen_self_replay.py.txt",
+      "raw_bytes": 7161,
+      "raw_sha256": "e5c3e582d24e29f70458034b5bbaab90ff440a45513e023647c9f65fa66404b5"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\run.py",
+      "relative": "study-source/run.py",
+      "raw_bytes": 6499,
+      "raw_sha256": "a5e7c5aeda9675673906321ba3f2347563d09789b611ddeee0880187dd4aa166"
+    },
+    {
+      "source": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-healthy-z4-fixed-history-20261024-v1\\test_preparation.py",
+      "relative": "study-source/test_preparation.py",
+      "raw_bytes": 2523,
+      "raw_sha256": "169f06977187de4bd9db92bf449487699877875cf294af91b7a720a4f25cdb3c"
+    }
+  ],
+  "source_inputs_and_results_unchanged": true
+}

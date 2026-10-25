@@ -155,7 +155,7 @@ image-only reconstruction or a claim of superiority over the official MAP.
 Finish the road checks and freeze the chosen network hash before binding
 counts, fitting demand, or reconstructing signal operation. Those tasks use
 the existing signal/count/demand commands in a separate directory. Follow the
-[count-calibration workflow](../../plugins/astra-sumo/skills/simulation-helper-skill-for-eclipse-sumo/references/hamburg-count-calibration-workflow.md)
+[count-calibration workflow](../../plugins/astra-sumo/skills/astra-calibrate/references/hamburg-count-calibration-workflow.md)
 for that work. Road construction never requires a calibration result.
 
 ## Replay the reviewed V1 connection correction
@@ -187,6 +187,8 @@ Do not supply guessed deletions or apply this example to unrelated edge IDs.
 
 ## Sources and limits
 
+- [Current Speicherstadt parking case](speicherstadt-parking-facility.v2.json) retains all driving paths and uses the [parking facility overview](../../docs/parking-facilities.md).
+- [Historical garage exclusion](speicherstadt-parking-scope.md) records the superseded deletion and its failed batch result.
 - Official MAP/XML/KML: [Hamburg public traffic files](https://daten-hamburg.de/tlf_public/).
 - Official aerial images: [Hamburg DOP WMS](https://geodienste.hamburg.de/wms_dop_zeitreihe_belaubt?SERVICE=WMS&REQUEST=GetCapabilities).
 - Am Sandtorkai source OSM: `benchmarks/hamburg_sandtorkai_w1_v1/hamburg_sandtorkai_source_bbox.osm.xml.gz`.

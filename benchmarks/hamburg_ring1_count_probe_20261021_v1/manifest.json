@@ -1,0 +1,148 @@
+{
+  "schema": "astra.native-e1-passage-fixture/v1",
+  "role": "simulation_observer_regression_not_calibration_or_field_truth",
+  "model_content_hashes": {
+    "network_content_sha256": "f5eba51f2a2dc65d3e214be7fee4f10d264f28aa33a51d30188be78a7c422d54",
+    "field_loops_content_sha256": "90b1d2e9218f3718e419dcf01245459642fdcd5cae26f019a8dc048de56f69d5"
+  },
+  "source_run": {
+    "path": "outputs/ring1-count-baseline-20261021-v1/run.json",
+    "sha256": "c7137b89da4b7cbf8ca1b2adbf2c4273e385736fa00a206696156fbc9b0c7548"
+  },
+  "runner": {
+    "path": "outputs/run-ring1-count-baseline-20261021-v1.py",
+    "sha256": "780c0f07aa74fa26e5c364747ebd9e108b737a25983faf98e44224243920d761"
+  },
+  "files": {
+    "periodic": {
+      "file": "periodic.xml.gz",
+      "sha256": "1cb4b43c1abe0d167ad565b65f494c6de262c8af422aa059a0f2f46d65d06c51",
+      "compressed_sha256": "cb76510422c08c3ee86f412d0162dd960296ba534e2e9d715416d012429ee290",
+      "raw_source": {
+        "path": "outputs/ring1-count-baseline-20261021-v1/field-counts.xml",
+        "sha256": "acbb57d03a631ebee8791a3decb0b539df9ab46d6377229d87275afe4e72c867"
+      }
+    },
+    "instant_leaves": {
+      "file": "instant_leaves.xml.gz",
+      "sha256": "2d6e6e1f3827ec997de401724c15dd7512085298c46caa3d9dbead393db07a69",
+      "compressed_sha256": "5c03833729add816d933a27038d739f000443ef871861a25d69ba5e9da91ec03",
+      "raw_source": {
+        "path": "outputs/ring1-count-baseline-20261021-v1/instant-e1.xml",
+        "sha256": "1f5344adae8d15e3b825c9334204862cc18e0bfbbaecace002a597d90bd79885"
+      }
+    },
+    "short_entry_given": {
+      "file": "short_entry_given.xml.gz",
+      "sha256": "b1d92dc68522c7aebb813c8e6403057c53b264451b8b444fb765fea999ca967d",
+      "compressed_sha256": "5788538d9eb8f2869b4cafd5e75551e2055dcf9af8264f2b4f2f284eacaa0abf",
+      "role": "short_entry_failure_reproduction",
+      "raw_source": {
+        "path": "outputs/ring1-short-entry-position-probe-20261021-v1/given_position/demand.xml",
+        "sha256": "3ca1f1dde0b98f89dd831edcea55c452cb5f7aa6167e8d94a02995b1132d01f6"
+      }
+    },
+    "short_entry_default": {
+      "file": "short_entry_default.xml.gz",
+      "sha256": "9e57c546adeb4a43d9322e4f6c5422c7ab690f05933e6ce168818581685ceb73",
+      "compressed_sha256": "accd2d7c94fbc04504641cb5629a3cec2349382017c272f27678e8d946d49dfc",
+      "role": "short_entry_failure_reproduction",
+      "raw_source": {
+        "path": "outputs/ring1-short-entry-position-probe-20261021-v1/source_default_position/demand.xml",
+        "sha256": "29eec22201ed23d32b8da8c0a016c6fb392c0d597510c1ddfbba5b86807f0865"
+      }
+    },
+    "short_entry_collisions": {
+      "file": "short_entry_collisions.xml.gz",
+      "sha256": "b83e506fc56bc09c203cdf274182921a69ef2bf956418d1a23f0b14a9bfd3af5",
+      "compressed_sha256": "4608b277d148deda7776b391eaeacdebea37a5ded40bd81a8e6a353d551f1b65",
+      "role": "short_entry_failure_reproduction",
+      "raw_source": {
+        "path": "outputs/ring1-short-entry-position-probe-20261021-v1/source_default_position/run/collisions.xml",
+        "sha256": "6f2dfb16c6a6382d593a33c821db651f8ab53ee84f6db617c4c1971bd8fc33f1"
+      }
+    }
+  },
+  "instant_to_periodic_ids": {
+    "trace_hh_0119_Z_11_28853": "hh_0119_Z_11_28853",
+    "trace_hh_0119_Z_12_31546": "hh_0119_Z_12_31546",
+    "trace_hh_0119_Z_13_34018": "hh_0119_Z_13_34018",
+    "trace_hh_0119_Z_15_29375": "hh_0119_Z_15_29375",
+    "trace_hh_0119_Z_4_29437": "hh_0119_Z_4_29437",
+    "trace_hh_0119_Z_5_30494": "hh_0119_Z_5_30494",
+    "trace_hh_0535_Z_14_31892": "hh_0535_Z_14_31892",
+    "trace_hh_0535_Z_4_33055": "hh_0535_Z_4_33055",
+    "trace_hh_0535_Z_5_30894": "hh_0535_Z_5_30894",
+    "trace_hh_0535_Z_6_33855": "hh_0535_Z_6_33855",
+    "trace_hh_0535_Z_7_29316": "hh_0535_Z_7_29316",
+    "trace_hh_0535_Z_8_34287": "hh_0535_Z_8_34287",
+    "trace_hh_0535_Z_9_29038": "hh_0535_Z_9_29038"
+  },
+  "processing": "ElementTree removes generator comments. Instant output retains every leave row and its original attributes. Original complete files remain identified separately.",
+  "sumo_version": "1.27.1",
+  "step_length_s": 0.1,
+  "seed": 104,
+  "completion": {
+    "loaded": 500,
+    "inserted": 500,
+    "arrived": 500,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "expected": {
+    "periodic_intervals": 156,
+    "fields": 13,
+    "nVehContrib_total": 538,
+    "instant_leave_total": 540,
+    "early_leaves_without_occupancy": 2
+  },
+  "claim_boundary": "Unfitted, empty-start passenger cohort under network placeholder control. No calibrated demand, surveyed detector truth, actual field timing, or prediction accuracy.",
+  "short_entry_failure": {
+    "model_content_sha256": "f5eba51f2a2dc65d3e214be7fee4f10d264f28aa33a51d30188be78a7c422d54",
+    "entry_edge": "25866659#2",
+    "lane": "25866659#2_1",
+    "logical_length_m": 0.35,
+    "vehicle_length_m": 5,
+    "step_length_s": 0.1,
+    "seed": 104,
+    "simulation_end_s": 9000,
+    "reports": [
+      {
+        "mode": "given_position",
+        "status": "invalid",
+        "healthy": false,
+        "completion": {
+          "loaded": 10,
+          "inserted": 10,
+          "arrived": 10,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 3,
+          "collisions": 3,
+          "discarded": 0
+        },
+        "errors": []
+      },
+      {
+        "mode": "source_default_position",
+        "status": "invalid",
+        "healthy": false,
+        "completion": {
+          "loaded": 10,
+          "inserted": 10,
+          "arrived": 10,
+          "running": 0,
+          "waiting": 0,
+          "teleports": 3,
+          "collisions": 3,
+          "discarded": 0
+        },
+        "errors": []
+      }
+    ],
+    "claim_boundary": "Both declared and default source positions collide for this supplied short-entry cohort. This is not a valid fit or a global capacity/infeasibility result."
+  }
+}

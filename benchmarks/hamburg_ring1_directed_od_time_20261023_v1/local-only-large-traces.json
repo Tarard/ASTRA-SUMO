@@ -1,0 +1,35 @@
+{
+  "files": [
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/directed-0001/evaluation/native/instant-e1.xml",
+      "bytes": 43734588,
+      "sha256": "65801f14c5f080406315a9bcde8ea60751ca7942a2fdecc9e62ce7598da8185e"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/directed-0001/evaluation/native/queues.xml",
+      "bytes": 122194835,
+      "sha256": "61dd89b15b3661a7f3c174c636c76a382d6357199d3623b101a9277c8f0384d9"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/directed-0001-retry/evaluation/native/instant-e1.xml",
+      "bytes": 57280785,
+      "sha256": "88fbea33759ec215cc78f20b4ae4ff3cb8ac3037d86ae414efc146ad058617af"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/directed-0001-retry/evaluation/native/queues.xml",
+      "bytes": 163092673,
+      "sha256": "253f7a312995e0c999a4dff1bc9447b78e57336525d73486cc9efed054bc6b4f"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/directed-0002-unit/evaluation/native/instant-e1.xml",
+      "bytes": 58412801,
+      "sha256": "26d469c5a08b86f6562fc3c9021fa5aff943291e6e6add07033ae0c09d205861"
+    },
+    {
+      "path": "outputs/lsa119-collision-diagnosis-20261023/directed-0002-unit/evaluation/native/queues.xml",
+      "bytes": 163036930,
+      "sha256": "df01ad6bcff4e4079935f1e15fddb6b02891d50c6ae5ecb233573f9bf3e29c24"
+    }
+  ],
+  "claim_boundary": "Interrupted native outputs remain incomplete. No missing interval is filled with zero and no full-run objective or candidate verdict is computed from this attempt."
+}

@@ -27,7 +27,7 @@ from astra_sumo.corridor.schema import (
 
 
 REPOSITORY_ROOT = Path(__file__).resolve().parents[1]
-SCHEMA_DIR = REPOSITORY_ROOT / "schemas"
+SCHEMA_DIR = REPOSITORY_ROOT / "schemas" / "research" / "corridor"
 COMPRESSION_SCHEMA = SCHEMA_DIR / "torii.corridor.lossless-review-compression.v1.schema.json"
 
 

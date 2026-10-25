@@ -1,0 +1,129 @@
+{
+  "commit": "5befeeb",
+  "workflow_status": "review_required",
+  "topology_complete": true,
+  "counts": {
+    "official_vehicle_movements": 16,
+    "physical_part_count": 2,
+    "joined_part_count": 2,
+    "materialized_movement_count": 16,
+    "unmaterialized_official_movement_count": 0,
+    "runtime_fallback_part_count": 0,
+    "source_surface_finding_count": 51,
+    "candidate_surface_finding_count": 45
+  },
+  "candidate": {
+    "path": "outputs/local_movements_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "f09c24c7ef15950f52565a70eed698ef620c993a0188a027a666bc901c1c933a"
+  },
+  "previous_candidate": {
+    "path": "outputs/official_local_20261016_v1/hamburg-rebuild-v2/candidate/hamburg-five-aerial-combined.net.xml",
+    "sha256": "5af15e815d0b8eb56f82873979eed0e7a765599089732a3bc0ef5bd4c9e79b22"
+  },
+  "headers_equal": true,
+  "non_location_elements_equal": true,
+  "location_before": {
+    "netOffset": "-565590.45,-5932946.96",
+    "convBoundary": "0.00,0.00,810.07,481.77",
+    "origBoundary": "9.989870,53.541242,10.002115,53.545580",
+    "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+  },
+  "location_after": {
+    "netOffset": "-565590.45,-5932946.96",
+    "convBoundary": "0.0,0.0,810.07,481.77",
+    "origBoundary": "9.989870,53.541242,10.002115,53.545580",
+    "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+  },
+  "bounds_numerically_equal": true,
+  "movement_native_passes": [
+    {
+      "pass": 0,
+      "converted_roads": 12,
+      "source_roads": 196,
+      "hashes_match": true,
+      "input_reconstructed": true,
+      "merge_reconstructed": true,
+      "patch_matches": true,
+      "command_names_native_output": true
+    },
+    {
+      "pass": 1,
+      "converted_roads": 12,
+      "source_roads": 196,
+      "hashes_match": true,
+      "input_reconstructed": true,
+      "merge_reconstructed": true,
+      "patch_matches": true,
+      "command_names_native_output": true
+    }
+  ],
+  "context_boundary_input_and_merge_reconstructed": true,
+  "repeat_candidate_bytes_equal": true,
+  "kind": "scoped_movement_conversion_evidence",
+  "date": "2026-10-16",
+  "promotion_authority": false,
+  "native_version": "1.27.1",
+  "real_contour_policy": "preserve",
+  "new_driving_cohort_run": false,
+  "request": {
+    "path": "outputs/claude_followup_20261015_v1/hamburg-request.json",
+    "sha256": "629affc1825a8c327a819bb4f7d25eb2cef407147e13dc7de68b3d149992286b"
+  },
+  "workflow": {
+    "path": "outputs/local_movements_20261016_v1/hamburg-rebuild-v2/workflow.manifest.json",
+    "sha256": "1e6c4e701ef0780b51ffc2f627998cbec99783dd3117548265965d895d04af8b"
+  },
+  "candidate_manifest": {
+    "path": "outputs/local_movements_20261016_v1/hamburg-rebuild-v2/candidate/manifest.json",
+    "sha256": "68cb6ebf8a6c96b83e237be730b8f05ee1e7251b39b7791a158762a445cadfcc"
+  },
+  "test_runs": [
+    {
+      "path": "outputs/local_movements_20261016_v1/semantic-v1.xml",
+      "tests": 100,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 48.675
+    },
+    {
+      "path": "outputs/local_movements_20261016_v1/contour-control-v3.xml",
+      "tests": 4,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 8.076
+    },
+    {
+      "path": "outputs/local_movements_20261016_v1/native-chain-v3.xml",
+      "tests": 122,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 62.344
+    },
+    {
+      "path": "outputs/local_movements_20261016_v1/native-chain-v5.xml",
+      "tests": 49,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 42.18
+    },
+    {
+      "path": "outputs/local_movements_20261016_v1/callers-v1.xml",
+      "tests": 72,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 29.317
+    }
+  ],
+  "limits": [
+    "The local-input counts do not measure total workflow cost.",
+    "Native contour controls retain all requested targets; the real Hamburg request preserves existing contours.",
+    "Earlier mixed-demand failures remain unresolved. No new driving-equivalence or field-performance result is claimed.",
+    "Approach reconstruction and documented controller or context fallbacks still include full conversions.",
+    "The shared source_unchanged fields are records, not universally enforced publication checks."
+  ]
+}

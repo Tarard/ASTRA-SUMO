@@ -525,7 +525,7 @@ def test_finding_requires_stable_witness_identity() -> None:
 
 
 def test_exported_contract_schema_is_current() -> None:
-    schema_path = REPOSITORY_ROOT / "schemas/torii.corridor.research-bundle.v1.schema.json"
+    schema_path = REPOSITORY_ROOT / "schemas/research/corridor/torii.corridor.research-bundle.v1.schema.json"
     expected = json.dumps(
         build_corridor_schema(),
         indent=2,
@@ -556,7 +556,7 @@ def test_exported_stage1m_pcb_schemas_are_current(
     filename: str,
     builder,
 ) -> None:
-    schema_path = REPOSITORY_ROOT / "schemas" / filename
+    schema_path = REPOSITORY_ROOT / "schemas" / "research" / "corridor" / filename
     expected = json.dumps(
         builder(),
         indent=2,

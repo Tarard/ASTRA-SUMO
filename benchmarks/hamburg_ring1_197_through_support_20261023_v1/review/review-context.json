@@ -1,0 +1,171 @@
+{
+  "status": "review_required",
+  "visual_only": true,
+  "traffic_simulation_started_by_review": false,
+  "global_bbox_lon_lat": [
+    9.9815,
+    53.5525,
+    10.0065,
+    53.5598
+  ],
+  "global_aerial_bbox_epsg25832": [
+    565012.777442586,
+    5934182.489688758,
+    566680.1599791404,
+    5935017.708749339
+  ],
+  "same_existing_global_aerial_reused": true,
+  "artifacts": {
+    "source_net": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-classical-od-calibration-20261023-v1\\prepared\\network.net.xml",
+      "sha256": "b6acb7f542abf62b3c3f3fc67db6bad39a71a783cdc61fc71109928aad52df18"
+    },
+    "candidate_net": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\network.net.xml",
+      "sha256": "68d2f6d2e8630c23f2135202ed906fb47943587cd986ac055c8d99279d582e5c"
+    },
+    "candidate_control": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\control.add.xml",
+      "sha256": "f9adfb5cceb734a533082f8be1edf907fd43ef88f717f514286850528aac2fc4"
+    },
+    "aerial": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\benchmarks\\hamburg_ring1_munich_corridor_20261022_v1\\figure-sources\\aerial-2026.png",
+      "sha256": "e60229a4341be5415381a9cd36732d3a026fd972c7d7df3969597418d1b3d902"
+    },
+    "official_MAP_reference": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-multifield-substitution-20261023-v1\\receiving-through-source-audit\\official535-approach-source.json",
+      "sha256": "85aadb52e4f624f7e2ac5f2f8c0c82c6a2680ca50795e6a05b41a4060b5c8577"
+    },
+    "candidate_materializer_manifest": {
+      "path": "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-197-through-support-20261023-v1\\candidate-v5\\manifest.json",
+      "sha256": "d15a7c3554353cf73489dc866124faeacc43764a6758be21bb9941455ae2430b"
+    }
+  },
+  "added_connections": [
+    {
+      "connection_key": [
+        "-186821028",
+        3,
+        "186821027#0",
+        4
+      ],
+      "native_internal_lanes": [
+        ":1975693623_0_2"
+      ],
+      "tl_index": "14"
+    },
+    {
+      "connection_key": [
+        "-186821028",
+        4,
+        "186821027#0",
+        5
+      ],
+      "native_internal_lanes": [
+        ":1975693623_4_0"
+      ],
+      "tl_index": "15"
+    }
+  ],
+  "priority_case_changes": [
+    {
+      "phase_index": 0,
+      "signal_index": 9,
+      "before": "G",
+      "after": "g"
+    },
+    {
+      "phase_index": 1,
+      "signal_index": 9,
+      "before": "G",
+      "after": "g"
+    },
+    {
+      "phase_index": 3,
+      "signal_index": 2,
+      "before": "G",
+      "after": "g"
+    }
+  ],
+  "view_roles": {
+    "global": "Fixed full bounds matching prior corridor review; no changed camera/extent between source and candidate.",
+    "junction197-detail": "Clearly labelled crop of the same global raster, not newly acquired high-resolution imagery.",
+    "junction197-tight": "40x35 m labelled crop of the same global raster; saved native curves enlarged, aerial resolution unchanged."
+  },
+  "evidence_roles": {
+    "aerial": "2026 Hamburg LGV imagery, contextual spatial background.",
+    "cyan": "Saved SUMO ordinary lane geometry.",
+    "pink": "Saved native internal lane geometry, not a new inferred aerial/official lane trace.",
+    "official_MAP_reference": "Separate official MAP/KML reference bound by hash; not overlaid or claimed to be a rendered SUMO curve. This renderer accepts imagery and saved nets, not a third MAP vector layer."
+  },
+  "claim_boundaries": [
+    "Physical source interpretation remains separately audited.",
+    "Old2/9 G-to-g is a declared model priority adaptation; no field SPaT is shown.",
+    "Pictures do not establish safe driving, capacity, observed OD shares, or zero count error."
+  ],
+  "review_render_results": [
+    {
+      "path": "aerial/report.json",
+      "render_status": "pass",
+      "status": "review_required",
+      "inputs_unchanged": true,
+      "cli_exit_code": 1
+    },
+    {
+      "path": "detail197/report.json",
+      "render_status": "pass",
+      "status": "review_required",
+      "inputs_unchanged": true,
+      "cli_exit_code": 1
+    }
+  ],
+  "netedit_results": [
+    {
+      "role": "source",
+      "status": "review_material_ready",
+      "network_unchanged": true,
+      "report": "netedit-source/review-6044aaa74d.json",
+      "captures": [
+        {
+          "mode": "inspect",
+          "path": "netedit-source/direct-1975693623-6044aaa74d-inspect.png",
+          "sha256": "db8affbbdadfa26bb17ba30995f9b15171b70a43cea3a3dab639e80426acf50a"
+        },
+        {
+          "mode": "tls",
+          "path": "netedit-source/direct-1975693623-6044aaa74d-tls.png",
+          "sha256": "918fc736a1826599693d7ac14d0f3eaa28a593cad27a7db007940a58c33eda88"
+        },
+        {
+          "mode": "connection",
+          "path": "netedit-source/direct-1975693623-6044aaa74d-connection.png",
+          "sha256": "26051f62cc3112bb232bc7da64b2235cb2d8c1cced9f0bc709e6c2c05ab1023b"
+        }
+      ]
+    },
+    {
+      "role": "candidate",
+      "status": "review_material_ready",
+      "network_unchanged": true,
+      "report": "netedit-candidate/review-6044aaa74d.json",
+      "captures": [
+        {
+          "mode": "inspect",
+          "path": "netedit-candidate/direct-1975693623-6044aaa74d-inspect.png",
+          "sha256": "df4803e6e709c768dbf160ff12e74ef7137b751aebadc6ac0ae03a70ebac862e"
+        },
+        {
+          "mode": "tls",
+          "path": "netedit-candidate/direct-1975693623-6044aaa74d-tls.png",
+          "sha256": "1f4915704940fbefdd544f1f4634465c054bd324587409aa56a772d2d42c1d16"
+        },
+        {
+          "mode": "connection",
+          "path": "netedit-candidate/direct-1975693623-6044aaa74d-connection.png",
+          "sha256": "b743bca26aa14d2f5ec9c8482878ea6831725e752da76ab57c627c7d9bf57f37"
+        }
+      ]
+    }
+  ],
+  "netedit_equal_camera": true
+}

@@ -1,0 +1,123 @@
+{
+  "role": "published_point_reference_proximity_only",
+  "network": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-119-added-lane-movements-20261020-v5\\official.net.xml",
+    "sha256": "8a65b17df5d412abf5f99c4b1c3d52ba599c3e3bf19f7447d9b5eb9e8375a1ff"
+  },
+  "rows": [
+    {
+      "stream_id": 28853,
+      "node_id": "119",
+      "asset_id": "Z.11",
+      "official_lane": "3",
+      "distance_to_reference_m": 1.5194761064553841,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 31546,
+      "node_id": "119",
+      "asset_id": "Z.12",
+      "official_lane": "2",
+      "distance_to_reference_m": 1.9144856197829512,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 34018,
+      "node_id": "119",
+      "asset_id": "Z.13",
+      "official_lane": "1",
+      "distance_to_reference_m": 2.150599207353044,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 29375,
+      "node_id": "119",
+      "asset_id": "Z.15",
+      "official_lane": "11",
+      "distance_to_reference_m": 1.5737266926237237,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 29437,
+      "node_id": "119",
+      "asset_id": "Z.4",
+      "official_lane": "51",
+      "distance_to_reference_m": 0.9109591554749596,
+      "position_from_first_reference_point_m": 0.0795858824631758
+    },
+    {
+      "stream_id": 30494,
+      "node_id": "119",
+      "asset_id": "Z.5",
+      "official_lane": "50",
+      "distance_to_reference_m": 1.2167537470599872,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 31892,
+      "node_id": "535",
+      "asset_id": "Z.14",
+      "official_lane": "13",
+      "distance_to_reference_m": 0.46042302359830445,
+      "position_from_first_reference_point_m": 0.7975410493835904
+    },
+    {
+      "stream_id": 33055,
+      "node_id": "535",
+      "asset_id": "Z.4",
+      "official_lane": "16",
+      "distance_to_reference_m": 1.1783857271634541,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 30894,
+      "node_id": "535",
+      "asset_id": "Z.5",
+      "official_lane": "4",
+      "distance_to_reference_m": 1.599863645746223,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 33855,
+      "node_id": "535",
+      "asset_id": "Z.6",
+      "official_lane": "3",
+      "distance_to_reference_m": 1.3523998815101046,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 29316,
+      "node_id": "535",
+      "asset_id": "Z.7",
+      "official_lane": "2",
+      "distance_to_reference_m": 1.1653624967008538,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 34287,
+      "node_id": "535",
+      "asset_id": "Z.8",
+      "official_lane": "1",
+      "distance_to_reference_m": 1.0318656765652694,
+      "position_from_first_reference_point_m": 0.0
+    },
+    {
+      "stream_id": 29038,
+      "node_id": "535",
+      "asset_id": "Z.9",
+      "official_lane": "10",
+      "distance_to_reference_m": 1.0288260902586859,
+      "position_from_first_reference_point_m": 0.1300754322002674
+    }
+  ],
+  "claim_boundary": "Proximity to reference anchors does not prove surveyed sensor cross-sections or discharge counting. SUMO placement at projected published points remains an explicit assumption.",
+  "schema": "astra.ring1-published-field-point-evidence/v1",
+  "mapping_manifest": {
+    "path": "outputs/ring1-kml-field-bindings-20261020-v6/detector-binding.manifest.json",
+    "sha256": "f591d576681aec83551b65cce29c874aad46807c4b433215223f8e6425724ca8"
+  },
+  "field_input": {
+    "path": "benchmarks/hamburg_ring1_count_window_20261020_v1/fields.raw.json",
+    "sha256": "6cb1de3f28b4832348dadf1690b37f9993e153be98ccdef3ed16403fdc10c97c"
+  }
+}

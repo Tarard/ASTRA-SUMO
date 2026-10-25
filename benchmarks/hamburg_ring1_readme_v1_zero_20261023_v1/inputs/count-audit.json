@@ -1,0 +1,562 @@
+{
+  "status": "pass",
+  "claim_status": "diagnostic-demo",
+  "measurement": "unique vehicle enter events aggregated by official station composition",
+  "window": {
+    "field_begin": 0,
+    "field_end": 9000,
+    "simulation_begin": 1800,
+    "simulation_end": 10800,
+    "bin_seconds": 900
+  },
+  "metrics": {
+    "rows": 40,
+    "mae": 0.15,
+    "total_absolute_error": 6,
+    "max_absolute_error": 1,
+    "exact_bins": 34
+  },
+  "per_station": [
+    {
+      "station_stream_id": 26585,
+      "placement_basis": "physical_field_projections",
+      "exact_physical_field_positions": false,
+      "target_total": 1293,
+      "measured_total": 1293,
+      "mae": 0.0,
+      "max_absolute_error": 0,
+      "exact_bins": 10
+    },
+    {
+      "station_stream_id": 30666,
+      "placement_basis": "physical_field_projections",
+      "exact_physical_field_positions": true,
+      "target_total": 817,
+      "measured_total": 817,
+      "mae": 0.0,
+      "max_absolute_error": 0,
+      "exact_bins": 10
+    },
+    {
+      "station_stream_id": 33023,
+      "placement_basis": "physical_field_projections",
+      "exact_physical_field_positions": false,
+      "target_total": 1989,
+      "measured_total": 1989,
+      "mae": 0.6,
+      "max_absolute_error": 1,
+      "exact_bins": 4
+    },
+    {
+      "station_stream_id": 35822,
+      "placement_basis": "short_edge_entry_probe",
+      "exact_physical_field_positions": false,
+      "target_total": 1298,
+      "measured_total": 1298,
+      "mae": 0.0,
+      "max_absolute_error": 0,
+      "exact_bins": 10
+    }
+  ],
+  "completion": {
+    "loaded": 5037,
+    "inserted": 5037,
+    "arrived": 5037,
+    "running": 0,
+    "waiting": 0,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "comparisons": [
+    {
+      "station_stream_id": 26585,
+      "begin": 0,
+      "end": 900,
+      "simulation_begin": 1800,
+      "simulation_end": 2700,
+      "target": 120,
+      "measured": 120,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 900,
+      "end": 1800,
+      "simulation_begin": 2700,
+      "simulation_end": 3600,
+      "target": 98,
+      "measured": 98,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 1800,
+      "end": 2700,
+      "simulation_begin": 3600,
+      "simulation_end": 4500,
+      "target": 127,
+      "measured": 127,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 2700,
+      "end": 3600,
+      "simulation_begin": 4500,
+      "simulation_end": 5400,
+      "target": 104,
+      "measured": 104,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 3600,
+      "end": 4500,
+      "simulation_begin": 5400,
+      "simulation_end": 6300,
+      "target": 147,
+      "measured": 147,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 4500,
+      "end": 5400,
+      "simulation_begin": 6300,
+      "simulation_end": 7200,
+      "target": 122,
+      "measured": 122,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 5400,
+      "end": 6300,
+      "simulation_begin": 7200,
+      "simulation_end": 8100,
+      "target": 162,
+      "measured": 162,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 6300,
+      "end": 7200,
+      "simulation_begin": 8100,
+      "simulation_end": 9000,
+      "target": 140,
+      "measured": 140,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 7200,
+      "end": 8100,
+      "simulation_begin": 9000,
+      "simulation_end": 9900,
+      "target": 128,
+      "measured": 128,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 26585,
+      "begin": 8100,
+      "end": 9000,
+      "simulation_begin": 9900,
+      "simulation_end": 10800,
+      "target": 145,
+      "measured": 145,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 0,
+      "end": 900,
+      "simulation_begin": 1800,
+      "simulation_end": 2700,
+      "target": 101,
+      "measured": 101,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 900,
+      "end": 1800,
+      "simulation_begin": 2700,
+      "simulation_end": 3600,
+      "target": 67,
+      "measured": 67,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 1800,
+      "end": 2700,
+      "simulation_begin": 3600,
+      "simulation_end": 4500,
+      "target": 68,
+      "measured": 68,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 2700,
+      "end": 3600,
+      "simulation_begin": 4500,
+      "simulation_end": 5400,
+      "target": 77,
+      "measured": 77,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 3600,
+      "end": 4500,
+      "simulation_begin": 5400,
+      "simulation_end": 6300,
+      "target": 89,
+      "measured": 89,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 4500,
+      "end": 5400,
+      "simulation_begin": 6300,
+      "simulation_end": 7200,
+      "target": 89,
+      "measured": 89,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 5400,
+      "end": 6300,
+      "simulation_begin": 7200,
+      "simulation_end": 8100,
+      "target": 87,
+      "measured": 87,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 6300,
+      "end": 7200,
+      "simulation_begin": 8100,
+      "simulation_end": 9000,
+      "target": 79,
+      "measured": 79,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 7200,
+      "end": 8100,
+      "simulation_begin": 9000,
+      "simulation_end": 9900,
+      "target": 77,
+      "measured": 77,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 30666,
+      "begin": 8100,
+      "end": 9000,
+      "simulation_begin": 9900,
+      "simulation_end": 10800,
+      "target": 83,
+      "measured": 83,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 0,
+      "end": 900,
+      "simulation_begin": 1800,
+      "simulation_end": 2700,
+      "target": 209,
+      "measured": 209,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 900,
+      "end": 1800,
+      "simulation_begin": 2700,
+      "simulation_end": 3600,
+      "target": 194,
+      "measured": 195,
+      "error": 1,
+      "absolute_error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 1800,
+      "end": 2700,
+      "simulation_begin": 3600,
+      "simulation_end": 4500,
+      "target": 210,
+      "measured": 209,
+      "error": -1,
+      "absolute_error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 2700,
+      "end": 3600,
+      "simulation_begin": 4500,
+      "simulation_end": 5400,
+      "target": 218,
+      "measured": 219,
+      "error": 1,
+      "absolute_error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 3600,
+      "end": 4500,
+      "simulation_begin": 5400,
+      "simulation_end": 6300,
+      "target": 185,
+      "measured": 184,
+      "error": -1,
+      "absolute_error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 4500,
+      "end": 5400,
+      "simulation_begin": 6300,
+      "simulation_end": 7200,
+      "target": 194,
+      "measured": 194,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 5400,
+      "end": 6300,
+      "simulation_begin": 7200,
+      "simulation_end": 8100,
+      "target": 208,
+      "measured": 207,
+      "error": -1,
+      "absolute_error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 6300,
+      "end": 7200,
+      "simulation_begin": 8100,
+      "simulation_end": 9000,
+      "target": 208,
+      "measured": 209,
+      "error": 1,
+      "absolute_error": 1
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 7200,
+      "end": 8100,
+      "simulation_begin": 9000,
+      "simulation_end": 9900,
+      "target": 187,
+      "measured": 187,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 33023,
+      "begin": 8100,
+      "end": 9000,
+      "simulation_begin": 9900,
+      "simulation_end": 10800,
+      "target": 176,
+      "measured": 176,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 0,
+      "end": 900,
+      "simulation_begin": 1800,
+      "simulation_end": 2700,
+      "target": 120,
+      "measured": 120,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 900,
+      "end": 1800,
+      "simulation_begin": 2700,
+      "simulation_end": 3600,
+      "target": 109,
+      "measured": 109,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 1800,
+      "end": 2700,
+      "simulation_begin": 3600,
+      "simulation_end": 4500,
+      "target": 136,
+      "measured": 136,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 2700,
+      "end": 3600,
+      "simulation_begin": 4500,
+      "simulation_end": 5400,
+      "target": 133,
+      "measured": 133,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 3600,
+      "end": 4500,
+      "simulation_begin": 5400,
+      "simulation_end": 6300,
+      "target": 133,
+      "measured": 133,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 4500,
+      "end": 5400,
+      "simulation_begin": 6300,
+      "simulation_end": 7200,
+      "target": 138,
+      "measured": 138,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 5400,
+      "end": 6300,
+      "simulation_begin": 7200,
+      "simulation_end": 8100,
+      "target": 118,
+      "measured": 118,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 6300,
+      "end": 7200,
+      "simulation_begin": 8100,
+      "simulation_end": 9000,
+      "target": 145,
+      "measured": 145,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 7200,
+      "end": 8100,
+      "simulation_begin": 9000,
+      "simulation_end": 9900,
+      "target": 134,
+      "measured": 134,
+      "error": 0,
+      "absolute_error": 0
+    },
+    {
+      "station_stream_id": 35822,
+      "begin": 8100,
+      "end": 9000,
+      "simulation_begin": 9900,
+      "simulation_end": 10800,
+      "target": 132,
+      "measured": 132,
+      "error": 0,
+      "absolute_error": 0
+    }
+  ],
+  "artifacts": {
+    "network.net.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\network.net.xml",
+      "sha256": "6c538bc3c837ea559cc1f72e9e7c8567535eb01ceecf66153eabcf531956a2be"
+    },
+    "demand.rou.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\demand.rou.xml",
+      "sha256": "455302cd76956ac63340174e254af690c7ece8cbb0a059e9b2a84bdccffcd1ef"
+    },
+    "e1.add.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\e1.add.xml",
+      "sha256": "bba08cf9c68efb4313be90ddffa65951dee551f3143b51d6466c7da762b3a2af"
+    },
+    "instant.add.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\instant.add.xml",
+      "sha256": "6307b4bba43f2d02e9da44c64ae06e7bf6291229e9f7d444319f8b64b612f580"
+    },
+    "station-detector-bank.json": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\station-detector-bank.json",
+      "sha256": "3e38a6ff82b4a6ab8ae1330a882884f1aee429a8fcd5ab7e3afc1be2169f6835"
+    },
+    "physical-e1-15min.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\physical-e1-15min.xml",
+      "sha256": "0fb2736733e1a737392f856e927a2e66596a9973730bb36e15c935ab99e4d6d4"
+    },
+    "instant-e1.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\instant-e1.xml",
+      "sha256": "7b40ded36b5e0addaca86d77a584a7ae66fb85561223bf8e410896753582f201"
+    },
+    "summary.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\summary.xml",
+      "sha256": "68e4988b894c3d31d4729c6759d86e8d2f3ec03b0af004ae9c380038ef4e6128"
+    },
+    "tripinfo.xml": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\tripinfo.xml",
+      "sha256": "d47945aa61c8a3cf82aa2b9ba03a3feb07192218c1b60649cc803bf1a0a3617e"
+    },
+    "sumo.log": {
+      "path": "D:\\Torii-SUMO-data\\hamburg-five-corridor\\2026-08-31\\sensor-twin-physical-calibration-lsa535-v16-exact\\sumo.log",
+      "sha256": "e530eecaead50eb17fe4b83dcc184a99ac1b141c26858075877376e224a4e797"
+    }
+  },
+  "limitations": [
+    "LSA535 adds two diagnostic one-to-one links and extends the existing 120-second program by the same-approach phase; official signal groups 2 and 7 are not replayed.",
+    "Station 35822 uses a 0.01 m entry probe on a 0.20 m SUMO edge because the mapped field coordinates lie outside the simplified edge.",
+    "Station 26585 includes one low-confidence field projection inherited from the missing official approach geometry."
+  ],
+  "allowed_claim": "The calibrated diagnostic reproduces the four official directional station totals and 34 of 40 fifteen-minute bins exactly under the declared network, demand, and event-deduplication rule.",
+  "prohibited_claim": "Do not call this a fully physical digital twin until the missing official approach geometry and official signal-group replay are materialized."
+}

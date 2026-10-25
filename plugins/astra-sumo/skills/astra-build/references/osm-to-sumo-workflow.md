@@ -1,163 +1,134 @@
-# OSM-to-SUMO Workflow
+# OSM builds, checks and edits
 
-Use this reference when the user asks ASTRA to build, clean, audit, compare, or open a SUMO network from OSM or another imported network. This is the fixed OSM-to-SUMO workflow layer. Use `model-osm-detectors.md` only for map/TLS reality baselines, detector alignment, field-data matching, and background visualization details.
+## Cleanup request
 
-The workflow goal is a bounded, inspectable SUMO artifact with explicit evidence. Do not treat `netconvert` success, a clean GUI load, or a nice screenshot as proof that the network is experiment-ready.
+`astra workflow sumo_osm_cleanup_workflow <request.json> --json` takes these keys:
 
-## One-Sentence Autopilot Contract
+| Key | Value |
+|---|---|
+| `output_dir` | a new directory |
+| `bbox` | `west,south,east,north` in WGS84 degrees |
+| `profile` | `standard` (default) or `reference_matched` |
+| `traffic_layers` | required for `standard`, not allowed for `reference_matched`: a comma list of `passenger`, `bicycle`, `pedestrian`, `bus` |
+| `reference_net_file` | required for `reference_matched`, not allowed for `standard`: the reference `.net.xml` |
+| `source_osm_path` | optional frozen OSM XML; without it the bbox is downloaded from Overpass |
+| `timeout_seconds` | default 240 |
 
-ASTRA should turn a short user prompt into a bounded diagnostic network build without hiding uncertainty.
-
-Default behavior:
-
-1. Resolve a place to a confirmed bbox before cleanup.
-2. Run `sumo_osm_cleanup_workflow` through `astra workflow`, not MCP.
-3. Pass only `output_dir`, `bbox`, `profile`, `source_osm_path`, `traffic_layers`, `reference_net_file`, and `timeout_seconds`.
-4. Use `standard` with traffic layers. Use `reference_matched` with a reference `.net.xml` and no traffic layers.
-5. Treat reference-matched output as audit evidence. Do not apply a repair in the cleanup call.
-
-## Network Planning Gate
-
-Before construction, resolve the traffic layers and road detail. For one-sentence diagnostic builds, use a conservative passenger vehicle core first and report the assumption. For formal experiment candidates or user-requested variants, ask for road detail before building.
-
-Record:
-
-```text
-network_plan_status:
-traffic_layers: passenger | bicycle | pedestrian | bus
-network_detail_target: arterial_core | passenger_vehicle | passenger_plus_service | bicycle | pedestrian | multimodal | reference_matched
-reference_target:
-reference_artifact: reference_net_file | locate_reference_artifact
-primary_network_layer:
-auxiliary_modal_layers:
-selected_highway_classes:
-vehicle_core_highway_classes:
-reference_visual_detail_highway_classes:
-reference_visual_detail_net_file:
-default_routeability_layer: vehicle_core
-default_netedit_comparison_layer: reference_visual_detail
-service_passenger_policy: sumo_default | allow_vehicle_service | reference_match
-validation_gates:
+```json
+{"output_dir": "outputs/area-v1", "bbox": "<west>,<south>,<east>,<north>", "profile": "standard", "traffic_layers": "passenger"}
 ```
 
-Use a small option set rather than silently adding every OSM class:
+- `passenger` or `bus` imports every drivable class, including residential, unclassified and service roads. For a
+  one-line request use `passenger` and say so. Add `bicycle` or `pedestrian` only when the study needs them.
+- To import only some road classes, build with `sumo_osm_build_network` and `highway_classes` (`arterial`, `drive`,
+  `drive_plus_unclassified`, `full_vehicle` or a comma list of OSM `highway` values).
+- A city-wide bbox from `astra place resolve` is usually far larger than the study area. Narrow it first.
 
-| Option | Typical use | Risk |
-|---|---|---|
-| arterial/core roads only | signal-control corridor or clean controller comparison | may omit local access and visual context |
-| arterial/core plus next lower road class | finer visual model or routeability test | more junctions, more TLS candidates, harder review |
-| residential/service/access roads | high-detail local access study | fragmented topology, noisy TLS candidates, heavier GUI |
-| bicycle/pedestrian layers | explicit multimodal study | requires modal review and claim boundary |
-| background-only layers | water, buildings, land use, visual context | not routeable network evidence |
+## Reading the cleanup result
 
-## Reference-Matched Construction
+- `gate_status` holds one value per check: `network_build`, `connectivity`, `topology_audit`, `routeability_audit`,
+  `connection_mode_audit`, `tls_reality_audit`, `tls_aggregation`, plus `reference_*` gates for `reference_matched`.
+- When strict connectivity fails, the run extracts the largest passenger component and checks that instead:
+  `connected_core_file`, with the dropped parts in `connected_core_discarded_components_review_file`.
+  `connectivity: partial` means no strictly connected core was found but the largest passenger component covers at
+  least 98 % of passenger edges; treat that result as a diagnostic.
+- `claim_tiers.highest_passed_tier` and each tier's `failed_gates` say which checks still block a stronger claim.
+- `workflow_review_html_file` is the review page the run writes itself. `warnings` report that review variants were
+  created; the TLS variant path is `tls_aggregation_variant_file`. No variant is adopted until reviewed.
 
-If the user asks to match, mimic, compare against, or learn from a reference network or dataset, first locate or request the reference artifact. Do not hardcode a city, repository, or named reference into the plugin.
+## Traffic lights
 
-Require an explicit bbox and a reference `.net.xml`. Do not derive the bbox
-inside cleanup. If the user gives a place name, resolve and confirm it first.
+1. `astra workflow sumo_tls_audit` with `net_file`, `output_dir`, `osm_file`, `google_maps_temporal_scope`
+   (`current` or `historical`) and, for `historical`, `google_maps_target_date`. Save the printed JSON to a file.
+   Its `clusters_file` CSV has one row per physical cluster with `regional_map_url`: Google Maps, or Amap with
+   GCJ-02 coordinates in mainland China.
+2. Review each cluster on that map. When official inventories, signal plans or field photos exist, run
+   `sumo_tls_multisource_review` with `official_inventory_csv`, `signal_plan_csv` or `field_evidence_csv` (columns
+   `tls_id`, `status`, optional `source_id`, `note`). Its `review_file` gives each light an `evidence_level`
+   (`authoritative`, `field-observed`, `osm-only`, `sumo-guess-only`); every row stays `needs_manual_review`.
+3. Decide each physical cluster: keep, remove or still needs review. Pedestrian-only crossings, ramp meters, tram
+   signals and a separate nearby junction are not a vehicle signal at the intersection.
+4. Several SUMO lights at one physical intersection: `sumo_network_tls_aggregation_variant` with `net_file`,
+   `tls_audit_report_file` (the saved JSON from step 1) and `output_dir` writes `tls_aggregated.net.xml`. Two
+   signal nodes that already share a controller: typed edit `demote_duplicate_tls`. A light that does not exist
+   has no typed edit; rebuild a candidate with `netconvert --sumo-net-file <net.xml> --tls.unset <node-ids>
+   --output-file <candidate.net.xml>` or keep the finding open.
 
-Infer two scopes:
+A map review supports existence only. It says nothing about timing, phases, detector actuation or the controller.
 
-- `vehicle_core`: passenger-drivable road classes from the reference. Use this for connectivity, connected-core extraction, routeability, topology audit, and simulation-readiness claims.
-- `reference_visual_detail`: all visible OSM `highway.*` classes observed in the reference. Build this as a separate Netedit comparison network when it differs from `vehicle_core`.
+## Fragmented junctions
 
-Apply `highway.service` passenger permissions only when the reference policy uses them. Never compare a ASTRA `connected-core` vehicle network against a full-detail manual reference network.
+1. `astra network audit <net.xml> <new-dir> --json`. Overlapping groups appear in `findings`; the topology and
+   overlap JSON reports are listed in `artifacts`.
+2. With a reference network: `sumo_network_reference_join_audit` (`reference_net_file`, `candidate_net_file`,
+   `output_dir`). Source-node matches outweigh proximity.
+3. `sumo_network_junction_aggregation_variant` with `net_file`, `output_dir` and `topology_audit_report_file`,
+   `overlapping_junction_audit_report_file` or `reference_join_audit_report_file`.
+4. For one known join, the typed edit `join_junctions` changes less.
 
-After construction, run reference join, hierarchy, and scope audits on the
-candidate `reference_visual_detail` network. The cleanup call must not create,
-select, or apply a repair variant.
+Named-road continuity, modal paths and map evidence decide a join.
 
-## OSM Cleanup Hard Gates
+## Reference-matched builds
 
-1. If the user gives only a place name, resolve it before cleanup. Confirm the returned bbox when the place is ambiguous.
-2. Resolve or infer the network plan before construction. If no user intent or reference target identifies traffic layers, block on the network-plan question instead of silently choosing all road types.
-3. Build into a fresh output directory. Keep raw, filtered, connected-core, visual-detail, route, report, and review artifacts separate.
-4. Run passenger connectivity checks. If small disconnected fragments cause failure, extract the largest passenger `connected-core`, keep the discarded-component report, and rerun strict connectivity on the core.
-5. Run routeability audit on the routeability layer with fixed parameters derived from network scale.
-6. Run TLS candidate extraction and region-aware map review-link generation by default where supported.
-7. For current-network modeling, treat Google Maps TLS review as a hard gate where Google is the appropriate regional baseline. Any unresolved TLS candidate keeps the workflow claim at `construction-invalid` even if construction, routeability, SUMO-GUI, and Netedit artifacts were produced.
-8. When TLS audit reports multiple SUMO TLS nodes for one physical cluster, report the finding. Use a separate reviewed command to create a variant.
-9. Run topology fragmentation, overlapping junction, modal aggregation, and junction aggregation audits. These are review gates, not automatic proof of a clean network.
-10. Generate `workflow_review_html` after construction reaches a final workflow report. The HTML must summarize artifacts, gates, warnings, topology audit, modal review actions, junction aggregation review, TLS review, and routeability evidence.
-11. If visual review is needed, open the selected network in a separate NetEdit session.
+Give an explicit bbox and the reference `.net.xml`. The run builds `vehicle_core` (the passenger classes the
+reference uses; for connectivity, routeability and topology) and, when it differs, `reference_visual_detail` (every
+`highway` class seen in the reference; for visual comparison). Never compare a connected-core vehicle network with a
+full-detail reference. The run only audits. To prune over-included detail, run `sumo_network_reference_scope_audit`
+(`reference_net_file`, `candidate_net_file`, `output_dir`), then `sumo_network_scope_pruning_variant` (`net_file`,
+`reference_scope_report_file` = the audit's `report_file`, `output_dir`).
 
-If any gate is incomplete, keep the claim at `diagnostic-demo`, `construction-invalid`, or `blocked`.
+## Typed edit ledger
 
-## Road-Class And Modal Detail
+`astra network verify-edit <ledger.json> <new-dir> --json` takes exactly one operation:
 
-Start sparse and add detail only when the target requires it.
-
-1. Keep arterial or study-relevant road classes first.
-2. Add lower road classes only when they affect the experimental target, route realism, detector coverage, or requested reference matching.
-3. Add residential, service, foot, bicycle, or access roads only with an explicit purpose. They can fragment topology, create low-value junctions, and make traffic-light review noisy.
-4. When modal layers are included, require modal audit fields such as `modal_aggregation_decision`, `modal_review_action`, and `junction_aggregation_blocked_by_modal_count` before aggregation claims.
-5. Record the exact keep/remove rule, source extract, netconvert command, warnings, and output network path for every variant.
-
-When producing a denser variant, quantify the change:
-
-```text
-kept_osm_classes:
-added_osm_classes:
-osm_way_count_before_after:
-sumo_edge_count_before_after:
-sumo_lane_count_before_after:
-lane_length_before_after:
-junction_count_before_after:
-routeability_status:
+```json
+{
+  "schema": "torii.corridor_edit_ledger.v1",
+  "source_net_file": "source.net.xml",
+  "source_sha256": "<sha256 of source.net.xml>",
+  "operations": [{
+    "id": "edit-1", "operation": "set_lane_count", "status": "candidate",
+    "params": {"edge_id": "<edge>", "num_lanes": 3, "vehicle_class": "passenger"},
+    "rationale": "<why>", "evidence": [{"path": "<evidence file>", "sha256": "<sha256>"}],
+    "rollback": {"action": "discard_candidate"}
+  }]
+}
 ```
 
-## Junction Aggregation Review
+| `operation` | required `params` |
+|---|---|
+| `join_junctions` | `node_ids`, `join_id` (optional `signal_policy`: `preserve` or `rebuild_diagnostic`) |
+| `absorb_reciprocal_fragment` | `node_ids`, `join_id`, `maximum_length_m` |
+| `set_junction_shape` | `node_id`, `shape` |
+| `add_lane_connection`, `delete_lane_connection`, `suppress_turnaround` | `from`, `fromLane`, `to`, `toLane` |
+| `relocate_tls_control` | `from_node`, `to_node`, `tls_id`, `link_mapping` |
+| `demote_duplicate_tls` | `node_id`, `retained_node_id` |
+| `set_lane_permissions` | `lane_id` with `allow` or `disallow` |
+| `set_lane_width` | `lane_id`, `width_m` |
+| `set_edge_shape` | `edge_id`, `shape` |
+| `set_lane_count` | `edge_id`, `num_lanes` (optional `vehicle_class`, `add_side`, `remove_index`, `connections`) |
+| `move_stop_line` | `lane_id`, `end_offset_m` |
+| `set_speed` | `lane_id`, `speed_m_s` |
 
-When OSM/netconvert creates many close junctions or short edges around one physical intersection, do not immediately edit or join the network. First run dense-junction, overlapping-junction, corridor, modal, and map/reference review audits.
+The default `--mode explore` builds `candidate_net_file`, reports `measured` or `no_effect`, and warns on a stale
+`source_sha256` or a missing approval. Use `--mode release` only when the task asks for a final check: it needs
+`status: "accepted"`, matching hashes and evidence.
 
-Required summary:
+Road deletion and the other corridor operations (`delete_edge`, `add_edge`, `add_sidewalk`, `add_crossing`,
+`add_ramp`, `merge_edges`) go through `sumo_network_corridor_edit_ledger` with `operations` items such as
+`{"operation": "delete_edge", "target_ids": ["<edge>"], "status": "accepted", "rationale": "...", "evidence": [...]}`
+and `include_auto_proposals: false`. Only `accepted` operations are materialized.
 
-```text
-junction_aggregation_candidate_count:
-physical_intersection_candidate_count:
-physical_intersection_shape_counts:
-junction_aggregation_join_candidate_count:
-junction_aggregation_needs_map_review_count:
-junction_aggregation_do_not_join_count:
-junction_aggregation_blocked_by_corridor_count:
-junction_aggregation_blocked_by_modal_count:
-modal_review_action_counts:
-junction_aggregation_candidates_file:
-```
+## Synthetic intersections and local patches
 
-Use local topology, source-node matches, named-road/corridor context, modal policy, and map/reference evidence. Do not join by radius alone.
+Through `astra workflow`: `sumo_intersection_scene_workflow` (`prompt`, `output_dir`) builds an intersection from a
+scene description, `sumo_nema_four_way_reference_workflow` (`output_dir`) a NEMA four-way reference, and
+`sumo_intersection_clean` (`osm_file`, `output_dir`, optional `seed_osm_node_id`) cleans and compiles one local OSM
+patch. None of them reconstructs a real road.
 
-For reference-matched cleanup, prefer reference case mining over manual parameter sweeps. If the reference has `cluster_*` joined junctions, use `sumo_network_reference_join_audit` after building the candidate `reference_visual_detail` network. Treat encoded source-node matches as stronger evidence than spatial proximity.
+## Background layers
 
-ASTRA may produce `*_junction_aggregated.net.xml` or `*_tls_aggregated.net.xml` review variants, but these must not overwrite the source network or be treated as adopted before review. After any review variant, rerun connectivity, routeability, TLS audit, and topology audit before stronger claims.
-
-## HTML Review And Partial-Network Review
-
-HTML review is mandatory for generated OSM-to-SUMO networks because every realistic import leaves some human-review boundary. The review page should expose only actionable items: uncertain junctions, TLS review, routeability evidence, warnings, and artifacts.
-
-When the user wants to audit a partially edited network instead of generating a new OSM network, route to `sumo_network_review_html` rather than rebuilding from OSM.
-
-## Minimal Output Record
-
-```text
-target:
-study_area_scope:
-source_extract:
-network_plan_status:
-road_class_rule:
-network_output:
-connected_core_output:
-reference_visual_detail_output:
-external_signal_audit:
-topology_audit:
-junction_aggregation_review:
-workflow_review_html:
-sumo_gui_launch:
-netedit_launch:
-routeability_audit:
-key_results:
-out_of_scope_items:
-residual_risks:
-claim_status:
-```
+A road import contains no water, buildings or land use. For a visual backdrop, download a full OSM extract and run
+`polyconvert --osm-files <full.osm.xml> --net-file <net.xml> --type-file $SUMO_HOME/data/typemap/osmPolyconvert.typ.xml
+--output-file <poly.add.xml>`, then load it beside the network in `sumo-gui`. Polygons are display only; keep heavy
+layers and GUI view settings out of experiment configurations.

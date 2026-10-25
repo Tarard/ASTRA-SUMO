@@ -1,0 +1,6 @@
+<routes>
+  <vType id="slow" length="5" minGap="2.5" sigma="0" speedFactor="1" speedDev="0" maxSpeed="1.3"/>
+  <vType id="fast" length="5" minGap="2.5" sigma="0" speedFactor="1" speedDev="0"/>
+  <vehicle id="slow" type="slow" depart="20" departLane="2" departPos="28" departSpeed="max" arrivalLane="1"><route edges="139083723#0 234423652#1"/></vehicle>
+  <vehicle id="fast" type="fast" depart="23.5" departLane="2" departPos="28" departSpeed="max" arrivalLane="0"><route edges="139083723#0 234423652#1"/></vehicle>
+</routes>

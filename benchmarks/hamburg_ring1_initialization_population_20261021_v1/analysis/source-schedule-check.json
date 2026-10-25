@@ -1,0 +1,101 @@
+{
+  "local_interval": "2026-10-19 06:30–10:00 CEST",
+  "rows": [
+    {
+      "node": "104",
+      "source_sha256": "9101f67526ab824e716437398259d5843c26ad3677d40eca440e92bff4e343ab",
+      "source_monday_day_plan": "1",
+      "active_ordinary_monday_command": {
+        "Uhrzeit": "05:00:00",
+        "Programm": "1",
+        "KnotenEinAus": "Ein",
+        "VA": "true"
+      },
+      "next_command": {
+        "Uhrzeit": "13:00:00",
+        "Programm": "3",
+        "KnotenEinAus": "Ein",
+        "VA": "true"
+      },
+      "installed_fixed_program_reference": "5",
+      "fixed_approximation_of_source_actuation": true
+    },
+    {
+      "node": "118",
+      "source_sha256": "6f7beaf440c7c4f94fcc826fe4611cfcd20827d264b4f05057208939df424352",
+      "source_monday_day_plan": "1",
+      "active_ordinary_monday_command": {
+        "Uhrzeit": "05:00:00",
+        "Programm": "1",
+        "KnotenEinAus": "Ein",
+        "VA": "true"
+      },
+      "next_command": {
+        "Uhrzeit": "13:00:00",
+        "Programm": "3",
+        "KnotenEinAus": "Ein",
+        "VA": "true"
+      },
+      "installed_fixed_program_reference": "5",
+      "fixed_approximation_of_source_actuation": true
+    },
+    {
+      "node": "119",
+      "source_sha256": "99da6cd38af4daad7ec485a1b6ab16608bd81ad4a69615db177f1a4a585d6927",
+      "source_monday_day_plan": "1",
+      "active_ordinary_monday_command": {
+        "Uhrzeit": "05:00:00",
+        "Programm": "1",
+        "KnotenEinAus": "Ein",
+        "VA": "false"
+      },
+      "next_command": {
+        "Uhrzeit": "13:00:00",
+        "Programm": "5",
+        "KnotenEinAus": "Ein",
+        "VA": "false"
+      },
+      "installed_fixed_program_reference": "1",
+      "fixed_approximation_of_source_actuation": false
+    },
+    {
+      "node": "200",
+      "source_sha256": "98e496293e9f452040b928ce108a71f7b27ed8ddec515df9e711bf40f5069e69",
+      "source_monday_day_plan": "1",
+      "active_ordinary_monday_command": {
+        "Uhrzeit": "05:00:00",
+        "Programm": "5",
+        "KnotenEinAus": "Ein",
+        "VA": "false"
+      },
+      "next_command": {
+        "Uhrzeit": "13:00:00",
+        "Programm": "7",
+        "KnotenEinAus": "Ein",
+        "VA": "false"
+      },
+      "installed_fixed_program_reference": "5",
+      "fixed_approximation_of_source_actuation": false
+    },
+    {
+      "node": "535",
+      "source_sha256": "4988bab25dffb88b712bed2022c2fba8eca97558e761fb146e87d19bbe1dbae9",
+      "source_monday_day_plan": "1",
+      "active_ordinary_monday_command": {
+        "Uhrzeit": "06:30:00",
+        "Programm": "1",
+        "KnotenEinAus": "Ein",
+        "VA": "false"
+      },
+      "next_command": {
+        "Uhrzeit": "13:00:00",
+        "Programm": "3",
+        "KnotenEinAus": "Ein",
+        "VA": "false"
+      },
+      "installed_fixed_program_reference": "1",
+      "fixed_approximation_of_source_actuation": false
+    }
+  ],
+  "claim_boundary": "Ordinary-Monday source commands only. Not a same-window field signal replay. 104/118 fixed SP5 approximate actuated SP1. Earlier than 06:30 needs another 535 program. No general annual calendar selector was added."
+}

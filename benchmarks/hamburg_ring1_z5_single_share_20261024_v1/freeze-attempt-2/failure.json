@@ -1,0 +1,7 @@
+{
+  "status": "failed_offline_comparison_column_check",
+  "native_runs": 0,
+  "source_files_modified": false,
+  "reason": "Native all182-comparison uses diff_nVehContrib_minus_expected, not residual. Existing frozen reader had already checked the 182 comparison against native counts. The535 subset check will compute measured_nVehContrib minus expected_total directly.",
+  "old_freezer_sha256": "b1613ddacf4bc78fae9f0a23378bdbd50bb5dd2eb2e12656035217e2a0289823"
+}

@@ -1,0 +1,381 @@
+{
+  "schema": "astra.hamburg.fixed-primary-service-episode/v1",
+  "status": "pass",
+  "new_native_runs": 0,
+  "window_s": [
+    4425,
+    4470
+  ],
+  "target_green_s": [
+    4431,
+    4460
+  ],
+  "true_first_window_target_Z12_Z13": 264,
+  "detectors": [
+    {
+      "id": "hh_0119_Z_12_31546",
+      "lane": "43866090#0_0",
+      "pos": "13.4",
+      "period": "900",
+      "file": "field-counts.xml",
+      "lane_length_m": "13.500000"
+    },
+    {
+      "id": "hh_0119_Z_13_34018",
+      "lane": "43866090#0_1",
+      "pos": "13.4",
+      "period": "900",
+      "file": "field-counts.xml",
+      "lane_length_m": "13.500000"
+    }
+  ],
+  "actual_controlled_movements": [
+    {
+      "from": "43866090#0",
+      "to": "486864294",
+      "fromLane": "0",
+      "toLane": "0",
+      "shape": "896.338000,714.193000 896.339000,714.022000 897.526000,699.446000 899.181000,692.311000 901.914000,685.035000 907.035000,676.189000 911.164000,671.154000 928.990000,664.080000",
+      "via": ":LSA119_part0_0_0",
+      "tl": "LSA119_part0",
+      "linkIndex": "0",
+      "dir": "L",
+      "state": "o"
+    },
+    {
+      "from": "43866090#0",
+      "to": "486864294",
+      "fromLane": "1",
+      "toLane": "1",
+      "shape": "899.531000,713.651000 899.544000,713.190000 902.068000,694.757000 907.130000,681.086000 914.627000,673.518000 918.206000,671.533000 928.884000,667.284000 929.021000,667.281000",
+      "via": ":LSA119_part0_0_1",
+      "tl": "LSA119_part0",
+      "linkIndex": "1",
+      "dir": "L",
+      "state": "o"
+    },
+    {
+      "from": "24483192",
+      "to": "1068722010",
+      "fromLane": "0",
+      "toLane": "0",
+      "via": ":263002865_0_0",
+      "dir": "s",
+      "state": "M"
+    },
+    {
+      "from": "24483192",
+      "to": "43866090#0",
+      "fromLane": "1",
+      "toLane": "0",
+      "via": ":263002865_1_0",
+      "dir": "L",
+      "state": "M"
+    },
+    {
+      "from": "24483192",
+      "to": "43866090#0",
+      "fromLane": "2",
+      "toLane": "1",
+      "via": ":263002865_1_1",
+      "dir": "L",
+      "state": "M"
+    },
+    {
+      "from": "199500674#0",
+      "to": "199500674#1",
+      "fromLane": "0",
+      "toLane": "0",
+      "via": ":6390683114_0_0",
+      "tl": "6390683114",
+      "linkIndex": "0",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#0",
+      "to": "199500674#1",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":6390683114_0_1",
+      "tl": "6390683114",
+      "linkIndex": "1",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#0",
+      "to": "199500674#1",
+      "fromLane": "2",
+      "toLane": "2",
+      "via": ":6390683114_0_2",
+      "tl": "6390683114",
+      "linkIndex": "2",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#1",
+      "to": "199500674#2",
+      "fromLane": "0",
+      "toLane": "0",
+      "via": ":244203524_0_0",
+      "tl": "244203524",
+      "linkIndex": "0",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#1",
+      "to": "199500674#2",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":244203524_0_1",
+      "tl": "244203524",
+      "linkIndex": "1",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#1",
+      "to": "199500674#2",
+      "fromLane": "2",
+      "toLane": "2",
+      "via": ":244203524_0_2",
+      "tl": "244203524",
+      "linkIndex": "2",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#2",
+      "to": "24483192",
+      "fromLane": "0",
+      "toLane": "0",
+      "via": ":244203525_2_0",
+      "tl": "244203525",
+      "linkIndex": "2",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#2",
+      "to": "24483192",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":244203525_2_1",
+      "tl": "244203525",
+      "linkIndex": "3",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "199500674#2",
+      "to": "24483192",
+      "fromLane": "2",
+      "toLane": "2",
+      "via": ":244203525_2_2",
+      "tl": "244203525",
+      "linkIndex": "4",
+      "dir": "s",
+      "state": "O"
+    },
+    {
+      "from": "486864294",
+      "to": "-186713423",
+      "fromLane": "0",
+      "toLane": "0",
+      "via": ":266199662_5_0",
+      "dir": "s",
+      "state": "M"
+    },
+    {
+      "from": "486864294",
+      "to": "-186713423",
+      "fromLane": "1",
+      "toLane": "1",
+      "via": ":266199662_5_1",
+      "dir": "s",
+      "state": "M"
+    }
+  ],
+  "cases": {
+    "reference": {
+      "actual_first_window_Z12_Z13": 255,
+      "fields": {
+        "hh_0119_Z_12_31546": {
+          "ordinary_438_exit_count": 9,
+          "E1_rear_count": 9,
+          "last_438_ordinary_exit_s": 4444.7,
+          "last_exit_vehicle": "od_0099_v00063",
+          "last_E1_rear_notification_s": 4445.1,
+          "no_new_244_exit_after_last_438_exit_until_s": 4460,
+          "last_vehicle_edge_exit_times": {
+            "199500674#0": 4402.3,
+            "199500674#1": 4435.9,
+            "199500674#2": 4436.7,
+            "24483192": 4442.5,
+            "43866090#0": 4444.7,
+            "486864294": 4455.5
+          }
+        },
+        "hh_0119_Z_13_34018": {
+          "ordinary_438_exit_count": 11,
+          "E1_rear_count": 11,
+          "last_438_ordinary_exit_s": 4448.0,
+          "last_exit_vehicle": "od_0099_v00062",
+          "last_E1_rear_notification_s": 4448.400000000001,
+          "no_new_244_exit_after_last_438_exit_until_s": 4460,
+          "last_vehicle_edge_exit_times": {
+            "199500674#0": 4394.2,
+            "199500674#1": 4440.4,
+            "199500674#2": 4441.3,
+            "24483192": 4446.0,
+            "43866090#0": 4448.0,
+            "486864294": 4458.2
+          }
+        }
+      },
+      "vehicles_between_199_1_exit_and_199_2_exit_at4455": [
+        {
+          "vehicle_id": "od_0100_v00067",
+          "field": "hh_0119_Z_13_34018",
+          "edge_exit_times": {
+            "199500674#0": 4446.8,
+            "199500674#1": 4450.8,
+            "199500674#2": 4456.8,
+            "24483192": 4462.1,
+            "43866090#0": 4521.8,
+            "486864294": 4532.6
+          },
+          "E1_rear_notification_s": 4523.0
+        },
+        {
+          "vehicle_id": "od_0098_v00062",
+          "field": "hh_0119_Z_13_34018",
+          "edge_exit_times": {
+            "199500674#0": 4449.3,
+            "199500674#1": 4453.3,
+            "199500674#2": 4457.9,
+            "24483192": 4463.8,
+            "43866090#0": 4524.0,
+            "486864294": 4534.0
+          },
+          "E1_rear_notification_s": 4524.7
+        }
+      ]
+    },
+    "warmup9": {
+      "actual_first_window_Z12_Z13": 255,
+      "fields": {
+        "hh_0119_Z_12_31546": {
+          "ordinary_438_exit_count": 9,
+          "E1_rear_count": 9,
+          "last_438_ordinary_exit_s": 4445.0,
+          "last_exit_vehicle": "od_0100_v00061",
+          "last_E1_rear_notification_s": 4445.400000000001,
+          "no_new_244_exit_after_last_438_exit_until_s": 4460,
+          "last_vehicle_edge_exit_times": {
+            "199500674#0": 4437.1,
+            "199500674#1": 4438.0,
+            "199500674#2": 4438.5,
+            "24483192": 4443.1,
+            "43866090#0": 4445.0,
+            "486864294": 4455.5
+          }
+        },
+        "hh_0119_Z_13_34018": {
+          "ordinary_438_exit_count": 10,
+          "E1_rear_count": 10,
+          "last_438_ordinary_exit_s": 4446.2,
+          "last_exit_vehicle": "od_0099_v00060",
+          "last_E1_rear_notification_s": 4446.7,
+          "no_new_244_exit_after_last_438_exit_until_s": 4460,
+          "last_vehicle_edge_exit_times": {
+            "199500674#0": 4398.7,
+            "199500674#1": 4437.3,
+            "199500674#2": 4438.3,
+            "24483192": 4444.2,
+            "43866090#0": 4446.2,
+            "486864294": 4457.8
+          }
+        }
+      },
+      "vehicles_between_199_1_exit_and_199_2_exit_at4455": [
+        {
+          "vehicle_id": "od_0099_v00061",
+          "field": "hh_0119_Z_12_31546",
+          "edge_exit_times": {
+            "199500674#0": 4446.8,
+            "199500674#1": 4450.8,
+            "199500674#2": 4456.8,
+            "24483192": 4462.1,
+            "43866090#0": 4521.8,
+            "486864294": 4533.0
+          },
+          "E1_rear_notification_s": 4523.0
+        },
+        {
+          "vehicle_id": "od_0098_v00060",
+          "field": "hh_0119_Z_13_34018",
+          "edge_exit_times": {
+            "199500674#0": 4446.8,
+            "199500674#1": 4450.8,
+            "199500674#2": 4456.8,
+            "24483192": 4462.1,
+            "43866090#0": 4521.8,
+            "486864294": 4532.6
+          },
+          "E1_rear_notification_s": 4523.0
+        }
+      ]
+    }
+  },
+  "finding": "Both cases exhaust the measured244-exit-to438-exit front-boundary stock before the119 green ends. Native routes locate subsequent119-bound vehicles upstream at199#2 during its through red, then arriving beyond the119 green. This supports an upstream service-timing restriction in this episode. It does not prove every missing contribution has this cause.",
+  "boundaries": [
+    "E1 is0.1m before the ordinary edge end. Complete rear contributions and ordinary route exitTimes are separate observables.",
+    "An exit-to-exit interval includes the connecting internal path. It is not stopped time or an exact lane position.",
+    "Queue output has no vehicle IDs. An unlisted lane is unknown, not proven empty. Recorded queues cannot locate an individual vehicle.",
+    "No per-vehicle FCD or lane-change record exists here. Which upstream lane/stopline first constrains reception still needs a local passive observation.",
+    "255 is an observed first-window total, not a hard capacity limit. Simulated frozen colors are not fieldSPaT."
+  ],
+  "next_observation": {
+    "source": "reference",
+    "fresh_prefix_end_s": 4500,
+    "local_window_s": [
+      4425,
+      4470
+    ],
+    "ordinary_edges": [
+      "199500674#0",
+      "199500674#1",
+      "199500674#2",
+      "24483192",
+      "43866090#0",
+      "486864294"
+    ],
+    "tls_ids": [
+      "6390683114",
+      "244203524",
+      "244203525",
+      "LSA119_part0"
+    ],
+    "purpose": "Locate heads and their actual controlling links in the three short upstream signalized edges while119 remains green. Preserve all driving inputs."
+  },
+  "source_hashes": {
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\independent.json": "6640da4bad48533239bd7bafa9a16e1a997c6e0475d4626c8e7fb005e7605e8d",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\demand-side-diagnosis.json": "372cc40da4ed5e4bbb9b77b36aea30fe81e8c02aeaa086e1a88c1ecfa3cd64a1",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\service-diagnosis\\analyze.py": "8e1d6679c47eeafd5dab223beff5c01bd8f550297468432e94221695e5d963da",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\network.net.xml": "6c52382e7664eca33fceff6fd02ae700d93139a316a3f9f5139d0e139d7a18ce",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\field-loops.add.xml": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\prepared\\expected-counts.csv": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\contributing-passages.json.gz": "b4bf0bd4bebf1cff09842f892c34448987e029b8f4c0d12121ecbb9d99badb36",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\vehicle-routes.xml": "7d5a6a5ce4e2033e657bb14232351877d2fdefd3d9bf8c284d3772457438e8bd",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\queues.xml": "d81cafa0e38f235da7a41cc5137a0bc621c011680e5ec1a71615878696f10c87",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\reference\\evaluation\\native\\tls-switch-states.xml": "6e97577e9eab2291316756aad90f8639f9a44320447934d00e5af90950038fef",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\contributing-passages.json.gz": "48b845dcd9eaab053f458b2c42d7ae638e3a25f377f4faf279a4cf7d4712c32e",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\vehicle-routes.xml": "9a9a0496b8974ddfec3aed29deb1ded7c44320442ff9ab3131924fced21b9388",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\queues.xml": "daed63fc698c23e690c1f679a7ed6c33bedc4c7003a79ddf972c2f5621f123d7",
+    "C:\\Users\\Danial\\.codex\\worktrees\\hamburg-reproduction\\Torii\\outputs\\hamburg-275-fixed-history-20261024-v1\\warmup9\\evaluation\\native\\tls-switch-states.xml": "84c8c56b4cc740e30e7eae39e9ecc7306e15495b7615541e9bda59aa92f4df5a"
+  }
+}

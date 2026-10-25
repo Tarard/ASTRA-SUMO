@@ -1,0 +1,55 @@
+I checked one more fact, read-only: the OSM import ran with --osm.turn-lanes true (ring1-full_commands.txt and the net’s own options record). That matters for how much weight the compiled-source path deserves.
+
+Compiled-source path versus OSM/MAP lane use
+
+Separate two claims the evidence can support.
+
+The movement exists. Ernst-Merck-Straße → Glockengießerwall left, and the turnaround, are reachable in the source graph. The compiled path and the driving probe are good evidence of that.
+Which lane serves it. OSM turn:lanes and MAP are declarations about lane use at the stop line, and they agree: lane 4 straight, lane 5 left. The compiled path is netconvert’s derived lane assignment. With --osm.turn-lanes on, the tag is applied only where the OSM way ends.
+If the left branch leaves at an intermediate micro-node, lane assignment there is netconvert’s heuristic, and that would explain a lane-4 left path despite the tag.
+Cheap check: find the micro-node where the compiled lane-4 left path diverges, and see whether it is the end node of way 186821027.
+If it isn’t, the compiled path carries no lane-use evidence. It still supports the movement.
+The U-turn’s support is weaker still. No fixed-lane path exists, and the probe changes lanes inside the compound area. That supports the movement being reachable, not lane 4.
+
+Rule: take movement existence from the strongest source; take lane binding from the declarative sources when they agree; record the derived path as superseded, with the reason.
+
+Is the bounded candidate justified?
+
+Yes, if it is declared as a re-binding, not a removal:
+
+The lane-4 left goes. Nothing is lost at movement level, because the official lane-5 left already serves both target lanes.
+The turnaround stays, bound to lane 5 (OSM “left”, the official left lane). It keeps signal group K5, so timing semantics don’t change. Keep its current target lane (186821029#1_2) unless the same-approach order audit shows a new crossing. Record it as an added movement composed from source turns, not an official MAP movement.
+
+Consequence you should declare: turnaround and lane-4 left traffic move from Z.7’s lane to Z.8’s lane. This changes which field these vehicles are counted at. Z.7 + Z.8 stays the same apart from bin shifts, but the split changes, and that bears on the count fit. It’s an evidence-backed correspondence change, not a tuning knob, and the report should say so.
+
+A paired native check that separates correction from hiding traffic
+
+Don’t start from the saved 12,000 s state. Vehicles on the removed internal path :LSA535_part0_5_0, and the link indices, don’t exist in the candidate network, so the two runs wouldn’t start from the same state.
+
+Pairing:
+
+Same demand file, seed, step, insertion settings and timing for every remaining link.
+Networks identical except the declared connection changes. Verify this with a diff of loaded permissions and a check of signal states by physical connection.
+Either run the full demand to just past 12,200 s in both, or use a smaller cohort: every vehicle that used 186821027#0 → 186821036#1 or → 186821029#1, plus every vehicle on any foe approach at 535, departing as in the saved run.
+
+Required outcomes, all reported side by side:
+
+Conservation. The same vehicles complete the same edge-level movements at 535, and per-movement throughput per 15 min matches within bin shifts.
+No extra insertion delay, waiting vehicles, unfinished trips, standstill stops, or teleports.
+Fewer completed lefts or turnarounds would mean traffic is being hidden.
+Safety. Zero collisions with junction checks on, including at 8,784.7 s and 12,114.7 s: the same collider and victim vehicles must complete their movements.
+Also report emergency braking.
+Report minimum gaps on the lane-5 fan, because the candidate puts more traffic exactly where the sparse curves overlap most. Keep curves fixed in this pair; the native curve variant is a separate test.
+Lane realization. Every left and turnaround leaves 535 from lane 5. Report lane changes that fail and vehicles blocked at the end of a lane on the 26.6 m approach. That was the old deadlock mechanism, and a single left lane may bring it back.
+Fields. Z.7 and Z.8 per bin in both runs, with the shift shown explicitly.
+
+Reading the result:
+
+Conservation and safety hold, with no new blocking → the re-binding is a justified candidate.
+Collisions gone but throughput down or blocking up → it exposes a capacity limit; report it, don’t accept it.
+Collisions persist between lane-5 sibling paths → the next issue is the curves, not the binding.
+Turnarounds without repeated detector counts
+
+I agree not to add a universal detour cap or forbid opposite directions. The narrowest declared rule that targets the stated problem is each vehicle may count at a given field at most once. That leaves every legal turnaround and every road direction usable.
+
+If even that is too strong, allow repeats but report repeat passages per field and bin as part of the demand assumptions, so they can’t silently carry the fit.

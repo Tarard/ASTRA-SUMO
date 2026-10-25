@@ -211,6 +211,68 @@ def build_hamburg_aerial_corridor_plan(
     return report
 
 
+def _read_official_movement_geometry(sources, node_id):
+    map_lanes, map_connections = parse_mapem(sources["map_xml"])
+    parts = _intersection_part_by_lane_pair(sources["map_xml"])
+    binding = bind_hamburg_map_kml_to_mapem(
+        parse_hamburg_map_kml(sources["map_kml"]), map_lanes, map_connections, expected_node_id=node_id)
+    lane_types = {str(lane["lane_id"]): str(lane["lane_type"]).lower() for lane in binding["lanes"]}
+    transformer = Transformer.from_crs("EPSG:4326", "EPSG:25832", always_xy=True)
+    metadata = {str(lane.lane_id): lane.permission_metadata for lane in map_lanes}
+    lanes = [{"lane_id": str(lane["lane_id"]), "lane_type": str(lane["lane_type"]),
+              "direction_role": str(lane["kml_direction_role"]), "ingress_approach": str(lane["ingress_approach"]),
+              "egress_approach": str(lane["egress_approach"]), **metadata[str(lane["lane_id"])],
+              "shape_epsg25832": [list(point) for point in
+                  _points(_project_coordinates(lane["coordinates"], transformer), "official lane shape")]}
+             for lane in binding["lanes"]]
+    movements, unusable = [], []
+    for connection in binding["connections"]:
+        if any(lane_types.get(str(connection[key])) != "vehicle" for key in ("ingress_lane_id", "egress_lane_id")):
+            continue
+        official = _project_coordinates(connection.get("drive_line_coordinates") or [], transformer)
+        if len(official) >= 2 and math.dist(official[0], official[-1]) > 1.0:
+            movements.append((connection, official))
+        else:
+            unusable.append({"node_id": node_id, "movement_id": str(connection["connection_id"]),
+                             "ingress_lane_id": str(connection["ingress_lane_id"]),
+                             "egress_lane_id": str(connection["egress_lane_id"]),
+                             "reason": "official_vehicle_curve_missing_or_degenerate"})
+    if not movements:
+        raise ValueError("official MAP/KML binding has no usable vehicle movements")
+    return lanes, movements, parts, unusable
+
+
+def build_hamburg_official_movement_plan(
+    *, node_id: str, map_xml_file: Path, map_kml_file: Path,
+    expected_sha256: Mapping[str, str], output_file: Path,
+) -> dict[str, Any]:
+    """Build source movement geometry without requiring an aerial image."""
+    sources = {"map_xml": Path(map_xml_file).resolve(strict=True), "map_kml": Path(map_kml_file).resolve(strict=True)}
+    output = Path(output_file).resolve()
+    if output.exists() or output in sources.values():
+        raise ValueError("Use a new movement plan file separate from the source files.")
+    _validate_source_hashes(sources, expected_sha256)
+    lanes, movements, parts, unusable = _read_official_movement_geometry(sources, str(node_id))
+    rows = [{"movement_id": str(connection["connection_id"]),
+             "ingress_lane_id": str(connection["ingress_lane_id"]), "egress_lane_id": str(connection["egress_lane_id"]),
+             "signal_group": str(connection["signal_group"]),
+             "intersection_part": parts.get((str(connection["ingress_lane_id"]), str(connection["egress_lane_id"])), "0"),
+             "selected_source": "official_map", "selected_shape_epsg25832": [list(point) for point in shape],
+             "official_shape_epsg25832": [list(point) for point in shape]}
+            for connection, shape in movements]
+    plan = {"schema": PLAN_SCHEMA, "status": "measured",
+            "node_id": str(node_id), "crs": "EPSG:25832",
+            "inputs": {key: {"path": str(path), "sha256": file_sha256(path)} for key, path in sources.items()},
+            "lanes": lanes, "movements": rows, "unusable_vehicle_movements": unusable,
+            "source_vehicle_movement_count": len(rows) + len(unusable),
+            "independent_geometry_validation": False,
+            "claim_boundary": "Official MAP/KML reference geometry only. No aerial interpretation, SUMO lane correspondence, field-validity date or promotion authority."}
+    _validate_source_hashes(sources, expected_sha256)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    _write_json(output, plan)
+    return plan
+
+
 def build_hamburg_aerial_movement_plan(
     *,
     node_id: str,
@@ -247,49 +309,7 @@ def build_hamburg_aerial_movement_plan(
         expected_sha256 = {**expected_sha256, "road_prior": str(road_prior["sha256"])}
     destination.mkdir(parents=True)
 
-    map_lanes, map_connections = parse_mapem(sources["map_xml"])
-    intersection_parts = _intersection_part_by_lane_pair(sources["map_xml"])
-    binding = bind_hamburg_map_kml_to_mapem(
-        parse_hamburg_map_kml(sources["map_kml"]),
-        map_lanes,
-        map_connections,
-        expected_node_id=node_id,
-    )
-    lane_types = {
-        str(lane["lane_id"]): str(lane["lane_type"]).lower()
-        for lane in binding["lanes"]
-    }
-    transformer = Transformer.from_crs("EPSG:4326", "EPSG:25832", always_xy=True)
-    map_lane_metadata = {str(lane.lane_id): lane.permission_metadata for lane in map_lanes}
-    lanes = [
-        {
-            "lane_id": str(lane["lane_id"]),
-            "lane_type": str(lane["lane_type"]),
-            "direction_role": str(lane["kml_direction_role"]),
-            "ingress_approach": str(lane["ingress_approach"]),
-            "egress_approach": str(lane["egress_approach"]),
-            **map_lane_metadata[str(lane["lane_id"])],
-            "shape_epsg25832": [
-                list(point)
-                for point in _points(_project_coordinates(lane["coordinates"], transformer), "official lane shape")
-            ],
-        }
-        for lane in binding["lanes"]
-    ]
-    movements = []
-    for connection in binding["connections"]:
-        if lane_types.get(str(connection["ingress_lane_id"])) != "vehicle":
-            continue
-        if lane_types.get(str(connection["egress_lane_id"])) != "vehicle":
-            continue
-        official = _project_coordinates(
-            connection.get("drive_line_coordinates") or [],
-            transformer,
-        )
-        if len(official) >= 2 and math.dist(official[0], official[-1]) > 1.0:
-            movements.append((connection, official))
-    if not movements:
-        raise ValueError("official MAP/KML binding has no usable vehicle movements")
+    lanes, movements, intersection_parts, _ = _read_official_movement_geometry(sources, node_id)
 
     image = Image.open(sources["aerial_image"]).convert("RGB")
     likelihood = build_aerial_road_likelihood(

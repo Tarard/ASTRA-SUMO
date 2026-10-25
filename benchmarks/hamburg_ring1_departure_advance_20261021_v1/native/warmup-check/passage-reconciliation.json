@@ -1,0 +1,2294 @@
+{
+  "status": "measured",
+  "reconciled": true,
+  "measurement_attribute": "nVehContrib",
+  "step_length_s": 0.1,
+  "inputs": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\instant-e1.xml",
+      "sha256": "bcab5b2319cda604b0cf1a8fda64f0085a88d3d0017be68d8576468379d88493"
+    },
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-entry-departure-probe-native-20261021-v1\\warmup-check\\field-counts.xml",
+      "sha256": "233d16b0fb0bda22862b9f688bf9b290a7963888dc931d10c58e53aa89eb4f1f"
+    }
+  ],
+  "inputs_unchanged": true,
+  "passages": [
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v0",
+      "time_s": 2802.461159829085,
+      "notification_time_s": 2802.5,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v0",
+      "time_s": 2804.326941391785,
+      "notification_time_s": 2804.4,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v1",
+      "time_s": 2805.582662356939,
+      "notification_time_s": 2805.6000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v1",
+      "time_s": 2822.087561560899,
+      "notification_time_s": 2822.1000000000004,
+      "occupancy_s": 0.359999997119,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v2",
+      "time_s": 2822.001348257589,
+      "notification_time_s": 2822.1000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v3",
+      "time_s": 2823.401385477884,
+      "notification_time_s": 2823.5,
+      "occupancy_s": 0.374011059206,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v5",
+      "time_s": 2824.913168931554,
+      "notification_time_s": 2825.0,
+      "occupancy_s": 0.374529006467,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v4",
+      "time_s": 2826.315952309455,
+      "notification_time_s": 2826.4,
+      "occupancy_s": 0.387640560265,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v2",
+      "time_s": 2826.404475195124,
+      "notification_time_s": 2826.5,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v6",
+      "time_s": 2887.98076923077,
+      "notification_time_s": 2888.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v3",
+      "time_s": 2887.98076923077,
+      "notification_time_s": 2888.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v7",
+      "time_s": 2889.660554403092,
+      "notification_time_s": 2889.7000000000003,
+      "occupancy_s": 0.683500852324,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v4",
+      "time_s": 2889.660554397023,
+      "notification_time_s": 2889.7000000000003,
+      "occupancy_s": 0.683500856464,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v8",
+      "time_s": 2891.087853321793,
+      "notification_time_s": 2891.1000000000004,
+      "occupancy_s": 0.526225604282,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v5",
+      "time_s": 2891.087853317582,
+      "notification_time_s": 2891.1000000000004,
+      "occupancy_s": 0.52622560563,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v11",
+      "time_s": 2892.451515558821,
+      "notification_time_s": 2892.5,
+      "occupancy_s": 0.488511165392,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v6",
+      "time_s": 2892.451515555345,
+      "notification_time_s": 2892.5,
+      "occupancy_s": 0.488511165934,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v9",
+      "time_s": 2893.894518404169,
+      "notification_time_s": 2893.9,
+      "occupancy_s": 0.486951480465,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v7",
+      "time_s": 2893.894518401376,
+      "notification_time_s": 2893.9,
+      "occupancy_s": 0.486951480796,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v17",
+      "time_s": 2895.377741229426,
+      "notification_time_s": 2895.4,
+      "occupancy_s": 0.481706012906,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v8",
+      "time_s": 2896.08184995722,
+      "notification_time_s": 2896.1000000000004,
+      "occupancy_s": 0.38156378539,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v10",
+      "time_s": 2896.841377346643,
+      "notification_time_s": 2896.9,
+      "occupancy_s": 0.4842094566,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v12",
+      "time_s": 2898.360489081687,
+      "notification_time_s": 2898.4,
+      "occupancy_s": 0.47708423425,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v18",
+      "time_s": 2899.893613600234,
+      "notification_time_s": 2899.9,
+      "occupancy_s": 0.470324693057,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v9",
+      "time_s": 2899.963699363316,
+      "notification_time_s": 2900.0,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v14",
+      "time_s": 2901.414045972546,
+      "notification_time_s": 2901.5,
+      "occupancy_s": 0.46782080609,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v13",
+      "time_s": 2902.98884424739,
+      "notification_time_s": 2903.0,
+      "occupancy_s": 0.456766991513,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v0",
+      "time_s": 2904.816731153846,
+      "notification_time_s": 2904.9,
+      "occupancy_s": 1.814804230769,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v1",
+      "time_s": 2906.552037413255,
+      "notification_time_s": 2906.6000000000004,
+      "occupancy_s": 0.714819524032,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v19",
+      "time_s": 2913.999476257604,
+      "notification_time_s": 2914.0,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v15",
+      "time_s": 2915.393234179697,
+      "notification_time_s": 2915.4,
+      "occupancy_s": 0.3746741798,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v10",
+      "time_s": 2915.805634566581,
+      "notification_time_s": 2915.9,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v16",
+      "time_s": 2977.98076923077,
+      "notification_time_s": 2978.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v11",
+      "time_s": 2977.98076923077,
+      "notification_time_s": 2978.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v21",
+      "time_s": 2979.660554402571,
+      "notification_time_s": 2979.7000000000003,
+      "occupancy_s": 0.68350085268,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v12",
+      "time_s": 2979.660554397655,
+      "notification_time_s": 2979.7000000000003,
+      "occupancy_s": 0.683500856032,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v20",
+      "time_s": 2981.087853323577,
+      "notification_time_s": 2981.1000000000004,
+      "occupancy_s": 0.526225603614,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v14",
+      "time_s": 2981.087853315123,
+      "notification_time_s": 2981.1000000000004,
+      "occupancy_s": 0.526225606548,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v23",
+      "time_s": 2982.451515561891,
+      "notification_time_s": 2982.5,
+      "occupancy_s": 0.488511164774,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v13",
+      "time_s": 2982.451515551262,
+      "notification_time_s": 2982.5,
+      "occupancy_s": 0.488511166752,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v32",
+      "time_s": 2983.947351553601,
+      "notification_time_s": 2984.0,
+      "occupancy_s": 0.476227819625,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v15",
+      "time_s": 2984.891808268221,
+      "notification_time_s": 2984.9,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v24",
+      "time_s": 2985.322056153137,
+      "notification_time_s": 2985.4,
+      "occupancy_s": 0.495149309068,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v22",
+      "time_s": 2986.824689878649,
+      "notification_time_s": 2986.9,
+      "occupancy_s": 0.486739967658,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v33",
+      "time_s": 2988.347679182503,
+      "notification_time_s": 2988.4,
+      "occupancy_s": 0.478697498208,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v25",
+      "time_s": 2989.852149792674,
+      "notification_time_s": 2989.9,
+      "occupancy_s": 0.477180032279,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v34",
+      "time_s": 2991.334779058683,
+      "notification_time_s": 2991.4,
+      "occupancy_s": 0.480871314815,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v16",
+      "time_s": 2992.04963286278,
+      "notification_time_s": 2992.1000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v31",
+      "time_s": 2992.820177149781,
+      "notification_time_s": 2992.9,
+      "occupancy_s": 0.441037833682,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v27",
+      "time_s": 2994.290327624505,
+      "notification_time_s": 2994.3,
+      "occupancy_s": 0.438055498151,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v2",
+      "time_s": 2994.98076959707,
+      "notification_time_s": 2995.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v26",
+      "time_s": 2995.750412276137,
+      "notification_time_s": 2995.8,
+      "occupancy_s": 0.418468996792,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v18",
+      "time_s": 2996.715504969502,
+      "notification_time_s": 2996.8,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v38",
+      "time_s": 2997.221335510613,
+      "notification_time_s": 2997.3,
+      "occupancy_s": 0.420134351713,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v28",
+      "time_s": 2998.712493360835,
+      "notification_time_s": 2998.8,
+      "occupancy_s": 0.420272257246,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v17",
+      "time_s": 2998.826488749388,
+      "notification_time_s": 2998.9,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v3",
+      "time_s": 2999.24912441608,
+      "notification_time_s": 2999.3,
+      "occupancy_s": 0.573058768063,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v35",
+      "time_s": 3000.178734072441,
+      "notification_time_s": 3000.2000000000003,
+      "occupancy_s": 0.404415924744,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v40",
+      "time_s": 3001.657412441469,
+      "notification_time_s": 3001.7000000000003,
+      "occupancy_s": 0.406419818958,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v19",
+      "time_s": 3002.434627917595,
+      "notification_time_s": 3002.5,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v29",
+      "time_s": 3003.120633110201,
+      "notification_time_s": 3003.2000000000003,
+      "occupancy_s": 0.411295706152,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v30",
+      "time_s": 3004.620534675432,
+      "notification_time_s": 3004.7000000000003,
+      "occupancy_s": 0.411465039236,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v37",
+      "time_s": 3006.13132573847,
+      "notification_time_s": 3006.2000000000003,
+      "occupancy_s": 0.411024545521,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v39",
+      "time_s": 3067.98076923077,
+      "notification_time_s": 3068.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v20",
+      "time_s": 3067.98076923077,
+      "notification_time_s": 3068.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v36",
+      "time_s": 3069.660554397182,
+      "notification_time_s": 3069.7000000000003,
+      "occupancy_s": 0.683500856355,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v21",
+      "time_s": 3069.660554403094,
+      "notification_time_s": 3069.7000000000003,
+      "occupancy_s": 0.683500852323,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v41",
+      "time_s": 3071.087853314586,
+      "notification_time_s": 3071.1000000000004,
+      "occupancy_s": 0.526225606729,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v22",
+      "time_s": 3071.087853323652,
+      "notification_time_s": 3071.1000000000004,
+      "occupancy_s": 0.526225603603,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v42",
+      "time_s": 3072.451515550367,
+      "notification_time_s": 3072.5,
+      "occupancy_s": 0.488511166923,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v23",
+      "time_s": 3072.451515561896,
+      "notification_time_s": 3072.5,
+      "occupancy_s": 0.488511164782,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v43",
+      "time_s": 3073.894518395276,
+      "notification_time_s": 3073.9,
+      "occupancy_s": 0.486951481817,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v24",
+      "time_s": 3073.894518407654,
+      "notification_time_s": 3073.9,
+      "occupancy_s": 0.486951479893,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v47",
+      "time_s": 3075.382109626655,
+      "notification_time_s": 3075.4,
+      "occupancy_s": 0.480835937742,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v44",
+      "time_s": 3076.894621592259,
+      "notification_time_s": 3076.9,
+      "occupancy_s": 0.474028218767,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v52",
+      "time_s": 3078.399315100472,
+      "notification_time_s": 3078.4,
+      "occupancy_s": 0.471536628307,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v54",
+      "time_s": 3079.918700364595,
+      "notification_time_s": 3080.0,
+      "occupancy_s": 0.467714744346,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v45",
+      "time_s": 3081.467670318586,
+      "notification_time_s": 3081.5,
+      "occupancy_s": 0.460102590877,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v46",
+      "time_s": 3082.963388015254,
+      "notification_time_s": 3083.0,
+      "occupancy_s": 0.422044770829,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v51",
+      "time_s": 3084.442363632028,
+      "notification_time_s": 3084.5,
+      "occupancy_s": 0.422222031756,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v4",
+      "time_s": 3084.98076959707,
+      "notification_time_s": 3085.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v48",
+      "time_s": 3157.98076923077,
+      "notification_time_s": 3158.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v25",
+      "time_s": 3157.98076923077,
+      "notification_time_s": 3158.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v53",
+      "time_s": 3159.660554406628,
+      "notification_time_s": 3159.7000000000003,
+      "occupancy_s": 0.683500849912,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v26",
+      "time_s": 3159.660554399673,
+      "notification_time_s": 3159.7000000000003,
+      "occupancy_s": 0.683500854656,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v57",
+      "time_s": 3161.08785332554,
+      "notification_time_s": 3161.1000000000004,
+      "occupancy_s": 0.526225603023,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v27",
+      "time_s": 3161.087853319468,
+      "notification_time_s": 3161.1000000000004,
+      "occupancy_s": 0.526225605024,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v56",
+      "time_s": 3162.451515563168,
+      "notification_time_s": 3162.5,
+      "occupancy_s": 0.488511164611,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v28",
+      "time_s": 3162.451515556699,
+      "notification_time_s": 3162.5,
+      "occupancy_s": 0.488511165735,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v58",
+      "time_s": 3163.894518409015,
+      "notification_time_s": 3163.9,
+      "occupancy_s": 0.486951479721,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v29",
+      "time_s": 3163.894518402041,
+      "notification_time_s": 3163.9,
+      "occupancy_s": 0.486951480759,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v49",
+      "time_s": 3165.382109640502,
+      "notification_time_s": 3165.4,
+      "occupancy_s": 0.480835935875,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v30",
+      "time_s": 3165.382109633172,
+      "notification_time_s": 3165.4,
+      "occupancy_s": 0.480835936864,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v61",
+      "time_s": 3166.891671289848,
+      "notification_time_s": 3166.9,
+      "occupancy_s": 0.47457090492,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v50",
+      "time_s": 3168.386044281486,
+      "notification_time_s": 3168.4,
+      "occupancy_s": 0.473865836948,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v60",
+      "time_s": 3169.910100258575,
+      "notification_time_s": 3170.0,
+      "occupancy_s": 0.465719716096,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v31",
+      "time_s": 3169.909973292766,
+      "notification_time_s": 3170.0,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v64",
+      "time_s": 3171.450055836002,
+      "notification_time_s": 3171.5,
+      "occupancy_s": 0.458903589541,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v55",
+      "time_s": 3172.996139054426,
+      "notification_time_s": 3173.0,
+      "occupancy_s": 0.454991538442,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v59",
+      "time_s": 3174.559101312945,
+      "notification_time_s": 3174.6000000000004,
+      "occupancy_s": 0.458648651806,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v5",
+      "time_s": 3174.98076959707,
+      "notification_time_s": 3175.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v62",
+      "time_s": 3176.065312265376,
+      "notification_time_s": 3176.1000000000004,
+      "occupancy_s": 0.42462426412,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v63",
+      "time_s": 3177.568680358223,
+      "notification_time_s": 3177.6000000000004,
+      "occupancy_s": 0.422944558547,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v67",
+      "time_s": 3179.030998180932,
+      "notification_time_s": 3179.1000000000004,
+      "occupancy_s": 0.405299916272,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v32",
+      "time_s": 3180.440742111285,
+      "notification_time_s": 3180.5,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v65",
+      "time_s": 3180.503303532543,
+      "notification_time_s": 3180.6000000000004,
+      "occupancy_s": 0.40279507668,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v66",
+      "time_s": 3182.034127076036,
+      "notification_time_s": 3182.1000000000004,
+      "occupancy_s": 0.433984077545,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v69",
+      "time_s": 3183.590654271293,
+      "notification_time_s": 3183.6000000000004,
+      "occupancy_s": 0.40891097599,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v33",
+      "time_s": 3184.917917834644,
+      "notification_time_s": 3185.0,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v68",
+      "time_s": 3185.081030560652,
+      "notification_time_s": 3185.1000000000004,
+      "occupancy_s": 0.40461676243,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v34",
+      "time_s": 3247.98076923077,
+      "notification_time_s": 3248.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v70",
+      "time_s": 3247.924637888111,
+      "notification_time_s": 3248.0,
+      "occupancy_s": 1.39797697103,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v35",
+      "time_s": 3249.660554396164,
+      "notification_time_s": 3249.7000000000003,
+      "occupancy_s": 0.68350085705,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v71",
+      "time_s": 3249.623036423168,
+      "notification_time_s": 3249.7000000000003,
+      "occupancy_s": 0.69412527721,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v36",
+      "time_s": 3251.087853314094,
+      "notification_time_s": 3251.1000000000004,
+      "occupancy_s": 0.526225606877,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v72",
+      "time_s": 3251.057461218364,
+      "notification_time_s": 3251.1000000000004,
+      "occupancy_s": 0.53067143106,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v37",
+      "time_s": 3252.451515550294,
+      "notification_time_s": 3252.5,
+      "occupancy_s": 0.48851116691,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v73",
+      "time_s": 3252.422172402489,
+      "notification_time_s": 3252.5,
+      "occupancy_s": 0.489810632862,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v74",
+      "time_s": 3253.86511115572,
+      "notification_time_s": 3253.9,
+      "occupancy_s": 0.48804999904,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v38",
+      "time_s": 3253.934658002543,
+      "notification_time_s": 3254.0,
+      "occupancy_s": 0.52491360775,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v75",
+      "time_s": 3255.32790908847,
+      "notification_time_s": 3255.4,
+      "occupancy_s": 0.469562766826,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v39",
+      "time_s": 3255.596039631054,
+      "notification_time_s": 3255.6000000000004,
+      "occupancy_s": 0.549564603784,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v83",
+      "time_s": 3256.813211941434,
+      "notification_time_s": 3256.9,
+      "occupancy_s": 0.465881198662,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v40",
+      "time_s": 3257.970975794736,
+      "notification_time_s": 3258.0,
+      "occupancy_s": 0.435570783535,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v76",
+      "time_s": 3258.294857623014,
+      "notification_time_s": 3258.3,
+      "occupancy_s": 0.474283521087,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v78",
+      "time_s": 3259.830770826055,
+      "notification_time_s": 3259.9,
+      "occupancy_s": 0.469717121039,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v82",
+      "time_s": 3261.373933803933,
+      "notification_time_s": 3261.4,
+      "occupancy_s": 0.461278872811,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v77",
+      "time_s": 3263.086914498693,
+      "notification_time_s": 3263.1000000000004,
+      "occupancy_s": 0.427989652779,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v6",
+      "time_s": 3264.98076959707,
+      "notification_time_s": 3265.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v7",
+      "time_s": 3266.660554648851,
+      "notification_time_s": 3266.7000000000003,
+      "occupancy_s": 0.683500782361,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v41",
+      "time_s": 3276.087561560899,
+      "notification_time_s": 3276.1000000000004,
+      "occupancy_s": 0.359999997119,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v79",
+      "time_s": 3276.001348257589,
+      "notification_time_s": 3276.1000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v80",
+      "time_s": 3337.98076923077,
+      "notification_time_s": 3338.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v42",
+      "time_s": 3337.98076923077,
+      "notification_time_s": 3338.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v87",
+      "time_s": 3339.660554404124,
+      "notification_time_s": 3339.7000000000003,
+      "occupancy_s": 0.68350085162,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v43",
+      "time_s": 3339.66055440478,
+      "notification_time_s": 3339.7000000000003,
+      "occupancy_s": 0.683500851173,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v81",
+      "time_s": 3341.087853325374,
+      "notification_time_s": 3341.1000000000004,
+      "occupancy_s": 0.526225603006,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v44",
+      "time_s": 3341.087853325758,
+      "notification_time_s": 3341.1000000000004,
+      "occupancy_s": 0.526225602886,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v88",
+      "time_s": 3342.451515565469,
+      "notification_time_s": 3342.5,
+      "occupancy_s": 0.488511164073,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v94",
+      "time_s": 3344.339117593531,
+      "notification_time_s": 3344.4,
+      "occupancy_s": 0.421953889062,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v45",
+      "time_s": 3345.525831873652,
+      "notification_time_s": 3345.6000000000004,
+      "occupancy_s": 0.374389190222,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v84",
+      "time_s": 3345.718916435063,
+      "notification_time_s": 3345.8,
+      "occupancy_s": 0.434996599346,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v85",
+      "time_s": 3347.102421820055,
+      "notification_time_s": 3347.2000000000003,
+      "occupancy_s": 0.451775259975,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v97",
+      "time_s": 3348.681280364794,
+      "notification_time_s": 3348.7000000000003,
+      "occupancy_s": 0.43290923428,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v46",
+      "time_s": 3349.692686371731,
+      "notification_time_s": 3349.7000000000003,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v89",
+      "time_s": 3350.113437419046,
+      "notification_time_s": 3350.2000000000003,
+      "occupancy_s": 0.417700660713,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v95",
+      "time_s": 3351.566399275785,
+      "notification_time_s": 3351.6000000000004,
+      "occupancy_s": 0.455325205362,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v96",
+      "time_s": 3353.154390969672,
+      "notification_time_s": 3353.2000000000003,
+      "occupancy_s": 0.48120266771,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v47",
+      "time_s": 3353.993180114343,
+      "notification_time_s": 3354.0,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v98",
+      "time_s": 3354.730558201622,
+      "notification_time_s": 3354.8,
+      "occupancy_s": 0.451683521102,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v8",
+      "time_s": 3354.98076959707,
+      "notification_time_s": 3355.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v100",
+      "time_s": 3356.398379032544,
+      "notification_time_s": 3356.4,
+      "occupancy_s": 0.456056777808,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v48",
+      "time_s": 3357.025769121251,
+      "notification_time_s": 3357.1000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v90",
+      "time_s": 3357.94473266365,
+      "notification_time_s": 3358.0,
+      "occupancy_s": 0.439529834603,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v86",
+      "time_s": 3359.465312689013,
+      "notification_time_s": 3359.5,
+      "occupancy_s": 0.426670773776,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v101",
+      "time_s": 3360.96049248659,
+      "notification_time_s": 3361.0,
+      "occupancy_s": 0.42430415748,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v91",
+      "time_s": 3362.462771238691,
+      "notification_time_s": 3362.5,
+      "occupancy_s": 0.423899623122,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v92",
+      "time_s": 3363.980099316133,
+      "notification_time_s": 3364.0,
+      "occupancy_s": 0.422276499647,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v93",
+      "time_s": 3365.505475291601,
+      "notification_time_s": 3365.6000000000004,
+      "occupancy_s": 0.420408327626,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v103",
+      "time_s": 3427.98076923077,
+      "notification_time_s": 3428.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v49",
+      "time_s": 3427.98076923077,
+      "notification_time_s": 3428.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v99",
+      "time_s": 3429.660554400083,
+      "notification_time_s": 3429.7000000000003,
+      "occupancy_s": 0.683500854377,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v50",
+      "time_s": 3429.660554405417,
+      "notification_time_s": 3429.7000000000003,
+      "occupancy_s": 0.683500850738,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v102",
+      "time_s": 3431.087853318447,
+      "notification_time_s": 3431.1000000000004,
+      "occupancy_s": 0.526225605409,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v51",
+      "time_s": 3431.087853326601,
+      "notification_time_s": 3431.1000000000004,
+      "occupancy_s": 0.526225602598,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v105",
+      "time_s": 3432.451515555072,
+      "notification_time_s": 3432.5,
+      "occupancy_s": 0.488511166061,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v52",
+      "time_s": 3432.451515565239,
+      "notification_time_s": 3432.5,
+      "occupancy_s": 0.488511164179,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v104",
+      "time_s": 3433.894518400126,
+      "notification_time_s": 3433.9,
+      "occupancy_s": 0.486951481079,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v53",
+      "time_s": 3433.922626581832,
+      "notification_time_s": 3434.0,
+      "occupancy_s": 0.514920253861,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v106",
+      "time_s": 3435.359379395623,
+      "notification_time_s": 3435.4,
+      "occupancy_s": 0.468852695748,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v112",
+      "time_s": 3436.922200694354,
+      "notification_time_s": 3437.0,
+      "occupancy_s": 0.451737640433,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v54",
+      "time_s": 3437.790865772428,
+      "notification_time_s": 3437.8,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v108",
+      "time_s": 3438.420358076826,
+      "notification_time_s": 3438.5,
+      "occupancy_s": 0.459965838922,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v110",
+      "time_s": 3439.955734619283,
+      "notification_time_s": 3440.0,
+      "occupancy_s": 0.477525090765,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v9",
+      "time_s": 3444.98076959707,
+      "notification_time_s": 3445.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v10",
+      "time_s": 3446.660554646186,
+      "notification_time_s": 3446.7000000000003,
+      "occupancy_s": 0.683500784178,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v55",
+      "time_s": 3450.087561560899,
+      "notification_time_s": 3450.1000000000004,
+      "occupancy_s": 0.359999997119,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v107",
+      "time_s": 3450.001348257589,
+      "notification_time_s": 3450.1000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v109",
+      "time_s": 3451.400969473213,
+      "notification_time_s": 3451.5,
+      "occupancy_s": 0.374055375917,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v117",
+      "time_s": 3453.056901569001,
+      "notification_time_s": 3453.1000000000004,
+      "occupancy_s": 0.360194510076,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v111",
+      "time_s": 3454.584865734473,
+      "notification_time_s": 3454.6000000000004,
+      "occupancy_s": 0.361855670094,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v118",
+      "time_s": 3456.267969409883,
+      "notification_time_s": 3456.3,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v113",
+      "time_s": 3517.98076923077,
+      "notification_time_s": 3518.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v56",
+      "time_s": 3517.98076923077,
+      "notification_time_s": 3518.0,
+      "occupancy_s": 1.297596153846,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v114",
+      "time_s": 3519.660554400333,
+      "notification_time_s": 3519.7000000000003,
+      "occupancy_s": 0.683500854206,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v57",
+      "time_s": 3519.660554406131,
+      "notification_time_s": 3519.7000000000003,
+      "occupancy_s": 0.683500850251,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v120",
+      "time_s": 3521.08785332153,
+      "notification_time_s": 3521.1000000000004,
+      "occupancy_s": 0.526225604292,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v58",
+      "time_s": 3521.087853327192,
+      "notification_time_s": 3521.1000000000004,
+      "occupancy_s": 0.526225602404,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v119",
+      "time_s": 3522.451515560018,
+      "notification_time_s": 3522.5,
+      "occupancy_s": 0.488511165087,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v59",
+      "time_s": 3522.451515565645,
+      "notification_time_s": 3522.5,
+      "occupancy_s": 0.488511164119,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v115",
+      "time_s": 3523.894518406436,
+      "notification_time_s": 3523.9,
+      "occupancy_s": 0.486951480019,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v60",
+      "time_s": 3523.922626454195,
+      "notification_time_s": 3524.0,
+      "occupancy_s": 0.514920269728,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v127",
+      "time_s": 3525.354999381365,
+      "notification_time_s": 3525.4,
+      "occupancy_s": 0.469697266741,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v116",
+      "time_s": 3526.793139453885,
+      "notification_time_s": 3526.8,
+      "occupancy_s": 0.474885778059,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v128",
+      "time_s": 3528.292312245144,
+      "notification_time_s": 3528.3,
+      "occupancy_s": 0.469987365128,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v61",
+      "time_s": 3528.726278736898,
+      "notification_time_s": 3528.8,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v121",
+      "time_s": 3529.776673890136,
+      "notification_time_s": 3529.8,
+      "occupancy_s": 0.470583584199,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v126",
+      "time_s": 3531.29970415253,
+      "notification_time_s": 3531.3,
+      "occupancy_s": 0.465378171719,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v122",
+      "time_s": 3532.865551143723,
+      "notification_time_s": 3532.9,
+      "occupancy_s": 0.458403821189,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v62",
+      "time_s": 3534.035513198288,
+      "notification_time_s": 3534.1000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v130",
+      "time_s": 3534.465083342465,
+      "notification_time_s": 3534.5,
+      "occupancy_s": 0.472376313409,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "vehicle_id": "readme_f0_b0_p169_v11",
+      "time_s": 3534.98076959707,
+      "notification_time_s": 3535.0,
+      "occupancy_s": 1.297595558608,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v123",
+      "time_s": 3536.112037191707,
+      "notification_time_s": 3536.2000000000003,
+      "occupancy_s": 0.487399436905,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "vehicle_id": "readme_f1_b0_p174_v63",
+      "time_s": 3537.545685173196,
+      "notification_time_s": 3537.6000000000004,
+      "occupancy_s": 0.35999999712,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v132",
+      "time_s": 3537.811338768574,
+      "notification_time_s": 3537.9,
+      "occupancy_s": 0.502933532016,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "vehicle_id": "readme_f2_b0_p175_v124",
+      "time_s": 3539.545281140162,
+      "notification_time_s": 3539.6000000000004,
+      "occupancy_s": 0.526456326977,
+      "interval_begin_s": 2700.0,
+      "interval_end_s": 3600.0
+    }
+  ],
+  "early_departures": [],
+  "outside_periodic_intervals": [],
+  "interval_comparisons": [
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_11_28853",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 12,
+      "complete_passage_count": 12,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_12_31546",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 64,
+      "complete_passage_count": 64,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_13_34018",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 130,
+      "complete_passage_count": 130,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_15_29375",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_4_29437",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0119_Z_5_30494",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_14_31892",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_4_33055",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_5_30894",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_6_33855",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_7_29316",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_8_34287",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "begin_s": 0.0,
+      "end_s": 900.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "begin_s": 900.0,
+      "end_s": 1800.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "begin_s": 1800.0,
+      "end_s": 2700.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    },
+    {
+      "detector_id": "hh_0535_Z_9_29038",
+      "begin_s": 2700.0,
+      "end_s": 3600.0,
+      "periodic_nVehContrib": 0,
+      "complete_passage_count": 0,
+      "difference": 0
+    }
+  ],
+  "claim_boundary": "Event correspondence for the supplied periodic intervals only. No inferred field truth, demand fit, or invariance under changed traffic."
+}

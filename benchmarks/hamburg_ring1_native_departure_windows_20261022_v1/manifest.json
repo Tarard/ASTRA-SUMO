@@ -1,0 +1,337 @@
+{
+  "formal_result": false,
+  "files": [
+    {
+      "path": ".gitattributes",
+      "sha256": "18ff6c4f733b1ebecabe5c9e6e9a802dd7ee63bb9866864343a013c127469bfa"
+    },
+    {
+      "path": "analysis/all-130-main-rows.csv",
+      "sha256": "070e5390a75bbfb319ed68f8ae823c70e006e5359b4f2e9217af3ecaa832af57"
+    },
+    {
+      "path": "analysis/all-40-main-stations.csv",
+      "sha256": "44c0b13b279800b1399babeabaf34b9f98332e1305d5d6e6fde0765c74e39b9d"
+    },
+    {
+      "path": "analysis/all-52-initialization-comparisons.csv",
+      "sha256": "8163f0477672fbcaa62b01203524875919cc35e7bf7d168a35649e2052ac85ed"
+    },
+    {
+      "path": "analysis/baseline-closed-e1.xml",
+      "sha256": "9f3cbb50fafdb9f8348eed52737e14b13a008ec40af36aef4e26b8555b0bdc97"
+    },
+    {
+      "path": "analysis/entry-loads.csv",
+      "sha256": "5e3a18bd14dadb454732182206bee6d7861695586f172ce36762091082226ee5"
+    },
+    {
+      "path": "analysis/observed-correction-timing-errors.csv",
+      "sha256": "8ed7d406ffa202e86006d7a4c850a1e9026b7930a76e695d37eb9734ef23968a"
+    },
+    {
+      "path": "analysis/passage-reconciliation.json.gz",
+      "sha256": "a8688e81d10aa849b0625a5008037aefc8a32c2537ed13edf4b7dfdfabd40bba"
+    },
+    {
+      "path": "analysis/prefix-check.json",
+      "sha256": "bd9dfd953427e624a7a0e1d5a8775f76ef3a249cee041bf18c2ee8cb36b3a27b"
+    },
+    {
+      "path": "analyze-native-departure-windows-20261022-v2.log",
+      "sha256": "2e9188f29efc9291d9bede1baffa5c658f99d29aba751cd79ef0531ef8157dc4"
+    },
+    {
+      "path": "analyze-native-departure-windows-20261022-v2.py",
+      "sha256": "f2c88ac6e64d63e49dc17bed9daf6f9c50c249537090b236f3d29ea52eaa6376"
+    },
+    {
+      "path": "analyze-native-time-correction-prefix-20261022-v1.log",
+      "sha256": "368f1ab657f7da0d3b9706f0a702c84f368d2e7af28a5a7c62b81fff2b785024"
+    },
+    {
+      "path": "analyze-native-time-correction-prefix-20261022-v1.py",
+      "sha256": "318c5f430f3c4d9fb9ab7a9c245d2ae51e4587f2500388fad05a20ba04f4b7a3"
+    },
+    {
+      "path": "decision.json",
+      "sha256": "e5f06348bdc0a1caa0a7b2454a580b837856048fe889d7a1b65e927cf116a044"
+    },
+    {
+      "path": "freeze-native-departure-windows-20261022-v1.py",
+      "sha256": "996a9a72484650dc555759c81535c4212b3e87ba5e73b9981704965a770e99b2"
+    },
+    {
+      "path": "implementation/plugins/astra-sumo/src/astra_sumo/core/native_temporal_feedback.py",
+      "sha256": "db3277a12a0564171606aa2ea74916118605402299feb5fe8c80c499d6e275f2"
+    },
+    {
+      "path": "implementation/tests/test_native_temporal_feedback.py",
+      "sha256": "8e150f6e343108374d38c4d95c6f09a6532217df3ed3b62b526450cca718875f"
+    },
+    {
+      "path": "implementation-sha256.json",
+      "sha256": "41321977128c6561ebc5b6d842fc9c3458b1165af6806724a2ef48b20123955c"
+    },
+    {
+      "path": "inputs/control.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "inputs/demand.rou.xml.gz",
+      "sha256": "c56e33095af9519271afff0ed78219871324d6b1a2e7ba17833fd3f00cad08b5"
+    },
+    {
+      "path": "inputs/executed-implementation-sha256.json",
+      "sha256": "ae4e88ea83b95149c031ec1c2f1b96ee17820cfad3a05b7d32a93facba013b15"
+    },
+    {
+      "path": "inputs/expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02"
+    },
+    {
+      "path": "inputs/field-loops.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/detector_demand_replay.py",
+      "sha256": "177684c946c43fc857d59a7cb580332c89b2942f2f7ea4fc41ab6fa530fe6297"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/lane_section_hold.py",
+      "sha256": "6dbe39c8a797e80c7a5c2a17a81c1f6bb6b63097b58cd03feefec8dacddc71fb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/native_temporal_feedback.py",
+      "sha256": "db3277a12a0564171606aa2ea74916118605402299feb5fe8c80c499d6e275f2"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/route_sensor_matrix.py",
+      "sha256": "be66d1c109e53aa19bde091a6b68ffd6e06412e87dc0a5c050bd391d612b28eb"
+    },
+    {
+      "path": "inputs/implementation-at-execution/plugins/astra-sumo/src/astra_sumo/core/simulation_stall.py",
+      "sha256": "1847b5ce6046c344640819d8b3fcd834b44b6b6814650b384ea2b8e8b1bd1153"
+    },
+    {
+      "path": "inputs/initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "inputs/lane-intentions.json.gz",
+      "sha256": "f3587564c2ba31eb2d507caa312fa2ea33787f495bde5f7a20a6c7160f89b5a8"
+    },
+    {
+      "path": "inputs/network.net.xml",
+      "sha256": "cc04537494708721e1ad87409ab47cef249c3774dbaf9ed3ec7a7b01710672a4"
+    },
+    {
+      "path": "inputs/scenario.json",
+      "sha256": "d22b37ea38fda6d0ef2772346cf43bf6dc573835ecb474ea842a830015fcb731"
+    },
+    {
+      "path": "inputs/time-correction-proposal.json.gz",
+      "sha256": "47c263756ca6f783f91532889c090aceccb5f1f8504304f3756cd6216165da7e"
+    },
+    {
+      "path": "native/collisions.xml",
+      "sha256": "a410bd1cde430161caf4f1a44c69210c7bf5cf684ee8c9cc7326ecd30d510038"
+    },
+    {
+      "path": "native/command.json",
+      "sha256": "8a4cd657f173a8e52b5d0f5a23bd04373d675f73e86cf77f0dff616c9e746416"
+    },
+    {
+      "path": "native/demand.rou.xml.gz",
+      "sha256": "c56e33095af9519271afff0ed78219871324d6b1a2e7ba17833fd3f00cad08b5"
+    },
+    {
+      "path": "native/e1.add.xml",
+      "sha256": "09bf7bfb6d759aeea25eaceca0eb4a53172c078414de43be08f962654bf7c4f8"
+    },
+    {
+      "path": "native/expected-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147"
+    },
+    {
+      "path": "native/field-comparison.csv",
+      "sha256": "97f61b877ee476159d45946e9d4c5dea268928f90593a88a5d3f4c5e6049ef39"
+    },
+    {
+      "path": "native/field-counts.xml",
+      "sha256": "47354e3f2a9f3fd9abf604142006447cc592c6e1b0cc396d7d45ebfda689440f"
+    },
+    {
+      "path": "native/instant-e1.xml.gz",
+      "sha256": "99797880aae412ea3a1ba95aa39a88e5bdaeb5bce39b5c1b9b90ca47b7e32fac"
+    },
+    {
+      "path": "native/instant.add.xml",
+      "sha256": "1379d1befe6a4865e6ac0fc4540da4fd3df87c7d72c7bbb7908f26956c4ca1a1"
+    },
+    {
+      "path": "native/lane-intentions.json.gz",
+      "sha256": "f3587564c2ba31eb2d507caa312fa2ea33787f495bde5f7a20a6c7160f89b5a8"
+    },
+    {
+      "path": "native/native-request.json",
+      "sha256": "dd0c9cc9b053874a8737553a0ff446398ea60d31c464df0104c0941fae514d1a"
+    },
+    {
+      "path": "native/network.net.xml.gz",
+      "sha256": "c2aa3cd49f25e3bf2fa34998ba5dbb594c2df76e8bb1c5e7ab986cc354f0b033"
+    },
+    {
+      "path": "native/queues.xml.gz",
+      "sha256": "4fd1b11539ae58b0491fd8569253fa3b3de55cea86ddce4b2a7b2a3a63faa78a"
+    },
+    {
+      "path": "native/run.json.gz",
+      "sha256": "f0584ad3a6410cd0870fafd066be1a1eefded12f3629dc87bc870332c37a3834"
+    },
+    {
+      "path": "native/signal-programs.add.xml",
+      "sha256": "ea264c424f0638b711a748e83677ad6cc9077fea1ea3e3ec433e95fce3949bb1"
+    },
+    {
+      "path": "native/source-e1.add.xml",
+      "sha256": "7393b0c6b1f890744621e16d4bb3784c2166c6211fdecd806c562efb07f08ebb"
+    },
+    {
+      "path": "native/stall-monitor.json.gz",
+      "sha256": "cd370393db6078491ac7f9f35db8b88ea638537ef6903b7c9805523bb78f7dae"
+    },
+    {
+      "path": "native/summary.xml.gz",
+      "sha256": "b282ba5200ae5a1265c707bf10c3031f9076a746e2c7ba0a307a89485157333a"
+    },
+    {
+      "path": "native/sumo-errors.log",
+      "sha256": "3d5391fcb16dcc13462ebd148567716c391dea831b976fcf1f62d4985330e191"
+    },
+    {
+      "path": "native/sumo.log",
+      "sha256": "b3d5773cdba7012bb17824fdf0a726aef4d3103ef1bbef4fe440aca2c7ce5edb"
+    },
+    {
+      "path": "native/tripinfo.xml.gz",
+      "sha256": "1c5079abb94a182a43aabf6e7b673565697dd8a1b5f1af379ce3a6f073d3e6a1"
+    },
+    {
+      "path": "native/vehicle-routes.xml.gz",
+      "sha256": "be25c31dd9b79384e6b4c75d8fbd5d5bd66f95ade47fe192b753fb6a70c66702"
+    },
+    {
+      "path": "preflight-rejected/probe-native-time-correction-20261022-v1.log",
+      "sha256": "ad1be8322749fa750d488cf7ddc304836e161894ad03ecfea7c0d2658625dceb"
+    },
+    {
+      "path": "preflight-rejected/probe-native-time-correction-20261022-v1.py",
+      "sha256": "fbcd2987066c3a2319d2c9fb8e9000c627090ca86ab3441aa5243883bd834109"
+    },
+    {
+      "path": "preflight-rejected/unrun-proposal.json",
+      "sha256": "09a7af90f9231f2b3a8bf540f804588eee39433dbf8cd8c5eb8313113e021067"
+    },
+    {
+      "path": "probe-native-time-correction-20261022-v2.log",
+      "sha256": "63421814319f50e112bd11aee670d013bd0f2b9b0b427e193de9072bde458bb0"
+    },
+    {
+      "path": "probe-native-time-correction-20261022-v2.py",
+      "sha256": "7cb63289daa607e9e1bb198d8b32454ce21a4276b55ad9c38fa5415cd2128ba8"
+    },
+    {
+      "path": "README.md",
+      "sha256": "fe93eaf36139ec178d102b1ae6053885c009e13e717b2ae3b98472a889f15fbb"
+    },
+    {
+      "path": "seal-native-departure-windows-20261022-v1.py",
+      "sha256": "f6d11829061b17c9e7766277c7a609ed67335bbc7944290da898fa73ad1a6ac7"
+    },
+    {
+      "path": "tests.log",
+      "sha256": "1c7d297938244911fb3f4f2b287a19f3d36ad57d6a71202e0f6357341b4ce4cc"
+    },
+    {
+      "path": "tests.xml",
+      "sha256": "e229eddf9e85a7883591e62a3c8a8f8b952975deb6426d00af2ad98a512ccdae"
+    },
+    {
+      "path": "timing-windows/analyze-native-departure-windows-20261022-v2.py",
+      "sha256": "f2c88ac6e64d63e49dc17bed9daf6f9c50c249537090b236f3d29ea52eaa6376"
+    },
+    {
+      "path": "timing-windows/primary/all-vehicle-windows-margin0.csv.gz",
+      "sha256": "4df17796bc4e062483024e47ab13ec5b7e2426755a9544bcd3d9d2d2a518e749"
+    },
+    {
+      "path": "timing-windows/primary/all-vehicle-windows-margin0.json.gz",
+      "sha256": "64897bed44441ea8f7d7ed7f1d72b83ea45ac3eae5c48526364d4807548168cf"
+    },
+    {
+      "path": "timing-windows/primary/all-vehicle-windows-margin90.csv.gz",
+      "sha256": "bdc4d8bf5a4d498b610ca0e08b9f9415603bc76f8fa56ca6015833f178c711a6"
+    },
+    {
+      "path": "timing-windows/primary/all-vehicle-windows-margin90.json.gz",
+      "sha256": "c2e6f3894fda61239444f5ccd6b060b568012901c3181b071de3491c68771f75"
+    },
+    {
+      "path": "timing-windows/primary/field-comparison.csv",
+      "sha256": "40e944e0b18be70677bf42760609cb3eef3ef4d70c1b1aa269cfdbf5628237f3"
+    },
+    {
+      "path": "timing-windows/primary/station-comparison.csv",
+      "sha256": "99a9f9ed731f69a27dbb117b8b8212049995e9b2fbadae8066203bce537af6bc"
+    },
+    {
+      "path": "timing-windows/primary/summary-margin0.json",
+      "sha256": "564126338ddece8c5775546da04573f68d903ec2ea18c2573a0986f4683eeacc"
+    },
+    {
+      "path": "timing-windows/primary/summary-margin90.json",
+      "sha256": "2a6827a67a6d90f5278832c8ba05aa3715d9d7a0fda770e14f0bca8841a9b0b1"
+    },
+    {
+      "path": "timing-windows/shared/all-vehicle-windows-margin0.csv.gz",
+      "sha256": "1876c102eb83c749744c02f8713ced5cc7fd39fe64f0afcead71459a7dc7eabc"
+    },
+    {
+      "path": "timing-windows/shared/all-vehicle-windows-margin0.json.gz",
+      "sha256": "c0346c85e87e698951e413deeb24d9c1c1b39821538399721050c314fce257c3"
+    },
+    {
+      "path": "timing-windows/shared/all-vehicle-windows-margin90.csv.gz",
+      "sha256": "87d1bfa40f354ac2188bedcf5448b9068d8e1e92239edbc5ea72ebb68cf864be"
+    },
+    {
+      "path": "timing-windows/shared/all-vehicle-windows-margin90.json.gz",
+      "sha256": "3907f0a0e9c7d4111fa1185b3e628fc2a600b38c3add4c0161d6a931e9bbbede"
+    },
+    {
+      "path": "timing-windows/shared/field-comparison.csv",
+      "sha256": "8e063e71e0023911abd0a541a45ad3f2d7f20b9bca231cc2c5d1dcdea85451c9"
+    },
+    {
+      "path": "timing-windows/shared/station-comparison.csv",
+      "sha256": "30937b67027b979123c8ee4ad377f551a85a473c002fce1304c286892986aa49"
+    },
+    {
+      "path": "timing-windows/shared/summary-margin0.json",
+      "sha256": "192cbd9b1435bbc6154cf4027cc93bca8134a9450e0e9d93de2f25683ee0d10f"
+    },
+    {
+      "path": "timing-windows/shared/summary-margin90.json",
+      "sha256": "4b11428eeedcbfcfa40b5d09193d7fee7c4a0cdcdd6a20ed43516f7f73d122d4"
+    },
+    {
+      "path": "timing-windows/source-sha256.json",
+      "sha256": "587a53df2b95b3e805153aa467657ed03a2b07f591b0952fe7a7e1fb8b10d245"
+    },
+    {
+      "path": "timing-windows/summary.json",
+      "sha256": "14d67d75ab362dbedce02dbe336a1ffd269365997b639b07e982fa80b22578ba"
+    }
+  ]
+}

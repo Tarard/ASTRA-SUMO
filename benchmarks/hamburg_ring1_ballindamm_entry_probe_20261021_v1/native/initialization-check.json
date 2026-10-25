@@ -1,0 +1,42 @@
+{
+  "status": "measured",
+  "formal_result": false,
+  "main_window_run": false,
+  "exact_calibration_established": false,
+  "native_end_s": 3600.0,
+  "native_monitor_status": "completed",
+  "native_version": [
+    22,
+    "SUMO 1.27.1"
+  ],
+  "completion": {
+    "loaded": 1954,
+    "inserted": 1541,
+    "arrived": 1308,
+    "running": 233,
+    "waiting": 412,
+    "teleports": 0,
+    "collisions": 0,
+    "discarded": 0
+  },
+  "vehicles_requested_before_end": 1953,
+  "future_main_vehicles_retained": 6687,
+  "requested_but_not_inserted": 412,
+  "native_passages_by_population": {
+    "initialization": 1431
+  },
+  "native_safe_prefix": true,
+  "native_E1_reconciled": true,
+  "available_initialization_bins": 52,
+  "exact_initialization_bins": 32,
+  "diagnostic_MAE": 10.923076923076923,
+  "diagnostic_max_abs_error": 82,
+  "state_snapshots": [
+    {
+      "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\ring1-ballindamm-entry-native-20261021-v1\\states\\state_3599.900.xml.gz",
+      "sha256": "eb84fe306157687f19d36058995e23612f17ffdee85cb63ed69f93a5138ede59"
+    }
+  ],
+  "restart_validated": false,
+  "claim_boundary": "Initialization-hour diagnostic only. Generic full-demand completion is false because future main vehicles are not due. The saved native state does not serialize lane-hold controller state and is not a validated restart. Main 130/40 targets remain untested."
+}

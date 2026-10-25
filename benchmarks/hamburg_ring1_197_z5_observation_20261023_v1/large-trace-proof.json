@@ -1,0 +1,95 @@
+{
+  "FCD_seen_ids": [
+    "od_0146_v00067",
+    "od_0146_v00068",
+    "od_0146_v00071",
+    "od_0146_v00072",
+    "od_0146_v00074",
+    "od_0150_v00000",
+    "od_0159_v00000",
+    "od_0164_v00000",
+    "od_0167_v00000",
+    "od_0167_v00002",
+    "od_0167_v00003",
+    "od_0167_v00005",
+    "od_0167_v00006",
+    "od_0167_v00008",
+    "od_0167_v00010",
+    "od_0167_v00013",
+    "od_0167_v00015",
+    "od_0167_v00016",
+    "od_0167_v00017",
+    "od_0167_v00019",
+    "od_0251_v00045",
+    "od_0251_v00047",
+    "od_0251_v00051",
+    "od_0251_v00058",
+    "od_0251_v00064",
+    "od_0251_v00066",
+    "od_0251_v00070",
+    "od_0251_v00076",
+    "od_0272_v00004",
+    "od_0272_v00019",
+    "od_0272_v00056",
+    "od_0272_v00065",
+    "od_0272_v00083",
+    "od_0293_v00022",
+    "od_0293_v00025",
+    "od_0293_v00030",
+    "od_0293_v00033",
+    "od_0293_v00038",
+    "od_0293_v00041",
+    "od_0293_v00049",
+    "od_0293_v00050",
+    "od_0293_v00052",
+    "od_0293_v00056",
+    "od_0293_v00058",
+    "od_0293_v00064",
+    "od_0293_v00067",
+    "od_0293_v00073",
+    "od_0293_v00075",
+    "od_0293_v00078",
+    "od_0293_v00081",
+    "od_0293_v00091",
+    "od_0293_v00095",
+    "od_0293_v00097",
+    "od_0293_v00105"
+  ],
+  "FCD_samples": 105297,
+  "source_instant_semantics": {
+    "events": 154367,
+    "attribute_sha256": "5f9397e6675b7e85601dc35b3f161418d7d075b23a4515ee5457f6a0d1a5e4a0"
+  },
+  "observer_instant_semantics": {
+    "events": 154367,
+    "attribute_sha256": "5f9397e6675b7e85601dc35b3f161418d7d075b23a4515ee5457f6a0d1a5e4a0"
+  },
+  "source_instant_sha256": "6baa777846e38884e3a07f9fece8b5a8d100f0ea11a595f9c2a0fe13bce665e4",
+  "observer_instant_sha256": "2da961aab708c176cbaac44aaf351e5d257ab9c169bf943fe3a9a2b407562281",
+  "native_terminal34_moving_stopped": [
+    29,
+    5
+  ],
+  "old_selected119_GS_events_exact": true,
+  "old_selected_TLS_raw_sha256": "fcb3c95f81b96e9c58203a5d6ac53aa63cffc2ac13ce949437c563610c92ebc8",
+  "xml_semantics": {
+    "cohort-fcd.xml": {
+      "elements": 119698,
+      "attribute_sha256": "cce7bab4363ae8b82ff3eb73a2c5960a2cf8f789f76928d23d59745eabb677fa"
+    },
+    "tls-switch-states.xml": {
+      "elements": 123219,
+      "attribute_sha256": "ed67f93524bccad732f51254e982579df51bdab695e5b4de557b70db89995b90"
+    },
+    "tls-recorded-programs.add.xml": {
+      "elements": 123270,
+      "attribute_sha256": "9c30b2c7a32333b6a7a2ebfe4e067e0018e5f7dadcb29c953de2072dbd5b39d8"
+    },
+    "lanechanges.xml": {
+      "elements": 16927,
+      "attribute_sha256": "e59f4ba98d834402f2d793c20304918e2f7ae875166f7663031a6c9692f2e571"
+    }
+  },
+  "source_inputs_unchanged": true,
+  "native_runs_by_freeze": 0
+}

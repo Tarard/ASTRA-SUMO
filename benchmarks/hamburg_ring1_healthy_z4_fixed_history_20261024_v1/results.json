@@ -1,0 +1,157 @@
+{
+  "status": "review_required",
+  "formal_result": false,
+  "native_runs_by_freeze": 0,
+  "audit": {
+    "status": "review_required",
+    "formal_result": false,
+    "reference_strict_output_parity": true,
+    "history_gate": {
+      "status": "pass",
+      "TLS": 50,
+      "horizon_s": 14400,
+      "state_and_program_ID_exact": true,
+      "phase_ordinal_equality_required": false
+    },
+    "cases": {
+      "reference": {
+        "measurement": {
+          "main130": {
+            "SSE": 6709,
+            "TAE": 483,
+            "MAE": 3.7153846153846155,
+            "max_abs_error": 27
+          },
+          "initial52": {
+            "SSE": 1005,
+            "TAE": 105,
+            "MAE": 2.019230769230769,
+            "max_abs_error": 15
+          },
+          "all182": {
+            "SSE": 7714,
+            "TAE": 588,
+            "MAE": 3.230769230769231,
+            "max_abs_error": 27
+          },
+          "station40_MAE": 10.975,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 24
+        },
+        "required_checks": 14,
+        "raw_status": "pass"
+      },
+      "one-car": {
+        "measurement": {
+          "main130": {
+            "SSE": 6929,
+            "TAE": 487,
+            "MAE": 3.746153846153846,
+            "max_abs_error": 27
+          },
+          "initial52": {
+            "SSE": 1005,
+            "TAE": 105,
+            "MAE": 2.019230769230769,
+            "max_abs_error": 15
+          },
+          "all182": {
+            "SSE": 7934,
+            "TAE": 592,
+            "MAE": 3.2527472527472527,
+            "max_abs_error": 27
+          },
+          "station40_MAE": 11.025,
+          "completion": {
+            "loaded": 8640,
+            "inserted": 8640,
+            "arrived": 8640,
+            "waiting": 0,
+            "running": 0,
+            "collisions": 0,
+            "teleports": 0,
+            "discarded": 0
+          },
+          "healthy": true,
+          "safe": true,
+          "event_count": 8640,
+          "unexpected_contributions": 0,
+          "repeated_vehicle_fields": 0,
+          "warning_lines": 24
+        },
+        "required_checks": 7,
+        "raw_status": "pass"
+      }
+    },
+    "mixed_one_car_reference": {
+      "raw_verdict": "rejected",
+      "formal_result": false,
+      "actual_changes": 1,
+      "requested_cap": 1,
+      "measurement": {
+        "main130": {
+          "SSE": 8814,
+          "TAE": 532,
+          "MAE": 4.092307692307692,
+          "max_abs_error": 41
+        },
+        "initial52": {
+          "SSE": 1005,
+          "TAE": 105,
+          "MAE": 2.019230769230769,
+          "max_abs_error": 15
+        },
+        "all182": {
+          "SSE": 9819,
+          "TAE": 637,
+          "MAE": 3.5,
+          "max_abs_error": 41
+        },
+        "station40_MAE": 12.2,
+        "completion": {
+          "loaded": 8640,
+          "inserted": 8640,
+          "arrived": 8634,
+          "waiting": 0,
+          "running": 6,
+          "collisions": 0,
+          "teleports": 0,
+          "discarded": 0
+        },
+        "healthy": false,
+        "safe": true,
+        "event_count": 8640,
+        "unexpected_contributions": 0,
+        "repeated_vehicle_fields": 0,
+        "warning_lines": 32
+      },
+      "gates": {
+        "safe": true,
+        "healthy": false,
+        "all53556_zero": true,
+        "no_repeated_vehicle_fields": true,
+        "no_contributions_outside_primary_intention": true,
+        "main130_MAE_improves": false,
+        "main130_SSE_not_worse": false,
+        "all182_TAE_not_worse": false
+      },
+      "all53556_TAE": 0
+    },
+    "optimization_success": false,
+    "claim_boundary": "Conditional simulated reference-color history, not field SPaT or successful optimization. One-car3.746 remains worse than reference3.715; improved completion relative to mixed source is conditional and does not identify exclusive signal causation."
+  }
+}

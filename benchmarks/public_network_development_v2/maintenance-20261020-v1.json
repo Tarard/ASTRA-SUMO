@@ -1,0 +1,364 @@
+{
+  "direct_producer": "d4cf10501d62dc81d5bfcd4ddf589b3f6b74ba1c",
+  "direct_cases": [
+    {
+      "operation": {
+        "id": "stop-line-stress",
+        "operation": "move_stop_line",
+        "params": {
+          "lane_id": "554713076#0_2",
+          "end_offset_m": 2
+        },
+        "status": "accepted",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ]
+      },
+      "status": "pass",
+      "whole_network_review": {
+        "status": "review_required",
+        "inherited_finding_count": 13,
+        "scope_finding_count": 1
+      },
+      "gates": {
+        "artifact_identity": "pass",
+        "netconvert": "pass",
+        "review_contract": "pass",
+        "xml_parse": "pass",
+        "tls_modal_rail_bridge_tunnel": "pass",
+        "modal_connectivity": "pass",
+        "sumo_load": "pass",
+        "routeability": "pass",
+        "topology": "pass"
+      },
+      "topology_informational": true,
+      "connections": {
+        "collapsed_source_connection_count": 0,
+        "controlled_extra_count": 0,
+        "controlled_extra_sample": [],
+        "controlled_missing_count": 0,
+        "controlled_missing_sample": [],
+        "declared_controlled_removed_count": 0,
+        "declared_removed_count": 0,
+        "declared_removed_sample": [],
+        "edge_alias_count": 0,
+        "edge_aliases": {},
+        "normal_extra_count": 0,
+        "normal_extra_sample": [],
+        "normal_missing_count": 0,
+        "normal_missing_sample": [],
+        "retained_controlled_missing_count": 0,
+        "source_lane_indices": {},
+        "status": "pass"
+      }
+    },
+    {
+      "operation": {
+        "id": "speed-stress",
+        "operation": "set_speed",
+        "params": {
+          "lane_id": "554713076#0_2",
+          "speed_m_s": 12
+        },
+        "status": "accepted",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ]
+      },
+      "status": "pass",
+      "whole_network_review": {
+        "status": "review_required",
+        "inherited_finding_count": 13,
+        "scope_finding_count": 1
+      },
+      "gates": {
+        "artifact_identity": "pass",
+        "netconvert": "pass",
+        "review_contract": "pass",
+        "xml_parse": "pass",
+        "tls_modal_rail_bridge_tunnel": "pass",
+        "modal_connectivity": "pass",
+        "sumo_load": "pass",
+        "routeability": "pass",
+        "topology": "pass"
+      },
+      "topology_informational": true,
+      "connections": {
+        "collapsed_source_connection_count": 0,
+        "controlled_extra_count": 0,
+        "controlled_extra_sample": [],
+        "controlled_missing_count": 0,
+        "controlled_missing_sample": [],
+        "declared_controlled_removed_count": 0,
+        "declared_removed_count": 0,
+        "declared_removed_sample": [],
+        "edge_alias_count": 0,
+        "edge_aliases": {},
+        "normal_extra_count": 0,
+        "normal_extra_sample": [],
+        "normal_missing_count": 0,
+        "normal_missing_sample": [],
+        "retained_controlled_missing_count": 0,
+        "source_lane_indices": {},
+        "status": "pass"
+      }
+    },
+    {
+      "operation": {
+        "id": "remove-passenger-index-2",
+        "operation": "set_lane_count",
+        "status": "accepted",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 3,
+          "remove_index": 2,
+          "vehicle_class": "passenger"
+        },
+        "rationale": "Source-bound lane-removal diagnostics, without field or capacity claims.",
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+            "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+          }
+        ],
+        "rollback": {
+          "action": "discard_candidate"
+        }
+      },
+      "status": "blocked",
+      "whole_network_review": {
+        "status": "review_required",
+        "execution_status": "not_run",
+        "inherited_finding_count": null,
+        "scope_finding_count": null
+      },
+      "gates": {
+        "artifact_identity": "pass",
+        "netconvert": "pass",
+        "review_contract": "pass",
+        "xml_parse": "pass",
+        "tls_modal_rail_bridge_tunnel": "blocked",
+        "modal_connectivity": "pass",
+        "sumo_load": "review_required",
+        "routeability": "review_required",
+        "topology": "review_required"
+      },
+      "topology_informational": false,
+      "connections": {
+        "collapsed_source_connection_count": 0,
+        "controlled_extra_count": 0,
+        "controlled_extra_sample": [],
+        "controlled_missing_count": 1,
+        "controlled_missing_sample": [
+          {
+            "count": 1,
+            "dir": "s",
+            "from": "554713076#0",
+            "fromLane": "2",
+            "linkIndex": "1",
+            "linkIndex2": "",
+            "tl": "LSA2349_part0",
+            "to": "127716467#1",
+            "toLane": "1"
+          }
+        ],
+        "declared_controlled_removed_count": 1,
+        "declared_removed_count": 2,
+        "declared_removed_sample": [
+          {
+            "count": 1,
+            "dir": "s",
+            "from": "554713076#0",
+            "fromLane": "2",
+            "linkIndex": "1",
+            "linkIndex2": "",
+            "tl": "LSA2349_part0",
+            "to": "127716467#1",
+            "toLane": "1"
+          },
+          {
+            "count": 1,
+            "dir": "s",
+            "from": "60578487#3",
+            "fromLane": "2",
+            "linkIndex": "",
+            "linkIndex2": "",
+            "tl": "",
+            "to": "554713076#0",
+            "toLane": "2"
+          }
+        ],
+        "edge_alias_count": 0,
+        "edge_aliases": {},
+        "normal_extra_count": 0,
+        "normal_extra_sample": [],
+        "normal_missing_count": 2,
+        "normal_missing_sample": [
+          {
+            "count": 1,
+            "dir": "s",
+            "from": "554713076#0",
+            "fromLane": "2",
+            "linkIndex": "1",
+            "linkIndex2": "",
+            "tl": "LSA2349_part0",
+            "to": "127716467#1",
+            "toLane": "1"
+          },
+          {
+            "count": 1,
+            "dir": "s",
+            "from": "60578487#3",
+            "fromLane": "2",
+            "linkIndex": "",
+            "linkIndex2": "",
+            "tl": "",
+            "to": "554713076#0",
+            "toLane": "2"
+          }
+        ],
+        "retained_controlled_missing_count": 0,
+        "source_lane_indices": {
+          "554713076#0": {
+            "0": "0",
+            "1": "1",
+            "2": null,
+            "3": "2"
+          }
+        },
+        "status": "fail"
+      }
+    }
+  ],
+  "duplicate_proposals": {
+    "before": 31,
+    "after": 0,
+    "post_fix_producer": "0eb5e5fdccf70661263c2f743d177be278d06281",
+    "published_model_retains": 31,
+    "initial_code_identity_predeclared": false,
+    "limitations": [
+      "Published-model correspondence is not field correctness.",
+      "The initial inventory was diagnostic; the post-fix repeat used clean committed code.",
+      "No field false-alarm rate or automatic-cleaning precision is established."
+    ]
+  },
+  "ci": {
+    "commit": "9e4f87262c1c408d4448207fd8b0b01ae31b740d",
+    "passed": 3636,
+    "skipped": 24,
+    "failed": 1,
+    "failure": "Stale expectation that reviewed contour candidates skip native load and topology.",
+    "pr_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39338197743",
+    "push_run": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39338192668",
+    "correction": "1f54dba",
+    "correction_test_passed": true
+  },
+  "local_verification": {
+    "lane_removal_consumers": 47,
+    "direct_topology_and_service": 29,
+    "duplicate_and_navigation_consumers": 97,
+    "shared_controller_negative": 1,
+    "contour_ci_correction": 1,
+    "counts_overlap": true
+  },
+  "artifacts": [
+    {
+      "path": "outputs/direct_topology_20261020_v1/declaration.json",
+      "sha256": "20fdae9137d7a8a0d57bf5ea412cffac0e9cc27f57c7f9b2ca91019c65c5136c"
+    },
+    {
+      "path": "outputs/direct_topology_20261020_v1/results.json",
+      "sha256": "508af1e3b6d70c62d8eaf1157ac1f076fb15a9bf2c1560a95d01edc62cd15d2f"
+    },
+    {
+      "path": "outputs/direct_topology_20261020_v1/identity-check.json",
+      "sha256": "d66a36221b30afb18255eb6e65e59598770fcb74474689167f57ca3eea78f55e"
+    },
+    {
+      "path": "outputs/direct_topology_20261020_v1/stop-line-stress/edit-verification.json",
+      "sha256": "39f072ff36477481de8f9a9fc966773fc9e56456b6fc6000465545834404a097"
+    },
+    {
+      "path": "outputs/direct_topology_20261020_v1/speed-stress/edit-verification.json",
+      "sha256": "25f805c96fdd4356bdc218f8cf20c421140d4f7d44dff78e2c8dba9448f838e3"
+    },
+    {
+      "path": "outputs/direct_topology_20261020_v1/remove-passenger-index-2/edit-verification.json",
+      "sha256": "3bb43b2bc0ac842a3fd437822779668d0fa8be77c6e387171ed68a0424751a50"
+    },
+    {
+      "path": "outputs/source_only_proposals_20261020_v1/inventory.json",
+      "sha256": "595a5e5ed7db87487b5a4dc4263b1648d24889f969c991f71d21a3eb81190d4f"
+    },
+    {
+      "path": "outputs/source_only_proposals_20261020_v2/inventory.json",
+      "sha256": "3d5d9d9eaf80450e8911398de1a3ee5db04ccf15b69d234cce363745ede6c0cd"
+    },
+    {
+      "path": "outputs/source_only_proposals_20261020_v1/reference-assessment.json",
+      "sha256": "109f735f7b82ad4bd74970d05a54a121656824750f27079d2290ec7bd0adb886"
+    },
+    {
+      "path": "outputs/ci-9e4f872-pr-failure-20261020.log",
+      "sha256": "1ae0885d1aba8a7b5a7714d53216e53b70fc6b8d4f347344b5a5467829759a69"
+    },
+    {
+      "path": "outputs/ci-9e4f872-push-failure-20261020.log",
+      "sha256": "d26d8c1402f1c2c5a63526c7dadeb2da3cb3bd8e1a915026010c0116f057830e"
+    },
+    {
+      "path": "outputs/ci-contour-review-correction-20261020-v1.log",
+      "sha256": "e0da580a2469c84ab2962ea420b788f7143383ad1faccf87029fa45ecaec1a95"
+    },
+    {
+      "path": "outputs/ci-contour-review-correction-20261020-v2.log",
+      "sha256": "e2fdbbd4035dcc0d80c99b2156f795fcd9c304e3e0792fdedb14d3d19587e29c"
+    },
+    {
+      "path": "outputs/direct-edit-topology-20261020-v1.log",
+      "sha256": "128aa6993e18a7c643b570670e578b5d1bfa4d213c5e99e6ea38ef1d17883bd9"
+    },
+    {
+      "path": "outputs/direct-edit-topology-20261020-v2.log",
+      "sha256": "e3b4d9085a961b3cb2f0705871f68355da999c343e17d9ba0ce6a8f3085c6e72"
+    },
+    {
+      "path": "outputs/duplicate-proposals-20261020-v1.log",
+      "sha256": "0103fa4331e951630e65cd8febc3fc40bd1da154c3dce23678c18d11dc6e5f20"
+    },
+    {
+      "path": "outputs/duplicate-proposals-final-20261020-v1.log",
+      "sha256": "89cf8c2d6898eebfbe7d401d02e7c60a526fe3e15970019bd77da1aeb6b70790"
+    },
+    {
+      "path": "outputs/lane-removal-consumers-20261020-v1.log",
+      "sha256": "d17d89726eeb32b4cde688fa72fbcbfe465fbe3de7f37db5dc192c910436002c"
+    },
+    {
+      "path": "outputs/shared-controller-relocation-negative-20261020-v1.log",
+      "sha256": "661a04c45d35b82959ebe6a4dc063157e5d2acf2572e885ea1e4974c08776fbf"
+    },
+    {
+      "path": "outputs/claude-review-9e4f872-20261020.txt",
+      "sha256": "61dc23cde7d866bc0f5a55d73b5b06f70b3feb29860ad7597a3589dba69b2864"
+    },
+    {
+      "path": "outputs/ci-9e4f872-pr-artifacts-20261020/test-results.xml",
+      "sha256": "b7cc90ff0f45db07a9191952e8e353ce10a5ce989ed0912c358d9d43bb112ccb"
+    }
+  ]
+}

@@ -1,4 +1,5 @@
 import shutil
+from pathlib import Path
 import subprocess
 import xml.etree.ElementTree as ET
 
@@ -6,12 +7,72 @@ import pytest
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core.junction_boundary_rebuild import (
+    _diagnostic_signal_control,
     _boundary_geometry,
     _source_polygon_preserves_cuts,
     collect_join_boundary_paths,
     restore_joined_boundary_connections,
 )
 from astra_sumo.core.source_movement_support import _index
+
+
+@pytest.mark.parametrize("change", [None, "identity", "speed", "geometry", "outline"])
+def test_network_signature_ignores_numeric_formatting_but_keeps_actual_changes(change):
+    from astra_sumo.core.junction_boundary_rebuild import _signature
+    original = ET.fromstring('<lane id="001" speed="13.89" width="3.20" length="4.0" shape="-0.0,0 4.00,0.00" outlineShape="0,1 4,1"/>')
+    native = ET.fromstring('<lane id="001" speed="13.890000" width="3.200000" length="4.000000" shape="0.000000,0.000000 4.000000,0.000000" outlineShape="0.000000,1.000000 4.000000,1.000000"/>')
+    if change == "identity":
+        native.set("id", "1")
+    elif change == "speed":
+        native.set("speed", "13.891")
+    elif change == "geometry":
+        native.set("shape", "0,0 4.000001,0")
+    elif change == "outline":
+        native.set("outlineShape", "0,1 4.000001,1")
+    assert (_signature(original) == _signature(native)) is (change is None)
+
+
+@pytest.mark.parametrize("attributes,valid", [({"speed": "13.890000", "width": "3.200000"}, True),
+    ({"speed": "13.891"}, False), ({"width": "3.201"}, False), ({"type": "unplanned"}, False)])
+def test_adjacent_geometry_compares_numeric_lane_attributes_without_relaxing_other_state(attributes, valid):
+    from copy import deepcopy
+    from astra_sumo.core.junction_boundary_rebuild import _adjacent_geometry
+    source = ET.fromstring('''<net><junction id="p"/><junction id="edit"/><junction id="e"/>
+      <junction id="w" incLanes="approach_0" intLanes=":w_0_0"><request index="0" response="0" foes="0"/></junction>
+      <edge id=":w_0" function="internal"><lane id=":w_0_0" index="0" speed="13.89" width="3.20" length="4" shape="-2,0 2,0" allow="passenger bus"/></edge>
+      <edge id="approach" from="p" to="w"><lane id="approach_0" index="0" shape="-10,0 -2,0" allow="passenger bus"/></edge>
+      <edge id="boundary" from="w" to="edit"><lane id="boundary_0" index="0" shape="2,0 10,0" allow="passenger bus"/></edge>
+      <edge id="out" from="edit" to="e"><lane id="out_0" index="0" shape="10,0 20,0" allow="passenger bus"/></edge>
+      <connection from="approach" to="boundary" fromLane="0" toLane="0" via=":w_0_0"/>
+      <connection from=":w_0" to="boundary" fromLane="0" toLane="0"/></net>''')
+    native = deepcopy(source)
+    lane = native.find("edge[@id=':w_0']/lane")
+    lane.attrib.update(attributes)
+    before = ET.tostring(native)
+    plan = {"groups": [{"source_node_ids": ["edit"], "incoming_edge_ids": ["boundary"], "outgoing_edge_ids": ["out"]}]}
+    if valid:
+        patches, _ = _adjacent_geometry(source, native, plan, ["w"])
+        assert patches[":w_0_0"] == {"shape": "-2,0 2,0", "length": "4"}
+    else:
+        with pytest.raises(ValueError, match="attributes"):
+            _adjacent_geometry(source, native, plan, ["w"])
+    assert ET.tostring(native) == before
+
+
+@pytest.mark.parametrize("fault", [None, "uncontrolled", "program_missing", "index_unbound"])
+def test_diagnostic_join_checks_the_requested_vehicle_control(fault):
+    root = ET.fromstring('''<net><tlLogic id="control"><phase state="G"/></tlLogic>
+      <connection from="in" to="out" fromLane="0" toLane="0" tl="control" linkIndex="0"/></net>''')
+    connection = root.find("connection")
+    if fault == "uncontrolled":
+        connection.attrib.pop("tl")
+    elif fault == "program_missing":
+        root.remove(root.find("tlLogic"))
+    elif fault == "index_unbound":
+        connection.set("linkIndex", "1")
+    result = _diagnostic_signal_control(root, {"movements": [{"join_id": "joined", "connection": ["in", 0, "out", 0]}]})
+    assert result["status"] == ("pass" if fault is None else "blocked")
+    assert result["controlled_movement_count"] == int(fault is None)
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
@@ -130,7 +191,13 @@ def test_clipped_lane_reference_never_keeps_old_points_beyond_its_endpoints(tmp_
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
-def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(tmp_path):
+@pytest.mark.parametrize("contours", ["preserve", "fused"])
+def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(tmp_path, contours, monkeypatch):
+    if contours == "fused":
+        def same_outline(network, identifier, **kwargs):
+            shape = [tuple(map(float, point.split(","))) for point in network.find(f"junction[@id='{identifier}']").get("shape").split()]
+            return {"status": "pass", "changed": True, "proposed_shape": shape, "native_boundary_refit": True}
+        monkeypatch.setattr("astra_sumo.core.hamburg_junction_contour.propose_fused_junction_contour", same_outline)
     nodes, edges = tmp_path / "nodes.xml", tmp_path / "edges.xml"
     nodes.write_text('<nodes><node id="f" x="-160" y="0"/><node id="w" x="-100" y="0" type="traffic_light"/><node id="a" x="0" y="0"/><node id="b" x="20" y="0"/><node id="e" x="120" y="0"/><node id="p" x="400" y="0"/><node id="r" x="500" y="0" type="traffic_light"><param key="source-note" value="keep"/></node><node id="q" x="600" y="0"/></nodes>', encoding="utf-8")
     edges.write_text('<edges><edge id="upstream" from="f" to="w" allow="passenger bus"/><edge id="in" from="w" to="a" allow="passenger bus"/><edge id="middle" from="a" to="b" allow="passenger bus"/><edge id="out" from="b" to="e" allow="passenger bus"/><edge id="remote-in" from="p" to="r"/><edge id="remote-out" from="r" to="q"/></edges>', encoding="utf-8")
@@ -160,6 +227,7 @@ def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(t
         output_dir=tmp_path / "restored", expected_source_sha256=identities[0],
         expected_joined_sha256=identities[1], original_trip_files=[trips],
         adjacent_geometry_junction_ids=["w"],
+        junction_contours=contours,
     )
     assert result["status"] == "pass"
     assert result["decision"] == "review_required"
@@ -173,6 +241,18 @@ def test_native_restore_keeps_source_signals_geometry_and_original_od_evidence(t
     assert result["original_demand"][0]["affected_od"][0]["depart"] == "3"
     assert result["original_demand"][0]["same_demand_runnable"] is False
     assert identities == [file_sha256(path) for path in (source, joined, trips)]
+    from astra_sumo.core.local_network_conversion import validate_join_boundary_conversion
+    local = result["local_conversion"]
+    native_output = Path(local["native_output"]["path"])
+    command = result["commands"][0]["command"]
+    assert Path(command[command.index("--output-file") + 1]) == native_output
+    assert file_sha256(native_output) == local["native_output"]["sha256"]
+    assert validate_join_boundary_conversion(result, source).is_file()
+    if contours != "preserve":
+        assert result["junction_contours"]["accepted_junction_ids"] == ["joined"]
+        baseline = Path(result["junction_contours"]["baseline_network"]["path"])
+        assert ET.canonicalize(baseline.read_text(), strip_text=True) == ET.canonicalize(
+            Path(local["merged_proposal"]["path"]).read_text(), strip_text=True)
     candidate = ET.parse(result["candidate_network"]["path"]).getroot()
     assert candidate.find("edge[@id='remote-in']/lane").get("speed") == ET.parse(source).getroot().find("edge[@id='remote-in']/lane").get("speed")
     source_root = ET.parse(source).getroot()

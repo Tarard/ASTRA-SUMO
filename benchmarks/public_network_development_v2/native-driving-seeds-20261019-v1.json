@@ -1,0 +1,238 @@
+{
+  "schema": "astra.fixed-driving-seed-repeat/v1",
+  "date": "2026-10-19",
+  "producer_commit": "b70ef2dced46afa9d88365dac7cc41f9e92dcf3c",
+  "production_commit": "18b400b16f1c2e7e799ece462ffc41b2cde61f49",
+  "seed_source": "benchmarks/hamburg_cohort_diagnosis_20261016_v1/fixture.json",
+  "driver_profile": "sigma=0, speedDev=0; unchanged saved 150-second departures",
+  "seeds": [
+    17,
+    42,
+    104
+  ],
+  "horizon_s": 2400,
+  "cohort_sha256": "d0e8393fd96f5ec284dbdea07aee0d502be3c20103684273b075d34685ed2dc4",
+  "source_sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f",
+  "network_run_count": 15,
+  "valid_pair_count": 12,
+  "runs": [
+    {
+      "seed": 17,
+      "network": "source",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "7d7baaae0fbede7b256d6fd1f0615755bc91150294410607d6e087bf8221c1dd"
+    },
+    {
+      "seed": 17,
+      "network": "shape-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "b586cdc80a02bbd73489a6b00fa8b6d0f6d741fe6b46c19bf31fc1f5845fa328"
+    },
+    {
+      "seed": 17,
+      "network": "lane-count-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "ef6e6b73578641e1aa3c863d3d1ac3009dbabf745846e84754afeb598095a219"
+    },
+    {
+      "seed": 17,
+      "network": "stop-line-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "33f81f8c1162ecee40a7588df3b1cf05b64c2ecc6597236bfbc79888b7a2001b"
+    },
+    {
+      "seed": 17,
+      "network": "speed-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "963eed1c6f3f31bb172d96e6f866be4b2d3546f3a774b1ffce294c187a4496ad"
+    },
+    {
+      "seed": 42,
+      "network": "source",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "7d7baaae0fbede7b256d6fd1f0615755bc91150294410607d6e087bf8221c1dd"
+    },
+    {
+      "seed": 42,
+      "network": "shape-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "b586cdc80a02bbd73489a6b00fa8b6d0f6d741fe6b46c19bf31fc1f5845fa328"
+    },
+    {
+      "seed": 42,
+      "network": "lane-count-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "ef6e6b73578641e1aa3c863d3d1ac3009dbabf745846e84754afeb598095a219"
+    },
+    {
+      "seed": 42,
+      "network": "stop-line-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "33f81f8c1162ecee40a7588df3b1cf05b64c2ecc6597236bfbc79888b7a2001b"
+    },
+    {
+      "seed": 42,
+      "network": "speed-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "963eed1c6f3f31bb172d96e6f866be4b2d3546f3a774b1ffce294c187a4496ad"
+    },
+    {
+      "seed": 104,
+      "network": "source",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "7d7baaae0fbede7b256d6fd1f0615755bc91150294410607d6e087bf8221c1dd"
+    },
+    {
+      "seed": 104,
+      "network": "shape-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "b586cdc80a02bbd73489a6b00fa8b6d0f6d741fe6b46c19bf31fc1f5845fa328"
+    },
+    {
+      "seed": 104,
+      "network": "lane-count-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "ef6e6b73578641e1aa3c863d3d1ac3009dbabf745846e84754afeb598095a219"
+    },
+    {
+      "seed": 104,
+      "network": "stop-line-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "33f81f8c1162ecee40a7588df3b1cf05b64c2ecc6597236bfbc79888b7a2001b"
+    },
+    {
+      "seed": 104,
+      "network": "speed-stress",
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "trip_records_sha256": "963eed1c6f3f31bb172d96e6f866be4b2d3546f3a774b1ffce294c187a4496ad"
+    }
+  ],
+  "pairs": [
+    {
+      "seed": 17,
+      "candidate": "shape-stress",
+      "valid": true,
+      "mean_duration_delta_s": -0.03,
+      "maximum_absolute_duration_delta_s": 1.0
+    },
+    {
+      "seed": 17,
+      "candidate": "lane-count-stress",
+      "valid": true,
+      "mean_duration_delta_s": -24.9,
+      "maximum_absolute_duration_delta_s": 221.0
+    },
+    {
+      "seed": 17,
+      "candidate": "stop-line-stress",
+      "valid": true,
+      "mean_duration_delta_s": 0.01,
+      "maximum_absolute_duration_delta_s": 1.0
+    },
+    {
+      "seed": 17,
+      "candidate": "speed-stress",
+      "valid": true,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 0.0
+    },
+    {
+      "seed": 42,
+      "candidate": "shape-stress",
+      "valid": true,
+      "mean_duration_delta_s": -0.03,
+      "maximum_absolute_duration_delta_s": 1.0
+    },
+    {
+      "seed": 42,
+      "candidate": "lane-count-stress",
+      "valid": true,
+      "mean_duration_delta_s": -24.9,
+      "maximum_absolute_duration_delta_s": 221.0
+    },
+    {
+      "seed": 42,
+      "candidate": "stop-line-stress",
+      "valid": true,
+      "mean_duration_delta_s": 0.01,
+      "maximum_absolute_duration_delta_s": 1.0
+    },
+    {
+      "seed": 42,
+      "candidate": "speed-stress",
+      "valid": true,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 0.0
+    },
+    {
+      "seed": 104,
+      "candidate": "shape-stress",
+      "valid": true,
+      "mean_duration_delta_s": -0.03,
+      "maximum_absolute_duration_delta_s": 1.0
+    },
+    {
+      "seed": 104,
+      "candidate": "lane-count-stress",
+      "valid": true,
+      "mean_duration_delta_s": -24.9,
+      "maximum_absolute_duration_delta_s": 221.0
+    },
+    {
+      "seed": 104,
+      "candidate": "stop-line-stress",
+      "valid": true,
+      "mean_duration_delta_s": 0.01,
+      "maximum_absolute_duration_delta_s": 1.0
+    },
+    {
+      "seed": 104,
+      "candidate": "speed-stress",
+      "valid": true,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 0.0
+    }
+  ],
+  "trip_records_identical_across_seeds": true,
+  "input_and_implementation_hashes_unchanged": true,
+  "artifacts": {
+    "outputs\\native_command_failure_20261019_v1\\declared-driving-seeds-v1\\comparison.json": "b4998024b8ef441d284bdc7a90a6ee5fb165753de89f7b6ac13ba1aa5b5538cf",
+    "outputs\\native_command_failure_20261019_v1\\declared-driving-seeds-v1-identity.json": "429417c25c4eed872d5dc48d194b334599102c24efcbe44e43690dccd60adf30",
+    "outputs\\native_command_failure_20261019_v1\\repeat-declared-driving-seeds-v1.py": "c20f3feb37ed849dea8e5b0ecbcfe9439ba3d65e3153fa5f95ec76458be59171"
+  },
+  "limits": [
+    "These three frozen seeds reuse one deterministic synthetic profile.",
+    "Identical records across seeds do not establish stochastic-driver robustness.",
+    "No statistical equivalence margin, field-performance claim or replacement of burst-demand failures."
+  ]
+}

@@ -131,6 +131,7 @@ def run_teacher_free_topology_workflow(
     relative_osm = relative_or_absolute_path(source_osm, destination)
     source_command = [
         netconvert,
+        "--precision", "2",  # Preserve the preregistered construction recipe.
         "--osm-files",
         relative_osm,
         "--proj.utm",

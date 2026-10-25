@@ -14,38 +14,21 @@ from .candidate_contracts import file_sha256
 from .command_runner import run_command
 from .connection_mode_audit import build_network_connection_mode_audit
 
+from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision, with_loaded_turn_permissions, loaded_turn_permissions
+
+_SITE = load_site_parameters('hamburg_lane_connection_repair')
+
+
 REPAIR_SCHEMA = "torii.hamburg-lane-connection-repair/v1"
 
-HAMBURG_DIVERGE_LANE_SHAPE = ((609.03, 607.10), (632.40, 601.61), (714.80, 583.52))
+HAMBURG_DIVERGE_LANE_SHAPE = _SITE['HAMBURG_DIVERGE_LANE_SHAPE']
 
-LSA119_OLD_STATE_INDICES = (0, 1, 2, 7, 8, 9, 10, 11, 14, 15, 17)
+LSA119_OLD_STATE_INDICES = _SITE['LSA119_OLD_STATE_INDICES']
 
-LSA119_ONE_TO_ONE_LINKS = (
-    ("43866090#0", "0", "486864294", "0"),
-    ("43866090#0", "1", "486864294", "1"),
-    ("603103445#0", "0", "141050975", "0"),
-    ("186713422#0", "1", "363112756#1", "0"),
-    ("186713422#0", "2", "363112756#1", "1"),
-    ("186713422#0", "3", "363112756#1", "2"),
-    ("1227325137", "0", "486864294", "0"),
-    ("1227325137", "1", "486864294", "1"),
-    ("24483344#0", "0", "141050975", "2"),
-    ("24483344#0", "1", "141050975", "3"),
-    ("1068722010", "0", "363112756#1", "0"),
-)
+LSA119_ONE_TO_ONE_LINKS = _SITE['LSA119_ONE_TO_ONE_LINKS']
 
-LSA119_DELETED_FANOUTS = (
-    ("603103445#0", "0", "141050975", "1"),
-    ("603103445#0", "0", "141050975", "2"),
-    ("603103445#0", "0", "141050975", "3"),
-    ("603103445#0", "0", "141050975", "4"),
-    ("24483344#0", "0", "141050975", "0"),
-    ("24483344#0", "0", "141050975", "1"),
-    ("24483344#0", "1", "141050975", "2"),
-    ("24483344#0", "1", "141050975", "4"),
-    ("1068722010", "0", "363112756#1", "1"),
-    ("1068722010", "0", "363112756#1", "2"),
-)
+LSA119_DELETED_FANOUTS = _SITE['LSA119_DELETED_FANOUTS']
 
 
 def build_hamburg_lane_connection_repair(
@@ -82,17 +65,20 @@ def build_hamburg_lane_connection_repair(
         raise ValueError("timeout_seconds must be finite and positive")
     destination.mkdir(parents=True)
     source_hash = file_sha256(source)
+    conversion_source = destination / "source-permissions.net.xml"
+    ET.ElementTree(with_loaded_turn_permissions(source_root)).write(conversion_source, encoding="utf-8", xml_declaration=True)
+    conversion_input = {"path": str(conversion_source), "sha256": file_sha256(conversion_source)}
 
     plain_prefix = destination / "source"
     export = _command_result(
         command_runner(
-            [
+            with_geometry_precision([
                 str(netconvert_binary),
                 "--sumo-net-file",
-                str(source),
+                str(conversion_source),
                 "--plain-output-prefix",
                 str(plain_prefix),
-            ],
+            ]),
             cwd=destination,
             timeout_seconds=timeout_seconds,
         )
@@ -115,10 +101,10 @@ def build_hamburg_lane_connection_repair(
     candidate = destination / "hamburg-lane-connection-repaired.net.xml"
     compile_result = _command_result(
         command_runner(
-            [
+            with_geometry_precision([
                 str(netconvert_binary),
                 "--sumo-net-file",
-                str(source),
+                str(conversion_source),
                 "--connection-files",
                 str(connection_patch),
                 *(
@@ -133,7 +119,7 @@ def build_hamburg_lane_connection_repair(
                 "100",
                 "--output-file",
                 str(candidate),
-            ],
+            ]),
             cwd=destination,
             timeout_seconds=timeout_seconds,
         )
@@ -174,14 +160,14 @@ def build_hamburg_lane_connection_repair(
                 row.get("toLane", ""),
             )
             for row in candidate_root.findall("connection")
-            if row.get("tl") == "LSA119_part0"
+            if row.get("tl") == _SITE['source_binding.001']
         }
         if candidate_root is not None
         else set()
     )
-    source_cycle = _cycle_seconds(source_root, "LSA119_part0")
+    source_cycle = _cycle_seconds(source_root, _SITE['source_binding.001'])
     candidate_cycle = (
-        _cycle_seconds(candidate_root, "LSA119_part0")
+        _cycle_seconds(candidate_root, _SITE['source_binding.001'])
         if candidate_root is not None
         else None
     )
@@ -189,12 +175,13 @@ def build_hamburg_lane_connection_repair(
         compile_result.get("stderr", "")
     )
     target_overlap_absent = not (
-        "234421319" in compile_log
-        and "24483344#0" in compile_log
+        _SITE['source_binding.006'] in compile_log
+        and _SITE['write_hamburg_lane_connection_patch.004'] in compile_log
         and "overlap" in compile_log.lower()
     )
     gates = {
-        "source_immutable": "pass" if file_sha256(source) == source_hash else "blocked",
+        "source_immutable": "pass" if file_sha256(source) == source_hash
+            and file_sha256(conversion_source) == conversion_input["sha256"] else "blocked",
         "netconvert": "pass" if compiled else "blocked",
         "sumo_load": "pass" if load.get("status") == "pass" else "blocked",
         "lsa119_one_to_one_links": "pass" if candidate_links == expected_links else "blocked",
@@ -208,8 +195,11 @@ def build_hamburg_lane_connection_repair(
     if supplied_patch is not None:
         gates = {key: gates[key] for key in ("source_immutable", "netconvert", "sumo_load")}
         expected_pairs = (_external_connection_pairs(source_root) - deleted_links) | added_links
+        before_access = loaded_turn_permissions(source_root)
+        after_access = loaded_turn_permissions(candidate_root) if candidate_root is not None else {}
         gates["exact_connection_patch"] = (
-            "pass" if candidate_root is not None and _external_connection_pairs(candidate_root) == expected_pairs else "blocked"
+            "pass" if candidate_root is not None and _external_connection_pairs(candidate_root) == expected_pairs
+            and all(before_access[key] == after_access[key] for key in before_access.keys() & after_access.keys()) else "blocked"
         )
         gates["connection_patch_immutable"] = (
             "pass" if file_sha256(supplied_patch) == file_sha256(connection_patch) == expected_connection_patch_sha256 else "blocked"
@@ -224,21 +214,22 @@ def build_hamburg_lane_connection_repair(
     )
     passed = all(value == "pass" for value in gates.values())
     manifest_file = destination / "manifest.json"
-    report: dict[str, Any] = {
+    report: dict[str, Any] = {"site_parameters": _SITE["_source"],
         "schema": REPAIR_SCHEMA,
         "status": "review_required" if passed else "blocked",
         "claim_status": "diagnostic-demo" if passed else "construction-invalid",
         "source_network": {"path": str(source), "sha256": source_hash},
+        "conversion_input": conversion_input,
         "candidate_network": (
             {"path": str(candidate), "sha256": file_sha256(candidate)}
             if candidate.is_file()
             else None
         ),
         "edit_scope": {
-            "signalized_junction": "LSA119_part0",
+            "signalized_junction": _SITE['source_binding.001'],
             "deleted_fanout_count": len(LSA119_DELETED_FANOUTS),
             "expected_one_to_one_link_count": len(LSA119_ONE_TO_ONE_LINKS),
-            "diverge_edge": "234421319",
+            "diverge_edge": _SITE['source_binding.006'],
         } if supplied_patch is None else {
             "mode": "explicit_connection_patch",
             "added_connections": sorted(added_links),
@@ -255,8 +246,7 @@ def build_hamburg_lane_connection_repair(
             "connection_audit": connection_audit["report_file"] if connection_audit else None,
         },
         "claim_boundary": (
-            "This candidate repairs only the reviewed LSA119 lane links and the reviewed 266199070 diverge. "
-            "Other corridor fanouts remain review items. Demand must be recalibrated on this candidate."
+            _SITE['source_binding.003']
         ) if supplied_patch is None else (
             "This candidate applies only the explicit lane-connection patch. "
             "Connection continuity does not prove field turn permissions or signal timing. "
@@ -325,8 +315,8 @@ def write_hamburg_lane_connection_patch(path: Path) -> None:
         root,
         "connection",
         {
-            "from": "24483344#0",
-            "to": "141050975",
+            "from": _SITE['write_hamburg_lane_connection_patch.004'],
+            "to": _SITE['write_hamburg_lane_connection_patch.005'],
             "fromLane": "0",
             "toLane": "2",
         },
@@ -339,7 +329,7 @@ def write_hamburg_lane_connection_patch(path: Path) -> None:
 
 def write_hamburg_diverge_geometry_patch(path: Path) -> None:
     root = ET.Element("edges")
-    edge = ET.SubElement(root, "edge", id="234421319")
+    edge = ET.SubElement(root, "edge", id=_SITE['source_binding.006'])
     ET.SubElement(
         edge,
         "lane",
@@ -355,16 +345,16 @@ def write_hamburg_diverge_geometry_patch(path: Path) -> None:
 def write_repaired_lsa119_tllogic(source_file: Path, output_file: Path) -> None:
     tree = ET.parse(Path(source_file).resolve(strict=True))
     root = tree.getroot()
-    logic = root.find("tlLogic[@id='LSA119_part0']")
+    logic = root.find(_SITE['source_binding.002'])
     if logic is None:
-        raise ValueError("traffic-light file has no LSA119_part0 program")
+        raise ValueError(_SITE['write_repaired_lsa119_tllogic.007'])
     for phase in logic.findall("phase"):
         state = phase.attrib.get("state", "")
         if len(state) != 20:
-            raise ValueError("LSA119_part0 source state must contain 20 links")
+            raise ValueError(_SITE['write_repaired_lsa119_tllogic.008'])
         phase.set("state", "".join(state[index] for index in LSA119_OLD_STATE_INDICES))
     for connection in list(root.findall("connection")):
-        if connection.attrib.get("tl") == "LSA119_part0":
+        if connection.attrib.get("tl") == _SITE['source_binding.001']:
             root.remove(connection)
     for link_index, (source, source_lane, target, target_lane) in enumerate(
         LSA119_ONE_TO_ONE_LINKS
@@ -377,7 +367,7 @@ def write_repaired_lsa119_tllogic(source_file: Path, output_file: Path) -> None:
                 "to": target,
                 "fromLane": source_lane,
                 "toLane": target_lane,
-                "tl": "LSA119_part0",
+                "tl": _SITE['source_binding.001'],
                 "linkIndex": str(link_index),
             },
         )

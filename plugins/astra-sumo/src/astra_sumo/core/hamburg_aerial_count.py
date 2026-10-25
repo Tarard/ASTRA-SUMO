@@ -11,7 +11,8 @@ from pathlib import Path
 from typing import Any
 
 from .candidate_contracts import file_sha256
-from .digital_twin import CountStream, MapLane, parse_mapem
+from .digital_twin import CountStream
+from .hamburg_map_kml import read_hamburg_map_lane_references
 from .digital_twin_mapping import (
     bind_count_streams_to_network,
     bind_map_lanes_to_network,
@@ -290,6 +291,8 @@ def build_hamburg_aerial_count_binding(
     ]
     if not map_files:
         raise ValueError("request map_xml_files must not be empty")
+    map_kml_files = [_verified_artifact(value, f"map_kml_files[{index}]")
+                     for index,value in enumerate(request.get("map_kml_files", []) or [])]
     destination = Path(output_dir).expanduser().resolve()
     if destination.exists():
         raise ValueError("output_dir must not already exist")
@@ -323,17 +326,15 @@ def build_hamburg_aerial_count_binding(
     station_file = _verified_artifact(station_record, "count_station_streams_normalized")
     station_streams = _load_count_streams(station_file)
 
-    map_lanes: list[MapLane] = []
-    for map_file in map_files:
-        lanes, _connections = parse_mapem(map_file)
-        map_lanes.extend(lanes)
-    map_bindings = bind_map_lanes_to_network(network, map_lanes)
+    map_lanes, lane_shapes = read_hamburg_map_lane_references(network, map_files, map_kml_files)
+    map_bindings = bind_map_lanes_to_network(network, map_lanes, lane_shapes=lane_shapes)
     detector_mappings = bind_count_streams_to_network(
         network,
         streams,
         map_lanes,
         map_bindings,
         period=900,
+        lane_shapes=lane_shapes,
     )
     detector_mappings, _ = enforce_official_station_compositions(
         detector_mappings,
@@ -407,6 +408,7 @@ def build_hamburg_aerial_count_binding(
             "map_xml_files": [
                 {"path": str(path), "sha256": file_sha256(path)} for path in map_files
             ],
+            "map_kml_files": [{"path":str(path),"sha256":file_sha256(path)} for path in map_kml_files],
         },
         "selected_window": count_scope.get("selected_window"),
         "counts": {

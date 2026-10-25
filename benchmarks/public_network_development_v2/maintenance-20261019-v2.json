@@ -1,0 +1,637 @@
+{
+  "implementation": "eb3ba2dd51fd7d99fbb3f52bdb1c645af2c3f623",
+  "native_rejection_repair": "dca05f4",
+  "sampling_optimization": "4908e1c",
+  "runtime_recording": "590f282",
+  "loaded_sampling_correction": "6cd640c",
+  "local_checks": {
+    "initial_related_passed": 146,
+    "loaded_permission_related_passed": 171,
+    "canonical_index_related_passed": 52,
+    "ruff": "pass"
+  },
+  "failed_ci": {
+    "run": 39236972352,
+    "passed": 3471,
+    "failed": 1,
+    "skipped": 24
+  },
+  "previous_full_ci": [
+    {
+      "run": 39243883292,
+      "passed": 3489,
+      "failed": 0,
+      "skipped": 24
+    },
+    {
+      "run": 39243878248,
+      "passed": 3489,
+      "failed": 0,
+      "skipped": 24
+    }
+  ],
+  "latest_full_ci": [
+    {
+      "conclusion": "success",
+      "databaseId": 39247080048,
+      "headSha": "eb3ba2dd51fd7d99fbb3f52bdb1c645af2c3f623",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39247080048",
+      "passed": 3494,
+      "failed": 0,
+      "skipped": 24
+    },
+    {
+      "conclusion": "success",
+      "databaseId": 39247072321,
+      "headSha": "eb3ba2dd51fd7d99fbb3f52bdb1c645af2c3f623",
+      "status": "completed",
+      "url": "https://github.com/Tarard/ASTRA-SUMO/actions/runs/39247072321",
+      "passed": 3494,
+      "failed": 0,
+      "skipped": 24
+    }
+  ],
+  "hamburg": {
+    "summary": {
+      "path": "outputs/clean_runtime_maintenance_20261019_v1/hamburg/workflow-summary.json",
+      "sha256": "49ce3e974cda029daa84be960120cc719ca60cdc03e13620719788b91c04799d"
+    },
+    "runner": {
+      "path": "outputs/clean_runtime_maintenance_20261019_v1/hamburg/run.py",
+      "sha256": "680894e5de08a8aa51323ccfba7c0c91b2d0d1ec1673267dba79813978020c80"
+    },
+    "runtime": {
+      "path": "outputs/clean_runtime_maintenance_20261019_v1/hamburg/runtime.json",
+      "sha256": "0457a7101e5152a2f3cd04b2ab7c7d40a6b1f66d1ef06d8b9dce1ef163841d75"
+    },
+    "runtime_origins": {
+      "traci": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\traci\\__init__.py",
+      "sumolib": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\.venv\\Lib\\site-packages\\sumolib\\__init__.py"
+    },
+    "topology_complete": true,
+    "status": "review_required",
+    "failed_stage": null,
+    "counts": {
+      "official_vehicle_movements": 16,
+      "physical_part_count": 2,
+      "joined_part_count": 2,
+      "materialized_movement_count": 16,
+      "unmaterialized_official_movement_count": 0,
+      "runtime_fallback_part_count": 0,
+      "source_surface_finding_count": 51,
+      "candidate_surface_finding_count": 45
+    },
+    "loaded_links": {
+      "status": "pass",
+      "compared_junction_counts": {
+        "native": 3,
+        "source": 125
+      },
+      "differences": []
+    },
+    "candidate_unchanged_from_prior": true,
+    "identity_checks": {
+      "source_unchanged": true,
+      "request_unchanged": true,
+      "implementation_unchanged": true
+    },
+    "centerlines": {
+      "2349": {
+        "count": 10,
+        "median_lateral_offset_m": 0.5571260486923849,
+        "p90_lateral_offset_m": 2.588132251045594
+      },
+      "2394": {
+        "count": 11,
+        "median_lateral_offset_m": 0.8081146012482162,
+        "p90_lateral_offset_m": 1.6383110613547864
+      }
+    },
+    "edits": [
+      {
+        "operation": "set_edge_shape",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "technical_checks_passed": true,
+        "outside_fact_change_count": 0,
+        "source_baseline": {
+          "status": "dirty",
+          "scope": "synthetic_passenger_driving_diagnostic",
+          "diagnostic_status": "fail",
+          "reason": "incomplete",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\clean_runtime_maintenance_20261019_v1\\hamburg\\shape-stress\\source-routes\\routeability_audit_routeability_audit.json"
+        },
+        "source_last_summary": {
+          "time": "2399.00",
+          "loaded": "100",
+          "inserted": "99",
+          "running": "37",
+          "waiting": "1",
+          "ended": "62",
+          "arrived": "62",
+          "collisions": "0",
+          "teleports": "0",
+          "halting": "37",
+          "stopped": "0",
+          "meanWaitingTime": "0.10",
+          "meanTravelTime": "105.84",
+          "meanSpeed": "0.00",
+          "meanSpeedRelative": "0.00",
+          "discarded": "0",
+          "duration": "1"
+        }
+      },
+      {
+        "operation": "set_lane_count",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "technical_checks_passed": true,
+        "outside_fact_change_count": 0,
+        "source_baseline": {
+          "status": "dirty",
+          "scope": "synthetic_passenger_driving_diagnostic",
+          "diagnostic_status": "fail",
+          "reason": "incomplete",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\clean_runtime_maintenance_20261019_v1\\hamburg\\lane-count-stress\\source-routes\\routeability_audit_routeability_audit.json"
+        },
+        "source_last_summary": {
+          "time": "2399.00",
+          "loaded": "100",
+          "inserted": "99",
+          "running": "37",
+          "waiting": "1",
+          "ended": "62",
+          "arrived": "62",
+          "collisions": "0",
+          "teleports": "0",
+          "halting": "37",
+          "stopped": "0",
+          "meanWaitingTime": "0.10",
+          "meanTravelTime": "105.84",
+          "meanSpeed": "0.00",
+          "meanSpeedRelative": "0.00",
+          "discarded": "0",
+          "duration": "0"
+        }
+      },
+      {
+        "operation": "move_stop_line",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "technical_checks_passed": true,
+        "outside_fact_change_count": 0,
+        "source_baseline": {
+          "status": "dirty",
+          "scope": "synthetic_passenger_driving_diagnostic",
+          "diagnostic_status": "fail",
+          "reason": "incomplete",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\clean_runtime_maintenance_20261019_v1\\hamburg\\stop-line-stress\\source-routes\\routeability_audit_routeability_audit.json"
+        },
+        "source_last_summary": {
+          "time": "2399.00",
+          "loaded": "100",
+          "inserted": "99",
+          "running": "37",
+          "waiting": "1",
+          "ended": "62",
+          "arrived": "62",
+          "collisions": "0",
+          "teleports": "0",
+          "halting": "37",
+          "stopped": "0",
+          "meanWaitingTime": "0.10",
+          "meanTravelTime": "105.84",
+          "meanSpeed": "0.00",
+          "meanSpeedRelative": "0.00",
+          "discarded": "0",
+          "duration": "0"
+        }
+      },
+      {
+        "operation": "set_speed",
+        "status": "measured",
+        "requested_effect_applied": true,
+        "technical_checks_passed": true,
+        "outside_fact_change_count": 0,
+        "source_baseline": {
+          "status": "dirty",
+          "scope": "synthetic_passenger_driving_diagnostic",
+          "diagnostic_status": "fail",
+          "reason": "incomplete",
+          "report_file": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\clean_runtime_maintenance_20261019_v1\\hamburg\\speed-stress\\source-routes\\routeability_audit_routeability_audit.json"
+        },
+        "source_last_summary": {
+          "time": "2399.00",
+          "loaded": "100",
+          "inserted": "99",
+          "running": "37",
+          "waiting": "1",
+          "ended": "62",
+          "arrived": "62",
+          "collisions": "0",
+          "teleports": "0",
+          "halting": "37",
+          "stopped": "0",
+          "meanWaitingTime": "0.10",
+          "meanTravelTime": "105.84",
+          "meanSpeed": "0.00",
+          "meanSpeedRelative": "0.00",
+          "discarded": "0",
+          "duration": "0"
+        }
+      }
+    ]
+  },
+  "sampler_native_differential": {
+    "pre_fix_failures": 2,
+    "cases": [
+      "dormant_connection_directive",
+      "internal_lane_restriction"
+    ]
+  },
+  "sampler_parity": {
+    "result": {
+      "path": "outputs/ci_acaf_failure_20261019_v1/native-sampler-v2-repeat/results.json",
+      "sha256": "1cf7fcc5985841f029013ab242963cc4cee1529eac353dbe1756cba68fe4da89"
+    },
+    "cases": [
+      {
+        "name": "most",
+        "elapsed_seconds": 2.7700274999988324,
+        "previous_method": "source_reachable_uniform_origin_then_destination/v1",
+        "method": "source_reachable_uniform_origin_then_destination/v2",
+        "same_request_bytes": true,
+        "report_changes": {},
+        "reachable_od_pair_count": 12266413
+      },
+      {
+        "name": "hamburg",
+        "elapsed_seconds": 0.09800340000037977,
+        "previous_method": "source_reachable_uniform_origin_then_destination/v1",
+        "method": "source_reachable_uniform_origin_then_destination/v2",
+        "same_request_bytes": true,
+        "report_changes": {},
+        "reachable_od_pair_count": 12775
+      }
+    ]
+  },
+  "most_profile_interruption": {
+    "status": "interrupted_to_correct_confirmed_sampler_semantics",
+    "revision": "590f282b7e8df91e88e6e260baa7e135688cec3b",
+    "process_id": 24568,
+    "cpu_seconds": 364.09375,
+    "stage": "candidate applicability assessment after completed first edit measurement",
+    "completed_profile_cases": 0,
+    "last_edit_report": "node-132844/edit/edit-verification.json",
+    "reason": "Native differential tests show the v1 sampler disagrees with loaded internal lane permissions. Preserve this run before changing producer code."
+  },
+  "instrumented_assessment_failure": {
+    "status": "process_error",
+    "exit_code": -1073741819,
+    "windows_status": "0xC0000005",
+    "result_complete": false,
+    "trace": "stacks.log",
+    "cause": "unconfirmed; failure coincides with the scheduled traceback dump",
+    "next_control": "same immutable candidate without instrumentation"
+  },
+  "plain_assessment": {
+    "elapsed_seconds": 206.92755360000046,
+    "result": {
+      "schema": "astra.network-edit-applicability/v1",
+      "status": "blocked",
+      "checks": {
+        "local_preconditions": "pass",
+        "boundary_lane_identities": "pass",
+        "all_class_explicit_boundary_paths": "pass",
+        "outside_geometry_and_fixed_ends": "pass",
+        "outside_state": "pass",
+        "protected_counts": "pass",
+        "signal_programs": "pass",
+        "connection_structure": "pass",
+        "pedestrian_facilities": "blocked",
+        "boundary_lane_permissions_width_speed": "pass",
+        "pedestrian_lane_geometry": "blocked",
+        "requested_shape": "pass",
+        "no_new_independent_safety_findings": "pass",
+        "inputs_unchanged": "pass"
+      },
+      "source": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml",
+        "sha256": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b"
+      },
+      "operation_count": 1,
+      "basis": "explicitly_accepted_source_bound_edit",
+      "certification_claim": "not_established",
+      "automatic_promotion": "requires_existing_candidate_gates",
+      "field_correctness": "not_established",
+      "limitations": [
+        "No physical grouping or turn prohibition is inferred from the source network.",
+        "Explicit pedestrian connections do not cover implicit walking-area routing.",
+        "A local pass does not certify the whole junction or establish field correctness."
+      ],
+      "operation": {
+        "id": "model-shape",
+        "operation": "set_junction_shape",
+        "status": "accepted",
+        "target_ids": [],
+        "rationale": "Accepted technical model-relative experiment only. No field approval or manual-edit attribution.",
+        "evidence": [
+          {
+            "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+            "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+          }
+        ],
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        },
+        "constraints": {
+          "preserve_tls": true,
+          "preserve_rail": true,
+          "preserve_bridge": true,
+          "preserve_tunnel": true,
+          "preserve_modal_connectivity": true,
+          "preserve_routeability": true
+        },
+        "review_requirements": {},
+        "location": {},
+        "params": {
+          "node_id": "132844",
+          "shape": [
+            [
+              3203.43,
+              3054.8
+            ],
+            [
+              3202.06,
+              3045.27
+            ],
+            [
+              3199.3,
+              3045.93
+            ],
+            [
+              3198.02,
+              3045.82
+            ],
+            [
+              3196.82,
+              3045.4
+            ],
+            [
+              3195.7,
+              3044.68
+            ],
+            [
+              3194.63,
+              3043.64
+            ],
+            [
+              3189.99,
+              3052.38
+            ],
+            [
+              3190.84,
+              3053.44
+            ],
+            [
+              3191.09,
+              3053.92
+            ],
+            [
+              3191.23,
+              3054.36
+            ],
+            [
+              3191.25,
+              3054.78
+            ],
+            [
+              3191.16,
+              3055.16
+            ],
+            [
+              3199.87,
+              3058.69
+            ],
+            [
+              3200.91,
+              3056.66
+            ],
+            [
+              3201.49,
+              3055.92
+            ],
+            [
+              3202.1,
+              3055.37
+            ],
+            [
+              3202.75,
+              3054.99
+            ]
+          ]
+        }
+      },
+      "evidence": [
+        {
+          "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\public_network_cache_v2\\MoST_2019_paired\\scenario\\in\\most.net.xml",
+          "sha256": "a06b5c0765fb2d49d4ad33cf54048f15f2ff1592b2b3d0180dbeec4feb73bfc0"
+        }
+      ],
+      "scope": {
+        "source_junction_ids": [
+          "132844"
+        ],
+        "edge_ids": [
+          "-152736#0",
+          "-152736#1",
+          "-152748",
+          "152736#0",
+          "152736#1",
+          "152748"
+        ]
+      },
+      "candidate": {
+        "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\clean_runtime_maintenance_20261019_v1\\most\\node-132844\\edit\\candidate.net.xml",
+        "sha256": "5439b15840aefd537e7a93083422ebae64ccf69222b08941628668508b391bd3"
+      },
+      "boundary_paths": {
+        "source_pair_count": 15,
+        "candidate_pair_count": 15,
+        "audited_vehicle_classes": [
+          "aircraft",
+          "army",
+          "authority",
+          "bicycle",
+          "bus",
+          "cable_car",
+          "coach",
+          "container",
+          "custom1",
+          "custom2",
+          "delivery",
+          "drone",
+          "emergency",
+          "evehicle",
+          "hov",
+          "moped",
+          "motorcycle",
+          "passenger",
+          "pedestrian",
+          "private",
+          "rail_fast",
+          "scooter",
+          "subway",
+          "taxi",
+          "trailer",
+          "truck",
+          "vip",
+          "wheelchair"
+        ],
+        "differences": []
+      },
+      "geometry_preservation": {
+        "status": "pass",
+        "coordinate_frame_preserved": true,
+        "mutable_junction_ids": [
+          "132844"
+        ],
+        "mutable_edge_ids": [
+          "-152736#0",
+          "-152736#1",
+          "-152748",
+          "152736#0",
+          "152736#1",
+          "152748"
+        ],
+        "ordinary_lane_attribute_changes": {
+          "shape": 0,
+          "length": 0,
+          "width": 0
+        },
+        "max_lane_endpoint_offset_xy_m": 0.0,
+        "max_geometric_lane_length_change_xy_m": 0.0,
+        "max_lane_endpoint_offset_xyz_m": 0.0,
+        "max_geometric_lane_length_change_xyz_m": 0.0,
+        "outside_lane_count_with_shape_changes": 0,
+        "shape_displacement_metric": "xy_hausdorff",
+        "outside_lane_count_moved_over_0_01_m": 0,
+        "max_outside_lane_shape_displacement_xy_m": 0.0,
+        "fixed_boundary_failures": [],
+        "boundary_edge_map": {},
+        "outside_scope_geometry": {
+          "lanes": {
+            "missing": [],
+            "added": [],
+            "changed": []
+          },
+          "junctions": {
+            "missing": [],
+            "added": [],
+            "changed": []
+          },
+          "edges": {
+            "missing": [],
+            "added": [],
+            "changed": []
+          }
+        }
+      },
+      "outside_state": {
+        "changed_external_edges": [],
+        "changed_internal_edges": [],
+        "changed_junctions": [],
+        "changed_connections": [],
+        "changed_tls_programs": [],
+        "coordinate_frame_changed": false,
+        "status": "pass",
+        "location_metadata_changed": false,
+        "location_metadata": {
+          "source": {
+            "netOffset": "-368142.40,-4841896.61",
+            "convBoundary": "0.00,0.00,9975.22,6362.01",
+            "origBoundary": "7.362913,43.718985,7.485778,43.776857",
+            "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+          },
+          "candidate": {
+            "netOffset": "-368142.40,-4841896.61",
+            "convBoundary": "0.0,0.0,9975.22,6362.01",
+            "origBoundary": "7.362913,43.718985,7.485778,43.776857",
+            "projParameter": "+proj=utm +zone=32 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+          }
+        }
+      },
+      "new_independent_safety_witnesses": [],
+      "stage": "candidate_checked"
+    }
+  },
+  "pedestrian_geometry_diagnosis": {
+    "status": "blocked",
+    "checks": {
+      "local_preconditions": "pass",
+      "boundary_lane_identities": "pass",
+      "all_class_explicit_boundary_paths": "pass",
+      "outside_geometry_and_fixed_ends": "pass",
+      "outside_state": "pass",
+      "protected_counts": "pass",
+      "signal_programs": "pass",
+      "connection_structure": "pass",
+      "pedestrian_facilities": "blocked",
+      "boundary_lane_permissions_width_speed": "pass",
+      "pedestrian_lane_geometry": "blocked",
+      "requested_shape": "pass",
+      "no_new_independent_safety_findings": "pass",
+      "inputs_unchanged": "pass"
+    },
+    "source": {
+      "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\source_sensitivity_20261018_v1\\most-v2\\MoST_2019_paired\\unjoined-import.net.xml": "8acab7d4767bdda9d1523da0a398735b495a66cb853cb9724654b5dbbfbbac6b",
+      "outputs\\clean_runtime_maintenance_20261019_v1\\most\\node-132844\\edit\\candidate.net.xml": "5439b15840aefd537e7a93083422ebae64ccf69222b08941628668508b391bd3"
+    },
+    "facility_counts": [
+      7030,
+      7030
+    ],
+    "changed_facility_ids": [
+      ":132844_c0",
+      ":132844_c1",
+      ":132844_c2",
+      ":132844_w0",
+      ":132844_w1",
+      ":132844_w2"
+    ],
+    "pedestrian_lane_changes": [
+      {
+        "lane_id": "-152736#0_0",
+        "xy_hausdorff_m": 2.0426698215816343,
+        "declared_length_delta_m": 1.0099999999999998
+      },
+      {
+        "lane_id": "-152736#1_0",
+        "xy_hausdorff_m": 0.036055512754417915,
+        "declared_length_delta_m": 0.030000000000001137
+      },
+      {
+        "lane_id": "152736#0_0",
+        "xy_hausdorff_m": 0.01999999999998181,
+        "declared_length_delta_m": 0.019999999999999574
+      },
+      {
+        "lane_id": "152736#1_0",
+        "xy_hausdorff_m": 0.01999999999998181,
+        "declared_length_delta_m": 0.01999999999999602
+      },
+      {
+        "lane_id": "152748_0",
+        "xy_hausdorff_m": 0.01999999999998181,
+        "declared_length_delta_m": 0.020000000000003126
+      },
+      {
+        "lane_id": "-152748_0",
+        "xy_hausdorff_m": 0.009999999999763531,
+        "declared_length_delta_m": 0.010000000000005116
+      }
+    ]
+  },
+  "claim_boundary": "No field correctness, automatic-cleaning precision, demand validity, or traffic improvement established."
+}

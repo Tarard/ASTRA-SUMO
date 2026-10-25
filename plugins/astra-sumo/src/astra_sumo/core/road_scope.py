@@ -32,6 +32,23 @@ ROAD_LEVEL_SCOPE_QUESTION = (
     "Which road level should ASTRA include: arterial, drive, drive_plus_unclassified, or full_vehicle?"
 )
 
+ROAD_HIERARCHY_TIERS = ("major", "collector", "local")
+_HIGHWAY_TIERS = {
+    **dict.fromkeys(("motorway", "trunk", "primary", "secondary"), "major"),
+    "tertiary": "collector",
+    **dict.fromkeys(("unclassified", "residential", "living_street", "service", "track"), "local"),
+}
+
+
+def road_hierarchy_tier(edge_type: str) -> str:
+    """Read coarse OSM importance without changing SUMO right-of-way priority."""
+    tiers = []
+    for value in edge_type.split("|"):
+        highway = value.strip().removeprefix("highway.").removesuffix("_link")
+        if highway in _HIGHWAY_TIERS:
+            tiers.append(_HIGHWAY_TIERS[highway])
+    return min(tiers, key=ROAD_HIERARCHY_TIERS.index) if tiers else "unknown"
+
 
 def resolve_highway_classes(value: str | set[str] | None, *, default_to_recommended: bool = True) -> set[str] | None:
     if value is None:

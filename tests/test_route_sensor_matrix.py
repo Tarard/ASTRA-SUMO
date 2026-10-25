@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from astra_sumo.core.route_sensor_matrix import (
     audit_route_sensor_incidence,
@@ -91,6 +92,54 @@ def test_integer_route_flow_solver_fails_closed_for_infeasible_counts() -> None:
     assert report["status"] == "blocked"
     assert report["failure_kind"] == "infeasible"
     assert report["solution"] is None
+
+
+def test_route_costs_avoid_a_long_tour_without_weakening_sensor_equalities():
+    matrix, observations = np.asarray([[1, 0, 1], [0, 1, 1]]), np.asarray([3, 2])
+    minimum_vehicles = solve_nonnegative_integer_route_flows(matrix, observations)
+    minimum_distance = solve_nonnegative_integer_route_flows(matrix, observations, route_costs=np.asarray([1., 1., 10.]))
+    assert minimum_vehicles["vehicle_count"] == 3
+    assert minimum_distance["solution"] == [3, 2, 0] and minimum_distance["vehicle_count"] == 5
+    assert minimum_distance["objective"] == "minimum_route_cost" and minimum_distance["objective_value"] == 5
+    assert minimum_distance["predicted_sensor_counts"] == [3, 2] and minimum_distance["residual"] == [0, 0]
+
+
+def test_route_costs_can_weight_changes_from_a_declared_prior():
+    result = solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([3]),
+        prior=np.asarray([0, 2]), route_costs=np.asarray([1., 10.]))
+    assert result["objective"] == "minimum_weighted_l1_change_from_prior"
+    assert result["solution"] == [1, 2] and result["objective_value"] == 1
+    assert result["residual"] == [0]
+
+
+@pytest.mark.parametrize("prior", [None, np.asarray([4, 0])])
+def test_entry_capacity_moves_flow_to_another_route_without_relaxing_counts(prior):
+    result = solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([4]),
+        route_costs=np.asarray([1., 2.]), prior=prior,
+        entry_matrix=np.eye(2, dtype=int), entry_capacities=np.asarray([1, 4]))
+    assert result["solution"] == [1, 3] and result["residual"] == [0]
+    assert result["entry_counts"] == [1, 3]
+
+
+def test_infeasible_entry_capacity_does_not_supply_an_approximate_count_fit():
+    result = solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([4]),
+        entry_matrix=np.eye(2, dtype=int), entry_capacities=np.asarray([1, 2]))
+    assert result["failure_kind"] == "infeasible" and result["solution"] is None
+
+
+@pytest.mark.parametrize("matrix, capacities", [(None, [1]), ([[1, 0]], None), ([[1]], [1]),
+    ([[1, 0]], [1, 2]), ([[1, 0]], [-1]), ([[1, 0]], [1.5])])
+def test_entry_limits_reject_missing_misaligned_or_noninteger_data(matrix, capacities):
+    with pytest.raises(ValueError):
+        solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([4]),
+            entry_matrix=None if matrix is None else np.asarray(matrix),
+            entry_capacities=None if capacities is None else np.asarray(capacities))
+
+
+@pytest.mark.parametrize("costs", [[1], [1, 0], [1, -1], [1, np.nan], [1, 2j], [[1, 2]], ["one", "two"]])
+def test_route_costs_reject_invalid_or_misaligned_weights(costs):
+    with pytest.raises(ValueError, match="route_costs"):
+        solve_nonnegative_integer_route_flows(np.asarray([[1, 1]]), np.asarray([3]), route_costs=np.asarray(costs))
 
 
 def test_integer_route_flow_solver_rejects_lossy_float64_integer_conversion() -> None:

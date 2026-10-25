@@ -217,5 +217,7 @@ def test_plainxml_normalization_schema_is_current() -> None:
     assert (
         REPOSITORY_ROOT
         / "schemas"
+        / "research"
+        / "corridor"
         / "torii.corridor.plainxml-normalization-report.v1.schema.json"
     ).read_text(encoding="utf-8") == expected

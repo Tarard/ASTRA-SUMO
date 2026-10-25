@@ -1,0 +1,142 @@
+Assessment
+
+M1.2 is accepted as the demand pool for native testing.
+
+The strict rule holds: zero repeated junctions and zero selected turnarounds.
+Coverage holds: 13/13 fields, each with at least two witnesses.
+The solve is tight: 6,297 vehicles equals the dual lower bound in all three ceiling variants, so the solution is minimal under its constraints.
+At 1.06 passages per vehicle, the stacking exploit is gone.
+-142944318 supplies 1,227 vehicles, exactly the Z.5–Z.8 total, so the Ernst-Merck-Straße approach is fed directly.
+
+Keep this declared: the proposal contains no background traffic. Every vehicle passes at least one field.
+
+M2 is accepted, with one safety correction before M3. The binding through the vt bridge, the composed K1∧K7 at 119, the always-dark groups as O, all 76 bound intergreen pairs satisfied, and the begin-time invariance with exact E1 integers are all as specified.
+
+The problem is the 74 unmatched connections at official controllers, declared O. In SUMO, O means “off, no signal, priority”. A motor link in state O can enter at any time with priority. Where it has no foe relation with a green link from the same approach, nothing prevents a collision.
+
+The 535 lane-4 left turn is exactly that case. It is the victim path of both historical collisions, and it crosses the lane-5 official left, which is green under K5. Pedestrian and cycle O links are harmless for passenger-only demand.
+
+Assignment 4: M3, first full-window validity run
+
+Step 1 (static): fix the motor O links. Call the result program variant A′.
+
+List every motor-capable O link at an official controller. For each, show its foe relations and whether any M1.2 route can traverse it, including through lane choice.
+Set the 535 lane-4 left to r. OSM and MAP both say lane 4 goes straight, and lane 5 already serves both target lanes officially. This is a state declaration backed by both sources, not a deletion of a turn.
+Every other motor O link that an M1.2 route can traverse: assign o (yield, no priority) as the declared fallback, and list it.
+Motor links no route can traverse stay O, listed.
+Re-run the native intergreen check, and load the network with no new warnings.
+
+Step 2 (native): run the M1.2 base proposal under A′ (Z.15 alternative A).
+
+Settings:
+seed 104, step 0.1 s;
+--collision.check-junctions true, --time-to-teleport -1;
+300 s stall stop;
+end 14,400 s (window 3,600–12,600 plus a completion tail).
+Record:
+periodic and instantaneous E1 output;
+tripinfo and summary;
+insertion delay per entry;
+the stall monitor’s lane, leader and yield diagnostics, if it triggers.
+
+Validity criteria. Judged separately from any fit:
+
+0 collisions, 0 teleports, no stall stop;
+every vehicle inserted and arrived by 14,400 s;
+report maximum and p95 insertion delay per entry. Flag anything above 30 s; don’t silently accept it.
+
+Diagnostics to report (inputs to M4/M5, not fit claims):
+
+All 130 field and 40 station residuals, with missing kept missing.
+Per vehicle and per field: planned free-flow passage bin versus the actual native passage time, from instantaneous E1. Report how many passages changed bin, by field and by direction. This drives the M5 correction loop.
+Lane realization at the 8 lane-split fields: unguided native lane choice against the ideal lane intents. This measures how much lane intent M4 must supply.
+Per-approach queues at the five official junctions: maximum queue and whether any spills into an upstream junction.
+
+If the run is invalid, attribute it with the stall and collision diagnostics, freeze the evidence, and stop. Apply no fixes inside this assignment; I’ll pick the remedy.
+
+If it’s valid, freeze the package and report. Then I’ll assign M4: a declared lane-intent mechanism, built on your earlier 20/20 Z8 guidance trial, for the lane-split fields.
+
+
+
+
+just now
+Environment
+
+
+Default
+
+ASTRA-SUMO
+
+
+
+codex/claude-network-c
+leaning-v1
+
+Context
+
+68% used
+678k / 1M
+Messages
+608.1k
+60.8%
+System tools
+26.7k
+2.7%
+System prompt
+11.4k
+1.1%
+Skills
+5.6k
+0.6%
+Manage skills
+Since last update
+26.2k
+2.6%
+Autocompact buffer
+33k
+3.3%
+Free space
+289k
+28.9%
+System tools (deferred)
+20.9k
+—
+280k until auto-compact
+Compact session
+Outputs
+
+
+overlay_movements.png
+
+egress_zoom_map.png
+
+ring1-91254d6-linux-official.net.xml
+
+ring1-91254d6-linux-official.net.xml.gz
+Changes
+
+
+Enable exploratory road calibration and preserve scoped network edits
+
+#1
+84,534 additions, 6 deletions
++84,534
+−6
+2/4
+Mark ready
+
+
+On pace to hit your weekly limit early
+51% used · Resets Mon, Oct 26, 1:00 AM
+
+Type / for commands
+
+
+
+
+
+
+Auto
+Opus 5.5 High
+Fast mode off
+Arrow keys move the tile. Perpendicular arrows preview a split; press Enter to commit or Escape to cancel.

@@ -1,0 +1,155 @@
+{
+  "bindings": [
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_official_sources_20261020_v1\\119-ocit_xml.xml.gz",
+      "sha256": "99da6cd38af4daad7ec485a1b6ab16608bd81ad4a69615db177f1a4a585d6927",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_official_sources_20261020_v1/119-ocit_xml.xml.gz"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_official_sources_20261020_v1\\manifest.json",
+      "sha256": "79a49cde1151b95d67f2d1a337be41def0552e08c7db5b4d0d8296f691655724",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_official_sources_20261020_v1/manifest.json"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_m2_control_20261021_v1\\inputs\\ocit_119.xml",
+      "sha256": "d69cf2736036e1c3023e711246376f45e029356cb3a585d83cb66e61398e9b13",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_m2_control_20261021_v1/inputs/ocit_119.xml"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_m2_control_20261021_v1\\README.md",
+      "sha256": "fd2a3e240afc1fc032a4985f2ed195aa8a7ef2583343b8ab572ce896f8771d54",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_m2_control_20261021_v1/README.md"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_m2_control_20261021_v1\\report.json",
+      "sha256": "b9fbeaa919648535e7c201daf4963cb6f0c025b322b4171d7f2ae2baa1d2ae74",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_m2_control_20261021_v1/report.json"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_m2_control_20261021_v1\\source-program-119.json",
+      "sha256": "8e44e151612b6645e686dc346aea56c7210753f107b18671911936514e0bac75",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_m2_control_20261021_v1/source-program-119.json"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_m2_control_20261021_v1\\control-A.add.xml",
+      "sha256": "2bdb02df5df1596a97d99aae50ae4db0f48a05b382ee8d1bd54dd468b61deee9",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_m2_control_20261021_v1/control-A.add.xml"
+    },
+    {
+      "declared_path": "benchmarks\\hamburg_ring1_m2_control_20261021_v1\\link-bindings.json.gz",
+      "sha256": "e37d1c79eb9756d387db6b987acd4b1dbc1a9fe08405b66bdbc581ec63e03f17",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_m2_control_20261021_v1/link-bindings.json.gz"
+    },
+    {
+      "declared_path": "outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\control.add.xml",
+      "sha256": "f38c6c195871a34cfa5f635072df63c783d1f9ec6e3bec555f657bbf4f00c616",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/control.add.xml"
+    },
+    {
+      "declared_path": "outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\network.net.xml",
+      "sha256": "99f208c982b5c6d0251d552b412bfdc5ec6f7f8344705f580278dc376c521c00",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/network.net.xml"
+    },
+    {
+      "declared_path": "outputs\\hamburg-cohort-timing-extension-20261024-v1\\extension\\prepared\\scenario.json",
+      "sha256": "4e5ed7498a59222e0fedbb53bad657fc29d11bb30367f5a6879f5ca0fda6cd8c",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_cohort_timing_extension_20261024_v1/extension/prepared/scenario.json"
+    },
+    {
+      "declared_path": "plugins\\astra-sumo\\src\\astra_sumo\\core\\hamburg_readme_control.py",
+      "sha256": "f3f1bcff03a624589e4dcbc0320c809580ab5c93f076e9d0cf0eabfd0957b6ae",
+      "scope": "packet",
+      "target": "source-dependencies/hamburg_readme_control.py"
+    },
+    {
+      "declared_path": "plugins\\astra-sumo\\src\\astra_sumo\\core\\ocit_c_programs.py",
+      "sha256": "acb8d5619232bec1aefe331d6f5bd52abe30a2b0b1403b8e4866d5322446e434",
+      "scope": "packet",
+      "target": "source-dependencies/ocit_c_programs.py"
+    },
+    {
+      "declared_path": "outputs\\hamburg-lsa119-offset-provenance-20261024-v1\\audit.py",
+      "sha256": "f014ca1ef69bd5200843cda7918e95576012ff9ca86545bd44b04f5204e1f192",
+      "scope": "packet",
+      "target": "offset-provenance/audit.py"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-receiving-diagnosis-20261023-v1\\full-priority\\evaluation\\native\\field-counts.xml",
+      "sha256": "676f610a96ae50071796ed59cc08b5bd6a5d35c1877b9a2cdebdd64361f457bb",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/evaluation/native/field-counts.xml"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-receiving-diagnosis-20261023-v1\\full-priority\\verdict.json",
+      "sha256": "f0968aa9acf3666f27046ea7308841537eaeb8640b3a68fd55fd193acd41b1a4",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/verdict.json"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\evaluation\\native\\field-counts.xml",
+      "sha256": "246929d146f1a716b84436f2332ff23abcad7daec77853ed717406b093be1a45",
+      "scope": "packet",
+      "target": "plus15/evaluation/native/field-counts.xml"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\plus15\\verdict.json",
+      "sha256": "6b48a5671a35b977b85860d4911ebf5fabd6c2d094295d7d2bc193337b5ed61d",
+      "scope": "packet",
+      "target": "plus15/verdict.json"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\minus15\\evaluation\\native\\field-counts.xml",
+      "sha256": "9a231d8c0259c7088d8eee08830115cbc2a426769599a7de95e363375a32f382",
+      "scope": "packet",
+      "target": "minus15/evaluation/native/field-counts.xml"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\minus15\\verdict.json",
+      "sha256": "59f475427624a65eb4337043ccd11570b18dd768c4998e7d0837ce1542d4f072",
+      "scope": "packet",
+      "target": "minus15/verdict.json"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-receiving-diagnosis-20261023-v1\\full-priority\\prepared\\expected-counts.csv",
+      "sha256": "a648d6ebc0d93920210662ced8f8e6ef9c46a04079a31a8faa1b7cea9232bb02",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/expected-counts.csv"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-receiving-diagnosis-20261023-v1\\full-priority\\prepared\\initialization-counts.csv",
+      "sha256": "a6a2504c4e652bed33a6e330a5e62fa4c1a601be6f8106d4f5724d5fc933a147",
+      "scope": "repository",
+      "target": "benchmarks/hamburg_ring1_119_receiving_priority_20261023_v1/full-priority/prepared/initialization-counts.csv"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\independent\\manifest.json",
+      "sha256": "fc3d8e5dce00a6521769a745323dfaec09cf3d460c872cc1aab8eec1dd1e0dc9",
+      "scope": "packet",
+      "target": "pair-independent/manifest.json"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\independent\\field13-main.csv",
+      "sha256": "1e3504ad5225e7e4fa24f17fbbb522d4b6ea58ea04b718bd2231681d83bcb935",
+      "scope": "packet",
+      "target": "pair-independent/field13-main.csv"
+    },
+    {
+      "declared_path": "outputs\\hamburg-119-common-offset-20261024-v1\\offset-response-analysis\\analyze.py",
+      "sha256": "617beb0c69550e30ffa1414811a3c92b051e1220c886c96f7248e049d8e8c21b",
+      "scope": "packet",
+      "target": "offset-response-analysis/analyze.py"
+    }
+  ],
+  "original_hashes_not_rewritten": true
+}

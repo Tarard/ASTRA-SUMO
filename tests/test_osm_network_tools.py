@@ -1,10 +1,14 @@
 import csv
 import gzip
+import hashlib
 import json
 import shutil
 from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import Mock
 import xml.etree.ElementTree as ET
+
+import pytest
 
 from astra_sumo.core import osm_workflow
 from astra_sumo.core.connectivity import (
@@ -269,11 +273,13 @@ def test_cleanup_uses_permission_candidate_and_keeps_raw_build_identity(tmp_path
 
 
 def test_osm_cleanup_preserves_partial_and_severe_connectivity_classes(tmp_path: Path, monkeypatch) -> None:
+    # Only the traffic-light map review is open in these fixtures, so a partial main component needs review
+    # while a severely fragmented network still fails.
     cases = (
-        (992, 4, "partial-main-component", "partial"),
-        (700, 20, "construction-invalid", "fail"),
+        (992, 4, "partial-main-component", "partial", "review_required", "diagnostic-demo"),
+        (700, 20, "construction-invalid", "fail", "fail", "construction-invalid"),
     )
-    for largest_count, component_count, expected_quality, expected_gate in cases:
+    for largest_count, component_count, expected_quality, expected_gate, expected_status, expected_claim in cases:
         work_dir = tmp_path / expected_gate
         _patch_cleanup_stages(
             monkeypatch,
@@ -300,7 +306,8 @@ def test_osm_cleanup_preserves_partial_and_severe_connectivity_classes(tmp_path:
 
         assert report["network_quality"] == expected_quality
         assert report["gate_status"]["connectivity"] == expected_gate
-        assert report["claim_status"] == "construction-invalid"
+        assert report["gate_status"]["tls_reality_audit"] == "review_required"
+        assert (report["status"], report["claim_status"]) == (expected_status, expected_claim)
 
 
 def test_build_overpass_query_uses_overpass_coordinate_order_and_date() -> None:
@@ -1412,6 +1419,8 @@ def test_build_osm_network_from_existing_osm_runs_netconvert_and_records_artifac
             "netconvert",
             "--osm-files",
             "osm/demo_filtered.osm.xml.gz",
+            "--precision",
+            "6",
             "--output-file",
             "sumo/demo.net.xml",
             "--proj.utm",
@@ -1461,6 +1470,34 @@ def test_build_osm_network_passes_geo_boundary_to_netconvert(tmp_path: Path) -> 
     assert command[command.index("--keep-edges.in-geo-boundary") + 1] == boundary
     assert command[command.index("--tls.join-dist") + 1] == "75"
     assert report["geo_boundary"] == boundary
+
+
+@pytest.mark.parametrize("distribution", ["binary", "share", "package"])
+def test_visual_profile_resolves_its_type_maps_without_sumo_home(tmp_path, monkeypatch, distribution):
+    from astra_sumo.core import osm_network
+    monkeypatch.delenv("SUMO_HOME", raising=False)
+    executable = tmp_path / "install/bin/netconvert"
+    executable.parent.mkdir(parents=True)
+    executable.touch()
+    package = tmp_path / "python/sumo/__init__.py"
+    home = {"binary": executable.parent.parent, "share": executable.parent.parent / "share/sumo",
+            "package": package.parent}[distribution]
+    type_dir = home / "data/typemap"
+    type_dir.mkdir(parents=True)
+    for name in osm_network.REFERENCE_VISUAL_SUMO_TYPEMAPS:
+        (type_dir / name).write_text("<types/>", encoding="utf-8")
+    monkeypatch.setattr(osm_network, "find_spec", lambda _: SimpleNamespace(origin=str(package)))
+    logs = tmp_path / "logs"
+    logs.mkdir()
+    options, warnings = osm_network._reference_visual_type_options(tmp_path, logs, "demo", netconvert_binary=str(executable))
+    supplied = options[1].split(",")
+    assert supplied[:-1] == [str(path.relative_to(tmp_path)).replace("\\", "/")
+                            for path in (type_dir / name for name in osm_network.REFERENCE_VISUAL_SUMO_TYPEMAPS)]
+    assert not warnings and "SUMO_HOME" not in osm_network.os.environ
+    (type_dir / osm_network.REFERENCE_VISUAL_SUMO_TYPEMAPS[0]).unlink()
+    with pytest.raises(ValueError, match="requires SUMO type maps"):
+        osm_network._reference_visual_type_options(tmp_path, logs, "missing", explicit_sumo_home=home,
+                                                   netconvert_binary=str(executable))
 
 
 def test_build_osm_network_reference_visual_detail_profile_imports_pedestrian_tls_structure(
@@ -1539,6 +1576,27 @@ def test_build_osm_network_reference_visual_detail_profile_imports_pedestrian_tl
     service_type_text = service_type_file.read_text(encoding="utf-8")
     assert 'id="highway.service"' in service_type_text
     assert 'disallow="pedestrian' in service_type_text
+    manifest = json.loads(Path(report["build_manifest_file"]).read_text(encoding="utf-8"))
+    expected_inputs = [{"path": str((tmp_path / "build" / value).resolve()),
+                        "sha256": hashlib.sha256((tmp_path / "build" / value).read_bytes()).hexdigest()}
+                       for value in type_files]
+    assert report["netconvert_type_map_inputs"] == manifest["netconvert"]["type_map_inputs"] == expected_inputs
+
+
+@pytest.mark.parametrize("layout", ["data/typemap", "share/sumo/data/typemap"])
+def test_visual_profile_warns_when_configured_type_maps_differ_from_binary(tmp_path, layout):
+    from astra_sumo.core import osm_network
+    configured = tmp_path / "configured"
+    adjacent = tmp_path / "binary" / layout
+    adjacent.mkdir(parents=True)
+    chosen = configured / "data/typemap"
+    chosen.mkdir(parents=True)
+    for name in osm_network.REFERENCE_VISUAL_SUMO_TYPEMAPS:
+        (chosen / name).write_text("<types/>", encoding="utf-8")
+    options, warnings = osm_network._reference_visual_type_options(tmp_path, tmp_path, "different",
+        explicit_sumo_home=configured, netconvert_binary=str(tmp_path / "binary/bin/netconvert"))
+    assert options[0] == "--type-files" and len(warnings) == 1
+    assert "differ from the selected binary" in warnings[0]
 
 
 def test_build_osm_network_passes_explicit_left_hand_traffic_to_netconvert(

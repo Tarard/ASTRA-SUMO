@@ -1,4 +1,6 @@
 from pathlib import Path
+import sys
+from types import SimpleNamespace
 
 from astra_sumo.core.environment import collect_environment_report
 
@@ -46,6 +48,18 @@ def test_collect_environment_report_blocks_when_sumo_missing() -> None:
 
     assert report.status == "blocked"
     assert "sumo binary not found" in report.warnings
+
+
+def test_environment_reports_actual_python_lookup_paths_without_a_new_gate():
+    origins = {"sumolib": "C:/external-SUMO/tools/sumolib/__init__.py",
+               "traci": "C:/project/.venv/Lib/site-packages/traci/__init__.py"}
+    report = collect_environment_report(which_func=lambda name: f"C:/project/native/{name}.exe",
+        version_runner=lambda *args: {"status": "pass", "returncode": 0},
+        package_finder=lambda name: SimpleNamespace(origin=origins[name]))
+    assert report.python_executable == sys.executable
+    assert report.python_module_origins == origins
+    assert report.to_dict()["python_module_origins"] == origins
+    assert report.status == "pass" and not report.warnings
 
 
 def test_collect_environment_report_blocks_when_python_packages_missing() -> None:

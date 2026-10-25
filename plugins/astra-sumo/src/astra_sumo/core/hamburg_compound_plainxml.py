@@ -19,55 +19,20 @@ from .junction_join_definition import build_junction_join_definition
 from .osm_workflow import export_plain_net_for_teacher_guided_repair
 
 
+from .site_parameters import load_site_parameters
+from .local_network_conversion import with_geometry_precision
+
+_SITE = load_site_parameters('hamburg_compound_plainxml')
+
+
 MATERIALIZER_SCHEMA = "torii.hamburg-2394-compound-geometry/v1"
 CLASSIFICATION_SCHEMA = "torii.composable-intersection-archetype/v2"
 
-EXPECTED_CELL_NODES = frozenset(
-    {
-        "3847369287",
-        "757036909",
-        "76463166",
-        "3847369288",
-        "759714726",
-        "2761334279",
-        "757036795",
-        "3847369285",
-    }
-)
-EXPECTED_JOIN_GROUPS = frozenset(
-    {
-        frozenset({"3847369287", "757036909", "76463166"}),
-        frozenset({"2761334279", "757036795"}),
-    }
-)
-EXPECTED_OWNER_COMPONENTS = frozenset(
-    {
-        frozenset({"3847369287", "757036909", "76463166"}),
-        frozenset({"3847369288"}),
-        frozenset({"759714726"}),
-        frozenset({"2761334279", "757036795"}),
-        frozenset({"3847369285"}),
-    }
-)
-EXPECTED_ABSORBED_EDGE_IDS = frozenset(
-    {
-        "-381540198#2",
-        "381540198#2",
-        "-9702435",
-        "9702435",
-        "9702432#1",
-    }
-)
-EXPECTED_OSM_TLS_IDS = frozenset(
-    {
-        "2761334279",
-        "3847369285",
-        "3847369287",
-        "3847369288",
-        "757036795",
-        "759714726",
-    }
-)
+EXPECTED_CELL_NODES = _SITE['EXPECTED_CELL_NODES']
+EXPECTED_JOIN_GROUPS = _SITE['EXPECTED_JOIN_GROUPS']
+EXPECTED_OWNER_COMPONENTS = _SITE['EXPECTED_OWNER_COMPONENTS']
+EXPECTED_ABSORBED_EDGE_IDS = _SITE['EXPECTED_ABSORBED_EDGE_IDS']
+EXPECTED_OSM_TLS_IDS = _SITE['EXPECTED_OSM_TLS_IDS']
 
 
 class HamburgCompoundGeometryError(ValueError):
@@ -230,7 +195,7 @@ def materialize_hamburg_2394_compound_geometry_first_pass(
         "official_tls_restoration": "not_run",
     }
 
-    command = [
+    command = with_geometry_precision([
         netconvert_binary,
         "--node-files",
         str(staged_nodes),
@@ -240,7 +205,7 @@ def materialize_hamburg_2394_compound_geometry_first_pass(
         str(staged_connections),
         "--tllogic-files",
         str(staged_tllogic),
-    ]
+    ])
     if raw_types is not None:
         command.extend(["--type-files", str(staged_types)])
     command.extend(
@@ -320,7 +285,7 @@ def materialize_hamburg_2394_compound_geometry_first_pass(
             "outside_cell_connection_exactness",
         )
     )
-    manifest: dict[str, Any] = {
+    manifest: dict[str, Any] = {"site_parameters": _SITE["_source"],
         "schema": MATERIALIZER_SCHEMA,
         "status": "review_ready" if machine_pass else "blocked",
         "claim_status": "geometry_first_pass_only",
@@ -886,7 +851,7 @@ def _write_blocked_manifest(
     export: Mapping[str, Any],
 ) -> dict[str, Any]:
     source_hash_after = file_sha256(source_net)
-    manifest = {
+    manifest = {"site_parameters": _SITE["_source"],
         "schema": MATERIALIZER_SCHEMA,
         "status": "blocked",
         "claim_status": "construction_invalid",

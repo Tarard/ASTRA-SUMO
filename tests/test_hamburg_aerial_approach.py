@@ -2,11 +2,16 @@ from __future__ import annotations
 
 import shutil
 import subprocess
+import threading
 import xml.etree.ElementTree as ET
 from copy import deepcopy
+from pathlib import Path
 
 import pytest
+import traci
 from pyproj import Transformer
+from sumolib import checkBinary
+from sumolib.miscutils import getFreeSocketPort
 
 from astra_sumo.core.candidate_contracts import file_sha256
 from astra_sumo.core import hamburg_aerial_approach as approach_module
@@ -18,7 +23,7 @@ from astra_sumo.core.hamburg_aerial_approach import (
 )
 
 
-def _source_and_plan(tmp_path, distant_lane=False, reuse_boundary=False, right_pocket=False, through_count=2, full_length_bus=False):
+def _source_and_plan(tmp_path, distant_lane=False, reuse_boundary=False, right_pocket=False, through_count=2, full_length_bus=False, remote_roads=False, logical_length=None, end_offset=0):
     nodes = tmp_path / "nodes.xml"
     edges = tmp_path / "edges.xml"
     nodes.write_text('<nodes><node id="w" x="-160" y="0"/><node id="s" x="-100" y="0"/><node id="J" x="0" y="0"/><node id="e" x="100" y="0"/></nodes>')
@@ -28,6 +33,21 @@ def _source_and_plan(tmp_path, distant_lane=False, reuse_boundary=False, right_p
     if reuse_boundary:
         nodes.write_text(nodes.read_text().replace('id="s" x="-100" y="0"', 'id="s" x="-100" y="0" shape="-102,-5 -98,-5 -98,5 -102,5"'))
         edges.write_text(edges.read_text().replace('id="before" from="w" to="s" numLanes="2"', 'id="before" from="w" to="s" numLanes="1"'))
+    if remote_roads:
+        node_root, edge_root = ET.parse(nodes).getroot(), ET.parse(edges).getroot()
+        for i in range(12):
+            for suffix, x in (("a", 500), ("b", 600)):
+                ET.SubElement(node_root, "node", id=f"r{i}{suffix}", x=str(x), y=str(100 + i * 30))
+            ET.SubElement(edge_root, "edge", id=f"remote-{i}", attrib={"from": f"r{i}a", "to": f"r{i}b", "speed": "7"})
+        ET.ElementTree(node_root).write(nodes, encoding="utf-8")
+        ET.ElementTree(edge_root).write(edges, encoding="utf-8")
+    if logical_length is not None:
+        edge_tree = ET.parse(edges)
+        edge = edge_tree.getroot().find("edge[@id='approach']")
+        edge.set("length", str(logical_length))
+        if end_offset:
+            ET.SubElement(edge, "lane", index="0", endOffset=str(end_offset))
+        edge_tree.write(edges, encoding="utf-8")
     source = tmp_path / "source.net.xml"
     subprocess.run([shutil.which("netconvert"), "-n", str(nodes), "-e", str(edges), "-o", str(source), "--offset.disable-normalization"], check=True, capture_output=True, timeout=30)
     tree = ET.parse(source)
@@ -79,6 +99,110 @@ def _source_and_plan(tmp_path, distant_lane=False, reuse_boundary=False, right_p
 
 
 @pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("case", ["split", "reuse", "right_pocket", "restricted"])
+def test_local_approach_matches_complete_source_conversion(tmp_path, monkeypatch, case):
+    source, plans = _source_and_plan(tmp_path, reuse_boundary=case == "reuse", right_pocket=case == "right_pocket",
+        through_count=1 if case == "restricted" else 2, full_length_bus=case == "restricted", remote_roads=True)
+    if case == "restricted":
+        plans["7"]["lanes"][1]["allowed_vehicle_classes"] = ["bus"]
+    if case == "split":
+        tree = ET.parse(source)
+        root = tree.getroot()
+        root.insert(1, ET.Element("type", id="inherited", sidewalkWidth="3", bikeLaneWidth="1.5"))
+        root.find("edge[@id='approach']").set("type", "inherited")
+        tree.write(source, encoding="utf-8", xml_declaration=True)
+    digest = file_sha256(source)
+    def build(name):
+        return build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+            junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / name)
+    local = build("local")
+    assert local["status"] == "pass", local
+    assert local["geometry_frozen_input"]["source"]["sha256"] == digest
+    candidate_root = ET.parse(local["candidate_network"]["path"]).getroot()
+    for row in local["approaches"]:
+        if row["upstream_edge_id"]:
+            upstream = candidate_root.find(f"edge[@id='{row['upstream_edge_id']}']")
+            assert len(upstream.findall("lane")) == len(row["through_lane_ids"])
+    assert local["inherited_speed_roundoff_restoration"]["after_sha256"] == local["candidate_network"]["sha256"]
+    record = local["local_conversion"]
+    assert record["status"] == "local"
+    assert record["source_normal_edge_count"] == 15
+    assert record["converted_normal_edge_count"] == 3
+    from astra_sumo.core.network_link_semantics import compare_loaded_link_semantics
+    restoration = local["scoped_geometry_restoration"]
+    links = compare_loaded_link_semantics(source_net_file=source, candidate_net_file=local["candidate_network"]["path"],
+        native_net_file={node: record["native_output"] for node in restoration["mutable_junction_ids"]},
+        mutable_junction_ids=restoration["mutable_junction_ids"], boundary_edge_map=restoration["boundary_edge_map"],
+        output_dir=tmp_path / "loaded-links", sumo_binary=shutil.which("sumo"))
+    assert links["status"] == "pass", links
+    assert links["boundary_mapping_errors"] == []
+    assert record["source_unchanged"]
+    assert set(record.get("edge_endpoints", {})) == ({"approach", local["approaches"][0]["upstream_edge_id"]} if case in {"split", "right_pocket"} else set())
+    monkeypatch.setattr("astra_sumo.core.local_network_conversion.local_conversion_input",
+        lambda *args, **kwargs: (None, {"status": "full_network", "reason": "explicit_complete_source_control"}))
+    full = build("full")
+    assert full["status"] == "pass", full
+    def elements(path):
+        return sorted(ET.canonicalize(ET.tostring(row, encoding="unicode"), strip_text=True)
+                      for row in ET.parse(path).getroot() if row.tag != "location")
+    assert elements(local["candidate_network"]["path"]) == elements(full["candidate_network"]["path"])
+    assert digest == file_sha256(source)
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("version", ["1.2", "1.3"])
+def test_split_approach_preserves_native_legacy_permission_meaning(tmp_path, version):
+    import traci
+    source, plans = _source_and_plan(tmp_path, remote_roads=True)
+    tree = ET.parse(source)
+    tree.getroot().set("version", version)
+    for lane in tree.getroot().find("edge[@id='approach']").findall("lane"):
+        lane.attrib.pop("allow", None)
+        lane.set("disallow", "rail_urban")
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    digest = file_sha256(source)
+    result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "out")
+    assert result["status"] == "pass", result
+    def native_denials(path, lane_ids, label):
+        traci.start([shutil.which("sumo"), "-n", str(path), "--end", "1", "--no-step-log", "true"], label=label, numRetries=3)
+        connection = traci.getConnection(label)
+        try:
+            return [set(connection.lane.getDisallowed(identifier)) for identifier in lane_ids]
+        finally:
+            connection.close()
+    expected = native_denials(source, ["approach_0"], "source-" + tmp_path.name)[0]
+    assert {"rail_urban", "subway", "cable_car"} <= expected
+    assert ("rail_fast" in expected) == (version == "1.2")
+    upstream = result["approaches"][0]["upstream_edge_id"]
+    actual = native_denials(result["candidate_network"]["path"],
+        ["approach_0", "approach_1", "approach_2", upstream + "_0", upstream + "_1"], "candidate-" + tmp_path.name)
+    assert all(denied == expected for denied in actual)
+    assert digest == file_sha256(source)
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
+@pytest.mark.parametrize("offset", [0, 5])
+def test_split_distributes_explicit_logical_length_without_duplicating_stop_offset(tmp_path, offset):
+    source, plans = _source_and_plan(tmp_path, logical_length=500, end_offset=offset)
+    before = ET.parse(source).getroot().find("edge[@id='approach']")
+    result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "out")
+    assert result["status"] == "pass", result
+    root = ET.parse(result["candidate_network"]["path"]).getroot()
+    event = result["approaches"][0]
+    up, down = [root.find(f"edge[@id='{identifier}']") for identifier in (event["upstream_edge_id"], "approach")]
+    assert abs(float(up.get("length")) + float(down.get("length")) - 500) <= 0.01
+    new_offset_mean = sum(float(lane.get("endOffset", "0")) for lane in down.findall("lane")) / len(down.findall("lane"))
+    for original, upstream, downstream in zip(before.findall("lane"), up.findall("lane"), down.findall("lane")):
+        assert abs(float(upstream.get("length")) + float(downstream.get("length")) - (500 - new_offset_mean)) <= 0.02
+        assert float(upstream.get("endOffset", "0")) == 0
+        if not offset:
+            assert abs(float(upstream.get("length")) + float(downstream.get("length")) - float(original.get("length"))) <= 0.02
+    assert float(down.find("lane").get("endOffset", "0")) == offset
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
 @pytest.mark.parametrize("full_length_bus", [False, True])
 def test_official_bus_lane_permissions_and_real_vehicle_legality(tmp_path, full_length_bus):
     source, plans = _source_and_plan(tmp_path, through_count=1, full_length_bus=full_length_bus)
@@ -98,13 +222,39 @@ def test_official_bus_lane_permissions_and_real_vehicle_legality(tmp_path, full_
     first = event["upstream_edge_id"] or "before"
     routes = tmp_path / "legal.xml"
     routes.write_text('<routes><vType id="bus" vClass="bus"/><vehicle id="bus" type="bus" depart="0"><route edges="' + first + ' approach"/><stop lane="approach_1" endPos="' + str(float(bus_lane.get("length")) - 2) + '" duration="1"/></vehicle><vehicle id="car" depart="100"><route edges="' + first + ' approach"/></vehicle></routes>')
-    command = [shutil.which("sumo"), "-n", result["candidate_network"]["path"], "-r", str(routes), "--end", "200", "--no-step-log", "--tripinfo-output", str(tmp_path / "trips.xml")]
-    run = subprocess.run(command, capture_output=True, text=True, timeout=30)
-    assert run.returncode == 0, run.stderr
+    command = [checkBinary("sumo"), "-n", result["candidate_network"]["path"], "-r", str(routes), "--end", "200", "--no-step-log", "--tripinfo-output", str(tmp_path / "trips.xml")]
+    # A launcher descendant can retain captured pipes after the process exits on Windows.
+    legal_log = tmp_path / "legal.log"
+    with legal_log.open("w", encoding="utf-8") as log:
+        run = subprocess.run(command, stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT, timeout=30)
+    assert run.returncode == 0, legal_log.read_text(encoding="utf-8")
     assert {row.get("id") for row in ET.parse(tmp_path / "trips.xml").getroot()} == {"bus", "car"}
-    routes.write_text(routes.read_text().replace('id="bus" type="bus" depart="0"', 'id="bus" depart="0"'))
-    rejected = subprocess.run(command, capture_output=True, text=True, timeout=30)
-    assert rejected.returncode != 0, "A passenger vehicle must not use the official bus-only stop lane"
+    port = getFreeSocketPort()
+    rejected_log = tmp_path / "runtime-rejection.log"
+    with rejected_log.open("w", encoding="utf-8") as log:
+        process = subprocess.Popen([checkBinary("sumo"), "-n", result["candidate_network"]["path"],
+            "--remote-port", str(port), "--no-step-log", "true"],
+            stdin=subprocess.DEVNULL, stdout=log, stderr=subprocess.STDOUT)
+        deadline = threading.Timer(30, lambda: process.kill() if process.poll() is None else None)
+        deadline.start()
+        try:
+            connection = traci.connect(port, numRetries=30, proc=process)
+            connection.route.add("negative", [first, "approach"])
+            connection.vehicle.add("negative", "negative")
+            assert connection.vehicle.getVehicleClass("negative") == "passenger"
+            # Check native rejection without depending on SUMO's fatal input-error shutdown path.
+            with pytest.raises(traci.TraCIException, match="not allowed to stop on lane 'approach_1'"):
+                connection.vehicle.setStop("negative", "approach", pos=float(bus_lane.get("length")) - 2,
+                                          laneIndex=1, duration=1)
+            assert not connection.vehicle.getStops("negative")
+            connection.simulationStep()
+            connection.close(wait=False)
+            assert process.wait(timeout=30) == 0, rejected_log.read_text(encoding="utf-8")
+        finally:
+            deadline.cancel()
+            if process.poll() is None:
+                process.kill()
+            process.wait(timeout=5)
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
@@ -159,7 +309,7 @@ def test_closer_road_with_wrong_count_is_not_replaced_by_parallel_match():
 
 
 @pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
-@pytest.mark.parametrize("fault", [None, "short_lane", "source_count", "permissions"])
+@pytest.mark.parametrize("fault", [None, "short_lane", "source_count", "permissions", "fragmented", "fragmented_broken_path"])
 def test_no_addition_requires_matching_full_length_official_lanes(tmp_path, monkeypatch, fault):
     source, plans = _source_and_plan(tmp_path)
     plan = plans["7"]
@@ -190,12 +340,25 @@ def test_no_addition_requires_matching_full_length_official_lanes(tmp_path, monk
         tree.write(source, encoding="utf-8")
     elif fault == "permissions":
         plan["lanes"][0]["permission_status"] = "review_required"
+    elif fault in {"fragmented", "fragmented_broken_path"}:
+        split_nodes, split_edges = tmp_path / "split.nod.xml", tmp_path / "split.edg.xml"
+        split_nodes.write_text('<nodes><node id="part" x="-50" y="0"/></nodes>', encoding="utf-8")
+        split_edges.write_text('<edges><edge id="prefix" from="s" to="part" numLanes="2" spreadType="center" speed="11" allow="passenger bus"/><edge id="approach" from="part"/></edges>', encoding="utf-8")
+        split_source = tmp_path / "fragmented.net.xml"
+        compiled = subprocess.run([shutil.which("netconvert"), "-s", str(source), "-n", str(split_nodes), "-e", str(split_edges),
+            "--offset.disable-normalization", "true", "-o", str(split_source)], capture_output=True, text=True, timeout=30)
+        assert compiled.returncode == 0, compiled.stderr
+        source = split_source
+        if fault == "fragmented_broken_path":
+            tree = ET.parse(source)
+            tree.getroot().remove(tree.find("connection[@from='prefix'][@to='approach'][@fromLane='1']"))
+            tree.write(source, encoding="utf-8", xml_declaration=True)
     old_hash = file_sha256(source)
-    monkeypatch.setattr(approach_module, "run_command", lambda *args, **kwargs: pytest.fail("No lane addition should compile a network"))
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", lambda *args, **kwargs: pytest.fail("No lane addition should compile a network"))
     result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans, junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "out")
     assert result["candidate_network"] is None
     assert file_sha256(source) == old_hash
-    if fault:
+    if fault not in {None, "fragmented"}:
         assert result["status"] == "review_required"
         assert result["reviews"]
         assert result["not_applicable"] == []
@@ -206,6 +369,11 @@ def test_no_addition_requires_matching_full_length_official_lanes(tmp_path, monk
         assert unchanged["reason"] == "no_documented_addition_with_matching_source_lanes"
         assert unchanged["source_edge_id"] == "approach"
         assert unchanged["official_lane_indices"] == {"1": 0, "2": 1}
+        if fault == "fragmented":
+            root = ET.parse(source).getroot()
+            for index in (0, 1):
+                via = root.find(f"connection[@from='prefix'][@to='approach'][@fromLane='{index}']").get("via")
+                assert unchanged["source_lane_paths"][str(index + 1)] == [f"prefix_{index}", via, f"approach_{index}"]
 
 
 def test_empty_official_scope_is_not_evidence_that_no_addition_is_needed(tmp_path):
@@ -215,6 +383,70 @@ def test_empty_official_scope_is_not_evidence_that_no_addition_is_needed(tmp_pat
     assert result["status"] == "review_required"
     assert result["not_applicable"] == []
     assert result["candidate_network"] is None
+
+
+@pytest.mark.skipif(not shutil.which("netconvert"), reason="SUMO binaries required")
+@pytest.mark.parametrize("case", ["already_present", "full_reference", "fragmented", "shifted", "broken"])
+def test_existing_source_fanout_is_recognized_without_another_lane_addition(tmp_path, monkeypatch, case):
+    source, plans = _source_and_plan(tmp_path, through_count=1)
+    existing = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "existing")
+    assert existing["status"] == "pass", existing
+    source = Path(existing["candidate_network"]["path"])
+    event = existing["approaches"][0]
+    if case == "fragmented":
+        nodes, edges, connections = [tmp_path / name for name in ("part.nod.xml", "part.edg.xml", "part.con.xml")]
+        nodes.write_text('<nodes><node id="part" x="-20" y="0" shape="-24,-4 -16,-4 -16,4 -24,4"/><node id="side" x="-50" y="12"/></nodes>', encoding="utf-8")
+        edges.write_text('<edges><edge id="fragment" from="' + event['split_node_id'] + '" to="part" numLanes="2" spreadType="center" speed="11" allow="passenger bus"/><edge id="approach" from="part"/><edge id="side-entry" from="side" to="part" numLanes="1" allow="passenger bus"/></edges>', encoding="utf-8")
+        patch = ET.Element("connections")
+        for i in (0, 1):
+            ET.SubElement(patch, "delete", attrib={"from": event["upstream_edge_id"], "to": "approach", "fromLane": "0", "toLane": str(i)})
+            ET.SubElement(patch, "connection", attrib={"from": event["upstream_edge_id"], "to": "fragment", "fromLane": "0", "toLane": str(i)})
+            ET.SubElement(patch, "connection", attrib={"from": "fragment", "to": "approach", "fromLane": str(i), "toLane": str(i)})
+        ET.SubElement(patch, "connection", attrib={"from": "side-entry", "to": "approach", "fromLane": "0", "toLane": "0"})
+        ET.ElementTree(patch).write(connections)
+        candidate = tmp_path / "fragmented-existing.net.xml"
+        compiled = subprocess.run([shutil.which("netconvert"), "-s", str(source), "-n", str(nodes), "-e", str(edges),
+            "-x", str(connections), "--offset.disable-normalization", "true", "-o", str(candidate)], capture_output=True, text=True, timeout=30)
+        assert compiled.returncode == 0, compiled.stderr
+        source = candidate
+    elif case == "broken":
+        tree = ET.parse(source)
+        tree.find("edge[@id='approach']/lane[@index='0']").set("changeLeft", "bicycle")
+        source = tmp_path / "broken-existing.net.xml"
+        tree.write(source, encoding="utf-8", xml_declaration=True)
+    plans = deepcopy(plans)
+    kml = ET.parse(plans["7"]["inputs"]["map_kml"]["path"])
+    inverse = Transformer.from_crs("EPSG:25832", "EPSG:4326", always_xy=True)
+    lon, lat = inverse.transform(-60 if case == "shifted" else -40, 0)
+    coordinate = f"{lon:.12f},{lat:.12f},0"
+    for identifier in ("1", "2"):
+        if case == "full_reference" and identifier == "1":
+            continue
+        points = kml.find(f".//Placemark[name='Lane {identifier}']/LineString/coordinates")
+        points.text = " ".join([coordinate, *points.text.split()[1:]])
+        kml.find(f".//Placemark[name='Lane {identifier} A']/Point/coordinates").text = coordinate
+        kml.find(f".//Placemark[name='Lane {identifier} Merge']/Point/coordinates").text = coordinate
+    reference = tmp_path / "truncated-reference.kml"
+    kml.write(reference, encoding="utf-8")
+    plans["7"]["inputs"]["map_kml"] = {"path": str(reference), "sha256": file_sha256(reference)}
+    digest = file_sha256(source)
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", lambda *args, **kwargs: pytest.fail("An existing fanout needs no native rebuild."))
+    result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "checked")
+    assert result["candidate_network"] is None and file_sha256(source) == digest
+    if case in {"shifted", "broken"}:
+        assert result["status"] == "review_required" and not result["not_applicable"]
+        if case == "shifted":
+            assert result["reviews"][0]["reason"] == "existing_transition_geometry_observation"
+            assert abs(result["reviews"][0]["merge_to_source_node_longitudinal_m"] - 20) < 0.01
+    else:
+        assert result["status"] == "not_applicable", result
+        measured = result["not_applicable"][0]
+        assert measured["reason"] == "documented_fanout_already_represented_at_source_junction"
+        assert measured["source_motor_lane_count_before"] == 1 and measured["source_motor_lane_count_after"] == 2
+        assert measured["reference_begins_at_merge"] == (case != "full_reference")
+        assert measured["source_after_edge_ids"] == (["fragment", "approach"] if case == "fragmented" else ["approach"])
 
 
 @pytest.mark.parametrize("fault", [None, "permissions", "grade", "ambiguous", "missing_control"])
@@ -513,3 +745,62 @@ def test_existing_terminal_tls_program_and_link_indices_are_explicitly_retained(
     remap = report["approaches"][0]["source_lane_to_downstream_lane"]
     actual = {(c.get("fromLane"), c.get("toLane")): c.get("linkIndex") for c in rebuilt.findall("connection") if c.get("from") == "approach" and c.get("tl") == "J"}
     assert actual == {(str(remap[c.get("fromLane")]), c.get("toLane")): c.get("linkIndex") for c in old.findall("connection") if c.get("from") == "approach" and c.get("tl") == "J"}
+
+
+@pytest.mark.skipif(not shutil.which("netconvert") or not shutil.which("sumo"), reason="SUMO binaries required")
+@pytest.mark.parametrize("right_pocket", [False, True])
+def test_added_lane_restores_a_distant_road_after_native_conversion(tmp_path, monkeypatch, right_pocket):
+    source, plans = _source_and_plan(tmp_path, right_pocket=right_pocket)
+    tree = ET.parse(source)
+    root = tree.getroot()
+    remote = ET.Element("edge", id="remote", **{"from": "R", "to": "S", "priority": "1"})
+    ET.SubElement(remote, "lane", id="remote_0", index="0", speed="10", length="4.29", shape="1000,1000 1004.29,1000")
+    root.insert(next(i for i, child in enumerate(root) if child.tag == "junction"), remote)
+    for identity, x, incoming in (("R", "1000", ""), ("S", "1004.29", "remote_0")):
+        node = ET.Element("junction", id=identity, type="dead_end", x=x, y="1000", incLanes=incoming, intLanes="", shape="")
+        root.insert(next((i for i, child in enumerate(root) if child.tag == "connection"), len(root)), node)
+    tree.write(source, encoding="utf-8", xml_declaration=True)
+    original_hash = file_sha256(source)
+    from astra_sumo.core.command_runner import run_command as native
+    monkeypatch.setattr("astra_sumo.core.local_network_conversion.local_conversion_input",
+        lambda *args, **kwargs: (None, {"status": "full_network", "reason": "test_remote_restoration_control"}))
+    def shifted_conversion(command, **kwargs):
+        result = native(command, **kwargs)
+        if result.returncode == 0:
+            target = command[command.index("--output-file") + 1]
+            changed = ET.parse(target)
+            changed.getroot().find("edge[@id='remote']/lane").set("shape", "980,1000 1004.29,1000")
+            changed.getroot().find("edge[@id='remote']/lane").set("length", "24.29")
+            changed.write(target, encoding="utf-8", xml_declaration=True)
+        return result
+    monkeypatch.setattr("astra_sumo.core.command_runner.run_command", shifted_conversion)
+    result = build_hamburg_aerial_approach_candidate(source_net=source, plans=plans,
+        junction_bindings={("7", "0"): "J"}, output_dir=tmp_path / "out")
+    assert result["status"] == "pass", result
+    assert result["fixed_boundary_geometry"]["status"] == "pass"
+    assert result["scoped_geometry_restoration"]["boundary_edge_map"]
+    candidate = ET.parse(result["candidate_network"]["path"]).getroot()
+    lane = candidate.find("edge[@id='remote']/lane")
+    assert lane.get("shape") == "1000,1000 1004.29,1000" and lane.get("length") == "4.29"
+    assert len(candidate.find("edge[@id='approach']").findall("lane")) == 3
+    assert file_sha256(source) == original_hash
+    loaded = subprocess.run([shutil.which("sumo"), "-n", result["candidate_network"]["path"], "--end", "1", "--no-step-log"], capture_output=True, text=True, timeout=30)
+    assert loaded.returncode == 0, loaded.stderr
+@pytest.mark.parametrize("field,value,valid", [("speed", "13.890000", True), ("width", "3.200000", True),
+    ("speed", "13.891", False), ("width", "3.201", False)])
+def test_edge_preservation_distinguishes_numeric_formatting_from_changed_operating_values(field, value, valid):
+    from astra_sumo.core.hamburg_aerial_approach import _preserved_edge
+    expected = ET.fromstring('<edge id="road" from="A" to="B"><lane id="road_0" index="0" speed="13.89" width="3.20" shape="0,0 10,0"/></edge>')
+    actual = deepcopy(expected)
+    actual.find("lane").set(field, value)
+    assert _preserved_edge(expected, actual) is valid
+
+
+@pytest.mark.parametrize("actual,restored", [("13.890000000130", True), ("13.891", False), ("13.890", True)])
+def test_declared_speed_roundoff_is_restored_without_relaxing_preservation(actual, restored):
+    from astra_sumo.core.hamburg_aerial_approach import _restore_speed_roundoff
+    expected = ET.fromstring('<edge id="road"><lane index="0" speed="13.89"/></edge>')
+    candidate = ET.fromstring(f'<edge id="road"><lane id="road_0" index="0" speed="{actual}"/></edge>')
+    records = _restore_speed_roundoff({"road": expected}, {"road": candidate})
+    assert bool(records) is restored
+    assert candidate.find("lane").get("speed") == ("13.89" if restored else actual)

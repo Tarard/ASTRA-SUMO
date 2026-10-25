@@ -1,0 +1,333 @@
+{
+  "schema": "astra.lane-count-signal-followup/v2",
+  "date": "2026-10-19",
+  "production_commit": "3439ae5c9e38939a96696b0dbd42fe41a730b961",
+  "producer_worktree_clean": true,
+  "final_code": {
+    "path": "outputs/driving_identity_20261019_v5/network-edit-operations.captured.py",
+    "sha256": "b1afcdf53d529daeaeba4e6eac8384ca5f280042f4273316503b560f987f795d"
+  },
+  "source": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\native_command_failure_20261019_v1\\hamburg\\workflow\\candidate\\hamburg-five-aerial-combined.net.xml",
+    "sha256": "445917878720723963506a087803ab5d69bd0805d91cbe936022ffea6f09264f"
+  },
+  "seeds": [
+    17
+  ],
+  "horizon_s": 2400,
+  "cohort": {
+    "path": "C:\\Users\\huqio\\Documents\\ASTRA-SUMO\\outputs\\interaction_diagnosis_20261016_v1\\departure-sensitivity-v1\\departure-150.rou.xml",
+    "sha256": "d0e8393fd96f5ec284dbdea07aee0d502be3c20103684273b075d34685ed2dc4"
+  },
+  "cases": [
+    {
+      "name": "control",
+      "operation": {
+        "id": "lane-count-control",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 4
+        },
+        "status": "candidate",
+        "rationale": "Control: request the exact source value through the same typed construction path.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/driving_identity_20261019_v5/control/candidate.net.xml",
+        "sha256": "caede4cd7b6f4de4ddc90a2b1234425d96b790ce01ba09d6dfe8d848091d11e1"
+      },
+      "semantic_release_checks_passed": true,
+      "signal_program_preservation": {
+        "status": "pass",
+        "checked_connection_count": 13,
+        "declared_removed_connection_count": 0,
+        "differences": []
+      },
+      "phase_count": 12,
+      "dummy_connection_count": 0,
+      "custom_turn_count": 2,
+      "fact_selector_remap": {
+        "554713076#0_1": "554713076#0_1",
+        "554713076#0_2": "554713076#0_2",
+        "554713076#0_3": "554713076#0_3"
+      },
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/control/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/control/candidate-scorecard.json",
+        "sha256": "ae378c5d70061cb24fe1d01ad87a7554e92e3d1647c7cb68a04465f9c8cd2afe"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 0.0,
+      "changed_duration_count": 0
+    },
+    {
+      "name": "stress",
+      "operation": {
+        "id": "lane-count-stress",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 5
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/driving_identity_20261019_v5/stress/candidate.net.xml",
+        "sha256": "0b7a3b15ce61495e9a5849ad1fde62f9a53fe22d8668edce1c08e639dd4e03f7"
+      },
+      "semantic_release_checks_passed": true,
+      "signal_program_preservation": {
+        "status": "pass",
+        "checked_connection_count": 13,
+        "declared_removed_connection_count": 0,
+        "differences": []
+      },
+      "phase_count": 12,
+      "dummy_connection_count": 0,
+      "custom_turn_count": 2,
+      "fact_selector_remap": {
+        "554713076#0_1": "554713076#0_1",
+        "554713076#0_2": "554713076#0_2",
+        "554713076#0_3": "554713076#0_3"
+      },
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/stress/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/stress/candidate-scorecard.json",
+        "sha256": "962776b230b3b6fb2a9334d9ab233e5ef89a4aa5ad3449f22f06b5dfd700aa3f"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 0.0,
+      "changed_duration_count": 0
+    },
+    {
+      "name": "add-right",
+      "operation": {
+        "id": "lane-count-add-right",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 5,
+          "add_side": "right"
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/driving_identity_20261019_v5/add-right/candidate.net.xml",
+        "sha256": "1686740d8a86e29662b737c4067df80af8ff93866d099460efbd6e246f5422b6"
+      },
+      "semantic_release_checks_passed": true,
+      "signal_program_preservation": {
+        "status": "pass",
+        "checked_connection_count": 13,
+        "declared_removed_connection_count": 0,
+        "differences": []
+      },
+      "phase_count": 12,
+      "dummy_connection_count": 0,
+      "custom_turn_count": 2,
+      "fact_selector_remap": {
+        "554713076#0_1": "554713076#0_2",
+        "554713076#0_2": "554713076#0_3",
+        "554713076#0_3": "554713076#0_4"
+      },
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/add-right/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/add-right/candidate-scorecard.json",
+        "sha256": "85194527313120a0b9ac8ccf53b9905b8e8a03b6f139d18cd9d306ac1d5f0c3c"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 1.0,
+      "changed_duration_count": 2
+    },
+    {
+      "name": "remove-right",
+      "operation": {
+        "id": "lane-count-remove-right",
+        "operation": "set_lane_count",
+        "params": {
+          "edge_id": "554713076#0",
+          "num_lanes": 3,
+          "remove_index": 0
+        },
+        "status": "candidate",
+        "rationale": "Finite actuator stress check. These proposed changes are not field corrections or traffic optimization.",
+        "rollback": {
+          "action": "discard_candidate_and_use_immutable_source"
+        }
+      },
+      "status": "measured",
+      "network": {
+        "path": "outputs/driving_identity_20261019_v5/remove-right/candidate.net.xml",
+        "sha256": "4f4308723a80141324a750cab1d929f62e25a767aef365aafae410275c76f46e"
+      },
+      "semantic_release_checks_passed": true,
+      "signal_program_preservation": {
+        "status": "pass",
+        "checked_connection_count": 13,
+        "declared_removed_connection_count": 0,
+        "differences": []
+      },
+      "phase_count": 12,
+      "dummy_connection_count": 0,
+      "custom_turn_count": 2,
+      "fact_selector_remap": {
+        "554713076#0_1": "554713076#0_0",
+        "554713076#0_2": "554713076#0_1",
+        "554713076#0_3": "554713076#0_2"
+      },
+      "outside_fact_change_count": 0,
+      "source_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/remove-right/source-scorecard.json",
+        "sha256": "5353eff4d92992f397c8fe9f659a848e0225e3ad2ae0031f4aac90185be36322"
+      },
+      "candidate_scorecard": {
+        "path": "outputs/driving_identity_20261019_v5/remove-right/candidate-scorecard.json",
+        "sha256": "3fb4b956acebf31919f028ce066e86bde1a70eafa56d4eed4c4360e6cc29059a"
+      },
+      "arrived": 100,
+      "collisions": 0,
+      "teleports": 0,
+      "mean_duration_delta_s": 0.0,
+      "maximum_absolute_duration_delta_s": 0.0,
+      "changed_duration_count": 0
+    }
+  ],
+  "negative_cases": [
+    {
+      "nodeid": "tests/test_network_edit_operations.py::test_real_hamburg_lane_count_native_output_keeps_signal_phases[add_right]",
+      "code_commit": "a06076a",
+      "status": "blocked",
+      "report": {
+        "path": "outputs/pytest-failures/80284f1a85ad4e599f6e3e4a00aacf96/test_real_hamburg_lane_count_n0-call/candidate/corridor_materialized_variant.json",
+        "sha256": "2f44f6d8059946b64acf8b1f55f7d02e60b8edae8bfb68f7d6cf47f52121625e"
+      },
+      "network": {
+        "path": "outputs/pytest-failures/80284f1a85ad4e599f6e3e4a00aacf96/test_real_hamburg_lane_count_n0-call/candidate/corridor_materialized_variant.net.xml",
+        "sha256": "acdb48f5e0d8f88bf4dfdcb59a011055e5ad9d272dce085ec8780564721a80df"
+      },
+      "native_status": "fail",
+      "native_stderr": "Error: The tls 'dummy' is not known.\nError: The tls 'dummy' is not known.\nError: The tls 'dummy' is not known.\nQuitting (on error).\n",
+      "dummy_connection_count": 3
+    },
+    {
+      "nodeid": "tests/test_network_edit_operations.py::test_real_hamburg_lane_count_native_output_keeps_signal_phases[remove_right]",
+      "code_commit": "a06076a",
+      "status": "blocked",
+      "report": {
+        "path": "outputs/pytest-failures/80284f1a85ad4e599f6e3e4a00aacf96/test_real_hamburg_lane_count_n1-call/candidate/corridor_materialized_variant.json",
+        "sha256": "8a6f48e191bbeb15bfda5ba9c36b9a2472c87ed8d6e64c4f46eafce687f21e8d"
+      },
+      "network": {
+        "path": "outputs/pytest-failures/80284f1a85ad4e599f6e3e4a00aacf96/test_real_hamburg_lane_count_n1-call/candidate/corridor_materialized_variant.net.xml",
+        "sha256": "8b271300867bbc474f7925f181abbd2a2bbcfd6258bc5ed58e31237498054009"
+      },
+      "native_status": "fail",
+      "native_stderr": "Error: The tls 'dummy' is not known.\nError: The tls 'dummy' is not known.\nError: The tls 'dummy' is not known.\nQuitting (on error).\n",
+      "dummy_connection_count": 3
+    }
+  ],
+  "all_case_count": 7,
+  "pair_validity_counts": {
+    "valid": 6
+  },
+  "identity_check": {
+    "inputs_unchanged": true,
+    "implementation_unchanged": true
+  },
+  "artifacts": [
+    {
+      "path": "outputs/driving_identity_20261019_v5/declaration.json",
+      "sha256": "5c2d165a6b02fd938935f81a404d7ebb8ab588ecbfe2f0391c2b00a077e33e80"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v5/construction-results.json",
+      "sha256": "82cfed34bcfb127649d3b1266849578e84676266e260486e9a2c0e0cf5d34d60"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v5/driving/comparison.json",
+      "sha256": "52d16caa1a87fb45b3e726c5b7c7f1511c8d098793fc23fcacf87d1b2d105620"
+    },
+    {
+      "path": "outputs/run_driving_identity_20261019_v5.py",
+      "sha256": "ed278aeb64161e9e178959b1be7f8d0511689f664f7546b7bc6d0192febf112f"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/shifted-bindings-before.log",
+      "sha256": "dcd40df0bc41133e0ec8d482597e7e35031323fd3e74daba790a505b85a3ea6a"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/shifted-bindings-after.log",
+      "sha256": "4236ec47c9a88ab39028ff9cb4801d154ddd31cd0d8401d7b0d6fabc31472b98"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/signal-check-before.log",
+      "sha256": "cd7c4cd15c4e81d7985cb6365dd21ef17d33e66440be493e5d47c3d3bb2235c0"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v3/signal-check-after.log",
+      "sha256": "b9182250ade605ee91964e20db254e940616ae84f7b2cf3e1a169c3d8b43a148"
+    },
+    {
+      "path": "outputs/driving_identity_20261019_v4/final-signal-comparison-tests.log",
+      "sha256": "cd47eb7b3f17356ff6513f4efc5630a6fc1a35d9d69b7afde723eed9315e688e"
+    }
+  ],
+  "local_tests": [
+    {
+      "passed": 20,
+      "seconds": 75.07,
+      "scope": "Lane-count and shifted-binding checks before the independent comparison."
+    },
+    {
+      "passed": 97,
+      "seconds": 241.39,
+      "scope": "Signal comparison, typed operations and explore, before explicit-removal accounting."
+    },
+    {
+      "passed": 14,
+      "seconds": 14.9,
+      "scope": "Final signal comparison and explore/release fault injection."
+    }
+  ],
+  "counts_overlap": true,
+  "limits": [
+    "One fixed deterministic cohort and seed. No field-demand, performance or statistical-equivalence claim.",
+    "Original burst-demand failures, stochastic-driver validation, cleaning precision and remaining whole-network scopes remain open.",
+    "New controlled movements still require compatible bindings and valid native loading."
+  ]
+}

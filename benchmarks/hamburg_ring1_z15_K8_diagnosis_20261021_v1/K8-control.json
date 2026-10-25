@@ -1,0 +1,342 @@
+{
+  "source_program": "5",
+  "cycle_s": 90.0,
+  "green_s": 5.0,
+  "physical_movements": [
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "186713403#0",
+        0,
+        "142944399#2",
+        1
+      ],
+      "link_index": 16,
+      "via": ":LSA200_part0_16_0",
+      "groups": [
+        [
+          "200",
+          "K8"
+        ]
+      ],
+      "origin": "embedded_official_vt",
+      "official_movements": [
+        {
+          "node_id": "200",
+          "movement_id": "24",
+          "groups": [
+            "K8"
+          ]
+        }
+      ],
+      "native_link_index": 16
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "186713403#0",
+        0,
+        "142944399#2",
+        2
+      ],
+      "link_index": 17,
+      "via": ":LSA200_part0_16_1",
+      "groups": [
+        [
+          "200",
+          "K8"
+        ]
+      ],
+      "origin": "embedded_official_vt",
+      "official_movements": [
+        {
+          "node_id": "200",
+          "movement_id": "23",
+          "groups": [
+            "K8"
+          ]
+        }
+      ],
+      "native_link_index": 17
+    },
+    {
+      "tls": "LSA200_part0",
+      "physical_key": [
+        "186713403#0",
+        1,
+        "142944399#2",
+        3
+      ],
+      "link_index": 19,
+      "via": ":LSA200_part0_19_0",
+      "groups": [
+        [
+          "200",
+          "K8"
+        ]
+      ],
+      "origin": "embedded_official_vt",
+      "official_movements": [
+        {
+          "node_id": "200",
+          "movement_id": "22",
+          "groups": [
+            "K8"
+          ]
+        }
+      ],
+      "native_link_index": 19
+    }
+  ],
+  "inlet_motor_lanes": 2,
+  "phases": [
+    {
+      "begin_s": 0.0,
+      "end_s": 27.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 27.0,
+      "end_s": 29.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 29.0,
+      "end_s": 30.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 30.0,
+      "end_s": 32.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 32.0,
+      "end_s": 34.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 34.0,
+      "end_s": 35.0,
+      "states": [
+        "u",
+        "u",
+        "u"
+      ]
+    },
+    {
+      "begin_s": 35.0,
+      "end_s": 36.0,
+      "states": [
+        "g",
+        "g",
+        "G"
+      ]
+    },
+    {
+      "begin_s": 36.0,
+      "end_s": 40.0,
+      "states": [
+        "g",
+        "g",
+        "G"
+      ]
+    },
+    {
+      "begin_s": 40.0,
+      "end_s": 43.0,
+      "states": [
+        "y",
+        "y",
+        "y"
+      ]
+    },
+    {
+      "begin_s": 43.0,
+      "end_s": 47.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 47.0,
+      "end_s": 50.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 50.0,
+      "end_s": 55.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 55.0,
+      "end_s": 56.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 56.0,
+      "end_s": 82.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 82.0,
+      "end_s": 85.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 85.0,
+      "end_s": 86.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 86.0,
+      "end_s": 87.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 87.0,
+      "end_s": 88.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    },
+    {
+      "begin_s": 88.0,
+      "end_s": 90.0,
+      "states": [
+        "r",
+        "r",
+        "r"
+      ]
+    }
+  ],
+  "source_group": {
+    "group_id": "K8",
+    "traffic_class_native": "Kfz",
+    "ocit_outstation_number": "12",
+    "source_rows_xml": [
+      "<SPZeile><Signalgruppe>K8</Signalgruppe><Schaltzeit><Schaltzeitpunkt>34</Schaltzeitpunkt><Signalbild>30</Signalbild></Schaltzeit><Schaltzeit><Schaltzeitpunkt>40</Schaltzeitpunkt><Signalbild>03</Signalbild></Schaltzeit></SPZeile>"
+    ],
+    "allowed_image_securing_states": {
+      "30": [
+        "release"
+      ],
+      "03": [
+        "stop"
+      ],
+      "00": [
+        "stop"
+      ],
+      "0C": [
+        "stop"
+      ],
+      "0F": [
+        "stop"
+      ],
+      "08": [
+        "stop"
+      ]
+    },
+    "status": "measured",
+    "intervals": [
+      {
+        "begin_s": 0.0,
+        "end_s": 34.0,
+        "signal_image": "03",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": false
+      },
+      {
+        "begin_s": 34.0,
+        "end_s": 35.0,
+        "signal_image": "0F",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": true
+      },
+      {
+        "begin_s": 35.0,
+        "end_s": 40.0,
+        "signal_image": "30",
+        "securing_states": [
+          "release"
+        ],
+        "in_transition": false
+      },
+      {
+        "begin_s": 40.0,
+        "end_s": 43.0,
+        "signal_image": "0C",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": true
+      },
+      {
+        "begin_s": 43.0,
+        "end_s": 90.0,
+        "signal_image": "03",
+        "securing_states": [
+          "stop"
+        ],
+        "in_transition": false
+      }
+    ]
+  },
+  "source_states_retained": true
+}

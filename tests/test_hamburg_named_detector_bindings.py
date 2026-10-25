@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import csv
 import json
+import gzip
 from pathlib import Path
 
 from pyproj import Transformer
@@ -308,6 +309,32 @@ def test_official_map_lane_identity_resolves_parallel_geometry_tie(tmp_path: Pat
         row = next(csv.DictReader(handle))
     assert row["sumo_lane"] == "road_0"
     assert "official MAP" in row["mapping_reason"]
+
+
+def test_real_ring1_kml_keeps_adjacent_fields_on_distinct_source_lanes(tmp_path):
+    from astra_sumo.core.candidate_contracts import file_sha256
+    fixture = Path(__file__).parents[1] / "benchmarks/hamburg_ring1_road_scope_20261020_v1"
+    metadata = json.loads((fixture / "detector-metadata-input.json").read_text(encoding="utf-8"))
+    assert file_sha256(fixture / metadata["file"]) == metadata["sha256"]
+    network = tmp_path / "network.net.xml"
+    network.write_bytes(gzip.decompress((fixture / metadata["network_fixture"]).read_bytes()))
+    fields = tmp_path / "fields.json"
+    fields.write_bytes(gzip.decompress((fixture / metadata["file"]).read_bytes()))
+    official = (fixture / metadata["official_reference_package"]).resolve()
+    inputs = json.loads((official / "manifest.json").read_text(encoding="utf-8"))
+    paths = {}
+    for row in inputs["files"]:
+        if row["node_id"] == "119" and row["kind"] in {"map_xml", "map_kml"}:
+            path = tmp_path / row["source_filename"]
+            path.write_bytes(gzip.decompress((official / row["path"]).read_bytes()))
+            assert file_sha256(path) == row["sha256"]
+            paths[row["kind"]] = path
+    report = materialize_hamburg_named_detector_bindings(net_file=network, count_stream_file=fields,
+        output_dir=tmp_path / "bindings", map_files=(paths["map_xml"],), map_kml_files=(paths["map_kml"],))
+    assert report["active_mapping_count"] == 2 and not report["shared_lane_stream_groups"]
+    rows = list(csv.DictReader((tmp_path / "bindings/detector_mapping.csv").open(encoding="utf-8")))
+    assert {row["stream_id"]:{key:row[key] for key in ("official_map_lane","sumo_lane")} for row in rows} == metadata["expected_associations"]
+    assert report["source"]["official_map_kml_files"][0]["sha256"] == file_sha256(paths["map_kml"])
 
 
 def test_official_lane_count_and_detector_constellation_resolve_common_geometry_shift(tmp_path: Path) -> None:

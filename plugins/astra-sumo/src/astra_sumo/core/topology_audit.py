@@ -184,6 +184,73 @@ def audit_topology_fragmentation(
     return finish(report)
 
 
+def compare_topology_source_findings(
+    candidate_report: Mapping[str, Any], source_report: Mapping[str, Any], *,
+    node_aliases: Mapping[str, str] | None = None, source_node_ids: Iterable[str] = (),
+) -> dict[str, Any]:
+    """Compare findings within one source lineage, without certifying the baseline."""
+    result = {"status": "review_required", "basis": "edit_specific_topology_non_regression",
+              "whole_network_status": "review_required", "inherited_finding_count": 0,
+              "scope_findings": [], "new_or_changed_findings": []}
+    corridor_states = [report.get("corridor_audit_status", "not_run") for report in (candidate_report, source_report)]
+    if corridor_states[0] != corridor_states[1] or any(state not in {"pass", "not_run"} for state in corridor_states):
+        return {**result, "reason": "topology_corridor_audit_unavailable"}
+    for key in ("cluster_radius_m", "min_cluster_nodes", "topology_osm_context_sha256"):
+        if candidate_report.get(key) != source_report.get(key):
+            return {**result, "reason": "topology_audit_parameters_differ", "parameter": key}
+    aliases = node_aliases or {}
+    def findings(report):
+        rows = report.get("suspicious_clusters")
+        if rows is None and report.get("suspicious_cluster_count") == 0:
+            rows = []
+        if not isinstance(rows, list) or len(rows) != report.get("suspicious_cluster_count"):
+            raise ValueError("Topology findings do not match their recorded count.")
+        index = {}
+        for row in rows:
+            if not isinstance(row, Mapping):
+                raise ValueError("Topology findings must be records.")
+            nodes = row.get("node_ids", [])
+            if not nodes or not all(isinstance(node, str) for node in nodes):
+                raise ValueError("Topology findings require explicit source node identities.")
+            key = tuple(sorted({aliases.get(node, node) for node in nodes}))
+            if key in index:
+                raise ValueError("Topology findings have ambiguous source membership.")
+            index[key] = row
+        return index
+    try:
+        before, after = findings(source_report), findings(candidate_report)
+        for key, row in after.items():
+            old = before.get(key)
+            changed = old is None
+            if old is not None:
+                changed |= any(row.get(name) != old.get(name) for name in (
+                    "physical_intersection_shape", "modal_primary_role", "aggregation_decision",
+                    "modal_aggregation_decision", "modal_review_action", "corridor_decision", "aggregation_confidence",
+                    "internal_edge_count", "boundary_edge_count", "direct_connected_node_pair_count", "internal_edge_max_length_m"))
+                changed |= any(sorted(row.get(name, []) or []) != sorted(old.get(name, []) or [])
+                               for name in ("node_types", "connected_node_pairs"))
+                changed |= any(int(row.get(name, 0)) > int(old.get(name, 0)) for name in (
+                    "approach_count", "internal_edge_overlap_pair_count", "traffic_light_node_count"))
+                changed |= any(bool(row.get(name)) and not bool(old.get(name)) for name in (
+                    "service_or_parking_risk", "bridge_tunnel_layer_risk", "roundabout_or_slip_lane_risk"))
+                changed |= any(set(row.get(name, []) or []) - set(old.get(name, []) or []) for name in ("risk_flags", "modal_risk_flags"))
+            if changed:
+                result["new_or_changed_findings"].append({"node_ids": list(key), "candidate": row, "source": old})
+            else:
+                result["inherited_finding_count"] += 1
+        scope = {aliases.get(node, node) for node in source_node_ids}
+        result["scope_findings"] = [row for key, row in before.items() if scope.intersection(key)]
+        result.update(source_finding_count=len(before), candidate_finding_count=len(after), removed_finding_count=len(before.keys() - after.keys()))
+        result["whole_network_status"] = "review_required" if after else "pass"
+        reason = ("topology_findings_changed" if result["new_or_changed_findings"] else
+                  "edit_scope_in_inherited_topology_finding" if result["scope_findings"] else
+                  "no_new_or_worsened_source_topology_findings")
+        return {**result, "status": "pass" if not result["new_or_changed_findings"] and not result["scope_findings"] else "review_required",
+                "reason": reason}
+    except (ValueError, TypeError, KeyError) as error:
+        return {**result, "reason": "topology_source_comparison_unavailable", "error": str(error)}
+
+
 def compare_topology_canonical_cells(
     candidate_report: Mapping[str, Any],
     reference_report: Mapping[str, Any],
