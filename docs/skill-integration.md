@@ -1,6 +1,6 @@
 # ASTRA Skill Integration
 
-ASTRA bundles four topic knowledge bundles with one shared CLI/MCP execution layer and a workflow catalog. The agent may use, combine, or skip these resources according to the task. Skills, references, and workflows are supporting resources, not a required state machine.
+ASTRA bundles four skills with one shared CLI/MCP execution layer and a workflow catalog. Each skill is a code map: for a kind of request it names the commands and tools to use, in what order, and which outputs to read. The agent may use, combine, or skip them according to the task; they are not a required state machine.
 
 ## Skill Map
 
@@ -8,20 +8,20 @@ ASTRA bundles four topic knowledge bundles with one shared CLI/MCP execution lay
 |---|---|
 | `astra-build` | OSM and drawing-based network construction, roads, lanes, junctions, signal-device structure, map/source review |
 | `astra-calibrate` | detector/count binding, demand reconstruction, fixed-network calibration, digital-twin replay |
-| `astra-simulate` | environment checks, experiment planning, workflow execution, controllers, debugging, code and mechanism diagnosis |
-| `astra-report` | completed-result interpretation, traffic-control reports, claim boundaries, writing support, field lessons, release review |
+| `astra-simulate` | environment checks, experiment planning, workflow execution, controllers, debugging and mechanism diagnosis |
+| `astra-report` | completed-result interpretation, run comparison, traffic-control reports, claim boundaries, writing support |
 
-The old `simulation-helper-skill-for-eclipse-sumo` bundle is retired. Do not create another top-level copy of these skills.
+The old `simulation-helper-skill-for-eclipse-sumo` bundle is retired.
 
 ## Product and Skill Boundaries
 
 The product still uses the three public capability groups **Build**, **Calibrate**, and **Simulate**. `astra-report` is a cross-cutting reasoning and reporting resource for completed outputs from those capabilities. It is not a fourth product capability.
 
-The four skills are knowledge bundles rather than mandatory routing states. A task may use one skill, several skills, only a reference, only a workflow, or none of them. The agent decides what is useful from the user's request and available evidence.
+The four skills are code maps rather than mandatory routing states. A task may use one skill, several skills, only a reference, only a workflow, or none of them. The agent decides what is useful from the user's request and available evidence.
 
 ## References
 
-Each skill lists related references. These references contain deeper domain knowledge, examples, and workflow-specific guidance. The lists are discoverability aids. The agent decides which references, if any, are worth reading for the current task.
+Each skill lists its references. They hold the detail a path needs on demand: argument tables, output fields and domain facts. The lists are discoverability aids. The agent decides which references, if any, are worth reading for the current task.
 
 ## Workflow Catalog
 

@@ -12,7 +12,8 @@ Product behaviour and claims are defined by the top-level [`README.md`](../READM
 | Edit a network | [Scoped road-network edits](network-edit-operations.md), [Local edit applicability](edit-specific-applicability.md) |
 | Measure and review a network | [Road-network calibration](network-calibration.md), [Traffic-effect review](traffic-effect-review.md), [Network review over aerial imagery](network-aerial-review.md), [Public network references](public-reference-corpus.md) |
 | Diagnose signal control | [Common SUMO signal-control failures](common-sumo-signal-control-failures.md) |
-| Follow the Hamburg case | [Hamburg README case](hamburg-readme-case.md) |
+| Developer background on classification | [Intersection classification](intersection-classification.md), [Signal-device classification](signal-device-classification.md), [Road arms and connections](road-arm-classification.md), [OSM way fragments and road axes](osm-way-fragmentation.md) |
+| Follow the Hamburg cases | [Hamburg README case](hamburg-readme-case.md), [Hamburg Sandtorkai case notes](hamburg-sandtorkai-case-notes.md) |
 | Read research protocols and evidence | [Research index](research/README.md) |
 | Read dated audits and development records | [Development history](development-history/README.md) |
 

@@ -66,6 +66,27 @@ def code_spans(text: str) -> list[str]:
     ]
 
 
+def code_spans_with_siblings(text: str) -> list[tuple[str, list[tuple[str, str]], int]]:
+    """Inline code spans outside code blocks: (content, the (type, content) inline tokens after it, block number).
+
+    Soft line breaks become a text token holding one space. Spans in one paragraph or table cell share a number.
+    """
+    spans = []
+    for number, block in enumerate(_PARSER.parse(text)):
+        children = block.children or []
+        for index, token in enumerate(children):
+            if token.type == "code_inline":
+                following = [("text", " ") if item.type == "softbreak" else (item.type, item.content)
+                             for item in children[index + 1:]]
+                spans.append((token.content, following, number))
+    return spans
+
+
+def fenced_blocks(text: str) -> list[tuple[str, str]]:
+    """(info string, content) of every fenced code block."""
+    return [(token.info.strip(), token.content) for token in _PARSER.parse(text) if token.type == "fence"]
+
+
 def named_repository_paths(text: str) -> list[str]:
     """Code spans that name a repository path, leaving out commands, placeholders and module names."""
     paths = []

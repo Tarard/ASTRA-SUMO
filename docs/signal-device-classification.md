@@ -1,5 +1,9 @@
 # Composable signal-device classification for Germany and Europe
 
+Developer background for `astra signal classify`: the device model, legal
+profiles, OCIT decomposition and primary sources. The `astra-build` skill holds
+the steps a user's agent runs.
+
 Classify signal devices before binding them to lanes, movements, stop lines,
 signal groups, or controllers. Use German law and engineering terminology as
 the first profile, then preserve jurisdiction and edition so the same model can
