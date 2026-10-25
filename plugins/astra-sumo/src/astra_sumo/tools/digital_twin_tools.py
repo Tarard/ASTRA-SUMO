@@ -32,6 +32,7 @@ from astra_sumo.core.hamburg_mainline_scope_materializer import (
 )
 from astra_sumo.core.hamburg_named_count_scope import (
     load_lsa_node_references,
+    materialize_hamburg_count_station_inventory,
     materialize_hamburg_named_count_scope,
 )
 from astra_sumo.core.hamburg_named_detector_bindings import (
@@ -964,6 +965,35 @@ def sumo_hamburg_named_count_scope(
         return {
             "status": "fail",
             "claim_status": "count-scope-invalid",
+            "automatic_promotion_gate": "blocked",
+            "error": str(exc),
+        }
+
+
+def sumo_hamburg_count_station_inventory(
+    count_node_ids: list[str],
+    output_dir: str,
+    api_base: str = "https://iot.hamburg.de/v1.1/",
+    timeout_seconds: float = 60.0,
+) -> dict[str, Any]:
+    """Freeze and audit the official Hamburg count-station compositions of declared count nodes.
+
+    The manifest is the `count_station_inventory_manifest` input of `astra hamburg bind-aerial-counts`.
+    It binds no station to a SUMO edge or lane.
+    """
+
+    try:
+        if not count_node_ids:
+            raise ValueError("count_node_ids must contain at least one node")
+        return materialize_hamburg_count_station_inventory(
+            output_dir=_output_dir(output_dir),
+            client=SensorThingsClient(api_base, timeout_seconds=timeout_seconds),
+            requested_node_ids=count_node_ids,
+        )
+    except (OSError, ValueError, json.JSONDecodeError) as exc:
+        return {
+            "status": "fail",
+            "claim_status": "count-station-inventory-invalid",
             "automatic_promotion_gate": "blocked",
             "error": str(exc),
         }

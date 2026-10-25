@@ -5,17 +5,21 @@ import json
 import re
 from pathlib import Path
 
+import pytest
+
 from astra_sumo.core.detector_demand import (
     Detector,
     active_detectors,
     build_detector_anchored_routes,
     read_net,
 )
+from astra_sumo.core.route_sampler import resolve_route_sampler_script
 from astra_sumo.tools.demand_tools import (
     sumo_detector_count_audit,
     sumo_detector_count_constraints,
     sumo_detector_route_support,
 )
+from astra_sumo.tools.digital_twin_tools import sumo_detector_route_sampler_calibrate
 
 
 PRIVATE_MARKERS = ["private_project_name", "private_sensor_vendor", "closed_bridge_name"]
@@ -258,10 +262,69 @@ def test_count_constraint_tool_writes_edge_data_without_private_fields(tmp_path:
     assert report["status"] == "pass"
     assert report["edge_count"] == 1
     assert report["expected_total"] == 7
+    assert report["route_sampler_interval"] == 3600
     edge_data = Path(str(report["edge_data_file"])).read_text(encoding="utf-8")
-    assert '<edge id="detector_edge" entered="7"' in edge_data
+    assert '<edge id="detector_edge" count="7"' in edge_data
     _assert_outputs_are_sanitized(output_dir)
     json.dumps(report)
+
+
+def _write_expected_counts(path: Path, rows: list[tuple[int, int, int]]) -> None:
+    with path.open("w", encoding="utf-8", newline="") as handle:
+        writer = csv.DictWriter(handle, fieldnames=["begin", "end", "detector_id", "edge_id", "expected_total"])
+        writer.writeheader()
+        for begin, end, total in rows:
+            writer.writerow(
+                {"begin": begin, "end": end, "detector_id": "det_northbound", "edge_id": "detector_edge",
+                 "expected_total": total}
+            )
+
+
+def test_count_constraints_keep_time_bins_and_report_gaps(tmp_path: Path) -> None:
+    counts_file = tmp_path / "expected_counts.csv"
+    _write_expected_counts(counts_file, [(0, 900, 2), (900, 1800, 5), (2700, 3600, 1)])
+
+    report = sumo_detector_count_constraints(str(counts_file), str(tmp_path / "out"), begin=0, end=3600)
+
+    assert report["status"] == "pass"
+    assert report["interval_count"] == 3
+    assert report["expected_total"] == 8
+    # The 1800-2700 bin is unknown, not zero, so routeSampler cannot use this file.
+    assert report["route_sampler_interval"] is None
+    assert report["warnings"]
+    with Path(report["time_bin_count_constraints"]).open(encoding="utf-8", newline="") as handle:
+        assert [(row["begin"], row["end"]) for row in csv.DictReader(handle)] == [
+            ("0", "900"), ("900", "1800"), ("2700", "3600")]
+
+
+def test_count_constraints_feed_route_sampler_calibration(tmp_path: Path) -> None:
+    if resolve_route_sampler_script() is None:
+        pytest.skip("routeSampler.py is not installed")
+    net_file = tmp_path / "network.net.xml"
+    mapping_file = tmp_path / "detectors.csv"
+    counts_file = tmp_path / "expected_counts.csv"
+    _write_synthetic_net(net_file)
+    _write_detector_mapping(mapping_file)
+    _write_expected_counts(counts_file, [(0, 1800, 3), (1800, 3600, 4)])
+
+    support = sumo_detector_route_support(str(net_file), str(mapping_file), str(tmp_path / "support"))
+    constraints = sumo_detector_count_constraints(str(counts_file), str(tmp_path / "constraints"), begin=0, end=3600)
+    assert support["status"] == constraints["status"] == "pass"
+    assert constraints["route_sampler_interval"] == 1800
+
+    report = sumo_detector_route_sampler_calibrate(
+        candidate_manifest_csv=support["route_candidate_manifest"],
+        edge_data_file=constraints["edge_data_file"],
+        output_dir=str(tmp_path / "calibrate"),
+        begin=0,
+        end=3600,
+        interval=constraints["route_sampler_interval"],
+    )
+
+    assert report["status"] == "pass", report
+    assert report["total_count"] == 7
+    assert report["demand_vehicle_count"] == 7
+    assert report["mismatch"]["absolute_deficit"] == 0
 
 
 def test_route_support_tool_rejects_empty_active_detector_mapping(tmp_path: Path) -> None:

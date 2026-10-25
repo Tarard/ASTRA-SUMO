@@ -27,7 +27,7 @@ routeSampler edgeData (`edge_data_file` of `sumo_detector_route_sampler_calibrat
 
 - Intervals must be exactly `interval` seconds wide and cover `begin` to `end` without gaps. The tool runs routeSampler with `--edgedata-attribute count`.
 - Add an `<edge>` only when every passenger lane of that edge is observed at one cross-section; its count is the sum of those lanes in the bin. Keep partly observed edges as validation detectors only.
-- Do not pass the `edge_data_file` of `sumo_detector_count_constraints` to routeSampler: it has one interval and an `entered` attribute, so calibration rejects it. Use that tool only for its per-edge totals table.
+- `sumo_detector_count_constraints` writes this file from an expected counts CSV that has an `edge_id` column. It sums the rows of each edge and bin, so give it only complete cross-sections. Its `route_sampler_interval` is the `interval` to pass; `null` means a bin is missing or the widths differ, and calibration will reject the file.
 
 ## Detector-to-lane mapping
 

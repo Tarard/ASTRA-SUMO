@@ -31,6 +31,7 @@ EXPECTED_TOOL_NAMES = sorted(
         "sumo_hamburg_official_tls_rebuild",
         "sumo_hamburg_sandtorkai_digital_twin",
         "sumo_hamburg_named_count_scope",
+        "sumo_hamburg_count_station_inventory",
         "sumo_hamburg_sandtorkai_signal_observations",
         "sumo_hamburg_sandtorkai_named_replay",
         "sumo_hamburg_sandtorkai_execution_plan",

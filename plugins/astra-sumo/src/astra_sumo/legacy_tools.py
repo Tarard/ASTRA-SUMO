@@ -34,6 +34,7 @@ from .tools.digital_twin_tools import (
     sumo_hamburg_corridor_candidate_detector_demand,
     sumo_hamburg_official_tls_rebuild,
     sumo_hamburg_sandtorkai_digital_twin,
+    sumo_hamburg_count_station_inventory,
     sumo_hamburg_named_count_scope,
     sumo_hamburg_named_detector_bindings,
     sumo_hamburg_sandtorkai_signal_observations,
@@ -145,6 +146,7 @@ WORKFLOW_TOOLS: dict[str, Callable[..., dict[str, Any]]] = {
     "sumo_detector_route_sampler_calibrate": sumo_detector_route_sampler_calibrate,
     "sumo_hamburg_sandtorkai_digital_twin": sumo_hamburg_sandtorkai_digital_twin,
     "sumo_hamburg_named_count_scope": sumo_hamburg_named_count_scope,
+    "sumo_hamburg_count_station_inventory": sumo_hamburg_count_station_inventory,
     "sumo_hamburg_named_detector_bindings": sumo_hamburg_named_detector_bindings,
     "sumo_hamburg_sandtorkai_signal_observations": sumo_hamburg_sandtorkai_signal_observations,
     "sumo_hamburg_sandtorkai_named_replay": sumo_hamburg_sandtorkai_named_replay,
@@ -319,6 +321,9 @@ def register_legacy_mcp_tools(server: FastMCP, *, torii_names: bool = False) -> 
     )
     server.tool(description="Fetch a declared official Hamburg detector scope for the named Am Sandtorkai corridor, select a complete warm-up plus Saturday two-hour window, and write auditable 15-minute SUMO count inputs; missing detectors and unknown directions remain explicit and block promotion.")(
         sumo_hamburg_named_count_scope
+    )
+    server.tool(description="Fetch and freeze the official Hamburg count-station streams of declared count nodes and audit that each station's directional compositions reconcile with its total stream; write the count-station inventory manifest that astra hamburg bind-aerial-counts requires. It binds no station to a SUMO edge or lane.")(
+        sumo_hamburg_count_station_inventory
     )
     server.tool(description="Record and resume the hash-bound Am Sandtorkai execution plan; keep count acquisition separate from network-bound detector binding, verify downstream network SHA-256 and stage identities, derive the W5 capability summary automatically, and fail closed on stale or missing official evidence.")(
         sumo_hamburg_sandtorkai_execution_plan

@@ -10,6 +10,7 @@ import shutil
 import sys
 import xml.etree.ElementTree as ET
 from collections import Counter
+from importlib.util import find_spec
 from pathlib import Path
 from typing import Callable, Collection, Mapping
 
@@ -324,6 +325,26 @@ def validate_route_sampler_edge_counts(
     return {"interval_count": len(intervals), "edge_row_count": edge_rows, "total_count": total_count}
 
 
+def route_sampler_interval(edge_data_file: Path, *, begin: float, end: float) -> int | None:
+    """Return the one bin width at which routeSampler accepts this edgeData, or None if there is none."""
+    if not float(begin).is_integer() or not float(end).is_integer():
+        return None
+    widths = {
+        float(element.attrib.get("end", "nan")) - float(element.attrib.get("begin", "nan"))
+        for element in ET.parse(edge_data_file).getroot().findall("interval")
+    }
+    if len(widths) != 1:
+        return None
+    width = widths.pop()
+    if not width.is_integer() or width <= 0:
+        return None
+    try:
+        validate_route_sampler_edge_counts(edge_data_file, begin=int(begin), end=int(end), interval=int(width))
+    except ValueError:
+        return None
+    return int(width)
+
+
 def audit_route_constraint_structure(
     candidate_manifest_csv: Path,
     edge_data_file: Path,
@@ -480,6 +501,9 @@ def resolve_route_sampler_script(explicit: Path | None = None) -> Path | None:
     if which:
         candidates.append(Path(which))
     candidates.append(Path(sumolib.__file__).resolve().parent.parent / "routeSampler.py")
+    package = find_spec("sumo")
+    if package is not None and package.origin:
+        candidates.append(Path(package.origin).parent / "tools" / "routeSampler.py")
     return next((path.resolve() for path in candidates if path.is_file()), None)
 
 

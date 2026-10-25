@@ -213,6 +213,8 @@ This read-only specialist hashes and parses one frozen OCIT-C supply snapshot, t
 
 These tools construct and assess detector-constrained demand. Their output is a plausible count-matched route set, not a uniquely identified true OD matrix.
 
+`sumo_detector_count_constraints` keeps each source time bin and writes routeSampler edgeData with the `count` attribute, which `sumo_detector_route_sampler_calibrate` accepts directly. It reports `route_sampler_interval`, or `null` when the bins do not cover the window at one width without gaps.
+
 `sumo_detector_route_support` accepts `boundary_zones_file` from road-scope selection.
 Declared entries and exits remain available when retained roads also meet their boundary junction.
 The CLI road-selection option `--entry-min-lane-length` can retain upstream source context for traffic injection.
@@ -426,6 +428,9 @@ requires a separate SUMO completion, teleport, collision, and backlog audit.
 
 - `sumo_hamburg_sandtorkai_digital_twin`
 - `sumo_hamburg_named_count_scope`
+- `sumo_hamburg_count_station_inventory` (freezes and audits the official
+  count-station compositions of declared count nodes; its manifest is the
+  `count_station_inventory_manifest` of `astra hamburg bind-aerial-counts`)
 - `sumo_hamburg_sandtorkai_signal_observations`
 - `sumo_hamburg_sandtorkai_named_replay`
 - `sumo_hamburg_sandtorkai_execution_plan` (keeps network-independent W3a

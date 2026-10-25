@@ -848,3 +848,39 @@ def test_signal_observation_tool_forwards_utc_window_and_fetch_options(tmp_path:
     assert captured["begin_utc"].isoformat() == "2026-07-18T14:30:00+00:00"
     assert captured["end_utc"].isoformat() == "2026-07-18T16:30:00+00:00"
     assert captured["retry_incomplete_cache"] is True
+
+
+def test_count_station_inventory_runs_as_workflow_tool(tmp_path: Path, monkeypatch, capsys) -> None:
+    from astra_sumo import cli
+    from astra_sumo.core import hamburg_named_count_scope
+
+    captured: dict[str, object] = {}
+
+    def fake_fetch(client, node_ids):
+        captured["api_base"] = client.base_url
+        captured["node_ids"] = list(node_ids)
+        return [], {"value": []}
+
+    monkeypatch.setattr(hamburg_named_count_scope, "fetch_hamburg_count_station_streams", fake_fetch)
+    output_dir = tmp_path / "inventory"
+    request = tmp_path / "request.json"
+    request.write_text(json.dumps({"count_node_ids": ["2349"], "output_dir": str(output_dir)}), encoding="utf-8")
+
+    exit_code = cli.main(["workflow", "sumo_hamburg_count_station_inventory", str(request), "--json"])
+
+    report = json.loads(capsys.readouterr().out)
+    assert exit_code == 1
+    assert report["schema"] == "torii.hamburg-count-station-inventory/v1"
+    assert report["status"] == "partial"
+    assert report["missing_node_ids"] == ["2349"]
+    assert captured["node_ids"] == ["2349"]
+    manifest = Path(report["manifest_path"])
+    assert manifest == output_dir / "count-station-inventory.manifest.json"
+    assert json.loads(manifest.read_text(encoding="utf-8"))["status"] == "partial"
+
+
+def test_count_station_inventory_tool_requires_count_nodes(tmp_path: Path) -> None:
+    report = digital_twin_tools.sumo_hamburg_count_station_inventory([], str(tmp_path / "inventory"))
+
+    assert report["status"] == "fail"
+    assert report["automatic_promotion_gate"] == "blocked"
