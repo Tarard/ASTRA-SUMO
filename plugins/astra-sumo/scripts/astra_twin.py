@@ -1,9 +1,13 @@
-"""ASTRA twin profiler CLI (M1): doctor, resolve, goal-create and profile calibrate. Never starts SUMO runs.
+"""ASTRA twin profiler CLI: doctor, resolve, goal-create, profile calibrate (M1) and judge (M2).
+
+Only ``judge`` starts SUMO runs: full runs of a goal's run block, cached by their effective execution request, at most
+three in parallel, each logged to ``<store>/runs.jsonl``.
 
 Exit codes follow ``astra`` (``cli.py``): 0 for ``pass`` or ``measured``; 3 for ``blocked``, which covers a failed
 doctor or resolve check, a blocked profile and a refused or failed command (its ``reason`` and ``error_type`` say
 which); 2 for an argparse usage error. The CLI writes only to the paths it is given (the store, a new profile
 directory, doctor's scratch inside the clone) and writes no bytecode, so a verifier clone stays as checked out.
+``judge`` keeps its staged inputs, runs, ledger and temporary files inside the store.
 """
 
 from __future__ import annotations
@@ -29,7 +33,7 @@ sys.path.insert(0, str(SRC_ROOT))
 
 try:
     import astra_sumo
-    from astra_sumo.twin import count_profile, doctor, goal, ids
+    from astra_sumo.twin import count_profile, doctor, goal, ids, perturb, runner
 except ImportError as error:
     print(json.dumps({"status": "blocked", "reason": f"cannot import astra_sumo.twin from {SRC_ROOT}: {error}",
                       "error_type": type(error).__name__}, ensure_ascii=False))
@@ -105,8 +109,40 @@ def _profile(args: argparse.Namespace) -> int:
     return _code(profile["status"])
 
 
+def _draw(job: dict) -> perturb.DrawKey | None:
+    if job.get("key_hex"):
+        return perturb.DrawKey.from_hex(job["key_label"], job["key_hex"])
+    if job.get("public_key"):
+        return perturb.DrawKey.public_key(job["public_key"])
+    return None
+
+
+def _judge(args: argparse.Namespace) -> int:
+    _clone_code()
+    store = Path(args.store)
+    single = {"label": args.label, "purpose": args.purpose, "demand": args.demand, "op": args.op,
+              "family": args.family, "key_hex": args.key_hex, "key_label": args.key_label,
+              "public_key": args.public_key, "seed": args.seed}
+    jobs = json.loads(Path(args.batch).read_text(encoding="utf-8")) if args.batch else [single]
+    runtime = runner.runtime_identity(REPOSITORY_ROOT)
+    plans = [runner.plan_judge(Path(args.goal), store, label=job["label"], purpose=job["purpose"],
+                               repository_root=REPOSITORY_ROOT, runtime=runtime, op=job.get("op"),
+                               demand=Path(job["demand"]).read_bytes() if job.get("demand") else None,
+                               family=job.get("family"), draw=_draw(job), seed=job.get("seed")) for job in jobs]
+    if args.plan_only:
+        _emit({"status": "pass", "plans": [{"label": p.label, "request_sha256": p.key, "run_dir": p.run_dir,
+                                             "cached": runner.read_judge(p) is not None} for p in plans]}, args.json)
+        return 0
+    results = runner.judge_many(plans, store=store, ledger=store / "runs.jsonl", workers=args.workers)
+    status = "measured" if all(r.get("status") == "measured" for r in results) else "blocked"
+    _emit({"status": status, "results": [{key: r.get(key) for key in ("label", "status", "healthy", "cache",
+                                                                       "request_sha256", "wall_s", "score", "error")}
+                                          for r in results]}, args.json)
+    return _code(status)
+
+
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="ASTRA twin profiler (explore only; no SUMO runs in M1).")
+    parser = argparse.ArgumentParser(description="ASTRA twin profiler (explore only; only judge starts SUMO runs).")
     commands = parser.add_subparsers(dest="command", required=True)
     check = commands.add_parser("doctor", help="Check SUMO, libsumo, the import path and the clone state.")
     check.add_argument("--expect-commit", help="Commit that HEAD must equal; default: the clone directory's name.")
@@ -134,6 +170,23 @@ def main(argv: list[str] | None = None) -> int:
     calibrate.add_argument("--out", required=True, help="New profile directory; an existing one is refused.")
     calibrate.add_argument("--json", action="store_true")
     calibrate.set_defaults(handler=_profile)
+    judge = commands.add_parser("judge", help="Full SUMO run(s) of the goal's run block, cached and ledgered.")
+    judge.add_argument("--goal", required=True)
+    judge.add_argument("--store", required=True, help="Store for staged inputs, runs/, tmp/ and runs.jsonl.")
+    judge.add_argument("--batch", help="JSON list of jobs with the single-run fields below as keys.")
+    judge.add_argument("--label", default="judge")
+    judge.add_argument("--purpose", default="")
+    judge.add_argument("--demand", help="Demand override file; default: the goal's prepared demand.")
+    judge.add_argument("--op", help="Scenario op, e.g. cell_depart_shift:<cell>:<shift_s>.")
+    judge.add_argument("--family", choices=sorted(perturb.FAMILIES), help="Perturbation family for the draw key.")
+    judge.add_argument("--key-hex", help="Draw key bytes as hex (with --key-label).")
+    judge.add_argument("--key-label")
+    judge.add_argument("--public-key", help="Label of a public draw key derived from the label alone.")
+    judge.add_argument("--seed", type=int, help="Explicit seed override; default: the goal's seed.")
+    judge.add_argument("--workers", type=int, default=runner.MAX_PARALLEL)
+    judge.add_argument("--plan-only", action="store_true", help="Stage and print cache keys; start no run.")
+    judge.add_argument("--json", action="store_true")
+    judge.set_defaults(handler=_judge)
     args = parser.parse_args(argv)
     try:
         return args.handler(args)
